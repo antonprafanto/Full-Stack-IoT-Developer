@@ -30,7 +30,7 @@
 
 ### 0.0 Pengantar Konseptual: "Bagaimana Kode Masuk ke Chip Silikon?"
 - [ ] Memahami perbedaan Komputer vs Mikrokontroler (*Bare-Metal Execution*).
-- [ ] Memahami alur kompilasi: Kode C++ $\rightarrow$ Kompiler $\rightarrow$ Biner `.bin` $\rightarrow$ Chip USB-to-UART (CP2102/CH340) $\rightarrow$ SPI Flash.
+- [ ] Memahami alur kompilasi: Kode C++ (`.cpp` / `.ino`) $\rightarrow$ Kompiler (*xtensa-gcc*) $\rightarrow$ Biner `.bin` $\rightarrow$ Chip USB-to-UART (CP2102/CH340) $\rightarrow$ SPI Flash.
 - [ ] Menginstal driver USB-to-UART (CH340/CP2102) dan mendeteksi port COM di Windows Device Manager.
 - [ ] Memahami fungsi tombol fisik `EN` (Reset) dan `BOOT` (GPIO 0) saat proses flashing.
 
@@ -92,7 +92,7 @@
 
 ### 1.4 Proyek 3: Serial Communication & Debugging
 - [ ] Inisialisasi `Serial.begin(115200)` dan mencetak variabel data sensor.
-- [ ] Menangani baud rate mismatch penyebab karakter rusak (``).
+- [ ] Menangani baud rate mismatch penyebab karakter rusak.
 - [ ] Membaca input teks dari Serial Monitor ke ESP32.
 
 ### 1.5 Proyek 4: Sinyal Analog (ADC & PWM)
@@ -127,68 +127,117 @@
 
 ---
 
-## 🛠️ Fase 2: Desain Perangkat Keras, Skematik & PCB 4-Layer KiCad (Minggu 7-8)
-- [ ] Mendesain skematik terstruktur di KiCad 8.x (Sheet Power, MCU, Radio, Sensor, Aktuator).
-- [ ] Merancang sirkuit catu daya: Buck Converter (MP2315), LDO ultra-low $I_q$ (AP2112K), dan proteksi TVS diode.
-- [ ] Merancang sirkuit isolasi optocoupler dan *logic level shifter* 3.3V $\leftrightarrow$ 5V.
-- [ ] Mendesain layout PCB 4-Layer (Signal - GND Solid Plane - Power Plane - Signal).
-- [ ] Menghitung ketebalan jalur (*Trace Width*) berdasarkan standar IPC-2152.
-- [ ] Menerapkan DFM: Menempatkan *Fiducial Marks* dan *Test Points* (Pogo-Pins).
-- [ ] Mengekspor file produksi: Gerber RS-274X, Excellon Drill, BOM, dan CPL (Pick-and-Place).
+## 🛠️ Fase 2: Desain Perangkat Keras, Skematik, Multi-Layer PCB & DFM (Minggu 7-8)
+
+### 2.1 Desain Skematik Profesional (KiCad 8.x)
+- [ ] Merancang skematik modular (Sheet: Power, MCU, Radio, Analog Sensor, Digital Bus).
+- [ ] Mendesain sirkuit catu daya: Reverse Polarity P-MOSFET, Polyfuse PTC, dan TVS Diode.
+- [ ] Merancang Step-Down Buck Converter (MP2315 / TPS62130) dengan ripple <20mV.
+- [ ] Merancang sirkuit LDO ultra-low quiescent current (AP2112K / TPS7A02) $I_q < 25\text{nA}$.
+- [ ] Merancang isolasi optocoupler (PC817 / 6N137) dan *Logic Level Shifter* (TXS0108E) 3.3V $\leftrightarrow$ 5V.
+
+### 2.2 Desain Layout PCB 4-Layer & Signal Integrity
+- [ ] Mengonfigurasi Layer Stackup 4-Layer: Signal - GND Solid Plane - Power Plane - Signal.
+- [ ] Memastikan integritas sinyal dan kontinuitas jalur *Ground Return Path*.
+- [ ] Menghitung ketebalan jalur (*Trace Width*) berdasarkan standar IPC-2152 untuk jalur arus tinggi.
+- [ ] Menjaga impedansi terkontrol $50\Omega$ dan area *keep-out* di bawah antena onboard ESP32.
+- [ ] Menempatkan kapasitor decoupling sedekat mungkin (<2mm) dengan pin VDD chip.
+
+### 2.3 DFM (Design for Manufacturing) & DFA (Design for Assembly)
+- [ ] Menempatkan 3 titik *Fiducial Marks* optik untuk kalibrasi mesin otomatis Pick-and-Place.
+- [ ] Menempatkan *Test Points (TP)* untuk kontak jarum Pogo-Pin alat penguji pabrik.
+- [ ] Mengekspor file manufaktur lengkap: Gerber RS-274X, Excellon Drill, BOM, dan CPL/Centroid.
 
 ---
 
-## 🔋 Fase 3: Power Harvesting & Ultra Low-Power (10-Year Battery) (Minggu 9)
-- [ ] Menerapkan **Hardware Nano-Timer (TI TPL5110 / TPL5010)** untuk *Power-Gating* fisik ($35\text{ nA}$ standby).
-- [ ] Mengintegrasikan baterai primer industri **Lithium Thionyl Chloride ($Li-SOCl_2$)** vs LiFePO4.
-- [ ] Menghitung kalkulasi matematis umur baterai berdasarkan profil konsumsi daya aktif vs tidur.
-- [ ] Merancang sirkuit Solar MPPT menggunakan IC manajemen daya baterai **CN3791 / BQ25570**.
+## 🔋 Fase 3: Power Harvesting & Ultra Low-Power Engineering (10-Year Lifespan) (Minggu 9)
+
+### 3.1 Teknik Pemutusan Daya Nano-Power (Power-Gating)
+- [ ] Mengintegrasikan **Hardware Nano-Timer (TI TPL5110 / TPL5010)** untuk memutus daya 100% saat standby ($35\text{ nA}$).
+- [ ] Menghubungkan pin DONE dari ESP32 untuk memicu siklus power-down kembali ke timer nano.
+
+### 3.2 Kimia Baterai Industri & Perhitungan Umur Baterai
+- [ ] Menganalisis karakteristik baterai primer industri **Lithium Thionyl Chloride ($Li-SOCl_2$ ER14505)** vs LiFePO4.
+- [ ] Menghitung estimasi matematis umur baterai berdasarkan profil arus aktif vs tidur.
+
+### 3.3 Pemanenan Energi (*Energy Harvesting*)
+- [ ] Merancang sirkuit Solar Panel MPPT menggunakan IC **CN3791 / BQ25570**.
+- [ ] Mengevaluasi opsi pemanenan energi alternatif: Piezoelectric dan Thermoelectric Generator (TEG).
 
 ---
 
-## 🚗 Fase 4: Protokol Industri & Otomotif (CAN Bus, Modbus, OPC-UA) (Minggu 10-11)
-- [ ] Mengimplementasikan komunikasi kendaraan **CAN Bus (ISO 11898)** menggunakan peripheral bawaan ESP32 **TWAI**.
-- [ ] Membaca data baterai EV / mesin menggunakan protokol **OBD-II & SAE J1939**.
-- [ ] Menguasai sinyal diferensial **RS-485** dan implementasi protokol **Modbus RTU / TCP**.
-- [ ] Mengintegrasikan Power Meter Listrik 3-Phase Schneider / PZEM-016.
-- [ ] Menguasai standar industri **OPC-UA** dan implementasi payload **MQTT Sparkplug B**.
+## 🚗 Fase 4: Protokol Industri & Otomotif — CAN Bus, RS-485, OPC-UA & Sparkplug B (Minggu 10-11)
+
+### 4.1 Otomotif & Heavy Duty: CAN Bus (TWAI)
+- [ ] Mengimplementasikan komunikasi fisik **CAN Bus (ISO 11898)** menggunakan peripheral bawaan ESP32 **TWAI**.
+- [ ] Membaca data parameter kendaraan / BMS Baterai EV menggunakan protokol **OBD-II & SAE J1939**.
+
+### 4.2 Standar Pabrik Cerdas: OPC-UA & MQTT Sparkplug B
+- [ ] Menguasai sinyal diferensial **RS-485** dan implementasi protokol **Modbus RTU / Modbus TCP**.
+- [ ] Mengintegrasikan Power Meter Listrik 3-Phase industri (Schneider IEM / PZEM-016).
+- [ ] Mempelajari arsitektur protokol **OPC-UA** untuk integrasi PLC industri.
+- [ ] Mengimplementasikan format data standar **MQTT Sparkplug B** (*NBIRTH*, *NDEATH*, *DDATA*).
 
 ---
 
-## 🏠 Fase 5: Ekosistem Nirkabel: Matter, LoRaWAN & Antares.id (Minggu 12-13)
+## 🏠 Fase 5: Ekosistem Nirkabel & Platform Enterprise — Matter, LoRaWAN & Antares.id (Minggu 12-13)
+
+### 5.1 Standar Smart Home Global: Matter & Thread Protocol
 - [ ] Membangun perangkat Smart Home dengan standar **Matter over Thread (ESP32-C6 / ESP32-H2)**.
-- [ ] Membangun **OpenThread Border Router (OTBR)** pada Raspberry Pi.
-- [ ] Mengoperasikan Private LoRaWAN Network Server menggunakan **ChirpStack v4** (AS923).
-- [ ] **Platform Antares.id (Telkom Indonesia):**
-  - [ ] Memahami arsitektur global **oneM2M**: CSE, AE, Container, dan ContentInstance (`cin`).
-  - [ ] Mengirim dan membaca telemetri via HTTP REST, MQTT broker Antares, dan CoAP dengan header `X-M2M-Origin`.
-  - [ ] Integrasi firmware menggunakan library resmi `AntaresESP32HTTP` / `AntaresESP32MQTT` dan Python SDK.
-  - [ ] Mengatur *Subscription & Webhook* untuk meneruskan data dari Antares ke server backend kustom.
-  - [ ] Menghubungkan perangkat ke jaringan publik **Telkom LoRaWAN (AS923)** di portal Antares.
+- [ ] Membangun **OpenThread Border Router (OTBR)** pada Raspberry Pi untuk menjembatani jaringan IPv6 Thread.
+
+### 5.2 Bluetooth Low Energy (BLE) Mesh
+- [ ] Membangun topologi jaringan **BLE Mesh** (Relay Node, Friend Node, Low Power Node).
+
+### 5.3 LoRaWAN & Private ChirpStack Network
+- [ ] Mengoperasikan Private LoRaWAN Network Server menggunakan **ChirpStack v4** pada frekuensi AS923.
+- [ ] Mengonfigurasi parameter RF: Spreading Factor (SF7-SF12), Bandwidth (125 kHz), dan Adaptive Data Rate (ADR).
+
+### 5.4 Standar Global oneM2M & Integrasi Platform Antares.id (Telkom Indonesia)
+- [ ] Memahami hirarki standar internasional **oneM2M**: CSE, AE, Container, dan ContentInstance (`cin`).
+- [ ] Mengirim dan membaca data telemetri via HTTP REST, MQTT, dan CoAP dengan header `X-M2M-Origin`.
+- [ ] Mengintegrasikan library resmi `AntaresESP32HTTP` / `AntaresESP32MQTT` dan Python SDK.
+- [ ] Mengonfigurasi *Subscription & Webhook* untuk meneruskan data dari Antares ke Cloud Backend kustom.
+- [ ] Mendaftarkan perangkat ke jaringan publik **Telkom LoRaWAN (AS923)** di portal Antares.
 
 ---
 
 ## 🧠 Fase 6: Edge AI & TinyML pada Mikrokontroler (ESP32-S3) (Minggu 14)
-- [ ] Ekstraksi fitur getaran dan audio menggunakan **ESP-DSP Fast Fourier Transform (FFT)**.
-- [ ] Melakukan training dan kuantisasi model Machine Learning **INT8** di Edge Impulse / TensorFlow Lite Micro.
-- [ ] Menjalankan inferensi on-device dengan akselerasi **Vector Instructions (SIMD)** ESP32-S3 untuk *Predictive Maintenance*.
+
+### 6.1 Digital Signal Processing (DSP) di Edge
+- [ ] Melakukan analisis spektrum sinyal getaran dan audio menggunakan **ESP-DSP Fast Fourier Transform (FFT)**.
+- [ ] Mengekstraksi fitur domain frekuensi (*MFCC*) untuk deteksi anomali mekanik mesin.
+
+### 6.2 Implementasi TinyML (TensorFlow Lite Micro & Edge Impulse)
+- [ ] Melatih dan menguantisasi model machine learning ke format **INT8** di Edge Impulse / TensorFlow Lite Micro.
+- [ ] Menjalankan inferensi on-device dengan akselerasi **Vector Instructions (SIMD)** pada ESP32-S3.
+- [ ] Mengembangkan sistem *Predictive Maintenance* dan Vision AI (ESP32-CAM OCR meteran analog).
 
 ---
 
-## 🍓 Fase 7: Linux Edge Gateway (Raspberry Pi & Hardening OS) (Minggu 15-16)
-- [ ] Menyiapkan Raspberry Pi OS Lite headless dengan akses SSH key-based.
-- [ ] Mencegah korupsi SD Card menggunakan **OverlayFS (Read-Only Root Filesystem)** dan `log2ram`.
-- [ ] Mengonfigurasi **Systemd Service** lengkap dengan restart policy otomatis.
-- [ ] Menjalankan **Mosquitto MQTT Broker** lokal dengan otentikasi TLS dan bridging ke cloud.
-- [ ] Menerapkan algoritma **Kalman Filter** pada Python Gateway untuk menghilangkan noise sensor.
+## 🍓 Fase 7: Linux Edge Gateway, Hardening OS & Local Edge Analytics (Minggu 15-16)
+
+### 7.1 Linux OS Hardening & Read-Only Filesystem
+- [ ] Menyiapkan Raspberry Pi OS Lite headless dengan akses SSH key-based yang aman.
+- [ ] Mencegah kerusakan partisi SD Card menggunakan **OverlayFS (Read-Only Root Filesystem)** dan `log2ram`.
+- [ ] Mengonfigurasi **Systemd Service** dengan restart policy otomatis dan resource limits.
+
+### 7.2 Local Ingestion & Edge Filter
+- [ ] Menjalankan **Eclipse Mosquitto Broker** lokal dengan otentikasi TLS dan bridging ke cloud.
+- [ ] Menerapkan algoritma **Kalman Filter** pada Python Gateway untuk mereduksi noise sinyal sensor.
+- [ ] Menyimpan data lokal secara offline selama 30 hari menggunakan **DuckDB / SQLite**.
 
 ---
 
-## 💻 Fase 8: Distributed Cloud Ingestion & Time-Series Lakehouse (Minggu 17-19)
+## 💻 Fase 8: Distributed Cloud Ingestion, Stream Processing & Time-Series Lakehouse (Minggu 17-19)
+
+### 8.1 Ingestion Berbasis Stream (EMQX Cluster & Apache Kafka)
 - [ ] Mengompresi payload data menggunakan **Protocol Buffers (Protobuf)** (menghemat kuota >80%).
-- [ ] Menerapkan mekanisme **Store-and-Forward FIFO Queue** di LittleFS saat koneksi internet terputus.
-- [ ] Menjalankan **EMQX Enterprise Cluster** dan mengintegrasikan **Apache Kafka / RabbitMQ** message stream.
-- [ ] Membangun Ingestion Worker Service dengan **FastAPI / Go / NestJS**.
+- [ ] Menerapkan mekanisme **Store-and-Forward FIFO Queue** di LittleFS saat offline.
+- [ ] Menjalankan **EMQX Enterprise Cluster** dan mengintegrasikan **Apache Kafka / RabbitMQ** stream.
+- [ ] Membangun Ingestion Worker Service paralel dengan **FastAPI / Go / NestJS** dan proteksi *Dead-Letter Queue*.
+
+### 8.2 Database Multi-Tenant, Time-Series & Data Lake
 - [ ] Mendesain database relasional **PostgreSQL Multi-Tenant** dengan *Row-Level Security (RLS)*.
 - [ ] Mengonfigurasi database time-series **TimescaleDB** (*Hypertables*, *Continuous Aggregates*, *Downsampling*).
 - [ ] Mengarsipkan data historis ke Object Storage (S3 / MinIO) dalam format file biner **Apache Parquet**.
@@ -196,38 +245,58 @@
 
 ---
 
-## 📊 Fase 9: Modern Frontend Dashboard (Next.js 15 & Digital Twin) (Minggu 20-21)
-- [ ] Menerapkan pola sinkronisasi status **Digital Twin (Desired vs Reported State)**.
+## 📊 Fase 9: Modern Frontend, Real-time Visualisasi 60 FPS & Pola Digital Twin (Minggu 20-21)
+
+### 9.1 Digital Twin State Flow (Desired vs Reported State)
+- [ ] Menerapkan sinkronisasi status **Desired State** (perintah pengguna) vs **Reported State** (status fisik nyata).
+- [ ] Menangani jeda jaringan (*latency*) dengan pola *Optimistic UI Updates* dan notifikasi kegagalan jika offline.
+
+### 9.2 Arsitektur Frontend Next.js 15 & Visualisasi Data Masif
 - [ ] Membangun antarmuka dashboard responsif dengan **Next.js 15**, TypeScript, dan Tailwind CSS.
-- [ ] Memproses kalkulasi puluhan ribu data sensor di background browser menggunakan **Web Workers**.
-- [ ] Merender grafik live 60 FPS menggunakan **Apache ECharts / uPlot**.
+- [ ] Memproses parsing 100.000 titik data sensor di background thread menggunakan **Web Workers**.
+- [ ] Merender grafik real-time 60 FPS menggunakan **Apache ECharts / uPlot**.
 - [ ] Menampilkan pelacakan armada GPS di peta interaktif **Mapbox GL JS / Leaflet** dengan *Geofencing*.
 
 ---
 
-## 📈 Fase 10: SRE, Observability & Distributed Tracing (OpenTelemetry) (Minggu 22)
-- [ ] Mengirimkan metrik diagnostik kesehatan perangkat (*Device Vitals*: Heap, RSSI, Reset Reason).
+## 📈 Fase 10: Observability, SRE & Telemetri Armada (OpenTelemetry & Sentry) (Minggu 22)
+
+### 10.1 Telemetri Kesehatan Perangkat (*Device Vitals*)
+- [ ] Mengirim metrik diagnostik berkala: Free Heap, Minimum Heap Watermark, Wi-Fi RSSI, Tegangan Baterai, dan Reset Reason.
 - [ ] Menangkap crash log firmware secara otomatis dengan integrasi **Sentry for Native C++**.
+
+### 10.2 Distributed Tracing & Cloud Monitoring (OpenTelemetry & Prometheus)
 - [ ] Melacak jejak satu paket data sensor dari ESP32 hingga database dengan **OpenTelemetry (OTel)**.
 - [ ] Membangun dashboard pemantauan infrastruktur server di **Grafana & Prometheus**.
 
 ---
 
-## 🛡️ Fase 11: Zero-Trust Security, Pen-Testing & Regulasi EU CRA (Minggu 23)
+## 🛡️ Fase 11: Zero-Trust Hardware Security, Pen-Testing & Kepatuhan Siber Global (Minggu 23)
+
+### 11.1 Keamanan Tingkat Silikon & Enkripsi Hardware
 - [ ] Mengaktifkan **ESP32 Secure Boot v2** dengan tanda tangan digital RSA-3072 / ECDSA.
 - [ ] Mengaktifkan **Hardware Flash Encryption AES-256** dan membakar *permanent eFuses*.
 - [ ] Mengintegrasikan hardware crypto coprocessor **ATECC608A**.
 - [ ] Menerapkan otentikasi dua arah **Mutual TLS (mTLS)** menggunakan sertifikat digital **X.509** per perangkat.
+
+### 11.2 Kepatuhan Regulasi Internasional & Pengujian Penetrasi
 - [ ] Memahami kepatuhan regulasi siber global (**EU Cyber Resilience Act & NIST IR 8259**).
 - [ ] Menghasilkan dokumen **Software Bill of Materials (SBOM)** dalam format SPDX / CycloneDX.
-- [ ] Melakukan uji penetrasi perangkat keras (*Hardware Pen-Testing*).
+- [ ] Melakukan uji penetrasi perangkat keras (*Hardware Pen-Testing* sniffing bus SPI/UART).
 
 ---
 
-## 🏭 Fase 12: Produksi Massal, Factory Test Jig, FinOps & Capstone (Minggu 24-26)
+## 🏭 Fase 12: Produksi Massal, Factory Test Jig, BOM FinOps & Capstone Final (Minggu 24-26)
+
+### 12.1 Merancang Factory Test Jig (Alat Penguji Pabrik Otomatis)
 - [ ] Mendesain alat uji pabrik otomatis (**Factory Test Jig Fixture**) dengan jarum **Pogo-Pin**.
 - [ ] Menulis script Python CLI otomatis untuk flashing firmware, injeksi sertifikat unik, dan uji fungsional <30 detik.
-- [ ] Menghitung kelayakan finansial **BOM Costing & COGS**, serta optimasi cloud OPEX (<$0.05/device/bulan).
+
+### 12.2 Financial Engineering & FinOps IoT
+- [ ] Menghitung kelayakan finansial **BOM Costing & COGS** (komponen, PCB, SMT, casing, packaging).
+- [ ] Mengoptimalkan biaya operasional cloud (OPEX) agar berada di bawah **\$0.02 – \$0.05 per perangkat per bulan**.
+
+### 12.3 Proyek Akhir Enterprise (Industrial Capstone Projects)
 - [ ] Menyelesaikan salah satu proyek akhir komprehensif:
   - [ ] **Pilihan A:** Smart Factory Power Quality & Predictive Machine Maintenance (IIoT).
   - [ ] **Pilihan B:** Solar-Powered LoRaWAN Precision Smart Agriculture Grid.
@@ -237,4 +306,4 @@
 ---
 
 > 💡 **Cara Menggunakan TODO Ini:**
-> Setiap kali Anda menyelesaikan sebuah topik atau proyek, ubah tanda `- [ ]` menjadi `- [x]` dan buat *commit* ke GitHub repository agar perkembangan belajar Anda tercatat rapi dan dapat dipantau setiap hari!
+> Setiap kali Anda menyelesaikan sebuah sub-topik atau proyek, ubah tanda `- [ ]` menjadi `- [x]` dan buat *commit* ke GitHub repository agar perkembangan belajar Anda tercatat rapi dan dapat dipantau setiap hari!
