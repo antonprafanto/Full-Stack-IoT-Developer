@@ -6,7 +6,7 @@
 
 ---
 
-## Dulu buka ini, baru mulai
+## Buka ini dulu, baru mulai
 
 Biar tidak bingung “harus instal apa dulu”, modul ini cukup pakai alat di bawah. Yang lain **belum** diperlukan.
 
@@ -57,6 +57,19 @@ Kita pakai **Wokwi**, simulator ESP32 di browser. Bayangkan ini sebagai “papan
    - **Kanan:** gambar board ESP32.
 3. Ada juga tab **`diagram.json`**. Itu **bukan** kode C++. Isinya denah rangkaian. Jangan diubah dulu.
 
+Tampilan yang kamu tuju kira-kira seperti ini:
+
+![Tampilan Wokwi: editor sketch.ino di kiri, tombol Play hijau, board ESP32, dan Serial Hello ESP32](aset/wokwi-esp32-ui.jpg)
+
+*Tangkapan layar [Wokwi Simulator](https://wokwi.com/projects/new/esp32), diambil 21 Agustus 2026. Wokwi adalah merek milik [wokwi.com](https://wokwi.com). Tombol **Sign up** di kanan atas boleh diabaikan.*
+
+Cara baca layar itu, dari kiri ke kanan:
+
+1. Tab **`sketch.ino`** — tempat mengetik program.
+2. Tombol hijau **Play** — menyalakan simulasi.
+3. Gambar board ESP32 — “chip virtual”-nya.
+4. Kotak putih di bawah board — **Serial** (percakapan teks). Kalau berhasil, paling bawah ada `Hello, ESP32!`
+
 Kode bawaan Wokwi kira-kira seperti ini (bukan program kedip lampu):
 
 ```cpp
@@ -75,8 +88,11 @@ void loop() {
 ### Langkah 2 — Tes dulu kode bawaan
 
 1. Di panel kanan, klik tombol hijau **Start the simulation** (ikon Play).
-2. Di bagian bawah biasanya muncul jendela **Serial**.
-3. Kalau berhasil, muncul tulisan `Hello, ESP32!`
+2. Lihat kotak putih **Serial** di bawah gambar board.
+3. Kalau berhasil, paling bawah muncul `Hello, ESP32!`
+
+> [!NOTE]
+> Tulisan aneh seperti `ets Jul`, `mode:DIO`, atau `load:0x3fff...` itu **bukan error**. Itu log “chip baru bangun tidur”. Yang kamu cari cuma baris `Hello, ESP32!`.
 
 Itu percakapan teks antara chip dan laptop. Lampu belum berkedip — wajar, karena kodenya memang belum menyuruh lampu menyala.
 
@@ -109,6 +125,17 @@ void loop() {
 Sebelum klik Play, tebak dulu: kalau `1000` diganti `100`, lampunya lebih cepat atau lebih lambat?
 
 Ubah kedua `delay(1000)` menjadi `delay(100)`, Stop, lalu Play lagi. Kedipnya kira-kira 10 kali lebih cepat.
+
+Kalau sudah berani, coba isi sendiri angka jedanya (satu detik = 1000 milidetik):
+
+```cpp
+void loop() {
+  digitalWrite(2, HIGH);
+  delay(____);  // isi: berapa milidetik untuk 1 detik?
+  digitalWrite(2, LOW);
+  delay(____);  // isi angka yang sama
+}
+```
 
 > [!WARNING]
 > **Kalau lampu tidak berkedip**
@@ -199,7 +226,7 @@ Biar lebih gampang diingat, lihat peta bergambar ini:
 
 ![Ilustrasi anatomi board ESP32: antena, modul WROOM, LED, USB-to-UART, tombol EN dan BOOT](aset/anatomi-board-esp32.jpg)
 
-*Ilustrasi orisinal kurikulum ini. Pakai sebagai peta, bukan foto produk tertentu.*
+*Ilustrasi orisinal kurikulum ini. Pakai sebagai peta, bukan foto produk tertentu. Di board nyata colokan USB sering di tepi kiri; di peta ini USB ditaruh di tengah supaya label muat.*
 
 Yang wajib kamu kenali:
 
@@ -305,6 +332,7 @@ Banyak board modern bisa upload otomatis tanpa kamu pegang tombol. Tetap hafalka
 | **Flashing / upload** | Menyalin firmware ke memori flash |
 | **USB-to-UART** | Penerjemah USB laptop menjadi percakapan serial TX/RX |
 | **Port COM** | “Nomor saluran” yang diberikan Windows ke board |
+| **Serial** | Jendela percakapan teks antara chip dan laptop (di Wokwi: kotak putih di bawah board) |
 | **GPIO** | Pin serbaguna yang bisa jadi sakelar atau telinga (input/output) |
 | **SPI Flash** | Laci penyimpan program yang tidak hilang saat listrik mati |
 | **EN** | Tombol restart |
@@ -339,6 +367,7 @@ Jawab di kepala dulu, baru buka kunci jawaban.
 | :--- | :--- | :--- |
 | Foto board ESP32 DevKit | [Ubahnverleih, Wikimedia Commons](https://commons.wikimedia.org/wiki/File:ESP32_Espressif_ESP-WROOM-32_Dev_Board.jpg) | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/deed.id) |
 | Foto isi modul ESP-WROOM-32 | [Brian Krent, Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Espressif_ESP-WROOM-32_Wi-Fi_%26_Bluetooth_Module.jpg) | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.id) |
+| Tampilan Wokwi (editor, Play, Serial) | Tangkapan layar [Wokwi Simulator](https://wokwi.com), 21 Agustus 2026 | Merek milik [wokwi.com](https://wokwi.com); dipakai sebagai panduan tombol |
 | Diagram alur, perbandingan laptop/MCU, anatomi, Device Manager, kabel USB, tombol EN/BOOT | Ilustrasi orisinal kurikulum ini | Dibuat khusus untuk modul 0.0 |
 
 ---
@@ -348,8 +377,9 @@ Jawab di kepala dulu, baru buka kunci jawaban.
 Kalau ini sudah kamu lakukan, modul 0.0 boleh dicentang:
 
 - [ ] Membuka Wokwi tanpa akun, menjalankan simulasi, dan melihat `Hello, ESP32!`
+- [ ] Tidak panik saat muncul log boot (`mode:DIO` / `load:0x...`)
 - [ ] Menempel program kedip dan melihat LED GPIO 2 berkedip
-- [ ] Mengubah `delay(1000)` menjadi `delay(100)` dan membuktikan tebakanmu
+- [ ] Mengubah `delay(1000)` menjadi `delay(100)` dan mengisi sendiri `delay(____)`
 - [ ] Bisa menjelaskan, dengan bahasa sendiri, kenapa teks C++ harus dikompilasi
 - [ ] (Opsional) Board fisik terdeteksi sebagai port COM di Device Manager
 

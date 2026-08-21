@@ -1,7 +1,7 @@
 # 📋 Pelacak Progres & TODO: Fullstack IoT Developer (Zero to Enterprise)
 
 > **Repositori GitHub:** [antonprafanto/Full-Stack-IoT-Developer](https://github.com/antonprafanto/Full-Stack-IoT-Developer)  
-> **Panduan Kurikulum Lengkap:** [README.md](file:///c:/Users/anton/vibecoding/Fullstack_IOT_2026/README.md)  
+> **Panduan Kurikulum Lengkap:** [README.md](README.md)  
 > **Terakhir Diperbarui:** 21 Agustus 2026
 
 ---
@@ -50,13 +50,13 @@
 ## ⚡ Fase 0: Fondasi Listrik Ramah Pemula, Logika Komponen & Pemrograman Inti (Minggu 1-2)
 
 ### 0.0 Pengantar Konseptual: "Bagaimana Kode Masuk ke Chip Silikon?"
-> Materi: [00-bagaimana-kode-masuk-ke-chip-silikon.md](00-fondasi-dasar/00-bagaimana-kode-masuk-ke-chip-silikon.md) · Lulus suntingan ramah-awam 21 Agustus 2026 (tools-first, Wokwi sesuai UI asli, foto + sitasi, tautan GitHub diperbaiki).
+> Materi: [00-bagaimana-kode-masuk-ke-chip-silikon.md](00-fondasi-dasar/00-bagaimana-kode-masuk-ke-chip-silikon.md) · Lulus tinjauan GitHub live 21 Agustus 2026 (gambar 8/8 tampil, screenshot Wokwi + sitasi, log boot bukan error, tautan relatif).
 - [x] Memahami perbedaan Komputer vs Mikrokontroler (*Bare-Metal Execution*).
 - [x] Memahami alur kompilasi: Kode C++ (`.cpp` / `.ino`) $\rightarrow$ Kompiler (*xtensa-gcc*) $\rightarrow$ Biner `.bin` $\rightarrow$ Chip USB-to-UART (CP2102/CH340) $\rightarrow$ SPI Flash.
 - [x] Menginstal driver USB-to-UART (CH340/CP2102) dan mendeteksi port COM di Windows Device Manager.
 - [x] Memahami fungsi tombol fisik `EN` (Reset) dan `BOOT` (GPIO 0) saat proses flashing.
 - [x] Praktik cepat di Wokwi (tanpa akun, tab `sketch.ino`, tombol Start the simulation) sebelum teori panjang.
-- [x] Visual: foto board berlisensi + ilustrasi alur/anatomi/kabel/tombol dengan sitasi sumber.
+- [x] Visual: foto board berlisensi, ilustrasi alur/anatomi/kabel/tombol, plus tangkapan layar Wokwi dengan sitasi.
 
 ### 0.1 Dasar Listrik Intuitif (Analogi Aliran Air)
 - [x] Memahami konsep Tegangan ($V$), Arus ($I$), Hambatan ($R$), dan Daya Listrik ($P$).
