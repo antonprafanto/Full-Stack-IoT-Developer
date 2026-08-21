@@ -12,6 +12,7 @@ Selamat datang di **Fase 0: Fondasi Dasar**! Folder ini berisi modul pembelajara
 | 📄 **[Modul 0.1: Dasar Listrik, Hukum Ohm & Breadboard](01-dasar-listrik-dan-komponen.md)** | Analogi pipa air ($V, I, R, P$), Kalkulasi resistor LED, Jalur Breadboard anti-korslet, Polaritas, Common Ground, Floating Pin, dan Pembagi Tegangan. | ✅ Selesai | 30–45 Menit |
 | 📄 **[Modul 0.2: Logika C++ untuk Mikrokontroler](02-logika-cpp-untuk-mikrokontroler.md)** | Struktur `setup()` & `loop()`, Fixed-width types (`uint8_t`), Scope memori (SRAM vs Stack), Percabangan, Pointer (analogi nomor rumah), dan Bitwise. | ✅ Selesai | 45–60 Menit |
 | 📄 **[Modul 0.3: Logika Python untuk Gateway & Cloud](03-logika-python-untuk-iot.md)** | Tipe data, Dictionary JSON telemetri, Fungsi modular, Virtual Environment (`venv`), dan dasar asinkron (`asyncio`). | ✅ Selesai | 30–45 Menit |
+| 📄 **[Modul 0.4: Panduan Praktis Multimeter Digital](04-panduan-alat-ukur-multimeter.md)** | Cara colok jarum probe, Uji kontinuitas kabel (beep), Cek voltase DC baterai/ESP32, Ukur resistor, dan 4 aturan anti-rusak. | ✅ Selesai | 20–30 Menit |
 
 ---
 
