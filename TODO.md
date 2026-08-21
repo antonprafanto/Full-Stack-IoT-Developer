@@ -24,6 +24,27 @@
 | **11** | Zero-Trust Security, Pen-Testing & Regulasi EU CRA | Minggu 23 | `[ ] Belum Mulai` | 0% |
 | **12** | Produksi Massal, Factory Test Jig, FinOps & Capstone | Minggu 24–26 | `[ ] Belum Mulai` | 0% |
 
+## 🧠 Standar Emas Pedagogis & Prinsip Penulisan Materi (Editorial Guidelines)
+
+> [!IMPORTANT]
+> **Pondasi Mutlak Penulisan Semua Modul:**  
+> Setiap materi yang ditulis untuk repositori ini wajib mematuhi **14 Prinsip Emas Pedagogis & Sains Kognitif** berikut agar selalu ramah awam, mudah dipahami, anti-stuck, dan menyenangkan:
+
+1. 🌊 **Analogi Dunia Nyata (*Mental Models*):** Selalu awali konsep abstrak dengan analogi fisik (misal: Tegangan/Arus = Tandon & Aliran Air, Pointer C++ = Nomor Rumah).
+2. ❓ **Jelaskan WHY, Bukan Cuma HOW:** Jelaskan alasan logis di balik setiap instruksi (misal: *Mengapa wajib pakai resistor pengaman LED? Mengapa wajib Common Ground?*).
+3. 🪜 **Langkah Mikro Tanpa Lompatan Gaib (*Micro-Steps*):** Pecah instruksi ke dalam langkah 1-2-3 atomik tanpa berasumsi pembaca sudah tahu cara kerja terminal atau tombol boot.
+4. 🚨 **Kotak Antisipasi Error (*Troubleshooting in Context*):** Sediakan kotak solusi *"Bagaimana jika lampu tidak menyala atau compiler error?"* di setiap bab.
+5. 💬 **Komentar Penjelas di Setiap Baris Kode (*Inline Comments*):** Beri keterangan maksud setiap baris kode C++ dan Python dalam bahasa sehari-hari.
+6. 🏆 **Prinsip *Quick Win* (Kemenangan Cepat):** Buat pembaca berhasil menyalakan lampu atau melihat hasil pertamanya dalam **5–10 menit pertama** untuk memicu motivasi belajar.
+7. 🎨 **Visual-First & Diagram Rangkaian Nyata:** Gunakan ilustrasi visual komponen fisik (kaki LED, lubang breadboard, warna kabel standar) sebelum skematik simbol.
+8. 🧩 **Manajemen Beban Kognitif (*One Concept at a Time*):** Jangan mencampuradukkan terlalu banyak istilah baru dalam 1 halaman. Letakkan kode dan diagram berdampingan.
+9. 🛡️ **Keamanan Psikologis (*Emotional Safety*):** Tegaskan sejak awal bahwa listrik 3.3V/5V USB 100% aman disentuh, laptop memiliki proteksi USB, dan error/kegagalan adalah hal yang wajar.
+10. 📖 **Dekonstruksi Istilah Asing (*Jargon De-escalation*):** Setiap istilah teknis wajib diberi keterangan 1 kalimat bahasa manusia saat pertama kali muncul + Glosarium di akhir bab.
+11. 🔄 **Siklus 4-Tahap Belajar Aktif (*Observe $\rightarrow$ Predict $\rightarrow$ Break $\rightarrow$ Create*):** Ajak pembaca menebak perubahan sebelum klik run, sengaja merusak sirkuit untuk belajar melacak error, lalu membuat tantangan mandiri.
+12. 🥪 **Metode "Sandwich" (Praktik Cepat $\rightarrow$ Teori Mengapa $\rightarrow$ Eksperimen):** Hindari teori panjang di awal; biarkan mencoba dulu, baru dibedah teorinya.
+13. 📉 **Bantuan Bertahap (*Faded Scaffolding*):** Dari kode 100% lengkap $\rightarrow$ kode rumpang (*fill-in-the-blanks*) $\rightarrow$ template kosong $\rightarrow$ tantangan mandiri tanpa contekan.
+14. 🚀 **Jalur Ganda Pembelajaran (*Dual-Track: Fast-Track vs Deep-Dive*):** Gunakan blok lipat `<details><summary>🔬 Bedah Teknis Mendalam</summary>...</details>` untuk ulasan mendalam tanpa membebani pemula.
+
 ---
 
 ## ⚡ Fase 0: Fondasi Listrik Ramah Pemula, Logika Komponen & Pemrograman Inti (Minggu 1-2)
