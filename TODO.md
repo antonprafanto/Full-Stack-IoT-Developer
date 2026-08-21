@@ -10,7 +10,7 @@
 
 | Fase | Modul Pembelajaran | Estimasi Waktu | Status | Progres |
 | :---: | :--- | :---: | :---: | :---: |
-| **0** | Fondasi Listrik Ramah Pemula, Logika & Tooling | Minggu 1–2 | `[-] Sedang Berjalan` | 60% |
+| **0** | Fondasi Listrik Ramah Pemula, Logika & Tooling | Minggu 1–2 | `[-] Sedang Berjalan` | 75% |
 | **1** | ESP32 Step-by-Step: Dari Blink ke FreeRTOS | Minggu 3–6 | `[ ] Belum Mulai` | 0% |
 | **2** | Desain Perangkat Keras, Skematik & PCB 4-Layer KiCad | Minggu 7–8 | `[ ] Belum Mulai` | 0% |
 | **3** | Power Harvesting & Ultra Low-Power (10-Year Battery) | Minggu 9 | `[ ] Belum Mulai` | 0% |
@@ -74,14 +74,14 @@
 - [x] Menggunakan Multimeter Digital (True RMS) untuk mengukur voltase, kontinuitas 'beep', dan resistansi.
 
 ### 0.4 Pemrograman C/C++ dari Nol (Khusus Embedded)
-- [ ] Memahami struktur eksekusi `setup()` dan `loop()`.
-- [ ] Menguasai tipe data fixed-width (`uint8_t`, `int16_t`, `int32_t`, `float`, `bool`).
-- [ ] Memahami perbedaan Scope Variabel (Variabel Global di SRAM vs Variabel Lokal di Stack).
-- [ ] Menguasai percabangan (`if-else`, `switch-case`) dan perulangan (`for`, `while`).
-- [ ] Membuat fungsi kustom dengan parameter dan return value.
-- [ ] Menguasai array buffer data sensor (`int readings[10]`).
-- [ ] Memahami konsep memori dan pointer (`&` dan `*`) dengan analogi nomor rumah.
-- [ ] Memahami manipulasi bitwise dasar (`&`, `|`, `^`, `<<`, `>>`).
+- [x] Memahami struktur eksekusi `setup()` dan `loop()`.
+- [x] Menguasai tipe data fixed-width (`uint8_t`, `int16_t`, `int32_t`, `float`, `bool`).
+- [x] Memahami perbedaan Scope Variabel (Variabel Global di SRAM vs Variabel Lokal di Stack).
+- [x] Menguasai percabangan (`if-else`, `switch-case`) dan perulangan (`for`, `while`).
+- [x] Membuat fungsi kustom dengan parameter dan return value.
+- [x] Menguasai array buffer data sensor (`int readings[10]`).
+- [x] Memahami konsep memori dan pointer (`&` dan `*`) dengan analogi nomor rumah.
+- [x] Memahami manipulasi bitwise dasar (`&`, `|`, `^`, `<<`, `>>`).
 
 ### 0.5 Pemrograman Python dari Nol (Khusus Gateway & Cloud)
 - [ ] Menguasai tipe data dasar, List `[]`, Dictionary `{}` (format JSON), dan Tuples.
