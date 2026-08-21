@@ -11,7 +11,7 @@
 | Fase | Modul Pembelajaran | Estimasi Waktu | Status | Progres |
 | :---: | :--- | :---: | :---: | :---: |
 | **0** | Fondasi Listrik Ramah Pemula, Logika & Tooling | Minggu 1–2 | `[x] Selesai (Modul 0.0-0.4)` | 100% |
-| **1** | ESP32 Step-by-Step: Dari Blink ke FreeRTOS | Minggu 3–6 | `[ ] Belum Mulai` | 0% |
+| **1** | ESP32 Step-by-Step: Dari Blink ke FreeRTOS | Minggu 3–6 | `[x] Selesai (Modul 1.1-1.5)` | 100% |
 | **2** | Desain Perangkat Keras, Skematik & PCB 4-Layer KiCad | Minggu 7–8 | `[ ] Belum Mulai` | 0% |
 | **3** | Power Harvesting & Ultra Low-Power (10-Year Battery) | Minggu 9 | `[ ] Belum Mulai` | 0% |
 | **4** | Protokol Industri & Otomotif (CAN Bus, Modbus, OPC-UA) | Minggu 10–11 | `[ ] Belum Mulai` | 0% |
@@ -98,53 +98,53 @@
 ## 🔌 Fase 1: Langkah Demi Langkah Mikrokontroler ESP32 — Dari Blink ke FreeRTOS (Minggu 3-6)
 
 ### 1.1 Anatomi Board ESP32 & Aturan Pinout Aman
-- [ ] Memetakan Pin Aman (GPIO 4, 16, 17, 18, 19, 21, 22, 23, 25, 26, 27, 32, 33).
-- [ ] Memahami Pin Input-Only (GPIO 34, 35, 36, 39) dan Strapping Pins bahaya (GPIO 0, 2, 12, 15).
-- [ ] Memahami aturan ADC1 vs ADC2 (ADC2 tidak dapat dipakai saat Wi-Fi menyala).
+- [x] Memetakan Pin Aman (GPIO 4, 16, 17, 18, 19, 21, 22, 23, 25, 26, 27, 32, 33).
+- [x] Memahami Pin Input-Only (GPIO 34, 35, 36, 39) dan Strapping Pins bahaya (GPIO 0, 2, 12, 15).
+- [x] Memahami aturan ADC1 vs ADC2 (ADC2 tidak dapat dipakai saat Wi-Fi menyala).
 
 ### 1.2 Proyek 1: Digital Output (LED & Aktuator)
-- [ ] Menulis program Blink LED internal dan eksternal (`pinMode`, `digitalWrite`).
-- [ ] Membuat pola running LED dan memahami logika *Active High* vs *Active Low*.
+- [x] Menulis program Blink LED internal dan eksternal (`pinMode`, `digitalWrite`).
+- [x] Membuat pola running LED dan memahami logika *Active High* vs *Active Low*.
 
 ### 1.3 Proyek 2: Digital Input & Push Button
-- [ ] Membaca status tombol dengan `pinMode(pin, INPUT_PULLUP)` dan `digitalRead(pin)`.
-- [ ] Membuat logika toggle switch (tekan sekali ON, tekan lagi OFF).
-- [ ] Mengimplementasikan *Software Debouncing* untuk mengatasi getaran mekanik tombol.
+- [x] Membaca status tombol dengan `pinMode(pin, INPUT_PULLUP)` dan `digitalRead(pin)`.
+- [x] Membuat logika toggle switch (tekan sekali ON, tekan lagi OFF).
+- [x] Mengimplementasikan *Software Debouncing* untuk mengatasi getaran mekanik tombol.
 
 ### 1.4 Proyek 3: Serial Communication & Debugging
-- [ ] Inisialisasi `Serial.begin(115200)` dan mencetak variabel data sensor.
-- [ ] Menangani baud rate mismatch penyebab karakter rusak.
-- [ ] Membaca input teks dari Serial Monitor ke ESP32.
+- [x] Inisialisasi `Serial.begin(115200)` dan mencetak variabel data sensor.
+- [x] Menangani baud rate mismatch penyebab karakter rusak.
+- [x] Membaca input teks dari Serial Monitor ke ESP32.
 
 ### 1.5 Proyek 4: Sinyal Analog (ADC & PWM)
-- [ ] Membaca sensor potensiometer dan LDR dengan `analogRead(pin)` (resolusi 12-bit, 0-4095).
-- [ ] Mengonversi nilai analog ke rentang persentase menggunakan fungsi `map()`.
-- [ ] Mengatur kecerahan LED (*Fading Effect*) menggunakan PWM ESP32 (`ledcAttachPin`, `ledcWrite`).
-- [ ] Mengontrol sudut putar Motor Servo SG90 ($0^\circ - 180^\circ$).
+- [x] Membaca sensor potensiometer dan LDR dengan `analogRead(pin)` (resolusi 12-bit, 0-4095).
+- [x] Mengonversi nilai analog ke rentang persentase menggunakan fungsi `map()`.
+- [x] Mengatur kecerahan LED (*Fading Effect*) menggunakan PWM ESP32 (`ledcAttachPin`, `ledcWrite`).
+- [x] Mengontrol sudut putar Motor Servo SG90 ($0^\circ - 180^\circ$).
 
 ### 1.6 Proyek 5: Mengatasi Jebakan `delay()` dengan `millis()`
-- [ ] Memahami bahaya fungsi `delay()` yang membekukan prosesor mikrokontroler.
-- [ ] Menerapkan timer stopwatch non-blocking `millis()` (menjalankan 3 tugas independen serentak).
+- [x] Memahami bahaya fungsi `delay()` yang membekukan prosesor mikrokontroler.
+- [x] Menerapkan timer stopwatch non-blocking `millis()` (menjalankan 3 tugas independen serentak).
 
 ### 1.7 Proyek 6: Protokol Bus Sensor Hardware (I2C, SPI, 1-Wire)
-- [ ] Menjalankan *I2C Scanner* untuk mendeteksi alamat heksadesimal sensor.
-- [ ] Menampilkan data dan grafik pada **Layar OLED 0.96" SSD1306** (I2C).
-- [ ] Membaca sensor suhu, kelembaban, dan tekanan udara presisi tinggi **BME280** (I2C).
-- [ ] Menyimpan data log sensor ke **MicroSD Card Module** (SPI).
-- [ ] Membaca sensor suhu industri tahan air **DS18B20** (1-Wire).
+- [x] Menjalankan *I2C Scanner* untuk mendeteksi alamat heksadesimal sensor.
+- [x] Menampilkan data dan grafik pada **Layar OLED 0.96" SSD1306** (I2C).
+- [x] Membaca sensor suhu, kelembaban, dan tekanan udara presisi tinggi **BME280** (I2C).
+- [x] Menyimpan data log sensor ke **MicroSD Card Module** (SPI).
+- [x] Membaca sensor suhu industri tahan air **DS18B20** (1-Wire).
 
 ### 1.8 Jembatan Menuju Mahir: FreeRTOS & Kehandalan Firmware
-- [ ] Membuat multi-tasking terpisah pada Core 0 dan Core 1 (`xTaskCreatePinnedToCore`).
-- [ ] Mengalirkan data antar-task secara thread-safe menggunakan FreeRTOS Queues dan Mutex.
-- [ ] Menerapkan arsitektur Finite State Machine (FSM).
-- [ ] Mengaktifkan **Hardware & Task Watchdog Timer (WDT)** dan proteksi *Brownout*.
-- [ ] Profiling memori heap (`esp_get_free_heap_size()`) dan menerapkan *wear-leveling* pada LittleFS.
+- [x] Membuat multi-tasking terpisah pada Core 0 dan Core 1 (`xTaskCreatePinnedToCore`).
+- [x] Mengalirkan data antar-task secara thread-safe menggunakan FreeRTOS Queues dan Mutex.
+- [x] Menerapkan arsitektur Finite State Machine (FSM).
+- [x] Mengaktifkan **Hardware & Task Watchdog Timer (WDT)** dan proteksi *Brownout*.
+- [x] Profiling memori heap (`esp_get_free_heap_size()`) dan menerapkan *wear-leveling* pada LittleFS.
 
 ### 1.9 Pemecahan Masalah Pemula (Troubleshooting)
-- [ ] Menguasai trik menahan tombol `BOOT` saat error upload serial.
-- [ ] Mengatasi error `Brownout detector was triggered` dengan kapasitor buffer $100\mu\text{F}$.
-- [ ] Melacak error `Guru Meditation panic` (pointer NULL / memory overflow).
-- [ ] Mengonfigurasi jaringan Wi-Fi 2.4 GHz yang kompatibel dengan ESP32.
+- [x] Menguasai trik menahan tombol `BOOT` saat error upload serial.
+- [x] Mengatasi error `Brownout detector was triggered` dengan kapasitor buffer $100\mu\text{F}$.
+- [x] Melacak error `Guru Meditation panic` (pointer NULL / memory overflow).
+- [x] Mengonfigurasi jaringan Wi-Fi 2.4 GHz yang kompatibel dengan ESP32.
 
 ---
 
