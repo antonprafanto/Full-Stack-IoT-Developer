@@ -10,7 +10,7 @@ Folder ini berisi materi, catatan teori, dan latihan dasar untuk **Fase 0** kuri
 ## 📚 Daftar Modul Pembelajaran Fase 0:
 1. 📄 **[Modul 0.0: Perjalanan Ajaib — Bagaimana Kode Masuk ke Chip Silikon?](file:///c:/Users/anton/vibecoding/Fullstack_IOT_2026/00-fondasi-dasar/00-bagaimana-kode-masuk-ke-chip-silikon.md)**
 2. 📄 **[Modul 0.1: Dasar Listrik Intuitif — Analogi Air, Hukum Ohm & Resistor LED](file:///c:/Users/anton/vibecoding/Fullstack_IOT_2026/00-fondasi-dasar/01-dasar-listrik-dan-hukum-ohm.md)**
-3. 📄 *Modul 0.2: Anatomi Breadboard & Komponen Fisik (Coming Soon)*
+3. 📄 **[Modul 0.2: Anatomi Breadboard & Komponen Fisik — Panduan Merangkai Anti-Korslet](file:///c:/Users/anton/vibecoding/Fullstack_IOT_2026/00-fondasi-dasar/02-anatomi-breadboard-dan-komponen.md)**
 4. 📄 *Modul 0.3: Logika Sirkuit Dasar & Common Ground (Coming Soon)*
 5. 📄 *Modul 0.4: Pemrograman C/C++ dari Nol (Coming Soon)*
 6. 📄 *Modul 0.5: Pemrograman Python dari Nol (Coming Soon)*
