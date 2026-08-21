@@ -10,7 +10,7 @@
 
 | Fase | Modul Pembelajaran | Estimasi Waktu | Status | Progres |
 | :---: | :--- | :---: | :---: | :---: |
-| **0** | Fondasi Listrik Ramah Pemula, Logika & Tooling | Minggu 1–2 | `[ ] Belum Mulai` | 0% |
+| **0** | Fondasi Listrik Ramah Pemula, Logika & Tooling | Minggu 1–2 | `[x] Selesai (Modul 0.0-0.4)` | 100% |
 | **1** | ESP32 Step-by-Step: Dari Blink ke FreeRTOS | Minggu 3–6 | `[ ] Belum Mulai` | 0% |
 | **2** | Desain Perangkat Keras, Skematik & PCB 4-Layer KiCad | Minggu 7–8 | `[ ] Belum Mulai` | 0% |
 | **3** | Power Harvesting & Ultra Low-Power (10-Year Battery) | Minggu 9 | `[ ] Belum Mulai` | 0% |
@@ -50,48 +50,48 @@
 ## ⚡ Fase 0: Fondasi Listrik Ramah Pemula, Logika Komponen & Pemrograman Inti (Minggu 1-2)
 
 ### 0.0 Pengantar Konseptual: "Bagaimana Kode Masuk ke Chip Silikon?"
-- [ ] Memahami perbedaan Komputer vs Mikrokontroler (*Bare-Metal Execution*).
-- [ ] Memahami alur kompilasi: Kode C++ (`.cpp` / `.ino`) $\rightarrow$ Kompiler (*xtensa-gcc*) $\rightarrow$ Biner `.bin` $\rightarrow$ Chip USB-to-UART (CP2102/CH340) $\rightarrow$ SPI Flash.
-- [ ] Menginstal driver USB-to-UART (CH340/CP2102) dan mendeteksi port COM di Windows Device Manager.
-- [ ] Memahami fungsi tombol fisik `EN` (Reset) dan `BOOT` (GPIO 0) saat proses flashing.
+- [x] Memahami perbedaan Komputer vs Mikrokontroler (*Bare-Metal Execution*).
+- [x] Memahami alur kompilasi: Kode C++ (`.cpp` / `.ino`) $\rightarrow$ Kompiler (*xtensa-gcc*) $\rightarrow$ Biner `.bin` $\rightarrow$ Chip USB-to-UART (CP2102/CH340) $\rightarrow$ SPI Flash.
+- [x] Menginstal driver USB-to-UART (CH340/CP2102) dan mendeteksi port COM di Windows Device Manager.
+- [x] Memahami fungsi tombol fisik `EN` (Reset) dan `BOOT` (GPIO 0) saat proses flashing.
 
 ### 0.1 Dasar Listrik Intuitif (Analogi Aliran Air)
-- [ ] Memahami konsep Tegangan ($V$), Arus ($I$), Hambatan ($R$), dan Daya Listrik ($P$).
-- [ ] Menghitung resistor pengaman LED menggunakan Hukum Ohm ($R = \frac{V_s - V_{led}}{I}$).
-- [ ] Memahami perbedaan arus listrik DC (3.3V / 5V) vs AC (220V).
+- [x] Memahami konsep Tegangan ($V$), Arus ($I$), Hambatan ($R$), dan Daya Listrik ($P$).
+- [x] Menghitung resistor pengaman LED menggunakan Hukum Ohm ($R = \frac{V_s - V_{led}}{I}$).
+- [x] Memahami perbedaan arus listrik DC (3.3V / 5V) vs AC (220V).
 
 ### 0.2 Anatomi Breadboard & Komponen Fisik (Anti-Korslet)
-- [ ] Memahami jalur plat tembaga internal breadboard (*Power Rails* horizontal vs *Terminal Strips* vertikal).
-- [ ] Mengidentifikasi kaki polaritas anoda/katoda pada LED, kapasitor elektrolit, dan orientasi dioda.
-- [ ] Membaca kode warna resistor ($220\Omega, 1k\Omega, 10k\Omega$) dan memverifikasi dengan multimeter.
-- [ ] Menggunakan kabel jumper (*Male-to-Male*, *Male-to-Female*, *Female-to-Female*) secara tepat.
+- [x] Memahami jalur plat tembaga internal breadboard (*Power Rails* horizontal vs *Terminal Strips* vertikal).
+- [x] Mengidentifikasi kaki polaritas anoda/katoda pada LED, kapasitor elektrolit, dan orientasi dioda.
+- [x] Membaca kode warna resistor ($220\Omega, 1k\Omega, 10k\Omega$) dan memverifikasi dengan multimeter.
+- [x] Menggunakan kabel jumper (*Male-to-Male*, *Male-to-Female*, *Female-to-Female*) secara tepat.
 
 ### 0.3 Logika Sirkuit Dasar & Fenomena Penting IoT
-- [ ] **Prinsip Mutlak Common Ground (GND Sharing):** Menghubungkan semua GND perangkat agar memiliki titik acuan 0V yang sama.
-- [ ] Menghitung dan merakit rangkaian pembagi tegangan (*Voltage Divider*) untuk sensor analog LDR.
-- [ ] Memahami fenomena *Floating Pin* dan memasang resistor Pull-up / Pull-down.
-- [ ] Menggunakan transistor / relay sebagai sakelar pengontrol beban daya tinggi.
-- [ ] Menggunakan Multimeter Digital (True RMS) untuk mengukur voltase, kontinuitas 'beep', dan resistansi.
+- [x] **Prinsip Mutlak Common Ground (GND Sharing):** Menghubungkan semua GND perangkat agar memiliki titik acuan 0V yang sama.
+- [x] Menghitung dan merakit rangkaian pembagi tegangan (*Voltage Divider*) untuk sensor analog LDR.
+- [x] Memahami fenomena *Floating Pin* dan memasang resistor Pull-up / Pull-down.
+- [x] Menggunakan transistor / relay sebagai sakelar pengontrol beban daya tinggi.
+- [x] Menggunakan Multimeter Digital (True RMS) untuk mengukur voltase, kontinuitas 'beep', dan resistansi (Modul 0.4).
 
 ### 0.4 Pemrograman C/C++ dari Nol (Khusus Embedded)
-- [ ] Memahami struktur eksekusi `setup()` dan `loop()`.
-- [ ] Menguasai tipe data fixed-width (`uint8_t`, `int16_t`, `int32_t`, `float`, `bool`).
-- [ ] Memahami perbedaan Scope Variabel (Variabel Global di SRAM vs Variabel Lokal di Stack).
-- [ ] Menguasai percabangan (`if-else`, `switch-case`) dan perulangan (`for`, `while`).
-- [ ] Membuat fungsi kustom dengan parameter dan return value.
-- [ ] Menguasai array buffer data sensor (`int readings[10]`).
-- [ ] Memahami konsep memori dan pointer (`&` dan `*`) dengan analogi nomor rumah.
-- [ ] Memahami manipulasi bitwise dasar (`&`, `|`, `^`, `<<`, `>>`).
+- [x] Memahami struktur eksekusi `setup()` dan `loop()`.
+- [x] Menguasai tipe data fixed-width (`uint8_t`, `int16_t`, `int32_t`, `float`, `bool`).
+- [x] Memahami perbedaan Scope Variabel (Variabel Global di SRAM vs Variabel Lokal di Stack).
+- [x] Menguasai percabangan (`if-else`, `switch-case`) dan perulangan (`for`, `while`).
+- [x] Membuat fungsi kustom dengan parameter dan return value.
+- [x] Menguasai array buffer data sensor (`int readings[10]`).
+- [x] Memahami konsep memori dan pointer (`&` dan `*`) dengan analogi nomor rumah.
+- [x] Memahami manipulasi bitwise dasar (`&`, `|`, `^`, `<<`, `>>`).
 
 ### 0.5 Pemrograman Python dari Nol (Khusus Gateway & Cloud)
-- [ ] Menguasai tipe data dasar, List `[]`, Dictionary `{}` (format JSON), dan Tuples.
-- [ ] Menguasai fungsi, modul, dan manajemen paket virtual environment (`venv` / `uv`).
-- [ ] Memahami dasar pemrograman asinkron (`asyncio`, `await`).
+- [x] Menguasai tipe data dasar, List `[]`, Dictionary `{}` (format JSON), dan Tuples.
+- [x] Menguasai fungsi, modul, dan manajemen paket virtual environment (`venv` / `uv`).
+- [x] Memahami dasar pemrograman asinkron (`asyncio`, `await`).
 
 ### 0.6 Setup Lingkungan Belajar (Tools & Simulator Virtual)
-- [ ] Instalasi **VS Code** dan ekstensi **PlatformIO IDE**.
-- [ ] Uji coba simulasi rangkaian ESP32 pertama di browser menggunakan **Wokwi Simulator**.
-- [ ] Setup Git repository dan GitHub untuk menyimpan kode latihan.
+- [x] Instalasi **VS Code** dan ekstensi **PlatformIO IDE**.
+- [x] Uji coba simulasi rangkaian ESP32 pertama di browser menggunakan **Wokwi Simulator**.
+- [x] Setup Git repository dan GitHub untuk menyimpan kode latihan.
 
 ---
 
