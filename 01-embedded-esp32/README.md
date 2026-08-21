@@ -12,6 +12,17 @@ Folder ini berisi kode sumber firmware, eksperimen I/O, sensor bus, dan implemen
 - `07-freertos-dualcore/` : Multi-tasking FreeRTOS Core 0 & Core 1, Queues, Mutex, dan Watchdog (WDT).
 - `08-tinyml-anomaly/` : Edge AI / TinyML inferensi anomali getaran (ESP32-S3).
 
+## 📚 Daftar Modul Pembelajaran Fase 1:
+1. 📄 **[Modul 1.1: Anatomi Board ESP32 & Aturan Pinout Aman](01-anatomi-pinout-dan-aturan-aman.md)**
+2. 📄 *Modul 1.2: Proyek 1 — Digital Output (Blink & Active High/Low) (Coming Soon)*
+3. 📄 *Modul 1.3: Proyek 2 — Digital Input & Software Debouncing (Coming Soon)*
+4. 📄 *Modul 1.4: Proyek 3 — Komunikasi Serial UART & Debugging (Coming Soon)*
+5. 📄 *Modul 1.5: Proyek 4 — Sinyal Analog (ADC & PWM Dimmer/Servo) (Coming Soon)*
+6. 📄 *Modul 1.6: Proyek 5 — Non-Blocking Timer millis() & FSM (Coming Soon)*
+7. 📄 *Modul 1.7: Proyek 6 — Protokol Bus Sensor (I2C, SPI & 1-Wire) (Coming Soon)*
+8. 📄 *Modul 1.8: FreeRTOS Dual-Core, Queues, Mutex & Watchdog Timer (Coming Soon)*
+9. 📄 *Modul 1.9: Kompendium Troubleshooting Mandiri Pemula (Coming Soon)*
+
 ---
 
 ## 🎯 Target Pembelajaran:

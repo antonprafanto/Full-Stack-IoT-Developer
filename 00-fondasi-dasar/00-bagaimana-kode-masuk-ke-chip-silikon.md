@@ -57,18 +57,7 @@ Kita pakai **Wokwi**, simulator ESP32 di browser. Bayangkan ini sebagai “papan
    - **Kanan:** gambar board ESP32.
 3. Ada juga tab **`diagram.json`**. Itu **bukan** kode C++. Isinya denah rangkaian. Jangan diubah dulu.
 
-Tampilan yang kamu tuju kira-kira seperti ini:
-
-![Tampilan Wokwi: editor sketch.ino di kiri, tombol Play hijau, board ESP32, dan Serial Hello ESP32](aset/wokwi-esp32-ui.jpg)
-
-*Tangkapan layar [Wokwi Simulator](https://wokwi.com/projects/new/esp32), diambil 21 Agustus 2026. Wokwi adalah merek milik [wokwi.com](https://wokwi.com). Tombol **Sign up** di kanan atas boleh diabaikan.*
-
-Cara baca layar itu, dari kiri ke kanan:
-
-1. Tab **`sketch.ino`** — tempat mengetik program.
-2. Tombol hijau **Play** — menyalakan simulasi.
-3. Gambar board ESP32 — “chip virtual”-nya.
-4. Kotak putih di bawah board — **Serial** (percakapan teks). Kalau berhasil, paling bawah ada `Hello, ESP32!`
+Saat baru buka, kotak Serial di bawah board **masih kosong**. Itu wajar. Tombol hijau Play ada di kanan atas gambar board. Jangan panik kalau belum ada tulisan `Hello, ESP32!` — itu baru muncul setelah Play ditekan di langkah 2.
 
 Kode bawaan Wokwi kira-kira seperti ini (bukan program kedip lampu):
 
@@ -89,10 +78,21 @@ void loop() {
 
 1. Di panel kanan, klik tombol hijau **Start the simulation** (ikon Play).
 2. Lihat kotak putih **Serial** di bawah gambar board.
-3. Kalau berhasil, paling bawah muncul `Hello, ESP32!`
+3. Kalau berhasil, paling bawah muncul `Hello, ESP32!` — kira-kira seperti ini:
+
+![Tampilan Wokwi: editor sketch.ino di kiri, tombol Play hijau, board ESP32, dan Serial Hello ESP32](aset/wokwi-esp32-ui.jpg)
+
+*Tangkapan layar [Wokwi Simulator](https://wokwi.com/projects/new/esp32), diambil 21 Agustus 2026. Wokwi adalah merek milik [wokwi.com](https://wokwi.com). Tombol **Sign up** di kanan atas boleh diabaikan.*
+
+Cara baca layar itu, dari kiri ke kanan:
+
+1. Tab **`sketch.ino`** — tempat mengetik program.
+2. Tombol hijau **Play** — menyalakan simulasi.
+3. Gambar board ESP32 — “chip virtual”-nya.
+4. Kotak putih di bawah board — **Serial**. Yang dicari ada di **baris paling bawah**: `Hello, ESP32!`
 
 > [!NOTE]
-> Tulisan aneh seperti `ets Jul`, `mode:DIO`, atau `load:0x3fff...` itu **bukan error**. Itu log “chip baru bangun tidur”. Yang kamu cari cuma baris `Hello, ESP32!`.
+> Tulisan aneh seperti `ets Jul`, `mode:DIO`, atau `load:0x3fff...` itu **bukan error**. Itu log “chip baru bangun tidur”. Abaikan saja, cari baris `Hello, ESP32!`.
 
 Itu percakapan teks antara chip dan laptop. Lampu belum berkedip — wajar, karena kodenya memang belum menyuruh lampu menyala.
 
@@ -101,7 +101,7 @@ Kalau simulasi sedang berjalan, tombol hijau berubah jadi **Stop**. Klik Stop du
 ### Langkah 3 — Ganti jadi kedip lampu
 
 1. Klik tab **`sketch.ino`**.
-2. Pilih semua teks lama (`Ctrl + A`), lalu tempel kode ini:
+2. Pilih semua teks lama (`Ctrl + A` di Windows, `Command + A` di Mac), lalu tempel kode ini:
 
 ```cpp
 void setup() {
@@ -126,12 +126,12 @@ Sebelum klik Play, tebak dulu: kalau `1000` diganti `100`, lampunya lebih cepat 
 
 Ubah kedua `delay(1000)` menjadi `delay(100)`, Stop, lalu Play lagi. Kedipnya kira-kira 10 kali lebih cepat.
 
-Kalau sudah berani, coba isi sendiri angka jedanya (satu detik = 1000 milidetik):
+Kalau sudah berani, coba isi sendiri angka jedanya (satu detik = 1000 milidetik). **Jangan tempel garis bawahnya** — `____` cuma tanda “isi di sini”. Ganti jadi angka, misalnya `1000`. Kalau garis bawah masih ada, Wokwi akan error.
 
 ```cpp
 void loop() {
   digitalWrite(2, HIGH);
-  delay(____);  // isi: berapa milidetik untuk 1 detik?
+  delay(____);  // ganti ____ jadi angka, contoh: 1000
   digitalWrite(2, LOW);
   delay(____);  // isi angka yang sama
 }

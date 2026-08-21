@@ -11,7 +11,7 @@
 | Fase | Modul Pembelajaran | Estimasi Waktu | Status | Progres |
 | :---: | :--- | :---: | :---: | :---: |
 | **0** | Fondasi Listrik Ramah Pemula, Logika & Tooling | Minggu 1–2 | `[x] Selesai` | 100% |
-| **1** | ESP32 Step-by-Step: Dari Blink ke FreeRTOS | Minggu 3–6 | `[ ] Belum Mulai` | 0% |
+| **1** | ESP32 Step-by-Step: Dari Blink ke FreeRTOS | Minggu 3–6 | `[-] Sedang Berjalan` | 10% |
 | **2** | Desain Perangkat Keras, Skematik & PCB 4-Layer KiCad | Minggu 7–8 | `[ ] Belum Mulai` | 0% |
 | **3** | Power Harvesting & Ultra Low-Power (10-Year Battery) | Minggu 9 | `[ ] Belum Mulai` | 0% |
 | **4** | Protokol Industri & Otomotif (CAN Bus, Modbus, OPC-UA) | Minggu 10–11 | `[ ] Belum Mulai` | 0% |
@@ -50,7 +50,7 @@
 ## ⚡ Fase 0: Fondasi Listrik Ramah Pemula, Logika Komponen & Pemrograman Inti (Minggu 1-2)
 
 ### 0.0 Pengantar Konseptual: "Bagaimana Kode Masuk ke Chip Silikon?"
-> Materi: [00-bagaimana-kode-masuk-ke-chip-silikon.md](00-fondasi-dasar/00-bagaimana-kode-masuk-ke-chip-silikon.md) · Lulus tinjauan GitHub live 21 Agustus 2026 (gambar 8/8 tampil, screenshot Wokwi + sitasi, log boot bukan error, tautan relatif).
+> Materi: [00-bagaimana-kode-masuk-ke-chip-silikon.md](00-fondasi-dasar/00-bagaimana-kode-masuk-ke-chip-silikon.md) · Tinjauan GitHub live 21 Agustus 2026 malam: 9/9 gambar tampil. Screenshot Wokwi dipindah ke setelah Play; peringatan `delay(____)` agar tidak tertempel mentah.
 - [x] Memahami perbedaan Komputer vs Mikrokontroler (*Bare-Metal Execution*).
 - [x] Memahami alur kompilasi: Kode C++ (`.cpp` / `.ino`) $\rightarrow$ Kompiler (*xtensa-gcc*) $\rightarrow$ Biner `.bin` $\rightarrow$ Chip USB-to-UART (CP2102/CH340) $\rightarrow$ SPI Flash.
 - [x] Menginstal driver USB-to-UART (CH340/CP2102) dan mendeteksi port COM di Windows Device Manager.
@@ -101,9 +101,9 @@
 ## 🔌 Fase 1: Langkah Demi Langkah Mikrokontroler ESP32 — Dari Blink ke FreeRTOS (Minggu 3-6)
 
 ### 1.1 Anatomi Board ESP32 & Aturan Pinout Aman
-- [ ] Memetakan Pin Aman (GPIO 4, 16, 17, 18, 19, 21, 22, 23, 25, 26, 27, 32, 33).
-- [ ] Memahami Pin Input-Only (GPIO 34, 35, 36, 39) dan Strapping Pins bahaya (GPIO 0, 2, 12, 15).
-- [ ] Memahami aturan ADC1 vs ADC2 (ADC2 tidak dapat dipakai saat Wi-Fi menyala).
+- [x] Memetakan Pin Aman (GPIO 4, 16, 17, 18, 19, 21, 22, 23, 25, 26, 27, 32, 33).
+- [x] Memahami Pin Input-Only (GPIO 34, 35, 36, 39) dan Strapping Pins bahaya (GPIO 0, 2, 12, 15).
+- [x] Memahami aturan ADC1 vs ADC2 (ADC2 tidak dapat dipakai saat Wi-Fi menyala).
 
 ### 1.2 Proyek 1: Digital Output (LED & Aktuator)
 - [ ] Menulis program Blink LED internal dan eksternal (`pinMode`, `digitalWrite`).
