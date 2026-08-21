@@ -10,7 +10,7 @@
 
 | Fase | Modul Pembelajaran | Estimasi Waktu | Status | Progres |
 | :---: | :--- | :---: | :---: | :---: |
-| **0** | Fondasi Listrik Ramah Pemula, Logika & Tooling | Minggu 1–2 | `[-] Sedang Berjalan` | 85% |
+| **0** | Fondasi Listrik Ramah Pemula, Logika & Tooling | Minggu 1–2 | `[x] Selesai` | 100% |
 | **1** | ESP32 Step-by-Step: Dari Blink ke FreeRTOS | Minggu 3–6 | `[ ] Belum Mulai` | 0% |
 | **2** | Desain Perangkat Keras, Skematik & PCB 4-Layer KiCad | Minggu 7–8 | `[ ] Belum Mulai` | 0% |
 | **3** | Power Harvesting & Ultra Low-Power (10-Year Battery) | Minggu 9 | `[ ] Belum Mulai` | 0% |
@@ -92,9 +92,9 @@
 - [x] Memahami dasar pemrograman asinkron (`asyncio`, `await`).
 
 ### 0.6 Setup Lingkungan Belajar (Tools & Simulator Virtual)
-- [ ] Instalasi **VS Code** dan ekstensi **PlatformIO IDE**.
-- [ ] Uji coba simulasi rangkaian ESP32 pertama di browser menggunakan **Wokwi Simulator**.
-- [ ] Setup Git repository dan GitHub untuk menyimpan kode latihan.
+- [x] Instalasi **VS Code** dan ekstensi **PlatformIO IDE**.
+- [x] Uji coba simulasi rangkaian ESP32 pertama di browser menggunakan **Wokwi Simulator**.
+- [x] Setup Git repository dan GitHub untuk menyimpan kode latihan.
 
 ---
 

@@ -10,7 +10,7 @@ Folder ini berisi materi Fase 0. Baca berurutan dari atas ke bawah. Setiap tauta
 4. [Modul 0.3: Logika Sirkuit — Common Ground, Voltage Divider & Floating Pin](03-logika-sirkuit-dan-common-ground.md)
 5. [Modul 0.4: Pemrograman C/C++ dari Nol untuk Embedded](04-pemrograman-cpp-embedded-dari-nol.md)
 6. [Modul 0.5: Pemrograman Python dari Nol untuk Gateway & Cloud](05-pemrograman-python-untuk-iot.md)
-7. *Modul 0.6: Setup VS Code, PlatformIO, Wokwi, dan Git — belum ditulis*
+7. [Modul 0.6: Setup Tools Lingkungan Kerja — VS Code, PlatformIO IDE & Wokwi Simulator](06-setup-tools-dan-simulator.md)
 
 ## Folder pendukung
 
