@@ -10,7 +10,7 @@
 
 | Fase | Modul Pembelajaran | Estimasi Waktu | Status | Progres |
 | :---: | :--- | :---: | :---: | :---: |
-| **0** | Fondasi Listrik Ramah Pemula, Logika & Tooling | Minggu 1–2 | `[-] Sedang Berjalan` | 45% |
+| **0** | Fondasi Listrik Ramah Pemula, Logika & Tooling | Minggu 1–2 | `[-] Sedang Berjalan` | 60% |
 | **1** | ESP32 Step-by-Step: Dari Blink ke FreeRTOS | Minggu 3–6 | `[ ] Belum Mulai` | 0% |
 | **2** | Desain Perangkat Keras, Skematik & PCB 4-Layer KiCad | Minggu 7–8 | `[ ] Belum Mulai` | 0% |
 | **3** | Power Harvesting & Ultra Low-Power (10-Year Battery) | Minggu 9 | `[ ] Belum Mulai` | 0% |
@@ -67,11 +67,11 @@
 - [x] Menggunakan kabel jumper (*Male-to-Male*, *Male-to-Female*, *Female-to-Female*) secara tepat.
 
 ### 0.3 Logika Sirkuit Dasar & Fenomena Penting IoT
-- [ ] **Prinsip Mutlak Common Ground (GND Sharing):** Menghubungkan semua GND perangkat agar memiliki titik acuan 0V yang sama.
-- [ ] Menghitung dan merakit rangkaian pembagi tegangan (*Voltage Divider*) untuk sensor analog LDR.
-- [ ] Memahami fenomena *Floating Pin* dan memasang resistor Pull-up / Pull-down.
-- [ ] Menggunakan transistor / relay sebagai sakelar pengontrol beban daya tinggi.
-- [ ] Menggunakan Multimeter Digital (True RMS) untuk mengukur voltase, kontinuitas 'beep', dan resistansi.
+- [x] **Prinsip Mutlak Common Ground (GND Sharing):** Menghubungkan semua GND perangkat agar memiliki titik acuan 0V yang sama.
+- [x] Menghitung dan merakit rangkaian pembagi tegangan (*Voltage Divider*) untuk sensor analog LDR.
+- [x] Memahami fenomena *Floating Pin* dan memasang resistor Pull-up / Pull-down.
+- [x] Menggunakan transistor / relay sebagai sakelar pengontrol beban daya tinggi.
+- [x] Menggunakan Multimeter Digital (True RMS) untuk mengukur voltase, kontinuitas 'beep', dan resistansi.
 
 ### 0.4 Pemrograman C/C++ dari Nol (Khusus Embedded)
 - [ ] Memahami struktur eksekusi `setup()` dan `loop()`.
