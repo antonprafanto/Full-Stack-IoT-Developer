@@ -1,286 +1,315 @@
-# ⚡ Modul 0.1: Dasar Listrik Intuitif — Analogi Air, Hukum Ohm & Resistor LED
+# Modul 0.1: Dasar Listrik Intuitif — Analogi Air, Hukum Ohm, dan Resistor LED
 
-> **Tingkat Kesulitan:** Sangat Ramah Pemula (*Zero Prerequisite*)  
-> **Estimasi Waktu Membaca & Praktik:** 15–20 Menit  
-> **Tools yang Digunakan:** Browser Web (Kalkulator Online & Wokwi Simulator)  
-
----
-
-## 🌟 Mengapa Kita Harus Belajar Listrik?
-
-Selamat datang di Modul 0.1!  
-Banyak orang yang ingin belajar IoT langsung melompat mengetik kode pemrograman. Namun, begitu rangkaian mereka tidak menyala atau lampunya terbakar, mereka langsung bingung: *"Apakah kodenya yang salah, atau kabelnya yang rusak?"*
-
-IoT adalah perpaduan antara **Dunia Perangkat Lunak (Software)** dan **Dunia Fisika Elektronika (Hardware)**. Di modul ini, kita akan membongkar misteri listrik dengan cara yang paling santai, visual, dan tanpa rumus-rumus yang bikin pusing kepala!
+> **Tingkat kesulitan:** Sangat ramah pemula  
+> **Perkiraan waktu:** 20–25 menit (baca + hitung + praktik Wokwi)  
+> **Board fisik:** Belum wajib. Semua percobaan di browser.
 
 ---
 
-## 🧭 Peta Pembelajaran Modul Ini
+## Buka ini dulu, baru mulai
 
-```
-┌────────────────────────────────────────────────────────────────────────┐
-│                        ALUR MATERI MODUL 0.1                           │
-├────────────────────────────────────────────────────────────────────────┤
-│ 1. Analogi Tandon Air: Memahami Volt, Ampere, Ohm, dan Watt            │
-│ 2. Hukum Ohm: Sahabat Karib Semua Insinyur IoT (Segitiga V-I-R)        │
-│ 3. Praktik Nyata: Mengapa LED Wajib Memakai Resistor?                  │
-│ 4. Langkah Menghitung Resistor LED Sendiri (Rumus 3 Langkah)           │
-│ 5. Arus DC vs Arus AC: Listrik Baterai vs Listrik Rumah 220V           │
-│ 6. Uji Coba Virtual di Wokwi: Mengubah Resistor & Melihat Hasilnya     │
-│ 7. Glosarium & Kuis Singkat                                            │
-└────────────────────────────────────────────────────────────────────────┘
-```
-
----
-
-## 1. Analogi Tandon Air: Memahami 4 Variabel Listrik
-
-Listrik tidak bisa kita lihat dengan mata telanjang karena elektron ukurannya sangat kecil. Namun, cara kerja listrik **persis sama seperti sistem aliran air di rumah Anda**!
-
-Bayangkan sebuah tandon air di atas atap yang dihubungkan dengan pipa menuju keran:
-
-```
-                  ┌─────────────────┐
-                  │   TANDON AIR    │
-                  │ (TEGANGAN / V)  │
-                  │ Tekanan ke Bawah│
-                  └────────┬────────┘
-                           │
-                           │  ========================
-                           │  ARUS AIR (I / AMPERE)
-                           │  Banyaknya debit air mengalir
-                           │  ========================
-                           ▼
-                  ┌─────────────────┐
-                  │  KERAN PUTAR    │ ◄── HAMBATAN (R / OHM)
-                  │ (Menahan Debit) │     Penyempitan pipa
-                  └────────┬────────┘
-                           │
-                           ▼
-                  ┌─────────────────┐
-                  │   KINCIR AIR    │ ◄── BEBAN & DAYA (P / WATT)
-                  │ (Berputar Kuat) │     Energi kerja yang dihasilkan
-                  └─────────────────┘
-```
-
-Mari kita bedah satu per satu:
-
-### A. Tegangan / Voltage ($V$ - Satuan: Volt)
-- **Analoginya:** **Tinggi dan Tekanan Tandon Air.**  
-  Semakin tinggi tandon air dipasang, semakin kuat dorongan tekanan air yang menekan ke bawah.
-- **Di Dunia Nyata:** Tegangan adalah **gaya dorong/tekanan listrik** yang mendorong elektron untuk bergerak.  
-  - Port USB Laptop: **5 Volt**
-  - Pin Sinyal ESP32: **3.3 Volt**
-  - Baterai AA / Jam Dinding: **1.5 Volt**
-  - Listrik Rumah Tangga: **220 Volt**
-
----
-
-### B. Arus Listrik / Current ($I$ - Satuan: Ampere / $A$)
-- **Analoginya:** **Banyaknya Debit/Volume Air yang Mengalir per Detik.**  
-  Jika keran dibuka lebar, banyak air yang lewat per detik (Arus Besar). Jika keran ditutup hampir rapat, air hanya menetes perlahan (Arus Kecil).
-- **Di Dunia Nyata:** Arus adalah **banyaknya elektron yang mengalir** melewati kabel dalam satu detik.
-  - Pada rangkaian elektronika kecil, kita sering menggunakan satuan **Miliampere ($mA$)**:
-    $$1\text{ Ampere } (A) = 1.000\text{ Miliampere } (mA)$$
-  - Sebuah lampu LED biasanya membutuhkan arus sekitar **$10\text{ mA} - 20\text{ mA}$** ($0.01\text{ A} - 0.02\text{ A}$).
-
----
-
-### C. Hambatan / Resistance ($R$ - Satuan: Ohm / $\Omega$)
-- **Analoginya:** **Keran Air atau Penyempitan Diameter Pipa.**  
-  Jika pipa sangat sempit, air sulit mengalir. Keran berfungsi sebagai rem untuk mengatur seberapa banyak air yang boleh keluar.
-- **Di Dunia Nyata:** Hambatan adalah **sifat komponen yang menahan/mengerem aliran arus listrik**. Komponen khusus yang dipakai untuk memberi hambatan disebut **Resistor**.
-
----
-
-### D. Daya Listrik / Power ($P$ - Satuan: Watt / $W$)
-- **Analoginya:** **Kecepatan Putaran Kincir Air.**  
-  Jika tekanan air tinggi ($V$) dan volume air yang mengalir deras ($I$), maka kincir air akan berputar sangat kuat menghasilkan kerja mekanik yang besar.
-- **Di Dunia Nyata:** Daya adalah **total energi listrik yang dikonsumsi per detik**.
-  $$\text{Daya } (P) = \text{Tegangan } (V) \times \text{Arus } (I)$$
-  *(Contoh: Charger HP 5V dengan arus 2A memiliki daya $5 \times 2 = 10\text{ Watt}$).*
-
----
-
-## 2. Hukum Ohm: Sahabat Karib Semua Insinyur IoT
-
-Pada tahun 1827, fisikawan bernama **Georg Ohm** menemukan bahwa ketiga variabel listrik di atas memiliki hubungan matematis yang sangat sederhana dan indah. Hubungan ini dikenal sebagai **Hukum Ohm**:
-
-$$V = I \times R$$
-
-Untuk mempermudah mengingat rumusnya, para insinyur menggunakan **Segitiga Hukum Ohm**:
-
-```
-           / \
-          / V \         Tutup huruf yang ingin Anda cari dengan jari:
-         /-----\
-        / I * R \       • Mencari V = I * R  (Tegangan = Arus dikali Hambatan)
-       /_________\      • Mencari I = V / R  (Arus = Tegangan dibagi Hambatan)
-                        • Mencari R = V / I  (Hambatan = Tegangan dibagi Arus)
-```
+| Perlu sekarang? | Alat | Untuk apa |
+| :--- | :--- | :--- |
+| **Wajib** | Browser Chrome, Edge, atau Firefox | Membuka **Wokwi** |
+| **Wajib, yang sudah ada** | Kalkulator HP atau aplikasi Kalkulator Windows | Menghitung resistor |
+| **Belum perlu** | Breadboard, LED fisik, VS Code, Arduino IDE | Itu modul berikutnya. Jangan beli dulu kalau belum siap |
 
 > [!TIP]
-> **Pola Pikir Logis:**
-> - Jika **Hambatan ($R$) diperbesar**, maka **Arus ($I$) akan mengecil** (aliran listrik tertahan).
-> - Jika **Hambatan ($R$) diperkecil**, maka **Arus ($I$) akan melonjak deras**.
+> **Tautan praktik:** [Wokwi ESP32 Project Baru](https://wokwi.com/projects/new/esp32)  
+> Tidak perlu akun. Tombol **Sign up** boleh diabaikan.
+
+Modul 0.0 sudah selesai? Bagus. Kalau belum, mulai dari [Bagaimana ketikan kode masuk ke chip silikon](00-bagaimana-kode-masuk-ke-chip-silikon.md).
 
 ---
 
-## 3. Praktik Nyata: Mengapa Lampu LED Wajib Memakai Resistor?
+## Tenang, listrik di modul ini aman disentuh
 
-Mari kita pelajari kasus paling nyata yang sering dialami pemula: **Menyalakan Lampu LED**.
+Kita hanya bicara **3,3 volt dan 5 volt DC** (USB, baterai, pin ESP32). Itu aman disentuh jari.
+
+**Stopkontak rumah 220 volt AC jangan disentuh.** Itu urusan tukang listrik, bukan latihan IoT pemula.
+
+---
+
+## Peta singkat
+
+1. Analogi tandon air: volt, ampere, ohm, watt.
+2. Hukum Ohm, versi jari di segitiga.
+3. Kenapa LED wajib pakai resistor.
+4. Hitung resistor 3 langkah (kalkulator HP).
+5. DC vs AC.
+6. Praktik Wokwi: pasang LED + resistor, lalu ubah nilainya.
+7. Glosarium dan kuis.
+
+---
+
+## 1. Listrik itu seperti aliran air
+
+Elektron terlalu kecil untuk dilihat. Untungnya, perilaku listrik **mirip pipa air di rumah**.
+
+Tebak dulu, tanpa rumus: kalau keran diputar hampir tertutup, air di kincir lebih deras atau lebih pelan?
+
+Jawaban insting: **lebih pelan**. Itu intinya hambatan.
+
+![Analogi listrik sebagai tandon, pipa, keran, dan kincir air](aset/analogi-tandon-air.jpg)
+
+*Ilustrasi orisinal kurikulum ini.*
+
+| Istilah listrik | Analogi air | Contoh di dunia nyata |
+| :--- | :--- | :--- |
+| **Tegangan (V, volt)** | Tekanan dari tandon | USB 5 V, pin ESP32 **3,3 V**, listrik rumah **220 V** |
+| **Arus (I, ampere)** | Banyaknya air per detik | LED biasa butuh kira-kira **10–20 mA** |
+| **Hambatan (R, ohm)** | Keran / pipa sempit | Komponen bernama **resistor** |
+| **Daya (P, watt)** | Kerja yang dihasilkan kincir | Charger 5 V × 2 A = **10 watt** |
+
+**mA** (miliampere) = seperseribu ampere. Jadi 15 mA = 0,015 A. Di elektronika kecil, kita hampir selalu pakai mA, bukan ampere utuh.
+
+**Resistor** = komponen yang sengaja dipasang sebagai “keran”, supaya arusnya tidak kebablasan.
+
+---
+
+## 2. Hukum Ohm, tanpa drama
+
+Pada 1827, **Georg Ohm** merangkum hubungan tiga variabel itu jadi satu kalimat:
+
+**Tegangan = arus × hambatan**, atau `V = I × R`.
+
+Cara hafal yang dipakai teknisi: **segitiga**. Tutup huruf yang mau dicari, sisanya rumusnya.
+
+![Segitiga Hukum Ohm: V di atas, I dan R di bawah](aset/segitiga-hukum-ohm.jpg)
+
+*Ilustrasi orisinal kurikulum ini.*
+
+Logika warung:
+
+- Resistor **diperbesar** → arus **mengecil** (keran ditutup).
+- Resistor **diperkecil** → arus **membesar** (keran dibuka).
+
+Itu saja yang kamu butuhkan untuk melindungi LED.
+
+<details>
+<summary>Mau hitung daya juga? (opsional)</summary>
+
+Daya: `P = V × I`.  
+Contoh: pin 3,3 V mengalirkan 0,015 A → `P = 3,3 × 0,015 = 0,05 watt`. Kecil sekali. Makanya LED tidak panas seperti setrika.
+
+</details>
+
+---
+
+## 3. Kenapa LED wajib pakai resistor
+
+LED (*light emitting diode*) = lampu kecil. Bahasa manusianya: “dioda yang nyala kalau arus lewat dengan arah yang benar.”
+
+Sifat nakalnya: LED **hampir tidak bisa mengerem arus sendiri**. Disambung langsung ke 5 V, arusnya melonjak, kawat di dalam panas, LED berkedip sekali lalu mati.
+
+![Perbandingan LED tanpa resistor yang hangus dan LED dengan resistor 220 ohm yang aman](aset/led-dengan-tanpa-resistor.jpg)
+
+*Ilustrasi orisinal kurikulum ini. Baterai di gambar hanya pemanis; di ESP32 kita pakai pin GPIO 3,3 V atau colokan 5 V.*
+
+Resistor itu **rem**. Kita pasang supaya arus kira-kira 10–20 mA, LED terang dan awet.
+
+### Cara bedakan kaki LED
+
+Salah arah = tidak nyala (biasanya tidak rusak, cuma diam).
+
+![Kaki panjang LED adalah anoda positif, kaki pendek dan sisi pipih adalah katoda negatif](aset/polaritas-kaki-led.jpg)
+
+*Ilustrasi orisinal kurikulum ini.*
+
+- **Kaki panjang** = **anoda (+)** = tempat arus “masuk”.
+- **Kaki pendek + sisi plastik yang pipih** = **katoda (−)** = menuju GND.
+
+---
+
+## 4. Hitung resistor sendiri (buka kalkulator HP)
+
+Kita hitung untuk **pin GPIO ESP32**, karena itu yang dipakai di Wokwi nanti.
+
+> [!IMPORTANT]
+> Pin GPIO yang kamu `digitalWrite(..., HIGH)` itu **3,3 volt**, **bukan 5 volt**.  
+> Colokan USB / pin bertuliskan `5V` memang 5 volt, tapi itu bukan pin program.
+
+Data:
+
+1. Tegangan sumber `Vs` = **3,3 V** (GPIO).
+2. Tegangan maju LED merah `Vled` ≈ **2,0 V** (supaya LED mau nyala).
+3. Arus aman `I` = **15 mA = 0,015 A**.
+
+### Langkah 1 — sisa tegangan yang harus “dibuang” resistor
 
 ```
-    RANGKAIAN SALAH (BAHAYA / TERBAKAR)            RANGKAIAN BENAR (AMAN)
-    
-       [ Kutub + 5V ]                                 [ Kutub + 5V ]
-             │                                              │
-             ▼                                              ▼
-       ┌──────────┐                                   ┌──────────┐
-       │   LED    │                                   │ RESISTOR │ ◄── Mengerem arus
-       │ (Hangus!)│                                   │  (220 Ω) │     ke ~15 mA
-       └────┬─────┘                                   └────┬─────┘
-            │                                              │
-            ▼                                              ▼
-       [ GND (0V) ]                                   ┌──────────┐
-                                                      │   LED    │ ◄── Menyala terang
-                                                      │  (Aman)  │     dan awet!
-                                                      └────┬─────┘
-                                                           │
-                                                           ▼
-                                                      [ GND (0V) ]
+V resistor = Vs − Vled
+V resistor = 3,3 − 2,0 = 1,3 volt
 ```
 
-### Mengapa LED Tanpa Resistor Akan Terbakar?
-Lampu LED (*Light Emitting Diode*) memiliki sifat unik: **ia tidak memiliki hambatan internal yang cukup untuk mengerem arus listrik sendiri**.  
-Jika Anda menghubungkan LED langsung ke sumber tegangan 5V tanpa resistor:
-1. LED akan mencoba menyerap arus sebesar-besarnya tanpa batas.
-2. Arus yang lewat melonjak hingga ratusan miliampere.
-3. Kawat tipis di dalam LED menjadi sangat panas dalam hitungan milidetik.
-4. **Hasilnya:** LED berkedip sekali sangat terang, mengeluarkan asap kecil / bau hangus, dan mati selamanya! 💥
+### Langkah 2 — rumus `R = V / I`
 
-Oleh karena itu, kita **WAJIB memasang Resistor sebagai "polisi tidur / rem"** untuk membatasi arus listrik yang lewat agar pas di angka $15\text{ mA}$.
+Buka kalkulator. Ketik: `1.3 ÷ 0.015`
 
----
+```
+R = 1,3 / 0,015 ≈ 87 ohm
+```
 
-## 4. Langkah Menghitung Nilai Resistor Sendiri (Rumus 3 Langkah)
+### Langkah 3 — pilih yang ada di toko
 
-Berapa nilai resistor yang harus kita pasang? Apakah $10\Omega$? $220\Omega$? Atau $10.000\Omega$?  
-Mari kita hitung bersama dengan **3 langkah mudah**:
+Toko tidak jual 87 ohm. Seri yang umum: 100 Ω, 150 Ω, 220 Ω, 330 Ω, 470 Ω, 1 kΩ.
 
-### Data Spesifikasi Komponen:
-1. **Tegangan Sumber Listrik ($V_s$):** Misal dari port 5V ESP32 = **$5.0\text{ Volt}$**.
-2. **Tegangan Maju LED Merah ($V_{led}$):** LED merah butuh tegangan sekitar **$2.0\text{ Volt}$** untuk mulai menyala.
-3. **Arus Aman LED ($I$):** Arus aman standar untuk LED biasa adalah **$15\text{ mA} = 0.015\text{ Ampere}$**.
+Pilih yang **agak di atas** hasil hitung, biar arusnya tidak kegedean:
 
----
+- **100 Ω** = paling dekat.
+- **220 Ω** = lebih aman, LED agak lebih redup, **ini yang kita pakai di Wokwi** (paling gampang dicari).
 
-### Langkah 1: Hitung Sisa Tegangan yang Harus Diredam Resistor
-Resistor bertugas membuang kelebihan tegangan dari sumber:
-$$V_{\text{resistor}} = V_s - V_{led}$$
-$$V_{\text{resistor}} = 5.0\text{V} - 2.0\text{V} = 3.0\text{ Volt}$$
+Kalau suatu hari kamu nyalakan LED dari pin **5V** (bukan GPIO):
 
-### Langkah 2: Gunakan Rumus Hukum Ohm ($R = \frac{V}{I}$)
-$$R = \frac{V_{\text{resistor}}}{I}$$
-$$R = \frac{3.0\text{ Volt}}{0.015\text{ Ampere}} = 200\text{ Ohm } (\Omega)$$
-
-### Langkah 3: Pilih Nilai Resistor Terdekat di Pasaran
-Di toko komponen elektronika, nilai resistor diproduksi dalam standar seri E12 ($100\Omega, 150\Omega, 220\Omega, 330\Omega, 470\Omega, 1k\Omega$).  
-Nilai standar pasar yang paling dekat di atas $200\Omega$ adalah **$220\Omega$** (Gelang warna: *Merah - Merah - Cokelat*).
+```
+V resistor = 5,0 − 2,0 = 3,0 volt
+R = 3,0 / 0,015 = 200 ohm  →  pakai 220 Ω
+```
 
 > [!NOTE]
-> **Tabel Referensi Cepat Tegangan LED Berdasarkan Warna:**
-> - **Merah / Kuning / Oranye:** $V_{led} \approx 1.8\text{V} - 2.0\text{V}$ (Gunakan resistor $220\Omega - 330\Omega$).
-> - **Hijau / Biru / Putih:** $V_{led} \approx 3.0\text{V} - 3.2\text{V}$ (Gunakan resistor $100\Omega - 220\Omega$).
+> **Warna LED, patokan kasar**  
+> - Merah / kuning / oranye: `Vled` kira-kira 1,8–2,0 V.  
+> - Hijau / biru / putih: `Vled` kira-kira 3,0–3,2 V (dari GPIO 3,3 V, sisa tegangannya kecil — resistor 100–220 Ω tetap aman).
+
+Coba isi sendiri: `R = (3,3 − 2,0) / 0,015`. Hasilnya kira-kira berapa? (Membulatkan ke **87** sudah benar. Jangan mengetik garis bawah di kalkulator.)
 
 ---
 
-## 5. Arus DC vs Arus AC: Mengapa Mikrokontroler Pakai DC?
+## 5. DC vs AC: kenapa ESP32 tidak pakai listrik rumah
 
-Di dunia listrik, ada dua jenis aliran arus:
+![Perbandingan grafik DC datar 5 volt dan AC bolak-balik 220 volt](aset/arus-dc-vs-ac.jpg)
 
+*Ilustrasi orisinal kurikulum ini. Angka puncak di grafik AC tidak perlu dihafal; yang penting: AC naik-turun dan berbahaya.*
+
+| | **DC (searah)** | **AC (bolak-balik)** |
+| :--- | :--- | :--- |
+| Arah | Satu arah, datar | Bolak-balik kira-kira 50 kali per detik |
+| Contoh | Baterai, USB, ESP32 | Stopkontak PLN 220 V |
+| Sentuh | 3,3–5 V aman | 220 V **bahaya** |
+
+Chip butuh angka yang **diam**: 3,3 V = bit 1, 0 V = bit 0. Kalau tegangannya naik-turun seperti AC, prosesor tidak bisa membedakan 0 dan 1.
+
+---
+
+## 6. Praktik Wokwi: pasang LED dan resistor
+
+Kita buktikan: resistor besar → lampu redup.
+
+### Langkah 1 — buka proyek kosong
+
+1. Buka [https://wokwi.com/projects/new/esp32](https://wokwi.com/projects/new/esp32)
+2. Pastikan tab **`sketch.ino`** aktif. Jangan sunting `diagram.json` dengan tangan.
+
+### Langkah 2 — tempel kode
+
+Pilih semua (`Ctrl + A` / `Command + A`), tempel ini:
+
+```cpp
+void setup() {
+  // Pin 4 jadi sakelar: kita yang menentukan nyala/mati
+  pinMode(4, OUTPUT);
+  // HIGH di ESP32 = kira-kira 3,3 volt (bukan 5 volt)
+  digitalWrite(4, HIGH);
+}
+
+void loop() {
+  // Kosong sengaja: lampu biar tetap nyala, tidak berkedip
+}
 ```
-┌──────────────────────────────────────┐     ┌──────────────────────────────────────┐
-│       ARUS SEARAH / DC (DIRECT)      │     │      ARUS BOLAK-BALIK / AC (ALT)     │
-├──────────────────────────────────────┤     ├──────────────────────────────────────┤
-│ • Aliran elektron 1 arah konstan     │     │ • Arah elektron bolak-balik (50x/dtk)│
-│ • Tegangan stabil (3.3V, 5V, 12V)    │     │ • Tegangan tinggi (110V - 220V)      │
-│ • Sumber: Baterai, USB, Aki, Solar   │     │ • Sumber: Stopkontak PLN, Generator  │
-│ • Dipakai: Komputer, HP, ESP32, Chip │     │ • Dipakai: Kulkas, AC, Pompa Air PLN │
-│ • 100% AMAN disentuh tangan (3.3V)   │     │ • BAHAYA / BISA MENYENGAT (220V)     │
-└──────────────────────────────────────┘     └──────────────────────────────────────┘
-```
 
-### Mengapa ESP32 dan Komputer Wajib Menggunakan DC?
-Karena logika pemrograman komputer bekerja dengan logika biner:
-- **Bit 1 (HIGH):** Tegangan stabil berada di $+3.3\text{V}$.
-- **Bit 0 (LOW):** Tegangan stabil berada di $0\text{V}$ (Ground).
+### Langkah 3 — tambah resistor dan LED
 
-Jika menggunakan listrik AC yang tegangannya terus naik-turun dan bolak-balik 50 kali per detik, prosesor silikon tidak akan bisa membedakan mana angka 0 dan mana angka 1!
+1. Di panel kanan, klik tombol biru **+** (**Add a new part**).
+2. Ketik `LED`, pilih **LED**.
+3. Klik **+** lagi, ketik `Resistor`, pilih **Resistor**.
+4. Klik resistor di kanvas, ubah nilainya menjadi **220** (satuan ohm).
 
----
+### Langkah 4 — sambungkan seperti peta ini
 
-## 6. Uji Coba Virtual di Wokwi: Mengubah Resistor & Melihat Hasilnya
+![Urutan GPIO 4 ke resistor 220 ohm ke kaki panjang LED lalu GND](aset/rangkaian-wokwi-led-resistor.jpg)
 
-Mari kita buktikan teori Hukum Ohm di atas secara visual di simulator browser!
+*Ilustrasi orisinal kurikulum ini. Di Wokwi, arahkan mouse ke kaki LED: biasanya ada label anode/cathode.*
 
-### Langkah Praktik (5 Menit):
-1. Buka simulator interaktif ini di browser Anda: **[Wokwi ESP32 LED & Resistor Playground](https://wokwi.com/projects/new/esp32)**.
-2. Di layar editor kode, gunakan kode sederhana ini:
-   ```cpp
-   void setup() {
-     // Jadikan pin GPIO 4 sebagai pengirim sinyal listrik (OUTPUT)
-     pinMode(4, OUTPUT);
-     
-     // Nyalakan aliran listrik 3.3V ke pin 4 terus menerus
-     digitalWrite(4, HIGH);
-   }
+Urutan arus, hafalkan kayak lagu:
 
-   void loop() {
-     // Tidak perlu ada perulangan, biarkan lampu tetap menyala
-   }
-   ```
-3. Tambahkan komponen LED dan Resistor di diagram simulator. Sambungkan:
-   - **Pin GPIO 4** $\rightarrow$ **Kaki Kiri Resistor (220 $\Omega$)**.
-   - **Kaki Kanan Resistor** $\rightarrow$ **Anoda LED (Kaki Melengkung/Panjang)**.
-   - **Katoda LED (Kaki Lurus/Pendek)** $\rightarrow$ **Pin GND ESP32**.
-4. Klik tombol **Play ▶** di atas simulator. Lampu LED akan menyala dengan terang dan stabil!
+`GPIO 4` → `resistor 220 Ω` → `kaki panjang LED (+)` → `kaki pendek LED (−)` → `GND`
+
+Cara menyambung di Wokwi: klik satu kaki, lalu klik kaki tujuan. Muncul kabel.
+
+### Langkah 5 — Play
+
+Klik hijau **Start the simulation**. LED harus menyala **tetap** (tidak kedip).
+
+> [!WARNING]
+> **Kalau LED tidak nyala**
+> 1. Stop dulu, baru sunting. Kode baru jalan setelah Play lagi.
+> 2. Cek polaritas LED (panjang ke resistor, pendek ke GND). Balikkan kalau perlu.
+> 3. Pastikan GPIO **4**, bukan 2. Pin 2 adalah LED onboard; kita sedang pakai LED tambahan.
+> 4. Resistor harus tersambung **seri** (satu jalur), bukan nyangkut ke pin lain.
+> 5. Tab kode = `sketch.ino`.
+
+### Langkah 6 — tebak, lalu rusak pelan-pelan
+
+1. Stop.
+2. Klik resistor, ubah `220` menjadi `10000` (itu 10 kΩ).
+3. **Tebak dulu:** lampu lebih terang atau lebih redup?
+4. Play. Harusnya **jauh lebih redup** — keran ditutup, arus mengecil.
 
 ---
 
-### 🧪 Tantangan Eksperimen Mandiri (*Break & Predict*):
-> 💡 **Coba Lakukan Eksperimen Ini:**
-> 1. Hentikan simulasi (klik tombol Stop ⏹).
-> 2. Klik pada komponen Resistor, lalu ubah nilainya dari `220` menjadi `10000` ($10\text{ k}\Omega$).
-> 3. **Tebak dulu:** Menurut Hukum Ohm ($I = \frac{V}{R}$), jika $R$ dinaikkan dari 220 ke 10.000, apakah lampu LED akan semakin terang atau semakin redup?
-> 4. Klik tombol **Play ▶** dan perhatikan apa yang terjadi pada lampu LED! *(Apakah cahayanya menjadi sangat redup karena arusnya tertahan?)*
+## Glosarium
 
----
-
-## 7. 📖 Glosarium Istilah Penting Modul 0.1
-
-| Istilah Teknis | Penjelasan Sederhana |
+| Istilah | Bahasa manusia |
 | :--- | :--- |
-| **Voltage ($V$)** | Tekanan/dorongan listrik yang membuat elektron bergerak (satuan: Volt). |
-| **Current ($I$)** | Jumlah debit aliran elektron yang mengalir per detik (satuan: Ampere / Miliampere). |
-| **Resistance ($R$)** | Kemampuan suatu benda menahan laju aliran listrik (satuan: Ohm / $\Omega$). |
-| **Hukum Ohm** | Rumus dasar kelistrikan yang menyatakan bahwa Tegangan = Arus $\times$ Hambatan ($V = I \times R$). |
-| **Forward Voltage ($V_f$)** | Batas minimal tegangan yang dibutuhkan agar LED mulai menghantarkan listrik dan menyala. |
-| **Direct Current (DC)** | Aliran listrik searah yang stabil, digunakan oleh seluruh chip mikrokontroler dan perangkat elektronik. |
-| **Alternating Current (AC)** | Aliran listrik bolak-balik bertegangan tinggi dari stopkontak PLN. |
+| **Tegangan (V)** | Tekanan yang mendorong elektron |
+| **Arus (I)** | Banyaknya elektron per detik |
+| **Hambatan (R)** | Rem aliran. Satuan ohm (Ω) |
+| **Resistor** | Komponen rem yang kita pasang |
+| **Hukum Ohm** | `V = I × R` |
+| **LED** | Lampu kecil yang hanya mau nyala jika kutubnya benar |
+| **Anoda / katoda** | Kaki + dan − pada LED |
+| **mA** | Seperseibu ampere |
+| **DC** | Listrik searah, datar |
+| **AC** | Listrik bolak-balik dari stopkontak |
+| **GPIO** | Pin sakelar ESP32. HIGH-nya 3,3 V |
 
 ---
 
-## 📝 Kuis Refleksi & Pemahaman Diri
+## Kuis singkat
 
-Uji intuisi baru Anda dengan 3 pertanyaan singkat ini:
-1. Jika kita memiliki sumber daya 5V dan ingin memperbesar arus listrik yang mengalir ke sebuah beban, apakah kita harus memperbesar atau memperkecil nilai resistansi ($R$)?
-2. Apa yang akan terjadi jika kita memasang LED langsung ke pin 5V tanpa memasang resistor sama sekali?
-3. Mengapa mikrokontroler ESP32 menggunakan arus DC 3.3V dan bukan arus AC 220V?
+1. Mau arus lebih besar ke sebuah beban 5 V: resistor diperbesar atau diperkecil?
+2. LED disambung langsung ke 5 V tanpa resistor: apa yang terjadi?
+3. Kenapa ESP32 pakai DC 3,3 V, bukan AC 220 V?
+4. `digitalWrite(4, HIGH)` di ESP32 itu kira-kira berapa volt: 3,3 atau 5?
+
+<details>
+<summary>Kunci jawaban</summary>
+
+1. **Diperkecil.** `I = V / R` — R kecil, I besar.
+2. Arus kebablasan, LED bisa hangus.
+3. Chip butuh tegangan **datar** untuk membedakan 0 dan 1. AC 220 V juga berbahaya.
+4. **Kira-kira 3,3 V.** Pin `5V` di board itu colokan daya, bukan hasil `digitalWrite`.
+
+</details>
 
 ---
 
-> [!TIP]
-> **Status Selesai:**  
-> Selamat! Anda telah menuntaskan **Fase 0.1** dan kini memiliki intuisi kelistrikan dasar yang sangat kokoh.  
-> Buka file [TODO.md](file:///c:/Users/anton/vibecoding/Fullstack_IOT_2026/TODO.md) dan tandai `[x]` pada modul 0.1, lalu mari kita lanjutkan ke **[Modul 0.2: Anatomi Breadboard & Komponen Fisik (Anti-Korslet)](file:///c:/Users/anton/vibecoding/Fullstack_IOT_2026/00-fondasi-dasar/README.md)**! 🚀
+## Sumber gambar
+
+| Gambar | Sumber | Lisensi |
+| :--- | :--- | :--- |
+| Analogi tandon, segitiga Ohm, LED ± resistor, polaritas LED, DC vs AC, rangkaian Wokwi | Ilustrasi orisinal kurikulum ini | Dibuat khusus untuk modul 0.1 |
+
+---
+
+## Status selesai & langkah berikutnya
+
+- [ ] Bisa menjelaskan V, I, R pakai bahasa air
+- [ ] Menghitung resistor GPIO 3,3 V di kalkulator (hasil ≈ 87 Ω, pakai 100–220 Ω)
+- [ ] Tahu kaki panjang LED = plus
+- [ ] LED + resistor 220 Ω menyala di Wokwi
+- [ ] Mengubah ke 10 kΩ dan melihat lampu redup
+
+Lanjut ke **[Modul 0.2: Anatomi Breadboard dan Komponen Fisik](02-anatomi-breadboard-dan-komponen.md)**.
+
+Pantau progres di **[TODO.md](../TODO.md)**.

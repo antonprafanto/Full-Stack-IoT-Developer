@@ -2,7 +2,7 @@
 
 > **Repositori GitHub:** [antonprafanto/Full-Stack-IoT-Developer](https://github.com/antonprafanto/Full-Stack-IoT-Developer)  
 > **Panduan Kurikulum Lengkap:** [README.md](README.md)  
-> **Terakhir Diperbarui:** 21 Agustus 2026
+> **Terakhir Diperbarui:** 22 Agustus 2026
 
 ---
 
@@ -59,9 +59,11 @@
 - [x] Visual: foto board berlisensi, ilustrasi alur/anatomi/kabel/tombol, plus tangkapan layar Wokwi dengan sitasi.
 
 ### 0.1 Dasar Listrik Intuitif (Analogi Aliran Air)
+> Materi: [01-dasar-listrik-dan-hukum-ohm.md](00-fondasi-dasar/01-dasar-listrik-dan-hukum-ohm.md) · Audit ramah-awam 22 Agustus 2026: tools-first, GPIO = 3,3 V (bukan 5 V), Wokwi mikro-langkah, gambar analogi/Ohm/LED/DC-AC.
 - [x] Memahami konsep Tegangan ($V$), Arus ($I$), Hambatan ($R$), dan Daya Listrik ($P$).
 - [x] Menghitung resistor pengaman LED menggunakan Hukum Ohm ($R = \frac{V_s - V_{led}}{I}$).
 - [x] Memahami perbedaan arus listrik DC (3.3V / 5V) vs AC (220V).
+- [x] Praktik Wokwi: LED + resistor 220 Ω di GPIO 4, lalu eksperimen 10 kΩ.
 
 ### 0.2 Anatomi Breadboard & Komponen Fisik (Anti-Korslet)
 - [x] Memahami jalur plat tembaga internal breadboard (*Power Rails* horizontal vs *Terminal Strips* vertikal).
