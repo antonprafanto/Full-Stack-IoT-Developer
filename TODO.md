@@ -10,8 +10,8 @@
 
 | Fase | Modul Pembelajaran | Estimasi Waktu | Status | Progres |
 | :---: | :--- | :---: | :---: | :---: |
-| **0** | Fondasi Listrik Ramah Pemula, Logika & Tooling | Minggu 1–2 | `[x] Selesai (Modul 0.0-0.4)` | 100% |
-| **1** | ESP32 Step-by-Step: Dari Blink ke FreeRTOS | Minggu 3–6 | `[x] Selesai (Modul 1.1-1.5)` | 100% |
+| **0** | Fondasi Listrik Ramah Pemula, Logika & Tooling | Minggu 1–2 | `[-] Sedang Berjalan` | 15% |
+| **1** | ESP32 Step-by-Step: Dari Blink ke FreeRTOS | Minggu 3–6 | `[ ] Belum Mulai` | 0% |
 | **2** | Desain Perangkat Keras, Skematik & PCB 4-Layer KiCad | Minggu 7–8 | `[ ] Belum Mulai` | 0% |
 | **3** | Power Harvesting & Ultra Low-Power (10-Year Battery) | Minggu 9 | `[ ] Belum Mulai` | 0% |
 | **4** | Protokol Industri & Otomotif (CAN Bus, Modbus, OPC-UA) | Minggu 10–11 | `[ ] Belum Mulai` | 0% |
@@ -56,95 +56,95 @@
 - [x] Memahami fungsi tombol fisik `EN` (Reset) dan `BOOT` (GPIO 0) saat proses flashing.
 
 ### 0.1 Dasar Listrik Intuitif (Analogi Aliran Air)
-- [x] Memahami konsep Tegangan ($V$), Arus ($I$), Hambatan ($R$), dan Daya Listrik ($P$).
-- [x] Menghitung resistor pengaman LED menggunakan Hukum Ohm ($R = \frac{V_s - V_{led}}{I}$).
-- [x] Memahami perbedaan arus listrik DC (3.3V / 5V) vs AC (220V).
+- [ ] Memahami konsep Tegangan ($V$), Arus ($I$), Hambatan ($R$), dan Daya Listrik ($P$).
+- [ ] Menghitung resistor pengaman LED menggunakan Hukum Ohm ($R = \frac{V_s - V_{led}}{I}$).
+- [ ] Memahami perbedaan arus listrik DC (3.3V / 5V) vs AC (220V).
 
 ### 0.2 Anatomi Breadboard & Komponen Fisik (Anti-Korslet)
-- [x] Memahami jalur plat tembaga internal breadboard (*Power Rails* horizontal vs *Terminal Strips* vertikal).
-- [x] Mengidentifikasi kaki polaritas anoda/katoda pada LED, kapasitor elektrolit, dan orientasi dioda.
-- [x] Membaca kode warna resistor ($220\Omega, 1k\Omega, 10k\Omega$) dan memverifikasi dengan multimeter.
-- [x] Menggunakan kabel jumper (*Male-to-Male*, *Male-to-Female*, *Female-to-Female*) secara tepat.
+- [ ] Memahami jalur plat tembaga internal breadboard (*Power Rails* horizontal vs *Terminal Strips* vertikal).
+- [ ] Mengidentifikasi kaki polaritas anoda/katoda pada LED, kapasitor elektrolit, dan orientasi dioda.
+- [ ] Membaca kode warna resistor ($220\Omega, 1k\Omega, 10k\Omega$) dan memverifikasi dengan multimeter.
+- [ ] Menggunakan kabel jumper (*Male-to-Male*, *Male-to-Female*, *Female-to-Female*) secara tepat.
 
 ### 0.3 Logika Sirkuit Dasar & Fenomena Penting IoT
-- [x] **Prinsip Mutlak Common Ground (GND Sharing):** Menghubungkan semua GND perangkat agar memiliki titik acuan 0V yang sama.
-- [x] Menghitung dan merakit rangkaian pembagi tegangan (*Voltage Divider*) untuk sensor analog LDR.
-- [x] Memahami fenomena *Floating Pin* dan memasang resistor Pull-up / Pull-down.
-- [x] Menggunakan transistor / relay sebagai sakelar pengontrol beban daya tinggi.
-- [x] Menggunakan Multimeter Digital (True RMS) untuk mengukur voltase, kontinuitas 'beep', dan resistansi (Modul 0.4).
+- [ ] **Prinsip Mutlak Common Ground (GND Sharing):** Menghubungkan semua GND perangkat agar memiliki titik acuan 0V yang sama.
+- [ ] Menghitung dan merakit rangkaian pembagi tegangan (*Voltage Divider*) untuk sensor analog LDR.
+- [ ] Memahami fenomena *Floating Pin* dan memasang resistor Pull-up / Pull-down.
+- [ ] Menggunakan transistor / relay sebagai sakelar pengontrol beban daya tinggi.
+- [ ] Menggunakan Multimeter Digital (True RMS) untuk mengukur voltase, kontinuitas 'beep', dan resistansi.
 
 ### 0.4 Pemrograman C/C++ dari Nol (Khusus Embedded)
-- [x] Memahami struktur eksekusi `setup()` dan `loop()`.
-- [x] Menguasai tipe data fixed-width (`uint8_t`, `int16_t`, `int32_t`, `float`, `bool`).
-- [x] Memahami perbedaan Scope Variabel (Variabel Global di SRAM vs Variabel Lokal di Stack).
-- [x] Menguasai percabangan (`if-else`, `switch-case`) dan perulangan (`for`, `while`).
-- [x] Membuat fungsi kustom dengan parameter dan return value.
-- [x] Menguasai array buffer data sensor (`int readings[10]`).
-- [x] Memahami konsep memori dan pointer (`&` dan `*`) dengan analogi nomor rumah.
-- [x] Memahami manipulasi bitwise dasar (`&`, `|`, `^`, `<<`, `>>`).
+- [ ] Memahami struktur eksekusi `setup()` dan `loop()`.
+- [ ] Menguasai tipe data fixed-width (`uint8_t`, `int16_t`, `int32_t`, `float`, `bool`).
+- [ ] Memahami perbedaan Scope Variabel (Variabel Global di SRAM vs Variabel Lokal di Stack).
+- [ ] Menguasai percabangan (`if-else`, `switch-case`) dan perulangan (`for`, `while`).
+- [ ] Membuat fungsi kustom dengan parameter dan return value.
+- [ ] Menguasai array buffer data sensor (`int readings[10]`).
+- [ ] Memahami konsep memori dan pointer (`&` dan `*`) dengan analogi nomor rumah.
+- [ ] Memahami manipulasi bitwise dasar (`&`, `|`, `^`, `<<`, `>>`).
 
 ### 0.5 Pemrograman Python dari Nol (Khusus Gateway & Cloud)
-- [x] Menguasai tipe data dasar, List `[]`, Dictionary `{}` (format JSON), dan Tuples.
-- [x] Menguasai fungsi, modul, dan manajemen paket virtual environment (`venv` / `uv`).
-- [x] Memahami dasar pemrograman asinkron (`asyncio`, `await`).
+- [ ] Menguasai tipe data dasar, List `[]`, Dictionary `{}` (format JSON), dan Tuples.
+- [ ] Menguasai fungsi, modul, dan manajemen paket virtual environment (`venv` / `uv`).
+- [ ] Memahami dasar pemrograman asinkron (`asyncio`, `await`).
 
 ### 0.6 Setup Lingkungan Belajar (Tools & Simulator Virtual)
-- [x] Instalasi **VS Code** dan ekstensi **PlatformIO IDE**.
-- [x] Uji coba simulasi rangkaian ESP32 pertama di browser menggunakan **Wokwi Simulator**.
-- [x] Setup Git repository dan GitHub untuk menyimpan kode latihan.
+- [ ] Instalasi **VS Code** dan ekstensi **PlatformIO IDE**.
+- [ ] Uji coba simulasi rangkaian ESP32 pertama di browser menggunakan **Wokwi Simulator**.
+- [ ] Setup Git repository dan GitHub untuk menyimpan kode latihan.
 
 ---
 
 ## 🔌 Fase 1: Langkah Demi Langkah Mikrokontroler ESP32 — Dari Blink ke FreeRTOS (Minggu 3-6)
 
 ### 1.1 Anatomi Board ESP32 & Aturan Pinout Aman
-- [x] Memetakan Pin Aman (GPIO 4, 16, 17, 18, 19, 21, 22, 23, 25, 26, 27, 32, 33).
-- [x] Memahami Pin Input-Only (GPIO 34, 35, 36, 39) dan Strapping Pins bahaya (GPIO 0, 2, 12, 15).
-- [x] Memahami aturan ADC1 vs ADC2 (ADC2 tidak dapat dipakai saat Wi-Fi menyala).
+- [ ] Memetakan Pin Aman (GPIO 4, 16, 17, 18, 19, 21, 22, 23, 25, 26, 27, 32, 33).
+- [ ] Memahami Pin Input-Only (GPIO 34, 35, 36, 39) dan Strapping Pins bahaya (GPIO 0, 2, 12, 15).
+- [ ] Memahami aturan ADC1 vs ADC2 (ADC2 tidak dapat dipakai saat Wi-Fi menyala).
 
 ### 1.2 Proyek 1: Digital Output (LED & Aktuator)
-- [x] Menulis program Blink LED internal dan eksternal (`pinMode`, `digitalWrite`).
-- [x] Membuat pola running LED dan memahami logika *Active High* vs *Active Low*.
+- [ ] Menulis program Blink LED internal dan eksternal (`pinMode`, `digitalWrite`).
+- [ ] Membuat pola running LED dan memahami logika *Active High* vs *Active Low*.
 
 ### 1.3 Proyek 2: Digital Input & Push Button
-- [x] Membaca status tombol dengan `pinMode(pin, INPUT_PULLUP)` dan `digitalRead(pin)`.
-- [x] Membuat logika toggle switch (tekan sekali ON, tekan lagi OFF).
-- [x] Mengimplementasikan *Software Debouncing* untuk mengatasi getaran mekanik tombol.
+- [ ] Membaca status tombol dengan `pinMode(pin, INPUT_PULLUP)` dan `digitalRead(pin)`.
+- [ ] Membuat logika toggle switch (tekan sekali ON, tekan lagi OFF).
+- [ ] Mengimplementasikan *Software Debouncing* untuk mengatasi getaran mekanik tombol.
 
 ### 1.4 Proyek 3: Serial Communication & Debugging
-- [x] Inisialisasi `Serial.begin(115200)` dan mencetak variabel data sensor.
-- [x] Menangani baud rate mismatch penyebab karakter rusak.
-- [x] Membaca input teks dari Serial Monitor ke ESP32.
+- [ ] Inisialisasi `Serial.begin(115200)` dan mencetak variabel data sensor.
+- [ ] Menangani baud rate mismatch penyebab karakter rusak.
+- [ ] Membaca input teks dari Serial Monitor ke ESP32.
 
 ### 1.5 Proyek 4: Sinyal Analog (ADC & PWM)
-- [x] Membaca sensor potensiometer dan LDR dengan `analogRead(pin)` (resolusi 12-bit, 0-4095).
-- [x] Mengonversi nilai analog ke rentang persentase menggunakan fungsi `map()`.
-- [x] Mengatur kecerahan LED (*Fading Effect*) menggunakan PWM ESP32 (`ledcAttachPin`, `ledcWrite`).
-- [x] Mengontrol sudut putar Motor Servo SG90 ($0^\circ - 180^\circ$).
+- [ ] Membaca sensor potensiometer dan LDR dengan `analogRead(pin)` (resolusi 12-bit, 0-4095).
+- [ ] Mengonversi nilai analog ke rentang persentase menggunakan fungsi `map()`.
+- [ ] Mengatur kecerahan LED (*Fading Effect*) menggunakan PWM ESP32 (`ledcAttachPin`, `ledcWrite`).
+- [ ] Mengontrol sudut putar Motor Servo SG90 ($0^\circ - 180^\circ$).
 
 ### 1.6 Proyek 5: Mengatasi Jebakan `delay()` dengan `millis()`
-- [x] Memahami bahaya fungsi `delay()` yang membekukan prosesor mikrokontroler.
-- [x] Menerapkan timer stopwatch non-blocking `millis()` (menjalankan 3 tugas independen serentak).
+- [ ] Memahami bahaya fungsi `delay()` yang membekukan prosesor mikrokontroler.
+- [ ] Menerapkan timer stopwatch non-blocking `millis()` (menjalankan 3 tugas independen serentak).
 
 ### 1.7 Proyek 6: Protokol Bus Sensor Hardware (I2C, SPI, 1-Wire)
-- [x] Menjalankan *I2C Scanner* untuk mendeteksi alamat heksadesimal sensor.
-- [x] Menampilkan data dan grafik pada **Layar OLED 0.96" SSD1306** (I2C).
-- [x] Membaca sensor suhu, kelembaban, dan tekanan udara presisi tinggi **BME280** (I2C).
-- [x] Menyimpan data log sensor ke **MicroSD Card Module** (SPI).
-- [x] Membaca sensor suhu industri tahan air **DS18B20** (1-Wire).
+- [ ] Menjalankan *I2C Scanner* untuk mendeteksi alamat heksadesimal sensor.
+- [ ] Menampilkan data dan grafik pada **Layar OLED 0.96" SSD1306** (I2C).
+- [ ] Membaca sensor suhu, kelembaban, dan tekanan udara presisi tinggi **BME280** (I2C).
+- [ ] Menyimpan data log sensor ke **MicroSD Card Module** (SPI).
+- [ ] Membaca sensor suhu industri tahan air **DS18B20** (1-Wire).
 
 ### 1.8 Jembatan Menuju Mahir: FreeRTOS & Kehandalan Firmware
-- [x] Membuat multi-tasking terpisah pada Core 0 dan Core 1 (`xTaskCreatePinnedToCore`).
-- [x] Mengalirkan data antar-task secara thread-safe menggunakan FreeRTOS Queues dan Mutex.
-- [x] Menerapkan arsitektur Finite State Machine (FSM).
-- [x] Mengaktifkan **Hardware & Task Watchdog Timer (WDT)** dan proteksi *Brownout*.
-- [x] Profiling memori heap (`esp_get_free_heap_size()`) dan menerapkan *wear-leveling* pada LittleFS.
+- [ ] Membuat multi-tasking terpisah pada Core 0 dan Core 1 (`xTaskCreatePinnedToCore`).
+- [ ] Mengalirkan data antar-task secara thread-safe menggunakan FreeRTOS Queues dan Mutex.
+- [ ] Menerapkan arsitektur Finite State Machine (FSM).
+- [ ] Mengaktifkan **Hardware & Task Watchdog Timer (WDT)** dan proteksi *Brownout*.
+- [ ] Profiling memori heap (`esp_get_free_heap_size()`) dan menerapkan *wear-leveling* pada LittleFS.
 
 ### 1.9 Pemecahan Masalah Pemula (Troubleshooting)
-- [x] Menguasai trik menahan tombol `BOOT` saat error upload serial.
-- [x] Mengatasi error `Brownout detector was triggered` dengan kapasitor buffer $100\mu\text{F}$.
-- [x] Melacak error `Guru Meditation panic` (pointer NULL / memory overflow).
-- [x] Mengonfigurasi jaringan Wi-Fi 2.4 GHz yang kompatibel dengan ESP32.
+- [ ] Menguasai trik menahan tombol `BOOT` saat error upload serial.
+- [ ] Mengatasi error `Brownout detector was triggered` dengan kapasitor buffer $100\mu\text{F}$.
+- [ ] Melacak error `Guru Meditation panic` (pointer NULL / memory overflow).
+- [ ] Mengonfigurasi jaringan Wi-Fi 2.4 GHz yang kompatibel dengan ESP32.
 
 ---
 
