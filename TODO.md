@@ -10,7 +10,7 @@
 
 | Fase | Modul Pembelajaran | Estimasi Waktu | Status | Progres |
 | :---: | :--- | :---: | :---: | :---: |
-| **0** | Fondasi Listrik Ramah Pemula, Logika & Tooling | Minggu 1–2 | `[-] Sedang Berjalan` | 75% |
+| **0** | Fondasi Listrik Ramah Pemula, Logika & Tooling | Minggu 1–2 | `[-] Sedang Berjalan` | 85% |
 | **1** | ESP32 Step-by-Step: Dari Blink ke FreeRTOS | Minggu 3–6 | `[ ] Belum Mulai` | 0% |
 | **2** | Desain Perangkat Keras, Skematik & PCB 4-Layer KiCad | Minggu 7–8 | `[ ] Belum Mulai` | 0% |
 | **3** | Power Harvesting & Ultra Low-Power (10-Year Battery) | Minggu 9 | `[ ] Belum Mulai` | 0% |
@@ -84,9 +84,9 @@
 - [x] Memahami manipulasi bitwise dasar (`&`, `|`, `^`, `<<`, `>>`).
 
 ### 0.5 Pemrograman Python dari Nol (Khusus Gateway & Cloud)
-- [ ] Menguasai tipe data dasar, List `[]`, Dictionary `{}` (format JSON), dan Tuples.
-- [ ] Menguasai fungsi, modul, dan manajemen paket virtual environment (`venv` / `uv`).
-- [ ] Memahami dasar pemrograman asinkron (`asyncio`, `await`).
+- [x] Menguasai tipe data dasar, List `[]`, Dictionary `{}` (format JSON), dan Tuples.
+- [x] Menguasai fungsi, modul, dan manajemen paket virtual environment (`venv` / `uv`).
+- [x] Memahami dasar pemrograman asinkron (`asyncio`, `await`).
 
 ### 0.6 Setup Lingkungan Belajar (Tools & Simulator Virtual)
 - [ ] Instalasi **VS Code** dan ekstensi **PlatformIO IDE**.

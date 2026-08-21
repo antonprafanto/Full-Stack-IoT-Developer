@@ -13,7 +13,7 @@ Folder ini berisi materi, catatan teori, dan latihan dasar untuk **Fase 0** kuri
 3. 📄 **[Modul 0.2: Anatomi Breadboard & Komponen Fisik — Panduan Merangkai Anti-Korslet](file:///c:/Users/anton/vibecoding/Fullstack_IOT_2026/00-fondasi-dasar/02-anatomi-breadboard-dan-komponen.md)**
 4. 📄 **[Modul 0.3: Logika Sirkuit Dasar — Common Ground, Voltage Divider & Floating Pin](file:///c:/Users/anton/vibecoding/Fullstack_IOT_2026/00-fondasi-dasar/03-logika-sirkuit-dan-common-ground.md)**
 5. 📄 **[Modul 0.4: Pemrograman C/C++ dari Nol — Khusus Mikrokontroler & Embedded IoT](file:///c:/Users/anton/vibecoding/Fullstack_IOT_2026/00-fondasi-dasar/04-pemrograman-cpp-embedded-dari-nol.md)**
-6. 📄 *Modul 0.5: Pemrograman Python dari Nol (Coming Soon)*
+6. 📄 **[Modul 0.5: Pemrograman Python dari Nol — Khusus Edge Gateway, Data Parsing & Cloud](file:///c:/Users/anton/vibecoding/Fullstack_IOT_2026/00-fondasi-dasar/05-pemrograman-python-untuk-iot.md)**
 7. 📄 *Modul 0.6: Setup Tools & Wokwi Simulator (Coming Soon)*
 
 ---
