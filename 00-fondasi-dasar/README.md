@@ -1,25 +1,30 @@
-# ⚡ 00 - Fondasi Dasar Elektronika & Pemrograman
+# 00 — Fondasi Dasar Elektronika & Pemrograman
 
-Folder ini berisi materi, catatan teori, dan latihan dasar untuk **Fase 0** kurikulum:
+Folder ini berisi materi Fase 0. Baca berurutan dari atas ke bawah. Setiap tautan memakai jalur relatif agar tetap hidup di GitHub.
 
-## 📂 Struktur Direktori:
-- `cpp-basics/` : Latihan dasar bahasa C++ (variabel fixed-width, bitwise, pointer, memory scope).
-- `python-basics/` : Latihan dasar bahasa Python (tipe data, virtual environment, asyncio).
-- `notes/` : Catatan ringkas hukum listrik, analogi sirkuit, dan tabel warna resistor.
+## Daftar modul
 
-## 📚 Daftar Modul Pembelajaran Fase 0:
-1. 📄 **[Modul 0.0: Perjalanan Ajaib — Bagaimana Kode Masuk ke Chip Silikon?](file:///c:/Users/anton/vibecoding/Fullstack_IOT_2026/00-fondasi-dasar/00-bagaimana-kode-masuk-ke-chip-silikon.md)**
-2. 📄 **[Modul 0.1: Dasar Listrik Intuitif — Analogi Air, Hukum Ohm & Resistor LED](file:///c:/Users/anton/vibecoding/Fullstack_IOT_2026/00-fondasi-dasar/01-dasar-listrik-dan-hukum-ohm.md)**
-3. 📄 **[Modul 0.2: Anatomi Breadboard & Komponen Fisik — Panduan Merangkai Anti-Korslet](file:///c:/Users/anton/vibecoding/Fullstack_IOT_2026/00-fondasi-dasar/02-anatomi-breadboard-dan-komponen.md)**
-4. 📄 **[Modul 0.3: Logika Sirkuit Dasar — Common Ground, Voltage Divider & Floating Pin](file:///c:/Users/anton/vibecoding/Fullstack_IOT_2026/00-fondasi-dasar/03-logika-sirkuit-dan-common-ground.md)**
-5. 📄 **[Modul 0.4: Pemrograman C/C++ dari Nol — Khusus Mikrokontroler & Embedded IoT](file:///c:/Users/anton/vibecoding/Fullstack_IOT_2026/00-fondasi-dasar/04-pemrograman-cpp-embedded-dari-nol.md)**
-6. 📄 **[Modul 0.5: Pemrograman Python dari Nol — Khusus Edge Gateway, Data Parsing & Cloud](file:///c:/Users/anton/vibecoding/Fullstack_IOT_2026/00-fondasi-dasar/05-pemrograman-python-untuk-iot.md)**
-7. 📄 *Modul 0.6: Setup Tools & Wokwi Simulator (Coming Soon)*
+1. [Modul 0.0: Bagaimana Ketikan Kode Masuk ke Chip Silikon](00-bagaimana-kode-masuk-ke-chip-silikon.md)
+2. [Modul 0.1: Dasar Listrik Intuitif — Analogi Air, Hukum Ohm & Resistor LED](01-dasar-listrik-dan-hukum-ohm.md)
+3. [Modul 0.2: Anatomi Breadboard & Komponen Fisik](02-anatomi-breadboard-dan-komponen.md)
+4. [Modul 0.3: Logika Sirkuit — Common Ground, Voltage Divider & Floating Pin](03-logika-sirkuit-dan-common-ground.md)
+5. [Modul 0.4: Pemrograman C/C++ dari Nol untuk Embedded](04-pemrograman-cpp-embedded-dari-nol.md)
+6. [Modul 0.5: Pemrograman Python dari Nol untuk Gateway & Cloud](05-pemrograman-python-untuk-iot.md)
+7. *Modul 0.6: Setup VS Code, PlatformIO, Wokwi, dan Git — belum ditulis*
 
----
+## Folder pendukung
 
-## 🎯 Target Pembelajaran:
-1. Menguasai konsep Tegangan ($V$), Arus ($I$), Hambatan ($R$), dan Hukum Ohm ($V=IR$).
-2. Memahami jalur internal Breadboard dan prinsip mutlak **Common Ground (GND Sharing)**.
-3. Menulis program C++ dan Python dasar yang bersih dan siap diintegrasikan ke perangkat keras.
-4. Mampu menjalankan simulasi virtual di **Wokwi Simulator**.
+- `cpp-basics/` — latihan C++ (variabel fixed-width, bitwise, pointer)
+- `python-basics/` — latihan Python (tipe data, venv, asyncio)
+- `notes/` — catatan ringkas hukum listrik dan kode warna resistor
+- `aset/` — gambar Modul 0.0 (foto berlisensi + ilustrasi orisinal)
+
+## Target Fase 0
+
+1. Paham bagaimana kode C++ sampai tersimpan di flash ESP32.
+2. Paham tegangan, arus, hambatan, dan Hukum Ohm tanpa takut rumus.
+3. Paham jalur breadboard dan prinsip **common ground**.
+4. Bisa menulis C++ dan Python dasar.
+5. Bisa mencoba rangkaian virtual di Wokwi.
+
+Pantau centang progres di [TODO.md](../TODO.md).

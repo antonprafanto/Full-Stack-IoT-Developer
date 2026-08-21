@@ -1,263 +1,358 @@
-# ⚡ Modul 0.0: Perjalanan Ajaib — Bagaimana Ketikan Kode Masuk ke Dalam Chip Silikon?
+# Modul 0.0: Perjalanan Ajaib — Bagaimana Ketikan Kode Masuk ke Chip Silikon?
 
-> **Tingkat Kesulitan:** Sangat Ramah Pemula (*Zero Prerequisite*)  
-> **Estimasi Waktu Membaca & Praktik:** 15–20 Menit  
-> **Tools yang Digunakan:** Browser Web (Chrome/Edge/Firefox) & Windows Device Manager  
+> **Tingkat kesulitan:** Sangat ramah pemula (belum perlu pengalaman coding)  
+> **Perkiraan waktu:** 20–25 menit (baca + praktik di browser)  
+> **Board fisik:** Belum wajib. Kalau ESP32-mu belum sampai, tetap bisa ikut sampai akhir.
 
 ---
 
-## 🌟 Sambutan & Jaminan Keamanan (*Emotional Safety*)
+## Dulu buka ini, baru mulai
 
-Halo! Selamat datang di langkah paling awal dari perjalanan Anda menjadi seorang **Fullstack IoT Developer**. 
+Biar tidak bingung “harus instal apa dulu”, modul ini cukup pakai alat di bawah. Yang lain **belum** diperlukan.
 
-Sebelum kita mulai, mari kita luruskan satu hal penting yang sering membuat pemula merasa ragu atau takut:
+| Perlu sekarang? | Alat | Untuk apa |
+| :--- | :--- | :--- |
+| **Wajib** | Browser Chrome, Edge, atau Firefox | Menjalankan simulator **Wokwi** dan mengetes kode |
+| **Opsional** | Board ESP32 + kabel USB **data** | Melihat port COM di Windows. Boleh dilewati |
+| **Belum perlu** | VS Code, Arduino IDE, PlatformIO | Itu urusan [Modul 0.6](README.md). Jangan instal dulu kalau belum siap |
+
+> [!TIP]
+> **Satu-satunya tautan praktik di modul ini:** [Wokwi ESP32 Project Baru](https://wokwi.com/projects/new/esp32)  
+> Tidak perlu daftar akun. Kalau muncul tombol **Sign up**, abaikan saja.
+
+---
+
+## Tenang, kamu tidak akan kesetrum
+
+Mikrokontroler seperti **ESP32** bekerja di tegangan **3,3 volt sampai 5 volt DC** (arus searah, seperti baterai). Tegangan sekecil itu aman disentuh jari.
+
+Port USB laptop modern juga punya pengaman: kalau arus terlalu besar, aliran listrik diputus otomatis. Jadi, boleh bereksperimen dengan santai.
+
 > [!NOTE]
-> **Tenang, Anda Tidak Akan Kesetrum atau Merusak Laptop Anda!**  
-> Mikrokontroler seperti **ESP32** bekerja pada tegangan **3.3 Volt hingga 5 Volt DC (Direct Current)**. Tegangan sekecil ini **100% aman disentuh dengan jari tangan** dan tidak memiliki daya untuk menyengat kulit manusia. Selain itu, port USB pada komputer/laptop modern telah dilengkapi proteksi pemutus arus otomatis (*Overcurrent Protection*). Jadi, Anda aman bereksperimen dengan santai! 😊
+> **DC** artinya arus mengalir satu arah (baterai, USB). **AC** adalah listrik rumah 220 volt yang bolak-balik. Kita **tidak** menyentuh listrik rumah di modul ini.
 
 ---
 
-## 🧭 Peta Pembelajaran Modul Ini
+## Peta singkat modul ini
 
-```
-┌────────────────────────────────────────────────────────────────────────┐
-│                        ALUR MATERI MODUL 0.0                           │
-├────────────────────────────────────────────────────────────────────────┤
-│ 1. Laptop vs Mikrokontroler: Mengapa ESP32 Tidak Butuh Windows?        │
-│ 2. Pipa Kompilasi: Mengubah Teks C++ Menjadi Denyut Biner 0 dan 1      │
-│ 3. Mengenal Hardware: Chip ESP32, Chip USB-to-UART & Memori Flash      │
-│ 4. Praktik Windows: Mendeteksi Port COM di Device Manager              │
-│ 5. Misteri Dua Tombol Fisik: Tombol EN (Reset) vs Tombol BOOT          │
-│ 6. Uji Coba Cepat: Menjalankan Simulator Wokwi Pertama Anda            │
-│ 7. Glosarium Istilah & Kuis Refleksi                                   │
-└────────────────────────────────────────────────────────────────────────┘
-```
+1. Praktik 3 menit di Wokwi (lihat hasil dulu, teori belakangan).
+2. Kenapa ESP32 tidak butuh Windows.
+3. Perjalanan kode: dari teks C++ sampai masuk chip.
+4. Mengenal bagian fisik board ESP32.
+5. (Opsional) Cek port COM di Windows.
+6. Tombol **EN** vs tombol **BOOT**.
+7. Glosarium, kuis, dan langkah berikutnya.
 
 ---
 
-## 1. Laptop vs Mikrokontroler: Mengapa ESP32 Tidak Butuh Windows?
+## 1. Kemenangan cepat: nyalakan lampu di browser
 
-Pernahkah Anda bertanya-tanya: *Saat laptop dinyalakan, kita harus menunggu Windows/macOS loading dulu. Tapi mengapa saat ESP32 diberi listrik, ia langsung bekerja dalam hitungan sekejap (kurang dari 0,1 detik)?*
+Kita pakai **Wokwi**, simulator ESP32 di browser. Bayangkan ini sebagai “papan latihan virtual”: kodenya nyata, board-nya gambar, tapi logikanya sama dengan alat fisik.
 
-Jawabannya terletak pada perbedaan mendasar antara **Komputer (General Purpose Computer)** dan **Mikrokontroler (Microcontroller Unit - MCU)**:
+### Langkah 1 — Buka proyek
 
-```
-┌──────────────────────────────────────┐     ┌──────────────────────────────────────┐
-│       LAPTOP / PC / SMARTPHONE       │     │          MIKROKONTROLER (ESP32)      │
-├──────────────────────────────────────┤     ├──────────────────────────────────────┤
-│ • Menjalankan Sistem Operasi (OS)    │     │ • Tanpa OS Berat (Bare-Metal)        │
-│ • Bisa buka banyak app bersamaan     │     │ • Hanya menjalankan 1 program utama  │
-│ • Butuh RAM bergiga-giga (8GB - 32GB)│     │ • RAM sangat kecil (~520 Kilobyte)   │
-│ • Konsumsi daya besar (15W - 100W)   │     │ • Konsumsi daya mini (<0.5 Watt)     │
-│ • Butuh waktu booting 10-30 detik    │     │ • Nyala & eksekusi instan (<0.05 dt) │
-└──────────────────────────────────────┘     └──────────────────────────────────────┘
-```
+1. Buka tautan ini: [https://wokwi.com/projects/new/esp32](https://wokwi.com/projects/new/esp32)
+2. Tunggu beberapa detik sampai layar terbelah:
+   - **Kiri:** editor kode. Pastikan tab **`sketch.ino`** yang aktif. Itu file program.
+   - **Kanan:** gambar board ESP32.
+3. Ada juga tab **`diagram.json`**. Itu **bukan** kode C++. Isinya denah rangkaian. Jangan diubah dulu.
 
-Di dalam ESP32, tidak ada sistem operasi Windows atau aplikasi YouTube. Program yang Anda tulis akan dieksekusi secara **langsung di atas lapisan fisik silikon (*Bare-Metal Execution*)** tanpa perantara yang memperlambat.
+Kode bawaan Wokwi kira-kira seperti ini (bukan program kedip lampu):
 
----
-
-## 2. Pipa Perjalanan Kode: Dari Teks C++ ke Chip Flash
-
-Ketika Anda mengetik kode di editor laptop:
 ```cpp
-digitalWrite(2, HIGH); // Perintah: Nyalakan lampu di pin GPIO 2
-```
-Chip silikon ESP32 **sama sekali tidak mengerti huruf bahasa Inggris** seperti `digitalWrite` atau `HIGH`. Chip silikon hanyalah kumpulan jutaan sakelar mikroskopis (*transistor*) yang hanya mengenali dua hal: **Ada Listrik (1)** atau **Tidak Ada Listrik (0)**.
+void setup() {
+  // Dijalankan sekali saat chip baru nyala
+  Serial.begin(115200);
+  Serial.println("Hello, ESP32!");
+}
 
-Lalu, bagaimana teks kode Anda bisa dipahami oleh chip? Mari kita lihat pipa perjalanannya:
-
-```
-┌──────────────┐     ┌──────────────┐     ┌──────────────┐     ┌──────────────┐
-│  KODE TEKS   │────►│   KOMPILER   │────►│  FILE BINER  │────►│  ESPTOOL.PY  │
-│  (main.cpp)  │     │ (xtensa-gcc) │     │ (firmware.bin│     │   (Flasher)  │
-└──────────────┘     └──────────────┘     └──────────────┘     └──────┬───────┘
-                                                                      │ (Kabel USB)
-                                                                      ▼
-┌──────────────┐     ┌──────────────┐     ┌───────────────────────────────────┐
-│  ESP32 CPU   │◄────│ MEMORI FLASH │◄────│    CHIP USB-TO-UART BRIDGE        │
-│ (Eksekusi 1) │     │  (Penyimpan) │     │ (Penerjemah USB ke Serial TX/RX)  │
-└──────────────┘     └──────────────┘     └───────────────────────────────────┘
+void loop() {
+  // Dijalankan berulang-ulang
+  delay(10); // jeda kecil biar simulasi tidak berat
+}
 ```
 
-### Penjelasan Langkah Demi Langkah:
-1. **Source Code (`main.cpp`):** File teks tempat Anda menulis logika program dalam bahasa C++.
-2. **Kompiler (*xtensa-esp32-elf-gcc*):** Program cerdas di laptop Anda yang bertugas menerjemahkan teks C++ menjadi instruksi mesin biner (kumpulan angka `0` dan `1`).
-3. **File Biner (`firmware.bin`):** Hasil akhir kompilasi berupa file biner murni yang siap disuntikkan ke perangkat.
-4. **Flasher Utility (*esptool.py*):** Program pengirim yang memecah file biner menjadi paket-paket kecil dan mengirimkannya melalui kabel USB.
-5. **Chip USB-to-UART Bridge:** Chip kecil di samping colokan USB board Anda (misal: CP2102 atau CH340) yang menerjemahkan protokol USB dari laptop menjadi bahasa serial kabel data (**TX/RX**) yang dimengerti ESP32.
-6. **SPI Flash Memory:** "Harddisk kecil" (biasanya berukuran 4MB) pada modul ESP32 yang menyimpan kode biner Anda secara permanen, sehingga saat listrik mati, program Anda tidak akan hilang.
+### Langkah 2 — Tes dulu kode bawaan
 
----
+1. Di panel kanan, klik tombol hijau **Start the simulation** (ikon Play).
+2. Di bagian bawah biasanya muncul jendela **Serial**.
+3. Kalau berhasil, muncul tulisan `Hello, ESP32!`
 
-## 3. Mengenal Bagian Fisik Board ESP32 Anda
+Itu percakapan teks antara chip dan laptop. Lampu belum berkedip — wajar, karena kodenya memang belum menyuruh lampu menyala.
 
-Jika Anda melihat modul board **ESP32 DevKit V1**, ada beberapa komponen kunci yang perlu Anda kenali:
+Kalau simulasi sedang berjalan, tombol hijau berubah jadi **Stop**. Klik Stop dulu sebelum mengganti kode.
 
-```
-                  ┌───────────────────────────────┐
-                  │    ANTENA PCB WI-FI & BLE     │
-                  │   [=====] [=====] [=====]     │
-                  ├───────────────────────────────┤
-                  │                               │
-                  │      MODUL UTAMA ESP32        │
-                  │        (ESP-WROOM-32)         │
-                  │   Berisi CPU Dual-Core 240MHz │
-                  │   + Wi-Fi + Flash Memory 4MB  │
-                  │                               │
-                  ├───────────────────────────────┤
-   [Tombol EN]    │                               │   [Tombol BOOT]
-   (Untuk Reset)  │ (o) EN             BOOT (o)   │   (Untuk Flashing)
-                  ├───────────────────────────────┤
-                  │     CHIP USB-to-UART          │
-                  │      (CP2102 / CH340)         │
-                  │        ┌──────────┐           │
-                  │        │  [====]  │           │
-                  │        └──────────┘           │
-                  ├───────────────────────────────┤
-                  │       COLOKAN MICRO-USB       │
-                  │          [=======]            │
-                  └───────────────────────────────┘
+### Langkah 3 — Ganti jadi kedip lampu
+
+1. Klik tab **`sketch.ino`**.
+2. Pilih semua teks lama (`Ctrl + A`), lalu tempel kode ini:
+
+```cpp
+void setup() {
+  // Pin 2 dipakai sebagai sakelar lampu LED onboard
+  pinMode(2, OUTPUT);
+}
+
+void loop() {
+  digitalWrite(2, HIGH);  // Kirim listrik: lampu NYALA
+  delay(1000);            // Diam 1000 milidetik = 1 detik
+  digitalWrite(2, LOW);   // Putus listrik: lampu MATI
+  delay(1000);            // Diam 1 detik, lalu ulang dari atas
+}
 ```
 
-- **ESP-WROOM-32 (Kaleng Logam Persegi):** Di dalam kaleng pelindung ini terdapat prosesor utama, sirkuit radio Wi-Fi/Bluetooth, dan chip SPI Flash.
-- **Chip USB-to-UART (Chip Hitam Kecil Dekat Colokan USB):** Jembatan penghubung komunikasi antara laptop Anda dan prosesor ESP32.
-- **Lampu LED Merah (Power LED):** Menyala terus menandakan board menerima daya listrik 5V/3.3V dengan baik.
-- **Lampu LED Biru (Onboard LED pada GPIO 2):** Lampu bawaan yang terhubung ke pin GPIO 2, bisa kita program untuk berkedip tanpa perlu memasang kabel apapun!
+3. Klik **Start the simulation** lagi.
+4. Perhatikan LED kecil di board virtual. Ia harus berkedip kira-kira sekali per detik.
 
----
+### Langkah 4 — Tebak, lalu buktikan
 
-## 4. Praktik Windows: Memeriksa Port COM di Device Manager
+Sebelum klik Play, tebak dulu: kalau `1000` diganti `100`, lampunya lebih cepat atau lebih lambat?
 
-Ketika Anda menancapkan kabel USB dari ESP32 ke laptop Windows, Windows harus mengenali board tersebut sebagai sebuah **Virtual COM Port (Communication Port)**.
-
-Mari kita periksa bersama di laptop Anda:
-
-### Langkah 1: Buka Device Manager
-1. Colokkan board ESP32 ke port USB laptop Anda menggunakan kabel data micro-USB (pastikan kabel yang Anda gunakan adalah **kabel data**, bukan kabel charger powerbank murahan yang hanya punya jalur listrik tanpa kabel data).
-2. Tekan tombol kombinasi **`Windows + X`** pada keyboard laptop Anda.
-3. Klik menu **Device Manager** pada daftar yang muncul.
-
-```
-┌────────────────────────────────────────────────────────┐
-│  Device Manager                                  [—][X]│
-├────────────────────────────────────────────────────────┤
-│  > Audio inputs and outputs                            │
-│  > Batteries                                           │
-│  > Bluetooth                                           │
-│  > Disk drives                                         │
-│  v Ports (COM & LPT)                                   │
-│    ├── Silicon Labs CP210x USB to UART Bridge (COM3)   │  ◄── INI YANG KITA CARI!
-│    └── USB-SERIAL CH340 (COM4)                         │
-│  > Processors                                          │
-└────────────────────────────────────────────────────────┘
-```
-
-### Langkah 2: Cek Bagian "Ports (COM & LPT)"
-- Klik tanda panah `>` di samping tulisan **Ports (COM & LPT)**.
-- Jika berhasil, Anda akan melihat salah satu dari perangkat ini:
-  - `Silicon Labs CP210x USB to UART Bridge (COMx)`
-  - `USB-SERIAL CH340 (COMx)`
-  *(Angka `COMx` bisa berbeda-beda di setiap laptop, misal COM3, COM4, COM7, dll. Catat nomor COM Anda!)*
-
----
-
-### 🚨 Kotak Bantuan: "Bagaimana Jika Muncul Tanda Seru Kuning / Tidak Muncul Sama Sekali?"
+Ubah kedua `delay(1000)` menjadi `delay(100)`, Stop, lalu Play lagi. Kedipnya kira-kira 10 kali lebih cepat.
 
 > [!WARNING]
-> **Penyebab & Solusi Jika Port COM Tidak Terdeteksi:**
-> 1. **Kabel Hanya Kabel Charger:** Banyak kabel murah hanya memiliki 2 jalur kawat (Daya $+$ dan $-$) tanpa jalur data (D$+$ dan D$-$). **Solusi:** Ganti dengan kabel data smartphone yang berkualitas baik.
-> 2. **Driver Belum Terpasang di Windows:** Jika muncul di kategori *Other devices* dengan tanda seru kuning `⚠️ USB2.0-Serial`, artinya Windows belum punya drivernya.
->    - **Download Driver CP2102:** [Silabs CP210x VCP Drivers Official](https://www.silabs.com/developers/usb-to-uart-bridge-vcp-drivers)
->    - **Download Driver CH340:** [WCH CH341SER Official Driver](http://www.wch-ic.com/downloads/CH341SER_EXE.html)
->    *(Unduh, ekstrak, klik Install, lalu colok ulang kabel USB Anda).*
+> **Kalau lampu tidak berkedip**
+> 1. Pastikan tab yang disunting adalah `sketch.ino`, bukan `diagram.json`.
+> 2. Pastikan kamu menekan **Stop**, baru **Start** lagi setelah kode diganti.
+> 3. Pastikan angka pin-nya `2` (LED bawaan board Wokwi ada di GPIO 2).
+> 4. Kalau halaman kosong, refresh browser lalu ulangi dari tautan yang sama.
+
+Tidak perlu VS Code di langkah ini. Kalau Wokwi sudah berkedip, fondasi “kode bisa menggerakkan chip” sudah kamu pegang.
 
 ---
 
-## 5. Misteri Dua Tombol Fisik: Tombol EN vs Tombol BOOT
+## 2. Laptop vs mikrokontroler: kenapa ESP32 tidak butuh Windows?
 
-Banyak pemula bingung apa perbedaan kedua tombol kecil di samping colokan USB ESP32:
+Pernah kepikiran: laptop butuh belasan detik menunggu Windows. ESP32 diberi listrik, langsung kerja dalam sepersekian detik. Kenapa?
 
-```
-┌─────────────────────────────────────────────────────────────────────────┐
-│                     TOMBOL EN vs TOMBOL BOOT                            │
-├─────────────────────────────────────────────────────────────────────────┤
-│ • Tombol EN (Enable / Reset):                                           │
-│   Fungsinya seperti tombol restart pada PC. Jika ditekan, ESP32 akan    │
-│   memulai ulang eksekusi program dari baris paling awal.               │
-│                                                                         │
-│ • Tombol BOOT (GPIO 0 / Download Mode):                                 │
-│   Fungsinya memberitahu ESP32: "Jangan jalankan program lama, bersiaplah│
-│   menerima file biner program baru dari kabel USB!"                     │
-└─────────────────────────────────────────────────────────────────────────┘
-```
+**Laptop** adalah komputer serbaguna. Ia harus menghidupkan sistem operasi dulu, baru bisa buka banyak aplikasi.
+
+**Mikrokontroler (MCU)** seperti ESP32 lebih mirip mesin cuci: satu tugas utama, langsung jalan begitu ada listrik. Tidak ada desktop, tidak ada YouTube di dalamnya.
+
+![Perbandingan laptop dan mikrokontroler ESP32](aset/laptop-vs-mikrokontroler.jpg)
+
+*Ilustrasi orisinal kurikulum ini. Intinya: ESP32 menjalankan **satu** program, tanpa antre Windows.*
+
+Di ESP32, programmu dieksekusi langsung di silikon. Istilah kerennya **bare-metal**: tanpa OS berat sebagai perantara.
+
+Analogi gampangnya: laptop itu mal lengkap (banyak toko, harus buka pintu mal dulu). ESP32 itu warung kopi — buka rana, langsung seduh.
+
+---
+
+## 3. Perjalanan kode: dari teks C++ ke chip flash
+
+Chip silikon **tidak mengerti** kata `digitalWrite` atau `HIGH`. Di dalamnya hanya ada jutaan sakelar mikroskopis (transistor) yang kenal dua keadaan: ada listrik (**1**) atau tidak ada (**0**).
+
+Jadi, teks yang kamu ketik harus **diterjemahkan** dulu, lalu **dikirim**, lalu **disimpan**.
+
+Analogi pos:
+
+1. Kamu menulis surat dalam bahasa Indonesia (kode C++).
+2. Penerjemah mengubahnya ke bahasa yang dipahami mesin (kompiler).
+3. Surat dimasukkan amplop (file `.bin`).
+4. Kurir mengantar lewat jalan USB (kabel data).
+5. Petugas di ujung jalan mengubah “bahasa USB” menjadi “bahasa serial” (chip USB-to-UART).
+6. Surat disimpan di laci tahan mati lampu (memori flash), lalu dibaca oleh otak chip (CPU).
+
+![Enam langkah perjalanan kode dari laptop ke ESP32](aset/alur-kode-masuk-chip.jpg)
+
+*Ilustrasi orisinal kurikulum ini. Colokan USB di board nyata bisa micro-USB atau USB-C. Kotak nomor 5 di DevKit adalah **chip hitam kecil dekat USB**, bukan modul terpisah.*
+
+### Bedah langkah demi langkah
+
+1. **Kode sumber (`sketch.ino` / `main.cpp`)**  
+   File teks tempat kamu menulis logika. Masih bisa dibaca manusia.
+
+2. **Kompiler**  
+   Program di laptop yang menerjemahkan C++ menjadi instruksi `0` dan `1`. Nama teknisnya sering `xtensa-esp32-elf-gcc`. Tidak perlu dihafal sekarang; yang penting: tanpa langkah ini, chip buta huruf.
+
+3. **File biner (`firmware.bin`)**  
+   Hasil terjemahan. Sudah bukan teks biasa. Siap dikirim ke board.
+
+4. **Program pengirim (`esptool`)**  
+   Memecah file jadi paket kecil, lalu mengirimnya lewat USB. Di Arduino IDE / PlatformIO, langkah ini tersembunyi di balik tombol Upload.
+
+5. **Chip USB-to-UART**  
+   Chip kecil dekat colokan USB (sering **CP2102** atau **CH340**). Laptop bicara USB; ESP32 bicara serial **TX/RX**. Chip ini penerjemahnya.
+
+6. **Memori flash + CPU**  
+   Flash adalah “hard disk mini” (sering 4 MB) di dalam modul. Listrik mati, program tidak hilang. CPU kemudian menjalankan isinya, baris demi baris.
+
+<details>
+<summary>Mau lebih dalam: kenapa kompiler ESP32 namanya aneh?</summary>
+
+CPU ESP32 klasik memakai arsitektur **Xtensa**, bukan Intel/AMD di laptopmu. Makanya kompiler khususnya bernama `xtensa-esp32-elf-gcc`. Analoginya: kamus Inggris–Jawa tidak bisa dipakai untuk menerjemahkan ke bahasa Jepang. Chip berbeda, kamus (kompiler) juga berbeda. Di Modul 0.6, PlatformIO yang akan menyiapkan kamus ini otomatis.
+
+</details>
+
+---
+
+## 4. Mengenal bagian fisik board ESP32
+
+Board yang sering dipakai pemula bernama **ESP32 DevKit**. Warna PCB, merek, dan colokan USB-mu bisa berbeda (micro-USB atau USB-C). Yang perlu dikenali tetap bagian-bagian yang sama.
+
+![Foto board ESP32 DevKit dengan modul ESP-WROOM-32, tombol EN/BOOT, dan colokan USB](aset/esp32-devkitc.jpg)
+
+*Foto: Ubahnverleih, [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:ESP32_Espressif_ESP-WROOM-32_Dev_Board.jpg), [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/deed.id). Board kamu boleh beda warna, bagian utamanya sama.*
+
+Biar lebih gampang diingat, lihat peta bergambar ini:
+
+![Ilustrasi anatomi board ESP32: antena, modul WROOM, LED, USB-to-UART, tombol EN dan BOOT](aset/anatomi-board-esp32.jpg)
+
+*Ilustrasi orisinal kurikulum ini. Pakai sebagai peta, bukan foto produk tertentu.*
+
+Yang wajib kamu kenali:
+
+- **Kaleng perak ESP-WROOM-32** — “otak” board. Di dalamnya ada CPU, radio Wi-Fi/Bluetooth, dan chip flash. **Jangan dilepas.**
+- **Chip USB-to-UART** — kotak hitam kecil dekat USB. Jembatan laptop ↔ ESP32.
+- **LED daya (sering merah)** — menyala terus artinya board dapat listrik.
+- **LED program (sering di GPIO 2)** — ini yang kita kedipkan di Wokwi barusan.
+- **Colokan USB** — untuk daya dan, kalau kabelnya kabel data, untuk kirim program.
+- **Tombol EN** — restart.
+- **Tombol BOOT** — “tolong terima program baru”.
+
+<details>
+<summary>Mau lihat isi dalam kaleng? (opsional, jangan ditiru di rumah)</summary>
+
+Foto berikut diambil dari modul yang **kaleng pelindungnya sudah dibuka**. Board kamu tetap harus berkaleng. Ini hanya supaya kamu tahu: kode tidak “nempel di udara”, melainkan disimpan di chip flash kecil di samping CPU.
+
+![Isi modul ESP-WROOM-32: CPU ESP32 di tengah, chip flash di samping, antena PCB di kiri](aset/esp32-wroom-32-modul.jpg)
+
+*Foto: Brian Krent, [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Espressif_ESP-WROOM-32_Wi-Fi_%26_Bluetooth_Module.jpg), [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.id).*
+
+Cara baca foto itu, dari kiri ke kanan:
+
+1. Pola tembaga berliku = **antena Wi-Fi**.
+2. Kotak hitam besar bertuliskan `ESP32-D0WDQ6` = **CPU** (yang menjalankan program).
+3. Kotak hitam lebih kecil di sampingnya (`25Q32...`) = **memori flash** (laci tempat firmware disimpan).
+
+</details>
+
+---
+
+## 5. Praktik Windows: cek port COM (boleh dilewati)
+
+Bagian ini **hanya** jika board fisik sudah di tangan. Belum punya? Lompat ke [bagian 6](#6-dua-tombol-fisik-en-vs-boot).
+
+Saat ESP32 dicolok ke Windows, laptop harus melihatnya sebagai **port COM** (saluran percakapan serial virtual). Editor nanti akan bertanya: “Kirim program ke COM yang mana?”
+
+### Yang kamu buka di Windows
+
+1. Pakai **kabel data**, bukan kabel cas-saja.
+
+![Perbedaan kabel USB data (4 kawat) dan kabel cas saja (2 kawat)](aset/kabel-data-vs-cas.jpg)
+
+*Ilustrasi orisinal kurikulum ini. Dari luar hampir kembar; isinya yang beda.*
+
+2. Colok board ke USB laptop. LED daya biasanya menyala.
+3. Tekan `Windows + X`, lalu klik **Device Manager**.
+4. Buka **Ports (COM & LPT)**.
+
+![Ilustrasi Device Manager dengan port COM yang dicari](aset/device-manager-com-port.jpg)
+
+*Ilustrasi orisinal. Tampilan Windows kamu bisa sedikit berbeda; yang dicari tetap tulisan COM plus angkanya.*
+
+Yang biasanya muncul:
+
+- `Silicon Labs CP210x USB to UART Bridge (COMx)`
+- `USB-SERIAL CH340 (COMx)`
+
+Angka `COMx` beda di tiap laptop (COM3, COM5, COM13, ...). **Catat angkanya.** Itu alamat kirim program nanti.
+
+> [!WARNING]
+> **Board nyala, tapi tidak ada Ports (COM & LPT)?**
+>
+> 1. **Kabel cas-saja:** LED bisa menyala, laptop tetap buta. Ganti ke kabel data HP yang biasa dipakai transfer foto.
+> 2. **Driver belum ada:** di *Other devices* muncul tanda seru kuning, misalnya `USB2.0-Serial`.
+>    - Driver CP2102: [Silicon Labs CP210x VCP](https://www.silabs.com/developers/usb-to-uart-bridge-vcp-drivers)
+>    - Driver CH340: [WCH CH341SER](http://www.wch-ic.com/downloads/CH341SER_EXE.html)
+> 3. Unduh, instal, cabut-colok USB, cek Device Manager lagi.
+> 4. Masih kosong? Coba port USB lain di laptop (yang di belakang/samping body, bukan hub murah).
+
+Kamu **belum** perlu menekan Upload di IDE. Cukup yakin Windows sudah “melihat” board.
+
+---
+
+## 6. Dua tombol fisik: EN vs BOOT
+
+Dua tombol kecil dekat USB sering bikin pemula gagap. Fungsinya beda jauh.
+
+![Perbandingan tombol EN sebagai restart dan tombol BOOT sebagai mode terima program](aset/tombol-en-vs-boot.jpg)
+
+*Ilustrasi orisinal kurikulum ini.*
+
+| Tombol | Analogi | Fungsi sehari-hari |
+| :--- | :--- | :--- |
+| **EN** | Tombol restart HP | Mengulang program yang **sudah ada** dari awal |
+| **BOOT** | Mode unduh / “terima file baru” | Menyuruh chip: jangan jalankan program lama, bersiap terima firmware baru |
+
+Banyak board modern bisa upload otomatis tanpa kamu pegang tombol. Tetap hafalkan trik BOOT, karena suatu hari error `Connecting........_____` pasti datang.
 
 > [!TIP]
-> **Trik Mengatasi Error Upload Paling Populer:**  
-> Pada beberapa board ESP32 rakitan pabrik tertentu, kapasitor sirkuit auto-reset-nya kurang presisi. Jika saat proses upload di VS Code / Arduino IDE muncul tulisan:  
-> `Connecting........_____....._____.....`  
-> **Segera tekan dan tahan tombol `BOOT` selama 2 detik**, lalu lepaskan begitu persentase upload (`Writing at 0x00010000... (10%)`) mulai berjalan!
+> **Upload macet di `Connecting........_____`**  
+> Tahan tombol **BOOT** kira-kira 2 detik saat laptop mulai mencari board, lalu lepas begitu muncul progres `Writing at ...`. Jangan tahan EN; itu malah mereset terus.
 
 ---
 
-## 6. Uji Coba Cepat: Menjalankan Simulator Wokwi Pertama Anda
+## Glosarium (bahasa manusia)
 
-Sekarang, Anda tidak perlu menunggu membeli alat fisik untuk melihat bagaimana instruksi kode mengendalikan sirkuit mikrokontroler. Kita akan mencobanya langsung di browser menggunakan **Wokwi Simulator**!
-
-### Langkah Praktik (Hanya 3 Menit):
-1. Buka browser Anda dan klik tautan proyek siap pakai ini: **[Wokwi ESP32 Blink Starter Project](https://wokwi.com/projects/new/esp32)**.
-2. Anda akan melihat layar terbelah dua:
-   - **Sebelah Kiri:** Editor kode C++ (`diagram.json` dan `sketch.ino`).
-   - **Sebelah Kanan:** Papan sirkuit virtual ESP32.
-3. Perhatikan kode di sebelah kiri:
-   ```cpp
-   void setup() {
-     // Menyiapkan pin GPIO 2 (Lampu LED Onboard) sebagai OUTPUT
-     pinMode(2, OUTPUT);
-   }
-
-   void loop() {
-     digitalWrite(2, HIGH); // Kirim tegangan: Lampu LED MENYALA
-     delay(1000);           // Tunggu 1000 milidetik (1 detik)
-     digitalWrite(2, LOW);  // Putus tegangan: Lampu LED MATI
-     delay(1000);           // Tunggu 1000 milidetik (1 detik)
-   }
-   ```
-4. Klik tombol hijau **▶ (Play / Start Simulation)** di bagian atas simulasi kanan.
-5. **Perhatikan:** Lampu LED biru kecil pada board ESP32 virtual akan mulai berkedip setiap 1 detik! 🎉
-
----
-
-### 🧪 Tantangan Eksperimen Mandiri (*Predict & Modify*):
-> 💡 **Coba Lakukan Ini:**
-> 1. Ubah angka `1000` pada kedua baris `delay(1000);` menjadi `100`.
-> 2. Sebelum menekan tombol Play, **tebak apa yang akan terjadi pada lampu LED?**
-> 3. Klik tombol **Play ▶** dan buktikan tebakan Anda! *(Apakah lampunya berkedip 10x lebih cepat seperti lampu blitz strobo?)*
-
----
-
-## 7. 📖 Glosarium Istilah Penting Modul 0.0
-
-| Istilah Teknis | Penjelasan Sederhana |
+| Istilah | Artinya, versi warung |
 | :--- | :--- |
-| **Bare-Metal** | Menjalankan program langsung pada chip silikon tanpa adanya sistem operasi perantara (seperti Windows/Linux). |
-| **Compiler (Kompiler)** | Perangkat lunak penerjemah kode bahasa manusia (C++) menjadi instruksi angka biner mesin (`0` dan `1`). |
-| **Flashing / Uploading** | Proses menyuntikkan dan menuliskan file biner program ke dalam chip memori Flash ESP32. |
-| **USB-to-UART Bridge** | Chip penerjemah sinyal dari protokol USB laptop menjadi sinyal serial UART (jalur kabel TX dan RX). |
-| **COM Port** | Jalur saluran komunikasi serial virtual yang dialokasikan oleh Windows untuk perangkat USB yang terhubung. |
-| **SPI Flash** | Chip memori penyimpanan data permanen di dalam modul ESP32 (tidak hilang saat listrik dimatikan). |
+| **Mikrokontroler (MCU)** | Komputer mini satu tugas, langsung jalan tanpa Windows |
+| **Bare-metal** | Program menempel langsung di chip, tanpa OS berat |
+| **Kompiler** | Penerjemah C++ menjadi `0` dan `1` |
+| **Firmware** | Program yang disimpan permanen di dalam chip |
+| **Flashing / upload** | Menyalin firmware ke memori flash |
+| **USB-to-UART** | Penerjemah USB laptop menjadi percakapan serial TX/RX |
+| **Port COM** | “Nomor saluran” yang diberikan Windows ke board |
+| **GPIO** | Pin serbaguna yang bisa jadi sakelar atau telinga (input/output) |
+| **SPI Flash** | Laci penyimpan program yang tidak hilang saat listrik mati |
+| **EN** | Tombol restart |
+| **BOOT** | Tombol mode terima program baru |
 
 ---
 
-## 📝 Kuis Refleksi & Pemahaman Diri
+## Kuis singkat
 
-Uji pemahaman Anda dengan menjawab 3 pertanyaan sederhana ini di benak Anda:
-1. Mengapa ESP32 bisa langsung menyala dan bekerja dalam 0,05 detik sedangkan laptop butuh loading Windows belasan detik?
-2. Jika saat flashing di laptop muncul error `Connecting......._____`, tombol fisik manakah yang perlu kita tekan dan tahan selama 2 detik?
-3. Mengapa kita tidak bisa langsung mengirim teks file `main.cpp` ke dalam chip ESP32 tanpa proses kompilasi terlebih dahulu?
+Jawab di kepala dulu, baru buka kunci jawaban.
+
+1. Kenapa ESP32 bisa nyala dalam sepersekian detik, sedangkan laptop tidak?
+2. Saat upload muncul `Connecting........_____`, tombol mana yang ditahan kira-kira 2 detik?
+3. Kenapa file `sketch.ino` tidak bisa “dituang mentah-mentah” ke chip tanpa kompiler?
+4. Di Wokwi, tab mana yang boleh kamu sunting untuk program kedip lampu: `sketch.ino` atau `diagram.json`?
+
+<details>
+<summary>Kunci jawaban</summary>
+
+1. Karena ESP32 tidak menunggu sistem operasi. Ia langsung menjalankan satu program dari memori flash.
+2. Tombol **BOOT**.
+3. Chip hanya mengerti `0` dan `1`. Teks C++ masih bahasa manusia; kompiler yang menerjemahkannya.
+4. **`sketch.ino`**. `diagram.json` adalah denah rangkaian, bukan program.
+
+</details>
 
 ---
 
-> [!TIP]
-> **Status Selesai:**  
-> Jika Anda sudah memahami alur di atas dan berhasil mencoba simulasi Wokwi, selamat! Anda telah menuntaskan **Fase 0.0**. Centang kotak progres di [TODO.md](file:///c:/Users/anton/vibecoding/Fullstack_IOT_2026/TODO.md) dan mari kita lanjutkan ke **Fase 0.1: Dasar Listrik Intuitif & Hukum Ohm**! 🚀
+## Sumber gambar
+
+| Gambar | Sumber | Lisensi |
+| :--- | :--- | :--- |
+| Foto board ESP32 DevKit | [Ubahnverleih, Wikimedia Commons](https://commons.wikimedia.org/wiki/File:ESP32_Espressif_ESP-WROOM-32_Dev_Board.jpg) | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/deed.id) |
+| Foto isi modul ESP-WROOM-32 | [Brian Krent, Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Espressif_ESP-WROOM-32_Wi-Fi_%26_Bluetooth_Module.jpg) | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.id) |
+| Diagram alur, perbandingan laptop/MCU, anatomi, Device Manager, kabel USB, tombol EN/BOOT | Ilustrasi orisinal kurikulum ini | Dibuat khusus untuk modul 0.0 |
+
+---
+
+## Status selesai & langkah berikutnya
+
+Kalau ini sudah kamu lakukan, modul 0.0 boleh dicentang:
+
+- [ ] Membuka Wokwi tanpa akun, menjalankan simulasi, dan melihat `Hello, ESP32!`
+- [ ] Menempel program kedip dan melihat LED GPIO 2 berkedip
+- [ ] Mengubah `delay(1000)` menjadi `delay(100)` dan membuktikan tebakanmu
+- [ ] Bisa menjelaskan, dengan bahasa sendiri, kenapa teks C++ harus dikompilasi
+- [ ] (Opsional) Board fisik terdeteksi sebagai port COM di Device Manager
+
+Lanjut ke **[Modul 0.1: Dasar Listrik Intuitif — Analogi Air, Hukum Ohm, dan Resistor LED](01-dasar-listrik-dan-hukum-ohm.md)**.
+
+Pantau progres lengkap di **[TODO.md](../TODO.md)**.
