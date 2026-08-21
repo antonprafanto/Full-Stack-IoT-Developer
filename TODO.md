@@ -59,7 +59,7 @@
 - [x] Visual: foto board berlisensi, ilustrasi alur/anatomi/kabel/tombol, plus tangkapan layar Wokwi dengan sitasi.
 
 ### 0.1 Dasar Listrik Intuitif (Analogi Aliran Air)
-> Materi: [01-dasar-listrik-dan-hukum-ohm.md](00-fondasi-dasar/01-dasar-listrik-dan-hukum-ohm.md) · Audit ramah-awam 22 Agustus 2026: tools-first, GPIO = 3,3 V (bukan 5 V), Wokwi mikro-langkah, gambar analogi/Ohm/LED/DC-AC.
+> Materi: [01-dasar-listrik-dan-hukum-ohm.md](00-fondasi-dasar/01-dasar-listrik-dan-hukum-ohm.md) · Audit ulang gambar 22 Agustus 2026: polaritas LED AI (kaki keluar kubah) diganti foto asli + diagram anatomi benar; baterai 9 V berlabel 5 V dan warna kabel terbalik diganti USB 5 V merah=+/hitam=−; analogi 3D cacat dan grafik AC 325 V disederhanakan.
 - [x] Memahami konsep Tegangan ($V$), Arus ($I$), Hambatan ($R$), dan Daya Listrik ($P$).
 - [x] Menghitung resistor pengaman LED menggunakan Hukum Ohm ($R = \frac{V_s - V_{led}}{I}$).
 - [x] Memahami perbedaan arus listrik DC (3.3V / 5V) vs AC (220V).

@@ -104,7 +104,7 @@ Sifat nakalnya: LED **hampir tidak bisa mengerem arus sendiri**. Disambung langs
 
 ![Perbandingan LED tanpa resistor yang hangus dan LED dengan resistor 220 ohm yang aman](aset/led-dengan-tanpa-resistor.jpg)
 
-*Ilustrasi orisinal kurikulum ini. Baterai di gambar hanya pemanis; di ESP32 kita pakai pin GPIO 3,3 V atau colokan 5 V.*
+*Ilustrasi orisinal kurikulum ini. Sumber di gambar = USB 5 V. Di ESP32 pin program (`digitalWrite`) tetap **3,3 V**; resistor 220 Ω aman untuk keduanya.*
 
 Resistor itu **rem**. Kita pasang supaya arus kira-kira 10–20 mA, LED terang dan awet.
 
@@ -112,9 +112,15 @@ Resistor itu **rem**. Kita pasang supaya arus kira-kira 10–20 mA, LED terang d
 
 Salah arah = tidak nyala (biasanya tidak rusak, cuma diam).
 
-![Kaki panjang LED adalah anoda positif, kaki pendek dan sisi pipih adalah katoda negatif](aset/polaritas-kaki-led.jpg)
+Lihat dulu **foto asli**. Dua kaki keluar dari **bawah kubah**, bukan dari kiri-kanan seperti resistor.
 
-*Ilustrasi orisinal kurikulum ini.*
+![Foto LED 5 mm: dua kaki dari dasar kubah, salah satunya lebih panjang](aset/led-5mm-foto.jpg)
+
+*Foto LED 5 mm. Sumber: [oomlout](https://commons.wikimedia.org/wiki/File:5mm_Red_LED.jpg), Wikimedia Commons, [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0/).*
+
+![Cara bedakan kaki LED: kaki panjang anoda, kaki pendek dan sisi pipih katoda](aset/polaritas-kaki-led.jpg)
+
+*Ilustrasi orisinal kurikulum ini, diselaraskan dengan foto di atas.*
 
 - **Kaki panjang** = **anoda (+)** = tempat arus “masuk”.
 - **Kaki pendek + sisi plastik yang pipih** = **katoda (−)** = menuju GND.
@@ -179,7 +185,7 @@ Coba isi sendiri: `R = (3,3 − 2,0) / 0,015`. Hasilnya kira-kira berapa? (Membu
 
 ![Perbandingan grafik DC datar 5 volt dan AC bolak-balik 220 volt](aset/arus-dc-vs-ac.jpg)
 
-*Ilustrasi orisinal kurikulum ini. Angka puncak di grafik AC tidak perlu dihafal; yang penting: AC naik-turun dan berbahaya.*
+*Ilustrasi orisinal kurikulum ini. Yang perlu diingat: DC datar dan aman disentuh di 3,3–5 V; AC naik-turun dan stopkontak 220 V jangan disentuh.*
 
 | | **DC (searah)** | **AC (bolak-balik)** |
 | :--- | :--- | :--- |
@@ -298,7 +304,8 @@ Klik hijau **Start the simulation**. LED harus menyala **tetap** (tidak kedip).
 
 | Gambar | Sumber | Lisensi |
 | :--- | :--- | :--- |
-| Analogi tandon, segitiga Ohm, LED ± resistor, polaritas LED, DC vs AC, rangkaian Wokwi | Ilustrasi orisinal kurikulum ini | Dibuat khusus untuk modul 0.1 |
+| Analogi air, segitiga Ohm, LED ± resistor, polaritas LED, DC vs AC, rangkaian Wokwi | Ilustrasi orisinal kurikulum ini | Dibuat khusus untuk modul 0.1 |
+| Foto LED 5 mm | [oomlout / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:5mm_Red_LED.jpg) | [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0/) |
 
 ---
 
