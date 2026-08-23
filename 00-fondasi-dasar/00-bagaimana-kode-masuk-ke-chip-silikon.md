@@ -1,43 +1,43 @@
 # Modul 0.0: Bagaimana Kode yang Kita Ketik Bisa Masuk ke Chip ESP32?
 
 > **Tingkat Kesulitan:** Sangat ramah pemula (*Zero Prerequisite* — belum perlu pengalaman coding atau elektronika apa pun)  
-> **Estimasi Waktu Belajar:** 15–20 menit (membaca panduan santai + mencoba simulasi langsung di browser)  
-> **Kebutuhan Alat:** Belum wajib punya board fisik. Jika belum punya ESP32, kamu tetap bisa mengikuti seluruh materi dan simulasi di browser sampai selesai.
+> **Estimasi Waktu:** 15–20 menit (membaca panduan santai + mencoba simulasi langsung di browser)  
+> **Kebutuhan Alat:** Belum wajib punya board fisik. Kamu bisa mengikuti seluruh isi materi dan simulasi di browser sampai selesai.
 
 ---
 
-## 🛠️ Alat yang Kita Gunakan Hari Ini
+## 🛠️ Peralatan yang Kita Gunakan Hari Ini
 
-Agar kamu tidak bingung harus menginstal aplikasi apa di komputermu, untuk modul ini kita **hanya** memerlukan alat berikut:
+Agar kamu tidak bingung harus menyiapkan aplikasi apa di komputermu, untuk modul ini kita **hanya** memerlukan alat-alat berikut:
 
 | Alat | Status | Fungsi & Penjelasan |
 | :--- | :---: | :--- |
-| **Browser Web** (Chrome, Edge, atau Firefox) | **Wajib** | Untuk membuka simulator **Wokwi** dan mencoba program secara virtual langsung di browser. |
-| **Modul ESP32 Fisik + Kabel USB Data** | **Opsional** | Untuk melihat deteksi port di Windows Device Manager (hanya jika kamu sudah memegang alat fisik). |
-| **VS Code / Arduino IDE / PlatformIO** | **Belum Perlu** | Aplikasi coding lokal ini baru akan kita pasang bersama di [Modul 0.6](06-setup-tools-dan-simulator.md). Sekarang belum perlu diinstal. |
+| **Browser Web** (Chrome, Edge, atau Firefox) | **Wajib** | Untuk membuka simulator **Wokwi** dan mencoba program secara langsung di browser tanpa perlu menginstal aplikasi apa pun. |
+| **Modul ESP32 Fisik + Kabel USB Data** | **Opsional** | Untuk memeriksa deteksi port di Windows Device Manager (hanya jika kamu sudah memiliki board fisik). |
+| **VS Code / PlatformIO / Arduino IDE** | **Belum Perlu** | Aplikasi coding lokal ini baru akan kita pasang bersama di [Modul 0.6](06-setup-tools-dan-simulator.md). Sekarang belum perlu diinstal. |
 
 > [!TIP]
 > **Tautan Simulator untuk Modul Ini:** [Wokwi ESP32 Starter Project](https://wokwi.com/projects/new/esp32)  
-> Tidak perlu mendaftar akun atau login. Jika muncul jendela ajakan *Sign up*, abaikan atau tutup saja jendela tersebut.
+> Kamu tidak perlu membuat akun atau login. Jika muncul jendela ajakan *Sign up*, kamu bisa langsung menutup atau mengabaikannya.
 
 ---
 
 ## ⚡ Tenang, Kamu Aman dan Tidak Akan Kesetrum!
 
-Jika ini pertama kalinya kamu belajar mikrokontroler atau perangkat keras (*hardware*), mungkin ada sedikit rasa khawatir di benakmu: *"Apakah salah colok kabel bisa menyetrum atau merusak laptop?"*
+Bagi pemula yang baru pertama kali belajar perangkat keras (*hardware*), wajar jika muncul rasa cemas: *"Apakah salah colok kabel bisa menyetrum atau merusak laptop?"*
 
 Jawabannya: **Sama sekali tidak!**
 
 1. **Tegangannya Sangat Kecil:**  
-   ESP32 bekerja pada tegangan **3,3 volt sampai 5 volt DC** (arus searah, sama seperti baterai jam dinding atau baterai HP). Tegangan sekecil ini **100% aman disentuh dengan jari tangan** dan tidak memiliki daya untuk menyetrum kulit manusia.
+   ESP32 bekerja pada tegangan **3,3 volt sampai 5 volt DC** (arus searah, sama seperti baterai jam dinding atau baterai remote TV). Tegangan sekecil ini **100% aman disentuh dengan jari tangan** dan tidak memiliki daya untuk menyetrum kulit manusia.
 2. **Laptopmu Memiliki Pengaman Otomatis:**  
-   Port USB pada laptop dan komputer masa kini sudah dilengkapi sirkuit pengaman pemutus arus (*Overcurrent Protection*). Jika ada kabel yang salah pasang sekalipun, laptop akan memutus aliran listrik secara otomatis untuk mengamankan dirinya sendiri.
+   Port USB pada laptop dan komputer modern sudah dilengkapi pengaman pemutus arus otomatis (*Overcurrent Protection*). Jika ada kabel yang salah pasang sekalipun, laptop akan memutus aliran listrik seketika untuk mengamankan dirinya sendiri.
 
-Jadi, tarik napas dalam-dalam dan mari kita mulai bereksperimen dengan santai! 😊
+Jadi, kamu bisa belajar dan bereksperimen dengan santai dan tenang! 😊
 
 > [!NOTE]
 > **Apa Beda Arus DC dan AC?**  
-> - **Arus DC (Direct Current):** Arus listrik searah bertegangan rendah yang stabil (seperti pada baterai dan kabel USB). Ini adalah jenis listrik yang kita pakai di seluruh proyek IoT.  
+> - **Arus DC (Direct Current):** Listrik searah bertegangan rendah yang stabil (seperti pada baterai dan kabel USB). Ini adalah jenis listrik yang kita pakai di seluruh modul IoT ini.  
 > - **Arus AC (Alternating Current):** Listrik bertegangan tinggi 220 volt dari stopkontak dinding PLN yang arah arusnya bolak-balik. Di modul-modul awal ini, kita **sama sekali tidak menyentuh** listrik AC.
 
 ---
@@ -47,7 +47,7 @@ Jadi, tarik napas dalam-dalam dan mari kita mulai bereksperimen dengan santai! �
 1. **Praktik 3 Menit di Wokwi:** Melihat kode mengendalikan lampu virtual di browser.
 2. **Laptop vs ESP32:** Mengapa ESP32 bisa langsung bekerja seketika tanpa proses loading Windows.
 3. **Perjalanan Kode:** Dari teks C++ yang kita ketik sampai menjadi denyut listrik di dalam chip.
-4. **Mengenal Fisik Board ESP32:** Fungsi bagian-bagian penting di papan sirkuit.
+4. **Mengenal Fisik Board ESP32:** Fungsi bagian-bagian penting pada papan sirkuit.
 5. **Cek Port di Windows (Opsional):** Cara memastikan komputer mengenali board ESP32.
 6. **Misteri Dua Tombol (EN vs BOOT):** Kapan harus menekan tombol reset dan tombol download.
 7. **Glosarium & Kuis Ringkas:** Menguji pemahaman barumu.
@@ -56,7 +56,7 @@ Jadi, tarik napas dalam-dalam dan mari kita mulai bereksperimen dengan santai! �
 
 ## 1. Kemenangan Cepat: Menyalakan Lampu di Browser (3 Menit)
 
-Daripada membaca teori panjang terlebih dahulu, mari kita langsung lihat buktinya! Kita akan menggunakan **Wokwi**, sebuah simulator sirkuit mikrokontroler interaktif yang berjalan langsung di browsermu.
+Daripada membaca teori panjang terlebih dahulu, mari kita langsung lihat buktinya! Kita akan menggunakan **Wokwi**, sebuah simulator sirkuit mikrokontroler yang berjalan langsung di browsermu.
 
 ---
 
@@ -64,17 +64,18 @@ Daripada membaca teori panjang terlebih dahulu, mari kita langsung lihat buktiny
 
 1. Buka tautan ini di browser: **[https://wokwi.com/projects/new/esp32](https://wokwi.com/projects/new/esp32)**
 2. Layar browsermu akan terbagi menjadi dua bagian:
-   - **Sisi Kiri (Editor Kode):** Tempat menulis program. Pastikan tab yang terbuka aktif adalah **`sketch.ino`**.
+   - **Sisi Kiri (Editor Kode):** Tempat kita menulis program. Pastikan tab yang terbuka aktif adalah **`sketch.ino`**.
    - **Sisi Kanan (Papan Sirkuit):** Gambar virtual board ESP32.
-3. Di samping tab `sketch.ino`, ada tab bernama **`diagram.json`**. Tab ini berisi denah kabel virtual. Biarkan saja tab tersebut dan tidak perlu diubah.
+3. Di samping tab `sketch.ino`, ada tab bernama **`diagram.json`**. Tab ini berisi denah kabel sirkuit virtual. Biarkan saja tab tersebut dan tidak perlu diubah.
 
-Di bawah gambar board sebelah kanan, ada kotak putih bertuliskan **Serial**. Kotak ini awalnya masih kosong. Tombol hijau **Play (Start the simulation)** berada di pojok kanan atas gambar board.
+Di bawah gambar board sebelah kanan, ada kotak putih bertuliskan **Serial**. Kotak ini awalnya masih kosong. Tombol hijau **Play ▶** (*Start the simulation*) berada di pojok kanan atas gambar board.
 
 Program bawaan Wokwi tampak seperti ini:
 
 ```cpp
 void setup() {
   // Bagian ini dijalankan SATU KALI saat ESP32 baru dinyalakan
+  // 115200 adalah kecepatan pengiriman data per detik (baud rate)
   Serial.begin(115200);
   Serial.println("Hello, ESP32!");
 }
@@ -113,12 +114,12 @@ Sekarang, mari kita buat lampu LED pada board berkedip:
 
 ```cpp
 void setup() {
-  // Beritahu ESP32 bahwa pin GPIO 2 (LED onboard) digunakan sebagai OUTPUT (pengirim sinyal listrik)
+  // Menyiapkan pin GPIO 2 (terhubung ke lampu LED biru di board) sebagai OUTPUT (pengirim sinyal listrik)
   pinMode(2, OUTPUT);
 }
 
 void loop() {
-  // 1. Alirkan sinyal listrik 3.3V ke pin 2 -> Lampu LED MENYALA
+  // 1. Alirkan sinyal listrik 3,3V ke pin 2 -> Lampu LED MENYALA
   digitalWrite(2, HIGH);
 
   // 2. Tahan kondisi menyala ini selama 1000 milidetik (1 detik)
@@ -139,7 +140,7 @@ void loop() {
 
 ### Langkah 4 — Latihan Singkat (*Tebak dan Buktikan*)
 
-Coba latih intuisimu:  
+Mari kita latih intuisimu:  
 *Jika angka `1000` pada fungsi `delay()` kita ganti menjadi angka `100`, apakah kedipan lampu akan menjadi lebih cepat atau lebih lambat?*
 
 Mari kita buktikan:
@@ -163,7 +164,7 @@ void loop() {
 > **Jika Lampu Tidak Berkedip:**
 > 1. Pastikan tab yang kamu edit adalah **`sketch.ino`**, bukan `diagram.json`.
 > 2. Pastikan kamu sudah menekan tombol **Stop**, lalu menekan tombol **Play ▶** kembali setelah mengedit kode.
-> 3. Pastikan nomor pin yang kamu tulis adalah angka `2` (LED bawaan board virtual ESP32 terhubung ke pin GPIO 2).
+> 3. Pastikan nomor pin yang kamu tulis adalah angka `2` (karena lampu LED bawaan pada board ESP32 terhubung ke pin GPIO 2).
 > 4. Jika halaman web macet, cukup muat ulang (*refresh*) browser dan buka kembali tautan proyek.
 
 ---
@@ -194,13 +195,13 @@ Jawabannya terletak pada perbedaan tujuan perancangannya:
 Di dalam ESP32, tidak ada desktop grafis, tidak ada aplikasi perkantoran, dan tidak ada browser YouTube. Program yang kamu tulis akan dijalankan secara **langsung di atas sirkuit fisik chip silikon**.
 
 Istilah teknis untuk cara kerja ini disebut **Bare-Metal Execution**:
-- *Bare* = Polos / tanpa perantara.
+- *Bare* = Polos / langsung tanpa perantara.
 - *Metal* = Logam silikon fisik pada prosesor.  
-Artinya: Kodemu langsung berkomunikasi dengan perangkat keras tanpa terhalang oleh sistem operasi yang berat.
+Artinya: Kodemu langsung mengendalikan sirkuit chip tanpa terhalang oleh sistem operasi yang berat.
 
 **Analogi Sederhana:**  
 - **Laptop** seperti **Gedung Perkantoran Bertingkat**: Pintu gerbang harus dibuka dulu, lampu lobi dinyalakan, lift dihidupkan, dan resepsionis harus siap sebelum kamu bisa mulai bekerja di ruanganmu.  
-- **ESP32** seperti **Sakelar Senter di Tangan**: Begitu tombol digeser, listrik langsung mengalir ke lampu seketika tanpa antre!
+- **ESP32** seperti **Sakelar Senter di Tangan**: Begitu tombol digeser, listrik langsung mengalir ke lampu seketika tanpa perlu proses antre!
 
 ---
 
@@ -252,7 +253,7 @@ Prosesor pada laptopmu umumnya menggunakan arsitektur Intel atau AMD (x86_64), s
 
 Karena bentuk sirkuit kedua prosesor ini berbeda, komputermu membutuhkan kompiler penerjemah khusus yang diberi nama `xtensa-esp32-elf-gcc`.
 
-**Analoginya:** Kamus penerjemah bahasa Indonesia ke bahasa Inggris tidak bisa dipakai untuk menerjemahkan ke bahasa Jepang. Setiap keluarga prosesor memiliki "kamus bahasa mesin" tersendiri. Pada [Modul 0.6](06-setup-tools-dan-simulator.md), aplikasi PlatformIO akan menyiapkan seluruh perlengkapan penerjemah ini secara otomatis untukmu.
+**Analoginya:** Kamus penerjemah bahasa Indonesia ke bahasa Inggris tidak bisa dipakai untuk menerjemahkan ke bahasa Jepang. Setiap keluarga prosesor memiliki "kamus bahasa mesin" tersendiri. Pada [Modul 0.6](06-setup-tools-dan-simulator.md), aplikasi PlatformIO akan menyiapkan seluruh perlengkapan penerjemah ini secara otomatis untukmu di latar belakang.
 
 </details>
 
@@ -275,13 +276,13 @@ Agar fungsinya mudah dipahami, perhatikan peta visual berikut:
 ### Bagian-Bagian Kunci pada Board:
 
 - **Pelindung Logam ESP-WROOM-32 (*Metal Shielding*):**  
-  Kaleng pelindung persegi di bagian tengah board. Di dalamnya tersimpan prosesor utama, sirkuit radio Wi-Fi/Bluetooth, dan chip memori flash. Pelindung logam ini berfungsi meredam gangguan gelombang elektromagnetik liar dari luar.
+  Kaleng pelindung persegi di bagian tengah board. Di dalamnya tersimpan prosesor utama, sirkuit radio Wi-Fi/Bluetooth, dan chip memori flash. Pelindung logam ini sengaja dipasang permanen untuk meredam gangguan gelombang elektromagnetik liar dari lingkungan sekitar.
 - **Chip USB-to-UART Bridge:**  
   Kotak hitam kecil di dekat colokan USB (biasanya bertipe CP2102 atau CH340) yang menghubungkan komunikasi data antara laptop dan prosesor ESP32.
 - **Lampu Indikator Daya (Power LED - Merah):**  
   Menyala merah stabil saat board menerima pasokan daya listrik dengan baik.
 - **Lampu LED Pengguna (Onboard LED pada GPIO 2 - Biru):**  
-  Lampu LED bawaan yang terhubung ke pin GPIO 2. Lampu inilah yang kita program untuk berkedip di Wokwi tadi.
+  Lampu LED bawaan yang terhubung ke pin GPIO 2. Lampu inilah yang kita program untuk berkedip pada simulasi Wokwi tadi.
 - **Jarum Pin Logam (Header Pins):**  
   Deretan jarum pin di sisi kiri dan kanan board yang berfungsi untuk menancapkan kabel jumper atau sensor saat merakit sirkuit di breadboard.
 - **Tombol EN (*Enable* / Reset):**  
@@ -346,7 +347,7 @@ Pada daftar tersebut, kamu akan melihat salah satu nama perangkat berikut:
 
 > [!WARNING]
 > **Penyebab dan Solusi Praktis:**
-> 1. **Kabel yang Dipakai Hanya Kabel Charger:** Lampu LED merah di board tetap menyala, tetapi Windows sama sekali tidak mendeteksi perangkat data baru. **Solusi:** Ganti kabel dengan kabel data smartphone yang biasa kamu pakai untuk memindahkan foto ke laptop.
+> 1. **Kabel yang Dipakai Hanya Kabel Charger:** Lampu LED merah di board tetap menyala, tetapi Windows sama sekali tidak mendeteksi perangkat data baru. **Solusi:** Ganti kabel dengan kabel data smartphone yang biasa kamu pakai untuk memindahkan file foto ke laptop.
 > 2. **Driver Belum Terpasang di Komputer:** Pada menu *Other devices*, muncul perangkat bertanda seru kuning bertuliskan `⚠️ USB2.0-Serial`. Ini menandakan Windows membutuhkan driver penerjemah chip USB tersebut.
 >    - Unduh Driver Resmi Chip CP2102: **[Silicon Labs CP210x VCP Driver](https://www.silabs.com/developers/usb-to-uart-bridge-vcp-drivers)**
 >    - Unduh Driver Resmi Chip CH340: **[WCH CH341SER Official Driver](http://www.wch-ic.com/downloads/CH341SER_EXE.html)**
