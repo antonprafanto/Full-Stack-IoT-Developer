@@ -1,4 +1,4 @@
-# Modul 0.0: Bagaimana Kode yang Kita Ketik Bisa Masuk ke Chip ESP32?
+# Modul 0.0: Bagaimana Kode Masuk ke Dalam Chip ESP32?
 
 > **Tingkat Kesulitan:** Sangat ramah pemula (*Zero Prerequisite* — belum perlu pengalaman coding atau elektronika apa pun)  
 > **Estimasi Waktu:** 15–20 menit (membaca panduan santai + mencoba simulasi langsung di browser)  
@@ -282,7 +282,7 @@ Agar fungsinya mudah dipahami, perhatikan peta visual berikut:
 - **Lampu Indikator Daya (Power LED - Merah):**  
   Menyala merah stabil saat board menerima pasokan daya listrik dengan baik.
 - **Lampu LED Pengguna (Onboard LED pada GPIO 2 - Biru):**  
-  Lampu LED bawaan yang terhubung ke pin GPIO 2. Lampu inilah yang kita program untuk berkedip pada simulasi Wokwi tadi.
+  Lampu LED bawaan yang terhubung ke pin GPIO 2. Lampu inilah yang kita program untuk berkedip di Wokwi tadi.
 - **Jarum Pin Logam (Header Pins):**  
   Deretan jarum pin di sisi kiri dan kanan board yang berfungsi untuk menancapkan kabel jumper atau sensor saat merakit sirkuit di breadboard.
 - **Tombol EN (*Enable* / Reset):**  
