@@ -1,20 +1,20 @@
 # Modul 0.0: Bagaimana Kode Masuk ke Dalam Chip ESP32?
 
-> **Tingkat Kesulitan:** Sangat ramah pemula (*Zero Prerequisite* — belum perlu pengalaman coding atau elektronika apa pun)  
-> **Estimasi Waktu:** 15–20 menit (membaca panduan santai + mencoba simulasi langsung di browser)  
-> **Kebutuhan Alat:** Belum wajib punya board fisik. Kamu bisa mengikuti seluruh isi materi dan simulasi di browser sampai selesai.
+> **Tingkat Kesulitan:** Sangat ramah pemula (*Zero Prerequisite* — tidak membutuhkan latar belakang coding atau elektronika)  
+> **Estimasi Waktu Belajar:** 15–20 menit (membaca panduan santai + mencoba simulasi langsung di browser)  
+> **Kebutuhan Alat:** Belum wajib memiliki board fisik. Kamu bisa mengikuti seluruh materi dan simulasi di browser sampai selesai.
 
 ---
 
-## 🛠️ Peralatan yang Kita Gunakan Hari Ini
+## 🛠️ Peralatan yang Kita Butuhkan Hari Ini
 
 Agar kamu tidak bingung harus menyiapkan aplikasi apa di komputermu, untuk modul ini kita **hanya** memerlukan alat-alat berikut:
 
-| Alat | Status | Fungsi & Penjelasan |
+| Alat | Status | Fungsi & Keterangan |
 | :--- | :---: | :--- |
-| **Browser Web** (Chrome, Edge, atau Firefox) | **Wajib** | Untuk membuka simulator **Wokwi** dan mencoba program secara langsung di browser tanpa perlu menginstal aplikasi apa pun. |
-| **Modul ESP32 Fisik + Kabel USB Data** | **Opsional** | Untuk memeriksa deteksi port di Windows Device Manager (hanya jika kamu sudah memiliki board fisik). |
-| **VS Code / PlatformIO / Arduino IDE** | **Belum Perlu** | Aplikasi coding lokal ini baru akan kita pasang bersama di [Modul 0.6](06-setup-tools-dan-simulator.md). Sekarang belum perlu diinstal. |
+| **Browser Web** (Google Chrome, Edge, atau Firefox) | **Wajib** | Untuk membuka simulator **Wokwi** dan menjalankan program langsung di browser tanpa perlu menginstal aplikasi apa pun. |
+| **Modul ESP32 Fisik + Kabel USB Data** | **Opsional** | Untuk melihat deteksi port di Windows Device Manager (hanya jika kamu sudah memegang board fisik). |
+| **VS Code / PlatformIO / Arduino IDE** | **Belum Perlu** | Aplikasi coding lokal ini baru akan kita pasang bersama pada [Modul 0.6](06-setup-tools-dan-simulator.md). Sekarang belum perlu dipasang. |
 
 > [!TIP]
 > **Tautan Simulator untuk Modul Ini:** [Wokwi ESP32 Starter Project](https://wokwi.com/projects/new/esp32)  
@@ -29,7 +29,7 @@ Bagi pemula yang baru pertama kali belajar perangkat keras (*hardware*), wajar j
 Jawabannya: **Sama sekali tidak!**
 
 1. **Tegangannya Sangat Kecil:**  
-   ESP32 bekerja pada tegangan **3,3 volt sampai 5 volt DC** (arus searah, sama seperti baterai jam dinding atau baterai remote TV). Tegangan sekecil ini **100% aman disentuh dengan jari tangan** dan tidak memiliki daya untuk menyetrum kulit manusia.
+   ESP32 bekerja pada tegangan **3,3 volt sampai 5 volt DC** (arus searah, setara dengan baterai jam dinding atau baterai remote TV). Tegangan sekecil ini **100% aman disentuh dengan jari tangan** dan tidak memiliki daya untuk menyetrum kulit manusia.
 2. **Laptopmu Memiliki Pengaman Otomatis:**  
    Port USB pada laptop dan komputer modern sudah dilengkapi pengaman pemutus arus otomatis (*Overcurrent Protection*). Jika ada kabel yang salah pasang sekalipun, laptop akan memutus aliran listrik seketika untuk mengamankan dirinya sendiri.
 
@@ -282,7 +282,7 @@ Agar fungsinya mudah dipahami, perhatikan peta visual berikut:
 - **Lampu Indikator Daya (Power LED - Merah):**  
   Menyala merah stabil saat board menerima pasokan daya listrik dengan baik.
 - **Lampu LED Pengguna (Onboard LED pada GPIO 2 - Biru):**  
-  Lampu LED bawaan yang terhubung ke pin GPIO 2. Lampu inilah yang kita program untuk berkedip di Wokwi tadi.
+  Lampu LED bawaan yang terhubung ke pin GPIO 2. Lampu inilah yang kita program untuk berkedip pada simulasi Wokwi tadi.
 - **Jarum Pin Logam (Header Pins):**  
   Deretan jarum pin di sisi kiri dan kanan board yang berfungsi untuk menancapkan kabel jumper atau sensor saat merakit sirkuit di breadboard.
 - **Tombol EN (*Enable* / Reset):**  
