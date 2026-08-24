@@ -8,11 +8,11 @@
 
 ## 🛠️ Peralatan yang Kita Butuhkan
 
-Agar kamu tidak bingung harus menyiapkan apa saja, pada modul ini kita **hanya** memerlukan alat-alat berikut:
+Agar kamu tidak bingung harus menyiapkan apa saja di mejamu, pada modul ini kita **hanya** memerlukan alat-alat berikut:
 
 | Alat | Status | Fungsi & Keterangan |
 | :--- | :---: | :--- |
-| **Browser Web** (Google Chrome, Edge, atau Firefox) | **Wajib** | Untuk membuka simulator **Wokwi** dan merangkai sirkuit virtual langsung di browser. |
+| **Browser Web** (Google Chrome, Edge, atau Firefox) | **Wajib** | Untuk membuka simulator **Wokwi** dan merangkai sirkuit virtual langsung di browser tanpa instalasi apa pun. |
 | **Kalkulator Smartphone / Komputer** | **Wajib** | Untuk mencoba menghitung kebutuhan nilai resistor dengan rumus sederhana. |
 | **Komponen Fisik (Breadboard, LED, Resistor Asli)** | **Belum Perlu** | Praktik menggunakan alat fisik akan kita bahas di modul selanjutnya. Sekarang kita fokus memahami logikanya terlebih dahulu. |
 
@@ -26,7 +26,7 @@ Jika kamu sudah menyelesaikan [Modul 0.0: Bagaimana Kode Masuk ke Dalam Chip ESP
 
 ## ⚡ Tenang, Listrik di Modul Ini Sangat Aman!
 
-Sebelum melangkah lebih jauh, mari kita pastikan satu hal penting:
+Sebelum melangkah lebih jauh, mari kita pastikan satu hal penting agar kamu merasa tenang:
 
 Tegangan kerja yang kita gunakan pada mikrokontroler ESP32 hanya berkisar **3,3 volt hingga 5 volt DC** (arus searah, setara dengan tegangan baterai jam dinding atau baterai remote TV). Tegangan sekecil ini **100% aman disentuh langsung dengan jari tangan** dan sama sekali tidak memiliki daya untuk menyengat kulit manusia.
 
@@ -112,7 +112,7 @@ Untuk mempermudah mengingat rumus ini saat merakit sirkuit, para teknisi menggun
 Daya listrik dihitung dengan rumus: $P = V \times I$.  
 Misalnya, sebuah pin GPIO 3,3V mengalirkan arus sebesar 0,015A ke lampu LED:
 $$P = 3,3\text{ V} \times 0,015\text{ A} = 0,0495\text{ Watt}$$
-Daya sebesar 0,05 Watt ini sangat kecil, sehingga komponen LED tidak akan panas dan sangat hemat baterai.
+Daya sebesar 0,05 Watt ini sangat kecil, sehingga komponen LED tidak akan panas dan sangat hemat energi.
 
 </details>
 
@@ -148,8 +148,12 @@ Mari kita lihat bentuk fisik LED 5 mm:
 
 *Panduan polaritas kaki LED: Kaki panjang adalah Anoda (+), kaki pendek adalah Katoda (-).*
 
-- **Kaki Lebih Panjang = Anoda (+):** Tempat arus listrik masuk (dihubungkan ke pin pengirim tegangan positif dari ESP32).
-- **Kaki Lebih Pendek & Sisi Plastik Pipih = Katoda (-):** Tempat arus listrik keluar (dihubungkan ke jalur Ground / GND).
+**3 Cara Membedakan Kutub Positif dan Negatif pada LED:**
+1. **Panjang Kaki:** Kaki yang **lebih panjang** adalah **Anoda (+)**, sedangkan kaki yang **lebih pendek** adalah **Katoda (-)**.
+2. **Sisi Plastik Kubah:** Pada tepi lingkaran kubah LED, terdapat **satu sisi yang dipapas rata/pipih**. Kaki yang berada di dekat sisi pipih tersebut adalah **Katoda (-)**.
+3. **Bentuk Pelat di Dalam Kubah Bening:** Jika kamu menerawang ke dalam plastik LED transparan:
+   - Pelat logam yang berbentuk **kecil ramping** adalah **Anoda (+)**.
+   - Pelat logam yang berbentuk **lebar menyerupai bendera** adalah **Katoda (-)**.
 
 ---
 
