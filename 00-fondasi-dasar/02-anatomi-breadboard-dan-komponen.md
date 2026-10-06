@@ -39,19 +39,13 @@ Jadi, bereksperimenlah dengan santai dan nikmati proses belajarnya! 😊
 
 ## 🧭 Apa yang Akan Kita Pelajari?
 
-```
-┌────────────────────────────────────────────────────────────────────────┐
-│                        ALUR MATERI MODUL 0.2                           │
-├────────────────────────────────────────────────────────────────────────┤
-│ 1. Membedah Isi Perut Breadboard: Jalur Horizontal vs Vertikal        │
-│ 2. Kesalahan Fatal Nomor 1 Pemula: Korslet di Kolom yang Sama          │
-│ 3. Cara Menentukan Polaritas Komponen (+ vs -): LED, Dioda, Kapasitor  │
-│ 4. Membaca Kode Warna Resistor Tanpa Rumit (3 Resistor Utama IoT)      │
-│ 5. Tiga Jenis Kabel Jumper & Standar Warna Kabel Rapi                  │
-│ 6. Praktik Virtual Wokwi: Merakit Sirkuit Breadboard Pertama           │
-│ 7. Glosarium Istilah Penting & Kuis Refleksi Pemahaman                 │
-└────────────────────────────────────────────────────────────────────────┘
-```
+1. **Membedah Isi Perut Breadboard:** Memahami rel daya horizontal (*Power Rails*) vs kolom komponen vertikal (*Terminal Strips*).
+2. **Kesalahan Fatal Nomor 1 Pemula:** Mencegah korslet (*short circuit*) akibat menancapkan kedua kaki di kolom yang sama.
+3. **Menentukan Polaritas Komponen ($+$ vs $-$):** Cara mudah membedakan kaki Anoda dan Katoda pada LED, Dioda 1N4007, dan Kapasitor Elektrolit.
+4. **Membaca Kode Warna Resistor:** Mengenali 3 resistor paling penting di proyek IoT tanpa perlu menghafal rumus rumit.
+5. **Mengenal Kabel Jumper & Standar Warna:** Memilih jenis kabel (M-M, M-F, F-F) dan membiasakan kode warna kabel rapi.
+6. **Praktik Virtual Wokwi:** Merakit sirkuit breadboard pertamamu dan membuktikan cara kerjanya secara langsung.
+7. **Glosarium Istilah & Kuis Pemahaman:** Menguji intuisimu lewat 4 pertanyaan praktis reflektif.
 
 ---
 
