@@ -66,7 +66,7 @@
 - [x] Praktik Wokwi: LED + resistor 220 Ω di GPIO 4, lalu eksperimen 10 kΩ.
 
 ### 0.2 Anatomi Breadboard & Komponen Fisik (Anti-Korslet)
-> Materi: [02-anatomi-breadboard-dan-komponen.md](00-fondasi-dasar/02-anatomi-breadboard-dan-komponen.md) · Audit visual & pedagogis: foto asli breadboard atas/bawah (Guhuru), makro dioda 1N4007 (Nevit Dilmen), kapasitor elektrolit (Hustvedt), kabel jumper Dupont (oomlout), tabel warna resistor (S-kei), infografis korslet vs benar, serta panduan Wokwi interaktif + opsi instan diagram.json.
+> Materi: [02-anatomi-breadboard-dan-komponen.md](00-fondasi-dasar/02-anatomi-breadboard-dan-komponen.md) · Audit visual & pedagogis lengkap: infografis vektor alur internal breadboard, infografis 3-in-1 polaritas komponen (LED, dioda, kapasitor), infografis kode warna resistor 4-gelang, tabel komparasi responsif korslet vs normal, diagram alur sirkuit Mermaid, foto makro asli berlisensi (Guhuru, Nevit Dilmen, Hustvedt, oomlout, S-kei), serta panduan Wokwi interaktif + opsi instan diagram.json.
 - [x] Memahami jalur plat tembaga internal breadboard (*Power Rails* horizontal vs *Terminal Strips* vertikal).
 - [x] Mengidentifikasi kaki polaritas anoda/katoda pada LED, kapasitor elektrolit, dan orientasi dioda.
 - [x] Membaca kode warna resistor ($220\Omega, 1k\Omega, 10k\Omega$) dan memverifikasi dengan multimeter.
