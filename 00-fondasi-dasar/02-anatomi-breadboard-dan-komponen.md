@@ -70,28 +70,42 @@ Namun, di balik lubang-lubang plastik putih tersebut, terdapat **deretan pelat j
 
 Perhatikan diagram alur pelat tembaga di bawah ini:
 
-```
-    JALUR DAYA ATAS (POWER RAILS) - TERSAMBUNG HORIZONTAL (KIRI KE KANAN)
-    (+) ──[===============================================================]── (+) Garis Merah
-    (-) ──[===============================================================]── (-) Garis Biru
-    
-    JALUR KOMPONEN TENGAH (TERMINAL STRIPS) - TERSAMBUNG VERTIKAL (ATAS KE BAWAH)
-          Kolom 1   Kolom 2   Kolom 3   ...   Kolom 30
-        A   (o)       (o)       (o)             (o)
-        B   (o)       (o)       (o)             (o)     Setiap 5 lubang (A-B-C-D-E)
-        C   (o)       (o)       (o)             (o) ◄── TERSAMBUNG OLEH 1 PELAT
-        D   (o)       (o)       (o)             (o)     TEMBAGA DI BAWAHNYA!
-        E   (o)       (o)       (o)             (o)
-       ═════════════════════════════════════════════  ◄── PARIT TENGAH (TERPUTUS / ISOLASI)
-        F   (o)       (o)       (o)             (o)
-        G   (o)       (o)       (o)             (o)     Setiap 5 lubang (F-G-H-I-J)
-        H   (o)       (o)       (o)             (o) ◄── TERSAMBUNG OLEH 1 PELAT
-        I   (o)       (o)       (o)             (o)     TEMBAGA TERPISAH!
-        J   (o)       (o)       (o)             (o)
-    
-    JALUR DAYA BAWAH (POWER RAILS) - TERSAMBUNG HORIZONTAL (KIRI KE KANAN)
-    (+) ──[===============================================================]── (+) Garis Merah
-    (-) ──[===============================================================]── (-) Garis Biru
+*(Catatan: Diagram visual di bawah ini memetakan alur pelat tembaga di bawah lubang breadboard. Simbol garis `│` dan `─` menunjukkan lubang-lubang yang saling terhubung secara elektrik).*
+
+```text
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ PETA ALUR PELAT TEMBAGA INTERNAL BREADBOARD                                 │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ JALUR DAYA ATAS (POWER RAILS) ──► TERSAMBUNG HORIZONTAL (KIRI KE KANAN)     │
+│  (+) ────○─────○─────○─────○─────○─────○─────○─────○─────○─────○──── (+) MERAH │
+│  (-) ────○─────○─────○─────○─────○─────○─────○─────○─────○─────○──── (-) BIRU  │
+│                                                                             │
+│ JALUR KOMPONEN TENGAH (TERMINAL STRIPS) ──► TERSAMBUNG VERTIKAL (PER KOLOM)│
+│        Kolom 1   Kolom 2   Kolom 3       Kolom 30                           │
+│     A    (○)       (○)       (○)           (○)                              │
+│           │         │         │             │    Setiap 5 lubang (A-B-C-D-E)│
+│     B    (○)       (○)       (○)           (○)   TERHUBUNG LANGSUNG OLEH    │
+│           │         │         │             │    SATU PELAT TEMBAGA         │
+│     C    (○)       (○)       (○)   ...     (○) ◄── DI BAWAHNYA!             │
+│           │         │         │             │                               │
+│     D    (○)       (○)       (○)           (○)                              │
+│           │         │         │             │                               │
+│     E    (○)       (○)       (○)           (○)                              │
+│        ═════════════════════════════════════════ ◄── PARIT TENGAH (TERISOLASI) │
+│     F    (○)       (○)       (○)           (○)                              │
+│           │         │         │             │                               │
+│     G    (○)       (○)       (○)           (○)   Setiap 5 lubang (F-G-H-I-J)│
+│           │         │         │             │    TERHUBUNG LANGSUNG OLEH    │
+│     H    (○)       (○)       (○)   ...     (○) ◄── PELAT TEMBAGA TERPISAH!  │
+│           │         │         │             │                               │
+│     I    (○)       (○)       (○)           (○)                              │
+│           │         │         │             │                               │
+│     J    (○)       (○)       (○)           (○)                              │
+│                                                                             │
+│ JALUR DAYA BAWAH (POWER RAILS) ──► TERSAMBUNG HORIZONTAL (KIRI KE KANAN)    │
+│  (+) ────○─────○─────○─────○─────○─────○─────○─────○─────○─────○──── (+) MERAH │
+│  (-) ────○─────○─────○─────○─────○─────○─────○─────○─────○─────○──── (-) BIRU  │
+└─────────────────────────────────────────────────────────────────────────────┘
 ```
 
 ### Dua Wilayah Utama pada Breadboard:
@@ -119,19 +133,24 @@ Mari kita pelajari kesalahan paling mendasar yang sering membuat pemula bingung 
 
 *Perbandingan pemasangan komponen: Menancapkan kedua kaki komponen pada kolom yang sama akan membuat arus listrik mengambil jalan pintas melalui pelat tembaga (korsleting). Komponen wajib menjembatani dua kolom berbeda agar dapat dialiri arus secara normal.*
 
-```
-   ❌ CARA SALAH (KORSLETING / TIDAK MENYALA)       ✅ CARA BENAR (BERFUNGSI NORMAL)
-   
-     Kolom 5                                          Kolom 5        Kolom 8
-   A   (o)                                          A   (o)            (o)
-   B   (o) ◄── Kaki Kiri Resistor                   B   (o) ◄──────────(o) ◄── Resistor
-   C   (o)                                          C   (o) Jumper ke  (o)     menjembatani
-   D   (o) ◄── Kaki Kanan Resistor                  D   (o) LED (+)    (o)     dua kolom!
-   E   (o)                                          E   (o)            (o)
-       ▲                                                ▲              ▲
-   Kedua kaki menancap di kolom yang sama!          Kolom 5        Kolom 8
-   Listrik memilih jalan pintas (korslet)           berbeda pelat tembaga!
-   dan resistor dilewati begitu saja!
+```text
+┌──────────────────────────────────────┬──────────────────────────────────────┐
+│ CARA SALAH: Keduanya di 1 Kolom      │ CARA BENAR: Menjembatani 2 Kolom     │
+├──────────────────────────────────────┼──────────────────────────────────────┤
+│    Kolom 5                           │    Kolom 5        Kolom 8            │
+│  A   (○)                             │  A   (○)            (○)              │
+│       │                              │       │              │               │
+│  B   (●) ◄── Kaki Kiri Resistor      │  B   (●) ◄──────────(●) ◄── Resistor │
+│       │                              │       │              │      jembatani│
+│  C   (○)     Kedua kaki sejalur!     │  C   (○) Jumper ke  (○)     2 kolom  │
+│       │      Arus bypass lewat       │       │   LED (+)    │      berbeda! │
+│  D   (●) ◄── Kaki Kanan Resistor     │  D   (○)            (○)              │
+│       │      pelat tembaga bawah.    │       │              │               │
+│  E   (○)                             │  E   (○)            (○)              │
+│                                      │                                      │
+│  Akibat: Arus pintas (korslet),      │  Kedua kolom beda pelat tembaga,     │
+│  resistor dilewati sia-sia.          │  arus dipaksa lewat badan resistor.  │
+└──────────────────────────────────────┴──────────────────────────────────────┘
 ```
 
 > [!WARNING]
