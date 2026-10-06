@@ -41,19 +41,13 @@ Listrik bertegangan tinggi seperti stopkontak PLN 220V AC adalah ranah instalasi
 
 ## 🧭 Apa yang Akan Kita Pelajari?
 
-```
-┌────────────────────────────────────────────────────────────────────────┐
-│                        ALUR MATERI MODUL 0.1                           │
-├────────────────────────────────────────────────────────────────────────┤
-│ 1. Dasar Listrik Intuitif: Analogi Aliran Air (Volt, Ampere, Ohm, Watt)│
-│ 2. Hukum Ohm Sederhana: Hubungan Segitiga V, I, dan R                  │
-│ 3. Mengapa Lampu LED Wajib Menggunakan Resistor?                       │
-│ 4. Cara Menghitung Nilai Resistor yang Tepat (3 Langkah Mudah)         │
-│ 5. Perbedaan Arus DC vs AC: Mengapa Chip Membutuhkan Sinyal Datar?     │
-│ 6. Praktik Simulator Wokwi: Merangkai LED dan Mengubah Resistor        │
-│ 7. Glosarium Istilah Penting & Kuis Refleksi                           │
-└────────────────────────────────────────────────────────────────────────┘
-```
+1. **Dasar Listrik Intuitif:** Analogi aliran air (Volt, Ampere, Ohm, dan Watt).
+2. **Hukum Ohm Sederhana:** Memahami hubungan segitiga rumus $V$, $I$, dan $R$.
+3. **Mengapa Lampu LED Wajib Menggunakan Resistor?** Menghindari fenomena *thermal runaway*.
+4. **Cara Menghitung Nilai Resistor yang Tepat:** 3 langkah praktis menentukan hambatan yang pas.
+5. **Perbedaan Arus DC vs AC:** Mengapa mikrokontroler membutuhkan tegangan searah yang datar.
+6. **Praktik Simulator Wokwi:** Merangkai sirkuit LED dan menguji pengaruh perubahan nilai resistor di browser.
+7. **Glosarium Istilah Penting & Kuis Refleksi:** Menguji pemahaman barumu secara mandiri.
 
 ---
 

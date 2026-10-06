@@ -73,6 +73,7 @@
 - [x] Menggunakan kabel jumper (*Male-to-Male*, *Male-to-Female*, *Female-to-Female*) secara tepat.
 
 ### 0.3 Logika Sirkuit Dasar & Fenomena Penting IoT
+> Materi: [03-logika-sirkuit-dan-common-ground.md](00-fondasi-dasar/03-logika-sirkuit-dan-common-ground.md) · Audit visual & pedagogis lengkap: infografis vektor Common Ground (0V acuan bersama), infografis Floating Pin & Pull-Up/Pull-Down, infografis Voltage Divider dinamis terang vs gelap, infografis kendali daya tinggi Transistor & Relay, panduan visual 3 mode Multimeter Digital, foto makro asli berlisensi (Nevit Dilmen, Suyash Dwivedi, K.Venkataramana), serta panduan Wokwi interaktif LDR + opsi instan diagram.json.
 - [x] **Prinsip Mutlak Common Ground (GND Sharing):** Menghubungkan semua GND perangkat agar memiliki titik acuan 0V yang sama.
 - [x] Menghitung dan merakit rangkaian pembagi tegangan (*Voltage Divider*) untuk sensor analog LDR.
 - [x] Memahami fenomena *Floating Pin* dan memasang resistor Pull-up / Pull-down.
