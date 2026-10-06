@@ -68,45 +68,11 @@ Namun, di balik lubang-lubang plastik putih tersebut, terdapat **deretan pelat j
 
 *Foto fisik breadboard asli: Sisi kiri menampilkan tampak atas dengan label koordinat, sedangkan sisi kanan memperlihatkan pelat jepit logam internal setelah lapisan perekat bawahnya dibuka. Sumber: Guhuru, Wikimedia Commons, Lisensi CC BY-SA 4.0 / CC0.*
 
-Perhatikan diagram alur pelat tembaga di bawah ini:
+Perhatikan diagram infografis alur pelat tembaga di bawah ini:
 
-*(Catatan: Diagram visual di bawah ini memetakan alur pelat tembaga di bawah lubang breadboard. Simbol garis `│` dan `─` menunjukkan lubang-lubang yang saling terhubung secara elektrik).*
+![Diagram visual alur pelat tembaga internal breadboard: rel daya horizontal vs jalur komponen vertikal](aset/breadboard-jalur-internal.png)
 
-```text
-┌─────────────────────────────────────────────────────────────────────────────┐
-│ PETA ALUR PELAT TEMBAGA INTERNAL BREADBOARD                                 │
-├─────────────────────────────────────────────────────────────────────────────┤
-│ JALUR DAYA ATAS (POWER RAILS) ──► TERSAMBUNG HORIZONTAL (KIRI KE KANAN)     │
-│  (+) ────○─────○─────○─────○─────○─────○─────○─────○─────○─────○──── (+) MERAH │
-│  (-) ────○─────○─────○─────○─────○─────○─────○─────○─────○─────○──── (-) BIRU  │
-│                                                                             │
-│ JALUR KOMPONEN TENGAH (TERMINAL STRIPS) ──► TERSAMBUNG VERTIKAL (PER KOLOM)│
-│        Kolom 1   Kolom 2   Kolom 3       Kolom 30                           │
-│     A    (○)       (○)       (○)           (○)                              │
-│           │         │         │             │    Setiap 5 lubang (A-B-C-D-E)│
-│     B    (○)       (○)       (○)           (○)   TERHUBUNG LANGSUNG OLEH    │
-│           │         │         │             │    SATU PELAT TEMBAGA         │
-│     C    (○)       (○)       (○)   ...     (○) ◄── DI BAWAHNYA!             │
-│           │         │         │             │                               │
-│     D    (○)       (○)       (○)           (○)                              │
-│           │         │         │             │                               │
-│     E    (○)       (○)       (○)           (○)                              │
-│        ═════════════════════════════════════════ ◄── PARIT TENGAH (TERISOLASI) │
-│     F    (○)       (○)       (○)           (○)                              │
-│           │         │         │             │                               │
-│     G    (○)       (○)       (○)           (○)   Setiap 5 lubang (F-G-H-I-J)│
-│           │         │         │             │    TERHUBUNG LANGSUNG OLEH    │
-│     H    (○)       (○)       (○)   ...     (○) ◄── PELAT TEMBAGA TERPISAH!  │
-│           │         │         │             │                               │
-│     I    (○)       (○)       (○)           (○)                              │
-│           │         │         │             │                               │
-│     J    (○)       (○)       (○)           (○)                              │
-│                                                                             │
-│ JALUR DAYA BAWAH (POWER RAILS) ──► TERSAMBUNG HORIZONTAL (KIRI KE KANAN)    │
-│  (+) ────○─────○─────○─────○─────○─────○─────○─────○─────○─────○──── (+) MERAH │
-│  (-) ────○─────○─────○─────○─────○─────○─────○─────○─────○─────○──── (-) BIRU  │
-└─────────────────────────────────────────────────────────────────────────────┘
-```
+*Infografis anatomi internal breadboard: Jalur Rel Daya di tepi atas dan bawah tersambung horizontal memanjang (kiri-kanan), sedangkan Jalur Komponen di wilayah tengah tersambung vertikal per 5 lubang (A–E dan F–J) yang dipisahkan oleh Parit Isolasi Tengah.*
 
 ### Dua Wilayah Utama pada Breadboard:
 
@@ -510,7 +476,7 @@ Seluruh materi visual dalam modul ini disajikan dengan mematuhi etika atribusi d
 | `aset/kapasitor-elektrolit-foto.jpg` | [Hustvedt, Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Electrolytic_capacitor.jpg) | [Creative Commons Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0)](https://creativecommons.org/licenses/by-sa/3.0/) |
 | `aset/kabel-jumper-breadboard-asli.jpg` | [oomlout, Wikimedia Commons](https://commons.wikimedia.org/wiki/File:A_few_Jumper_Wires.jpg) | [Creative Commons Attribution-ShareAlike 2.0 Generic (CC BY-SA 2.0)](https://creativecommons.org/licenses/by-sa/2.0/) |
 | `aset/tabel-kode-warna-resistor.png` | [S-kei, Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Resistor_Color_Code.svg) | [Creative Commons Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0)](https://creativecommons.org/licenses/by-sa/3.0/) |
-| `aset/breadboard-korslet-vs-benar.jpg`, `aset/polaritas-kaki-led.jpg` | Ilustrasi orisinal kurikulum Fullstack IoT Developer | Hak cipta terbuka untuk materi kurikulum edukasi ini |
+| `aset/breadboard-jalur-internal.png`, `aset/breadboard-korslet-vs-benar.jpg`, `aset/polaritas-kaki-led.jpg` | Ilustrasi orisinal kurikulum Fullstack IoT Developer | Hak cipta terbuka untuk materi kurikulum edukasi ini |
 
 ---
 
