@@ -99,25 +99,11 @@ Mari kita pelajari kesalahan paling mendasar yang sering membuat pemula bingung 
 
 *Perbandingan pemasangan komponen: Menancapkan kedua kaki komponen pada kolom yang sama akan membuat arus listrik mengambil jalan pintas melalui pelat tembaga (korsleting). Komponen wajib menjembatani dua kolom berbeda agar dapat dialiri arus secara normal.*
 
-```text
-┌──────────────────────────────────────┬──────────────────────────────────────┐
-│ CARA SALAH: Keduanya di 1 Kolom      │ CARA BENAR: Menjembatani 2 Kolom     │
-├──────────────────────────────────────┼──────────────────────────────────────┤
-│    Kolom 5                           │    Kolom 5        Kolom 8            │
-│  A   (○)                             │  A   (○)            (○)              │
-│       │                              │       │              │               │
-│  B   (●) ◄── Kaki Kiri Resistor      │  B   (●) ◄──────────(●) ◄── Resistor │
-│       │                              │       │              │      jembatani│
-│  C   (○)     Kedua kaki sejalur!     │  C   (○) Jumper ke  (○)     2 kolom  │
-│       │      Arus bypass lewat       │       │   LED (+)    │      berbeda! │
-│  D   (●) ◄── Kaki Kanan Resistor     │  D   (○)            (○)              │
-│       │      pelat tembaga bawah.    │       │              │               │
-│  E   (○)                             │  E   (○)            (○)              │
-│                                      │                                      │
-│  Akibat: Arus pintas (korslet),      │  Kedua kolom beda pelat tembaga,     │
-│  resistor dilewati sia-sia.          │  arus dipaksa lewat badan resistor.  │
-└──────────────────────────────────────┴──────────────────────────────────────┘
-```
+| Parameter Perbandingan | ❌ Cara Salah (Korsleting / Gagal) | ✅ Cara Benar (Berfungsi Normal) |
+| :--- | :--- | :--- |
+| **Posisi Kaki Komponen** | Kedua kaki ditancapkan di **kolom yang sama** (misal 5B & 5D). | Kaki komponen **menjembatani dua kolom berbeda** (misal 5B & 8B). |
+| **Aliran Arus Listrik** | Arus mengambil jalan pintas (*bypass*) lewat pelat tembaga di bawahnya. | Arus listrik dipaksa mengalir melewati badan komponen. |
+| **Dampak pada Rangkaian** | **Komponen dilewati sia-sia & lampu tidak menyala sama sekali!** | **Komponen bekerja normal dan dialiri arus secara aman.** |
 
 > [!WARNING]
 > **Aturan Emas Merangkai di Breadboard:**  
@@ -135,6 +121,10 @@ Komponen elektronika terbagi menjadi dua kelompok besar:
 
 Mari kita pelajari cara mengenali kutub pada tiga komponen polar yang paling sering kita gunakan di dunia IoT:
 
+![Panduan visual menentukan polaritas komponen LED, Dioda, dan Kapasitor](aset/panduan-polaritas-komponen.png)
+
+*Infografis ringkasan polaritas 3 komponen polar utama IoT: Lampu LED (kaki panjang Anoda, kaki pendek Katoda), Dioda 1N4007 (cincin perak Katoda), dan Kapasitor Elektrolit (strip minus Katoda).*
+
 ---
 
 ### A. Lampu LED (*Light Emitting Diode*)
@@ -143,15 +133,6 @@ Lampu LED hanya mengalirkan arus listrik dari kutub **Anoda ($+$)** menuju **Kat
 ![Panduan cara membedakan kaki anoda dan katoda pada lampu LED](aset/polaritas-kaki-led.jpg)
 
 *Panduan polaritas kaki LED: Kaki panjang adalah Anoda (+), kaki pendek dan sisi papas pipih pada kubah plastik adalah Katoda (-).*
-
-```
-                  ┌─────────┐
-                  │ (  LED  │
-                  │   )==== │ ◄── Sisi Pipih / Rata (Flat Edge)
-                  └────┬─┬──┘
-         Panjang       │ │      Pendek
-         Anoda (+) ────┘ └─── Katoda (-)
-```
 
 * **Anoda (Positif / $+$):** Kaki yang lebih **panjang**. Jika dilihat ke dalam kubah plastik beningnya, pelat logamnya berukuran lebih **kecil ramping**.
 * **Katoda (Negatif / $-$):** Kaki yang lebih **pendek**. Pada bibir plastik kubah terdapat **sisi pipih/rata**, dan pelat logam di dalamnya berbentuk **lebar menyerupai bendera**.
@@ -165,14 +146,6 @@ Dioda berfungsi sebagai katup satu arah (mencegah arus listrik mengalir mundur y
 
 *Foto fisik dioda 1N4007: Garis cincin berwarna perak di sisi kanan menandai kutub Katoda (-). Sumber: Nevit Dilmen, Wikimedia Commons, Lisensi CC BY-SA 3.0.*
 
-```
-                  ┌───────────────┐
-                  │    [====| ]   │ ◄── Garis Cincin Perak / Putih
-                  └───┬───────┬───┘
-                      │       │
-                  Anoda (+) Katoda (-)
-```
-
 * **Katoda (Negatif / $-$):** Ujung badan dioda yang memiliki **garis cincin melingkar berwarna perak atau putih**.
 * **Anoda (Positif / $+$):** Sisi badan dioda yang berwarna hitam polos tanpa garis.
 
@@ -184,14 +157,6 @@ Kapasitor elektrolit berbentuk seperti tabung kaleng mini dan berfungsi menyimpa
 ![Foto fisik kapasitor elektrolit memperlihatkan strip vertikal bertanda minus](aset/kapasitor-elektrolit-foto.jpg)
 
 *Foto fisik kapasitor elektrolit: Kaki pendek dan garis strip vertikal dengan tanda minus (-) menandai kutub Katoda. Sumber: Hustvedt, Wikimedia Commons, Lisensi CC BY-SA 3.0.*
-
-```
-                  ┌─────────┐
-                  │ [ - - ] │ ◄── Garis Strip Abu-abu / Putih dengan Tanda Minus (-)
-                  └────┬─┬──┘
-                       │ │      
-         Anoda (+) ────┘ └─── Katoda (-) (Kaki Pendek)
-```
 
 * **Katoda (Negatif / $-$):** Kaki yang lebih **pendek**, dan di sisi tabungnya terdapat **garis strip vertikal berwarna terang bertanda minus ($-$)**.
 * **Anoda (Positif / $+$):** Kaki yang lebih **panjang** pada sisi tabung yang polos.
@@ -205,15 +170,9 @@ Kapasitor elektrolit berbentuk seperti tabung kaleng mini dan berfungsi menyimpa
 
 Resistor memiliki ukuran fisik yang sangat mungil sehingga nilai hambatannya tidak dicetak dalam bentuk angka huruf biasa, melainkan menggunakan **gelang kode warna melingkar**:
 
-```
-                 ┌───┬───┬───┬───┬───┐
-                 │   │ 1 │ 2 │ 3 │ 4 │   │
-                 └───┴─┬─┴─┬─┴─┬─┴─┬─┴───┘
-                       │   │   │   └─── Gelang 4: Toleransi Presisi (Emas = 5%)
-                       │   │   └─────── Gelang 3: Pengali Jumlah Nol (x10 / x100 / x1k)
-                       │   └─────────── Gelang 2: Angka Kedua
-                       └─────────────── Gelang 1: Angka Pertama
-```
+![Infografis anatomi dan pembacaan gelang warna resistor 4 gelang](aset/diagram-anatomi-resistor.png)
+
+*Infografis anatomi resistor 4-gelang: Gelang 1 & 2 menunjukkan angka pertama dan kedua, Gelang 3 adalah pengali jumlah nol, dan Gelang 4 adalah toleransi presisi.*
 
 ### 3 Resistor Paling Wajib yang Digunakan di Proyek IoT:
 Kamu tidak perlu menghafalkan seluruh tabel warna di awal. Cukup ingat **tiga kombinasi warna paling populer** yang mencakup 90% kebutuhan proyek kita:
@@ -265,29 +224,26 @@ Kabel jumper adalah kawat penghubung lentur berisolasi yang digunakan untuk meny
 
 *Foto fisik kabel jumper Dupont Male-to-Male dengan ujung jarum logam berlapis isolator hitam. Sumber: oomlout, Wikimedia Commons, Lisensi CC BY-SA 2.0.*
 
-```
-┌──────────────────────────────────────┐     ┌──────────────────────────────────────┐
-│        JENIS KABEL JUMPER            │     │         STANDAR WARNA KABEL          │
-├──────────────────────────────────────┤     ├──────────────────────────────────────┤
-│ 1. Male-to-Male (M-M):               │     │ 🔴 Merah  : Tegangan Positif (5V/3.3V│
-│    Jarum di kedua ujung kabel.       │     │ ⚫ Hitam  : Ground / Negatif (0V/GND)│
-│    (ESP32 ke Breadboard)             │     │ 🟡 Kuning : Sinyal Data / I2C SDA    │
-│ 2. Male-to-Female (M-F):             │     │ 🟢 Hijau  : Sinyal Clock / I2C SCL   │
-│    Jarum di 1 ujung, lubang di ujung │     │ 🔵 Biru   : Sinyal Kontrol / PWM     │
-│    lainnya. (ESP32 ke Modul Sensor)  │     │                                      │
-│ 3. Female-to-Female (F-F):           │     │ *Catatan: Semua kawat sama daya      │
-│    Lubang di kedua ujung kabel.      │     │ hantarnya, warna dipakai semata      │
-│    (Sensor langsung ke Raspberry Pi) │     │ untuk kerapian dan pelacakan.*       │
-└──────────────────────────────────────┘     └──────────────────────────────────────┘
-```
+### Tipe Kabel Jumper Berdasarkan Ujung Konektor:
 
-### 3 Jenis Ujung Konektor:
-1. **Male-to-Male (M-M / Jarum ke Jarum):** Kedua ujungnya memiliki jarum logam runcing. Ini adalah jenis kabel yang paling banyak kita gunakan untuk menghubungkan board ESP32 ke lubang breadboard.
-2. **Male-to-Female (M-F / Jarum ke Lubang):** Satu ujung berupa jarum dan ujung lainnya berupa soket lubang. Digunakan untuk menghubungkan modul sensor luar (yang sudah memiliki pin jarum menonjol) ke board ESP32.
-3. **Female-to-Female (F-F / Lubang ke Lubang):** Kedua ujungnya berupa soket lubang. Sering digunakan pada koneksi pin header Raspberry Pi langsung ke modul display.
+| Jenis Kabel Jumper | Ciri Fisik Ujung | Contoh Penggunaan Utama |
+| :--- | :--- | :--- |
+| **Male-to-Male (M-M)** | Jarum logam runcing di kedua ujung | Menghubungkan board ESP32 ke lubang breadboard. |
+| **Male-to-Female (M-F)** | Jarum di 1 ujung, soket lubang di ujung lain | Menghubungkan board ESP32 ke pin modul sensor luar. |
+| **Female-to-Female (F-F)** | Soket lubang di kedua ujung | Menghubungkan header Raspberry Pi langsung ke modul display. |
+
+### Standar Konvensi Warna Kabel Elektronika:
+
+| Standar Warna Kabel | Fungsi Aliran Listrik | Makna & Manfaat Praktis |
+| :--- | :--- | :--- |
+| 🔴 **Merah** | Tegangan Positif ($+$ / 3.3V / 5V) | Menandai jalur aktif sumber daya listrik utama. |
+| ⚫ **Hitam** | Ground / Negatif ($-$ / GND / 0V) | Menandai jalur titik pembuangan / acuan netral bersama. |
+| 🟡 **Kuning** | Sinyal Data (I2C SDA / RX) | Saluran komunikasi data sensor digital. |
+| 🟢 **Hijau** | Sinyal Detak Jam (I2C SCL / TX) | Saluran sinkronisasi clock komunikasi antar chip. |
+| 🔵 **Biru** | Sinyal Kontrol / PWM | Saluran modulasi kecerahan lampu atau kecepatan motor. |
 
 > [!TIP]
-> **Mengapa Warna Kabel Sangat Membantu?**  
+> **Mengapa Konvensi Warna Kabel Sangat Krusial?**  
 > Secara fisik, semua kawat tembaga di dalam kabel jumper memiliki kemampuan menghantar listrik yang persis sama. Namun, membiasakan diri menggunakan **kabel Merah untuk Positif ($+$)** dan **kabel Hitam untuk Ground ($-$ / GND)** akan menyelamatkan sirkuitmu dari kesalahan colok yang fatal saat rangkaian mulai padat!
 
 ---
@@ -349,16 +305,13 @@ Tarik sambungan kabel dengan cara mengklik pin asal lalu mengklik pin tujuan:
 1. **Kabel Merah:** Klik pin **3V3** pada board ESP32, lalu klik lubang breadboard **10C** *(arahkan kursor ke kabel, lalu ubah warnanya menjadi merah)*.
 2. **Kabel Hitam:** Klik lubang breadboard **15C**, lalu klik pin **GND** pada board ESP32 *(ubah warnanya menjadi hitam)*.
 
-```
-               DIAGRAM KONEKSI SIRKUIT BREADBOARD
-               
-   [ ESP32 ]                          [ BREADBOARD ]
-    Pin 3V3 ────(Kabel Merah)────────► Kolom 10 (10C) ──┐
-                                                        [ Resistor 220 Ω ]
-                                                         └► Kolom 14 (14A/14B) ──┐
-                                                                                [ Anoda LED (+) ]
-                                                                                [ Katoda LED (-) ]
-    Pin GND ◄───(Kabel Hitam)───────── Kolom 15 (15C/15B) ───────────────────────┘
+```mermaid
+flowchart LR
+    ESP_VCC["ESP32: Pin 3V3"] -- "Kabel Merah (+)" --> BB_10["Breadboard: Kolom 10"]
+    BB_10 -- "Resistor 220 Ω" --> BB_14["Breadboard: Kolom 14"]
+    BB_14 -- "Anoda (+)" --> LED["Lampu LED"]
+    LED -- "Katoda (-)" --> BB_15["Breadboard: Kolom 15"]
+    BB_15 -- "Kabel Hitam (-)" --> ESP_GND["ESP32: Pin GND"]
 ```
 
 <details>
@@ -476,7 +429,7 @@ Seluruh materi visual dalam modul ini disajikan dengan mematuhi etika atribusi d
 | `aset/kapasitor-elektrolit-foto.jpg` | [Hustvedt, Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Electrolytic_capacitor.jpg) | [Creative Commons Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0)](https://creativecommons.org/licenses/by-sa/3.0/) |
 | `aset/kabel-jumper-breadboard-asli.jpg` | [oomlout, Wikimedia Commons](https://commons.wikimedia.org/wiki/File:A_few_Jumper_Wires.jpg) | [Creative Commons Attribution-ShareAlike 2.0 Generic (CC BY-SA 2.0)](https://creativecommons.org/licenses/by-sa/2.0/) |
 | `aset/tabel-kode-warna-resistor.png` | [S-kei, Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Resistor_Color_Code.svg) | [Creative Commons Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0)](https://creativecommons.org/licenses/by-sa/3.0/) |
-| `aset/breadboard-jalur-internal.png`, `aset/breadboard-korslet-vs-benar.jpg`, `aset/polaritas-kaki-led.jpg` | Ilustrasi orisinal kurikulum Fullstack IoT Developer | Hak cipta terbuka untuk materi kurikulum edukasi ini |
+| `aset/breadboard-jalur-internal.png`, `aset/panduan-polaritas-komponen.png`, `aset/diagram-anatomi-resistor.png`, `aset/breadboard-korslet-vs-benar.jpg`, `aset/polaritas-kaki-led.jpg` | Ilustrasi orisinal kurikulum Fullstack IoT Developer | Hak cipta terbuka untuk materi kurikulum edukasi ini |
 
 ---
 
