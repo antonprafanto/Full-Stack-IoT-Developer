@@ -343,12 +343,12 @@ Jika kamu ingin sirkuit langsung tersusun rapi secara otomatis di simulator tanp
   "connections": [
     [ "esp:TX", "$serialMonitor:RX", "", [] ],
     [ "esp:RX", "$serialMonitor:TX", "", [] ],
-    [ "esp:4", "bb1:10c", "red", [ "v0" ] ],
-    [ "r1:1", "bb1:10a", "#00d1b2", [ "v0" ] ],
-    [ "r1:2", "bb1:14a", "#00d1b2", [ "v0" ] ],
-    [ "led1:A", "bb1:14b", "green", [ "v0" ] ],
-    [ "led1:C", "bb1:15b", "green", [ "v0" ] ],
-    [ "bb1:15c", "esp:GND.1", "black", [ "v0" ] ]
+    [ "esp:4", "bb1:10t.c", "red", [ "v0" ] ],
+    [ "r1:1", "bb1:10t.a", "#00d1b2", [ "v0" ] ],
+    [ "r1:2", "bb1:14t.a", "#00d1b2", [ "v0" ] ],
+    [ "led1:A", "bb1:14t.b", "green", [ "v0" ] ],
+    [ "led1:C", "bb1:15t.b", "green", [ "v0" ] ],
+    [ "bb1:15t.c", "esp:GND.1", "black", [ "v0" ] ]
   ],
   "dependencies": {}
 }
