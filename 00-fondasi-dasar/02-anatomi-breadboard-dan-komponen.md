@@ -335,19 +335,19 @@ Jika kamu ingin sirkuit langsung tersusun rapi secara otomatis di simulator tanp
   "author": "Fullstack IoT 2026",
   "editor": "wokwi",
   "parts": [
-    { "type": "board-esp32-devkit-c-v4", "id": "esp", "top": 0, "left": -220, "attrs": {} },
-    { "type": "wokwi-breadboard-half", "id": "bb1", "top": 20, "left": 100, "attrs": {} },
-    { "type": "wokwi-resistor", "id": "r1", "top": 120, "left": 180, "attrs": { "value": "220" } },
-    { "type": "wokwi-led", "id": "led1", "top": 110, "left": 230, "attrs": { "color": "red" } }
+    { "type": "board-esp32-devkit-c-v4", "id": "esp", "top": 0, "left": -260, "attrs": {} },
+    { "type": "wokwi-breadboard-half", "id": "bb1", "top": 0, "left": 80, "attrs": {} },
+    { "type": "wokwi-resistor", "id": "r1", "top": 55, "left": 185, "attrs": { "value": "220" } },
+    { "type": "wokwi-led", "id": "led1", "top": 65, "left": 235, "attrs": { "color": "red" } }
   ],
   "connections": [
     [ "esp:TX", "$serialMonitor:RX", "", [] ],
     [ "esp:RX", "$serialMonitor:TX", "", [] ],
     [ "esp:4", "bb1:10t.c", "red", [ "v0" ] ],
-    [ "r1:1", "bb1:10t.a", "#00d1b2", [ "v0" ] ],
-    [ "r1:2", "bb1:14t.a", "#00d1b2", [ "v0" ] ],
-    [ "led1:A", "bb1:14t.b", "green", [ "v0" ] ],
-    [ "led1:C", "bb1:15t.b", "green", [ "v0" ] ],
+    [ "r1:1", "bb1:10t.a", "", [] ],
+    [ "r1:2", "bb1:14t.a", "", [] ],
+    [ "led1:A", "bb1:14t.b", "", [] ],
+    [ "led1:C", "bb1:15t.b", "", [] ],
     [ "bb1:15t.c", "esp:GND.1", "black", [ "v0" ] ]
   ],
   "dependencies": {}
