@@ -1,0 +1,158 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080">
+  <title>PEMASANGAN RESISTOR DI BREADBOARD</title>
+  <defs>
+    <style>
+      text {
+        font-family: Inter, "Helvetica Neue", Helvetica, Arial, sans-serif;
+        fill: #0F172A;
+      }
+      .title { font-size: 56px; font-weight: 800; letter-spacing: 1.5px; }
+      .badge { font-size: 46px; font-weight: 800; fill: #FFFFFF; letter-spacing: 1px; }
+      .axis  { font-size: 26px; font-weight: 700; fill: #475569; }
+      .pin   { font-size: 28px; font-weight: 800; }
+      .cap1  { font-size: 30px; font-weight: 700; }
+      .cap2  { font-size: 28px; font-weight: 700; }
+      .hole  { fill: #FFFFFF; stroke: #1F2937; stroke-width: 3; }
+      .strip { fill: #E2E8F0; }
+      .lead  { fill: none; stroke: #0F172A; stroke-width: 6; stroke-linejoin: miter; }
+      .body  { fill: #E2E8F0; stroke: #0F172A; stroke-width: 4; }
+      .band  { fill: #0F172A; }
+      .dot-r { fill: none; stroke: #DC2626; stroke-width: 11; stroke-linecap: round; stroke-dasharray: 1 15; }
+      .dot-g { fill: none; stroke: #16A34A; stroke-width: 11; stroke-linecap: round; stroke-dasharray: 1 15; }
+      .arr-r { fill: #DC2626; }
+      .arr-g { fill: #16A34A; }
+      .ring-r { fill: none; stroke: #DC2626; stroke-width: 3.5; }
+      .ring-g { fill: none; stroke: #16A34A; stroke-width: 3.5; }
+      .mark  { stroke: #FFFFFF; stroke-width: 10; stroke-linecap: round; stroke-linejoin: round; fill: none; }
+    </style>
+
+    <!-- one column of 5 terminal holes -->
+    <g id="colHoles">
+      <circle class="hole" cx="0" cy="470" r="18"/>
+      <circle class="hole" cx="0" cy="550" r="18"/>
+      <circle class="hole" cx="0" cy="630" r="18"/>
+      <circle class="hole" cx="0" cy="710" r="18"/>
+      <circle class="hole" cx="0" cy="790" r="18"/>
+    </g>
+
+    <!-- internal metal strips of one panel -->
+    <g id="panelStrips">
+      <rect class="strip" x="155" y="440" width="10" height="380"/>
+      <rect class="strip" x="235" y="440" width="10" height="380"/>
+      <rect class="strip" x="315" y="440" width="10" height="380"/>
+      <rect class="strip" x="395" y="440" width="10" height="380"/>
+      <rect class="strip" x="475" y="440" width="10" height="380"/>
+      <rect class="strip" x="555" y="440" width="10" height="380"/>
+      <rect class="strip" x="635" y="440" width="10" height="380"/>
+      <rect class="strip" x="715" y="440" width="10" height="380"/>
+      <rect class="strip" x="795" y="440" width="10" height="380"/>
+      <rect class="strip" x="875" y="440" width="10" height="380"/>
+    </g>
+
+    <!-- holes + coordinate labels of one panel -->
+    <g id="panelTop">
+      <use href="#colHoles" x="160"/>
+      <use href="#colHoles" x="240"/>
+      <use href="#colHoles" x="320"/>
+      <use href="#colHoles" x="400"/>
+      <use href="#colHoles" x="480"/>
+      <use href="#colHoles" x="560"/>
+      <use href="#colHoles" x="640"/>
+      <use href="#colHoles" x="720"/>
+      <use href="#colHoles" x="800"/>
+      <use href="#colHoles" x="880"/>
+      <text class="axis" x="160" y="852" text-anchor="middle">1</text>
+      <text class="axis" x="240" y="852" text-anchor="middle">2</text>
+      <text class="axis" x="320" y="852" text-anchor="middle">3</text>
+      <text class="axis" x="400" y="852" text-anchor="middle">4</text>
+      <text class="axis" x="480" y="852" text-anchor="middle">5</text>
+      <text class="axis" x="560" y="852" text-anchor="middle">6</text>
+      <text class="axis" x="640" y="852" text-anchor="middle">7</text>
+      <text class="axis" x="720" y="852" text-anchor="middle">8</text>
+      <text class="axis" x="800" y="852" text-anchor="middle">9</text>
+      <text class="axis" x="880" y="852" text-anchor="middle">10</text>
+      <text class="axis" x="112" y="479" text-anchor="end">A</text>
+      <text class="axis" x="112" y="559" text-anchor="end">B</text>
+      <text class="axis" x="112" y="639" text-anchor="end">C</text>
+      <text class="axis" x="112" y="719" text-anchor="end">D</text>
+      <text class="axis" x="112" y="799" text-anchor="end">E</text>
+    </g>
+
+    <!-- flat resistor: body with colour bands -->
+    <g id="resistor">
+      <rect class="body" x="480" y="322" width="240" height="64" rx="10"/>
+      <rect class="band" x="530" y="328" width="14" height="52"/>
+      <rect class="band" x="558" y="328" width="14" height="52"/>
+      <rect class="band" x="586" y="328" width="14" height="52"/>
+      <rect class="band" x="666" y="328" width="14" height="52"/>
+    </g>
+  </defs>
+
+  <!-- background -->
+  <rect x="0" y="0" width="1920" height="1080" fill="#FFFFFF"/>
+
+  <!-- header -->
+  <text class="title" x="960" y="104" text-anchor="middle">PEMASANGAN RESISTOR DI BREADBOARD</text>
+  <line x1="455" y1="138" x2="1465" y2="138" stroke="#0F172A" stroke-width="3"/>
+
+  <!-- panel divider -->
+  <line x1="960" y1="170" x2="960" y2="985" stroke="#E2E8F0" stroke-width="3" stroke-dasharray="12 10"/>
+
+  <!-- ===== badges ===== -->
+  <rect x="200" y="190" width="640" height="110" rx="16" fill="#DC2626"/>
+  <path class="mark" d="M 250,228 L 284,262 M 250,262 L 284,228"/>
+  <text class="badge" x="316" y="261">SALAH (Korsleting)</text>
+
+  <rect x="1080" y="190" width="640" height="110" rx="16" fill="#16A34A"/>
+  <path class="mark" d="M 1297,245 L 1310,259 L 1335,230"/>
+  <text class="badge" x="1365" y="261">BENAR</text>
+
+  <!-- ===== LEFT PANEL : SALAH — both legs in the same column (5A &amp; 5D) ===== -->
+  <use href="#panelStrips" x="0"/>
+  <path class="lead" d="M 480,386 L 480,470"/>
+  <path class="lead" d="M 720,354 L 760,354 L 760,750 L 480,750 L 480,710"/>
+  <use href="#resistor" x="0"/>
+
+  <!-- ===== RIGHT PANEL : BENAR — legs bridge two columns (5A &amp; 8A) ===== -->
+  <g transform="translate(880,0)">
+    <use href="#panelStrips" x="0"/>
+    <path class="lead" d="M 480,386 L 480,470"/>
+    <path class="lead" d="M 720,386 L 720,470"/>
+    <use href="#resistor" x="0"/>
+  </g>
+
+  <!-- ===== hole grid + coordinates ===== -->
+  <use href="#panelTop" x="0"/>
+  <use href="#panelTop" x="880"/>
+
+  <!-- ===== current-flow overlays (drawn over holes so they stay visible) ===== -->
+  <!-- internal strip path: current bypasses the resistor -->
+  <path class="dot-r" d="M 480,470 L 480,710"/>
+  <polygon class="arr-r" points="468,535 492,535 480,555"/>
+  <polygon class="arr-r" points="468,635 492,635 480,655"/>
+  <!-- current path: forced through the resistor -->
+  <g transform="translate(880,0)">
+    <path class="dot-g" d="M 480,470 L 480,354 L 720,354 L 720,470"/>
+    <polygon class="arr-g" points="468,438 492,438 480,418"/>
+    <polygon class="arr-g" points="708,418 732,418 720,438"/>
+    <polygon class="arr-g" points="590,342 590,366 612,354"/>
+  </g>
+
+  <!-- ===== pin callouts ===== -->
+  <circle class="ring-r" cx="480" cy="470" r="27"/>
+  <circle class="ring-r" cx="480" cy="710" r="27"/>
+  <text class="pin" x="438" y="432" text-anchor="middle">5A</text>
+  <text class="pin" x="438" y="676" text-anchor="middle">5D</text>
+
+  <circle class="ring-g" cx="1360" cy="470" r="27"/>
+  <circle class="ring-g" cx="1600" cy="470" r="27"/>
+  <text class="pin" x="1318" y="432" text-anchor="middle">5A</text>
+  <text class="pin" x="1642" y="432" text-anchor="middle">8A</text>
+
+  <!-- ===== captions ===== -->
+  <text class="cap1" x="520" y="900" text-anchor="middle">Kedua kaki pada kolom yang sama</text>
+  <text class="cap2" x="520" y="942" text-anchor="middle" fill="#DC2626">Arus tidak melewati resistor</text>
+
+  <text class="cap1" x="1400" y="900" text-anchor="middle">Kedua kaki pada kolom berbeda</text>
+  <text class="cap2" x="1400" y="942" text-anchor="middle" fill="#16A34A">Arus melewati resistor</text>
+</svg>

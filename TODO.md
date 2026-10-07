@@ -66,14 +66,13 @@
 - [x] Praktik Wokwi: LED + resistor 220 Ω di GPIO 4, lalu eksperimen 10 kΩ.
 
 ### 0.2 Anatomi Breadboard & Komponen Fisik (Anti-Korslet)
-> Materi: [02-anatomi-breadboard-dan-komponen.md](00-fondasi-dasar/02-anatomi-breadboard-dan-komponen.md) · Audit visual & pedagogis lengkap: infografis vektor alur internal breadboard, infografis 3-in-1 polaritas komponen (LED, dioda, kapasitor), infografis kode warna resistor 4-gelang, tabel komparasi responsif korslet vs normal, diagram alur sirkuit Mermaid, foto makro asli berlisensi (Guhuru, Nevit Dilmen, Hustvedt, oomlout, S-kei), serta panduan Wokwi interaktif + opsi instan diagram.json.
+> Materi: [02-anatomi-breadboard-dan-komponen.md](00-fondasi-dasar/02-anatomi-breadboard-dan-komponen.md) · Diperbarui 7 Oktober 2026: integrasi diagram vektor SVG presisi (anatomi internal, komparasi korslet vs benar, kode warna resistor, kabel jumper) dan foto nyata polaritas komponen (dioda 1N4007 & kapasitor elektrolit).
 - [x] Memahami jalur plat tembaga internal breadboard (*Power Rails* horizontal vs *Terminal Strips* vertikal).
 - [x] Mengidentifikasi kaki polaritas anoda/katoda pada LED, kapasitor elektrolit, dan orientasi dioda.
 - [x] Membaca kode warna resistor ($220\Omega, 1k\Omega, 10k\Omega$) dan memverifikasi dengan multimeter.
 - [x] Menggunakan kabel jumper (*Male-to-Male*, *Male-to-Female*, *Female-to-Female*) secara tepat.
 
 ### 0.3 Logika Sirkuit Dasar & Fenomena Penting IoT
-> Materi: [03-logika-sirkuit-dan-common-ground.md](00-fondasi-dasar/03-logika-sirkuit-dan-common-ground.md) · Audit visual & pedagogis lengkap: infografis vektor Common Ground (0V acuan bersama), infografis Floating Pin & Pull-Up/Pull-Down, infografis Voltage Divider dinamis terang vs gelap, infografis kendali daya tinggi Transistor & Relay, panduan visual 3 mode Multimeter Digital, foto makro asli berlisensi (Nevit Dilmen, Suyash Dwivedi, K.Venkataramana), serta panduan Wokwi interaktif LDR + opsi instan diagram.json.
 - [x] **Prinsip Mutlak Common Ground (GND Sharing):** Menghubungkan semua GND perangkat agar memiliki titik acuan 0V yang sama.
 - [x] Menghitung dan merakit rangkaian pembagi tegangan (*Voltage Divider*) untuk sensor analog LDR.
 - [x] Memahami fenomena *Floating Pin* dan memasang resistor Pull-up / Pull-down.

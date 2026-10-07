@@ -1,0 +1,163 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1920 1080" width="1920" height="1080">
+  <title>ANATOMI JALUR INTERNAL BREADBOARD</title>
+  <defs>
+    <style>
+      text {
+        font-family: Inter, "Helvetica Neue", Helvetica, Arial, sans-serif;
+        fill: #0F172A;
+      }
+      .title    { font-size: 54px; font-weight: 800; letter-spacing: 1.5px; }
+      .region   { font-size: 30px; font-weight: 700; letter-spacing: 0.5px; }
+      .rail     { font-size: 26px; font-weight: 700; }
+      .rail-pos { fill: #DC2626; }
+      .rail-neg { fill: #2563EB; }
+      .hole     { fill: #FFFFFF; stroke: #1F2937; stroke-width: 2.5; }
+      .strip-g  { fill: #16A34A; }
+      .strip-r  { fill: #DC2626; }
+      .strip-b  { fill: #2563EB; }
+      .leader   { stroke: #94A3B8; stroke-width: 2.5; fill: none; }
+      .leader-dot { fill: #0F172A; }
+      .rule     { stroke: #0F172A; stroke-width: 3; }
+      .sep      { stroke: #E2E8F0; stroke-width: 2; }
+    </style>
+
+    <!-- one column of holes: 2 power rows + 5 + 5 terminal rows -->
+    <g id="colHoles">
+      <circle class="hole" cx="0" cy="232" r="10.5"/>
+      <circle class="hole" cx="0" cy="283" r="10.5"/>
+      <circle class="hole" cx="0" cy="356" r="10.5"/>
+      <circle class="hole" cx="0" cy="398" r="10.5"/>
+      <circle class="hole" cx="0" cy="440" r="10.5"/>
+      <circle class="hole" cx="0" cy="482" r="10.5"/>
+      <circle class="hole" cx="0" cy="524" r="10.5"/>
+      <circle class="hole" cx="0" cy="616" r="10.5"/>
+      <circle class="hole" cx="0" cy="658" r="10.5"/>
+      <circle class="hole" cx="0" cy="700" r="10.5"/>
+      <circle class="hole" cx="0" cy="742" r="10.5"/>
+      <circle class="hole" cx="0" cy="784" r="10.5"/>
+      <circle class="hole" cx="0" cy="857" r="10.5"/>
+      <circle class="hole" cx="0" cy="908" r="10.5"/>
+    </g>
+
+    <!-- one column of internal vertical strips (5 holes each side of the trench) -->
+    <g id="colStrips">
+      <rect class="strip-g" x="-3.5" y="346" width="7" height="188"/>
+      <rect class="strip-g" x="-3.5" y="606" width="7" height="188"/>
+    </g>
+  </defs>
+
+  <!-- background -->
+  <rect x="0" y="0" width="1920" height="1080" fill="#FFFFFF"/>
+
+  <!-- header -->
+  <text class="title" x="960" y="102" text-anchor="middle">ANATOMI JALUR INTERNAL BREADBOARD</text>
+  <line class="rule" x1="425" y1="136" x2="1495" y2="136"/>
+
+  <!-- breadboard body -->
+  <rect x="425" y="180" width="1070" height="780" rx="8" fill="#FFFFFF" stroke="#0F172A" stroke-width="4"/>
+
+  <!-- center divider trench -->
+  <rect x="429" y="545" width="1062" height="50" fill="#EEF2F6"/>
+  <line class="rule" x1="429" y1="545" x2="1491" y2="545" stroke-width="2.5"/>
+  <line class="rule" x1="429" y1="595" x2="1491" y2="595" stroke-width="2.5"/>
+
+  <!-- band separators -->
+  <line class="sep" x1="429" y1="335" x2="1491" y2="335"/>
+  <line class="sep" x1="429" y1="805" x2="1491" y2="805"/>
+
+  <!-- internal connection strips: vertical component rails (green) -->
+  <use xlink:href="#colStrips" href="#colStrips" x="498"/>
+  <use xlink:href="#colStrips" href="#colStrips" x="542"/>
+  <use xlink:href="#colStrips" href="#colStrips" x="586"/>
+  <use xlink:href="#colStrips" href="#colStrips" x="630"/>
+  <use xlink:href="#colStrips" href="#colStrips" x="674"/>
+  <use xlink:href="#colStrips" href="#colStrips" x="718"/>
+  <use xlink:href="#colStrips" href="#colStrips" x="762"/>
+  <use xlink:href="#colStrips" href="#colStrips" x="806"/>
+  <use xlink:href="#colStrips" href="#colStrips" x="850"/>
+  <use xlink:href="#colStrips" href="#colStrips" x="894"/>
+  <use xlink:href="#colStrips" href="#colStrips" x="938"/>
+  <use xlink:href="#colStrips" href="#colStrips" x="982"/>
+  <use xlink:href="#colStrips" href="#colStrips" x="1026"/>
+  <use xlink:href="#colStrips" href="#colStrips" x="1070"/>
+  <use xlink:href="#colStrips" href="#colStrips" x="1114"/>
+  <use xlink:href="#colStrips" href="#colStrips" x="1158"/>
+  <use xlink:href="#colStrips" href="#colStrips" x="1202"/>
+  <use xlink:href="#colStrips" href="#colStrips" x="1246"/>
+  <use xlink:href="#colStrips" href="#colStrips" x="1290"/>
+  <use xlink:href="#colStrips" href="#colStrips" x="1334"/>
+  <use xlink:href="#colStrips" href="#colStrips" x="1378"/>
+  <use xlink:href="#colStrips" href="#colStrips" x="1422"/>
+
+  <!-- internal connection strips: horizontal power rails (red +, blue -) -->
+  <rect class="strip-r" x="470" y="228.5" width="980" height="7"/>
+  <rect class="strip-b" x="470" y="279.5" width="980" height="7"/>
+  <rect class="strip-r" x="470" y="853.5" width="980" height="7"/>
+  <rect class="strip-b" x="470" y="904.5" width="980" height="7"/>
+
+  <!-- hole grid on top of the strips -->
+  <use xlink:href="#colHoles" href="#colHoles" x="498"/>
+  <use xlink:href="#colHoles" href="#colHoles" x="542"/>
+  <use xlink:href="#colHoles" href="#colHoles" x="586"/>
+  <use xlink:href="#colHoles" href="#colHoles" x="630"/>
+  <use xlink:href="#colHoles" href="#colHoles" x="674"/>
+  <use xlink:href="#colHoles" href="#colHoles" x="718"/>
+  <use xlink:href="#colHoles" href="#colHoles" x="762"/>
+  <use xlink:href="#colHoles" href="#colHoles" x="806"/>
+  <use xlink:href="#colHoles" href="#colHoles" x="850"/>
+  <use xlink:href="#colHoles" href="#colHoles" x="894"/>
+  <use xlink:href="#colHoles" href="#colHoles" x="938"/>
+  <use xlink:href="#colHoles" href="#colHoles" x="982"/>
+  <use xlink:href="#colHoles" href="#colHoles" x="1026"/>
+  <use xlink:href="#colHoles" href="#colHoles" x="1070"/>
+  <use xlink:href="#colHoles" href="#colHoles" x="1114"/>
+  <use xlink:href="#colHoles" href="#colHoles" x="1158"/>
+  <use xlink:href="#colHoles" href="#colHoles" x="1202"/>
+  <use xlink:href="#colHoles" href="#colHoles" x="1246"/>
+  <use xlink:href="#colHoles" href="#colHoles" x="1290"/>
+  <use xlink:href="#colHoles" href="#colHoles" x="1334"/>
+  <use xlink:href="#colHoles" href="#colHoles" x="1378"/>
+  <use xlink:href="#colHoles" href="#colHoles" x="1422"/>
+
+  <!-- ===== left-side region labels with leaders ===== -->
+  <!-- top power rails -->
+  <text class="region" x="395" y="249" text-anchor="end">JALUR DAYA</text>
+  <text class="region" x="395" y="287" text-anchor="end">(HORIZONTAL)</text>
+  <line class="leader" x1="405" y1="257" x2="465" y2="257"/>
+  <circle class="leader-dot" cx="465" cy="257" r="5.5"/>
+
+  <!-- vertical component rails -->
+  <text class="region" x="395" y="432" text-anchor="end">JALUR KOMPONEN</text>
+  <text class="region" x="395" y="470" text-anchor="end">(VERTIKAL 5 LUBANG)</text>
+  <line class="leader" x1="405" y1="440" x2="493" y2="440"/>
+  <circle class="leader-dot" cx="493" cy="440" r="5.5"/>
+
+  <!-- center trench -->
+  <text class="region" x="395" y="562" text-anchor="end">PARIT PEMISAH</text>
+  <text class="region" x="395" y="600" text-anchor="end">TENGAH</text>
+  <line class="leader" x1="405" y1="570" x2="515" y2="570"/>
+  <circle class="leader-dot" cx="515" cy="570" r="5.5"/>
+
+  <!-- bottom power rails -->
+  <text class="region" x="395" y="874" text-anchor="end">JALUR DAYA</text>
+  <text class="region" x="395" y="912" text-anchor="end">(HORIZONTAL)</text>
+  <line class="leader" x1="405" y1="882" x2="465" y2="882"/>
+  <circle class="leader-dot" cx="465" cy="882" r="5.5"/>
+
+  <!-- ===== right-side rail labels with leaders ===== -->
+  <line class="leader" x1="1512" y1="232" x2="1455" y2="232"/>
+  <circle class="leader-dot" cx="1452" cy="232" r="5.5"/>
+  <text class="rail rail-pos" x="1528" y="241">+ Jalur Merah</text>
+
+  <line class="leader" x1="1512" y1="283" x2="1455" y2="283"/>
+  <circle class="leader-dot" cx="1452" cy="283" r="5.5"/>
+  <text class="rail rail-neg" x="1528" y="292">- Jalur Biru (GND)</text>
+
+  <line class="leader" x1="1512" y1="857" x2="1455" y2="857"/>
+  <circle class="leader-dot" cx="1452" cy="857" r="5.5"/>
+  <text class="rail rail-pos" x="1528" y="866">+ Jalur Merah</text>
+
+  <line class="leader" x1="1512" y1="908" x2="1455" y2="908"/>
+  <circle class="leader-dot" cx="1452" cy="908" r="5.5"/>
+  <text class="rail rail-neg" x="1528" y="917">- Jalur Biru (GND)</text>
+</svg>

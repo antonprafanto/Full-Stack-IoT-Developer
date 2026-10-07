@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080">
+  <title>Kabel Jumper (Dupont) — Jenis Konektor &amp; Kode Warna</title>
+  <desc>Chart flat 2D: tiga jenis kabel jumper (Male-to-Male, Male-to-Female, Female-to-Female) dan panduan warna kabel (Merah=VCC, Hitam=GND, Kuning &amp; Hijau=Data/Signal)</desc>
+  <defs>
+    <style>
+      text {
+        font-family: Inter, "Helvetica Neue", Helvetica, Arial, sans-serif;
+        fill: #0F172A;
+      }
+      .title       { font-size: 54px; font-weight: 800; letter-spacing: 1.5px; }
+      .subtitle    { font-size: 27px; fill: #475569; }
+      .section     { font-size: 26px; font-weight: 800; letter-spacing: 2px; }
+      .row-name    { font-size: 30px; font-weight: 700; }
+      .row-desc    { font-size: 21px; fill: #475569; }
+      .color-label { font-size: 28px; font-weight: 700; }
+      .color-note  { font-size: 20px; fill: #475569; }
+      .tips-kick   { font-size: 26px; font-weight: 800; letter-spacing: 2px; }
+      .tips        { font-size: 24px; fill: #475569; }
+      .footer      { font-size: 18px; fill: #94A3B8; }
+      .rule        { stroke: #0F172A; stroke-width: 3; }
+      .sep         { stroke: #E2E8F0; stroke-width: 2; }
+      .wire        { fill: #475569; }
+      .housing     { fill: #FFFFFF; stroke: #0F172A; stroke-width: 3; }
+      .pin         { fill: #CBD5E1; stroke: #0F172A; stroke-width: 2.5; }
+      .socket      { fill: #E2E8F0; stroke: #0F172A; stroke-width: 2.5; }
+      .wire-red    { fill: #DC2626; stroke: #0F172A; stroke-width: 2.5; }
+      .wire-black  { fill: #111827; stroke: #0F172A; stroke-width: 2.5; }
+      .wire-yellow { fill: #FACC15; stroke: #0F172A; stroke-width: 2.5; }
+      .wire-green  { fill: #16A34A; stroke: #0F172A; stroke-width: 2.5; }
+    </style>
+  </defs>
+
+  <!-- background -->
+  <rect x="0" y="0" width="1920" height="1080" fill="#FFFFFF"/>
+
+  <!-- header -->
+  <text class="title" x="960" y="104" text-anchor="middle">KABEL JUMPER (DUPONT) &amp; KODE WARNA</text>
+  <line class="rule" x1="560" y1="138" x2="1360" y2="138"/>
+  <text class="subtitle" x="960" y="190" text-anchor="middle">Tiga jenis konektor ujung dan kebiasaan warna kabel untuk wiring yang rapi</text>
+
+  <!-- section headers -->
+  <text class="section" x="140" y="286">JENIS KONEKTOR</text>
+  <text class="section" x="1250" y="286">KODE WARNA KABEL</text>
+  <line class="sep" x1="1180" y1="252" x2="1180" y2="838"/>
+
+  <!-- ============ BARIS 1 : Male-to-Male ============ -->
+  <g>
+    <!-- male pin (kiri) -->
+    <rect class="wire" x="270" y="414" width="260" height="12" rx="6"/>
+    <rect class="pin" x="140" y="414" width="54" height="12" rx="5"/>
+    <rect class="housing" x="188" y="397" width="82" height="46" rx="8"/>
+    <!-- male pin (kanan) -->
+    <rect class="housing" x="530" y="397" width="82" height="46" rx="8"/>
+    <rect class="pin" x="606" y="414" width="54" height="12" rx="5"/>
+
+    <text class="row-name" x="740" y="412">Male-to-Male (M-M)</text>
+    <text class="row-desc" x="740" y="448">Pin di kedua ujung (paling umum)</text>
+  </g>
+
+  <!-- ============ BARIS 2 : Male-to-Female ============ -->
+  <g>
+    <!-- male pin (kiri) -->
+    <rect class="wire" x="270" y="594" width="260" height="12" rx="6"/>
+    <rect class="pin" x="140" y="594" width="54" height="12" rx="5"/>
+    <rect class="housing" x="188" y="577" width="82" height="46" rx="8"/>
+    <!-- female socket (kanan) -->
+    <rect class="housing" x="530" y="574" width="90" height="52" rx="10"/>
+    <rect class="socket" x="588" y="589" width="24" height="22" rx="5"/>
+
+    <text class="row-name" x="740" y="592">Male-to-Female (M-F)</text>
+    <text class="row-desc" x="740" y="628">Pin dan socket, untuk modul &amp; sensor</text>
+  </g>
+
+  <!-- ============ BARIS 3 : Female-to-Female ============ -->
+  <g>
+    <!-- female socket (kiri) -->
+    <rect class="wire" x="270" y="774" width="260" height="12" rx="6"/>
+    <rect class="housing" x="180" y="754" width="90" height="52" rx="10"/>
+    <rect class="socket" x="188" y="769" width="24" height="22" rx="5"/>
+    <!-- female socket (kanan) -->
+    <rect class="housing" x="530" y="754" width="90" height="52" rx="10"/>
+    <rect class="socket" x="588" y="769" width="24" height="22" rx="5"/>
+
+    <text class="row-name" x="740" y="772">Female-to-Female (F-F)</text>
+    <text class="row-desc" x="740" y="808">Socket dan socket, antar pin header</text>
+  </g>
+
+  <!-- ============ KODE WARNA ============ -->
+  <g>
+    <!-- Merah -->
+    <text class="color-label" x="1250" y="384">Red wire = VCC (+)</text>
+    <rect class="wire-red" x="1250" y="426" width="150" height="22" rx="11"/>
+    <text class="color-note" x="1430" y="444">Tegangan positif (3.3V / 5V)</text>
+
+    <!-- Hitam -->
+    <text class="color-label" x="1250" y="534">Black wire = GND (-)</text>
+    <rect class="wire-black" x="1250" y="576" width="150" height="22" rx="11"/>
+    <text class="color-note" x="1430" y="594">Ground / massa</text>
+
+    <!-- Kuning &amp; Hijau -->
+    <text class="color-label" x="1250" y="684">Yellow &amp; Green wires = Data / Signal</text>
+    <rect class="wire-yellow" x="1250" y="716" width="150" height="20" rx="10"/>
+    <rect class="wire-green" x="1250" y="742" width="150" height="20" rx="10"/>
+    <text class="color-note" x="1430" y="739">Sinyal data (GPIO, I2C, dsb.)</text>
+  </g>
+
+  <!-- tips -->
+  <line class="sep" x1="140" y1="872" x2="1820" y2="872"/>
+  <text class="tips-kick" x="960" y="922" text-anchor="middle">TIPS</text>
+  <text class="tips" x="960" y="962" text-anchor="middle">Warna kabel adalah kebiasaan, bukan aturan baku — yang penting konsisten dalam satu rangkaian.</text>
+  <text class="footer" x="960" y="1008" text-anchor="middle">M-M untuk breadboard • M-F untuk modul &amp; sensor • F-F untuk antar pin header</text>
+</svg>

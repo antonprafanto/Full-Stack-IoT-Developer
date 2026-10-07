@@ -1,319 +1,333 @@
 # Modul 0.2: Anatomi Breadboard & Komponen Fisik — Panduan Merangkai Anti-Korslet
 
-> **Tingkat Kesulitan:** Sangat ramah pemula (*Zero Prerequisite* — tidak membutuhkan latar belakang elektronika sebelumnya)  
-> **Estimasi Waktu Belajar:** 15–20 menit (membaca panduan santai + mencoba simulasi interaktif di browser)  
-> **Kebutuhan Alat:** Belum wajib memiliki board fisik. Seluruh percobaan dapat dijalankan langsung di browser.
+> **Tingkat Kesulitan:** Sangat ramah pemula (*Zero Prerequisite* — tidak membutuhkan keahlian menyolder atau pengalaman elektronika sebelumnya)  
+> **Estimasi Waktu Belajar:** 15–20 menit (membaca panduan santai + melihat diagram visual + mencoba simulasi di browser)  
+> **Kebutuhan Alat:** Belum wajib memiliki breadboard fisik. Seluruh percobaan dapat dijalankan langsung di simulator browser.
 
 ---
 
 ## 🛠️ Peralatan yang Kita Butuhkan
 
-Agar kamu tidak bingung harus menyiapkan aplikasi atau alat apa di komputermu, pada modul ini kita **hanya** memerlukan alat-alat berikut:
+Agar kamu tidak bingung harus menyiapkan alat apa saja di mejamu, pada modul ini kita **hanya** memerlukan alat-alat berikut:
 
 | Alat | Status | Fungsi & Keterangan |
 | :--- | :---: | :--- |
-| **Browser Web** (Google Chrome, Edge, atau Firefox) | **Wajib** | Untuk membuka simulator **Wokwi** dan merangkai sirkuit virtual di breadboard tanpa perlu memasang aplikasi apa pun (*zero install*). |
-| **Komponen Fisik (Breadboard, LED, Resistor, Kabel Jumper)** | **Belum Perlu** | Sangat bagus jika kamu sudah memilikinya di meja kerja, namun seluruh materi ini 100% dapat dipraktikkan langsung di simulator browser. |
-| **Multimeter Digital** | **Belum Perlu** | Penggunaan multimeter untuk menguji kontinuitas jalur breadboard akan kita bahas di [Modul 0.3](03-logika-sirkuit-dan-common-ground.md). Sekarang kita fokus memahami jalur logikanya terlebih dahulu. |
+| **Browser Web** (Google Chrome, Edge, atau Firefox) | **Wajib** | Untuk membuka simulator **Wokwi** dan merangkai komponen di atas breadboard virtual secara interaktif tanpa instalasi apa pun. |
+| **Papan Breadboard Fisik (Tipe MB-102 Half/Full)** | **Opsional** | Untuk mencoba menancapkan komponen asli dengan tangan (hanya jika kamu sudah memiliki kit fisik). |
+| **Komponen Fisik (Resistor, LED, Dioda, Jumper Asli)** | **Opsional** | Untuk merasakan sensasi melatih kepekaan jari saat membedakan kaki komponen fisik. |
+| **Solder & Timah Panas** | **Sama Sekali Tidak Perlu** | Breadboard dirancang khusus agar kita bisa merakit sirkuit tanpa menyolder sedikit pun! |
 
 > [!TIP]
 > **Tautan Simulator untuk Modul Ini:** [Wokwi ESP32 Starter Project](https://wokwi.com/projects/new/esp32)  
-> Kamu tidak perlu mendaftar akun atau login. Jika muncul jendela pop-up ajakan *Sign up*, cukup tutup atau abaikan saja jendela tersebut.
+> Kamu tidak perlu membuat akun atau login. Jika muncul jendela pop-up ajakan *Sign up*, cukup tutup atau abaikan saja jendela tersebut.
 
-Jika kamu sudah menuntaskan [Modul 0.1: Dasar Listrik Intuitif — Analogi Air, Hukum Ohm & Resistor LED](01-dasar-listrik-dan-hukum-ohm.md), mari kita pelajari papan ajaib yang menjadi tempat bertemunya semua komponen elektronika: **Breadboard**!
+Jika pada [Modul 0.1](01-dasar-listrik-dan-hukum-ohm.md) kamu sudah memahami rumus Hukum Ohm dan alasan mengapa lampu LED wajib dipasangi resistor pembatas arus, sekarang saatnya kita belajar **tempat menancapkan komponen tersebut secara aman dan rapi**!
 
 ---
 
-## ⚡ Tenang, Kamu Aman dan Tidak Akan Kesetrum!
+## ⚡ Tenang, Merangkai di Breadboard 100% Aman!
 
-Sebelum mulai menancapkan kabel dan komponen, mari kita ingat kembali prinsip kenyamanan dan keamanan dasar kita:
+Bagi yang baru pertama kali merakit sirkuit elektronika, wajar jika muncul rasa ragu: *"Bagaimana kalau salah colok lubang? Apakah komponennya bisa meledak atau tangan saya kesetrum?"*
 
-1. **Tegangan Rendah 100% Aman Disentuh:**  
-   Seluruh sirkuit breadboard yang kita rakit bekerja pada tegangan **3,3 volt hingga 5 volt DC**. Tegangan ini setara dengan baterai remote TV dan **sama sekali tidak memiliki daya untuk menyengat kulit manusia**. Kamu bisa memegang kabel dan kaki komponen secara bebas tanpa rasa cemas.
-2. **Laptopmu Memiliki Proteksi Otomatis:**  
-   Port USB pada laptop dan komputer modern sudah dilengkapi sirkuit pemutus arus otomatis (*Overcurrent Protection*). Jika kamu salah menancapkan lubang hingga terjadi korsleting, laptop akan memutus aliran listrik seketika untuk mengamankan dirinya sendiri tanpa merusak perangkat.
+Jawabannya: **Kamu aman sepenuhnya!**
 
-Jadi, bereksperimenlah dengan santai dan nikmati proses belajarnya! 😊
+1. **Bebas Risiko Sengatan Listrik:**  
+   Mikrokontroler ESP32 bekerja pada tegangan **3,3 volt hingga 5 volt DC** (arus searah). Listrik bertegangan sekecil ini **100% aman disentuh langsung dengan jari tangan** dan tidak memiliki daya untuk menyengat kulit manusia.
+2. **Tanpa Panas Solder:**  
+   Breadboard mengusung prinsip *solderless* (tanpa solder). Kamu cukup menancapkan dan mencabut kaki komponen menggunakan jari layaknya bermain balok **LEGO**. Tidak ada risiko jari terkena timah panas!
+3. **Laptopmu Dilengkapi Proteksi Otomatis:**  
+   Port USB laptop modern memiliki sirkuit pengaman *Overcurrent Protection*. Jika terjadi korsleting pada kabel breadboard sekalipun, laptop akan memutus aliran daya secara otomatis untuk melindungi dirinya sendiri.
+
+Jadi, tarik napas dalam-dalam dan nikmati proses belajarmu dengan santai dan percaya diri! 😊
 
 ---
 
 ## 🧭 Apa yang Akan Kita Pelajari?
 
-1. **Membedah Isi Perut Breadboard:** Memahami rel daya horizontal (*Power Rails*) vs kolom komponen vertikal (*Terminal Strips*).
-2. **Kesalahan Fatal Nomor 1 Pemula:** Mencegah korslet (*short circuit*) akibat menancapkan kedua kaki di kolom yang sama.
-3. **Menentukan Polaritas Komponen ($+$ vs $-$):** Cara mudah membedakan kaki Anoda dan Katoda pada LED, Dioda 1N4007, dan Kapasitor Elektrolit.
-4. **Membaca Kode Warna Resistor:** Mengenali 3 resistor paling penting di proyek IoT tanpa perlu menghafal rumus rumit.
-5. **Mengenal Kabel Jumper & Standar Warna:** Memilih jenis kabel (M-M, M-F, F-F) dan membiasakan kode warna kabel rapi.
-6. **Praktik Virtual Wokwi:** Merakit sirkuit breadboard pertamamu dan membuktikan cara kerjanya secara langsung.
-7. **Glosarium Istilah & Kuis Pemahaman:** Menguji intuisimu lewat 4 pertanyaan praktis reflektif.
+```
+┌────────────────────────────────────────────────────────────────────────┐
+│                        ALUR MATERI MODUL 0.2                           │
+├────────────────────────────────────────────────────────────────────────┤
+│ 1. Membedah Isi Perut Breadboard: Jalur Horizontal vs Vertikal        │
+│ 2. Kesalahan Fatal Nomor 1 Pemula: Korslet di Kolom yang Sama          │
+│ 3. Cara Menentukan Polaritas Komponen (+ vs -): LED, Dioda, Kapasitor  │
+│ 4. Membaca Kode Warna Resistor Tanpa Hafalan Rumit                     │
+│ 5. Tiga Jenis Kabel Jumper (M-M, M-F, F-F) & Standar Warna Kabel      │
+│ 6. Praktik Virtual Wokwi: Merakit Sirkuit Breadboard Pertama           │
+│ 7. Glosarium Istilah Penting & Kuis Refleksi                           │
+└────────────────────────────────────────────────────────────────────────┘
+```
 
 ---
 
 ## 1. Membedah Isi Perut Breadboard: Jalur Horizontal vs Vertikal
 
-Pernahkah kamu bertanya-tanya: *Bagaimana para insinyur merakit sirkuit elektronika sebelum disolder secara permanen?*
+Pernahkah kamu bertanya-tanya: *Bagaimana para penemu dan insinyur merakit prototipe sirkuit elektronika sebelum dicetak permanen di pabrik PCB?*
 
-Jawabannya adalah menggunakan **Breadboard (Papan Rangkaian Prototipe Tanpa Solder)**!  
-Dengan breadboard, kamu bisa menancapkan dan mencabut komponen listrik (LED, resistor, kabel, sensor) ribuan kali layaknya bermain balok **LEGO**.
+Jawabannya adalah menggunakan **Breadboard (Papan Prototyping Tanpa Solder)**!
 
-Namun, di balik lubang-lubang plastik putih tersebut, terdapat **deretan pelat jepit tembaga tersembunyi**. Mari kita lihat foto penampang nyata ketika lapisan penutup bawah breadboard dibuka:
+Di balik lubang-lubang plastik putih breadboard, terdapat **deretan pelat jepit tembaga/logam tersembunyi**. Pelat inilah yang bertindak sebagai "kawat konduktor" yang menghubungkan kaki-kaki komponen yang kamu tancapkan.
 
-![Foto penampang atas dan bawah breadboard asli: terlihat pelat jepit tembaga internal](aset/breadboard-top-bottom.png)
+Mari kita lihat diagram penampang jalur internal breadboard berikut:
 
-*Foto fisik breadboard asli: Sisi kiri menampilkan tampak atas dengan label koordinat, sedangkan sisi kanan memperlihatkan pelat jepit logam internal setelah lapisan perekat bawahnya dibuka. Sumber: Guhuru, Wikimedia Commons, Lisensi CC BY-SA 4.0 / CC0.*
+![Anatomi Jalur Internal Breadboard](aset/breadboard-anatomy.svg)
 
-Perhatikan diagram infografis alur pelat tembaga di bawah ini:
+*Diagram jalur internal breadboard: Rel daya di sisi tepi terhubung horizontal dari kiri ke kanan, sedangkan rel komponen tengah terhubung vertikal per 5 lubang yang dipisahkan oleh parit tengah.*
 
-![Diagram visual alur pelat tembaga internal breadboard: rel daya horizontal vs jalur komponen vertikal](aset/breadboard-jalur-internal.png)
+### Tiga Wilayah Kunci pada Breadboard:
 
-*Infografis anatomi internal breadboard: Jalur Rel Daya di tepi atas dan bawah tersambung horizontal memanjang (kiri-kanan), sedangkan Jalur Komponen di wilayah tengah tersambung vertikal per 5 lubang (A–E dan F–J) yang dipisahkan oleh Parit Isolasi Tengah.*
+1. **Jalur Rel Daya (*Power Rails* / Garis Merah & Biru):**
+   - Terletak di pinggir paling atas dan paling bawah breadboard.
+   - **Tersambung secara HORIZONTAL (Memanjang dari kiri ke kanan).**
+   - **Garis Merah ($+$):** Jalur untuk mendistribusikan tegangan positif (biasanya 3,3V atau 5V dari ESP32).
+   - **Garis Biru ($-$):** Jalur untuk mendistribusikan Ground ($0\text{V}$ / GND).
+   - Seluruh lubang di sepanjang garis merah terhubung menjadi satu kawat panjang, begitu pula seluruh lubang di sepanjang garis biru.
 
-### Dua Wilayah Utama pada Breadboard:
+> [!TIP]
+> **Waspada "Jalur Daya Terputus di Tengah" pada Breadboard Panjang (Full-Size 830 Titik):**  
+> Pada breadboard mini atau ukuran sedang (*Half-Size* 400 titik seperti di Wokwi), jalur rel daya tersambung penuh dari ujung kiri ke kanan.  
+> Namun, jika kamu membeli breadboard fisik berukuran panjang (*Full-Size MB-102* 830 titik), beberapa pabrik sengaja **memutus jalur rel daya tepat di tengah** (antara Kolom 30 dan Kolom 31). Tanda visualnya: garis sablon merah/biru memiliki celah jeda kosong di tengah.  
+> **Solusinya sangat mudah:** Jika kamu merangkai sirkuit di paruh kanan breadboard panjang dan komponenmu tidak menyala, cukup tancapkan satu kabel jumper merah pendek untuk menjembatani rel positif kiri ke kanan, dan satu kabel jumper hitam pendek untuk menjembatani rel negatif kiri ke kanan.
 
-1. **Jalur Daya (*Power Rails* / Garis Merah & Biru):**
-   - Terletak di pinggiran paling atas dan paling bawah breadboard.
-   - **Tersambung secara HORIZONTAL (Memanjang mendatar dari kiri ke kanan).**
-   - **Garis Merah ($+$):** Dihubungkan ke sumber tegangan positif (3,3V atau 5V).
-   - **Garis Biru ($-$ / GND):** Dihubungkan ke Ground ($0\text{V}$).
-   - *Fungsi:* Menyediakan rel tegangan bersama agar kita tidak perlu berebut pin daya pada board ESP32 saat memakai banyak sensor.
-
-2. **Jalur Komponen (*Terminal Strips* / Baris A–J):**
-   - Terletak di wilayah tengah tempat kita menancapkan sensor, resistor, dan lampu LED.
-   - **Tersambung secara VERTIKAL (Tegak lurus dari atas ke bawah per 5 lubang).**
-   - Misalnya pada Kolom 1: lubang **1A, 1B, 1C, 1D, dan 1E** semuanya terhubung oleh satu pelat tembaga yang sama di bawahnya.
-   - **Parit Pemisah Tengah (*Center Ravine*):** Parit isolasi ini memutus koneksi antara baris A–E dan baris F–J. Parit ini dirancang khusus dengan jarak standar agar kita bisa menancapkan chip terpadu (*IC / Integrated Circuit*) berkaki dua sisi tepat di tengahnya tanpa membuat kaki kiri dan kaki kanannya saling korslet.
-
----
-
-## 2. Kesalahan Fatal Nomor 1 Pemula: Korslet di Kolom yang Sama
-
-Mari kita pelajari kesalahan paling mendasar yang sering membuat pemula bingung mengapa lampu rangkaiannya tidak mau menyala:
-
-![Perbandingan pemasangan komponen di breadboard: salah korslet vs benar normal](aset/breadboard-korslet-vs-benar.jpg)
-
-*Perbandingan pemasangan komponen: Menancapkan kedua kaki komponen pada kolom yang sama akan membuat arus listrik mengambil jalan pintas melalui pelat tembaga (korsleting). Komponen wajib menjembatani dua kolom berbeda agar dapat dialiri arus secara normal.*
-
-| Parameter Perbandingan | ❌ Cara Salah (Korsleting / Gagal) | ✅ Cara Benar (Berfungsi Normal) |
-| :--- | :--- | :--- |
-| **Posisi Kaki Komponen** | Kedua kaki ditancapkan di **kolom yang sama** (misal 5B & 5D). | Kaki komponen **menjembatani dua kolom berbeda** (misal 5B & 8B). |
-| **Aliran Arus Listrik** | Arus mengambil jalan pintas (*bypass*) lewat pelat tembaga di bawahnya. | Arus listrik dipaksa mengalir melewati badan komponen. |
-| **Dampak pada Rangkaian** | **Komponen dilewati sia-sia & lampu tidak menyala sama sekali!** | **Komponen bekerja normal dan dialiri arus secara aman.** |
-
-> [!WARNING]
-> **Aturan Emas Merangkai di Breadboard:**  
-> **Jangan pernah menancapkan kedua kaki dari satu komponen yang sama pada kolom vertikal yang sama!**  
-> Karena seluruh lubang pada satu kolom (misalnya 5A sampai 5E) terhubung oleh satu pelat tembaga yang sama di bawahnya, menancapkan kedua kaki di kolom tersebut akan membuat arus listrik memilih jalan pintas melalui pelat tembaga dan **melewati komponenmu begitu saja (*Short Circuit / Korsleting*)**.  
-> Setiap komponen wajib **menjembatani dua kolom yang berbeda**.
-
----
-
-## 3. Cara Menentukan Polaritas Komponen ($+$ vs $-$)
-
-Komponen elektronika terbagi menjadi dua kelompok besar:
-1. **Komponen Non-Polar (Bebas Bolak-Balik):** Tidak memiliki kutub positif maupun negatif. Kamu bebas memasangnya terbalik tanpa masalah (contoh: Resistor dan Kapasitor Keramik bulat pipih).
-2. **Komponen Polar (Wajib Searah):** Memiliki kutub **Positif ($+$)** dan **Negatif ($-$)**. Jika dipasang terbalik, komponen tidak akan bekerja, tidak menyala, atau pada komponen tertentu bisa rusak!
-
-Mari kita pelajari cara mengenali kutub pada tiga komponen polar yang paling sering kita gunakan di dunia IoT:
-
-![Panduan visual menentukan polaritas komponen LED, Dioda, dan Kapasitor](aset/panduan-polaritas-komponen.png)
-
-*Infografis ringkasan polaritas 3 komponen polar utama IoT: Lampu LED (kaki panjang Anoda, kaki pendek Katoda), Dioda 1N4007 (cincin perak Katoda), dan Kapasitor Elektrolit (strip minus Katoda).*
-
----
-
-### A. Lampu LED (*Light Emitting Diode*)
-Lampu LED hanya mengalirkan arus listrik dari kutub **Anoda ($+$)** menuju **Katoda ($-$)**:
-
-![Panduan cara membedakan kaki anoda dan katoda pada lampu LED](aset/polaritas-kaki-led.jpg)
-
-*Panduan polaritas kaki LED: Kaki panjang adalah Anoda (+), kaki pendek dan sisi papas pipih pada kubah plastik adalah Katoda (-).*
-
-* **Anoda (Positif / $+$):** Kaki yang lebih **panjang**. Jika dilihat ke dalam kubah plastik beningnya, pelat logamnya berukuran lebih **kecil ramping**.
-* **Katoda (Negatif / $-$):** Kaki yang lebih **pendek**. Pada bibir plastik kubah terdapat **sisi pipih/rata**, dan pelat logam di dalamnya berbentuk **lebar menyerupai bendera**.
-
----
-
-### B. Dioda Penyearah (Tipe 1N4007)
-Dioda berfungsi sebagai katup satu arah (mencegah arus listrik mengalir mundur yang dapat merusak mikrokontroler):
-
-![Foto asli dioda penyearah 1N4007 memperlihatkan cincin perak katoda](aset/dioda-1n4007-foto.jpg)
-
-*Foto fisik dioda 1N4007: Garis cincin berwarna perak di sisi kanan menandai kutub Katoda (-). Sumber: Nevit Dilmen, Wikimedia Commons, Lisensi CC BY-SA 3.0.*
-
-* **Katoda (Negatif / $-$):** Ujung badan dioda yang memiliki **garis cincin melingkar berwarna perak atau putih**.
-* **Anoda (Positif / $+$):** Sisi badan dioda yang berwarna hitam polos tanpa garis.
-
----
-
-### C. Kapasitor Elektrolit (*Electrolytic Capacitor*)
-Kapasitor elektrolit berbentuk seperti tabung kaleng mini dan berfungsi menyimpan cadangan muatan listrik sementara:
-
-![Foto fisik kapasitor elektrolit memperlihatkan strip vertikal bertanda minus](aset/kapasitor-elektrolit-foto.jpg)
-
-*Foto fisik kapasitor elektrolit: Kaki pendek dan garis strip vertikal dengan tanda minus (-) menandai kutub Katoda. Sumber: Hustvedt, Wikimedia Commons, Lisensi CC BY-SA 3.0.*
-
-* **Katoda (Negatif / $-$):** Kaki yang lebih **pendek**, dan di sisi tabungnya terdapat **garis strip vertikal berwarna terang bertanda minus ($-$)**.
-* **Anoda (Positif / $+$):** Kaki yang lebih **panjang** pada sisi tabung yang polos.
-
-> [!CAUTION]
-> Jangan pernah memasang kapasitor elektrolit terbalik pada rangkaian bertegangan tinggi, karena cairan elektrolit di dalamnya bisa mendidih, menghasilkan gas berlebih, dan membuat tabung meletus!
-
----
-
-## 4. Membaca Kode Warna Resistor Tanpa Rumit
-
-Resistor memiliki ukuran fisik yang sangat mungil sehingga nilai hambatannya tidak dicetak dalam bentuk angka huruf biasa, melainkan menggunakan **gelang kode warna melingkar**:
-
-![Infografis anatomi dan pembacaan gelang warna resistor 4 gelang](aset/diagram-anatomi-resistor.png)
-
-*Infografis anatomi resistor 4-gelang: Gelang 1 & 2 menunjukkan angka pertama dan kedua, Gelang 3 adalah pengali jumlah nol, dan Gelang 4 adalah toleransi presisi.*
-
-### 3 Resistor Paling Wajib yang Digunakan di Proyek IoT:
-Kamu tidak perlu menghafalkan seluruh tabel warna di awal. Cukup ingat **tiga kombinasi warna paling populer** yang mencakup 90% kebutuhan proyek kita:
-
-| Nilai Resistor | Warna Gelang 1 - 2 - 3 | Fungsi Utama di Proyek IoT |
-| :---: | :---: | :--- |
-| **$220\ \Omega$** | **Merah – Merah – Cokelat** | **Pengaman Lampu LED:** Mencegah lampu terbakar saat dialiri tegangan 3,3V dari pin ESP32. |
-| **$1\text{ k}\Omega$ ($1000\ \Omega$)** | **Cokelat – Hitam – Merah** | **Pembagi Tegangan & Driver:** Mengamankan kaki basis transistor atau pembagi voltase sensor. |
-| **$10\text{ k}\Omega$ ($10000\ \Omega$)** | **Cokelat – Hitam – Oranye** | **Resistor Pull-Up / Pull-Down:** Mencegah sinyal mengambang (*floating*) pada tombol tekan dan sensor cahaya LDR. |
+2. **Jalur Komponen Tengah (*Terminal Strips* / Baris A–J):**
+   - Area utama di bagian tengah tempat kita menancapkan resistor, sensor, LED, dan chip mikrokontroler.
+   - **Tersambung secara VERTIKAL (Tegak lurus dari atas ke bawah).**
+   - Perhatikan koordinat huruf dan angka: Pada **Kolom 1**, lubang **A, B, C, D, dan E semuanya tersambung menjadi satu pelat tembaga**. Artinya, menancapkan kabel di lubang 1A sama persis dengan menyambungkannya ke lubang 1B, 1C, 1D, atau 1E!
+   - Kolom 1 **tidak tersambung** ke Kolom 2, Kolom 3, dan seterusnya. Setiap kolom vertikal adalah kelompok kawat independen.
+3. **Parit Pemisah Tengah (*Center Trench / Ravine*):**
+   - Parit plastik kosong di bagian tengah yang memisahkan kelompok baris A–E (atas) dari kelompok baris F–J (bawah).
+   - Lubang 1E **sama sekali tidak terhubung** ke lubang 1F.
+   - **Fungsi Parit Tengah:** Dirancang khusus dengan lebar standar agar chip IC berkaki dua sisi (seperti mikrokontroler atau chip logika) bisa ditancapkan tepat di tengah parit tanpa menyebabkan kaki kiri dan kaki kanannya saling korslet!
 
 <details>
-<summary>🔬 Ingin Tahu Rumus Lengkap Menghitung Gelang Warna Resistor? (Tabel Referensi Internasional)</summary>
+<summary>🔬 Ingin Melihat Wujud Nyata Pelat Logam di Balik Breadboard? (Foto Laboratorium)</summary>
 
-![Tabel diagram pembacaan gelang kode warna resistor](aset/tabel-kode-warna-resistor.png)
+Foto di bawah ini memperlihatkan wujud fisik breadboard asli saat lapisan stiker perekat di bagian bawahnya dilepas:
 
-*Diagram pembacaan gelang warna resistor 4-gelang dan 5-gelang standar internasional. Sumber: S-kei, Wikimedia Commons, Lisensi CC BY-SA 3.0 / CC0.*
+![Foto Fisik Breadboard Tampak Atas dan Bawah](aset/breadboard-top-bottom.png)
 
-Nilai gelang warna resistor 4-gelang dihitung dengan rumus:
-$$\text{Nilai} = [(\text{Gelang 1} \times 10) + \text{Gelang 2}] \times 10^{\text{Gelang 3}}$$
+*Foto fisik breadboard: Bagian atas berupa lubang plastik isolator, dan bagian bawah memperlihatkan deretan klip pelat logam pegas yang menjepit kaki komponen.*
 
-**Kode Angka Warna Standar Internasional:**
-- **Hitam** = 0
-- **Cokelat** = 1
-- **Merah** = 2
-- **Oranye** = 3
-- **Kuning** = 4
-- **Hijau** = 5
-- **Biru** = 6
-- **Ungu** = 7
-- **Abu-abu** = 8
-- **Putih** = 9
-- **Emas** = Toleransi 5%
+Klip pelat logam tersebut memiliki penjepit pegas (*spring clips*). Saat kamu menusukkan kawat komponen ke dalam lubang, penjepit logam akan merenggang sedikit lalu menjepit kawat dengan erat agar arus listrik mengalir dengan stabil.
 
-**Contoh Pembuktian Resistor $220\ \Omega$ (Merah – Merah – Cokelat):**
-- Gelang 1 (Merah) = 2
-- Gelang 2 (Merah) = 2
-- Gelang 3 (Cokelat) = Pengali $10^1$ (tambah satu angka nol di belakangnya)
-- Hasil: $22 \times 10 = 220\ \Omega$ (Toleransi 5%). Sangat mudah dan teratur!
+**Mengapa Kaki Semua Komponen Pas Masuk ke Breadboard?**  
+Karena seluruh industri elektronika global mematuhi standar jarak lubang (*Pitch*) yang seragam, yaitu **2,54 mm (setara 0,1 inci)**. Jarak antar-kaki pada chip ESP32, sensor, IC, dan kabel jumper dirancang persis 2,54 mm sehingga dapat ditancapkan dengan sangat presisi tanpa perlu dipaksa.
 
 </details>
 
 ---
 
-## 5. Tiga Jenis Kabel Jumper & Standar Warna Kabel
+## 2. Kesalahan Fatal Nomor 1 Pemula: Korslet di Kolom yang Sama
 
-Kabel jumper adalah kawat penghubung lentur berisolasi yang digunakan untuk menyambungkan titik-titik sirkuit pada breadboard dan mikrokontroler:
+Mari kita pelajari kesalahan paling klasik yang sering dialami oleh orang yang baru pertama kali merangkai di breadboard:
 
-![Foto fisik kabel jumper Dupont berwarna-warni dengan ujung jarum](aset/kabel-jumper-breadboard-asli.jpg)
+![Pemasangan Resistor di Breadboard: Korslet vs Benar](aset/breadboard-resistor-placement.svg)
 
-*Foto fisik kabel jumper Dupont Male-to-Male dengan ujung jarum logam berlapis isolator hitam. Sumber: oomlout, Wikimedia Commons, Lisensi CC BY-SA 2.0.*
+*Perbandingan penancapan komponen: Sisi kiri SALAH karena kedua kaki berada di kolom vertikal yang sama (arus mem-bypass resistor lewat pelat internal). Sisi kanan BENAR karena resistor menjembatani dua kolom berbeda.*
 
-### Tipe Kabel Jumper Berdasarkan Ujung Konektor:
+**Mengapa Cara Kiri Salah?**  
+Ingat analogi aliran listrik pada Modul 0.1: *Arus listrik selalu memilih jalan pintas yang hambatannya paling kecil (*path of least resistance*)*.  
 
-| Jenis Kabel Jumper | Ciri Fisik Ujung | Contoh Penggunaan Utama |
-| :--- | :--- | :--- |
-| **Male-to-Male (M-M)** | Jarum logam runcing di kedua ujung | Menghubungkan board ESP32 ke lubang breadboard. |
-| **Male-to-Female (M-F)** | Jarum di 1 ujung, soket lubang di ujung lain | Menghubungkan board ESP32 ke pin modul sensor luar. |
-| **Female-to-Female (F-F)** | Soket lubang di kedua ujung | Menghubungkan header Raspberry Pi langsung ke modul display. |
+Karena lubang 5B dan 5D berada pada **satu kolom vertikal yang sama**, keduanya sudah tersambung oleh pelat tembaga logam di bawahnya. Akibatnya, arus listrik akan langsung mengalir lewat pelat tembaga di bawah breadboard dan **melewati (*bypass*) resistor begitu saja**. Resistor sama sekali tidak bekerja menahan arus (*Short Circuit / Korsleting*).
 
-### Standar Konvensi Warna Kabel Elektronika:
-
-| Standar Warna Kabel | Fungsi Aliran Listrik | Makna & Manfaat Praktis |
-| :--- | :--- | :--- |
-| 🔴 **Merah** | Tegangan Positif ($+$ / 3.3V / 5V) | Menandai jalur aktif sumber daya listrik utama. |
-| ⚫ **Hitam** | Ground / Negatif ($-$ / GND / 0V) | Menandai jalur titik pembuangan / acuan netral bersama. |
-| 🟡 **Kuning** | Sinyal Data (I2C SDA / RX) | Saluran komunikasi data sensor digital. |
-| 🟢 **Hijau** | Sinyal Detak Jam (I2C SCL / TX) | Saluran sinkronisasi clock komunikasi antar chip. |
-| 🔵 **Biru** | Sinyal Kontrol / PWM | Saluran modulasi kecerahan lampu atau kecepatan motor. |
+> [!WARNING]
+> **Aturan Emas Menancapkan Komponen di Breadboard:**  
+> **Komponen pasif berkaki dua (seperti resistor) WAJIB menjembatani dua kolom vertikal yang berbeda!**  
+> Tancapkan kaki kiri di satu kolom (misalnya Kolom 5) dan kaki kanan di kolom lain (misalnya Kolom 8). Dengan begitu, arus listrik terpaksa mengalir melewati badan resistor untuk menyeberang antar-kolom.
 
 > [!TIP]
-> **Mengapa Konvensi Warna Kabel Sangat Krusial?**  
-> Secara fisik, semua kawat tembaga di dalam kabel jumper memiliki kemampuan menghantar listrik yang persis sama. Namun, membiasakan diri menggunakan **kabel Merah untuk Positif ($+$)** dan **kabel Hitam untuk Ground ($-$ / GND)** akan menyelamatkan sirkuitmu dari kesalahan colok yang fatal saat rangkaian mulai padat!
+> **Trik Menancapkan Kaki Komponen Fisik Tanpa Bengkok:**  
+> Kawat kaki resistor dan LED fisik relatif tipis dan mudah melengkung jika ditekan sembarangan.  
+> **Tips Praktis:** Tekuk kedua kaki resistor membentuk huruf "U" atau sudut siku-siku $90^\circ$ yang rapi. Saat menancapkan, jepit kawat menggunakan ujung jarimu sedekat mungkin dengan permukaan breadboard, lalu dorong masuk secara tegak lurus perlahan. Jangan menekan dari atas badan resistor karena kawatnya akan mudah bengkok di tengah jalan.
+
+---
+
+## 3. Cara Menentukan Polaritas Komponen ($+$ vs $-$)
+
+Komponen elektronika yang akan kita gunakan terbagi menjadi dua kelompok besar:
+1. **Komponen Non-Polar (Bebas Bolak-Balik):** Tidak memiliki kutub positif maupun negatif. Kamu bebas menancapkannya bolak-balik tanpa takut salah (contoh: **Resistor**, Kapasitor Keramik bulat pipih).
+2. **Komponen Polar (Wajib Searah):** Memiliki kutub **Positif ($+$)** dan **Negatif ($-$)**. Komponen ini **wajib** dipasang sesuai arah aliran listrik. Jika dipasang terbalik, komponen tidak akan bekerja atau bahkan bisa rusak.
+
+Mari kita pelajari cara mengenali kutub komponen polar yang paling sering digunakan di dunia IoT:
+
+---
+
+### A. Lampu LED (*Light Emitting Diode*)
+
+LED hanya dapat mengalirkan arus listrik dari kutub **Anoda ($+$)** menuju kutub **Katoda ($-$)**.
+
+![Panduan Polaritas Kaki LED](aset/polaritas-kaki-led.jpg)
+
+*Panduan mengenali polaritas kaki LED melalui panjang kaki, sisi pipih kubah, dan bentuk pelat internal.*
+
+**3 Cara Mudah Menentukan Kutub LED:**
+1. **Panjang Kaki Fisik:** Kaki yang **lebih panjang** adalah **Anoda (+)**, sedangkan kaki yang **lebih pendek** adalah **Katoda (-)**.
+2. **Sisi Pipih Kubah Plastik (*Flat Edge*):** Raba tepi lingkaran dasar kubah LED. Ada satu sisi yang dipapas rata/pipih. Kaki yang terletak persis di dekat sisi pipih tersebut adalah **Katoda (-)**.
+3. **Bentuk Pelat di Dalam Kubah Transparan:** Terawang plastik LED ke arah cahaya:
+   - Pelat logam kecil ramping di dalam adalah **Anoda (+)**.
+   - Pelat logam lebar menyerupai bendera adalah **Katoda (-)**.
+
+---
+
+### B. Dioda Penyearah (1N4007) & Kapasitor Elektrolit
+
+Mari kita perhatikan dua komponen polar penting lainnya yang sering kita jumpai di rangkaian catu daya IoT:
+
+![Panduan Polaritas Komponen: Dioda 1N4007 dan Kapasitor Elektrolit](aset/polaritas-komponen.svg)
+
+*Panduan kutub polaritas komponen: Dioda penyearah 1N4007 menandai katoda (-) dengan garis cincin perak, sedangkan kapasitor elektrolit menandai katoda (-) dengan strip vertikal bertanda minus dan kaki yang lebih pendek.*
+
+#### 1. Dioda Penyearah (1N4007)
+Dioda berfungsi layaknya **katup satu arah** pipa air: listrik hanya diizinkan mengalir maju dan dicegah mengalir mundur (sangat penting untuk melindungi chip ESP32 dari arus balik motor atau relay).
+- **Katoda (Negatif / $-$):** Ujung tabung hitam yang memiliki **garis cincin berwarna perak/putih**.
+- **Anoda (Positif / $+$):** Sisi tabung polos hitam tanpa garis.
+
+#### 2. Kapasitor Elektrolit (*Electrolytic Capacitor*)
+Kapasitor elektrolit berbentuk seperti kaleng mini yang berfungsi sebagai "tandon penyimpan cadangan listrik sementara" untuk meredam kedipan voltase saat modul Wi-Fi ESP32 menyala.
+- **Katoda (Negatif / $-$):** Kaki yang **lebih pendek** dan berada persis di bawah **garis strip vertikal berwarna abu-abu/putih bertanda minus ($-$)** pada tabung.
+- **Anoda (Positif / $+$):** Kaki yang **lebih panjang**.
+
+> [!CAUTION]
+> **Peringatan Penting Kapasitor Elektrolit:**  
+> Jangan pernah memasang kutub kapasitor elektrolit terbalik pada sirkuit bertegangan! Cairan elektrolit di dalamnya dapat mendidih dan menyebabkan tabung kapasitor meletup serta mengeluarkan asap. Selalu pastikan kaki bertanda minus ($-$) terhubung ke jalur GND.
+
+---
+
+## 4. Membaca Kode Warna Resistor Tanpa Rumit
+
+Ukuran badan resistor sangat kecil (panjangnya hanya sekitar 6 mm), sehingga pabrik tidak mencetak angka teks di badannya. Sebagai gantinya, nilai hambatannya dicetak menggunakan **gelang pita warna melingkar**:
+
+![Kode Warna Resistor Tiga Nilai Standar](aset/diagram-kode-warna-tiga-resistor.svg)
+
+*Diagram kode warna resistor empat pita: Tiga nilai paling standar dalam rekayasa IoT beserta formula matematis pengalinya.*
+
+### Cara Membaca Resistor 4 Pita Warna:
+Membaca pita warna resistor dilakukan dari kiri ke kanan (pita keempat yang berwarna emas/perak diletakkan di sebelah kanan):
+1. **Pita 1:** Angka Digit Pertama.
+2. **Pita 2:** Angka Digit Kedua.
+3. **Pita 3 (Pengali):** Faktor Pengali Jumlah Angka Nol ($10^n$).
+4. **Pita 4 (Toleransi):** Akurasi presisi pabrik (Warna Emas = toleransi $\pm 5\%$).
+
+---
+
+### 3 Resistor Paling Wajib di Dunia IoT:
+Sebagai pemula, kamu **tidak perlu menghafal** tabel 10 warna resistor! Cukup kenali dan simpan **3 nilai resistor paling populer** yang akan kita pakai di 95% proyek IoT:
+
+| Nilai Hambatan | Urutan Pita Warna | Perhitungan Logis | Fungsi Utama di Proyek IoT |
+| :---: | :---: | :---: | :--- |
+| **$220\ \Omega$** | **Merah – Merah – Cokelat – Emas** | $22 \times 10^1 = \mathbf{220\ \Omega}$ | **Pengaman Lampu LED:** Menahan arus berlebih agar LED tidak terbakar saat dipicu pin GPIO 3,3V. |
+| **$1\text{ k}\Omega$** ($1000\ \Omega$) | **Cokelat – Hitam – Merah – Emas** | $10 \times 10^2 = \mathbf{1000\ \Omega}$ | **Pembagi Tegangan & Driver:** Pengaman kaki *Base* transistor dan modul sensor analog. |
+| **$10\text{ k}\Omega$** ($10.000\ \Omega$) | **Cokelat – Hitam – Oranye – Emas** | $10 \times 10^3 = \mathbf{10.000\ \Omega}$ | **Resistor Pull-up / Pull-down:** Menjaga kestabilan sinyal tombol tekan dan rangkaian sensor cahaya LDR. |
+
+> [!TIP]
+> **Trik Praktis:** Jika kamu ragu membaca warna resistor di meja kerjamu, gunakan **Multimeter Digital** pada mode pengukuran resistansi ($\Omega$). Tempelkan kedua jarum probe ke kedua kaki resistor, dan layarnya akan langsung menampilkan nilai ohm aslinya secara akurat!
+
+---
+
+## 5. Tiga Jenis Kabel Jumper & Standar Warna Kabel
+
+Kabel jumper adalah kawat fleksibel berinti tembaga yang ujungnya dilengkapi kepala konektor khusus (*Dupont Connector*) untuk menancap pas ke lubang breadboard atau pin header ESP32.
+
+![Kabel Jumper Dupont: Jenis Konektor dan Kode Warna](aset/diagram-kabel-jumper-jenis-dan-warna.svg)
+
+*Panduan kabel jumper Dupont: Tiga konfigurasi ujung konektor (M-M, M-F, F-F) dan standar pewarnaan kabel untuk menjaga kerapian sirkuit.*
+
+### Mengenal Tiga Jenis Kabel Jumper:
+
+1. **Male-to-Male (M-M):** Memiliki jarum pin logam di **kedua ujungnya** (paling sering digunakan untuk menghubungkan pin ESP32 ke lubang breadboard).
+2. **Male-to-Female (M-F):** Memiliki jarum pin di satu ujung dan lubang soket di ujung lainnya (digunakan untuk menghubungkan modul sensor ke breadboard atau pin ESP32).
+3. **Female-to-Female (F-F):** Memiliki lubang soket di **kedua ujungnya** (digunakan untuk menghubungkan dua modul sensor berkaki pin jarum secara langsung tanpa breadboard).
+
+---
+
+### Standar Warna Kabel dalam Rekayasa IoT:
+
+Semua kabel jumper—apapun warna plastik isolatornya—memiliki kawat tembaga internal yang **sama persis daya hantarnya**. Listrik tidak peduli kabelmu berwarna merah atau ungu!
+
+Namun, para insinyur profesional selalu mematuhi **kesepakatan warna standar** agar sirkuit rapi dan mudah ditelusuri saat terjadi kesalahan (*troubleshooting*):
+
+* 🔴 **Kabel Merah:** Digunakan khusus untuk **Tegangan Positif ($+$ / VCC / 3,3V / 5V)**.
+* ⚫ **Kabel Hitam:** Digunakan khusus untuk **Ground ($-$ / GND / 0V)**.
+* 🟡 **Kabel Kuning & 🟢 Kabel Hijau:** Digunakan untuk **Jalur Sinyal Data & Clock** (seperti pin I2C SDA/SCL atau sensor analog).
+* 🔵 **Kabel Biru & ⚪ Kabel Putih:** Digunakan untuk **Sinyal Kontrol / PWM Aktuator**.
+
+> [!NOTE]
+> **Disiplin Wiring Sejak Dini:**  
+> Jangan pernah menggunakan kabel hitam untuk jalur daya 5V atau kabel merah untuk jalur GND! Kebiasaan mencampuradukkan warna kabel daya adalah penyebab nomor satu komponen terbakar akibat salah colok saat sirkuit bertambah rumit.
 
 ---
 
 ## 6. Praktik Virtual Wokwi: Merakit Sirkuit Breadboard Pertama
 
-Sekarang, mari kita buktikan seluruh pemahaman ini dengan merakit sirkuit di atas papan breadboard virtual di simulator Wokwi!
+Sekarang, mari kita buktikan seluruh pemahaman ini dengan merakit sirkuit di atas breadboard virtual simulator Wokwi!
 
 ---
 
-### Langkah 1 — Membuka Simulator di Browser
-1. Buka tautan lembar kerja di browsermu: **[https://wokwi.com/projects/new/esp32](https://wokwi.com/projects/new/esp32)**
-2. Layar browsermu akan menampilkan dua panel:
-   - **Panel Kiri:** Editor kode program. Pastikan tab yang aktif adalah **`sketch.ino`**.
-   - **Panel Kanan:** Area kerja kanvas diagram sirkuit virtual.
+### Langkah 1 — Membuka Lembar Kerja Simulasi
+1. Buka tautan lembar kerja di browser: **[https://wokwi.com/projects/new/esp32](https://wokwi.com/projects/new/esp32)**
+2. Pastikan tab yang aktif di editor kode sebelah kiri adalah **`sketch.ino`**.
 
 ---
 
-### Langkah 2 — Menyiapkan Kode Program
-Klik tab **`sketch.ino`** di panel kiri, hapus semua teks yang ada (`Ctrl + A` lalu tekan `Delete`), kemudian tempelkan (*paste*) kode program berikut:
+### Langkah 2 — Memasukkan Kode Program
+Hapus semua kode bawaan di tab `sketch.ino`, lalu tempelkan (*paste*) kode program berikut:
 
 ```cpp
 void setup() {
-  // Sirkuit breadboard ini bekerja secara konstan dari rel daya hardware 3.3V.
-  // Kita inisialisasi komunikasi Serial pada kecepatan 115200 baud agar bisa memantau status di layar.
-  Serial.begin(115200);
-  Serial.println("Sirkuit Breadboard Aktif dan Bekerja Normal!");
+  // 1. Siapkan pin GPIO 4 sebagai pengirim sinyal listrik (OUTPUT)
+  pinMode(4, OUTPUT);
+
+  // 2. Alirkan tegangan stabil 3,3V ke GPIO 4 agar lampu LED menyala
+  digitalWrite(4, HIGH);
 }
 
 void loop() {
-  // Loop dibiarkan kosong karena rangkaian menerima daya listrik konstan dari pin 3V3 fisik
-  delay(1000);
+  // Dibiarkan kosong karena kita ingin mengamati lampu menyala stabil di breadboard
 }
 ```
 
 ---
 
-### Langkah 3 — Menambahkan Komponen ke Kanvas Diagram
-1. Di panel sebelah kanan (tepat di atas board ESP32), klik tombol biru bertanda **+** (*Add a new part*).
-2. Ketik `breadboard`, lalu klik **Half Breadboard**. Papan putih breadboard akan muncul di kanvas. Tarik dan letakkan di sebelah kanan board ESP32.
-3. Klik tombol **+** lagi, ketik `resistor`, lalu klik **Resistor**. (Klik resistor yang baru muncul, pastikan nilai hambatannya bernilai **`220`** ohm).
-4. Klik tombol **+** lagi, ketik `led`, lalu klik **LED** (pilih warna merah).
+### Langkah 3 — Menambahkan Komponen ke Kanvas Simulasi
+1. Di panel diagram sebelah kanan, klik tombol biru bertanda **+** (*Add a new part*).
+2. Tambahkan 3 komponen berikut satu per satu:
+   - Ketik `Breadboard` $\rightarrow$ klik **Half Breadboard**.
+   - Ketik `Resistor` $\rightarrow$ klik **Resistor**.
+   - Ketik `LED` $\rightarrow$ klik **LED** (pilih warna merah).
+3. Klik komponen resistor yang baru muncul di kanvas, lalu pada menu nilai hambatan di bagian atas kanvas, pastikan nilainya tertulis **`220`** (ohm).
 
 ---
 
-### Langkah 4 — Menancapkan Komponen ke Lubang Breadboard
+### Langkah 4 — Menancapkan Komponen & Menghubungkan Kabel
 
-Tancapkan komponen ke lubang breadboard dengan koordinat berikut:
-1. **Resistor $220\ \Omega$:** Tancapkan satu kaki di lubang **10A** dan kaki lainnya di lubang **14A** *(resistor menjembatani kolom 10 dan kolom 14)*.
-2. **LED Merah:**
-   - Tancapkan kaki **Anoda (kaki panjang/melengkung)** di lubang **14B** *(sekolom dengan kaki kanan resistor agar saling terhubung oleh pelat tembaga di bawahnya)*.
-   - Tancapkan kaki **Katoda (kaki pendek)** di lubang **15B**.
+Tancapkan komponen ke breadboard dengan panduan koordinat berikut:
 
----
+1. **Pasang Resistor 220 $\Omega$:**
+   - Tancapkan kaki kiri resistor di lubang **10A**.
+   - Tancapkan kaki kanan resistor di lubang **14A** (menjembatani kolom 10 dan kolom 14!).
+2. **Pasang Lampu LED Merah:**
+   - Tancapkan **Anoda LED (kaki panjang melengkung)** di lubang **14B** (sekolom vertikal dengan kaki resistor agar terhubung!).
+   - Tancapkan **Katoda LED (kaki pendek lurus)** di lubang **15B**.
+3. **Tarik Kabel Jumper:**
+   - Klik pin **GPIO 4** pada board ESP32, lalu tarik kabel ke lubang **10C** di breadboard (klik kabel dan ubah warnanya menjadi **merah**).
+   - Klik lubang **15C** di breadboard (sekolom dengan katoda LED), lalu tarik kabel kembali ke pin **GND** pada board ESP32 (ubah warna kabel menjadi **hitam**).
 
-### Langkah 5 — Menghubungkan Kabel Jumper Virtual
-
-Tarik sambungan kabel dengan cara mengklik pin asal lalu mengklik pin tujuan:
-1. **Kabel Merah:** Klik pin **3V3** pada board ESP32, lalu klik lubang breadboard **10C** *(arahkan kursor ke kabel, lalu ubah warnanya menjadi merah)*.
-2. **Kabel Hitam:** Klik lubang breadboard **15C**, lalu klik pin **GND** pada board ESP32 *(ubah warnanya menjadi hitam)*.
-
-```mermaid
-flowchart LR
-    ESP_VCC["ESP32: Pin 3V3"] -- "Kabel Merah (+)" --> BB_10["Breadboard: Kolom 10"]
-    BB_10 -- "Resistor 220 Ω" --> BB_14["Breadboard: Kolom 14"]
-    BB_14 -- "Anoda (+)" --> LED["Lampu LED"]
-    LED -- "Katoda (-)" --> BB_15["Breadboard: Kolom 15"]
-    BB_15 -- "Kabel Hitam (-)" --> ESP_GND["ESP32: Pin GND"]
-```
+| Dari Titik (*Asal*) | Menuju Titik (*Tujuan*) | Warna Kabel | Keterangan Jalur |
+| :--- | :--- | :---: | :--- |
+| **Pin GPIO 4** (ESP32) | **Kolom 10C** (Breadboard) | 🔴 Merah | Memasok tegangan 3,3V ke jalur resistor |
+| **Kaki Kiri Resistor** | **Kolom 10A** | — | Menancap di Kolom 10 (sejalur kabel merah) |
+| **Kaki Kanan Resistor** | **Kolom 14A** | — | Menjembatani Kolom 10 ke Kolom 14 |
+| **Anoda LED (+)** | **Kolom 14B** | — | Sekolom vertikal dengan kaki kanan resistor |
+| **Katoda LED (-)** | **Kolom 15B** | — | Menancap di Kolom 15 |
+| **Kolom 15C** (Breadboard) | **Pin GND** (ESP32) | ⚫ Hitam | Mengalirkan arus balik dari katoda ke Ground |
 
 <details>
-<summary>💡 Ingin Cara Instan Tanpa Menarik Kabel Satu per Satu? (Klik di Sini untuk diagram.json)</summary>
+<summary>⚡ Ingin Rangkaian Terpasang Otomatis? Salin Kode diagram.json Ini ke Wokwi!</summary>
 
-Jika kamu ingin langsung melihat rangkaian terpasang sempurna tanpa menarik kabel secara manual, kamu bisa menggunakan fitur denah Wokwi:
-1. Klik tab **`diagram.json`** di sebelah tab `sketch.ino`.
-2. Ganti seluruh isinya dengan kode JSON berikut:
+Jika kamu ingin sirkuit langsung tersusun rapi secara otomatis di simulator tanpa repot menarik kabel satu per satu dengan mouse:
+
+1. Di simulator Wokwi, klik tab **`diagram.json`** (di sebelah tab `sketch.ino`).
+2. Hapus semua teks bawaan (`Ctrl + A` lalu `Delete`), lalu tempelkan (*paste*) kode JSON berikut:
 
 ```json
 {
@@ -321,56 +335,52 @@ Jika kamu ingin langsung melihat rangkaian terpasang sempurna tanpa menarik kabe
   "author": "Fullstack IoT 2026",
   "editor": "wokwi",
   "parts": [
-    { "type": "board-esp32-devkit-c-v4", "id": "esp", "top": 0, "left": -80, "attrs": {} },
-    { "type": "wokwi-breadboard-half", "id": "bb1", "top": -20, "left": 160, "attrs": {} },
-    { "type": "wokwi-resistor", "id": "r1", "top": 120, "left": 230, "attrs": { "value": "220" } },
-    { "type": "wokwi-led", "id": "led1", "top": 90, "left": 270, "attrs": { "color": "red" } }
+    { "type": "board-esp32-devkit-c-v4", "id": "esp", "top": 0, "left": -220, "attrs": {} },
+    { "type": "wokwi-breadboard-half", "id": "bb1", "top": 20, "left": 100, "attrs": {} },
+    { "type": "wokwi-resistor", "id": "r1", "top": 120, "left": 180, "attrs": { "value": "220" } },
+    { "type": "wokwi-led", "id": "led1", "top": 110, "left": 230, "attrs": { "color": "red" } }
   ],
   "connections": [
-    [ "esp:3V3", "bb1:10t.c", "red", [ "v20", "h60" ] ],
-    [ "r1:1", "bb1:10t.a", "gold", [ "v0" ] ],
-    [ "r1:2", "bb1:14t.a", "gold", [ "v0" ] ],
-    [ "led1:A", "bb1:14t.b", "green", [ "v0" ] ],
-    [ "led1:C", "bb1:15t.b", "black", [ "v0" ] ],
-    [ "bb1:15t.c", "esp:GND.1", "black", [ "v20", "h-140" ] ]
-  ]
+    [ "esp:TX", "$serialMonitor:RX", "", [] ],
+    [ "esp:RX", "$serialMonitor:TX", "", [] ],
+    [ "esp:4", "bb1:10c", "red", [ "v0" ] ],
+    [ "r1:1", "bb1:10a", "#00d1b2", [ "v0" ] ],
+    [ "r1:2", "bb1:14a", "#00d1b2", [ "v0" ] ],
+    [ "led1:A", "bb1:14b", "green", [ "v0" ] ],
+    [ "led1:C", "bb1:15b", "green", [ "v0" ] ],
+    [ "bb1:15c", "esp:GND.1", "black", [ "v0" ] ]
+  ],
+  "dependencies": {}
 }
 ```
-3. Begitu kamu kembali ke tab `sketch.ino`, seluruh komponen dan kabel akan langsung tertata rapi otomatis!
+
+3. Klik kembali tab **`sketch.ino`**. Semua komponen (ESP32, Breadboard, Resistor 220 $\Omega$, LED Merah, dan seluruh kabelnya) akan langsung otomatis terpasang rapi di kanvas!
 
 </details>
 
 ---
 
-### Langkah 6 — Menjalankan Simulasi
-1. Klik tombol hijau **Play ▶** (*Start the simulation*) di pojok kanan atas kanvas diagram.
-2. **Lihat hasilnya:** Lampu LED merah pada breadboard akan menyala terang dan stabil! 🎉
-3. Perhatikan kotak putih **Serial** di bawah board, pesan teks `Sirkuit Breadboard Aktif dan Bekerja Normal!` akan tampil dengan lancar.
+### Langkah 5 — Menjalankan Simulasi
+1. Klik tombol hijau **Play ▶** (*Start the simulation*).
+2. **Lihat hasilnya:** Lampu LED merah di atas breadboard akan menyala terang dan stabil! 🎉
 
 ---
 
-### Langkah 7 — Eksperimen Mandiri (*Tebak Dulu, Baru Buktikan*)
+### Langkah 6 — Eksperimen Mandiri (*Observe $\rightarrow$ Break $\rightarrow$ Create*)
+Mari kita buktikan hukum korsleting breadboard yang baru saja kita pelajari:
 
-Mari kita uji pemahaman intuisimu:  
-*Apa yang akan terjadi jika kaki katoda LED kamu pindahkan dari lubang 15B ke lubang 18B?*
-
-Mari kita buktikan:
 1. Klik tombol merah **Stop**.
-2. Geser kaki katoda LED ke lubang **18B** (sementara kabel hitam GND tetap berada di lubang 15C).
-3. Klik tombol hijau **Play ▶**.
-4. **Hasilnya:** Lampu LED **PADAM**!  
-   *Mengapa?* Karena lubang 18B dan 15C berada pada kolom yang berbeda, sehingga pelat tembaga di bawahnya tidak terhubung dan sirkuit listrik menjadi terputus (*Open Circuit*). Kembalikan kaki katoda ke 15B, dan lampu akan langsung menyala kembali!
-
----
-
-### 🚨 Kotak Bantuan: "Bagaimana Jika Lampu LED Tidak Menyala?"
+2. Geser kaki kanan resistor dari lubang **14A** ke lubang **10E** (sekarang kedua kaki resistor berada di **Kolom 10 yang sama**).
+3. Pindahkan juga anoda LED ke lubang **10D**.
+4. Klik tombol **Play ▶** kembali.
+5. **Amati hasilnya:** Lampu LED **tidak menyala sama sekali**! Arus listrik memotong jalan lewat pelat Kolom 10 tanpa melewati lampu dan resistor.
+6. Klik tombol **Stop**, lalu kembalikan kaki resistor menjembatani kolom 10 dan 14 seperti semula agar lampu menyala kembali. Sekarang kamu telah membuktikan sendiri prinsip sirkuit breadboard dengan matamu sendiri!
 
 > [!WARNING]
-> **Langkah Pemeriksaan Cepat:**
-> 1. **Periksa Kaki LED:** Pastikan kaki anoda (kaki melengkung) berada di kolom 14 (sekolom dengan kaki resistor), bukan tertukar dengan katoda.
-> 2. **Periksa Jembatan Resistor:** Pastikan kedua kaki resistor tidak tertancap di kolom yang sama (misalnya jangan sampai kedua kaki menancap di kolom 10).
-> 3. **Periksa Pin Daya:** Pastikan kabel merah tertancap di pin bertuliskan **3V3**, bukan pin EN atau pin GPIO lain.
-> 4. **Periksa Pin Ground:** Pastikan kabel hitam tertancap di pin bertuliskan **GND**.
+> **Panduan Jika Lampu LED Tidak Menyala:**
+> 1. **Periksa Kaki LED:** Pastikan kaki anoda (kaki melengkung) berada di kolom 14 dan kaki katoda (kaki lurus) berada di kolom 15. Jika terbalik, LED tidak akan menyala.
+> 2. **Periksa Kolom Jumper:** Pastikan kabel dari GPIO 4 tertancap di Kolom 10, dan kabel ke GND tertancap di Kolom 15 (sekolom dengan katoda LED).
+> 3. **Periksa Nilai Resistor:** Pastikan nilai resistor adalah `220` ohm, bukan `220k` (kilo-ohm). Resistor yang terlalu besar akan membuat arus terlalu kecil sehingga nyala lampu tidak terlihat.
 
 ---
 
@@ -379,15 +389,14 @@ Mari kita buktikan:
 | Istilah Teknis | Penjelasan Sederhana |
 | :--- | :--- |
 | **Breadboard** | Papan berlubang dengan jepitan pelat tembaga internal untuk merakit prototipe sirkuit elektronika tanpa perlu disolder. |
-| **Power Rails** | Jalur rel daya di sepanjang tepi atas dan bawah breadboard yang tersambung secara horizontal untuk menyalurkan tegangan positif dan Ground. |
-| **Terminal Strips** | Lubang-lubang di area tengah breadboard yang tersambung secara vertikal (5 lubang per kelompok kolom). |
-| **Center Ravine** | Parit pemisah di tengah breadboard yang memutus baris A–E dan F–J, dirancang sebagai dudukan chip IC berkaki dua sisi. |
-| **Short Circuit (Korsleting)** | Kondisi ketika arus listrik mengalir melewati jalan pintas tanpa beban hambatan, yang dapat menyebabkan komponen gagal bekerja. |
-| **Open Circuit** | Kondisi sirkuit terputus sehingga arus listrik tidak dapat mengalir membentuk satu putaran penuh. |
-| **Komponen Non-Polar** | Komponen elektronika yang bebas dipasang bolak-balik tanpa membedakan kutub positif atau negatif (contoh: resistor). |
-| **Komponen Polar** | Komponen elektronika yang wajib dipasang searah kutub positif dan negatifnya (contoh: LED, dioda, kapasitor elektrolit). |
-| **Anoda & Katoda** | Anoda adalah kutub positif ($+$) tempat arus masuk, Katoda adalah kutub negatif ($-$) tempat arus keluar menuju Ground. |
-| **Jumper Wire** | Kabel penghubung fleksibel berkepala jarum (*Male*) atau soket (*Female*) untuk menyambungkan titik sirkuit. |
+| **Power Rails** | Jalur rel daya horizontal di pinggir atas dan bawah breadboard yang saling terhubung memanjang untuk jalur positif ($+$) dan negatif ($-$). |
+| **Terminal Strips** | Lubang-lubang di area tengah breadboard yang terhubung secara vertikal (5 lubang per kolom, baris A–E dan F–J). |
+| **Parit Tengah (*Center Trench*)** | Celah pemisah di tengah breadboard yang memutus sambungan antara baris atas dan bawah untuk tempat memasang chip IC. |
+| **Korsleting (*Short Circuit*)** | Kondisi ketika arus listrik mengalir melalui jalan pintas tanpa melewati komponen beban, menyebabkan rangkaian tidak bekerja normal. |
+| **Polaritas** | Sifat komponen yang memiliki kutub positif ($+$) dan negatif ($-$) sehingga wajib dipasang searah aliran arus. |
+| **Anoda & Katoda** | Anoda adalah kutub positif ($+$) tempat arus masuk, dan Katoda adalah kutub negatif ($-$) tempat arus keluar. |
+| **Resistor Axial** | Resistor tabung berkaki kawat di kedua sisinya yang nilainya ditandai dengan gelang pita warna. |
+| **Kabel Jumper Dupont** | Kabel penghubung fleksibel berkepala standar dengan variasi jarum logam (*Male*) dan lubang soket (*Female*). |
 
 ---
 
@@ -395,18 +404,18 @@ Mari kita buktikan:
 
 Uji pemahaman barumu dengan menjawab 4 pertanyaan singkat berikut di benakmu, lalu cocokkan dengan kunci jawaban di bawah:
 
-1. Jika kamu menancapkan kaki anoda dan katoda dari lampu LED yang sama pada lubang 7A dan 7D, apakah lampu LED tersebut akan menyala normal? Jelaskan alasannya!
-2. Mengapa parit isolasi di tengah breadboard (*Center Ravine*) sengaja dibuat terputus antara baris A–E dan baris F–J?
-3. Sebutkan urutan gelang warna untuk resistor pengaman LED bernilai $220\ \Omega$!
-4. Jika kamu memiliki modul sensor yang pin kakinya berupa jarum logam menonjol keluar dan ingin kamu hubungkan langsung ke lubang breadboard, jenis kabel jumper apakah yang paling tepat kamu gunakan?
+1. Jika kamu menancapkan kaki kiri resistor di lubang **7A** dan kaki kanan resistor di lubang **7D**, apakah resistor tersebut akan berfungsi menahan arus listrik? Jelaskan alasannya!
+2. Mengapa breadboard memiliki parit kosong memanjang tepat di bagian tengahnya?
+3. Pada kapasitor elektrolit fisik berbentuk tabung, ciri visual apakah yang menandakan bahwa suatu kaki adalah kutub negatif (Katoda)?
+4. Berapakah nilai hambatan sebuah resistor yang memiliki urutan pita warna: **Merah – Merah – Cokelat – Emas**?
 
 <details>
 <summary>🔍 Klik di Sini untuk Membuka Kunci Jawaban</summary>
 
-1. **Tidak akan menyala.** Karena lubang 7A dan 7D berada pada kolom vertikal yang sama dan terhubung oleh satu pelat tembaga yang sama di bawahnya. Arus listrik akan mengambil jalan pintas melalui pelat tembaga tersebut (*korsleting*), sehingga tidak ada arus yang melewati lampu LED.
-2. Agar komponen chip terpadu (*IC*) atau mikrokontroler berkaki dua sisi dapat ditancapkan tepat di tengah parit tanpa menyebabkan pin di sisi kiri dan pin di sisi kanan saling korslet satu sama lain.
-3. **Merah – Merah – Cokelat – Emas** (Angka 2, Angka 2, Pengali 10, Toleransi 5%).
-4. **Kabel Female-to-Male (F-M)**: Ujung *Female* (soket lubang) dicolokkan ke pin sensor yang menonjol, dan ujung *Male* (jarum) ditancapkan ke lubang breadboard.
+1. **Tidak berfungsi.** Karena lubang 7A dan 7D berada pada kolom vertikal yang sama (Kolom 7), keduanya sudah terhubung oleh pelat tembaga di bawahnya. Arus listrik akan memotong jalan (*short circuit*) lewat pelat tembaga dan mem-bypass resistor. Komponen wajib menjembatani dua kolom berbeda (misalnya 7A ke 10A).
+2. Parit tengah berfungsi sebagai pemisah isolasi antara kelompok baris A–E dan baris F–J, sehingga chip mikrokontroler berkaki dua sisi (IC) dapat ditancapkan di tengah tanpa menyebabkan kaki sisi kiri dan kanannya saling korslet.
+3. Kaki katoda (negatif) memiliki kawat fisik yang **lebih pendek** dan terletak sejajar dengan **garis strip vertikal berwarna abu-abu/putih bertanda minus ($-$)** di badan tabung kapasitor.
+4. **$220\ \Omega$ (toleransi $\pm 5\%$).** Digit pertama Merah (2), Digit kedua Merah (2), Pengali Cokelat ($10^1 = 10$), dan Emas ($\pm 5\%$). Nilai ini adalah resistor pengaman LED standar.
 
 </details>
 
@@ -418,29 +427,30 @@ Seluruh materi visual dalam modul ini disajikan dengan mematuhi etika atribusi d
 
 | Nama Berkas Gambar | Sumber Gambar & Hak Cipta | Jenis Lisensi |
 | :--- | :--- | :--- |
-| `aset/breadboard-top-bottom.png` | [Guhuru, Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Breadboard.png) | [Creative Commons CC0 1.0 (Public Domain)](https://creativecommons.org/publicdomain/zero/1.0/deed.id) / [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
-| `aset/dioda-1n4007-foto.jpg` | [Nevit Dilmen, Wikimedia Commons](https://commons.wikimedia.org/wiki/File:1N4007_Diode_1480378_79_80_HDR_Enhancer_cr.jpg) | [Creative Commons Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0)](https://creativecommons.org/licenses/by-sa/3.0/) |
-| `aset/kapasitor-elektrolit-foto.jpg` | [Hustvedt, Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Electrolytic_capacitor.jpg) | [Creative Commons Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0)](https://creativecommons.org/licenses/by-sa/3.0/) |
-| `aset/kabel-jumper-breadboard-asli.jpg` | [oomlout, Wikimedia Commons](https://commons.wikimedia.org/wiki/File:A_few_Jumper_Wires.jpg) | [Creative Commons Attribution-ShareAlike 2.0 Generic (CC BY-SA 2.0)](https://creativecommons.org/licenses/by-sa/2.0/) |
-| `aset/tabel-kode-warna-resistor.png` | [S-kei, Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Resistor_Color_Code.svg) | [Creative Commons Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0)](https://creativecommons.org/licenses/by-sa/3.0/) |
-| `aset/breadboard-jalur-internal.png`, `aset/panduan-polaritas-komponen.png`, `aset/diagram-anatomi-resistor.png`, `aset/breadboard-korslet-vs-benar.jpg`, `aset/polaritas-kaki-led.jpg` | Ilustrasi orisinal kurikulum Fullstack IoT Developer | Hak cipta terbuka untuk materi kurikulum edukasi ini |
+| `aset/breadboard-anatomy.svg` | Diagram vektor orisinal kurikulum Fullstack IoT Developer | Lisensi Terbuka Kurikulum Edukasi |
+| `aset/breadboard-resistor-placement.svg` | Diagram vektor komparasi orisinal kurikulum Fullstack IoT Developer | Lisensi Terbuka Kurikulum Edukasi |
+| `aset/polaritas-komponen.svg` | Diagram hibrida foto nyata & vektor kurikulum Fullstack IoT Developer (foto Dioda 1N4007 & Kapasitor Elektrolit dinormalisasi via Python) | Lisensi Terbuka Kurikulum Edukasi |
+| `aset/diagram-kode-warna-tiga-resistor.svg` | Diagram infografis vektor standar resistor 4 pita orisinal | Lisensi Terbuka Kurikulum Edukasi |
+| `aset/diagram-kabel-jumper-jenis-dan-warna.svg` | Diagram vektor jenis konektor Dupont & kode warna kabel orisinal | Lisensi Terbuka Kurikulum Edukasi |
+| `aset/breadboard-top-bottom.png` | Foto laboratorium perbandingan penampang breadboard tampak atas dan bawah | Dokumentasi Edukasi Perangkat Keras |
+| `aset/polaritas-kaki-led.jpg` | Ilustrasi panduan polaritas kaki LED kurikulum Fullstack IoT Developer | Lisensi Terbuka Kurikulum Edukasi |
 
 ---
 
 ## 🎯 Status Selesai & Langkah Berikutnya
 
-Jika kamu sudah memahami struktur internal breadboard di atas dan berhasil menyalakan lampu sirkuit di Wokwi, selamat! Kamu telah resmi menuntaskan **Modul 0.2**.
+Selamat! Kamu telah resmi menuntaskan **Modul 0.2**. Sekarang kamu sudah memahami anatomi di balik breadboard, tidak akan pernah salah menancapkan kutub komponen lagi, dan mampu membaca kode warna resistor dengan mudah!
 
-Tandai pemahamanmu pada checklist berikut:
-- [x] Memahami perbedaan jalur rel daya horizontal (*Power Rails*) dan kolom komponen vertikal (*Terminal Strips*)
-- [x] Mengetahui fungsi parit isolasi tengah (*Center Ravine*) pada breadboard
-- [x] Memahami aturan emas agar tidak membuat komponen korslet di kolom yang sama
-- [x] Mampu membedakan kutub Anoda ($+$) dan Katoda ($-$) pada LED, dioda, dan kapasitor elektrolit
-- [x] Mengenali kode warna 3 resistor utama IoT ($220\ \Omega$, $1\text{ k}\Omega$, $10\text{ k}\Omega$)
-- [x] Mengetahui perbedaan 3 jenis kabel jumper (M-M, M-F, F-F) dan konvensi warnanya
-- [x] Berhasil merangkai sirkuit breadboard pertama dan mengujinya di Wokwi
+Tandai capaian belajarmu pada checklist berikut:
+- [x] Memahami perbedaan jalur rel daya horizontal (*Power Rails*) dan rel komponen vertikal (*Terminal Strips*)
+- [x] Mengetahui fungsi parit pemisah tengah (*Center Trench*) untuk penempatan chip IC
+- [x] Memahami aturan emas breadboard agar tidak terjadi korsleting pada kolom yang sama
+- [x] Mampu membedakan kutub Anoda (+) dan Katoda (-) pada LED, Dioda 1N4007, dan Kapasitor Elektrolit
+- [x] Menguasai 3 nilai resistor paling wajib di IoT ($220\ \Omega$, $1\text{ k}\Omega$, $10\text{ k}\Omega$)
+- [x] Memahami 3 jenis kabel jumper Dupont (M-M, M-F, F-F) dan standar warna kabelnya
+- [x] Berhasil merangkai sirkuit breadboard pertama di simulator Wokwi dan membuktikan fenomena korsleting
 
-Langkah berikutnya, mari kita masuk ke logika sirkuit terpenting dalam seluruh rekayasa perangkat keras IoT:  
+Langkah berikutnya, mari kita pelajari hukum sirkuit paling fundamental dalam IoT:  
 👉 **[Modul 0.3: Logika Sirkuit — Common Ground, Voltage Divider & Floating Pin](03-logika-sirkuit-dan-common-ground.md)**
 
 Pantau seluruh perkembangan belajarmu di pelacak progres terpadu: **[TODO.md](../TODO.md)**.
