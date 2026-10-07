@@ -312,6 +312,10 @@ void loop() {
 
 ### Langkah 4 — Menancapkan Komponen & Menghubungkan Kabel
 
+![Rangkaian Lengkap ESP32, Breadboard, Resistor, dan LED di Wokwi](aset/rangkaian-breadboard-led-resistor.png)
+
+_Tampilan rangkaian lengkap di simulator Wokwi: ESP32 terhubung rapi ke breadboard memanfaatkan rel daya ground (garis biru atas), resistor 220 $\Omega$ sebagai penahan arus, dan lampu LED merah._
+
 Tancapkan komponen ke breadboard dengan panduan koordinat rapi berikut:
 
 1. **Hubungkan Ground ke Rel Daya (Power Rail):**
@@ -463,6 +467,7 @@ Seluruh materi visual dalam modul ini disajikan dengan mematuhi etika atribusi d
 | `aset/diagram-kabel-jumper-jenis-dan-warna.svg` | Diagram vektor jenis konektor Dupont & kode warna kabel orisinal                                                                          | Lisensi Terbuka Kurikulum Edukasi   |
 | `aset/breadboard-top-bottom.png`                | Foto laboratorium perbandingan penampang breadboard tampak atas dan bawah                                                                 | Dokumentasi Edukasi Perangkat Keras |
 | `aset/polaritas-kaki-led.jpg`                   | Ilustrasi panduan polaritas kaki LED kurikulum Fullstack IoT Developer                                                                    | Lisensi Terbuka Kurikulum Edukasi   |
+| `aset/rangkaian-breadboard-led-resistor.png`    | Tangkapan layar sirkuit simulasi Wokwi ESP32 dengan breadboard, resistor, dan LED                                                         | Lisensi Terbuka Kurikulum Edukasi   |
 
 ---
 
