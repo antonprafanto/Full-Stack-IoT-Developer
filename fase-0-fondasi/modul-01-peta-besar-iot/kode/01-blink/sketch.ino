@@ -1,10 +1,3 @@
-// =====================================================================
-//  Modul 1 — Kemenangan Cepat: LED berkedip (Blink)
-//  Rangkaian: pin D4 → resistor 220 Ω → LED (kaki panjang) → GND
-//  Cara pakai di Wokwi: salin seluruh isi file ini ke tab "sketch.ino",
-//  salin isi diagram.json ke tab "diagram.json", lalu klik tombol ▶.
-// =====================================================================
-
 // Program pertama kita: LED berkedip (Blink)
 // LED dipasang di pin D4 lewat resistor 220 ohm
 

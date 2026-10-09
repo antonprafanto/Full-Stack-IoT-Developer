@@ -1,12 +1,8 @@
-// =====================================================================
-//  Modul 1 — Tantangan: dua LED berkedip bergantian
-//  Rangkaian: D4 → 220 Ω → LED merah → GND
-//             D5 → 220 Ω → LED hijau → GND
-//  Pakai diagram.json di folder yang sama ini.
-// =====================================================================
+// Praktik 2: dua LED berkedip bergantian
+// LED merah di D4, LED hijau di D18 (masing-masing lewat resistor 220 ohm)
 
-const int PIN_LED_MERAH = 4;  // LED merah di pin D4
-const int PIN_LED_HIJAU = 5;  // LED hijau di pin D5
+const int PIN_LED_MERAH = 4;   // LED merah di pin D4
+const int PIN_LED_HIJAU = 18;  // LED hijau di pin D18
 
 void setup() {
   // Dua pin, dua kali pinMode. Setiap pin yang dipakai harus "didaftarkan".
