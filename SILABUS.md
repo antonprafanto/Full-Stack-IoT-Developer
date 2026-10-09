@@ -97,6 +97,7 @@ Peta pin lengkap kedua node ditetapkan sekali di Modul 5 dan **tidak berubah sam
 | Modul 11 | Laptop | — | — | Semua masih di laptop. |
 | Modul 12–15 | **Raspberry Pi** (24 jam) | Node-RED di Pi (otomasi sederhana) | Node-RED di Pi | Sistem hidup tanpa laptop. |
 | Modul 16–25 | Raspberry Pi | **Laptop** (backend + database dalam Docker, sedang dikembangkan) | Laptop (dev server) | Sistem "pintar" hanya saat laptop menyala — wajar di tahap pengembangan. Otomasi Node-RED dimatikan sejak Modul 16 agar tidak ada dua otak. |
+| Modul 26 | Pi (`compose.edge.yml`) | Laptop (semua layanan dalam Docker Compose) | Laptop | Latihan membungkus semuanya dengan Docker — masih di jaringan rumah, belum ke internet. |
 | Modul 27 → seterusnya, **jalur utama** | Pi (*bridge* ke VPS) | **VPS** (Docker: Mosquitto, API, database, Grafana, web) | VPS, HTTPS, PWA | Pi menahan data saat internet putus; firmware menjalankan aturan pengaman lokal. |
 | Modul 27 → seterusnya, **jalur gratis** | Pi | Pi (Docker: semuanya) | Pi + Cloudflare Tunnel | Dashboard bisa dibuka dari luar; broker MQTT hanya di jaringan rumah. |
 
@@ -454,7 +455,7 @@ Format tiap modul:
 - **Opsional / bedah teknis:** *interrupt* (menghitung pulsa tanpa melewatkan); FreeRTOS task di dua core ESP32; PlatformIO; pointer & *reference* sekadar untuk membaca kode orang lain.
 - **Praktik & proyek mini:** refaktor seluruh firmware Node 1 ke pola `millis()` + state machine; ambang "tanah kering" disimpan di NVS dan tetap ada setelah dicabut; sengaja membuat *infinite loop* dan lihat watchdog menyelamatkan; uji 24 jam.
 - **➕ Rumah Pintar Mini:** firmware Node 1 v1.0 — mandiri, modular, tangguh.
-- **✅ Lulus jika:** Node 1 berjalan 24 jam tanpa restart (dicek lewat *uptime counter* di OLED; di Wokwi: 30 menit), ambang tetap tersimpan setelah mati listrik, dan kode Anda tidak lagi memakai `delay()` di `loop()`.
+- **✅ Lulus jika:** Node 1 berjalan 24 jam tanpa restart (dicek lewat *uptime counter* di OLED; di Wokwi: 30 menit; laptop masih boleh menjadi catu daya ESP32 — adaptor permanen dipasang di Modul 9), ambang tetap tersimpan setelah mati listrik, dan kode Anda tidak lagi memakai `delay()` di `loop()`.
 
 #### Modul 9 — Catu Daya & Hemat Daya: Adaptor, Baterai, Deep Sleep, & Mengukur Arus
 *Fase 1 · Minggu 9 · Hardware: Kit A (+ INA219, 18650/TP4056/MT3608) · Prasyarat: Modul 8*

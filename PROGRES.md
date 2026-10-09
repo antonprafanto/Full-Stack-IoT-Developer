@@ -9,7 +9,7 @@ Centang `[x]` setiap kali Anda memenuhi kriteria **"Lulus jika"** di [SILABUS.md
 - [ ] **Modul 1** — Peta Besar IoT & Kemenangan Pertama dalam 10 Menit
 - [ ] **Modul 2** — Listrik Ramah Awam, Breadboard, & Unggah Pertama ke ESP32 Asli
 - [ ] **Modul 3** — Pemrograman C++ untuk ESP32 dari Nol
-- [ ] **Modul 4** — JavaScript & Node.js dari Nol
+- [ ] **Modul 4** — JavaScript & Node.js dari Nol (Bahasa untuk Server & Dashboard)
 - [ ] 🎯 Checkpoint Fase 0: lampu lalu lintas (C++) + skrip statistik & server mini (JS) ada di GitHub
 
 ## 🟧 Fase 1 — ESP32 Embedded (Modul 5–9)
