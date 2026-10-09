@@ -3,16 +3,18 @@
 
 const int PIN_LED = 4;
 
-const int PENDEK = 200;   // lama kedip pendek, dalam milidetik
-const int PANJANG = 600;  // lama kedip panjang
-const int JEDA = 1000;    // jeda sebelum pola diulang
+const int PENDEK = 200;        // lama kedip pendek (titik), dalam milidetik
+const int PANJANG = 600;       // lama kedip panjang (garis)
+const int JEDA_KEDIP = 200;    // jeda singkat antara dua kedip
+const int JEDA_HURUF = 400;    // jeda antara dua huruf
+const int JEDA_ULANG = 1000;   // jeda panjang sebelum pola diulang
 
 // Fungsi kecil = "resep" yang bisa dipanggil berkali-kali
 void kedip(int lamaNyala) {
   digitalWrite(PIN_LED, HIGH);
   delay(lamaNyala);           // nyala selama lamaNyala milidetik
   digitalWrite(PIN_LED, LOW);
-  delay(200);                 // jeda singkat antara dua kedip
+  delay(JEDA_KEDIP);          // padam sebentar sebelum kedip berikutnya
 }
 
 void setup() {
@@ -21,11 +23,12 @@ void setup() {
 
 void loop() {
   // Contoh pola untuk nama "ANI" (A = · —, N = — ·, I = · ·)
+  // Satu huruf = satu baris kedip(...) + satu baris delay(JEDA_HURUF)
   // Ganti dengan huruf-huruf namamu (tabel Morse ada di materi modul)
   kedip(PENDEK); kedip(PANJANG);   // A
-  delay(400);                      // jeda antarhuruf
+  delay(JEDA_HURUF);
   kedip(PANJANG); kedip(PENDEK);   // N
-  delay(400);
+  delay(JEDA_HURUF);
   kedip(PENDEK); kedip(PENDEK);    // I
-  delay(JEDA);                     // jeda panjang, lalu ulang dari awal
+  delay(JEDA_ULANG);               // jeda panjang, lalu ulang dari awal
 }

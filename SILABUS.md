@@ -3,7 +3,7 @@
 > **Kurikulum 32 modul — satu modul = satu minggu belajar santai (±8 bulan) — untuk orang awam total hingga mampu membangun sistem IoT lengkap dari sensor sampai dashboard di HP.**
 > Hardware: **ESP32 + Raspberry Pi** · Software: **JavaScript/TypeScript (Node.js + React) untuk server & tampilan, sedikit C++ untuk chip** · Bahasa pengantar: **Indonesia, ramah awam**.
 >
-> Status dokumen: **v1.0 — disetujui, penulisan materi dimulai** (9 Oktober 2026). Keputusan yang mendasarinya ada di [§11](#11-keputusan-yang-sudah-disetujui); riwayat perubahan di [§13](#13-riwayat-revisi).
+> Status dokumen: **v1.0.2 — disetujui, penulisan materi dimulai; Modul 1 tersedia** (9 Oktober 2026). Keputusan yang mendasarinya ada di [§11](#11-keputusan-yang-sudah-disetujui); riwayat perubahan di [§13](#13-riwayat-revisi).
 
 ---
 
@@ -155,7 +155,7 @@ Setiap modul adalah satu artikel panjang untuk **satu minggu belajar santai (6�
 10. **📖 Glosarium & 📝 Kuis singkat** (5 soal + kunci jawaban berpenjelasan) + **✅ Checklist kelulusan modul**.
 11. **📚 Sumber & atribusi gambar** — setiap gambar yang diambil dari internet dicantumkan sumber dan lisensinya.
 
-**Target tiap artikel (sesuai keputusan "lebih dalam, detail, runut, jelas, ramah awam"):** 3.500–6.000 kata, 8–15 gambar (foto komponen, diagram rangkaian, tangkapan layar tiap langkah penting), kode lengkap yang bisa disalin utuh dengan komentar tiap baris, dan satu "peta jalan mini" di awal artikel yang menunjukkan di mana modul ini berada dalam proyek besar.
+**Target tiap artikel (sesuai keputusan "lebih dalam, detail, runut, jelas, ramah awam"):** 3.500–6.000 kata (Modul 1 sebagai modul orientasi boleh lebih panjang), 8–15 gambar (foto komponen, diagram rangkaian, tangkapan layar tiap langkah penting), kode lengkap yang bisa disalin utuh dengan komentar tiap baris, dan satu "peta jalan mini" di awal artikel yang menunjukkan di mana modul ini berada dalam proyek besar.
 
 ### 4.2 Prinsip penulisan materi (janji penulis kepada pembaca)
 
@@ -226,7 +226,7 @@ Pembelajar mandiri paling sering berhenti bukan karena materinya sulit, tapi kar
 
 ### 5.2 Kit A — ESP32 & elektronika dasar
 
-**Cara membaca tabel ini:** Anda belum perlu memahami arti semua istilah — cukup salin kolom "Kata kunci cari" ke Tokopedia/Shopee dan cocokkan fotonya dengan foto "benar vs salah" di Modul 1. Istilah yang sering muncul: **M-M / M-F / F-F** = kabel dengan ujung colokan jantan-jantan / jantan-betina / betina-betina; **header tersolder** = kaki logam sudah terpasang, tinggal colok; **I2C / SPI / 1-Wire** = tiga "bahasa kabel" sensor (Modul 7); **modul** = sensor yang sudah dipasang di papan kecil siap colok.
+**Cara membaca tabel ini:** Anda belum perlu memahami arti semua istilah — cukup salin kolom "Kata kunci cari" ke Tokopedia/Shopee dan cocokkan fotonya dengan panduan "benar vs salah" di Modul 1. Istilah yang sering muncul: **M-M / M-F / F-F** = kabel dengan ujung colokan jantan-jantan / jantan-betina / betina-betina; **header tersolder** = kaki logam sudah terpasang, tinggal colok; **I2C / SPI / 1-Wire** = tiga "bahasa kabel" sensor (Modul 7); **modul** = sensor yang sudah dipasang di papan kecil siap colok.
 
 Perkiraan harga marketplace Indonesia, Oktober 2026 — **bisa berubah**. Pesan **Tahap 1 di Minggu 1** agar sampai sebelum Modul 2; Tahap 2 bisa menyusul sebelum Modul 7.
 
@@ -367,7 +367,7 @@ Format tiap modul:
 *Fase 0 · Minggu 1 · Hardware: tidak perlu (Wokwi di browser) · Prasyarat: tidak ada*
 
 - **Setelah modul ini Anda bisa:** menjelaskan IoT dan "fullstack" ke orang lain dengan bahasa sehari-hari; membuat LED berkedip di simulator; menyimpan hasil belajar pertama di GitHub; tahu cara bertanya saat macet; memesan kit yang benar.
-- **Konsep inti:** contoh IoT di sekitar kita (meteran listrik pintar, pelacak ojek online, sensor banjir); komputer vs mikrokontroler ("otak kecil yang hanya menjalankan satu program, tanpa Windows"); kode → kompiler → chip (resep → juru masak → masakan); tur singkat kelima lapisan sistem & dua node proyek (§2); apa itu repositori GitHub ("folder di internet yang mengingat setiap perubahan"); aturan keselamatan dasar; **versi itu penting**: mengapa tutorial lama bisa gagal dan cara menyebutkan versi saat bertanya; **cara bertanya yang baik** (foto, kode, pesan error, versi) dan cara memakai asisten AI tanpa tersesat; **panduan belanja Kit A Tahap 1** dengan foto "benar vs salah".
+- **Konsep inti:** contoh IoT di sekitar kita (meteran listrik pintar, pelacak ojek online, sensor banjir); komputer vs mikrokontroler ("otak kecil yang hanya menjalankan satu program, tanpa Windows"); kode → kompiler → chip (resep → juru masak → masakan); tur singkat kelima lapisan sistem & dua node proyek (§2); apa itu repositori GitHub ("folder di internet yang mengingat setiap perubahan"); aturan keselamatan dasar; **versi itu penting**: mengapa tutorial lama bisa gagal dan cara menyebutkan versi saat bertanya; **cara bertanya yang baik** (foto, kode, pesan error, versi) dan cara memakai asisten AI tanpa tersesat; **panduan belanja Kit A Tahap 1** dengan panduan gambar "benar vs salah" (foto papan yang benar + gambar skematis papan yang sering tertukar).
 - **Alat yang dipakai:** Wokwi (tanpa instal apa pun), akun GitHub (unggah file lewat browser — belum perlu Git).
 - **Opsional / bedah teknis:** sejarah singkat Arduino & ESP32; apa isi file `diagram.json` Wokwi.
 - **Praktik & proyek mini:** Blink pertama di Wokwi → ubah kecepatan kedip → tambah LED kedua → pola kedip "nama Anda"; buat repositori `belajar-iot` dan unggah tangkapan layar + kode lewat web; pesan Kit A Tahap 1.
@@ -917,6 +917,10 @@ Satu kalimat per istilah, bahasa manusia. Semua akan dibahas tuntas di modulnya.
 ---
 
 ## 13. Riwayat revisi
+
+**v1.0.2 (9 Okt 2026)** — penyesuaian kecil dari hasil audit Modul 1: janji "foto benar vs salah" di Modul 1 & §5.2 diubah menjadi "panduan gambar" (foto papan yang benar + gambar skematis papan yang sering tertukar); catatan di §4.1 bahwa Modul 1 sebagai modul orientasi boleh melebihi target panjang.
+
+**v1.0.1 (9 Okt 2026)** — rapikan hasil verifikasi (judul modul di README/PROGRES disamakan, tautan & anchor diperiksa).
 
 **v1.0 (9 Okt 2026) — disetujui.** Keputusan pemilik kurikulum atas 8 pertanyaan terbuka (§11): format diubah menjadi **32 modul × 1 minggu** — delapan modul "dua minggu" dari v0.3 dipecah menjadi dua modul utuh (8→8+9, 11→12+13, 12→14+15, 14→17+18, 16→20+21, 21→26+27, 23→29+30, 24→31+32), seluruh referensi silang, Lampiran A, tabel alat/kit, diagram ketergantungan, dan struktur folder (32 slug) dinomori ulang; target artikel dinaikkan menjadi 3.500–6.000 kata + 8–15 gambar + kuis berkunci jawaban; TypeScript ringan, lab Modbus, Pi 5, posisi Modul 4, dan VPS "sangat disarankan" dikunci sebagai keputusan final.
 

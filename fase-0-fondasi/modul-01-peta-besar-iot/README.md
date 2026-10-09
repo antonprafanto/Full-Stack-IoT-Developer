@@ -1,6 +1,6 @@
 # Modul 1 — Peta Besar IoT & Kemenangan Pertama dalam 10 Menit
 
-*Fase 0 · Minggu 1 · Perangkat keras (hardware): **tidak perlu** (semua di browser) · Prasyarat: **tidak ada** · Waktu: 6–8 jam, dicicil dalam seminggu*
+*Fase 0 · Minggu 1 · Perangkat keras (*hardware*): **tidak perlu** (semua di browser) · Prasyarat: **tidak ada** · Waktu: 6–8 jam, dicicil dalam seminggu*
 
 [⬅️ Kembali ke Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · [Modul 2 ➡️ (segera terbit — baca ringkasannya di Silabus)](../../SILABUS.md#modul-2--listrik-ramah-awam-breadboard--unggah-pertama-ke-esp32-asli)
 
@@ -46,10 +46,10 @@ Dalam 10 menit pertama kamu akan membuat lampu berkedip dari kode yang kamu temp
 | Kebutuhan | Keterangan |
 | :--- | :--- |
 | **Laptop/PC** dengan browser (peramban) modern | Chrome, Edge, atau Firefox versi terbaru. Windows, macOS, atau Linux sama saja. **HP saja tidak cukup** untuk Wokwi (layarnya terlalu sempit dan simulator butuh tenaga komputer), tapi boleh dipakai untuk membaca materi dan memotret. |
-| **Tidak punya laptop?** | Pakai lab komputer kampus, warnet, atau perpustakaan — Wokwi dan GitHub **tidak perlu menginstal apa pun**, jadi 1–2 jam di komputer pinjaman cukup untuk Kemenangan Cepat dan Praktik 1–3. Bagian lain (konsep, belanja, latihan bertanya) bisa dibaca di HP. Jalan darurat: Chrome di HP dengan menu ⋮ → *Desktop site* (*Situs desktop*) untuk Kemenangan Cepat saja; sempit, tapi bisa. |
+| **Tidak punya laptop?** | Pakai lab komputer kampus, warnet, atau perpustakaan — Wokwi dan GitHub **tidak perlu menginstal apa pun**, jadi 1–2 jam di komputer pinjaman cukup untuk Kemenangan Cepat dan Praktik 1–4 (unggah ke GitHub sekalian dari komputer itu, atau kirim tangkapan layarnya ke HP-mu dulu). Bagian lain (konsep, belanja, latihan bertanya) bisa dibaca di HP. Jalan darurat: Chrome di HP dengan menu ⋮ → *Desktop site* (*Situs desktop*) untuk Kemenangan Cepat saja; sempit, tapi bisa. |
 | **Koneksi internet** | Wokwi dan GitHub keduanya berjalan di browser. Kuota HP yang di-*tethering* cukup. |
 | **Alamat email** (surel) | Untuk membuat akun GitHub (gratis) dan, kalau mau menyimpan proyek, akun Wokwi (gratis). |
-| **Uang untuk Kit A Tahap 1** | Rp300–620 ribu, **dipesan di akhir modul ini** supaya sampai sebelum Modul 2. Belum perlu dibeli sekarang — baca dulu panduan belanjanya di Praktik 5. |
+| **Uang untuk Kit A Tahap 1** | Kit A = paket komponen ESP32 dasar menurut Silabus; Tahap 1 = bagian yang dibutuhkan Modul 2–6. Rp300–620 ribu, **dipesan di akhir modul ini** supaya sampai sebelum Modul 2. Belum perlu dibeli sekarang — baca dulu panduan belanjanya di Praktik 5. |
 | **Yang TIDAK perlu** | Menginstal program apa pun. Arduino IDE baru dipasang di Modul 2, Git di Modul 3, Node.js di Modul 4. Satu alat per modul, tepat saat dibutuhkan. |
 
 **Versi yang dipakai di modul ini** (penting — nanti kamu paham kenapa):
@@ -85,7 +85,7 @@ Kamu akan melihat layar seperti ini. Kenali dulu bagian-bagiannya — lima menit
 
 ![Tampilan editor Wokwi dengan enam bagian yang diberi nomor: tab sketch.ino, tab diagram.json, tombol play, panel simulasi, tombol save, tombol tambah komponen](aset/wokwi-02-editor-dijelaskan.png)
 
-Di layarmu tombol **SAVE** masih abu-abu dan ada tombol **SIGN UP** di pojok kanan — normal, kita belum mendaftar. Di panel kanan ada gambar papan (*board*) ESP32 — itu papan **bawaan** Wokwi (versi 38 pin). Kita akan menggantinya dengan papan **30 pin** yang sama persis dengan yang akan kamu beli, plus satu LED dan satu resistor. Caranya: menempel satu "daftar komponen".
+Di layarmu tombol **SAVE** masih abu-abu dan ada tombol **SIGN UP** di pojok kanan — normal, kita belum mendaftar. Di panel kanan ada gambar papan (*board*) ESP32 — itu papan **bawaan** Wokwi, versi 38 pin (pin = kaki logam di tepi papan). Kita akan menggantinya dengan papan **30 pin** yang sama persis dengan yang akan kamu beli, plus satu LED (lampu kecil) dan satu resistor (komponen kecil pembatas arus). Caranya: menempel satu "daftar komponen".
 
 ### Langkah 2 — Tempel daftar komponen (diagram.json)
 
@@ -127,7 +127,7 @@ Begitu ditempel, panel kanan **langsung berubah**: papan 30 pin, resistor, LED m
 > 🖥️ **Di mana?** Masih di Wokwi, panel kiri, klik tab **`sketch.ino`** (nomor 1).
 
 1. Klik tab **`sketch.ino`**.
-2. Tekan **Ctrl + A**, lalu **Delete** untuk mengosongkan contoh bawaan "Hello, ESP32!".
+2. Klik di dalam kode, tekan **Ctrl + A**, lalu **Delete** untuk mengosongkan contoh bawaan "Hello, ESP32!".
 3. Salin kode di bawah ini, lalu tempel dengan **Ctrl + V**.
 
 ```cpp
@@ -168,22 +168,22 @@ Lalu… **LED merahnya berkedip.** Nyala setengah detik, padam setengah detik, t
 
 ![Simulasi berjalan: penghitung waktu berjalan, LED merah menyala terang, kotak serial monitor di bawah](aset/wokwi-07-simulasi-berjalan.jpg)
 
-Kalau kamu klik tombol **⏸ jeda** (di sebelah tombol stop), Wokwi membekukan simulasi dan memperlihatkan keadaan setiap pin. Perhatikan pin **D4**: labelnya berganti antara `OUT High` dan `OUT Low` — persis seperti yang kodemu perintahkan.
+Kalau kamu klik tombol **⏸ jeda** (di sebelah tombol stop), Wokwi membekukan simulasi dan memperlihatkan keadaan setiap pin. Perhatikan pin **D4**: kalau kamu menjeda saat LED menyala, labelnya `OUT High`; jeda saat padam, labelnya `OUT Low` — persis seperti yang kodemu perintahkan (bandingkan dua gambar di bawah). Untuk melanjutkan, klik tombol **kuning ▶**.
 
 ![Dua tangkapan layar berdampingan saat simulasi dijeda: kiri LED menyala dengan label pin D4 "OUT High", kanan LED padam dengan label "OUT Low"](aset/wokwi-08-led-nyala-vs-padam.png)
 
 ### Langkah 5 — Abadikan kemenanganmu
 
-Ambil tangkapan layar (*screenshot*) saat LED menyala — ini akan kamu unggah ke GitHub nanti. Trik: klik **⏸ jeda** tepat saat LED menyala (kalau tertangkap padam, klik ▶ lalu ⏸ lagi), baru ambil tangkapan layar.
+Ambil tangkapan layar (*screenshot*) saat LED menyala — ini akan kamu unggah ke GitHub nanti. Trik: klik **⏸ jeda** tepat saat LED menyala (kalau tertangkap padam, klik tombol **kuning ▶** untuk melanjutkan, tunggu LED menyala, lalu ⏸ lagi), baru ambil tangkapan layar.
 
 | Sistem | Cara |
 | :--- | :--- |
 | **Windows 11** | Tekan **Win + Shift + S**, seret kotak di area Wokwi. Hasilnya otomatis tersimpan di folder *Pictures → Screenshots*. |
-| **Windows 10** | Tekan **Win + Shift + S**, seret kotak. Hasilnya **belum** tersimpan: klik notifikasi yang muncul di pojok kanan bawah, lalu klik ikon simpan (disket) di Snipping Tool. |
+| **Windows 10** | Tekan **Win + Shift + S**, seret kotak. Hasilnya **belum** tersimpan: klik notifikasi yang muncul di pojok kanan bawah, lalu klik ikon simpan (disket) di aplikasi Snip & Sketch yang terbuka. |
 | **macOS** | Tekan **Cmd + Shift + 4**, seret kotak. File tersimpan di *Desktop* dengan nama otomatis "Screenshot …". Untuk mengganti nama: klik sekali nama filenya, tekan **Enter**, ketik nama baru. |
 | **Linux (GNOME/Ubuntu)** | Tekan tombol **PrtSc**, pilih mode *area*, seret kotak, lalu klik tombol bulat. File tersimpan di folder *Pictures/Screenshots*. |
 
-Beri nama filenya **`modul-01-blink.png`** dan pindahkan ke folder `belajar-iot` yang kamu buat tadi. (Windows biasanya **menyembunyikan** akhiran `.png` — kalau namanya tampil tanpa `.png`, tidak apa-apa.)
+Beri nama filenya **`modul-01-blink.png`** (Windows/Linux: klik kanan file → **Rename**/*Ubah nama*, atau pilih file lalu tekan **F2**) dan pindahkan ke folder `belajar-iot` yang kamu buat tadi. (Windows biasanya **menyembunyikan** akhiran `.png` — kalau namanya tampil tanpa `.png`, tidak apa-apa.)
 
 > [!IMPORTANT]
 > **🎉 Selamat — kamu baru saja memprogram sebuah mikrokontroler.** Serius. Kode yang kamu tempel itu bukan "pura-pura": kode yang sama persis, tanpa diubah satu huruf pun, akan kamu unggah ke ESP32 sungguhan di Modul 2, dan LED di mejamu akan berkedip dengan irama yang sama. Yang berbeda hanya *tempat* chip-nya berjalan — hari ini di dalam browser, minggu depan di papan seharga Rp50 ribu.
@@ -204,7 +204,7 @@ Coba perhatikan tiga contoh yang hampir pasti pernah kamu temui:
 
 ![Tiga contoh IoT di Indonesia: meteran listrik pintar, pelacak ojek online, dan peringatan dini banjir, masing-masing mengikuti pola sensor → otak kecil → jaringan → server → HP](aset/iot-di-sekitar-kita.png)
 
-(*LoRa* di gambar = radio jarak jauh hemat daya, dibahas di Modul 15; *BPBD* = badan penanggulangan bencana daerah.)
+(*LoRa* di gambar = radio jarak jauh hemat daya, dibahas di Modul 15; BPBD = Badan Penanggulangan Bencana Daerah.)
 
 Lihat polanya? **Selalu sama**, apa pun bendanya:
 
@@ -224,11 +224,11 @@ Inilah sistem yang akan kamu bangun selama 32 minggu, dari sensor sampai ke laya
 
 ![Arsitektur lengkap proyek "Rumah Pintar Mini": perangkat ESP32 (Node 2 tampak sebagai label kecil "via ESP-NOW"), gateway Raspberry Pi, server backend dengan database, dashboard di HP, dan lapisan operasi yang melingkupi semuanya](../../aset/arsitektur-fullstack-iot.png)
 
-Jangan pusing melihat banyaknya kotak dan singkatan — gambar ini sengaja diperlihatkan sekarang supaya kamu **tahu tujuan akhirnya**, bukan untuk dihafal. Setiap kotak akan dapat gilirannya. Sistemnya terdiri dari **lima lapisan**, masing-masing punya analogi sehari-hari (ini pemetaan yang sama dengan [Silabus §2](../../SILABUS.md#2-gambaran-besar-apa-yang-akan-kita-bangun)):
+Jangan pusing melihat banyaknya kotak dan singkatan — gambar ini sengaja diperlihatkan sekarang supaya kamu **tahu tujuan akhirnya**, bukan untuk dihafal. Setiap kotak akan dapat gilirannya. Sistemnya terdiri atas **lima lapisan**, masing-masing punya analogi sehari-hari (ini pemetaan yang sama dengan [Silabus §2](../../SILABUS.md#2-gambaran-besar-apa-yang-akan-kita-bangun)):
 
 | Lapisan | Analogi | Dibangun di | Hubungannya dengan "pola IoT" di Konsep 1 |
 | :--- | :--- | :---: | :--- |
-| **1. Perangkat (ESP32)** | Indra & tangan | Fase 1–2 | Langkah 1 & 2: sensor + otak kecil. Hari ini kamu sudah menyentuhnya. |
+| **1. Perangkat (ESP32)** | Indra & tangan | Fase 0–1 (+ Node 2 di Modul 14) | Langkah 1 & 2: sensor + otak kecil. Hari ini kamu sudah menyentuhnya. |
 | **2. Gateway (Raspberry Pi)** | Kantor pos lokal di rumah | Fase 2 | Bagian dari langkah 3: mengumpulkan laporan semua perangkat di rumah, menahannya kalau internet putus. |
 | **3. Backend & Data** | Kantor pusat & gudang arsip | Fase 3 | Langkah 4: server yang menyimpan riwayat dan menjalankan aturan. |
 | **4. Dashboard** | Layar di mejamu | Fase 4 | Langkah 5: tempat manusia melihat angka dan menekan tombol. |
@@ -243,14 +243,14 @@ Dua hal lagi yang perlu kamu ingat dari gambar itu:
 
 ESP32 adalah **mikrokontroler**: komputer mungil seharga puluhan ribu rupiah yang **tidak punya sistem operasi** seperti Windows — tidak ada aplikasi lain, tidak ada tombol "tutup". Begitu dinyalakan, ia langsung menjalankan **satu-satunya program** yang tersimpan di dalamnya, dan terus menjalankannya sampai listrik dicabut. (Penyederhanaan kecil yang jujur: di dalamnya ada "OS mini" bernama FreeRTOS, tapi kamu baru bertemu dengannya di Modul 8.)
 
-![Perbandingan laptop (sistem operasi, banyak aplikasi, RAM 8–32 GB, nyala 10–30 detik) dengan mikrokontroler ESP32 (tanpa OS, satu program, RAM ~520 KB, nyala dalam sepersekian detik)](aset/laptop-vs-mikrokontroler.jpg)
+![Perbandingan laptop (sistem operasi, banyak aplikasi, RAM 8–32 GB, nyala 10–30 detik) dengan mikrokontroler ESP32 (tanpa OS, punya pin untuk sensor dan lampu, RAM ~520 KB, nyala kurang dari 1 detik)](aset/laptop-vs-mikrokontroler.jpg)
 
-*(Gambar papan di ilustrasi ini hanya simbol; wujud papan yang benar-benar kita beli ada di Praktik 5.)*
+*(Gambar papan di ilustrasi ini hanya simbol; wujud papan yang benar-benar kita beli ada di Praktik 5. "Nyala < 1 detik" di gambar maksudnya: dari dicolok sampai program berjalan, tanpa menunggu apa pun.)*
 
 Kelemahan? Jelas: tidak bisa membuka browser, memorinya cuma sepersepuluh ribu memori laptopmu. Justru itulah kekuatannya untuk IoT:
 
 - **Menyala dalam sepersekian detik** dan tidak pernah tersendat (*lag*) karena tidak ada program lain yang berebut.
-- **Hemat daya luar biasa** — Node 2 "Kebun" nanti hidup berminggu-minggu dari satu baterai.
+- **Hemat daya luar biasa** — Node 2 "Kebun" nanti bertahan berhari-hari sampai beberapa minggu dari satu baterai 18650 (Modul 9 menjelaskan hitungannya dengan jujur).
 - **Murah dan kecil**, bisa ditanam di dalam pot, pompa, atau kotak sakelar.
 - Punya **kaki-kaki (pin)** yang bisa langsung disambung ke sensor dan lampu — laptop tidak punya.
 
@@ -362,7 +362,7 @@ Karena itu pula, setiap modul di kurikulum ini membuka kotak 🚨 dengan tabel *
 
 ### 10. Keselamatan dasar (singkat, karena minggu ini belum ada perangkat keras)
 
-Satu kalimat untuk dibawa ke Modul 2: **semua yang kita pakai di kurikulum ini bertegangan rendah dari USB — aman disentuh tangan, tidak bisa menyetrum.** USB memberi 5 V ke papan; papan menurunkannya menjadi 3,3 V untuk chip dan pin-pinnya (itulah angka `HIGH = 3,3 V` di Konsep 5). Keduanya aman. Listrik PLN 220 V **tidak pernah** kita sentuh; kalau nanti ingin mengendalikan lampu rumah, kita pakai modul relay yang terisolasi dan tetap tidak menyentuh kabel 220 V secara langsung.
+Satu kalimat untuk dibawa ke Modul 2: **semua yang kita pakai di kurikulum ini bertegangan rendah dari USB — aman disentuh tangan, tidak bisa menyetrum.** USB memberi 5 V ke papan; papan menurunkannya menjadi 3,3 V untuk chip dan pin-pinnya (itulah angka `HIGH = 3,3 V` di Konsep 5). Keduanya aman. Listrik PLN 220 V **tidak pernah** kita sentuh: kurikulum ini tidak menyambungkan apa pun ke 220 V; cara kerja relay untuk 220 V hanya dibahas sebagai wawasan dan peringatan.
 
 Aturan emas yang akan diulang di tiap modul perangkat keras: **cabut kabel USB sebelum mengubah kabel rangkaian.** Sekarang kamu hanya perlu mengingatnya.
 
@@ -391,7 +391,7 @@ Angka di dalam `delay(…)` adalah lama tunggu dalam **milidetik** (1 detik = 1.
 | 50 | 1000 | Kilat singkat tiap detik | Indikator baterai (hemat daya!) |
 | 2 | 2 | Terlihat seperti **menyala terus, tetapi setengah terang** | Dasar dari peredupan (*dimming*, Modul 5) |
 
-Baris terakhir itu kejutan kecil: mata manusia tidak bisa mengikuti ratusan kedip per detik, jadi LED terlihat menyala redup. (Di Wokwi hasilnya bisa tampak redup *atau* berkelip cepat, tergantung kecepatan simulasi; di LED asli nanti benar-benar redup.) Trik nyala-padam sangat cepat untuk mengatur terang ini namanya **PWM**, dan kamu akan memakainya untuk meredupkan LED dan membunyikan nada buzzer di Modul 5.
+Baris terakhir itu kejutan kecil: mata manusia tidak bisa mengikuti ratusan kedip per detik, jadi LED terlihat menyala redup. (Di Wokwi hasilnya bisa tampak redup *atau* berkelip cepat, tergantung kecepatan simulasi; di LED asli nanti benar-benar redup.) Trik nyala-padam sangat cepat untuk mengatur terang ini namanya **PWM** (*pulse width modulation*, modulasi lebar pulsa), dan kamu akan memakainya untuk meredupkan LED dan membunyikan nada buzzer di Modul 5.
 
 Begini bentuk dua pola dari tabel kalau digambar di garis waktu — plus bocoran pola "nama" yang akan kamu buat di Praktik 3:
 
@@ -409,12 +409,14 @@ Ada dua cara menambah komponen di Wokwi. **Pilih salah satu.** Kalau ingin menco
 **Cara A — lewat tombol ➕ (klik-klik, cocok untuk eksplorasi).**
 
 1. Klik tombol **➕** biru di panel kanan (nomor 6 di gambar editor). Muncul daftar komponen.
-2. Pilih **LED** (kelompok *Basic*). LED baru muncul di panel; seret ke tempat kosong. Warnanya merah — tidak memengaruhi kode, tapi kalau mau sama dengan gambar dan tantangan, klik LED baru itu lalu ubah **Color** menjadi *green* di panel kecil yang terbuka.
+2. Pilih **LED** (kelompok *Basic*). LED baru muncul di panel; seret ke tempat kosong. Warnanya merah — tidak memengaruhi kode, tapi kalau mau sama dengan gambar dan tantangan, klik LED baru itu lalu klik **kotak warna hijau** di baris yang muncul di atasnya (lihat gambar di bawah).
 
 ![Dialog "tambah komponen" Wokwi dengan kotak pencarian dan daftar kelompok Basic (LED, Pushbutton, Resistor) dan Display](aset/wokwi-05-tambah-komponen.jpg)
 
-3. Klik ➕ lagi, pilih **Resistor**. Klik resistor yang baru muncul — di sampingnya terbuka panel kecil dengan kolom **Resistance**; ganti isinya menjadi `220`. (Mengeklik komponen juga memunculkan tombol *Rotate* untuk memutar dan *Delete* untuk menghapus.)
-4. **Menyambung kabel:** arahkan kursor ke ujung sebuah pin *tanpa* mengeklik — Wokwi memunculkan **nama pinnya** (`D18`, `GND`, `A`, `C`, `1`, `2`). Klik pin pertama, lalu klik pin tujuan. Sambungkan: pin **D18** ESP32 → kaki **1** resistor; kaki **2** resistor → kaki **A** LED; kaki **C** LED baru → kaki **C** LED pertama (keduanya "pulang" ke GND lewat kabel hitam yang sudah ada — seperti dua rumah berbagi satu saluran pembuangan).
+3. Klik ➕ lagi, pilih **Resistor**. Klik resistor yang baru muncul — di atasnya terbuka panel kecil dengan kolom **Resistance**; ganti isinya menjadi `220`. (Mengeklik komponen juga memunculkan ikon putar, hapus, dan `?` untuk dokumentasi.)
+4. **Menyambung kabel:** arahkan kursor ke ujung sebuah pin *tanpa* mengeklik — Wokwi memunculkan **nama pinnya** dalam kotak kecil (`esp:D18`, `esp:GND.1`, `led2:A`, `led2:C`, `r2:1`, `r2:2`). Klik pin pertama, lalu klik pin tujuan. Sambungkan: pin **D18** ESP32 → kaki **1** resistor; kaki **2** resistor → kaki **A** LED; kaki **C** LED baru → kaki **C** LED pertama (keduanya "pulang" ke GND lewat kabel hitam yang sudah ada — seperti dua rumah berbagi satu saluran pembuangan).
+
+![Dua tangkapan layar Wokwi: kiri, LED yang diklik menampilkan baris kotak warna dan ikon putar/hapus; kanan, resistor yang diklik menampilkan kolom Resistance 220, dan kursor di ujung pin memunculkan tooltip esp:D18](aset/wokwi-11-klik-komponen.png)
 
 **Cara B — lewat `diagram.json` (tempel teks, hasilnya pasti rapi).** Buka tab `diagram.json`, kosongkan (**Ctrl + A**, **Delete**), lalu tempel ini:
 
@@ -508,16 +510,18 @@ Supaya tidak menulis `digitalWrite … delay …` puluhan kali, kita buat satu *
 
 const int PIN_LED = 4;
 
-const int PENDEK = 200;   // lama kedip pendek, dalam milidetik
-const int PANJANG = 600;  // lama kedip panjang
-const int JEDA = 1000;    // jeda sebelum pola diulang
+const int PENDEK = 200;        // lama kedip pendek (titik), dalam milidetik
+const int PANJANG = 600;       // lama kedip panjang (garis)
+const int JEDA_KEDIP = 200;    // jeda singkat antara dua kedip
+const int JEDA_HURUF = 400;    // jeda antara dua huruf
+const int JEDA_ULANG = 1000;   // jeda panjang sebelum pola diulang
 
 // Fungsi kecil = "resep" yang bisa dipanggil berkali-kali
 void kedip(int lamaNyala) {
   digitalWrite(PIN_LED, HIGH);
   delay(lamaNyala);           // nyala selama lamaNyala milidetik
   digitalWrite(PIN_LED, LOW);
-  delay(200);                 // jeda singkat antara dua kedip
+  delay(JEDA_KEDIP);          // padam sebentar sebelum kedip berikutnya
 }
 
 void setup() {
@@ -526,38 +530,47 @@ void setup() {
 
 void loop() {
   // Contoh pola untuk nama "ANI" (A = · —, N = — ·, I = · ·)
+  // Satu huruf = satu baris kedip(...) + satu baris delay(JEDA_HURUF)
   // Ganti dengan huruf-huruf namamu (tabel Morse ada di materi modul)
   kedip(PENDEK); kedip(PANJANG);   // A
-  delay(400);                      // jeda antarhuruf
+  delay(JEDA_HURUF);
   kedip(PANJANG); kedip(PENDEK);   // N
-  delay(400);
+  delay(JEDA_HURUF);
   kedip(PENDEK); kedip(PENDEK);    // I
-  delay(JEDA);                     // jeda panjang, lalu ulang dari awal
+  delay(JEDA_ULANG);               // jeda panjang, lalu ulang dari awal
 }
 ```
 
-Tugasmu: ganti tiga baris huruf di `loop()` dengan huruf-huruf **namamu** (3–5 huruf cukup; nama panggilan boleh). Jalankan, lalu **ambil tangkapan layar** dengan nama `modul-01-pola-nama.png`.
+Tugasmu: ganti huruf-huruf di `loop()` dengan huruf-huruf **namamu** (3–5 huruf cukup; nama panggilan boleh). Aturannya: **satu huruf = satu baris** berisi 1–4 panggilan `kedip(…)` (sesuai jumlah titik/garis di tabel), lalu satu baris `delay(JEDA_HURUF);`. Contoh huruf B (— · · ·):
 
-**Simpan juga kodenya sebagai file** (langkah ini sering membuat pemula tersandung, jadi ikuti pelan-pelan):
+```cpp
+  kedip(PANJANG); kedip(PENDEK); kedip(PENDEK); kedip(PENDEK);   // B
+  delay(JEDA_HURUF);
+```
 
-1. Klik di dalam editor Wokwi, tekan **Ctrl + A** lalu **Ctrl + C**.
-2. Buka aplikasi catatan polos: **Notepad** (Windows), **TextEdit** (macOS — pilih menu *Format → Make Plain Text* dulu), atau **Text Editor/gedit** (Linux). Tempel dengan **Ctrl + V**.
-3. Simpan: *File → Save As*.
-   - **Windows:** ubah *Save as type* menjadi **All files (\*.\*)**. Kalau dibiarkan "Text Documents", Notepad diam-diam menambahkan `.txt` sehingga namanya jadi `modul-01-pola-nama.ino.txt`.
-   - Ketik nama `modul-01-pola-nama.ino`, pilih folder `belajar-iot`, klik **Save**.
-4. Cek hasilnya di folder. Windows menyembunyikan akhiran file; untuk melihatnya, buka File Explorer → menu **View** → **Show** → centang **File name extensions**.
+Nama 4–5 huruf? Salin sepasang baris itu dan tempel sebelum `delay(JEDA_ULANG);`. Ingin iramanya beda? Ubah angka `PENDEK`, `PANJANG`, atau `JEDA_…` di bagian atas — satu angka, berlaku untuk semua huruf. Jalankan, lalu **ambil tangkapan layar** dengan nama `modul-01-pola-nama.png`.
+
+**Simpan juga kodenya.** Ada dua jalur; pilih yang kamu suka:
+
+- **Jalur A (paling mudah, tanpa file di laptop):** salin kode dari Wokwi (klik di dalam editor, **Ctrl + A**, **Ctrl + C**), lalu nanti di Praktik 4 tempel langsung ke GitHub lewat **Add file → Create new file** dengan nama `modul-01-pola-nama.ino`. Caranya persis seperti langkah di bagian ➕ di bawah.
+- **Jalur B (menyimpan file di laptop)** — langkah ini sering membuat pemula tersandung, jadi ikuti pelan-pelan:
+  1. Klik di dalam editor Wokwi, tekan **Ctrl + A**, lalu **Ctrl + C**.
+  2. Buka aplikasi catatan polos: **Notepad** (Windows), **TextEdit** (macOS — pilih menu *Format → Make Plain Text* dulu), atau **Text Editor/gedit** (Linux). Tempel dengan **Ctrl + V**.
+  3. *File → Save As*, lalu ketik nama `modul-01-pola-nama.ino` dan pilih folder `belajar-iot`.
+  4. Sebelum klik **Save**, cek jebakan akhiran file: **Windows** — ubah *Save as type* menjadi **All files (\*.\*)**; kalau dibiarkan "Text Documents", Notepad diam-diam menambahkan `.txt` sehingga namanya jadi `modul-01-pola-nama.ino.txt`. **macOS** — kalau TextEdit bertanya *Use .txt / Use .ino*, pilih **Use .ino**.
+  5. Cek hasilnya di folder. Windows menyembunyikan akhiran file; untuk melihatnya: Windows 11 → File Explorer → menu **View** → **Show** → centang **File name extensions**; Windows 10 → tab **View** → centang **File name extensions**.
 
 > [!TIP]
 > Kalau namamu panjang dan polanya jadi membosankan, buat versi "tanda tangan" saja: dua huruf inisial. Yang dinilai bukan panjangnya, melainkan **apakah kamu mengerti angka mana mengatur apa**.
 
 ### Praktik 4 — Simpan ke GitHub (lewat browser, tanpa menginstal apa pun)
 
-> 🖥️ **Alat:** browser → [github.com](https://github.com). Siapkan file di folder `belajar-iot`: `modul-01-blink.png`, `modul-01-pola-nama.png`, `modul-01-pola-nama.ino`. (Belum baca Konsep 8 tentang GitHub? Baca dulu, 3 menit.)
+> 🖥️ **Alat:** browser → [github.com](https://github.com). Siapkan file di folder `belajar-iot`: `modul-01-blink.png`, `modul-01-pola-nama.png`, dan (kalau memakai Jalur B di Praktik 3) `modul-01-pola-nama.ino`. (Belum baca Konsep 8 tentang GitHub? Baca dulu, 3 menit.)
 
 #### 4a. Buat akun GitHub (lewati kalau sudah punya)
 
 1. Buka `https://github.com/signup`.
-2. Isi **email**, **kata sandi**, dan **username** (nama pengguna). Username ini akan **terlihat oleh semua orang** dan menjadi bagian alamat repositorimu. Bisa diganti nanti, tapi semua tautan lamamu akan putus — jadi pilih yang rapi sejak awal, misalnya nama asli (`budisantoso`) atau nama + kata (`budi-iot`).
+2. Isi **email**, **kata sandi**, dan **username** (nama pengguna). Username ini akan **terlihat oleh semua orang** dan menjadi bagian alamat repositorimu. Bisa diganti nanti, tapi tautan profil lamamu akan putus — jadi pilih yang rapi sejak awal, misalnya nama asli (`budisantoso`) atau nama + kata (`budi-iot`).
 3. Selesaikan teka-teki verifikasi, lalu masukkan kode yang dikirim ke emailmu.
 4. GitHub mungkin bertanya beberapa hal (tujuan, minat) — boleh dilewati (*skip*). Kalau ditawari paket, pilih **Free**.
 
@@ -581,12 +594,13 @@ Tugasmu: ganti tiga baris huruf di `loop()` dengan huruf-huruf **namamu** (3–5
 
 ![Menu Add file di halaman sebuah repositori GitHub: tombol + (nomor 1) lalu pilihan Upload files (nomor 2). Repositori di gambar ini punya banyak file; repositorimu baru berisi README.md](aset/github-03-menu-add-file.jpg)
 
-2. **Seret** ketiga file dari folder `belajar-iot` ke kotak bertuliskan *"Drag files here to add them to your repository"*, atau klik **choose your files** dan pilih filenya.
+2. **Seret** file-file dari folder `belajar-iot` ke kotak bertuliskan *"Drag files here to add them to your repository"*, atau klik **choose your files** dan pilih filenya (tahan **Ctrl** sambil mengeklik untuk memilih beberapa file sekaligus; atau unggah satu per satu).
 
 ![Halaman Upload files GitHub: area seret-lepas file dan formulir Commit changes di bawahnya](aset/github-04-upload-files.jpg)
 
 3. Gulir ke bawah ke bagian **Commit changes**. Kotak pertama adalah **pesan commit** — catatan singkat tentang perubahan ini. Ganti isinya menjadi `Modul 1: blink pertama dan pola nama`. (*Commit* = "menyimpan satu foto kemajuan" — istilah ini akan kamu pakai ratusan kali.)
-4. Klik tombol hijau **Commit changes** (di bawah formulir). Tunggu beberapa detik; kamu kembali ke halaman repositori dan ketiga file sudah ada di daftar.
+4. Klik tombol hijau **Commit changes** (di bawah formulir). Tunggu beberapa detik; kamu kembali ke halaman repositori dan file-filemu sudah ada di daftar.
+5. Memakai **Jalur A** untuk kode? Sekarang: **➕ / Add file → Create new file**, ketik nama `modul-01-pola-nama.ino`, tempel kodenya di kotak besar, lalu **Commit changes…** → **Commit changes**.
 
 #### 4d. Tulis catatan di README (opsional, 3 menit)
 
@@ -625,7 +639,7 @@ Pengiriman dari toko komponen biasanya 2–7 hari. Kalau dipesan **minggu ini**,
 
 Ada belasan papan yang namanya mengandung "ESP32". Kurikulum ini memakai **ESP32 DevKit V1, 30 pin** (sering ditulis "DOIT ESP32 DevKit V1"). Begini cara membedakannya dari yang mirip (gambar skematis, bukan foto produk — cocokkan ciri-cirinya dengan foto di toko):
 
-![Panduan belanja: ciri-ciri ESP32 DevKit V1 30 pin yang benar, versi 38 pin yang masih boleh, dan tiga papan yang sering tertukar (ESP32-S3/C3, ESP32-CAM, ESP32-WROOM-32U)](aset/kit-benar-vs-salah.png)
+![Panduan belanja: ciri-ciri ESP32 DevKit V1 30 pin yang benar, versi 38 pin yang masih boleh, dan tiga papan yang sering tertukar (ESP32-S3/C3/C6, ESP32-CAM, ESP32-WROOM-32U)](aset/kit-benar-vs-salah.png)
 
 Inilah wujud aslinya, lengkap dengan ciri yang harus kamu cari di foto produk:
 
@@ -648,7 +662,7 @@ Daftar lengkap beserta harga ada di [Silabus §5.2](../../SILABUS.md#52-kit-a--e
 | Breadboard 830 titik | 2 | `breadboard 830` | Dua buah supaya papan 30 pin lega. |
 | Kabel jumper M-M, M-F, F-F | 1 set | `kabel jumper 40 pin set` | M = jantan (colokan), F = betina (lubang). |
 | LED 5 mm aneka warna + paket resistor | 1 set | `led 5mm set`, `resistor pack 1/4 watt` | Pastikan ada 220 Ω, 1 kΩ, 4,7 kΩ, 10 kΩ. |
-| Kapasitor 100 µF dan 100 nF | @ 2 bh | `kapasitor elektrolit 100uF`, `kapasitor keramik 104` | "104" = 100 nF. |
+| Kapasitor 100 µF dan 100 nF | 2 + 2 (masing-masing 2 buah) | `kapasitor elektrolit 100uF`, `kapasitor keramik 104` | "104" = 100 nF. |
 | Multimeter digital | 1 | `multimeter digital` | Dipakai sejak Modul 2 untuk mengukur tegangan dan resistor; Rp50–100 ribu, investasi seumur hidup. |
 
 <details>
@@ -657,7 +671,7 @@ Daftar lengkap beserta harga ada di [Silabus §5.2](../../SILABUS.md#52-kit-a--e
 | Komponen | Jml | Kata kunci pencarian | Catatan |
 | :--- | :---: | :--- | :--- |
 | Adaptor 5 V ≥ 2 A + modul catu daya breadboard MB102 | 1 + 1 | `adaptor 5v 2a`, `MB102 breadboard power supply` | Modul 5. |
-| Push button (tombol tekan), potensiometer 10 kΩ, buzzer pasif | @ 2 bh | `push button 12mm`, `potensiometer 10k`, `buzzer pasif` | Modul 5. |
+| Push button (tombol tekan), potensiometer 10 kΩ, buzzer pasif | masing-masing 2 buah | `push button 12mm`, `potensiometer 10k`, `buzzer pasif` | Modul 5. |
 | Relay 1–2 kanal 5 V *low-level trigger* | 1 | `relay 2 channel 5v low level trigger` | Pilih yang ber-*optocoupler*. Modul 5. |
 | Kipas DC 5 V 40 mm, pompa mini 3–5 V + selang | 1 + 1 | `kipas dc 5v 4cm`, `pompa mini 5v dc` | Beban untuk relay/MOSFET. Modul 5. |
 | MOSFET IRLZ44N (atau modul D4184) + dioda 1N4007 | 1 + 1 | `IRLZ44N`, `dioda 1N4007` | **Bukan** modul IRF520. Modul 5. |
@@ -670,7 +684,7 @@ Daftar lengkap beserta harga ada di [Silabus §5.2](../../SILABUS.md#52-kit-a--e
 
 </details>
 
-Perkiraan total Tahap 1: **Rp300–620 ribu** (Oktober 2026, bisa berubah). Paket "ESP32 starter kit" sering lebih murah — boleh, asalkan isinya memuat tabel **Wajib** di atas dan papannya benar.
+Perkiraan total Tahap 1: **Rp300–620 ribu** (Oktober 2026, bisa berubah). Paket "ESP32 starter kit" sering lebih murah — boleh, asalkan isinya memuat tabel **Wajib** di atas dan papannya benar. Syarat lulus modul ini: **minimal tabel Wajib sudah dipesan sekarang**; sisa Tahap 1 boleh menyusul, paling lambat sebelum Modul 5.
 
 > [!WARNING]
 > Sebelum klik "beli", cek **tiga hal**: (1) foto papan menunjukkan **30 pin** dan tulisan **ESP-WROOM-32**, (2) kabelnya **kabel data**, (3) paket resistornya mengandung **220 Ω**. Tiga kesalahan ini menyumbang hampir semua "Modul 2 saya macet".
@@ -687,7 +701,7 @@ Pembelajar mandiri paling sering berhenti bukan karena materinya sulit, melainka
 
 Tidak ada yang bisa menjawab ini kecuali dengan dua puluh pertanyaan balik. Versi yang **bisa dibantu dalam satu balasan**:
 
-> ✅ *"Halo, saya mengerjakan Modul 1 kurikulum Fullstack IoT di **Wokwi** (browser Chrome, Windows 11). Tujuan: LED di pin D4 berkedip. **Yang terjadi:** setelah saya mengeklik ▶, muncul 'Build failed!' dengan pesan `sketch.ino:14:13: error: expected ';' before 'digitalWrite'`. **Kode lengkap** ada di https://github.com/budi/belajar-iot/blob/main/modul-01-blink.ino. **Yang sudah dicoba:** menyalin ulang kode dari materi (tetap error), mengganti browser ke Edge. Tangkapan layar error terlampir."*
+> ✅ *"Halo, saya mengerjakan Modul 1 kurikulum Fullstack IoT di **Wokwi** (browser Chrome, Windows 11). Tujuan: LED di pin D4 berkedip. **Yang terjadi:** setelah saya mengeklik ▶, muncul 'Build failed!' dengan pesan `sketch.ino:15:19: error: expected ';' before 'digitalWrite'`. **Kode lengkap** ada di https://github.com/budi/belajar-iot/blob/main/modul-01-pola-nama.ino. **Yang sudah dicoba:** menyalin ulang kode dari materi (tetap error), mengganti browser ke Edge. Tangkapan layar error terlampir."*
 
 Polanya selalu sama. Salin templat ini ke catatanmu dan isi setiap kali bertanya:
 
@@ -744,7 +758,7 @@ Berikut masalah paling umum di tahap ini:
 Ini **bukan** tanda kamu tidak berbakat — ini kompiler sedang menunjukkan tepat di mana ia bingung. Cara membacanya:
 
 - `sketch.ino:14:13` → file `sketch.ino`, **baris 14**, kolom 13. Lihat nomor baris di kiri editor. Di situlah — tepat di ujung baris 14, `delay(500)` — titik koma yang hilang.
-- `error: expected ';' before 'digitalWrite'` → "saya mengharapkan titik koma **sebelum** kata digitalWrite". Kata `digitalWrite` adalah perintah **berikutnya** (baris 15); kompiler baru sadar ada yang kurang saat bertemu kata itu. Jadi yang perlu diperbaiki tetap **baris 14**: tambahkan `;` di ujungnya.
+- `error: expected ';' before 'digitalWrite'` → "saya mengharapkan titik koma **sebelum** kata digitalWrite". Kata `digitalWrite` adalah perintah **berikutnya** (baris 15); kompiler baru sadar ada yang kurang saat bertemu kata itu. Jadi, yang perlu diperbaiki tetap **baris 14**: tambahkan `;` di ujungnya.
 - Tanda `^` dan `;` di bawah kode menunjukkan posisi persis yang disarankan.
 
 Error lain yang sering muncul:
@@ -945,7 +959,7 @@ Contoh isian singkat supaya ada bayangan: *"Tempat: kamar kos 3×3 m dan dua pot
 | **ESP32** | Mikrokontroler murah buatan Espressif dengan WiFi dan Bluetooth; chip utama kurikulum ini. |
 | **Papan** (*board*, DevKit) | Papan sirkuit yang memuat chip ESP32 beserta colokan USB, tombol, dan pin — supaya chip bisa langsung dipakai. |
 | **Node** | Satu perangkat (ESP32 + sensor/aktuatornya) dalam sistem IoT. Proyek kita punya Node 1 "Rumah" dan Node 2 "Kebun". |
-| **Pin / GPIO** | "Kaki" logam di papan yang bisa mengeluarkan atau membaca sinyal listrik. `D4` = GPIO nomor 4. |
+| **Pin / GPIO** | "Kaki" logam di papan yang bisa mengeluarkan atau membaca sinyal listrik. GPIO = *general purpose input/output*, pin serbaguna; `D4` = GPIO nomor 4. |
 | **LED** | Lampu kecil hemat daya yang hanya mau dialiri arus satu arah (kaki panjang = +). |
 | **Resistor** | Komponen "penyempit pipa" yang membatasi arus; nilainya dalam ohm (Ω). |
 | **GND** (*ground*) | Titik nol listrik; tempat arus "pulang". |
@@ -991,14 +1005,14 @@ Jawab dulu di kepala atau di catatan, baru buka kuncinya. Lulus = minimal 4 bena
 
 ## ✅ Checklist kelulusan Modul 1
 
-Centang jujur. Kotak ⭐ adalah **syarat lulus resmi** dari Silabus; sisanya sangat dianjurkan. Kalau semua tercentang, tandai Modul 1 di salinan [PROGRES.md](../../PROGRES.md) milikmu (salin filenya ke repositori `belajar-iot` atau ke catatanmu, lalu ganti `[ ]` menjadi `[x]`) dan lanjut ke Modul 2 — bahkan kalau kit belum sampai.
+Centang jujur. Kotak ⭐ adalah **syarat lulus resmi** dari Silabus; sisanya sangat dianjurkan. Kalau semua tercentang, tandai Modul 1 di salinan [PROGRES.md](../../PROGRES.md) milikmu (buka `PROGRES.md` → ikon salin **Copy raw file** → di repositorimu **Add file → Create new file** bernama `PROGRES.md` → tempel → Commit; lalu ganti `[ ]` menjadi `[x]` lewat ikon pensil) dan lanjut ke Modul 2 — bahkan kalau kit belum sampai.
 
 - [ ] LED di Wokwi berkedip dari kode Blink yang saya tempel sendiri.
 - [ ] Saya sudah mengubah kecepatan kedip dan melihat efeknya (Praktik 1).
 - [ ] Dua LED berkedip bergantian (Praktik 2).
 - [ ] ⭐ **LED berkedip dengan pola yang saya rancang sendiri** (nama/inisial dalam Morse), dan saya bisa menunjuk baris mana yang mengatur panjang-pendeknya (Praktik 3).
 - [ ] ⭐ Repositori `belajar-iot` ada di GitHub saya, berisi **tangkapan layar** dan kode pola nama; alamatnya: `https://github.com/________/belajar-iot` (Praktik 4).
-- [ ] ⭐ **Kit A Tahap 1 sudah dipesan**, papannya DevKit V1 30 pin, kabelnya kabel data (Praktik 5).
+- [ ] ⭐ **Kit A Tahap 1 sudah dipesan** (minimal tabel Wajib), papannya DevKit V1 30 pin, kabelnya kabel data (Praktik 5).
 - [ ] Saya punya templat pertanyaan "versi ✅" di catatan saya dan tahu ke mana bertanya (Praktik 6).
 - [ ] `visi-proyek.md` terisi dan sudah di-*commit* di repositori (➕).
 - [ ] Kuis: minimal 4 dari 5 benar.
@@ -1017,7 +1031,7 @@ Semua tangkapan layar diambil penulis pada Oktober 2026 dari layanan yang bersan
 | `../../aset/arsitektur-fullstack-iot.png` | Diagram orisinal kurikulum (gambar lintas modul) | CC BY 4.0 |
 | `laptop-vs-mikrokontroler.jpg`, `alur-kode-masuk-chip.jpg`, `kabel-data-vs-cas.jpg` | Ilustrasi orisinal kurikulum Fullstack IoT Developer (dari versi kurikulum sebelumnya, diperiksa ulang) | CC BY 4.0 |
 | `foto-esp32-devkit-v1.jpg`, `foto-esp32-devkit-v1-anotasi.jpg` | [Ubahnverleih, Wikimedia Commons — *ESP32 Espressif ESP-WROOM-32 Dev Board*](https://commons.wikimedia.org/wiki/File:ESP32_Espressif_ESP-WROOM-32_Dev_Board.jpg); anotasi oleh penulis | [CC0 1.0 (domain publik)](https://creativecommons.org/publicdomain/zero/1.0/deed.id) |
-| `wokwi-02-editor-dijelaskan.png`, `wokwi-03-diagram-json.jpg` … `wokwi-10-dua-led.jpg` | Tangkapan layar [Wokwi](https://wokwi.com) (© Wokwi / CodeMagic LTD), sebagian diberi anotasi oleh penulis | Dipakai untuk tujuan pendidikan/tutorial; bukan bagian dari lisensi CC kurikulum. |
+| `wokwi-02-editor-dijelaskan.png`, `wokwi-03-diagram-json.jpg` … `wokwi-11-klik-komponen.png` | Tangkapan layar [Wokwi](https://wokwi.com) (© Wokwi / CodeMagic LTD), sebagian diberi anotasi oleh penulis | Dipakai untuk tujuan pendidikan/tutorial; bukan bagian dari lisensi CC kurikulum. |
 | `github-01-repo-baru.jpg` … `github-04-upload-files.jpg` | Tangkapan layar [GitHub](https://github.com) (© GitHub, Inc.), sebagian diberi anotasi oleh penulis | Dipakai untuk tujuan pendidikan/tutorial; bukan bagian dari lisensi CC kurikulum. |
 
 Rujukan yang dipakai saat menulis: dokumentasi Wokwi ([docs.wokwi.com](https://docs.wokwi.com/)), kode sumber komponen Wokwi ([github.com/wokwi/wokwi-elements](https://github.com/wokwi/wokwi-elements) — nama dan posisi pin papan), dokumentasi arduino-esp32 ([docs.espressif.com/projects/arduino-esp32](https://docs.espressif.com/projects/arduino-esp32/en/latest/); khususnya catatan migrasi 2.x → 3.x), dan dokumentasi GitHub ([docs.github.com](https://docs.github.com/)) untuk alur unggah file lewat browser.
