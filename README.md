@@ -17,9 +17,9 @@ Ditulis dalam Bahasa Indonesia yang ramah awam. Tidak perlu latar belakang elekt
 
 1. Baca **[SILABUS.md](SILABUS.md)** — peta lengkap 6 fase / 32 modul, prasyarat & alat yang dibutuhkan, dan cara belajar (±20 menit). Pemula cukup membaca §1, §2, §4, §5 dulu; ada glosarium di §12 dan "kontrak data" proyek di Lampiran A.
 2. Salin **[PROGRES.md](PROGRES.md)** ke catatan Anda sendiri (atau *fork* repo ini) untuk mencentang kemajuan.
-3. Buka **Modul 1** di `fase-0-fondasi/modul-01-peta-besar-iot/` dan kerjakan berurutan. Setiap modul = 1 minggu @ 6–10 jam (Modul N = Minggu N).
+3. Buka **[Modul 1](fase-0-fondasi/modul-01-peta-besar-iot/README.md)** dan kerjakan berurutan. Setiap modul = 1 minggu @ 6–10 jam (Modul N = Minggu N).
 
-> **Status:** silabus **v1.0 disetujui** (9 Oktober 2026). Materi modul sedang ditulis berurutan mulai dari Modul 1 — lihat [PROGRES.md](PROGRES.md) untuk daftar modul.
+> **Status:** silabus **v1.0 disetujui** (9 Oktober 2026). Materi modul ditulis berurutan; **Modul 1 sudah tersedia** → [fase-0-fondasi/modul-01-peta-besar-iot/](fase-0-fondasi/modul-01-peta-besar-iot/README.md). Lihat [PROGRES.md](PROGRES.md) untuk daftar modul.
 
 ## 🗺️ Peta kurikulum
 

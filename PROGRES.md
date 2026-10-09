@@ -6,7 +6,7 @@ Centang `[x]` setiap kali Anda memenuhi kriteria **"Lulus jika"** di [SILABUS.md
 
 ## 🟧 Fase 0 — Fondasi (Modul 1–4)
 
-- [ ] **Modul 1** — Peta Besar IoT & Kemenangan Pertama dalam 10 Menit
+- [ ] **[Modul 1](fase-0-fondasi/modul-01-peta-besar-iot/README.md)** — Peta Besar IoT & Kemenangan Pertama dalam 10 Menit
 - [ ] **Modul 2** — Listrik Ramah Awam, Breadboard, & Unggah Pertama ke ESP32 Asli
 - [ ] **Modul 3** — Pemrograman C++ untuk ESP32 dari Nol
 - [ ] **Modul 4** — JavaScript & Node.js dari Nol (Bahasa untuk Server & Dashboard)
