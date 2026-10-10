@@ -1,0 +1,131 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="920" viewBox="0 0 1200 920" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="920" fill="#fffdf7"/>
+<text x="600.0" y="40.0" font-size="26" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Dua terminal berdampingan: penerima dan pengirim</text>
+<text x="600.0" y="72.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Praktik 9 — Terminal → Split Terminal, lalu jalankan satu program di setiap terminal</text>
+<rect x="40.0" y="96.0" width="1120.0" height="620.0" rx="8" fill="#1f1f1f" stroke="#3c3c3c" stroke-width="1.5" />
+<rect x="41.0" y="97.0" width="1118.0" height="34.0" rx="7" fill="#181818" />
+<rect x="49.0" y="106.0" width="16.0" height="16.0" rx="3" fill="#0078d4" />
+<path d="M53 110 L61 114 L53 118" fill="none" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="78.0" y="119.0" font-size="12.5" font-weight="400" fill="#cccccc" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >File</text>
+<text x="116.0" y="119.0" font-size="12.5" font-weight="400" fill="#cccccc" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Edit</text>
+<text x="156.0" y="119.0" font-size="12.5" font-weight="400" fill="#cccccc" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Selection</text>
+<text x="228.0" y="119.0" font-size="12.5" font-weight="400" fill="#cccccc" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >View</text>
+<text x="275.0" y="119.0" font-size="12.5" font-weight="400" fill="#cccccc" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Go</text>
+<text x="310.0" y="119.0" font-size="12.5" font-weight="400" fill="#cccccc" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Run</text>
+<text x="351.0" y="119.0" font-size="12.5" font-weight="400" fill="#cccccc" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Terminal</text>
+<text x="419.0" y="119.0" font-size="12.5" font-weight="400" fill="#cccccc" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Help</text>
+<rect x="530.0" y="103.0" width="260.0" height="22.0" rx="6" fill="#2a2a2a" stroke="#3c3c3c" stroke-width="1" />
+<text x="660.0" y="118.0" font-size="12.5" font-weight="400" fill="#cccccc" text-anchor="middle" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >⌕  modul-04</text>
+<text x="1068.0" y="119.0" font-size="12" font-weight="400" fill="#cccccc" text-anchor="middle" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >—</text>
+<text x="1098.0" y="119.0" font-size="12" font-weight="400" fill="#cccccc" text-anchor="middle" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >☐</text>
+<text x="1128.0" y="119.0" font-size="12" font-weight="400" fill="#cccccc" text-anchor="middle" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >✕</text>
+<line x1="41.0" y1="131.0" x2="1159.0" y2="131.0" stroke="#2b2b2b" stroke-width="1" stroke-linecap="round" />
+<rect x="41.0" y="132.0" width="48.0" height="559.0" rx="0" fill="#181818" />
+<path d="M58 154 L68 154 L73 159 L73 172 L58 172 Z" fill="none" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M54 158 L54 176 L69 176" fill="none" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="41.0" y="146.0" width="2.5" height="36.0" rx="0" fill="#ffffff" />
+<circle cx="63.0" cy="208.0" r="7" fill="none" stroke="#9d9d9d" stroke-width="1.8" />
+<line x1="68.0" y1="213.0" x2="74.0" y2="219.0" stroke="#9d9d9d" stroke-width="2" stroke-linecap="round" />
+<circle cx="59.0" cy="249.0" r="3.5" fill="none" stroke="#9d9d9d" stroke-width="1.6" />
+<circle cx="59.0" cy="267.0" r="3.5" fill="none" stroke="#9d9d9d" stroke-width="1.6" />
+<circle cx="72.0" cy="254.0" r="3.5" fill="none" stroke="#9d9d9d" stroke-width="1.6" />
+<path d="M59 253 L59 263 M72 258 Q72 263 61 265" fill="none" stroke="#9d9d9d" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M58 297 L73 306 L58 315 Z" fill="none" stroke="#9d9d9d" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="56.0" y="352.0" width="8.0" height="8.0" rx="1" fill="none" stroke="#9d9d9d" stroke-width="1.5" />
+<rect x="65.0" y="352.0" width="8.0" height="8.0" rx="1" fill="none" stroke="#9d9d9d" stroke-width="1.5" />
+<rect x="56.0" y="361.0" width="8.0" height="8.0" rx="1" fill="none" stroke="#9d9d9d" stroke-width="1.5" />
+<rect x="67.0" y="343.0" width="8.0" height="8.0" rx="1" fill="none" stroke="#9d9d9d" stroke-width="1.5" />
+<rect x="41.0" y="692.0" width="1118.0" height="23.0" rx="7" fill="#181818" />
+<line x1="41.0" y1="692.0" x2="1159.0" y2="692.0" stroke="#2b2b2b" stroke-width="1" stroke-linecap="round" />
+<rect x="41.0" y="692.0" width="34.0" height="23.0" rx="0" fill="#0078d4" />
+<text x="58.0" y="708.0" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >&gt;&lt;</text>
+<text x="88.0" y="708.0" font-size="11.5" font-weight="400" fill="#cccccc" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >⊗ 0  ⚠ 0</text>
+<text x="1146.0" y="708.0" font-size="11.5" font-weight="400" fill="#cccccc" text-anchor="end" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >JavaScript</text>
+<text x="1058.0" y="708.0" font-size="11.5" font-weight="400" fill="#cccccc" text-anchor="end" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >UTF-8</text>
+<text x="1003.0" y="708.0" font-size="11.5" font-weight="400" fill="#cccccc" text-anchor="end" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Ln 1, Col 1</text>
+<rect x="89.0" y="132.0" width="1070.0" height="35.0" rx="0" fill="#181818" />
+<rect x="89.0" y="132.0" width="130.0" height="35.0" rx="0" fill="#1f1f1f" />
+<rect x="89.0" y="132.0" width="130.0" height="2.0" rx="0" fill="#0078d4" />
+<text x="103.0" y="154.0" font-size="13" font-weight="400" fill="#ffffff" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >kirim-data.js</text>
+<text x="123.0" y="192.0" font-size="12.5" font-weight="400" fill="#6e7681" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">1</text>
+<text x="139.0" y="192.0" font-size="12.5" font-weight="400" fill="#6a9955" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">// kirim-data.js — mengirim 3 bacaan palsu ke penerima-webhook.js</text>
+<text x="123.0" y="213.0" font-size="12.5" font-weight="400" fill="#6e7681" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">2</text>
+<text x="139.0" y="213.0" font-size="12.5" font-weight="400" fill="#6a9955" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">// Modul 4 - Praktik 9. Jalankan di TERMINAL KEDUA, saat penerima-webhook.js sedang berjalan:</text>
+<rect x="89.0" y="224.0" width="1070.0" height="468.0" rx="0" fill="#181818" />
+<line x1="89.0" y1="224.0" x2="1159.0" y2="224.0" stroke="#2b2b2b" stroke-width="1" stroke-linecap="round" />
+<rect x="89.0" y="225.0" width="1070.0" height="34.0" rx="0" fill="#181818" />
+<text x="105.0" y="247.0" font-size="11.5" font-weight="400" fill="#9d9d9d" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >PROBLEMS</text>
+<text x="187.8" y="247.0" font-size="11.5" font-weight="400" fill="#9d9d9d" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >OUTPUT</text>
+<text x="255.4" y="247.0" font-size="11.5" font-weight="400" fill="#9d9d9d" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >DEBUG CONSOLE</text>
+<text x="376.2" y="247.0" font-size="11.5" font-weight="600" fill="#e7e7e7" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >TERMINAL</text>
+<rect x="374.2" y="256.0" width="64.8" height="2.0" rx="0" fill="#e7e7e7" />
+<text x="459.0" y="247.0" font-size="11.5" font-weight="400" fill="#9d9d9d" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >PORTS</text>
+<path d="M1136.5 237.5 L1145.5 246.5 M1145.5 237.5 L1136.5 246.5" fill="none" stroke="#9d9d9d" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M1110 245 L1115 239 L1120 245" fill="none" stroke="#9d9d9d" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="1084.0" cy="243.0" r="1.3" fill="#9d9d9d" />
+<circle cx="1089.0" cy="243.0" r="1.3" fill="#9d9d9d" />
+<circle cx="1094.0" cy="243.0" r="1.3" fill="#9d9d9d" />
+<path d="M1058 238 L1068 238 M1061 236 L1065 236 M1059 238 L1060 248 L1066 248 L1067 238" fill="none" stroke="#9d9d9d" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="1031.0" y="236.0" width="12.0" height="12.0" rx="1.5" fill="none" stroke="#9d9d9d" stroke-width="1.4" />
+<line x1="1037.0" y1="236.0" x2="1037.0" y2="248.0" stroke="#9d9d9d" stroke-width="1.4" stroke-linecap="round" />
+<path d="M1007 240 L1011 244 L1015 240" fill="none" stroke="#9d9d9d" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M980 242 L990 242 M985 237 L985 247" fill="none" stroke="#9d9d9d" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="1039.0" y1="260.0" x2="1039.0" y2="692.0" stroke="#2b2b2b" stroke-width="1" stroke-linecap="round" />
+<text x="1049.0" y="284.0" font-size="12" font-weight="400" fill="#cccccc" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >┌ powershell</text>
+<rect x="1040.0" y="292.0" width="118.0" height="22.0" rx="0" fill="#37373d" />
+<text x="1049.0" y="308.0" font-size="12" font-weight="400" fill="#cccccc" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >└ powershell</text>
+<line x1="564.0" y1="264.0" x2="564.0" y2="686.0" stroke="#3c3c3c" stroke-width="1.5" stroke-linecap="round" />
+<text x="103.0" y="286.0" font-size="13.5" font-weight="400" fill="#cccccc" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">PS C:\…\modul-04&gt; </text>
+<text x="249.3" y="286.0" font-size="13.5" font-weight="700" fill="#ffffff" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">node penerima-webhook.js</text>
+<text x="103.0" y="307.0" font-size="13.5" font-weight="400" fill="#cccccc" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">Penerima siap di http://localhost:3000 — tekan Ctrl + </text>
+<text x="103.0" y="328.0" font-size="13.5" font-weight="400" fill="#cccccc" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">C untuk berhenti.</text>
+<text x="103.0" y="349.0" font-size="13.5" font-weight="400" fill="#cccccc" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">[16.52.10] GET /</text>
+<text x="103.0" y="370.0" font-size="13.5" font-weight="400" fill="#cccccc" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">[16.52.10] GET /favicon.ico</text>
+<text x="103.0" y="391.0" font-size="13.5" font-weight="400" fill="#cccccc" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">[16.53.04] POST /telemetry</text>
+<text x="103.0" y="412.0" font-size="13.5" font-weight="400" fill="#cccccc" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">{"ts":"2026-10-10T09:53:04Z","fw":"0.1.0","suhu":32.8,</text>
+<text x="103.0" y="433.0" font-size="13.5" font-weight="400" fill="#cccccc" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">"kelembapan":58,"cahaya":3972,"tanah":31,"gerak":false</text>
+<text x="103.0" y="454.0" font-size="13.5" font-weight="400" fill="#cccccc" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">,"level_air":47}</text>
+<text x="103.0" y="475.0" font-size="13.5" font-weight="400" fill="#cccccc" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">[16.53.05] POST /telemetry</text>
+<text x="103.0" y="496.0" font-size="13.5" font-weight="400" fill="#cccccc" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">{"ts":"2026-10-10T09:53:05Z","fw":"0.1.0","suhu":31.3,</text>
+<text x="103.0" y="517.0" font-size="13.5" font-weight="400" fill="#cccccc" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">"kelembapan":78,"cahaya":1723,"tanah":55,"gerak":false</text>
+<text x="103.0" y="538.0" font-size="13.5" font-weight="400" fill="#cccccc" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">,"level_air":63}</text>
+<text x="103.0" y="559.0" font-size="13.5" font-weight="400" fill="#cccccc" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">[16.53.06] POST /telemetry</text>
+<text x="103.0" y="580.0" font-size="13.5" font-weight="400" fill="#cccccc" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">{"ts":"2026-10-10T09:53:06Z","fw":"0.1.0","suhu":27.9,</text>
+<text x="103.0" y="601.0" font-size="13.5" font-weight="400" fill="#cccccc" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">"kelembapan":64,"cahaya":2091,"tanah":60,"gerak":false</text>
+<text x="103.0" y="622.0" font-size="13.5" font-weight="400" fill="#cccccc" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">,"level_air":89}</text>
+<text x="586.0" y="286.0" font-size="13.5" font-weight="400" fill="#cccccc" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">PS C:\…\modul-04&gt; </text>
+<text x="732.3" y="286.0" font-size="13.5" font-weight="700" fill="#ffffff" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">node kirim-data.js</text>
+<text x="586.0" y="307.0" font-size="13.5" font-weight="400" fill="#cccccc" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">Kiriman 1: suhu 32.8 °C -&gt; jawaban 200 { ok: true }</text>
+<text x="586.0" y="328.0" font-size="13.5" font-weight="400" fill="#cccccc" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">Kiriman 2: suhu 31.3 °C -&gt; jawaban 200 { ok: true }</text>
+<text x="586.0" y="349.0" font-size="13.5" font-weight="400" fill="#cccccc" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">Kiriman 3: suhu 27.9 °C -&gt; jawaban 200 { ok: true }</text>
+<text x="586.0" y="370.0" font-size="13.5" font-weight="400" fill="#cccccc" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">Selesai. Lihat terminal penerima: ketiga kiriman terce</text>
+<text x="586.0" y="391.0" font-size="13.5" font-weight="400" fill="#cccccc" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">tak di sana.</text>
+<text x="586.0" y="412.0" font-size="13.5" font-weight="400" fill="#cccccc" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">PS C:\…\modul-04&gt; </text>
+<text x="732.3" y="412.0" font-size="13.5" font-weight="700" fill="#ffffff" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve"></text>
+<rect x="732.3" y="399.0" width="8.1" height="16.0" rx="0" fill="#cccccc" />
+<rect x="98.0" y="376.0" width="447.0" height="86.0" rx="4" fill="none" stroke="#ffb703" stroke-width="2" />
+<rect x="581.0" y="292.0" width="447.0" height="23.0" rx="4" fill="none" stroke="#ffb703" stroke-width="2" />
+<circle cx="564.0" cy="344.0" r="13" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="564.0" y="349.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >4</text>
+<rect x="1022.0" y="227.0" width="30.0" height="30.0" rx="6" fill="none" stroke="#e63946" stroke-width="2.5" />
+<circle cx="1037.0" cy="208.0" r="15" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="1037.0" y="213.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >1</text>
+<circle cx="528.0" cy="281.0" r="13" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="528.0" y="286.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >2</text>
+<circle cx="1011.0" cy="281.0" r="13" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="1011.0" y="286.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >3</text>
+<circle cx="74.0" cy="760.0" r="12" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="74.0" y="765.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >1</text>
+<text x="94.0" y="765.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >Tombol Split Terminal (atau menu Terminal → Split Terminal): membelah panel menjadi dua terminal</text>
+<circle cx="74.0" cy="790.0" r="12" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="74.0" y="795.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >2</text>
+<text x="94.0" y="795.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >Terminal kiri: penerima-webhook.js berjaga di port 3000 dan mencetak setiap permintaan yang datang</text>
+<circle cx="74.0" cy="820.0" r="12" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="74.0" y="825.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >3</text>
+<text x="94.0" y="825.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >Terminal kanan: kirim-data.js mengirim 3 bacaan, lalu selesai dan prompt-nya kembali</text>
+<circle cx="74.0" cy="850.0" r="12" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="74.0" y="855.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >4</text>
+<text x="94.0" y="855.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >Kotak kuning: kiriman 1 di kanan muncul di kiri sebagai blok [16.53.04]; begitu juga kiriman 2 dan 3</text>
+<text x="94.0" y="885.0" font-size="14" font-weight="400" fill="#4a5568" text-anchor="start" >Baris yang panjang dipotong otomatis oleh terminal, dan alamat folder di prompt dipersingkat.</text>
+<text x="1178.0" y="906.0" font-size="13" font-weight="600" fill="#5f6573" text-anchor="end" >Ilustrasi (digambar ulang, bukan tangkapan layar) · Visual Studio Code 1.141 · Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

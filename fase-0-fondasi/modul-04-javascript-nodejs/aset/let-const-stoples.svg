@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="700" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >const dan let: dua jenis stoples</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >JavaScript tidak perlu diberi tahu jenis isinya — ia melihat sendiri dari nilainya</text>
+<rect x="195.0" y="130.0" width="210.0" height="18.0" rx="5" fill="#0f8b8d" />
+<path d="M201.0 150 Q207.0 157 213.0 150" fill="none" stroke="#0f8b8d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M247.5 150 Q253.5 157 259.5 150" fill="none" stroke="#0f8b8d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M294.0 150 Q300.0 157 306.0 150" fill="none" stroke="#0f8b8d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M340.5 150 Q346.5 157 352.5 150" fill="none" stroke="#0f8b8d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M387.0 150 Q393.0 157 399.0 150" fill="none" stroke="#0f8b8d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M400.0 124 L400.0 115 A9 9 0 0 1 418.0 115 L418.0 124" fill="none" stroke="#1e2a4a" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="395.0" y="124.0" width="28.0" height="22.0" rx="4" fill="#e0a800" stroke="#1e2a4a" stroke-width="2" />
+<circle cx="409.0" cy="134.0" r="3" fill="#1e2a4a" />
+<rect x="185.0" y="148.0" width="230.0" height="190.0" rx="18" fill="#ffffff" stroke="#0f8b8d" stroke-width="3" />
+<rect x="188.0" y="235.4" width="224.0" height="99.6" rx="15" fill="#0f8b8d" opacity="0.13"/>
+<rect x="204.0" y="174.0" width="192.0" height="32.0" rx="6" fill="#fde4c8" stroke="#b45f17" stroke-width="1.5" />
+<text x="300" y="196" font-size="16" font-family="'DejaVu Sans Mono', Consolas, monospace" text-anchor="middle" xml:space="preserve"><tspan fill="#00979d" font-weight="800">const</tspan><tspan fill="#1e2a4a" font-weight="800"> nama</tspan></text>
+<text x="300.0" y="292.4" font-size="30" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >"Ani"</text>
+<text x="300.0" y="372.0" font-size="15" font-weight="800" fill="#0f8b8d" text-anchor="middle" >const = tutupnya dilem: isinya tidak bisa diganti</text>
+<rect x="110.0" y="388.0" width="380.0" height="74.0" rx="10" fill="#fdf1f2" stroke="#e63946" stroke-width="1.5" />
+<circle cx="136.0" cy="412.0" r="11" fill="#e63946" />
+<path d="M131.5 407.5 L140.5 416.5 M140.5 407.5 L131.5 416.5" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="156" y="418" font-size="16" font-family="'DejaVu Sans Mono', Consolas, monospace" text-anchor="start" xml:space="preserve"><tspan fill="#1e2a4a" font-weight="700">nama = </tspan><tspan fill="#b45f17" font-weight="700">"Budi"</tspan><tspan fill="#1e2a4a" font-weight="700">;</tspan></text>
+<text x="126.0" y="448.0" font-size="13.2" font-weight="700" fill="#e63946" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">TypeError: Assignment to constant variable.</text>
+<rect x="765.0" y="108.0" width="210.0" height="18.0" rx="5" fill="#b45f17" />
+<line x1="789.0" y1="146.0" x2="789.0" y2="128.0" stroke="#b45f17" stroke-width="2.2" stroke-linecap="round" />
+<path d="M792.3 134.2 L789.0 128.0 L785.7 134.2" fill="none" stroke="#b45f17" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="951.0" y1="146.0" x2="951.0" y2="128.0" stroke="#b45f17" stroke-width="2.2" stroke-linecap="round" />
+<path d="M954.3 134.2 L951.0 128.0 L947.7 134.2" fill="none" stroke="#b45f17" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="755.0" y="148.0" width="230.0" height="190.0" rx="18" fill="#ffffff" stroke="#b45f17" stroke-width="3" />
+<rect x="758.0" y="235.4" width="224.0" height="99.6" rx="15" fill="#b45f17" opacity="0.13"/>
+<rect x="774.0" y="174.0" width="192.0" height="32.0" rx="6" fill="#fde4c8" stroke="#b45f17" stroke-width="1.5" />
+<text x="870" y="196" font-size="16" font-family="'DejaVu Sans Mono', Consolas, monospace" text-anchor="middle" xml:space="preserve"><tspan fill="#00979d" font-weight="800">let</tspan><tspan fill="#1e2a4a" font-weight="800"> umur</tspan></text>
+<text x="870.0" y="292.4" font-size="30" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >17</text>
+<line x1="1000.0" y1="280.0" x2="1056.0" y2="280.0" stroke="#2a9d5c" stroke-width="3" stroke-linecap="round" />
+<path d="M1047.2 284.7 L1056.0 280.0 L1047.2 275.3" fill="none" stroke="#2a9d5c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<text x="1086.0" y="290.0" font-size="30" font-weight="800" fill="#2a9d5c" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >18</text>
+<text x="870.0" y="372.0" font-size="15" font-weight="800" fill="#b45f17" text-anchor="middle" >let = tutupnya bisa dibuka: isinya boleh diganti</text>
+<rect x="680.0" y="388.0" width="380.0" height="74.0" rx="10" fill="#eef8f2" stroke="#2a9d5c" stroke-width="1.5" />
+<circle cx="706.0" cy="412.0" r="11" fill="#2a9d5c" />
+<path d="M701 412 L704.5 416 L711.5 407.5" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="726" y="418" font-size="16" font-family="'DejaVu Sans Mono', Consolas, monospace" text-anchor="start" xml:space="preserve"><tspan fill="#1e2a4a" font-weight="700">umur = </tspan><tspan fill="#3a6fc4" font-weight="700">18</tspan><tspan fill="#1e2a4a" font-weight="700">;</tspan></text>
+<text x="696.0" y="448.0" font-size="13.5" font-weight="700" fill="#2a9d5c" text-anchor="start" >boleh — tanpa menulis let lagi</text>
+<text x="600.0" y="504.0" font-size="17" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Tiga jenis isi dasar (cek dengan typeof):</text>
+<rect x="60.0" y="520.0" width="348.0" height="108.0" rx="12" fill="#ffffff" stroke="#b45f17" stroke-width="2" />
+<text x="234.0" y="548.0" font-size="16" font-weight="800" fill="#b45f17" text-anchor="middle" >teks (string)</text>
+<text x="234.0" y="584.0" font-size="21" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">"Ani"   "28.5"</text>
+<text x="234.0" y="612.0" font-size="13.5" font-weight="700" fill="#4a5568" text-anchor="middle" >selalu berpetik — "28.5" itu TEKS</text>
+<rect x="426.0" y="520.0" width="348.0" height="108.0" rx="12" fill="#ffffff" stroke="#3a6fc4" stroke-width="2" />
+<text x="600.0" y="548.0" font-size="16" font-weight="800" fill="#3a6fc4" text-anchor="middle" >angka (number)</text>
+<text x="600.0" y="584.0" font-size="21" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">17   28.5   -6.2</text>
+<text x="600.0" y="612.0" font-size="13.5" font-weight="700" fill="#4a5568" text-anchor="middle" >bulat &amp; pecahan satu jenis; desimal pakai TITIK</text>
+<rect x="792.0" y="520.0" width="348.0" height="108.0" rx="12" fill="#ffffff" stroke="#00979d" stroke-width="2" />
+<text x="966.0" y="548.0" font-size="16" font-weight="800" fill="#00979d" text-anchor="middle" >benar/salah (boolean)</text>
+<text x="966.0" y="584.0" font-size="21" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">true   false</text>
+<text x="966.0" y="612.0" font-size="13.5" font-weight="700" fill="#4a5568" text-anchor="middle" >jawaban ya/tidak, misalnya "ada gerakan?"</text>
+<rect x="60.0" y="640.0" width="1080.0" height="32.0" rx="8" fill="#fffdf2" stroke="#e0c25c" stroke-width="1.5" />
+<text x="600.0" y="661.0" font-size="14" font-weight="700" fill="#1e2a4a" text-anchor="middle" >Aturan praktis: pakai const dulu. Ubah menjadi let hanya kalau isinya memang akan berubah (penghitung, jumlah total).</text>
+<text x="1178.0" y="686.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

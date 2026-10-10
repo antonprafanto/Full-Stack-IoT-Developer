@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="430" viewBox="0 0 1200 430" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="430" fill="#fffdf7"/>
+<text x="600.0" y="40.0" font-size="26" font-weight="700" fill="#1e2a4a" text-anchor="middle" >Peta jalan mini — kamu ada di sini</text>
+<text x="600.0" y="66.0" font-size="15" font-weight="400" fill="#555" text-anchor="middle" >32 modul = 32 minggu · satu proyek benang merah "Rumah Pintar Mini" yang tumbuh dari LED berkedip sampai sistem online</text>
+<rect x="60.0" y="100.0" width="140.0" height="56.0" rx="8" fill="#f4a261" />
+<text x="130.0" y="124.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="middle" >FASE 0</text>
+<text x="130.0" y="144.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="middle" >Fondasi · M1–4</text>
+<rect x="206.0" y="100.0" width="160.0" height="56.0" rx="8" fill="#fde4c8" />
+<text x="286.0" y="124.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="middle" >FASE 1</text>
+<text x="286.0" y="144.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="middle" >ESP32 · M5–9</text>
+<rect x="372.0" y="100.0" width="196.0" height="56.0" rx="8" fill="#cfe9f3" />
+<text x="470.0" y="124.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="middle" >FASE 2</text>
+<text x="470.0" y="144.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="middle" >Konektivitas · M10–15</text>
+<rect x="574.0" y="100.0" width="200.0" height="56.0" rx="8" fill="#d6f0e3" />
+<text x="674.0" y="124.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="middle" >FASE 3</text>
+<text x="674.0" y="144.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="middle" >Backend &amp; data · M16–21</text>
+<rect x="780.0" y="100.0" width="160.0" height="56.0" rx="8" fill="#e6dcf5" />
+<text x="860.0" y="124.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="middle" >FASE 4</text>
+<text x="860.0" y="144.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="middle" >Dashboard · M22–25</text>
+<rect x="946.0" y="100.0" width="194.0" height="56.0" rx="8" fill="#e0e0e0" />
+<text x="1043.0" y="124.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="middle" >FASE 5</text>
+<text x="1043.0" y="144.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="middle" >Operasi &amp; skala · M26–32</text>
+<rect x="60.0" y="170.0" width="30.0" height="26.0" rx="5" fill="#0f8b8d" />
+<text x="75.0" y="188.0" font-size="13" font-weight="600" fill="#fff" text-anchor="middle" >M1</text>
+<rect x="96.0" y="170.0" width="30.0" height="26.0" rx="5" fill="#0f8b8d" />
+<text x="111.0" y="188.0" font-size="13" font-weight="600" fill="#fff" text-anchor="middle" >M2</text>
+<rect x="132.0" y="170.0" width="30.0" height="26.0" rx="5" fill="#0f8b8d" />
+<text x="147.0" y="188.0" font-size="13" font-weight="600" fill="#fff" text-anchor="middle" >M3</text>
+<rect x="168.0" y="170.0" width="30.0" height="26.0" rx="5" fill="#e63946" />
+<text x="183.0" y="188.0" font-size="13" font-weight="600" fill="#fff" text-anchor="middle" >M4</text>
+<path d="M183 215 L183 236" fill="none" stroke="#e63946" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M174 228 L183 238 L192 228" fill="none" stroke="#e63946" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<text x="183.0" y="210.0" font-size="13" font-weight="700" fill="#e63946" text-anchor="middle" >KAMU DI SINI</text>
+<text x="214.0" y="188.0" font-size="13" font-weight="700" fill="#b45f17" text-anchor="start" >← modul terakhir Fase 0</text>
+<rect x="60.0" y="250.0" width="1080.0" height="150.0" rx="12" fill="#fff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="80.0" y="280.0" font-size="17" font-weight="700" fill="#1e2a4a" text-anchor="start" >Modul 4 minggu ini (±8–10 jam, dicicil; tanpa perangkat keras):</text>
+<text x="1120.0" y="280.0" font-size="14" font-weight="700" fill="#b45f17" text-anchor="end" >⭐ = wajib untuk lulus</text>
+<circle cx="90.0" cy="310.0" r="10" fill="#0f8b8d" />
+<text x="90.0" y="315.0" font-size="12" font-weight="700" fill="#fff" text-anchor="middle" >1</text>
+<text x="110.0" y="315.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >Kemenangan Cepat: JavaScript di Console browser</text>
+<circle cx="90.0" cy="340.0" r="10" fill="#0f8b8d" />
+<text x="90.0" y="345.0" font-size="12" font-weight="700" fill="#fff" text-anchor="middle" >2</text>
+<text x="110.0" y="345.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >Praktik 1–3: pasang VS Code &amp; Node.js, terminal, halo.js</text>
+<circle cx="90.0" cy="370.0" r="10" fill="#0f8b8d" />
+<text x="90.0" y="375.0" font-size="12" font-weight="700" fill="#fff" text-anchor="middle" >3</text>
+<text x="110.0" y="375.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >Praktik 4–5: data sensor palsu → statistik ⭐</text>
+<circle cx="630.0" cy="310.0" r="10" fill="#0f8b8d" />
+<text x="630.0" y="315.0" font-size="12" font-weight="700" fill="#fff" text-anchor="middle" >4</text>
+<text x="650.0" y="315.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >Praktik 6–7: menunggu dengan await ⭐ · library dari npm</text>
+<circle cx="630.0" cy="340.0" r="10" fill="#0f8b8d" />
+<text x="630.0" y="345.0" font-size="12" font-weight="700" fill="#fff" text-anchor="middle" >5</text>
+<text x="650.0" y="345.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >Praktik 8–9: cuaca dari internet · server mini ⭐</text>
+<circle cx="630.0" cy="370.0" r="10" fill="#0f8b8d" />
+<text x="630.0" y="375.0" font-size="12" font-weight="700" fill="#fff" text-anchor="middle" >6</text>
+<text x="650.0" y="375.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >Praktik 10: simpan ke GitHub → checkpoint Fase 0 ⭐</text>
+<text x="1178.0" y="416.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

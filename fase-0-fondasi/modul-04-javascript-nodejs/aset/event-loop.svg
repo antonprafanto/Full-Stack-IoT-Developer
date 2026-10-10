@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="740" viewBox="0 0 1200 740" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="740" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Event loop: satu koki, satu papan pesanan</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Node.js mengerjakan kodemu dengan satu jalur kerja, tetapi tidak pernah menunggu sambil diam (disederhanakan)</text>
+<rect x="80.0" y="120.0" width="420.0" height="230.0" rx="14" fill="#ffffff" stroke="#c99a06" stroke-width="2.5" />
+<text x="290.0" y="152.0" font-size="17" font-weight="800" fill="#1e2a4a" text-anchor="middle" >KOKI = Node.js (satu jalur kerja)</text>
+<circle cx="160.0" cy="236.0" r="34" fill="#f7d9b8" stroke="#8a6a4a" stroke-width="2" />
+<path d="M126 214 C120 180 200 180 194 214 Z" fill="#ffffff" stroke="#4a5568" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="130.0" y="206.0" width="60.0" height="12.0" rx="4" fill="#ffffff" stroke="#4a5568" stroke-width="2" />
+<circle cx="148.0" cy="236.0" r="3.5" fill="#1e2a4a" />
+<circle cx="172.0" cy="236.0" r="3.5" fill="#1e2a4a" />
+<path d="M148 252 Q160 262 172 252" fill="none" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="128.0" y="272.0" width="64.0" height="56.0" rx="10" fill="#ffffff" stroke="#4a5568" stroke-width="2" />
+<text x="330.0" y="206.0" font-size="15" font-weight="700" fill="#1e2a4a" text-anchor="middle" >mengerjakan kode biasa</text>
+<text x="330.0" y="228.0" font-size="15" font-weight="700" fill="#1e2a4a" text-anchor="middle" >dari atas ke bawah,</text>
+<text x="330.0" y="250.0" font-size="15" font-weight="700" fill="#1e2a4a" text-anchor="middle" >sampai habis</text>
+<text x="330.0" y="292.0" font-size="14" font-weight="700" fill="#4a5568" text-anchor="middle" >pekerjaan lama →</text>
+<text x="330.0" y="312.0" font-size="14" font-weight="700" fill="#4a5568" text-anchor="middle" >diserahkan ke asisten</text>
+<rect x="700.0" y="120.0" width="420.0" height="230.0" rx="14" fill="#ffffff" stroke="#3a6fc4" stroke-width="2.5" />
+<text x="910.0" y="152.0" font-size="16" font-weight="800" fill="#3a6fc4" text-anchor="middle" >ASISTEN (sistem operasi &amp; library Node.js)</text>
+<rect x="728.0" y="178.0" width="364.0" height="42.0" rx="8" fill="#f3f7ff" stroke="#3a6fc4" stroke-width="1.5" />
+<text x="748.0" y="205.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="start" >timer</text>
+<text x="1072.0" y="205.0" font-size="13.5" font-weight="700" fill="#4a5568" text-anchor="end" >setTimeout, setInterval</text>
+<rect x="728.0" y="230.0" width="364.0" height="42.0" rx="8" fill="#f3f7ff" stroke="#3a6fc4" stroke-width="1.5" />
+<text x="748.0" y="257.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="start" >file</text>
+<text x="1072.0" y="257.0" font-size="13.5" font-weight="700" fill="#4a5568" text-anchor="end" >readFile, writeFile</text>
+<rect x="728.0" y="282.0" width="364.0" height="42.0" rx="8" fill="#f3f7ff" stroke="#3a6fc4" stroke-width="1.5" />
+<text x="748.0" y="309.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="start" >jaringan</text>
+<text x="1072.0" y="309.0" font-size="13.5" font-weight="700" fill="#4a5568" text-anchor="end" >fetch, server</text>
+<line x1="504.0" y1="300.0" x2="694.0" y2="300.0" stroke="#3a6fc4" stroke-width="3" stroke-linecap="round" />
+<path d="M684.3 305.2 L694.0 300.0 L684.3 294.8" fill="none" stroke="#3a6fc4" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<text x="600.0" y="290.0" font-size="13.5" font-weight="700" fill="#3a6fc4" text-anchor="middle" >serahkan</text>
+<rect x="80.0" y="400.0" width="1040.0" height="190.0" rx="14" fill="#fffdf2" stroke="#e0c25c" stroke-width="2.5" />
+<text x="600.0" y="430.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" >PAPAN PESANAN — asisten menempelkan catatan setiap kali sebuah pekerjaan selesai</text>
+<rect x="110.0" y="448.0" width="470.0" height="120.0" rx="10" fill="#ffffff" stroke="#2a9d5c" stroke-width="2" />
+<text x="345.0" y="474.0" font-size="14.5" font-weight="800" fill="#2a9d5c" text-anchor="middle" >antrean janji (Promise) — didahulukan</text>
+<rect x="620.0" y="448.0" width="470.0" height="120.0" rx="10" fill="#ffffff" stroke="#b45f17" stroke-width="2" />
+<text x="855.0" y="474.0" font-size="14.5" font-weight="800" fill="#b45f17" text-anchor="middle" >antrean timer &amp; kejadian lain</text>
+<rect x="130.0" y="492.0" width="132.0" height="56.0" rx="6" fill="#eef8f2" stroke="#2a9d5c" stroke-width="1.5" />
+<text x="196.0" y="525.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="middle" >janji ditepati</text>
+<rect x="640.0" y="492.0" width="132.0" height="56.0" rx="6" fill="#fff4e8" stroke="#b45f17" stroke-width="1.5" />
+<text x="706.0" y="525.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="middle" >timer 2 detik</text>
+<rect x="278.0" y="492.0" width="132.0" height="56.0" rx="6" fill="#eef8f2" stroke="#2a9d5c" stroke-width="1.5" />
+<text x="344.0" y="525.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="middle" >sesudah await</text>
+<rect x="788.0" y="492.0" width="132.0" height="56.0" rx="6" fill="#fff4e8" stroke="#b45f17" stroke-width="1.5" />
+<text x="854.0" y="525.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="middle" >kiriman masuk</text>
+<rect x="426.0" y="492.0" width="132.0" height="56.0" rx="6" fill="#eef8f2" stroke="#2a9d5c" stroke-width="1.5" />
+<text x="492.0" y="525.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="middle" >Promise.then(…)</text>
+<rect x="936.0" y="492.0" width="132.0" height="56.0" rx="6" fill="#fff4e8" stroke="#b45f17" stroke-width="1.5" />
+<text x="1002.0" y="525.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="middle" >file selesai dibaca</text>
+<line x1="910.0" y1="354.0" x2="910.0" y2="396.0" stroke="#b45f17" stroke-width="2.5" stroke-linecap="round" />
+<path d="M905.3 387.2 L910.0 396.0 L914.7 387.2" fill="none" stroke="#b45f17" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<text x="922.0" y="382.0" font-size="13" font-weight="700" fill="#b45f17" text-anchor="start" >asisten menempelkan catatan</text>
+<line x1="290.0" y1="396.0" x2="290.0" y2="354.0" stroke="#2a9d5c" stroke-width="2.5" stroke-linecap="round" />
+<path d="M294.7 362.8 L290.0 354.0 L285.3 362.8" fill="none" stroke="#2a9d5c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<text x="302.0" y="382.0" font-size="13" font-weight="700" fill="#2a9d5c" text-anchor="start" >koki mengambil catatan</text>
+<rect x="80.0" y="608.0" width="230.0" height="62.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="195.0" y="634.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" >1. kerjakan kode biasa</text>
+<text x="195.0" y="656.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" >sampai habis</text>
+<line x1="314.0" y1="639.0" x2="342.0" y2="639.0" stroke="#8a8f9c" stroke-width="2.5" stroke-linecap="round" />
+<path d="M334.9 642.8 L342.0 639.0 L334.9 635.2" fill="none" stroke="#8a8f9c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="346.0" y="608.0" width="230.0" height="62.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="461.0" y="634.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" >2. ambil SEMUA</text>
+<text x="461.0" y="656.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" >catatan janji</text>
+<line x1="580.0" y1="639.0" x2="608.0" y2="639.0" stroke="#8a8f9c" stroke-width="2.5" stroke-linecap="round" />
+<path d="M600.9 642.8 L608.0 639.0 L600.9 635.2" fill="none" stroke="#8a8f9c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="612.0" y="608.0" width="230.0" height="62.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="727.0" y="634.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" >3. ambil SATU catatan</text>
+<text x="727.0" y="656.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" >timer/kejadian</text>
+<line x1="846.0" y1="639.0" x2="874.0" y2="639.0" stroke="#8a8f9c" stroke-width="2.5" stroke-linecap="round" />
+<path d="M866.9 642.8 L874.0 639.0 L866.9 635.2" fill="none" stroke="#8a8f9c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="878.0" y="608.0" width="230.0" height="62.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="993.0" y="634.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" >4. ulangi dari</text>
+<text x="993.0" y="656.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" >langkah 2</text>
+<path d="M1003 670 C1003 700 1003 704 900 704 L470 704 C440 704 426 700 426 680" fill="none" stroke="#8a8f9c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="426.0" y1="684.0" x2="426.0" y2="673.0" stroke="#8a8f9c" stroke-width="2.5" stroke-linecap="round" />
+<path d="M430.2 680.9 L426.0 673.0 L421.8 680.9" fill="none" stroke="#8a8f9c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="615.0" y="690.0" width="200.0" height="20.0" rx="0" fill="#fffdf7" />
+<text x="715.0" y="705.0" font-size="13" font-weight="700" fill="#8a8f9c" text-anchor="middle" >putaran (loop) terus berulang</text>
+<text x="1178.0" y="726.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

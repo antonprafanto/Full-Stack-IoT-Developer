@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="720" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >HTTP: surat-menyurat antarprogram</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Contoh Praktik 9 — dua program di satu laptop, berbicara lewat localhost</text>
+<rect x="60.0" y="120.0" width="300.0" height="300.0" rx="14" fill="#ffffff" stroke="#3a6fc4" stroke-width="2.5" />
+<rect x="60.0" y="120.0" width="300.0" height="48.0" rx="14" fill="#e6eefb" />
+<rect x="60.0" y="152.0" width="300.0" height="16.0" rx="0" fill="#e6eefb" />
+<path d="M76 132 L89 132 L95 138 L95 156 L76 156 Z" fill="#ffffff" stroke="#4a5568" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+<text x="85.5" y="150.0" font-size="8.5" font-weight="800" fill="#c99a06" text-anchor="middle" >JS</text>
+<text x="106.0" y="151.0" font-size="16.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >kirim-data.js</text>
+<text x="210.0" y="196.0" font-size="14" font-weight="700" fill="#3a6fc4" text-anchor="middle" >KLIEN (si peminta)</text>
+<text x="210.0" y="240.0" font-size="13.5" font-weight="400" fill="#4a5568" text-anchor="middle" >menjalankan</text>
+<text x="210.0" y="262.0" font-size="14" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">fetch(ALAMAT, {…})</text>
+<text x="210.0" y="300.0" font-size="13.5" font-weight="400" fill="#4a5568" text-anchor="middle" >nanti (Modul 10):</text>
+<text x="210.0" y="322.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="middle" >ESP32 yang mengirim</text>
+<rect x="840.0" y="120.0" width="300.0" height="300.0" rx="14" fill="#ffffff" stroke="#0f8b8d" stroke-width="2.5" />
+<rect x="840.0" y="120.0" width="300.0" height="48.0" rx="14" fill="#e3f4f4" />
+<rect x="840.0" y="152.0" width="300.0" height="16.0" rx="0" fill="#e3f4f4" />
+<path d="M856 132 L869 132 L875 138 L875 156 L856 156 Z" fill="#ffffff" stroke="#4a5568" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+<text x="865.5" y="150.0" font-size="8.5" font-weight="800" fill="#c99a06" text-anchor="middle" >JS</text>
+<text x="886.0" y="151.0" font-size="16.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >penerima-webhook.js</text>
+<text x="990.0" y="196.0" font-size="14" font-weight="700" fill="#0f8b8d" text-anchor="middle" >SERVER (si penjawab)</text>
+<text x="990.0" y="240.0" font-size="13.5" font-weight="400" fill="#4a5568" text-anchor="middle" >berjaga di</text>
+<rect x="925.0" y="252.0" width="130.0" height="36.0" rx="8" fill="#1b1f27" />
+<text x="990.0" y="276.0" font-size="15" font-weight="800" fill="#ffd166" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">loket 3000</text>
+<text x="990.0" y="318.0" font-size="13.5" font-weight="400" fill="#1e2a4a" text-anchor="middle" >mencetak isi kiriman,</text>
+<text x="990.0" y="338.0" font-size="13.5" font-weight="400" fill="#1e2a4a" text-anchor="middle" >lalu membalas</text>
+<rect x="400.0" y="120.0" width="400.0" height="140.0" rx="8" fill="#f3f7ff" stroke="#3a6fc4" stroke-width="2" />
+<path d="M400 120 L428 138 L456 120" fill="none" stroke="#3a6fc4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="600.0" y="146.0" font-size="14.5" font-weight="800" fill="#3a6fc4" text-anchor="middle" >PERMINTAAN (request)  →</text>
+<text x="418.0" y="172.0" font-size="13.5" font-weight="700" fill="#4a5568" text-anchor="start" >method</text>
+<text x="512.0" y="172.0" font-size="13.5" font-weight="700" fill="#3a6fc4" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">POST</text>
+<text x="418.0" y="195.0" font-size="13.5" font-weight="700" fill="#4a5568" text-anchor="start" >jalur</text>
+<text x="512.0" y="195.0" font-size="13.5" font-weight="700" fill="#3a6fc4" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">/telemetry</text>
+<text x="418.0" y="218.0" font-size="13.5" font-weight="700" fill="#4a5568" text-anchor="start" >headers</text>
+<text x="512.0" y="218.0" font-size="13.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">Content-Type: application/json</text>
+<text x="418.0" y="241.0" font-size="13.5" font-weight="700" fill="#4a5568" text-anchor="start" >body</text>
+<text x="512.0" y="241.0" font-size="13.5" font-weight="700" fill="#b45f17" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">{"ts":"…","suhu":32.8,…}</text>
+<line x1="362.0" y1="186.0" x2="398.0" y2="186.0" stroke="#3a6fc4" stroke-width="3" stroke-linecap="round" />
+<path d="M389.2 190.7 L398.0 186.0 L389.2 181.3" fill="none" stroke="#3a6fc4" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="802.0" y1="186.0" x2="836.0" y2="186.0" stroke="#3a6fc4" stroke-width="3" stroke-linecap="round" />
+<path d="M827.2 190.7 L836.0 186.0 L827.2 181.3" fill="none" stroke="#3a6fc4" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="400.0" y="286.0" width="400.0" height="132.0" rx="8" fill="#f1fbfb" stroke="#0f8b8d" stroke-width="2" />
+<path d="M400 286 L428 304 L456 286" fill="none" stroke="#0f8b8d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="600.0" y="312.0" font-size="14.5" font-weight="800" fill="#0f8b8d" text-anchor="middle" >←  JAWABAN (response)</text>
+<text x="418.0" y="338.0" font-size="13.5" font-weight="700" fill="#4a5568" text-anchor="start" >status</text>
+<text x="512.0" y="338.0" font-size="13.5" font-weight="700" fill="#2a9d5c" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">200 OK</text>
+<text x="418.0" y="361.0" font-size="13.5" font-weight="700" fill="#4a5568" text-anchor="start" >headers</text>
+<text x="512.0" y="361.0" font-size="13.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">Content-Type: application/json</text>
+<text x="418.0" y="384.0" font-size="13.5" font-weight="700" fill="#4a5568" text-anchor="start" >body</text>
+<text x="512.0" y="384.0" font-size="13.5" font-weight="700" fill="#b45f17" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">{"ok":true}</text>
+<line x1="838.0" y1="352.0" x2="802.0" y2="352.0" stroke="#0f8b8d" stroke-width="3" stroke-linecap="round" />
+<path d="M810.8 347.3 L802.0 352.0 L810.8 356.7" fill="none" stroke="#0f8b8d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="398.0" y1="352.0" x2="362.0" y2="352.0" stroke="#0f8b8d" stroke-width="3" stroke-linecap="round" />
+<path d="M370.8 347.3 L362.0 352.0 L370.8 356.7" fill="none" stroke="#0f8b8d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="60.0" y="450.0" width="1080.0" height="220.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="84.0" y="480.0" font-size="17" font-weight="800" fill="#1e2a4a" text-anchor="start" >Membaca alamat (URL):</text>
+<text x="320.1" y="540.0" font-size="30" font-weight="800" fill="#b45f17" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">http://</text>
+<line x1="323.1" y1="552.0" x2="443.5" y2="552.0" stroke="#b45f17" stroke-width="3" stroke-linecap="round" />
+<text x="383.3" y="584.0" font-size="15" font-weight="800" fill="#b45f17" text-anchor="middle" >protokol</text>
+<text x="383.3" y="606.0" font-size="13.5" font-weight="700" fill="#4a5568" text-anchor="middle" >"bahasa surat"</text>
+<text x="446.5" y="540.0" font-size="30" font-weight="800" fill="#e63946" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">localhost</text>
+<line x1="449.5" y1="552.0" x2="606.0" y2="552.0" stroke="#e63946" stroke-width="3" stroke-linecap="round" />
+<text x="527.8" y="584.0" font-size="15" font-weight="800" fill="#e63946" text-anchor="middle" >nama komputer</text>
+<text x="527.8" y="606.0" font-size="13.5" font-weight="700" fill="#4a5568" text-anchor="middle" >"komputer ini sendiri"</text>
+<text x="609.0" y="540.0" font-size="30" font-weight="800" fill="#3a6fc4" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">:3000</text>
+<line x1="612.0" y1="552.0" x2="696.3" y2="552.0" stroke="#3a6fc4" stroke-width="3" stroke-linecap="round" />
+<text x="654.2" y="584.0" font-size="15" font-weight="800" fill="#3a6fc4" text-anchor="middle" >nomor port</text>
+<text x="654.2" y="606.0" font-size="13.5" font-weight="700" fill="#4a5568" text-anchor="middle" >"nomor loket"</text>
+<text x="699.3" y="540.0" font-size="30" font-weight="800" fill="#2a9d5c" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">/telemetry</text>
+<line x1="702.3" y1="552.0" x2="876.9" y2="552.0" stroke="#2a9d5c" stroke-width="3" stroke-linecap="round" />
+<text x="789.6" y="584.0" font-size="15" font-weight="800" fill="#2a9d5c" text-anchor="middle" >jalur</text>
+<text x="789.6" y="606.0" font-size="13.5" font-weight="700" fill="#4a5568" text-anchor="middle" >bagian yang dituju</text>
+<text x="600.0" y="648.0" font-size="14" font-weight="700" fill="#1e2a4a" text-anchor="middle" >Satu loket hanya untuk satu program. Kode status lain: 404 = alamat tidak ada · 500 = server bermasalah.</text>
+<text x="1178.0" y="706.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

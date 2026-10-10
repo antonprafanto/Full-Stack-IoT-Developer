@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="806" viewBox="0 0 1200 806" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="806" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Membaca pesan error Node.js</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Keluaran asli Node.js 24.21.0 (Praktik 3.4, kesalahan nomor 1: nama ditulis nma)</text>
+<rect x="60.0" y="108.0" width="1080.0" height="340.0" rx="12" fill="#1b1f27" />
+<text x="130.0" y="142.0" font-size="14.2" font-weight="400" fill="#8fe3a8" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">Halo, Node.js!</text>
+<text x="130.0" y="167.0" font-size="14.2" font-weight="700" fill="#ffffff" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">C:\Users\Ani\Documents\GitHub\belajar-iot\modul-04\halo.js:8</text>
+<text x="130.0" y="192.0" font-size="14.2" font-weight="400" fill="#cfd6e2" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">console.log("Namaku " + nma + ".");</text>
+<text x="130.0" y="217.0" font-size="14.2" font-weight="800" fill="#ff6b6b" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">                        ^</text>
+<text x="130.0" y="242.0" font-size="14.2" font-weight="400" fill="#cfd6e2" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve"></text>
+<text x="130.0" y="267.0" font-size="14.2" font-weight="700" fill="#ffffff" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">ReferenceError: nma is not defined</text>
+<text x="130.0" y="292.0" font-size="14.2" font-weight="400" fill="#cfd6e2" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">    at Object.&lt;anonymous&gt; (C:\Users\Ani\Documents\GitHub\belajar-iot\modul-04\halo.js:8:25)</text>
+<text x="130.0" y="317.0" font-size="14.2" font-weight="400" fill="#6f7a8c" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">    at Module._compile (node:internal/modules/cjs/loader:1929:14)</text>
+<text x="130.0" y="342.0" font-size="14.2" font-weight="400" fill="#6f7a8c" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">    at Object..js (node:internal/modules/cjs/loader:2060:10)</text>
+<text x="130.0" y="367.0" font-size="14.2" font-weight="400" fill="#6f7a8c" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">    … (lima baris node:internal lagi)</text>
+<text x="130.0" y="392.0" font-size="14.2" font-weight="400" fill="#cfd6e2" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve"></text>
+<text x="130.0" y="417.0" font-size="14.2" font-weight="400" fill="#cfd6e2" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">Node.js v24.21.0</text>
+<line x1="130.0" y1="173.0" x2="642.9" y2="173.0" stroke="#f4a261" stroke-width="2.5" stroke-linecap="round" />
+<circle cx="94.0" cy="162.0" r="13" fill="#f4a261" stroke="#ffffff" stroke-width="2" />
+<text x="94.0" y="167.0" font-size="14" font-weight="700" fill="#1b1f27" text-anchor="middle" >1</text>
+<line x1="130.0" y1="198.0" x2="429.2" y2="198.0" stroke="#ffd166" stroke-width="2.5" stroke-linecap="round" />
+<circle cx="94.0" cy="187.0" r="13" fill="#ffd166" stroke="#ffffff" stroke-width="2" />
+<text x="94.0" y="192.0" font-size="14" font-weight="700" fill="#1b1f27" text-anchor="middle" >2</text>
+<line x1="130.0" y1="273.0" x2="420.6" y2="273.0" stroke="#ff6b6b" stroke-width="2.5" stroke-linecap="round" />
+<circle cx="94.0" cy="262.0" r="13" fill="#ff6b6b" stroke="#ffffff" stroke-width="2" />
+<text x="94.0" y="267.0" font-size="14" font-weight="700" fill="#1b1f27" text-anchor="middle" >3</text>
+<line x1="796.8" y1="298.0" x2="899.4" y2="298.0" stroke="#a0c4ff" stroke-width="2.5" stroke-linecap="round" />
+<circle cx="94.0" cy="287.0" r="13" fill="#a0c4ff" stroke="#ffffff" stroke-width="2" />
+<text x="94.0" y="292.0" font-size="14" font-weight="700" fill="#1b1f27" text-anchor="middle" >4</text>
+<line x1="130.0" y1="423.0" x2="266.8" y2="423.0" stroke="#8fe3a8" stroke-width="2.5" stroke-linecap="round" />
+<circle cx="94.0" cy="412.0" r="13" fill="#8fe3a8" stroke="#ffffff" stroke-width="2" />
+<text x="94.0" y="417.0" font-size="14" font-weight="700" fill="#1b1f27" text-anchor="middle" >5</text>
+<text x="270.2" y="142.0" font-size="13" font-weight="700" fill="#9fb0c8" text-anchor="start" >← baris 7 sudah sempat jalan sebelum error di baris 8</text>
+<text x="706.2" y="317.0" font-size="13" font-weight="700" fill="#9fb0c8" text-anchor="start" >← isi Node.js sendiri: abaikan</text>
+<text x="358.3" y="217.0" font-size="13" font-weight="700" fill="#ff9b9b" text-anchor="start" >← tanda ^ menunjuk nma (kolom 25)</text>
+<circle cx="84.0" cy="483.0" r="12" fill="#b45f17" stroke="#ffffff" stroke-width="2" />
+<text x="84.0" y="487.7" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle" >1</text>
+<text x="106.0" y="488.0" font-size="15.5" font-weight="400" fill="#1e2a4a" text-anchor="start" >alamat file dan nomor baris: halo.js, baris 8</text>
+<circle cx="84.0" cy="515.0" r="12" fill="#b8860b" stroke="#ffffff" stroke-width="2" />
+<text x="84.0" y="519.7" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle" >2</text>
+<text x="106.0" y="520.0" font-size="15.5" font-weight="400" fill="#1e2a4a" text-anchor="start" >salinan baris itu; tanda ^ menunjuk tempat masalahnya</text>
+<circle cx="84.0" cy="547.0" r="12" fill="#e63946" stroke="#ffffff" stroke-width="2" />
+<text x="84.0" y="551.7" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle" >3</text>
+<text x="106.0" y="552.0" font-size="15.5" font-weight="400" fill="#1e2a4a" text-anchor="start" >jenis error dan pesannya — BARIS TERPENTING: "nma tidak dikenal"</text>
+<circle cx="84.0" cy="579.0" r="12" fill="#3a6fc4" stroke="#ffffff" stroke-width="2" />
+<text x="84.0" y="583.7" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle" >4</text>
+<text x="106.0" y="584.0" font-size="15.5" font-weight="400" fill="#1e2a4a" text-anchor="start" >jejak panggilan: halo.js:8:25 = file halo.js, baris 8, kolom 25</text>
+<circle cx="84.0" cy="611.0" r="12" fill="#2a9d5c" stroke="#ffffff" stroke-width="2" />
+<text x="84.0" y="615.7" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle" >5</text>
+<text x="106.0" y="616.0" font-size="15.5" font-weight="400" fill="#1e2a4a" text-anchor="start" >versi Node.js — sertakan saat bertanya</text>
+<rect x="60.0" y="656.0" width="1080.0" height="110.0" rx="12" fill="#fff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="84.0" y="686.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="start" >Dua jenis error:</text>
+<text x="84.0" y="714.0" font-size="14.2" font-weight="400" fill="#1e2a4a" text-anchor="start" >SyntaxError = tata bahasa salah (tanda petik/kurung hilang): Node.js memeriksanya sebelum menjalankannya, jadi tidak ada baris yang dijalankan.</text>
+<text x="84.0" y="740.0" font-size="14.2" font-weight="400" fill="#1e2a4a" text-anchor="start" >ReferenceError, TypeError = terjadi saat berjalan: baris-baris sebelumnya sudah sempat dikerjakan, seperti "Halo, Node.js!" di atas.</text>
+<text x="1178.0" y="792.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Teks pesan: keluaran asli Node.js 24.21.0 (alamat folder disesuaikan) · Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

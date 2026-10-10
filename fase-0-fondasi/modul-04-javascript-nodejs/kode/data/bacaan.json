@@ -1,0 +1,1002 @@
+[
+  {
+    "ts": "2026-10-10T09:10:18Z",
+    "fw": "0.1.0",
+    "suhu": 29.1,
+    "kelembapan": 67,
+    "cahaya": 3416,
+    "tanah": 55,
+    "gerak": true,
+    "level_air": 86
+  },
+  {
+    "ts": "2026-10-10T09:10:28Z",
+    "fw": "0.1.0",
+    "suhu": 32.6,
+    "kelembapan": 66,
+    "cahaya": 2559,
+    "tanah": 42,
+    "gerak": false,
+    "level_air": 30
+  },
+  {
+    "ts": "2026-10-10T09:10:38Z",
+    "fw": "0.1.0",
+    "suhu": 26.3,
+    "kelembapan": 77,
+    "cahaya": 2209,
+    "tanah": 56,
+    "gerak": false,
+    "level_air": 84
+  },
+  {
+    "ts": "2026-10-10T09:10:48Z",
+    "fw": "0.1.0",
+    "suhu": 25.8,
+    "kelembapan": 78,
+    "cahaya": 3290,
+    "tanah": 58,
+    "gerak": false,
+    "level_air": 88
+  },
+  {
+    "ts": "2026-10-10T09:10:58Z",
+    "fw": "0.1.0",
+    "suhu": 29.6,
+    "kelembapan": 74,
+    "cahaya": 4024,
+    "tanah": 40,
+    "gerak": false,
+    "level_air": 31
+  },
+  {
+    "ts": "2026-10-10T09:11:08Z",
+    "fw": "0.1.0",
+    "suhu": 28.3,
+    "kelembapan": 78,
+    "cahaya": 2150,
+    "tanah": 39,
+    "gerak": false,
+    "level_air": 58
+  },
+  {
+    "ts": "2026-10-10T09:11:18Z",
+    "fw": "0.1.0",
+    "suhu": 30.4,
+    "kelembapan": 85,
+    "cahaya": 3242,
+    "tanah": 39,
+    "gerak": false,
+    "level_air": 88
+  },
+  {
+    "ts": "2026-10-10T09:11:28Z",
+    "fw": "0.1.0",
+    "suhu": 32.3,
+    "kelembapan": 78,
+    "cahaya": 3559,
+    "tanah": 49,
+    "gerak": false,
+    "level_air": 64
+  },
+  {
+    "ts": "2026-10-10T09:11:38Z",
+    "fw": "0.1.0",
+    "suhu": 29.3,
+    "kelembapan": 55,
+    "cahaya": 3978,
+    "tanah": 42,
+    "gerak": false,
+    "level_air": 30
+  },
+  {
+    "ts": "2026-10-10T09:11:48Z",
+    "fw": "0.1.0",
+    "suhu": 26.3,
+    "kelembapan": 70,
+    "cahaya": 146,
+    "tanah": 60,
+    "gerak": false,
+    "level_air": 42
+  },
+  {
+    "ts": "2026-10-10T09:11:58Z",
+    "fw": "0.1.0",
+    "suhu": 31.5,
+    "kelembapan": 79,
+    "cahaya": 3113,
+    "tanah": 56,
+    "gerak": false,
+    "level_air": 65
+  },
+  {
+    "ts": "2026-10-10T09:12:08Z",
+    "fw": "0.1.0",
+    "suhu": 30,
+    "kelembapan": 83,
+    "cahaya": 1389,
+    "tanah": 38,
+    "gerak": false,
+    "level_air": 65
+  },
+  {
+    "ts": "2026-10-10T09:12:18Z",
+    "fw": "0.1.0",
+    "suhu": 25.9,
+    "kelembapan": 69,
+    "cahaya": 1291,
+    "tanah": 28,
+    "gerak": false,
+    "level_air": 49
+  },
+  {
+    "ts": "2026-10-10T09:12:28Z",
+    "fw": "0.1.0",
+    "suhu": 31.5,
+    "kelembapan": 65,
+    "cahaya": 1021,
+    "tanah": 42,
+    "gerak": false,
+    "level_air": 30
+  },
+  {
+    "ts": "2026-10-10T09:12:38Z",
+    "fw": "0.1.0",
+    "suhu": 25.3,
+    "kelembapan": 66,
+    "cahaya": 3055,
+    "tanah": 41,
+    "gerak": false,
+    "level_air": 52
+  },
+  {
+    "ts": "2026-10-10T09:12:48Z",
+    "fw": "0.1.0",
+    "suhu": 27.1,
+    "kelembapan": 61,
+    "cahaya": 716,
+    "tanah": 24,
+    "gerak": false,
+    "level_air": 90
+  },
+  {
+    "ts": "2026-10-10T09:12:58Z",
+    "fw": "0.1.0",
+    "suhu": 26.3,
+    "kelembapan": 81,
+    "cahaya": 1301,
+    "tanah": 20,
+    "gerak": false,
+    "level_air": 62
+  },
+  {
+    "ts": "2026-10-10T09:13:08Z",
+    "fw": "0.1.0",
+    "suhu": 30.7,
+    "kelembapan": 85,
+    "cahaya": 1702,
+    "tanah": 57,
+    "gerak": false,
+    "level_air": 70
+  },
+  {
+    "ts": "2026-10-10T09:13:18Z",
+    "fw": "0.1.0",
+    "suhu": 28.7,
+    "kelembapan": 61,
+    "cahaya": 1290,
+    "tanah": 53,
+    "gerak": false,
+    "level_air": 71
+  },
+  {
+    "ts": "2026-10-10T09:13:28Z",
+    "fw": "0.1.0",
+    "suhu": 29.4,
+    "kelembapan": 75,
+    "cahaya": 3647,
+    "tanah": 27,
+    "gerak": true,
+    "level_air": 65
+  },
+  {
+    "ts": "2026-10-10T09:13:38Z",
+    "fw": "0.1.0",
+    "suhu": 26.5,
+    "kelembapan": 78,
+    "cahaya": 3376,
+    "tanah": 58,
+    "gerak": true,
+    "level_air": 39
+  },
+  {
+    "ts": "2026-10-10T09:13:48Z",
+    "fw": "0.1.0",
+    "suhu": 29.6,
+    "kelembapan": 78,
+    "cahaya": 3211,
+    "tanah": 24,
+    "gerak": false,
+    "level_air": 64
+  },
+  {
+    "ts": "2026-10-10T09:13:58Z",
+    "fw": "0.1.0",
+    "suhu": 26.3,
+    "kelembapan": 57,
+    "cahaya": 1256,
+    "tanah": 48,
+    "gerak": false,
+    "level_air": 55
+  },
+  {
+    "ts": "2026-10-10T09:14:08Z",
+    "fw": "0.1.0",
+    "suhu": 27.1,
+    "kelembapan": 70,
+    "cahaya": 1151,
+    "tanah": 43,
+    "gerak": false,
+    "level_air": 78
+  },
+  {
+    "ts": "2026-10-10T09:14:18Z",
+    "fw": "0.1.0",
+    "suhu": 26.4,
+    "kelembapan": 84,
+    "cahaya": 3743,
+    "tanah": 52,
+    "gerak": false,
+    "level_air": 89
+  },
+  {
+    "ts": "2026-10-10T09:14:28Z",
+    "fw": "0.1.0",
+    "suhu": 31.3,
+    "kelembapan": 67,
+    "cahaya": 2874,
+    "tanah": 54,
+    "gerak": false,
+    "level_air": 45
+  },
+  {
+    "ts": "2026-10-10T09:14:38Z",
+    "fw": "0.1.0",
+    "suhu": 25.2,
+    "kelembapan": 78,
+    "cahaya": 943,
+    "tanah": 20,
+    "gerak": false,
+    "level_air": 73
+  },
+  {
+    "ts": "2026-10-10T09:14:48Z",
+    "fw": "0.1.0",
+    "suhu": 29.7,
+    "kelembapan": 66,
+    "cahaya": 689,
+    "tanah": 55,
+    "gerak": true,
+    "level_air": 89
+  },
+  {
+    "ts": "2026-10-10T09:14:58Z",
+    "fw": "0.1.0",
+    "suhu": 26.3,
+    "kelembapan": 58,
+    "cahaya": 546,
+    "tanah": 32,
+    "gerak": false,
+    "level_air": 32
+  },
+  {
+    "ts": "2026-10-10T09:15:08Z",
+    "fw": "0.1.0",
+    "suhu": 26,
+    "kelembapan": 74,
+    "cahaya": 2024,
+    "tanah": 26,
+    "gerak": false,
+    "level_air": 58
+  },
+  {
+    "ts": "2026-10-10T09:15:18Z",
+    "fw": "0.1.0",
+    "suhu": 31.9,
+    "kelembapan": 55,
+    "cahaya": 3302,
+    "tanah": 39,
+    "gerak": false,
+    "level_air": 49
+  },
+  {
+    "ts": "2026-10-10T09:15:28Z",
+    "fw": "0.1.0",
+    "suhu": 28,
+    "kelembapan": 84,
+    "cahaya": 709,
+    "tanah": 42,
+    "gerak": false,
+    "level_air": 88
+  },
+  {
+    "ts": "2026-10-10T09:15:38Z",
+    "fw": "0.1.0",
+    "suhu": 27,
+    "kelembapan": 76,
+    "cahaya": 1521,
+    "tanah": 47,
+    "gerak": false,
+    "level_air": 87
+  },
+  {
+    "ts": "2026-10-10T09:15:48Z",
+    "fw": "0.1.0",
+    "suhu": 31,
+    "kelembapan": 74,
+    "cahaya": 4003,
+    "tanah": 46,
+    "gerak": false,
+    "level_air": 88
+  },
+  {
+    "ts": "2026-10-10T09:15:58Z",
+    "fw": "0.1.0",
+    "suhu": 30.4,
+    "kelembapan": 75,
+    "cahaya": 4022,
+    "tanah": 51,
+    "gerak": false,
+    "level_air": 43
+  },
+  {
+    "ts": "2026-10-10T09:16:08Z",
+    "fw": "0.1.0",
+    "suhu": 27.9,
+    "kelembapan": 66,
+    "cahaya": 2263,
+    "tanah": 55,
+    "gerak": false,
+    "level_air": 90
+  },
+  {
+    "ts": "2026-10-10T09:16:18Z",
+    "fw": "0.1.0",
+    "suhu": 29.6,
+    "kelembapan": 71,
+    "cahaya": 1471,
+    "tanah": 25,
+    "gerak": false,
+    "level_air": 81
+  },
+  {
+    "ts": "2026-10-10T09:16:28Z",
+    "fw": "0.1.0",
+    "suhu": 28.9,
+    "kelembapan": 60,
+    "cahaya": 2219,
+    "tanah": 35,
+    "gerak": false,
+    "level_air": 34
+  },
+  {
+    "ts": "2026-10-10T09:16:38Z",
+    "fw": "0.1.0",
+    "suhu": 28.1,
+    "kelembapan": 67,
+    "cahaya": 1121,
+    "tanah": 30,
+    "gerak": false,
+    "level_air": 35
+  },
+  {
+    "ts": "2026-10-10T09:16:48Z",
+    "fw": "0.1.0",
+    "suhu": 32.5,
+    "kelembapan": 75,
+    "cahaya": 3514,
+    "tanah": 52,
+    "gerak": false,
+    "level_air": 38
+  },
+  {
+    "ts": "2026-10-10T09:16:58Z",
+    "fw": "0.1.0",
+    "suhu": 28.1,
+    "kelembapan": 63,
+    "cahaya": 2940,
+    "tanah": 60,
+    "gerak": false,
+    "level_air": 56
+  },
+  {
+    "ts": "2026-10-10T09:17:08Z",
+    "fw": "0.1.0",
+    "suhu": 31.5,
+    "kelembapan": 72,
+    "cahaya": 2784,
+    "tanah": 49,
+    "gerak": false,
+    "level_air": 70
+  },
+  {
+    "ts": "2026-10-10T09:17:18Z",
+    "fw": "0.1.0",
+    "suhu": 27.3,
+    "kelembapan": 66,
+    "cahaya": 239,
+    "tanah": 58,
+    "gerak": false,
+    "level_air": 69
+  },
+  {
+    "ts": "2026-10-10T09:17:28Z",
+    "fw": "0.1.0",
+    "suhu": 31.9,
+    "kelembapan": 74,
+    "cahaya": 1814,
+    "tanah": 41,
+    "gerak": true,
+    "level_air": 36
+  },
+  {
+    "ts": "2026-10-10T09:17:38Z",
+    "fw": "0.1.0",
+    "suhu": 26.8,
+    "kelembapan": 65,
+    "cahaya": 2155,
+    "tanah": 59,
+    "gerak": false,
+    "level_air": 37
+  },
+  {
+    "ts": "2026-10-10T09:17:48Z",
+    "fw": "0.1.0",
+    "suhu": 32.5,
+    "kelembapan": 79,
+    "cahaya": 2277,
+    "tanah": 48,
+    "gerak": false,
+    "level_air": 57
+  },
+  {
+    "ts": "2026-10-10T09:17:58Z",
+    "fw": "0.1.0",
+    "suhu": 28.4,
+    "kelembapan": 68,
+    "cahaya": 2262,
+    "tanah": 38,
+    "gerak": false,
+    "level_air": 37
+  },
+  {
+    "ts": "2026-10-10T09:18:08Z",
+    "fw": "0.1.0",
+    "suhu": 28.8,
+    "kelembapan": 66,
+    "cahaya": 1870,
+    "tanah": 36,
+    "gerak": false,
+    "level_air": 36
+  },
+  {
+    "ts": "2026-10-10T09:18:18Z",
+    "fw": "0.1.0",
+    "suhu": 28.1,
+    "kelembapan": 69,
+    "cahaya": 1034,
+    "tanah": 57,
+    "gerak": false,
+    "level_air": 68
+  },
+  {
+    "ts": "2026-10-10T09:18:28Z",
+    "fw": "0.1.0",
+    "suhu": 31.3,
+    "kelembapan": 69,
+    "cahaya": 269,
+    "tanah": 34,
+    "gerak": false,
+    "level_air": 66
+  },
+  {
+    "ts": "2026-10-10T09:18:38Z",
+    "fw": "0.1.0",
+    "suhu": 25.9,
+    "kelembapan": 56,
+    "cahaya": 2939,
+    "tanah": 44,
+    "gerak": false,
+    "level_air": 62
+  },
+  {
+    "ts": "2026-10-10T09:18:48Z",
+    "fw": "0.1.0",
+    "suhu": 33,
+    "kelembapan": 76,
+    "cahaya": 2656,
+    "tanah": 28,
+    "gerak": false,
+    "level_air": 86
+  },
+  {
+    "ts": "2026-10-10T09:18:58Z",
+    "fw": "0.1.0",
+    "suhu": 29.4,
+    "kelembapan": 85,
+    "cahaya": 981,
+    "tanah": 53,
+    "gerak": false,
+    "level_air": 37
+  },
+  {
+    "ts": "2026-10-10T09:19:08Z",
+    "fw": "0.1.0",
+    "suhu": 25.5,
+    "kelembapan": 77,
+    "cahaya": 3423,
+    "tanah": 53,
+    "gerak": false,
+    "level_air": 58
+  },
+  {
+    "ts": "2026-10-10T09:19:18Z",
+    "fw": "0.1.0",
+    "suhu": 29.4,
+    "kelembapan": 62,
+    "cahaya": 2554,
+    "tanah": 32,
+    "gerak": false,
+    "level_air": 87
+  },
+  {
+    "ts": "2026-10-10T09:19:28Z",
+    "fw": "0.1.0",
+    "suhu": 25.3,
+    "kelembapan": 57,
+    "cahaya": 3996,
+    "tanah": 54,
+    "gerak": false,
+    "level_air": 54
+  },
+  {
+    "ts": "2026-10-10T09:19:38Z",
+    "fw": "0.1.0",
+    "suhu": 29.6,
+    "kelembapan": 80,
+    "cahaya": 1873,
+    "tanah": 42,
+    "gerak": false,
+    "level_air": 49
+  },
+  {
+    "ts": "2026-10-10T09:19:48Z",
+    "fw": "0.1.0",
+    "suhu": 31.7,
+    "kelembapan": 81,
+    "cahaya": 990,
+    "tanah": 44,
+    "gerak": false,
+    "level_air": 67
+  },
+  {
+    "ts": "2026-10-10T09:19:58Z",
+    "fw": "0.1.0",
+    "suhu": 29.2,
+    "kelembapan": 56,
+    "cahaya": 350,
+    "tanah": 29,
+    "gerak": false,
+    "level_air": 52
+  },
+  {
+    "ts": "2026-10-10T09:20:08Z",
+    "fw": "0.1.0",
+    "suhu": 25.1,
+    "kelembapan": 77,
+    "cahaya": 2788,
+    "tanah": 54,
+    "gerak": false,
+    "level_air": 89
+  },
+  {
+    "ts": "2026-10-10T09:20:18Z",
+    "fw": "0.1.0",
+    "suhu": 31.4,
+    "kelembapan": 77,
+    "cahaya": 1607,
+    "tanah": 30,
+    "gerak": false,
+    "level_air": 42
+  },
+  {
+    "ts": "2026-10-10T09:20:28Z",
+    "fw": "0.1.0",
+    "suhu": 26,
+    "kelembapan": 59,
+    "cahaya": 1189,
+    "tanah": 31,
+    "gerak": false,
+    "level_air": 40
+  },
+  {
+    "ts": "2026-10-10T09:20:38Z",
+    "fw": "0.1.0",
+    "suhu": 31.5,
+    "kelembapan": 67,
+    "cahaya": 2780,
+    "tanah": 21,
+    "gerak": false,
+    "level_air": 68
+  },
+  {
+    "ts": "2026-10-10T09:20:48Z",
+    "fw": "0.1.0",
+    "suhu": 29.8,
+    "kelembapan": 71,
+    "cahaya": 120,
+    "tanah": 23,
+    "gerak": false,
+    "level_air": 85
+  },
+  {
+    "ts": "2026-10-10T09:20:58Z",
+    "fw": "0.1.0",
+    "suhu": 29.2,
+    "kelembapan": 78,
+    "cahaya": 798,
+    "tanah": 60,
+    "gerak": false,
+    "level_air": 54
+  },
+  {
+    "ts": "2026-10-10T09:21:08Z",
+    "fw": "0.1.0",
+    "suhu": 28.6,
+    "kelembapan": 76,
+    "cahaya": 285,
+    "tanah": 22,
+    "gerak": false,
+    "level_air": 52
+  },
+  {
+    "ts": "2026-10-10T09:21:18Z",
+    "fw": "0.1.0",
+    "suhu": 25.4,
+    "kelembapan": 85,
+    "cahaya": 3795,
+    "tanah": 25,
+    "gerak": false,
+    "level_air": 82
+  },
+  {
+    "ts": "2026-10-10T09:21:28Z",
+    "fw": "0.1.0",
+    "suhu": 28.7,
+    "kelembapan": 64,
+    "cahaya": 2462,
+    "tanah": 33,
+    "gerak": false,
+    "level_air": 69
+  },
+  {
+    "ts": "2026-10-10T09:21:38Z",
+    "fw": "0.1.0",
+    "suhu": 30.5,
+    "kelembapan": 76,
+    "cahaya": 3555,
+    "tanah": 36,
+    "gerak": false,
+    "level_air": 31
+  },
+  {
+    "ts": "2026-10-10T09:21:48Z",
+    "fw": "0.1.0",
+    "suhu": 25.5,
+    "kelembapan": 76,
+    "cahaya": 1087,
+    "tanah": 30,
+    "gerak": false,
+    "level_air": 59
+  },
+  {
+    "ts": "2026-10-10T09:21:58Z",
+    "fw": "0.1.0",
+    "suhu": 26.9,
+    "kelembapan": 76,
+    "cahaya": 339,
+    "tanah": 36,
+    "gerak": false,
+    "level_air": 43
+  },
+  {
+    "ts": "2026-10-10T09:22:08Z",
+    "fw": "0.1.0",
+    "suhu": 27.4,
+    "kelembapan": 63,
+    "cahaya": 3900,
+    "tanah": 41,
+    "gerak": false,
+    "level_air": 31
+  },
+  {
+    "ts": "2026-10-10T09:22:18Z",
+    "fw": "0.1.0",
+    "suhu": 32.6,
+    "kelembapan": 63,
+    "cahaya": 1217,
+    "tanah": 31,
+    "gerak": false,
+    "level_air": 40
+  },
+  {
+    "ts": "2026-10-10T09:22:28Z",
+    "fw": "0.1.0",
+    "suhu": 30.7,
+    "kelembapan": 80,
+    "cahaya": 1649,
+    "tanah": 56,
+    "gerak": false,
+    "level_air": 48
+  },
+  {
+    "ts": "2026-10-10T09:22:38Z",
+    "fw": "0.1.0",
+    "suhu": 30.8,
+    "kelembapan": 69,
+    "cahaya": 2604,
+    "tanah": 44,
+    "gerak": true,
+    "level_air": 43
+  },
+  {
+    "ts": "2026-10-10T09:22:48Z",
+    "fw": "0.1.0",
+    "suhu": 32.3,
+    "kelembapan": 64,
+    "cahaya": 359,
+    "tanah": 30,
+    "gerak": true,
+    "level_air": 38
+  },
+  {
+    "ts": "2026-10-10T09:22:58Z",
+    "fw": "0.1.0",
+    "suhu": 27.7,
+    "kelembapan": 63,
+    "cahaya": 1607,
+    "tanah": 25,
+    "gerak": false,
+    "level_air": 64
+  },
+  {
+    "ts": "2026-10-10T09:23:08Z",
+    "fw": "0.1.0",
+    "suhu": 32.2,
+    "kelembapan": 65,
+    "cahaya": 1797,
+    "tanah": 29,
+    "gerak": false,
+    "level_air": 57
+  },
+  {
+    "ts": "2026-10-10T09:23:18Z",
+    "fw": "0.1.0",
+    "suhu": 28.3,
+    "kelembapan": 63,
+    "cahaya": 2478,
+    "tanah": 33,
+    "gerak": false,
+    "level_air": 43
+  },
+  {
+    "ts": "2026-10-10T09:23:28Z",
+    "fw": "0.1.0",
+    "suhu": 31.6,
+    "kelembapan": 71,
+    "cahaya": 3425,
+    "tanah": 21,
+    "gerak": true,
+    "level_air": 46
+  },
+  {
+    "ts": "2026-10-10T09:23:38Z",
+    "fw": "0.1.0",
+    "suhu": 25.9,
+    "kelembapan": 77,
+    "cahaya": 48,
+    "tanah": 25,
+    "gerak": false,
+    "level_air": 74
+  },
+  {
+    "ts": "2026-10-10T09:23:48Z",
+    "fw": "0.1.0",
+    "suhu": 26.5,
+    "kelembapan": 84,
+    "cahaya": 3211,
+    "tanah": 42,
+    "gerak": false,
+    "level_air": 88
+  },
+  {
+    "ts": "2026-10-10T09:23:58Z",
+    "fw": "0.1.0",
+    "suhu": 29,
+    "kelembapan": 70,
+    "cahaya": 3964,
+    "tanah": 35,
+    "gerak": false,
+    "level_air": 50
+  },
+  {
+    "ts": "2026-10-10T09:24:08Z",
+    "fw": "0.1.0",
+    "suhu": 28.7,
+    "kelembapan": 60,
+    "cahaya": 1084,
+    "tanah": 58,
+    "gerak": false,
+    "level_air": 30
+  },
+  {
+    "ts": "2026-10-10T09:24:18Z",
+    "fw": "0.1.0",
+    "suhu": 29.1,
+    "kelembapan": 69,
+    "cahaya": 330,
+    "tanah": 55,
+    "gerak": false,
+    "level_air": 67
+  },
+  {
+    "ts": "2026-10-10T09:24:28Z",
+    "fw": "0.1.0",
+    "suhu": 27.7,
+    "kelembapan": 81,
+    "cahaya": 2641,
+    "tanah": 60,
+    "gerak": true,
+    "level_air": 48
+  },
+  {
+    "ts": "2026-10-10T09:24:38Z",
+    "fw": "0.1.0",
+    "suhu": 31.2,
+    "kelembapan": 78,
+    "cahaya": 3432,
+    "tanah": 45,
+    "gerak": true,
+    "level_air": 84
+  },
+  {
+    "ts": "2026-10-10T09:24:48Z",
+    "fw": "0.1.0",
+    "suhu": 32.9,
+    "kelembapan": 61,
+    "cahaya": 3081,
+    "tanah": 45,
+    "gerak": false,
+    "level_air": 42
+  },
+  {
+    "ts": "2026-10-10T09:24:58Z",
+    "fw": "0.1.0",
+    "suhu": 27.2,
+    "kelembapan": 56,
+    "cahaya": 499,
+    "tanah": 29,
+    "gerak": false,
+    "level_air": 56
+  },
+  {
+    "ts": "2026-10-10T09:25:08Z",
+    "fw": "0.1.0",
+    "suhu": 27.5,
+    "kelembapan": 72,
+    "cahaya": 125,
+    "tanah": 24,
+    "gerak": true,
+    "level_air": 42
+  },
+  {
+    "ts": "2026-10-10T09:25:18Z",
+    "fw": "0.1.0",
+    "suhu": 30.7,
+    "kelembapan": 80,
+    "cahaya": 3578,
+    "tanah": 39,
+    "gerak": false,
+    "level_air": 87
+  },
+  {
+    "ts": "2026-10-10T09:25:28Z",
+    "fw": "0.1.0",
+    "suhu": 27.4,
+    "kelembapan": 62,
+    "cahaya": 4071,
+    "tanah": 34,
+    "gerak": false,
+    "level_air": 44
+  },
+  {
+    "ts": "2026-10-10T09:25:38Z",
+    "fw": "0.1.0",
+    "suhu": 26.9,
+    "kelembapan": 82,
+    "cahaya": 1324,
+    "tanah": 55,
+    "gerak": false,
+    "level_air": 64
+  },
+  {
+    "ts": "2026-10-10T09:25:48Z",
+    "fw": "0.1.0",
+    "suhu": 31.8,
+    "kelembapan": 74,
+    "cahaya": 162,
+    "tanah": 39,
+    "gerak": true,
+    "level_air": 74
+  },
+  {
+    "ts": "2026-10-10T09:25:58Z",
+    "fw": "0.1.0",
+    "suhu": 25.6,
+    "kelembapan": 80,
+    "cahaya": 3501,
+    "tanah": 58,
+    "gerak": false,
+    "level_air": 83
+  },
+  {
+    "ts": "2026-10-10T09:26:08Z",
+    "fw": "0.1.0",
+    "suhu": 32.7,
+    "kelembapan": 73,
+    "cahaya": 2832,
+    "tanah": 46,
+    "gerak": false,
+    "level_air": 70
+  },
+  {
+    "ts": "2026-10-10T09:26:18Z",
+    "fw": "0.1.0",
+    "suhu": 29.8,
+    "kelembapan": 58,
+    "cahaya": 469,
+    "tanah": 50,
+    "gerak": false,
+    "level_air": 56
+  },
+  {
+    "ts": "2026-10-10T09:26:28Z",
+    "fw": "0.1.0",
+    "suhu": 32,
+    "kelembapan": 59,
+    "cahaya": 910,
+    "tanah": 30,
+    "gerak": false,
+    "level_air": 39
+  },
+  {
+    "ts": "2026-10-10T09:26:38Z",
+    "fw": "0.1.0",
+    "suhu": 31,
+    "kelembapan": 56,
+    "cahaya": 939,
+    "tanah": 52,
+    "gerak": false,
+    "level_air": 45
+  },
+  {
+    "ts": "2026-10-10T09:26:48Z",
+    "fw": "0.1.0",
+    "suhu": 25.9,
+    "kelembapan": 55,
+    "cahaya": 3084,
+    "tanah": 44,
+    "gerak": false,
+    "level_air": 55
+  }
+]

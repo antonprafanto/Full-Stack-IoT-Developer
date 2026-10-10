@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="742" viewBox="0 0 1200 742" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="742" fill="#fffdf7"/>
+<text x="600.0" y="40.0" font-size="26" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Anatomi terminal di VS Code</text>
+<text x="600.0" y="72.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Contoh di Windows (PowerShell). Di macOS dan Linux, bentuk prompt-nya saja yang berbeda</text>
+<rect x="40.0" y="96.0" width="1120.0" height="316.0" rx="8" fill="#181818" stroke="#2b2b2b" stroke-width="1.5" />
+<rect x="41.0" y="97.0" width="1118.0" height="34.0" rx="0" fill="#181818" />
+<text x="57.0" y="119.0" font-size="11.5" font-weight="400" fill="#9d9d9d" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >PROBLEMS</text>
+<text x="139.8" y="119.0" font-size="11.5" font-weight="400" fill="#9d9d9d" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >OUTPUT</text>
+<text x="207.4" y="119.0" font-size="11.5" font-weight="400" fill="#9d9d9d" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >DEBUG CONSOLE</text>
+<text x="328.2" y="119.0" font-size="11.5" font-weight="600" fill="#e7e7e7" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >TERMINAL</text>
+<rect x="326.2" y="128.0" width="64.8" height="2.0" rx="0" fill="#e7e7e7" />
+<text x="411.0" y="119.0" font-size="11.5" font-weight="400" fill="#9d9d9d" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >PORTS</text>
+<path d="M1136.5 109.5 L1145.5 118.5 M1145.5 109.5 L1136.5 118.5" fill="none" stroke="#9d9d9d" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M1110 117 L1115 111 L1120 117" fill="none" stroke="#9d9d9d" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="1084.0" cy="115.0" r="1.3" fill="#9d9d9d" />
+<circle cx="1089.0" cy="115.0" r="1.3" fill="#9d9d9d" />
+<circle cx="1094.0" cy="115.0" r="1.3" fill="#9d9d9d" />
+<path d="M1058 110 L1068 110 M1061 108 L1065 108 M1059 110 L1060 120 L1066 120 L1067 110" fill="none" stroke="#9d9d9d" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="1031.0" y="108.0" width="12.0" height="12.0" rx="1.5" fill="none" stroke="#9d9d9d" stroke-width="1.4" />
+<line x1="1037.0" y1="108.0" x2="1037.0" y2="120.0" stroke="#9d9d9d" stroke-width="1.4" stroke-linecap="round" />
+<path d="M1007 112 L1011 116 L1015 112" fill="none" stroke="#9d9d9d" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M980 114 L990 114 M985 109 L985 119" fill="none" stroke="#9d9d9d" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+<text x="955.0" y="119.0" font-size="12" font-weight="400" fill="#cccccc" text-anchor="end" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >powershell</text>
+<rect x="867.0" y="109.0" width="12.0" height="11.0" rx="2" fill="none" stroke="#9d9d9d" stroke-width="1.2" />
+<line x1="41.0" y1="131.0" x2="1159.0" y2="131.0" stroke="#2b2b2b" stroke-width="1" stroke-linecap="round" />
+<text x="62.0" y="192.0" font-size="15" font-weight="400" fill="#cccccc" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">PS C:\Users\Ani\Documents\GitHub\belajar-iot\modul-04&gt; </text>
+<text x="558.6" y="192.0" font-size="15" font-weight="700" fill="#ffffff" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">node halo.js</text>
+<text x="62.0" y="222.0" font-size="15" font-weight="400" fill="#cccccc" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">Halo, Node.js!</text>
+<text x="62.0" y="252.0" font-size="15" font-weight="400" fill="#cccccc" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">Namaku Ani.</text>
+<text x="62.0" y="282.0" font-size="15" font-weight="400" fill="#cccccc" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">Umurku 17 tahun, kira-kira 6205 hari.</text>
+<text x="62.0" y="312.0" font-size="15" font-weight="400" fill="#cccccc" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">Sekarang: 10/10/2026, 16.05.12</text>
+<text x="62.0" y="342.0" font-size="15" font-weight="400" fill="#cccccc" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">PS C:\Users\Ani\Documents\GitHub\belajar-iot\modul-04&gt; </text>
+<rect x="558.6" y="327.0" width="9.0" height="19.0" rx="0" fill="#cccccc" />
+<rect x="56.0" y="172.0" width="499.6" height="30.0" rx="6" fill="none" stroke="#e63946" stroke-width="3" />
+<circle cx="305.8" cy="156.0" r="15" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="305.8" y="161.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >1</text>
+<rect x="552.6" y="172.0" width="120.4" height="30.0" rx="6" fill="none" stroke="#ffb703" stroke-width="3" />
+<circle cx="697.0" cy="186.0" r="15" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="697.0" y="191.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >2</text>
+<rect x="56.0" y="202.0" width="348.1" height="120.0" rx="6" fill="none" stroke="#8ecae6" stroke-width="3" />
+<circle cx="430.1" cy="257.0" r="15" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="430.1" y="262.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >3</text>
+<rect x="56.0" y="322.0" width="518.2" height="30.0" rx="6" fill="none" stroke="#90be6d" stroke-width="3" />
+<circle cx="598.2" cy="336.0" r="15" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="598.2" y="341.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >4</text>
+<text x="40.0" y="464.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >macOS (Terminal, zsh)</text>
+<rect x="250.0" y="442.0" width="910.0" height="40.0" rx="6" fill="#181818" />
+<text x="266.0" y="468.0" font-size="14" font-weight="400" fill="#cccccc" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">ani@MacBook-Air modul-04 % </text>
+<text x="493.6" y="468.0" font-size="14" font-weight="700" fill="#ffffff" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">node halo.js</text>
+<text x="40.0" y="526.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Linux (Terminal, bash)</text>
+<rect x="250.0" y="504.0" width="910.0" height="40.0" rx="6" fill="#181818" />
+<text x="266.0" y="530.0" font-size="14" font-weight="400" fill="#cccccc" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">ani@laptop:~/Documents/GitHub/belajar-iot/modul-04$ </text>
+<text x="704.3" y="530.0" font-size="14" font-weight="700" fill="#ffffff" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">node halo.js</text>
+<circle cx="74.0" cy="592.0" r="12" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="74.0" y="597.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >1</text>
+<text x="94.0" y="597.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >Prompt (tanda siap): folder tempat terminal berdiri, diakhiri &gt; yang berarti "siap menerima perintah"</text>
+<circle cx="74.0" cy="622.0" r="12" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="74.0" y="627.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >2</text>
+<text x="94.0" y="627.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >Perintah: apa yang kamu ketik setelah prompt, lalu diakhiri Enter</text>
+<circle cx="74.0" cy="652.0" r="12" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="74.0" y="657.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >3</text>
+<text x="94.0" y="657.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >Keluaran: jawaban perintah itu (di sini, cetakan program halo.js)</text>
+<circle cx="74.0" cy="682.0" r="12" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="74.0" y="687.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >4</text>
+<text x="94.0" y="687.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >Prompt baru: perintah sudah selesai, terminal siap lagi. Tidak muncul? Program masih berjalan — Ctrl + C</text>
+<text x="1178.0" y="728.0" font-size="13" font-weight="600" fill="#5f6573" text-anchor="end" >Ilustrasi (digambar ulang, bukan tangkapan layar) · Visual Studio Code 1.141 · Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

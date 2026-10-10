@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="658" viewBox="0 0 1200 658" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="658" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Satu proyek, tiga "rumah" program</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Data berpindah antarrumah dalam format JSON — si "surat universal" (Konsep 8)</text>
+<path d="M452 134 L452 122 L1138 122 L1138 134" fill="none" stroke="#c99a06" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="645.0" y="108.0" width="300.0" height="28.0" rx="0" fill="#fffdf7" />
+<text x="795.0" y="128.0" font-size="15" font-weight="800" fill="#b45f17" text-anchor="middle" >JavaScript: satu bahasa, dua rumah</text>
+<rect x="60.0" y="168.0" width="300.0" height="380.0" rx="16" fill="#ffffff" stroke="#0f8b8d" stroke-width="2.5" />
+<rect x="60.0" y="168.0" width="300.0" height="52.0" rx="16" fill="#e3f4f4" />
+<rect x="60.0" y="204.0" width="300.0" height="16.0" rx="0" fill="#e3f4f4" />
+<line x1="60.0" y1="220.0" x2="360.0" y2="220.0" stroke="#0f8b8d" stroke-width="2" stroke-linecap="round" />
+<text x="210.0" y="202.0" font-size="18" font-weight="800" fill="#1e2a4a" text-anchor="middle" >ESP32</text>
+<rect x="176.0" y="248.0" width="68.0" height="100.0" rx="6" fill="#1f3b57" />
+<rect x="192.0" y="258.0" width="36.0" height="30.0" rx="3" fill="#c9ced6" stroke="#8a93a1" stroke-width="1.5" />
+<text x="210.0" y="278.0" font-size="9" font-weight="800" fill="#1f3b57" text-anchor="middle" >ESP32</text>
+<rect x="170.0" y="260.0" width="6.0" height="5.0" rx="1" fill="#d9b44a" />
+<rect x="244.0" y="260.0" width="6.0" height="5.0" rx="1" fill="#d9b44a" />
+<rect x="170.0" y="271.0" width="6.0" height="5.0" rx="1" fill="#d9b44a" />
+<rect x="244.0" y="271.0" width="6.0" height="5.0" rx="1" fill="#d9b44a" />
+<rect x="170.0" y="282.0" width="6.0" height="5.0" rx="1" fill="#d9b44a" />
+<rect x="244.0" y="282.0" width="6.0" height="5.0" rx="1" fill="#d9b44a" />
+<rect x="170.0" y="293.0" width="6.0" height="5.0" rx="1" fill="#d9b44a" />
+<rect x="244.0" y="293.0" width="6.0" height="5.0" rx="1" fill="#d9b44a" />
+<rect x="170.0" y="304.0" width="6.0" height="5.0" rx="1" fill="#d9b44a" />
+<rect x="244.0" y="304.0" width="6.0" height="5.0" rx="1" fill="#d9b44a" />
+<rect x="170.0" y="315.0" width="6.0" height="5.0" rx="1" fill="#d9b44a" />
+<rect x="244.0" y="315.0" width="6.0" height="5.0" rx="1" fill="#d9b44a" />
+<rect x="170.0" y="326.0" width="6.0" height="5.0" rx="1" fill="#d9b44a" />
+<rect x="244.0" y="326.0" width="6.0" height="5.0" rx="1" fill="#d9b44a" />
+<rect x="170.0" y="337.0" width="6.0" height="5.0" rx="1" fill="#d9b44a" />
+<rect x="244.0" y="337.0" width="6.0" height="5.0" rx="1" fill="#d9b44a" />
+<rect x="200.0" y="336.0" width="20.0" height="12.0" rx="2" fill="#9aa3b0" />
+<circle cx="224.0" cy="312.0" r="4" fill="#e63946" />
+<rect x="100.0" y="368.0" width="220.0" height="32.0" rx="16.0" fill="#0f8b8d" />
+<text x="210.0" y="389.4" font-size="15" font-weight="700" fill="#ffffff" text-anchor="middle" >C++</text>
+<circle cx="94.0" cy="426.0" r="4" fill="#0f8b8d" />
+<text x="108.0" y="431.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >membaca sensor</text>
+<circle cx="94.0" cy="454.0" r="4" fill="#0f8b8d" />
+<text x="108.0" y="459.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >menggerakkan kipas &amp; lampu</text>
+<circle cx="94.0" cy="482.0" r="4" fill="#0f8b8d" />
+<text x="108.0" y="487.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >mengirim data</text>
+<text x="210.0" y="530.0" font-size="14" font-weight="700" fill="#4a5568" text-anchor="middle" >Modul 1–3, 5–15</text>
+<rect x="450.0" y="168.0" width="300.0" height="380.0" rx="16" fill="#ffffff" stroke="#c99a06" stroke-width="2.5" />
+<rect x="450.0" y="168.0" width="300.0" height="52.0" rx="16" fill="#fff4c2" />
+<rect x="450.0" y="204.0" width="300.0" height="16.0" rx="0" fill="#fff4c2" />
+<line x1="450.0" y1="220.0" x2="750.0" y2="220.0" stroke="#c99a06" stroke-width="2" stroke-linecap="round" />
+<text x="600.0" y="202.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Laptop · Raspberry Pi · server</text>
+<rect x="538.0" y="252.0" width="124.0" height="78.0" rx="7" fill="#2b3a55" />
+<rect x="546.0" y="260.0" width="108.0" height="62.0" rx="3" fill="#1b1f27" />
+<text x="552.0" y="278.0" font-size="11" font-weight="700" fill="#8fe3a8" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">&gt; node</text>
+<text x="552.0" y="293.0" font-size="9.5" font-weight="400" fill="#cfd6e2" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">Penerima siap</text>
+<text x="552.0" y="307.0" font-size="9.5" font-weight="400" fill="#ffd166" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">{"suhu":28.5}</text>
+<path d="M522.0 332 L678.0 332 L670.0 344 L530.0 344 Z" fill="#9aa3b0" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="490.0" y="368.0" width="220.0" height="32.0" rx="16.0" fill="#c99a06" />
+<text x="600.0" y="389.4" font-size="15" font-weight="700" fill="#ffffff" text-anchor="middle" >JavaScript di Node.js</text>
+<circle cx="484.0" cy="426.0" r="4" fill="#c99a06" />
+<text x="498.0" y="431.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >menerima kiriman</text>
+<circle cx="484.0" cy="454.0" r="4" fill="#c99a06" />
+<text x="498.0" y="459.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >menghitung &amp; menyimpan</text>
+<circle cx="484.0" cy="482.0" r="4" fill="#c99a06" />
+<text x="498.0" y="487.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >memberi perintah</text>
+<text x="600.0" y="530.0" font-size="14" font-weight="700" fill="#4a5568" text-anchor="middle" >mulai minggu ini · Modul 16–21</text>
+<rect x="840.0" y="168.0" width="300.0" height="380.0" rx="16" fill="#ffffff" stroke="#3a6fc4" stroke-width="2.5" />
+<rect x="840.0" y="168.0" width="300.0" height="52.0" rx="16" fill="#e6eefb" />
+<rect x="840.0" y="204.0" width="300.0" height="16.0" rx="0" fill="#e6eefb" />
+<line x1="840.0" y1="220.0" x2="1140.0" y2="220.0" stroke="#3a6fc4" stroke-width="2" stroke-linecap="round" />
+<text x="990.0" y="202.0" font-size="18" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Browser · HP</text>
+<rect x="956.0" y="244.0" width="68.0" height="108.0" rx="12" fill="#2b3a55" />
+<rect x="962.0" y="254.0" width="56.0" height="84.0" rx="4" fill="#ffffff" />
+<text x="990.0" y="270.0" font-size="9" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Dashboard</text>
+<rect x="968.0" y="278.0" width="44.0" height="22.0" rx="4" fill="#d6f0e3" />
+<text x="990.0" y="294.0" font-size="10" font-weight="800" fill="#2a9d5c" text-anchor="middle" >28.5 °C</text>
+<path d="M968.0 328 L978.0 316 L988.0 322 L998.0 308 L1012.0 314" fill="none" stroke="#3a6fc4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="990.0" cy="345.0" r="3" fill="#9aa3b0" />
+<rect x="880.0" y="368.0" width="220.0" height="32.0" rx="16.0" fill="#3a6fc4" />
+<text x="990.0" y="389.4" font-size="15" font-weight="700" fill="#ffffff" text-anchor="middle" >JavaScript di browser</text>
+<circle cx="874.0" cy="426.0" r="4" fill="#3a6fc4" />
+<text x="888.0" y="431.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >menampilkan dashboard</text>
+<circle cx="874.0" cy="454.0" r="4" fill="#3a6fc4" />
+<text x="888.0" y="459.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >tombol kendali</text>
+<circle cx="874.0" cy="482.0" r="4" fill="#3a6fc4" />
+<text x="888.0" y="487.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >grafik &amp; peringatan</text>
+<text x="990.0" y="530.0" font-size="14" font-weight="700" fill="#4a5568" text-anchor="middle" >Modul 22–25</text>
+<rect x="512.0" y="146.0" width="176.0" height="30.0" rx="15" fill="#e63946" />
+<text x="600.0" y="166.0" font-size="14" font-weight="800" fill="#ffffff" text-anchor="middle" >KAMU DI SINI</text>
+<text x="405.0" y="318.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="middle" >JSON</text>
+<line x1="364.0" y1="332.0" x2="444.0" y2="332.0" stroke="#1e2a4a" stroke-width="3" stroke-linecap="round" />
+<path d="M434.3 337.2 L444.0 332.0 L434.3 326.8" fill="none" stroke="#1e2a4a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="444.0" y1="364.0" x2="364.0" y2="364.0" stroke="#4a5568" stroke-width="2" stroke-linecap="round" />
+<path d="M371.9 359.8 L364.0 364.0 L371.9 368.2" fill="none" stroke="#4a5568" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="405.0" y="384.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="middle" >perintah</text>
+<text x="405.0" y="412.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="middle" >lewat WiFi</text>
+<text x="405.0" y="430.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="middle" >(Modul 10)</text>
+<text x="795.0" y="318.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="middle" >JSON</text>
+<line x1="754.0" y1="332.0" x2="834.0" y2="332.0" stroke="#1e2a4a" stroke-width="3" stroke-linecap="round" />
+<path d="M824.3 337.2 L834.0 332.0 L824.3 326.8" fill="none" stroke="#1e2a4a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="834.0" y1="364.0" x2="754.0" y2="364.0" stroke="#4a5568" stroke-width="2" stroke-linecap="round" />
+<path d="M761.9 359.8 L754.0 364.0 L761.9 368.2" fill="none" stroke="#4a5568" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="795.0" y="384.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="middle" >perintah</text>
+<text x="795.0" y="412.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="middle" >(Modul 22)</text>
+<rect x="60.0" y="572.0" width="1080.0" height="46.0" rx="10" fill="#fff6f6" stroke="#e63946" stroke-width="1.5" />
+<text x="600.0" y="601.0" font-size="15.5" font-weight="700" fill="#1e2a4a" text-anchor="middle" >Ingat: JavaScript ≠ Java. Namanya mirip, tetapi bahasanya berbeda sama sekali — seperti "kasur" dan "kasus".</text>
+<text x="1178.0" y="644.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

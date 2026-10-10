@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="670" viewBox="0 0 1200 670" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="670" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Menunggu tanpa membeku: Promise dan await</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Seperti memesan di food court (pujasera): kasir memberimu alat getar — janji bahwa makananmu menyusul</text>
+<rect x="60.0" y="116.0" width="1080.0" height="236.0" rx="14" fill="#ffffff" stroke="#2a9d5c" stroke-width="2" />
+<rect x="60.0" y="116.0" width="230.0" height="236.0" rx="14" fill="#2a9d5c" />
+<rect x="270.0" y="116.0" width="20.0" height="236.0" rx="0" fill="#2a9d5c" />
+<text x="175.0" y="156.0" font-size="19" font-weight="800" fill="#ffffff" text-anchor="middle" >DENGAN await</text>
+<text x="175.0" y="180.0" font-size="14" font-weight="700" fill="#ffffff" text-anchor="middle" >yang benar</text>
+<line x1="320.0" y1="322.0" x2="1110.0" y2="322.0" stroke="#8a8f9c" stroke-width="1.5" stroke-linecap="round" />
+<line x1="330.0" y1="316.0" x2="330.0" y2="328.0" stroke="#8a8f9c" stroke-width="1.5" stroke-linecap="round" />
+<text x="330.0" y="344.0" font-size="13.5" font-weight="700" fill="#8a8f9c" text-anchor="middle" >0 detik</text>
+<line x1="720.0" y1="316.0" x2="720.0" y2="328.0" stroke="#8a8f9c" stroke-width="1.5" stroke-linecap="round" />
+<line x1="1050.0" y1="316.0" x2="1050.0" y2="328.0" stroke="#8a8f9c" stroke-width="1.5" stroke-linecap="round" />
+<text x="1050.0" y="344.0" font-size="13.5" font-weight="700" fill="#8a8f9c" text-anchor="middle" >2 detik</text>
+<text x="75" y="220" font-size="13" font-family="'DejaVu Sans Mono', Consolas, monospace" text-anchor="start" xml:space="preserve"><tspan fill="#ffffff" font-weight="700">const hasil =</tspan></text>
+<text x="75" y="240" font-size="13" font-family="'DejaVu Sans Mono', Consolas, monospace" text-anchor="start" xml:space="preserve"><tspan fill="#ffffff" font-weight="800">  await</tspan></text>
+<text x="75" y="260" font-size="13" font-family="'DejaVu Sans Mono', Consolas, monospace" text-anchor="start" xml:space="preserve"><tspan fill="#ffffff" font-weight="400">  bacaSensorLambat();</tspan></text>
+<rect x="338.0" y="177.0" width="44.0" height="58.0" rx="10.0" fill="#2b3a55" />
+<circle cx="349.0" cy="194.0" r="3.5" fill="#6f7a8c" />
+<circle cx="360.0" cy="194.0" r="3.5" fill="#6f7a8c" />
+<circle cx="371.0" cy="194.0" r="3.5" fill="#6f7a8c" />
+<rect x="348.0" y="208.0" width="24.0" height="14.0" rx="3" fill="#cfd6e2" />
+<text x="360.0" y="266.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="middle" >terima</text>
+<text x="360.0" y="283.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="middle" >alat getar</text>
+<text x="360.0" y="300.0" font-size="13" font-weight="800" fill="#3a6fc4" text-anchor="middle" >(Promise)</text>
+<rect x="420.0" y="176.0" width="540.0" height="64.0" rx="10" fill="#eef8f2" />
+<text x="690.0" y="202.0" font-size="15" font-weight="800" fill="#2a9d5c" text-anchor="middle" >baris berikutnya MENUNGGU…</text>
+<text x="690.0" y="224.0" font-size="13.5" font-weight="400" fill="#1e2a4a" text-anchor="middle" >sementara itu Node.js tetap bebas melayani yang lain</text>
+<text x="690.0" y="276.0" font-size="13" font-weight="700" fill="#8a8f9c" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >console.log(hasil.suhu) belum jalan</text>
+<rect x="993.5" y="168.2" width="33.0" height="43.5" rx="7.5" fill="#2b3a55" />
+<circle cx="1001.8" cy="181.0" r="2.625" fill="#ff6b6b" />
+<circle cx="1010.0" cy="181.0" r="2.625" fill="#ff6b6b" />
+<circle cx="1018.2" cy="181.0" r="2.625" fill="#ff6b6b" />
+<rect x="1001.0" y="191.5" width="18.0" height="10.5" rx="3" fill="#cfd6e2" />
+<path d="M1032.5 178 q6 12 0 24" fill="none" stroke="#e63946" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M1039.5 172 q9 18 0 36" fill="none" stroke="#e63946" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M987.5 178 q-6 12 0 24" fill="none" stroke="#e63946" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M980.5 172 q-9 18 0 36" fill="none" stroke="#e63946" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<ellipse cx="1080" cy="208" rx="34" ry="9" fill="#e9ecef" stroke="#4a5568" stroke-width="1.5"/>
+<path d="M1054 206 Q1080 172 1106 206 Z" fill="#f4a261" stroke="#b45f17" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="1072.0" cy="196.0" r="4" fill="#2a9d5c" />
+<circle cx="1087.0" cy="194.0" r="4" fill="#e63946" />
+<text x="1046.0" y="256.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="middle" >bergetar → ambil</text>
+<text x="1046.0" y="278.0" font-size="13" font-weight="800" fill="#2a9d5c" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">{ suhu: 28.5 }</text>
+<text x="1046.0" y="300.0" font-size="13" font-weight="800" fill="#2a9d5c" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">→ cetak 28.5</text>
+<rect x="60.0" y="384.0" width="1080.0" height="236.0" rx="14" fill="#ffffff" stroke="#e63946" stroke-width="2" />
+<rect x="60.0" y="384.0" width="230.0" height="236.0" rx="14" fill="#e63946" />
+<rect x="270.0" y="384.0" width="20.0" height="236.0" rx="0" fill="#e63946" />
+<text x="175.0" y="424.0" font-size="19" font-weight="800" fill="#ffffff" text-anchor="middle" >TANPA await</text>
+<text x="175.0" y="448.0" font-size="14" font-weight="700" fill="#ffffff" text-anchor="middle" >yang keliru</text>
+<line x1="320.0" y1="590.0" x2="1110.0" y2="590.0" stroke="#8a8f9c" stroke-width="1.5" stroke-linecap="round" />
+<line x1="330.0" y1="584.0" x2="330.0" y2="596.0" stroke="#8a8f9c" stroke-width="1.5" stroke-linecap="round" />
+<text x="330.0" y="612.0" font-size="13.5" font-weight="700" fill="#8a8f9c" text-anchor="middle" >0 detik</text>
+<line x1="720.0" y1="584.0" x2="720.0" y2="596.0" stroke="#8a8f9c" stroke-width="1.5" stroke-linecap="round" />
+<line x1="1050.0" y1="584.0" x2="1050.0" y2="596.0" stroke="#8a8f9c" stroke-width="1.5" stroke-linecap="round" />
+<text x="1050.0" y="612.0" font-size="13.5" font-weight="700" fill="#8a8f9c" text-anchor="middle" >2 detik</text>
+<text x="75" y="488" font-size="13" font-family="'DejaVu Sans Mono', Consolas, monospace" text-anchor="start" xml:space="preserve"><tspan fill="#ffffff" font-weight="700">const hasil =</tspan></text>
+<text x="75" y="508" font-size="13" font-family="'DejaVu Sans Mono', Consolas, monospace" text-anchor="start" xml:space="preserve"><tspan fill="#ffffff" font-weight="400">  bacaSensorLambat();</tspan></text>
+<rect x="338.0" y="445.0" width="44.0" height="58.0" rx="10.0" fill="#2b3a55" />
+<circle cx="349.0" cy="462.0" r="3.5" fill="#6f7a8c" />
+<circle cx="360.0" cy="462.0" r="3.5" fill="#6f7a8c" />
+<circle cx="371.0" cy="462.0" r="3.5" fill="#6f7a8c" />
+<rect x="348.0" y="476.0" width="24.0" height="14.0" rx="3" fill="#cfd6e2" />
+<text x="360.0" y="534.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="middle" >yang dipegang:</text>
+<text x="360.0" y="551.0" font-size="13" font-weight="800" fill="#e63946" text-anchor="middle" >alat getarnya saja</text>
+<rect x="420.0" y="414.0" width="520.0" height="150.0" rx="10" fill="#fdf1f2" />
+<text x="680.0" y="440.0" font-size="15" font-weight="800" fill="#e63946" text-anchor="middle" >baris berikutnya LANGSUNG jalan:</text>
+<text x="440.0" y="470.0" font-size="13.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">console.log(hasil)      → Promise { &lt;pending&gt; }</text>
+<text x="651.3" y="490.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="start" >↑ janji yang masih menunggu</text>
+<text x="440.0" y="520.0" font-size="13.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">console.log(hasil.suhu) → undefined</text>
+<text x="651.3" y="540.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="start" >↑ alat getar tidak punya kolom suhu</text>
+<g opacity="0.4">
+<rect x="993.5" y="436.2" width="33.0" height="43.5" rx="7.5" fill="#2b3a55" />
+<circle cx="1001.8" cy="449.0" r="2.625" fill="#ff6b6b" />
+<circle cx="1010.0" cy="449.0" r="2.625" fill="#ff6b6b" />
+<circle cx="1018.2" cy="449.0" r="2.625" fill="#ff6b6b" />
+<rect x="1001.0" y="459.5" width="18.0" height="10.5" rx="3" fill="#cfd6e2" />
+<path d="M1032.5 446 q6 12 0 24" fill="none" stroke="#e63946" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M1039.5 440 q9 18 0 36" fill="none" stroke="#e63946" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M987.5 446 q-6 12 0 24" fill="none" stroke="#e63946" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M980.5 440 q-9 18 0 36" fill="none" stroke="#e63946" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<ellipse cx="1080" cy="476" rx="34" ry="9" fill="#e9ecef" stroke="#4a5568" stroke-width="1.5"/>
+<path d="M1054 474 Q1080 440 1106 474 Z" fill="#f4a261" stroke="#b45f17" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="1072.0" cy="464.0" r="4" fill="#2a9d5c" />
+<circle cx="1087.0" cy="462.0" r="4" fill="#e63946" />
+</g>
+<text x="1046.0" y="524.0" font-size="13" font-weight="700" fill="#8a8f9c" text-anchor="middle" >makanan siap,</text>
+<text x="1046.0" y="542.0" font-size="13" font-weight="700" fill="#8a8f9c" text-anchor="middle" >tetapi tidak ada</text>
+<text x="1046.0" y="560.0" font-size="13" font-weight="700" fill="#8a8f9c" text-anchor="middle" >yang mengambil</text>
+<text x="1178.0" y="656.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

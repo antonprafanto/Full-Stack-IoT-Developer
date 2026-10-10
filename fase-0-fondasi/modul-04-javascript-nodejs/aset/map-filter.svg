@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="620" viewBox="0 0 1200 620" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="620" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >map dan filter: mengolah seluruh daftar sekaligus</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Keduanya menghasilkan daftar BARU; daftar aslinya tidak berubah</text>
+<text x="130.0" y="132.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="middle" >bacaan (4 objek)</text>
+<g>
+<rect x="70.0" y="146.0" width="118.0" height="58.0" rx="8" fill="#ffffff" stroke="#4a5568" stroke-width="2" />
+<text x="129.0" y="170.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >suhu: 28.5</text>
+<text x="129.0" y="191.0" font-size="12.5" font-weight="400" fill="#4a5568" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >gerak: false</text>
+</g>
+<g>
+<rect x="70.0" y="216.0" width="118.0" height="58.0" rx="8" fill="#ffffff" stroke="#4a5568" stroke-width="2" />
+<text x="129.0" y="240.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >suhu: 31.2</text>
+<text x="129.0" y="261.0" font-size="12.5" font-weight="400" fill="#4a5568" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >gerak: true</text>
+</g>
+<g>
+<rect x="70.0" y="286.0" width="118.0" height="58.0" rx="8" fill="#ffffff" stroke="#4a5568" stroke-width="2" />
+<text x="129.0" y="310.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >suhu: 27.9</text>
+<text x="129.0" y="331.0" font-size="12.5" font-weight="400" fill="#4a5568" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >gerak: false</text>
+</g>
+<g>
+<rect x="70.0" y="356.0" width="118.0" height="58.0" rx="8" fill="#ffffff" stroke="#4a5568" stroke-width="2" />
+<text x="129.0" y="380.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >suhu: 30.6</text>
+<text x="129.0" y="401.0" font-size="12.5" font-weight="400" fill="#4a5568" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >gerak: false</text>
+</g>
+<path d="M196 150 L210 150 L210 422 L196 422" fill="none" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="212.0" y1="230.0" x2="272.0" y2="230.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<path d="M263.2 234.7 L272.0 230.0 L263.2 225.3" fill="none" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="280.0" y="170.0" width="400.0" height="120.0" rx="14" fill="#e6eefb" stroke="#3a6fc4" stroke-width="2.5" />
+<text x="480.0" y="202.0" font-size="17" font-weight="800" fill="#3a6fc4" text-anchor="middle" >map  =  mesin pengubah</text>
+<text x="480.0" y="236.0" font-size="15" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">bacaan.map((b) =&gt; b.suhu)</text>
+<text x="480.0" y="266.0" font-size="13.5" font-weight="700" fill="#4a5568" text-anchor="middle" >dari setiap bacaan, ambil suhunya</text>
+<line x1="684.0" y1="230.0" x2="722.0" y2="230.0" stroke="#3a6fc4" stroke-width="3" stroke-linecap="round" />
+<path d="M712.3 235.2 L722.0 230.0 L712.3 224.8" fill="none" stroke="#3a6fc4" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="732.0" y="206.0" width="90.0" height="48.0" rx="8" fill="#ffffff" stroke="#3a6fc4" stroke-width="2" />
+<text x="777.0" y="237.0" font-size="18" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >28.5</text>
+<rect x="832.0" y="206.0" width="90.0" height="48.0" rx="8" fill="#ffffff" stroke="#3a6fc4" stroke-width="2" />
+<text x="877.0" y="237.0" font-size="18" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >31.2</text>
+<rect x="932.0" y="206.0" width="90.0" height="48.0" rx="8" fill="#ffffff" stroke="#3a6fc4" stroke-width="2" />
+<text x="977.0" y="237.0" font-size="18" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >27.9</text>
+<rect x="1032.0" y="206.0" width="90.0" height="48.0" rx="8" fill="#ffffff" stroke="#3a6fc4" stroke-width="2" />
+<text x="1077.0" y="237.0" font-size="18" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >30.6</text>
+<text x="927.0" y="284.0" font-size="14" font-weight="700" fill="#3a6fc4" text-anchor="middle" >4 masuk → 4 keluar (hanya angkanya)</text>
+<path d="M212 380 L240 380 L240 440" fill="none" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="240.0" y1="440.0" x2="272.0" y2="440.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<path d="M263.2 444.7 L272.0 440.0 L263.2 435.3" fill="none" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="280.0" y="380.0" width="400.0" height="120.0" rx="14" fill="#fdf1f2" stroke="#e63946" stroke-width="2.5" />
+<text x="480.0" y="412.0" font-size="17" font-weight="800" fill="#e63946" text-anchor="middle" >filter  =  saringan</text>
+<text x="480.0" y="446.0" font-size="15" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">bacaan.filter((b) =&gt; b.suhu &gt; 30)</text>
+<text x="480.0" y="476.0" font-size="13.5" font-weight="700" fill="#4a5568" text-anchor="middle" >hanya yang suhunya di atas 30 yang lolos</text>
+<line x1="684.0" y1="440.0" x2="722.0" y2="440.0" stroke="#e63946" stroke-width="3" stroke-linecap="round" />
+<path d="M712.3 445.2 L722.0 440.0 L712.3 434.8" fill="none" stroke="#e63946" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<g>
+<rect x="732.0" y="410.0" width="118.0" height="58.0" rx="8" fill="#ffffff" stroke="#e63946" stroke-width="2" />
+<text x="791.0" y="434.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >suhu: 31.2</text>
+<text x="791.0" y="455.0" font-size="12.5" font-weight="400" fill="#4a5568" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >gerak: true</text>
+</g>
+<g>
+<rect x="862.0" y="410.0" width="118.0" height="58.0" rx="8" fill="#ffffff" stroke="#e63946" stroke-width="2" />
+<text x="921.0" y="434.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >suhu: 30.6</text>
+<text x="921.0" y="455.0" font-size="12.5" font-weight="400" fill="#4a5568" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >gerak: false</text>
+</g>
+<text x="860.0" y="492.0" font-size="14" font-weight="800" fill="#e63946" text-anchor="middle" >lolos: 2 bacaan (daftar baru)</text>
+<g opacity="0.35">
+<rect x="330.0" y="524.0" width="118.0" height="58.0" rx="8" fill="#ffffff" stroke="#4a5568" stroke-width="2" />
+<text x="389.0" y="548.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >suhu: 28.5</text>
+<text x="389.0" y="569.0" font-size="12.5" font-weight="400" fill="#4a5568" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >gerak: false</text>
+</g>
+<circle cx="448.0" cy="528.0" r="9" fill="#e63946" />
+<path d="M443.5 523.5 L452.5 532.5 M452.5 523.5 L443.5 532.5" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<g opacity="0.35">
+<rect x="500.0" y="524.0" width="118.0" height="58.0" rx="8" fill="#ffffff" stroke="#4a5568" stroke-width="2" />
+<text x="559.0" y="548.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >suhu: 27.9</text>
+<text x="559.0" y="569.0" font-size="12.5" font-weight="400" fill="#4a5568" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >gerak: false</text>
+</g>
+<circle cx="618.0" cy="528.0" r="9" fill="#e63946" />
+<path d="M613.5 523.5 L622.5 532.5 M622.5 523.5 L613.5 532.5" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="670.0" y="560.0" font-size="14" font-weight="700" fill="#8a8f9c" text-anchor="start" >← tertahan, tidak ikut</text>
+<text x="1178.0" y="606.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

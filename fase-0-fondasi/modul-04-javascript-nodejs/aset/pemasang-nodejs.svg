@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="750" viewBox="0 0 1200 750" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="750" fill="#fffdf7"/>
+<text x="600.0" y="40.0" font-size="26" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Pemasang Node.js 24 untuk Windows: dua layar yang perlu diperhatikan</text>
+<text x="600.0" y="72.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Layar lain cukup diklik Next — kecuali layar lisensi: centang I accept… dulu</text>
+<rect x="43.0" y="104.0" width="540.0" height="440.0" rx="2" fill="#000000" opacity="0.12"/>
+<rect x="40.0" y="100.0" width="540.0" height="440.0" rx="0" fill="#f0f0f0" stroke="#7a7a7a" stroke-width="1" />
+<rect x="40.0" y="100.0" width="540.0" height="30.0" rx="0" fill="#ffffff" />
+<rect x="50.0" y="109.0" width="13.0" height="13.0" rx="2" fill="#5fa04e" />
+<text x="70.0" y="120.0" font-size="12" font-weight="400" fill="#000000" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Node.js Setup</text>
+<text x="534.0" y="120.0" font-size="12" font-weight="400" fill="#000000" text-anchor="middle" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >—</text>
+<text x="564.0" y="120.0" font-size="12" font-weight="400" fill="#000000" text-anchor="middle" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >✕</text>
+<rect x="40.0" y="130.0" width="540.0" height="58.0" rx="0" fill="#ffffff" />
+<line x1="40.0" y1="188.0" x2="580.0" y2="188.0" stroke="#a0a0a0" stroke-width="1" stroke-linecap="round" />
+<text x="56.0" y="154.0" font-size="14" font-weight="700" fill="#000000" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Custom Setup</text>
+<text x="66.0" y="174.0" font-size="12" font-weight="400" fill="#000000" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Select the way you want features to be installed.</text>
+<polygon points="540.0,141.0 555.6,150.0 555.6,168.0 540.0,177.0 524.4,168.0 524.4,150.0" fill="#5fa04e"/>
+<line x1="40.0" y1="492.0" x2="580.0" y2="492.0" stroke="#a0a0a0" stroke-width="1" stroke-linecap="round" />
+<text x="56.0" y="212.0" font-size="11.5" font-weight="400" fill="#000000" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Click the icons in the tree below to change the way features will be installed.</text>
+<rect x="56.0" y="224.0" width="300.0" height="186.0" rx="0" fill="#ffffff" stroke="#828790" stroke-width="1" />
+<rect x="80.0" y="237.0" width="16.0" height="12.0" rx="2" fill="#c9d7e6" stroke="#6d7f93" stroke-width="1" />
+<rect x="84.0" y="247.0" width="8.0" height="3.0" rx="0" fill="#6d7f93" />
+<text x="90.0" y="249.0" font-size="9" font-weight="400" fill="#333" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >▾</text>
+<text x="106.0" y="248.0" font-size="12" font-weight="400" fill="#ffffff" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Node.js runtime</text>
+<rect x="104.0" y="235.0" width="103.5" height="18.0" rx="0" fill="#0078d7" />
+<text x="106.0" y="248.0" font-size="12" font-weight="400" fill="#ffffff" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Node.js runtime</text>
+<rect x="80.0" y="261.0" width="16.0" height="12.0" rx="2" fill="#c9d7e6" stroke="#6d7f93" stroke-width="1" />
+<rect x="84.0" y="271.0" width="8.0" height="3.0" rx="0" fill="#6d7f93" />
+<text x="90.0" y="273.0" font-size="9" font-weight="400" fill="#333" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >▾</text>
+<text x="106.0" y="272.0" font-size="12" font-weight="400" fill="#000000" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >corepack manager</text>
+<rect x="80.0" y="285.0" width="16.0" height="12.0" rx="2" fill="#c9d7e6" stroke="#6d7f93" stroke-width="1" />
+<rect x="84.0" y="295.0" width="8.0" height="3.0" rx="0" fill="#6d7f93" />
+<text x="90.0" y="297.0" font-size="9" font-weight="400" fill="#333" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >▾</text>
+<text x="106.0" y="296.0" font-size="12" font-weight="400" fill="#000000" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >npm package manager</text>
+<rect x="80.0" y="309.0" width="16.0" height="12.0" rx="2" fill="#c9d7e6" stroke="#6d7f93" stroke-width="1" />
+<rect x="84.0" y="319.0" width="8.0" height="3.0" rx="0" fill="#6d7f93" />
+<text x="90.0" y="321.0" font-size="9" font-weight="400" fill="#333" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >▾</text>
+<text x="106.0" y="320.0" font-size="12" font-weight="400" fill="#000000" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Online documentation shortcuts</text>
+<text x="64.0" y="344.0" font-size="11" font-weight="400" fill="#555" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >⊟</text>
+<rect x="80.0" y="333.0" width="16.0" height="12.0" rx="2" fill="#c9d7e6" stroke="#6d7f93" stroke-width="1" />
+<rect x="84.0" y="343.0" width="8.0" height="3.0" rx="0" fill="#6d7f93" />
+<text x="90.0" y="345.0" font-size="9" font-weight="400" fill="#333" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >▾</text>
+<text x="106.0" y="344.0" font-size="12" font-weight="400" fill="#000000" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Add to PATH</text>
+<rect x="102.0" y="357.0" width="16.0" height="12.0" rx="2" fill="#c9d7e6" stroke="#6d7f93" stroke-width="1" />
+<rect x="106.0" y="367.0" width="8.0" height="3.0" rx="0" fill="#6d7f93" />
+<text x="112.0" y="369.0" font-size="9" font-weight="400" fill="#333" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >▾</text>
+<text x="128.0" y="368.0" font-size="12" font-weight="400" fill="#000000" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Node.js and npm</text>
+<rect x="102.0" y="381.0" width="16.0" height="12.0" rx="2" fill="#c9d7e6" stroke="#6d7f93" stroke-width="1" />
+<rect x="106.0" y="391.0" width="8.0" height="3.0" rx="0" fill="#6d7f93" />
+<text x="112.0" y="393.0" font-size="9" font-weight="400" fill="#333" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >▾</text>
+<text x="128.0" y="392.0" font-size="12" font-weight="400" fill="#000000" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >npm modules</text>
+<rect x="368.0" y="224.0" width="196.0" height="186.0" rx="0" fill="#f0f0f0" stroke="#c0c0c0" stroke-width="1" />
+<text x="378.0" y="246.0" font-size="11.5" font-weight="400" fill="#000000" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Install the core Node.js</text>
+<text x="378.0" y="264.0" font-size="11.5" font-weight="400" fill="#000000" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >runtime (node.exe).</text>
+<text x="56.0" y="476.0" font-size="11.5" font-weight="400" fill="#000000" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Location:  C:\Program Files\nodejs\</text>
+<rect x="56.0" y="502.0" width="84.0" height="26.0" rx="2" fill="#e1e1e1" stroke="#adadad" stroke-width="1" />
+<text x="98.0" y="519.5" font-size="12" font-weight="400" fill="#000000" text-anchor="middle" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Reset</text>
+<rect x="148.0" y="502.0" width="84.0" height="26.0" rx="2" fill="#e1e1e1" stroke="#adadad" stroke-width="1" />
+<text x="190.0" y="519.5" font-size="12" font-weight="400" fill="#000000" text-anchor="middle" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Disk Usage</text>
+<rect x="304.0" y="502.0" width="84.0" height="26.0" rx="2" fill="#e1e1e1" stroke="#adadad" stroke-width="1" />
+<text x="346.0" y="519.5" font-size="12" font-weight="400" fill="#000000" text-anchor="middle" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Back</text>
+<rect x="394.0" y="502.0" width="84.0" height="26.0" rx="2" fill="#e1e1e1" stroke="#0078d7" stroke-width="1.5" />
+<text x="436.0" y="519.5" font-size="12" font-weight="400" fill="#000000" text-anchor="middle" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Next</text>
+<rect x="484.0" y="502.0" width="84.0" height="26.0" rx="2" fill="#e1e1e1" stroke="#adadad" stroke-width="1" />
+<text x="526.0" y="519.5" font-size="12" font-weight="400" fill="#000000" text-anchor="middle" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Cancel</text>
+<rect x="50.0" y="218.0" width="312.0" height="198.0" rx="6" fill="none" stroke="#2a9d5c" stroke-width="3" />
+<text x="206.0" y="438.0" font-size="15" font-weight="800" fill="#2a9d5c" text-anchor="middle" >biarkan semua seperti ini</text>
+<rect x="623.0" y="104.0" width="540.0" height="440.0" rx="2" fill="#000000" opacity="0.12"/>
+<rect x="620.0" y="100.0" width="540.0" height="440.0" rx="0" fill="#f0f0f0" stroke="#7a7a7a" stroke-width="1" />
+<rect x="620.0" y="100.0" width="540.0" height="30.0" rx="0" fill="#ffffff" />
+<rect x="630.0" y="109.0" width="13.0" height="13.0" rx="2" fill="#5fa04e" />
+<text x="650.0" y="120.0" font-size="12" font-weight="400" fill="#000000" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Node.js Setup</text>
+<text x="1114.0" y="120.0" font-size="12" font-weight="400" fill="#000000" text-anchor="middle" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >—</text>
+<text x="1144.0" y="120.0" font-size="12" font-weight="400" fill="#000000" text-anchor="middle" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >✕</text>
+<rect x="620.0" y="130.0" width="540.0" height="58.0" rx="0" fill="#ffffff" />
+<line x1="620.0" y1="188.0" x2="1160.0" y2="188.0" stroke="#a0a0a0" stroke-width="1" stroke-linecap="round" />
+<text x="636.0" y="154.0" font-size="14" font-weight="700" fill="#000000" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Tools for Native Modules</text>
+<text x="646.0" y="174.0" font-size="12" font-weight="400" fill="#000000" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Optionally install the tools necessary to compile native modules.</text>
+<polygon points="1120.0,141.0 1135.6,150.0 1135.6,168.0 1120.0,177.0 1104.4,168.0 1104.4,150.0" fill="#5fa04e"/>
+<line x1="620.0" y1="492.0" x2="1160.0" y2="492.0" stroke="#a0a0a0" stroke-width="1" stroke-linecap="round" />
+<text x="636.0" y="216.0" font-size="11.5" font-weight="400" fill="#000000" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Some npm modules need to be compiled from C/C++ when installing. If you</text>
+<text x="636.0" y="234.0" font-size="11.5" font-weight="400" fill="#000000" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >want to be able to install such modules, some tools (Python and Visual</text>
+<text x="636.0" y="252.0" font-size="11.5" font-weight="400" fill="#000000" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Studio Build Tools) need to be installed.</text>
+<rect x="636.0" y="286.0" width="13.0" height="13.0" rx="0" fill="#ffffff" stroke="#333333" stroke-width="1" />
+<text x="658.0" y="297.0" font-size="11.5" font-weight="400" fill="#000000" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Automatically install the necessary tools. Note that this will also install</text>
+<text x="658.0" y="315.0" font-size="11.5" font-weight="400" fill="#000000" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Chocolatey. The script will pop-up in a new window after the installation</text>
+<text x="658.0" y="333.0" font-size="11.5" font-weight="400" fill="#000000" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >completes.</text>
+<text x="636.0" y="370.0" font-size="11.5" font-weight="400" fill="#000000" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Alternatively, follow the instructions at</text>
+<text x="636.0" y="388.0" font-size="11.5" font-weight="400" fill="#0066cc" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >https://github.com/nodejs/node-gyp#on-windows</text>
+<text x="636.0" y="406.0" font-size="11.5" font-weight="400" fill="#000000" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >to install the dependencies yourself.</text>
+<rect x="884.0" y="502.0" width="84.0" height="26.0" rx="2" fill="#e1e1e1" stroke="#adadad" stroke-width="1" />
+<text x="926.0" y="519.5" font-size="12" font-weight="400" fill="#000000" text-anchor="middle" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Back</text>
+<rect x="974.0" y="502.0" width="84.0" height="26.0" rx="2" fill="#e1e1e1" stroke="#0078d7" stroke-width="1.5" />
+<text x="1016.0" y="519.5" font-size="12" font-weight="400" fill="#000000" text-anchor="middle" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Next</text>
+<rect x="1064.0" y="502.0" width="84.0" height="26.0" rx="2" fill="#e1e1e1" stroke="#adadad" stroke-width="1" />
+<text x="1106.0" y="519.5" font-size="12" font-weight="400" fill="#000000" text-anchor="middle" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Cancel</text>
+<rect x="630.0" y="280.0" width="25.0" height="25.0" rx="3" fill="none" stroke="#e63946" stroke-width="3" />
+<text x="890.0" y="450.0" font-size="16" font-weight="800" fill="#e63946" text-anchor="middle" >JANGAN dicentang — biarkan kosong</text>
+<rect x="390.0" y="498.0" width="92.0" height="34.0" rx="6" fill="none" stroke="#e63946" stroke-width="2.5" />
+<circle cx="436.0" cy="554.0" r="15" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="436.0" y="559.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >1</text>
+<circle cx="600.0" cy="292.0" r="14" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="600.0" y="297.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >2</text>
+<rect x="970.0" y="498.0" width="92.0" height="34.0" rx="6" fill="none" stroke="#e63946" stroke-width="2.5" />
+<circle cx="1016.0" cy="554.0" r="15" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="1016.0" y="559.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >3</text>
+<circle cx="74.0" cy="630.0" r="12" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="74.0" y="635.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >1</text>
+<text x="94.0" y="635.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >Custom Setup: biarkan semua bagian terpasang (termasuk npm package manager dan Add to PATH), lalu Next</text>
+<circle cx="74.0" cy="660.0" r="12" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="74.0" y="665.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >2</text>
+<text x="94.0" y="665.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >Tools for Native Modules: JANGAN centang kotak ini — tidak dibutuhkan dan memasang beberapa gigabita alat tambahan</text>
+<circle cx="74.0" cy="690.0" r="12" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="74.0" y="695.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >3</text>
+<text x="94.0" y="695.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >Klik Next, lalu Install di layar berikutnya (Windows meminta izin administrator: klik Yes)</text>
+<text x="1178.0" y="736.0" font-size="13" font-weight="600" fill="#5f6573" text-anchor="end" >Ilustrasi (digambar ulang, bukan tangkapan layar) · pemasang Node.js 24.21.0 untuk Windows · Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>
