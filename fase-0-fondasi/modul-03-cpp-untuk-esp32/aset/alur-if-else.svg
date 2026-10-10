@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="700" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Percabangan if / else: program memilih jalan</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Syarat diperiksa dari atas ke bawah; hanya SATU blok yang dijalankan — blok pertama yang syaratnya benar</text>
+<rect x="185.0" y="107.0" width="230.0" height="46.0" rx="10" fill="#f1f1f1" stroke="#4a5568" stroke-width="2.5" />
+<text x="300.0" y="135.6" font-size="15.5" font-weight="700" fill="#1e2a4a" text-anchor="middle" >Baca suhu</text>
+<line x1="300.0" y1="153.0" x2="300.0" y2="190.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<path d="M295.8 182.1 L300.0 190.0 L304.2 182.1" fill="none" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M300 190.0 L415.0 240 L300 290.0 L185.0 240 Z" fill="#ffffff" stroke="#e63946" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<text x="300.0" y="246.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >suhu &gt; 30 ?</text>
+<line x1="415.0" y1="240.0" x2="520.0" y2="240.0" stroke="#e63946" stroke-width="2.5" stroke-linecap="round" />
+<path d="M512.1 244.2 L520.0 240.0 L512.1 235.8" fill="none" stroke="#e63946" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<text x="415.0" y="230.0" font-size="14" font-weight="800" fill="#e63946" text-anchor="middle" >ya</text>
+<rect x="520.0" y="217.0" width="160.0" height="46.0" rx="10" fill="#fbe3e5" stroke="#e63946" stroke-width="2.5" />
+<text x="600.0" y="245.6" font-size="15.5" font-weight="700" fill="#1e2a4a" text-anchor="middle" >Nyalakan kipas</text>
+<line x1="300.0" y1="290.0" x2="300.0" y2="340.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<path d="M295.8 332.1 L300.0 340.0 L304.2 332.1" fill="none" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<text x="314.0" y="320.0" font-size="14" font-weight="800" fill="#4a5568" text-anchor="start" >tidak</text>
+<path d="M300 340.0 L415.0 390 L300 440.0 L185.0 390 Z" fill="#ffffff" stroke="#3a6fc4" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<text x="300.0" y="396.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >suhu &lt; 20 ?</text>
+<line x1="415.0" y1="390.0" x2="520.0" y2="390.0" stroke="#3a6fc4" stroke-width="2.5" stroke-linecap="round" />
+<path d="M512.1 394.2 L520.0 390.0 L512.1 385.8" fill="none" stroke="#3a6fc4" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<text x="415.0" y="380.0" font-size="14" font-weight="800" fill="#3a6fc4" text-anchor="middle" >ya</text>
+<rect x="520.0" y="367.0" width="160.0" height="46.0" rx="10" fill="#cfe9f3" stroke="#3a6fc4" stroke-width="2.5" />
+<text x="600.0" y="395.6" font-size="15.5" font-weight="700" fill="#1e2a4a" text-anchor="middle" >Matikan kipas</text>
+<line x1="300.0" y1="440.0" x2="300.0" y2="490.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<path d="M295.8 482.1 L300.0 490.0 L304.2 482.1" fill="none" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<text x="314.0" y="470.0" font-size="14" font-weight="800" fill="#4a5568" text-anchor="start" >tidak</text>
+<rect x="200.0" y="492.0" width="200.0" height="46.0" rx="10" fill="#d6f0e3" stroke="#2a9d5c" stroke-width="2.5" />
+<text x="300.0" y="520.6" font-size="15.5" font-weight="700" fill="#1e2a4a" text-anchor="middle" >Biarkan saja</text>
+<path d="M680 240 L720 240 L720 600 L300 600" fill="none" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M680 390 L720 390" fill="none" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M300 538 L300 600" fill="none" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="300.0" y1="600.0" x2="300.0" y2="630.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<path d="M295.8 622.1 L300.0 630.0 L304.2 622.1" fill="none" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<text x="300.0" y="652.0" font-size="14.5" font-weight="700" fill="#4a5568" text-anchor="middle" >lanjut ke perintah berikutnya</text>
+<rect x="745.0" y="150.0" width="425.0" height="300.0" rx="12" fill="#f7f9fa" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="763" y="190" font-size="14" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve"><tspan fill="#00979d" font-weight="800">if</tspan><tspan fill="#1e2a4a" font-weight="700"> </tspan><tspan fill="#e63946" font-weight="800">(suhu &gt; 30)</tspan><tspan fill="#1e2a4a" font-weight="700"> {</tspan></text>
+<text x="763" y="224" font-size="14" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve"><tspan fill="#e63946" font-weight="400">  Serial.println("Panas! Nyalakan kipas.");</tspan></text>
+<text x="763" y="258" font-size="14" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve"><tspan fill="#1e2a4a" font-weight="700">} </tspan><tspan fill="#00979d" font-weight="800">else if</tspan><tspan fill="#1e2a4a" font-weight="700"> </tspan><tspan fill="#3a6fc4" font-weight="800">(suhu &lt; 20)</tspan><tspan fill="#1e2a4a" font-weight="700"> {</tspan></text>
+<text x="763" y="292" font-size="14" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve"><tspan fill="#3a6fc4" font-weight="400">  Serial.println("Dingin. Matikan kipas.");</tspan></text>
+<text x="763" y="326" font-size="14" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve"><tspan fill="#1e2a4a" font-weight="700">} </tspan><tspan fill="#00979d" font-weight="800">else</tspan><tspan fill="#1e2a4a" font-weight="700"> {</tspan></text>
+<text x="763" y="360" font-size="14" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve"><tspan fill="#2a9d5c" font-weight="400">  Serial.println("Sejuk. Biarkan saja.");</tspan></text>
+<text x="763" y="394" font-size="14" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve"><tspan fill="#1e2a4a" font-weight="700">}</tspan></text>
+<text x="745.0" y="490.0" font-size="14.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >Warna di kode = warna jalur di diagram.</text>
+<text x="745.0" y="511.0" font-size="14.5" font-weight="400" fill="#1e2a4a" text-anchor="start" >Syarat di dalam ( ), blok di dalam { }.</text>
+<text x="745.0" y="532.0" font-size="14.5" font-weight="400" fill="#1e2a4a" text-anchor="start" >Jangan beri ; setelah kurung syarat!</text>
+<text x="1178.0" y="686.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

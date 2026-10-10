@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="660" viewBox="0 0 1200 660" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="660" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Git: memotret kemajuan (commit), lalu mengunggahnya (push)</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >GitHub Desktop menjalankan semua ini dengan tombol — tanpa mengetik perintah</text>
+<rect x="60.0" y="110.0" width="520.0" height="400.0" rx="16" fill="#fff" stroke="#1e2a4a" stroke-width="2.5" />
+<text x="320.0" y="142.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="middle" >LAPTOP KAMU</text>
+<rect x="84.0" y="160.0" width="230.0" height="150.0" rx="10" fill="#fde4c8" stroke="#b45f17" stroke-width="2" />
+<text x="199.0" y="184.0" font-size="14.5" font-weight="800" fill="#b45f17" text-anchor="middle" >folder belajar-iot</text>
+<text x="199.0" y="202.0" font-size="11.5" font-weight="700" fill="#b45f17" text-anchor="middle" >(hasil clone, di Documents\GitHub)</text>
+<text x="100.0" y="226.0" font-size="13" font-weight="400" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">README.md</text>
+<text x="100.0" y="247.0" font-size="13" font-weight="400" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">modul-01-blink.png …</text>
+<text x="100.0" y="268.0" font-size="13" font-weight="400" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">modul-02/</text>
+<text x="100.0" y="289.0" font-size="13" font-weight="700" fill="#2a9d5c" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">modul-03/  ← baru</text>
+<line x1="314.0" y1="233.0" x2="364.0" y2="233.0" stroke="#2a9d5c" stroke-width="3" stroke-linecap="round" />
+<path d="M355.2 237.7 L364.0 233.0 L355.2 228.3" fill="none" stroke="#2a9d5c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<text x="343.0" y="219.0" font-size="13" font-weight="800" fill="#2a9d5c" text-anchor="middle" >commit</text>
+<text x="445.0" y="182.0" font-size="14" font-weight="800" fill="#0f8b8d" text-anchor="middle" >riwayat di laptop</text>
+<rect x="373.0" y="199.0" width="150.0" height="74.0" rx="6" fill="#000" opacity="0.08"/>
+<rect x="370.0" y="196.0" width="150.0" height="74.0" rx="6" fill="#ffffff" stroke="#2a9d5c" stroke-width="2" />
+<rect x="378.0" y="204.0" width="134.0" height="32.0" rx="4" fill="#2a9d5c" opacity="0.18"/>
+<text x="445.0" y="226.0" font-size="13.5" font-weight="800" fill="#2a9d5c" text-anchor="middle" >commit #3</text>
+<text x="445.0" y="256.0" font-size="12.5" font-weight="400" fill="#1e2a4a" text-anchor="middle" >Modul 3: lampu</text>
+<rect x="373.0" y="285.0" width="150.0" height="74.0" rx="6" fill="#000" opacity="0.08"/>
+<rect x="370.0" y="282.0" width="150.0" height="74.0" rx="6" fill="#ffffff" stroke="#0f8b8d" stroke-width="2" />
+<rect x="378.0" y="290.0" width="134.0" height="32.0" rx="4" fill="#0f8b8d" opacity="0.18"/>
+<text x="445.0" y="312.0" font-size="13.5" font-weight="800" fill="#0f8b8d" text-anchor="middle" >commit #2</text>
+<text x="445.0" y="342.0" font-size="12.5" font-weight="400" fill="#1e2a4a" text-anchor="middle" >Modul 2: unggah</text>
+<rect x="373.0" y="371.0" width="150.0" height="74.0" rx="6" fill="#000" opacity="0.08"/>
+<rect x="370.0" y="368.0" width="150.0" height="74.0" rx="6" fill="#ffffff" stroke="#0f8b8d" stroke-width="2" />
+<rect x="378.0" y="376.0" width="134.0" height="32.0" rx="4" fill="#0f8b8d" opacity="0.18"/>
+<text x="445.0" y="398.0" font-size="13.5" font-weight="800" fill="#0f8b8d" text-anchor="middle" >commit #1</text>
+<text x="445.0" y="428.0" font-size="12.5" font-weight="400" fill="#1e2a4a" text-anchor="middle" >Modul 1: blink</text>
+<text x="445.0" y="462.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="middle" >(yang terbaru di atas)</text>
+<text x="84.0" y="360.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="start" >1. ubah file (simpan</text>
+<text x="84.0" y="380.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="start" >    sketch di sini)</text>
+<text x="84.0" y="400.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="start" >2. commit = potret +</text>
+<text x="84.0" y="420.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="start" >    catatan singkat</text>
+<text x="84.0" y="440.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="start" >3. push = unggah</text>
+<path d="M760 210 C740 150 820 120 860 150 C880 105 980 110 990 160 C1060 150 1090 220 1040 250 L790 250 C740 250 730 220 760 210 Z" fill="#eef4ff" stroke="#3a6fc4" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<text x="905.0" y="205.0" font-size="20" font-weight="800" fill="#3a6fc4" text-anchor="middle" >GitHub</text>
+<text x="905.0" y="230.0" font-size="14" font-weight="700" fill="#1e2a4a" text-anchor="middle" >repositori belajar-iot</text>
+<text x="905.0" y="274.0" font-size="14" font-weight="800" fill="#3a6fc4" text-anchor="middle" >riwayat di GitHub</text>
+<rect x="830.0" y="282.0" width="150.0" height="74.0" rx="6" fill="none" stroke="#2a9d5c" stroke-width="2" stroke-dasharray="6 4"/>
+<text x="905.0" y="312.0" font-size="13.5" font-weight="800" fill="#2a9d5c" text-anchor="middle" >commit #3</text>
+<text x="905.0" y="336.0" font-size="12.5" font-weight="700" fill="#2a9d5c" text-anchor="middle" >muncul setelah push</text>
+<rect x="833.0" y="371.0" width="150.0" height="74.0" rx="6" fill="#000" opacity="0.08"/>
+<rect x="830.0" y="368.0" width="150.0" height="74.0" rx="6" fill="#ffffff" stroke="#3a6fc4" stroke-width="2" />
+<rect x="838.0" y="376.0" width="134.0" height="32.0" rx="4" fill="#3a6fc4" opacity="0.18"/>
+<text x="905.0" y="398.0" font-size="13.5" font-weight="800" fill="#3a6fc4" text-anchor="middle" >commit #2</text>
+<text x="905.0" y="428.0" font-size="12.5" font-weight="400" fill="#1e2a4a" text-anchor="middle" >Modul 2: unggah</text>
+<rect x="833.0" y="457.0" width="150.0" height="74.0" rx="6" fill="#000" opacity="0.08"/>
+<rect x="830.0" y="454.0" width="150.0" height="74.0" rx="6" fill="#ffffff" stroke="#3a6fc4" stroke-width="2" />
+<rect x="838.0" y="462.0" width="134.0" height="32.0" rx="4" fill="#3a6fc4" opacity="0.18"/>
+<text x="905.0" y="484.0" font-size="13.5" font-weight="800" fill="#3a6fc4" text-anchor="middle" >commit #1</text>
+<text x="905.0" y="514.0" font-size="12.5" font-weight="400" fill="#1e2a4a" text-anchor="middle" >Modul 1: blink</text>
+<line x1="524.0" y1="236.0" x2="824.0" y2="312.0" stroke="#2a9d5c" stroke-width="3.5" stroke-linecap="round" />
+<path d="M812.3 314.9 L824.0 312.0 L815.1 303.9" fill="none" stroke="#2a9d5c" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
+<text x="692.0" y="244.0" font-size="16" font-weight="800" fill="#2a9d5c" text-anchor="middle" >push (unggah)</text>
+<line x1="824.0" y1="492.0" x2="586.0" y2="492.0" stroke="#3a6fc4" stroke-width="2.5" stroke-linecap="round" />
+<path d="M594.8 487.3 L586.0 492.0 L594.8 496.7" fill="none" stroke="#3a6fc4" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<text x="705.0" y="482.0" font-size="13.5" font-weight="700" fill="#3a6fc4" text-anchor="middle" >fetch / pull (ambil)</text>
+<path d="M760 190 C680 120 640 120 585 150" fill="none" stroke="#4a5568" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="6 5"/>
+<line x1="600.0" y1="142.0" x2="585.0" y2="150.0" stroke="#4a5568" stroke-width="2" stroke-linecap="round" />
+<path d="M589.5 143.4 L585.0 150.0 L593.0 150.0" fill="none" stroke="#4a5568" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="680.0" y="128.0" font-size="13.5" font-weight="700" fill="#4a5568" text-anchor="middle" >clone: salin sekali di awal</text>
+<rect x="60.0" y="540.0" width="1080.0" height="70.0" rx="12" fill="#fbe3e5" stroke="#e63946" stroke-width="2" />
+<text x="600.0" y="568.0" font-size="17" font-weight="800" fill="#e63946" text-anchor="middle" >Commit tanpa push = fotonya masih di laptop saja.</text>
+<text x="600.0" y="594.0" font-size="15" font-weight="600" fill="#1e2a4a" text-anchor="middle" >Belum muncul di GitHub? Cari tombol Push origin di bilah atas GitHub Desktop, lalu klik.</text>
+<text x="1178.0" y="646.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

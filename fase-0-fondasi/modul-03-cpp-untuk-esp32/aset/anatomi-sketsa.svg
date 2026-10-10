@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="840" viewBox="0 0 1200 840" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="840" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Bentuk sebuah sketch Arduino</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Empat bagian dari atas ke bawah — hampir semua program di kurikulum ini berbentuk seperti ini</text>
+<rect x="60.0" y="100.0" width="620.0" height="87.0" rx="6" fill="#ecebe6" />
+<rect x="60.0" y="100.0" width="8.0" height="87.0" rx="3" fill="#4a5568" />
+<text x="84" y="126" font-size="15" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve"><tspan fill="#00979d" font-weight="700">#</tspan><tspan fill="#00979d" font-weight="700">include</tspan><tspan fill="#1e2a4a" font-weight="400"> </tspan><tspan fill="#1e2a4a" font-weight="400">&lt;ArduinoJson.h&gt;</tspan><tspan fill="#1e2a4a" font-weight="400">  </tspan><tspan fill="#8f9aa0" font-weight="400">// kalau memakai library</tspan></text>
+<text x="84" y="149" font-size="15" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve"><tspan fill="#00979d" font-weight="700">const</tspan><tspan fill="#1e2a4a" font-weight="400"> </tspan><tspan fill="#00979d" font-weight="700">int</tspan><tspan fill="#1e2a4a" font-weight="400"> </tspan><tspan fill="#1e2a4a" font-weight="400">PIN_LED</tspan><tspan fill="#1e2a4a" font-weight="400"> </tspan><tspan fill="#1e2a4a" font-weight="400">=</tspan><tspan fill="#1e2a4a" font-weight="400"> </tspan><tspan fill="#1e2a4a" font-weight="400">4</tspan><tspan fill="#1e2a4a" font-weight="400">;</tspan><tspan fill="#1e2a4a" font-weight="400">     </tspan><tspan fill="#8f9aa0" font-weight="400">// konstanta</tspan></text>
+<text x="84" y="172" font-size="15" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve"><tspan fill="#00979d" font-weight="700">int</tspan><tspan fill="#1e2a4a" font-weight="400"> </tspan><tspan fill="#1e2a4a" font-weight="400">hitungan</tspan><tspan fill="#1e2a4a" font-weight="400"> </tspan><tspan fill="#1e2a4a" font-weight="400">=</tspan><tspan fill="#1e2a4a" font-weight="400"> </tspan><tspan fill="#1e2a4a" font-weight="400">0</tspan><tspan fill="#1e2a4a" font-weight="400">;</tspan><tspan fill="#1e2a4a" font-weight="400">          </tspan><tspan fill="#8f9aa0" font-weight="400">// variabel global</tspan></text>
+<line x1="686.0" y1="143.5" x2="760.0" y2="143.5" stroke="#4a5568" stroke-width="2.5" stroke-linecap="round" />
+<circle cx="780.0" cy="143.5" r="16" fill="#4a5568" stroke="#ffffff" stroke-width="2" />
+<text x="780.0" y="149.3" font-size="16" font-weight="700" fill="#fff" text-anchor="middle" >1</text>
+<text x="806.0" y="125.5" font-size="17" font-weight="800" fill="#4a5568" text-anchor="start" >Bagian atas</text>
+<text x="806.0" y="147.5" font-size="14.5" font-weight="400" fill="#1e2a4a" text-anchor="start" >#include memanggil library (Konsep 11),</text>
+<text x="806.0" y="166.5" font-size="14.5" font-weight="400" fill="#1e2a4a" text-anchor="start" >lalu konstanta dan variabel</text>
+<text x="806.0" y="185.5" font-size="14.5" font-weight="400" fill="#1e2a4a" text-anchor="start" >yang dipakai di mana-mana.</text>
+<rect x="60.0" y="199.0" width="620.0" height="133.0" rx="6" fill="#e6dcf5" />
+<rect x="60.0" y="199.0" width="8.0" height="133.0" rx="3" fill="#7b4fb0" />
+<text x="84" y="225" font-size="15" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve"><tspan fill="#00979d" font-weight="700">void</tspan><tspan fill="#1e2a4a" font-weight="400"> </tspan><tspan fill="#d35400" font-weight="700">kedip</tspan><tspan fill="#1e2a4a" font-weight="400">(</tspan><tspan fill="#00979d" font-weight="700">int</tspan><tspan fill="#1e2a4a" font-weight="400"> </tspan><tspan fill="#1e2a4a" font-weight="400">lama</tspan><tspan fill="#1e2a4a" font-weight="400">)</tspan><tspan fill="#1e2a4a" font-weight="400"> </tspan><tspan fill="#1e2a4a" font-weight="400">{</tspan></text>
+<text x="84" y="248" font-size="15" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve"><tspan fill="#1e2a4a" font-weight="400">  </tspan><tspan fill="#d35400" font-weight="700">digitalWrite</tspan><tspan fill="#1e2a4a" font-weight="400">(</tspan><tspan fill="#1e2a4a" font-weight="400">PIN_LED</tspan><tspan fill="#1e2a4a" font-weight="400">,</tspan><tspan fill="#1e2a4a" font-weight="400"> </tspan><tspan fill="#1e2a4a" font-weight="400">HIGH</tspan><tspan fill="#1e2a4a" font-weight="400">)</tspan><tspan fill="#1e2a4a" font-weight="400">;</tspan></text>
+<text x="84" y="271" font-size="15" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve"><tspan fill="#1e2a4a" font-weight="400">  </tspan><tspan fill="#d35400" font-weight="700">delay</tspan><tspan fill="#1e2a4a" font-weight="400">(</tspan><tspan fill="#1e2a4a" font-weight="400">lama</tspan><tspan fill="#1e2a4a" font-weight="400">)</tspan><tspan fill="#1e2a4a" font-weight="400">;</tspan></text>
+<text x="84" y="294" font-size="15" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve"><tspan fill="#1e2a4a" font-weight="400">  </tspan><tspan fill="#d35400" font-weight="700">digitalWrite</tspan><tspan fill="#1e2a4a" font-weight="400">(</tspan><tspan fill="#1e2a4a" font-weight="400">PIN_LED</tspan><tspan fill="#1e2a4a" font-weight="400">,</tspan><tspan fill="#1e2a4a" font-weight="400"> </tspan><tspan fill="#1e2a4a" font-weight="400">LOW</tspan><tspan fill="#1e2a4a" font-weight="400">)</tspan><tspan fill="#1e2a4a" font-weight="400">;</tspan></text>
+<text x="84" y="317" font-size="15" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve"><tspan fill="#1e2a4a" font-weight="400">}</tspan></text>
+<line x1="686.0" y1="265.5" x2="760.0" y2="265.5" stroke="#7b4fb0" stroke-width="2.5" stroke-linecap="round" />
+<circle cx="780.0" cy="265.5" r="16" fill="#7b4fb0" stroke="#ffffff" stroke-width="2" />
+<text x="780.0" y="271.3" font-size="16" font-weight="700" fill="#fff" text-anchor="middle" >2</text>
+<text x="806.0" y="247.5" font-size="17" font-weight="800" fill="#7b4fb0" text-anchor="start" >Fungsi buatanmu</text>
+<text x="806.0" y="269.5" font-size="14.5" font-weight="400" fill="#1e2a4a" text-anchor="start" >"Resep kecil" seperti kedip() dari</text>
+<text x="806.0" y="288.5" font-size="14.5" font-weight="400" fill="#1e2a4a" text-anchor="start" >Modul 1 Praktik 3; dibahas di</text>
+<text x="806.0" y="307.5" font-size="14.5" font-weight="400" fill="#1e2a4a" text-anchor="start" >Konsep 6. Ditaruh di atas setup().</text>
+<rect x="60.0" y="344.0" width="620.0" height="110.0" rx="6" fill="#fde4c8" />
+<rect x="60.0" y="344.0" width="8.0" height="110.0" rx="3" fill="#b45f17" />
+<text x="84" y="370" font-size="15" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve"><tspan fill="#00979d" font-weight="700">void</tspan><tspan fill="#1e2a4a" font-weight="400"> </tspan><tspan fill="#d35400" font-weight="700">setup</tspan><tspan fill="#1e2a4a" font-weight="400">(</tspan><tspan fill="#1e2a4a" font-weight="400">)</tspan><tspan fill="#1e2a4a" font-weight="400"> </tspan><tspan fill="#1e2a4a" font-weight="400">{</tspan></text>
+<text x="84" y="393" font-size="15" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve"><tspan fill="#1e2a4a" font-weight="400">  </tspan><tspan fill="#d35400" font-weight="700">pinMode</tspan><tspan fill="#1e2a4a" font-weight="400">(</tspan><tspan fill="#1e2a4a" font-weight="400">PIN_LED</tspan><tspan fill="#1e2a4a" font-weight="400">,</tspan><tspan fill="#1e2a4a" font-weight="400"> </tspan><tspan fill="#1e2a4a" font-weight="400">OUTPUT</tspan><tspan fill="#1e2a4a" font-weight="400">)</tspan><tspan fill="#1e2a4a" font-weight="400">;</tspan></text>
+<text x="84" y="416" font-size="15" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve"><tspan fill="#1e2a4a" font-weight="400">  </tspan><tspan fill="#1e2a4a" font-weight="400">Serial</tspan><tspan fill="#1e2a4a" font-weight="400">.</tspan><tspan fill="#d35400" font-weight="700">begin</tspan><tspan fill="#1e2a4a" font-weight="400">(</tspan><tspan fill="#1e2a4a" font-weight="400">115200</tspan><tspan fill="#1e2a4a" font-weight="400">)</tspan><tspan fill="#1e2a4a" font-weight="400">;</tspan></text>
+<text x="84" y="439" font-size="15" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve"><tspan fill="#1e2a4a" font-weight="400">}</tspan></text>
+<line x1="686.0" y1="399.0" x2="760.0" y2="399.0" stroke="#b45f17" stroke-width="2.5" stroke-linecap="round" />
+<circle cx="780.0" cy="399.0" r="16" fill="#b45f17" stroke="#ffffff" stroke-width="2" />
+<text x="780.0" y="404.8" font-size="16" font-weight="700" fill="#fff" text-anchor="middle" >3</text>
+<text x="806.0" y="381.0" font-size="17" font-weight="800" fill="#b45f17" text-anchor="start" >setup() — "ritual pagi"</text>
+<text x="806.0" y="403.0" font-size="14.5" font-weight="400" fill="#1e2a4a" text-anchor="start" >Dijalankan SEKALI saat chip</text>
+<text x="806.0" y="422.0" font-size="14.5" font-weight="400" fill="#1e2a4a" text-anchor="start" >menyala: mengatur pin, membuka</text>
+<text x="806.0" y="441.0" font-size="14.5" font-weight="400" fill="#1e2a4a" text-anchor="start" >jalur Serial.</text>
+<rect x="60.0" y="466.0" width="620.0" height="156.0" rx="6" fill="#cfe9f3" />
+<rect x="60.0" y="466.0" width="8.0" height="156.0" rx="3" fill="#0f8b8d" />
+<text x="84" y="492" font-size="15" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve"><tspan fill="#00979d" font-weight="700">void</tspan><tspan fill="#1e2a4a" font-weight="400"> </tspan><tspan fill="#d35400" font-weight="700">loop</tspan><tspan fill="#1e2a4a" font-weight="400">(</tspan><tspan fill="#1e2a4a" font-weight="400">)</tspan><tspan fill="#1e2a4a" font-weight="400"> </tspan><tspan fill="#1e2a4a" font-weight="400">{</tspan></text>
+<text x="84" y="515" font-size="15" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve"><tspan fill="#1e2a4a" font-weight="400">  </tspan><tspan fill="#d35400" font-weight="700">kedip</tspan><tspan fill="#1e2a4a" font-weight="400">(</tspan><tspan fill="#1e2a4a" font-weight="400">500</tspan><tspan fill="#1e2a4a" font-weight="400">)</tspan><tspan fill="#1e2a4a" font-weight="400">;</tspan></text>
+<text x="84" y="538" font-size="15" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve"><tspan fill="#1e2a4a" font-weight="400">  </tspan><tspan fill="#1e2a4a" font-weight="400">hitungan</tspan><tspan fill="#1e2a4a" font-weight="400">+</tspan><tspan fill="#1e2a4a" font-weight="400">+</tspan><tspan fill="#1e2a4a" font-weight="400">;</tspan></text>
+<text x="84" y="561" font-size="15" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve"><tspan fill="#1e2a4a" font-weight="400">  </tspan><tspan fill="#1e2a4a" font-weight="400">Serial</tspan><tspan fill="#1e2a4a" font-weight="400">.</tspan><tspan fill="#d35400" font-weight="700">println</tspan><tspan fill="#1e2a4a" font-weight="400">(</tspan><tspan fill="#1e2a4a" font-weight="400">hitungan</tspan><tspan fill="#1e2a4a" font-weight="400">)</tspan><tspan fill="#1e2a4a" font-weight="400">;</tspan></text>
+<text x="84" y="584" font-size="15" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve"><tspan fill="#1e2a4a" font-weight="400">  </tspan><tspan fill="#d35400" font-weight="700">delay</tspan><tspan fill="#1e2a4a" font-weight="400">(</tspan><tspan fill="#1e2a4a" font-weight="400">500</tspan><tspan fill="#1e2a4a" font-weight="400">)</tspan><tspan fill="#1e2a4a" font-weight="400">;</tspan></text>
+<text x="84" y="607" font-size="15" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve"><tspan fill="#1e2a4a" font-weight="400">}</tspan></text>
+<line x1="686.0" y1="544.0" x2="760.0" y2="544.0" stroke="#0f8b8d" stroke-width="2.5" stroke-linecap="round" />
+<circle cx="780.0" cy="544.0" r="16" fill="#0f8b8d" stroke="#ffffff" stroke-width="2" />
+<text x="780.0" y="549.8" font-size="16" font-weight="700" fill="#fff" text-anchor="middle" >4</text>
+<text x="806.0" y="534.0" font-size="17" font-weight="800" fill="#0f8b8d" text-anchor="start" >loop() — "rutinitas seharian"</text>
+<text x="806.0" y="556.0" font-size="14.5" font-weight="400" fill="#1e2a4a" text-anchor="start" >Diulang TERUS-MENERUS sampai</text>
+<text x="806.0" y="575.0" font-size="14.5" font-weight="400" fill="#1e2a4a" text-anchor="start" >listrik dicabut.</text>
+<rect x="60.0" y="648.0" width="1080.0" height="152.0" rx="12" fill="#fff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="84.0" y="680.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="start" >Lima aturan tulis yang berlaku di semua bagian:</text>
+<rect x="84.0" y="692.0" width="44.0" height="26.0" rx="6" fill="#fde4c8" />
+<text x="106.0" y="710.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >; </text>
+<text x="140.0" y="710.0" font-size="14.5" font-weight="400" fill="#1e2a4a" text-anchor="start" >setiap perintah diakhiri titik koma</text>
+<rect x="624.0" y="692.0" width="44.0" height="26.0" rx="6" fill="#fde4c8" />
+<text x="646.0" y="710.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >{ }</text>
+<text x="680.0" y="710.0" font-size="14.5" font-weight="400" fill="#1e2a4a" text-anchor="start" >kurung kurawal membungkus satu blok, selalu berpasangan</text>
+<rect x="84.0" y="726.0" width="44.0" height="26.0" rx="6" fill="#fde4c8" />
+<text x="106.0" y="744.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >Aa</text>
+<text x="140.0" y="744.0" font-size="14.5" font-weight="400" fill="#1e2a4a" text-anchor="start" >huruf besar-kecil dibedakan: digitalWrite ≠ digitalwrite</text>
+<rect x="624.0" y="726.0" width="44.0" height="26.0" rx="6" fill="#fde4c8" />
+<text x="646.0" y="744.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >//</text>
+<text x="680.0" y="744.0" font-size="14.5" font-weight="400" fill="#1e2a4a" text-anchor="start" >komentar: catatan untuk manusia, diabaikan kompiler</text>
+<rect x="84.0" y="760.0" width="44.0" height="26.0" rx="6" fill="#fde4c8" />
+<text x="106.0" y="778.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >↵</text>
+<text x="140.0" y="778.0" font-size="14.5" font-weight="400" fill="#1e2a4a" text-anchor="start" >spasi dan baris baru tidak mengubah arti — rapikan dengan Tools → Auto Format di Arduino IDE</text>
+<text x="1178.0" y="826.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

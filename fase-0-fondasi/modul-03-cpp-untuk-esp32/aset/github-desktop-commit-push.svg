@@ -1,0 +1,237 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="940" viewBox="0 0 1200 940" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="940" fill="#fffdf7"/>
+<text x="600.0" y="40.0" font-size="26" font-weight="800" fill="#1e2a4a" text-anchor="middle" >GitHub Desktop: commit, lalu push</text>
+<text x="600.0" y="72.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >File baru muncul di tab Changes → isi Summary → Commit … to main → Push origin</text>
+<rect x="44.0" y="102.0" width="1120.0" height="620.0" rx="8" fill="#000000" opacity="0.10"/>
+<rect x="40.0" y="96.0" width="1120.0" height="620.0" rx="6" fill="#ffffff" stroke="#b9c0c2" stroke-width="1.2" />
+<rect x="40.0" y="96.0" width="1120.0" height="30.0" rx="6" fill="#24292e" />
+<rect x="40.0" y="116.0" width="1120.0" height="10.0" rx="0" fill="#24292e" />
+<circle cx="58.0" cy="111.0" r="8" fill="#ffffff" />
+<circle cx="58.0" cy="111.0" r="4.5" fill="#24292e" />
+<text x="80.0" y="116.0" font-size="13" font-weight="400" fill="#e6edf3" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >File</text>
+<text x="124.0" y="116.0" font-size="13" font-weight="400" fill="#e6edf3" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Edit</text>
+<text x="171.0" y="116.0" font-size="13" font-weight="400" fill="#e6edf3" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >View</text>
+<text x="224.0" y="116.0" font-size="13" font-weight="400" fill="#e6edf3" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Repository</text>
+<text x="310.0" y="116.0" font-size="13" font-weight="400" fill="#e6edf3" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Branch</text>
+<text x="375.0" y="116.0" font-size="13" font-weight="400" fill="#e6edf3" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Help</text>
+<text x="1060.0" y="116.0" font-size="12" font-weight="400" fill="#e6edf3" text-anchor="middle" >—</text>
+<text x="1096.0" y="116.0" font-size="12" font-weight="400" fill="#e6edf3" text-anchor="middle" >☐</text>
+<text x="1132.0" y="116.0" font-size="12" font-weight="400" fill="#e6edf3" text-anchor="middle" >✕</text>
+<line x1="40.0" y1="126.0" x2="1160.0" y2="126.0" stroke="#000000" stroke-width="1" stroke-linecap="round" />
+<rect x="40.0" y="127.0" width="1120.0" height="52.0" rx="0" fill="#24292e" />
+<rect x="55.0" y="145.0" width="14.0" height="16.0" rx="2" fill="none" stroke="#ffffff" stroke-width="1.6" />
+<line x1="59.0" y1="149.0" x2="65.0" y2="149.0" stroke="#ffffff" stroke-width="1.4" stroke-linecap="round" />
+<text x="82.0" y="148.0" font-size="11" font-weight="400" fill="#9198a1" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Current repository</text>
+<text x="82.0" y="166.0" font-size="14" font-weight="700" fill="#ffffff" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >belajar-iot</text>
+<path d="M268 150 L273 156 L278 150" fill="none" stroke="#9198a1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="290.0" y1="127.0" x2="290.0" y2="179.0" stroke="#3d444d" stroke-width="1" stroke-linecap="round" />
+<circle cx="308.0" cy="147.0" r="2.4" fill="none" stroke="#ffffff" stroke-width="1.5" />
+<circle cx="308.0" cy="160.0" r="2.4" fill="none" stroke="#ffffff" stroke-width="1.5" />
+<circle cx="317.0" cy="151.0" r="2.4" fill="none" stroke="#ffffff" stroke-width="1.5" />
+<line x1="308.0" y1="149.5" x2="308.0" y2="157.5" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" />
+<path d="M317 153.5 Q317 157 310 158" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+<text x="332.0" y="148.0" font-size="11" font-weight="400" fill="#9198a1" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Current branch</text>
+<text x="332.0" y="166.0" font-size="14" font-weight="700" fill="#ffffff" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >main</text>
+<path d="M488 150 L493 156 L498 150" fill="none" stroke="#9198a1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="510.0" y1="127.0" x2="510.0" y2="179.0" stroke="#3d444d" stroke-width="1" stroke-linecap="round" />
+<path d="M525 152 A7 7 0 0 1 538 150" fill="none" stroke="#ffffff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M539 154 A7 7 0 0 1 526 156" fill="none" stroke="#ffffff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M534 146 L538 150 L534 153" fill="none" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="552.0" y="150.0" font-size="14" font-weight="700" fill="#ffffff" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Fetch origin</text>
+<text x="552.0" y="167.0" font-size="11" font-weight="400" fill="#9198a1" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Last fetched 2 minutes ago</text>
+<line x1="760.0" y1="127.0" x2="760.0" y2="179.0" stroke="#3d444d" stroke-width="1" stroke-linecap="round" />
+<rect x="40.0" y="179.0" width="400.0" height="531.0" rx="0" fill="#ffffff" />
+<line x1="440.0" y1="179.0" x2="440.0" y2="716.0" stroke="#d1d9e0" stroke-width="1" stroke-linecap="round" />
+<text x="58.0" y="203.0" font-size="13.5" font-weight="700" fill="#1f2328" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Changes</text>
+<rect x="122.0" y="190.0" width="22.0" height="18.0" rx="9" fill="#e8ebef" />
+<text x="133.0" y="203.0" font-size="11.5" font-weight="700" fill="#1f2328" text-anchor="middle" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >6</text>
+<line x1="48.0" y1="216.0" x2="232.0" y2="216.0" stroke="#fd8c73" stroke-width="2.5" stroke-linecap="round" />
+<text x="258.0" y="203.0" font-size="13.5" font-weight="400" fill="#59636e" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >History</text>
+<line x1="40.0" y1="217.0" x2="440.0" y2="217.0" stroke="#d1d9e0" stroke-width="1" stroke-linecap="round" />
+<rect x="40.0" y="217.0" width="400.0" height="34.0" rx="0" fill="#f6f8fa" />
+<rect x="52.0" y="227.0" width="14.0" height="14.0" rx="3" fill="#0969da" />
+<path d="M55 234 L58 237 L63 231" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<text x="76.0" y="239.0" font-size="13" font-weight="700" fill="#1f2328" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >6 changed files</text>
+<line x1="40.0" y1="251.0" x2="440.0" y2="251.0" stroke="#d1d9e0" stroke-width="1" stroke-linecap="round" />
+<rect x="52.0" y="259.0" width="14.0" height="14.0" rx="3" fill="#0969da" />
+<path d="M55 266 L58 269 L63 263" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<text x="76" y="271" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" font-size="12.5" fill="#1f2328" xml:space="preserve"><tspan fill="#59636e">modul-03/</tspan><tspan>lampu-lalu-lintas-wokwi.png</tspan></text>
+<rect x="412.0" y="259.0" width="15.0" height="15.0" rx="3" fill="none" stroke="#1a7f37" stroke-width="1.6" />
+<text x="419.5" y="271.0" font-size="13" font-weight="800" fill="#1a7f37" text-anchor="middle" >+</text>
+<rect x="52.0" y="289.0" width="14.0" height="14.0" rx="3" fill="#0969da" />
+<path d="M55 296 L58 299 L63 293" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<text x="76" y="301" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" font-size="12.5" fill="#1f2328" xml:space="preserve"><tspan fill="#59636e">modul-03/modul03_bac…/</tspan><tspan>modul03_bacaan_sensor.ino</tspan></text>
+<rect x="412.0" y="289.0" width="15.0" height="15.0" rx="3" fill="none" stroke="#1a7f37" stroke-width="1.6" />
+<text x="419.5" y="301.0" font-size="13" font-weight="800" fill="#1a7f37" text-anchor="middle" >+</text>
+<rect x="52.0" y="319.0" width="14.0" height="14.0" rx="3" fill="#0969da" />
+<path d="M55 326 L58 329 L63 323" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<text x="76" y="331" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" font-size="12.5" fill="#1f2328" xml:space="preserve"><tspan fill="#59636e">modul-03/modul03_kalkul…/</tspan><tspan>modul03_kalkulator.ino</tspan></text>
+<rect x="412.0" y="319.0" width="15.0" height="15.0" rx="3" fill="none" stroke="#1a7f37" stroke-width="1.6" />
+<text x="419.5" y="331.0" font-size="13" font-weight="800" fill="#1a7f37" text-anchor="middle" >+</text>
+<rect x="40.0" y="341.0" width="400.0" height="30.0" rx="0" fill="#ddf4ff" />
+<rect x="52.0" y="349.0" width="14.0" height="14.0" rx="3" fill="#0969da" />
+<path d="M55 356 L58 359 L63 353" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<text x="76" y="361" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" font-size="12.5" fill="#1f2328" xml:space="preserve"><tspan fill="#59636e">modul-03/modul03…/</tspan><tspan>modul03_lampu_lalu_lintas.ino</tspan></text>
+<rect x="412.0" y="349.0" width="15.0" height="15.0" rx="3" fill="none" stroke="#1a7f37" stroke-width="1.6" />
+<text x="419.5" y="361.0" font-size="13" font-weight="800" fill="#1a7f37" text-anchor="middle" >+</text>
+<rect x="52.0" y="379.0" width="14.0" height="14.0" rx="3" fill="#0969da" />
+<path d="M55 386 L58 389 L63 383" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<text x="76" y="391" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" font-size="12.5" fill="#1f2328" xml:space="preserve"><tspan fill="#59636e">modul-03/modul03_morse_…/</tspan><tspan>modul03_morse_nama.ino</tspan></text>
+<rect x="412.0" y="379.0" width="15.0" height="15.0" rx="3" fill="none" stroke="#1a7f37" stroke-width="1.6" />
+<text x="419.5" y="391.0" font-size="13" font-weight="800" fill="#1a7f37" text-anchor="middle" >+</text>
+<rect x="52.0" y="409.0" width="14.0" height="14.0" rx="3" fill="#0969da" />
+<path d="M55 416 L58 419 L63 413" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<text x="76" y="421" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" font-size="12.5" fill="#1f2328" xml:space="preserve"><tspan fill="#59636e">modul-03/modul03_ra…/</tspan><tspan>modul03_rata_rata_suhu.ino</tspan></text>
+<rect x="412.0" y="409.0" width="15.0" height="15.0" rx="3" fill="none" stroke="#1a7f37" stroke-width="1.6" />
+<text x="419.5" y="421.0" font-size="13" font-weight="800" fill="#1a7f37" text-anchor="middle" >+</text>
+<line x1="40.0" y1="532.0" x2="440.0" y2="532.0" stroke="#d1d9e0" stroke-width="1" stroke-linecap="round" />
+<circle cx="66.0" cy="562.0" r="13" fill="#c6d2dc" />
+<rect x="88.0" y="546.0" width="338.0" height="32.0" rx="6" fill="#ffffff" stroke="#d1d9e0" stroke-width="1.2" />
+<text x="98.0" y="567.0" font-size="13" font-weight="400" fill="#1f2328" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Modul 3: lampu lalu lintas dan latihan C++</text>
+<rect x="52.0" y="586.0" width="374.0" height="66.0" rx="6" fill="#ffffff" stroke="#d1d9e0" stroke-width="1.2" />
+<text x="62.0" y="608.0" font-size="13" font-weight="400" fill="#8c959f" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Description</text>
+<rect x="52.0" y="664.0" width="374.0" height="34.0" rx="6" fill="#0969da" />
+<text x="239.0" y="686" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" font-size="13.5" fill="#ffffff" text-anchor="middle">Commit 6 files to <tspan font-weight="700">main</tspan></text>
+<rect x="440.0" y="179.0" width="720.0" height="38.0" rx="0" fill="#f6f8fa" />
+<text x="456.0" y="203.0" font-size="13" font-weight="700" fill="#1f2328" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >modul-03/modul03_lampu_lalu_lintas/modul03_lampu_lalu_lintas.ino</text>
+<line x1="440.0" y1="217.0" x2="1160.0" y2="217.0" stroke="#d1d9e0" stroke-width="1" stroke-linecap="round" />
+<clipPath id="diffclip"><rect x="440" y="217" width="718" height="484"/></clipPath><g clip-path="url(#diffclip)">
+<rect x="440.0" y="217.0" width="720.0" height="22.0" rx="0" fill="#dafbe1" />
+<rect x="440.0" y="217.0" width="40.0" height="22.0" rx="0" fill="#aceebb" />
+<text x="472.0" y="233.0" font-size="11.5" font-weight="400" fill="#1a7f37" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >1</text>
+<text x="490.0" y="233.0" font-size="12" font-weight="400" fill="#1f2328" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">+// Lampu lalu lintas 3 LED - Praktik 8 Modul 3</text>
+<rect x="440.0" y="239.0" width="720.0" height="22.0" rx="0" fill="#dafbe1" />
+<rect x="440.0" y="239.0" width="40.0" height="22.0" rx="0" fill="#aceebb" />
+<text x="472.0" y="255.0" font-size="11.5" font-weight="400" fill="#1a7f37" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >2</text>
+<text x="490.0" y="255.0" font-size="12" font-weight="400" fill="#1f2328" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">+// Ditulis sendiri oleh: Ani</text>
+<rect x="440.0" y="261.0" width="720.0" height="22.0" rx="0" fill="#dafbe1" />
+<rect x="440.0" y="261.0" width="40.0" height="22.0" rx="0" fill="#aceebb" />
+<text x="472.0" y="277.0" font-size="11.5" font-weight="400" fill="#1a7f37" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >3</text>
+<text x="490.0" y="277.0" font-size="12" font-weight="400" fill="#1f2328" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">+// Merah di D4, hijau di D18, kuning di D19.</text>
+<rect x="440.0" y="283.0" width="720.0" height="22.0" rx="0" fill="#dafbe1" />
+<rect x="440.0" y="283.0" width="40.0" height="22.0" rx="0" fill="#aceebb" />
+<text x="472.0" y="299.0" font-size="11.5" font-weight="400" fill="#1a7f37" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >4</text>
+<text x="490.0" y="299.0" font-size="12" font-weight="400" fill="#1f2328" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">+</text>
+<rect x="440.0" y="305.0" width="720.0" height="22.0" rx="0" fill="#dafbe1" />
+<rect x="440.0" y="305.0" width="40.0" height="22.0" rx="0" fill="#aceebb" />
+<text x="472.0" y="321.0" font-size="11.5" font-weight="400" fill="#1a7f37" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >5</text>
+<text x="490.0" y="321.0" font-size="12" font-weight="400" fill="#1f2328" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">+const int PIN_MERAH = 4;    // LED merah  (tulisan D4 di papan)</text>
+<rect x="440.0" y="327.0" width="720.0" height="22.0" rx="0" fill="#dafbe1" />
+<rect x="440.0" y="327.0" width="40.0" height="22.0" rx="0" fill="#aceebb" />
+<text x="472.0" y="343.0" font-size="11.5" font-weight="400" fill="#1a7f37" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >6</text>
+<text x="490.0" y="343.0" font-size="12" font-weight="400" fill="#1f2328" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">+const int PIN_HIJAU = 18;   // LED hijau  (D18)</text>
+<rect x="440.0" y="349.0" width="720.0" height="22.0" rx="0" fill="#dafbe1" />
+<rect x="440.0" y="349.0" width="40.0" height="22.0" rx="0" fill="#aceebb" />
+<text x="472.0" y="365.0" font-size="11.5" font-weight="400" fill="#1a7f37" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >7</text>
+<text x="490.0" y="365.0" font-size="12" font-weight="400" fill="#1f2328" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">+const int PIN_KUNING = 19;  // LED kuning (D19)</text>
+<rect x="440.0" y="371.0" width="720.0" height="22.0" rx="0" fill="#dafbe1" />
+<rect x="440.0" y="371.0" width="40.0" height="22.0" rx="0" fill="#aceebb" />
+<text x="472.0" y="387.0" font-size="11.5" font-weight="400" fill="#1a7f37" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >8</text>
+<text x="490.0" y="387.0" font-size="12" font-weight="400" fill="#1f2328" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">+</text>
+<rect x="440.0" y="393.0" width="720.0" height="22.0" rx="0" fill="#dafbe1" />
+<rect x="440.0" y="393.0" width="40.0" height="22.0" rx="0" fill="#aceebb" />
+<text x="472.0" y="409.0" font-size="11.5" font-weight="400" fill="#1a7f37" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >9</text>
+<text x="490.0" y="409.0" font-size="12" font-weight="400" fill="#1f2328" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">+const int LAMA_MERAH = 5000;   // milidetik</text>
+<rect x="440.0" y="415.0" width="720.0" height="22.0" rx="0" fill="#dafbe1" />
+<rect x="440.0" y="415.0" width="40.0" height="22.0" rx="0" fill="#aceebb" />
+<text x="472.0" y="431.0" font-size="11.5" font-weight="400" fill="#1a7f37" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >10</text>
+<text x="490.0" y="431.0" font-size="12" font-weight="400" fill="#1f2328" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">+const int LAMA_HIJAU = 4000;</text>
+<rect x="440.0" y="437.0" width="720.0" height="22.0" rx="0" fill="#dafbe1" />
+<rect x="440.0" y="437.0" width="40.0" height="22.0" rx="0" fill="#aceebb" />
+<text x="472.0" y="453.0" font-size="11.5" font-weight="400" fill="#1a7f37" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >11</text>
+<text x="490.0" y="453.0" font-size="12" font-weight="400" fill="#1f2328" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">+const int LAMA_KUNING = 2000;</text>
+<rect x="440.0" y="459.0" width="720.0" height="22.0" rx="0" fill="#dafbe1" />
+<rect x="440.0" y="459.0" width="40.0" height="22.0" rx="0" fill="#aceebb" />
+<text x="472.0" y="475.0" font-size="11.5" font-weight="400" fill="#1a7f37" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >12</text>
+<text x="490.0" y="475.0" font-size="12" font-weight="400" fill="#1f2328" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">+</text>
+<rect x="440.0" y="481.0" width="720.0" height="22.0" rx="0" fill="#dafbe1" />
+<rect x="440.0" y="481.0" width="40.0" height="22.0" rx="0" fill="#aceebb" />
+<text x="472.0" y="497.0" font-size="11.5" font-weight="400" fill="#1a7f37" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >13</text>
+<text x="490.0" y="497.0" font-size="12" font-weight="400" fill="#1f2328" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">+// Satu fungsi untuk mengatur ketiga lampu sekaligus.</text>
+<rect x="440.0" y="503.0" width="720.0" height="22.0" rx="0" fill="#dafbe1" />
+<rect x="440.0" y="503.0" width="40.0" height="22.0" rx="0" fill="#aceebb" />
+<text x="472.0" y="519.0" font-size="11.5" font-weight="400" fill="#1a7f37" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >14</text>
+<text x="490.0" y="519.0" font-size="12" font-weight="400" fill="#1f2328" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">+// true sama artinya dengan HIGH (menyala), false sama dengan LOW (padam).</text>
+<rect x="440.0" y="525.0" width="720.0" height="22.0" rx="0" fill="#dafbe1" />
+<rect x="440.0" y="525.0" width="40.0" height="22.0" rx="0" fill="#aceebb" />
+<text x="472.0" y="541.0" font-size="11.5" font-weight="400" fill="#1a7f37" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >15</text>
+<text x="490.0" y="541.0" font-size="12" font-weight="400" fill="#1f2328" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">+void aturLampu(bool merah, bool kuning, bool hijau) {</text>
+<rect x="440.0" y="547.0" width="720.0" height="22.0" rx="0" fill="#dafbe1" />
+<rect x="440.0" y="547.0" width="40.0" height="22.0" rx="0" fill="#aceebb" />
+<text x="472.0" y="563.0" font-size="11.5" font-weight="400" fill="#1a7f37" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >16</text>
+<text x="490.0" y="563.0" font-size="12" font-weight="400" fill="#1f2328" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">+  digitalWrite(PIN_MERAH, merah);</text>
+<rect x="440.0" y="569.0" width="720.0" height="22.0" rx="0" fill="#dafbe1" />
+<rect x="440.0" y="569.0" width="40.0" height="22.0" rx="0" fill="#aceebb" />
+<text x="472.0" y="585.0" font-size="11.5" font-weight="400" fill="#1a7f37" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >17</text>
+<text x="490.0" y="585.0" font-size="12" font-weight="400" fill="#1f2328" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">+  digitalWrite(PIN_KUNING, kuning);</text>
+<rect x="440.0" y="591.0" width="720.0" height="22.0" rx="0" fill="#dafbe1" />
+<rect x="440.0" y="591.0" width="40.0" height="22.0" rx="0" fill="#aceebb" />
+<text x="472.0" y="607.0" font-size="11.5" font-weight="400" fill="#1a7f37" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >18</text>
+<text x="490.0" y="607.0" font-size="12" font-weight="400" fill="#1f2328" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">+  digitalWrite(PIN_HIJAU, hijau);</text>
+<rect x="440.0" y="613.0" width="720.0" height="22.0" rx="0" fill="#dafbe1" />
+<rect x="440.0" y="613.0" width="40.0" height="22.0" rx="0" fill="#aceebb" />
+<text x="472.0" y="629.0" font-size="11.5" font-weight="400" fill="#1a7f37" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >19</text>
+<text x="490.0" y="629.0" font-size="12" font-weight="400" fill="#1f2328" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">+}</text>
+<rect x="440.0" y="635.0" width="720.0" height="22.0" rx="0" fill="#dafbe1" />
+<rect x="440.0" y="635.0" width="40.0" height="22.0" rx="0" fill="#aceebb" />
+<text x="472.0" y="651.0" font-size="11.5" font-weight="400" fill="#1a7f37" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >20</text>
+<text x="490.0" y="651.0" font-size="12" font-weight="400" fill="#1f2328" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">+</text>
+<rect x="440.0" y="657.0" width="720.0" height="22.0" rx="0" fill="#dafbe1" />
+<rect x="440.0" y="657.0" width="40.0" height="22.0" rx="0" fill="#aceebb" />
+<text x="472.0" y="673.0" font-size="11.5" font-weight="400" fill="#1a7f37" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >21</text>
+<text x="490.0" y="673.0" font-size="12" font-weight="400" fill="#1f2328" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">+void setup() {</text>
+<rect x="440.0" y="679.0" width="720.0" height="22.0" rx="0" fill="#dafbe1" />
+<rect x="440.0" y="679.0" width="40.0" height="22.0" rx="0" fill="#aceebb" />
+<text x="472.0" y="695.0" font-size="11.5" font-weight="400" fill="#1a7f37" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >22</text>
+<text x="490.0" y="695.0" font-size="12" font-weight="400" fill="#1f2328" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">+  Serial.begin(115200);</text>
+</g>
+<rect x="40.0" y="218.0" width="400.0" height="215.0" rx="8" fill="none" stroke="#e63946" stroke-width="3" />
+<circle cx="20.0" cy="331.0" r="15" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="20.0" y="336.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >1</text>
+<rect x="84.0" y="542.0" width="346.0" height="40.0" rx="8" fill="none" stroke="#e63946" stroke-width="3" />
+<circle cx="20.0" cy="562.0" r="15" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="20.0" y="567.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >2</text>
+<rect x="48.0" y="660.0" width="382.0" height="42.0" rx="8" fill="none" stroke="#e63946" stroke-width="3" />
+<circle cx="20.0" cy="681.0" r="15" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="20.0" y="686.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >3</text>
+<text x="40.0" y="742.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >Setelah commit, tombol di bilah atas berubah menjadi Push origin:</text>
+<rect x="40.0" y="754.0" width="1120.0" height="52.0" rx="0" fill="#24292e" />
+<rect x="55.0" y="772.0" width="14.0" height="16.0" rx="2" fill="none" stroke="#ffffff" stroke-width="1.6" />
+<line x1="59.0" y1="776.0" x2="65.0" y2="776.0" stroke="#ffffff" stroke-width="1.4" stroke-linecap="round" />
+<text x="82.0" y="775.0" font-size="11" font-weight="400" fill="#9198a1" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Current repository</text>
+<text x="82.0" y="793.0" font-size="14" font-weight="700" fill="#ffffff" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >belajar-iot</text>
+<path d="M268 777 L273 783 L278 777" fill="none" stroke="#9198a1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="290.0" y1="754.0" x2="290.0" y2="806.0" stroke="#3d444d" stroke-width="1" stroke-linecap="round" />
+<circle cx="308.0" cy="774.0" r="2.4" fill="none" stroke="#ffffff" stroke-width="1.5" />
+<circle cx="308.0" cy="787.0" r="2.4" fill="none" stroke="#ffffff" stroke-width="1.5" />
+<circle cx="317.0" cy="778.0" r="2.4" fill="none" stroke="#ffffff" stroke-width="1.5" />
+<line x1="308.0" y1="776.5" x2="308.0" y2="784.5" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" />
+<path d="M317 780.5 Q317 784 310 785" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+<text x="332.0" y="775.0" font-size="11" font-weight="400" fill="#9198a1" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Current branch</text>
+<text x="332.0" y="793.0" font-size="14" font-weight="700" fill="#ffffff" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >main</text>
+<path d="M488 777 L493 783 L498 777" fill="none" stroke="#9198a1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="510.0" y1="754.0" x2="510.0" y2="806.0" stroke="#3d444d" stroke-width="1" stroke-linecap="round" />
+<path d="M532 788 L532 773 M527 778 L532 773 L537 778" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<text x="552.0" y="777.0" font-size="14" font-weight="700" fill="#ffffff" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Push origin</text>
+<text x="552.0" y="794.0" font-size="11" font-weight="400" fill="#9198a1" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Last fetched 2 minutes ago</text>
+<rect x="650.2" y="765.0" width="32.0" height="18.0" rx="9" fill="#3d444d" />
+<text x="666.2" y="778.0" font-size="11.5" font-weight="700" fill="#ffffff" text-anchor="middle" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >1↑</text>
+<line x1="760.0" y1="754.0" x2="760.0" y2="806.0" stroke="#3d444d" stroke-width="1" stroke-linecap="round" />
+<rect x="508.0" y="753.0" width="254.0" height="54.0" rx="8" fill="none" stroke="#e63946" stroke-width="3" />
+<circle cx="786.0" cy="780.0" r="15" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="786.0" y="785.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >4</text>
+<text x="810.0" y="785.0" font-size="13.5" font-weight="700" fill="#ffffff" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >angka 1 = satu commit yang belum diunggah</text>
+<circle cx="54.0" cy="852.0" r="12" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="54.0" y="857.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >1</text>
+<text x="74.0" y="857.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >Tab Changes: file baru bertanda + hijau, semua tercentang</text>
+<circle cx="614.0" cy="852.0" r="12" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="614.0" y="857.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >2</text>
+<text x="634.0" y="857.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >Summary: catatan singkat (wajib diisi)</text>
+<circle cx="54.0" cy="882.0" r="12" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="54.0" y="887.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >3</text>
+<text x="74.0" y="887.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >Commit 6 files to main: memotret, tersimpan di laptop</text>
+<circle cx="614.0" cy="882.0" r="12" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="614.0" y="887.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >4</text>
+<text x="634.0" y="887.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >Push origin: mengirim potretnya ke GitHub</text>
+<text x="1178.0" y="926.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Ilustrasi (digambar ulang, bukan tangkapan layar) · GitHub Desktop 3.6.6 · Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

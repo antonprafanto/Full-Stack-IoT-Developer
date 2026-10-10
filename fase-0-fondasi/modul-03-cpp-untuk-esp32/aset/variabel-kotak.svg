@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="710" viewBox="0 0 1200 710" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="710" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Variabel = stoples berlabel</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Jenis stoples (tipe data) menentukan isi apa yang boleh masuk</text>
+<text x="360" y="122" font-size="30" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve"><tspan fill="#00979d" font-weight="800">int</tspan><tspan fill="#1e2a4a" font-weight="400"> </tspan><tspan fill="#1e2a4a" font-weight="800">umur</tspan><tspan fill="#e63946" font-weight="800"> = </tspan><tspan fill="#1e2a4a" font-weight="800">17</tspan><tspan fill="#1e2a4a" font-weight="800">;</tspan></text>
+<line x1="387.1" y1="134.0" x2="387.1" y2="156.0" stroke="#4a5568" stroke-width="1.5" stroke-linecap="round" />
+<text x="387.1" y="174.0" font-size="13.5" font-weight="700" fill="#4a5568" text-anchor="middle" >tipe data</text>
+<line x1="468.4" y1="134.0" x2="468.4" y2="176.0" stroke="#4a5568" stroke-width="1.5" stroke-linecap="round" />
+<text x="468.4" y="194.0" font-size="13.5" font-weight="700" fill="#4a5568" text-anchor="middle" >nama (label)</text>
+<line x1="531.6" y1="134.0" x2="531.6" y2="156.0" stroke="#4a5568" stroke-width="1.5" stroke-linecap="round" />
+<text x="531.6" y="174.0" font-size="13.5" font-weight="700" fill="#4a5568" text-anchor="middle" >isi dengan</text>
+<line x1="576.7" y1="134.0" x2="576.7" y2="176.0" stroke="#4a5568" stroke-width="1.5" stroke-linecap="round" />
+<text x="576.7" y="194.0" font-size="13.5" font-weight="700" fill="#4a5568" text-anchor="middle" >nilai</text>
+<text x="760.0" y="116.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >Dibaca: "buat stoples berjenis int,</text>
+<text x="760.0" y="138.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >beri label umur, isi dengan 17".</text>
+<rect x="86.0" y="225.0" width="164.0" height="18.0" rx="5" fill="#0f8b8d" />
+<rect x="76.0" y="243.0" width="184.0" height="190.0" rx="18" fill="#ffffff" stroke="#0f8b8d" stroke-width="3" />
+<rect x="79.0" y="334.2" width="178.0" height="95.8" rx="15" fill="#0f8b8d" opacity="0.13"/>
+<text x="168.0" y="275.0" font-size="17" font-weight="800" fill="#0f8b8d" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >int</text>
+<text x="168.0" y="379.8" font-size="26" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >17</text>
+<rect x="94.0" y="289.0" width="148.0" height="30.0" rx="6" fill="#fde4c8" stroke="#b45f17" stroke-width="1.5" />
+<text x="168.0" y="310.0" font-size="15" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >umur</text>
+<text x="168.0" y="463.0" font-size="14.5" font-weight="700" fill="#1e2a4a" text-anchor="middle" >bilangan bulat</text>
+<text x="168.0" y="482.0" font-size="14.5" font-weight="400" fill="#1e2a4a" text-anchor="middle" >tanpa koma</text>
+<rect x="302.0" y="225.0" width="164.0" height="18.0" rx="5" fill="#3a6fc4" />
+<rect x="292.0" y="243.0" width="184.0" height="190.0" rx="18" fill="#ffffff" stroke="#3a6fc4" stroke-width="3" />
+<rect x="295.0" y="334.2" width="178.0" height="95.8" rx="15" fill="#3a6fc4" opacity="0.13"/>
+<text x="384.0" y="275.0" font-size="17" font-weight="800" fill="#3a6fc4" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >float</text>
+<text x="384.0" y="379.8" font-size="26" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >28.5</text>
+<rect x="310.0" y="289.0" width="148.0" height="30.0" rx="6" fill="#fde4c8" stroke="#b45f17" stroke-width="1.5" />
+<text x="384.0" y="310.0" font-size="15" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >suhu</text>
+<text x="384.0" y="463.0" font-size="14.5" font-weight="700" fill="#1e2a4a" text-anchor="middle" >bilangan pecahan</text>
+<text x="384.0" y="482.0" font-size="14.5" font-weight="400" fill="#1e2a4a" text-anchor="middle" >desimal pakai TITIK</text>
+<rect x="518.0" y="225.0" width="164.0" height="18.0" rx="5" fill="#2a9d5c" />
+<rect x="508.0" y="243.0" width="184.0" height="190.0" rx="18" fill="#ffffff" stroke="#2a9d5c" stroke-width="3" />
+<rect x="511.0" y="334.2" width="178.0" height="95.8" rx="15" fill="#2a9d5c" opacity="0.13"/>
+<text x="600.0" y="275.0" font-size="17" font-weight="800" fill="#2a9d5c" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >bool</text>
+<text x="600.0" y="379.8" font-size="26" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >true</text>
+<rect x="526.0" y="289.0" width="148.0" height="30.0" rx="6" fill="#fde4c8" stroke="#b45f17" stroke-width="1.5" />
+<text x="600.0" y="310.0" font-size="15" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >lampuMenyala</text>
+<text x="600.0" y="463.0" font-size="14.5" font-weight="700" fill="#1e2a4a" text-anchor="middle" >ya / tidak</text>
+<text x="600.0" y="482.0" font-size="14.5" font-weight="400" fill="#1e2a4a" text-anchor="middle" >true atau false</text>
+<rect x="734.0" y="225.0" width="164.0" height="18.0" rx="5" fill="#b45f17" />
+<rect x="724.0" y="243.0" width="184.0" height="190.0" rx="18" fill="#ffffff" stroke="#b45f17" stroke-width="3" />
+<rect x="727.0" y="334.2" width="178.0" height="95.8" rx="15" fill="#b45f17" opacity="0.13"/>
+<text x="816.0" y="275.0" font-size="17" font-weight="800" fill="#b45f17" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >String</text>
+<text x="816.0" y="379.8" font-size="26" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >"Ani"</text>
+<rect x="742.0" y="289.0" width="148.0" height="30.0" rx="6" fill="#fde4c8" stroke="#b45f17" stroke-width="1.5" />
+<text x="816.0" y="310.0" font-size="15" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >nama</text>
+<text x="816.0" y="463.0" font-size="14.5" font-weight="700" fill="#1e2a4a" text-anchor="middle" >teks</text>
+<text x="816.0" y="482.0" font-size="14.5" font-weight="400" fill="#1e2a4a" text-anchor="middle" >di antara "…"</text>
+<rect x="950.0" y="225.0" width="164.0" height="18.0" rx="5" fill="#7b4fb0" />
+<rect x="940.0" y="243.0" width="184.0" height="190.0" rx="18" fill="#ffffff" stroke="#7b4fb0" stroke-width="3" />
+<rect x="943.0" y="334.2" width="178.0" height="95.8" rx="15" fill="#7b4fb0" opacity="0.13"/>
+<text x="1032.0" y="275.0" font-size="17" font-weight="800" fill="#7b4fb0" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >char</text>
+<text x="1032.0" y="379.8" font-size="26" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >'A'</text>
+<rect x="958.0" y="289.0" width="148.0" height="30.0" rx="6" fill="#fde4c8" stroke="#b45f17" stroke-width="1.5" />
+<text x="1032.0" y="310.0" font-size="15" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >huruf</text>
+<text x="1032.0" y="463.0" font-size="14.5" font-weight="700" fill="#1e2a4a" text-anchor="middle" >satu huruf</text>
+<text x="1032.0" y="482.0" font-size="14.5" font-weight="400" fill="#1e2a4a" text-anchor="middle" >di antara '…'</text>
+<rect x="60.0" y="540.0" width="1080.0" height="128.0" rx="12" fill="#fff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="84.0" y="572.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Aturan memberi nama:</text>
+<text x="270.0" y="572.0" font-size="14.5" font-weight="400" fill="#1e2a4a" text-anchor="start" >tanpa spasi · tidak diawali angka · hanya huruf, angka, dan garis bawah _ · huruf besar-kecil dibedakan</text>
+<text x="84.0" y="602.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Gaya kurikulum ini:</text>
+<text x="270.0" y="602.0" font-size="14.5" font-weight="400" fill="#1e2a4a" text-anchor="start" >detikHidup, nyalakanLED (variabel &amp; fungsi) · PIN_LED, LAMA_MERAH (konstanta)</text>
+<text x="84.0" y="632.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Batas di ESP32:</text>
+<text x="270.0" y="632.0" font-size="14.5" font-weight="400" fill="#1e2a4a" text-anchor="start" >int −2.147.483.648 … 2.147.483.647 · float teliti ±7 angka · bool cuma true/false</text>
+<text x="1178.0" y="696.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

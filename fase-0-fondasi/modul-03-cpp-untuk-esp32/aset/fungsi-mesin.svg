@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="720" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Fungsi = mesin resep: bahan masuk, hasil keluar</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Parameter adalah bahan; return menyerahkan hasilnya. void berarti tidak ada hasil yang diserahkan</text>
+<text x="60.0" y="130.0" font-size="18" font-weight="800" fill="#3a6fc4" text-anchor="start" >Fungsi DENGAN nilai balik</text>
+<text x="60" y="158" font-size="17" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve"><tspan fill="#00979d" font-weight="800">float</tspan><tspan fill="#1e2a4a" font-weight="700"> keFahrenheit(</tspan><tspan fill="#b45f17" font-weight="800">float celsius</tspan><tspan fill="#1e2a4a" font-weight="700">)</tspan></text>
+<rect x="70.0" y="232.0" width="150.0" height="44.0" rx="22.0" fill="#b45f17" />
+<text x="145.0" y="259.4" font-size="15" font-weight="700" fill="#ffffff" text-anchor="middle" >celsius = 30.0</text>
+<text x="145.0" y="298.0" font-size="14" font-weight="700" fill="#b45f17" text-anchor="middle" >parameter (bahan)</text>
+<line x1="228.0" y1="254.0" x2="330.0" y2="254.0" stroke="#1e2a4a" stroke-width="3" stroke-linecap="round" />
+<path d="M320.3 259.2 L330.0 254.0 L320.3 248.8" fill="none" stroke="#1e2a4a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="340.0" y="182.0" width="470.0" height="150.0" rx="16" fill="#ffffff" stroke="#3a6fc4" stroke-width="3" />
+<rect x="340.0" y="182.0" width="470.0" height="44.0" rx="16" fill="#3a6fc4" />
+<rect x="340.0" y="208.0" width="470.0" height="18.0" rx="0" fill="#3a6fc4" />
+<text x="575.0" y="211.0" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >keFahrenheit</text>
+<text x="575.0" y="285.0" font-size="16" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >celsius * 9.0 / 5.0 + 32.0</text>
+<text x="575.0" y="356.0" font-size="14" font-weight="700" fill="#4a5568" text-anchor="middle" >badan fungsi: tempat bahan diolah</text>
+<line x1="820.0" y1="254.0" x2="920.0" y2="254.0" stroke="#1e2a4a" stroke-width="3" stroke-linecap="round" />
+<path d="M910.3 259.2 L920.0 254.0 L910.3 248.8" fill="none" stroke="#1e2a4a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="930.0" y="232.0" width="200.0" height="44.0" rx="22.0" fill="#2a9d5c" />
+<text x="1030.0" y="259.4" font-size="15" font-weight="700" fill="#ffffff" text-anchor="middle" >return 86.0</text>
+<text x="1030.0" y="298.0" font-size="14" font-weight="700" fill="#2a9d5c" text-anchor="middle" >nilai balik (hasil)</text>
+<text x="640" y="130" font-size="14" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve"><tspan fill="#1e2a4a" font-weight="400">float f = keFahrenheit(30.0);</tspan><tspan fill="#8f9aa0" font-weight="400">  // f berisi 86.0</tspan></text>
+<text x="60.0" y="420.0" font-size="18" font-weight="800" fill="#0f8b8d" text-anchor="start" >Fungsi TANPA nilai balik</text>
+<text x="60" y="448" font-size="17" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve"><tspan fill="#00979d" font-weight="800">void</tspan><tspan fill="#1e2a4a" font-weight="700"> nyalakanLED(</tspan><tspan fill="#b45f17" font-weight="800">int berapaKali</tspan><tspan fill="#1e2a4a" font-weight="700">)</tspan></text>
+<rect x="70.0" y="522.0" width="150.0" height="44.0" rx="22.0" fill="#b45f17" />
+<text x="145.0" y="549.4" font-size="15" font-weight="700" fill="#ffffff" text-anchor="middle" >berapaKali = 3</text>
+<text x="145.0" y="588.0" font-size="14" font-weight="700" fill="#b45f17" text-anchor="middle" >parameter (bahan)</text>
+<line x1="228.0" y1="544.0" x2="330.0" y2="544.0" stroke="#1e2a4a" stroke-width="3" stroke-linecap="round" />
+<path d="M320.3 549.2 L330.0 544.0 L320.3 538.8" fill="none" stroke="#1e2a4a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="340.0" y="472.0" width="470.0" height="150.0" rx="16" fill="#ffffff" stroke="#0f8b8d" stroke-width="3" />
+<rect x="340.0" y="472.0" width="470.0" height="44.0" rx="16" fill="#0f8b8d" />
+<rect x="340.0" y="498.0" width="470.0" height="18.0" rx="0" fill="#0f8b8d" />
+<text x="575.0" y="501.0" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >nyalakanLED</text>
+<text x="575.0" y="575.0" font-size="16" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >for: nyala → padam (×3)</text>
+<line x1="820.0" y1="544.0" x2="920.0" y2="544.0" stroke="#1e2a4a" stroke-width="3" stroke-linecap="round" />
+<path d="M910.3 549.2 L920.0 544.0 L910.3 538.8" fill="none" stroke="#1e2a4a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="952.0" cy="538.0" r="19" fill="#ffd6da" stroke="#e63946" stroke-width="2" />
+<circle cx="952.0" cy="538.0" r="9" fill="#e63946" />
+<text x="952.0" y="504.0" font-size="12.5" font-weight="700" fill="#e63946" text-anchor="middle" >satu LED</text>
+<path d="M985 556 L985 522 L1011 522 L1011 556 L1037 556 L1037 522 L1063 522 L1063 556 L1089 556 L1089 522 L1115 522 L1115 556 L1141 556" fill="none" stroke="#e63946" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<text x="998.0" y="516.0" font-size="11.5" font-weight="800" fill="#e63946" text-anchor="middle" >1</text>
+<text x="1050.0" y="516.0" font-size="11.5" font-weight="800" fill="#e63946" text-anchor="middle" >2</text>
+<text x="1102.0" y="516.0" font-size="11.5" font-weight="800" fill="#e63946" text-anchor="middle" >3</text>
+<text x="1063.0" y="572.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="middle" >nyala–padam ×3</text>
+<text x="1040.0" y="596.0" font-size="14" font-weight="700" fill="#e63946" text-anchor="middle" >LED berkedip 3 kali —</text>
+<text x="1040.0" y="614.0" font-size="14" font-weight="400" fill="#4a5568" text-anchor="middle" >tidak ada nilai yang dibawa pulang</text>
+<text x="640" y="420" font-size="14" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve"><tspan fill="#1e2a4a" font-weight="400">nyalakanLED(3);</tspan><tspan fill="#8f9aa0" font-weight="400">  // cukup dipanggil</tspan></text>
+<rect x="60.0" y="640.0" width="1080.0" height="40.0" rx="10" fill="#fde4c8" />
+<text x="600.0" y="666.0" font-size="15" font-weight="700" fill="#1e2a4a" text-anchor="middle" >setup() dan loop() juga fungsi: void, tanpa parameter, dan dipanggil otomatis oleh sistem Arduino.</text>
+<text x="1178.0" y="706.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

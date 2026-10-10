@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="900" fill="#fffdf7"/>
+<text x="600.0" y="40.0" font-size="26" font-weight="800" fill="#1e2a4a" text-anchor="middle" >GitHub Desktop: repositori baru rumah-pintar-mini</text>
+<text x="600.0" y="72.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Create repository (baru ada di laptop) → commit → Publish repository (terkirim ke GitHub)</text>
+<rect x="44.0" y="106.0" width="560.0" height="640.0" rx="8" fill="#000" opacity="0.18"/>
+<rect x="40.0" y="100.0" width="560.0" height="640.0" rx="8" fill="#ffffff" stroke="#d1d9e0" stroke-width="1.2" />
+<text x="60.0" y="132.0" font-size="16" font-weight="700" fill="#1f2328" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Create a new repository</text>
+<text x="576.0" y="132.0" font-size="18" font-weight="400" fill="#59636e" text-anchor="middle" >×</text>
+<line x1="40.0" y1="150.0" x2="600.0" y2="150.0" stroke="#d1d9e0" stroke-width="1" stroke-linecap="round" />
+<text x="60.0" y="182.0" font-size="13" font-weight="700" fill="#1f2328" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Name</text>
+<rect x="60.0" y="190.0" width="520.0" height="32.0" rx="6" fill="#ffffff" stroke="#d1d9e0" stroke-width="1.2" />
+<text x="70.0" y="211.0" font-size="13" font-weight="400" fill="#1f2328" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >rumah-pintar-mini</text>
+<text x="60.0" y="250.0" font-size="13" font-weight="700" fill="#1f2328" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Local path</text>
+<rect x="60.0" y="258.0" width="430.0" height="32.0" rx="6" fill="#ffffff" stroke="#d1d9e0" stroke-width="1.2" />
+<text x="70.0" y="279.0" font-size="13" font-weight="400" fill="#1f2328" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >C:\Users\NAMAMU\Documents\GitHub</text>
+<rect x="500.0" y="258.0" width="80.0" height="32.0" rx="6" fill="#f6f8fa" stroke="#d1d9e0" stroke-width="1.2" />
+<text x="540.0" y="279.0" font-size="13" font-weight="400" fill="#1f2328" text-anchor="middle" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Choose…</text>
+<text x="60.0" y="318.0" font-size="13" font-weight="700" fill="#1f2328" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Description</text>
+<rect x="60.0" y="326.0" width="520.0" height="32.0" rx="6" fill="#ffffff" stroke="#d1d9e0" stroke-width="1.2" />
+<text x="70.0" y="347.0" font-size="13" font-weight="400" fill="#1f2328" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Proyek Rumah Pintar Mini - kurikulum Fullstack IoT Developer</text>
+<rect x="60.0" y="388.0" width="15.0" height="15.0" rx="3" fill="#0969da" />
+<path d="M63 395 L66 398 L72 391" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<text x="84.0" y="400.0" font-size="13" font-weight="400" fill="#1f2328" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Initialize this repository with a README</text>
+<text x="60.0" y="436.0" font-size="13" font-weight="700" fill="#1f2328" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Git ignore</text>
+<rect x="60.0" y="444.0" width="520.0" height="32.0" rx="6" fill="#f6f8fa" stroke="#d1d9e0" stroke-width="1.2" />
+<text x="70.0" y="465.0" font-size="13" font-weight="400" fill="#1f2328" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >None</text>
+<path d="M558 457 L563 463 L568 457" fill="none" stroke="#59636e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+<text x="60.0" y="504.0" font-size="13" font-weight="700" fill="#1f2328" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >License</text>
+<rect x="60.0" y="512.0" width="520.0" height="32.0" rx="6" fill="#f6f8fa" stroke="#d1d9e0" stroke-width="1.2" />
+<text x="70.0" y="533.0" font-size="13" font-weight="400" fill="#1f2328" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >None</text>
+<path d="M558 525 L563 531 L568 525" fill="none" stroke="#59636e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="40.0" y1="630.0" x2="600.0" y2="630.0" stroke="#d1d9e0" stroke-width="1" stroke-linecap="round" />
+<text x="60.0" y="656.0" font-size="12.5" font-weight="400" fill="#59636e" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >The repository will be created at</text>
+<text x="60.0" y="674.0" font-size="12.5" font-weight="700" fill="#59636e" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >C:\Users\NAMAMU\Documents\GitHub\rumah-pintar-mini.</text>
+<rect x="330.0" y="692.0" width="160.0" height="32.0" rx="6" fill="#0969da" />
+<text x="410.0" y="713.0" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Create repository</text>
+<rect x="498.0" y="692.0" width="82.0" height="32.0" rx="6" fill="#f6f8fa" stroke="#d1d9e0" stroke-width="1.2" />
+<text x="539.0" y="713.0" font-size="13" font-weight="400" fill="#1f2328" text-anchor="middle" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Cancel</text>
+<text x="640.0" y="118.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >Setelah commit, klik tombol ini di bilah atas:</text>
+<rect x="640.0" y="128.0" width="520.0" height="52.0" rx="6" fill="#24292e" />
+<path d="M664 157 L664 146 M660 150 L664 146 L668 150" fill="none" stroke="#ffffff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M656 156 L656 162 L672 162 L672 156" fill="none" stroke="#ffffff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+<text x="686.0" y="151.0" font-size="14" font-weight="700" fill="#ffffff" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Publish repository</text>
+<text x="686.0" y="168.0" font-size="11" font-weight="400" fill="#9198a1" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Publish this repository to GitHub</text>
+<rect x="644.0" y="228.0" width="520.0" height="380.0" rx="8" fill="#000" opacity="0.18"/>
+<rect x="640.0" y="222.0" width="520.0" height="380.0" rx="8" fill="#ffffff" stroke="#d1d9e0" stroke-width="1.2" />
+<text x="660.0" y="254.0" font-size="16" font-weight="700" fill="#1f2328" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Publish repository</text>
+<text x="1136.0" y="254.0" font-size="18" font-weight="400" fill="#59636e" text-anchor="middle" >×</text>
+<line x1="640.0" y1="272.0" x2="1160.0" y2="272.0" stroke="#d1d9e0" stroke-width="1" stroke-linecap="round" />
+<text x="660.0" y="300.0" font-size="13.5" font-weight="700" fill="#1f2328" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >GitHub.com</text>
+<line x1="656.0" y1="312.0" x2="738.0" y2="312.0" stroke="#fd8c73" stroke-width="2.5" stroke-linecap="round" />
+<text x="762.0" y="300.0" font-size="13.5" font-weight="400" fill="#59636e" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >GitHub Enterprise</text>
+<line x1="640.0" y1="313.0" x2="1160.0" y2="313.0" stroke="#d1d9e0" stroke-width="1" stroke-linecap="round" />
+<text x="660.0" y="338.0" font-size="13" font-weight="700" fill="#1f2328" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Name</text>
+<rect x="660.0" y="346.0" width="480.0" height="32.0" rx="6" fill="#ffffff" stroke="#d1d9e0" stroke-width="1.2" />
+<text x="670.0" y="367.0" font-size="13" font-weight="400" fill="#1f2328" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >rumah-pintar-mini</text>
+<text x="660.0" y="406.0" font-size="13" font-weight="700" fill="#1f2328" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Description</text>
+<rect x="660.0" y="414.0" width="480.0" height="32.0" rx="6" fill="#ffffff" stroke="#d1d9e0" stroke-width="1.2" />
+<text x="670.0" y="435.0" font-size="13" font-weight="400" fill="#1f2328" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Proyek Rumah Pintar Mini - kurikulum Fullstack IoT …</text>
+<rect x="660.0" y="476.0" width="15.0" height="15.0" rx="3" fill="#ffffff" stroke="#8c959f" stroke-width="1.4" />
+<text x="684.0" y="488.0" font-size="13" font-weight="400" fill="#1f2328" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Keep this code private</text>
+<text x="854.0" y="488.0" font-size="13" font-weight="800" fill="#e63946" text-anchor="start" >← centang dihilangkan = publik</text>
+<line x1="640.0" y1="536.0" x2="1160.0" y2="536.0" stroke="#d1d9e0" stroke-width="1" stroke-linecap="round" />
+<rect x="890.0" y="554.0" width="160.0" height="32.0" rx="6" fill="#0969da" />
+<text x="970.0" y="575.0" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Publish repository</text>
+<rect x="1058.0" y="554.0" width="82.0" height="32.0" rx="6" fill="#f6f8fa" stroke="#d1d9e0" stroke-width="1.2" />
+<text x="1099.0" y="575.0" font-size="13" font-weight="400" fill="#1f2328" text-anchor="middle" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" >Cancel</text>
+<rect x="640.0" y="630.0" width="520.0" height="110.0" rx="10" fill="#fff4e5" stroke="#b45f17" stroke-width="1.6" stroke-dasharray="6 4"/>
+<text x="656.0" y="656.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Perhatikan</text>
+<text x="656.0" y="677.0" font-size="13.5" font-weight="400" fill="#1e2a4a" text-anchor="start" >Kotak Keep this code private bawaannya tercentang (privat).</text>
+<text x="656.0" y="698.0" font-size="13.5" font-weight="400" fill="#1e2a4a" text-anchor="start" >Description terisi otomatis dari langkah Create — biarkan saja.</text>
+<text x="656.0" y="719.0" font-size="13.5" font-weight="400" fill="#1e2a4a" text-anchor="start" >Repositori publik bisa dibaca siapa pun: jangan simpan kata sandi.</text>
+<rect x="56.0" y="186.0" width="528.0" height="40.0" rx="8" fill="none" stroke="#e63946" stroke-width="3" />
+<circle cx="20.0" cy="206.0" r="15" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="20.0" y="211.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >1</text>
+<rect x="52.0" y="380.0" width="324.0" height="30.0" rx="5" fill="none" stroke="#e63946" stroke-width="3" />
+<circle cx="20.0" cy="394.0" r="15" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="20.0" y="399.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >2</text>
+<rect x="326.0" y="688.0" width="168.0" height="40.0" rx="8" fill="none" stroke="#e63946" stroke-width="3" />
+<circle cx="306.0" cy="708.0" r="15" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="306.0" y="713.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >3</text>
+<rect x="640.0" y="127.0" width="268.0" height="54.0" rx="8" fill="none" stroke="#e63946" stroke-width="3" />
+<circle cx="930.0" cy="154.0" r="15" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="930.0" y="159.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >4</text>
+<rect x="652.0" y="468.0" width="200.0" height="30.0" rx="5" fill="none" stroke="#e63946" stroke-width="3" />
+<circle cx="620.0" cy="482.0" r="15" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="620.0" y="487.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >5</text>
+<rect x="886.0" y="550.0" width="168.0" height="40.0" rx="8" fill="none" stroke="#e63946" stroke-width="3" />
+<circle cx="866.0" cy="570.0" r="15" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="866.0" y="575.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >6</text>
+<circle cx="54.0" cy="780.0" r="12" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="54.0" y="785.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >1</text>
+<text x="74.0" y="785.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >Name: rumah-pintar-mini (Local path biarkan)</text>
+<circle cx="614.0" cy="780.0" r="12" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="614.0" y="785.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >2</text>
+<text x="634.0" y="785.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >Centang Initialize this repository with a README</text>
+<circle cx="54.0" cy="810.0" r="12" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="54.0" y="815.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >3</text>
+<text x="74.0" y="815.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >Klik Create repository: baru ada di laptop</text>
+<circle cx="614.0" cy="810.0" r="12" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="614.0" y="815.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >4</text>
+<text x="634.0" y="815.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >Sesudah commit: klik Publish repository di bilah atas</text>
+<circle cx="54.0" cy="840.0" r="12" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="54.0" y="845.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >5</text>
+<text x="74.0" y="845.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >Hilangkan centang Keep this code private (agar publik)</text>
+<circle cx="614.0" cy="840.0" r="12" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="614.0" y="845.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >6</text>
+<text x="634.0" y="845.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >Klik Publish repository: terkirim ke GitHub</text>
+<text x="1178.0" y="886.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Ilustrasi (digambar ulang, bukan tangkapan layar) · GitHub Desktop 3.6.6 · Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

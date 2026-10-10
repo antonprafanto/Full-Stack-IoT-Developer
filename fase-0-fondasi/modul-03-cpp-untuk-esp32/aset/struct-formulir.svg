@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="640" viewBox="0 0 1200 640" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="640" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >struct = formulir: banyak data, satu nama</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Pertama rancang formulirnya (definisi struct), lalu isi kolom-kolomnya lewat tanda titik (bacaan.suhu)</text>
+<rect x="44.0" y="126.0" width="300.0" height="268.0" rx="12" fill="#000" opacity="0.06"/>
+<rect x="40.0" y="120.0" width="300.0" height="268.0" rx="12" fill="#ffffff" stroke="#0f8b8d" stroke-width="2.5" />
+<rect x="40.0" y="120.0" width="300.0" height="46.0" rx="12" fill="#0f8b8d" />
+<rect x="40.0" y="150.0" width="300.0" height="16.0" rx="0" fill="#0f8b8d" />
+<text x="190.0" y="150.0" font-size="17" font-weight="800" fill="#ffffff" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >struct BacaanSensor</text>
+<text x="58.0" y="196.0" font-size="14.5" font-weight="700" fill="#4a5568" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" >float suhu</text>
+<rect x="196.0" y="176.0" width="132.0" height="34.0" rx="6" fill="#f3f3f3" stroke="#c9c4b8" stroke-width="1.2" />
+<text x="58.0" y="248.0" font-size="14.5" font-weight="700" fill="#4a5568" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" >int kelembapan</text>
+<rect x="196.0" y="228.0" width="132.0" height="34.0" rx="6" fill="#f3f3f3" stroke="#c9c4b8" stroke-width="1.2" />
+<text x="58.0" y="300.0" font-size="14.5" font-weight="700" fill="#4a5568" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" >int cahaya</text>
+<rect x="196.0" y="280.0" width="132.0" height="34.0" rx="6" fill="#f3f3f3" stroke="#c9c4b8" stroke-width="1.2" />
+<text x="58.0" y="352.0" font-size="14.5" font-weight="700" fill="#4a5568" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" >bool gerak</text>
+<rect x="196.0" y="332.0" width="132.0" height="34.0" rx="6" fill="#f3f3f3" stroke="#c9c4b8" stroke-width="1.2" />
+<text x="190.0" y="418.0" font-size="14.5" font-weight="700" fill="#0f8b8d" text-anchor="middle" >rancangan kosong (tipe data baru)</text>
+<line x1="352.0" y1="236.0" x2="470.0" y2="236.0" stroke="#1e2a4a" stroke-width="3" stroke-linecap="round" />
+<path d="M460.3 241.2 L470.0 236.0 L460.3 230.8" fill="none" stroke="#1e2a4a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<text x="356" y="206" font-size="13" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve"><tspan fill="#1e2a4a" font-weight="700">BacaanSensor</tspan></text>
+<text x="356" y="224" font-size="13" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve"><tspan fill="#1e2a4a" font-weight="700">bacaan;</tspan></text>
+<text x="411.0" y="262.0" font-size="12.5" font-weight="700" fill="#4a5568" text-anchor="middle" >buat, lalu isi</text>
+<rect x="484.0" y="126.0" width="340.0" height="268.0" rx="12" fill="#000" opacity="0.06"/>
+<rect x="480.0" y="120.0" width="340.0" height="268.0" rx="12" fill="#ffffff" stroke="#3a6fc4" stroke-width="2.5" />
+<rect x="480.0" y="120.0" width="340.0" height="46.0" rx="12" fill="#3a6fc4" />
+<rect x="480.0" y="150.0" width="340.0" height="16.0" rx="0" fill="#3a6fc4" />
+<text x="650.0" y="150.0" font-size="17" font-weight="800" fill="#ffffff" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >bacaan</text>
+<text x="498.0" y="196.0" font-size="14.5" font-weight="700" fill="#4a5568" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" >bacaan.suhu</text>
+<rect x="656.8" y="176.0" width="149.6" height="34.0" rx="6" fill="#fde4c8" stroke="#c9c4b8" stroke-width="1.2" />
+<text x="668.8" y="199.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" >28.5</text>
+<text x="498.0" y="248.0" font-size="14.5" font-weight="700" fill="#4a5568" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" >bacaan.kelembapan</text>
+<rect x="656.8" y="228.0" width="149.6" height="34.0" rx="6" fill="#fde4c8" stroke="#c9c4b8" stroke-width="1.2" />
+<text x="668.8" y="251.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" >71</text>
+<text x="498.0" y="300.0" font-size="14.5" font-weight="700" fill="#4a5568" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" >bacaan.cahaya</text>
+<rect x="656.8" y="280.0" width="149.6" height="34.0" rx="6" fill="#fde4c8" stroke="#c9c4b8" stroke-width="1.2" />
+<text x="668.8" y="303.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" >412</text>
+<text x="498.0" y="352.0" font-size="14.5" font-weight="700" fill="#4a5568" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" >bacaan.gerak</text>
+<rect x="656.8" y="332.0" width="149.6" height="34.0" rx="6" fill="#fde4c8" stroke="#c9c4b8" stroke-width="1.2" />
+<text x="668.8" y="355.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" >false</text>
+<text x="650.0" y="418.0" font-size="14.5" font-weight="700" fill="#3a6fc4" text-anchor="middle" >formulir terisi: bacaan.suhu = 28.5; …</text>
+<line x1="830.0" y1="236.0" x2="902.0" y2="236.0" stroke="#1e2a4a" stroke-width="3" stroke-linecap="round" />
+<path d="M892.3 241.2 L902.0 236.0 L892.3 230.8" fill="none" stroke="#1e2a4a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<text x="866.0" y="218.0" font-size="13" font-weight="800" fill="#b45f17" text-anchor="middle" >Modul 11</text>
+<rect x="910.0" y="130.0" width="250.0" height="214.0" rx="12" fill="#1e2a4a" />
+<text x="928.0" y="160.0" font-size="14" font-weight="400" fill="#e8f1ff" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">{</text>
+<text x="928.0" y="186.0" font-size="14" font-weight="400" fill="#e8f1ff" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve"> "suhu": 28.5,</text>
+<text x="928.0" y="212.0" font-size="14" font-weight="400" fill="#e8f1ff" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve"> "kelembapan": 71,</text>
+<text x="928.0" y="238.0" font-size="14" font-weight="400" fill="#e8f1ff" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve"> "cahaya": 412,</text>
+<text x="928.0" y="264.0" font-size="14" font-weight="400" fill="#e8f1ff" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve"> "gerak": false,</text>
+<text x="928.0" y="290.0" font-size="14" font-weight="400" fill="#e8f1ff" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve"> …</text>
+<text x="928.0" y="316.0" font-size="14" font-weight="400" fill="#e8f1ff" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">}</text>
+<text x="1035.0" y="372.0" font-size="13.5" font-weight="700" fill="#b45f17" text-anchor="middle" >cuplikan JSON telemetry</text>
+<text x="1035.0" y="391.0" font-size="13.5" font-weight="700" fill="#b45f17" text-anchor="middle" >(Modul 11; dicoba di</text>
+<text x="1035.0" y="410.0" font-size="13.5" font-weight="700" fill="#b45f17" text-anchor="middle" >Praktik 7): nama kolomnya sama</text>
+<rect x="60.0" y="470.0" width="1090.0" height="120.0" rx="12" fill="#fff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="84.0" y="502.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="start" >Kenapa repot memakai struct?</text>
+<text x="84.0" y="530.0" font-size="14.5" font-weight="400" fill="#1e2a4a" text-anchor="start" >Tanpa struct: empat variabel berceceran, dan fungsi butuh empat bahan terpisah.</text>
+<text x="84.0" y="551.0" font-size="14.5" font-weight="400" fill="#1e2a4a" text-anchor="start" >Dengan struct: satu bacaan = satu formulir. Fungsi bisa menerima dan mengembalikannya utuh,</text>
+<text x="84.0" y="572.0" font-size="14.5" font-weight="400" fill="#1e2a4a" text-anchor="start" >dan nama kolomnya sama dengan kontrak data proyek (Lampiran A Silabus).</text>
+<text x="1178.0" y="626.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

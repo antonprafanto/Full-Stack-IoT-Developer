@@ -1,0 +1,170 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="960" viewBox="0 0 1200 960" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="960" fill="#fffdf7"/>
+<text x="600.0" y="40.0" font-size="26" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Contoh bawaan library: File → Examples</text>
+<text x="600.0" y="72.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Contoh dari library yang kamu pasang sendiri ada di kelompok Examples from Custom Libraries</text>
+<rect x="44.0" y="102.0" width="1120.0" height="760.0" rx="8" fill="#000000" opacity="0.10"/>
+<rect x="40.0" y="96.0" width="1120.0" height="760.0" rx="6" fill="#ffffff" stroke="#b9c0c2" stroke-width="1.2" />
+<rect x="40.0" y="96.0" width="1120.0" height="34.0" rx="6" fill="#ffffff" />
+<rect x="52.0" y="105.0" width="16.0" height="16.0" rx="4" fill="#005c5f" />
+<text x="60.0" y="117.0" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle" >∞</text>
+<text x="78.0" y="118.0" font-size="13.5" font-weight="400" fill="#333333" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >sketch_oct10a | Arduino IDE 2.3.10</text>
+<text x="1048.0" y="118.0" font-size="13" font-weight="400" fill="#333333" text-anchor="middle" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >—</text>
+<text x="1088.0" y="118.0" font-size="13" font-weight="400" fill="#333333" text-anchor="middle" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >☐</text>
+<text x="1128.0" y="118.0" font-size="13" font-weight="400" fill="#333333" text-anchor="middle" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >✕</text>
+<rect x="40.0" y="130.0" width="1120.0" height="28.0" rx="0" fill="#292a2d" />
+<text x="54.0" y="149.0" font-size="13.5" font-weight="400" fill="#d6d6d6" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >File</text>
+<text x="96.0" y="149.0" font-size="13.5" font-weight="400" fill="#d6d6d6" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Edit</text>
+<text x="138.0" y="149.0" font-size="13.5" font-weight="400" fill="#d6d6d6" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Sketch</text>
+<text x="194.0" y="149.0" font-size="13.5" font-weight="400" fill="#d6d6d6" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Tools</text>
+<text x="243.0" y="149.0" font-size="13.5" font-weight="400" fill="#d6d6d6" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Help</text>
+<rect x="40.0" y="158.0" width="1120.0" height="56.0" rx="0" fill="#005c5f" />
+<circle cx="74.0" cy="186.0" r="17" fill="#7ec9d0" />
+<path d="M67 186 L72 191 L81 181" fill="none" stroke="#ffffff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="116.0" cy="186.0" r="17" fill="#7ec9d0" />
+<path d="M109 186 L123 186 M118 181 L123 186 L118 191" fill="none" stroke="#ffffff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="158.0" cy="186.0" r="17" fill="#2f7e82" />
+<path d="M155 179 L165 186 L155 193 Z" fill="none" stroke="#9fd3d6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="153.0" cy="190.0" r="3.5" fill="none" stroke="#9fd3d6" stroke-width="1.8" />
+<rect x="188.0" y="169.0" width="300.0" height="34.0" rx="3" fill="#ffffff" />
+<path d="M208 193 L208 177 M205 180 L208 177 L211 180 M208 187 L203 183 L203 180 M208 185 L213 181" fill="none" stroke="#4e5b61" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="208.0" cy="194.0" r="2" fill="#4e5b61" />
+<text x="226.0" y="191.0" font-size="14.5" font-weight="700" fill="#4e5b61" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >DOIT ESP32 DEVKIT V1</text>
+<path d="M464 182 L470 189 L476 182" fill="none" stroke="#4e5b61" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M1085 188 L1090 188 L1093 179 L1096 194 L1099 186 L1103 186" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="1127.0" cy="186.0" r="6.5" fill="none" stroke="#ffffff" stroke-width="2" />
+<circle cx="1127.0" cy="186.0" r="1.6" fill="#ffffff" />
+<line x1="1118.0" y1="186.0" x2="1120.5" y2="186.0" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+<circle cx="1137.0" cy="186.0" r="1.4" fill="#ffffff" />
+<circle cx="1141.0" cy="186.0" r="1.4" fill="#ffffff" />
+<rect x="40.0" y="214.0" width="54.0" height="616.0" rx="0" fill="#ececec" />
+<path d="M56 239 L63 239 L66 242 L78 242 L78 254 L56 254 Z" fill="none" stroke="#8a9799" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="56.0" y="290.0" width="22.0" height="15.0" rx="2" fill="none" stroke="#8a9799" stroke-width="1.8" />
+<line x1="53.0" y1="294.0" x2="56.0" y2="294.0" stroke="#8a9799" stroke-width="1.8" stroke-linecap="round" />
+<line x1="53.0" y1="300.0" x2="56.0" y2="300.0" stroke="#8a9799" stroke-width="1.8" stroke-linecap="round" />
+<line x1="62.0" y1="299.0" x2="73.0" y2="299.0" stroke="#8a9799" stroke-width="1.8" stroke-linecap="round" />
+<rect x="56.0" y="341.0" width="5.0" height="18.0" rx="1" fill="none" stroke="#8a9799" stroke-width="1.6" />
+<rect x="63.0" y="341.0" width="5.0" height="18.0" rx="1" fill="none" stroke="#8a9799" stroke-width="1.6" />
+<rect x="70.0" y="343.0" width="5.0" height="16.0" rx="1" fill="none" stroke="#8a9799" stroke-width="1.6" />
+<path d="M63 393 L76 402 L63 411" fill="none" stroke="#8a9799" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="61.0" cy="407.0" r="4" fill="none" stroke="#8a9799" stroke-width="1.6" />
+<circle cx="65.0" cy="452.0" r="7" fill="none" stroke="#8a9799" stroke-width="1.8" />
+<line x1="70.0" y1="457.0" x2="76.0" y2="463.0" stroke="#8a9799" stroke-width="2" stroke-linecap="round" />
+<rect x="40.0" y="830.0" width="1120.0" height="26.0" rx="0" fill="#005c5f" />
+<text x="1096.0" y="848.0" font-size="13" font-weight="400" fill="#ffffff" text-anchor="end" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" xml:space="preserve">Ln 1, Col 1    UTF-8    DOIT ESP32 DEVKIT V1 on COM3</text>
+<path d="M1111 846 L1111 841 Q1111 836 1116 836 Q1121 836 1121 841 L1121 846 Z" fill="none" stroke="#ffffff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="1116.0" cy="848.5" r="1.4" fill="#ffffff" />
+<rect x="1134.0" y="837.0" width="14.0" height="11.0" rx="1" fill="none" stroke="#ffffff" stroke-width="1.4" />
+<rect x="94.0" y="214.0" width="1066.0" height="36.0" rx="0" fill="#f7f9fa" />
+<rect x="94.0" y="214.0" width="190.0" height="36.0" rx="0" fill="#ffffff" />
+<text x="108.0" y="237.0" font-size="13.5" font-weight="400" fill="#333333" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >sketch_oct10a.ino</text>
+<text x="1138.0" y="236.0" font-size="14" font-weight="700" fill="#777" text-anchor="end" >···</text>
+<text x="138.0" y="272.0" font-size="14" font-weight="400" fill="#30858d" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >1</text>
+<text x="164.0" y="272.0" font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5" xml:space="preserve"><tspan fill="#00979d">void</tspan><tspan fill="#4e5b61"> </tspan><tspan fill="#d35400">setup</tspan><tspan fill="#4e5b61">(</tspan><tspan fill="#4e5b61">)</tspan><tspan fill="#4e5b61"> </tspan><tspan fill="#4e5b61">{</tspan></text>
+<text x="138.0" y="294.0" font-size="14" font-weight="400" fill="#30858d" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >2</text>
+<text x="164.0" y="294.0" font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5" xml:space="preserve"><tspan fill="#4e5b61">  </tspan><tspan fill="#95a5a6">// put your setup code here, to run once:</tspan></text>
+<text x="138.0" y="316.0" font-size="14" font-weight="400" fill="#30858d" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >3</text>
+<text x="138.0" y="338.0" font-size="14" font-weight="400" fill="#30858d" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >4</text>
+<text x="164.0" y="338.0" font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5" xml:space="preserve"><tspan fill="#4e5b61">}</tspan></text>
+<text x="138.0" y="360.0" font-size="14" font-weight="400" fill="#30858d" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >5</text>
+<text x="138.0" y="382.0" font-size="14" font-weight="400" fill="#30858d" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >6</text>
+<text x="164.0" y="382.0" font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5" xml:space="preserve"><tspan fill="#00979d">void</tspan><tspan fill="#4e5b61"> </tspan><tspan fill="#d35400">loop</tspan><tspan fill="#4e5b61">(</tspan><tspan fill="#4e5b61">)</tspan><tspan fill="#4e5b61"> </tspan><tspan fill="#4e5b61">{</tspan></text>
+<text x="138.0" y="404.0" font-size="14" font-weight="400" fill="#30858d" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >7</text>
+<text x="164.0" y="404.0" font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5" xml:space="preserve"><tspan fill="#4e5b61">  </tspan><tspan fill="#95a5a6">// put your main code here, to run repeatedly:</tspan></text>
+<text x="138.0" y="426.0" font-size="14" font-weight="400" fill="#30858d" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >8</text>
+<text x="138.0" y="448.0" font-size="14" font-weight="400" fill="#30858d" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >9</text>
+<text x="164.0" y="448.0" font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5" xml:space="preserve"><tspan fill="#4e5b61">}</tspan></text>
+<line x1="152.0" y1="254.0" x2="152.0" y2="826.0" stroke="#e6e6e6" stroke-width="1" stroke-linecap="round" />
+<rect x="46.0" y="133.0" width="44.0" height="22.0" rx="3" fill="#4a4b4f" />
+<text x="54.0" y="149.0" font-size="13.5" font-weight="400" fill="#ffffff" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >File</text>
+<rect x="49.0" y="162.0" width="230.0" height="373.0" rx="4" fill="#000" opacity="0.16"/>
+<rect x="46.0" y="158.0" width="230.0" height="373.0" rx="4" fill="#ffffff" stroke="#c8c8c8" stroke-width="1" />
+<text x="60.0" y="182.0" font-size="13.5" font-weight="400" fill="#333" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >New Sketch</text>
+<text x="60.0" y="210.0" font-size="13.5" font-weight="400" fill="#333" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >New Cloud Sketch</text>
+<text x="60.0" y="238.0" font-size="13.5" font-weight="400" fill="#333" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Open...</text>
+<text x="60.0" y="266.0" font-size="13.5" font-weight="400" fill="#333" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Open Recent</text>
+<path d="M258 256.0 L264 261.0 L258 266.0" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="60.0" y="294.0" font-size="13.5" font-weight="400" fill="#333" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Sketchbook</text>
+<path d="M258 284.0 L264 289.0 L258 294.0" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="48.0" y="303.0" width="226.0" height="28.0" rx="0" fill="#e1f2f2" />
+<text x="60.0" y="322.0" font-size="13.5" font-weight="700" fill="#00979d" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Examples</text>
+<path d="M258 312.0 L264 317.0 L258 322.0" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="54.0" y1="335.0" x2="268.0" y2="335.0" stroke="#e3e3e3" stroke-width="1" stroke-linecap="round" />
+<text x="60.0" y="359.0" font-size="13.5" font-weight="400" fill="#333" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Close</text>
+<text x="60.0" y="387.0" font-size="13.5" font-weight="400" fill="#333" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Save</text>
+<text x="60.0" y="415.0" font-size="13.5" font-weight="400" fill="#333" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Save As...</text>
+<line x1="54.0" y1="428.0" x2="268.0" y2="428.0" stroke="#e3e3e3" stroke-width="1" stroke-linecap="round" />
+<text x="60.0" y="452.0" font-size="13.5" font-weight="400" fill="#333" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Preferences...</text>
+<text x="60.0" y="480.0" font-size="13.5" font-weight="400" fill="#333" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Advanced</text>
+<path d="M258 470.0 L264 475.0 L258 480.0" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="54.0" y1="493.0" x2="268.0" y2="493.0" stroke="#e3e3e3" stroke-width="1" stroke-linecap="round" />
+<text x="60.0" y="517.0" font-size="13.5" font-weight="400" fill="#333" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Quit</text>
+<rect x="279.0" y="302.0" width="312.0" height="485.0" rx="4" fill="#000" opacity="0.16"/>
+<rect x="276.0" y="298.0" width="312.0" height="485.0" rx="4" fill="#ffffff" stroke="#c8c8c8" stroke-width="1" />
+<text x="290.0" y="322.0" font-size="13" font-weight="400" fill="#9a9a9a" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Built-in examples</text>
+<text x="290.0" y="350.0" font-size="13.5" font-weight="400" fill="#333" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >01.Basics</text>
+<path d="M570 340.0 L576 345.0 L570 350.0" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="290.0" y="378.0" font-size="13.5" font-weight="400" fill="#333" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >02.Digital</text>
+<path d="M570 368.0 L576 373.0 L570 378.0" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="290.0" y="406.0" font-size="13.5" font-weight="400" fill="#333" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >03.Analog</text>
+<path d="M570 396.0 L576 401.0 L570 406.0" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="290.0" y="434.0" font-size="13.5" font-weight="400" fill="#333" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >04.Communication</text>
+<path d="M570 424.0 L576 429.0 L570 434.0" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="290.0" y="462.0" font-size="13.5" font-weight="400" fill="#333" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >…</text>
+<line x1="284.0" y1="475.0" x2="580.0" y2="475.0" stroke="#e3e3e3" stroke-width="1" stroke-linecap="round" />
+<text x="290.0" y="499.0" font-size="13" font-weight="400" fill="#9a9a9a" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Examples for any board</text>
+<text x="290.0" y="527.0" font-size="13.5" font-weight="400" fill="#333" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >… </text>
+<line x1="284.0" y1="540.0" x2="580.0" y2="540.0" stroke="#e3e3e3" stroke-width="1" stroke-linecap="round" />
+<text x="290.0" y="564.0" font-size="13" font-weight="400" fill="#9a9a9a" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Examples for DOIT ESP32 DEVKIT V1</text>
+<text x="290.0" y="592.0" font-size="13.5" font-weight="400" fill="#333" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >ArduinoOTA</text>
+<path d="M570 582.0 L576 587.0 L570 592.0" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="290.0" y="620.0" font-size="13.5" font-weight="400" fill="#333" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >AsyncUDP</text>
+<path d="M570 610.0 L576 615.0 L570 620.0" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="290.0" y="648.0" font-size="13.5" font-weight="400" fill="#333" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >BLE</text>
+<path d="M570 638.0 L576 643.0 L570 648.0" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="290.0" y="676.0" font-size="13.5" font-weight="400" fill="#333" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >BluetoothSerial</text>
+<path d="M570 666.0 L576 671.0 L570 676.0" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="290.0" y="704.0" font-size="13.5" font-weight="400" fill="#333" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >…  </text>
+<line x1="284.0" y1="717.0" x2="580.0" y2="717.0" stroke="#e3e3e3" stroke-width="1" stroke-linecap="round" />
+<text x="290.0" y="741.0" font-size="13" font-weight="400" fill="#9a9a9a" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Examples from Custom Libraries</text>
+<rect x="278.0" y="750.0" width="308.0" height="28.0" rx="0" fill="#e1f2f2" />
+<text x="290.0" y="769.0" font-size="13.5" font-weight="700" fill="#00979d" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >ArduinoJson</text>
+<path d="M570 759.0 L576 764.0 L570 769.0" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="591.0" y="566.0" width="250.0" height="290.0" rx="4" fill="#000" opacity="0.16"/>
+<rect x="588.0" y="562.0" width="250.0" height="290.0" rx="4" fill="#ffffff" stroke="#c8c8c8" stroke-width="1" />
+<text x="602.0" y="586.0" font-size="13.5" font-weight="400" fill="#333" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >JsonConfigFile</text>
+<text x="602.0" y="614.0" font-size="13.5" font-weight="400" fill="#333" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >JsonFilterExample</text>
+<rect x="590.0" y="623.0" width="246.0" height="28.0" rx="0" fill="#e1f2f2" />
+<text x="602.0" y="642.0" font-size="13.5" font-weight="700" fill="#00979d" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >JsonGeneratorExample</text>
+<text x="602.0" y="670.0" font-size="13.5" font-weight="400" fill="#333" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >JsonHttpClient</text>
+<text x="602.0" y="698.0" font-size="13.5" font-weight="400" fill="#333" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >JsonParserExample</text>
+<text x="602.0" y="726.0" font-size="13.5" font-weight="400" fill="#333" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >JsonServer</text>
+<text x="602.0" y="754.0" font-size="13.5" font-weight="400" fill="#333" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >JsonUdpBeacon</text>
+<text x="602.0" y="782.0" font-size="13.5" font-weight="400" fill="#333" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >MsgPackParser</text>
+<text x="602.0" y="810.0" font-size="13.5" font-weight="400" fill="#333" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >ProgmemExample</text>
+<text x="602.0" y="838.0" font-size="13.5" font-weight="400" fill="#333" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >StringExample</text>
+<rect x="44.0" y="299.0" width="234.0" height="36.0" rx="5" fill="none" stroke="#e63946" stroke-width="3" />
+<circle cx="232.0" cy="317.0" r="15" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="232.0" y="322.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >1</text>
+<rect x="276.0" y="718.0" width="312.0" height="64.0" rx="8" fill="none" stroke="#e63946" stroke-width="3" />
+<circle cx="254.0" cy="750.0" r="15" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="254.0" y="755.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >2</text>
+<rect x="588.0" y="619.0" width="250.0" height="36.0" rx="5" fill="none" stroke="#e63946" stroke-width="3" />
+<circle cx="862.0" cy="637.0" r="15" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="862.0" y="642.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >3</text>
+<rect x="862.0" y="470.0" width="278.0" height="116.0" rx="10" fill="#fff4e5" stroke="#b45f17" stroke-width="1.6" stroke-dasharray="6 4"/>
+<text x="878.0" y="496.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Catatan</text>
+<text x="878.0" y="515.0" font-size="13.5" font-weight="400" fill="#1e2a4a" text-anchor="start" >Kelompok Examples for DOIT ESP32</text>
+<text x="878.0" y="534.0" font-size="13.5" font-weight="400" fill="#1e2a4a" text-anchor="start" >DEVKIT V1 hanya muncul kalau papan</text>
+<text x="878.0" y="553.0" font-size="13.5" font-weight="400" fill="#1e2a4a" text-anchor="start" >sudah dipilih. Isi tiap kelompok bisa</text>
+<text x="878.0" y="572.0" font-size="13.5" font-weight="400" fill="#1e2a4a" text-anchor="start" >sedikit berbeda di laptopmu.</text>
+<circle cx="54.0" cy="892.0" r="12" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="54.0" y="897.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >1</text>
+<text x="74.0" y="897.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >Buka menu File → Examples</text>
+<circle cx="614.0" cy="892.0" r="12" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="614.0" y="897.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >2</text>
+<text x="634.0" y="897.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >Turun ke Examples from Custom Libraries → ArduinoJson</text>
+<circle cx="54.0" cy="922.0" r="12" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="54.0" y="927.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >3</text>
+<text x="74.0" y="927.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >Klik JsonGeneratorExample (terbuka di jendela baru)</text>
+<text x="1178.0" y="946.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Ilustrasi (digambar ulang, bukan tangkapan layar) · Arduino IDE 2.3.10 · Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>
