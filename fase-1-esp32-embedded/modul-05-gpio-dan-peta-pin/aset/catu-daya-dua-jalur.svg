@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="800" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Dua jalur listrik: otak dari laptop, tenaga dari adaptor</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Aturan emas catu daya (Konsep 4) — berlaku sampai akhir kurikulum</text>
+<rect x="40.0" y="104.0" width="470.0" height="420.0" rx="16" fill="#ffffff" stroke="#0f8b8d" stroke-width="2.5" />
+<rect x="60.0" y="120.0" width="230.0" height="32.0" rx="16.0" fill="#0f8b8d" />
+<text x="175.0" y="141.4" font-size="15" font-weight="700" fill="#ffffff" text-anchor="middle" >JALUR 1 — OTAK</text>
+<text x="300.0" y="182.0" font-size="14" font-weight="600" fill="#0f8b8d" text-anchor="start" >ESP32 memakai 3,3 V</text>
+<text x="300.0" y="200.9" font-size="14" font-weight="600" fill="#0f8b8d" text-anchor="start" >untuk chip dan sinyal.</text>
+<rect x="85.0" y="211.0" width="130.0" height="82.0" rx="7" fill="#2b3a55" />
+<rect x="93.0" y="219.0" width="114.0" height="64.0" rx="3" fill="#1b1f27" />
+<text x="101.0" y="244.0" font-size="10.0" font-weight="700" fill="#8fe3a8" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">Serial Monitor</text>
+<text x="101.0" y="260.0" font-size="10.0" font-weight="400" fill="#cfd6e2" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">Upload ✓</text>
+<path d="M71.0 293.0 L229.0 293.0 L221.0 305.0 L79.0 305.0 Z" fill="#9aa3b0" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M222 284 C 262 284, 262 252, 300 252" fill="none" stroke="#3b4656" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="305.0" y="219.0" width="170.0" height="66.0" rx="6" fill="#1f3b57" stroke="#0f2236" stroke-width="2" />
+<rect x="413.0" y="227.0" width="54.0" height="50.0" rx="3" fill="#c9ced6" stroke="#8a93a1" stroke-width="1.5" />
+<text x="440.0" y="256.0" font-size="11" font-weight="800" fill="#3b4656" text-anchor="middle" >ESP32</text>
+<rect x="295.0" y="242.0" width="18.0" height="20.0" rx="2" fill="#b8c0cc" stroke="#6b7585" stroke-width="1.5" />
+<circle cx="319.0" cy="225.0" r="2.6" fill="#d9b44a" />
+<circle cx="319.0" cy="279.0" r="2.6" fill="#d9b44a" />
+<circle cx="329.5" cy="225.0" r="2.6" fill="#d9b44a" />
+<circle cx="329.5" cy="279.0" r="2.6" fill="#d9b44a" />
+<circle cx="340.0" cy="225.0" r="2.6" fill="#d9b44a" />
+<circle cx="340.0" cy="279.0" r="2.6" fill="#d9b44a" />
+<circle cx="350.5" cy="225.0" r="2.6" fill="#d9b44a" />
+<circle cx="350.5" cy="279.0" r="2.6" fill="#d9b44a" />
+<circle cx="361.0" cy="225.0" r="2.6" fill="#d9b44a" />
+<circle cx="361.0" cy="279.0" r="2.6" fill="#d9b44a" />
+<circle cx="371.5" cy="225.0" r="2.6" fill="#d9b44a" />
+<circle cx="371.5" cy="279.0" r="2.6" fill="#d9b44a" />
+<circle cx="382.0" cy="225.0" r="2.6" fill="#d9b44a" />
+<circle cx="382.0" cy="279.0" r="2.6" fill="#d9b44a" />
+<circle cx="392.5" cy="225.0" r="2.6" fill="#d9b44a" />
+<circle cx="392.5" cy="279.0" r="2.6" fill="#d9b44a" />
+<circle cx="403.0" cy="225.0" r="2.6" fill="#d9b44a" />
+<circle cx="403.0" cy="279.0" r="2.6" fill="#d9b44a" />
+<circle cx="413.5" cy="225.0" r="2.6" fill="#d9b44a" />
+<circle cx="413.5" cy="279.0" r="2.6" fill="#d9b44a" />
+<text x="150.0" y="334.0" font-size="14" font-weight="700" fill="#4a5568" text-anchor="middle" >laptop</text>
+<text x="64.0" y="372.0" font-size="14.5" font-weight="400" fill="#1e2a4a" text-anchor="start" >Kabel USB laptop membawa data dan</text>
+<text x="64.0" y="391.6" font-size="14.5" font-weight="400" fill="#1e2a4a" text-anchor="start" >listrik ±5 V — jatahnya hanya ±500 mA.</text>
+<text x="64.0" y="411.1" font-size="14.5" font-weight="400" fill="#1e2a4a" text-anchor="start" >Pin GPIO cukup memberi perintah</text>
+<text x="64.0" y="430.7" font-size="14.5" font-weight="400" fill="#1e2a4a" text-anchor="start" >(arus kecil) ke relay, MOSFET, dan servo.</text>
+<rect x="64.0" y="450.0" width="376.0" height="56.0" rx="10" fill="#e3f4f4" />
+<text x="80.0" y="474.0" font-size="15" font-weight="800" fill="#0f8b8d" text-anchor="start" >rel bawah = 3,3 V dari pin 3V3</text>
+<text x="80.0" y="496.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="start" >untuk potensiometer dan sensor</text>
+<rect x="560.0" y="104.0" width="600.0" height="420.0" rx="16" fill="#ffffff" stroke="#b45f17" stroke-width="2.5" />
+<rect x="580.0" y="120.0" width="250.0" height="32.0" rx="16.0" fill="#b45f17" />
+<text x="705.0" y="141.4" font-size="15" font-weight="700" fill="#ffffff" text-anchor="middle" >JALUR 2 — TENAGA</text>
+<rect x="590.0" y="204.0" width="80.0" height="104.0" rx="12" fill="#f4f5f7" stroke="#9aa3b0" stroke-width="2" />
+<rect x="608.0" y="190.0" width="8.0" height="16.0" rx="2" fill="#9aa3b0" />
+<rect x="644.0" y="190.0" width="8.0" height="16.0" rx="2" fill="#9aa3b0" />
+<text x="630.0" y="244.0" font-size="20" font-weight="800" fill="#1e2a4a" text-anchor="middle" >5 V</text>
+<text x="630.0" y="266.0" font-size="16" font-weight="800" fill="#b45f17" text-anchor="middle" >2 A</text>
+<rect x="614.0" y="282.0" width="32.0" height="12.0" rx="2" fill="#3b4656" />
+<text x="630.0" y="330.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="middle" >adaptor USB</text>
+<path d="M670 282 C 700 282, 698 228, 729 228" fill="none" stroke="#3b4656" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="714.0" y="196.0" font-size="13" font-weight="800" fill="#4a5568" text-anchor="middle" >kabel USB A–A</text>
+<rect x="737.0" y="204.0" width="150.0" height="96.0" rx="6" fill="#b3262d" stroke="#7a1419" stroke-width="2" />
+<rect x="729.0" y="216.0" width="40.0" height="24.0" rx="2" fill="#c0c6cf" stroke="#6b7585" stroke-width="1.5" />
+<rect x="729.0" y="254.0" width="36.0" height="30.0" rx="4" fill="#222" />
+<circle cx="859.0" cy="268.0" r="11" fill="#eeeeee" />
+<circle cx="859.0" cy="268.0" r="6" fill="#cccccc" />
+<rect x="789.0" y="214.0" width="30.0" height="10.0" rx="2" fill="#f2c94c" />
+<rect x="789.0" y="280.0" width="30.0" height="10.0" rx="2" fill="#f2c94c" />
+<circle cx="807.0" cy="252.0" r="5" fill="#7CFC00" />
+<text x="802.0" y="322.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="middle" >MB102</text>
+<rect x="888.0" y="244.0" width="262.0" height="16.0" rx="4" fill="#d62828" />
+<text x="1019.0" y="234.0" font-size="15" font-weight="800" fill="#d62828" text-anchor="middle" >rel atas = 5 V</text>
+<line x1="920.0" y1="260.0" x2="920.0" y2="318.0" stroke="#d62828" stroke-width="3" stroke-linecap="round" />
+<line x1="988.0" y1="260.0" x2="988.0" y2="318.0" stroke="#d62828" stroke-width="3" stroke-linecap="round" />
+<line x1="1052.0" y1="260.0" x2="1052.0" y2="318.0" stroke="#d62828" stroke-width="3" stroke-linecap="round" />
+<line x1="1112.0" y1="260.0" x2="1112.0" y2="318.0" stroke="#d62828" stroke-width="3" stroke-linecap="round" />
+<rect x="890.0" y="322.0" width="60.0" height="48.0" rx="4" fill="#2f6fd1" stroke="#1f4f9a" stroke-width="2" />
+<text x="920.0" y="351.0" font-size="13" font-weight="800" fill="#ffffff" text-anchor="middle" >relay</text>
+<rect x="962.0" y="320.0" width="52.0" height="52.0" rx="6" fill="#2b2b2b" />
+<circle cx="988.0" cy="346.0" r="22" fill="#3d3d3d" />
+<path d="M994.0 346.0 Q1007.6 342.0 1003.7 356.7" fill="none" stroke="#9aa3b0" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M989.9 351.7 Q997.8 363.4 982.6 364.2" fill="none" stroke="#9aa3b0" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M983.1 349.5 Q974.5 360.7 969.0 346.5" fill="none" stroke="#9aa3b0" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M983.1 342.5 Q969.8 337.7 981.6 328.1" fill="none" stroke="#9aa3b0" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M989.9 340.3 Q990.3 326.1 1003.0 334.4" fill="none" stroke="#9aa3b0" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="988.0" cy="346.0" r="6" fill="#777" />
+<rect x="1034.0" y="330.0" width="36.0" height="52.0" rx="8" fill="#2b2b2b" />
+<rect x="1047.0" y="316.0" width="10.0" height="16.0" rx="2" fill="#2b2b2b" />
+<path d="M1052 316 Q1052 298 1076 300" fill="none" stroke="#a6d8f0" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="1084.0" y="334.0" width="56.0" height="36.0" rx="3" fill="#3c6fd6" stroke="#21468f" stroke-width="2" />
+<rect x="1076.0" y="344.0" width="8.0" height="16.0" rx="1" fill="#3c6fd6" />
+<rect x="1140.0" y="344.0" width="8.0" height="16.0" rx="1" fill="#3c6fd6" />
+<circle cx="1100.0" cy="334.0" r="7" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.5" />
+<path d="M1100 334 L1128 322" fill="none" stroke="#ffffff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" />
+<text x="920.0" y="404.0" font-size="12.5" font-weight="700" fill="#4a5568" text-anchor="middle" >relay</text>
+<text x="988.0" y="404.0" font-size="12.5" font-weight="700" fill="#4a5568" text-anchor="middle" >kipas</text>
+<text x="1052.0" y="404.0" font-size="12.5" font-weight="700" fill="#4a5568" text-anchor="middle" >pompa</text>
+<text x="1112.0" y="404.0" font-size="12.5" font-weight="700" fill="#4a5568" text-anchor="middle" >servo</text>
+<text x="860.0" y="444.0" font-size="14" font-weight="600" fill="#b45f17" text-anchor="start" >Beban mengambil listrik dari sini:</text>
+<text x="860.0" y="462.9" font-size="14" font-weight="600" fill="#b45f17" text-anchor="start" >ratusan mA, tanpa melewati ESP32.</text>
+<path d="M460 286 L460 548 L770 548 L770 302" fill="none" stroke="#222222" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="460.0" cy="286.0" r="6" fill="#222222" />
+<circle cx="770.0" cy="302.0" r="6" fill="#222222" />
+<rect x="454.0" y="532.0" width="300.0" height="32.0" rx="16" fill="#ffffff" stroke="#222222" stroke-width="2" />
+<text x="604.0" y="554.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="middle" >GND disatukan: satu kabel hitam</text>
+<rect x="40.0" y="590.0" width="1120.0" height="186.0" rx="14" fill="#fff7f7" stroke="#e63946" stroke-width="2" />
+<text x="64.0" y="622.0" font-size="17" font-weight="800" fill="#e63946" text-anchor="start" >Tiga larangan</text>
+<circle cx="78.0" cy="672.0" r="15" fill="#e63946" />
+<path d="M73 667 L83 677 M83 667 L73 677" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<text x="102.0" y="668.0" font-size="14.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >Beban (relay, kipas, pompa, servo)</text>
+<text x="102.0" y="690.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="start" >dari pin VIN atau 3V3 papan ESP32</text>
+<circle cx="446.0" cy="672.0" r="15" fill="#e63946" />
+<path d="M441 667 L451 677 M451 667 L441 677" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<text x="470.0" y="668.0" font-size="14.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >Adaptor 5 V ke colokan bulat MB102</text>
+<text x="470.0" y="690.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="start" >(colokan bulat butuh 6,5–12 V)</text>
+<circle cx="814.0" cy="672.0" r="15" fill="#e63946" />
+<path d="M809 667 L819 677 M819 667 L809 677" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<text x="838.0" y="668.0" font-size="14.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >Rel 5 V MB102 disambung ke pin</text>
+<text x="838.0" y="690.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="start" >VIN atau 3V3 ESP32</text>
+<text x="64.0" y="730.0" font-size="14" font-weight="400" fill="#4a5568" text-anchor="start" >VIN dan 3V3 bukan untuk beban: 3V3 hanya untuk ESP32 dan sensor kecil di rel bawah.</text>
+<text x="64.0" y="754.0" font-size="14" font-weight="400" fill="#4a5568" text-anchor="start" >Urutan nyala-mati: colokkan USB dulu, baru nyalakan MB102; matikan MB102 dulu, baru cabut USB. Daya ESP32 dari adaptor tanpa laptop: Modul 9.</text>
+<text x="1178.0" y="786.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

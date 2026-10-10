@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="640" viewBox="0 0 1200 640" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="640" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Tiga cara menyambung tombol ke pin masukan</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Tombol di D13 dan GND. Bedanya hanya ada atau tidaknya resistor penarik ke 3,3 V.</text>
+<rect x="40.0" y="104.0" width="360.0" height="452.0" rx="14" fill="#ffffff" stroke="#e63946" stroke-width="2.5" />
+<text x="220.0" y="136.0" font-size="17" font-weight="800" fill="#e63946" text-anchor="middle" >Mengambang</text>
+<rect x="64.0" y="160.0" width="150.0" height="250.0" rx="10" fill="#eef3f9" stroke="#1f3b57" stroke-width="2.5" />
+<text x="78.0" y="186.0" font-size="15" font-weight="800" fill="#1f3b57" text-anchor="start" >ESP32</text>
+<rect x="205.0" y="321.0" width="18.0" height="18.0" rx="3" fill="#d9b44a" stroke="#9c7d24" stroke-width="1.5" />
+<text x="198.0" y="358.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="end" >D13</text>
+<line x1="223.0" y1="330.0" x2="302.0" y2="330.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<circle cx="302.0" cy="330.0" r="4" fill="#1e2a4a" />
+<line x1="302.0" y1="330.0" x2="302.0" y2="351.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<line x1="302.0" y1="425.0" x2="302.0" y2="446.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<circle cx="302.0" cy="356.0" r="5" fill="#ffffff" stroke="#1e2a4a" stroke-width="2.5" />
+<circle cx="302.0" cy="420.0" r="5" fill="#ffffff" stroke="#1e2a4a" stroke-width="2.5" />
+<line x1="286.0" y1="350.0" x2="286.0" y2="426.0" stroke="#1e2a4a" stroke-width="3" stroke-linecap="round" />
+<line x1="286.0" y1="388.0" x2="268.0" y2="388.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<line x1="268.0" y1="379.0" x2="268.0" y2="397.0" stroke="#1e2a4a" stroke-width="3" stroke-linecap="round" />
+<text x="316.0" y="393.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="start" >tombol</text>
+<line x1="302.0" y1="446.0" x2="302.0" y2="460.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<line x1="286.0" y1="460.0" x2="318.0" y2="460.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<line x1="292.0" y1="466.0" x2="312.0" y2="466.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<line x1="298.0" y1="472.0" x2="306.0" y2="472.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<text x="326.0" y="468.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="start" >GND</text>
+<text x="139.0" y="262.0" font-size="13" font-weight="700" fill="#e63946" text-anchor="middle" >tidak ada</text>
+<text x="139.0" y="280.0" font-size="13" font-weight="700" fill="#e63946" text-anchor="middle" >penarik</text>
+<text x="70.0" y="476.0" font-size="14" font-weight="600" fill="#4a5568" text-anchor="start" >dilepas:</text>
+<text x="142.0" y="476.0" font-size="15" font-weight="800" fill="#e63946" text-anchor="start" >? acak</text>
+<text x="70.0" y="500.0" font-size="14" font-weight="600" fill="#4a5568" text-anchor="start" >ditekan:</text>
+<text x="142.0" y="500.0" font-size="15" font-weight="800" fill="#3a6fc4" text-anchor="start" >LOW</text>
+<text x="70.0" y="528.0" font-size="13" font-weight="400" fill="#4a5568" text-anchor="start" >Wokwi menganggapnya selalu LOW.</text>
+<rect x="420.0" y="104.0" width="360.0" height="452.0" rx="14" fill="#ffffff" stroke="#b45f17" stroke-width="2.5" />
+<text x="600.0" y="136.0" font-size="17" font-weight="800" fill="#b45f17" text-anchor="middle" >Pull-up luar (resistor 10 kΩ)</text>
+<rect x="444.0" y="160.0" width="150.0" height="250.0" rx="10" fill="#eef3f9" stroke="#1f3b57" stroke-width="2.5" />
+<text x="458.0" y="186.0" font-size="15" font-weight="800" fill="#1f3b57" text-anchor="start" >ESP32</text>
+<rect x="585.0" y="321.0" width="18.0" height="18.0" rx="3" fill="#d9b44a" stroke="#9c7d24" stroke-width="1.5" />
+<text x="578.0" y="358.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="end" >D13</text>
+<line x1="603.0" y1="330.0" x2="682.0" y2="330.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<circle cx="682.0" cy="330.0" r="4" fill="#1e2a4a" />
+<line x1="682.0" y1="330.0" x2="682.0" y2="351.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<line x1="682.0" y1="425.0" x2="682.0" y2="446.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<circle cx="682.0" cy="356.0" r="5" fill="#ffffff" stroke="#1e2a4a" stroke-width="2.5" />
+<circle cx="682.0" cy="420.0" r="5" fill="#ffffff" stroke="#1e2a4a" stroke-width="2.5" />
+<line x1="666.0" y1="350.0" x2="666.0" y2="426.0" stroke="#1e2a4a" stroke-width="3" stroke-linecap="round" />
+<line x1="666.0" y1="388.0" x2="648.0" y2="388.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<line x1="648.0" y1="379.0" x2="648.0" y2="397.0" stroke="#1e2a4a" stroke-width="3" stroke-linecap="round" />
+<text x="696.0" y="393.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="start" >tombol</text>
+<line x1="682.0" y1="446.0" x2="682.0" y2="460.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<line x1="666.0" y1="460.0" x2="698.0" y2="460.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<line x1="672.0" y1="466.0" x2="692.0" y2="466.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<line x1="678.0" y1="472.0" x2="686.0" y2="472.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<text x="706.0" y="468.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="start" >GND</text>
+<line x1="682.0" y1="200.0" x2="682.0" y2="241.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<line x1="682.0" y1="289.0" x2="682.0" y2="330.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<rect x="672.0" y="241.0" width="20.0" height="48.0" rx="3" fill="#ffffff" stroke="#1e2a4a" stroke-width="2.5" />
+<text x="700.0" y="270.0" font-size="14" font-weight="700" fill="#1e2a4a" text-anchor="start" >10 kΩ</text>
+<line x1="658.0" y1="200.0" x2="706.0" y2="200.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<text x="682.0" y="190.0" font-size="14" font-weight="800" fill="#b45f17" text-anchor="middle" >3,3 V</text>
+<text x="450.0" y="476.0" font-size="14" font-weight="600" fill="#4a5568" text-anchor="start" >dilepas:</text>
+<text x="522.0" y="476.0" font-size="15" font-weight="800" fill="#2a9d5c" text-anchor="start" >HIGH</text>
+<text x="450.0" y="500.0" font-size="14" font-weight="600" fill="#4a5568" text-anchor="start" >ditekan:</text>
+<text x="522.0" y="500.0" font-size="15" font-weight="800" fill="#3a6fc4" text-anchor="start" >LOW</text>
+<rect x="800.0" y="104.0" width="360.0" height="452.0" rx="14" fill="#ffffff" stroke="#2a9d5c" stroke-width="2.5" />
+<text x="980.0" y="136.0" font-size="17" font-weight="800" fill="#2a9d5c" text-anchor="middle" >INPUT_PULLUP</text>
+<rect x="824.0" y="160.0" width="150.0" height="250.0" rx="10" fill="#eef3f9" stroke="#1f3b57" stroke-width="2.5" />
+<text x="838.0" y="186.0" font-size="15" font-weight="800" fill="#1f3b57" text-anchor="start" >ESP32</text>
+<rect x="965.0" y="321.0" width="18.0" height="18.0" rx="3" fill="#d9b44a" stroke="#9c7d24" stroke-width="1.5" />
+<text x="958.0" y="358.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="end" >D13</text>
+<line x1="983.0" y1="330.0" x2="1062.0" y2="330.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<circle cx="1062.0" cy="330.0" r="4" fill="#1e2a4a" />
+<line x1="1062.0" y1="330.0" x2="1062.0" y2="351.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<line x1="1062.0" y1="425.0" x2="1062.0" y2="446.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<circle cx="1062.0" cy="356.0" r="5" fill="#ffffff" stroke="#1e2a4a" stroke-width="2.5" />
+<circle cx="1062.0" cy="420.0" r="5" fill="#ffffff" stroke="#1e2a4a" stroke-width="2.5" />
+<line x1="1046.0" y1="350.0" x2="1046.0" y2="426.0" stroke="#1e2a4a" stroke-width="3" stroke-linecap="round" />
+<line x1="1046.0" y1="388.0" x2="1028.0" y2="388.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<line x1="1028.0" y1="379.0" x2="1028.0" y2="397.0" stroke="#1e2a4a" stroke-width="3" stroke-linecap="round" />
+<text x="1076.0" y="393.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="start" >tombol</text>
+<line x1="1062.0" y1="446.0" x2="1062.0" y2="460.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<line x1="1046.0" y1="460.0" x2="1078.0" y2="460.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<line x1="1052.0" y1="466.0" x2="1072.0" y2="466.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<line x1="1058.0" y1="472.0" x2="1066.0" y2="472.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<text x="1086.0" y="468.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="start" >GND</text>
+<line x1="896.0" y1="222.0" x2="896.0" y2="252.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<line x1="896.0" y1="300.0" x2="896.0" y2="330.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<rect x="886.0" y="252.0" width="20.0" height="48.0" rx="3" fill="#ffffff" stroke="#1e2a4a" stroke-width="2.5" stroke-dasharray="5 4"/>
+<text x="914.0" y="281.0" font-size="14" font-weight="700" fill="#1e2a4a" text-anchor="start" >±45 kΩ</text>
+<line x1="896.0" y1="330.0" x2="965.0" y2="330.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="5 4" />
+<line x1="876.0" y1="222.0" x2="916.0" y2="222.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<text x="924.0" y="227.0" font-size="13" font-weight="800" fill="#b45f17" text-anchor="start" >3,3 V</text>
+<text x="899.0" y="392.0" font-size="12" font-weight="700" fill="#1f3b57" text-anchor="middle" >resistor di dalam chip</text>
+<text x="830.0" y="476.0" font-size="14" font-weight="600" fill="#4a5568" text-anchor="start" >dilepas:</text>
+<text x="902.0" y="476.0" font-size="15" font-weight="800" fill="#2a9d5c" text-anchor="start" >HIGH</text>
+<text x="830.0" y="500.0" font-size="14" font-weight="600" fill="#4a5568" text-anchor="start" >ditekan:</text>
+<text x="902.0" y="500.0" font-size="15" font-weight="800" fill="#3a6fc4" text-anchor="start" >LOW</text>
+<rect x="40.0" y="572.0" width="1120.0" height="46.0" rx="10" fill="#dff3e7" />
+<text x="600.0" y="601.0" font-size="16" font-weight="700" fill="#1e2a4a" text-anchor="middle" >Logika terbalik: ditekan = LOW, dilepas = HIGH. Pin 34–39 tidak punya pull-up internal.</text>
+<text x="1178.0" y="626.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

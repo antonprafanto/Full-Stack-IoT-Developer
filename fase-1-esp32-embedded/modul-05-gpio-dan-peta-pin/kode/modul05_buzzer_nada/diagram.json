@@ -1,0 +1,68 @@
+{
+  "version": 1,
+  "author": "Kurikulum Fullstack IoT Developer",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "wokwi-esp32-devkit-v1",
+      "id": "esp",
+      "top": 0,
+      "left": 0,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r_buz",
+      "top": 105.1,
+      "left": -95,
+      "attrs": {
+        "value": "220"
+      }
+    },
+    {
+      "type": "wokwi-buzzer",
+      "id": "buzzer",
+      "top": 26,
+      "left": -205,
+      "attrs": {}
+    }
+  ],
+  "connections": [
+    [
+      "esp:TX0",
+      "$serialMonitor:RX",
+      "",
+      []
+    ],
+    [
+      "esp:RX0",
+      "$serialMonitor:TX",
+      "",
+      []
+    ],
+    [
+      "r_buz:2",
+      "esp:D27",
+      "orange",
+      []
+    ],
+    [
+      "buzzer:2",
+      "r_buz:1",
+      "orange",
+      [
+        "v0.8"
+      ]
+    ],
+    [
+      "buzzer:1",
+      "esp:GND.2",
+      "black",
+      [
+        "v38.2",
+        "h140"
+      ]
+    ]
+  ],
+  "dependencies": {}
+}

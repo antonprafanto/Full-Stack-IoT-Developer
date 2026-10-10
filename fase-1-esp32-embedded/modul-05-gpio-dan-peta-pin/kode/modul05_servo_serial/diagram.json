@@ -1,0 +1,64 @@
+{
+  "version": 1,
+  "author": "Kurikulum Fullstack IoT Developer",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "wokwi-esp32-devkit-v1",
+      "id": "esp",
+      "top": 0,
+      "left": 0,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-servo",
+      "id": "servo",
+      "top": 32,
+      "left": -330,
+      "attrs": {
+        "hornColor": "#2b6cb0"
+      }
+    }
+  ],
+  "connections": [
+    [
+      "esp:TX0",
+      "$serialMonitor:RX",
+      "",
+      []
+    ],
+    [
+      "esp:RX0",
+      "$serialMonitor:TX",
+      "",
+      []
+    ],
+    [
+      "servo:PWM",
+      "esp:D26",
+      "orange",
+      []
+    ],
+    [
+      "servo:V+",
+      "esp:VIN",
+      "red",
+      [
+        "h-20",
+        "v126.5",
+        "h345"
+      ]
+    ],
+    [
+      "servo:GND",
+      "esp:GND.2",
+      "black",
+      [
+        "h-30",
+        "v127",
+        "h355"
+      ]
+    ]
+  ],
+  "dependencies": {}
+}

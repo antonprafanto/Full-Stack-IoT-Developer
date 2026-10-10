@@ -1,0 +1,108 @@
+{
+  "version": 1,
+  "author": "Kurikulum Fullstack IoT Developer",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "wokwi-esp32-devkit-v1",
+      "id": "esp",
+      "top": 0,
+      "left": 0,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r_led",
+      "top": 114.3,
+      "left": 128,
+      "attrs": {
+        "value": "220"
+      }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led_status",
+      "top": 92,
+      "left": 186,
+      "attrs": {
+        "color": "red",
+        "label": ""
+      }
+    },
+    {
+      "type": "wokwi-potentiometer",
+      "id": "pot",
+      "top": -40,
+      "left": -150,
+      "attrs": {}
+    }
+  ],
+  "connections": [
+    [
+      "esp:TX0",
+      "$serialMonitor:RX",
+      "",
+      []
+    ],
+    [
+      "esp:RX0",
+      "$serialMonitor:TX",
+      "",
+      []
+    ],
+    [
+      "esp:D4",
+      "r_led:1",
+      "green",
+      []
+    ],
+    [
+      "r_led:2",
+      "led_status:A",
+      "green",
+      [
+        "h24.2"
+      ]
+    ],
+    [
+      "led_status:C",
+      "esp:GND.1",
+      "black",
+      [
+        "v15"
+      ]
+    ],
+    [
+      "pot:SIG",
+      "esp:VN",
+      "orange",
+      [
+        "v15.5"
+      ]
+    ],
+    [
+      "pot:GND",
+      "esp:GND.2",
+      "black",
+      [
+        "v12",
+        "h-40",
+        "v108.5"
+      ]
+    ],
+    [
+      "pot:VCC",
+      "esp:3V3",
+      "red",
+      [
+        "v-58",
+        "h236",
+        "v182.5",
+        "h-16.6",
+        "*",
+        "h16"
+      ]
+    ]
+  ],
+  "dependencies": {}
+}

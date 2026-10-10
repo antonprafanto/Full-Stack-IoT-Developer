@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="900" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >PWM: satu teknik, tiga kegunaan</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Pin berkedip sangat cepat antara 3,3 V dan 0 V. Yang diatur: lama menyala (duty cycle) dan kecepatan kedip (frekuensi).</text>
+<rect x="40.0" y="112.0" width="1120.0" height="240.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<rect x="40.0" y="112.0" width="8.0" height="240.0" rx="4" fill="#b45f17" />
+<text x="70.0" y="152.0" font-size="18" font-weight="800" fill="#b45f17" text-anchor="start" >Redup-terang LED</text>
+<text x="70.0" y="178.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="start" >frekuensi tetap 5.000 Hz;</text>
+<text x="70.0" y="198.0" font-size="14" font-weight="700" fill="#1e2a4a" text-anchor="start" >duty cycle diubah</text>
+<rect x="40.0" y="372.0" width="1120.0" height="240.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<rect x="40.0" y="372.0" width="8.0" height="240.0" rx="4" fill="#0f8b8d" />
+<text x="70.0" y="412.0" font-size="18" font-weight="800" fill="#0f8b8d" text-anchor="start" >Nada buzzer pasif</text>
+<text x="70.0" y="438.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="start" >duty cycle tetap 50 %;</text>
+<text x="70.0" y="458.0" font-size="14" font-weight="700" fill="#1e2a4a" text-anchor="start" >frekuensi = tinggi nada</text>
+<rect x="40.0" y="632.0" width="1120.0" height="240.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<rect x="40.0" y="632.0" width="8.0" height="240.0" rx="4" fill="#3a6fc4" />
+<text x="70.0" y="672.0" font-size="18" font-weight="800" fill="#3a6fc4" text-anchor="start" >Sudut servo</text>
+<text x="70.0" y="698.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="start" >satu pulsa tiap 20 ms (50 Hz);</text>
+<text x="70.0" y="718.0" font-size="14" font-weight="700" fill="#1e2a4a" text-anchor="start" >lebar pulsa = sudut</text>
+<text x="330.0" y="152.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >duty cycle 25 %</text>
+<path d="M330.0 262.0 L330.0 262.0 L330.0 182.0 L345.6 182.0 L345.6 262.0 L392.5 262.0 L392.5 182.0 L408.1 182.0 L408.1 262.0 L455.0 262.0 L455.0 182.0 L470.6 182.0 L470.6 262.0 L517.5 262.0 L517.5 182.0 L533.1 182.0 L533.1 262.0 L580.0 262.0" fill="none" stroke="#b45f17" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<text x="322.0" y="188.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="end" >3,3 V</text>
+<text x="322.0" y="266.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="end" >0 V</text>
+<circle cx="640.0" cy="220.0" r="26" fill="#ff4d4d" opacity="0.11"/>
+<path d="M628 230 L628 214 A12 12 0 0 1 652 214 L652 230 Z" fill="#e63946" stroke="#a51d2a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.51"/>
+<line x1="634.0" y1="230.0" x2="634.0" y2="246.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<line x1="646.0" y1="230.0" x2="646.0" y2="242.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<text x="640.0" y="272.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="middle" >redup</text>
+<text x="330.0" y="302.0" font-size="13.5" font-weight="600" fill="#4a5568" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" >ledcWrite(PIN_LED, 64);</text>
+<text x="750.0" y="152.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >duty cycle 75 %</text>
+<path d="M750.0 262.0 L750.0 262.0 L750.0 182.0 L796.9 182.0 L796.9 262.0 L812.5 262.0 L812.5 182.0 L859.4 182.0 L859.4 262.0 L875.0 262.0 L875.0 182.0 L921.9 182.0 L921.9 262.0 L937.5 262.0 L937.5 182.0 L984.4 182.0 L984.4 262.0 L1000.0 262.0" fill="none" stroke="#b45f17" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<text x="742.0" y="188.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="end" >3,3 V</text>
+<text x="742.0" y="266.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="end" >0 V</text>
+<circle cx="1060.0" cy="220.0" r="26" fill="#ff4d4d" opacity="0.38"/>
+<path d="M1048 230 L1048 214 A12 12 0 0 1 1072 214 L1072 230 Z" fill="#e63946" stroke="#a51d2a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.90"/>
+<line x1="1054.0" y1="230.0" x2="1054.0" y2="246.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<line x1="1066.0" y1="230.0" x2="1066.0" y2="242.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<text x="1060.0" y="272.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="middle" >terang</text>
+<text x="750.0" y="302.0" font-size="13.5" font-weight="600" fill="#4a5568" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" >ledcWrite(PIN_LED, 191);</text>
+<text x="330.0" y="412.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >262 Hz</text>
+<path d="M330.0 522.0 L330.0 522.0 L330.0 442.0 L371.5 442.0 L371.5 522.0 L413.0 522.0 L413.0 442.0 L454.6 442.0 L454.6 522.0 L496.1 522.0 L496.1 442.0 L537.6 442.0 L537.6 522.0 L579.1 522.0 L579.1 442.0 L580.0 442.0 L580.0 522.0 L580.0 522.0" fill="none" stroke="#0f8b8d" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<text x="322.0" y="448.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="end" >3,3 V</text>
+<text x="322.0" y="526.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="end" >0 V</text>
+<circle cx="634.0" cy="498.0" r="9" fill="#1e2a4a" />
+<line x1="643.0" y1="498.0" x2="643.0" y2="454.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<text x="640.0" y="532.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="middle" >do (rendah)</text>
+<text x="330.0" y="562.0" font-size="13.5" font-weight="600" fill="#4a5568" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" >ledcWriteTone(PIN_BUZZER, 262);</text>
+<text x="750.0" y="412.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >523 Hz</text>
+<path d="M750.0 522.0 L750.0 522.0 L750.0 442.0 L770.8 442.0 L770.8 522.0 L791.5 522.0 L791.5 442.0 L812.3 442.0 L812.3 522.0 L833.0 522.0 L833.0 442.0 L853.8 442.0 L853.8 522.0 L874.6 522.0 L874.6 442.0 L895.3 442.0 L895.3 522.0 L916.1 522.0 L916.1 442.0 L936.8 442.0 L936.8 522.0 L957.6 522.0 L957.6 442.0 L978.3 442.0 L978.3 522.0 L999.1 522.0 L999.1 442.0 L1000.0 442.0 L1000.0 522.0 L1000.0 522.0" fill="none" stroke="#0f8b8d" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<text x="742.0" y="448.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="end" >3,3 V</text>
+<text x="742.0" y="526.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="end" >0 V</text>
+<circle cx="1054.0" cy="476.0" r="9" fill="#1e2a4a" />
+<line x1="1063.0" y1="476.0" x2="1063.0" y2="432.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<text x="1060.0" y="532.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="middle" >do tinggi</text>
+<text x="750.0" y="562.0" font-size="13.5" font-weight="600" fill="#4a5568" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" >ledcWriteTone(PIN_BUZZER, 523);</text>
+<text x="330.0" y="594.0" font-size="13.5" font-weight="400" fill="#4a5568" text-anchor="start" >Gelombang dua kali lebih rapat = frekuensi dua kali lipat = satu oktaf lebih tinggi.</text>
+<text x="330.0" y="672.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >pulsa 0,5 ms</text>
+<path d="M330.0 782.0 L330.0 702.0 L353.0 702.0 L353.0 782.0 L560.0 782.0" fill="none" stroke="#3a6fc4" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="330.0" y1="800.0" x2="560.0" y2="800.0" stroke="#9aa3b0" stroke-width="1.5" stroke-linecap="round" />
+<line x1="330.0" y1="794.0" x2="330.0" y2="806.0" stroke="#9aa3b0" stroke-width="1.5" stroke-linecap="round" />
+<line x1="560.0" y1="794.0" x2="560.0" y2="806.0" stroke="#9aa3b0" stroke-width="1.5" stroke-linecap="round" />
+<text x="445.0" y="820.0" font-size="12.5" font-weight="700" fill="#4a5568" text-anchor="middle" >20 ms</text>
+<rect x="500.0" y="718.0" width="60.0" height="36.0" rx="4" fill="#3c6fd6" stroke="#21468f" stroke-width="2" />
+<line x1="530.0" y1="736.0" x2="502.0" y2="736.0" stroke="#ffffff" stroke-width="8" stroke-linecap="round" />
+<circle cx="530.0" cy="736.0" r="6" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.5" />
+<text x="530.0" y="776.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="middle" >0°</text>
+<text x="610.0" y="672.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >pulsa 1,45 ms</text>
+<path d="M610.0 782.0 L610.0 702.0 L676.7 702.0 L676.7 782.0 L840.0 782.0" fill="none" stroke="#3a6fc4" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="610.0" y1="800.0" x2="840.0" y2="800.0" stroke="#9aa3b0" stroke-width="1.5" stroke-linecap="round" />
+<line x1="610.0" y1="794.0" x2="610.0" y2="806.0" stroke="#9aa3b0" stroke-width="1.5" stroke-linecap="round" />
+<line x1="840.0" y1="794.0" x2="840.0" y2="806.0" stroke="#9aa3b0" stroke-width="1.5" stroke-linecap="round" />
+<text x="725.0" y="820.0" font-size="12.5" font-weight="700" fill="#4a5568" text-anchor="middle" >20 ms</text>
+<rect x="780.0" y="718.0" width="60.0" height="36.0" rx="4" fill="#3c6fd6" stroke="#21468f" stroke-width="2" />
+<line x1="810.0" y1="736.0" x2="810.0" y2="708.0" stroke="#ffffff" stroke-width="8" stroke-linecap="round" />
+<circle cx="810.0" cy="736.0" r="6" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.5" />
+<text x="810.0" y="776.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="middle" >90°</text>
+<text x="890.0" y="672.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >pulsa 2,4 ms</text>
+<path d="M890.0 782.0 L890.0 702.0 L1000.4 702.0 L1000.4 782.0 L1120.0 782.0" fill="none" stroke="#3a6fc4" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="890.0" y1="800.0" x2="1120.0" y2="800.0" stroke="#9aa3b0" stroke-width="1.5" stroke-linecap="round" />
+<line x1="890.0" y1="794.0" x2="890.0" y2="806.0" stroke="#9aa3b0" stroke-width="1.5" stroke-linecap="round" />
+<line x1="1120.0" y1="794.0" x2="1120.0" y2="806.0" stroke="#9aa3b0" stroke-width="1.5" stroke-linecap="round" />
+<text x="1005.0" y="820.0" font-size="12.5" font-weight="700" fill="#4a5568" text-anchor="middle" >20 ms</text>
+<rect x="1060.0" y="718.0" width="60.0" height="36.0" rx="4" fill="#3c6fd6" stroke="#21468f" stroke-width="2" />
+<line x1="1090.0" y1="736.0" x2="1118.0" y2="736.0" stroke="#ffffff" stroke-width="8" stroke-linecap="round" />
+<circle cx="1090.0" cy="736.0" r="6" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.5" />
+<text x="1090.0" y="776.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="middle" >180°</text>
+<text x="330.0" y="854.0" font-size="13.5" font-weight="400" fill="#4a5568" text-anchor="start" >Lebar pulsa diperbesar supaya terlihat; arah putar bergantung pada pemasangan lengan servo.</text>
+<text x="1178.0" y="886.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

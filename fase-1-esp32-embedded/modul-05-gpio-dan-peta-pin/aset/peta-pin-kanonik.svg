@@ -1,0 +1,317 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1050" viewBox="0 0 1200 1050" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="1050" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Peta pin kanonik Node 1 "Rumah" — berlaku sampai Modul 28</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Warna dan label bulat = modul tempat pin itu mulai dipakai (bukan golongan pin). Pin yang belum dipakai tetap "dipesan".</text>
+<rect x="500.0" y="110.0" width="200.0" height="686.0" rx="10" fill="#1f3b57" stroke="#0f2236" stroke-width="2" />
+<rect x="538.0" y="120.0" width="124.0" height="26.0" rx="3" fill="#24476a" />
+<path d="M548 140 L548 126 L564 126 L564 140 L580 140 L580 126 L596 126 L596 140 L612 140 L612 126 L628 126 L628 140 L644 140" fill="none" stroke="#d9b44a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="538.0" y="150.0" width="124.0" height="112.0" rx="4" fill="#c9ced6" stroke="#8a93a1" stroke-width="2" />
+<text x="600.0" y="202.0" font-size="13" font-weight="800" fill="#3b4656" text-anchor="middle" >ESP-WROOM-32</text>
+<text x="600.0" y="222.0" font-size="11" font-weight="600" fill="#5a6474" text-anchor="middle" >(chip ESP32 + flash)</text>
+<rect x="530.0" y="726.0" width="26.0" height="20.0" rx="3" fill="#dfe3ea" stroke="#8a93a1" stroke-width="1.5" />
+<circle cx="543.0" cy="736.0" r="6" fill="#3b4656" />
+<text x="543.0" y="762.0" font-size="11" font-weight="800" fill="#ffffff" text-anchor="middle" >EN</text>
+<rect x="644.0" y="726.0" width="26.0" height="20.0" rx="3" fill="#dfe3ea" stroke="#8a93a1" stroke-width="1.5" />
+<circle cx="657.0" cy="736.0" r="6" fill="#3b4656" />
+<text x="657.0" y="762.0" font-size="11" font-weight="800" fill="#ffffff" text-anchor="middle" >BOOT</text>
+<rect x="578.0" y="770.0" width="44.0" height="34.0" rx="3" fill="#b8c0cc" stroke="#6b7585" stroke-width="2" />
+<text x="600.0" y="822.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="middle" >colokan USB</text>
+<circle cx="622.0" cy="704.0" r="5" fill="#4ea5ff" />
+<circle cx="578.0" cy="704.0" r="5" fill="#ff5a5a" />
+<rect x="508.0" y="222.0" width="16.0" height="16.0" rx="3" fill="#d9b44a" stroke="#9c7d24" stroke-width="1.2" />
+<circle cx="516.0" cy="230.0" r="3.2" fill="#5c4a14" />
+<rect x="676.0" y="222.0" width="16.0" height="16.0" rx="3" fill="#d9b44a" stroke="#9c7d24" stroke-width="1.2" />
+<circle cx="684.0" cy="230.0" r="3.2" fill="#5c4a14" />
+<rect x="508.0" y="256.0" width="16.0" height="16.0" rx="3" fill="#d9b44a" stroke="#9c7d24" stroke-width="1.2" />
+<circle cx="516.0" cy="264.0" r="3.2" fill="#5c4a14" />
+<rect x="676.0" y="256.0" width="16.0" height="16.0" rx="3" fill="#d9b44a" stroke="#9c7d24" stroke-width="1.2" />
+<circle cx="684.0" cy="264.0" r="3.2" fill="#5c4a14" />
+<rect x="508.0" y="290.0" width="16.0" height="16.0" rx="3" fill="#d9b44a" stroke="#9c7d24" stroke-width="1.2" />
+<circle cx="516.0" cy="298.0" r="3.2" fill="#5c4a14" />
+<rect x="676.0" y="290.0" width="16.0" height="16.0" rx="3" fill="#d9b44a" stroke="#9c7d24" stroke-width="1.2" />
+<circle cx="684.0" cy="298.0" r="3.2" fill="#5c4a14" />
+<rect x="508.0" y="324.0" width="16.0" height="16.0" rx="3" fill="#d9b44a" stroke="#9c7d24" stroke-width="1.2" />
+<circle cx="516.0" cy="332.0" r="3.2" fill="#5c4a14" />
+<rect x="676.0" y="324.0" width="16.0" height="16.0" rx="3" fill="#d9b44a" stroke="#9c7d24" stroke-width="1.2" />
+<circle cx="684.0" cy="332.0" r="3.2" fill="#5c4a14" />
+<rect x="508.0" y="358.0" width="16.0" height="16.0" rx="3" fill="#d9b44a" stroke="#9c7d24" stroke-width="1.2" />
+<circle cx="516.0" cy="366.0" r="3.2" fill="#5c4a14" />
+<rect x="676.0" y="358.0" width="16.0" height="16.0" rx="3" fill="#d9b44a" stroke="#9c7d24" stroke-width="1.2" />
+<circle cx="684.0" cy="366.0" r="3.2" fill="#5c4a14" />
+<rect x="508.0" y="392.0" width="16.0" height="16.0" rx="3" fill="#d9b44a" stroke="#9c7d24" stroke-width="1.2" />
+<circle cx="516.0" cy="400.0" r="3.2" fill="#5c4a14" />
+<rect x="676.0" y="392.0" width="16.0" height="16.0" rx="3" fill="#d9b44a" stroke="#9c7d24" stroke-width="1.2" />
+<circle cx="684.0" cy="400.0" r="3.2" fill="#5c4a14" />
+<rect x="508.0" y="426.0" width="16.0" height="16.0" rx="3" fill="#d9b44a" stroke="#9c7d24" stroke-width="1.2" />
+<circle cx="516.0" cy="434.0" r="3.2" fill="#5c4a14" />
+<rect x="676.0" y="426.0" width="16.0" height="16.0" rx="3" fill="#d9b44a" stroke="#9c7d24" stroke-width="1.2" />
+<circle cx="684.0" cy="434.0" r="3.2" fill="#5c4a14" />
+<rect x="508.0" y="460.0" width="16.0" height="16.0" rx="3" fill="#d9b44a" stroke="#9c7d24" stroke-width="1.2" />
+<circle cx="516.0" cy="468.0" r="3.2" fill="#5c4a14" />
+<rect x="676.0" y="460.0" width="16.0" height="16.0" rx="3" fill="#d9b44a" stroke="#9c7d24" stroke-width="1.2" />
+<circle cx="684.0" cy="468.0" r="3.2" fill="#5c4a14" />
+<rect x="508.0" y="494.0" width="16.0" height="16.0" rx="3" fill="#d9b44a" stroke="#9c7d24" stroke-width="1.2" />
+<circle cx="516.0" cy="502.0" r="3.2" fill="#5c4a14" />
+<rect x="676.0" y="494.0" width="16.0" height="16.0" rx="3" fill="#d9b44a" stroke="#9c7d24" stroke-width="1.2" />
+<circle cx="684.0" cy="502.0" r="3.2" fill="#5c4a14" />
+<rect x="508.0" y="528.0" width="16.0" height="16.0" rx="3" fill="#d9b44a" stroke="#9c7d24" stroke-width="1.2" />
+<circle cx="516.0" cy="536.0" r="3.2" fill="#5c4a14" />
+<rect x="676.0" y="528.0" width="16.0" height="16.0" rx="3" fill="#d9b44a" stroke="#9c7d24" stroke-width="1.2" />
+<circle cx="684.0" cy="536.0" r="3.2" fill="#5c4a14" />
+<rect x="508.0" y="562.0" width="16.0" height="16.0" rx="3" fill="#d9b44a" stroke="#9c7d24" stroke-width="1.2" />
+<circle cx="516.0" cy="570.0" r="3.2" fill="#5c4a14" />
+<rect x="676.0" y="562.0" width="16.0" height="16.0" rx="3" fill="#d9b44a" stroke="#9c7d24" stroke-width="1.2" />
+<circle cx="684.0" cy="570.0" r="3.2" fill="#5c4a14" />
+<rect x="508.0" y="596.0" width="16.0" height="16.0" rx="3" fill="#d9b44a" stroke="#9c7d24" stroke-width="1.2" />
+<circle cx="516.0" cy="604.0" r="3.2" fill="#5c4a14" />
+<rect x="676.0" y="596.0" width="16.0" height="16.0" rx="3" fill="#d9b44a" stroke="#9c7d24" stroke-width="1.2" />
+<circle cx="684.0" cy="604.0" r="3.2" fill="#5c4a14" />
+<rect x="508.0" y="630.0" width="16.0" height="16.0" rx="3" fill="#d9b44a" stroke="#9c7d24" stroke-width="1.2" />
+<circle cx="516.0" cy="638.0" r="3.2" fill="#5c4a14" />
+<rect x="676.0" y="630.0" width="16.0" height="16.0" rx="3" fill="#d9b44a" stroke="#9c7d24" stroke-width="1.2" />
+<circle cx="684.0" cy="638.0" r="3.2" fill="#5c4a14" />
+<rect x="508.0" y="664.0" width="16.0" height="16.0" rx="3" fill="#d9b44a" stroke="#9c7d24" stroke-width="1.2" />
+<circle cx="516.0" cy="672.0" r="3.2" fill="#5c4a14" />
+<rect x="676.0" y="664.0" width="16.0" height="16.0" rx="3" fill="#d9b44a" stroke="#9c7d24" stroke-width="1.2" />
+<circle cx="684.0" cy="672.0" r="3.2" fill="#5c4a14" />
+<rect x="508.0" y="698.0" width="16.0" height="16.0" rx="3" fill="#d9b44a" stroke="#9c7d24" stroke-width="1.2" />
+<circle cx="516.0" cy="706.0" r="3.2" fill="#5c4a14" />
+<rect x="676.0" y="698.0" width="16.0" height="16.0" rx="3" fill="#d9b44a" stroke="#9c7d24" stroke-width="1.2" />
+<circle cx="684.0" cy="706.0" r="3.2" fill="#5c4a14" />
+<line x1="506.0" y1="230.0" x2="488.0" y2="230.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<rect x="426.0" y="217.0" width="62.0" height="26.0" rx="13.0" fill="#7c8594" />
+<text x="457.0" y="234.9" font-size="13.5" font-weight="700" fill="#ffffff" text-anchor="middle" >EN</text>
+<text x="416.0" y="235.0" font-size="14" font-weight="500" fill="#1e2a4a" text-anchor="end" >tombol reset</text>
+<line x1="506.0" y1="264.0" x2="488.0" y2="264.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<rect x="426.0" y="251.0" width="62.0" height="26.0" rx="13.0" fill="#0f8b8d" />
+<text x="457.0" y="268.9" font-size="13.5" font-weight="700" fill="#ffffff" text-anchor="middle" >VP</text>
+<rect x="376.0" y="253.0" width="44.0" height="22.0" rx="11.0" fill="#ffffff" />
+<text x="398.0" y="268.3" font-size="12" font-weight="700" fill="#0f8b8d" text-anchor="middle" >M6</text>
+<rect x="376.0" y="253.0" width="44.0" height="22.0" rx="11" fill="none" stroke="#0f8b8d" stroke-width="1.6" />
+<text x="366.0" y="269.0" font-size="14" font-weight="500" fill="#1e2a4a" text-anchor="end" >LDR (cahaya)</text>
+<line x1="506.0" y1="298.0" x2="488.0" y2="298.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<rect x="426.0" y="285.0" width="62.0" height="26.0" rx="13.0" fill="#0f8b8d" />
+<text x="457.0" y="302.9" font-size="13.5" font-weight="700" fill="#ffffff" text-anchor="middle" >VN</text>
+<rect x="376.0" y="287.0" width="44.0" height="22.0" rx="11.0" fill="#ffffff" />
+<text x="398.0" y="302.3" font-size="12" font-weight="700" fill="#0f8b8d" text-anchor="middle" >M6</text>
+<rect x="376.0" y="287.0" width="44.0" height="22.0" rx="11" fill="none" stroke="#0f8b8d" stroke-width="1.6" />
+<text x="366.0" y="303.0" font-size="14" font-weight="500" fill="#1e2a4a" text-anchor="end" >sensor tanah · minggu ini potensiometer</text>
+<line x1="506.0" y1="332.0" x2="488.0" y2="332.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<rect x="426.0" y="319.0" width="62.0" height="26.0" rx="13.0" fill="#0f8b8d" />
+<text x="457.0" y="336.9" font-size="13.5" font-weight="700" fill="#ffffff" text-anchor="middle" >D34</text>
+<rect x="376.0" y="321.0" width="44.0" height="22.0" rx="11.0" fill="#ffffff" />
+<text x="398.0" y="336.3" font-size="12" font-weight="700" fill="#0f8b8d" text-anchor="middle" >M6</text>
+<rect x="376.0" y="321.0" width="44.0" height="22.0" rx="11" fill="none" stroke="#0f8b8d" stroke-width="1.6" />
+<text x="366.0" y="337.0" font-size="14" font-weight="500" fill="#1e2a4a" text-anchor="end" >PIR (gerak)</text>
+<line x1="506.0" y1="366.0" x2="488.0" y2="366.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<rect x="426.0" y="353.0" width="62.0" height="26.0" rx="13.0" fill="#0f8b8d" />
+<text x="457.0" y="370.9" font-size="13.5" font-weight="700" fill="#ffffff" text-anchor="middle" >D35</text>
+<rect x="376.0" y="355.0" width="44.0" height="22.0" rx="11.0" fill="#ffffff" />
+<text x="398.0" y="370.3" font-size="12" font-weight="700" fill="#0f8b8d" text-anchor="middle" >M6</text>
+<rect x="376.0" y="355.0" width="44.0" height="22.0" rx="11" fill="none" stroke="#0f8b8d" stroke-width="1.6" />
+<text x="366.0" y="371.0" font-size="14" font-weight="500" fill="#1e2a4a" text-anchor="end" >HC-SR04 ECHO (jarak)</text>
+<line x1="506.0" y1="400.0" x2="488.0" y2="400.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<rect x="426.0" y="387.0" width="62.0" height="26.0" rx="13.0" fill="#b45f17" />
+<text x="457.0" y="404.9" font-size="13.5" font-weight="700" fill="#ffffff" text-anchor="middle" >D32</text>
+<rect x="376.0" y="389.0" width="44.0" height="22.0" rx="11.0" fill="#ffffff" />
+<text x="398.0" y="404.3" font-size="12" font-weight="700" fill="#b45f17" text-anchor="middle" >M5</text>
+<rect x="376.0" y="389.0" width="44.0" height="22.0" rx="11" fill="none" stroke="#b45f17" stroke-width="1.6" />
+<text x="366.0" y="405.0" font-size="14" font-weight="500" fill="#1e2a4a" text-anchor="end" >relay lampu (IN1)</text>
+<line x1="506.0" y1="434.0" x2="488.0" y2="434.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<rect x="426.0" y="421.0" width="62.0" height="26.0" rx="13.0" fill="#b45f17" />
+<text x="457.0" y="438.9" font-size="13.5" font-weight="700" fill="#ffffff" text-anchor="middle" >D33</text>
+<rect x="376.0" y="423.0" width="44.0" height="22.0" rx="11.0" fill="#ffffff" />
+<text x="398.0" y="438.3" font-size="12" font-weight="700" fill="#b45f17" text-anchor="middle" >M5</text>
+<rect x="376.0" y="423.0" width="44.0" height="22.0" rx="11" fill="none" stroke="#b45f17" stroke-width="1.6" />
+<text x="366.0" y="439.0" font-size="14" font-weight="500" fill="#1e2a4a" text-anchor="end" >relay kipas (IN2)</text>
+<line x1="506.0" y1="468.0" x2="488.0" y2="468.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<rect x="426.0" y="455.0" width="62.0" height="26.0" rx="13.0" fill="#b45f17" />
+<text x="457.0" y="472.9" font-size="13.5" font-weight="700" fill="#ffffff" text-anchor="middle" >D25</text>
+<rect x="376.0" y="457.0" width="44.0" height="22.0" rx="11.0" fill="#ffffff" />
+<text x="398.0" y="472.3" font-size="12" font-weight="700" fill="#b45f17" text-anchor="middle" >M5</text>
+<rect x="376.0" y="457.0" width="44.0" height="22.0" rx="11" fill="none" stroke="#b45f17" stroke-width="1.6" />
+<text x="366.0" y="473.0" font-size="14" font-weight="500" fill="#1e2a4a" text-anchor="end" >pompa (gerbang MOSFET)</text>
+<line x1="506.0" y1="502.0" x2="488.0" y2="502.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<rect x="426.0" y="489.0" width="62.0" height="26.0" rx="13.0" fill="#b45f17" />
+<text x="457.0" y="506.9" font-size="13.5" font-weight="700" fill="#ffffff" text-anchor="middle" >D26</text>
+<rect x="376.0" y="491.0" width="44.0" height="22.0" rx="11.0" fill="#ffffff" />
+<text x="398.0" y="506.3" font-size="12" font-weight="700" fill="#b45f17" text-anchor="middle" >M5</text>
+<rect x="376.0" y="491.0" width="44.0" height="22.0" rx="11" fill="none" stroke="#b45f17" stroke-width="1.6" />
+<text x="366.0" y="507.0" font-size="14" font-weight="500" fill="#1e2a4a" text-anchor="end" >servo tirai</text>
+<line x1="506.0" y1="536.0" x2="488.0" y2="536.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<rect x="426.0" y="523.0" width="62.0" height="26.0" rx="13.0" fill="#b45f17" />
+<text x="457.0" y="540.9" font-size="13.5" font-weight="700" fill="#ffffff" text-anchor="middle" >D27</text>
+<rect x="376.0" y="525.0" width="44.0" height="22.0" rx="11.0" fill="#ffffff" />
+<text x="398.0" y="540.3" font-size="12" font-weight="700" fill="#b45f17" text-anchor="middle" >M5</text>
+<rect x="376.0" y="525.0" width="44.0" height="22.0" rx="11" fill="none" stroke="#b45f17" stroke-width="1.6" />
+<text x="366.0" y="541.0" font-size="14" font-weight="500" fill="#1e2a4a" text-anchor="end" >buzzer pasif</text>
+<line x1="506.0" y1="570.0" x2="488.0" y2="570.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<rect x="426.0" y="557.0" width="62.0" height="26.0" rx="13.0" fill="#0f8b8d" />
+<text x="457.0" y="574.9" font-size="13.5" font-weight="700" fill="#ffffff" text-anchor="middle" >D14</text>
+<rect x="376.0" y="559.0" width="44.0" height="22.0" rx="11.0" fill="#ffffff" />
+<text x="398.0" y="574.3" font-size="12" font-weight="700" fill="#0f8b8d" text-anchor="middle" >M6</text>
+<rect x="376.0" y="559.0" width="44.0" height="22.0" rx="11" fill="none" stroke="#0f8b8d" stroke-width="1.6" />
+<text x="366.0" y="575.0" font-size="14" font-weight="500" fill="#1e2a4a" text-anchor="end" >DHT22 (suhu, lembap)</text>
+<line x1="506.0" y1="604.0" x2="488.0" y2="604.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<rect x="426.0" y="591.0" width="62.0" height="26.0" rx="13.0" fill="#e63946" />
+<text x="457.0" y="608.9" font-size="13.5" font-weight="700" fill="#ffffff" text-anchor="middle" >D12</text>
+<rect x="376.0" y="593.0" width="44.0" height="22.0" rx="11.0" fill="#ffffff" />
+<text x="398.0" y="608.3" font-size="12" font-weight="700" fill="#e63946" text-anchor="middle" >✕</text>
+<rect x="376.0" y="593.0" width="44.0" height="22.0" rx="11" fill="none" stroke="#e63946" stroke-width="1.6" />
+<text x="366.0" y="609.0" font-size="14" font-weight="700" fill="#e63946" text-anchor="end" >JANGAN DIPAKAI</text>
+<line x1="506.0" y1="638.0" x2="488.0" y2="638.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<rect x="426.0" y="625.0" width="62.0" height="26.0" rx="13.0" fill="#b45f17" />
+<text x="457.0" y="642.9" font-size="13.5" font-weight="700" fill="#ffffff" text-anchor="middle" >D13</text>
+<rect x="376.0" y="627.0" width="44.0" height="22.0" rx="11.0" fill="#ffffff" />
+<text x="398.0" y="642.3" font-size="12" font-weight="700" fill="#b45f17" text-anchor="middle" >M5</text>
+<rect x="376.0" y="627.0" width="44.0" height="22.0" rx="11" fill="none" stroke="#b45f17" stroke-width="1.6" />
+<text x="366.0" y="643.0" font-size="14" font-weight="500" fill="#1e2a4a" text-anchor="end" >tombol manual</text>
+<line x1="506.0" y1="672.0" x2="488.0" y2="672.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<rect x="426.0" y="659.0" width="62.0" height="26.0" rx="13.0" fill="#7c8594" />
+<text x="457.0" y="676.9" font-size="13.5" font-weight="700" fill="#ffffff" text-anchor="middle" >GND</text>
+<text x="416.0" y="677.0" font-size="14" font-weight="500" fill="#1e2a4a" text-anchor="end" >GND bersama</text>
+<line x1="506.0" y1="706.0" x2="488.0" y2="706.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<rect x="426.0" y="693.0" width="62.0" height="26.0" rx="13.0" fill="#7c8594" />
+<text x="457.0" y="710.9" font-size="13.5" font-weight="700" fill="#ffffff" text-anchor="middle" >VIN</text>
+<text x="416.0" y="711.0" font-size="14" font-weight="500" fill="#1e2a4a" text-anchor="end" >jangan diberi beban</text>
+<line x1="694.0" y1="230.0" x2="712.0" y2="230.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<rect x="712.0" y="217.0" width="62.0" height="26.0" rx="13.0" fill="#7b4fb0" />
+<text x="743.0" y="234.9" font-size="13.5" font-weight="700" fill="#ffffff" text-anchor="middle" >D23</text>
+<rect x="780.0" y="219.0" width="44.0" height="22.0" rx="11.0" fill="#ffffff" />
+<text x="802.0" y="234.3" font-size="12" font-weight="700" fill="#7b4fb0" text-anchor="middle" >M7</text>
+<rect x="780.0" y="219.0" width="44.0" height="22.0" rx="11" fill="none" stroke="#7b4fb0" stroke-width="1.6" />
+<text x="834.0" y="235.0" font-size="14" font-weight="500" fill="#1e2a4a" text-anchor="start" >microSD MOSI (opsional)</text>
+<line x1="694.0" y1="264.0" x2="712.0" y2="264.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<rect x="712.0" y="251.0" width="62.0" height="26.0" rx="13.0" fill="#7b4fb0" />
+<text x="743.0" y="268.9" font-size="13.5" font-weight="700" fill="#ffffff" text-anchor="middle" >D22</text>
+<rect x="780.0" y="253.0" width="44.0" height="22.0" rx="11.0" fill="#ffffff" />
+<text x="802.0" y="268.3" font-size="12" font-weight="700" fill="#7b4fb0" text-anchor="middle" >M7</text>
+<rect x="780.0" y="253.0" width="44.0" height="22.0" rx="11" fill="none" stroke="#7b4fb0" stroke-width="1.6" />
+<text x="834.0" y="269.0" font-size="14" font-weight="500" fill="#1e2a4a" text-anchor="start" >I2C SCL: OLED</text>
+<line x1="694.0" y1="298.0" x2="712.0" y2="298.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<rect x="712.0" y="285.0" width="62.0" height="26.0" rx="13.0" fill="#e63946" />
+<text x="743.0" y="302.9" font-size="13.5" font-weight="700" fill="#ffffff" text-anchor="middle" >TX0</text>
+<rect x="780.0" y="287.0" width="44.0" height="22.0" rx="11.0" fill="#ffffff" />
+<text x="802.0" y="302.3" font-size="12" font-weight="700" fill="#e63946" text-anchor="middle" >✕</text>
+<rect x="780.0" y="287.0" width="44.0" height="22.0" rx="11" fill="none" stroke="#e63946" stroke-width="1.6" />
+<text x="834.0" y="303.0" font-size="14" font-weight="700" fill="#e63946" text-anchor="start" >jalur USB</text>
+<line x1="694.0" y1="332.0" x2="712.0" y2="332.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<rect x="712.0" y="319.0" width="62.0" height="26.0" rx="13.0" fill="#e63946" />
+<text x="743.0" y="336.9" font-size="13.5" font-weight="700" fill="#ffffff" text-anchor="middle" >RX0</text>
+<rect x="780.0" y="321.0" width="44.0" height="22.0" rx="11.0" fill="#ffffff" />
+<text x="802.0" y="336.3" font-size="12" font-weight="700" fill="#e63946" text-anchor="middle" >✕</text>
+<rect x="780.0" y="321.0" width="44.0" height="22.0" rx="11" fill="none" stroke="#e63946" stroke-width="1.6" />
+<text x="834.0" y="337.0" font-size="14" font-weight="700" fill="#e63946" text-anchor="start" >jalur USB</text>
+<line x1="694.0" y1="366.0" x2="712.0" y2="366.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<rect x="712.0" y="353.0" width="62.0" height="26.0" rx="13.0" fill="#7b4fb0" />
+<text x="743.0" y="370.9" font-size="13.5" font-weight="700" fill="#ffffff" text-anchor="middle" >D21</text>
+<rect x="780.0" y="355.0" width="44.0" height="22.0" rx="11.0" fill="#ffffff" />
+<text x="802.0" y="370.3" font-size="12" font-weight="700" fill="#7b4fb0" text-anchor="middle" >M7</text>
+<rect x="780.0" y="355.0" width="44.0" height="22.0" rx="11" fill="none" stroke="#7b4fb0" stroke-width="1.6" />
+<text x="834.0" y="371.0" font-size="14" font-weight="500" fill="#1e2a4a" text-anchor="start" >I2C SDA: OLED</text>
+<line x1="694.0" y1="400.0" x2="712.0" y2="400.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<rect x="712.0" y="387.0" width="62.0" height="26.0" rx="13.0" fill="#7b4fb0" />
+<text x="743.0" y="404.9" font-size="13.5" font-weight="700" fill="#ffffff" text-anchor="middle" >D19</text>
+<rect x="780.0" y="389.0" width="44.0" height="22.0" rx="11.0" fill="#ffffff" />
+<text x="802.0" y="404.3" font-size="12" font-weight="700" fill="#7b4fb0" text-anchor="middle" >M7</text>
+<rect x="780.0" y="389.0" width="44.0" height="22.0" rx="11" fill="none" stroke="#7b4fb0" stroke-width="1.6" />
+<text x="834.0" y="405.0" font-size="14" font-weight="500" fill="#1e2a4a" text-anchor="start" >microSD MISO (opsional)</text>
+<line x1="694.0" y1="434.0" x2="712.0" y2="434.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<rect x="712.0" y="421.0" width="62.0" height="26.0" rx="13.0" fill="#7b4fb0" />
+<text x="743.0" y="438.9" font-size="13.5" font-weight="700" fill="#ffffff" text-anchor="middle" >D18</text>
+<rect x="780.0" y="423.0" width="44.0" height="22.0" rx="11.0" fill="#ffffff" />
+<text x="802.0" y="438.3" font-size="12" font-weight="700" fill="#7b4fb0" text-anchor="middle" >M7</text>
+<rect x="780.0" y="423.0" width="44.0" height="22.0" rx="11" fill="none" stroke="#7b4fb0" stroke-width="1.6" />
+<text x="834.0" y="439.0" font-size="14" font-weight="500" fill="#1e2a4a" text-anchor="start" >microSD SCK (opsional)</text>
+<line x1="694.0" y1="468.0" x2="712.0" y2="468.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<rect x="712.0" y="455.0" width="62.0" height="26.0" rx="13.0" fill="#7b4fb0" />
+<text x="743.0" y="472.9" font-size="13.5" font-weight="700" fill="#ffffff" text-anchor="middle" >D5</text>
+<rect x="780.0" y="457.0" width="44.0" height="22.0" rx="11.0" fill="#ffffff" />
+<text x="802.0" y="472.3" font-size="12" font-weight="700" fill="#7b4fb0" text-anchor="middle" >M7</text>
+<rect x="780.0" y="457.0" width="44.0" height="22.0" rx="11" fill="none" stroke="#7b4fb0" stroke-width="1.6" />
+<text x="834.0" y="473.0" font-size="14" font-weight="500" fill="#1e2a4a" text-anchor="start" >microSD CS (opsional)</text>
+<line x1="694.0" y1="502.0" x2="712.0" y2="502.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<rect x="712.0" y="489.0" width="62.0" height="26.0" rx="13.0" fill="#c2185b" />
+<text x="743.0" y="506.9" font-size="13.5" font-weight="700" fill="#ffffff" text-anchor="middle" >TX2</text>
+<rect x="780.0" y="491.0" width="44.0" height="22.0" rx="11.0" fill="#ffffff" />
+<text x="802.0" y="506.3" font-size="12" font-weight="700" fill="#c2185b" text-anchor="middle" >M15</text>
+<rect x="780.0" y="491.0" width="44.0" height="22.0" rx="11" fill="none" stroke="#c2185b" stroke-width="1.6" />
+<text x="834.0" y="507.0" font-size="14" font-weight="500" fill="#1e2a4a" text-anchor="start" >RS-485 DI</text>
+<line x1="694.0" y1="536.0" x2="712.0" y2="536.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<rect x="712.0" y="523.0" width="62.0" height="26.0" rx="13.0" fill="#c2185b" />
+<text x="743.0" y="540.9" font-size="13.5" font-weight="700" fill="#ffffff" text-anchor="middle" >RX2</text>
+<rect x="780.0" y="525.0" width="44.0" height="22.0" rx="11.0" fill="#ffffff" />
+<text x="802.0" y="540.3" font-size="12" font-weight="700" fill="#c2185b" text-anchor="middle" >M15</text>
+<rect x="780.0" y="525.0" width="44.0" height="22.0" rx="11" fill="none" stroke="#c2185b" stroke-width="1.6" />
+<text x="834.0" y="541.0" font-size="14" font-weight="500" fill="#1e2a4a" text-anchor="start" >RS-485 RO</text>
+<line x1="694.0" y1="570.0" x2="712.0" y2="570.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<rect x="712.0" y="557.0" width="62.0" height="26.0" rx="13.0" fill="#8d6e63" />
+<text x="743.0" y="574.9" font-size="13.5" font-weight="700" fill="#ffffff" text-anchor="middle" >D4</text>
+<rect x="780.0" y="559.0" width="44.0" height="22.0" rx="11.0" fill="#ffffff" />
+<text x="802.0" y="574.3" font-size="12" font-weight="700" fill="#8d6e63" text-anchor="middle" >M2</text>
+<rect x="780.0" y="559.0" width="44.0" height="22.0" rx="11" fill="none" stroke="#8d6e63" stroke-width="1.6" />
+<text x="834.0" y="575.0" font-size="14" font-weight="500" fill="#1e2a4a" text-anchor="start" >LED status</text>
+<line x1="694.0" y1="604.0" x2="712.0" y2="604.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<rect x="712.0" y="591.0" width="62.0" height="26.0" rx="13.0" fill="#c2185b" />
+<text x="743.0" y="608.9" font-size="13.5" font-weight="700" fill="#ffffff" text-anchor="middle" >D2</text>
+<rect x="780.0" y="593.0" width="44.0" height="22.0" rx="11.0" fill="#ffffff" />
+<text x="802.0" y="608.3" font-size="12" font-weight="700" fill="#c2185b" text-anchor="middle" >M15</text>
+<rect x="780.0" y="593.0" width="44.0" height="22.0" rx="11" fill="none" stroke="#c2185b" stroke-width="1.6" />
+<text x="834.0" y="609.0" font-size="14" font-weight="500" fill="#1e2a4a" text-anchor="start" >RS-485 DE/RE + LED biru</text>
+<line x1="694.0" y1="638.0" x2="712.0" y2="638.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<rect x="712.0" y="625.0" width="62.0" height="26.0" rx="13.0" fill="#0f8b8d" />
+<text x="743.0" y="642.9" font-size="13.5" font-weight="700" fill="#ffffff" text-anchor="middle" >D15</text>
+<rect x="780.0" y="627.0" width="44.0" height="22.0" rx="11.0" fill="#ffffff" />
+<text x="802.0" y="642.3" font-size="12" font-weight="700" fill="#0f8b8d" text-anchor="middle" >M6</text>
+<rect x="780.0" y="627.0" width="44.0" height="22.0" rx="11" fill="none" stroke="#0f8b8d" stroke-width="1.6" />
+<text x="834.0" y="643.0" font-size="14" font-weight="500" fill="#1e2a4a" text-anchor="start" >HC-SR04 TRIG (jarak)</text>
+<line x1="694.0" y1="672.0" x2="712.0" y2="672.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<rect x="712.0" y="659.0" width="62.0" height="26.0" rx="13.0" fill="#7c8594" />
+<text x="743.0" y="676.9" font-size="13.5" font-weight="700" fill="#ffffff" text-anchor="middle" >GND</text>
+<text x="784.0" y="677.0" font-size="14" font-weight="500" fill="#1e2a4a" text-anchor="start" >GND bersama</text>
+<line x1="694.0" y1="706.0" x2="712.0" y2="706.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<rect x="712.0" y="693.0" width="62.0" height="26.0" rx="13.0" fill="#7c8594" />
+<text x="743.0" y="710.9" font-size="13.5" font-weight="700" fill="#ffffff" text-anchor="middle" >3V3</text>
+<text x="784.0" y="711.0" font-size="14" font-weight="500" fill="#1e2a4a" text-anchor="start" >ke rel bawah (3,3 V)</text>
+<rect x="60.0" y="836.0" width="600.0" height="186.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="84.0" y="868.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="start" >Warna = modul tempat pin mulai dipakai:</text>
+<rect x="84.0" y="888.0" width="44.0" height="24.0" rx="12.0" fill="#ffffff" />
+<text x="106.0" y="904.3" font-size="12" font-weight="700" fill="#8d6e63" text-anchor="middle" >M2</text>
+<rect x="84.0" y="888.0" width="44.0" height="24.0" rx="12" fill="none" stroke="#8d6e63" stroke-width="1.6" />
+<text x="138.0" y="905.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="start" >Modul 2 (sudah terpasang)</text>
+<rect x="374.0" y="888.0" width="44.0" height="24.0" rx="12.0" fill="#ffffff" />
+<text x="396.0" y="904.3" font-size="12" font-weight="700" fill="#b45f17" text-anchor="middle" >M5</text>
+<rect x="374.0" y="888.0" width="44.0" height="24.0" rx="12" fill="none" stroke="#b45f17" stroke-width="1.6" />
+<text x="428.0" y="905.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="start" >Modul 5 — minggu ini</text>
+<rect x="84.0" y="928.0" width="44.0" height="24.0" rx="12.0" fill="#ffffff" />
+<text x="106.0" y="944.3" font-size="12" font-weight="700" fill="#0f8b8d" text-anchor="middle" >M6</text>
+<rect x="84.0" y="928.0" width="44.0" height="24.0" rx="12" fill="none" stroke="#0f8b8d" stroke-width="1.6" />
+<text x="138.0" y="945.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="start" >Modul 6 — sensor</text>
+<rect x="374.0" y="928.0" width="44.0" height="24.0" rx="12.0" fill="#ffffff" />
+<text x="396.0" y="944.3" font-size="12" font-weight="700" fill="#7b4fb0" text-anchor="middle" >M7</text>
+<rect x="374.0" y="928.0" width="44.0" height="24.0" rx="12" fill="none" stroke="#7b4fb0" stroke-width="1.6" />
+<text x="428.0" y="945.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="start" >Modul 7 — bus I2C &amp; SPI</text>
+<rect x="84.0" y="968.0" width="44.0" height="24.0" rx="12.0" fill="#ffffff" />
+<text x="106.0" y="984.3" font-size="12" font-weight="700" fill="#c2185b" text-anchor="middle" >M15</text>
+<rect x="84.0" y="968.0" width="44.0" height="24.0" rx="12" fill="none" stroke="#c2185b" stroke-width="1.6" />
+<text x="138.0" y="985.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="start" >Modul 15 — RS-485</text>
+<rect x="374.0" y="968.0" width="44.0" height="24.0" rx="12.0" fill="#ffffff" />
+<text x="396.0" y="984.3" font-size="12" font-weight="700" fill="#e63946" text-anchor="middle" >✕</text>
+<rect x="374.0" y="968.0" width="44.0" height="24.0" rx="12" fill="none" stroke="#e63946" stroke-width="1.6" />
+<text x="428.0" y="985.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="start" >hindari (Konsep 2)</text>
+<rect x="690.0" y="836.0" width="450.0" height="186.0" rx="12" fill="#f3fbf6" stroke="#2a9d5c" stroke-width="2" />
+<text x="712.0" y="868.0" font-size="16" font-weight="800" fill="#2a9d5c" text-anchor="start" >Node 2 "Kebun" (ESP32 kedua, Modul 14)</text>
+<text x="712.0" y="898.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >21 / 22</text>
+<text x="840.0" y="898.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="start" >I2C: BME280</text>
+<text x="712.0" y="920.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >27</text>
+<text x="840.0" y="920.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="start" >DS18B20 (+ 4,7 kΩ ke 3V3)</text>
+<text x="712.0" y="942.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >39 (VN)</text>
+<text x="840.0" y="942.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="start" >sensor tanah ke-2</text>
+<text x="712.0" y="964.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >2</text>
+<text x="840.0" y="964.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="start" >LED biru bawaan: "sedang bangun"</text>
+<text x="712.0" y="986.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >16 / 17 / 2</text>
+<text x="840.0" y="986.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="start" >RS-485, hanya selama lab Modul 15</text>
+<text x="712.0" y="1008.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >36 (VP)</text>
+<text x="840.0" y="1008.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="start" >cadangan (tegangan baterai)</text>
+<text x="1178.0" y="1036.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

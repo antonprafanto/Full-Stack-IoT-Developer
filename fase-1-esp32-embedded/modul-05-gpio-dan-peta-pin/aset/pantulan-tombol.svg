@@ -1,0 +1,156 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="640" viewBox="0 0 1200 640" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="640" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Satu tekanan, banyak pantulan</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Tegangan pin D13 saat tombol ditekan lalu dilepas (tidak sesuai skala)</text>
+<text x="108.0" y="175.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="end" >3,3 V</text>
+<text x="108.0" y="192.0" font-size="12" font-weight="800" fill="#2a9d5c" text-anchor="end" >HIGH</text>
+<text x="108.0" y="335.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="end" >0 V</text>
+<text x="108.0" y="352.0" font-size="12" font-weight="800" fill="#3a6fc4" text-anchor="end" >LOW</text>
+<line x1="120.0" y1="140.0" x2="120.0" y2="350.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<line x1="120.0" y1="350.0" x2="1120.0" y2="350.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<path d="M120 170 L300 170 L300 330 L312 330 L312 170 L324 170 L324 330 L336 330 L336 170 L348 170 L348 330 L360 330 L360 170 L372 170 L372 330 L760 330 L760 170 L768 170 L768 330 L778 330 L778 170 L790 170 L790 330 L796 330 L796 170 L1120 170" fill="none" stroke="#0f8b8d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="292.0" y="128.0" width="88.0" height="232.0" rx="8" fill="none" stroke="#e63946" stroke-width="2" stroke-dasharray="6 5"/>
+<text x="336.0" y="120.0" font-size="13" font-weight="800" fill="#e63946" text-anchor="middle" >pantulan saat ditekan</text>
+<rect x="752.0" y="128.0" width="52.0" height="232.0" rx="8" fill="none" stroke="#e63946" stroke-width="2" stroke-dasharray="6 5"/>
+<text x="778.0" y="120.0" font-size="13" font-weight="800" fill="#e63946" text-anchor="middle" >pantulan saat dilepas</text>
+<text x="560.0" y="320.0" font-size="14" font-weight="700" fill="#3a6fc4" text-anchor="middle" >tombol tertekan mantap: LOW</text>
+<text x="200.0" y="160.0" font-size="14" font-weight="700" fill="#2a9d5c" text-anchor="middle" >dilepas: HIGH</text>
+<text x="960.0" y="160.0" font-size="14" font-weight="700" fill="#2a9d5c" text-anchor="middle" >dilepas lagi: HIGH</text>
+<text x="336.0" y="378.0" font-size="13" font-weight="800" fill="#e63946" text-anchor="middle" >±1–10 ms</text>
+<text x="120.0" y="410.0" font-size="14" font-weight="700" fill="#1e2a4a" text-anchor="start" >ESP32 membaca pin ratusan ribu kali per detik:</text>
+<circle cx="124.0" cy="428.0" r="2.6" fill="#9aa3b0" />
+<circle cx="133.0" cy="428.0" r="2.6" fill="#9aa3b0" />
+<circle cx="142.0" cy="428.0" r="2.6" fill="#9aa3b0" />
+<circle cx="151.0" cy="428.0" r="2.6" fill="#9aa3b0" />
+<circle cx="160.0" cy="428.0" r="2.6" fill="#9aa3b0" />
+<circle cx="169.0" cy="428.0" r="2.6" fill="#9aa3b0" />
+<circle cx="178.0" cy="428.0" r="2.6" fill="#9aa3b0" />
+<circle cx="187.0" cy="428.0" r="2.6" fill="#9aa3b0" />
+<circle cx="196.0" cy="428.0" r="2.6" fill="#9aa3b0" />
+<circle cx="205.0" cy="428.0" r="2.6" fill="#9aa3b0" />
+<circle cx="214.0" cy="428.0" r="2.6" fill="#9aa3b0" />
+<circle cx="223.0" cy="428.0" r="2.6" fill="#9aa3b0" />
+<circle cx="232.0" cy="428.0" r="2.6" fill="#9aa3b0" />
+<circle cx="241.0" cy="428.0" r="2.6" fill="#9aa3b0" />
+<circle cx="250.0" cy="428.0" r="2.6" fill="#9aa3b0" />
+<circle cx="259.0" cy="428.0" r="2.6" fill="#9aa3b0" />
+<circle cx="268.0" cy="428.0" r="2.6" fill="#9aa3b0" />
+<circle cx="277.0" cy="428.0" r="2.6" fill="#9aa3b0" />
+<circle cx="286.0" cy="428.0" r="2.6" fill="#9aa3b0" />
+<circle cx="295.0" cy="428.0" r="2.6" fill="#9aa3b0" />
+<circle cx="304.0" cy="428.0" r="2.6" fill="#3a6fc4" />
+<circle cx="313.0" cy="428.0" r="2.6" fill="#9aa3b0" />
+<circle cx="322.0" cy="428.0" r="2.6" fill="#9aa3b0" />
+<circle cx="331.0" cy="428.0" r="2.6" fill="#3a6fc4" />
+<circle cx="340.0" cy="428.0" r="2.6" fill="#9aa3b0" />
+<circle cx="349.0" cy="428.0" r="2.6" fill="#3a6fc4" />
+<circle cx="358.0" cy="428.0" r="2.6" fill="#3a6fc4" />
+<circle cx="367.0" cy="428.0" r="2.6" fill="#9aa3b0" />
+<circle cx="376.0" cy="428.0" r="2.6" fill="#3a6fc4" />
+<circle cx="385.0" cy="428.0" r="2.6" fill="#3a6fc4" />
+<circle cx="394.0" cy="428.0" r="2.6" fill="#3a6fc4" />
+<circle cx="403.0" cy="428.0" r="2.6" fill="#3a6fc4" />
+<circle cx="412.0" cy="428.0" r="2.6" fill="#3a6fc4" />
+<circle cx="421.0" cy="428.0" r="2.6" fill="#3a6fc4" />
+<circle cx="430.0" cy="428.0" r="2.6" fill="#3a6fc4" />
+<circle cx="439.0" cy="428.0" r="2.6" fill="#3a6fc4" />
+<circle cx="448.0" cy="428.0" r="2.6" fill="#3a6fc4" />
+<circle cx="457.0" cy="428.0" r="2.6" fill="#3a6fc4" />
+<circle cx="466.0" cy="428.0" r="2.6" fill="#3a6fc4" />
+<circle cx="475.0" cy="428.0" r="2.6" fill="#3a6fc4" />
+<circle cx="484.0" cy="428.0" r="2.6" fill="#3a6fc4" />
+<circle cx="493.0" cy="428.0" r="2.6" fill="#3a6fc4" />
+<circle cx="502.0" cy="428.0" r="2.6" fill="#3a6fc4" />
+<circle cx="511.0" cy="428.0" r="2.6" fill="#3a6fc4" />
+<circle cx="520.0" cy="428.0" r="2.6" fill="#3a6fc4" />
+<circle cx="529.0" cy="428.0" r="2.6" fill="#3a6fc4" />
+<circle cx="538.0" cy="428.0" r="2.6" fill="#3a6fc4" />
+<circle cx="547.0" cy="428.0" r="2.6" fill="#3a6fc4" />
+<circle cx="556.0" cy="428.0" r="2.6" fill="#3a6fc4" />
+<circle cx="565.0" cy="428.0" r="2.6" fill="#3a6fc4" />
+<circle cx="574.0" cy="428.0" r="2.6" fill="#3a6fc4" />
+<circle cx="583.0" cy="428.0" r="2.6" fill="#3a6fc4" />
+<circle cx="592.0" cy="428.0" r="2.6" fill="#3a6fc4" />
+<circle cx="601.0" cy="428.0" r="2.6" fill="#3a6fc4" />
+<circle cx="610.0" cy="428.0" r="2.6" fill="#3a6fc4" />
+<circle cx="619.0" cy="428.0" r="2.6" fill="#3a6fc4" />
+<circle cx="628.0" cy="428.0" r="2.6" fill="#3a6fc4" />
+<circle cx="637.0" cy="428.0" r="2.6" fill="#3a6fc4" />
+<circle cx="646.0" cy="428.0" r="2.6" fill="#3a6fc4" />
+<circle cx="655.0" cy="428.0" r="2.6" fill="#3a6fc4" />
+<circle cx="664.0" cy="428.0" r="2.6" fill="#3a6fc4" />
+<circle cx="673.0" cy="428.0" r="2.6" fill="#3a6fc4" />
+<circle cx="682.0" cy="428.0" r="2.6" fill="#3a6fc4" />
+<circle cx="691.0" cy="428.0" r="2.6" fill="#3a6fc4" />
+<circle cx="700.0" cy="428.0" r="2.6" fill="#3a6fc4" />
+<circle cx="709.0" cy="428.0" r="2.6" fill="#3a6fc4" />
+<circle cx="718.0" cy="428.0" r="2.6" fill="#3a6fc4" />
+<circle cx="727.0" cy="428.0" r="2.6" fill="#3a6fc4" />
+<circle cx="736.0" cy="428.0" r="2.6" fill="#3a6fc4" />
+<circle cx="745.0" cy="428.0" r="2.6" fill="#3a6fc4" />
+<circle cx="754.0" cy="428.0" r="2.6" fill="#3a6fc4" />
+<circle cx="763.0" cy="428.0" r="2.6" fill="#9aa3b0" />
+<circle cx="772.0" cy="428.0" r="2.6" fill="#3a6fc4" />
+<circle cx="781.0" cy="428.0" r="2.6" fill="#9aa3b0" />
+<circle cx="790.0" cy="428.0" r="2.6" fill="#3a6fc4" />
+<circle cx="799.0" cy="428.0" r="2.6" fill="#9aa3b0" />
+<circle cx="808.0" cy="428.0" r="2.6" fill="#9aa3b0" />
+<circle cx="817.0" cy="428.0" r="2.6" fill="#9aa3b0" />
+<circle cx="826.0" cy="428.0" r="2.6" fill="#9aa3b0" />
+<circle cx="835.0" cy="428.0" r="2.6" fill="#9aa3b0" />
+<circle cx="844.0" cy="428.0" r="2.6" fill="#9aa3b0" />
+<circle cx="853.0" cy="428.0" r="2.6" fill="#9aa3b0" />
+<circle cx="862.0" cy="428.0" r="2.6" fill="#9aa3b0" />
+<circle cx="871.0" cy="428.0" r="2.6" fill="#9aa3b0" />
+<circle cx="880.0" cy="428.0" r="2.6" fill="#9aa3b0" />
+<circle cx="889.0" cy="428.0" r="2.6" fill="#9aa3b0" />
+<circle cx="898.0" cy="428.0" r="2.6" fill="#9aa3b0" />
+<circle cx="907.0" cy="428.0" r="2.6" fill="#9aa3b0" />
+<circle cx="916.0" cy="428.0" r="2.6" fill="#9aa3b0" />
+<circle cx="925.0" cy="428.0" r="2.6" fill="#9aa3b0" />
+<circle cx="934.0" cy="428.0" r="2.6" fill="#9aa3b0" />
+<circle cx="943.0" cy="428.0" r="2.6" fill="#9aa3b0" />
+<circle cx="952.0" cy="428.0" r="2.6" fill="#9aa3b0" />
+<circle cx="961.0" cy="428.0" r="2.6" fill="#9aa3b0" />
+<circle cx="970.0" cy="428.0" r="2.6" fill="#9aa3b0" />
+<circle cx="979.0" cy="428.0" r="2.6" fill="#9aa3b0" />
+<circle cx="988.0" cy="428.0" r="2.6" fill="#9aa3b0" />
+<circle cx="997.0" cy="428.0" r="2.6" fill="#9aa3b0" />
+<circle cx="1006.0" cy="428.0" r="2.6" fill="#9aa3b0" />
+<circle cx="1015.0" cy="428.0" r="2.6" fill="#9aa3b0" />
+<circle cx="1024.0" cy="428.0" r="2.6" fill="#9aa3b0" />
+<circle cx="1033.0" cy="428.0" r="2.6" fill="#9aa3b0" />
+<circle cx="1042.0" cy="428.0" r="2.6" fill="#9aa3b0" />
+<circle cx="1051.0" cy="428.0" r="2.6" fill="#9aa3b0" />
+<circle cx="1060.0" cy="428.0" r="2.6" fill="#9aa3b0" />
+<circle cx="1069.0" cy="428.0" r="2.6" fill="#9aa3b0" />
+<circle cx="1078.0" cy="428.0" r="2.6" fill="#9aa3b0" />
+<circle cx="1087.0" cy="428.0" r="2.6" fill="#9aa3b0" />
+<circle cx="1096.0" cy="428.0" r="2.6" fill="#9aa3b0" />
+<circle cx="1105.0" cy="428.0" r="2.6" fill="#9aa3b0" />
+<circle cx="1114.0" cy="428.0" r="2.6" fill="#9aa3b0" />
+<path d="M304 440 L304 452" fill="none" stroke="#e63946" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M331 440 L331 452" fill="none" stroke="#e63946" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M349 440 L349 452" fill="none" stroke="#e63946" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M376 440 L376 452" fill="none" stroke="#e63946" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M772 440 L772 452" fill="none" stroke="#e63946" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M790 440 L790 452" fill="none" stroke="#e63946" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<text x="336.0" y="470.0" font-size="13" font-weight="800" fill="#e63946" text-anchor="middle" >4 "turun" saat ditekan</text>
+<text x="779.0" y="470.0" font-size="13" font-weight="800" fill="#e63946" text-anchor="middle" >+2 saat dilepas</text>
+<text x="560.0" y="470.0" font-size="13" font-weight="800" fill="#e63946" text-anchor="middle" >→ satu tekanan terhitung 6 kali!</text>
+<rect x="40.0" y="492.0" width="1120.0" height="128.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="64.0" y="520.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >Cara tombolDitekan() meredamnya (JEDA_PANTUL = 30 ms):</text>
+<circle cx="74.0" cy="545.0" r="11" fill="#0f8b8d" />
+<text x="74.0" y="550.0" font-size="12" font-weight="800" fill="#fff" text-anchor="middle" >1</text>
+<text x="94.0" y="550.0" font-size="14.5" font-weight="500" fill="#1e2a4a" text-anchor="start" >lihat LOW pertama</text>
+<circle cx="614.0" cy="545.0" r="11" fill="#0f8b8d" />
+<text x="614.0" y="550.0" font-size="12" font-weight="800" fill="#fff" text-anchor="middle" >2</text>
+<text x="634.0" y="550.0" font-size="14.5" font-weight="500" fill="#1e2a4a" text-anchor="start" >tunggu 30 ms, periksa lagi: masih LOW? tekanan sungguhan</text>
+<circle cx="74.0" cy="579.0" r="11" fill="#0f8b8d" />
+<text x="74.0" y="584.0" font-size="12" font-weight="800" fill="#fff" text-anchor="middle" >3</text>
+<text x="94.0" y="584.0" font-size="14.5" font-weight="500" fill="#1e2a4a" text-anchor="start" >tunggu sampai jari diangkat</text>
+<circle cx="614.0" cy="579.0" r="11" fill="#0f8b8d" />
+<text x="614.0" y="584.0" font-size="12" font-weight="800" fill="#fff" text-anchor="middle" >4</text>
+<text x="634.0" y="584.0" font-size="14.5" font-weight="500" fill="#1e2a4a" text-anchor="start" >tunggu 30 ms lagi, lalu jawab true SATU kali</text>
+<text x="1178.0" y="626.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>
