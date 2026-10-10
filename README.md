@@ -19,7 +19,26 @@ Ditulis dalam Bahasa Indonesia yang ramah awam. Tidak perlu latar belakang elekt
 2. Salin **[PROGRES.md](PROGRES.md)** ke catatan Anda sendiri (atau *fork* repo ini) untuk mencentang kemajuan.
 3. Buka **[Modul 1](fase-0-fondasi/modul-01-peta-besar-iot/README.md)** dan kerjakan berurutan. Setiap modul = 1 minggu @ 6–10 jam (Modul N = Minggu N).
 
-> **Status:** silabus **v1.0 disetujui** (9 Oktober 2026). Materi modul ditulis berurutan; yang sudah tersedia: **[Modul 1](fase-0-fondasi/modul-01-peta-besar-iot/README.md)** dan **[Modul 2](fase-0-fondasi/modul-02-listrik-dan-unggah-pertama/README.md)**. Lihat [PROGRES.md](PROGRES.md) untuk daftar modul.
+> **Status:** silabus **v1.0 disetujui** (9 Oktober 2026). Materi modul ditulis berurutan; yang sudah tersedia: **Modul 1–3** (lihat tabel di bawah). Daftar lengkap 32 modul ada di [PROGRES.md](PROGRES.md).
+
+## 📚 Modul yang sudah tersedia
+
+| Modul | Judul | Setelah modul ini Anda bisa… | Alat utama |
+| :---: | :--- | :--- | :--- |
+| 1 | **[Peta Besar IoT & Kemenangan Pertama dalam 10 Menit](fase-0-fondasi/modul-01-peta-besar-iot/README.md)** | menjelaskan IoT dengan bahasa sehari-hari, membuat LED berkedip di simulator, dan menyimpan hasil belajar pertama di GitHub | Wokwi, akun GitHub |
+| 2 | **[Listrik Ramah Awam, Breadboard, & Unggah Pertama ke ESP32 Asli](fase-0-fondasi/modul-02-listrik-dan-unggah-pertama/README.md)** | merangkai LED di breadboard tanpa korsleting, menghitung resistor, dan mengunggah program ke ESP32 sungguhan | Arduino IDE 2, multimeter, Kit A |
+| 3 | **[Pemrograman C++ untuk ESP32 dari Nol](fase-0-fondasi/modul-03-cpp-untuk-esp32/README.md)** | menulis program C++ sendiri (variabel, `if`, perulangan, fungsi, *array*, `struct`), membaca pesan error, memakai library, dan menyimpan kemajuan dengan GitHub Desktop | Wokwi, Arduino IDE 2, GitHub Desktop |
+| 4 | JavaScript & Node.js dari Nol | segera terbit — [ringkasannya di Silabus](SILABUS.md#modul-4--javascript--nodejs-dari-nol-bahasa-untuk-server--dashboard) | Visual Studio Code, Node.js 24 |
+
+Modul per fase juga terdaftar di halaman fasenya, misalnya **[Fase 0 — Fondasi](fase-0-fondasi/README.md)**.
+
+## 🧭 Cara bernavigasi di repositori ini
+
+- **Baris navigasi** di awal dan akhir setiap modul: ⬅️ modul sebelumnya · Silabus · Pelacak progres · modul berikutnya ➡️.
+- **Daftar isi** ada di awal setiap artikel. Di GitHub, tombol **Outline** (ikon bergaris di kanan atas tampilan file) juga memunculkan semua judul bagian.
+- **Kode** setiap modul ada di folder `kode/` modul itu. Buka filenya, lalu klik ikon salin (**Copy raw file**) di kanan atas tampilan file untuk menyalin seluruh isinya.
+- **Gambar** ada di folder `aset/` setiap modul, lengkap dengan sumber dan lisensinya di `aset/SUMBER.md`.
+- **Proyek benang merah** "Rumah Pintar Mini" versi terbaru ada di [`proyek-rumah-pintar-mini/`](proyek-rumah-pintar-mini/README.md).
 
 ## 🗺️ Peta kurikulum
 
@@ -38,10 +57,13 @@ Rincian tiap modul (tujuan, konsep inti, alat, praktik, kriteria lulus) ada di [
 
 ```
 fase-0-fondasi/ … fase-5-operasi-skala/   ← 32 folder modul: README.md (artikel) + aset/ + kode/
+fase-0-fondasi/README.md                  ← daftar modul satu fase (setiap fase punya halaman seperti ini)
 proyek-rumah-pintar-mini/                 ← kode proyek benang merah (firmware 2 node, edge, backend, frontend, compose)
 aset/                                     ← gambar lintas modul
 _arsip-lama/                              ← kurikulum versi sebelumnya (tidak perlu dibaca)
 ```
+
+Rincian lengkap struktur folder ada di [Silabus §9](SILABUS.md#9-struktur-folder-repositori). Folder fase berikutnya dibuat saat modul pertamanya terbit.
 
 ## 🖼️ Tentang gambar & atribusi
 

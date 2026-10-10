@@ -2,7 +2,7 @@
 
 *Fase 0 · Minggu 2 · Perangkat keras (*hardware*): **Kit A Tahap 1** (bisa Wokwi dulu bila kit belum sampai) · Prasyarat: **Modul 1** · Waktu: 8–10 jam, dicicil dalam seminggu*
 
-[⬅️ Modul 1](../modul-01-peta-besar-iot/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · [Modul 3 ➡️ (segera terbit — baca ringkasannya di Silabus)](../../SILABUS.md#modul-3--pemrograman-c-untuk-esp32-dari-nol)
+[⬅️ Modul 1](../modul-01-peta-besar-iot/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · [Modul 3 ➡️](../modul-03-cpp-untuk-esp32/README.md)
 
 ---
 
@@ -771,7 +771,7 @@ Kesimpulan yang perlu dibawa pulang: simulator sangat berguna untuk menguji **lo
 
 ## 🚨 Kalau Tidak Jalan?
 
-Ini kotak terbesar di seluruh kurikulum karena minggu ini ada tiga dunia yang harus akur: perangkat keras, *driver* laptop, dan kabel USB. **Sedang macet? Lewati tabel di bawah** — daftar gejala (judul-judul lipat yang bisa diklik) ada tepat setelahnya. Tabel wajib ini merangkum **"yang sering ditemui di tutorial lain → yang benar untuk versi kita"**:
+Ini kotak terbesar di seluruh kurikulum karena minggu ini ada tiga dunia yang harus akur: perangkat keras, *driver* laptop, dan kabel USB. **Sedang macet? Lewati tabel di bawah** — daftar gejala (judul-judul lipat yang bisa diklik) ada tepat setelahnya. Tabel ini merangkum **"yang sering ditemui di tutorial lain → yang benar untuk versi kita"**:
 
 | Yang sering ditemui di tutorial lain | Yang benar untuk kurikulum ini (Arduino IDE 2.3.x, paket esp32 3.3.x) | Kenapa |
 | :--- | :--- | :--- |
@@ -1153,4 +1153,4 @@ Rujukan yang dipakai saat menulis: dokumentasi arduino-esp32 ([docs.espressif.co
 
 ---
 
-[⬅️ Modul 1](../modul-01-peta-besar-iot/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · **Berikutnya: Modul 3 — Pemrograman C++ untuk ESP32 dari Nol** (segera terbit; [ringkasannya di Silabus](../../SILABUS.md#modul-3--pemrograman-c-untuk-esp32-dari-nol))
+[⬅️ Modul 1](../modul-01-peta-besar-iot/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · **Berikutnya: [Modul 3 — Pemrograman C++ untuk ESP32 dari Nol](../modul-03-cpp-untuk-esp32/README.md) ➡️**

@@ -3,7 +3,7 @@
 > **Kurikulum 32 modul — satu modul = satu minggu belajar santai (±8 bulan) — untuk orang awam total hingga mampu membangun sistem IoT lengkap dari sensor sampai dashboard di HP.**
 > Hardware: **ESP32 + Raspberry Pi** · Software: **JavaScript/TypeScript (Node.js + React) untuk server & tampilan, sedikit C++ untuk chip** · Bahasa pengantar: **Indonesia, ramah awam**.
 >
-> Status dokumen: **v1.0.3 — disetujui, penulisan materi berjalan; Modul 1–2 tersedia** (10 Oktober 2026). Keputusan yang mendasarinya ada di [§11](#11-keputusan-yang-sudah-disetujui); riwayat perubahan di [§13](#13-riwayat-revisi).
+> Status dokumen: **v1.0.4 — disetujui, penulisan materi berjalan; Modul 1–3 tersedia** (10 Oktober 2026). Keputusan yang mendasarinya ada di [§11](#11-keputusan-yang-sudah-disetujui); riwayat perubahan di [§13](#13-riwayat-revisi).
 
 ---
 
@@ -155,7 +155,7 @@ Setiap modul adalah satu artikel panjang untuk **satu minggu belajar santai (6�
 10. **📖 Glosarium & 📝 Kuis singkat** (5 soal + kunci jawaban berpenjelasan) + **✅ Checklist kelulusan modul**.
 11. **📚 Sumber & atribusi gambar** — setiap gambar yang diambil dari internet dicantumkan sumber dan lisensinya.
 
-**Target tiap artikel (sesuai keputusan "lebih dalam, detail, runut, jelas, ramah awam"):** 3.500–6.000 kata (Modul 1 sebagai modul orientasi dan Modul 2 sebagai modul perangkat keras & instalasi pertama boleh lebih panjang), 8–15 gambar (foto komponen, diagram rangkaian, tangkapan layar tiap langkah penting), kode lengkap yang bisa disalin utuh dengan komentar tiap baris, dan satu "peta jalan mini" di awal artikel yang menunjukkan di mana modul ini berada dalam proyek besar.
+**Target tiap artikel (sesuai keputusan "lebih dalam, detail, runut, jelas, ramah awam"):** 3.500–6.000 kata (Modul 1 sebagai modul orientasi, Modul 2 sebagai modul perangkat keras & instalasi pertama, dan Modul 3 sebagai modul bahasa pemrograman pertama boleh lebih panjang dan bergambar lebih banyak), 8–15 gambar (foto komponen, diagram rangkaian, tangkapan layar tiap langkah penting), kode lengkap yang bisa disalin utuh dengan komentar tiap baris, dan satu "peta jalan mini" di awal artikel yang menunjukkan di mana modul ini berada dalam proyek besar.
 
 ### 4.2 Prinsip penulisan materi (janji penulis kepada pembaca)
 
@@ -366,6 +366,8 @@ Format tiap modul:
 #### Modul 1 — Peta Besar IoT & Kemenangan Pertama dalam 10 Menit
 *Fase 0 · Minggu 1 · Hardware: tidak perlu (Wokwi di browser) · Prasyarat: tidak ada*
 
+📖 **Materi sudah tersedia:** [buka artikel Modul 1](fase-0-fondasi/modul-01-peta-besar-iot/README.md)
+
 - **Setelah modul ini Anda bisa:** menjelaskan IoT dan "fullstack" ke orang lain dengan bahasa sehari-hari; membuat LED berkedip di simulator; menyimpan hasil belajar pertama di GitHub; tahu cara bertanya saat macet; memesan kit yang benar.
 - **Konsep inti:** contoh IoT di sekitar kita (meteran listrik pintar, pelacak ojek online, sensor banjir); komputer vs mikrokontroler ("otak kecil yang hanya menjalankan satu program, tanpa Windows"); kode → kompiler → chip (resep → juru masak → masakan); tur singkat kelima lapisan sistem & dua node proyek (§2); apa itu repositori GitHub ("folder di internet yang mengingat setiap perubahan"); aturan keselamatan dasar; **versi itu penting**: mengapa tutorial lama bisa gagal dan cara menyebutkan versi saat bertanya; **cara bertanya yang baik** (foto, kode, pesan error, versi) dan cara memakai asisten AI tanpa tersesat; **panduan belanja Kit A Tahap 1** dengan panduan gambar "benar vs salah" (foto papan yang benar + gambar skematis papan yang sering tertukar).
 - **Alat yang dipakai:** Wokwi (tanpa instal apa pun), akun GitHub (unggah file lewat browser — belum perlu Git).
@@ -376,6 +378,8 @@ Format tiap modul:
 
 #### Modul 2 — Listrik Ramah Awam, Breadboard, & Unggah Pertama ke ESP32 Asli
 *Fase 0 · Minggu 2 · Hardware: Kit A Tahap 1 (bisa Wokwi dulu bila kit belum sampai) · Prasyarat: Modul 1*
+
+📖 **Materi sudah tersedia:** [buka artikel Modul 2](fase-0-fondasi/modul-02-listrik-dan-unggah-pertama/README.md)
 
 - **Setelah modul ini Anda bisa:** menjelaskan tegangan/arus/hambatan dengan analogi air; menghitung resistor LED; merangkai di breadboard tanpa korsleting; mengunggah program ke ESP32 sungguhan; tahu persis mengapa 5 V USB aman tapi 220 V PLN tidak — **dan mengapa pin ESP32 hanya boleh menerima 3,3 V.**
 - **Konsep inti:** tegangan–arus–hambatan (tandon, pipa, keran) dan daya; Hukum Ohm (satu rumus saja); DC vs AC; anatomi breadboard (jalur dalam yang tak terlihat); kaki LED panjang-pendek, kode warna resistor, polaritas kapasitor & dioda; kabel jumper; *common ground* ("semua harus sepakat titik nol-nya"); mengukur dengan multimeter; apa itu korsleting; **aturan emas: cabut USB sebelum mengubah kabel**; **3,3 V vs 5 V: ESP32 "berbicara" 3,3 V — pin 5V dan 3V3 di board, mana yang boleh ke sensor, mana yang dilarang masuk ke pin GPIO**; **unggah pertama ke board asli**: memasang core ESP32 **versi 3.3.x** di Arduino IDE, driver USB, memilih port COM, tombol BOOT/EN, Serial Monitor.
@@ -388,7 +392,9 @@ Format tiap modul:
 #### Modul 3 — Pemrograman C++ untuk ESP32 dari Nol
 *Fase 0 · Minggu 3 · Hardware: tidak perlu (Wokwi / ESP32 di meja) · Prasyarat: Modul 2*
 
-- **Setelah modul ini Anda bisa:** menulis program C++ sederhana untuk ESP32 tanpa mencontek; membaca pesan error kompiler tanpa panik; memanfaatkan contoh bawaan library; menyimpan setiap kemajuan dengan Git.
+📖 **Materi sudah tersedia:** [buka artikel Modul 3](fase-0-fondasi/modul-03-cpp-untuk-esp32/README.md)
+
+- **Setelah modul ini Anda bisa:** menulis program C++ sederhana untuk ESP32 tanpa menyontek; membaca pesan error kompiler tanpa panik; memanfaatkan contoh bawaan library; menyimpan setiap kemajuan dengan Git.
 - **Konsep inti:** `setup()` vs `loop()` ("ritual pagi" vs "rutinitas seharian"); variabel & tipe data (`int`, `float`, `bool`, `String`); operator; `if/else`; `for/while`; fungsi dengan parameter & nilai balik; array; `struct` (mengelompokkan data sensor); `#define` & `const`; Serial Monitor sebagai "jendela ke otak chip"; komentar & gaya rapi; apa itu library, cara memasang **versi tertentu**, dan **contoh bawaan (File → Examples)** sebagai sumber belajar terbaik; **Git dasar lewat GitHub Desktop**: *commit* ("menyimpan foto kemajuan") dan *push* ("mengunggah").
 - **Alat yang dipakai:** Arduino IDE 2, Wokwi, GitHub Desktop (**diinstal di modul ini**).
 - **Opsional / bedah teknis:** apa yang terjadi saat kompilasi; perbedaan `String` dan `char[]`.
@@ -775,6 +781,7 @@ Full-Stack-IoT-Developer/
 ├── PROGRES.md                     ← checklist 32 modul yang bisa Anda centang
 ├── aset/                          ← gambar yang dipakai lintas modul
 ├── fase-0-fondasi/
+│   ├── README.md                  ← daftar modul fase ini (setiap folder fase punya)
 │   ├── modul-01-peta-besar-iot/
 │   │   ├── README.md              ← artikel modul
 │   │   ├── aset/                  ← gambar modul ini (+ SUMBER.md untuk atribusi)
@@ -917,6 +924,8 @@ Satu kalimat per istilah, bahasa manusia. Semua akan dibahas tuntas di modulnya.
 ---
 
 ## 13. Riwayat revisi
+
+**v1.0.4 (10 Okt 2026)** — navigasi diperjelas saat Modul 3 terbit: setiap folder fase punya `README.md` yang berisi daftar modulnya (§9), modul yang sudah terbit diberi tautan "📖 Materi sudah tersedia" di §7, dan halaman depan memuat tabel modul yang sudah tersedia. Ejaan "mencontek" di §7 diganti bentuk baku "menyontek". Folder `proyek-rumah-pintar-mini/` mulai terisi: kerangka `firmware/node-1-rumah/` v0.1.0 dari Modul 3. Catatan di §4.1: Modul 3 (bahasa pemrograman pertama, dua belas konsep dasar sekaligus) juga boleh melebihi target panjang dan jumlah gambar.
 
 **v1.0.3 (10 Okt 2026)** — penyesuaian kecil saat menulis Modul 2: istilah "korslet" diganti bentuk baku KBBI "korsleting"; catatan di §4.1 bahwa Modul 2 (perangkat keras & instalasi pertama) juga boleh melebihi target panjang; LED status Node 1 ditetapkan di D4 sejak Modul 2 supaya rangkaian tidak perlu dibongkar di Modul 5.
 
