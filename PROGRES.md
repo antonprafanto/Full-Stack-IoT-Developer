@@ -14,7 +14,7 @@ Centang `[x]` setiap kali Anda memenuhi kriteria **"Lulus jika"** di [SILABUS.md
 
 ## 🟧 Fase 1 — ESP32 Embedded (Modul 5–9)
 
-- [ ] **Modul 5** — Anatomi ESP32, Peta Pin Kanonik, Catu Daya, & Mengendalikan Dunia Nyata
+- [ ] **[Modul 5](fase-1-esp32-embedded/modul-05-gpio-dan-peta-pin/README.md)** — Anatomi ESP32, Peta Pin Kanonik, Catu Daya, & Mengendalikan Dunia Nyata
 - [ ] **Modul 6** — Membaca Sensor: Analog, Digital, & Kalibrasi
 - [ ] **Modul 7** — Protokol Bus Sensor: I2C, 1-Wire, SPI, Layar OLED, & Membaca Skematik
 - [ ] **Modul 8** — Firmware Tangguh: millis(), State Machine, Kode Modular, Watchdog, & Debugging

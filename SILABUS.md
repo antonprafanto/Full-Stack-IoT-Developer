@@ -3,7 +3,7 @@
 > **Kurikulum 32 modul — satu modul = satu minggu belajar santai (±8 bulan) — untuk orang awam total hingga mampu membangun sistem IoT lengkap dari sensor sampai dashboard di HP.**
 > Hardware: **ESP32 + Raspberry Pi** · Software: **JavaScript/TypeScript (Node.js + React) untuk server & tampilan, sedikit C++ untuk chip** · Bahasa pengantar: **Indonesia, ramah awam**.
 >
-> Status dokumen: **v1.0.5 — disetujui, penulisan materi berjalan; Modul 1–4 (seluruh Fase 0) tersedia** (10 Oktober 2026). Keputusan yang mendasarinya ada di [§11](#11-keputusan-yang-sudah-disetujui); riwayat perubahan di [§13](#13-riwayat-revisi).
+> Status dokumen: **v1.0.6 — disetujui, penulisan materi berjalan; Modul 1–5 (seluruh Fase 0 dan Modul 5) tersedia** (11 Oktober 2026). Keputusan yang mendasarinya ada di [§11](#11-keputusan-yang-sudah-disetujui); riwayat perubahan di [§13](#13-riwayat-revisi).
 
 ---
 
@@ -155,7 +155,7 @@ Setiap modul adalah satu artikel panjang untuk **satu minggu belajar santai (6�
 10. **📖 Glosarium & 📝 Kuis singkat** (5 soal + kunci jawaban berpenjelasan) + **✅ Checklist kelulusan modul**.
 11. **📚 Sumber & atribusi gambar** — setiap gambar yang diambil dari internet dicantumkan sumber dan lisensinya.
 
-**Target tiap artikel (sesuai keputusan "lebih dalam, detail, runut, jelas, ramah awam"):** 3.500–6.000 kata (Modul 1 sebagai modul orientasi, Modul 2 sebagai modul perangkat keras & instalasi pertama, dan Modul 3 sebagai modul bahasa pemrograman pertama boleh lebih panjang dan bergambar lebih banyak), 8–15 gambar (foto komponen, diagram rangkaian, tangkapan layar tiap langkah penting), kode lengkap yang bisa disalin utuh dengan komentar tiap baris, dan satu "peta jalan mini" di awal artikel yang menunjukkan di mana modul ini berada dalam proyek besar.
+**Target tiap artikel (sesuai keputusan "lebih dalam, detail, runut, jelas, ramah awam"):** 3.500–6.000 kata (Modul 1 sebagai modul orientasi, Modul 2 sebagai modul perangkat keras & instalasi pertama, Modul 3 sebagai modul bahasa pemrograman pertama, dan Modul 5 sebagai modul perangkat keras pertama Fase 1 boleh lebih panjang dan bergambar lebih banyak), 8–15 gambar (foto komponen, diagram rangkaian, tangkapan layar tiap langkah penting), kode lengkap yang bisa disalin utuh dengan komentar tiap baris, dan satu "peta jalan mini" di awal artikel yang menunjukkan di mana modul ini berada dalam proyek besar.
 
 ### 4.2 Prinsip penulisan materi (janji penulis kepada pembaca)
 
@@ -240,7 +240,7 @@ Perkiraan harga marketplace Indonesia, Oktober 2026 — **bisa berubah**. Pesan 
 | LED 5 mm aneka warna + resistor pack (220 Ω, 1 kΩ, 4,7 kΩ, 10 kΩ) | 1 set | Rp 10–20 rb | Modul 2 | 4,7 kΩ dipakai DS18B20 (Modul 7). |
 | Kapasitor elektrolit 100 µF & keramik 100 nF | 2 bh | Rp 3–5 rb | Modul 2 | Belajar polaritas; peredam *noise* sensor (Modul 6). |
 | Multimeter digital sederhana | 1 | Rp 50–100 rb | Modul 2 | Investasi seumur hidup. |
-| **Adaptor USB 5 V ≥ 2 A + modul catu daya breadboard (MB102)** | 1 + 1 | Rp 25–40 rb | Modul 5 | *"adaptor 5V 2A"*, *"MB102 breadboard power supply"*. **Aturan emas Modul 5: beban (kipas, pompa, servo) selalu dari catu daya ini, bukan dari USB laptop (±500 mA, rawan ESP32 restart sendiri); GND disatukan.** |
+| **Adaptor USB 5 V ≥ 2 A + modul catu daya breadboard (MB102) + kabel USB A–A** | 1 + 1 + 1 | Rp 35–55 rb | Modul 5 | *"adaptor 5V 2A"*, *"MB102 breadboard power supply"*, *"kabel USB A to A"* (jantan–jantan). Adaptor 5 V masuk lewat **port USB** MB102 dengan kabel A–A; colokan bulat MB102 butuh 6,5–12 V. **Aturan emas Modul 5: beban (kipas, pompa, servo) selalu dari catu daya ini, bukan dari USB laptop (±500 mA, rawan ESP32 restart sendiri); GND disatukan.** |
 | Push button, potensiometer 10 kΩ, buzzer pasif | 2 bh | Rp 10–15 rb | Modul 5 | |
 | Modul relay 1–2 channel 5 V, *low-level trigger* (aktif saat diberi sinyal rendah), ber-optocoupler | 1 | Rp 8–20 rb | Modul 5 | *"relay 2 channel 5V low level trigger"*. Dipicu sinyal 3,3 V ESP32 (Modul 5 mengajarkan cara mengeceknya). |
 | Kipas DC 5 V kecil (40 mm) | 1 | Rp 10–20 rb | Modul 5 | Beban untuk relay. |
@@ -423,6 +423,8 @@ Format tiap modul:
 
 #### Modul 5 — Anatomi ESP32, Peta Pin Kanonik, Catu Daya, & Mengendalikan Dunia Nyata
 *Fase 1 · Minggu 5 · Hardware: Kit A Tahap 1 · Prasyarat: Modul 3*
+
+📖 **Materi sudah tersedia:** [buka artikel Modul 5](fase-1-esp32-embedded/modul-05-gpio-dan-peta-pin/README.md)
 
 - **Setelah modul ini Anda bisa:** tahu pin mana yang aman dan mana "jebakan"; memakai **peta pin tetap** untuk seluruh proyek; memberi daya ke beban tanpa membuat ESP32 restart; mengendalikan LED, relay, buzzer, servo, kipas, dan pompa; membaca tombol dengan benar.
 - **Konsep inti:** peta pinout ESP32 DevKit V1 & **daftar pin yang harus dihindari** (pin *strapping* 0/12 dihindari total; 2/5/15 boleh untuk output dengan catatan; pin flash 6–11 dilarang; pin 34–39 hanya input, tanpa *pull-up* internal); **anggaran pin**: Node 1 butuh ±15 sambungan (19 dengan microSD) dari ±22 pin yang aman — **tabel peta pin kanonik Node 1 & Node 2** yang berlaku sampai Modul 28 (sensor analog & PIR di ADC1/34–39, I2C di 21/22, SD di VSPI 18/19/23/5, dst.); **catu daya**: MB102 + adaptor 2 A untuk semua beban, GND disatukan, kenapa USB laptop tidak cukup (*brownout*); `pinMode`/`digitalWrite`/`digitalRead`; *pull-up* internal ("kenapa tombol saya kebaca acak?"); *debounce*; PWM dengan **`ledcAttach` (cara 3.x — bukan `ledcSetup` lama)** untuk redup-terang, nada buzzer, sudut servo; modul relay: cara kerja, *low-level trigger*, cara mengecek apakah terpicu oleh 3,3 V; **MOSFET IRLZ44N + dioda *flyback*** untuk pompa; arus maksimum pin (±12 mA); **beban hanya DC/tegangan rendah — 220 V dibahas sebagai peringatan, bukan praktik**; keluarga ESP32 (S3/C3/C6) sekilas.
@@ -928,6 +930,8 @@ Satu kalimat per istilah, bahasa manusia. Semua akan dibahas tuntas di modulnya.
 
 ## 13. Riwayat revisi
 
+**v1.0.6 (11 Okt 2026)** — Modul 5 terbit, membuka Fase 1; folder fase baru `fase-1-esp32-embedded/` punya `README.md` daftar modulnya. Folder `proyek-rumah-pintar-mini/` bertambah `PETA-PIN.md`, dan firmware Node 1 naik ke v0.2.0 (semua aktuator di pin kanonik). Daftar Kit A Tahap 1 (§5.2) kini menyebut **kabel USB A–A**: adaptor 5 V masuk lewat port USB MB102, karena colokan bulatnya butuh 6,5–12 V. Versi yang dikunci untuk Modul 5: paket esp32 3.3.x (PWM dengan `ledcAttach`) dan library ESP32Servo 3.2.1. Rakitan meja kerja memakai dua breadboard yang dijajarkan (satu strip rel dilepas) supaya semua pin ESP32 bisa dijangkau. Catatan di §4.1: Modul 5 juga boleh melebihi target panjang dan jumlah gambar. Lampiran A kini mendaftar nilai `reset_reason` (`POWERON`, `BROWNOUT`, `SW`, `PANIC`, `WDT`, `DEEPSLEEP`, `UNKNOWN`) dan kapan kolom itu mulai dikirim.
+
 **v1.0.5 (10 Okt 2026)** — Modul 4 terbit, sehingga seluruh Fase 0 tersedia. Folder `proyek-rumah-pintar-mini/` bertambah `alat/` (`generate-dummy.js`, `penerima-webhook.js`, `kirim-data.js`) yang dipakai lagi di Modul 10, 16, dan 22 (§9). Versi yang dikunci untuk Modul 4: Node.js 24 LTS (24.21.0) dengan npm 11, VS Code 1.141, dan dayjs 1.11.23. Catatan prasyarat Mac (macOS 13.5 ke atas untuk Node.js 24; Node.js 22.18+ untuk macOS 12) dan pengingat syarat macOS untuk Docker Desktop (Modul 17) ditambahkan di §5.0.
 
 **v1.0.4 (10 Okt 2026)** — navigasi diperjelas saat Modul 3 terbit: setiap folder fase punya `README.md` yang berisi daftar modulnya (§9), modul yang sudah terbit diberi tautan "📖 Materi sudah tersedia" di §7, dan halaman depan memuat tabel modul yang sudah tersedia. Ejaan "mencontek" di §7 diganti bentuk baku "menyontek". Folder `proyek-rumah-pintar-mini/` mulai terisi: kerangka `firmware/node-1-rumah/` v0.1.0 dari Modul 3. Catatan di §4.1: Modul 3 (bahasa pemrograman pertama, dua belas konsep dasar sekaligus) juga boleh melebihi target panjang dan jumlah gambar.
@@ -984,5 +988,7 @@ Node 2 (ESP-NOW) tidak tersambung ke broker; **Node 1 menerbitkan atas namanya**
 // rpm/a4cf12e5b7c0/ack
 { "id": "c-20261009-0917", "ts": "2026-10-09T09:41:32Z", "ok": true, "state": { "kipas": true, "lampu": false, "pompa": false, "tirai": 90 } }
 ```
+
+**Nilai `reset_reason`** di `vitals` adalah salah satu dari `POWERON`, `BROWNOUT`, `SW`, `PANIC`, `WDT`, `DEEPSLEEP`, atau `UNKNOWN`. Fungsi penerjemahnya, `alasanReset()`, ditulis di Modul 5; kolom ini baru dikirim mulai Modul 28, jadi `vitals` Modul 11–27 boleh belum memuatnya.
 
 **Aturan yang dipegang semua modul:** (1) `ts` dibuat perangkat, bukan server — supaya data susulan (Modul 27) tercatat pada waktu kejadian; (2) database menolak duplikat `(device_id, ts)` (Modul 17); (3) perangkat mengirim `telemetry` tiap 10 detik **dan** segera saat nilai berubah melewati ambang (Modul 11); (4) setiap `cmd` wajib dijawab `ack` dengan `id` yang sama dalam 5 detik (Modul 19); (5) `cmd` berjenis `config` dikirim *retained* dan disimpan perangkat di NVS sebagai dasar aturan pengaman lokal (Modul 19); (6) perangkat hanya boleh menulis ke topik `device_id`-nya sendiri — ditegakkan ACL broker (Modul 21).

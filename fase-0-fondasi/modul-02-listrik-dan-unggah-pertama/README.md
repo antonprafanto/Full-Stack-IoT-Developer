@@ -238,7 +238,7 @@ Nilai keempat di kit, **4,7 kΩ** (kuning-ungu-merah-emas), disimpan untuk senso
 <details>
 <summary><b>Kapasitor dan dioda di kit — cukup dikenali dulu, baru dipakai di Modul 5–6</b></summary>
 
-**Kapasitor elektrolit** dan **dioda** punya arah seperti LED; **kapasitor keramik** tidak. Minggu ini kita cukup mengenali bentuknya. Kapasitor 100 µF dan 100 nF sudah ada di kit Tahap 1 dan baru dipakai di Modul 6 sebagai "peredam" gangguan sinyal sensor. Dioda 1N4007 (kalau sudah ikut kamu pesan) dipakai di Modul 5 sebagai pelindung saat mengendalikan pompa.
+**Kapasitor elektrolit** dan **dioda** punya arah seperti LED; **kapasitor keramik** tidak. Minggu ini kita cukup mengenali bentuknya. Kapasitor 100 µF dan 100 nF sudah ada di kit Tahap 1 dan baru dipakai mulai Modul 5: 100 µF sebagai "tandon kecil" penahan lonjakan arus servo, dan 100 nF sebagai "peredam" gangguan sinyal. Dioda 1N4007 (kalau sudah ikut kamu pesan) dipakai di Modul 5 sebagai pelindung saat mengendalikan pompa.
 
 ![Polaritas komponen: kapasitor elektrolit dengan kaki panjang plus dan garis bertanda minus di sisi kaki negatif; dioda 1N4007 dengan gelang perak sebagai katoda; kapasitor keramik 104 dan resistor arahnya bebas](aset/polaritas-komponen.png)
 

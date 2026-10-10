@@ -11,7 +11,7 @@ Kerjakan modulnya **berurutan**. Satu modul = satu minggu (6–10 jam, dicicil).
 | 3 | **[Modul 3 — Pemrograman C++ untuk ESP32 dari Nol](modul-03-cpp-untuk-esp32/README.md)** | tidak wajib (semua praktik bisa tanpa papan) | GitHub Desktop | ✅ tersedia |
 | 4 | **[Modul 4 — JavaScript & Node.js dari Nol (Bahasa untuk Server & Dashboard)](modul-04-javascript-nodejs/README.md)** | tidak perlu | Visual Studio Code, Node.js 24 | ✅ tersedia |
 
-🎉 **Seluruh modul Fase 0 sudah tersedia.** Setelah keempatnya selesai, periksa tanda lulus di bawah, lalu lanjut ke Fase 1 (Modul 5 segera terbit — [ringkasannya di Silabus](../SILABUS.md#modul-5--anatomi-esp32-peta-pin-kanonik-catu-daya--mengendalikan-dunia-nyata)).
+🎉 **Seluruh modul Fase 0 sudah tersedia.** Setelah keempatnya selesai, periksa tanda lulus di bawah, lalu lanjut ke **[Fase 1 — ESP32 Embedded](../fase-1-esp32-embedded/README.md)**, dimulai dari [Modul 5](../fase-1-esp32-embedded/modul-05-gpio-dan-peta-pin/README.md).
 
 ## 🎯 Tanda lulus Fase 0
 
@@ -31,4 +31,4 @@ Sebelum lanjut ke Fase 1, pastikan tiga bukti ini sudah ada di repositori GitHub
 
 ---
 
-[⬅️ Halaman depan](../README.md) · [Silabus](../SILABUS.md) · [Pelacak progres](../PROGRES.md) · **Mulai: [Modul 1](modul-01-peta-besar-iot/README.md) ➡️**
+[⬅️ Halaman depan](../README.md) · [Silabus](../SILABUS.md) · [Pelacak progres](../PROGRES.md) · **Mulai: [Modul 1](modul-01-peta-besar-iot/README.md) ➡️** · [Fase 1 ➡️](../fase-1-esp32-embedded/README.md)

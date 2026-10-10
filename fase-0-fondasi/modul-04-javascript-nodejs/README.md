@@ -2,7 +2,7 @@
 
 *Fase 0 · Minggu 4 · Perangkat keras (*hardware*): **tidak perlu** — cukup laptop dan internet · Prasyarat: **Modul 3** · Waktu: 8–10 jam, dicicil dalam seminggu*
 
-[⬅️ Modul 3](../modul-03-cpp-untuk-esp32/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · [Modul 5 ➡️ (segera terbit — baca ringkasannya di Silabus)](../../SILABUS.md#modul-5--anatomi-esp32-peta-pin-kanonik-catu-daya--mengendalikan-dunia-nyata)
+[⬅️ Modul 3](../modul-03-cpp-untuk-esp32/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · [Modul 5 ➡️](../../fase-1-esp32-embedded/modul-05-gpio-dan-peta-pin/README.md)
 
 ---
 
@@ -2226,4 +2226,4 @@ Rujukan yang dipakai saat menulis: dokumentasi Node.js 24 ([nodejs.org/docs/late
 
 ---
 
-[⬅️ Modul 3](../modul-03-cpp-untuk-esp32/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · **Berikutnya: Modul 5 — Anatomi ESP32, Peta Pin Kanonik, Catu Daya, & Mengendalikan Dunia Nyata** (segera terbit; [ringkasannya di Silabus](../../SILABUS.md#modul-5--anatomi-esp32-peta-pin-kanonik-catu-daya--mengendalikan-dunia-nyata))
+[⬅️ Modul 3](../modul-03-cpp-untuk-esp32/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · **Berikutnya: [Modul 5 — Anatomi ESP32, Peta Pin Kanonik, Catu Daya, & Mengendalikan Dunia Nyata](../../fase-1-esp32-embedded/modul-05-gpio-dan-peta-pin/README.md) ➡️**
