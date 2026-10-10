@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="660" viewBox="0 0 1200 660" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="660" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Tiga sumber listrik + satu titik nol di papan ESP32</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >5 V untuk makan · 3,3 V untuk bicara · GND untuk sepakat</text>
+<rect x="60.0" y="110.0" width="1080.0" height="240.0" rx="18" fill="#22262e" />
+<rect x="30.0" y="195.0" width="70.0" height="70.0" rx="6" fill="#c9ced6" stroke="#1e2a4a" stroke-width="2" />
+<text x="65.0" y="226.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="middle" >USB</text>
+<text x="65.0" y="246.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="middle" >5 V</text>
+<rect x="330.0" y="180.0" width="170.0" height="100.0" rx="8" fill="#3b404a" stroke="#8a8f9c" stroke-width="2" />
+<text x="415.0" y="220.0" font-size="14" font-weight="700" fill="#ffffff" text-anchor="middle" >Regulator</text>
+<text x="415.0" y="238.0" font-size="14" font-weight="400" fill="#ffffff" text-anchor="middle" >(AMS1117)</text>
+<text x="415.0" y="256.0" font-size="14" font-weight="400" fill="#ffffff" text-anchor="middle" >5 V → 3,3 V</text>
+<rect x="640.0" y="160.0" width="260.0" height="150.0" rx="6" fill="#8f949c" stroke="#c9ced6" stroke-width="2" />
+<text x="770.0" y="225.0" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >Chip ESP32</text>
+<text x="770.0" y="247.0" font-size="16" font-weight="400" fill="#ffffff" text-anchor="middle" >bekerja di 3,3 V</text>
+<line x1="100.0" y1="230.0" x2="325.0" y2="230.0" stroke="#f4a261" stroke-width="4" stroke-linecap="round" />
+<path d="M314.4 235.6 L325.0 230.0 L314.4 224.4" fill="none" stroke="#f4a261" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="500.0" y1="230.0" x2="635.0" y2="230.0" stroke="#0f8b8d" stroke-width="4" stroke-linecap="round" />
+<path d="M624.4 235.6 L635.0 230.0 L624.4 224.4" fill="none" stroke="#0f8b8d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="212.0" y="220.0" font-size="14" font-weight="800" fill="#f4a261" text-anchor="middle" >±5 V</text>
+<text x="568.0" y="220.0" font-size="14" font-weight="800" fill="#7fd3d4" text-anchor="middle" >3,3 V</text>
+<circle cx="180.0" cy="340.0" r="12" fill="#f4a261" stroke="#ffffff" stroke-width="3" />
+<line x1="180.0" y1="352.0" x2="180.0" y2="392.0" stroke="#f4a261" stroke-width="4" stroke-linecap="round" />
+<circle cx="440.0" cy="340.0" r="12" fill="#0f8b8d" stroke="#ffffff" stroke-width="3" />
+<line x1="440.0" y1="352.0" x2="440.0" y2="392.0" stroke="#0f8b8d" stroke-width="4" stroke-linecap="round" />
+<circle cx="770.0" cy="340.0" r="12" fill="#5b7bd5" stroke="#ffffff" stroke-width="3" />
+<line x1="770.0" y1="352.0" x2="770.0" y2="392.0" stroke="#5b7bd5" stroke-width="4" stroke-linecap="round" />
+<circle cx="1030.0" cy="340.0" r="12" fill="#9aa0aa" stroke="#ffffff" stroke-width="3" />
+<line x1="1030.0" y1="352.0" x2="1030.0" y2="392.0" stroke="#9aa0aa" stroke-width="4" stroke-linecap="round" />
+<line x1="180.0" y1="230.0" x2="180.0" y2="328.0" stroke="#f4a261" stroke-width="3" stroke-linecap="round" stroke-dasharray="6 5" />
+<line x1="440.0" y1="280.0" x2="440.0" y2="328.0" stroke="#0f8b8d" stroke-width="3" stroke-linecap="round" stroke-dasharray="6 5" />
+<line x1="770.0" y1="310.0" x2="770.0" y2="328.0" stroke="#5b7bd5" stroke-width="3" stroke-linecap="round" stroke-dasharray="6 5" />
+<rect x="40.0" y="400.0" width="265.0" height="160.0" rx="12" fill="#fff" stroke="#f4a261" stroke-width="3" />
+<text x="56.0" y="430.0" font-size="16" font-weight="800" fill="#b45f17" text-anchor="start" >VIN (di sebagian papan: 5V)</text>
+<text x="56.0" y="458.0" font-size="14.5" font-weight="400" fill="#1e2a4a" text-anchor="start" >≈ 4,5–5 V, tembusan dari USB.</text>
+<text x="56.0" y="480.0" font-size="14.5" font-weight="400" fill="#1e2a4a" text-anchor="start" >Untuk memberi makan modul</text>
+<text x="56.0" y="502.0" font-size="14.5" font-weight="400" fill="#1e2a4a" text-anchor="start" >yang butuh 5 V (Modul 5–6).</text>
+<text x="56.0" y="524.0" font-size="14.5" font-weight="400" fill="#1e2a4a" text-anchor="start" >Minggu ini hanya diukur.</text>
+<rect x="325.0" y="400.0" width="265.0" height="160.0" rx="12" fill="#fff" stroke="#0f8b8d" stroke-width="3" />
+<text x="341.0" y="430.0" font-size="16" font-weight="800" fill="#0f8b8d" text-anchor="start" >3V3</text>
+<text x="341.0" y="458.0" font-size="14.5" font-weight="400" fill="#1e2a4a" text-anchor="start" >3,3 V stabil dari regulator.</text>
+<text x="341.0" y="480.0" font-size="14.5" font-weight="400" fill="#1e2a4a" text-anchor="start" >Untuk sensor 3,3 V &amp; LED</text>
+<text x="341.0" y="502.0" font-size="14.5" font-weight="400" fill="#1e2a4a" text-anchor="start" >tanpa kode. Terbatas: ±500 mA</text>
+<text x="341.0" y="524.0" font-size="14.5" font-weight="400" fill="#1e2a4a" text-anchor="start" >dibagi dengan chip.</text>
+<rect x="610.0" y="400.0" width="265.0" height="160.0" rx="12" fill="#fff" stroke="#5b7bd5" stroke-width="3" />
+<text x="626.0" y="430.0" font-size="16" font-weight="800" fill="#5b7bd5" text-anchor="start" >GPIO (pin sinyal)</text>
+<text x="626.0" y="458.0" font-size="14.5" font-weight="400" fill="#1e2a4a" text-anchor="start" >Dikendalikan program:</text>
+<text x="626.0" y="480.0" font-size="14.5" font-weight="400" fill="#1e2a4a" text-anchor="start" >HIGH = 3,3 V, LOW = 0 V.</text>
+<text x="626.0" y="502.0" font-size="14.5" font-weight="400" fill="#1e2a4a" text-anchor="start" >Arus kecil (±12 mA).</text>
+<text x="626.0" y="524.0" font-size="14.5" font-weight="800" fill="#e63946" text-anchor="start" >⚠ JANGAN diberi 5 V!</text>
+<rect x="895.0" y="400.0" width="265.0" height="160.0" rx="12" fill="#fff" stroke="#7a808a" stroke-width="3" />
+<text x="911.0" y="430.0" font-size="16" font-weight="800" fill="#7a808a" text-anchor="start" >GND (bukan sumber)</text>
+<text x="911.0" y="458.0" font-size="14.5" font-weight="400" fill="#1e2a4a" text-anchor="start" >0 V, titik nol bersama.</text>
+<text x="911.0" y="480.0" font-size="14.5" font-weight="400" fill="#1e2a4a" text-anchor="start" >Semua komponen harus</text>
+<text x="911.0" y="502.0" font-size="14.5" font-weight="400" fill="#1e2a4a" text-anchor="start" >tersambung ke GND</text>
+<text x="911.0" y="524.0" font-size="14.5" font-weight="400" fill="#1e2a4a" text-anchor="start" >yang sama.</text>
+<rect x="40.0" y="572.0" width="1120.0" height="44.0" rx="10" fill="#fbe3e5" stroke="#e63946" stroke-width="2" />
+<text x="600.0" y="600.0" font-size="15" font-weight="700" fill="#e63946" text-anchor="middle" >Aturan emas: tegangan di atas 3,3 V tidak boleh masuk ke pin GPIO — chip bisa rusak tanpa asap, tanpa peringatan.</text>
+<text x="1178.0" y="646.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Gambar skematis, tidak berskala · Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

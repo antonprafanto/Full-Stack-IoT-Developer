@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="570" viewBox="0 0 1200 570" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="570" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Komponen yang punya arah — dan yang tidak</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Salah arah pada komponen berpolaritas bisa membuatnya tidak bekerja, atau bahkan rusak.</text>
+<rect x="40.0" y="100.0" width="270.0" height="380.0" rx="12" fill="#fff" stroke="#e63946" stroke-width="3" />
+<text x="175.0" y="132.0" font-size="17" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Kapasitor elektrolit</text>
+<text x="175.0" y="154.0" font-size="13" font-weight="800" fill="#e63946" text-anchor="middle" >PUNYA ARAH</text>
+<rect x="110.0" y="180.0" width="80.0" height="130.0" rx="10" fill="#2b6cd6" stroke="#1b4f9c" stroke-width="2" />
+<rect x="162.0" y="180.0" width="26.0" height="130.0" rx="0" fill="#c9d8f0" />
+<text x="175.0" y="200.0" font-size="20" font-weight="800" fill="#1b4f9c" text-anchor="middle" >−</text>
+<text x="175.0" y="225.0" font-size="20" font-weight="800" fill="#1b4f9c" text-anchor="middle" >−</text>
+<text x="175.0" y="250.0" font-size="20" font-weight="800" fill="#1b4f9c" text-anchor="middle" >−</text>
+<text x="175.0" y="275.0" font-size="20" font-weight="800" fill="#1b4f9c" text-anchor="middle" >−</text>
+<text x="175.0" y="300.0" font-size="20" font-weight="800" fill="#1b4f9c" text-anchor="middle" >−</text>
+<rect x="110.0" y="180.0" width="80.0" height="12.0" rx="5" fill="#9db7e0" stroke="#1b4f9c" stroke-width="1.5" />
+<line x1="132.0" y1="310.0" x2="132.0" y2="400.0" stroke="#9a9a9a" stroke-width="4" stroke-linecap="round" />
+<line x1="172.0" y1="310.0" x2="172.0" y2="375.0" stroke="#9a9a9a" stroke-width="4" stroke-linecap="round" />
+<text x="132.0" y="422.0" font-size="22" font-weight="800" fill="#e63946" text-anchor="middle" >+</text>
+<text x="172.0" y="397.0" font-size="22" font-weight="800" fill="#1b4f9c" text-anchor="middle" >−</text>
+<text x="208.0" y="214.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="start" >garis bertanda</text>
+<text x="208.0" y="231.6" font-size="13" font-weight="400" fill="#1e2a4a" text-anchor="start" >"−" = kaki</text>
+<text x="208.0" y="249.1" font-size="13" font-weight="400" fill="#1e2a4a" text-anchor="start" >negatif</text>
+<text x="60.0" y="446.0" font-size="13" font-weight="600" fill="#1e2a4a" text-anchor="start" >Kaki panjang = +.</text>
+<text x="60.0" y="463.6" font-size="13" font-weight="600" fill="#1e2a4a" text-anchor="start" >Dipakai mulai Modul 6.</text>
+<rect x="330.0" y="100.0" width="270.0" height="380.0" rx="12" fill="#fff" stroke="#e63946" stroke-width="3" />
+<text x="465.0" y="132.0" font-size="17" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Dioda 1N4007</text>
+<text x="465.0" y="154.0" font-size="13" font-weight="800" fill="#e63946" text-anchor="middle" >PUNYA ARAH</text>
+<line x1="350.0" y1="240.0" x2="580.0" y2="240.0" stroke="#9a9a9a" stroke-width="4" stroke-linecap="round" />
+<rect x="405.0" y="220.0" width="120.0" height="40.0" rx="8" fill="#1d1d1d" />
+<rect x="500.0" y="220.0" width="12.0" height="40.0" rx="0" fill="#d9d9d9" />
+<text x="465.0" y="296.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="middle" >gelang perak = katoda (−)</text>
+<line x1="380.0" y1="352.0" x2="430.0" y2="352.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<path d="M430 334 L430 370 L466 352 Z" fill="#ffffff" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="466.0" y1="334.0" x2="466.0" y2="370.0" stroke="#1e2a4a" stroke-width="3" stroke-linecap="round" />
+<line x1="466.0" y1="352.0" x2="516.0" y2="352.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<text x="400.0" y="394.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="middle" >anoda</text>
+<text x="500.0" y="394.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="middle" >katoda</text>
+<line x1="390.0" y1="330.0" x2="450.0" y2="330.0" stroke="#0f8b8d" stroke-width="2.5" stroke-linecap="round" />
+<path d="M442.9 333.8 L450.0 330.0 L442.9 326.2" fill="none" stroke="#0f8b8d" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<text x="350.0" y="440.0" font-size="13" font-weight="400" fill="#1e2a4a" text-anchor="start" >Arus hanya lewat satu arah</text>
+<text x="350.0" y="457.6" font-size="13" font-weight="400" fill="#1e2a4a" text-anchor="start" >(anoda → katoda). Dipakai di Modul 5.</text>
+<rect x="620.0" y="100.0" width="260.0" height="380.0" rx="12" fill="#fff" stroke="#2a9d5c" stroke-width="3" />
+<text x="750.0" y="132.0" font-size="17" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Kapasitor keramik</text>
+<text x="750.0" y="154.0" font-size="13" font-weight="800" fill="#2a9d5c" text-anchor="middle" >TIDAK PUNYA ARAH</text>
+<circle cx="750.0" cy="240.0" r="52" fill="#e8a33d" stroke="#b77a1d" stroke-width="2" />
+<text x="750.0" y="250.0" font-size="26" font-weight="800" fill="#5a3a0a" text-anchor="middle" >104</text>
+<line x1="730.0" y1="290.0" x2="730.0" y2="380.0" stroke="#9a9a9a" stroke-width="4" stroke-linecap="round" />
+<line x1="770.0" y1="290.0" x2="770.0" y2="380.0" stroke="#9a9a9a" stroke-width="4" stroke-linecap="round" />
+<text x="640.0" y="412.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="start" >"104" = 10 × 10⁴ pF = 100 nF.</text>
+<text x="640.0" y="429.6" font-size="13" font-weight="400" fill="#1e2a4a" text-anchor="start" >Arahnya bebas.</text>
+<rect x="900.0" y="100.0" width="260.0" height="380.0" rx="12" fill="#fff" stroke="#2a9d5c" stroke-width="3" />
+<text x="1030.0" y="132.0" font-size="17" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Resistor</text>
+<text x="1030.0" y="154.0" font-size="13" font-weight="800" fill="#2a9d5c" text-anchor="middle" >TIDAK PUNYA ARAH</text>
+<line x1="920.0" y1="240.0" x2="1140.0" y2="240.0" stroke="#9a9a9a" stroke-width="4" stroke-linecap="round" />
+<rect x="970.0" y="222.0" width="120.0" height="36.0" rx="15" fill="#e9cfa6" stroke="#a07b4a" stroke-width="2" />
+<rect x="986.0" y="222.0" width="9.0" height="36.0" rx="0" fill="#e63946" />
+<rect x="1008.0" y="222.0" width="9.0" height="36.0" rx="0" fill="#e63946" />
+<rect x="1030.0" y="222.0" width="9.0" height="36.0" rx="0" fill="#8b4513" />
+<rect x="1066.0" y="222.0" width="9.0" height="36.0" rx="0" fill="#d4a017" />
+<text x="920.0" y="300.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="start" >Arahnya bebas.</text>
+<text x="920.0" y="317.6" font-size="13" font-weight="400" fill="#1e2a4a" text-anchor="start" >LED justru PUNYA arah:</text>
+<text x="920.0" y="335.1" font-size="13" font-weight="400" fill="#1e2a4a" text-anchor="start" >kaki panjang = + (lihat Modul 1).</text>
+<rect x="40.0" y="494.0" width="1120.0" height="34.0" rx="8" fill="#fde4c8" />
+<text x="600.0" y="517.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="middle" >Minggu ini cukup mengenali bentuknya — kapasitor dan dioda baru dipakai di Modul 5–6.</text>
+<text x="1178.0" y="556.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

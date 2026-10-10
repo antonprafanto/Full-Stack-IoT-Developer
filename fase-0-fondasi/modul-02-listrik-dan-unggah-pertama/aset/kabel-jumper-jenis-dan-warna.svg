@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="500" viewBox="0 0 1200 500" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="500" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Kabel jumper: tiga jenis ujung, satu kebiasaan warna</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >M = male (jantan, ujungnya pin) · F = female (betina, ujungnya lubang) · jenis ujung tidak ada hubungannya dengan warna</text>
+<rect x="40.0" y="100.0" width="700.0" height="92.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="2" />
+<line x1="120.0" y1="140.0" x2="360.0" y2="140.0" stroke="#8a8f9c" stroke-width="7" stroke-linecap="round" />
+<rect x="98.0" y="131.0" width="22.0" height="18.0" rx="3" fill="#1d1d1d" />
+<rect x="80.0" y="137.5" width="18.0" height="5.0" rx="1" fill="#c8c8c8" stroke="#888" stroke-width="1" />
+<rect x="360.0" y="131.0" width="22.0" height="18.0" rx="3" fill="#1d1d1d" />
+<rect x="382.0" y="137.5" width="18.0" height="5.0" rx="1" fill="#c8c8c8" stroke="#888" stroke-width="1" />
+<text x="440.0" y="134.0" font-size="17" font-weight="800" fill="#1e2a4a" text-anchor="start" >M-M (jantan–jantan)</text>
+<text x="440.0" y="158.0" font-size="14" font-weight="400" fill="#4a5568" text-anchor="start" >Untuk breadboard (dipakai minggu ini).</text>
+<rect x="40.0" y="205.0" width="700.0" height="92.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="2" />
+<line x1="120.0" y1="245.0" x2="360.0" y2="245.0" stroke="#8a8f9c" stroke-width="7" stroke-linecap="round" />
+<rect x="98.0" y="236.0" width="22.0" height="18.0" rx="3" fill="#1d1d1d" />
+<rect x="80.0" y="242.5" width="18.0" height="5.0" rx="1" fill="#c8c8c8" stroke="#888" stroke-width="1" />
+<rect x="360.0" y="235.0" width="34.0" height="20.0" rx="3" fill="#1d1d1d" />
+<rect x="386.0" y="242.0" width="4.0" height="6.0" rx="0" fill="#555" />
+<text x="440.0" y="239.0" font-size="17" font-weight="800" fill="#1e2a4a" text-anchor="start" >M-F (jantan–betina)</text>
+<text x="440.0" y="263.0" font-size="14" font-weight="400" fill="#4a5568" text-anchor="start" >Untuk modul sensor berpin (Modul 6).</text>
+<rect x="40.0" y="310.0" width="700.0" height="92.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="2" />
+<line x1="120.0" y1="350.0" x2="360.0" y2="350.0" stroke="#8a8f9c" stroke-width="7" stroke-linecap="round" />
+<rect x="86.0" y="340.0" width="34.0" height="20.0" rx="3" fill="#1d1d1d" />
+<rect x="90.0" y="347.0" width="4.0" height="6.0" rx="0" fill="#555" />
+<rect x="360.0" y="340.0" width="34.0" height="20.0" rx="3" fill="#1d1d1d" />
+<rect x="386.0" y="347.0" width="4.0" height="6.0" rx="0" fill="#555" />
+<text x="440.0" y="344.0" font-size="17" font-weight="800" fill="#1e2a4a" text-anchor="start" >F-F (betina–betina)</text>
+<text x="440.0" y="368.0" font-size="14" font-weight="400" fill="#4a5568" text-anchor="start" >Menyambung pin ke pin, tanpa breadboard.</text>
+<rect x="770.0" y="100.0" width="390.0" height="300.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="2" />
+<text x="790.0" y="132.0" font-size="17" font-weight="800" fill="#1e2a4a" text-anchor="start" >Kebiasaan warna</text>
+<rect x="790.0" y="162.0" width="46.0" height="14.0" rx="7" fill="#e63946" />
+<text x="850.0" y="174.0" font-size="15" font-weight="700" fill="#1e2a4a" text-anchor="start" >Merah = + (3V3 atau 5 V)</text>
+<rect x="790.0" y="210.0" width="46.0" height="14.0" rx="7" fill="#1d1d1d" />
+<text x="850.0" y="222.0" font-size="15" font-weight="700" fill="#1e2a4a" text-anchor="start" >Hitam = GND (0 V)</text>
+<rect x="790.0" y="258.0" width="46.0" height="14.0" rx="7" fill="#2a9d5c" />
+<text x="850.0" y="270.0" font-size="15" font-weight="700" fill="#1e2a4a" text-anchor="start" >Hijau/kuning/biru = sinyal</text>
+<text x="850.0" y="318.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >(misalnya kabel ke D4)</text>
+<text x="790.0" y="372.0" font-size="14" font-weight="400" fill="#4a5568" text-anchor="start" >Warna tidak mengubah listrik —</text>
+<text x="790.0" y="390.9" font-size="14" font-weight="400" fill="#4a5568" text-anchor="start" >hanya memudahkan matamu.</text>
+<rect x="40.0" y="420.0" width="1120.0" height="50.0" rx="10" fill="#fde4c8" />
+<text x="600.0" y="451.0" font-size="15" font-weight="600" fill="#1e2a4a" text-anchor="middle" >Kabel yang bersilangan atau bersentuhan tidak tersambung (berselubung plastik). Yang menyambung hanya ujung logamnya.</text>
+<text x="1178.0" y="486.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

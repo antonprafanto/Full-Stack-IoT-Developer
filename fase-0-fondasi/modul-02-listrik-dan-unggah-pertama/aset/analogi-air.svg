@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="640" viewBox="0 0 1200 640" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="640" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Listrik seperti aliran air</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Satu putaran air yang utuh: tandon → pipa → keran → kincir → bak → dipompa kembali ke tandon</text>
+<line x1="60.0" y1="512.0" x2="770.0" y2="512.0" stroke="#bdb6a6" stroke-width="3" stroke-linecap="round" />
+<line x1="138.0" y1="218.0" x2="138.0" y2="512.0" stroke="#8a7f6a" stroke-width="6" stroke-linecap="round" />
+<line x1="252.0" y1="218.0" x2="252.0" y2="512.0" stroke="#8a7f6a" stroke-width="6" stroke-linecap="round" />
+<rect x="120.0" y="118.0" width="150.0" height="100.0" rx="10" fill="#e9eef3" stroke="#1e2a4a" stroke-width="3" />
+<rect x="124.0" y="142.0" width="142.0" height="72.0" rx="6" fill="#6fb7e9" />
+<text x="195.0" y="184.0" font-size="15" font-weight="800" fill="#ffffff" text-anchor="middle" >TANDON</text>
+<line x1="80.0" y1="510.0" x2="80.0" y2="144.0" stroke="#b45f17" stroke-width="3" stroke-linecap="round" />
+<path d="M85.2 153.7 L80.0 144.0 L74.8 153.7" fill="none" stroke="#b45f17" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="80.0" y1="144.0" x2="80.0" y2="510.0" stroke="#b45f17" stroke-width="3" stroke-linecap="round" />
+<path d="M74.8 500.3 L80.0 510.0 L85.2 500.3" fill="none" stroke="#b45f17" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="70.0" y1="144.0" x2="116.0" y2="144.0" stroke="#b45f17" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="4 4" />
+<g transform="translate(66,335.0) rotate(-90)">
+<text x="0.0" y="0.0" font-size="15" font-weight="800" fill="#b45f17" text-anchor="middle" >tinggi tandon = TEGANGAN (V)</text>
+</g>
+<path d="M270 198 L450 198 L450 300 L548 300" fill="none" stroke="#7f8c99" stroke-width="18" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M270 198 L450 198 L450 300 L548 300" fill="none" stroke="#6fb7e9" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="285.0" y1="198.0" x2="320.0" y2="198.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<path d="M312.1 202.2 L320.0 198.0 L312.1 193.8" fill="none" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="450.0" y1="228.0" x2="450.0" y2="262.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<path d="M445.8 254.1 L450.0 262.0 L454.2 254.1" fill="none" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="490.0" y1="300.0" x2="525.0" y2="300.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<path d="M517.1 304.2 L525.0 300.0 L517.1 295.8" fill="none" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<text x="332.0" y="232.0" font-size="15" font-weight="800" fill="#0f8b8d" text-anchor="middle" >aliran = ARUS (I)</text>
+<circle cx="385.0" cy="198.0" r="17" fill="#d9534f" stroke="#1e2a4a" stroke-width="2.5" />
+<line x1="385.0" y1="181.0" x2="385.0" y2="156.0" stroke="#1e2a4a" stroke-width="4" stroke-linecap="round" />
+<line x1="365.0" y1="156.0" x2="405.0" y2="156.0" stroke="#1e2a4a" stroke-width="5" stroke-linecap="round" />
+<text x="411.0" y="116.0" font-size="15" font-weight="800" fill="#e63946" text-anchor="middle" >keran menyempit</text>
+<text x="411.0" y="136.0" font-size="15" font-weight="800" fill="#e63946" text-anchor="middle" >= HAMBATAN (R)</text>
+<circle cx="600.0" cy="372.0" r="58" fill="#f3e3c3" stroke="#8a6d3b" stroke-width="4" />
+<line x1="600.0" y1="372.0" x2="658.0" y2="372.0" stroke="#8a6d3b" stroke-width="3" stroke-linecap="round" />
+<rect x="659.0" y="363.0" width="18.0" height="18.0" rx="2" fill="#c9a46a" stroke="#8a6d3b" stroke-width="1.5" transform="rotate(0 668.0 372.0)"/>
+<line x1="600.0" y1="372.0" x2="641.0" y2="413.0" stroke="#8a6d3b" stroke-width="3" stroke-linecap="round" />
+<rect x="639.1" y="411.1" width="18.0" height="18.0" rx="2" fill="#c9a46a" stroke="#8a6d3b" stroke-width="1.5" transform="rotate(45 648.1 420.1)"/>
+<line x1="600.0" y1="372.0" x2="600.0" y2="430.0" stroke="#8a6d3b" stroke-width="3" stroke-linecap="round" />
+<rect x="591.0" y="431.0" width="18.0" height="18.0" rx="2" fill="#c9a46a" stroke="#8a6d3b" stroke-width="1.5" transform="rotate(90 600.0 440.0)"/>
+<line x1="600.0" y1="372.0" x2="559.0" y2="413.0" stroke="#8a6d3b" stroke-width="3" stroke-linecap="round" />
+<rect x="542.9" y="411.1" width="18.0" height="18.0" rx="2" fill="#c9a46a" stroke="#8a6d3b" stroke-width="1.5" transform="rotate(135 551.9 420.1)"/>
+<line x1="600.0" y1="372.0" x2="542.0" y2="372.0" stroke="#8a6d3b" stroke-width="3" stroke-linecap="round" />
+<rect x="523.0" y="363.0" width="18.0" height="18.0" rx="2" fill="#c9a46a" stroke="#8a6d3b" stroke-width="1.5" transform="rotate(180 532.0 372.0)"/>
+<line x1="600.0" y1="372.0" x2="559.0" y2="331.0" stroke="#8a6d3b" stroke-width="3" stroke-linecap="round" />
+<rect x="542.9" y="314.9" width="18.0" height="18.0" rx="2" fill="#c9a46a" stroke="#8a6d3b" stroke-width="1.5" transform="rotate(225 551.9 323.9)"/>
+<line x1="600.0" y1="372.0" x2="600.0" y2="314.0" stroke="#8a6d3b" stroke-width="3" stroke-linecap="round" />
+<rect x="591.0" y="295.0" width="18.0" height="18.0" rx="2" fill="#c9a46a" stroke="#8a6d3b" stroke-width="1.5" transform="rotate(270 600.0 304.0)"/>
+<line x1="600.0" y1="372.0" x2="641.0" y2="331.0" stroke="#8a6d3b" stroke-width="3" stroke-linecap="round" />
+<rect x="639.1" y="314.9" width="18.0" height="18.0" rx="2" fill="#c9a46a" stroke="#8a6d3b" stroke-width="1.5" transform="rotate(315 648.1 323.9)"/>
+<circle cx="600.0" cy="372.0" r="8" fill="#8a6d3b" />
+<path d="M548 300 Q568 302 572 316" fill="none" stroke="#6fb7e9" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" />
+<text x="682.0" y="300.0" font-size="15" font-weight="800" fill="#2a9d5c" text-anchor="start" >kincir berputar</text>
+<text x="682.0" y="320.0" font-size="15" font-weight="800" fill="#2a9d5c" text-anchor="start" >= DAYA (P)</text>
+<text x="682.0" y="340.0" font-size="13" font-weight="400" fill="#4a5568" text-anchor="start" >(kerja yang</text>
+<text x="682.0" y="356.0" font-size="13" font-weight="400" fill="#4a5568" text-anchor="start" >dihasilkan)</text>
+<path d="M530 464 L690 464 L680 512 L540 512 Z" fill="#6fb7e9" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<text x="610.0" y="496.0" font-size="14" font-weight="800" fill="#ffffff" text-anchor="middle" >bak</text>
+<path d="M538 490 L195.0 490 L195.0 218" fill="none" stroke="#7f8c99" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M538 490 L195.0 490 L195.0 218" fill="none" stroke="#a9d3f2" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="173.0" y="380.0" width="44.0" height="52.0" rx="8" fill="#2a9d5c" stroke="#1e2a4a" stroke-width="2" />
+<text x="195.0" y="411.0" font-size="10" font-weight="800" fill="#ffffff" text-anchor="middle" >POMPA</text>
+<line x1="195.0" y1="360.0" x2="195.0" y2="300.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<path d="M199.2 307.9 L195.0 300.0 L190.8 307.9" fill="none" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="470.0" y1="490.0" x2="430.0" y2="490.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<path d="M437.9 485.8 L430.0 490.0 L437.9 494.2" fill="none" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<text x="268.0" y="405.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >jalan pulang: air kembali ke</text>
+<text x="268.0" y="423.2" font-size="13.5" font-weight="400" fill="#1e2a4a" text-anchor="start" >tandon. Di listrik: arus kembali</text>
+<text x="268.0" y="441.4" font-size="13.5" font-weight="400" fill="#1e2a4a" text-anchor="start" >ke GND, lalu USB "memompa"</text>
+<text x="268.0" y="459.7" font-size="13.5" font-weight="400" fill="#1e2a4a" text-anchor="start" >lagi ke 3,3 V / 5 V.</text>
+<rect x="800.0" y="104.0" width="360.0" height="96.0" rx="12" fill="#fff" stroke="#b45f17" stroke-width="3" />
+<text x="820.0" y="134.0" font-size="17" font-weight="800" fill="#b45f17" text-anchor="start" >TEGANGAN (V)</text>
+<text x="820.0" y="158.0" font-size="13.5" font-weight="600" fill="#4a5568" text-anchor="start" >satuan: volt</text>
+<text x="820.0" y="181.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="start" >Tekanan air; ada walau keran tertutup.</text>
+<rect x="800.0" y="212.0" width="360.0" height="96.0" rx="12" fill="#fff" stroke="#0f8b8d" stroke-width="3" />
+<text x="820.0" y="242.0" font-size="17" font-weight="800" fill="#0f8b8d" text-anchor="start" >ARUS (I)</text>
+<text x="820.0" y="266.0" font-size="13.5" font-weight="600" fill="#4a5568" text-anchor="start" >satuan: ampere (A), miliampere (mA)</text>
+<text x="820.0" y="289.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="start" >Banyaknya air yang lewat per detik.</text>
+<rect x="800.0" y="320.0" width="360.0" height="96.0" rx="12" fill="#fff" stroke="#e63946" stroke-width="3" />
+<text x="820.0" y="350.0" font-size="17" font-weight="800" fill="#e63946" text-anchor="start" >HAMBATAN (R)</text>
+<text x="820.0" y="374.0" font-size="13.5" font-weight="600" fill="#4a5568" text-anchor="start" >satuan: ohm (Ω)</text>
+<text x="820.0" y="397.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="start" >Keran yang menyempitkan aliran.</text>
+<rect x="800.0" y="428.0" width="360.0" height="96.0" rx="12" fill="#fff" stroke="#2a9d5c" stroke-width="3" />
+<text x="820.0" y="458.0" font-size="17" font-weight="800" fill="#2a9d5c" text-anchor="start" >DAYA (P)</text>
+<text x="820.0" y="482.0" font-size="13.5" font-weight="600" fill="#4a5568" text-anchor="start" >satuan: watt (W)</text>
+<text x="820.0" y="505.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="start" >Kerja yang dihasilkan: P = V × I.</text>
+<rect x="40.0" y="548.0" width="1120.0" height="50.0" rx="10" fill="#fde4c8" />
+<text x="600.0" y="579.0" font-size="15" font-weight="700" fill="#1e2a4a" text-anchor="middle" >Tanpa jalan pulang, air berhenti mengalir. Listrik juga begitu: tanpa sambungan ke GND, tidak ada arus.</text>
+<text x="1178.0" y="626.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

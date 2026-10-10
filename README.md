@@ -19,7 +19,7 @@ Ditulis dalam Bahasa Indonesia yang ramah awam. Tidak perlu latar belakang elekt
 2. Salin **[PROGRES.md](PROGRES.md)** ke catatan Anda sendiri (atau *fork* repo ini) untuk mencentang kemajuan.
 3. Buka **[Modul 1](fase-0-fondasi/modul-01-peta-besar-iot/README.md)** dan kerjakan berurutan. Setiap modul = 1 minggu @ 6–10 jam (Modul N = Minggu N).
 
-> **Status:** silabus **v1.0 disetujui** (9 Oktober 2026). Materi modul ditulis berurutan; **Modul 1 sudah tersedia** → [fase-0-fondasi/modul-01-peta-besar-iot/](fase-0-fondasi/modul-01-peta-besar-iot/README.md). Lihat [PROGRES.md](PROGRES.md) untuk daftar modul.
+> **Status:** silabus **v1.0 disetujui** (9 Oktober 2026). Materi modul ditulis berurutan; yang sudah tersedia: **[Modul 1](fase-0-fondasi/modul-01-peta-besar-iot/README.md)** dan **[Modul 2](fase-0-fondasi/modul-02-listrik-dan-unggah-pertama/README.md)**. Lihat [PROGRES.md](PROGRES.md) untuk daftar modul.
 
 ## 🗺️ Peta kurikulum
 

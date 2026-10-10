@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="600" viewBox="0 0 1200 600" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="600" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Apa yang terjadi saat kamu menekan Upload?</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Lima tahap berturut-turut (±20–40 detik). Kotak hitam = tulisan yang muncul di panel Output.</text>
+<rect x="40.0" y="100.0" width="204.0" height="190.0" rx="12" fill="#fff" stroke="#0f8b8d" stroke-width="3" />
+<circle cx="66.0" cy="130.0" r="16" fill="#0f8b8d" stroke="#ffffff" stroke-width="2" />
+<text x="66.0" y="135.8" font-size="16" font-weight="700" fill="#fff" text-anchor="middle" >1</text>
+<text x="90.0" y="136.0" font-size="18" font-weight="800" fill="#1e2a4a" text-anchor="start" >Kompilasi</text>
+<text x="58.0" y="176.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >kode → bahasa mesin</text>
+<rect x="52.0" y="228.0" width="180.0" height="50.0" rx="6" fill="#1d1f24" />
+<text x="62.0" y="240.0" font-size="12.5" font-weight="400" fill="#e8e8e8" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" >Sketch uses …</text>
+<line x1="247.0" y1="195.0" x2="266.0" y2="195.0" stroke="#1e2a4a" stroke-width="3" stroke-linecap="round" />
+<path d="M258.9 198.8 L266.0 195.0 L258.9 191.2" fill="none" stroke="#1e2a4a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="269.0" y="100.0" width="204.0" height="190.0" rx="12" fill="#fff" stroke="#0f8b8d" stroke-width="3" />
+<circle cx="295.0" cy="130.0" r="16" fill="#0f8b8d" stroke="#ffffff" stroke-width="2" />
+<text x="295.0" y="135.8" font-size="16" font-weight="700" fill="#fff" text-anchor="middle" >2</text>
+<text x="319.0" y="136.0" font-size="18" font-weight="800" fill="#1e2a4a" text-anchor="start" >Buka port</text>
+<text x="287.0" y="176.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >COM3 / cu.usbserial</text>
+<text x="287.0" y="197.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >/ ttyUSB0</text>
+<rect x="281.0" y="228.0" width="180.0" height="50.0" rx="6" fill="#1d1f24" />
+<text x="291.0" y="240.0" font-size="12.5" font-weight="400" fill="#e8e8e8" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" >Serial port COM3:</text>
+<line x1="476.0" y1="195.0" x2="495.0" y2="195.0" stroke="#1e2a4a" stroke-width="3" stroke-linecap="round" />
+<path d="M487.9 198.8 L495.0 195.0 L487.9 191.2" fill="none" stroke="#1e2a4a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="498.0" y="100.0" width="204.0" height="190.0" rx="12" fill="#fff" stroke="#b45f17" stroke-width="3" />
+<circle cx="524.0" cy="130.0" r="16" fill="#b45f17" stroke="#ffffff" stroke-width="2" />
+<text x="524.0" y="135.8" font-size="16" font-weight="700" fill="#fff" text-anchor="middle" >3</text>
+<text x="548.0" y="136.0" font-size="18" font-weight="800" fill="#1e2a4a" text-anchor="start" >Connecting…</text>
+<text x="516.0" y="176.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >chip USB "menekan"</text>
+<text x="516.0" y="197.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >EN + BOOT otomatis</text>
+<rect x="510.0" y="228.0" width="180.0" height="50.0" rx="6" fill="#1d1f24" />
+<text x="520.0" y="240.0" font-size="12.5" font-weight="400" fill="#e8e8e8" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" >Connecting....</text>
+<line x1="705.0" y1="195.0" x2="724.0" y2="195.0" stroke="#1e2a4a" stroke-width="3" stroke-linecap="round" />
+<path d="M716.9 198.8 L724.0 195.0 L716.9 191.2" fill="none" stroke="#1e2a4a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="727.0" y="100.0" width="204.0" height="190.0" rx="12" fill="#fff" stroke="#0f8b8d" stroke-width="3" />
+<circle cx="753.0" cy="130.0" r="16" fill="#0f8b8d" stroke="#ffffff" stroke-width="2" />
+<text x="753.0" y="135.8" font-size="16" font-weight="700" fill="#fff" text-anchor="middle" >4</text>
+<text x="777.0" y="136.0" font-size="18" font-weight="800" fill="#1e2a4a" text-anchor="start" >Tulis ke flash</text>
+<text x="745.0" y="176.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >program disalin</text>
+<text x="745.0" y="197.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >blok demi blok</text>
+<rect x="739.0" y="228.0" width="180.0" height="50.0" rx="6" fill="#1d1f24" />
+<text x="749.0" y="249.0" font-size="12.5" font-weight="400" fill="#e8e8e8" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" >Writing at …</text>
+<text x="749.0" y="267.0" font-size="12.5" font-weight="400" fill="#e8e8e8" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" >… 100.0%</text>
+<line x1="934.0" y1="195.0" x2="953.0" y2="195.0" stroke="#1e2a4a" stroke-width="3" stroke-linecap="round" />
+<path d="M945.9 198.8 L953.0 195.0 L945.9 191.2" fill="none" stroke="#1e2a4a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="956.0" y="100.0" width="204.0" height="190.0" rx="12" fill="#fff" stroke="#0f8b8d" stroke-width="3" />
+<circle cx="982.0" cy="130.0" r="16" fill="#0f8b8d" stroke="#ffffff" stroke-width="2" />
+<text x="982.0" y="135.8" font-size="16" font-weight="700" fill="#fff" text-anchor="middle" >5</text>
+<text x="1006.0" y="136.0" font-size="18" font-weight="800" fill="#1e2a4a" text-anchor="start" >Restart</text>
+<text x="974.0" y="176.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >program baru</text>
+<text x="974.0" y="197.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >langsung jalan</text>
+<rect x="968.0" y="228.0" width="180.0" height="50.0" rx="6" fill="#1d1f24" />
+<text x="978.0" y="249.0" font-size="12.5" font-weight="400" fill="#e8e8e8" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" >Hard resetting</text>
+<text x="978.0" y="267.0" font-size="12.5" font-weight="400" fill="#e8e8e8" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" >via RTS pin...</text>
+<text x="600.0" y="314.0" font-size="14" font-weight="800" fill="#b45f17" text-anchor="middle" >Macet di sini? Tahan tombol BOOT.</text>
+<text x="40.0" y="360.0" font-size="17" font-weight="800" fill="#1e2a4a" text-anchor="start" >Jalur fisiknya:</text>
+<rect x="40.0" y="380.0" width="220.0" height="110.0" rx="12" fill="#cfe9f3" stroke="#1e2a4a" stroke-width="2" />
+<text x="150.0" y="412.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Laptop</text>
+<text x="150.0" y="442.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="middle" >Arduino IDE</text>
+<text x="150.0" y="462.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="middle" >+ esptool</text>
+<rect x="300.0" y="380.0" width="220.0" height="110.0" rx="12" fill="#ececec" stroke="#1e2a4a" stroke-width="2" />
+<text x="410.0" y="412.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Kabel USB data</text>
+<text x="410.0" y="442.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="middle" >bukan kabel</text>
+<text x="410.0" y="462.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="middle" >cas saja!</text>
+<rect x="560.0" y="380.0" width="220.0" height="110.0" rx="12" fill="#fde4c8" stroke="#1e2a4a" stroke-width="2" />
+<text x="670.0" y="412.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Chip penerjemah USB</text>
+<text x="670.0" y="442.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="middle" >CP2102 / CH340</text>
+<text x="670.0" y="462.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="middle" >(di papan ESP32)</text>
+<rect x="820.0" y="380.0" width="340.0" height="110.0" rx="12" fill="#d6f0e3" stroke="#1e2a4a" stroke-width="2" />
+<text x="990.0" y="412.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Chip ESP32 → memori flash 4 MB</text>
+<text x="990.0" y="442.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="middle" >program disimpan di sini,</text>
+<text x="990.0" y="462.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="middle" >tetap ada walau listrik padam</text>
+<line x1="262.0" y1="435.0" x2="298.0" y2="435.0" stroke="#1e2a4a" stroke-width="3" stroke-linecap="round" />
+<path d="M290.9 438.8 L298.0 435.0 L290.9 431.2" fill="none" stroke="#1e2a4a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="522.0" y1="435.0" x2="558.0" y2="435.0" stroke="#1e2a4a" stroke-width="3" stroke-linecap="round" />
+<path d="M550.9 438.8 L558.0 435.0 L550.9 431.2" fill="none" stroke="#1e2a4a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="782.0" y1="435.0" x2="818.0" y2="435.0" stroke="#1e2a4a" stroke-width="3" stroke-linecap="round" />
+<path d="M810.9 438.8 L818.0 435.0 L810.9 431.2" fill="none" stroke="#1e2a4a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="40.0" y="512.0" width="1120.0" height="50.0" rx="10" fill="#fde4c8" />
+<text x="600.0" y="543.0" font-size="15" font-weight="600" fill="#1e2a4a" text-anchor="middle" >Karena program tersimpan di flash, ESP32 tetap menjalankannya walau USB dicabut lalu dicolok ke kepala cas — tanpa laptop.</text>
+<text x="1178.0" y="586.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="830" viewBox="0 0 1200 830" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="830" fill="#fffdf7"/>
+<text x="600.0" y="40.0" font-size="26" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Verify berhasil</text>
+<text x="600.0" y="72.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Kode diterjemahkan tanpa error: muncul notifikasi "Done compiling" dan ringkasan di panel Output.</text>
+<rect x="44.0" y="92.0" width="1120.0" height="620.0" rx="8" fill="#000000" opacity="0.10"/>
+<rect x="40.0" y="86.0" width="1120.0" height="620.0" rx="6" fill="#ffffff" stroke="#b9c0c2" stroke-width="1.2" />
+<rect x="40.0" y="86.0" width="1120.0" height="34.0" rx="6" fill="#ffffff" />
+<rect x="52.0" y="95.0" width="16.0" height="16.0" rx="4" fill="#005c5f" />
+<text x="60.0" y="107.0" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle" >∞</text>
+<text x="78.0" y="108.0" font-size="13.5" font-weight="400" fill="#333333" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >modul02_blink | Arduino IDE 2.3.10</text>
+<text x="1048.0" y="108.0" font-size="13" font-weight="400" fill="#333333" text-anchor="middle" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >—</text>
+<text x="1088.0" y="108.0" font-size="13" font-weight="400" fill="#333333" text-anchor="middle" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >☐</text>
+<text x="1128.0" y="108.0" font-size="13" font-weight="400" fill="#333333" text-anchor="middle" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >✕</text>
+<rect x="40.0" y="120.0" width="1120.0" height="28.0" rx="0" fill="#292a2d" />
+<text x="54.0" y="139.0" font-size="13.5" font-weight="400" fill="#d6d6d6" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >File</text>
+<text x="96.0" y="139.0" font-size="13.5" font-weight="400" fill="#d6d6d6" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Edit</text>
+<text x="138.0" y="139.0" font-size="13.5" font-weight="400" fill="#d6d6d6" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Sketch</text>
+<text x="194.0" y="139.0" font-size="13.5" font-weight="400" fill="#d6d6d6" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Tools</text>
+<text x="243.0" y="139.0" font-size="13.5" font-weight="400" fill="#d6d6d6" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Help</text>
+<rect x="40.0" y="148.0" width="1120.0" height="56.0" rx="0" fill="#005c5f" />
+<circle cx="74.0" cy="176.0" r="17" fill="#7ec9d0" />
+<path d="M67 176 L72 181 L81 171" fill="none" stroke="#ffffff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="116.0" cy="176.0" r="17" fill="#7ec9d0" />
+<path d="M109 176 L123 176 M118 171 L123 176 L118 181" fill="none" stroke="#ffffff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="158.0" cy="176.0" r="17" fill="#2f7e82" />
+<path d="M155 169 L165 176 L155 183 Z" fill="none" stroke="#9fd3d6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="153.0" cy="180.0" r="3.5" fill="none" stroke="#9fd3d6" stroke-width="1.8" />
+<rect x="188.0" y="159.0" width="300.0" height="34.0" rx="3" fill="#ffffff" />
+<path d="M208 183 L208 167 M205 170 L208 167 L211 170 M208 177 L203 173 L203 170 M208 175 L213 171" fill="none" stroke="#4e5b61" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="208.0" cy="184.0" r="2" fill="#4e5b61" />
+<text x="226.0" y="181.0" font-size="14.5" font-weight="700" fill="#4e5b61" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >DOIT ESP32 DEVKIT V1</text>
+<path d="M464 172 L470 179 L476 172" fill="none" stroke="#4e5b61" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M1085 178 L1090 178 L1093 169 L1096 184 L1099 176 L1103 176" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="1127.0" cy="176.0" r="6.5" fill="none" stroke="#ffffff" stroke-width="2" />
+<circle cx="1127.0" cy="176.0" r="1.6" fill="#ffffff" />
+<line x1="1118.0" y1="176.0" x2="1120.5" y2="176.0" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+<circle cx="1137.0" cy="176.0" r="1.4" fill="#ffffff" />
+<circle cx="1141.0" cy="176.0" r="1.4" fill="#ffffff" />
+<rect x="40.0" y="204.0" width="54.0" height="476.0" rx="0" fill="#ececec" />
+<path d="M56 229 L63 229 L66 232 L78 232 L78 244 L56 244 Z" fill="none" stroke="#8a9799" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="56.0" y="280.0" width="22.0" height="15.0" rx="2" fill="none" stroke="#8a9799" stroke-width="1.8" />
+<line x1="53.0" y1="284.0" x2="56.0" y2="284.0" stroke="#8a9799" stroke-width="1.8" stroke-linecap="round" />
+<line x1="53.0" y1="290.0" x2="56.0" y2="290.0" stroke="#8a9799" stroke-width="1.8" stroke-linecap="round" />
+<line x1="62.0" y1="289.0" x2="73.0" y2="289.0" stroke="#8a9799" stroke-width="1.8" stroke-linecap="round" />
+<rect x="56.0" y="331.0" width="5.0" height="18.0" rx="1" fill="none" stroke="#8a9799" stroke-width="1.6" />
+<rect x="63.0" y="331.0" width="5.0" height="18.0" rx="1" fill="none" stroke="#8a9799" stroke-width="1.6" />
+<rect x="70.0" y="333.0" width="5.0" height="16.0" rx="1" fill="none" stroke="#8a9799" stroke-width="1.6" />
+<path d="M63 383 L76 392 L63 401" fill="none" stroke="#8a9799" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="61.0" cy="397.0" r="4" fill="none" stroke="#8a9799" stroke-width="1.6" />
+<circle cx="65.0" cy="442.0" r="7" fill="none" stroke="#8a9799" stroke-width="1.8" />
+<line x1="70.0" y1="447.0" x2="76.0" y2="453.0" stroke="#8a9799" stroke-width="2" stroke-linecap="round" />
+<rect x="40.0" y="680.0" width="1120.0" height="26.0" rx="0" fill="#005c5f" />
+<text x="1096.0" y="698.0" font-size="13" font-weight="400" fill="#ffffff" text-anchor="end" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" xml:space="preserve">Ln 1, Col 1    UTF-8    DOIT ESP32 DEVKIT V1 on COM3</text>
+<path d="M1111 696 L1111 691 Q1111 686 1116 686 Q1121 686 1121 691 L1121 696 Z" fill="none" stroke="#ffffff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="1116.0" cy="698.5" r="1.4" fill="#ffffff" />
+<rect x="1134.0" y="687.0" width="14.0" height="11.0" rx="1" fill="none" stroke="#ffffff" stroke-width="1.4" />
+<rect x="94.0" y="204.0" width="1066.0" height="36.0" rx="0" fill="#f7f9fa" />
+<rect x="94.0" y="204.0" width="190.0" height="36.0" rx="0" fill="#ffffff" />
+<text x="108.0" y="227.0" font-size="13.5" font-weight="400" fill="#333333" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >modul02_blink.ino</text>
+<text x="1138.0" y="226.0" font-size="14" font-weight="700" fill="#777" text-anchor="end" >···</text>
+<text x="138.0" y="262.0" font-size="14" font-weight="400" fill="#30858d" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >1</text>
+<text x="164.0" y="262.0" font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5" xml:space="preserve"><tspan fill="#95a5a6">// Program pertama kita: LED berkedip (Blink)</tspan></text>
+<text x="138.0" y="284.0" font-size="14" font-weight="400" fill="#30858d" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >2</text>
+<text x="164.0" y="284.0" font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5" xml:space="preserve"><tspan fill="#95a5a6">// LED dipasang di pin D4 lewat resistor 220 ohm</tspan></text>
+<text x="138.0" y="306.0" font-size="14" font-weight="400" fill="#30858d" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >3</text>
+<text x="138.0" y="328.0" font-size="14" font-weight="400" fill="#30858d" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >4</text>
+<text x="164.0" y="328.0" font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5" xml:space="preserve"><tspan fill="#00979d">const</tspan><tspan fill="#4e5b61"> </tspan><tspan fill="#00979d">int</tspan><tspan fill="#4e5b61"> </tspan><tspan fill="#4e5b61">PIN_LED</tspan><tspan fill="#4e5b61"> </tspan><tspan fill="#4e5b61">=</tspan><tspan fill="#4e5b61"> </tspan><tspan fill="#005c5f">4</tspan><tspan fill="#4e5b61">;</tspan><tspan fill="#4e5b61">  </tspan><tspan fill="#95a5a6">// nomor pin tempat LED dipasang</tspan></text>
+<text x="138.0" y="350.0" font-size="14" font-weight="400" fill="#30858d" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >5</text>
+<text x="138.0" y="372.0" font-size="14" font-weight="400" fill="#30858d" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >6</text>
+<text x="164.0" y="372.0" font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5" xml:space="preserve"><tspan fill="#00979d">void</tspan><tspan fill="#4e5b61"> </tspan><tspan fill="#d35400">setup</tspan><tspan fill="#4e5b61">(</tspan><tspan fill="#4e5b61">)</tspan><tspan fill="#4e5b61"> </tspan><tspan fill="#4e5b61">{</tspan></text>
+<text x="138.0" y="394.0" font-size="14" font-weight="400" fill="#30858d" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >7</text>
+<text x="164.0" y="394.0" font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5" xml:space="preserve"><tspan fill="#4e5b61">  </tspan><tspan fill="#95a5a6">// Dijalankan SEKALI saat ESP32 baru menyala</tspan></text>
+<text x="138.0" y="416.0" font-size="14" font-weight="400" fill="#30858d" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >8</text>
+<text x="164.0" y="416.0" font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5" xml:space="preserve"><tspan fill="#4e5b61">  </tspan><tspan fill="#d35400">pinMode</tspan><tspan fill="#4e5b61">(</tspan><tspan fill="#4e5b61">PIN_LED</tspan><tspan fill="#4e5b61">,</tspan><tspan fill="#4e5b61"> </tspan><tspan fill="#00979d">OUTPUT</tspan><tspan fill="#4e5b61">)</tspan><tspan fill="#4e5b61">;</tspan><tspan fill="#4e5b61">  </tspan><tspan fill="#95a5a6">// pin ini untuk keluaran</tspan></text>
+<text x="138.0" y="438.0" font-size="14" font-weight="400" fill="#30858d" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >9</text>
+<text x="164.0" y="438.0" font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5" xml:space="preserve"><tspan fill="#4e5b61">}</tspan></text>
+<text x="138.0" y="460.0" font-size="14" font-weight="400" fill="#30858d" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >10</text>
+<text x="138.0" y="482.0" font-size="14" font-weight="400" fill="#30858d" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >11</text>
+<text x="164.0" y="482.0" font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5" xml:space="preserve"><tspan fill="#00979d">void</tspan><tspan fill="#4e5b61"> </tspan><tspan fill="#d35400">loop</tspan><tspan fill="#4e5b61">(</tspan><tspan fill="#4e5b61">)</tspan><tspan fill="#4e5b61"> </tspan><tspan fill="#4e5b61">{</tspan></text>
+<line x1="152.0" y1="244.0" x2="152.0" y2="506.0" stroke="#e6e6e6" stroke-width="1" stroke-linecap="round" />
+<rect x="94.0" y="510.0" width="1066.0" height="34.0" rx="0" fill="#f7f9fa" />
+<line x1="94.0" y1="510.0" x2="1160.0" y2="510.0" stroke="#dcdcdc" stroke-width="1" stroke-linecap="round" />
+<text x="108.0" y="532.0" font-size="13.5" font-weight="400" fill="#222" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Output</text>
+<line x1="104.0" y1="543.0" x2="153.6" y2="543.0" stroke="#00979d" stroke-width="2" stroke-linecap="round" />
+<rect x="94.0" y="544.0" width="1066.0" height="136.0" rx="0" fill="#000000" />
+<text x="106.0" y="564.0" font-size="13" font-weight="400" fill="#ffffff" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">Sketch uses 271780 bytes (20%) of program storage space. Maximum is 1310720 bytes.</text>
+<text x="106.0" y="582.5" font-size="13" font-weight="400" fill="#ffffff" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">Global variables use 22116 bytes (6%) of dynamic memory, leaving 305564 bytes</text>
+<text x="106.0" y="601.0" font-size="13" font-weight="400" fill="#ffffff" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">for local variables. Maximum is 327680 bytes.</text>
+<rect x="886.0" y="619.0" width="260.0" height="50.0" rx="4" fill="#000000" opacity="0.12"/>
+<rect x="884.0" y="616.0" width="260.0" height="50.0" rx="4" fill="#ffffff" stroke="#cfcfcf" stroke-width="1" />
+<circle cx="906.0" cy="641.0" r="8" fill="none" stroke="#2b7bd6" stroke-width="1.8" />
+<text x="906.0" y="646.0" font-size="12" font-weight="800" fill="#2b7bd6" text-anchor="middle" >i</text>
+<text x="924.0" y="646.0" font-size="13.5" font-weight="400" fill="#333" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Done compiling.</text>
+<text x="1126.0" y="646.0" font-size="16" font-weight="400" fill="#666" text-anchor="middle" >×</text>
+<circle cx="87.0" cy="197.0" r="12" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="87.0" y="202.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >1</text>
+<rect x="94.0" y="544.0" width="768.0" height="74.0" rx="8" fill="none" stroke="#e63946" stroke-width="3.5" />
+<circle cx="884.0" cy="580.0" r="15" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="884.0" y="585.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >2</text>
+<rect x="880.0" y="612.0" width="268.0" height="58.0" rx="8" fill="none" stroke="#e63946" stroke-width="3.5" />
+<circle cx="860.0" cy="641.0" r="15" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="860.0" y="646.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >3</text>
+<circle cx="54.0" cy="738.0" r="12" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="54.0" y="743.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >1</text>
+<text x="74.0" y="743.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >Klik Verify (tombol ✓) atau Ctrl + R</text>
+<circle cx="614.0" cy="738.0" r="12" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="614.0" y="743.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >2</text>
+<text x="634.0" y="743.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >Ringkasan ini = berhasil (angkamu boleh sedikit berbeda)</text>
+<circle cx="54.0" cy="768.0" r="12" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="54.0" y="773.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >3</text>
+<text x="74.0" y="773.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >Notifikasi "Done compiling." di pojok kanan bawah</text>
+<text x="1178.0" y="816.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Ilustrasi (digambar ulang, bukan tangkapan layar) · Arduino IDE 2.3.10 · Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

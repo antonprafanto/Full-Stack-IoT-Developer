@@ -2,7 +2,7 @@
 
 *Fase 0 · Minggu 1 · Perangkat keras (*hardware*): **tidak perlu** (semua di browser) · Prasyarat: **tidak ada** · Waktu: 6–8 jam, dicicil dalam seminggu*
 
-[⬅️ Kembali ke Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · [Modul 2 ➡️ (segera terbit — baca ringkasannya di Silabus)](../../SILABUS.md#modul-2--listrik-ramah-awam-breadboard--unggah-pertama-ke-esp32-asli)
+[⬅️ Kembali ke Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · [Modul 2 ➡️](../modul-02-listrik-dan-unggah-pertama/README.md)
 
 ---
 
@@ -1038,4 +1038,4 @@ Rujukan yang dipakai saat menulis: dokumentasi Wokwi ([docs.wokwi.com](https://d
 
 ---
 
-[⬅️ Kembali ke Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · **Berikutnya: Modul 2 — Listrik Ramah Awam, Breadboard, dan Unggah Pertama ke ESP32 Asli** (segera terbit; [ringkasannya di Silabus](../../SILABUS.md#modul-2--listrik-ramah-awam-breadboard--unggah-pertama-ke-esp32-asli))
+[⬅️ Kembali ke Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · **Berikutnya: [Modul 2 — Listrik Ramah Awam, Breadboard, & Unggah Pertama ke ESP32 Asli](../modul-02-listrik-dan-unggah-pertama/README.md) ➡️**

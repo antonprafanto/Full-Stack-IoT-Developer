@@ -1,0 +1,133 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="920" viewBox="0 0 1200 920" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="920" fill="#fffdf7"/>
+<text x="600.0" y="40.0" font-size="26" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Memasang paket esp32: sedang berjalan → selesai</text>
+<text x="600.0" y="72.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Bagian sabar: unduhan ±2 GB bisa 10–30 menit. Jangan tutup Arduino IDE dan jangan biarkan laptop tidur.</text>
+<text x="40.0" y="112.0" font-size="19" font-weight="800" fill="#b45f17" text-anchor="start" >1. Sedang memasang…</text>
+<rect x="44.0" y="132.0" width="1120.0" height="470.0" rx="8" fill="#000000" opacity="0.10"/>
+<rect x="40.0" y="126.0" width="1120.0" height="470.0" rx="6" fill="#ffffff" stroke="#b9c0c2" stroke-width="1.2" />
+<rect x="40.0" y="126.0" width="1120.0" height="34.0" rx="6" fill="#ffffff" />
+<rect x="52.0" y="135.0" width="16.0" height="16.0" rx="4" fill="#005c5f" />
+<text x="60.0" y="147.0" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle" >∞</text>
+<text x="78.0" y="148.0" font-size="13.5" font-weight="400" fill="#333333" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >sketch_oct10a | Arduino IDE 2.3.10</text>
+<text x="1048.0" y="148.0" font-size="13" font-weight="400" fill="#333333" text-anchor="middle" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >—</text>
+<text x="1088.0" y="148.0" font-size="13" font-weight="400" fill="#333333" text-anchor="middle" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >☐</text>
+<text x="1128.0" y="148.0" font-size="13" font-weight="400" fill="#333333" text-anchor="middle" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >✕</text>
+<rect x="40.0" y="160.0" width="1120.0" height="28.0" rx="0" fill="#292a2d" />
+<text x="54.0" y="179.0" font-size="13.5" font-weight="400" fill="#d6d6d6" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >File</text>
+<text x="96.0" y="179.0" font-size="13.5" font-weight="400" fill="#d6d6d6" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Edit</text>
+<text x="138.0" y="179.0" font-size="13.5" font-weight="400" fill="#d6d6d6" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Sketch</text>
+<text x="194.0" y="179.0" font-size="13.5" font-weight="400" fill="#d6d6d6" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Tools</text>
+<text x="243.0" y="179.0" font-size="13.5" font-weight="400" fill="#d6d6d6" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Help</text>
+<rect x="40.0" y="188.0" width="1120.0" height="56.0" rx="0" fill="#005c5f" />
+<circle cx="74.0" cy="216.0" r="17" fill="#7ec9d0" />
+<path d="M67 216 L72 221 L81 211" fill="none" stroke="#ffffff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="116.0" cy="216.0" r="17" fill="#7ec9d0" />
+<path d="M109 216 L123 216 M118 211 L123 216 L118 221" fill="none" stroke="#ffffff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="158.0" cy="216.0" r="17" fill="#2f7e82" />
+<path d="M155 209 L165 216 L155 223 Z" fill="none" stroke="#9fd3d6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="153.0" cy="220.0" r="3.5" fill="none" stroke="#9fd3d6" stroke-width="1.8" />
+<rect x="188.0" y="199.0" width="300.0" height="34.0" rx="3" fill="#ffffff" />
+<text x="204.0" y="221.0" font-size="14.5" font-weight="700" fill="#4e5b61" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Select Board</text>
+<path d="M464 212 L470 219 L476 212" fill="none" stroke="#4e5b61" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M1085 218 L1090 218 L1093 209 L1096 224 L1099 216 L1103 216" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="1127.0" cy="216.0" r="6.5" fill="none" stroke="#ffffff" stroke-width="2" />
+<circle cx="1127.0" cy="216.0" r="1.6" fill="#ffffff" />
+<line x1="1118.0" y1="216.0" x2="1120.5" y2="216.0" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+<circle cx="1137.0" cy="216.0" r="1.4" fill="#ffffff" />
+<circle cx="1141.0" cy="216.0" r="1.4" fill="#ffffff" />
+<rect x="40.0" y="244.0" width="54.0" height="326.0" rx="0" fill="#ececec" />
+<path d="M56 269 L63 269 L66 272 L78 272 L78 284 L56 284 Z" fill="none" stroke="#8a9799" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="56.0" y="320.0" width="22.0" height="15.0" rx="2" fill="none" stroke="#005c5f" stroke-width="1.8" />
+<line x1="53.0" y1="324.0" x2="56.0" y2="324.0" stroke="#005c5f" stroke-width="1.8" stroke-linecap="round" />
+<line x1="53.0" y1="330.0" x2="56.0" y2="330.0" stroke="#005c5f" stroke-width="1.8" stroke-linecap="round" />
+<line x1="62.0" y1="329.0" x2="73.0" y2="329.0" stroke="#005c5f" stroke-width="1.8" stroke-linecap="round" />
+<rect x="56.0" y="371.0" width="5.0" height="18.0" rx="1" fill="none" stroke="#8a9799" stroke-width="1.6" />
+<rect x="63.0" y="371.0" width="5.0" height="18.0" rx="1" fill="none" stroke="#8a9799" stroke-width="1.6" />
+<rect x="70.0" y="373.0" width="5.0" height="16.0" rx="1" fill="none" stroke="#8a9799" stroke-width="1.6" />
+<path d="M63 423 L76 432 L63 441" fill="none" stroke="#8a9799" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="61.0" cy="437.0" r="4" fill="none" stroke="#8a9799" stroke-width="1.6" />
+<circle cx="65.0" cy="482.0" r="7" fill="none" stroke="#8a9799" stroke-width="1.8" />
+<line x1="70.0" y1="487.0" x2="76.0" y2="493.0" stroke="#8a9799" stroke-width="2" stroke-linecap="round" />
+<rect x="40.0" y="570.0" width="1120.0" height="26.0" rx="0" fill="#005c5f" />
+<text x="1096.0" y="588.0" font-size="13" font-weight="400" fill="#ffffff" text-anchor="end" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" xml:space="preserve">Ln 1, Col 1    UTF-8    No board selected</text>
+<path d="M1111 586 L1111 581 Q1111 576 1116 576 Q1121 576 1121 581 L1121 586 Z" fill="none" stroke="#ffffff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="1116.0" cy="588.5" r="1.4" fill="#ffffff" />
+<rect x="1134.0" y="577.0" width="14.0" height="11.0" rx="1" fill="none" stroke="#ffffff" stroke-width="1.4" />
+<rect x="454.0" y="244.0" width="706.0" height="36.0" rx="0" fill="#f7f9fa" />
+<rect x="454.0" y="244.0" width="190.0" height="36.0" rx="0" fill="#ffffff" />
+<text x="468.0" y="267.0" font-size="13.5" font-weight="400" fill="#333333" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >sketch_oct10a.ino</text>
+<text x="1138.0" y="266.0" font-size="14" font-weight="700" fill="#777" text-anchor="end" >···</text>
+<text x="498.0" y="302.0" font-size="14" font-weight="400" fill="#30858d" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >1</text>
+<text x="524.0" y="302.0" font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5" xml:space="preserve"><tspan fill="#00979d">void</tspan><tspan fill="#4e5b61"> </tspan><tspan fill="#d35400">setup</tspan><tspan fill="#4e5b61">(</tspan><tspan fill="#4e5b61">)</tspan><tspan fill="#4e5b61"> </tspan><tspan fill="#4e5b61">{</tspan></text>
+<text x="498.0" y="324.0" font-size="14" font-weight="400" fill="#30858d" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >2</text>
+<text x="524.0" y="324.0" font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5" xml:space="preserve"><tspan fill="#4e5b61">  </tspan><tspan fill="#95a5a6">// put your setup code here, to run once:</tspan></text>
+<text x="498.0" y="346.0" font-size="14" font-weight="400" fill="#30858d" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >3</text>
+<line x1="512.0" y1="284.0" x2="512.0" y2="366.0" stroke="#e6e6e6" stroke-width="1" stroke-linecap="round" />
+<rect x="94.0" y="244.0" width="360.0" height="326.0" rx="0" fill="#ffffff" />
+<line x1="454.0" y1="244.0" x2="454.0" y2="570.0" stroke="#dddddd" stroke-width="1.2" stroke-linecap="round" />
+<text x="110.0" y="270.0" font-size="12.5" font-weight="700" fill="#555" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >BOARDS MANAGER</text>
+<rect x="108.0" y="284.0" width="332.0" height="32.0" rx="3" fill="#ffffff" stroke="#c8c8c8" stroke-width="1.2" />
+<text x="118.0" y="305.0" font-size="14" font-weight="400" fill="#333" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >esp32</text>
+<text x="108.0" y="342.0" font-size="13" font-weight="400" fill="#555" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Type:</text>
+<rect x="152.0" y="326.0" width="110.0" height="26.0" rx="3" fill="#ffffff" stroke="#c8c8c8" stroke-width="1.2" />
+<text x="162.0" y="344.0" font-size="13" font-weight="400" fill="#333" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >All</text>
+<path d="M244 336 L249 342 L254 336" fill="none" stroke="#555" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="110.0" y="390.0" font-size="1" font-weight="400" fill="#1e2a4a" text-anchor="start" ></text>
+<text x="110" y="390" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" font-size="15" fill="#333"><tspan font-weight="700">esp32</tspan><tspan> by Espressif Systems</tspan></text>
+<text x="110.0" y="412.0" font-size="13" font-weight="400" fill="#555" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Boards included in this package:</text>
+<text x="110.0" y="431.0" font-size="13" font-weight="400" fill="#555" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >ESP32 Dev Board, ESP32-C3 Dev Board,</text>
+<text x="110.0" y="450.0" font-size="13" font-weight="400" fill="#555" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >ESP32-C5 Dev Board, …</text>
+<text x="110.0" y="471.0" font-size="13" font-weight="400" fill="#00979d" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >More info</text>
+<rect x="110.0" y="485.0" width="110.0" height="30.0" rx="3" fill="#ffffff" stroke="#c8c8c8" stroke-width="1.2" />
+<text x="120.0" y="505.0" font-size="13" font-weight="400" fill="#333" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >3.3.12</text>
+<path d="M202 496 L207 502 L212 496" fill="none" stroke="#555" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="236.0" y="485.0" width="100.0" height="30.0" rx="15" fill="#00979d" />
+<text x="286.0" y="505.0" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >INSTALL</text>
+<line x1="106.0" y1="523.0" x2="442.0" y2="523.0" stroke="#e3e3e3" stroke-width="1" stroke-linecap="round" />
+<rect x="454.0" y="370.0" width="706.0" height="34.0" rx="0" fill="#f7f9fa" />
+<line x1="454.0" y1="370.0" x2="1160.0" y2="370.0" stroke="#dcdcdc" stroke-width="1" stroke-linecap="round" />
+<text x="468.0" y="392.0" font-size="13.5" font-weight="400" fill="#222" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Output</text>
+<line x1="464.0" y1="403.0" x2="513.6" y2="403.0" stroke="#00979d" stroke-width="2" stroke-linecap="round" />
+<rect x="454.0" y="404.0" width="706.0" height="166.0" rx="0" fill="#000000" />
+<text x="466.0" y="424.0" font-size="12.5" font-weight="400" fill="#ffffff" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">Downloading packages</text>
+<text x="466.0" y="442.5" font-size="12.5" font-weight="400" fill="#ffffff" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">esp32:esp-x32@2601</text>
+<text x="466.0" y="461.0" font-size="12.5" font-weight="400" fill="#ffffff" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">esp32:esp-rv32@2601</text>
+<text x="466.0" y="479.5" font-size="12.5" font-weight="400" fill="#ffffff" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">esp32:esptool_py@5.3.1</text>
+<text x="466.0" y="498.0" font-size="12.5" font-weight="400" fill="#ffffff" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">Installing esp32:esp-x32@2601</text>
+<text x="466.0" y="516.5" font-size="12.5" font-weight="400" fill="#ffffff" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">Configuring tool.</text>
+<rect x="846.0" y="509.0" width="300.0" height="50.0" rx="4" fill="#000000" opacity="0.12"/>
+<rect x="844.0" y="506.0" width="300.0" height="50.0" rx="4" fill="#ffffff" stroke="#cfcfcf" stroke-width="1" />
+<circle cx="866.0" cy="531.0" r="8" fill="none" stroke="#2b7bd6" stroke-width="1.8" />
+<text x="866.0" y="536.0" font-size="12" font-weight="800" fill="#2b7bd6" text-anchor="middle" >i</text>
+<text x="884.0" y="536.0" font-size="13.5" font-weight="400" fill="#333" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Processing esp32:3.3.12: Installing…</text>
+<text x="1126.0" y="536.0" font-size="16" font-weight="400" fill="#666" text-anchor="middle" >×</text>
+<rect x="840.0" y="502.0" width="308.0" height="58.0" rx="8" fill="none" stroke="#f4a261" stroke-width="3.5" />
+<text x="832.0" y="536.0" font-size="13" font-weight="700" fill="#b45f17" text-anchor="end" >tulisan kemajuan →</text>
+<text x="40.0" y="640.0" font-size="19" font-weight="800" fill="#2a9d5c" text-anchor="start" >2. Selesai ✓</text>
+<rect x="40.0" y="656.0" width="520.0" height="214.0" rx="6" fill="#ffffff" stroke="#b9c0c2" stroke-width="1.2" />
+<text x="58" y="688" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" font-size="15" fill="#333"><tspan font-weight="700">esp32</tspan><tspan> by Espressif Systems</tspan></text>
+<text x="58.0" y="712.0" font-size="14" font-weight="700" fill="#00979d" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >3.3.12 installed</text>
+<text x="58.0" y="736.0" font-size="13" font-weight="400" fill="#555" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Boards included in this package:</text>
+<text x="58.0" y="755.0" font-size="13" font-weight="400" fill="#555" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >ESP32 Dev Board, ESP32-C3 Dev Board,</text>
+<text x="58.0" y="774.0" font-size="13" font-weight="400" fill="#555" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >ESP32-C5 Dev Board, …</text>
+<text x="58.0" y="796.0" font-size="13" font-weight="400" fill="#00979d" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >More info</text>
+<rect x="58.0" y="814.0" width="110.0" height="30.0" rx="3" fill="#ffffff" stroke="#c8c8c8" stroke-width="1.2" />
+<text x="68.0" y="834.0" font-size="13" font-weight="400" fill="#333" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >3.3.12</text>
+<rect x="184.0" y="814.0" width="100.0" height="30.0" rx="15" fill="#ffffff" stroke="#00979d" stroke-width="1.6" />
+<text x="234.0" y="834.0" font-size="13" font-weight="700" fill="#00979d" text-anchor="middle" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >REMOVE</text>
+<rect x="50.0" y="692.0" width="138.0" height="32.0" rx="8" fill="none" stroke="#2a9d5c" stroke-width="3" />
+<rect x="180.0" y="810.0" width="108.0" height="38.0" rx="8" fill="none" stroke="#2a9d5c" stroke-width="3" />
+<text x="330.0" y="722.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >Tanda selesai:</text>
+<text x="330.0" y="740.9" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="start" >"3.3.12 installed",</text>
+<text x="330.0" y="759.8" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="start" >dan tombolnya berubah</text>
+<text x="330.0" y="778.7" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="start" >menjadi REMOVE.</text>
+<rect x="590.0" y="656.0" width="570.0" height="214.0" rx="6" fill="#000000" />
+<text x="606.0" y="686.0" font-size="13.5" font-weight="400" fill="#ffffff" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" >esp32:esp32-libs@3.3.12 installed</text>
+<text x="606.0" y="708.0" font-size="13.5" font-weight="400" fill="#ffffff" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" >Installing platform esp32:esp32@3.3.12</text>
+<text x="606.0" y="730.0" font-size="13.5" font-weight="400" fill="#ffffff" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" >Configuring platform.</text>
+<text x="606.0" y="752.0" font-size="13.5" font-weight="400" fill="#ffffff" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" >Platform esp32:esp32@3.3.12 installed</text>
+<rect x="596.0" y="733.0" width="338.0" height="28.0" rx="4" fill="none" stroke="#2a9d5c" stroke-width="3" />
+<text x="606.0" y="818.0" font-size="13.5" font-weight="700" fill="#9fe2bf" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Baris terakhir di panel Output</text>
+<text x="606.0" y="840.0" font-size="13.5" font-weight="700" fill="#9fe2bf" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >= paket selesai terpasang.</text>
+<text x="1178.0" y="906.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Ilustrasi (digambar ulang, bukan tangkapan layar) · Arduino IDE 2.3.10 · Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

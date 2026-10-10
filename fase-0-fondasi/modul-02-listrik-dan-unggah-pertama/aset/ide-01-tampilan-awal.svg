@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="860" viewBox="0 0 1200 860" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="860" fill="#fffdf7"/>
+<text x="600.0" y="40.0" font-size="26" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Kenali Arduino IDE 2</text>
+<text x="600.0" y="72.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Beginilah tampilannya saat pertama dibuka. Delapan bagian ini yang kita pakai minggu ini.</text>
+<rect x="44.0" y="92.0" width="1120.0" height="600.0" rx="8" fill="#000000" opacity="0.10"/>
+<rect x="40.0" y="86.0" width="1120.0" height="600.0" rx="6" fill="#ffffff" stroke="#b9c0c2" stroke-width="1.2" />
+<rect x="40.0" y="86.0" width="1120.0" height="34.0" rx="6" fill="#ffffff" />
+<rect x="52.0" y="95.0" width="16.0" height="16.0" rx="4" fill="#005c5f" />
+<text x="60.0" y="107.0" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle" >∞</text>
+<text x="78.0" y="108.0" font-size="13.5" font-weight="400" fill="#333333" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >sketch_oct10a | Arduino IDE 2.3.10</text>
+<text x="1048.0" y="108.0" font-size="13" font-weight="400" fill="#333333" text-anchor="middle" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >—</text>
+<text x="1088.0" y="108.0" font-size="13" font-weight="400" fill="#333333" text-anchor="middle" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >☐</text>
+<text x="1128.0" y="108.0" font-size="13" font-weight="400" fill="#333333" text-anchor="middle" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >✕</text>
+<rect x="40.0" y="120.0" width="1120.0" height="28.0" rx="0" fill="#292a2d" />
+<text x="54.0" y="139.0" font-size="13.5" font-weight="400" fill="#d6d6d6" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >File</text>
+<text x="96.0" y="139.0" font-size="13.5" font-weight="400" fill="#d6d6d6" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Edit</text>
+<text x="138.0" y="139.0" font-size="13.5" font-weight="400" fill="#d6d6d6" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Sketch</text>
+<text x="194.0" y="139.0" font-size="13.5" font-weight="400" fill="#d6d6d6" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Tools</text>
+<text x="243.0" y="139.0" font-size="13.5" font-weight="400" fill="#d6d6d6" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Help</text>
+<rect x="40.0" y="148.0" width="1120.0" height="56.0" rx="0" fill="#005c5f" />
+<circle cx="74.0" cy="176.0" r="17" fill="#7ec9d0" />
+<path d="M67 176 L72 181 L81 171" fill="none" stroke="#ffffff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="116.0" cy="176.0" r="17" fill="#7ec9d0" />
+<path d="M109 176 L123 176 M118 171 L123 176 L118 181" fill="none" stroke="#ffffff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="158.0" cy="176.0" r="17" fill="#2f7e82" />
+<path d="M155 169 L165 176 L155 183 Z" fill="none" stroke="#9fd3d6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="153.0" cy="180.0" r="3.5" fill="none" stroke="#9fd3d6" stroke-width="1.8" />
+<rect x="188.0" y="159.0" width="300.0" height="34.0" rx="3" fill="#ffffff" />
+<text x="204.0" y="181.0" font-size="14.5" font-weight="700" fill="#4e5b61" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Select Board</text>
+<path d="M464 172 L470 179 L476 172" fill="none" stroke="#4e5b61" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M1085 178 L1090 178 L1093 169 L1096 184 L1099 176 L1103 176" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="1127.0" cy="176.0" r="6.5" fill="none" stroke="#ffffff" stroke-width="2" />
+<circle cx="1127.0" cy="176.0" r="1.6" fill="#ffffff" />
+<line x1="1118.0" y1="176.0" x2="1120.5" y2="176.0" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+<circle cx="1137.0" cy="176.0" r="1.4" fill="#ffffff" />
+<circle cx="1141.0" cy="176.0" r="1.4" fill="#ffffff" />
+<rect x="40.0" y="204.0" width="54.0" height="456.0" rx="0" fill="#ececec" />
+<path d="M56 229 L63 229 L66 232 L78 232 L78 244 L56 244 Z" fill="none" stroke="#8a9799" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="56.0" y="280.0" width="22.0" height="15.0" rx="2" fill="none" stroke="#8a9799" stroke-width="1.8" />
+<line x1="53.0" y1="284.0" x2="56.0" y2="284.0" stroke="#8a9799" stroke-width="1.8" stroke-linecap="round" />
+<line x1="53.0" y1="290.0" x2="56.0" y2="290.0" stroke="#8a9799" stroke-width="1.8" stroke-linecap="round" />
+<line x1="62.0" y1="289.0" x2="73.0" y2="289.0" stroke="#8a9799" stroke-width="1.8" stroke-linecap="round" />
+<rect x="56.0" y="331.0" width="5.0" height="18.0" rx="1" fill="none" stroke="#8a9799" stroke-width="1.6" />
+<rect x="63.0" y="331.0" width="5.0" height="18.0" rx="1" fill="none" stroke="#8a9799" stroke-width="1.6" />
+<rect x="70.0" y="333.0" width="5.0" height="16.0" rx="1" fill="none" stroke="#8a9799" stroke-width="1.6" />
+<path d="M63 383 L76 392 L63 401" fill="none" stroke="#8a9799" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="61.0" cy="397.0" r="4" fill="none" stroke="#8a9799" stroke-width="1.6" />
+<circle cx="65.0" cy="442.0" r="7" fill="none" stroke="#8a9799" stroke-width="1.8" />
+<line x1="70.0" y1="447.0" x2="76.0" y2="453.0" stroke="#8a9799" stroke-width="2" stroke-linecap="round" />
+<rect x="40.0" y="660.0" width="1120.0" height="26.0" rx="0" fill="#005c5f" />
+<text x="1096.0" y="678.0" font-size="13" font-weight="400" fill="#ffffff" text-anchor="end" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" xml:space="preserve">Ln 1, Col 1    UTF-8    No board selected</text>
+<path d="M1111 676 L1111 671 Q1111 666 1116 666 Q1121 666 1121 671 L1121 676 Z" fill="none" stroke="#ffffff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="1116.0" cy="678.5" r="1.4" fill="#ffffff" />
+<rect x="1134.0" y="667.0" width="14.0" height="11.0" rx="1" fill="none" stroke="#ffffff" stroke-width="1.4" />
+<rect x="94.0" y="204.0" width="1066.0" height="36.0" rx="0" fill="#f7f9fa" />
+<rect x="94.0" y="204.0" width="190.0" height="36.0" rx="0" fill="#ffffff" />
+<text x="108.0" y="227.0" font-size="13.5" font-weight="400" fill="#333333" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >sketch_oct10a.ino</text>
+<text x="1138.0" y="226.0" font-size="14" font-weight="700" fill="#777" text-anchor="end" >···</text>
+<text x="138.0" y="262.0" font-size="14" font-weight="400" fill="#30858d" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >1</text>
+<text x="164.0" y="262.0" font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5" xml:space="preserve"><tspan fill="#00979d">void</tspan><tspan fill="#4e5b61"> </tspan><tspan fill="#d35400">setup</tspan><tspan fill="#4e5b61">(</tspan><tspan fill="#4e5b61">)</tspan><tspan fill="#4e5b61"> </tspan><tspan fill="#4e5b61">{</tspan></text>
+<text x="138.0" y="284.0" font-size="14" font-weight="400" fill="#30858d" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >2</text>
+<text x="164.0" y="284.0" font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5" xml:space="preserve"><tspan fill="#4e5b61">  </tspan><tspan fill="#95a5a6">// put your setup code here, to run once:</tspan></text>
+<text x="138.0" y="306.0" font-size="14" font-weight="400" fill="#30858d" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >3</text>
+<text x="138.0" y="328.0" font-size="14" font-weight="400" fill="#30858d" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >4</text>
+<text x="164.0" y="328.0" font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5" xml:space="preserve"><tspan fill="#4e5b61">}</tspan></text>
+<text x="138.0" y="350.0" font-size="14" font-weight="400" fill="#30858d" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >5</text>
+<text x="138.0" y="372.0" font-size="14" font-weight="400" fill="#30858d" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >6</text>
+<text x="164.0" y="372.0" font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5" xml:space="preserve"><tspan fill="#00979d">void</tspan><tspan fill="#4e5b61"> </tspan><tspan fill="#d35400">loop</tspan><tspan fill="#4e5b61">(</tspan><tspan fill="#4e5b61">)</tspan><tspan fill="#4e5b61"> </tspan><tspan fill="#4e5b61">{</tspan></text>
+<text x="138.0" y="394.0" font-size="14" font-weight="400" fill="#30858d" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >7</text>
+<text x="164.0" y="394.0" font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5" xml:space="preserve"><tspan fill="#4e5b61">  </tspan><tspan fill="#95a5a6">// put your main code here, to run repeatedly:</tspan></text>
+<text x="138.0" y="416.0" font-size="14" font-weight="400" fill="#30858d" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >8</text>
+<text x="138.0" y="438.0" font-size="14" font-weight="400" fill="#30858d" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >9</text>
+<text x="164.0" y="438.0" font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5" xml:space="preserve"><tspan fill="#4e5b61">}</tspan></text>
+<line x1="152.0" y1="244.0" x2="152.0" y2="506.0" stroke="#e6e6e6" stroke-width="1" stroke-linecap="round" />
+<rect x="94.0" y="510.0" width="1066.0" height="34.0" rx="0" fill="#f7f9fa" />
+<line x1="94.0" y1="510.0" x2="1160.0" y2="510.0" stroke="#dcdcdc" stroke-width="1" stroke-linecap="round" />
+<text x="108.0" y="532.0" font-size="13.5" font-weight="400" fill="#222" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Output</text>
+<line x1="104.0" y1="543.0" x2="153.6" y2="543.0" stroke="#00979d" stroke-width="2" stroke-linecap="round" />
+<rect x="94.0" y="544.0" width="1066.0" height="116.0" rx="0" fill="#000000" />
+<circle cx="87.0" cy="197.0" r="12" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="87.0" y="202.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >1</text>
+<circle cx="129.0" cy="197.0" r="12" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="129.0" y="202.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >2</text>
+<circle cx="510.0" cy="176.0" r="15" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="510.0" y="181.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >3</text>
+<circle cx="1124.0" cy="216.0" r="15" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="1124.0" y="221.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >4</text>
+<circle cx="101.0" cy="288.0" r="15" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="101.0" y="293.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >5</text>
+<circle cx="734.0" cy="324.0" r="15" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="734.0" y="329.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >6</text>
+<circle cx="734.0" cy="590.0" r="15" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="734.0" y="595.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >7</text>
+<rect x="976.0" y="661.0" width="125.0" height="22.0" rx="4" fill="none" stroke="#e63946" stroke-width="2.5" />
+<circle cx="1038.0" cy="642.0" r="12" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="1038.0" y="647.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >8</text>
+<circle cx="54.0" cy="718.0" r="12" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="54.0" y="723.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >1</text>
+<text x="74.0" y="723.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >Verify — periksa &amp; terjemahkan kode (Ctrl + R)</text>
+<circle cx="614.0" cy="718.0" r="12" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="614.0" y="723.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >2</text>
+<text x="634.0" y="723.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >Upload — terjemahkan lalu kirim ke papan (Ctrl + U)</text>
+<circle cx="54.0" cy="748.0" r="12" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="54.0" y="753.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >3</text>
+<text x="74.0" y="753.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >Pemilih papan &amp; port (kini masih Select Board)</text>
+<circle cx="614.0" cy="748.0" r="12" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="614.0" y="753.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >4</text>
+<text x="634.0" y="753.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >Serial Monitor — "jendela obrolan" dengan ESP32</text>
+<circle cx="54.0" cy="778.0" r="12" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="54.0" y="783.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >5</text>
+<text x="74.0" y="783.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >Boards Manager — memasang paket papan esp32</text>
+<circle cx="614.0" cy="778.0" r="12" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="614.0" y="783.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >6</text>
+<text x="634.0" y="783.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >Editor — tempat kode; isi awalnya kerangka kosong</text>
+<circle cx="54.0" cy="808.0" r="12" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="54.0" y="813.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >7</text>
+<text x="74.0" y="813.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >Panel Output — laporan Verify/Upload (bisa baru muncul nanti)</text>
+<circle cx="614.0" cy="808.0" r="12" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="614.0" y="813.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >8</text>
+<text x="634.0" y="813.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >Bilah status — kini: No board selected</text>
+<text x="1178.0" y="846.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Ilustrasi (digambar ulang, bukan tangkapan layar) · Arduino IDE 2.3.10 · Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="560" viewBox="0 0 1200 560" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="560" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Korsleting vs rangkaian yang benar</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Korsleting (hubung singkat) = kutub + bertemu kutub − tanpa beban di antaranya</text>
+<rect x="40.0" y="100.0" width="540.0" height="330.0" rx="12" fill="#fff" stroke="#e63946" stroke-width="3" />
+<text x="70.0" y="136.0" font-size="20" font-weight="800" fill="#e63946" text-anchor="start" >✗  KORSLETING</text>
+<rect x="90.0" y="190.0" width="90.0" height="40.0" rx="8" fill="#fde4c8" stroke="#1e2a4a" stroke-width="2" />
+<text x="135.0" y="216.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="middle" >3V3</text>
+<rect x="90.0" y="320.0" width="90.0" height="40.0" rx="8" fill="#e0e0e0" stroke="#1e2a4a" stroke-width="2" />
+<text x="135.0" y="346.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="middle" >GND</text>
+<path d="M180 210 L300 210 L300 340 L180 340" fill="none" stroke="#e63946" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M330 300 q -8 -12 0 -24 q 8 -12 0 -24 q -8 -12 0 -24" fill="none" stroke="#b45f17" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M352 300 q -8 -12 0 -24 q 8 -12 0 -24 q -8 -12 0 -24" fill="none" stroke="#b45f17" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M374 300 q -8 -12 0 -24 q 8 -12 0 -24 q -8 -12 0 -24" fill="none" stroke="#b45f17" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<text x="320.0" y="330.0" font-size="15" font-weight="800" fill="#b45f17" text-anchor="start" >panas!</text>
+<text x="210.0" y="390.0" font-size="15" font-weight="700" fill="#1e2a4a" text-anchor="start" >Kabel langsung dari 3V3 ke GND:</text>
+<text x="210.0" y="410.2" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >arus melonjak sangat tinggi.</text>
+<text x="410.0" y="190.0" font-size="15" font-weight="700" fill="#1e2a4a" text-anchor="start" >Akibat:</text>
+<text x="410.0" y="210.2" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >• papan panas</text>
+<text x="410.0" y="230.5" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >• regulator rusak</text>
+<text x="410.0" y="250.8" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >• port USB laptop</text>
+<text x="410.0" y="271.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >  mati sementara</text>
+<rect x="620.0" y="100.0" width="540.0" height="330.0" rx="12" fill="#fff" stroke="#2a9d5c" stroke-width="3" />
+<text x="650.0" y="136.0" font-size="20" font-weight="800" fill="#2a9d5c" text-anchor="start" >✓  BENAR</text>
+<rect x="670.0" y="190.0" width="90.0" height="40.0" rx="8" fill="#fde4c8" stroke="#1e2a4a" stroke-width="2" />
+<text x="715.0" y="216.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="middle" >3V3</text>
+<rect x="670.0" y="320.0" width="90.0" height="40.0" rx="8" fill="#e0e0e0" stroke="#1e2a4a" stroke-width="2" />
+<text x="715.0" y="346.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="middle" >GND</text>
+<path d="M760 210 L880 210" fill="none" stroke="#1e2a4a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="885.0" y="199.0" width="70.0" height="22.0" rx="4" fill="#fff" stroke="#1e2a4a" stroke-width="2.5" />
+<text x="920.0" y="192.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="middle" >220 Ω</text>
+<path d="M955 210 L1030 210 L1030 255" fill="none" stroke="#1e2a4a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M1016.0 261.0 L1044.0 261.0 L1030.0 289.0 Z" fill="#e63946" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="1016.0" y1="289.0" x2="1044.0" y2="289.0" stroke="#1e2a4a" stroke-width="3" stroke-linecap="round" />
+<line x1="1050.0" y1="269.0" x2="1066.0" y2="260.0" stroke="#b45f17" stroke-width="2" stroke-linecap="round" />
+<path d="M1062.8 265.1 L1066.0 260.0 L1060.0 260.1" fill="none" stroke="#b45f17" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="1050.0" y1="281.0" x2="1066.0" y2="272.0" stroke="#b45f17" stroke-width="2" stroke-linecap="round" />
+<path d="M1062.8 277.1 L1066.0 272.0 L1060.0 272.1" fill="none" stroke="#b45f17" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M1030 289 L1030 340 L760 340" fill="none" stroke="#1e2a4a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<text x="790.0" y="390.0" font-size="15" font-weight="700" fill="#1e2a4a" text-anchor="start" >Ada beban (resistor + LED):</text>
+<text x="790.0" y="410.2" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >arus kecil, ±6 mA. LED menyala.</text>
+<rect x="40.0" y="450.0" width="1120.0" height="80.0" rx="12" fill="#fde4c8" />
+<text x="64.0" y="480.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="start" >Penyebab korsleting yang sering tak disengaja:</text>
+<text x="64.0" y="508.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >dua kaki komponen di satu kolom · kaki komponen saling menempel · papan diletakkan di atas benda logam</text>
+<text x="1136.0" y="480.0" font-size="15" font-weight="700" fill="#e63946" text-anchor="end" >Pertolongan pertama:</text>
+<text x="1136.0" y="508.0" font-size="17" font-weight="800" fill="#e63946" text-anchor="end" >CABUT USB</text>
+<text x="1178.0" y="546.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

@@ -3,7 +3,7 @@
 > **Kurikulum 32 modul — satu modul = satu minggu belajar santai (±8 bulan) — untuk orang awam total hingga mampu membangun sistem IoT lengkap dari sensor sampai dashboard di HP.**
 > Hardware: **ESP32 + Raspberry Pi** · Software: **JavaScript/TypeScript (Node.js + React) untuk server & tampilan, sedikit C++ untuk chip** · Bahasa pengantar: **Indonesia, ramah awam**.
 >
-> Status dokumen: **v1.0.2 — disetujui, penulisan materi dimulai; Modul 1 tersedia** (9 Oktober 2026). Keputusan yang mendasarinya ada di [§11](#11-keputusan-yang-sudah-disetujui); riwayat perubahan di [§13](#13-riwayat-revisi).
+> Status dokumen: **v1.0.3 — disetujui, penulisan materi berjalan; Modul 1–2 tersedia** (10 Oktober 2026). Keputusan yang mendasarinya ada di [§11](#11-keputusan-yang-sudah-disetujui); riwayat perubahan di [§13](#13-riwayat-revisi).
 
 ---
 
@@ -38,7 +38,7 @@ Istilah *Fullstack IoT Developer* sendiri artinya sederhana: orang yang bisa mem
 
 ### Setelah menyelesaikan 32 modul, Anda akan mampu:
 
-1. **Merangkai sensor dan alat kendali** (lampu LED, kipas kecil, pompa mini, motor servo) ke ESP32 dengan aman, tanpa takut korslet atau merusak barang.
+1. **Merangkai sensor dan alat kendali** (lampu LED, kipas kecil, pompa mini, motor servo) ke ESP32 dengan aman, tanpa takut korsleting atau merusak barang.
 2. **Menulis program untuk chip** (istilahnya: *firmware*) yang rapi dan tangguh: membaca banyak sensor sekaligus, tetap bekerja saat internet putus, tidak macet berhari-hari, dan bisa diperbarui dari jarak jauh tanpa kabel (istilahnya: *OTA*).
 3. **Menghubungkan perangkat ke jaringan** lewat WiFi dan membuatnya "berbicara" dengan bahasa standar industri IoT (istilahnya: *MQTT* dan *HTTP*), termasuk membaca sensor industri lewat kabel **RS-485/Modbus** yang lazim di pertanian dan pabrik.
 4. **Menyiapkan Raspberry Pi** — komputer mungil seukuran kartu kredit — sebagai "kantor pos" lokal yang menampung data dan meneruskannya ke pusat saat internet tersedia.
@@ -155,7 +155,7 @@ Setiap modul adalah satu artikel panjang untuk **satu minggu belajar santai (6�
 10. **📖 Glosarium & 📝 Kuis singkat** (5 soal + kunci jawaban berpenjelasan) + **✅ Checklist kelulusan modul**.
 11. **📚 Sumber & atribusi gambar** — setiap gambar yang diambil dari internet dicantumkan sumber dan lisensinya.
 
-**Target tiap artikel (sesuai keputusan "lebih dalam, detail, runut, jelas, ramah awam"):** 3.500–6.000 kata (Modul 1 sebagai modul orientasi boleh lebih panjang), 8–15 gambar (foto komponen, diagram rangkaian, tangkapan layar tiap langkah penting), kode lengkap yang bisa disalin utuh dengan komentar tiap baris, dan satu "peta jalan mini" di awal artikel yang menunjukkan di mana modul ini berada dalam proyek besar.
+**Target tiap artikel (sesuai keputusan "lebih dalam, detail, runut, jelas, ramah awam"):** 3.500–6.000 kata (Modul 1 sebagai modul orientasi dan Modul 2 sebagai modul perangkat keras & instalasi pertama boleh lebih panjang), 8–15 gambar (foto komponen, diagram rangkaian, tangkapan layar tiap langkah penting), kode lengkap yang bisa disalin utuh dengan komentar tiap baris, dan satu "peta jalan mini" di awal artikel yang menunjukkan di mana modul ini berada dalam proyek besar.
 
 ### 4.2 Prinsip penulisan materi (janji penulis kepada pembaca)
 
@@ -377,8 +377,8 @@ Format tiap modul:
 #### Modul 2 — Listrik Ramah Awam, Breadboard, & Unggah Pertama ke ESP32 Asli
 *Fase 0 · Minggu 2 · Hardware: Kit A Tahap 1 (bisa Wokwi dulu bila kit belum sampai) · Prasyarat: Modul 1*
 
-- **Setelah modul ini Anda bisa:** menjelaskan tegangan/arus/hambatan dengan analogi air; menghitung resistor LED; merangkai di breadboard tanpa korslet; mengunggah program ke ESP32 sungguhan; tahu persis mengapa 5 V USB aman tapi 220 V PLN tidak — **dan mengapa pin ESP32 hanya boleh menerima 3,3 V.**
-- **Konsep inti:** tegangan–arus–hambatan (tandon, pipa, keran) dan daya; Hukum Ohm (satu rumus saja); DC vs AC; anatomi breadboard (jalur dalam yang tak terlihat); kaki LED panjang-pendek, kode warna resistor, polaritas kapasitor & dioda; kabel jumper; *common ground* ("semua harus sepakat titik nol-nya"); mengukur dengan multimeter; apa itu korslet; **aturan emas: cabut USB sebelum mengubah kabel**; **3,3 V vs 5 V: ESP32 "berbicara" 3,3 V — pin 5V dan 3V3 di board, mana yang boleh ke sensor, mana yang dilarang masuk ke pin GPIO**; **unggah pertama ke board asli**: memasang core ESP32 **versi 3.3.x** di Arduino IDE, driver USB, memilih port COM, tombol BOOT/EN, Serial Monitor.
+- **Setelah modul ini Anda bisa:** menjelaskan tegangan/arus/hambatan dengan analogi air; menghitung resistor LED; merangkai di breadboard tanpa korsleting; mengunggah program ke ESP32 sungguhan; tahu persis mengapa 5 V USB aman tapi 220 V PLN tidak — **dan mengapa pin ESP32 hanya boleh menerima 3,3 V.**
+- **Konsep inti:** tegangan–arus–hambatan (tandon, pipa, keran) dan daya; Hukum Ohm (satu rumus saja); DC vs AC; anatomi breadboard (jalur dalam yang tak terlihat); kaki LED panjang-pendek, kode warna resistor, polaritas kapasitor & dioda; kabel jumper; *common ground* ("semua harus sepakat titik nol-nya"); mengukur dengan multimeter; apa itu korsleting; **aturan emas: cabut USB sebelum mengubah kabel**; **3,3 V vs 5 V: ESP32 "berbicara" 3,3 V — pin 5V dan 3V3 di board, mana yang boleh ke sensor, mana yang dilarang masuk ke pin GPIO**; **unggah pertama ke board asli**: memasang core ESP32 **versi 3.3.x** di Arduino IDE, driver USB, memilih port COM, tombol BOOT/EN, Serial Monitor.
 - **Alat yang dipakai:** Arduino IDE 2 + core arduino-esp32 3.3.x + driver CH340/CP2102 (**diinstal di modul ini**), multimeter.
 - **Opsional / bedah teknis:** apa yang dilakukan regulator AMS1117 di board; mengapa LED tiap warna "minum" tegangan berbeda.
 - **Praktik & proyek mini:** LED + resistor 220 Ω di breadboard (lalu coba 10 kΩ → redup, mengapa?); mengukur tegangan & nilai resistor; Blink dari pin GPIO ESP32 asli; sengaja "merusak" rangkaian di Wokwi; **kotak "Kalau Tidak Jalan?" terbesar di seluruh kurikulum** (kabel cas, driver, port COM, tombol BOOT, antivirus).
@@ -421,7 +421,7 @@ Format tiap modul:
 - **Alat yang dipakai:** Arduino IDE, library ESP32Servo.
 - **Opsional / bedah teknis:** DAC & sensor sentuh bawaan ESP32; transistor NPN sebagai alternatif MOSFET; membaca arus beban dengan multimeter.
 - **Praktik & proyek mini:** tombol → toggle LED (dengan debounce); dimmer LED via potensiometer; buzzer memainkan nada; servo 0–180°; relay menyalakan kipas dari MB102; pompa 3 detik lewat MOSFET; sengaja memberi daya kipas dari USB laptop untuk melihat ESP32 restart (lalu memperbaikinya).
-- **➕ Rumah Pintar Mini:** Node 1: relay lampu & kipas, pompa, servo "tirai", tombol manual, LED status — semua di pin kanonik; file `PETA-PIN.md` dibuat.
+- **➕ Rumah Pintar Mini:** Node 1: relay lampu & kipas, pompa, servo "tirai", tombol manual, LED status (D4, sudah terpasang sejak Modul 2) — semua di pin kanonik; file `PETA-PIN.md` dibuat.
 - **✅ Lulus jika:** satu tombol menyalakan/mematikan relay tanpa "bouncing", pompa & kipas bekerja dari MB102 tanpa ESP32 restart, dan Anda bisa menyebutkan 3 pin ESP32 yang sebaiknya tidak dipakai beserta alasannya.
 
 #### Modul 6 — Membaca Sensor: Analog, Digital, & Kalibrasi
@@ -917,6 +917,8 @@ Satu kalimat per istilah, bahasa manusia. Semua akan dibahas tuntas di modulnya.
 ---
 
 ## 13. Riwayat revisi
+
+**v1.0.3 (10 Okt 2026)** — penyesuaian kecil saat menulis Modul 2: istilah "korslet" diganti bentuk baku KBBI "korsleting"; catatan di §4.1 bahwa Modul 2 (perangkat keras & instalasi pertama) juga boleh melebihi target panjang; LED status Node 1 ditetapkan di D4 sejak Modul 2 supaya rangkaian tidak perlu dibongkar di Modul 5.
 
 **v1.0.2 (9 Okt 2026)** — penyesuaian kecil dari hasil audit Modul 1: janji "foto benar vs salah" di Modul 1 & §5.2 diubah menjadi "panduan gambar" (foto papan yang benar + gambar skematis papan yang sering tertukar); catatan di §4.1 bahwa Modul 1 sebagai modul orientasi boleh melebihi target panjang.
 
