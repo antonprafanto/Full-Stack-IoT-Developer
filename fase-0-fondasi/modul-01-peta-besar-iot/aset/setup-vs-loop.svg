@@ -26,7 +26,7 @@
   <!-- loop box -->
   <rect x="630" y="110" width="420" height="200" rx="14" fill="#cfe9f3" stroke="#0f8b8d" stroke-width="3"/>
   <text x="840" y="146" text-anchor="middle" font-size="22" font-weight="700" fill="#1e2a4a" font-family="'DejaVu Sans Mono', monospace">loop()</text>
-  <text x="840" y="176" text-anchor="middle" font-size="14" fill="#333">diulang TERUS-MENERUS tanpa henti (Blink ini: 1 putaran per detik)</text>
+  <text x="840" y="176" text-anchor="middle" font-size="13.5" fill="#333">diulang TERUS-MENERUS (Blink ini: 1 putaran per detik)</text>
   <text x="840" y="203" text-anchor="middle" font-size="14" font-weight="600" fill="#1e2a4a">"rutinitas seharian"</text>
   <g font-family="'DejaVu Sans Mono', monospace" font-size="13" fill="#1e2a4a">
     <text x="690" y="236">digitalWrite(PIN_LED, HIGH);  → nyala</text>
