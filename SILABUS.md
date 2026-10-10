@@ -3,7 +3,7 @@
 > **Kurikulum 32 modul — satu modul = satu minggu belajar santai (±8 bulan) — untuk orang awam total hingga mampu membangun sistem IoT lengkap dari sensor sampai dashboard di HP.**
 > Hardware: **ESP32 + Raspberry Pi** · Software: **JavaScript/TypeScript (Node.js + React) untuk server & tampilan, sedikit C++ untuk chip** · Bahasa pengantar: **Indonesia, ramah awam**.
 >
-> Status dokumen: **v1.0.4 — disetujui, penulisan materi berjalan; Modul 1–3 tersedia** (10 Oktober 2026). Keputusan yang mendasarinya ada di [§11](#11-keputusan-yang-sudah-disetujui); riwayat perubahan di [§13](#13-riwayat-revisi).
+> Status dokumen: **v1.0.5 — disetujui, penulisan materi berjalan; Modul 1–4 (seluruh Fase 0) tersedia** (10 Oktober 2026). Keputusan yang mendasarinya ada di [§11](#11-keputusan-yang-sudah-disetujui); riwayat perubahan di [§13](#13-riwayat-revisi).
 
 ---
 
@@ -196,7 +196,7 @@ Pembelajar mandiri paling sering berhenti bukan karena materinya sulit, tapi kar
 
 | Kebutuhan | Minimum | Catatan |
 | :--- | :--- | :--- |
-| **Laptop/PC** | Windows 10/11, macOS, atau Linux; RAM 8 GB; ruang kosong 25 GB; port USB | **Chromebook, tablet, dan HP tidak bisa** menjalankan Arduino IDE & Docker. Laptop lama 2015+ umumnya cukup. Semua langkah ditulis untuk Windows **dan** macOS/Linux. |
+| **Laptop/PC** | Windows 10/11, macOS, atau Linux; RAM 8 GB; ruang kosong 25 GB; port USB | **Chromebook, tablet, dan HP tidak bisa** menjalankan Arduino IDE & Docker. Laptop lama 2015+ umumnya cukup. Mac sebaiknya sudah macOS 13.5 (Ventura) atau lebih baru karena Node.js 24 membutuhkannya; Mac yang tertahan di macOS 12 tetap bisa mengikuti Modul 4 dengan Node.js 22 (lihat Praktik 3.1 di modul itu). Mulai Fase 3 syaratnya lebih ketat: Docker Desktop (Modul 17) hanya mendukung macOS versi terbaru dan dua versi sebelumnya, jadi periksa lagi sebelum Modul 17. Semua langkah ditulis untuk Windows **dan** macOS/Linux. |
 | **HP Android atau iPhone** | Apa saja yang bisa membuka browser | Untuk menguji dashboard & "tambahkan ke layar utama". |
 | **WiFi 2,4 GHz** | Router/hotspot yang memancarkan jaringan 2,4 GHz | ESP32 **tidak bisa** tersambung ke WiFi 5 GHz. Router modern sering "menggabungkan" keduanya (*band steering*) — materi menjelaskan cara memisahkannya. **Hotspot HP** (2,4 GHz) adalah cadangan yang selalu berhasil. |
 | **Jaringan tanpa halaman login** | WiFi rumah/hotspot, bukan WiFi kampus/kos berhalaman login | ESP32 tidak bisa mengisi halaman login (*captive portal*) WiFi kampus/kafe. |
@@ -404,6 +404,8 @@ Format tiap modul:
 
 #### Modul 4 — JavaScript & Node.js dari Nol (Bahasa untuk Server & Dashboard)
 *Fase 0 · Minggu 4 · Hardware: tidak perlu · Prasyarat: Modul 3*
+
+📖 **Materi sudah tersedia:** [buka artikel Modul 4](fase-0-fondasi/modul-04-javascript-nodejs/README.md)
 
 - **Setelah modul ini Anda bisa:** membuka terminal tanpa takut; menjalankan JavaScript di Node.js; memahami *asynchronous* (menunggu tanpa membeku); membuat server mini yang "mendengarkan" — bekal langsung untuk Modul 10 dan 16.
 - **Konsep inti:** **terminal/PowerShell dasar** (membuka, berpindah folder, menjalankan perintah, membaca output — 10 perintah saja); `let/const`; string, angka, boolean; array & objek (`{ suhu: 28.5 }`) dan JSON ("format surat universal") — **mengikuti contoh payload di Lampiran A**; fungsi & *arrow function*; `if`, perulangan, `map/filter`; **async/await & Promise** dengan analogi memesan makanan; `npm` & `package.json` ("daftar belanja library"); membaca/menulis file; `import/export`; `console.log` untuk debug; **server HTTP mini 15 baris** (`penerima-webhook.js`) yang mencetak apa pun yang dikirim ke sana; **tabel C++ vs JavaScript** berdampingan agar tidak tertukar.
@@ -823,6 +825,7 @@ Full-Stack-IoT-Developer/
 │   ├── modul-31-capstone-rancang-bangun/
 │   └── modul-32-portofolio-skala-karier/
 ├── proyek-rumah-pintar-mini/      ← kode proyek benang merah, versi terbaru
+│   ├── alat/                      ← data palsu, penerima webhook, pengirim uji (dibuat Modul 4)
 │   ├── KONTRAK-DATA.md            ← salinan Lampiran A yang selalu diperbarui (dibuat Modul 11)
 │   ├── PETA-PIN.md                ← peta pin kanonik Node 1 & Node 2 (dibuat Modul 5)
 │   ├── firmware/{node-1-rumah, node-2-kebun}/
@@ -924,6 +927,8 @@ Satu kalimat per istilah, bahasa manusia. Semua akan dibahas tuntas di modulnya.
 ---
 
 ## 13. Riwayat revisi
+
+**v1.0.5 (10 Okt 2026)** — Modul 4 terbit, sehingga seluruh Fase 0 tersedia. Folder `proyek-rumah-pintar-mini/` bertambah `alat/` (`generate-dummy.js`, `penerima-webhook.js`, `kirim-data.js`) yang dipakai lagi di Modul 10, 16, dan 22 (§9). Versi yang dikunci untuk Modul 4: Node.js 24 LTS (24.21.0) dengan npm 11, VS Code 1.141, dan dayjs 1.11.23. Catatan prasyarat Mac (macOS 13.5 ke atas untuk Node.js 24; Node.js 22.18+ untuk macOS 12) dan pengingat syarat macOS untuk Docker Desktop (Modul 17) ditambahkan di §5.0.
 
 **v1.0.4 (10 Okt 2026)** — navigasi diperjelas saat Modul 3 terbit: setiap folder fase punya `README.md` yang berisi daftar modulnya (§9), modul yang sudah terbit diberi tautan "📖 Materi sudah tersedia" di §7, dan halaman depan memuat tabel modul yang sudah tersedia. Ejaan "mencontek" di §7 diganti bentuk baku "menyontek". Folder `proyek-rumah-pintar-mini/` mulai terisi: kerangka `firmware/node-1-rumah/` v0.1.0 dari Modul 3. Catatan di §4.1: Modul 3 (bahasa pemrograman pertama, dua belas konsep dasar sekaligus) juga boleh melebihi target panjang dan jumlah gambar.
 

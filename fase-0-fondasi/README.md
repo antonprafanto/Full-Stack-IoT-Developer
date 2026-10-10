@@ -9,7 +9,9 @@ Kerjakan modulnya **berurutan**. Satu modul = satu minggu (6–10 jam, dicicil).
 | 1 | **[Modul 1 — Peta Besar IoT & Kemenangan Pertama dalam 10 Menit](modul-01-peta-besar-iot/README.md)** | tidak perlu (Wokwi di browser) | — (cukup browser dan akun GitHub) | ✅ tersedia |
 | 2 | **[Modul 2 — Listrik Ramah Awam, Breadboard, & Unggah Pertama ke ESP32 Asli](modul-02-listrik-dan-unggah-pertama/README.md)** | Kit A Tahap 1 (bisa Wokwi dulu kalau kit belum datang) | Arduino IDE 2 + paket esp32, *driver* USB | ✅ tersedia |
 | 3 | **[Modul 3 — Pemrograman C++ untuk ESP32 dari Nol](modul-03-cpp-untuk-esp32/README.md)** | tidak wajib (semua praktik bisa tanpa papan) | GitHub Desktop | ✅ tersedia |
-| 4 | Modul 4 — JavaScript & Node.js dari Nol | tidak perlu | Visual Studio Code, Node.js 24 | ⏳ segera terbit — [ringkasannya di Silabus](../SILABUS.md#modul-4--javascript--nodejs-dari-nol-bahasa-untuk-server--dashboard) |
+| 4 | **[Modul 4 — JavaScript & Node.js dari Nol (Bahasa untuk Server & Dashboard)](modul-04-javascript-nodejs/README.md)** | tidak perlu | Visual Studio Code, Node.js 24 | ✅ tersedia |
+
+🎉 **Seluruh modul Fase 0 sudah tersedia.** Setelah keempatnya selesai, periksa tanda lulus di bawah, lalu lanjut ke Fase 1 (Modul 5 segera terbit — [ringkasannya di Silabus](../SILABUS.md#modul-5--anatomi-esp32-peta-pin-kanonik-catu-daya--mengendalikan-dunia-nyata)).
 
 ## 🎯 Tanda lulus Fase 0
 
@@ -24,7 +26,7 @@ Sebelum lanjut ke Fase 1, pastikan tiga bukti ini sudah ada di repositori GitHub
 | Isi | Gunanya |
 | :--- | :--- |
 | `README.md` | Artikel modulnya — mulai membaca dari sini. GitHub menampilkannya otomatis saat kamu membuka folder modul. |
-| `kode/` | Semua kode yang dipakai di artikel, satu folder per program, siap disalin ke Wokwi atau Arduino IDE. |
+| `kode/` | Semua kode yang dipakai di artikel. Modul 1–3: satu folder per program, siap disalin ke Wokwi atau Arduino IDE. Modul 4: satu proyek Node.js utuh (`package.json` dan semua file `.js`), siap dibuka di VS Code. |
 | `aset/` | Gambar-gambar artikel, beserta `SUMBER.md` yang mencatat sumber dan lisensi setiap gambar. |
 
 ---

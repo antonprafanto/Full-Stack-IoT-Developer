@@ -2,7 +2,7 @@
 
 *Fase 0 · Minggu 3 · Perangkat keras (*hardware*): **tidak wajib** — semua praktik bisa tanpa papan (Wokwi, Arduino IDE, GitHub Desktop); papan ESP32 dan breadboard dari Modul 2 boleh ikut dipakai · Prasyarat: **Modul 2** · Waktu: 8–10 jam, dicicil dalam seminggu*
 
-[⬅️ Modul 2](../modul-02-listrik-dan-unggah-pertama/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · [Modul 4 ➡️ (segera terbit — baca ringkasannya di Silabus)](../../SILABUS.md#modul-4--javascript--nodejs-dari-nol-bahasa-untuk-server--dashboard)
+[⬅️ Modul 2](../modul-02-listrik-dan-unggah-pertama/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · [Modul 4 ➡️](../modul-04-javascript-nodejs/README.md)
 
 ---
 
@@ -1466,4 +1466,4 @@ Rujukan yang dipakai saat menulis: dokumentasi bahasa Arduino ([docs.arduino.cc/
 
 ---
 
-[⬅️ Modul 2](../modul-02-listrik-dan-unggah-pertama/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · **Berikutnya: Modul 4 — JavaScript & Node.js dari Nol** (segera terbit; [ringkasannya di Silabus](../../SILABUS.md#modul-4--javascript--nodejs-dari-nol-bahasa-untuk-server--dashboard))
+[⬅️ Modul 2](../modul-02-listrik-dan-unggah-pertama/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · **Berikutnya: [Modul 4 — JavaScript & Node.js dari Nol](../modul-04-javascript-nodejs/README.md) ➡️**
