@@ -188,7 +188,7 @@ Beri nama filenya **`modul-01-blink.png`** (Windows/Linux: klik kanan file → *
 > [!IMPORTANT]
 > **🎉 Selamat — kamu baru saja memprogram sebuah mikrokontroler.** Serius. Kode yang kamu tempel itu bukan "pura-pura": kode yang sama persis, tanpa diubah satu huruf pun, akan kamu unggah ke ESP32 sungguhan di Modul 2, dan LED di mejamu akan berkedip dengan irama yang sama. Yang berbeda hanya *tempat* chip-nya berjalan — hari ini di dalam browser, minggu depan di papan seharga Rp50 ribu.
 
-**Ingin menyimpan proyeknya?** Klik **SAVE** (nomor 5). Wokwi akan meminta kamu masuk (*login*) atau mendaftar — gratis, bisa pakai akun Google. Setelah tersimpan, tombol **SHARE** memberi tautan yang bisa kamu kirim ke siapa pun. Kalau tidak disimpan, proyek hilang saat tab ditutup; tidak masalah, karena kodenya ada di materi ini.
+**Ingin menyimpan proyeknya?** Klik **SAVE** (nomor 5). Wokwi akan meminta kamu masuk (*login*) atau mendaftar — gratis, bisa pakai akun Google. Setelah tersimpan, tombol **SHARE** memberi tautan yang bisa kamu kirim ke siapa pun. Kalau tidak disimpan, proyek hilang saat tab ditutup; tidak masalah karena kodenya ada di materi ini.
 
 ---
 
@@ -307,7 +307,7 @@ Rangkaian tadi hanya tiga komponen dan tiga kabel — susunannya sama dengan yan
 - **LED** hanya mau dilewati arus **satu arah**. Listrik masuk dari **kaki panjang** (anoda, tanda `A` atau `+`), keluar dari **kaki pendek** (katoda, `C` atau `−`). Dipasang terbalik? Tidak menyala — tapi tidak rusak, jadi jangan takut mencoba.
 - **GND** (*ground*, "tanah") adalah titik nol. Setiap rangkaian harus "pulang" ke GND supaya arus bisa mengalir memutar, seperti air yang harus kembali ke tandon.
 
-![Cara membedakan dua kaki LED: kaki panjang adalah anoda (+), kaki pendek adalah katoda (−), ada sisi pipih pada bibir di sisi katoda, dan bagian yang besar di dalam kubah adalah katoda; ada inset tampak atas dan penjelasan nama pin di Wokwi](aset/polaritas-kaki-led.png)
+![Cara membedakan dua kaki LED: kaki panjang adalah anoda (+), kaki pendek adalah katoda (−), ada sisi pipih pada bibir di sisi katoda, dan bagian yang besar di dalam kubah biasanya katoda; ada inset tampak atas dan penjelasan nama pin di Wokwi](aset/polaritas-kaki-led.png)
 
 Cukup sekian dulu soal listrik. Modul 2 seluruhnya tentang ini — dengan analogi tandon air dan satu rumus saja.
 
@@ -315,7 +315,7 @@ Cukup sekian dulu soal listrik. Modul 2 seluruhnya tentang ini — dengan analog
 
 ### 7. Simulator vs papan asli: apa yang bisa dan tidak bisa dilakukan Wokwi
 
-**Wokwi** adalah ESP32 tiruan yang berjalan di browser: CPU-nya ditiru persis, sehingga kode yang jalan di Wokwi hampir selalu jalan di papan asli. Enaknya: gratis, tidak bisa terbakar, tidak ada kabel kendur, bisa dicoba di mana saja. Itulah mengapa sekitar 90% praktik Modul 1–9 bisa dikerjakan di Wokwi.
+**Wokwi** adalah ESP32 tiruan yang berjalan di browser: CPU-nya ditiru persis sehingga kode yang jalan di Wokwi hampir selalu jalan di papan asli. Enaknya: gratis, tidak bisa terbakar, tidak ada kabel kendur, bisa dicoba di mana saja. Itulah mengapa sekitar 90% praktik Modul 1–9 bisa dikerjakan di Wokwi.
 
 Yang **tidak** bisa ditiru Wokwi — dan ini alasan papan asli tetap penting (istilah di tabel ini milik Modul 2; sekadar gambaran, tidak perlu paham sekarang):
 
@@ -360,7 +360,7 @@ Artinya, ada **dua kebiasaan** yang perlu kamu mulai hari ini:
 
 Karena itu pula, setiap modul di kurikulum ini membuka kotak 🚨 dengan tabel **"kode lama → yang benar untuk versi kita"**.
 
-### 10. Keselamatan dasar (singkat, karena minggu ini belum ada perangkat keras)
+### 10. Keselamatan dasar (singkat karena minggu ini belum ada perangkat keras)
 
 Satu kalimat untuk dibawa ke Modul 2: **semua yang kita pakai di kurikulum ini bertegangan rendah dari USB — aman disentuh tangan, tidak bisa menyetrum.** USB memberi 5 V ke papan; papan menurunkannya menjadi 3,3 V untuk chip dan pin-pinnya (itulah angka `HIGH = 3,3 V` di Konsep 5). Keduanya aman. Listrik PLN 220 V **tidak pernah** kita sentuh: kurikulum ini tidak menyambungkan apa pun ke 220 V; cara kerja relay untuk 220 V hanya dibahas sebagai wawasan dan peringatan.
 
@@ -448,7 +448,7 @@ Ada dua cara menambah komponen di Wokwi. **Pilih salah satu.** Kalau ingin menco
 Kalau kamu bandingkan dengan yang pertama, bedanya: **dua komponen baru** (`r2` dan `led2` hijau) dan **tiga kabel baru** untuk jalur D18 (kabel biru dari D18 ke resistor, dari resistor ke LED, dan kabel hitam dari kaki C LED hijau ke kaki C LED merah). File ini juga ada di [`kode/02-blink-dua-led/diagram.json`](kode/02-blink-dua-led/diagram.json).
 
 > [!TIP]
-> **Cara menyalin isi file dari GitHub** (berlaku untuk semua file di folder `kode/`): klik nama filenya → di kanan atas kotak isi file ada tombol **Raw** dan ikon **salin** (dua kotak bertumpuk, *Copy raw file*) → klik ikon salin → tempel di tujuan. Jangan menyalin dari tampilan "cantik"-nya, karena nomor baris atau format bisa ikut tersalin.
+> **Cara menyalin isi file dari GitHub** (berlaku untuk semua file di folder `kode/`): klik nama filenya → di kanan atas kotak isi file ada tombol **Raw** dan ikon **salin** (dua kotak bertumpuk, *Copy raw file*) → klik ikon salin → tempel di tujuan. Jangan menyalin dari tampilan "cantik"-nya karena nomor baris atau format bisa ikut tersalin.
 
 Apa pun caranya, sekarang ganti kode di `sketch.ino` dengan ini (juga ada di [`kode/02-blink-dua-led/sketch.ino`](kode/02-blink-dua-led/sketch.ino)):
 
@@ -684,7 +684,7 @@ Daftar lengkap beserta harga ada di [Silabus §5.2](../../SILABUS.md#52-kit-a--e
 
 </details>
 
-Perkiraan total Tahap 1: **Rp300–620 ribu** (Oktober 2026, bisa berubah). Paket "ESP32 starter kit" sering lebih murah — boleh, asalkan isinya memuat tabel **Wajib** di atas dan papannya benar. Syarat lulus modul ini: **minimal tabel Wajib sudah dipesan sekarang**; sisa Tahap 1 boleh menyusul, paling lambat sebelum Modul 5.
+Perkiraan total Tahap 1: **Rp300–620 ribu** (Oktober 2026, bisa berubah). Paket "ESP32 starter kit" sering lebih murah — boleh asalkan isinya memuat tabel **Wajib** di atas dan papannya benar. Syarat lulus modul ini: **minimal tabel Wajib sudah dipesan sekarang**; sisa Tahap 1 boleh menyusul, paling lambat sebelum Modul 5.
 
 > [!WARNING]
 > Sebelum klik "beli", cek **tiga hal**: (1) foto papan menunjukkan **30 pin** dan tulisan **ESP-WROOM-32**, (2) kabelnya **kabel data**, (3) paket resistornya mengandung **220 Ω**. Tiga kesalahan ini menyumbang hampir semua "Modul 2 saya macet".
@@ -738,7 +738,7 @@ Latihan: tulis satu pertanyaan "versi ✅" tentang hal apa pun yang membingungka
 
 ## 🚨 Kalau Tidak Jalan?
 
-Kotak ini selalu dibuka dengan tabel **"kode lama → yang benar untuk versi kita"**, karena 80% masalah pemula berasal dari tutorial lain yang ditulis untuk versi berbeda.
+Kotak ini selalu dibuka dengan tabel **"kode lama → yang benar untuk versi kita"** karena 80% masalah pemula berasal dari tutorial lain yang ditulis untuk versi berbeda.
 
 | Yang sering ditemui di tutorial lain | Yang benar untuk kurikulum ini (core arduino-esp32 3.3.x, Wokwi) | Kenapa |
 | :--- | :--- | :--- |

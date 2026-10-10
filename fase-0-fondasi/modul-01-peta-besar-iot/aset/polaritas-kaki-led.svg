@@ -6,7 +6,7 @@
   </defs>
   <rect width="1100" height="520" fill="#fffdf7"/>
   <text x="550" y="40" text-anchor="middle" font-size="26" font-weight="700" fill="#1e2a4a">Cara membedakan dua kaki LED</text>
-  <text x="550" y="66" text-anchor="middle" font-size="15" fill="#555">Tiga petunjuk yang selalu ada pada LED 5 mm baru: panjang kaki, sisi pipih pada bibir, dan bentuk di dalam kubah</text>
+  <text x="550" y="66" text-anchor="middle" font-size="15" fill="#555">Tiga petunjuk yang biasanya ada pada LED 5 mm baru: panjang kaki, sisi pipih pada bibir, dan bentuk di dalam kubah</text>
 
   <!-- side view LED -->
   <g transform="translate(430,100)">
@@ -43,7 +43,7 @@
   <path d="M652 236 L604 266" fill="none" stroke="#e63946" stroke-width="2.5" marker-end="url(#arrr)"/>
 
   <!-- inside label -->
-  <text x="400" y="200" text-anchor="end" font-size="16" font-weight="700" fill="#8a0a14">Di dalam kubah: bagian yang BESAR = katoda</text>
+  <text x="400" y="200" text-anchor="end" font-size="16" font-weight="700" fill="#8a0a14">Di dalam kubah: bagian BESAR biasanya katoda</text>
   <text x="400" y="220" text-anchor="end" font-size="13" fill="#555">(berguna kalau kaki sudah dipotong sama panjang)</text>
   <path d="M408 205 L552 218" fill="none" stroke="#8a0a14" stroke-width="2.5" marker-end="url(#arrb)"/>
 

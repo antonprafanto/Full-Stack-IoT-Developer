@@ -6,7 +6,7 @@
 
 ---
 
-Minggu lalu LED-mu berkedip di layar. Minggu ini LED-nya **sungguhan**: kamu akan memegang papan ESP32 asli, menancapkannya ke *breadboard* (papan rangkaian tanpa solder), memasang LED dan resistor dengan tanganmu sendiri, lalu mengirim program dari laptop ke chip lewat kabel USB. Di tengah jalan kita berhenti sebentar untuk memahami listrik dengan bahasa air dan keran — cukup untuk tahu kenapa resistor itu wajib, kenapa 5 V dari USB aman disentuh, tetapi 220 V dari stopkontak tidak, dan kenapa pin ESP32 hanya boleh "disuapi" 3,3 V.
+Minggu lalu LED-mu berkedip di layar. Minggu ini LED-nya **sungguhan**: kamu akan memegang papan ESP32 asli, menancapkannya ke *breadboard* (papan rangkaian tanpa solder), memasang LED dan resistor dengan tanganmu sendiri, lalu mengirim program dari laptop ke chip lewat kabel USB. Di tengah jalan kita berhenti sebentar untuk memahami listrik dengan bahasa air dan keran — cukup untuk tahu kenapa resistor itu wajib; kenapa 5 V dari USB aman disentuh, tetapi 220 V dari stopkontak tidak; dan kenapa pin ESP32 hanya boleh "disuapi" 3,3 V.
 
 Modul ini juga memuat kotak **"Kalau Tidak Jalan?" terbesar di seluruh kurikulum**. Bukan karena modul ini sulit, melainkan karena ini pertama kalinya tiga dunia bertemu: perangkat keras, *driver* (program kecil pengenal perangkat) di laptop, dan kabel USB. Kalau sesuatu macet, hampir pasti jawabannya sudah ada di kotak itu.
 
@@ -223,9 +223,9 @@ Papan ESP32 DevKit V1 "menunggangi" parit tengah: deretan pin atas di baris a, d
 
 **LED** (*light-emitting diode*) hanya mau dialiri arus **satu arah**: masuk lewat kaki **panjang** (anoda, +), keluar lewat kaki **pendek** (katoda, −). Dipasang terbalik tidak rusak, hanya tidak menyala. Gambar dari Modul 1 ini masih berlaku:
 
-![Cara membedakan dua kaki LED: kaki panjang adalah anoda (+), kaki pendek adalah katoda (−), sisi pipih di bibir plastik ada di sisi katoda](../modul-01-peta-besar-iot/aset/polaritas-kaki-led.png)
+![Cara membedakan dua kaki LED: kaki panjang adalah anoda (+), kaki pendek adalah katoda (−), sisi pipih di bibir plastik ada di sisi katoda, dan bagian besar di dalam kubah biasanya katoda](../modul-01-peta-besar-iot/aset/polaritas-kaki-led.png)
 
-Petunjuk "bagian logam yang lebih besar di dalam kubah = katoda" pada gambar itu berlaku untuk kebanyakan LED, tetapi tidak semua merek. Pegangan yang paling bisa diandalkan tetap kaki panjang dan sisi pipih.
+Petunjuk ketiga di gambar itu — bagian logam yang lebih besar di dalam kubah biasanya katoda — tidak berlaku untuk semua merek. Pegangan yang paling bisa diandalkan tetap kaki panjang dan sisi pipih.
 
 **Resistor** tidak punya arah. Nilainya dibaca dari **gelang warna**: dua gelang pertama = angka, gelang ketiga = jumlah nol di belakangnya, gelang keempat (emas) = toleransi ±5%. Tiga nilai yang akan sering kamu pakai:
 
@@ -327,7 +327,7 @@ Tidak ada yang berbahaya bagi manusia di modul ini — tegangannya hanya 5 V. Ya
 2. **Alas kerja bukan logam**, dan jangan meletakkan papan di atas kunci, gunting, atau kaleng. Pin di bawah papan bisa saling tersambung.
 3. **Sentuh benda logam besar** (kaki meja besi, rangka PC) sebelum memegang papan di ruangan ber-AC yang kering, untuk melepas listrik statis dari tubuh. Tidak wajib, tetapi kebiasaan baik.
 4. **Jangan sambungkan apa pun yang tegangannya lebih dari 3,3 V ke pin GPIO.** VIN hanya untuk diukur minggu ini.
-5. **Papan terasa panas atau berbau?** Cabut. Cari korsletingnya dengan tenang. Papan ESP32 cukup tangguh; regulator yang terbakar pun biasanya hanya berarti "beli papan baru Rp50 ribu", bukan bencana.
+5. **Papan terasa panas atau berbau?** Cabut. Cari korsletingnya dengan tenang. Papan ESP32 cukup tangguh; regulator yang terbakar pun biasanya hanya berarti "beli papan baru Rp45–80 ribu", bukan bencana.
 6. **Satu perubahan, satu uji.** Mengubah tiga hal sekaligus lalu gagal = tidak tahu mana penyebabnya. Ini kebiasaan teknisi, dan juga kebiasaan programmer.
 
 ---
@@ -362,7 +362,7 @@ Pasang *probe*: **hitam ke lubang COM**, **merah ke lubang VΩmA** (bukan lubang
 1. Putar sakelar ke **Ω 2000** (kadang tertulis **2k**).
 2. Ambil resistor 220 Ω yang belum terpasang. Tempelkan satu *probe* ke tiap kakinya (arah bebas). Jangan pegang kedua kaki dengan jari karena tubuhmu ikut terukur.
 3. Layar menunjukkan sekitar **220** (210–230 masih normal).
-4. Ganti dengan resistor 10 kΩ: layar menunjukkan **"1"** di kiri — artinya "di luar jangkauan". Putar sakelar ke **Ω 20k**: sekitar **10,0** (satuannya kΩ). Sekarang kamu bisa "membaca" resistor tanpa menghafal warna.
+4. Ganti dengan resistor 10 kΩ: layar menunjukkan **"1"** di kiri — artinya "di luar jangkauan". Putar sakelar ke **Ω 20k**: sekitar **10,0** (di layar tertulis 10.0; satuannya kΩ). Sekarang kamu bisa "membaca" resistor tanpa menghafal warna.
 
 **3. Sambungan breadboard** (USB tetap dicabut). Ujung *probe* biasanya terlalu besar untuk masuk ke lubang breadboard, jadi kita pakai dua kabel jumper cadangan sebagai "perpanjangan".
 
@@ -396,7 +396,7 @@ Tulis hasilnya di catatanmu (misalnya: 3V3 = 3,29 V; VIN = 4,71 V; 220 Ω terbac
    - **Windows**: klik dua kali file `.exe` (biasanya ada di folder *Downloads*). Kalau Windows bertanya *Do you want to allow this app to make changes to your device?*, klik **Yes** (**Ya**). Lalu **I Agree** → pilih untuk siapa (biarkan bawaan) → **Next** → **Install** → **Finish**. Kalau muncul jendela *Windows Security* yang menanyakan pemasangan *driver* dari Arduino, klik **Install** (itu *driver* untuk papan Arduino resmi; tidak mengganggu).
    - **macOS**: buka file `.dmg`, seret ikon Arduino IDE ke folder *Applications*, lalu buka dari *Applications*. Kalau muncul pertanyaan *"…downloaded from the Internet. Are you sure you want to open it?"*, klik **Open**. Kalau macOS menolak membukanya, buka **System Settings → Privacy & Security**, gulir ke bagian *Security*, lalu klik **Open Anyway**.
    - **Linux (Ubuntu)**: ada beberapa langkah tambahan — buka lipatan *Langkah khusus Linux* tepat di bawah daftar ini.
-6. Buka Arduino IDE. Saat pertama kali dibuka, ia memasang beberapa perlengkapan sendiri (ada tulisan kemajuan di panel bawah dan di pojok kanan bawah, ±1–2 menit). Biarkan sampai selesai. Windows mungkin menanyakan izin *firewall* → klik **Allow access**.
+6. Buka Arduino IDE. Saat pertama kali dibuka, ia memasang beberapa perlengkapan sendiri (ada tulisan kemajuan di panel bawah dan di pojok kanan bawah, ±1–2 menit). Biarkan sampai selesai. Windows mungkin menanyakan izin *firewall* → klik **Allow access**. Kalau di pojok kanan bawah muncul notifikasi tentang pembaruan (*update*), boleh diabaikan dulu.
 
 <details>
 <summary><b>Langkah khusus Linux (Ubuntu)</b> — pengguna Windows dan macOS lewati saja</summary>
@@ -734,7 +734,7 @@ Sekarang "rusak" satu per satu. Ingat: **satu perubahan, satu uji.** Hentikan si
 | Percobaan | Caranya | Yang terlihat | Pelajaran untuk papan asli |
 | :--- | :--- | :--- | :--- |
 | **A. LED terbalik** | Di `diagram.json`, cari baris `"wokwi-led"` dan hapus bagian `, "flip": "1"` sehingga tersisa `"attrs": {"color": "red"}`. Kaki LED bertukar tempat. | LED **tidak pernah** menyala, padahal simulasi jalan tanpa error. | Gejala "diam tanpa error" → cek arah LED dulu. |
-| **B. Kode dan kabel tidak sepakat** | Di `sketch.ino`, ubah `PIN_LED = 4` menjadi `PIN_LED = 5`. | LED tidak menyala: kabelnya di D4, program menyalakan D5. | Nomor pin di kode harus sama dengan tulisan di papan. Sebagian besar kasus "LED tidak nyala" di Modul 5–6 penyebabnya ini. |
+| **B. Kode dan kabel tidak sepakat** | Di `sketch.ino`, ubah `PIN_LED = 4` menjadi `PIN_LED = 5`. | LED tidak menyala: kabelnya di D4, program menyalakan D5. | Nomor pin di kode harus sama dengan tulisan di papan. Sebagian besar kasus "LED tidak menyala" di Modul 5–6 penyebabnya ini. |
 | **C. Resistor 10 kΩ** | Di `diagram.json`, pada baris `"wokwi-resistor"`, ubah `"value": "220"` menjadi `"value": "10000"`. | Di Wokwi, LED **tetap terang**. | Simulator tidak meniru redupnya LED. Coba di papan asli (USB dicabut dulu!): ganti resistornya dengan 1 kΩ, lalu 10 kΩ — LED makin redup. Simulator ≠ kenyataan. |
 | **D. Tanpa resistor** | Ubah `"value"` resistor menjadi `"0"` (0 ohm = sama dengan kabel biasa, alias tanpa resistor). | Di Wokwi, LED berkedip biasa saja. | **Jangan ditiru di papan asli.** Wokwi tidak meniru komponen yang rusak — perlindungan harus datang dari kebiasaanmu. |
 
@@ -750,7 +750,7 @@ Kesimpulan yang perlu dibawa pulang: simulator sangat berguna untuk menguji **lo
 
 1. **Foto rangkaian** breadboard-mu dengan HP saat LED menyala, lalu kirim ke laptop (lewat WhatsApp Web, email, atau kabel). Simpan sebagai `rangkaian-modul-02.jpg` di folder `belajar-iot` di laptopmu.
 2. **Ambil tangkapan layar** Serial Monitor yang memperlihatkan `=== ESP32 siap! ===` dan balasan `Perintah 1 diterima` (Windows: **Win + Shift + S**, pilih area, klik notifikasi yang muncul, lalu simpan dengan **Ctrl + S**; macOS: **Cmd + Shift + 4**, gambarnya langsung tersimpan di Desktop). Simpan sebagai `serial-monitor-modul-02.png`.
-3. Di GitHub, buka repositorimu → **Add file → Create new file**. Di kotak nama file ketik **`modul-02/modul02_blink.ino`** — garis miring otomatis membuat folder `modul-02`. Tempel isi `modul02_blink.ino`-mu (salin dari Arduino IDE: klik di editor → **Ctrl + A** → **Ctrl + C**), lalu klik **Commit changes**.
+3. Di GitHub, buka repositorimu → **Add file → Create new file**. Di kotak nama file ketik **`modul-02/modul02_blink.ino`** — garis miring otomatis membuat folder `modul-02`. Tempel isi `modul02_blink.ino`-mu (salin dari Arduino IDE: klik di editor → **Ctrl + A** → **Ctrl + C**), lalu klik **Commit changes…** (kanan atas) → **Commit changes**.
 4. Ulangi untuk **`modul-02/modul02_serial.ino`**.
 5. Buka folder `modul-02` di GitHub, lalu **Add file → Upload files**. Seret kedua gambar ke area unggah, lalu **Commit changes**.
 6. Buka `README.md` repositorimu → ikon pensil (*Edit*) → tambahkan di bawah catatan Modul 1:
@@ -765,7 +765,7 @@ Kesimpulan yang perlu dibawa pulang: simulator sangat berguna untuk menguji **lo
    - Masalah yang saya temui & cara mengatasinya: …
    ```
 
-   Klik **Commit changes**. Bagian "masalah yang saya temui" adalah bagian terpenting — itulah catatan yang akan kamu cari lagi tiga bulan dari sekarang.
+   Klik **Commit changes…** → **Commit changes**. Bagian "masalah yang saya temui" adalah bagian terpenting — itulah catatan yang akan kamu cari lagi tiga bulan dari sekarang.
 
 ---
 
@@ -874,7 +874,7 @@ Paketnya besar (±2 GB). Jaringan kampus atau kantor kadang memblokir `github.co
 1. Klik **INSTALL** lagi — bagian yang sudah terunduh disimpan dan tidak diulang.
 2. Kalau muncul pesan seperti `Error: 4 DEADLINE_EXCEEDED: net/http: request canceled (Client.Timeout …)`, artinya koneksimu terlalu lambat untuk batas waktu bawaan (60 detik). Perpanjang batas waktunya:
    1. Tutup Arduino IDE sepenuhnya.
-   2. Buka file pengaturannya. Di **Windows**: tekan **Win + R**, ketik `notepad %USERPROFILE%\.arduinoIDE\arduino-cli.yaml`, lalu tekan Enter. Di **macOS/Linux**: buka Terminal dan ketik `nano ~/.arduinoIDE/arduino-cli.yaml`.
+   2. Buka file pengaturannya. Di **Windows**: tekan **Win + R**, ketik `notepad %USERPROFILE%\.arduinoIDE\arduino-cli.yaml`, lalu tekan Enter. Di **macOS/Linux**: buka Terminal, ketik `nano ~/.arduinoIDE/arduino-cli.yaml`, lalu tekan Enter.
    3. Tambahkan dua baris ini di bagian paling bawah (spasi di awal baris kedua penting; kalau sudah ada baris `network:`, cukup tambahkan baris kedua di bawahnya):
 
       ```yaml
@@ -952,7 +952,7 @@ Saat dinyalakan, chip membaca level beberapa pin untuk memutuskan "mode apa saya
 
 Saat kamu mengunggah, Arduino IDE memanggil **esptool** (program buatan Espressif, ikut terpasang bersama paket papan). Program esptool menggerakkan dua jalur sinyal di chip penerjemah USB — **RTS** dan **DTR** — yang di papan DevKit dihubungkan lewat dua transistor kecil ke **EN** (dari RTS) dan **GPIO 0** (dari DTR). Urutan sinyalnya meniru "tahan BOOT, tekan EN": chip *restart* dengan GPIO 0 rendah, lalu masuk mode unduh (*ROM bootloader*, program permanen di dalam chip, bukan di *flash*).
 
-Setelah itu esptool "menyapa" chip (`Connecting...`), mengirim program pembantu kecil ke RAM (`Uploading stub flasher...`), menaikkan kecepatan (`Changing baud rate to 921600...`), menghapus dan menulis *flash* blok demi blok (`Writing at 0x00010000…`), memeriksa hasilnya (`Hash of data verified.`), dan terakhir menggerakkan RTS untuk me-*restart* chip (`Hard resetting via RTS pin...`).
+Setelah itu, esptool "menyapa" chip (`Connecting...`), mengirim program pembantu kecil ke RAM (`Uploading stub flasher...`), menaikkan kecepatan (`Changing baud rate to 921600...`), menghapus dan menulis *flash* blok demi blok (`Writing at 0x00010000…`), memeriksa hasilnya (`Hash of data verified.`), dan terakhir menggerakkan RTS untuk me-*restart* chip (`Hard resetting via RTS pin...`).
 
 Pesan `rst:0x1 (POWERON_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)` di Serial Monitor adalah laporan dari *ROM bootloader*: alasan *restart* (0x1 = baru dinyalakan; 0xc = *restart* oleh program; 0x10 = *watchdog*, si "anjing penjaga" yang me-*restart* chip yang macet) dan mode *boot* (0x13 = *boot* normal dari *flash*; 0x3 = mode unduh). Angka-angka ini menjadi petunjuk berharga di Modul 8 saat kita mendiagnosis *restart* misterius.
 
@@ -1046,7 +1046,7 @@ Sumbangan Modul 2 ke proyek benang merah adalah **LED status Node 1** — dan ke
 
 LED merah di D4 yang kamu pasang minggu ini **tetap di tempatnya**. Mulai Modul 8, LED ini menjadi "detak jantung" Node 1 "Rumah": kedip pelan = program jalan normal, nyala terus = sedang menyambung ke WiFi (Modul 10), kedip cepat = ada masalah (sensor gagal dibaca, MQTT putus). Di Modul 5 kita menetapkan peta pin resmi proyek, dan D4 sudah dicadangkan untuk LED status ini. Jadi, **jangan bongkar breadboard-mu**. Simpan utuh di kotak; Modul 3 dan Modul 5 memakainya lagi.
 
-Tulis juga satu baris di `visi-proyek.md`-mu (dari ➕ Modul 1), di bagian 1 (*Tempat*): *"Sumber listrik Node 1 rencananya: kepala cas USB 5 V di … (ruang/kamar)."* Caranya di GitHub: buka `visi-proyek.md` → ikon pensil → tambahkan barisnya → **Commit changes**. Setelah minggu ini kamu tahu bahwa 5 V dari kepala cas HP cukup untuk menghidupkan ESP32 tanpa laptop — dan itulah yang akan dipakai Node 1 sepanjang tahun.
+Tulis juga satu baris di `visi-proyek.md`-mu (dari ➕ Modul 1), di bagian 1 (*Tempat*): *"Sumber listrik Node 1 rencananya: kepala cas USB 5 V di … (ruang/kamar)."* Caranya di GitHub: buka `visi-proyek.md` → ikon pensil → tambahkan barisnya → **Commit changes…** → **Commit changes**. Setelah minggu ini kamu tahu bahwa 5 V dari kepala cas HP cukup untuk menghidupkan ESP32 tanpa laptop — dan itulah yang akan dipakai Node 1 sepanjang tahun.
 
 ---
 
@@ -1073,6 +1073,7 @@ Tulis juga satu baris di `visi-proyek.md`-mu (dari ➕ Modul 1), di bagian 1 (*T
 | **Regulator** (AMS1117) | Komponen di papan yang menurunkan 5 V menjadi 3,3 V. |
 | **VIN / 3V3 / GPIO** | Pin tembusan USB (±5 V) / pin keluaran 3,3 V / pin sinyal serbaguna (level 3,3 V). |
 | **Multimeter** | Alat ukur tegangan (V), hambatan (Ω), dan sambungan (bip). |
+| ***Probe*** (batang penguji) | Dua kabel berujung logam milik multimeter: merah ke lubang VΩmA, hitam ke lubang COM. |
 | **Kontinuitas** | Mode multimeter yang berbunyi bip bila dua titik tersambung. |
 | **Arduino IDE** | Aplikasi di laptop untuk menulis, menerjemahkan, dan mengunggah kode ke papan; "Wokwi versi desktop". |
 | **Boards Manager** | Bagian Arduino IDE untuk memasang paket papan (misalnya esp32 3.3.x). |
