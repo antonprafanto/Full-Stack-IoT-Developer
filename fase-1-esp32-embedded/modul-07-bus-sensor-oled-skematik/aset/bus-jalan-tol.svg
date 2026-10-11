@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="760" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Jalan pribadi atau jalan tol?</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Modul 5–6: setiap komponen punya pin sendiri · Modul 7: banyak perangkat berbagi kabel yang sama (bus)</text>
+<rect x="40.0" y="100.0" width="540.0" height="360.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="60.0" y="130.0" font-size="18" font-weight="800" fill="#1e2a4a" text-anchor="start" >Jalan pribadi (Modul 5–6)</text>
+<rect x="70.0" y="180.0" width="120.0" height="230.0" rx="10" fill="#1f3b57" stroke="#0f2236" stroke-width="2" />
+<rect x="96.4" y="226.0" width="67.2" height="138.0" rx="6" fill="#c9ced6" stroke="#7a8494" stroke-width="1.5" />
+<text x="130.0" y="302.0" font-size="19" font-weight="800" fill="#1e2a4a" text-anchor="middle" >ESP32</text>
+<rect x="380.0" y="175.0" width="170.0" height="48.0" rx="10" fill="#ffffff" stroke="#1e2a4a" stroke-width="2" />
+<text x="465.0" y="205.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" >LED status</text>
+<line x1="190.0" y1="199.0" x2="380.0" y2="199.0" stroke="#b45f17" stroke-width="3" stroke-linecap="round" />
+<text x="285.0" y="192.0" font-size="12.5" font-weight="800" fill="#4a5568" text-anchor="middle" >D4</text>
+<rect x="380.0" y="241.0" width="170.0" height="48.0" rx="10" fill="#ffffff" stroke="#1e2a4a" stroke-width="2" />
+<text x="465.0" y="271.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" >DHT22</text>
+<line x1="190.0" y1="265.0" x2="380.0" y2="265.0" stroke="#e63946" stroke-width="3" stroke-linecap="round" />
+<text x="285.0" y="258.0" font-size="12.5" font-weight="800" fill="#4a5568" text-anchor="middle" >D14</text>
+<rect x="380.0" y="307.0" width="170.0" height="48.0" rx="10" fill="#ffffff" stroke="#1e2a4a" stroke-width="2" />
+<text x="465.0" y="337.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" >PIR</text>
+<line x1="190.0" y1="331.0" x2="380.0" y2="331.0" stroke="#b45f17" stroke-width="3" stroke-linecap="round" />
+<text x="285.0" y="324.0" font-size="12.5" font-weight="800" fill="#4a5568" text-anchor="middle" >D34</text>
+<rect x="380.0" y="373.0" width="170.0" height="48.0" rx="10" fill="#ffffff" stroke="#1e2a4a" stroke-width="2" />
+<text x="465.0" y="403.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" >relay</text>
+<line x1="190.0" y1="397.0" x2="380.0" y2="397.0" stroke="#e63946" stroke-width="3" stroke-linecap="round" />
+<text x="285.0" y="390.0" font-size="12.5" font-weight="800" fill="#4a5568" text-anchor="middle" >D32, D33</text>
+<text x="310.0" y="448.0" font-size="13.5" font-weight="700" fill="#e63946" text-anchor="middle" >satu perangkat = satu pin (atau lebih) → pin cepat habis</text>
+<rect x="620.0" y="100.0" width="540.0" height="360.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="640.0" y="130.0" font-size="18" font-weight="800" fill="#1e2a4a" text-anchor="start" >Jalan tol = bus (Modul 7)</text>
+<rect x="650.0" y="180.0" width="120.0" height="230.0" rx="10" fill="#1f3b57" stroke="#0f2236" stroke-width="2" />
+<rect x="676.4" y="226.0" width="67.2" height="138.0" rx="6" fill="#c9ced6" stroke="#7a8494" stroke-width="1.5" />
+<text x="710.0" y="302.0" font-size="19" font-weight="800" fill="#1e2a4a" text-anchor="middle" >ESP32</text>
+<line x1="770.0" y1="248.0" x2="1130.0" y2="248.0" stroke="#2f6fd1" stroke-width="5" stroke-linecap="round" />
+<line x1="770.0" y1="288.0" x2="1130.0" y2="288.0" stroke="#d9a400" stroke-width="5" stroke-linecap="round" />
+<text x="780.0" y="238.0" font-size="13" font-weight="800" fill="#2f6fd1" text-anchor="start" >SDA (D21)</text>
+<text x="780.0" y="310.0" font-size="13" font-weight="800" fill="#a07800" text-anchor="start" >SCL (D22)</text>
+<line x1="880.0" y1="248.0" x2="880.0" y2="340.0" stroke="#2f6fd1" stroke-width="3" stroke-linecap="round" />
+<line x1="894.0" y1="288.0" x2="894.0" y2="340.0" stroke="#d9a400" stroke-width="3" stroke-linecap="round" />
+<circle cx="880.0" cy="248.0" r="5" fill="#2f6fd1" />
+<circle cx="894.0" cy="288.0" r="5" fill="#a07800" />
+<rect x="839.0" y="340.0" width="96.0" height="70.0" rx="10" fill="#ffffff" stroke="#1e2a4a" stroke-width="2" />
+<text x="887.0" y="368.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" >layar OLED</text>
+<text x="887.0" y="393.0" font-size="15" font-weight="800" fill="#0f8b8d" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >0x3C</text>
+<line x1="985.0" y1="248.0" x2="985.0" y2="340.0" stroke="#2f6fd1" stroke-width="3" stroke-linecap="round" />
+<line x1="999.0" y1="288.0" x2="999.0" y2="340.0" stroke="#d9a400" stroke-width="3" stroke-linecap="round" />
+<circle cx="985.0" cy="248.0" r="5" fill="#2f6fd1" />
+<circle cx="999.0" cy="288.0" r="5" fill="#a07800" />
+<rect x="944.0" y="340.0" width="96.0" height="70.0" rx="10" fill="#ffffff" stroke="#1e2a4a" stroke-width="2" />
+<text x="992.0" y="368.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" >BME280</text>
+<text x="992.0" y="393.0" font-size="15" font-weight="800" fill="#0f8b8d" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >0x76</text>
+<line x1="1090.0" y1="248.0" x2="1090.0" y2="340.0" stroke="#2f6fd1" stroke-width="3" stroke-linecap="round" />
+<line x1="1104.0" y1="288.0" x2="1104.0" y2="340.0" stroke="#d9a400" stroke-width="3" stroke-linecap="round" />
+<circle cx="1090.0" cy="248.0" r="5" fill="#2f6fd1" />
+<circle cx="1104.0" cy="288.0" r="5" fill="#a07800" />
+<rect x="1049.0" y="340.0" width="96.0" height="70.0" rx="10" fill="#ffffff" stroke="#1e2a4a" stroke-width="2" stroke-dasharray="6 5"/>
+<text x="1097.0" y="368.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" >berikutnya</text>
+<text x="1097.0" y="393.0" font-size="15" font-weight="800" fill="#0f8b8d" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >0x??</text>
+<text x="890.0" y="448.0" font-size="13.5" font-weight="700" fill="#0f8b8d" text-anchor="middle" >dua kabel untuk semua · setiap perangkat punya "nomor rumah"</text>
+<rect x="40.0" y="490.0" width="1120.0" height="230.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="60.0" y="524.0" font-size="14.5" font-weight="800" fill="#4a5568" text-anchor="start" >Bus</text>
+<text x="210.0" y="524.0" font-size="14.5" font-weight="800" fill="#4a5568" text-anchor="start" >Kabel data</text>
+<text x="420.0" y="524.0" font-size="14.5" font-weight="800" fill="#4a5568" text-anchor="start" >Cara memilih perangkat</text>
+<text x="720.0" y="524.0" font-size="14.5" font-weight="800" fill="#4a5568" text-anchor="start" >Perkiraan kecepatan</text>
+<text x="920.0" y="524.0" font-size="14.5" font-weight="800" fill="#4a5568" text-anchor="start" >Minggu ini</text>
+<line x1="56.0" y1="536.0" x2="1144.0" y2="536.0" stroke="#e0dcd2" stroke-width="1.5" stroke-linecap="round" />
+<rect x="60.0" y="556.0" width="110.0" height="28.0" rx="14.0" fill="#2f6fd1" />
+<text x="115.0" y="575.0" font-size="14" font-weight="700" fill="#ffffff" text-anchor="middle" >I2C</text>
+<text x="210.0" y="574.0" font-size="15" font-weight="600" fill="#1e2a4a" text-anchor="start" >2: SDA, SCL</text>
+<text x="420.0" y="574.0" font-size="15" font-weight="600" fill="#1e2a4a" text-anchor="start" >alamat 7-bit, mis. 0x3C</text>
+<text x="720.0" y="574.0" font-size="15" font-weight="600" fill="#1e2a4a" text-anchor="start" >100–400 ribu bit/s</text>
+<text x="920.0" y="574.0" font-size="15" font-weight="700" fill="#1e2a4a" text-anchor="start" >layar OLED, BME280</text>
+<rect x="60.0" y="604.0" width="110.0" height="28.0" rx="14.0" fill="#7b4fb0" />
+<text x="115.0" y="623.0" font-size="14" font-weight="700" fill="#ffffff" text-anchor="middle" >1-Wire</text>
+<text x="210.0" y="622.0" font-size="15" font-weight="600" fill="#1e2a4a" text-anchor="start" >1: DATA</text>
+<text x="420.0" y="622.0" font-size="15" font-weight="600" fill="#1e2a4a" text-anchor="start" >nomor seri 64-bit</text>
+<text x="720.0" y="622.0" font-size="15" font-weight="600" fill="#1e2a4a" text-anchor="start" >sekitar 16 ribu bit/s</text>
+<text x="920.0" y="622.0" font-size="15" font-weight="700" fill="#1e2a4a" text-anchor="start" >DS18B20</text>
+<rect x="60.0" y="652.0" width="110.0" height="28.0" rx="14.0" fill="#2a9d5c" />
+<text x="115.0" y="671.0" font-size="14" font-weight="700" fill="#ffffff" text-anchor="middle" >SPI</text>
+<text x="210.0" y="670.0" font-size="15" font-weight="600" fill="#1e2a4a" text-anchor="start" >4: SCK, MOSI, MISO, CS</text>
+<text x="420.0" y="670.0" font-size="15" font-weight="600" fill="#1e2a4a" text-anchor="start" >kabel CS sendiri</text>
+<text x="720.0" y="670.0" font-size="15" font-weight="600" fill="#1e2a4a" text-anchor="start" >jutaan bit/s</text>
+<text x="920.0" y="670.0" font-size="15" font-weight="700" fill="#1e2a4a" text-anchor="start" >kartu microSD</text>
+<text x="1178.0" y="746.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

@@ -1,0 +1,161 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="820" viewBox="0 0 1200 820" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="820" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Layar OLED 128 × 64: koordinat, huruf, dan "kertas gambar"</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Titik (0, 0) di kiri atas · x ke kanan · y ke BAWAH · gambar disiapkan dulu, lalu dikirim sekali dengan display()</text>
+<rect x="76.0" y="126.0" width="476.0" height="252.0" rx="10" fill="#1f4f8f" stroke="#163a6a" stroke-width="2" />
+<rect x="90.0" y="140.0" width="448.0" height="224.0" rx="0" fill="#06090f" />
+<rect x="90.0" y="140.0" width="448.0" height="56.0" rx="0" fill="#3a3200" opacity="0.55"/>
+<line x1="90.0" y1="140.0" x2="90.0" y2="364.0" stroke="#1d2a3d" stroke-width="0.8" stroke-linecap="round" />
+<line x1="118.0" y1="140.0" x2="118.0" y2="364.0" stroke="#1d2a3d" stroke-width="0.8" stroke-linecap="round" />
+<line x1="146.0" y1="140.0" x2="146.0" y2="364.0" stroke="#1d2a3d" stroke-width="0.8" stroke-linecap="round" />
+<line x1="174.0" y1="140.0" x2="174.0" y2="364.0" stroke="#1d2a3d" stroke-width="0.8" stroke-linecap="round" />
+<line x1="202.0" y1="140.0" x2="202.0" y2="364.0" stroke="#1d2a3d" stroke-width="0.8" stroke-linecap="round" />
+<line x1="230.0" y1="140.0" x2="230.0" y2="364.0" stroke="#1d2a3d" stroke-width="0.8" stroke-linecap="round" />
+<line x1="258.0" y1="140.0" x2="258.0" y2="364.0" stroke="#1d2a3d" stroke-width="0.8" stroke-linecap="round" />
+<line x1="286.0" y1="140.0" x2="286.0" y2="364.0" stroke="#1d2a3d" stroke-width="0.8" stroke-linecap="round" />
+<line x1="314.0" y1="140.0" x2="314.0" y2="364.0" stroke="#1d2a3d" stroke-width="0.8" stroke-linecap="round" />
+<line x1="342.0" y1="140.0" x2="342.0" y2="364.0" stroke="#1d2a3d" stroke-width="0.8" stroke-linecap="round" />
+<line x1="370.0" y1="140.0" x2="370.0" y2="364.0" stroke="#1d2a3d" stroke-width="0.8" stroke-linecap="round" />
+<line x1="398.0" y1="140.0" x2="398.0" y2="364.0" stroke="#1d2a3d" stroke-width="0.8" stroke-linecap="round" />
+<line x1="426.0" y1="140.0" x2="426.0" y2="364.0" stroke="#1d2a3d" stroke-width="0.8" stroke-linecap="round" />
+<line x1="454.0" y1="140.0" x2="454.0" y2="364.0" stroke="#1d2a3d" stroke-width="0.8" stroke-linecap="round" />
+<line x1="482.0" y1="140.0" x2="482.0" y2="364.0" stroke="#1d2a3d" stroke-width="0.8" stroke-linecap="round" />
+<line x1="510.0" y1="140.0" x2="510.0" y2="364.0" stroke="#1d2a3d" stroke-width="0.8" stroke-linecap="round" />
+<line x1="538.0" y1="140.0" x2="538.0" y2="364.0" stroke="#1d2a3d" stroke-width="0.8" stroke-linecap="round" />
+<line x1="90.0" y1="140.0" x2="538.0" y2="140.0" stroke="#1d2a3d" stroke-width="0.8" stroke-linecap="round" />
+<line x1="90.0" y1="168.0" x2="538.0" y2="168.0" stroke="#1d2a3d" stroke-width="0.8" stroke-linecap="round" />
+<line x1="90.0" y1="196.0" x2="538.0" y2="196.0" stroke="#1d2a3d" stroke-width="0.8" stroke-linecap="round" />
+<line x1="90.0" y1="224.0" x2="538.0" y2="224.0" stroke="#1d2a3d" stroke-width="0.8" stroke-linecap="round" />
+<line x1="90.0" y1="252.0" x2="538.0" y2="252.0" stroke="#1d2a3d" stroke-width="0.8" stroke-linecap="round" />
+<line x1="90.0" y1="280.0" x2="538.0" y2="280.0" stroke="#1d2a3d" stroke-width="0.8" stroke-linecap="round" />
+<line x1="90.0" y1="308.0" x2="538.0" y2="308.0" stroke="#1d2a3d" stroke-width="0.8" stroke-linecap="round" />
+<line x1="90.0" y1="336.0" x2="538.0" y2="336.0" stroke="#1d2a3d" stroke-width="0.8" stroke-linecap="round" />
+<line x1="90.0" y1="364.0" x2="538.0" y2="364.0" stroke="#1d2a3d" stroke-width="0.8" stroke-linecap="round" />
+<circle cx="90.0" cy="140.0" r="6" fill="#ffd166" />
+<text x="100.0" y="118.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >(0, 0)</text>
+<circle cx="534.5" cy="360.5" r="6" fill="#ffd166" />
+<text x="542.0" y="402.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="end" >(127, 63)</text>
+<circle cx="314.0" cy="252.0" r="6" fill="#7ee0c3" />
+<text x="326.0" y="244.0" font-size="14" font-weight="800" fill="#7ee0c3" text-anchor="start" >(64, 32)</text>
+<line x1="90.0" y1="410.0" x2="230.0" y2="410.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<path d="M221.2 414.7 L230.0 410.0 L221.2 405.3" fill="none" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<text x="238.0" y="415.0" font-size="13.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >x bertambah ke kanan (0–127)</text>
+<line x1="56.0" y1="140.0" x2="56.0" y2="280.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<path d="M51.3 271.2 L56.0 280.0 L60.7 271.2" fill="none" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<text x="22.0" y="302.0" font-size="13.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >y ke</text>
+<text x="22.0" y="320.0" font-size="13.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >bawah</text>
+<text x="560.0" y="170.0" font-size="13" font-weight="800" fill="#a07800" text-anchor="start" >pita kuning</text>
+<text x="560.0" y="188.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >(16 baris teratas</text>
+<text x="560.0" y="204.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >pada layar dua warna)</text>
+<rect x="760.0" y="120.0" width="400.0" height="270.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="780.0" y="150.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="start" >Ukuran huruf (setTextSize)</text>
+<rect x="790.0" y="180.0" width="19.2" height="25.6" rx="0" fill="#e3ecfa" stroke="#2f6fd1" stroke-width="1.5" />
+<circle cx="790.0" cy="180.0" r="4" fill="#e63946" />
+<text x="790.0" y="227.6" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >ukuran 1</text>
+<text x="790.0" y="245.6" font-size="13" font-weight="600" fill="#4a5568" text-anchor="start" >6 × 8 titik</text>
+<rect x="910.0" y="180.0" width="38.4" height="51.2" rx="0" fill="#e3ecfa" stroke="#2f6fd1" stroke-width="1.5" />
+<circle cx="910.0" cy="180.0" r="4" fill="#e63946" />
+<text x="910.0" y="253.2" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >ukuran 2</text>
+<text x="910.0" y="271.2" font-size="13" font-weight="600" fill="#4a5568" text-anchor="start" >12 × 16 titik</text>
+<rect x="1030.0" y="180.0" width="57.6" height="76.8" rx="0" fill="#e3ecfa" stroke="#2f6fd1" stroke-width="1.5" />
+<circle cx="1030.0" cy="180.0" r="4" fill="#e63946" />
+<text x="1030.0" y="278.8" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >ukuran 3</text>
+<text x="1030.0" y="296.8" font-size="13" font-weight="600" fill="#4a5568" text-anchor="start" >18 × 24 titik</text>
+<text x="780.0" y="364.0" font-size="13" font-weight="700" fill="#e63946" text-anchor="start" >titik merah = setCursor(x, y): pojok kiri atas huruf</text>
+<rect x="60.0" y="470.0" width="1100.0" height="130.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="80.0" y="500.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="start" >"Kertas gambar" (buffer) di memori ESP32: 128 × 64 titik × 1 bit = 1.024 byte</text>
+<circle cx="102.0" cy="540.0" r="13" fill="#0f8b8d" stroke="#ffffff" stroke-width="2" />
+<text x="102.0" y="544.7" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle" >1</text>
+<text x="124.0" y="546.0" font-size="15" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">clearDisplay()</text>
+<text x="124.0" y="570.0" font-size="13.5" font-weight="600" fill="#4a5568" text-anchor="start" >kosongkan kertas</text>
+<circle cx="392.0" cy="540.0" r="13" fill="#0f8b8d" stroke="#ffffff" stroke-width="2" />
+<text x="392.0" y="544.7" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle" >2</text>
+<text x="414.0" y="546.0" font-size="15" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">print, drawLine, fillRect …</text>
+<text x="414.0" y="570.0" font-size="13.5" font-weight="600" fill="#4a5568" text-anchor="start" >gambar sebanyak apa pun</text>
+<circle cx="852.0" cy="540.0" r="13" fill="#0f8b8d" stroke="#ffffff" stroke-width="2" />
+<text x="852.0" y="544.7" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle" >3</text>
+<text x="874.0" y="546.0" font-size="15" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">display()</text>
+<text x="874.0" y="570.0" font-size="13.5" font-weight="600" fill="#4a5568" text-anchor="start" >kirim SELURUH kertas lewat I2C</text>
+<line x1="330.0" y1="542.0" x2="370.0" y2="542.0" stroke="#0f8b8d" stroke-width="2.5" stroke-linecap="round" />
+<path d="M361.2 546.7 L370.0 542.0 L361.2 537.3" fill="none" stroke="#0f8b8d" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="780.0" y1="542.0" x2="830.0" y2="542.0" stroke="#0f8b8d" stroke-width="2.5" stroke-linecap="round" />
+<path d="M821.2 546.7 L830.0 542.0 L821.2 537.3" fill="none" stroke="#0f8b8d" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="60.0" y="630.0" width="1100.0" height="160.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="80.0" y="660.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="start" >Ikon 8 × 8 = delapan angka biner (1 = titik menyala, 0 = padam)</text>
+<rect x="100.0" y="674.0" width="12.0" height="12.0" rx="0" fill="#eef0f4" />
+<rect x="113.0" y="674.0" width="12.0" height="12.0" rx="0" fill="#eef0f4" />
+<rect x="126.0" y="674.0" width="12.0" height="12.0" rx="0" fill="#eef0f4" />
+<rect x="139.0" y="674.0" width="12.0" height="12.0" rx="0" fill="#1e2a4a" />
+<rect x="152.0" y="674.0" width="12.0" height="12.0" rx="0" fill="#1e2a4a" />
+<rect x="165.0" y="674.0" width="12.0" height="12.0" rx="0" fill="#eef0f4" />
+<rect x="178.0" y="674.0" width="12.0" height="12.0" rx="0" fill="#eef0f4" />
+<rect x="191.0" y="674.0" width="12.0" height="12.0" rx="0" fill="#eef0f4" />
+<rect x="100.0" y="687.0" width="12.0" height="12.0" rx="0" fill="#eef0f4" />
+<rect x="113.0" y="687.0" width="12.0" height="12.0" rx="0" fill="#1e2a4a" />
+<rect x="126.0" y="687.0" width="12.0" height="12.0" rx="0" fill="#eef0f4" />
+<rect x="139.0" y="687.0" width="12.0" height="12.0" rx="0" fill="#eef0f4" />
+<rect x="152.0" y="687.0" width="12.0" height="12.0" rx="0" fill="#eef0f4" />
+<rect x="165.0" y="687.0" width="12.0" height="12.0" rx="0" fill="#eef0f4" />
+<rect x="178.0" y="687.0" width="12.0" height="12.0" rx="0" fill="#1e2a4a" />
+<rect x="191.0" y="687.0" width="12.0" height="12.0" rx="0" fill="#eef0f4" />
+<rect x="100.0" y="700.0" width="12.0" height="12.0" rx="0" fill="#eef0f4" />
+<rect x="113.0" y="700.0" width="12.0" height="12.0" rx="0" fill="#eef0f4" />
+<rect x="126.0" y="700.0" width="12.0" height="12.0" rx="0" fill="#1e2a4a" />
+<rect x="139.0" y="700.0" width="12.0" height="12.0" rx="0" fill="#1e2a4a" />
+<rect x="152.0" y="700.0" width="12.0" height="12.0" rx="0" fill="#1e2a4a" />
+<rect x="165.0" y="700.0" width="12.0" height="12.0" rx="0" fill="#1e2a4a" />
+<rect x="178.0" y="700.0" width="12.0" height="12.0" rx="0" fill="#eef0f4" />
+<rect x="191.0" y="700.0" width="12.0" height="12.0" rx="0" fill="#eef0f4" />
+<rect x="100.0" y="713.0" width="12.0" height="12.0" rx="0" fill="#1e2a4a" />
+<rect x="113.0" y="713.0" width="12.0" height="12.0" rx="0" fill="#eef0f4" />
+<rect x="126.0" y="713.0" width="12.0" height="12.0" rx="0" fill="#1e2a4a" />
+<rect x="139.0" y="713.0" width="12.0" height="12.0" rx="0" fill="#1e2a4a" />
+<rect x="152.0" y="713.0" width="12.0" height="12.0" rx="0" fill="#1e2a4a" />
+<rect x="165.0" y="713.0" width="12.0" height="12.0" rx="0" fill="#1e2a4a" />
+<rect x="178.0" y="713.0" width="12.0" height="12.0" rx="0" fill="#eef0f4" />
+<rect x="191.0" y="713.0" width="12.0" height="12.0" rx="0" fill="#1e2a4a" />
+<rect x="100.0" y="726.0" width="12.0" height="12.0" rx="0" fill="#1e2a4a" />
+<rect x="113.0" y="726.0" width="12.0" height="12.0" rx="0" fill="#eef0f4" />
+<rect x="126.0" y="726.0" width="12.0" height="12.0" rx="0" fill="#1e2a4a" />
+<rect x="139.0" y="726.0" width="12.0" height="12.0" rx="0" fill="#1e2a4a" />
+<rect x="152.0" y="726.0" width="12.0" height="12.0" rx="0" fill="#1e2a4a" />
+<rect x="165.0" y="726.0" width="12.0" height="12.0" rx="0" fill="#1e2a4a" />
+<rect x="178.0" y="726.0" width="12.0" height="12.0" rx="0" fill="#eef0f4" />
+<rect x="191.0" y="726.0" width="12.0" height="12.0" rx="0" fill="#1e2a4a" />
+<rect x="100.0" y="739.0" width="12.0" height="12.0" rx="0" fill="#eef0f4" />
+<rect x="113.0" y="739.0" width="12.0" height="12.0" rx="0" fill="#eef0f4" />
+<rect x="126.0" y="739.0" width="12.0" height="12.0" rx="0" fill="#1e2a4a" />
+<rect x="139.0" y="739.0" width="12.0" height="12.0" rx="0" fill="#1e2a4a" />
+<rect x="152.0" y="739.0" width="12.0" height="12.0" rx="0" fill="#1e2a4a" />
+<rect x="165.0" y="739.0" width="12.0" height="12.0" rx="0" fill="#1e2a4a" />
+<rect x="178.0" y="739.0" width="12.0" height="12.0" rx="0" fill="#eef0f4" />
+<rect x="191.0" y="739.0" width="12.0" height="12.0" rx="0" fill="#eef0f4" />
+<rect x="100.0" y="752.0" width="12.0" height="12.0" rx="0" fill="#eef0f4" />
+<rect x="113.0" y="752.0" width="12.0" height="12.0" rx="0" fill="#1e2a4a" />
+<rect x="126.0" y="752.0" width="12.0" height="12.0" rx="0" fill="#eef0f4" />
+<rect x="139.0" y="752.0" width="12.0" height="12.0" rx="0" fill="#eef0f4" />
+<rect x="152.0" y="752.0" width="12.0" height="12.0" rx="0" fill="#eef0f4" />
+<rect x="165.0" y="752.0" width="12.0" height="12.0" rx="0" fill="#eef0f4" />
+<rect x="178.0" y="752.0" width="12.0" height="12.0" rx="0" fill="#1e2a4a" />
+<rect x="191.0" y="752.0" width="12.0" height="12.0" rx="0" fill="#eef0f4" />
+<rect x="100.0" y="765.0" width="12.0" height="12.0" rx="0" fill="#eef0f4" />
+<rect x="113.0" y="765.0" width="12.0" height="12.0" rx="0" fill="#eef0f4" />
+<rect x="126.0" y="765.0" width="12.0" height="12.0" rx="0" fill="#eef0f4" />
+<rect x="139.0" y="765.0" width="12.0" height="12.0" rx="0" fill="#1e2a4a" />
+<rect x="152.0" y="765.0" width="12.0" height="12.0" rx="0" fill="#1e2a4a" />
+<rect x="165.0" y="765.0" width="12.0" height="12.0" rx="0" fill="#eef0f4" />
+<rect x="178.0" y="765.0" width="12.0" height="12.0" rx="0" fill="#eef0f4" />
+<rect x="191.0" y="765.0" width="12.0" height="12.0" rx="0" fill="#eef0f4" />
+<text x="240.0" y="684.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">0b00011000,</text>
+<text x="240.0" y="697.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">0b01000010,</text>
+<text x="240.0" y="710.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">0b00111100,</text>
+<text x="240.0" y="723.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">0b10111101,</text>
+<text x="240.0" y="736.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">0b10111101,</text>
+<text x="240.0" y="749.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">0b00111100,</text>
+<text x="240.0" y="762.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">0b01000010,</text>
+<text x="240.0" y="775.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">0b00011000,</text>
+<text x="420.0" y="700.0" font-size="14" font-weight="700" fill="#0f8b8d" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" >drawBitmap(0, 0, IKON_MATAHARI, 8, 8, SSD1306_WHITE)</text>
+<text x="420.0" y="728.0" font-size="13.5" font-weight="600" fill="#4a5568" text-anchor="start" >Rancang di kertas berpetak: hitamkan kotak yang ingin kamu nyalakan,</text>
+<text x="420.0" y="750.0" font-size="13.5" font-weight="600" fill="#4a5568" text-anchor="start" >lalu tulis setiap baris dari kiri ke kanan sebagai 0 dan 1.</text>
+<text x="1178.0" y="806.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

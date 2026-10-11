@@ -1,20 +1,26 @@
-// Node 1 "Rumah" - firmware v0.3.0 (diperbarui di Modul 6)
+// Node 1 "Rumah" - firmware v0.4.0 (diperbarui di Modul 7)
 // Proyek benang merah: Rumah Pintar Mini.
 //
-// Baru di v0.3.0: kelima sensor Node 1 dibaca sungguhan (DHT22, LDR, sensor tanah,
-// PIR, HC-SR04), ditambah dua aturan otomatis versi lokal pertama:
-// "siram otomatis" (ditolak kalau air tandon terlalu sedikit) dan "lampu otomatis".
+// Baru di v0.4.0: layar OLED menampilkan semua bacaan kira-kira setiap 2 detik, dan (opsional)
+// kira-kira setiap 30 detik bacaan dicatat ke kartu microSD sebagai satu baris CSV.
+// Tanpa layar atau tanpa kartu, Node 1 tetap berjalan seperti v0.3.0.
 // Aktuator tetap bisa dicoba lewat Serial Monitor, misalnya:
 // lampu on, kipas off, pompa 3, tirai 90, bunyi, status.
 //
 // Library: ESP32Servo versi 3.2.1, DHT sensor library versi 1.4.7
-// (ikut terpasang: Adafruit Unified Sensor versi 1.1.15).
+// (ikut terpasang: Adafruit Unified Sensor versi 1.1.15), Adafruit SSD1306 versi 2.5.17
+// (ikut terpasang: Adafruit GFX Library versi 1.12.6 dan Adafruit BusIO versi 1.17.4).
+// Wire, SPI, dan SD sudah ikut paket esp32.
 
 #include <ESP32Servo.h>
 #include <DHT.h>
+#include <Wire.h>
+#include <Adafruit_GFX.h>
+#include <Adafruit_SSD1306.h>
+#include <SD.h>
 #include <esp_system.h>  // esp_reset_reason()
 
-const String VERSI_FIRMWARE = "0.3.0";
+const String VERSI_FIRMWARE = "0.4.0";
 
 // ---------- Peta pin kanonik Node 1 (salinan dari PETA-PIN.md) ----------
 const int PIN_LED_STATUS = 4;    // Modul 2
@@ -30,8 +36,10 @@ const int PIN_TANAH = 39;        // Modul 6, VN: sensor tanah kapasitif (ADC1)
 const int PIN_PIR = 34;          // Modul 6, PIR
 const int PIN_TRIG = 15;         // Modul 6, HC-SR04 TRIG
 const int PIN_ECHO = 35;         // Modul 6, HC-SR04 ECHO lewat pembagi tegangan
+const int PIN_SDA = 21;          // Modul 7, I2C: layar OLED
+const int PIN_SCL = 22;          // Modul 7, I2C: layar OLED
+const int PIN_SD_CS = 5;         // Modul 7, microSD (opsional); SCK = 18, MISO = 19, MOSI = 23
 // Dipesan untuk modul berikutnya (jangan dipakai untuk hal lain):
-// Modul 7: I2C SDA = 21, SCL = 22; microSD SCK = 18, MISO = 19, MOSI = 23, CS = 5
 // Modul 15: RS-485 RX = 16, TX = 17, DE/RE = 2
 
 const int JEDA_PANTUL = 30;           // milidetik, untuk debounce tombol
@@ -72,6 +80,15 @@ int sisaJedaSiram = 0;           // berapa laporan lagi sebelum boleh mencoba me
 Servo servoTirai;
 DHT dht(PIN_DHT, DHT22);
 int hitungPutaran = 0;
+
+// ---------- Modul 7: layar OLED dan (opsional) kartu microSD ----------
+const byte ALAMAT_LAYAR = 0x3C;               // alamat layar OLED di bus I2C
+const int LAPORAN_PER_CATATAN = 15;           // 15 laporan x 2 detik = kira-kira 30 detik
+const char* NAMA_FILE_CATATAN = "/node1.csv";  // nama file di kartu, selalu diawali garis miring
+Adafruit_SSD1306 layar(128, 64, &Wire, -1);   // lebar 128, tinggi 64, lewat bus I2C, tanpa kaki reset
+bool layarAda = false;                        // true kalau layar menjawab di alamat 0x3C
+bool kartuAda = false;                        // true kalau kartu microSD terbaca saat menyala
+int hitungLaporan = 0;                        // laporan sejak baris CSV terakhir
 
 // ---------- Modul 5: alasan restart terakhir (nama sama dengan Lampiran A) ----------
 // Menerjemahkan kode alasan restart menjadi kata yang mudah dibaca.
@@ -319,8 +336,204 @@ BacaanSensor bacaSensor() {
 }
 
 // ---------- Modul 7: menampilkan bacaan di layar OLED ----------
+// Ikon 8 x 8 titik: 1 = titik menyala, 0 = padam.
+const unsigned char IKON_MATAHARI[] = {
+  0b00011000,
+  0b01000010,
+  0b00111100,
+  0b10111101,
+  0b10111101,
+  0b00111100,
+  0b01000010,
+  0b00011000,
+};
+const unsigned char IKON_TANAMAN[] = {
+  0b11000011,
+  0b01100110,
+  0b00111100,
+  0b00011000,
+  0b00011000,
+  0b11111111,
+  0b01111110,
+  0b00111100,
+};
+const unsigned char IKON_TANDON[] = {
+  0b10000001,
+  0b10000001,
+  0b10000001,
+  0b11011011,
+  0b11111111,
+  0b11111111,
+  0b11111111,
+  0b01111110,
+};
+const unsigned char IKON_ORANG[] = {
+  0b00011000,
+  0b00011000,
+  0b01111110,
+  0b00011000,
+  0b00011000,
+  0b00100100,
+  0b01000010,
+  0b01000010,
+};
+
+// Mencari layar di bus I2C, lalu menyalakannya. Kalau layar tidak ada, program tetap berjalan.
+void siapkanLayar() {
+  Wire.begin(PIN_SDA, PIN_SCL);
+  Wire.beginTransmission(ALAMAT_LAYAR);
+  layarAda = Wire.endTransmission() == 0;  // ada yang menjawab di 0x3C?
+  if (!layarAda) {
+    Serial.println("Layar OLED tidak ditemukan di 0x3C. Node 1 tetap jalan tanpa layar.");
+    return;
+  }
+  layar.begin(SSD1306_SWITCHCAPVCC, ALAMAT_LAYAR);
+  layar.cp437(true);  // tabel huruf CP437 yang benar supaya nomor 248 = tanda derajat
+  layar.setTextColor(SSD1306_WHITE);
+  layar.clearDisplay();
+  layar.setTextSize(1);
+  layar.setCursor(0, 0);
+  layar.println("Node 1 Rumah");
+  layar.println("menunggu bacaan...");
+  layar.display();
+}
+
+// Menulis teks rata kanan: huruf terakhirnya berakhir tepat sebelum x = kanan.
+void tulisRataKanan(String teks, int kanan, int y, int ukuran) {
+  layar.setTextSize(ukuran);
+  layar.setCursor(kanan - teks.length() * 6 * ukuran, y);  // satu huruf = 6 titik x ukuran
+  layar.print(teks);
+}
+
+// Batang persen: bingkai selebar "lebar" titik, isinya sepanjang persen. Persen di bawah 0 = kosong.
+void gambarBatang(int x, int y, int lebar, int persen) {
+  layar.drawRect(x, y, lebar, 8, SSD1306_WHITE);
+  if (persen > 0) {
+    layar.fillRect(x + 2, y + 2, (lebar - 4) * persen / 100, 4, SSD1306_WHITE);
+  }
+}
+
+// Satu baris layar: ikon, nama, angka rata kanan, lalu batang persen.
+// Tanda * pada "const unsigned char* ikon" berarti fungsi ini menerima ikon mana pun yang dikirim
+// (mirip const char* untuk teks di Modul 3). Biarkan apa adanya.
+void barisBatang(int y, const unsigned char* ikon, String nama, String angka, int persen) {
+  layar.drawBitmap(0, y, ikon, 8, 8, SSD1306_WHITE);
+  layar.setTextSize(1);
+  layar.setCursor(11, y);
+  layar.print(nama);
+  tulisRataKanan(angka, 82, y, 1);
+  gambarBatang(86, y, 42, persen);
+}
+
 void tampilkanDiLayar(BacaanSensor b) {
-  // belum diisi
+  if (!layarAda) {
+    return;
+  }
+  layar.clearDisplay();
+
+  // Baris atas: suhu di kiri dan kelembapan di kanan. Angkanya besar, satuannya kecil.
+  String teksSuhu = "--.-";
+  if (!isnan(b.suhu)) {
+    teksSuhu = String(b.suhu, 1);
+  }
+  layar.setTextSize(2);
+  layar.setCursor(0, 0);
+  layar.print(teksSuhu);
+  layar.setTextSize(1);
+  layar.write(248);  // tanda derajat
+  layar.print("C");
+
+  String teksLembap = "--";
+  if (b.kelembapan >= 0) {
+    teksLembap = String(b.kelembapan);
+  }
+  tulisRataKanan(teksLembap, 122, 0, 2);
+  layar.setTextSize(1);
+  layar.setCursor(122, 0);
+  layar.print("%");
+
+  layar.drawFastHLine(0, 17, 128, SSD1306_WHITE);  // garis pemisah
+
+  // Tiga baris dengan batang persen. Cahaya 0-4095 diubah dulu menjadi 0-100 untuk batangnya.
+  barisBatang(21, IKON_MATAHARI, "Cahaya", String(b.cahaya), b.cahaya * 100 / 4095);
+  barisBatang(32, IKON_TANAMAN, "Tanah", String(b.tanah) + "%", b.tanah);
+  String teksAir = "--";
+  if (b.level_air >= 0) {
+    teksAir = String(b.level_air) + "%";
+  }
+  barisBatang(43, IKON_TANDON, "Air", teksAir, b.level_air);
+
+  // Baris gerak: dibalik (latar putih) kalau ada gerakan supaya langsung menarik perhatian.
+  if (b.gerak) {
+    layar.fillRect(0, 53, 128, 10, SSD1306_WHITE);
+    layar.drawBitmap(0, 54, IKON_ORANG, 8, 8, SSD1306_BLACK);
+    layar.setTextColor(SSD1306_BLACK);
+    layar.setCursor(11, 54);
+    layar.print("Gerak: ADA ORANG");
+    layar.setTextColor(SSD1306_WHITE);
+  } else {
+    layar.drawBitmap(0, 54, IKON_ORANG, 8, 8, SSD1306_WHITE);
+    layar.setCursor(11, 54);
+    layar.print("Gerak: sepi");
+  }
+
+  layar.display();
+}
+
+// ---------- Modul 7 (opsional): catatan CSV di kartu microSD ----------
+// Kalau kartu terbaca saat menyala, pencatatan diaktifkan. Tanpa kartu, Node 1 tetap berjalan.
+void siapkanKartu() {
+  kartuAda = SD.begin(PIN_SD_CS);
+  if (!kartuAda) {
+    Serial.println("Kartu microSD tidak terbaca: catatan CSV dimatikan.");
+    return;
+  }
+  if (!SD.exists(NAMA_FILE_CATATAN)) {
+    File file = SD.open(NAMA_FILE_CATATAN, FILE_WRITE);
+    file.println("uptime_s,suhu,kelembapan,cahaya,tanah,gerak,level_air");  // baris judul kolom
+    file.close();
+  }
+  Serial.println("Kartu microSD siap: bacaan dicatat ke node1.csv setiap kira-kira 30 detik.");
+}
+
+// Satu baris CSV setiap LAPORAN_PER_CATATAN laporan. Bacaan yang gagal ditulis sebagai sel kosong.
+void catatKeKartu(BacaanSensor b) {
+  if (!kartuAda) {
+    return;
+  }
+  hitungLaporan++;
+  if (hitungLaporan < LAPORAN_PER_CATATAN) {
+    return;
+  }
+  hitungLaporan = 0;
+
+  String baris = String(millis() / 1000) + ",";  // uptime_s: detik sejak papan menyala
+  if (!isnan(b.suhu)) {
+    baris += String(b.suhu, 1);
+  }
+  baris += ",";
+  if (b.kelembapan >= 0) {
+    baris += String(b.kelembapan);
+  }
+  baris += "," + String(b.cahaya) + "," + String(b.tanah) + ",";
+  if (b.gerak) {
+    baris += "true";
+  } else {
+    baris += "false";
+  }
+  baris += ",";
+  if (b.level_air >= 0) {
+    baris += String(b.level_air);
+  }
+
+  File file = SD.open(NAMA_FILE_CATATAN, FILE_APPEND);  // APPEND = menambah di akhir file
+  if (!file) {
+    Serial.println("Gagal menulis ke kartu microSD (tercabut?). Catatan CSV dihentikan.");
+    kartuAda = false;
+    return;
+  }
+  file.println(baris);
+  file.close();  // baru setelah ditutup, isinya benar-benar tersimpan di kartu
 }
 
 // ---------- Modul 6 & 19: aturan otomatis (siram, lampu, kipas) ----------
@@ -410,6 +623,8 @@ void setup() {
   Serial.println("Node 1 Rumah - firmware " + VERSI_FIRMWARE);
   Serial.println("Alasan restart terakhir: " + alasanReset());
   siapkanPin();
+  siapkanLayar();  // Modul 7
+  siapkanKartu();  // Modul 7 (opsional)
   cetakStatus();
 }
 
@@ -428,6 +643,7 @@ void loop() {
     BacaanSensor bacaan = bacaSensor();
     cetakBacaan(bacaan);
     tampilkanDiLayar(bacaan);
+    catatKeKartu(bacaan);
     kendalikanAktuator(bacaan);
     kirimData(bacaan);
     kedipStatus();

@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="700" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Peta bus Node 1 versi 0.4.0</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Tiga bus berdampingan dengan pin-pin Modul 5–6 · garis putus-putus = hanya selama latihan Modul 7</text>
+<rect x="470.0" y="230.0" width="260.0" height="210.0" rx="10" fill="#1f3b57" stroke="#0f2236" stroke-width="2" />
+<rect x="527.2" y="272.0" width="145.6" height="126.0" rx="6" fill="#c9ced6" stroke="#7a8494" stroke-width="1.5" />
+<text x="600.0" y="342.0" font-size="19" font-weight="800" fill="#1e2a4a" text-anchor="middle" >ESP32</text>
+<rect x="60.0" y="110.0" width="360.0" height="210.0" rx="14" fill="#e3ecfa" />
+<text x="80.0" y="140.0" font-size="15" font-weight="800" fill="#2f6fd1" text-anchor="start" >Bus I2C (D21 SDA, D22 SCL)</text>
+<text x="80.0" y="162.0" font-size="12.5" font-weight="700" fill="#4a5568" text-anchor="start" >jalur 19 dan 20 breadboard bawah</text>
+<rect x="80.0" y="180.0" width="150.0" height="60.0" rx="10" fill="#ffffff" stroke="#1e2a4a" stroke-width="2" />
+<text x="155.0" y="207.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" >layar OLED</text>
+<text x="155.0" y="227.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="middle" >0x3C · terpasang</text>
+<rect x="250.0" y="180.0" width="150.0" height="60.0" rx="10" fill="#ffffff" stroke="#1e2a4a" stroke-width="2" stroke-dasharray="7 5"/>
+<text x="325.0" y="205.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" >BME280</text>
+<text x="325.0" y="225.0" font-size="12.5" font-weight="700" fill="#4a5568" text-anchor="middle" >0x76 · latihan</text>
+<text x="80.0" y="272.0" font-size="12.5" font-weight="700" fill="#4a5568" text-anchor="start" >BME280 nanti dipasang di Node 2 (Modul 14)</text>
+<line x1="420.0" y1="210.0" x2="470.0" y2="280.0" stroke="#2f6fd1" stroke-width="3" stroke-linecap="round" />
+<rect x="60.0" y="360.0" width="360.0" height="150.0" rx="14" fill="#efe6f8" />
+<text x="80.0" y="390.0" font-size="15" font-weight="800" fill="#7b4fb0" text-anchor="start" >Bus 1-Wire (RX2 = GPIO 16)</text>
+<rect x="80.0" y="410.0" width="150.0" height="60.0" rx="10" fill="#ffffff" stroke="#1e2a4a" stroke-width="2" stroke-dasharray="7 5"/>
+<text x="155.0" y="435.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" >DS18B20</text>
+<text x="155.0" y="455.0" font-size="12.5" font-weight="700" fill="#4a5568" text-anchor="middle" >dipinjam sementara</text>
+<text x="250.0" y="440.0" font-size="12.5" font-weight="700" fill="#4a5568" text-anchor="start" >GPIO 16 kembali ke</text>
+<text x="250.0" y="458.0" font-size="12.5" font-weight="700" fill="#4a5568" text-anchor="start" >RS-485 di Modul 15</text>
+<line x1="420.0" y1="430.0" x2="470.0" y2="400.0" stroke="#7b4fb0" stroke-width="3" stroke-linecap="round" />
+<rect x="780.0" y="360.0" width="360.0" height="150.0" rx="14" fill="#dff3e7" />
+<text x="800.0" y="390.0" font-size="15" font-weight="800" fill="#2a9d5c" text-anchor="start" >Bus SPI (D18, D19, D23, CS D5)</text>
+<rect x="800.0" y="410.0" width="160.0" height="60.0" rx="10" fill="#ffffff" stroke="#1e2a4a" stroke-width="2" />
+<text x="880.0" y="437.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" >microSD</text>
+<text x="880.0" y="457.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="middle" >opsional</text>
+<text x="980.0" y="440.0" font-size="12.5" font-weight="700" fill="#4a5568" text-anchor="start" >boleh dilepas</text>
+<text x="980.0" y="458.0" font-size="12.5" font-weight="700" fill="#4a5568" text-anchor="start" >setelah Modul 11</text>
+<line x1="780.0" y1="430.0" x2="730.0" y2="400.0" stroke="#2a9d5c" stroke-width="3" stroke-linecap="round" />
+<rect x="780.0" y="110.0" width="360.0" height="210.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="800.0" y="140.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >Pin tetap Modul 5–6 (jalan pribadi)</text>
+<text x="800.0" y="172.0" font-size="13.5" font-weight="600" fill="#1e2a4a" text-anchor="start" >sensor: D14 DHT22 · VP LDR · VN tanah</text>
+<text x="800.0" y="200.0" font-size="13.5" font-weight="600" fill="#1e2a4a" text-anchor="start" >D34 PIR · D15/D35 HC-SR04</text>
+<text x="800.0" y="228.0" font-size="13.5" font-weight="600" fill="#1e2a4a" text-anchor="start" >aktuator: D32/D33 relay · D25 pompa</text>
+<text x="800.0" y="256.0" font-size="13.5" font-weight="600" fill="#1e2a4a" text-anchor="start" >D26 servo · D27 buzzer · D4 LED · D13 tombol</text>
+<line x1="780.0" y1="230.0" x2="730.0" y2="280.0" stroke="#1e2a4a" stroke-width="3" stroke-linecap="round" />
+<rect x="60.0" y="550.0" width="1080.0" height="110.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="80.0" y="580.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >Supaya akur:</text>
+<text x="80.0" y="610.0" font-size="14.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >✓ alamat I2C unik di satu bus</text>
+<text x="600.0" y="610.0" font-size="14.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >✓ setiap perangkat SPI punya CS sendiri</text>
+<text x="80.0" y="638.0" font-size="14.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >✓ semua sinyal 3,3 V, semua GND disatukan</text>
+<text x="600.0" y="638.0" font-size="14.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >✓ satu pin, satu tugas (PETA-PIN.md)</text>
+<text x="1178.0" y="686.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

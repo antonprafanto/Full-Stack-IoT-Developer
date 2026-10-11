@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="700" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >I2C: dua kabel, banyak alamat</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >ESP32 memanggil sebuah alamat; hanya pemilik alamat itu yang menjawab "ya, saya di sini" (ACK)</text>
+<rect x="60.0" y="200.0" width="150.0" height="250.0" rx="10" fill="#1f3b57" stroke="#0f2236" stroke-width="2" />
+<rect x="93.0" y="250.0" width="84.0" height="150.0" rx="6" fill="#c9ced6" stroke="#7a8494" stroke-width="1.5" />
+<text x="135.0" y="332.0" font-size="19" font-weight="800" fill="#1e2a4a" text-anchor="middle" >ESP32</text>
+<text x="135.0" y="470.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="middle" >pengendali bus</text>
+<line x1="210.0" y1="270.0" x2="1120.0" y2="270.0" stroke="#2f6fd1" stroke-width="6" stroke-linecap="round" />
+<line x1="210.0" y1="330.0" x2="1120.0" y2="330.0" stroke="#d9a400" stroke-width="6" stroke-linecap="round" />
+<text x="220.0" y="258.0" font-size="15" font-weight="800" fill="#2f6fd1" text-anchor="start" >D21 = SDA (data)</text>
+<text x="220.0" y="358.0" font-size="15" font-weight="800" fill="#a07800" text-anchor="start" >D22 = SCL (detak)</text>
+<line x1="430.0" y1="140.0" x2="560.0" y2="140.0" stroke="#e63946" stroke-width="3" stroke-linecap="round" />
+<text x="436.0" y="130.0" font-size="14" font-weight="800" fill="#e63946" text-anchor="start" >3,3 V</text>
+<line x1="460.0" y1="140.0" x2="460.0" y2="189.0" stroke="#e63946" stroke-width="2.2" stroke-linecap="round" />
+<line x1="460.0" y1="221.0" x2="460.0" y2="270.0" stroke="#e63946" stroke-width="2.2" stroke-linecap="round" />
+<rect x="453.0" y="189.0" width="14.0" height="32.0" rx="2" fill="#ffffff" stroke="#e63946" stroke-width="2.2" />
+<text x="473.0" y="210.0" font-size="12.5" font-weight="700" fill="#e63946" text-anchor="start" >pull-up</text>
+<line x1="530.0" y1="140.0" x2="530.0" y2="219.0" stroke="#e63946" stroke-width="2.2" stroke-linecap="round" />
+<line x1="530.0" y1="251.0" x2="530.0" y2="330.0" stroke="#e63946" stroke-width="2.2" stroke-linecap="round" />
+<rect x="523.0" y="219.0" width="14.0" height="32.0" rx="2" fill="#ffffff" stroke="#e63946" stroke-width="2.2" />
+<text x="543.0" y="240.0" font-size="12.5" font-weight="700" fill="#e63946" text-anchor="start" >pull-up</text>
+<circle cx="460.0" cy="270.0" r="6" fill="#2f6fd1" />
+<circle cx="530.0" cy="330.0" r="6" fill="#a07800" />
+<text x="640.0" y="150.0" font-size="13.5" font-weight="600" fill="#4a5568" text-anchor="start" >resistor pull-up (biasanya sudah ada di modul) mengembalikan</text>
+<text x="640.0" y="170.0" font-size="13.5" font-weight="600" fill="#4a5568" text-anchor="start" >kabel ke 3,3 V; perangkat hanya menarik kabel ke 0 V</text>
+<text x="1140.0" y="204.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="end" >VCC dan GND setiap perangkat tidak digambar</text>
+<line x1="620.0" y1="270.0" x2="620.0" y2="420.0" stroke="#2f6fd1" stroke-width="3.5" stroke-linecap="round" />
+<line x1="644.0" y1="330.0" x2="644.0" y2="420.0" stroke="#d9a400" stroke-width="3.5" stroke-linecap="round" />
+<circle cx="620.0" cy="270.0" r="6" fill="#2f6fd1" />
+<circle cx="644.0" cy="330.0" r="6" fill="#a07800" />
+<rect x="550.0" y="420.0" width="188.0" height="86.0" rx="12" fill="#ffffff" stroke="#1e2a4a" stroke-width="2" />
+<text x="644.0" y="452.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="middle" >layar OLED</text>
+<text x="644.0" y="484.0" font-size="15" font-weight="800" fill="#0f8b8d" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >alamat 0x3C</text>
+<rect x="560.0" y="530.0" width="220.0" height="46.0" rx="12" fill="#dff3e7" stroke="#2a9d5c" stroke-width="1.5" />
+<text x="670.0" y="559.0" font-size="14" font-weight="800" fill="#2a9d5c" text-anchor="middle" >ACK: "ya, saya di sini"</text>
+<line x1="900.0" y1="270.0" x2="900.0" y2="420.0" stroke="#2f6fd1" stroke-width="3.5" stroke-linecap="round" />
+<line x1="924.0" y1="330.0" x2="924.0" y2="420.0" stroke="#d9a400" stroke-width="3.5" stroke-linecap="round" />
+<circle cx="900.0" cy="270.0" r="6" fill="#2f6fd1" />
+<circle cx="924.0" cy="330.0" r="6" fill="#a07800" />
+<rect x="830.0" y="420.0" width="188.0" height="86.0" rx="12" fill="#ffffff" stroke="#1e2a4a" stroke-width="2" />
+<text x="924.0" y="452.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="middle" >BME280</text>
+<text x="924.0" y="484.0" font-size="15" font-weight="800" fill="#0f8b8d" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >alamat 0x76</text>
+<rect x="840.0" y="530.0" width="220.0" height="46.0" rx="12" fill="#eceef2" stroke="#8a8f9c" stroke-width="1.5" />
+<text x="950.0" y="559.0" font-size="14" font-weight="700" fill="#4a5568" text-anchor="middle" >diam: bukan alamatku</text>
+<rect x="230.0" y="380.0" width="300.0" height="52.0" rx="12" fill="#e3ecfa" stroke="#2f6fd1" stroke-width="1.5" />
+<text x="380.0" y="412.0" font-size="16" font-weight="800" fill="#2f6fd1" text-anchor="middle" >ESP32: "0x3C, ada?"</text>
+<rect x="60.0" y="600.0" width="1080.0" height="70.0" rx="12" fill="#fff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="80.0" y="630.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >Membaca heksadesimal:</text>
+<text x="280.0" y="630.0" font-size="15" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">0x3C = 3 × 16 + 12 (C) = 60</text>
+<text x="640.0" y="630.0" font-size="15" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">0x76 = 118</text>
+<text x="820.0" y="630.0" font-size="15" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">0x77 = 119</text>
+<text x="80.0" y="656.0" font-size="13.5" font-weight="600" fill="#4a5568" text-anchor="start" >A = 10, B = 11, C = 12, D = 13, E = 14, F = 15 · awalan 0x menandai angka heksadesimal</text>
+<text x="1178.0" y="686.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

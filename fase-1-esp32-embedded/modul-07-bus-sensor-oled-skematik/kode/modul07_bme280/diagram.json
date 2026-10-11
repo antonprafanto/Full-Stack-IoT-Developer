@@ -1,0 +1,178 @@
+{
+  "version": 1,
+  "author": "Kurikulum Fullstack IoT Developer",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "wokwi-esp32-devkit-v1",
+      "id": "esp",
+      "top": 0,
+      "left": 0,
+      "rotate": 90,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-dht22",
+      "id": "dht",
+      "top": -124.9,
+      "left": -84.5,
+      "attrs": {
+        "temperature": "28.5",
+        "humidity": "71"
+      }
+    },
+    {
+      "type": "wokwi-gnd",
+      "id": "gnd_dht_GND",
+      "top": 4,
+      "left": -50.9,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-vcc",
+      "id": "vcc_dht",
+      "top": -58.04,
+      "left": -101.6,
+      "attrs": {}
+    },
+    {
+      "type": "board-bmp180",
+      "id": "bmp",
+      "top": 170,
+      "left": -120,
+      "attrs": {}
+    },
+    {
+      "type": "board-ssd1306",
+      "id": "oled",
+      "top": 200,
+      "left": 100,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-gnd",
+      "id": "gnd_oled",
+      "top": 212,
+      "left": 64.8,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-vcc",
+      "id": "vcc_oled",
+      "top": 168.96,
+      "left": 45.4,
+      "attrs": {}
+    }
+  ],
+  "connections": [
+    [
+      "esp:TX0",
+      "$serialMonitor:RX",
+      "",
+      []
+    ],
+    [
+      "esp:RX0",
+      "$serialMonitor:TX",
+      "",
+      []
+    ],
+    [
+      "dht:SDA",
+      "esp:D14",
+      "yellow",
+      [
+        "v46",
+        "h95.5"
+      ]
+    ],
+    [
+      "dht:GND",
+      "gnd_dht_GND:GND",
+      "black",
+      []
+    ],
+    [
+      "dht:VCC",
+      "vcc_dht:VCC",
+      "red",
+      [
+        "v8",
+        "h-22.5"
+      ]
+    ],
+    [
+      "bmp:VCC",
+      "esp:3V3",
+      "red",
+      [
+        "h50.06"
+      ]
+    ],
+    [
+      "bmp:GND",
+      "esp:GND.1",
+      "black",
+      [
+        "h59.56"
+      ]
+    ],
+    [
+      "bmp:SCL",
+      "esp:D22",
+      "yellow",
+      [
+        "h73.06",
+        "v-29.17",
+        "h101.5"
+      ]
+    ],
+    [
+      "bmp:SDA",
+      "esp:D21",
+      "blue",
+      [
+        "h83.06",
+        "v-46.77",
+        "h62.6"
+      ]
+    ],
+    [
+      "oled:SDA",
+      "esp:D21",
+      "blue",
+      [
+        "v-50.46",
+        "h-74.3"
+      ]
+    ],
+    [
+      "oled:SCL",
+      "esp:D22",
+      "yellow",
+      [
+        "v-42.46",
+        "h-35.57"
+      ]
+    ],
+    [
+      "oled:GND",
+      "gnd_oled:GND",
+      "black",
+      [
+        "v-4.46",
+        "h-63.17"
+      ]
+    ],
+    [
+      "oled:VCC",
+      "vcc_oled:VCC",
+      "red",
+      [
+        "v-9.46",
+        "h-92.62"
+      ]
+    ]
+  ],
+  "dependencies": {}
+}

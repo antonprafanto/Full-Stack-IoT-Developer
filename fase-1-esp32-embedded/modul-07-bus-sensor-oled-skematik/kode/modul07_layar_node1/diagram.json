@@ -1,0 +1,87 @@
+{
+  "version": 1,
+  "author": "Kurikulum Fullstack IoT Developer",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "wokwi-esp32-devkit-v1",
+      "id": "esp",
+      "top": 0,
+      "left": 0,
+      "rotate": 90,
+      "attrs": {}
+    },
+    {
+      "type": "board-ssd1306",
+      "id": "oled",
+      "top": 200,
+      "left": 100,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-gnd",
+      "id": "gnd_oled",
+      "top": 210.46,
+      "left": 64.8,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-vcc",
+      "id": "vcc_oled",
+      "top": 166.42,
+      "left": 45.4,
+      "attrs": {}
+    }
+  ],
+  "connections": [
+    [
+      "esp:TX0",
+      "$serialMonitor:RX",
+      "",
+      []
+    ],
+    [
+      "esp:RX0",
+      "$serialMonitor:TX",
+      "",
+      []
+    ],
+    [
+      "oled:SDA",
+      "esp:D21",
+      "blue",
+      [
+        "v-44.46",
+        "h-74.3"
+      ]
+    ],
+    [
+      "oled:SCL",
+      "esp:D22",
+      "yellow",
+      [
+        "v-34.46",
+        "h-35.57"
+      ]
+    ],
+    [
+      "oled:GND",
+      "gnd_oled:GND",
+      "black",
+      [
+        "v-6",
+        "h-63.17"
+      ]
+    ],
+    [
+      "oled:VCC",
+      "vcc_oled:VCC",
+      "red",
+      [
+        "v-12",
+        "h-92.62"
+      ]
+    ]
+  ],
+  "dependencies": {}
+}

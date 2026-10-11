@@ -1,0 +1,161 @@
+{
+  "version": 1,
+  "author": "Kurikulum Fullstack IoT Developer",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "wokwi-esp32-devkit-v1",
+      "id": "esp",
+      "top": 0,
+      "left": 0,
+      "rotate": 90,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-ds18b20",
+      "id": "ds1",
+      "top": 215,
+      "left": 10,
+      "attrs": {
+        "temperature": "26.5",
+        "deviceID": "3A2B1C0D0E0F"
+      },
+      "rotate": 180
+    },
+    {
+      "type": "wokwi-ds18b20",
+      "id": "ds2",
+      "top": 215,
+      "left": 90,
+      "attrs": {
+        "temperature": "31.25",
+        "deviceID": "7F6E5D4C3B2A"
+      },
+      "rotate": 180
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r_pull",
+      "top": 166.3,
+      "left": 107.18,
+      "attrs": {
+        "value": "4700"
+      }
+    },
+    {
+      "type": "wokwi-vcc",
+      "id": "vcc_pull",
+      "top": 143.96,
+      "left": 156.38,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-vcc",
+      "id": "vcc_ds1",
+      "top": 182.43,
+      "left": -9.6,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-gnd",
+      "id": "gnd_ds1",
+      "top": 223.47,
+      "left": 49.8,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-vcc",
+      "id": "vcc_ds2",
+      "top": 182.43,
+      "left": 70.4,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-gnd",
+      "id": "gnd_ds2",
+      "top": 223.47,
+      "left": 129.8,
+      "attrs": {}
+    }
+  ],
+  "connections": [
+    [
+      "esp:TX0",
+      "$serialMonitor:RX",
+      "",
+      []
+    ],
+    [
+      "esp:RX0",
+      "$serialMonitor:TX",
+      "",
+      []
+    ],
+    [
+      "esp:RX2",
+      "ds1:DQ",
+      "orange",
+      [
+        "v35.2",
+        "h-17.52"
+      ]
+    ],
+    [
+      "esp:RX2",
+      "r_pull:1",
+      "orange",
+      [
+        "v22.2"
+      ]
+    ],
+    [
+      "ds2:DQ",
+      "r_pull:1",
+      "orange",
+      []
+    ],
+    [
+      "r_pull:2",
+      "vcc_pull:VCC",
+      "red",
+      []
+    ],
+    [
+      "ds1:VCC",
+      "vcc_ds1:VCC",
+      "red",
+      [
+        "v-6",
+        "h-17.58"
+      ]
+    ],
+    [
+      "ds1:GND",
+      "gnd_ds1:GND",
+      "black",
+      [
+        "v-3",
+        "h23.22"
+      ]
+    ],
+    [
+      "ds2:VCC",
+      "vcc_ds2:VCC",
+      "red",
+      [
+        "v-6",
+        "h-17.58"
+      ]
+    ],
+    [
+      "ds2:GND",
+      "gnd_ds2:GND",
+      "black",
+      [
+        "v-3",
+        "h23.22"
+      ]
+    ]
+  ],
+  "dependencies": {}
+}
