@@ -3,7 +3,7 @@
 > **Kurikulum 32 modul — satu modul = satu minggu belajar santai (±8 bulan) — untuk orang awam total hingga mampu membangun sistem IoT lengkap dari sensor sampai dashboard di HP.**
 > Hardware: **ESP32 + Raspberry Pi** · Software: **JavaScript/TypeScript (Node.js + React) untuk server & tampilan, sedikit C++ untuk chip** · Bahasa pengantar: **Indonesia, ramah awam**.
 >
-> Status dokumen: **v1.0.7 — disetujui, penulisan materi berjalan; Modul 1–6 (seluruh Fase 0, Modul 5, dan Modul 6) tersedia** (11 Oktober 2026). Keputusan yang mendasarinya ada di [§11](#11-keputusan-yang-sudah-disetujui); riwayat perubahan di [§13](#13-riwayat-revisi).
+> Status dokumen: **v1.0.8 — disetujui, penulisan materi berjalan; Modul 1–7 (seluruh Fase 0 dan Modul 5–7) tersedia** (12 Oktober 2026). Keputusan yang mendasarinya ada di [§11](#11-keputusan-yang-sudah-disetujui); riwayat perubahan di [§13](#13-riwayat-revisi).
 
 ---
 
@@ -284,7 +284,7 @@ Wokwi menyediakan ESP32, LED, tombol, potensiometer, buzzer, servo, relay, DHT22
 | Praktik | Di Wokwi | Pengganti di simulator |
 | :--- | :--- | :--- |
 | Sensor tanah kapasitif (Modul 6) | Tidak ada | Potensiometer sebagai "tanah basah/kering" |
-| BME280 (Modul 7) | Tidak ada | DHT22 |
+| BME280 (Modul 7) | Tidak ada | BMP180 (sepupu lamanya) untuk latihan alamat dan chip ID; DHT22 untuk kelembapan |
 | Mengukur arus *deep sleep* (Modul 9) | Tidak bisa | Pelajari konsepnya; ukur saat kit datang |
 | Uji "24 jam tanpa restart" (Modul 8) | Tidak praktis | Uji 30 menit di simulator + *uptime counter* |
 | Lab RS-485/Modbus (Modul 15) | Tidak ada | Pelajari konsep & kode; praktik saat kit datang |
@@ -449,6 +449,8 @@ Format tiap modul:
 
 #### Modul 7 — Protokol Bus Sensor: I2C, 1-Wire, SPI, Layar OLED, & Membaca Skematik
 *Fase 1 · Minggu 7 · Hardware: Kit A Tahap 2 · Prasyarat: Modul 6*
+
+📖 **Materi sudah tersedia:** [buka artikel Modul 7](fase-1-esp32-embedded/modul-07-bus-sensor-oled-skematik/README.md)
 
 - **Setelah modul ini Anda bisa:** menghubungkan beberapa perangkat pintar dengan hanya 2–4 kabel; menampilkan data di layar OLED; memahami "alamat" perangkat; membaca skematik bersimbol dasar yang ada di datasheet & dokumentasi modul.
 - **Konsep inti:** mengapa ada protokol bus (jalan tol vs jalan pribadi); **I2C** (SDA/SCL, alamat seperti 0x3C, *I2C scanner*); OLED SSD1306 (teks, angka besar, ikon sederhana); BME280 via I2C (**dilatih di Node 1, nanti dipasang di Node 2**); **1-Wire** DS18B20 (banyak sensor, satu kabel, "nomor seri", pull-up 4,7 kΩ); **SPI** (lebih cepat, lebih banyak kabel) dengan microSD untuk *logging* offline (**opsional, boleh dilepas setelah Modul 11**); **membaca skematik simbol dasar** (resistor, LED, kapasitor, saklar, GND, VCC, bus) agar bisa membaca datasheet dan skema modul; menggabungkan banyak sensor tanpa saling mengganggu.
@@ -931,6 +933,8 @@ Satu kalimat per istilah, bahasa manusia. Semua akan dibahas tuntas di modulnya.
 ---
 
 ## 13. Riwayat revisi
+
+**v1.0.8 (12 Okt 2026)** — Modul 7 terbit. Firmware Node 1 naik ke v0.4.0: layar OLED (alamat `0x3C`) menampilkan semua bacaan dengan tata letak rancangan pembelajar, dan bacaan bisa dicatat ke kartu microSD sebagai CSV (opsional); Node 1 tetap berjalan walaupun layar atau kartunya tidak ada. `PETA-PIN.md` naik ke versi 3: I2C terpasang dengan jalur bus di breadboard bawah (SCL kolom 19, SDA kolom 20) dan tabel baru **Bus di breadboard**. Versi yang dikunci untuk Modul 7: Adafruit SSD1306 2.5.17 (ikut terpasang: Adafruit GFX Library 1.12.6 dan Adafruit BusIO 1.17.4), Adafruit BME280 Library 2.3.0, OneWire 2.3.8, dan DallasTemperature 4.0.6. OneWire dipasang sendiri karena DallasTemperature 4.0.6 tidak lagi mendaftarkannya sebagai dependensi. Wokwi belum punya BME280; praktiknya memakai BMP180 untuk menunjukkan pemeriksaan chip ID (§5.4).
 
 **v1.0.7 (11 Okt 2026)** — Modul 6 terbit. Firmware Node 1 naik ke v0.3.0: kelima sensor dibaca sungguhan (DHT22, LDR, sensor tanah kapasitif, PIR, HC-SR04), ditambah aturan lokal pertama "siram otomatis" (pompa ditolak kalau tandon di bawah 20 % atau tidak terbaca) dan "lampu otomatis" (gelap + gerakan). `PETA-PIN.md` naik ke versi 2: sensor berstatus terpasang, sensor 5 V (PIR, HC-SR04) di rel atas, sensor 3,3 V di rel bawah. Versi yang dikunci untuk Modul 6: DHT sensor library 1.4.7 + Adafruit Unified Sensor 1.1.15. Semua varian sensor jarak (HC-SR04, HC-SR04+/P, RCWL-1601) dipasang dengan cara yang sama: 5 V dari MB102 dan ECHO lewat pembagi tegangan (catatan di §5.2). Lampiran A kini memuat tabel satuan kolom `telemetry` dan tanda bacaan gagal di firmware. Rincian Modul 6 di §7 kini menyebut tegangan ECHO setelah pembagi dengan tepat (±3,4 V, di bawah batas 3,6 V).
 

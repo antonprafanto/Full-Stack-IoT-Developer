@@ -2,7 +2,7 @@
 
 *Fase 1 · Minggu 6 · Perangkat keras (*hardware*): **Kit A Tahap 1** (lihat 🧰) — semua praktik juga bisa dicoba di Wokwi · Prasyarat: **Modul 5** (meja kerja dua breadboard dan Node 1 v0.2.0) · Waktu: 8–10 jam, dicicil dalam seminggu*
 
-[⬅️ Modul 5](../modul-05-gpio-dan-peta-pin/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · [Modul 7 ➡️ (segera terbit — baca ringkasannya di Silabus)](../../SILABUS.md#modul-7--protokol-bus-sensor-i2c-1-wire-spi-layar-oled--membaca-skematik)
+[⬅️ Modul 5](../modul-05-gpio-dan-peta-pin/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · [Modul 7 ➡️](../modul-07-bus-sensor-oled-skematik/README.md)
 
 ---
 
@@ -906,7 +906,7 @@ Mau mencoba di tanah sungguhan? Benamkan sensor ke pot tanah sampai garis batas.
 1. Di Arduino IDE, klik ikon **Library Manager** di bilah kiri (ikon ketiga, bergambar buku), sama seperti di Modul 3 dan 5.
 2. Ketik **DHT sensor library** di kotak pencarian. Pilih entri **DHT sensor library** yang di bawah judulnya tertulis **by Adafruit** — ada beberapa library DHT lain dengan nama mirip.
 3. Pastikan menu versinya menunjukkan **1.4.7** (pilih dari daftar kalau sudah ada versi lebih baru), lalu klik **INSTALL**.
-4. Muncul jendela `Install library dependencies` dengan pesan `The library DHT sensor library:1.4.7 needs another dependency currently not installed:` dan di bawahnya `- Adafruit Unified Sensor`. Artinya, library DHT butuh satu library pendamping. Klik **INSTALL ALL** — **bukan** **INSTALL WITHOUT DEPENDENCIES**. (Kalau Adafruit Unified Sensor sudah pernah terpasang, jendela ini tidak muncul; langsung ke langkah 5.)
+4. Muncul jendela `Install library dependencies` dengan pesan `The library DHT sensor library:1.4.7 needs another dependency currently not installed:` dan di bawahnya `- Adafruit Unified Sensor`. Artinya, library DHT butuh satu library pendamping. Klik **INSTALL ALL** — **bukan** **INSTALL WITHOUT DEPENDENCIES**. (Arduino IDE 2.3.10 tetap menampilkan jendela ini walaupun Adafruit Unified Sensor sudah pernah terpasang. Klik saja **INSTALL ALL**; tidak ada yang rusak.)
 5. Tunggu sampai notifikasi `Successfully installed library DHT sensor library:1.4.7` muncul di kanan bawah, panel **Output** berisi baris `Installed Adafruit Unified Sensor@1.1.15` dan `Installed DHT sensor library@1.4.7`, dan entri itu bertuliskan `1.4.7 installed`.
 
 ![Ilustrasi Library Manager Arduino IDE 2. Penanda 1 pada ikon buku Library Manager di bilah kiri. Kotak pencarian berisi DHT sensor library; entri DHT sensor library by Adafruit dengan menu versi 1.4.7 dan tombol INSTALL, ditandai penanda 2, pilih 1.4.7 lalu klik INSTALL. Di bawahnya, entri lain DHT sensor library for ESPx by beegee_tokyo dengan catatan bukan yang ini. Di sebelah kanan, jendela Install library dependencies berisi pesan The library DHT sensor library:1.4.7 needs another dependency currently not installed, minus Adafruit Unified Sensor, Would you like to install the missing dependency, dengan dua tombol INSTALL WITHOUT DEPENDENCIES dan INSTALL ALL; penanda 3 pada INSTALL ALL. Di bawah, panel Output berisi baris Downloading, Installing, dan Installed untuk Adafruit Unified Sensor@1.1.15 dan DHT sensor library@1.4.7. Label ilustrasi](aset/arduino-library-dht.png)
@@ -2357,4 +2357,4 @@ Semua sketsa di modul ini sudah dijalankan di Wokwi dengan paket esp32 versi 3, 
 
 ---
 
-[⬅️ Modul 5](../modul-05-gpio-dan-peta-pin/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · **Berikutnya: Modul 7 — Protokol Bus Sensor: I2C, 1-Wire, SPI, Layar OLED, & Membaca Skematik** (segera terbit; [ringkasannya di Silabus](../../SILABUS.md#modul-7--protokol-bus-sensor-i2c-1-wire-spi-layar-oled--membaca-skematik))
+[⬅️ Modul 5](../modul-05-gpio-dan-peta-pin/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · **Berikutnya: [Modul 7 — Protokol Bus Sensor: I2C, 1-Wire, SPI, Layar OLED, & Membaca Skematik](../modul-07-bus-sensor-oled-skematik/README.md) ➡️**
