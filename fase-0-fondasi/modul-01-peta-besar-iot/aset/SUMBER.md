@@ -31,4 +31,4 @@ Rekap semua gambar di folder ini. Diagram orisinal kurikulum berlisensi **CC BY 
 | `github-03-menu-add-file.jpg` | Tangkapan layar + anotasi penulis | Halaman repositori GitHub | © GitHub, Inc.; dipakai untuk tujuan pendidikan |
 | `github-04-upload-files.jpg` | Tangkapan layar | Halaman *Upload files* GitHub | © GitHub, Inc.; dipakai untuk tujuan pendidikan |
 
-Gambar lintas modul yang dirujuk dari artikel: `../../aset/arsitektur-fullstack-iot.png` (diagram orisinal kurikulum, CC BY 4.0).
+Gambar lintas modul yang dirujuk dari artikel: `../../aset/arsitektur-fullstack-iot.png` dan versi tema gelapnya, `../../aset/arsitektur-fullstack-iot-gelap.png` (diagram orisinal kurikulum, CC BY 4.0).

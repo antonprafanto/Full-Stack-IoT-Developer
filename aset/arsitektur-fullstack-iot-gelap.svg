@@ -1,0 +1,175 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="716" viewBox="0 0 1280 716" font-family="Inter, 'Segoe UI', Arial, sans-serif">
+<text x="32.0" y="46.0" font-size="22" font-weight="700" fill="#e6edf3" text-anchor="start" >Arsitektur Rumah Pintar Mini</text>
+<text x="32.0" y="72.0" font-size="14" font-weight="400" fill="#9198a1" text-anchor="start" >Lima lapisan, dari sensor sampai layar HP. Bacaan sensor mengalir ke kanan; perintah mengalir balik ke perangkat.</text>
+<line x1="1004.0" y1="41.0" x2="1040.0" y2="41.0" stroke="#4493f8" stroke-width="1.75" stroke-linecap="round"/>
+<path d="M1040.0 41.0L1032.0 45.5L1032.0 36.5Z" fill="#4493f8"/>
+<path d="M1004.0 41.0L1012.0 36.5L1012.0 45.5Z" fill="#4493f8"/>
+<text x="1052.0" y="45.5" font-size="12.5" font-weight="500" fill="#9198a1" text-anchor="start" >data &amp; perintah</text>
+<line x1="1004.0" y1="65.0" x2="1040.0" y2="65.0" stroke="#656c76" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="5 4"/>
+<text x="1052.0" y="69.5" font-size="12.5" font-weight="500" fill="#9198a1" text-anchor="start" >batas jaringan rumah</text>
+<text x="628.0" y="118.0" font-size="11" font-weight="700" fill="#9198a1" text-anchor="end" letter-spacing="1.2">DI RUMAH</text>
+<text x="652.0" y="118.0" font-size="11" font-weight="700" fill="#9198a1" text-anchor="start" letter-spacing="1.2">INTERNET</text>
+<line x1="640.0" y1="104.0" x2="640.0" y2="212.0" stroke="#656c76" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="5 4"/>
+<line x1="640.0" y1="272.0" x2="640.0" y2="576.0" stroke="#656c76" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="5 4"/>
+<circle cx="46.0" cy="154.0" r="14" fill="#132b4a" stroke="#4493f8" stroke-width="1.5"/>
+<text x="46.0" y="158.5" font-size="13" font-weight="700" fill="#4493f8" text-anchor="middle" >1</text>
+<text x="70.0" y="153.0" font-size="16.5" font-weight="700" fill="#e6edf3" text-anchor="start" >Perangkat</text>
+<text x="70.0" y="172.0" font-size="12.5" font-weight="500" fill="#9198a1" text-anchor="start" >Fase 0–1 · Modul 1–9</text>
+<circle cx="372.0" cy="154.0" r="14" fill="#132b4a" stroke="#4493f8" stroke-width="1.5"/>
+<text x="372.0" y="158.5" font-size="13" font-weight="700" fill="#4493f8" text-anchor="middle" >2</text>
+<text x="396.0" y="153.0" font-size="16.5" font-weight="700" fill="#e6edf3" text-anchor="start" >Gateway</text>
+<text x="396.0" y="172.0" font-size="12.5" font-weight="500" fill="#9198a1" text-anchor="start" >Fase 2 · Modul 10–15</text>
+<circle cx="698.0" cy="154.0" r="14" fill="#132b4a" stroke="#4493f8" stroke-width="1.5"/>
+<text x="698.0" y="158.5" font-size="13" font-weight="700" fill="#4493f8" text-anchor="middle" >3</text>
+<text x="722.0" y="153.0" font-size="16.5" font-weight="700" fill="#e6edf3" text-anchor="start" >Backend &amp; data</text>
+<text x="722.0" y="172.0" font-size="12.5" font-weight="500" fill="#9198a1" text-anchor="start" >Fase 3 · Modul 16–21</text>
+<circle cx="1024.0" cy="154.0" r="14" fill="#132b4a" stroke="#4493f8" stroke-width="1.5"/>
+<text x="1024.0" y="158.5" font-size="13" font-weight="700" fill="#4493f8" text-anchor="middle" >4</text>
+<text x="1048.0" y="153.0" font-size="16.5" font-weight="700" fill="#e6edf3" text-anchor="start" >Dashboard</text>
+<text x="1048.0" y="172.0" font-size="12.5" font-weight="500" fill="#9198a1" text-anchor="start" >Fase 4 · Modul 22–25</text>
+<rect x="32.0" y="196.0" width="238.0" height="138.0" rx="10" fill="#151b23" stroke="#3d444d" stroke-width="1.25"/>
+<path d="M54 218h12a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1h-12a1 1 0 0 1-1-1v-12a1 1 0 0 1 1-1z" fill="none" stroke="#4493f8" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M58 223h4v4h-4z" fill="none" stroke="#4493f8" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M57 214.5v3.5M57 232v3.5M49.5 222h3.5M67 222h3.5" fill="none" stroke="#4493f8" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M60 214.5v3.5M60 232v3.5M49.5 225h3.5M67 225h3.5" fill="none" stroke="#4493f8" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M63 214.5v3.5M63 232v3.5M49.5 228h3.5M67 228h3.5" fill="none" stroke="#4493f8" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="82.0" y="225.0" font-size="15" font-weight="700" fill="#e6edf3" text-anchor="start" >Node 1 · Rumah</text>
+<text x="82.0" y="243.0" font-size="12.5" font-weight="400" fill="#9198a1" text-anchor="start" >ESP32 · selalu tercolok</text>
+<line x1="48.0" y1="258.0" x2="254.0" y2="258.0" stroke="#2a313a" stroke-width="1" stroke-linecap="round"/>
+<circle cx="52.0" cy="273.5" r="2.2" fill="#9198a1"/>
+<text x="62.0" y="278.0" font-size="13" font-weight="400" fill="#e6edf3" text-anchor="start" >5 sensor &amp; layar OLED</text>
+<circle cx="52.0" cy="294.5" r="2.2" fill="#9198a1"/>
+<text x="62.0" y="299.0" font-size="13" font-weight="400" fill="#e6edf3" text-anchor="start" >Lampu, kipas, pompa, tirai</text>
+<circle cx="52.0" cy="315.5" r="2.2" fill="#9198a1"/>
+<text x="62.0" y="320.0" font-size="13" font-weight="400" fill="#e6edf3" text-anchor="start" >Aturan pengaman lokal</text>
+<rect x="32.0" y="407.0" width="238.0" height="117.0" rx="10" fill="#151b23" stroke="#3d444d" stroke-width="1.25"/>
+<path d="M51 431h15a1.5 1.5 0 0 1 1.5 1.5v7a1.5 1.5 0 0 1-1.5 1.5h-15a1.5 1.5 0 0 1-1.5-1.5v-7a1.5 1.5 0 0 1 1.5-1.5z" fill="none" stroke="#4493f8" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M69.5 434.5v3" fill="none" stroke="#4493f8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="52.5" y="433.5" width="4.0" height="5.0" rx="1" fill="#4493f8"/>
+<rect x="57.5" y="433.5" width="4.0" height="5.0" rx="1" fill="#4493f8"/>
+<text x="82.0" y="436.0" font-size="15" font-weight="700" fill="#e6edf3" text-anchor="start" >Node 2 · Kebun</text>
+<text x="82.0" y="454.0" font-size="12.5" font-weight="400" fill="#9198a1" text-anchor="start" >ESP32 · baterai 18650</text>
+<line x1="48.0" y1="469.0" x2="254.0" y2="469.0" stroke="#2a313a" stroke-width="1" stroke-linecap="round"/>
+<circle cx="52.0" cy="484.5" r="2.2" fill="#9198a1"/>
+<text x="62.0" y="489.0" font-size="13" font-weight="400" fill="#e6edf3" text-anchor="start" >BME280, DS18B20, tanah</text>
+<circle cx="52.0" cy="505.5" r="2.2" fill="#9198a1"/>
+<text x="62.0" y="510.0" font-size="13" font-weight="400" fill="#e6edf3" text-anchor="start" >Dirakit di Modul 14</text>
+<line x1="151.0" y1="405.0" x2="151.0" y2="336.0" stroke="#4493f8" stroke-width="1.75" stroke-linecap="round"/>
+<path d="M151.0 336.0L155.5 344.0L146.5 344.0Z" fill="#4493f8"/>
+<text x="163.0" y="375.0" font-size="12.5" font-weight="700" fill="#4493f8" text-anchor="start" >ESP-NOW</text>
+<rect x="358.0" y="196.0" width="238.0" height="202.0" rx="10" fill="#151b23" stroke="#3d444d" stroke-width="1.25"/>
+<path d="M377.5 225h17a1.5 1.5 0 0 1 1.5 1.5v6a1.5 1.5 0 0 1-1.5 1.5h-17a1.5 1.5 0 0 1-1.5-1.5v-6a1.5 1.5 0 0 1 1.5-1.5z" fill="none" stroke="#4493f8" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M381 225l-2-8M391 225l2-8" fill="none" stroke="#4493f8" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="381.0" cy="229.5" r="1.4" fill="#4493f8"/>
+<circle cx="385.0" cy="229.5" r="1.4" fill="#4493f8"/>
+<text x="408.0" y="225.0" font-size="15" font-weight="700" fill="#e6edf3" text-anchor="start" >Raspberry Pi</text>
+<text x="408.0" y="243.0" font-size="12.5" font-weight="400" fill="#9198a1" text-anchor="start" >gateway · hidup 24 jam</text>
+<line x1="374.0" y1="258.0" x2="580.0" y2="258.0" stroke="#2a313a" stroke-width="1" stroke-linecap="round"/>
+<text x="374.0" y="279.0" font-size="13" font-weight="600" fill="#e6edf3" text-anchor="start" >Mosquitto</text>
+<text x="374.0" y="295.0" font-size="12.5" font-weight="400" fill="#9198a1" text-anchor="start" >broker MQTT</text>
+<line x1="374.0" y1="302.0" x2="580.0" y2="302.0" stroke="#2a313a" stroke-width="1" stroke-linecap="round"/>
+<text x="374.0" y="323.0" font-size="13" font-weight="600" fill="#e6edf3" text-anchor="start" >Node-RED</text>
+<text x="374.0" y="339.0" font-size="12.5" font-weight="400" fill="#9198a1" text-anchor="start" >otomasi lokal, opsional</text>
+<line x1="374.0" y1="346.0" x2="580.0" y2="346.0" stroke="#2a313a" stroke-width="1" stroke-linecap="round"/>
+<text x="374.0" y="367.0" font-size="13" font-weight="600" fill="#e6edf3" text-anchor="start" >Antrean data</text>
+<text x="374.0" y="383.0" font-size="12.5" font-weight="400" fill="#9198a1" text-anchor="start" >saat internet putus</text>
+<text x="358.0" y="424.0" font-size="12.5" font-weight="400" fill="#9198a1" text-anchor="start" >Di awal belajar, laptopmu bisa</text>
+<text x="358.0" y="441.0" font-size="12.5" font-weight="400" fill="#9198a1" text-anchor="start" >menggantikan peran Pi.</text>
+<rect x="684.0" y="196.0" width="238.0" height="159.0" rx="10" fill="#151b23" stroke="#3d444d" stroke-width="1.25"/>
+<path d="M704.5 216h15a1.5 1.5 0 0 1 1.5 1.5v5a1.5 1.5 0 0 1-1.5 1.5h-15a1.5 1.5 0 0 1-1.5-1.5v-5a1.5 1.5 0 0 1 1.5-1.5z" fill="none" stroke="#4493f8" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="707.5" cy="220.0" r="1.3" fill="#4493f8"/>
+<path d="M711 220h6" fill="none" stroke="#4493f8" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M704.5 226h15a1.5 1.5 0 0 1 1.5 1.5v5a1.5 1.5 0 0 1-1.5 1.5h-15a1.5 1.5 0 0 1-1.5-1.5v-5a1.5 1.5 0 0 1 1.5-1.5z" fill="none" stroke="#4493f8" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="707.5" cy="230.0" r="1.3" fill="#4493f8"/>
+<path d="M711 230h6" fill="none" stroke="#4493f8" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="734.0" y="225.0" font-size="15" font-weight="700" fill="#e6edf3" text-anchor="start" >Server Node.js</text>
+<text x="734.0" y="243.0" font-size="12.5" font-weight="400" fill="#9198a1" text-anchor="start" >Fastify + TypeScript</text>
+<line x1="700.0" y1="258.0" x2="906.0" y2="258.0" stroke="#2a313a" stroke-width="1" stroke-linecap="round"/>
+<circle cx="704.0" cy="273.5" r="2.2" fill="#9198a1"/>
+<text x="714.0" y="278.0" font-size="13" font-weight="400" fill="#e6edf3" text-anchor="start" >REST API &amp; WebSocket</text>
+<circle cx="704.0" cy="294.5" r="2.2" fill="#9198a1"/>
+<text x="714.0" y="299.0" font-size="13" font-weight="400" fill="#e6edf3" text-anchor="start" >Aturan otomatis</text>
+<circle cx="704.0" cy="315.5" r="2.2" fill="#9198a1"/>
+<text x="714.0" y="320.0" font-size="13" font-weight="400" fill="#e6edf3" text-anchor="start" >Notifikasi Telegram</text>
+<circle cx="704.0" cy="336.5" r="2.2" fill="#9198a1"/>
+<text x="714.0" y="341.0" font-size="13" font-weight="400" fill="#e6edf3" text-anchor="start" >Login &amp; API key perangkat</text>
+<rect x="684.0" y="407.0" width="238.0" height="117.0" rx="10" fill="#151b23" stroke="#3d444d" stroke-width="1.25"/>
+<path d="M704 430a8 3 0 1 0 16 0a8 3 0 1 0 -16 0z" fill="none" stroke="#4493f8" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M704 430v12a8 3 0 0 0 16 0v-12" fill="none" stroke="#4493f8" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M704 436a8 3 0 0 0 16 0" fill="none" stroke="#4493f8" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="734.0" y="436.0" font-size="15" font-weight="700" fill="#e6edf3" text-anchor="start" >PostgreSQL</text>
+<text x="734.0" y="454.0" font-size="12.5" font-weight="400" fill="#9198a1" text-anchor="start" >+ TimescaleDB</text>
+<line x1="700.0" y1="469.0" x2="906.0" y2="469.0" stroke="#2a313a" stroke-width="1" stroke-linecap="round"/>
+<circle cx="704.0" cy="484.5" r="2.2" fill="#9198a1"/>
+<text x="714.0" y="489.0" font-size="13" font-weight="400" fill="#e6edf3" text-anchor="start" >Riwayat bertahun-tahun</text>
+<circle cx="704.0" cy="505.5" r="2.2" fill="#9198a1"/>
+<text x="714.0" y="510.0" font-size="13" font-weight="400" fill="#e6edf3" text-anchor="start" >Rata-rata per jam &amp; hari</text>
+<line x1="803.0" y1="357.0" x2="803.0" y2="405.0" stroke="#4493f8" stroke-width="1.75" stroke-linecap="round"/>
+<path d="M803.0 405.0L798.5 397.0L807.5 397.0Z" fill="#4493f8"/>
+<path d="M803.0 357.0L807.5 365.0L798.5 365.0Z" fill="#4493f8"/>
+<text x="815.0" y="386.0" font-size="12.5" font-weight="700" fill="#4493f8" text-anchor="start" >SQL</text>
+<text x="684.0" y="550.0" font-size="12.5" font-weight="400" fill="#9198a1" text-anchor="start" >Di VPS (jalur utama) atau di</text>
+<text x="684.0" y="567.0" font-size="12.5" font-weight="400" fill="#9198a1" text-anchor="start" >Raspberry Pi (jalur gratis).</text>
+<rect x="1010.0" y="196.0" width="238.0" height="138.0" rx="10" fill="#151b23" stroke="#3d444d" stroke-width="1.25"/>
+<path d="M1029.5 217h17a1.5 1.5 0 0 1 1.5 1.5v13a1.5 1.5 0 0 1-1.5 1.5h-17a1.5 1.5 0 0 1-1.5-1.5v-13a1.5 1.5 0 0 1 1.5-1.5z" fill="none" stroke="#4493f8" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M1028 221.5h20" fill="none" stroke="#4493f8" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M1031.5 229.5l3.5-3.5 3 2.5 5-5" fill="none" stroke="#4493f8" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="1060.0" y="225.0" font-size="15" font-weight="700" fill="#e6edf3" text-anchor="start" >Aplikasi web React</text>
+<text x="1060.0" y="243.0" font-size="12.5" font-weight="400" fill="#9198a1" text-anchor="start" >PWA · laptop &amp; HP</text>
+<line x1="1026.0" y1="258.0" x2="1232.0" y2="258.0" stroke="#2a313a" stroke-width="1" stroke-linecap="round"/>
+<circle cx="1030.0" cy="273.5" r="2.2" fill="#9198a1"/>
+<text x="1040.0" y="278.0" font-size="13" font-weight="400" fill="#e6edf3" text-anchor="start" >Grafik &amp; status realtime</text>
+<circle cx="1030.0" cy="294.5" r="2.2" fill="#9198a1"/>
+<text x="1040.0" y="299.0" font-size="13" font-weight="400" fill="#e6edf3" text-anchor="start" >Tombol kendali &amp; aturan</text>
+<circle cx="1030.0" cy="315.5" r="2.2" fill="#9198a1"/>
+<text x="1040.0" y="320.0" font-size="13" font-weight="400" fill="#e6edf3" text-anchor="start" >Login dengan peran</text>
+<rect x="1010.0" y="407.0" width="238.0" height="117.0" rx="10" fill="#151b23" stroke="#3d444d" stroke-width="1.25"/>
+<path d="M1029 427v18h18" fill="none" stroke="#4493f8" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M1034 442v-5" fill="none" stroke="#4493f8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M1038 442v-9" fill="none" stroke="#4493f8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M1042 442v-6" fill="none" stroke="#4493f8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M1046 442v-12" fill="none" stroke="#4493f8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="1060.0" y="436.0" font-size="15" font-weight="700" fill="#e6edf3" text-anchor="start" >Grafana</text>
+<text x="1060.0" y="454.0" font-size="12.5" font-weight="400" fill="#9198a1" text-anchor="start" >dasbor tim teknis</text>
+<line x1="1026.0" y1="469.0" x2="1232.0" y2="469.0" stroke="#2a313a" stroke-width="1" stroke-linecap="round"/>
+<circle cx="1030.0" cy="484.5" r="2.2" fill="#9198a1"/>
+<text x="1040.0" y="489.0" font-size="13" font-weight="400" fill="#e6edf3" text-anchor="start" >Kesehatan perangkat</text>
+<circle cx="1030.0" cy="505.5" r="2.2" fill="#9198a1"/>
+<text x="1040.0" y="510.0" font-size="13" font-weight="400" fill="#e6edf3" text-anchor="start" >Peta node &amp; laporan</text>
+<line x1="924.0" y1="441.0" x2="1008.0" y2="441.0" stroke="#4493f8" stroke-width="1.75" stroke-linecap="round"/>
+<path d="M1008.0 441.0L1000.0 445.5L1000.0 436.5Z" fill="#4493f8"/>
+<path d="M924.0 441.0L932.0 436.5L932.0 445.5Z" fill="#4493f8"/>
+<text x="966.0" y="432.0" font-size="12.5" font-weight="700" fill="#4493f8" text-anchor="middle" >SQL</text>
+<line x1="272.0" y1="242.0" x2="356.0" y2="242.0" stroke="#4493f8" stroke-width="1.75" stroke-linecap="round"/>
+<path d="M356.0 242.0L348.0 246.5L348.0 237.5Z" fill="#4493f8"/>
+<path d="M272.0 242.0L280.0 237.5L280.0 246.5Z" fill="#4493f8"/>
+<text x="314.0" y="233.0" font-size="12.5" font-weight="700" fill="#4493f8" text-anchor="middle" >MQTT</text>
+<text x="314.0" y="261.0" font-size="12" font-weight="400" fill="#9198a1" text-anchor="middle" >via Wi-Fi</text>
+<line x1="598.0" y1="242.0" x2="682.0" y2="242.0" stroke="#4493f8" stroke-width="1.75" stroke-linecap="round"/>
+<path d="M682.0 242.0L674.0 246.5L674.0 237.5Z" fill="#4493f8"/>
+<path d="M598.0 242.0L606.0 237.5L606.0 246.5Z" fill="#4493f8"/>
+<text x="640.0" y="233.0" font-size="12.5" font-weight="700" fill="#4493f8" text-anchor="middle" >MQTT + TLS</text>
+<text x="640.0" y="261.0" font-size="12" font-weight="400" fill="#9198a1" text-anchor="middle" >via internet</text>
+<line x1="924.0" y1="242.0" x2="1008.0" y2="242.0" stroke="#4493f8" stroke-width="1.75" stroke-linecap="round"/>
+<path d="M1008.0 242.0L1000.0 246.5L1000.0 237.5Z" fill="#4493f8"/>
+<path d="M924.0 242.0L932.0 237.5L932.0 246.5Z" fill="#4493f8"/>
+<text x="966.0" y="233.0" font-size="12.5" font-weight="700" fill="#4493f8" text-anchor="middle" >HTTPS</text>
+<text x="966.0" y="261.0" font-size="12" font-weight="400" fill="#9198a1" text-anchor="middle" >WebSocket</text>
+<rect x="32.0" y="600.0" width="1216.0" height="76.0" rx="10" fill="#151b23" stroke="#3d444d" stroke-width="1.25"/>
+<circle cx="62.0" cy="638.0" r="14" fill="#132b4a" stroke="#4493f8" stroke-width="1.5"/>
+<text x="62.0" y="642.5" font-size="13" font-weight="700" fill="#4493f8" text-anchor="middle" >5</text>
+<text x="88.0" y="633.0" font-size="16.5" font-weight="700" fill="#e6edf3" text-anchor="start" >Operasi</text>
+<text x="88.0" y="652.0" font-size="12.5" font-weight="500" fill="#9198a1" text-anchor="start" >Fase 5 · Modul 26–32</text>
+<text x="349.0" y="643.0" font-size="13" font-weight="600" fill="#e6edf3" text-anchor="middle" >Docker Compose</text>
+<line x1="430.0" y1="620.0" x2="430.0" y2="656.0" stroke="#3d444d" stroke-width="1" stroke-linecap="round"/>
+<text x="511.0" y="643.0" font-size="13" font-weight="600" fill="#e6edf3" text-anchor="middle" >Deploy + HTTPS</text>
+<line x1="592.0" y1="620.0" x2="592.0" y2="656.0" stroke="#3d444d" stroke-width="1" stroke-linecap="round"/>
+<text x="673.0" y="643.0" font-size="13" font-weight="600" fill="#e6edf3" text-anchor="middle" >OTA firmware</text>
+<line x1="754.0" y1="620.0" x2="754.0" y2="656.0" stroke="#3d444d" stroke-width="1" stroke-linecap="round"/>
+<text x="835.0" y="643.0" font-size="13" font-weight="600" fill="#e6edf3" text-anchor="middle" >CI/CD &amp; pengujian</text>
+<line x1="916.0" y1="620.0" x2="916.0" y2="656.0" stroke="#3d444d" stroke-width="1" stroke-linecap="round"/>
+<text x="997.0" y="643.0" font-size="13" font-weight="600" fill="#e6edf3" text-anchor="middle" >Monitoring &amp; backup</text>
+<line x1="1078.0" y1="620.0" x2="1078.0" y2="656.0" stroke="#3d444d" stroke-width="1" stroke-linecap="round"/>
+<text x="1159.0" y="643.0" font-size="13" font-weight="600" fill="#e6edf3" text-anchor="middle" >Proyek akhir</text>
+<text x="1248.0" y="702.0" font-size="11.5" font-weight="400" fill="#9198a1" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

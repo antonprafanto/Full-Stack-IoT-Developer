@@ -63,9 +63,12 @@ Sepanjang kurikulum, kita membangun **satu proyek benang merah bernama "Rumah Pi
 
 > ⚠️ **Tentang listrik rumah 220 V:** kurikulum ini **tidak pernah** menyambungkan apa pun ke listrik PLN 220 V. Semua yang kita kendalikan bertegangan rendah (3,3 V / 5 V) yang aman disentuh. Cara kerja relay untuk 220 V dibahas sebagai pengetahuan dan peringatan, bukan praktik.
 
-![Diagram arsitektur fullstack IoT: sensor dan aktuator terhubung ke ESP32, ESP32 mengirim data lewat WiFi dan MQTT ke Raspberry Pi sebagai gateway, gateway meneruskan ke server Node.js dan database PostgreSQL, lalu dashboard React menampilkan data ke pengguna; lapisan operasi (Docker, deploy, OTA, monitoring) melingkupi semuanya](aset/arsitektur-fullstack-iot.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="aset/arsitektur-fullstack-iot-gelap.png">
+  <img src="aset/arsitektur-fullstack-iot.png" alt="Arsitektur proyek Rumah Pintar Mini dalam lima lapisan. 1, Perangkat: Node 1 Rumah (ESP32 dengan lima sensor, layar OLED, lampu, kipas, pompa, dan tirai) dan Node 2 Kebun (ESP32 berbaterai) yang mengirim datanya ke Node 1 lewat ESP-NOW. 2, Gateway: Raspberry Pi dengan broker MQTT Mosquitto, Node-RED opsional, dan antrean data saat internet putus; Node 1 tersambung ke sini lewat MQTT via Wi-Fi. 3, Backend dan data, di seberang batas jaringan rumah: server Node.js (Fastify dan TypeScript) dengan REST API, WebSocket, aturan otomatis, notifikasi Telegram, serta login dan API key perangkat, tersambung ke gateway lewat MQTT dengan TLS dan ke database PostgreSQL dengan TimescaleDB lewat SQL. 4, Dashboard: aplikasi web React (PWA) lewat HTTPS dan WebSocket, serta Grafana yang membaca database lewat SQL. 5, Operasi di bawah semuanya: Docker Compose, deploy dengan HTTPS, OTA firmware, CI/CD dan pengujian, monitoring dan backup, serta proyek akhir.">
+</picture>
 
-*Diagram arsitektur yang akan dibangun. Setiap kotak berwarna adalah satu fase kurikulum. (Gambar dibuat khusus untuk kurikulum ini, lisensi CC BY 4.0 — sumber SVG ada di `aset/arsitektur-fullstack-iot.svg`.)*
+*Diagram arsitektur yang akan dibangun. Nomor 1–5 adalah lapisan sistem, lengkap dengan fase dan modul tempat setiap lapisan dipelajari; garis putus-putus memisahkan bagian yang ada di rumah dari bagian di internet. (Gambar dibuat khusus untuk kurikulum ini, lisensi CC BY 4.0 — sumber SVG ada di `aset/arsitektur-fullstack-iot.svg`, versi tema gelap di `aset/arsitektur-fullstack-iot-gelap.svg`.)*
 
 Begini cara membaca diagramnya dengan analogi sehari-hari:
 

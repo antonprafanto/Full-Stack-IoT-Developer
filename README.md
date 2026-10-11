@@ -1,27 +1,33 @@
-# 🚀 Fullstack IoT Developer: Zero to Expert
+# Fullstack IoT Developer: Zero to Expert
 
-**Kurikulum belajar mandiri 32 modul (satu modul = satu minggu, ±8 bulan) — dari orang awam total sampai mampu membangun sistem IoT lengkap: sensor → ESP32 → Raspberry Pi → server Node.js → dashboard di HP.**
+Kurikulum belajar mandiri **32 modul** dalam Bahasa Indonesia, dari orang awam total sampai mampu membangun sistem IoT lengkap: sensor → ESP32 → Raspberry Pi → server Node.js → dashboard di HP. Satu modul dikerjakan dalam satu minggu, jadi seluruh kurikulum memakan waktu sekitar 8 bulan. Tidak perlu latar belakang elektronika maupun pemrograman.
 
-Ditulis dalam Bahasa Indonesia yang ramah awam. Tidak perlu latar belakang elektronika maupun pemrograman.
+**[Silabus](SILABUS.md)** · **[Pelacak progres](PROGRES.md)** · **[Mulai dari Modul 1](fase-0-fondasi/modul-01-peta-besar-iot/README.md)** · **[Proyek Rumah Pintar Mini](proyek-rumah-pintar-mini/README.md)**
 
-| | |
-| :--- | :--- |
-| 🧰 **Hardware** | ESP32 DevKit V1 ×2 (Node "Rumah" & Node "Kebun") + Raspberry Pi 5 (gateway; Pi 4 tetap didukung). Modul 1–9 bisa ±90 % tanpa hardware lewat simulator Wokwi. |
-| 💻 **Software** | Sedikit C++ (Arduino) untuk chip · JavaScript/TypeScript ringan untuk semua sisanya: Node.js 24, Fastify, PostgreSQL + TimescaleDB, MQTT (Mosquitto), Modbus RTU, React 19, Docker. |
-| 🏠 **Proyek benang merah** | "Rumah Pintar Mini" — tumbuh dari LED berkedip (Modul 1) menjadi sistem online dengan TLS, OTA, CI/CD, dan monitoring (Modul 30), lalu proyek akhir Anda sendiri (Modul 31–32). Semua bertegangan rendah (USB 5 V) — tidak pernah menyentuh listrik 220 V. |
-| 💸 **Biaya** | Mulai Rp 0 (simulator) · ±Rp 500–950 rb untuk kit ESP32 (2 board) · ±Rp 1,3–2,2 jt jika ingin Raspberry Pi sungguhan · VPS + domain opsional di ±2 bulan terakhir. |
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="aset/arsitektur-fullstack-iot-gelap.png">
+  <img src="aset/arsitektur-fullstack-iot.png" alt="Arsitektur proyek Rumah Pintar Mini dalam lima lapisan. 1, Perangkat: Node 1 Rumah (ESP32 dengan lima sensor, layar OLED, lampu, kipas, pompa, dan tirai) dan Node 2 Kebun (ESP32 berbaterai) yang mengirim datanya ke Node 1 lewat ESP-NOW. 2, Gateway: Raspberry Pi dengan broker MQTT Mosquitto, Node-RED opsional, dan antrean data saat internet putus; Node 1 tersambung ke sini lewat MQTT via Wi-Fi. 3, Backend dan data, di seberang batas jaringan rumah: server Node.js (Fastify dan TypeScript) dengan REST API, WebSocket, aturan otomatis, notifikasi Telegram, serta login dan API key perangkat, tersambung ke gateway lewat MQTT dengan TLS dan ke database PostgreSQL dengan TimescaleDB lewat SQL. 4, Dashboard: aplikasi web React (PWA) lewat HTTPS dan WebSocket, serta Grafana yang membaca database lewat SQL. 5, Operasi di bawah semuanya: Docker Compose, deploy dengan HTTPS, OTA firmware, CI/CD dan pengujian, monitoring dan backup, serta proyek akhir.">
+</picture>
 
-![Arsitektur fullstack IoT yang dibangun di kurikulum ini](aset/arsitektur-fullstack-iot.png)
+<sub>Lima lapisan sistem yang dibangun sepanjang kurikulum; nomor lapisan mengikuti urutan fase. Penjelasan setiap lapisan ada di [Silabus §2](SILABUS.md#2-gambaran-besar-apa-yang-akan-kita-bangun).</sub>
 
-## 📖 Mulai dari mana?
+## Sekilas
 
-1. Baca **[SILABUS.md](SILABUS.md)** — peta lengkap 6 fase / 32 modul, prasyarat & alat yang dibutuhkan, dan cara belajar (±20 menit). Pemula cukup membaca §1, §2, §4, §5 dulu; ada glosarium di §12 dan "kontrak data" proyek di Lampiran A.
-2. Salin **[PROGRES.md](PROGRES.md)** ke catatan Anda sendiri (atau *fork* repo ini) untuk mencentang kemajuan.
-3. Buka **[Modul 1](fase-0-fondasi/modul-01-peta-besar-iot/README.md)** dan kerjakan berurutan. Setiap modul = 1 minggu @ 6–10 jam (Modul N = Minggu N).
+- **Perangkat keras.** Dua ESP32 DevKit V1 (Node "Rumah" dan Node "Kebun") dan Raspberry Pi 5 sebagai gateway (Pi 4 tetap didukung). Sekitar 90 % isi Modul 1–9 bisa dikerjakan tanpa perangkat keras lewat simulator Wokwi.
+- **Perangkat lunak.** Sedikit C++ (Arduino) untuk chip, lalu JavaScript/TypeScript ringan untuk semua sisanya: Node.js 24, Fastify, PostgreSQL + TimescaleDB, MQTT (Mosquitto), Modbus RTU, React 19, dan Docker.
+- **Proyek benang merah.** "Rumah Pintar Mini" tumbuh dari LED berkedip (Modul 1) menjadi sistem online dengan TLS, OTA, CI/CD, dan monitoring (Modul 30), lalu menjadi proyek akhir Anda sendiri (Modul 31–32). Semuanya bertegangan rendah (USB 5 V); kurikulum ini tidak pernah menyentuh listrik 220 V.
+- **Biaya.** Mulai Rp0 dengan simulator; sekitar Rp500–950 ribu untuk kit ESP32 (dua papan); sekitar Rp1,3–2,2 juta kalau ingin memakai Raspberry Pi sungguhan; VPS dan domain opsional di dua bulan terakhir.
 
-> **Status:** silabus **v1.0 disetujui** (9 Oktober 2026). Materi modul ditulis berurutan; yang sudah tersedia: **Modul 1–7**, yaitu seluruh Fase 0 dan tiga modul pertama Fase 1 (lihat tabel di bawah). Daftar lengkap 32 modul ada di [PROGRES.md](PROGRES.md).
+## Mulai dari mana?
 
-## 📚 Modul yang sudah tersedia
+1. Baca **[SILABUS.md](SILABUS.md)**: peta lengkap 6 fase dan 32 modul, prasyarat, alat yang dibutuhkan, dan cara belajar (sekitar 20 menit). Pemula cukup membaca §1, §2, §4, dan §5 dulu; glosarium ada di §12, dan "kontrak data" proyek di Lampiran A.
+2. Salin **[PROGRES.md](PROGRES.md)** ke catatan Anda sendiri (atau *fork* repositori ini) untuk mencentang kemajuan.
+3. Buka **[Modul 1](fase-0-fondasi/modul-01-peta-besar-iot/README.md)** dan kerjakan berurutan. Setiap modul dikerjakan dalam satu minggu, 6–10 jam (Modul N = Minggu N).
+
+## Modul yang sudah tersedia
+
+> [!NOTE]
+> Silabus v1.0 disetujui pada 9 Oktober 2026, dan materi modul ditulis berurutan. Saat ini tersedia **Modul 1–7 dari 32**: seluruh Fase 0 dan tiga modul pertama Fase 1. Daftar lengkap 32 modul ada di [PROGRES.md](PROGRES.md).
 
 | Modul | Judul | Setelah modul ini Anda bisa… | Alat utama |
 | :---: | :--- | :--- | :--- |
@@ -36,15 +42,7 @@ Ditulis dalam Bahasa Indonesia yang ramah awam. Tidak perlu latar belakang elekt
 
 Modul per fase juga terdaftar di halaman fasenya: **[Fase 0 — Fondasi](fase-0-fondasi/README.md)** dan **[Fase 1 — ESP32 Embedded](fase-1-esp32-embedded/README.md)**.
 
-## 🧭 Cara bernavigasi di repositori ini
-
-- **Baris navigasi** di awal dan akhir setiap modul: ⬅️ modul sebelumnya · Silabus · Pelacak progres · modul berikutnya ➡️.
-- **Daftar isi** ada di awal setiap artikel. Di GitHub, tombol **Outline** (ikon bergaris di kanan atas tampilan file) juga memunculkan semua judul bagian.
-- **Kode** setiap modul ada di folder `kode/` modul itu. Buka filenya, lalu klik ikon salin (**Copy raw file**) di kanan atas tampilan file untuk menyalin seluruh isinya.
-- **Gambar** ada di folder `aset/` setiap modul, lengkap dengan sumber dan lisensinya di `aset/SUMBER.md`.
-- **Proyek benang merah** "Rumah Pintar Mini" versi terbaru ada di [`proyek-rumah-pintar-mini/`](proyek-rumah-pintar-mini/README.md).
-
-## 🗺️ Peta kurikulum
+## Peta kurikulum
 
 | Fase | Modul (= Minggu) | Fokus | Hasil nyata |
 | :---: | :---: | :--- | :--- |
@@ -55,9 +53,17 @@ Modul per fase juga terdaftar di halaman fasenya: **[Fase 0 — Fondasi](fase-0-
 | 4 | 22–25 | Frontend: React dashboard realtime, kendali, peran, Grafana & peta | Dashboard di HP yang bisa dipakai orang lain |
 | 5 | 26–32 | Operasi: Docker Compose, deploy ke internet + TLS/HTTPS + bridge Pi→VPS + PWA, OTA & fleet, testing & CI/CD, monitoring & backup, **capstone** & portofolio | Sistem online 24/7 terenkripsi + proyek portofolio |
 
-Rincian tiap modul (tujuan, konsep inti, alat, praktik, kriteria lulus) ada di [SILABUS.md](SILABUS.md#7-rincian-32-modul).
+Rincian setiap modul (tujuan, konsep inti, alat, praktik, dan kriteria lulus) ada di [Silabus §7](SILABUS.md#7-rincian-32-modul).
 
-## 📁 Struktur repositori
+## Cara bernavigasi
+
+- **Baris navigasi** di awal dan akhir setiap modul: ⬅️ modul sebelumnya · Silabus · Pelacak progres · modul berikutnya ➡️.
+- **Daftar isi** ada di awal setiap artikel. Di GitHub, tombol **Outline** (ikon bergaris di kanan atas tampilan file) juga memunculkan semua judul bagian.
+- **Kode** setiap modul ada di folder `kode/` modul itu. Buka filenya, lalu klik ikon salin (**Copy raw file**) di kanan atas tampilan file untuk menyalin seluruh isinya.
+- **Gambar** ada di folder `aset/` setiap modul, lengkap dengan sumber dan lisensinya di `aset/SUMBER.md`.
+- **Proyek benang merah** "Rumah Pintar Mini" versi terbaru ada di [`proyek-rumah-pintar-mini/`](proyek-rumah-pintar-mini/README.md).
+
+## Struktur repositori
 
 ```
 fase-0-fondasi/ … fase-5-operasi-skala/   ← 32 folder modul: README.md (artikel) + aset/ + kode/
@@ -69,17 +75,17 @@ _arsip-lama/                              ← kurikulum versi sebelumnya (tidak 
 
 Rincian lengkap struktur folder ada di [Silabus §9](SILABUS.md#9-struktur-folder-repositori). Folder fase berikutnya dibuat saat modul pertamanya terbit.
 
-## 🖼️ Tentang gambar & atribusi
+## Gambar dan atribusi
 
-Gambar dari internet hanya dipakai jika lisensinya mengizinkan dan **selalu** disertai sumber + lisensi tepat di bawah gambar (serta rekap di `aset/SUMBER.md` tiap modul). Diagram buatan sendiri dilisensikan **CC BY 4.0**.
+Gambar dari internet hanya dipakai kalau lisensinya mengizinkan, dan **selalu** disertai sumber serta lisensinya tepat di bawah gambar (dan direkap di `aset/SUMBER.md` setiap modul). Diagram buatan sendiri dilisensikan **CC BY 4.0**; file `.svg`-nya disertakan supaya bisa diubah.
 
-## 🤝 Kontribusi
+## Kontribusi
 
-Menemukan salah ketik, penjelasan yang membingungkan, atau rangkaian yang tidak jalan? Buka *issue* atau *pull request* — kritik dari pemula adalah masukan paling berharga untuk materi ramah awam.
+Menemukan salah ketik, penjelasan yang membingungkan, atau rangkaian yang tidak jalan? Buka *issue* atau *pull request*. Kritik dari pemula adalah masukan paling berharga untuk materi ramah awam.
 
-## 📜 Lisensi
+## Lisensi
 
-Teks & diagram: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.id) · Kode contoh: [MIT](https://opensource.org/licenses/MIT). Gambar pihak ketiga mengikuti lisensi masing-masing sebagaimana dicantumkan.
+Teks dan diagram: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.id) · Kode contoh: [MIT](https://opensource.org/licenses/MIT). Gambar pihak ketiga mengikuti lisensi masing-masing sebagaimana dicantumkan.
 
 ---
 

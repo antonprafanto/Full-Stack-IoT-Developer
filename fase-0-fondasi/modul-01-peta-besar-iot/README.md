@@ -222,7 +222,10 @@ Dalam industri, langkah-langkah di atas biasanya dikerjakan tim yang berbeda: ad
 
 Inilah sistem yang akan kamu bangun selama 32 minggu, dari sensor sampai ke layar HP:
 
-![Arsitektur lengkap proyek "Rumah Pintar Mini": perangkat ESP32 (Node 2 tampak sebagai label kecil "via ESP-NOW"), gateway Raspberry Pi, server backend dengan database, dashboard di HP, dan lapisan operasi yang melingkupi semuanya](../../aset/arsitektur-fullstack-iot.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="../../aset/arsitektur-fullstack-iot-gelap.png">
+  <img src="../../aset/arsitektur-fullstack-iot.png" alt="Arsitektur proyek Rumah Pintar Mini dalam lima lapisan. 1, Perangkat: Node 1 Rumah (ESP32 dengan lima sensor, layar OLED, lampu, kipas, pompa, dan tirai) dan Node 2 Kebun (ESP32 berbaterai) yang mengirim datanya ke Node 1 lewat ESP-NOW. 2, Gateway: Raspberry Pi dengan broker MQTT Mosquitto, Node-RED opsional, dan antrean data saat internet putus; Node 1 tersambung ke sini lewat MQTT via Wi-Fi. 3, Backend dan data, di seberang batas jaringan rumah: server Node.js (Fastify dan TypeScript) dengan REST API, WebSocket, aturan otomatis, notifikasi Telegram, serta login dan API key perangkat, tersambung ke gateway lewat MQTT dengan TLS dan ke database PostgreSQL dengan TimescaleDB lewat SQL. 4, Dashboard: aplikasi web React (PWA) lewat HTTPS dan WebSocket, serta Grafana yang membaca database lewat SQL. 5, Operasi di bawah semuanya: Docker Compose, deploy dengan HTTPS, OTA firmware, CI/CD dan pengujian, monitoring dan backup, serta proyek akhir.">
+</picture>
 
 Jangan pusing melihat banyaknya kotak dan singkatan — gambar ini sengaja diperlihatkan sekarang supaya kamu **tahu tujuan akhirnya**, bukan untuk dihafal. Setiap kotak akan dapat gilirannya. Sistemnya terdiri atas **lima lapisan**, masing-masing punya analogi sehari-hari (ini pemetaan yang sama dengan [Silabus §2](../../SILABUS.md#2-gambaran-besar-apa-yang-akan-kita-bangun)):
 
@@ -236,7 +239,7 @@ Jangan pusing melihat banyaknya kotak dan singkatan — gambar ini sengaja diper
 
 Dua hal lagi yang perlu kamu ingat dari gambar itu:
 
-- Ada **dua node** (*node* = satu perangkat ESP32 beserta sensornya): **Node 1 "Rumah"** yang selalu tercolok listrik, dan **Node 2 "Kebun"** yang hidup dari baterai (di gambar, Node 2 hanya tampak sebagai label kecil "via ESP-NOW" di kotak pertama). Kamu baru akan merakit Node 1 di Fase 1, Node 2 di Modul 14.
+- Ada **dua node** (*node* = satu perangkat ESP32 beserta sensornya): **Node 1 "Rumah"** yang selalu tercolok listrik, dan **Node 2 "Kebun"** yang hidup dari baterai (di gambar, Node 2 ada tepat di bawah Node 1 dan mengirim datanya ke Node 1 lewat ESP-NOW). Kamu baru akan merakit Node 1 di Fase 1, Node 2 di Modul 14.
 - Otaknya ada di **banyak tempat**: di ESP32 (keputusan kilat, misalnya "tanah kering → siram"), di Raspberry Pi (penghubung di rumah), dan di server (menyimpan riwayat, mengirim notifikasi). Fullstack berarti kamu yang memutuskan otak mana mengerjakan apa.
 
 ### 3. Laptop vs mikrokontroler: "komputer kecil yang hanya menjalankan satu program"
@@ -1028,7 +1031,7 @@ Semua tangkapan layar diambil penulis pada Oktober 2026 dari layanan yang bersan
 | File | Sumber | Lisensi / keterangan |
 | :--- | :--- | :--- |
 | `peta-jalan-modul-01.png`, `iot-di-sekitar-kita.png`, `setup-vs-loop.png`, `rangkaian-led-wokwi.png`, `polaritas-kaki-led.png`, `pola-kedip-waktu.png`, `kit-benar-vs-salah.png` (+ `.svg`) | Diagram orisinal kurikulum Fullstack IoT Developer | CC BY 4.0. `kit-benar-vs-salah` adalah gambar skematis, bukan foto produk. |
-| `../../aset/arsitektur-fullstack-iot.png` | Diagram orisinal kurikulum (gambar lintas modul) | CC BY 4.0 |
+| `../../aset/arsitektur-fullstack-iot.png` dan `-gelap.png` | Diagram orisinal kurikulum (gambar lintas modul; versi terang dan versi tema gelap) | CC BY 4.0 |
 | `laptop-vs-mikrokontroler.jpg`, `alur-kode-masuk-chip.jpg`, `kabel-data-vs-cas.jpg` | Ilustrasi orisinal kurikulum Fullstack IoT Developer (dari versi kurikulum sebelumnya, diperiksa ulang) | CC BY 4.0 |
 | `foto-esp32-devkit-v1.jpg`, `foto-esp32-devkit-v1-anotasi.jpg` | [Ubahnverleih, Wikimedia Commons — *ESP32 Espressif ESP-WROOM-32 Dev Board*](https://commons.wikimedia.org/wiki/File:ESP32_Espressif_ESP-WROOM-32_Dev_Board.jpg); anotasi oleh penulis | [CC0 1.0 (domain publik)](https://creativecommons.org/publicdomain/zero/1.0/deed.id) |
 | `wokwi-02-editor-dijelaskan.png`, `wokwi-03-diagram-json.jpg` … `wokwi-11-klik-komponen.png` | Tangkapan layar [Wokwi](https://wokwi.com) (© Wokwi / CodeMagic LTD), sebagian diberi anotasi oleh penulis | Dipakai untuk tujuan pendidikan/tutorial; bukan bagian dari lisensi CC kurikulum. |
