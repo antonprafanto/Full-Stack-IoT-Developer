@@ -2,7 +2,7 @@
 
 *Fase 1 · Minggu 5 · Perangkat keras (*hardware*): **Kit A Tahap 1** + kabel USB A–A (lihat 🧰) — sebagian besar praktik juga bisa di Wokwi · Prasyarat: **Modul 3** (dan rangkaian LED dari Modul 2) · Waktu: 8–10 jam, dicicil dalam seminggu*
 
-[⬅️ Modul 4](../../fase-0-fondasi/modul-04-javascript-nodejs/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · [Modul 6 ➡️ (segera terbit — baca ringkasannya di Silabus)](../../SILABUS.md#modul-6--membaca-sensor-analog-digital--kalibrasi)
+[⬅️ Modul 4](../../fase-0-fondasi/modul-04-javascript-nodejs/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · [Modul 6 ➡️](../modul-06-membaca-sensor/README.md)
 
 ---
 
@@ -2264,4 +2264,4 @@ Semua sketsa di modul ini sudah dijalankan di Wokwi dengan paket esp32 versi 3 d
 
 ---
 
-[⬅️ Modul 4](../../fase-0-fondasi/modul-04-javascript-nodejs/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · **Berikutnya: Modul 6 — Membaca Sensor: Analog, Digital, & Kalibrasi** (segera terbit; [ringkasannya di Silabus](../../SILABUS.md#modul-6--membaca-sensor-analog-digital--kalibrasi))
+[⬅️ Modul 4](../../fase-0-fondasi/modul-04-javascript-nodejs/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · **Berikutnya: [Modul 6 — Membaca Sensor: Analog, Digital, & Kalibrasi](../modul-06-membaca-sensor/README.md) ➡️**

@@ -3,7 +3,7 @@
 > **Kurikulum 32 modul — satu modul = satu minggu belajar santai (±8 bulan) — untuk orang awam total hingga mampu membangun sistem IoT lengkap dari sensor sampai dashboard di HP.**
 > Hardware: **ESP32 + Raspberry Pi** · Software: **JavaScript/TypeScript (Node.js + React) untuk server & tampilan, sedikit C++ untuk chip** · Bahasa pengantar: **Indonesia, ramah awam**.
 >
-> Status dokumen: **v1.0.6 — disetujui, penulisan materi berjalan; Modul 1–5 (seluruh Fase 0 dan Modul 5) tersedia** (11 Oktober 2026). Keputusan yang mendasarinya ada di [§11](#11-keputusan-yang-sudah-disetujui); riwayat perubahan di [§13](#13-riwayat-revisi).
+> Status dokumen: **v1.0.7 — disetujui, penulisan materi berjalan; Modul 1–6 (seluruh Fase 0, Modul 5, dan Modul 6) tersedia** (11 Oktober 2026). Keputusan yang mendasarinya ada di [§11](#11-keputusan-yang-sudah-disetujui); riwayat perubahan di [§13](#13-riwayat-revisi).
 
 ---
 
@@ -250,7 +250,7 @@ Perkiraan harga marketplace Indonesia, Oktober 2026 — **bisa berubah**. Pesan 
 | DHT22 (modul 3 pin) | 1 | Rp 25–50 rb | Modul 6 | DHT11 lebih murah tapi kurang akurat; kurikulum memakai DHT22 (Node 1, dalam ruangan). |
 | LDR 5 mm | 2 | Rp 3–5 rb | Modul 6 | |
 | Sensor kelembapan tanah **kapasitif** v1.2/v2.0 | 2 | Rp 10–20 rb/bh | Modul 6 | Satu untuk Node 1, satu untuk Node 2 (Modul 14). Bukan yang berpelat tembaga terbuka (cepat berkarat). |
-| Sensor jarak ultrasonik **3,3 V-kompatibel** (HC-SR04+ / RCWL-1601) — atau HC-SR04 biasa + 2 resistor | 1 | Rp 10–25 rb | Modul 6 | HC-SR04 biasa mengeluarkan 5 V di pin ECHO; **pin ESP32 tidak tahan 5 V** → perlu pembagi tegangan (dijelaskan di Modul 6). |
+| Sensor jarak ultrasonik **3,3 V-kompatibel** (HC-SR04+ / RCWL-1601) — atau HC-SR04 biasa + 2 resistor | 1 | Rp 10–25 rb | Modul 6 | HC-SR04 biasa mengeluarkan 5 V di pin ECHO; **pin ESP32 tidak tahan 5 V** → perlu pembagi tegangan (dijelaskan di Modul 6). Modul 6 memasang semua varian dengan cara yang sama: diberi 5 V dari MB102, ECHO lewat pembagi tegangan 4,7 kΩ + 10 kΩ. |
 | Sensor gerak PIR HC-SR501 | 1 | Rp 10–20 rb | Modul 6 | |
 | **TAHAP 2 (Modul 7–28)** | | | | |
 | ESP32 DevKit V1 ke-2 + kabel USB data ke-2 | 1 + 1 | Rp 55–100 rb | Modul 14 | **Wajib** (Node 2 "Kebun" dipakai Modul 14, 15, 16, 25, 28). |
@@ -437,8 +437,10 @@ Format tiap modul:
 #### Modul 6 — Membaca Sensor: Analog, Digital, & Kalibrasi
 *Fase 1 · Minggu 6 · Hardware: Kit A Tahap 1 · Prasyarat: Modul 5*
 
+📖 **Materi sudah tersedia:** [buka artikel Modul 6](fase-1-esp32-embedded/modul-06-membaca-sensor/README.md)
+
 - **Setelah modul ini Anda bisa:** membaca lima sensor Node 1 yang berbeda cara kerjanya, mengubah angka mentah → satuan nyata, dan tahu kapan sensor "berbohong".
-- **Konsep inti:** ADC ("penggaris 12-bit": 0–4095) & keterbatasannya di ESP32 (tidak linier, hanya ADC1 saat WiFi aktif); pembagi tegangan untuk LDR — **dan pembagi tegangan yang sama untuk menurunkan ECHO 5 V HC-SR04 ke 3,3 V**; sensor kapasitif tanah & kalibrasi kering/basah (plus tips melindungi bagian elektroniknya dari air); DHT22 (protokol satu kabel, library); HC-SR04 sebagai **pengukur level air tandon pompa**; PIR (digital sederhana, *warm-up* 1 menit); *noise* & rata-rata bergerak; `map()` & pembatasan nilai; kapasitor 100 nF sebagai peredam *noise*; membaca datasheet bagian yang penting saja; **mengisi struct `BacaanSensor` persis sesuai Lampiran A**.
+- **Konsep inti:** ADC ("penggaris 12-bit": 0–4095) & keterbatasannya di ESP32 (tidak linier, hanya ADC1 saat WiFi aktif); pembagi tegangan untuk LDR — **dan pembagi tegangan yang sama untuk menurunkan ECHO 5 V HC-SR04 ke ±3,4 V, di bawah batas 3,6 V**; sensor kapasitif tanah & kalibrasi kering/basah (plus tips melindungi bagian elektroniknya dari air); DHT22 (protokol satu kabel, library); HC-SR04 sebagai **pengukur level air tandon pompa**; PIR (digital sederhana, *warm-up* 1 menit); *noise* & rata-rata bergerak; `map()` & pembatasan nilai; kapasitor 100 nF sebagai peredam *noise*; membaca datasheet bagian yang penting saja; **mengisi struct `BacaanSensor` persis sesuai Lampiran A**.
 - **Alat yang dipakai:** library DHT sensor (Adafruit), Serial Plotter.
 - **Opsional / bedah teknis:** mengoreksi ketidaklinieran ADC; akurasi ±0,5 °C itu artinya apa.
 - **Praktik & proyek mini:** monitor Serial yang mencetak 5 bacaan rapi tiap 2 detik; Serial Plotter; kalibrasi sensor tanah dengan gelas air; "siram otomatis": tanah kering → pompa 3 detik, **ditolak jika level tandon rendah**; "lampu otomatis" PIR + LDR.
@@ -930,6 +932,8 @@ Satu kalimat per istilah, bahasa manusia. Semua akan dibahas tuntas di modulnya.
 
 ## 13. Riwayat revisi
 
+**v1.0.7 (11 Okt 2026)** — Modul 6 terbit. Firmware Node 1 naik ke v0.3.0: kelima sensor dibaca sungguhan (DHT22, LDR, sensor tanah kapasitif, PIR, HC-SR04), ditambah aturan lokal pertama "siram otomatis" (pompa ditolak kalau tandon di bawah 20 % atau tidak terbaca) dan "lampu otomatis" (gelap + gerakan). `PETA-PIN.md` naik ke versi 2: sensor berstatus terpasang, sensor 5 V (PIR, HC-SR04) di rel atas, sensor 3,3 V di rel bawah. Versi yang dikunci untuk Modul 6: DHT sensor library 1.4.7 + Adafruit Unified Sensor 1.1.15. Semua varian sensor jarak (HC-SR04, HC-SR04+/P, RCWL-1601) dipasang dengan cara yang sama: 5 V dari MB102 dan ECHO lewat pembagi tegangan (catatan di §5.2). Lampiran A kini memuat tabel satuan kolom `telemetry` dan tanda bacaan gagal di firmware. Rincian Modul 6 di §7 kini menyebut tegangan ECHO setelah pembagi dengan tepat (±3,4 V, di bawah batas 3,6 V).
+
 **v1.0.6 (11 Okt 2026)** — Modul 5 terbit, membuka Fase 1; folder fase baru `fase-1-esp32-embedded/` punya `README.md` daftar modulnya. Folder `proyek-rumah-pintar-mini/` bertambah `PETA-PIN.md`, dan firmware Node 1 naik ke v0.2.0 (semua aktuator di pin kanonik). Daftar Kit A Tahap 1 (§5.2) kini menyebut **kabel USB A–A**: adaptor 5 V masuk lewat port USB MB102, karena colokan bulatnya butuh 6,5–12 V. Versi yang dikunci untuk Modul 5: paket esp32 3.3.x (PWM dengan `ledcAttach`) dan library ESP32Servo 3.2.1. Rakitan meja kerja memakai dua breadboard yang dijajarkan (satu strip rel dilepas) supaya semua pin ESP32 bisa dijangkau. Catatan di §4.1: Modul 5 juga boleh melebihi target panjang dan jumlah gambar. Lampiran A kini mendaftar nilai `reset_reason` (`POWERON`, `BROWNOUT`, `SW`, `PANIC`, `WDT`, `DEEPSLEEP`, `UNKNOWN`) dan kapan kolom itu mulai dikirim.
 
 **v1.0.5 (10 Okt 2026)** — Modul 4 terbit, sehingga seluruh Fase 0 tersedia. Folder `proyek-rumah-pintar-mini/` bertambah `alat/` (`generate-dummy.js`, `penerima-webhook.js`, `kirim-data.js`) yang dipakai lagi di Modul 10, 16, dan 22 (§9). Versi yang dikunci untuk Modul 4: Node.js 24 LTS (24.21.0) dengan npm 11, VS Code 1.141, dan dayjs 1.11.23. Catatan prasyarat Mac (macOS 13.5 ke atas untuk Node.js 24; Node.js 22.18+ untuk macOS 12) dan pengingat syarat macOS untuk Docker Desktop (Modul 17) ditambahkan di §5.0.
@@ -988,6 +992,19 @@ Node 2 (ESP-NOW) tidak tersambung ke broker; **Node 1 menerbitkan atas namanya**
 // rpm/a4cf12e5b7c0/ack
 { "id": "c-20261009-0917", "ts": "2026-10-09T09:41:32Z", "ok": true, "state": { "kipas": true, "lampu": false, "pompa": false, "tirai": 90 } }
 ```
+
+**Satuan kolom `telemetry`** (ditetapkan di Modul 6; bacaan gagal **ditandai**, bukan disembunyikan):
+
+| Kolom | Tipe | Satuan dan rentang | Sensor Node 1 (pin) | Tanda gagal di firmware |
+| :--- | :--- | :--- | :--- | :--- |
+| `suhu` | angka desimal, 1 angka di belakang koma | °C | DHT22 (D14) | `NAN` |
+| `kelembapan` | bilangan bulat | % kelembapan relatif, 0–100 | DHT22 (D14) | `-1` |
+| `cahaya` | bilangan bulat | 0 (gelap gulita) sampai 4095 (sangat terang): angka ADC yang dibalik | LDR + 10 kΩ (VP/GPIO 36) | — |
+| `tanah` | bilangan bulat | %, 0 = sekering di udara, 100 = sebasah di air (hasil kalibrasi dua titik) | sensor tanah kapasitif (VN/GPIO 39) | — |
+| `gerak` | boolean | `true` = PIR melihat gerakan | PIR HC-SR501 (D34) | — |
+| `level_air` | bilangan bulat | % isi tandon, 0 = kosong, 100 = penuh (hasil kalibrasi dua titik) | HC-SR04 (TRIG D15, ECHO D35) | `-1` |
+
+Cara menuliskan bacaan gagal di JSON (misalnya `null`) ditetapkan di Modul 11.
 
 **Nilai `reset_reason`** di `vitals` adalah salah satu dari `POWERON`, `BROWNOUT`, `SW`, `PANIC`, `WDT`, `DEEPSLEEP`, atau `UNKNOWN`. Fungsi penerjemahnya, `alasanReset()`, ditulis di Modul 5; kolom ini baru dikirim mulai Modul 28, jadi `vitals` Modul 11–27 boleh belum memuatnya.
 

@@ -19,7 +19,7 @@ Ditulis dalam Bahasa Indonesia yang ramah awam. Tidak perlu latar belakang elekt
 2. Salin **[PROGRES.md](PROGRES.md)** ke catatan Anda sendiri (atau *fork* repo ini) untuk mencentang kemajuan.
 3. Buka **[Modul 1](fase-0-fondasi/modul-01-peta-besar-iot/README.md)** dan kerjakan berurutan. Setiap modul = 1 minggu @ 6–10 jam (Modul N = Minggu N).
 
-> **Status:** silabus **v1.0 disetujui** (9 Oktober 2026). Materi modul ditulis berurutan; yang sudah tersedia: **Modul 1–5**, yaitu seluruh Fase 0 dan modul pertama Fase 1 (lihat tabel di bawah). Daftar lengkap 32 modul ada di [PROGRES.md](PROGRES.md).
+> **Status:** silabus **v1.0 disetujui** (9 Oktober 2026). Materi modul ditulis berurutan; yang sudah tersedia: **Modul 1–6**, yaitu seluruh Fase 0 dan dua modul pertama Fase 1 (lihat tabel di bawah). Daftar lengkap 32 modul ada di [PROGRES.md](PROGRES.md).
 
 ## 📚 Modul yang sudah tersedia
 
@@ -30,7 +30,8 @@ Ditulis dalam Bahasa Indonesia yang ramah awam. Tidak perlu latar belakang elekt
 | 3 | **[Pemrograman C++ untuk ESP32 dari Nol](fase-0-fondasi/modul-03-cpp-untuk-esp32/README.md)** | menulis program C++ sendiri (variabel, `if`, perulangan, fungsi, *array*, `struct`), membaca pesan error, memakai library, dan menyimpan kemajuan dengan GitHub Desktop | Wokwi, Arduino IDE 2, GitHub Desktop |
 | 4 | **[JavaScript & Node.js dari Nol (Bahasa untuk Server & Dashboard)](fase-0-fondasi/modul-04-javascript-nodejs/README.md)** | membuka terminal tanpa takut, menulis JavaScript di Node.js (variabel, JSON, `map`/`filter`, `async`/`await`), memasang library dengan npm, dan membuat server mini yang menerima data dari program lain | Visual Studio Code, Node.js 24, terminal |
 | 5 | **[Anatomi ESP32, Peta Pin Kanonik, Catu Daya, & Mengendalikan Dunia Nyata](fase-1-esp32-embedded/modul-05-gpio-dan-peta-pin/README.md)** | memilih pin ESP32 yang aman, memberi daya beban tanpa membuat ESP32 *restart*, membaca tombol tanpa pantulan, dan mengendalikan LED, buzzer, servo, relay, kipas, serta pompa | Arduino IDE 2, Wokwi, Kit A + MB102 |
-| 6 | Membaca Sensor: Analog, Digital, & Kalibrasi | segera terbit — [ringkasannya di Silabus](SILABUS.md#modul-6--membaca-sensor-analog-digital--kalibrasi) | Arduino IDE, Kit A |
+| 6 | **[Membaca Sensor: Analog, Digital, & Kalibrasi](fase-1-esp32-embedded/modul-06-membaca-sensor/README.md)** | membaca lima sensor (cahaya, kelembapan tanah, suhu-kelembapan udara, gerak, jarak), mengubah angka mentah menjadi persen lewat kalibrasi, meredam derau, dan membuat siram otomatis yang menolak menyala saat tandon kosong | Arduino IDE 2 + Serial Plotter, Wokwi, Kit A + multimeter |
+| 7 | Protokol Bus Sensor: I2C, 1-Wire, SPI, Layar OLED, & Membaca Skematik | segera terbit — [ringkasannya di Silabus](SILABUS.md#modul-7--protokol-bus-sensor-i2c-1-wire-spi-layar-oled--membaca-skematik) | Arduino IDE, Kit A Tahap 2 |
 
 Modul per fase juga terdaftar di halaman fasenya: **[Fase 0 — Fondasi](fase-0-fondasi/README.md)** dan **[Fase 1 — ESP32 Embedded](fase-1-esp32-embedded/README.md)**.
 
