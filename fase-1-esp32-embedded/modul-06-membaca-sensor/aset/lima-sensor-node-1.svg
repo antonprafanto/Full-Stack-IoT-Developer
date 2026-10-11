@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="660" viewBox="0 0 1200 660" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="660" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Lima sensor Node 1, tiga "bahasa"</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Setiap sensor berbicara dengan caranya sendiri — dan ESP32 membacanya dengan fungsi yang berbeda</text>
+<rect x="60.0" y="96.0" width="320.0" height="470.0" rx="14" fill="#e1f3f3" />
+<rect x="60.0" y="96.0" width="320.0" height="46.0" rx="14" fill="#0f8b8d" />
+<rect x="60.0" y="126.0" width="320.0" height="16.0" rx="0" fill="#0f8b8d" />
+<text x="220.0" y="126.0" font-size="18" font-weight="800" fill="#ffffff" text-anchor="middle" >ANALOG</text>
+<path d="M90.0 182.0 L96.5 178.3 L103.0 174.7 L109.5 171.3 L116.0 168.1 L122.5 165.3 L129.0 162.8 L135.5 160.8 L142.0 159.4 L148.5 158.4 L155.0 158.0 L161.5 158.2 L168.0 158.9 L174.5 160.1 L181.0 161.9 L187.5 164.1 L194.0 166.7 L200.5 169.6 L207.0 172.8 L213.5 176.2 L220.0 179.6 L226.5 183.0 L233.0 186.4 L239.5 189.6 L246.0 192.5 L252.5 195.1 L259.0 197.3 L265.5 199.1 L272.0 200.3 L278.5 201.0 L285.0 201.2 L291.5 200.8 L298.0 199.8 L304.5 198.4 L311.0 196.4 L317.5 193.9 L324.0 191.1 L330.5 187.9 L337.0 184.5 L343.5 180.9 L350.0 177.2" fill="none" stroke="#0f8b8d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<text x="220.0" y="232.0" font-size="14.5" font-weight="600" fill="#1e2a4a" text-anchor="middle" >tegangan berapa saja 0–3,3 V</text>
+<rect x="90.0" y="244.0" width="260.0" height="28.0" rx="14.0" fill="#ffffff" />
+<text x="220.0" y="263.0" font-size="14" font-weight="700" fill="#0f8b8d" text-anchor="middle" >analogRead() → angka 0–4095</text>
+<rect x="90.0" y="244.0" width="260.0" height="28.0" rx="14" fill="none" stroke="#0f8b8d" stroke-width="1.5" />
+<rect x="78.0" y="296.0" width="284.0" height="118.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="94.0" y="324.0" font-size="16.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >LDR + resistor 10 kΩ</text>
+<text x="94.0" y="346.0" font-size="14" font-weight="400" fill="#4a5568" text-anchor="start" >terang-gelap</text>
+<text x="94.0" y="374.0" font-size="14" font-weight="700" fill="#4a5568" text-anchor="start" >pin:</text>
+<text x="132.0" y="374.0" font-size="14.5" font-weight="800" fill="#0f8b8d" text-anchor="start" >VP (GPIO 36)</text>
+<text x="94.0" y="398.0" font-size="14" font-weight="700" fill="#4a5568" text-anchor="start" >daya:</text>
+<text x="140.0" y="398.0" font-size="14.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >3,3 V</text>
+<rect x="78.0" y="428.0" width="284.0" height="118.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="94.0" y="456.0" font-size="16.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Sensor tanah kapasitif</text>
+<text x="94.0" y="478.0" font-size="14" font-weight="400" fill="#4a5568" text-anchor="start" >kelembapan tanah</text>
+<text x="94.0" y="506.0" font-size="14" font-weight="700" fill="#4a5568" text-anchor="start" >pin:</text>
+<text x="132.0" y="506.0" font-size="14.5" font-weight="800" fill="#0f8b8d" text-anchor="start" >VN (GPIO 39)</text>
+<text x="94.0" y="530.0" font-size="14" font-weight="700" fill="#4a5568" text-anchor="start" >daya:</text>
+<text x="140.0" y="530.0" font-size="14.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >3,3 V</text>
+<rect x="440.0" y="96.0" width="320.0" height="470.0" rx="14" fill="#dff3e7" />
+<rect x="440.0" y="96.0" width="320.0" height="46.0" rx="14" fill="#2a9d5c" />
+<rect x="440.0" y="126.0" width="320.0" height="16.0" rx="0" fill="#2a9d5c" />
+<text x="600.0" y="126.0" font-size="18" font-weight="800" fill="#ffffff" text-anchor="middle" >DIGITAL</text>
+<path d="M470 203.0 L522.0 203.0 L522.0 161.0 L631.2 161.0 L631.2 203.0 L730 203.0" fill="none" stroke="#2a9d5c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<text x="600.0" y="232.0" font-size="14.5" font-weight="600" fill="#1e2a4a" text-anchor="middle" >hanya HIGH atau LOW</text>
+<rect x="470.0" y="244.0" width="260.0" height="28.0" rx="14.0" fill="#ffffff" />
+<text x="600.0" y="263.0" font-size="14" font-weight="700" fill="#2a9d5c" text-anchor="middle" >digitalRead() → HIGH / LOW</text>
+<rect x="470.0" y="244.0" width="260.0" height="28.0" rx="14" fill="none" stroke="#2a9d5c" stroke-width="1.5" />
+<rect x="458.0" y="296.0" width="284.0" height="118.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="474.0" y="324.0" font-size="16.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >PIR HC-SR501</text>
+<text x="474.0" y="346.0" font-size="14" font-weight="400" fill="#4a5568" text-anchor="start" >gerakan</text>
+<text x="474.0" y="374.0" font-size="14" font-weight="700" fill="#4a5568" text-anchor="start" >pin:</text>
+<text x="512.0" y="374.0" font-size="14.5" font-weight="800" fill="#2a9d5c" text-anchor="start" >D34</text>
+<text x="474.0" y="398.0" font-size="14" font-weight="700" fill="#4a5568" text-anchor="start" >daya:</text>
+<text x="520.0" y="398.0" font-size="14.5" font-weight="700" fill="#e63946" text-anchor="start" >5 V, keluarannya 3,3 V</text>
+<rect x="820.0" y="96.0" width="320.0" height="470.0" rx="14" fill="#efe6f8" />
+<rect x="820.0" y="96.0" width="320.0" height="46.0" rx="14" fill="#7b4fb0" />
+<rect x="820.0" y="126.0" width="320.0" height="16.0" rx="0" fill="#7b4fb0" />
+<text x="980.0" y="126.0" font-size="18" font-weight="800" fill="#ffffff" text-anchor="middle" >PULSA &amp; DATA</text>
+<path d="M850 203.0 L876.0 203.0 L876.0 161.0 L959.2 161.0 L959.2 203.0 L980.0 203.0 L980.0 161.0 L993.0 161.0 L993.0 203.0 L1002.1 203.0 L1002.1 161.0 L1030.7 161.0 L1030.7 203.0 L1039.8 203.0 L1039.8 161.0 L1052.8 161.0 L1052.8 203.0 L1061.8999999999999 203.0 L1061.8999999999999 161.0 L1090.4999999999998 161.0 L1090.4999999999998 203.0 L1099.6 203.0 L1099.6 161.0 L1112.6 161.0 L1112.6 203.0 L1110 203.0" fill="none" stroke="#7b4fb0" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="980.0" y="232.0" font-size="14.5" font-weight="600" fill="#1e2a4a" text-anchor="middle" >informasinya ada di waktu</text>
+<rect x="850.0" y="244.0" width="260.0" height="28.0" rx="14.0" fill="#ffffff" />
+<text x="980.0" y="263.0" font-size="14" font-weight="700" fill="#7b4fb0" text-anchor="middle" >pulseIn() / library</text>
+<rect x="850.0" y="244.0" width="260.0" height="28.0" rx="14" fill="none" stroke="#7b4fb0" stroke-width="1.5" />
+<rect x="838.0" y="296.0" width="284.0" height="118.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="854.0" y="324.0" font-size="16.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >HC-SR04</text>
+<text x="854.0" y="346.0" font-size="14" font-weight="400" fill="#4a5568" text-anchor="start" >jarak → level air tandon</text>
+<text x="854.0" y="374.0" font-size="14" font-weight="700" fill="#4a5568" text-anchor="start" >pin:</text>
+<text x="892.0" y="374.0" font-size="14.5" font-weight="800" fill="#7b4fb0" text-anchor="start" >TRIG D15, ECHO D35*</text>
+<text x="854.0" y="398.0" font-size="14" font-weight="700" fill="#4a5568" text-anchor="start" >daya:</text>
+<text x="900.0" y="398.0" font-size="14.5" font-weight="700" fill="#e63946" text-anchor="start" >5 V</text>
+<rect x="838.0" y="428.0" width="284.0" height="118.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="854.0" y="456.0" font-size="16.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >DHT22</text>
+<text x="854.0" y="478.0" font-size="14" font-weight="400" fill="#4a5568" text-anchor="start" >suhu dan kelembapan udara</text>
+<text x="854.0" y="506.0" font-size="14" font-weight="700" fill="#4a5568" text-anchor="start" >pin:</text>
+<text x="892.0" y="506.0" font-size="14.5" font-weight="800" fill="#7b4fb0" text-anchor="start" >D14</text>
+<text x="854.0" y="530.0" font-size="14" font-weight="700" fill="#4a5568" text-anchor="start" >daya:</text>
+<text x="900.0" y="530.0" font-size="14.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >3,3 V</text>
+<rect x="60.0" y="580.0" width="1080.0" height="34.0" rx="8" fill="#fff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="600.0" y="602.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="middle" >Pin analog semuanya di ADC1  ·  * ECHO lewat pembagi tegangan (±3,4 V)  ·  sinyal yang masuk ke pin ESP32 selalu di bawah batas 3,6 V</text>
+<text x="1178.0" y="646.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

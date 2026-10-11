@@ -1,6 +1,6 @@
 # 📍 Peta Pin Kanonik — Rumah Pintar Mini
 
-> Dibuat di [Modul 5](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-1-esp32-embedded/modul-05-gpio-dan-peta-pin/README.md#3-anggaran-pin-dan-peta-pin-kanonik-node-1-dan-node-2) dan berlaku sampai Modul 28.
+> Dibuat di [Modul 5](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-1-esp32-embedded/modul-05-gpio-dan-peta-pin/README.md#3-anggaran-pin-dan-peta-pin-kanonik-node-1-dan-node-2), diperbarui di [Modul 6](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-1-esp32-embedded/modul-06-membaca-sensor/README.md), dan berlaku sampai Modul 28.
 > **Sebelum menambahkan apa pun ke Node 1 atau Node 2, periksa file ini dulu.**
 
 ## Aturan
@@ -13,7 +13,7 @@
 
 ESP32 DevKit V1 pertama, di dalam rumah, tidak pernah memakai baterai.
 
-| GPIO (tulisan di papan) | Untuk | Arah | Mulai | Keadaan setelah Modul 5 | Catatan |
+| GPIO (tulisan di papan) | Untuk | Arah | Mulai | Keadaan setelah Modul 6 | Catatan |
 | :--- | :--- | :--- | :---: | :--- | :--- |
 | 4 (D4) | LED status | keluar | M2 | terpasang | lewat resistor 220 Ω |
 | 13 (D13) | Tombol manual | masuk | M5 | terpasang | `INPUT_PULLUP`; kaki seberang ke GND |
@@ -22,12 +22,12 @@ ESP32 DevKit V1 pertama, di dalam rumah, tidak pernah memakai baterai.
 | 25 (D25) | Pompa (gerbang MOSFET) | keluar | M5 | terpasang | 220 Ω seri + 10 kΩ ke GND |
 | 26 (D26) | Servo tirai | keluar (PWM) | M5 | terpasang | daya servo dari MB102 |
 | 27 (D27) | Buzzer pasif | keluar (PWM) | M5 | terpasang | lewat resistor 220 Ω |
-| 14 (D14) | DHT22 | dua arah | M6 | dipesan | |
-| 36 (VP) | LDR | masuk analog | M6 | dipesan | ADC1 |
-| 39 (VN) | Sensor tanah kapasitif | masuk analog | M6 | dipesan (potensiometer latihan Modul 5) | ADC1 |
-| 34 (D34) | PIR | masuk | M6 | dipesan | |
-| 35 (D35) | HC-SR04 ECHO | masuk | M6 | dipesan | lewat pembagi tegangan 5 V → 3,3 V |
-| 15 (D15) | HC-SR04 TRIG | keluar | M6 | dipesan | pin *strapping*, aman untuk keluaran |
+| 14 (D14) | DHT22 | dua arah | M6 | terpasang | modul 3 kaki (*pull-up* sudah ada di modul), daya 3,3 V dari rel bawah |
+| 36 (VP) | LDR | masuk analog | M6 | terpasang | ADC1; pembagi tegangan: 10 kΩ ke 3,3 V, LDR ke GND; kapasitor 100 nF ke GND |
+| 39 (VN) | Sensor tanah kapasitif | masuk analog | M6 | terpasang (menggantikan potensiometer latihan Modul 5) | ADC1; daya 3,3 V dari rel bawah |
+| 34 (D34) | PIR | masuk | M6 | terpasang | PIR diberi 5 V dari rel atas; kaki OUT-nya hanya 3,3 V, jadi langsung ke pin |
+| 35 (D35) | HC-SR04 ECHO | masuk | M6 | terpasang | lewat pembagi tegangan 4,7 kΩ + 10 kΩ (5 V → ±3,4 V) |
+| 15 (D15) | HC-SR04 TRIG | keluar | M6 | terpasang | pin *strapping*, aman untuk keluaran; HC-SR04 diberi 5 V dari rel atas |
 | 21 / 22 (D21 / D22) | I2C SDA / SCL: OLED, latihan BME280 | bus | M7 | dipesan | |
 | 18 / 19 / 23 / 5 | microSD SCK / MISO / MOSI / CS | bus SPI | M7 | dipesan | opsional; boleh dilepas setelah Modul 11 |
 | 16 / 17 (RX2 / TX2) | RS-485 RO / DI (MAX485) | bus UART | M15 | dipesan | GPIO 16 dipinjam sementara untuk latihan DS18B20 di Modul 7; keluaran RO modul MAX485 yang diberi 5 V diturunkan dulu ke 3,3 V (Modul 15) |
@@ -63,9 +63,9 @@ Baterai Node 2 masuk lewat pin VIN (rangkaian Modul 9), bukan lewat GPIO.
 
 | Rel | Isi | Untuk |
 | :--- | :--- | :--- |
-| **Rel atas** (breadboard atas) | 5 V dari MB102, jumper sisi rel atas di **5V** | beban: relay, kipas, pompa, servo |
+| **Rel atas** (breadboard atas) | 5 V dari MB102, jumper sisi rel atas di **5V** | beban: relay, kipas, pompa, servo; sensor 5 V: PIR dan HC-SR04 |
 | **Rel tengah** (strip rel bawah breadboard atas) | tidak dipakai, jumper sisi rel tengah di **OFF** | — |
-| **Rel bawah** (breadboard bawah) | 3,3 V dari pin 3V3 ESP32 | potensiometer dan sensor |
+| **Rel bawah** (breadboard bawah) | 3,3 V dari pin 3V3 ESP32 | sensor 3,3 V: LDR, sensor tanah, DHT22 |
 
 Semua GND disatukan oleh dua kabel hitam dari kedua pin GND papan (kolom 5): satu dari 5f ke rel atas (−), satu lagi dari 5e ke rel bawah (−).
 
@@ -82,6 +82,7 @@ Semua GND disatukan oleh dua kabel hitam dari kedua pin GND papan (kolom 5): sat
 | Versi | Modul | Perubahan |
 | :---: | :---: | :--- |
 | 1 | 5 | Peta pin pertama. Aktuator Node 1 terpasang; sensor, bus, dan RS-485 dipesan. |
+| 2 | 6 | Kelima sensor Node 1 terpasang (DHT22, LDR, sensor tanah kapasitif, PIR, HC-SR04); sensor 5 V di rel atas, sensor 3,3 V di rel bawah. |
 
 ---
 

@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="680" viewBox="0 0 1200 680" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="680" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Membaca lembar data DHT22: cukup lima hal</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Kiri: tiruan halaman lembar data (bahasa Inggris). Kanan: kartu ringkas yang kamu tulis sendiri</text>
+<rect x="76.0" y="106.0" width="540.0" height="520.0" rx="4" fill="#d9d6cf" />
+<rect x="70.0" y="100.0" width="540.0" height="520.0" rx="4" fill="#ffffff" stroke="#cfcbc0" stroke-width="1.5" />
+<text x="94.0" y="136.0" font-size="18" font-weight="800" fill="#333" text-anchor="start" >AM2302 / DHT22</text>
+<text x="94.0" y="158.0" font-size="13" font-weight="400" fill="#555" text-anchor="start" >Digital temperature and humidity sensor</text>
+<line x1="94.0" y1="170.0" x2="586.0" y2="170.0" stroke="#999" stroke-width="1" stroke-linecap="round" />
+<text x="94.0" y="194.0" font-size="14" font-weight="800" fill="#333" text-anchor="start" >Technical Specification</text>
+<rect x="88.0" y="208.0" width="504.0" height="34.0" rx="4" fill="#ffe08a" />
+<text x="100.0" y="230.0" font-size="13" font-weight="700" fill="#333" text-anchor="start" >Power supply</text>
+<text x="260.0" y="230.0" font-size="13" font-weight="400" fill="#333" text-anchor="start" >3.3–5.5 V DC (recommended 5 V)</text>
+<circle cx="576.0" cy="225.0" r="11" fill="#1e2a4a" stroke="#ffffff" stroke-width="2" />
+<text x="576.0" y="229.0" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle" >1</text>
+<line x1="88.0" y1="242.0" x2="592.0" y2="242.0" stroke="#e5e5e5" stroke-width="1" stroke-linecap="round" />
+<rect x="88.0" y="244.0" width="504.0" height="34.0" rx="4" fill="#bfe3ff" />
+<text x="100.0" y="266.0" font-size="13" font-weight="700" fill="#333" text-anchor="start" >Output signal</text>
+<text x="260.0" y="266.0" font-size="13" font-weight="400" fill="#333" text-anchor="start" >digital signal via single-bus</text>
+<circle cx="576.0" cy="261.0" r="11" fill="#1e2a4a" stroke="#ffffff" stroke-width="2" />
+<text x="576.0" y="265.0" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle" >2</text>
+<line x1="88.0" y1="278.0" x2="592.0" y2="278.0" stroke="#e5e5e5" stroke-width="1" stroke-linecap="round" />
+<text x="100.0" y="302.0" font-size="13" font-weight="700" fill="#333" text-anchor="start" >Sensing element</text>
+<text x="260.0" y="302.0" font-size="13" font-weight="400" fill="#333" text-anchor="start" >polymer capacitor</text>
+<line x1="88.0" y1="314.0" x2="592.0" y2="314.0" stroke="#e5e5e5" stroke-width="1" stroke-linecap="round" />
+<rect x="88.0" y="316.0" width="504.0" height="34.0" rx="4" fill="#c9f0d6" />
+<text x="100.0" y="338.0" font-size="13" font-weight="700" fill="#333" text-anchor="start" >Measuring range</text>
+<text x="260.0" y="338.0" font-size="13" font-weight="400" fill="#333" text-anchor="start" >humidity 0–100 %RH; temp. −40~80 °C</text>
+<circle cx="576.0" cy="333.0" r="11" fill="#1e2a4a" stroke="#ffffff" stroke-width="2" />
+<text x="576.0" y="337.0" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle" >3</text>
+<line x1="88.0" y1="350.0" x2="592.0" y2="350.0" stroke="#e5e5e5" stroke-width="1" stroke-linecap="round" />
+<rect x="88.0" y="352.0" width="504.0" height="34.0" rx="4" fill="#c9f0d6" />
+<text x="100.0" y="374.0" font-size="13" font-weight="700" fill="#333" text-anchor="start" >Accuracy</text>
+<text x="260.0" y="374.0" font-size="13" font-weight="400" fill="#333" text-anchor="start" >humidity ±2 %RH (max ±5); temp. ±0.5 °C</text>
+<circle cx="576.0" cy="369.0" r="11" fill="#1e2a4a" stroke="#ffffff" stroke-width="2" />
+<text x="576.0" y="373.0" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle" >3</text>
+<line x1="88.0" y1="386.0" x2="592.0" y2="386.0" stroke="#e5e5e5" stroke-width="1" stroke-linecap="round" />
+<rect x="88.0" y="388.0" width="504.0" height="34.0" rx="4" fill="#c9f0d6" />
+<text x="100.0" y="410.0" font-size="13" font-weight="700" fill="#333" text-anchor="start" >Resolution</text>
+<text x="260.0" y="410.0" font-size="13" font-weight="400" fill="#333" text-anchor="start" >0.1 %RH; 0.1 °C</text>
+<circle cx="576.0" cy="405.0" r="11" fill="#1e2a4a" stroke="#ffffff" stroke-width="2" />
+<text x="576.0" y="409.0" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle" >3</text>
+<line x1="88.0" y1="422.0" x2="592.0" y2="422.0" stroke="#e5e5e5" stroke-width="1" stroke-linecap="round" />
+<rect x="88.0" y="424.0" width="504.0" height="34.0" rx="4" fill="#f6c8e8" />
+<text x="100.0" y="446.0" font-size="13" font-weight="700" fill="#333" text-anchor="start" >Sensing period</text>
+<text x="260.0" y="446.0" font-size="13" font-weight="400" fill="#333" text-anchor="start" >average 2 s</text>
+<circle cx="576.0" cy="441.0" r="11" fill="#1e2a4a" stroke="#ffffff" stroke-width="2" />
+<text x="576.0" y="445.0" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle" >4</text>
+<line x1="88.0" y1="458.0" x2="592.0" y2="458.0" stroke="#e5e5e5" stroke-width="1" stroke-linecap="round" />
+<text x="94.0" y="490.0" font-size="14" font-weight="800" fill="#333" text-anchor="start" >Pin definition</text>
+<rect x="88.0" y="500.0" width="504.0" height="116.0" rx="6" fill="#e0d4f7" />
+<circle cx="576.0" cy="518.0" r="11" fill="#1e2a4a" stroke="#ffffff" stroke-width="2" />
+<text x="576.0" y="522.0" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle" >5</text>
+<rect x="130.0" y="514.0" width="70.0" height="60.0" rx="4" fill="#f4f1ea" stroke="#999" stroke-width="1.5" />
+<line x1="144.0" y1="574.0" x2="144.0" y2="598.0" stroke="#666" stroke-width="3" stroke-linecap="round" />
+<text x="144.0" y="612.0" font-size="11" font-weight="700" fill="#333" text-anchor="middle" >1</text>
+<line x1="158.0" y1="574.0" x2="158.0" y2="598.0" stroke="#666" stroke-width="3" stroke-linecap="round" />
+<text x="158.0" y="612.0" font-size="11" font-weight="700" fill="#333" text-anchor="middle" >2</text>
+<line x1="172.0" y1="574.0" x2="172.0" y2="598.0" stroke="#666" stroke-width="3" stroke-linecap="round" />
+<text x="172.0" y="612.0" font-size="11" font-weight="700" fill="#333" text-anchor="middle" >3</text>
+<line x1="186.0" y1="574.0" x2="186.0" y2="598.0" stroke="#666" stroke-width="3" stroke-linecap="round" />
+<text x="186.0" y="612.0" font-size="11" font-weight="700" fill="#333" text-anchor="middle" >4</text>
+<text x="240.0" y="526.0" font-size="13" font-weight="400" fill="#333" text-anchor="start" >1  VDD (power)</text>
+<text x="240.0" y="548.0" font-size="13" font-weight="400" fill="#333" text-anchor="start" >2  DATA (signal)</text>
+<text x="240.0" y="570.0" font-size="13" font-weight="400" fill="#333" text-anchor="start" >3  NULL</text>
+<text x="240.0" y="592.0" font-size="13" font-weight="400" fill="#333" text-anchor="start" >4  GND</text>
+<rect x="660.0" y="100.0" width="480.0" height="520.0" rx="12" fill="#fff8e6" stroke="#e9b10d" stroke-width="2" />
+<text x="684.0" y="136.0" font-size="18" font-weight="800" fill="#1e2a4a" text-anchor="start" >Kartu ringkas DHT22</text>
+<rect x="678.0" y="164.0" width="444.0" height="76.0" rx="10" fill="#ffe08a" />
+<circle cx="704.0" cy="202.0" r="14" fill="#1e2a4a" stroke="#ffffff" stroke-width="2" />
+<text x="704.0" y="207.0" font-size="14" font-weight="700" fill="#ffffff" text-anchor="middle" >1</text>
+<text x="732.0" y="195.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Tegangan kerja</text>
+<text x="732.0" y="220.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="start" >3,3–5,5 V (disarankan 5 V) → kita pakai 3,3 V</text>
+<rect x="678.0" y="252.0" width="444.0" height="76.0" rx="10" fill="#bfe3ff" />
+<circle cx="704.0" cy="290.0" r="14" fill="#1e2a4a" stroke="#ffffff" stroke-width="2" />
+<text x="704.0" y="295.0" font-size="14" font-weight="700" fill="#ffffff" text-anchor="middle" >2</text>
+<text x="732.0" y="283.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Keluaran</text>
+<text x="732.0" y="308.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="start" >digital, satu kabel</text>
+<rect x="678.0" y="340.0" width="444.0" height="76.0" rx="10" fill="#c9f0d6" />
+<circle cx="704.0" cy="378.0" r="14" fill="#1e2a4a" stroke="#ffffff" stroke-width="2" />
+<text x="704.0" y="383.0" font-size="14" font-weight="700" fill="#ffffff" text-anchor="middle" >3</text>
+<text x="732.0" y="371.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Rentang &amp; akurasi</text>
+<text x="732.0" y="396.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="start" >−40–80 °C ±0,5 °C; 0–100 %RH ±2 %RH</text>
+<rect x="678.0" y="428.0" width="444.0" height="76.0" rx="10" fill="#f6c8e8" />
+<circle cx="704.0" cy="466.0" r="14" fill="#1e2a4a" stroke="#ffffff" stroke-width="2" />
+<text x="704.0" y="471.0" font-size="14" font-weight="700" fill="#ffffff" text-anchor="middle" >4</text>
+<text x="732.0" y="459.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Waktu</text>
+<text x="732.0" y="484.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="start" >jeda minimal 2 detik antarbacaan</text>
+<rect x="678.0" y="516.0" width="444.0" height="76.0" rx="10" fill="#e0d4f7" />
+<circle cx="704.0" cy="554.0" r="14" fill="#1e2a4a" stroke="#ffffff" stroke-width="2" />
+<text x="704.0" y="559.0" font-size="14" font-weight="700" fill="#ffffff" text-anchor="middle" >5</text>
+<text x="732.0" y="547.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Kaki</text>
+<text x="732.0" y="572.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="start" >modul 3 kaki: baca tulisan di modulmu</text>
+<text x="600.0" y="645.0" font-size="12.5" font-weight="600" fill="#8a8f9c" text-anchor="middle" >Ringkasan ulang dari lembar data AM2302 (Aosong), bukan salinannya.</text>
+<text x="1178.0" y="666.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

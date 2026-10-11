@@ -1,18 +1,20 @@
-// Node 1 "Rumah" - firmware v0.2.0 (diperbarui di Modul 5)
+// Node 1 "Rumah" - firmware v0.3.0 (diperbarui di Modul 6)
 // Proyek benang merah: Rumah Pintar Mini.
 //
-// Baru di v0.2.0: semua aktuator Node 1 terpasang di pin kanonik (lihat PETA-PIN.md):
-// relay lampu, relay kipas, pompa (lewat MOSFET), servo tirai, buzzer, dan tombol manual.
-// Tombol manual menyalakan/mematikan lampu. Aktuator lain bisa dicoba lewat
-// Serial Monitor, misalnya: lampu on, kipas off, pompa 3, tirai 90, bunyi, status.
-// Sensor masih berupa angka contoh; Modul 6-7 menggantinya dengan bacaan sungguhan.
+// Baru di v0.3.0: kelima sensor Node 1 dibaca sungguhan (DHT22, LDR, sensor tanah,
+// PIR, HC-SR04), ditambah dua aturan otomatis versi lokal pertama:
+// "siram otomatis" (ditolak kalau air tandon terlalu sedikit) dan "lampu otomatis".
+// Aktuator tetap bisa dicoba lewat Serial Monitor, misalnya:
+// lampu on, kipas off, pompa 3, tirai 90, bunyi, status.
 //
-// Library: ESP32Servo versi 3.2.1.
+// Library: ESP32Servo versi 3.2.1, DHT sensor library versi 1.4.7
+// (ikut terpasang: Adafruit Unified Sensor versi 1.1.15).
 
 #include <ESP32Servo.h>
+#include <DHT.h>
 #include <esp_system.h>  // esp_reset_reason()
 
-const String VERSI_FIRMWARE = "0.2.0";
+const String VERSI_FIRMWARE = "0.3.0";
 
 // ---------- Peta pin kanonik Node 1 (salinan dari PETA-PIN.md) ----------
 const int PIN_LED_STATUS = 4;    // Modul 2
@@ -22,8 +24,13 @@ const int PIN_RELAY_KIPAS = 33;  // Modul 5, relay aktif LOW
 const int PIN_POMPA = 25;        // Modul 5, gerbang MOSFET IRLZ44N
 const int PIN_SERVO_TIRAI = 26;  // Modul 5, servo SG90
 const int PIN_BUZZER = 27;       // Modul 5, buzzer pasif
+const int PIN_DHT = 14;          // Modul 6, DHT22
+const int PIN_LDR = 36;          // Modul 6, VP: LDR (ADC1)
+const int PIN_TANAH = 39;        // Modul 6, VN: sensor tanah kapasitif (ADC1)
+const int PIN_PIR = 34;          // Modul 6, PIR
+const int PIN_TRIG = 15;         // Modul 6, HC-SR04 TRIG
+const int PIN_ECHO = 35;         // Modul 6, HC-SR04 ECHO lewat pembagi tegangan
 // Dipesan untuk modul berikutnya (jangan dipakai untuk hal lain):
-// Modul 6: DHT22 = 14, LDR = 36 (VP), tanah = 39 (VN), PIR = 34, HC-SR04 TRIG = 15, ECHO = 35
 // Modul 7: I2C SDA = 21, SCL = 22; microSD SCK = 18, MISO = 19, MOSI = 23, CS = 5
 // Modul 15: RS-485 RX = 16, TX = 17, DE/RE = 2
 
@@ -31,12 +38,27 @@ const int JEDA_PANTUL = 30;           // milidetik, untuk debounce tombol
 const int JEDA_PUTARAN = 10;          // loop() berputar kira-kira tiap 10 milidetik
 const int PUTARAN_PER_LAPORAN = 200;  // 200 x 10 ms = kira-kira 2 detik
 
-// Formulir data sensor. Nama kolomnya mengikuti kontrak data (Lampiran A Silabus).
+// ---------- Modul 6: hasil kalibrasimu (Praktik 3 dan 6) ----------
+const int TANAH_KERING = 3000;    // angka mentah sensor tanah di udara
+const int TANAH_BASAH = 1300;     // angka mentah sensor tanah di air
+const float JARAK_KOSONG = 20.0;  // cm: sensor ke dasar tandon
+const float JARAK_PENUH = 5.0;    // cm: sensor ke permukaan air saat tandon penuh
+
+// ---------- Modul 6: aturan otomatis versi lokal ----------
+const int AMBANG_TANAH_SIRAM = 30;  // Lampiran A: "tanah_siram"
+const int LEVEL_AIR_MINIMUM = 20;   // pompa ditolak kalau isi tandon di bawah 20 %
+const int DETIK_SIRAM = 3;          // lama pompa menyala saat menyiram otomatis
+const int JEDA_SIRAM = 15;          // sesudah mencoba menyiram, tunggu 15 laporan (kira-kira 30 detik)
+const int AMBANG_GELAP = 1000;      // cahaya di bawah ini dianggap gelap
+
+// Formulir data sensor. Nama kolomnya PERSIS sesuai kontrak data (Lampiran A Silabus).
 struct BacaanSensor {
-  float suhu;      // derajat Celsius
-  int kelembapan;  // persen
-  int cahaya;      // 0-4095
-  bool gerak;      // ada gerakan?
+  float suhu;      // derajat Celsius; NAN kalau DHT22 gagal dibaca
+  int kelembapan;  // persen; -1 kalau DHT22 gagal dibaca
+  int cahaya;      // 0 (gelap gulita) sampai 4095 (sangat terang)
+  int tanah;       // persen: 0 = kering seperti di udara, 100 = basah seperti di air
+  bool gerak;      // true kalau PIR melihat gerakan
+  int level_air;   // persen isi tandon; -1 kalau gema HC-SR04 tidak kembali
 };
 
 // Keadaan aktuator saat ini (nanti dikirim di "ack", Lampiran A)
@@ -44,7 +66,11 @@ bool lampuMenyala = false;
 bool kipasMenyala = false;
 int sudutTirai = 90;
 
+bool lampuDariOtomatis = false;  // true kalau lampu dinyalakan oleh lampuOtomatis()
+int sisaJedaSiram = 0;           // berapa laporan lagi sebelum boleh mencoba menyiram lagi
+
 Servo servoTirai;
+DHT dht(PIN_DHT, DHT22);
 int hitungPutaran = 0;
 
 // ---------- Modul 5: alasan restart terakhir (nama sama dengan Lampiran A) ----------
@@ -75,6 +101,7 @@ String alasanReset() {
 // ---------- Modul 5: aktuator ----------
 void aturLampu(bool nyala) {
   lampuMenyala = nyala;
+  lampuDariOtomatis = false;  // anggap perintah manual; lampuOtomatis() menandai miliknya sendiri
   if (nyala) {
     digitalWrite(PIN_RELAY_LAMPU, LOW);  // relay aktif LOW
   } else {
@@ -91,10 +118,27 @@ void aturKipas(bool nyala) {
   }
 }
 
+// Modul 6: pompa hanya menyala kalau air tandon cukup. Tandon diukur tepat sebelum pompa menyala.
 void jalankanPompa(int detik) {
   detik = constrain(detik, 1, 10);  // batas aman: 1-10 detik
+  delay(60);  // lembar data HC-SR04: jeda minimal 60 ms sejak ukuran sebelumnya (Konsep 10)
+  int levelAir = bacaLevelAir();
+  if (levelAir < LEVEL_AIR_MINIMUM) {  // -1 (tidak terbaca) juga lebih kecil, jadi ikut ditolak
+    Serial.print("pompa DITOLAK: air tandon ");
+    if (levelAir < 0) {
+      Serial.println("tidak terbaca");
+    } else {
+      Serial.print("tinggal ");
+      Serial.print(levelAir);
+      Serial.println(" %");
+    }
+    return;
+  }
+  Serial.print("pompa menyala ");
+  Serial.print(detik);
+  Serial.println(" detik...");
   digitalWrite(PIN_POMPA, HIGH);
-  delay(detik * 1000);  // sementara memblokir; Modul 8 membuatnya tanpa delay()
+  delay(detik * 1000);  // untuk sementara masih memblokir; Modul 8 membuatnya tanpa delay()
   digitalWrite(PIN_POMPA, LOW);
 }
 
@@ -128,6 +172,13 @@ void siapkanPin() {
   aturTirai(sudutTirai);
 
   ledcAttach(PIN_BUZZER, 2000, 10);
+
+  // Modul 6: sensor
+  dht.begin();
+  pinMode(PIN_PIR, INPUT);
+  pinMode(PIN_TRIG, OUTPUT);
+  digitalWrite(PIN_TRIG, LOW);
+  pinMode(PIN_ECHO, INPUT);
 }
 
 // ---------- Modul 5: tombol manual dengan debounce ----------
@@ -191,7 +242,6 @@ void periksaPerintahSerial() {
       Serial.println("Butuh angka detik. Contoh: pompa 3");
       return;
     }
-    Serial.println("pompa menyala...");
     jalankanPompa(angka.toInt());
   } else if (perintah.startsWith("tirai ")) {
     String angka = perintah.substring(6);  // teks sesudah "tirai "
@@ -209,13 +259,62 @@ void periksaPerintahSerial() {
   cetakStatus();
 }
 
-// ---------- Modul 6-7: membaca sensor sungguhan ----------
+// ---------- Modul 6: membaca sensor sungguhan ----------
+// Rata-rata 20 bacaan analog berturut-turut supaya derau teredam.
+int bacaAnalogRata(int pin) {
+  long jumlah = 0;
+  for (int i = 0; i < 20; i++) {
+    jumlah += analogRead(pin);
+    delay(2);
+  }
+  return jumlah / 20;
+}
+
+int bacaCahaya() {
+  return 4095 - bacaAnalogRata(PIN_LDR);  // dibalik: makin terang, makin besar
+}
+
+int bacaTanahPersen() {
+  int persen = map(bacaAnalogRata(PIN_TANAH), TANAH_KERING, TANAH_BASAH, 0, 100);
+  return constrain(persen, 0, 100);
+}
+
+// Mengukur jarak satu kali, dalam cm. Menjawab -1 kalau gemanya tidak kembali.
+float ukurJarakCm() {
+  digitalWrite(PIN_TRIG, LOW);
+  delayMicroseconds(2);
+  digitalWrite(PIN_TRIG, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(PIN_TRIG, LOW);
+  unsigned long durasi = pulseIn(PIN_ECHO, HIGH, 30000);
+  if (durasi == 0) {
+    return -1;
+  }
+  return durasi / 58.0;
+}
+
+int bacaLevelAir() {
+  float jarak = ukurJarakCm();
+  if (jarak < 0) {
+    return -1;  // tidak diketahui
+  }
+  int persen = (JARAK_KOSONG - jarak) * 100 / (JARAK_KOSONG - JARAK_PENUH);
+  return constrain(persen, 0, 100);
+}
+
 BacaanSensor bacaSensor() {
   BacaanSensor b;
-  b.suhu = 28.5;      // sementara angka contoh; Modul 6-7 menggantinya
-  b.kelembapan = 71;  // dengan pembacaan sensor yang sebenarnya
-  b.cahaya = 412;
-  b.gerak = false;
+  b.suhu = dht.readTemperature();
+  float kelembapan = dht.readHumidity();
+  if (isnan(kelembapan)) {
+    b.kelembapan = -1;
+  } else {
+    b.kelembapan = round(kelembapan);  // dibulatkan ke bilangan bulat terdekat
+  }
+  b.cahaya = bacaCahaya();
+  b.tanah = bacaTanahPersen();
+  b.gerak = digitalRead(PIN_PIR) == HIGH;
+  b.level_air = bacaLevelAir();
   return b;
 }
 
@@ -225,8 +324,37 @@ void tampilkanDiLayar(BacaanSensor b) {
 }
 
 // ---------- Modul 6 & 19: aturan otomatis (siram, lampu, kipas) ----------
+void siramOtomatis(BacaanSensor b) {
+  if (sisaJedaSiram > 0) {  // baru saja mencoba menyiram: tunggu dulu
+    sisaJedaSiram--;
+    return;
+  }
+  if (b.tanah < AMBANG_TANAH_SIRAM) {
+    Serial.print("Tanah kering (");
+    Serial.print(b.tanah);
+    Serial.print(" %): ");
+    jalankanPompa(DETIK_SIRAM);  // pengaman tandon ada di dalam jalankanPompa()
+    sisaJedaSiram = JEDA_SIRAM;  // berhasil atau ditolak, jangan coba lagi selama kira-kira 30 detik
+  }
+}
+
+void lampuOtomatis(BacaanSensor b) {
+  bool gelap = b.cahaya < AMBANG_GELAP;
+  if (b.gerak && gelap && !lampuMenyala) {
+    Serial.println("Ada gerakan di tempat gelap: lampu otomatis menyala.");
+    aturLampu(true);
+    lampuDariOtomatis = true;
+  }
+  if (!b.gerak && lampuDariOtomatis) {  // hanya mematikan lampu yang ia nyalakan sendiri
+    Serial.println("Sepi: lampu otomatis padam.");
+    aturLampu(false);
+  }
+}
+
 void kendalikanAktuator(BacaanSensor b) {
-  // belum diisi: Modul 6 menambahkan "siram otomatis" dan "lampu otomatis"
+  siramOtomatis(b);
+  lampuOtomatis(b);
+  // Modul 19 menambahkan kipas otomatis (Lampiran A: "suhu_kipas_on")
 }
 
 // ---------- Modul 10-11: mengirim bacaan ke server ----------
@@ -241,20 +369,38 @@ void kedipStatus() {
   digitalWrite(PIN_LED_STATUS, LOW);
 }
 
+// Mencetak angka, atau "--" kalau nilainya tidak sah (kurang dari 0).
+void cetakNilai(int nilai) {
+  if (nilai < 0) {
+    Serial.print("--");
+  } else {
+    Serial.print(nilai);
+  }
+}
+
 // Mencetak bacaan ke Serial Monitor (alat bantu kita sendiri).
 void cetakBacaan(BacaanSensor b) {
   Serial.print("suhu=");
-  Serial.print(b.suhu, 1);
-  Serial.print(" kelembapan=");
-  Serial.print(b.kelembapan);
-  Serial.print(" cahaya=");
-  Serial.print(b.cahaya);
-  Serial.print(" gerak=");
-  if (b.gerak) {
-    Serial.println("ya");
+  if (isnan(b.suhu)) {
+    Serial.print("--");
   } else {
-    Serial.println("tidak");
+    Serial.print(b.suhu, 1);
   }
+  Serial.print(" C  kelembapan=");
+  cetakNilai(b.kelembapan);
+  Serial.print(" %  cahaya=");
+  Serial.print(b.cahaya);
+  Serial.print("  tanah=");
+  Serial.print(b.tanah);
+  Serial.print(" %  gerak=");
+  if (b.gerak) {
+    Serial.print("ya");
+  } else {
+    Serial.print("tidak");
+  }
+  Serial.print("  level_air=");
+  cetakNilai(b.level_air);
+  Serial.println(" %");
 }
 
 void setup() {

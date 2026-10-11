@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="740" viewBox="0 0 1100 740" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1100" height="740" fill="#fffdf7"/>
+<text x="550.0" y="34.0" font-size="22" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Jendela Serial Plotter Arduino IDE 2 (ilustrasi)</text>
+<rect x="50.0" y="60.0" width="1000.0" height="640.0" rx="8" fill="#ffffff" stroke="#b9c0c6" stroke-width="1.5" />
+<rect x="50.0" y="60.0" width="1000.0" height="34.0" rx="8" fill="#f1f3f4" />
+<rect x="50.0" y="86.0" width="1000.0" height="8.0" rx="0" fill="#f1f3f4" />
+<text x="66.0" y="83.0" font-size="13.5" font-weight="600" fill="#333" text-anchor="start" >Serial Plotter</text>
+<circle cx="1028.0" cy="77.0" r="6" fill="#c4c4c4" />
+<circle cx="1006.0" cy="77.0" r="6" fill="#c4c4c4" />
+<circle cx="984.0" cy="77.0" r="6" fill="#c4c4c4" />
+<rect x="74.0" y="112.0" width="18.0" height="18.0" rx="3" fill="#2f6fd1" />
+<path d="M78 121 L82 125 L88 117" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="100.0" y="127.0" font-size="14.5" font-weight="600" fill="#2c353a" text-anchor="start" >mentah</text>
+<rect x="204.0" y="112.0" width="18.0" height="18.0" rx="3" fill="#e07b1a" />
+<path d="M208 121 L212 125 L218 117" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="230.0" y="127.0" font-size="14.5" font-weight="600" fill="#2c353a" text-anchor="start" >rata</text>
+<text x="750.0" y="127.0" font-size="14" font-weight="600" fill="#2c353a" text-anchor="start" >Interpolate</text>
+<rect x="836.0" y="112.0" width="37.0" height="20.0" rx="10" fill="#C9D2D2" />
+<circle cx="846.0" cy="122.0" r="7" fill="#ffffff" />
+<rect x="890.0" y="108.0" width="80.0" height="28.0" rx="14" fill="#008184" />
+<text x="930.0" y="127.0" font-size="13.5" font-weight="800" fill="#ffffff" text-anchor="middle" >STOP</text>
+<path d="M994 114 L1012 114 M1000 114 L1000 111 L1006 111 L1006 114" fill="none" stroke="#4E5B61" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M996 117 L998 133 L1008 133 L1010 117" fill="none" stroke="#4E5B61" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M1001 121 L1001.5 129 M1005 121 L1004.5 129" fill="none" stroke="#4E5B61" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="120.0" y="160.0" width="890.0" height="380.0" rx="0" fill="#ffffff" stroke="#e3e7e8" stroke-width="1" />
+<line x1="120.0" y1="160.0" x2="1010.0" y2="160.0" stroke="#eef1f2" stroke-width="1" stroke-linecap="round" />
+<text x="112.0" y="164.0" font-size="12" font-weight="500" fill="#5b676d" text-anchor="end" >1400</text>
+<line x1="120.0" y1="236.0" x2="1010.0" y2="236.0" stroke="#eef1f2" stroke-width="1" stroke-linecap="round" />
+<text x="112.0" y="240.0" font-size="12" font-weight="500" fill="#5b676d" text-anchor="end" >1380</text>
+<line x1="120.0" y1="312.0" x2="1010.0" y2="312.0" stroke="#eef1f2" stroke-width="1" stroke-linecap="round" />
+<text x="112.0" y="316.0" font-size="12" font-weight="500" fill="#5b676d" text-anchor="end" >1360</text>
+<line x1="120.0" y1="388.0" x2="1010.0" y2="388.0" stroke="#eef1f2" stroke-width="1" stroke-linecap="round" />
+<text x="112.0" y="392.0" font-size="12" font-weight="500" fill="#5b676d" text-anchor="end" >1340</text>
+<line x1="120.0" y1="464.0" x2="1010.0" y2="464.0" stroke="#eef1f2" stroke-width="1" stroke-linecap="round" />
+<text x="112.0" y="468.0" font-size="12" font-weight="500" fill="#5b676d" text-anchor="end" >1320</text>
+<line x1="120.0" y1="540.0" x2="1010.0" y2="540.0" stroke="#eef1f2" stroke-width="1" stroke-linecap="round" />
+<text x="112.0" y="544.0" font-size="12" font-weight="500" fill="#5b676d" text-anchor="end" >1300</text>
+<text x="120.0" y="558.0" font-size="11.5" font-weight="500" fill="#5b676d" text-anchor="middle" >0</text>
+<text x="209.0" y="558.0" font-size="11.5" font-weight="500" fill="#5b676d" text-anchor="middle" >5</text>
+<text x="298.0" y="558.0" font-size="11.5" font-weight="500" fill="#5b676d" text-anchor="middle" >10</text>
+<text x="387.0" y="558.0" font-size="11.5" font-weight="500" fill="#5b676d" text-anchor="middle" >15</text>
+<text x="476.0" y="558.0" font-size="11.5" font-weight="500" fill="#5b676d" text-anchor="middle" >20</text>
+<text x="565.0" y="558.0" font-size="11.5" font-weight="500" fill="#5b676d" text-anchor="middle" >25</text>
+<text x="654.0" y="558.0" font-size="11.5" font-weight="500" fill="#5b676d" text-anchor="middle" >30</text>
+<text x="743.0" y="558.0" font-size="11.5" font-weight="500" fill="#5b676d" text-anchor="middle" >35</text>
+<text x="832.0" y="558.0" font-size="11.5" font-weight="500" fill="#5b676d" text-anchor="middle" >40</text>
+<text x="921.0" y="558.0" font-size="11.5" font-weight="500" fill="#5b676d" text-anchor="middle" >45</text>
+<text x="1010.0" y="558.0" font-size="11.5" font-weight="500" fill="#5b676d" text-anchor="middle" >50</text>
+<path d="M120.0 399.4 L138.2 327.2 L156.3 426.0 L174.5 369.0 L192.7 342.4 L210.8 441.2 L229.0 456.4 L247.1 342.4 L265.3 395.6 L283.5 323.4 L301.6 403.2 L319.8 410.8 L338.0 342.4 L356.1 327.2 L374.3 323.4 L392.4 342.4 L410.6 361.4 L428.8 422.2 L446.9 403.2 L465.1 422.2 L483.3 331.0 L501.4 365.2 L519.6 456.4 L537.8 441.2 L555.9 418.4 L574.1 448.8 L592.2 384.2 L610.4 452.6 L628.6 391.8 L646.7 342.4 L664.9 365.2 L683.1 353.8 L701.2 361.4 L719.4 319.6 L737.6 350.0 L755.7 426.0 L773.9 369.0 L792.0 433.6 L810.2 448.8 L828.4 426.0 L846.5 338.6 L864.7 407.0 L882.9 395.6 L901.0 353.8 L919.2 384.2 L937.3 357.6 L955.5 334.8 L973.7 365.2 L991.8 319.6 L1010.0 372.8" fill="none" stroke="#2f6fd1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M120.0 389.1 L138.2 383.1 L156.3 386.9 L174.5 385.0 L192.7 380.4 L210.8 385.7 L229.0 392.6 L247.1 388.0 L265.3 388.8 L283.5 382.3 L301.6 382.7 L319.8 391.0 L338.0 382.7 L356.1 378.5 L374.3 376.6 L392.4 366.7 L410.6 357.2 L428.8 365.2 L446.9 366.0 L465.1 375.8 L483.3 368.6 L501.4 364.1 L519.6 375.5 L537.8 386.9 L555.9 396.4 L574.1 407.0 L592.2 409.3 L610.4 412.3 L628.6 411.2 L646.7 403.2 L664.9 406.6 L683.1 405.5 L701.2 396.0 L719.4 383.8 L737.6 377.0 L755.7 374.7 L773.9 373.2 L792.0 371.3 L810.2 377.0 L828.4 385.3 L846.5 382.7 L864.7 388.0 L882.9 391.4 L901.0 394.8 L919.2 398.3 L937.3 391.4 L955.5 388.0 L973.7 381.2 L991.8 368.2 L1010.0 362.9" fill="none" stroke="#e07b1a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="50.0" y1="578.0" x2="1050.0" y2="578.0" stroke="#e3e7e8" stroke-width="1" stroke-linecap="round" />
+<rect x="74.0" y="590.0" width="520.0" height="36.0" rx="4" fill="#ffffff" stroke="#cfd6d6" stroke-width="1.5" />
+<text x="88.0" y="613.0" font-size="14" font-weight="400" fill="#9aa4a8" text-anchor="start" >Type Message</text>
+<rect x="606.0" y="590.0" width="70.0" height="36.0" rx="4" fill="#e3e7e8" />
+<text x="641.0" y="613.0" font-size="13.5" font-weight="700" fill="#7a868b" text-anchor="middle" >Send</text>
+<rect x="690.0" y="590.0" width="150.0" height="36.0" rx="4" fill="#ffffff" stroke="#cfd6d6" stroke-width="1.5" />
+<text x="704.0" y="613.0" font-size="13.5" font-weight="500" fill="#2c353a" text-anchor="start" >New Line</text>
+<path d="M818 605 L824 611 L830 605" fill="none" stroke="#2c353a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="854.0" y="590.0" width="170.0" height="36.0" rx="4" fill="#ffffff" stroke="#cfd6d6" stroke-width="1.5" />
+<text x="868.0" y="613.0" font-size="13.5" font-weight="600" fill="#2c353a" text-anchor="start" >115200 baud</text>
+<path d="M1002 605 L1008 611 L1014 605" fill="none" stroke="#2c353a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="83.0" y1="121.0" x2="170.0" y2="210.0" stroke="#e63946" stroke-width="2.5" stroke-linecap="round" />
+<circle cx="83.0" cy="121.0" r="5" fill="#e63946" />
+<circle cx="170.0" cy="210.0" r="14" fill="#e63946" stroke="#ffffff" stroke-width="2" />
+<text x="170.0" y="215.0" font-size="14" font-weight="700" fill="#ffffff" text-anchor="middle" >1</text>
+<rect x="185.0" y="198.0" width="354.2" height="24.0" rx="6" fill="#ffffff" opacity="0.92"/>
+<text x="192.0" y="215.0" font-size="13.5" font-weight="800" fill="#e63946" text-anchor="start" >klik kotak centang untuk menyembunyikan garis</text>
+<line x1="930.0" y1="138.0" x2="890.0" y2="210.0" stroke="#e63946" stroke-width="2.5" stroke-linecap="round" />
+<circle cx="930.0" cy="138.0" r="5" fill="#e63946" />
+<circle cx="890.0" cy="210.0" r="14" fill="#e63946" stroke="#ffffff" stroke-width="2" />
+<text x="890.0" y="215.0" font-size="14" font-weight="700" fill="#ffffff" text-anchor="middle" >2</text>
+<rect x="694.7" y="198.0" width="180.3" height="24.0" rx="6" fill="#ffffff" opacity="0.92"/>
+<text x="868.0" y="215.0" font-size="13.5" font-weight="800" fill="#e63946" text-anchor="end" >STOP membekukan grafik</text>
+<line x1="74.0" y1="246.0" x2="160.0" y2="280.0" stroke="#e63946" stroke-width="2.5" stroke-linecap="round" />
+<circle cx="74.0" cy="246.0" r="5" fill="#e63946" />
+<circle cx="160.0" cy="280.0" r="14" fill="#e63946" stroke="#ffffff" stroke-width="2" />
+<text x="160.0" y="285.0" font-size="14" font-weight="700" fill="#ffffff" text-anchor="middle" >3</text>
+<rect x="175.0" y="268.0" width="301.3" height="24.0" rx="6" fill="#ffffff" opacity="0.92"/>
+<text x="182.0" y="285.0" font-size="13.5" font-weight="800" fill="#e63946" text-anchor="start" >baca angka di sumbu: skalanya otomatis</text>
+<line x1="940.0" y1="628.0" x2="940.0" y2="660.0" stroke="#e63946" stroke-width="2.5" stroke-linecap="round" />
+<circle cx="940.0" cy="628.0" r="5" fill="#e63946" />
+<circle cx="940.0" cy="660.0" r="14" fill="#e63946" stroke="#ffffff" stroke-width="2" />
+<text x="940.0" y="665.0" font-size="14" font-weight="700" fill="#ffffff" text-anchor="middle" >4</text>
+<rect x="782.5" y="648.0" width="142.5" height="24.0" rx="6" fill="#ffffff" opacity="0.92"/>
+<text x="918.0" y="665.0" font-size="13.5" font-weight="800" fill="#e63946" text-anchor="end" >harus 115200 baud</text>
+<text x="1078.0" y="726.0" font-size="11.5" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0 · ilustrasi, bukan tangkapan layar</text>
+</svg>

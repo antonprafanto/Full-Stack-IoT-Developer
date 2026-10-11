@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="620" viewBox="0 0 1200 620" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="620" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >ADC ESP32: penggaris 12-bit yang tidak sempurna</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Tegangan 0–3,3 V di pin diterjemahkan menjadi angka 0–4095 (gambaran)</text>
+<rect x="80.0" y="112.0" width="630.0" height="42.0" rx="6" fill="#fff4c2" stroke="#e9b10d" stroke-width="2" />
+<line x1="90.0" y1="112.0" x2="90.0" y2="128.0" stroke="#1e2a4a" stroke-width="1.5" stroke-linecap="round" />
+<line x1="109.1" y1="112.0" x2="109.1" y2="120.0" stroke="#1e2a4a" stroke-width="1.5" stroke-linecap="round" />
+<line x1="128.1" y1="112.0" x2="128.1" y2="120.0" stroke="#1e2a4a" stroke-width="1.5" stroke-linecap="round" />
+<line x1="147.2" y1="112.0" x2="147.2" y2="120.0" stroke="#1e2a4a" stroke-width="1.5" stroke-linecap="round" />
+<line x1="166.2" y1="112.0" x2="166.2" y2="120.0" stroke="#1e2a4a" stroke-width="1.5" stroke-linecap="round" />
+<line x1="185.3" y1="112.0" x2="185.3" y2="120.0" stroke="#1e2a4a" stroke-width="1.5" stroke-linecap="round" />
+<line x1="204.4" y1="112.0" x2="204.4" y2="120.0" stroke="#1e2a4a" stroke-width="1.5" stroke-linecap="round" />
+<line x1="223.4" y1="112.0" x2="223.4" y2="120.0" stroke="#1e2a4a" stroke-width="1.5" stroke-linecap="round" />
+<line x1="242.5" y1="112.0" x2="242.5" y2="128.0" stroke="#1e2a4a" stroke-width="1.5" stroke-linecap="round" />
+<line x1="261.6" y1="112.0" x2="261.6" y2="120.0" stroke="#1e2a4a" stroke-width="1.5" stroke-linecap="round" />
+<line x1="280.6" y1="112.0" x2="280.6" y2="120.0" stroke="#1e2a4a" stroke-width="1.5" stroke-linecap="round" />
+<line x1="299.7" y1="112.0" x2="299.7" y2="120.0" stroke="#1e2a4a" stroke-width="1.5" stroke-linecap="round" />
+<line x1="318.8" y1="112.0" x2="318.8" y2="120.0" stroke="#1e2a4a" stroke-width="1.5" stroke-linecap="round" />
+<line x1="337.8" y1="112.0" x2="337.8" y2="120.0" stroke="#1e2a4a" stroke-width="1.5" stroke-linecap="round" />
+<line x1="356.9" y1="112.0" x2="356.9" y2="120.0" stroke="#1e2a4a" stroke-width="1.5" stroke-linecap="round" />
+<line x1="375.9" y1="112.0" x2="375.9" y2="120.0" stroke="#1e2a4a" stroke-width="1.5" stroke-linecap="round" />
+<line x1="395.0" y1="112.0" x2="395.0" y2="128.0" stroke="#1e2a4a" stroke-width="1.5" stroke-linecap="round" />
+<line x1="414.1" y1="112.0" x2="414.1" y2="120.0" stroke="#1e2a4a" stroke-width="1.5" stroke-linecap="round" />
+<line x1="433.1" y1="112.0" x2="433.1" y2="120.0" stroke="#1e2a4a" stroke-width="1.5" stroke-linecap="round" />
+<line x1="452.2" y1="112.0" x2="452.2" y2="120.0" stroke="#1e2a4a" stroke-width="1.5" stroke-linecap="round" />
+<line x1="471.2" y1="112.0" x2="471.2" y2="120.0" stroke="#1e2a4a" stroke-width="1.5" stroke-linecap="round" />
+<line x1="490.3" y1="112.0" x2="490.3" y2="120.0" stroke="#1e2a4a" stroke-width="1.5" stroke-linecap="round" />
+<line x1="509.4" y1="112.0" x2="509.4" y2="120.0" stroke="#1e2a4a" stroke-width="1.5" stroke-linecap="round" />
+<line x1="528.4" y1="112.0" x2="528.4" y2="120.0" stroke="#1e2a4a" stroke-width="1.5" stroke-linecap="round" />
+<line x1="547.5" y1="112.0" x2="547.5" y2="128.0" stroke="#1e2a4a" stroke-width="1.5" stroke-linecap="round" />
+<line x1="566.6" y1="112.0" x2="566.6" y2="120.0" stroke="#1e2a4a" stroke-width="1.5" stroke-linecap="round" />
+<line x1="585.6" y1="112.0" x2="585.6" y2="120.0" stroke="#1e2a4a" stroke-width="1.5" stroke-linecap="round" />
+<line x1="604.7" y1="112.0" x2="604.7" y2="120.0" stroke="#1e2a4a" stroke-width="1.5" stroke-linecap="round" />
+<line x1="623.8" y1="112.0" x2="623.8" y2="120.0" stroke="#1e2a4a" stroke-width="1.5" stroke-linecap="round" />
+<line x1="642.8" y1="112.0" x2="642.8" y2="120.0" stroke="#1e2a4a" stroke-width="1.5" stroke-linecap="round" />
+<line x1="661.9" y1="112.0" x2="661.9" y2="120.0" stroke="#1e2a4a" stroke-width="1.5" stroke-linecap="round" />
+<line x1="680.9" y1="112.0" x2="680.9" y2="120.0" stroke="#1e2a4a" stroke-width="1.5" stroke-linecap="round" />
+<line x1="700.0" y1="112.0" x2="700.0" y2="128.0" stroke="#1e2a4a" stroke-width="1.5" stroke-linecap="round" />
+<text x="94.0" y="148.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="start" >0</text>
+<text x="242.5" y="148.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="middle" >1024</text>
+<text x="395.1" y="148.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="middle" >2048</text>
+<text x="547.6" y="148.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="middle" >3072</text>
+<text x="696.0" y="148.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="end" >4095</text>
+<text x="724.0" y="138.0" font-size="14" font-weight="700" fill="#b45f17" text-anchor="start" >4.096 garis skala (12 bit)</text>
+<rect x="130.0" y="190.0" width="520.0" height="300.0" rx="4" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<line x1="260.0" y1="190.0" x2="260.0" y2="490.0" stroke="#eee" stroke-width="1" stroke-linecap="round" />
+<line x1="130.0" y1="265.0" x2="650.0" y2="265.0" stroke="#eee" stroke-width="1" stroke-linecap="round" />
+<line x1="390.0" y1="190.0" x2="390.0" y2="490.0" stroke="#eee" stroke-width="1" stroke-linecap="round" />
+<line x1="130.0" y1="340.0" x2="650.0" y2="340.0" stroke="#eee" stroke-width="1" stroke-linecap="round" />
+<line x1="520.0" y1="190.0" x2="520.0" y2="490.0" stroke="#eee" stroke-width="1" stroke-linecap="round" />
+<line x1="130.0" y1="415.0" x2="650.0" y2="415.0" stroke="#eee" stroke-width="1" stroke-linecap="round" />
+<text x="390.0" y="530.0" font-size="14" font-weight="700" fill="#4a5568" text-anchor="middle" >tegangan di pin (volt)</text>
+<text x="130.0" y="510.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="middle" >0</text>
+<text x="208.8" y="510.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="middle" >0,5</text>
+<text x="287.6" y="510.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="middle" >1</text>
+<text x="366.4" y="510.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="middle" >1,5</text>
+<text x="445.2" y="510.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="middle" >2</text>
+<text x="523.9" y="510.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="middle" >2,5</text>
+<text x="602.7" y="510.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="middle" >3</text>
+<text x="650.0" y="510.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="middle" >3,3</text>
+<text x="120.0" y="494.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="end" >0</text>
+<text x="120.0" y="419.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="end" >1024</text>
+<text x="120.0" y="344.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="end" >2048</text>
+<text x="120.0" y="268.9" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="end" >3072</text>
+<text x="120.0" y="194.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="end" >4095</text>
+<text x="68.0" y="340.0" font-size="14" font-weight="700" fill="#4a5568" text-anchor="middle" transform="rotate(-90 68 340.0)">analogRead()</text>
+<line x1="130.0" y1="490.0" x2="650.0" y2="190.0" stroke="#8a8f9c" stroke-width="2" stroke-linecap="round" stroke-dasharray="7 6" />
+<text x="177.3" y="306.8" font-size="13" font-weight="700" fill="#8a8f9c" text-anchor="start" >penggaris lurus (ideal, = Wokwi)</text>
+<path d="M130.0 490.0 L131.6 490.0 L133.2 490.0 L134.7 490.0 L136.3 490.0 L137.9 490.0 L139.5 490.0 L141.0 490.0 L142.6 490.0 L144.2 490.0 L145.8 490.0 L147.3 490.0 L148.9 490.0 L150.5 490.0 L152.1 490.0 L153.6 488.8 L155.2 487.9 L156.8 487.0 L158.4 486.1 L159.9 485.2 L161.5 484.3 L163.1 483.4 L164.7 482.5 L166.2 481.5 L167.8 480.6 L169.4 479.7 L171.0 478.8 L172.5 477.9 L174.1 477.0 L175.7 476.1 L177.3 475.2 L178.8 474.3 L180.4 473.4 L182.0 472.5 L183.6 471.5 L185.2 470.6 L186.7 469.7 L188.3 468.8 L189.9 467.9 L191.5 467.0 L193.0 466.1 L194.6 465.2 L196.2 464.3 L197.8 463.4 L199.3 462.5 L200.9 461.5 L202.5 460.6 L204.1 459.7 L205.6 458.8 L207.2 457.9 L208.8 457.0 L210.4 456.1 L211.9 455.2 L213.5 454.3 L215.1 453.4 L216.7 452.5 L218.2 451.5 L219.8 450.6 L221.4 449.7 L223.0 448.8 L224.5 447.9 L226.1 447.0 L227.7 446.1 L229.3 445.2 L230.8 444.3 L232.4 443.4 L234.0 442.4 L235.6 441.5 L237.2 440.6 L238.7 439.7 L240.3 438.8 L241.9 437.9 L243.5 437.0 L245.0 436.1 L246.6 435.2 L248.2 434.3 L249.8 433.4 L251.3 432.4 L252.9 431.5 L254.5 430.6 L256.1 429.7 L257.6 428.8 L259.2 427.9 L260.8 427.0 L262.4 426.1 L263.9 425.2 L265.5 424.3 L267.1 423.4 L268.7 422.4 L270.2 421.5 L271.8 420.6 L273.4 419.7 L275.0 418.8 L276.5 417.9 L278.1 417.0 L279.7 416.1 L281.3 415.2 L282.8 414.3 L284.4 413.4 L286.0 412.4 L287.6 411.5 L289.2 410.6 L290.7 409.7 L292.3 408.8 L293.9 407.9 L295.5 407.0 L297.0 406.1 L298.6 405.2 L300.2 404.3 L301.8 403.4 L303.3 402.4 L304.9 401.5 L306.5 400.6 L308.1 399.7 L309.6 398.8 L311.2 397.9 L312.8 397.0 L314.4 396.1 L315.9 395.2 L317.5 394.3 L319.1 393.4 L320.7 392.4 L322.2 391.5 L323.8 390.6 L325.4 389.7 L327.0 388.8 L328.5 387.9 L330.1 387.0 L331.7 386.1 L333.3 385.2 L334.8 384.3 L336.4 383.4 L338.0 382.4 L339.6 381.5 L341.2 380.6 L342.7 379.7 L344.3 378.8 L345.9 377.9 L347.5 377.0 L349.0 376.1 L350.6 375.2 L352.2 374.3 L353.8 373.4 L355.3 372.4 L356.9 371.5 L358.5 370.6 L360.1 369.7 L361.6 368.8 L363.2 367.9 L364.8 367.0 L366.4 366.1 L367.9 365.2 L369.5 364.3 L371.1 363.4 L372.7 362.4 L374.2 361.5 L375.8 360.6 L377.4 359.7 L379.0 358.8 L380.5 357.9 L382.1 357.0 L383.7 356.1 L385.3 355.2 L386.8 354.3 L388.4 353.4 L390.0 352.4 L391.6 351.5 L393.2 350.6 L394.7 349.7 L396.3 348.8 L397.9 347.9 L399.5 347.0 L401.0 346.1 L402.6 345.2 L404.2 344.3 L405.8 343.4 L407.3 342.4 L408.9 341.5 L410.5 340.6 L412.1 339.7 L413.6 338.8 L415.2 337.9 L416.8 337.0 L418.4 336.1 L419.9 335.2 L421.5 334.3 L423.1 333.4 L424.7 332.4 L426.2 331.5 L427.8 330.6 L429.4 329.7 L431.0 328.8 L432.5 327.9 L434.1 327.0 L435.7 326.1 L437.3 325.2 L438.8 324.3 L440.4 323.4 L442.0 322.4 L443.6 321.5 L445.2 320.6 L446.7 319.7 L448.3 318.8 L449.9 317.9 L451.5 317.0 L453.0 316.1 L454.6 315.2 L456.2 314.3 L457.8 313.3 L459.3 312.4 L460.9 311.5 L462.5 310.6 L464.1 309.7 L465.6 308.8 L467.2 307.9 L468.8 307.0 L470.4 306.1 L471.9 305.2 L473.5 304.3 L475.1 303.3 L476.7 302.4 L478.2 301.5 L479.8 300.6 L481.4 299.7 L483.0 298.8 L484.5 297.9 L486.1 297.0 L487.7 296.1 L489.3 295.2 L490.8 294.3 L492.4 293.3 L494.0 292.4 L495.6 291.5 L497.2 290.6 L498.7 289.7 L500.3 288.8 L501.9 287.9 L503.5 287.0 L505.0 286.1 L506.6 285.2 L508.2 284.3 L509.8 283.3 L511.3 282.4 L512.9 281.5 L514.5 280.6 L516.1 279.7 L517.6 278.8 L519.2 277.9 L520.8 277.0 L522.4 276.1 L523.9 275.2 L525.5 274.3 L527.1 273.3 L528.7 272.4 L530.2 271.5 L531.8 270.6 L533.4 269.7 L535.0 268.8 L536.5 267.9 L538.1 267.0 L539.7 266.1 L541.3 265.1 L542.8 264.2 L544.4 263.2 L546.0 262.2 L547.6 261.2 L549.2 260.1 L550.7 259.1 L552.3 258.0 L553.9 256.9 L555.5 255.7 L557.0 254.6 L558.6 253.4 L560.2 252.2 L561.8 250.9 L563.3 249.7 L564.9 248.4 L566.5 247.1 L568.1 245.7 L569.6 244.4 L571.2 243.0 L572.8 241.6 L574.4 240.1 L575.9 238.7 L577.5 237.2 L579.1 235.7 L580.7 234.1 L582.2 232.6 L583.8 231.0 L585.4 229.4 L587.0 227.8 L588.5 226.1 L590.1 224.4 L591.7 222.7 L593.3 221.0 L594.8 219.2 L596.4 217.5 L598.0 215.7 L599.6 213.8 L601.2 212.0 L602.7 210.1 L604.3 208.2 L605.9 206.3 L607.5 204.3 L609.0 202.4 L610.6 200.4 L612.2 198.3 L613.8 196.3 L615.3 194.2 L616.9 192.1 L618.5 190.0 L620.1 190.0 L621.6 190.0 L623.2 190.0 L624.8 190.0 L626.4 190.0 L627.9 190.0 L629.5 190.0 L631.1 190.0 L632.7 190.0 L634.2 190.0 L635.8 190.0 L637.4 190.0 L639.0 190.0 L640.5 190.0 L642.1 190.0 L643.7 190.0 L645.3 190.0 L646.8 190.0 L648.4 190.0 L650.0 190.0" fill="none" stroke="#e63946" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
+<text x="405.8" y="365.5" font-size="14" font-weight="800" fill="#e63946" text-anchor="start" >ESP32 sebenarnya</text>
+<text x="405.8" y="383.5" font-size="12.5" font-weight="700" fill="#e63946" text-anchor="start" >sedikit di bawah garis ideal</text>
+<text x="130.0" y="554.0" font-size="13" font-weight="700" fill="#e63946" text-anchor="start" >Ujung tumpul: di bawah ±0,15 V terbaca 0, di atas ±3,1 V sudah 4095.</text>
+<line x1="257.6" y1="490.0" x2="257.6" y2="416.7" stroke="#3a6fc4" stroke-width="2" stroke-linecap="round" stroke-dasharray="4 4" />
+<line x1="130.0" y1="416.7" x2="257.6" y2="416.7" stroke="#3a6fc4" stroke-width="2" stroke-linecap="round" stroke-dasharray="4 4" />
+<circle cx="257.6" cy="416.7" r="6" fill="#3a6fc4" />
+<text x="271.6" y="450.7" font-size="13.5" font-weight="800" fill="#3a6fc4" text-anchor="start" >penggaris lurus: 0,81 V ≈ 1001</text>
+<rect x="760.0" y="190.0" width="380.0" height="184.0" rx="12" fill="#dff3e7" />
+<text x="780.0" y="220.0" font-size="15" font-weight="800" fill="#2a9d5c" text-anchor="start" >ADC1 — tetap bekerja saat WiFi menyala</text>
+<text x="784.0" y="250.0" font-size="14.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >GPIO 32, 33</text>
+<text x="930.0" y="250.0" font-size="14" font-weight="700" fill="#0f8b8d" text-anchor="start" ></text>
+<text x="784.0" y="275.0" font-size="14.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >GPIO 34, 35</text>
+<text x="930.0" y="275.0" font-size="14" font-weight="700" fill="#0f8b8d" text-anchor="start" ></text>
+<text x="784.0" y="300.0" font-size="14.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >GPIO 36 = VP</text>
+<text x="930.0" y="300.0" font-size="14" font-weight="700" fill="#0f8b8d" text-anchor="start" >← LDR</text>
+<text x="784.0" y="325.0" font-size="14.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >GPIO 39 = VN</text>
+<text x="930.0" y="325.0" font-size="14" font-weight="700" fill="#0f8b8d" text-anchor="start" >← sensor tanah</text>
+<text x="784.0" y="358.0" font-size="13.5" font-weight="400" fill="#4a5568" text-anchor="start" >GPIO 34–39: hanya masukan</text>
+<rect x="760.0" y="388.0" width="380.0" height="118.0" rx="12" fill="#eceef2" />
+<text x="780.0" y="418.0" font-size="15" font-weight="800" fill="#4a5568" text-anchor="start" >ADC2 — mogok saat WiFi menyala</text>
+<text x="784.0" y="446.0" font-size="14.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >GPIO 0, 2, 4, 12–15, 25–27</text>
+<text x="784.0" y="470.0" font-size="13.5" font-weight="400" fill="#4a5568" text-anchor="start" >boleh untuk digital, jangan untuk analog</text>
+<text x="784.0" y="492.0" font-size="12.5" font-weight="400" fill="#4a5568" text-anchor="start" >(GPIO 0 tidak dikeluarkan di papan 30 pin)</text>
+<rect x="760.0" y="520.0" width="380.0" height="50.0" rx="12" fill="#fde2e4" />
+<text x="780.0" y="550.0" font-size="14.5" font-weight="800" fill="#e63946" text-anchor="start" >Batas tegangan pin: 3,3 V + 0,3 V = 3,6 V</text>
+<text x="1178.0" y="606.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>
