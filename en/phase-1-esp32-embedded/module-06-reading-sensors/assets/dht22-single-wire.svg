@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="480" viewBox="0 0 1200 480" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="480" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >The DHT22's conversation over a single wire</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >The ESP32 knocks, the DHT22 answers, then sends 40 bits — about 5 milliseconds (not to scale)</text>
+<path d="M60 150 L60 150 L100 150 L100 210 L250 210 L250 150 L290 150 L290 210 L380 210 L380 150 L470 150 L470 210 L524 210 L524 150 L558 150 L558 210 L612 210 L612 150 L702 150 L702 210 L756 210 L756 150 L790 150 L790 210 L844 210 L844 150 L878 150 L878 210 L932 210 L932 150 L1022 150 L1022 210 L1076 210 L1076 150 L1126 150" fill="none" stroke="#1e2a4a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<text x="40.0" y="155.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="end" >HIGH</text>
+<text x="40.0" y="215.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="end" >LOW</text>
+<text x="175.0" y="234.0" font-size="12.5" font-weight="700" fill="#3a6fc4" text-anchor="middle" >LOW ≥ 1 ms</text>
+<text x="270.0" y="138.0" font-size="12.5" font-weight="700" fill="#4a5568" text-anchor="middle" >20–40 µs</text>
+<text x="335.0" y="234.0" font-size="12.5" font-weight="700" fill="#0f8b8d" text-anchor="middle" >LOW 80 µs</text>
+<text x="425.0" y="138.0" font-size="12.5" font-weight="700" fill="#0f8b8d" text-anchor="middle" >HIGH 80 µs</text>
+<rect x="100.0" y="252.0" width="190.0" height="40.0" rx="8" fill="#e3ecfa" />
+<text x="195.0" y="277.0" font-size="14" font-weight="800" fill="#3a6fc4" text-anchor="middle" >1. ESP32 knocks</text>
+<rect x="330.0" y="252.0" width="210.0" height="40.0" rx="8" fill="#e1f3f3" />
+<text x="435.0" y="277.0" font-size="14" font-weight="800" fill="#0f8b8d" text-anchor="middle" >2. DHT22 answers "ready"</text>
+<rect x="580.0" y="252.0" width="560.0" height="40.0" rx="8" fill="#fff1dd" />
+<text x="860.0" y="277.0" font-size="14" font-weight="800" fill="#b45f17" text-anchor="middle" >3. 40 bits: each bit starts with LOW 50 µs, then HIGH</text>
+<path d="M640 370 L690 370 L690 330 L726.4 330 L726.4 370 L756.4 370" fill="none" stroke="#b45f17" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<text x="640.0" y="322.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >bit 0</text>
+<text x="708.2" y="390.0" font-size="12.5" font-weight="700" fill="#4a5568" text-anchor="middle" >short HIGH ≈ 26 µs</text>
+<path d="M920 370 L970 370 L970 330 L1068.0 330 L1068.0 370 L1098.0 370" fill="none" stroke="#b45f17" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<text x="920.0" y="322.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >bit 1</text>
+<text x="1019.0" y="390.0" font-size="12.5" font-weight="700" fill="#4a5568" text-anchor="middle" >long HIGH ≈ 70 µs</text>
+<text x="60.0" y="344.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >The 40 bits:</text>
+<rect x="60.0" y="356.0" width="194.0" height="40.0" rx="8" fill="#0f8b8d" />
+<text x="157.0" y="381.0" font-size="13" font-weight="800" fill="#ffffff" text-anchor="middle" >16 bits humidity</text>
+<rect x="260.0" y="356.0" width="194.0" height="40.0" rx="8" fill="#e63946" />
+<text x="357.0" y="381.0" font-size="13" font-weight="800" fill="#ffffff" text-anchor="middle" >16 bits temperature</text>
+<rect x="460.0" y="356.0" width="134.0" height="40.0" rx="8" fill="#7b4fb0" />
+<text x="527.0" y="381.0" font-size="13" font-weight="800" fill="#ffffff" text-anchor="middle" >8-bit checksum</text>
+<text x="60.0" y="420.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="start" >checksum = a check number: if the sum doesn't match, the reading is thrown away</text>
+<text x="1178.0" y="466.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer curriculum · CC BY 4.0</text>
+</svg>

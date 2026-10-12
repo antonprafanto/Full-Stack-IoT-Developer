@@ -1,5 +1,7 @@
 # ✅ Pelacak Progres Belajar
 
+🌐 **Bahasa Indonesia** · [English](en/PROGRESS.md)
+
 Centang `[x]` setiap kali Anda memenuhi kriteria **"Lulus jika"** di [SILABUS.md](SILABUS.md#7-rincian-32-modul). Jujur pada diri sendiri lebih penting daripada cepat. **Satu modul = satu minggu** (Modul N = Minggu N); capstone (Modul 31) boleh 2–3 minggu.
 
 **Mulai belajar:** ____ / ____ / ______

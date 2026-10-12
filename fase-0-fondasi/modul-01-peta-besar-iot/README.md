@@ -1,5 +1,7 @@
 # Modul 1 — Peta Besar IoT & Kemenangan Pertama dalam 10 Menit
 
+🌐 **Bahasa Indonesia** · [English](../../en/phase-0-foundations/module-01-big-picture-iot/README.md)
+
 *Fase 0 · Minggu 1 · Perangkat keras (*hardware*): **tidak perlu** (semua di browser) · Prasyarat: **tidak ada** · Waktu: 6–8 jam, dicicil dalam seminggu*
 
 [⬅️ Kembali ke Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · [Modul 2 ➡️](../modul-02-listrik-dan-unggah-pertama/README.md)
@@ -821,7 +823,7 @@ Wokwi hanya menyimpan proyek untuk pengguna yang sudah masuk. Daftar gratis (pak
 - Nama file di teks harus **persis** sama dengan nama file yang diunggah, termasuk huruf besar-kecil dan akhiran (`.png` vs `.PNG`).
 - Nama file ada spasinya → ganti nama tanpa spasi, unggah ulang.
 - File lebih dari 25 MB tidak bisa diunggah lewat browser → perkecil tangkapan layarnya.
-- File kodemu bernama `modul-01-pola-nama.ino.txt`? Itu jebakan Notepad (lihat Praktik 3 langkah 3) — ganti namanya, unggah ulang.
+- File kodemu bernama `modul-01-pola-nama.ino.txt`? Itu jebakan Notepad (lihat Praktik 3 langkah 4) — ganti namanya, unggah ulang.
 </details>
 
 > [!TIP]

@@ -1,5 +1,7 @@
 # Kode Modul 4 — JavaScript & Node.js
 
+🌐 **Bahasa Indonesia** · [English](../../../en/phase-0-foundations/module-04-javascript-nodejs/code/README.md)
+
 Folder ini berisi **semua kode Modul 4**. Isinya hampir sama dengan folder `modul-04` milikmu di akhir modul: bedanya, di sini tidak ada tangkapan layar `server-mini.png`, dan ada tambahan contoh 🔬 di folder `bonus/`. Setiap file sudah diuji dengan **Node.js 24.21.0** dan **npm 11.19.0**.
 
 | File | Dipakai di | Isinya |

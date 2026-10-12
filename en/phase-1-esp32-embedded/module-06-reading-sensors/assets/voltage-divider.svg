@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="600" viewBox="0 0 1200 600" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="600" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >The voltage divider: one formula, two uses</text>
+<rect x="330.0" y="74.0" width="540.0" height="44.0" rx="22" fill="#fff4c2" stroke="#e9b10d" stroke-width="2" />
+<text x="600.0" y="102.0" font-size="17" font-weight="800" fill="#1e2a4a" text-anchor="middle" >V_mid = V_in × R_bottom ÷ (R_top + R_bottom)</text>
+<rect x="60.0" y="136.0" width="520.0" height="420.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="80.0" y="166.0" font-size="18" font-weight="800" fill="#0f8b8d" text-anchor="start" >1. LDR → VP (GPIO 36)</text>
+<text x="200.0" y="200.0" font-size="16" font-weight="800" fill="#b45f17" text-anchor="middle" >3.3 V</text>
+<line x1="182.0" y1="206.0" x2="218.0" y2="206.0" stroke="#b45f17" stroke-width="3" stroke-linecap="round" />
+<line x1="200.0" y1="206.0" x2="200.0" y2="237.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<line x1="200.0" y1="289.0" x2="200.0" y2="320.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<rect x="189.0" y="237.0" width="22.0" height="52.0" rx="3" fill="#ffffff" stroke="#1e2a4a" stroke-width="2.5" />
+<text x="180.0" y="263.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="end" >10 kΩ</text>
+<text x="180.0" y="282.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="end" >top</text>
+<circle cx="200.0" cy="332.0" r="5" fill="#1e2a4a" />
+<line x1="200.0" y1="320.0" x2="200.0" y2="344.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<line x1="200.0" y1="344.0" x2="200.0" y2="376.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<line x1="200.0" y1="428.0" x2="200.0" y2="460.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<rect x="189.0" y="376.0" width="22.0" height="52.0" rx="3" fill="#fff3d6" stroke="#1e2a4a" stroke-width="2.5" />
+<text x="180.0" y="402.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="end" >LDR</text>
+<text x="180.0" y="421.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="end" >light-sensitive</text>
+<line x1="252.0" y1="374.0" x2="222.0" y2="388.0" stroke="#b45f17" stroke-width="2.2" stroke-linecap="round" />
+<path d="M226.2 382.4 L222.0 388.0 L229.0 388.4" fill="none" stroke="#b45f17" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="252.0" y1="394.0" x2="222.0" y2="408.0" stroke="#b45f17" stroke-width="2.2" stroke-linecap="round" />
+<path d="M226.2 402.4 L222.0 408.0 L229.0 408.4" fill="none" stroke="#b45f17" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="200.0" y1="460.0" x2="200.0" y2="474.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<line x1="184.0" y1="474.0" x2="216.0" y2="474.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<line x1="190.0" y1="480.0" x2="210.0" y2="480.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<line x1="196.0" y1="486.0" x2="204.0" y2="486.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<text x="224.0" y="482.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="start" >GND</text>
+<line x1="200.0" y1="332.0" x2="330.0" y2="332.0" stroke="#0f8b8d" stroke-width="3" stroke-linecap="round" />
+<rect x="330.0" y="316.0" width="120.0" height="32.0" rx="6" fill="#0f8b8d" />
+<text x="390.0" y="337.0" font-size="15" font-weight="800" fill="#ffffff" text-anchor="middle" >to VP</text>
+<text x="345.0" y="372.0" font-size="13.5" font-weight="700" fill="#4a5568" text-anchor="start" >midpoint</text>
+<rect x="300.0" y="400.0" width="250.0" height="56.0" rx="10" fill="#fff1dd" />
+<text x="316.0" y="424.0" font-size="15" font-weight="800" fill="#b45f17" text-anchor="start" >Bright: LDR about 1 kΩ</text>
+<text x="316.0" y="445.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="start" >midpoint ≈ 0.30 V</text>
+<rect x="300.0" y="466.0" width="250.0" height="56.0" rx="10" fill="#e6e9f2" />
+<text x="316.0" y="490.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >Dark: LDR about 200 kΩ</text>
+<text x="316.0" y="511.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="start" >midpoint ≈ 3.14 V</text>
+<rect x="620.0" y="136.0" width="520.0" height="420.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="640.0" y="166.0" font-size="18" font-weight="800" fill="#7b4fb0" text-anchor="start" >2. ECHO 5 V → D35</text>
+<text x="760.0" y="200.0" font-size="16" font-weight="800" fill="#e63946" text-anchor="middle" >ECHO 5 V</text>
+<path d="M710 223.0 L730.0 223.0 L730.0 209.0 L772.0 209.0 L772.0 223.0 L810 223.0" fill="none" stroke="#e63946" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="760.0" y1="230.0" x2="760.0" y2="254.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<line x1="760.0" y1="306.0" x2="760.0" y2="330.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<rect x="749.0" y="254.0" width="22.0" height="52.0" rx="3" fill="#ffffff" stroke="#1e2a4a" stroke-width="2.5" />
+<text x="740.0" y="280.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="end" >4.7 kΩ</text>
+<text x="740.0" y="299.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="end" >top</text>
+<circle cx="760.0" cy="342.0" r="5" fill="#1e2a4a" />
+<line x1="760.0" y1="330.0" x2="760.0" y2="354.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<line x1="760.0" y1="354.0" x2="760.0" y2="381.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<line x1="760.0" y1="433.0" x2="760.0" y2="460.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<rect x="749.0" y="381.0" width="22.0" height="52.0" rx="3" fill="#ffffff" stroke="#1e2a4a" stroke-width="2.5" />
+<text x="740.0" y="407.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="end" >10 kΩ</text>
+<text x="740.0" y="426.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="end" >bottom</text>
+<line x1="760.0" y1="460.0" x2="760.0" y2="474.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<line x1="744.0" y1="474.0" x2="776.0" y2="474.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<line x1="750.0" y1="480.0" x2="770.0" y2="480.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<line x1="756.0" y1="486.0" x2="764.0" y2="486.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<text x="784.0" y="482.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="start" >GND</text>
+<line x1="760.0" y1="342.0" x2="890.0" y2="342.0" stroke="#7b4fb0" stroke-width="3" stroke-linecap="round" />
+<rect x="890.0" y="326.0" width="120.0" height="32.0" rx="6" fill="#7b4fb0" />
+<text x="950.0" y="347.0" font-size="15" font-weight="800" fill="#ffffff" text-anchor="middle" >to D35</text>
+<text x="900.0" y="382.0" font-size="15" font-weight="700" fill="#1e2a4a" text-anchor="start" >5 × 10 ÷ 14.7</text>
+<text x="900.0" y="406.0" font-size="22" font-weight="800" fill="#7b4fb0" text-anchor="start" >≈ 3.40 V</text>
+<rect x="860.0" y="440.0" width="260.0" height="14.0" rx="7" fill="#eee" />
+<rect x="860.0" y="440.0" width="130.0" height="14.0" rx="7" fill="#d9d9d9" />
+<rect x="1047.2" y="440.0" width="72.8" height="14.0" rx="7" fill="#fde2e4" />
+<line x1="990.0" y1="434.0" x2="990.0" y2="460.0" stroke="#4a5568" stroke-width="2.5" stroke-linecap="round" />
+<line x1="1036.8" y1="434.0" x2="1036.8" y2="460.0" stroke="#7b4fb0" stroke-width="2.5" stroke-linecap="round" />
+<line x1="1047.2" y1="434.0" x2="1047.2" y2="460.0" stroke="#e63946" stroke-width="2.5" stroke-linecap="round" />
+<text x="992.0" y="478.0" font-size="12.5" font-weight="700" fill="#4a5568" text-anchor="end" >HIGH from 2.5 V</text>
+<text x="1036.8" y="430.0" font-size="12.5" font-weight="800" fill="#7b4fb0" text-anchor="middle" >3.40 V</text>
+<text x="1051.2" y="478.0" font-size="12.5" font-weight="700" fill="#e63946" text-anchor="start" >3.6 V limit</text>
+<text x="830.0" y="506.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="start" >Resistors swapped → about 1.60 V:</text>
+<text x="830.0" y="526.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="start" >safe, but below the HIGH threshold</text>
+<text x="1178.0" y="586.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer curriculum · CC BY 4.0</text>
+</svg>

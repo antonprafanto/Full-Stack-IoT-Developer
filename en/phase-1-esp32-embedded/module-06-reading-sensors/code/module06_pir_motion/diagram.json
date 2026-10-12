@@ -1,0 +1,102 @@
+{
+  "version": 1,
+  "author": "Fullstack IoT Developer curriculum",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "wokwi-esp32-devkit-v1",
+      "id": "esp",
+      "top": 0,
+      "left": 0,
+      "rotate": 90,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-pir-motion-sensor",
+      "id": "pir",
+      "top": -70,
+      "left": 56.48,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r_led",
+      "top": 184.3,
+      "left": 35.5,
+      "attrs": {
+        "value": "220"
+      }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led_status",
+      "top": 162,
+      "left": 93.5,
+      "attrs": {
+        "color": "red"
+      }
+    }
+  ],
+  "connections": [
+    [
+      "esp:TX0",
+      "$serialMonitor:RX",
+      "",
+      []
+    ],
+    [
+      "esp:RX0",
+      "$serialMonitor:TX",
+      "",
+      []
+    ],
+    [
+      "pir:OUT",
+      "esp:D34",
+      "blue",
+      []
+    ],
+    [
+      "pir:VCC",
+      "esp:VIN",
+      "red",
+      [
+        "v10",
+        "h-95.66"
+      ]
+    ],
+    [
+      "pir:GND",
+      "esp:GND.2",
+      "black",
+      [
+        "v18",
+        "h-105.62"
+      ]
+    ],
+    [
+      "esp:D4",
+      "r_led:1",
+      "green",
+      []
+    ],
+    [
+      "r_led:2",
+      "led_status:A",
+      "green",
+      [
+        "h24.2"
+      ]
+    ],
+    [
+      "led_status:C",
+      "esp:GND.1",
+      "black",
+      [
+        "v10",
+        "h-102"
+      ]
+    ]
+  ],
+  "dependencies": {}
+}

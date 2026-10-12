@@ -1,0 +1,181 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="860" viewBox="0 0 1100 860" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1100" height="860" fill="#fffdf7"/>
+<text x="550.0" y="42.0" font-size="24" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Node 1 v0.4.0 reference schematic — actuators</text>
+<text x="550.0" y="74.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >The pins in the ESP32 box are arranged for tidiness, not in their order on the board</text>
+<rect x="470.0" y="140.0" width="180.0" height="520.0" rx="8" fill="#eef3f9" stroke="#1f3b57" stroke-width="2.6" />
+<text x="560.0" y="400.0" font-size="19" font-weight="800" fill="#1f3b57" text-anchor="middle" >ESP32</text>
+<text x="560.0" y="422.0" font-size="13.5" font-weight="700" fill="#4a5568" text-anchor="middle" >DevKit V1</text>
+<text x="480.0" y="218.5" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" >D32</text>
+<text x="480.0" y="248.5" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" >D33</text>
+<text x="480.0" y="544.5" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" >D25</text>
+<text x="640.0" y="204.5" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="end" >D26</text>
+<text x="640.0" y="329.5" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="end" >D27</text>
+<text x="640.0" y="434.5" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="end" >D13</text>
+<text x="640.0" y="544.5" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="end" >D4</text>
+<text x="560.0" y="648.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="middle" >GND</text>
+<line x1="560.0" y1="660.0" x2="560.0" y2="674.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="545.0" y1="674.0" x2="575.0" y2="674.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="550.5" y1="679.5" x2="569.5" y2="679.5" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="556.0" y1="685.0" x2="564.0" y2="685.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<rect x="170.0" y="170.0" width="180.0" height="130.0" rx="4" fill="#ffffff" stroke="#1e2a4a" stroke-width="2.2" />
+<text x="178.0" y="204.5" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >COM2</text>
+<text x="178.0" y="274.5" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >NO2</text>
+<text x="342.0" y="188.5" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="end" >VCC</text>
+<text x="342.0" y="218.5" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="end" >IN1</text>
+<text x="342.0" y="248.5" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="end" >IN2</text>
+<text x="342.0" y="288.5" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="end" >GND</text>
+<text x="260.0" y="222.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Relay module</text>
+<text x="260.0" y="240.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="middle" >2 channels</text>
+<text x="260.0" y="258.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="middle" >active LOW</text>
+<path d="M350.0 184.0 L372.0 184.0" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="372.0" y1="184.0" x2="372.0" y2="166.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="359.0" y1="166.0" x2="385.0" y2="166.0" stroke="#d62839" stroke-width="3.4" stroke-linecap="round" />
+<text x="372.0" y="158.0" font-size="13.5" font-weight="800" fill="#d62839" text-anchor="middle" >5V</text>
+<path d="M350.0 214.0 L470.0 214.0" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M350.0 244.0 L470.0 244.0" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M350.0 284.0 L372.0 284.0" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="372.0" y1="284.0" x2="372.0" y2="296.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="357.0" y1="296.0" x2="387.0" y2="296.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="362.5" y1="301.5" x2="381.5" y2="301.5" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="368.0" y1="307.0" x2="376.0" y2="307.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<text x="410.0" y="207.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="middle" >IN1 · lamp</text>
+<text x="410.0" y="237.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="middle" >IN2 · fan</text>
+<path d="M170.0 200.0 L140.0 200.0" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="140.0" y1="200.0" x2="140.0" y2="182.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="127.0" y1="182.0" x2="153.0" y2="182.0" stroke="#d62839" stroke-width="3.4" stroke-linecap="round" />
+<text x="140.0" y="174.0" font-size="13.5" font-weight="800" fill="#d62839" text-anchor="middle" >5V</text>
+<path d="M170.0 270.0 L90.0 270.0 L90.0 284.0" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="90.0" cy="304.0" r="20" fill="#ffffff" stroke="#1e2a4a" stroke-width="2.4" />
+<text x="90.0" y="310.0" font-size="17" font-weight="800" fill="#1e2a4a" text-anchor="middle" >M</text>
+<path d="M90.0 324.0 L90.0 330.0" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="90.0" y1="330.0" x2="90.0" y2="340.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="75.0" y1="340.0" x2="105.0" y2="340.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="80.5" y1="345.5" x2="99.5" y2="345.5" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="86.0" y1="351.0" x2="94.0" y2="351.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<text x="62.0" y="309.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="end" >fan</text>
+<text x="170.0" y="330.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >Relay 1's contacts aren't used yet<tspan x="170.0" dy="15">(the lamp comes later).</tspan></text>
+<line x1="300.0" y1="400.0" x2="300.0" y2="382.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="287.0" y1="382.0" x2="313.0" y2="382.0" stroke="#d62839" stroke-width="3.4" stroke-linecap="round" />
+<text x="300.0" y="374.0" font-size="13.5" font-weight="800" fill="#d62839" text-anchor="middle" >5V</text>
+<path d="M300.0 400.0 L300.0 430.0" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="300.0" cy="410.0" r="4.8" fill="#1e2a4a" />
+<circle cx="300.0" cy="450.0" r="20" fill="#ffffff" stroke="#1e2a4a" stroke-width="2.4" />
+<text x="300.0" y="456.0" font-size="17" font-weight="800" fill="#1e2a4a" text-anchor="middle" >M</text>
+<text x="270.0" y="455.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="end" >pump</text>
+<path d="M300.0 470.0 L300.0 500.0" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="300.0" cy="490.0" r="4.8" fill="#1e2a4a" />
+<path d="M300.0 410.0 L360.0 410.0" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M300.0 490.0 L360.0 490.0" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="360.0" y1="410.0" x2="360.0" y2="439.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="360.0" y1="461.0" x2="360.0" y2="490.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<path d="M347 461.0 L373 461.0 L360 440.0 Z" fill="#ffffff" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="347.0" y1="439.0" x2="373.0" y2="439.0" stroke="#1e2a4a" stroke-width="2.8" stroke-linecap="round" />
+<text x="382.0" y="448.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >D2</text>
+<text x="382.0" y="465.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="start" >1N4007</text>
+<line x1="322.0" y1="518.0" x2="322.0" y2="562.0" stroke="#1e2a4a" stroke-width="3" stroke-linecap="round" />
+<line x1="332.0" y1="522.0" x2="332.0" y2="558.0" stroke="#1e2a4a" stroke-width="3" stroke-linecap="round" />
+<line x1="356.0" y1="540.0" x2="332.0" y2="540.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="322.0" y1="524.0" x2="300.0" y2="524.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="300.0" y1="524.0" x2="300.0" y2="500.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="322.0" y1="556.0" x2="300.0" y2="556.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="300.0" y1="556.0" x2="300.0" y2="580.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<path d="M319.0 556.0 L311.7 559.3 L311.7 552.7 Z" fill="#1e2a4a" stroke="#1e2a4a" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" />
+<text x="289.0" y="514.0" font-size="12.5" font-weight="800" fill="#4a5568" text-anchor="middle" >D</text>
+<text x="289.0" y="576.0" font-size="12.5" font-weight="800" fill="#4a5568" text-anchor="middle" >S</text>
+<text x="346.0" y="532.0" font-size="12.5" font-weight="800" fill="#4a5568" text-anchor="middle" >G</text>
+<text x="258.0" y="536.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="end" >Q1</text>
+<text x="258.0" y="553.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="end" >IRLZ44N</text>
+<line x1="356.0" y1="540.0" x2="368.0" y2="540.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="412.0" y1="540.0" x2="424.0" y2="540.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<rect x="368.0" y="531.0" width="44.0" height="18.0" rx="2" fill="#ffffff" stroke="#1e2a4a" stroke-width="2.4" />
+<text x="390.0" y="524.0" font-size="13.5" font-weight="700" fill="#1e2a4a" text-anchor="middle" >R5 220</text>
+<path d="M424.0 540.0 L470.0 540.0" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="444.0" cy="540.0" r="4.8" fill="#1e2a4a" />
+<line x1="444.0" y1="540.0" x2="444.0" y2="560.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="444.0" y1="604.0" x2="444.0" y2="624.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<rect x="435.0" y="560.0" width="18.0" height="44.0" rx="2" fill="#ffffff" stroke="#1e2a4a" stroke-width="2.4" />
+<text x="426.0" y="580.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="end" >R6</text>
+<text x="426.0" y="597.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="end" >10k</text>
+<line x1="444.0" y1="624.0" x2="444.0" y2="636.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="429.0" y1="636.0" x2="459.0" y2="636.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="434.5" y1="641.5" x2="453.5" y2="641.5" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="440.0" y1="647.0" x2="448.0" y2="647.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="300.0" y1="580.0" x2="300.0" y2="592.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="285.0" y1="592.0" x2="315.0" y2="592.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="290.5" y1="597.5" x2="309.5" y2="597.5" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="296.0" y1="603.0" x2="304.0" y2="603.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<rect x="780.0" y="150.0" width="150.0" height="100.0" rx="4" fill="#ffffff" stroke="#1e2a4a" stroke-width="2.2" />
+<text x="788.0" y="204.5" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >signal (orange)</text>
+<text x="922.0" y="174.5" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="end" >+ (red)</text>
+<text x="922.0" y="234.5" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="end" >− (brown)</text>
+<text x="780.0" y="141.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >SG90 servo (curtain)</text>
+<path d="M650.0 200.0 L780.0 200.0" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M930.0 170.0 L1066.0 170.0" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="1066.0" y1="170.0" x2="1066.0" y2="152.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="1053.0" y1="152.0" x2="1079.0" y2="152.0" stroke="#d62839" stroke-width="3.4" stroke-linecap="round" />
+<text x="1066.0" y="144.0" font-size="13.5" font-weight="800" fill="#d62839" text-anchor="middle" >5V</text>
+<path d="M930.0 230.0 L1066.0 230.0" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="1066.0" y1="230.0" x2="1066.0" y2="242.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="1051.0" y1="242.0" x2="1081.0" y2="242.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="1056.5" y1="247.5" x2="1075.5" y2="247.5" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="1062.0" y1="253.0" x2="1070.0" y2="253.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<circle cx="990.0" cy="170.0" r="4.8" fill="#1e2a4a" />
+<circle cx="990.0" cy="230.0" r="4.8" fill="#1e2a4a" />
+<line x1="990.0" y1="170.0" x2="990.0" y2="195.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="974.0" y1="195.0" x2="1006.0" y2="195.0" stroke="#1e2a4a" stroke-width="3.2" stroke-linecap="round" />
+<path d="M974 211.0 Q990 201.0 1006 211.0" fill="none" stroke="#1e2a4a" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="990.0" y1="206.0" x2="990.0" y2="230.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<text x="966.0" y="192.0" font-size="17" font-weight="800" fill="#1e2a4a" text-anchor="middle" >+</text>
+<text x="1012.0" y="196.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >C2</text>
+<text x="1012.0" y="212.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >100 µF</text>
+<rect x="780.0" y="300.0" width="96.0" height="50.0" rx="4" fill="#ffffff" stroke="#1e2a4a" stroke-width="2.2" />
+<text x="788.0" y="329.5" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >+</text>
+<text x="868.0" y="329.5" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="end" >−</text>
+<text x="780.0" y="291.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >Passive buzzer</text>
+<path d="M650.0 325.0 L780.0 325.0" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="876.0" y1="325.0" x2="909.0" y2="325.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="953.0" y1="325.0" x2="986.0" y2="325.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<rect x="909.0" y="316.0" width="44.0" height="18.0" rx="2" fill="#ffffff" stroke="#1e2a4a" stroke-width="2.4" />
+<text x="931.0" y="309.0" font-size="13.5" font-weight="700" fill="#1e2a4a" text-anchor="middle" >R7 220</text>
+<line x1="986.0" y1="325.0" x2="986.0" y2="337.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="971.0" y1="337.0" x2="1001.0" y2="337.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="976.5" y1="342.5" x2="995.5" y2="342.5" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="982.0" y1="348.0" x2="990.0" y2="348.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<path d="M650.0 430.0 L750.0 430.0" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="750.0" y1="430.0" x2="774.0" y2="430.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="826.0" y1="430.0" x2="850.0" y2="430.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<circle cx="778.0" cy="430.0" r="4" fill="#ffffff" stroke="#1e2a4a" stroke-width="2.2" />
+<circle cx="822.0" cy="430.0" r="4" fill="#ffffff" stroke="#1e2a4a" stroke-width="2.2" />
+<line x1="772.0" y1="417.0" x2="828.0" y2="417.0" stroke="#1e2a4a" stroke-width="2.6" stroke-linecap="round" />
+<line x1="800.0" y1="417.0" x2="800.0" y2="405.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="791.0" y1="405.0" x2="809.0" y2="405.0" stroke="#1e2a4a" stroke-width="2.6" stroke-linecap="round" />
+<path d="M850.0 430.0 L900.0 430.0" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="900.0" y1="430.0" x2="900.0" y2="442.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="885.0" y1="442.0" x2="915.0" y2="442.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="890.5" y1="447.5" x2="909.5" y2="447.5" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="896.0" y1="453.0" x2="904.0" y2="453.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<text x="800.0" y="396.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" >button</text>
+<text x="700.0" y="470.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >INPUT_PULLUP: the pull-up to 3.3 V is inside the ESP32</text>
+<line x1="650.0" y1="540.0" x2="688.0" y2="540.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="732.0" y1="540.0" x2="770.0" y2="540.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<rect x="688.0" y="531.0" width="44.0" height="18.0" rx="2" fill="#ffffff" stroke="#1e2a4a" stroke-width="2.4" />
+<text x="710.0" y="524.0" font-size="13.5" font-weight="700" fill="#1e2a4a" text-anchor="middle" >R4 220</text>
+<line x1="770.0" y1="540.0" x2="799.0" y2="540.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="821.0" y1="540.0" x2="850.0" y2="540.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<path d="M799.0 527 L799.0 553 L820.0 540 Z" fill="#ffffff" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="821.0" y1="527.0" x2="821.0" y2="553.0" stroke="#1e2a4a" stroke-width="2.8" stroke-linecap="round" />
+<line x1="804.0" y1="526.0" x2="818.0" y2="510.0" stroke="#d98a16" stroke-width="2" stroke-linecap="round" />
+<path d="M818.0 510.0 L815.6 517.6 L810.7 513.3 Z" fill="#d98a16" stroke="#d98a16" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="815.0" y1="526.0" x2="829.0" y2="510.0" stroke="#d98a16" stroke-width="2" stroke-linecap="round" />
+<path d="M829.0 510.0 L826.6 517.6 L821.7 513.3 Z" fill="#d98a16" stroke="#d98a16" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" />
+<text x="810.0" y="498.0" font-size="13.5" font-weight="700" fill="#1e2a4a" text-anchor="middle" >status LED</text>
+<path d="M850.0 540.0 L900.0 540.0" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="900.0" y1="540.0" x2="900.0" y2="552.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="885.0" y1="552.0" x2="915.0" y2="552.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="890.5" y1="557.5" x2="909.5" y2="557.5" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="896.0" y1="563.0" x2="904.0" y2="563.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<rect x="40.0" y="730.0" width="1020.0" height="76.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="60.0" y="757.0" font-size="13.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >5V = MB102 top rail: all loads (relays, fan, pump, servo) from here, never from the ESP32 · all GNDs joined</text>
+<text x="60.0" y="782.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="start" >Relay module and servo are drawn as boxes (inside the relay module: Concept 9). ESP32 from laptop USB.</text>
+<text x="1078.0" y="846.0" font-size="11.5" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer curriculum · CC BY 4.0</text>
+</svg>

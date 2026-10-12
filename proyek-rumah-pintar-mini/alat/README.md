@@ -1,5 +1,7 @@
 # 🧰 Alat bantu Rumah Pintar Mini
 
+🌐 **Bahasa Indonesia** · [English](../../en/mini-smart-home/tools/README.md)
+
 Folder ini berisi tiga program kecil Node.js yang dibuat di [Modul 4](../../fase-0-fondasi/modul-04-javascript-nodejs/README.md) dan dipakai berulang kali di modul-modul berikutnya. Ketiganya sudah diuji dengan **Node.js 24.21.0** dan tidak membutuhkan library dari npm.
 
 | File | Gunanya | Dipakai lagi di |

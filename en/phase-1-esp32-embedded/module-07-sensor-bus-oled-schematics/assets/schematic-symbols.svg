@@ -1,0 +1,445 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1380" viewBox="0 0 1200 1380" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="1380" fill="#fffdf7"/>
+<text x="600.0" y="42.0" font-size="26" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Basic schematic symbols</text>
+<text x="600.0" y="74.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Almost every box: the symbol, its name, its letter code in schematics, and an example from your kit</text>
+<rect x="40.0" y="96.0" width="360.0" height="122.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<path d="M52.0 142.0 L114.0 142.0" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M83.0 142.0 L83.0 178.0" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="83.0" cy="142.0" r="4.8" fill="#1e2a4a" />
+<text x="83.0" y="198.0" font-size="12.5" font-weight="800" fill="#2a9d5c" text-anchor="middle" >connected</text>
+<path d="M134.0 142.0 L196.0 142.0" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M165.0 114.0 L165.0 178.0" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="165.0" y="198.0" font-size="12.5" font-weight="800" fill="#e63946" text-anchor="middle" >not</text>
+<line x1="204.0" y1="110.0" x2="204.0" y2="204.0" stroke="#e0dcd2" stroke-width="1.5" stroke-linecap="round" />
+<text x="216.0" y="126.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Wire &amp; dot</text>
+<text x="216.0" y="149.0" font-size="13" font-weight="500" fill="#4a5568" text-anchor="start" >line = wire</text>
+<text x="216.0" y="167.0" font-size="13" font-weight="500" fill="#4a5568" text-anchor="start" >dot = connected</text>
+<text x="216.0" y="185.0" font-size="13" font-weight="500" fill="#4a5568" text-anchor="start" >crossing without a dot =</text>
+<text x="216.0" y="203.0" font-size="13" font-weight="500" fill="#4a5568" text-anchor="start" >NOT connected</text>
+<rect x="420.0" y="96.0" width="360.0" height="122.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<line x1="442.0" y1="140.0" x2="482.0" y2="140.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="526.0" y1="140.0" x2="566.0" y2="140.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<rect x="482.0" y="131.0" width="44.0" height="18.0" rx="2" fill="#ffffff" stroke="#1e2a4a" stroke-width="2.4" />
+<path d="M442.0 178.0 L480.0 178.0 L484.0 170.0 L492.0 186.0 L500.0 170.0 L508.0 186.0 L516.0 170.0 L524.0 186.0 L528.0 178.0 L566.0 178.0" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="584.0" y1="110.0" x2="584.0" y2="204.0" stroke="#e0dcd2" stroke-width="1.5" stroke-linecap="round" />
+<text x="596.0" y="126.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Resistor</text>
+<text x="596.0" y="149.0" font-size="13" font-weight="500" fill="#4a5568" text-anchor="start" >code: R</text>
+<text x="596.0" y="167.0" font-size="13" font-weight="500" fill="#4a5568" text-anchor="start" >box (European style) or</text>
+<text x="596.0" y="185.0" font-size="13" font-weight="500" fill="#4a5568" text-anchor="start" >zigzag (American style)</text>
+<text x="596.0" y="203.0" font-size="13" font-weight="700" fill="#0f8b8d" text-anchor="start" >e.g. 220 Ω, 10 kΩ</text>
+<rect x="800.0" y="96.0" width="360.0" height="122.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<line x1="822.0" y1="150.0" x2="862.0" y2="150.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="906.0" y1="150.0" x2="946.0" y2="150.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<rect x="862.0" y="141.0" width="44.0" height="18.0" rx="2" fill="#ffffff" stroke="#1e2a4a" stroke-width="2.4" />
+<line x1="884.0" y1="192.0" x2="884.0" y2="164.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<path d="M884.0 161.0 L888.1 170.1 L879.9 170.1 Z" fill="#1e2a4a" stroke="#1e2a4a" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="964.0" y1="110.0" x2="964.0" y2="204.0" stroke="#e0dcd2" stroke-width="1.5" stroke-linecap="round" />
+<text x="976.0" y="126.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Potentiometer</text>
+<text x="976.0" y="149.0" font-size="13" font-weight="500" fill="#4a5568" text-anchor="start" >code: RV or VR</text>
+<text x="976.0" y="167.0" font-size="13" font-weight="500" fill="#4a5568" text-anchor="start" >arrow = the middle leg</text>
+<text x="976.0" y="185.0" font-size="13" font-weight="500" fill="#4a5568" text-anchor="start" >that can be moved</text>
+<text x="976.0" y="203.0" font-size="13" font-weight="700" fill="#0f8b8d" text-anchor="start" >e.g. the Module 5 knob</text>
+<rect x="40.0" y="230.0" width="360.0" height="122.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<line x1="62.0" y1="304.0" x2="102.0" y2="304.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="146.0" y1="304.0" x2="186.0" y2="304.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<rect x="102.0" y="295.0" width="44.0" height="18.0" rx="2" fill="#fff3d6" stroke="#1e2a4a" stroke-width="2.4" />
+<line x1="90.0" y1="260.0" x2="108.0" y2="286.0" stroke="#d98a16" stroke-width="2" stroke-linecap="round" />
+<path d="M108.0 286.0 L101.2 281.9 L106.5 278.1 Z" fill="#d98a16" stroke="#d98a16" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="108.0" y1="260.0" x2="126.0" y2="286.0" stroke="#d98a16" stroke-width="2" stroke-linecap="round" />
+<path d="M126.0 286.0 L119.2 281.9 L124.5 278.1 Z" fill="#d98a16" stroke="#d98a16" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="204.0" y1="244.0" x2="204.0" y2="338.0" stroke="#e0dcd2" stroke-width="1.5" stroke-linecap="round" />
+<text x="216.0" y="260.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >LDR</text>
+<text x="216.0" y="283.0" font-size="13" font-weight="500" fill="#4a5568" text-anchor="start" >code: R or LDR</text>
+<text x="216.0" y="301.0" font-size="13" font-weight="500" fill="#4a5568" text-anchor="start" >arrows in = light;</text>
+<text x="216.0" y="319.0" font-size="13" font-weight="500" fill="#4a5568" text-anchor="start" >resistance follows the light</text>
+<text x="216.0" y="337.0" font-size="13" font-weight="700" fill="#0f8b8d" text-anchor="start" >e.g. the light sensor</text>
+<rect x="420.0" y="230.0" width="360.0" height="122.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<line x1="470.0" y1="256.0" x2="470.0" y2="287.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="454.0" y1="287.0" x2="486.0" y2="287.0" stroke="#1e2a4a" stroke-width="3.2" stroke-linecap="round" />
+<line x1="454.0" y1="297.0" x2="486.0" y2="297.0" stroke="#1e2a4a" stroke-width="3.2" stroke-linecap="round" />
+<line x1="470.0" y1="297.0" x2="470.0" y2="328.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="538.0" y1="256.0" x2="538.0" y2="287.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="522.0" y1="287.0" x2="554.0" y2="287.0" stroke="#1e2a4a" stroke-width="3.2" stroke-linecap="round" />
+<path d="M522 303.0 Q538 293.0 554 303.0" fill="none" stroke="#1e2a4a" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="538.0" y1="298.0" x2="538.0" y2="328.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<text x="514.0" y="284.0" font-size="17" font-weight="800" fill="#1e2a4a" text-anchor="middle" >+</text>
+<line x1="584.0" y1="244.0" x2="584.0" y2="338.0" stroke="#e0dcd2" stroke-width="1.5" stroke-linecap="round" />
+<text x="596.0" y="260.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Capacitor</text>
+<text x="596.0" y="283.0" font-size="13" font-weight="500" fill="#4a5568" text-anchor="start" >code: C</text>
+<text x="596.0" y="301.0" font-size="13" font-weight="500" fill="#4a5568" text-anchor="start" >right: electrolytic,</text>
+<text x="596.0" y="319.0" font-size="13" font-weight="500" fill="#4a5568" text-anchor="start" >polarized (+ mark)</text>
+<text x="596.0" y="337.0" font-size="13" font-weight="700" fill="#0f8b8d" text-anchor="start" >e.g. 100 nF, 100 µF</text>
+<rect x="800.0" y="230.0" width="360.0" height="122.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<line x1="884.0" y1="254.0" x2="884.0" y2="281.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="884.0" y1="303.0" x2="884.0" y2="330.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<path d="M871 281.0 L897 281.0 L884 302.0 Z" fill="#ffffff" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="871.0" y1="303.0" x2="897.0" y2="303.0" stroke="#1e2a4a" stroke-width="2.8" stroke-linecap="round" />
+<line x1="898.0" y1="288.0" x2="916.0" y2="274.0" stroke="#d98a16" stroke-width="2" stroke-linecap="round" />
+<path d="M916.0 274.0 L912.2 281.1 L908.2 275.9 Z" fill="#d98a16" stroke="#d98a16" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="898.0" y1="299.0" x2="916.0" y2="285.0" stroke="#d98a16" stroke-width="2" stroke-linecap="round" />
+<path d="M916.0 285.0 L912.2 292.1 L908.2 286.9 Z" fill="#d98a16" stroke="#d98a16" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="964.0" y1="244.0" x2="964.0" y2="338.0" stroke="#e0dcd2" stroke-width="1.5" stroke-linecap="round" />
+<text x="976.0" y="260.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >LED</text>
+<text x="976.0" y="283.0" font-size="13" font-weight="500" fill="#4a5568" text-anchor="start" >code: D or LED</text>
+<text x="976.0" y="301.0" font-size="13" font-weight="500" fill="#4a5568" text-anchor="start" >arrows out = light;</text>
+<text x="976.0" y="319.0" font-size="13" font-weight="500" fill="#4a5568" text-anchor="start" >current follows the triangle</text>
+<text x="976.0" y="337.0" font-size="13" font-weight="700" fill="#0f8b8d" text-anchor="start" >e.g. the D4 status LED</text>
+<rect x="40.0" y="364.0" width="360.0" height="122.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<line x1="114.0" y1="388.0" x2="114.0" y2="415.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="114.0" y1="437.0" x2="114.0" y2="464.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<path d="M101 415.0 L127 415.0 L114 436.0 Z" fill="#ffffff" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="101.0" y1="437.0" x2="127.0" y2="437.0" stroke="#1e2a4a" stroke-width="2.8" stroke-linecap="round" />
+<text x="136.0" y="408.0" font-size="12.5" font-weight="700" fill="#4a5568" text-anchor="start" >anode</text>
+<text x="136.0" y="454.0" font-size="12.5" font-weight="700" fill="#4a5568" text-anchor="start" >cathode</text>
+<line x1="204.0" y1="378.0" x2="204.0" y2="472.0" stroke="#e0dcd2" stroke-width="1.5" stroke-linecap="round" />
+<text x="216.0" y="394.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Diode</text>
+<text x="216.0" y="417.0" font-size="13" font-weight="500" fill="#4a5568" text-anchor="start" >code: D</text>
+<text x="216.0" y="435.0" font-size="13" font-weight="500" fill="#4a5568" text-anchor="start" >current follows the triangle;</text>
+<text x="216.0" y="453.0" font-size="13" font-weight="500" fill="#4a5568" text-anchor="start" >bar = cathode</text>
+<text x="216.0" y="471.0" font-size="13" font-weight="700" fill="#0f8b8d" text-anchor="start" >e.g. the pump's 1N4007</text>
+<rect x="420.0" y="364.0" width="360.0" height="122.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<line x1="442.0" y1="436.0" x2="478.0" y2="436.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="530.0" y1="436.0" x2="566.0" y2="436.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<circle cx="482.0" cy="436.0" r="4" fill="#ffffff" stroke="#1e2a4a" stroke-width="2.2" />
+<circle cx="526.0" cy="436.0" r="4" fill="#ffffff" stroke="#1e2a4a" stroke-width="2.2" />
+<line x1="476.0" y1="423.0" x2="532.0" y2="423.0" stroke="#1e2a4a" stroke-width="2.6" stroke-linecap="round" />
+<line x1="504.0" y1="423.0" x2="504.0" y2="411.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="495.0" y1="411.0" x2="513.0" y2="411.0" stroke="#1e2a4a" stroke-width="2.6" stroke-linecap="round" />
+<line x1="584.0" y1="378.0" x2="584.0" y2="472.0" stroke="#e0dcd2" stroke-width="1.5" stroke-linecap="round" />
+<text x="596.0" y="394.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Push button</text>
+<text x="596.0" y="417.0" font-size="13" font-weight="500" fill="#4a5568" text-anchor="start" >code: SW</text>
+<text x="596.0" y="435.0" font-size="13" font-weight="500" fill="#4a5568" text-anchor="start" >connected only</text>
+<text x="596.0" y="453.0" font-size="13" font-weight="500" fill="#4a5568" text-anchor="start" >while pressed</text>
+<text x="596.0" y="471.0" font-size="13" font-weight="700" fill="#0f8b8d" text-anchor="start" >e.g. the D13 button</text>
+<rect x="800.0" y="364.0" width="360.0" height="122.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<line x1="822.0" y1="436.0" x2="858.0" y2="436.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="910.0" y1="436.0" x2="946.0" y2="436.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<circle cx="862.0" cy="436.0" r="4" fill="#ffffff" stroke="#1e2a4a" stroke-width="2.2" />
+<circle cx="906.0" cy="436.0" r="4" fill="#ffffff" stroke="#1e2a4a" stroke-width="2.2" />
+<line x1="865.0" y1="433.0" x2="909.0" y2="415.0" stroke="#1e2a4a" stroke-width="2.6" stroke-linecap="round" />
+<line x1="964.0" y1="378.0" x2="964.0" y2="472.0" stroke="#e0dcd2" stroke-width="1.5" stroke-linecap="round" />
+<text x="976.0" y="394.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Switch</text>
+<text x="976.0" y="417.0" font-size="13" font-weight="500" fill="#4a5568" text-anchor="start" >code: SW</text>
+<text x="976.0" y="435.0" font-size="13" font-weight="500" fill="#4a5568" text-anchor="start" >stays in its position</text>
+<text x="976.0" y="453.0" font-size="13" font-weight="500" fill="#4a5568" text-anchor="start" >until it's moved</text>
+<text x="976.0" y="471.0" font-size="13" font-weight="700" fill="#0f8b8d" text-anchor="start" >e.g. the MB102 switch</text>
+<rect x="40.0" y="498.0" width="360.0" height="122.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<line x1="112.0" y1="524.0" x2="112.0" y2="554.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="94.0" y1="554.0" x2="130.0" y2="554.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="103.0" y1="566.0" x2="121.0" y2="566.0" stroke="#1e2a4a" stroke-width="5" stroke-linecap="round" />
+<line x1="112.0" y1="566.0" x2="112.0" y2="596.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<text x="140.0" y="559.0" font-size="17" font-weight="800" fill="#1e2a4a" text-anchor="middle" >+</text>
+<text x="140.0" y="579.0" font-size="17" font-weight="800" fill="#1e2a4a" text-anchor="middle" >−</text>
+<line x1="204.0" y1="512.0" x2="204.0" y2="606.0" stroke="#e0dcd2" stroke-width="1.5" stroke-linecap="round" />
+<text x="216.0" y="528.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Battery</text>
+<text x="216.0" y="551.0" font-size="13" font-weight="500" fill="#4a5568" text-anchor="start" >code: BT</text>
+<text x="216.0" y="569.0" font-size="13" font-weight="500" fill="#4a5568" text-anchor="start" >long line = + terminal</text>
+<text x="216.0" y="587.0" font-size="13" font-weight="500" fill="#4a5568" text-anchor="start" >short line = − terminal</text>
+<text x="216.0" y="605.0" font-size="13" font-weight="700" fill="#0f8b8d" text-anchor="start" >e.g. an 18650 battery</text>
+<rect x="420.0" y="498.0" width="360.0" height="122.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<line x1="470.0" y1="538.0" x2="470.0" y2="558.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="455.0" y1="558.0" x2="485.0" y2="558.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="460.5" y1="563.5" x2="479.5" y2="563.5" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="466.0" y1="569.0" x2="474.0" y2="569.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="538.0" y1="538.0" x2="538.0" y2="558.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<path d="M524 558 L552 558 L538 571 Z" fill="#ffffff" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="584.0" y1="512.0" x2="584.0" y2="606.0" stroke="#e0dcd2" stroke-width="1.5" stroke-linecap="round" />
+<text x="596.0" y="528.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >GND</text>
+<text x="596.0" y="551.0" font-size="13" font-weight="500" fill="#4a5568" text-anchor="start" >two styles: stepped</text>
+<text x="596.0" y="569.0" font-size="13" font-weight="500" fill="#4a5568" text-anchor="start" >or triangle; all of them</text>
+<text x="596.0" y="587.0" font-size="13" font-weight="500" fill="#4a5568" text-anchor="start" >are connected together</text>
+<text x="596.0" y="605.0" font-size="13" font-weight="700" fill="#0f8b8d" text-anchor="start" >e.g. the (−) rail</text>
+<rect x="800.0" y="498.0" width="360.0" height="122.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<line x1="850.0" y1="586.0" x2="850.0" y2="556.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="837.0" y1="556.0" x2="863.0" y2="556.0" stroke="#c2610f" stroke-width="3.4" stroke-linecap="round" />
+<text x="850.0" y="548.0" font-size="13.5" font-weight="800" fill="#c2610f" text-anchor="middle" >3V3</text>
+<line x1="918.0" y1="586.0" x2="918.0" y2="556.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<path d="M910 565 L918 556 L926 565" fill="none" stroke="#d62839" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" />
+<text x="918.0" y="548.0" font-size="13.5" font-weight="800" fill="#d62839" text-anchor="middle" >5V</text>
+<line x1="964.0" y1="512.0" x2="964.0" y2="606.0" stroke="#e0dcd2" stroke-width="1.5" stroke-linecap="round" />
+<text x="976.0" y="528.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Power symbol</text>
+<text x="976.0" y="551.0" font-size="13" font-weight="500" fill="#4a5568" text-anchor="start" >label = its voltage;</text>
+<text x="976.0" y="569.0" font-size="13" font-weight="500" fill="#4a5568" text-anchor="start" >same label = connected</text>
+<text x="976.0" y="587.0" font-size="13" font-weight="700" fill="#0f8b8d" text-anchor="start" >e.g. 3V3 (ESP32),</text>
+<text x="976.0" y="605.0" font-size="13" font-weight="700" fill="#0f8b8d" text-anchor="start" >5V (MB102)</text>
+<rect x="40.0" y="632.0" width="360.0" height="122.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<circle cx="124.0" cy="694.0" r="27" fill="#ffffff" stroke="#1e2a4a" stroke-width="2" />
+<line x1="112.0" y1="678.0" x2="112.0" y2="710.0" stroke="#1e2a4a" stroke-width="3.4" stroke-linecap="round" />
+<line x1="84.0" y1="694.0" x2="112.0" y2="694.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="112.0" y1="687.0" x2="134.0" y2="672.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="134.0" y1="672.0" x2="134.0" y2="652.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="112.0" y1="701.0" x2="134.0" y2="716.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<path d="M130.7 713.8 L121.8 712.2 L126.0 706.1 Z" fill="#1e2a4a" stroke="#1e2a4a" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="134.0" y1="716.0" x2="134.0" y2="736.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<text x="90.0" y="687.0" font-size="12.5" font-weight="800" fill="#4a5568" text-anchor="middle" >B</text>
+<text x="146.0" y="660.0" font-size="12.5" font-weight="800" fill="#4a5568" text-anchor="middle" >C</text>
+<text x="146.0" y="734.0" font-size="12.5" font-weight="800" fill="#4a5568" text-anchor="middle" >E</text>
+<line x1="204.0" y1="646.0" x2="204.0" y2="740.0" stroke="#e0dcd2" stroke-width="1.5" stroke-linecap="round" />
+<text x="216.0" y="662.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >NPN transistor</text>
+<text x="216.0" y="685.0" font-size="13" font-weight="500" fill="#4a5568" text-anchor="start" >code: Q</text>
+<text x="216.0" y="703.0" font-size="13" font-weight="500" fill="#4a5568" text-anchor="start" >B base, C collector,</text>
+<text x="216.0" y="721.0" font-size="13" font-weight="500" fill="#4a5568" text-anchor="start" >E emitter (with arrow)</text>
+<text x="216.0" y="739.0" font-size="13" font-weight="700" fill="#0f8b8d" text-anchor="start" >e.g. S8050 in the relay</text>
+<rect x="420.0" y="632.0" width="360.0" height="122.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<line x1="500.0" y1="672.0" x2="500.0" y2="716.0" stroke="#1e2a4a" stroke-width="3" stroke-linecap="round" />
+<line x1="490.0" y1="676.0" x2="490.0" y2="712.0" stroke="#1e2a4a" stroke-width="3" stroke-linecap="round" />
+<line x1="466.0" y1="694.0" x2="490.0" y2="694.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="500.0" y1="678.0" x2="522.0" y2="678.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="522.0" y1="678.0" x2="522.0" y2="654.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="500.0" y1="710.0" x2="522.0" y2="710.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="522.0" y1="710.0" x2="522.0" y2="734.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<path d="M503.0 710.0 L510.3 706.7 L510.3 713.3 Z" fill="#1e2a4a" stroke="#1e2a4a" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" />
+<text x="533.0" y="668.0" font-size="12.5" font-weight="800" fill="#4a5568" text-anchor="middle" >D</text>
+<text x="533.0" y="730.0" font-size="12.5" font-weight="800" fill="#4a5568" text-anchor="middle" >S</text>
+<text x="476.0" y="686.0" font-size="12.5" font-weight="800" fill="#4a5568" text-anchor="middle" >G</text>
+<line x1="584.0" y1="646.0" x2="584.0" y2="740.0" stroke="#e0dcd2" stroke-width="1.5" stroke-linecap="round" />
+<text x="596.0" y="662.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >N-channel MOSFET</text>
+<text x="596.0" y="685.0" font-size="13" font-weight="500" fill="#4a5568" text-anchor="start" >code: Q</text>
+<text x="596.0" y="703.0" font-size="13" font-weight="500" fill="#4a5568" text-anchor="start" >G gate, D drain,</text>
+<text x="596.0" y="721.0" font-size="13" font-weight="500" fill="#4a5568" text-anchor="start" >S source</text>
+<text x="596.0" y="739.0" font-size="13" font-weight="700" fill="#0f8b8d" text-anchor="start" >e.g. the pump's IRLZ44N</text>
+<rect x="800.0" y="632.0" width="360.0" height="122.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<line x1="884.0" y1="654.0" x2="884.0" y2="672.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<circle cx="884.0" cy="694.0" r="22" fill="#ffffff" stroke="#1e2a4a" stroke-width="2.4" />
+<text x="884.0" y="700.0" font-size="17" font-weight="800" fill="#1e2a4a" text-anchor="middle" >M</text>
+<line x1="884.0" y1="716.0" x2="884.0" y2="734.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="964.0" y1="646.0" x2="964.0" y2="740.0" stroke="#e0dcd2" stroke-width="1.5" stroke-linecap="round" />
+<text x="976.0" y="662.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Motor</text>
+<text x="976.0" y="685.0" font-size="13" font-weight="500" fill="#4a5568" text-anchor="start" >code: M</text>
+<text x="976.0" y="703.0" font-size="13" font-weight="500" fill="#4a5568" text-anchor="start" >circle with the letter M</text>
+<text x="976.0" y="721.0" font-size="13" font-weight="700" fill="#0f8b8d" text-anchor="start" >e.g. Node 1's fan</text>
+<text x="976.0" y="739.0" font-size="13" font-weight="700" fill="#0f8b8d" text-anchor="start" >and pump</text>
+<rect x="40.0" y="766.0" width="360.0" height="122.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<line x1="80.0" y1="788.0" x2="80.0" y2="803.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="80.0" y1="853.0" x2="80.0" y2="868.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<rect x="68.0" y="803.0" width="24.0" height="50.0" rx="1" fill="#ffffff" stroke="#1e2a4a" stroke-width="2.4" />
+<line x1="68.0" y1="841.0" x2="92.0" y2="815.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<circle cx="128.0" cy="850.0" r="4" fill="#1e2a4a" />
+<line x1="128.0" y1="850.0" x2="168.0" y2="816.0" stroke="#1e2a4a" stroke-width="2.6" stroke-linecap="round" />
+<circle cx="172.0" cy="813.0" r="4" fill="#1e2a4a" />
+<circle cx="172.0" cy="842.0" r="4" fill="#ffffff" stroke="#1e2a4a" stroke-width="2" />
+<line x1="93.0" y1="828.0" x2="148.0" y2="828.0" stroke="#1e2a4a" stroke-width="1.8" stroke-linecap="round" stroke-dasharray="5 4" />
+<text x="128.0" y="871.0" font-size="12" font-weight="800" fill="#4a5568" text-anchor="middle" >COM</text>
+<text x="181.0" y="817.0" font-size="12" font-weight="800" fill="#4a5568" text-anchor="start" >NC</text>
+<text x="181.0" y="846.0" font-size="12" font-weight="800" fill="#4a5568" text-anchor="start" >NO</text>
+<line x1="204.0" y1="780.0" x2="204.0" y2="874.0" stroke="#e0dcd2" stroke-width="1.5" stroke-linecap="round" />
+<text x="216.0" y="796.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Relay</text>
+<text x="216.0" y="819.0" font-size="13" font-weight="500" fill="#4a5568" text-anchor="start" >code: K</text>
+<text x="216.0" y="837.0" font-size="13" font-weight="500" fill="#4a5568" text-anchor="start" >coil + contacts</text>
+<text x="216.0" y="855.0" font-size="13" font-weight="500" fill="#4a5568" text-anchor="start" >COM, NO, NC</text>
+<text x="216.0" y="873.0" font-size="13" font-weight="700" fill="#0f8b8d" text-anchor="start" >e.g. the relay module</text>
+<rect x="420.0" y="766.0" width="360.0" height="122.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<rect x="446.0" y="794.0" width="116.0" height="68.0" rx="4" fill="#ffffff" stroke="#1e2a4a" stroke-width="2" />
+<line x1="472.0" y1="780.0" x2="472.0" y2="817.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="472.0" y1="839.0" x2="472.0" y2="876.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<path d="M459 817.0 L485 817.0 L472 838.0 Z" fill="#ffffff" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="459.0" y1="839.0" x2="485.0" y2="839.0" stroke="#1e2a4a" stroke-width="2.8" stroke-linecap="round" />
+<line x1="488.0" y1="822.0" x2="508.0" y2="822.0" stroke="#d98a16" stroke-width="2" stroke-linecap="round" />
+<path d="M508.0 822.0 L500.7 825.3 L500.7 818.7 Z" fill="#d98a16" stroke="#d98a16" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="488.0" y1="836.0" x2="508.0" y2="836.0" stroke="#d98a16" stroke-width="2" stroke-linecap="round" />
+<path d="M508.0 836.0 L500.7 839.3 L500.7 832.7 Z" fill="#d98a16" stroke="#d98a16" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="522.0" y1="814.0" x2="522.0" y2="842.0" stroke="#1e2a4a" stroke-width="3.2" stroke-linecap="round" />
+<line x1="522.0" y1="822.0" x2="540.0" y2="810.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="540.0" y1="810.0" x2="540.0" y2="780.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="522.0" y1="834.0" x2="540.0" y2="846.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<path d="M537.0 844.0 L528.1 842.5 L532.2 836.4 Z" fill="#1e2a4a" stroke="#1e2a4a" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="540.0" y1="846.0" x2="540.0" y2="876.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="584.0" y1="780.0" x2="584.0" y2="874.0" stroke="#e0dcd2" stroke-width="1.5" stroke-linecap="round" />
+<text x="596.0" y="796.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Optocoupler</text>
+<text x="596.0" y="819.0" font-size="13" font-weight="500" fill="#4a5568" text-anchor="start" >code: U</text>
+<text x="596.0" y="837.0" font-size="13" font-weight="500" fill="#4a5568" text-anchor="start" >LED + phototransistor</text>
+<text x="596.0" y="855.0" font-size="13" font-weight="500" fill="#4a5568" text-anchor="start" >in one package</text>
+<text x="596.0" y="873.0" font-size="13" font-weight="700" fill="#0f8b8d" text-anchor="start" >e.g. PC817 in the relay</text>
+<rect x="800.0" y="766.0" width="360.0" height="122.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<rect x="850.0" y="792.0" width="76.0" height="72.0" rx="4" fill="#ffffff" stroke="#1e2a4a" stroke-width="2.2" />
+<text x="918.0" y="812.5" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="end" >+</text>
+<text x="918.0" y="832.5" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="end" >out</text>
+<text x="918.0" y="852.5" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="end" >−</text>
+<line x1="926.0" y1="808.0" x2="942.0" y2="808.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="926.0" y1="828.0" x2="942.0" y2="828.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="926.0" y1="848.0" x2="942.0" y2="848.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<text x="858.0" y="782.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >DHT22</text>
+<line x1="964.0" y1="780.0" x2="964.0" y2="874.0" stroke="#e0dcd2" stroke-width="1.5" stroke-linecap="round" />
+<text x="976.0" y="796.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Module or chip</text>
+<text x="976.0" y="819.0" font-size="13" font-weight="500" fill="#4a5568" text-anchor="start" >code: U</text>
+<text x="976.0" y="837.0" font-size="13" font-weight="500" fill="#4a5568" text-anchor="start" >box + its pin names;</text>
+<text x="976.0" y="855.0" font-size="13" font-weight="500" fill="#4a5568" text-anchor="start" >its insides aren't drawn</text>
+<text x="976.0" y="873.0" font-size="13" font-weight="700" fill="#0f8b8d" text-anchor="start" >e.g. DHT22, OLED</text>
+<text x="40.0" y="912.0" font-size="18" font-weight="800" fill="#1e2a4a" text-anchor="start" >Example: the LDR voltage divider from Module 6, drawn two ways</text>
+<rect x="40.0" y="930.0" width="540.0" height="380.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<rect x="620.0" y="930.0" width="540.0" height="380.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="60.0" y="958.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >Breadboard: WHERE things are</text>
+<text x="60.0" y="978.0" font-size="12.5" font-weight="500" fill="#4a5568" text-anchor="start" >a piece of the lower breadboard, columns 29–37</text>
+<text x="640.0" y="958.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >Schematic: WHAT connects to WHAT</text>
+<text x="640.0" y="978.0" font-size="12.5" font-weight="500" fill="#4a5568" text-anchor="start" >five symbols, no holes or columns</text>
+<line x1="588.0" y1="1112.0" x2="612.0" y2="1112.0" stroke="#1e2a4a" stroke-width="3" stroke-linecap="round" />
+<path d="M602.3 1117.2 L612.0 1112.0 L602.3 1106.8" fill="none" stroke="#1e2a4a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="96.0" y="1008.0" width="316.0" height="270.0" rx="6" fill="#fbfaf5" stroke="#cfcab8" stroke-width="1.5" />
+<line x1="96.0" y1="1202.0" x2="412.0" y2="1202.0" stroke="#e05050" stroke-width="2.5" stroke-linecap="round" />
+<line x1="96.0" y1="1276.0" x2="412.0" y2="1276.0" stroke="#3d7fd6" stroke-width="2.5" stroke-linecap="round" />
+<rect x="112.0" y="1026.0" width="12.0" height="12.0" rx="2" fill="#d6d2c6" />
+<rect x="112.0" y="1060.0" width="12.0" height="12.0" rx="2" fill="#d6d2c6" />
+<rect x="112.0" y="1094.0" width="12.0" height="12.0" rx="2" fill="#d6d2c6" />
+<rect x="112.0" y="1128.0" width="12.0" height="12.0" rx="2" fill="#d6d2c6" />
+<rect x="112.0" y="1162.0" width="12.0" height="12.0" rx="2" fill="#d6d2c6" />
+<rect x="112.0" y="1216.0" width="12.0" height="12.0" rx="2" fill="#d6d2c6" />
+<rect x="112.0" y="1250.0" width="12.0" height="12.0" rx="2" fill="#d6d2c6" />
+<rect x="146.0" y="1026.0" width="12.0" height="12.0" rx="2" fill="#d6d2c6" />
+<rect x="146.0" y="1060.0" width="12.0" height="12.0" rx="2" fill="#d6d2c6" />
+<rect x="146.0" y="1094.0" width="12.0" height="12.0" rx="2" fill="#d6d2c6" />
+<rect x="146.0" y="1128.0" width="12.0" height="12.0" rx="2" fill="#d6d2c6" />
+<rect x="146.0" y="1162.0" width="12.0" height="12.0" rx="2" fill="#d6d2c6" />
+<rect x="146.0" y="1216.0" width="12.0" height="12.0" rx="2" fill="#d6d2c6" />
+<rect x="146.0" y="1250.0" width="12.0" height="12.0" rx="2" fill="#d6d2c6" />
+<text x="152.0" y="1298.0" font-size="12.5" font-weight="700" fill="#8a8f9c" text-anchor="middle" >30</text>
+<rect x="180.0" y="1026.0" width="12.0" height="12.0" rx="2" fill="#d6d2c6" />
+<rect x="180.0" y="1060.0" width="12.0" height="12.0" rx="2" fill="#d6d2c6" />
+<rect x="180.0" y="1094.0" width="12.0" height="12.0" rx="2" fill="#d6d2c6" />
+<rect x="180.0" y="1128.0" width="12.0" height="12.0" rx="2" fill="#d6d2c6" />
+<rect x="180.0" y="1162.0" width="12.0" height="12.0" rx="2" fill="#d6d2c6" />
+<rect x="214.0" y="1026.0" width="12.0" height="12.0" rx="2" fill="#d6d2c6" />
+<rect x="214.0" y="1060.0" width="12.0" height="12.0" rx="2" fill="#d6d2c6" />
+<rect x="214.0" y="1094.0" width="12.0" height="12.0" rx="2" fill="#d6d2c6" />
+<rect x="214.0" y="1128.0" width="12.0" height="12.0" rx="2" fill="#d6d2c6" />
+<rect x="214.0" y="1162.0" width="12.0" height="12.0" rx="2" fill="#d6d2c6" />
+<rect x="214.0" y="1216.0" width="12.0" height="12.0" rx="2" fill="#d6d2c6" />
+<rect x="214.0" y="1250.0" width="12.0" height="12.0" rx="2" fill="#d6d2c6" />
+<text x="220.0" y="1298.0" font-size="12.5" font-weight="700" fill="#8a8f9c" text-anchor="middle" >32</text>
+<rect x="248.0" y="1026.0" width="12.0" height="12.0" rx="2" fill="#d6d2c6" />
+<rect x="248.0" y="1060.0" width="12.0" height="12.0" rx="2" fill="#d6d2c6" />
+<rect x="248.0" y="1094.0" width="12.0" height="12.0" rx="2" fill="#d6d2c6" />
+<rect x="248.0" y="1128.0" width="12.0" height="12.0" rx="2" fill="#d6d2c6" />
+<rect x="248.0" y="1162.0" width="12.0" height="12.0" rx="2" fill="#d6d2c6" />
+<rect x="248.0" y="1216.0" width="12.0" height="12.0" rx="2" fill="#d6d2c6" />
+<rect x="248.0" y="1250.0" width="12.0" height="12.0" rx="2" fill="#d6d2c6" />
+<rect x="282.0" y="1026.0" width="12.0" height="12.0" rx="2" fill="#d6d2c6" />
+<rect x="282.0" y="1060.0" width="12.0" height="12.0" rx="2" fill="#d6d2c6" />
+<rect x="282.0" y="1094.0" width="12.0" height="12.0" rx="2" fill="#d6d2c6" />
+<rect x="282.0" y="1128.0" width="12.0" height="12.0" rx="2" fill="#d6d2c6" />
+<rect x="282.0" y="1162.0" width="12.0" height="12.0" rx="2" fill="#d6d2c6" />
+<rect x="282.0" y="1216.0" width="12.0" height="12.0" rx="2" fill="#d6d2c6" />
+<rect x="282.0" y="1250.0" width="12.0" height="12.0" rx="2" fill="#d6d2c6" />
+<text x="288.0" y="1298.0" font-size="12.5" font-weight="700" fill="#8a8f9c" text-anchor="middle" >34</text>
+<rect x="316.0" y="1026.0" width="12.0" height="12.0" rx="2" fill="#d6d2c6" />
+<rect x="316.0" y="1060.0" width="12.0" height="12.0" rx="2" fill="#d6d2c6" />
+<rect x="316.0" y="1094.0" width="12.0" height="12.0" rx="2" fill="#d6d2c6" />
+<rect x="316.0" y="1128.0" width="12.0" height="12.0" rx="2" fill="#d6d2c6" />
+<rect x="316.0" y="1162.0" width="12.0" height="12.0" rx="2" fill="#d6d2c6" />
+<rect x="316.0" y="1216.0" width="12.0" height="12.0" rx="2" fill="#d6d2c6" />
+<rect x="316.0" y="1250.0" width="12.0" height="12.0" rx="2" fill="#d6d2c6" />
+<rect x="350.0" y="1026.0" width="12.0" height="12.0" rx="2" fill="#d6d2c6" />
+<rect x="350.0" y="1060.0" width="12.0" height="12.0" rx="2" fill="#d6d2c6" />
+<rect x="350.0" y="1094.0" width="12.0" height="12.0" rx="2" fill="#d6d2c6" />
+<rect x="350.0" y="1128.0" width="12.0" height="12.0" rx="2" fill="#d6d2c6" />
+<rect x="350.0" y="1162.0" width="12.0" height="12.0" rx="2" fill="#d6d2c6" />
+<rect x="350.0" y="1216.0" width="12.0" height="12.0" rx="2" fill="#d6d2c6" />
+<rect x="350.0" y="1250.0" width="12.0" height="12.0" rx="2" fill="#d6d2c6" />
+<text x="356.0" y="1298.0" font-size="12.5" font-weight="700" fill="#8a8f9c" text-anchor="middle" >36</text>
+<rect x="384.0" y="1026.0" width="12.0" height="12.0" rx="2" fill="#d6d2c6" />
+<rect x="384.0" y="1060.0" width="12.0" height="12.0" rx="2" fill="#d6d2c6" />
+<rect x="384.0" y="1094.0" width="12.0" height="12.0" rx="2" fill="#d6d2c6" />
+<rect x="384.0" y="1128.0" width="12.0" height="12.0" rx="2" fill="#d6d2c6" />
+<rect x="384.0" y="1162.0" width="12.0" height="12.0" rx="2" fill="#d6d2c6" />
+<text x="84.0" y="1036.0" font-size="12" font-weight="700" fill="#8a8f9c" text-anchor="middle" >f</text>
+<text x="84.0" y="1070.0" font-size="12" font-weight="700" fill="#8a8f9c" text-anchor="middle" >g</text>
+<text x="84.0" y="1104.0" font-size="12" font-weight="700" fill="#8a8f9c" text-anchor="middle" >h</text>
+<text x="84.0" y="1138.0" font-size="12" font-weight="700" fill="#8a8f9c" text-anchor="middle" >i</text>
+<text x="84.0" y="1172.0" font-size="12" font-weight="700" fill="#8a8f9c" text-anchor="middle" >j</text>
+<text x="84.0" y="1227.0" font-size="15" font-weight="800" fill="#e05050" text-anchor="middle" >+</text>
+<text x="84.0" y="1261.0" font-size="15" font-weight="800" fill="#3d7fd6" text-anchor="middle" >−</text>
+<path d="M288 1032 L288 994" fill="none" stroke="#8b909c" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="288.0" cy="1032.0" r="5" fill="#222" />
+<text x="300.0" y="1004.0" font-size="12.5" font-weight="800" fill="#4a5568" text-anchor="start" >to VP</text>
+<line x1="152.0" y1="1168.0" x2="152.0" y2="1222.0" stroke="#00000033" stroke-width="9" stroke-linecap="round" />
+<line x1="152.0" y1="1168.0" x2="152.0" y2="1222.0" stroke="#f08a24" stroke-width="6.5" stroke-linecap="round" />
+<circle cx="152.0" cy="1168.0" r="5" fill="#222" />
+<circle cx="152.0" cy="1222.0" r="5" fill="#222" />
+<line x1="356.0" y1="1168.0" x2="356.0" y2="1256.0" stroke="#00000033" stroke-width="9" stroke-linecap="round" />
+<line x1="356.0" y1="1168.0" x2="356.0" y2="1256.0" stroke="#222222" stroke-width="6.5" stroke-linecap="round" />
+<circle cx="356.0" cy="1168.0" r="5" fill="#222" />
+<circle cx="356.0" cy="1256.0" r="5" fill="#222" />
+<line x1="152.0" y1="1066.0" x2="288.0" y2="1066.0" stroke="#9aa3b0" stroke-width="3" stroke-linecap="round" />
+<rect x="182.0" y="1056.0" width="76.0" height="20.0" rx="9" fill="#e8d3a6" stroke="#b08d57" stroke-width="1.5" />
+<rect x="196.0" y="1056.0" width="6.0" height="20.0" rx="0" fill="#7a4a1e" />
+<rect x="210.0" y="1056.0" width="6.0" height="20.0" rx="0" fill="#111111" />
+<rect x="224.0" y="1056.0" width="6.0" height="20.0" rx="0" fill="#f08a24" />
+<rect x="238.0" y="1056.0" width="6.0" height="20.0" rx="0" fill="#c9a227" />
+<circle cx="152.0" cy="1066.0" r="4.5" fill="#555" />
+<circle cx="288.0" cy="1066.0" r="4.5" fill="#555" />
+<line x1="288.0" y1="1100.0" x2="356.0" y2="1100.0" stroke="#9aa3b0" stroke-width="3" stroke-linecap="round" />
+<circle cx="322.0" cy="1100.0" r="14" fill="#eba13a" stroke="#b06a12" stroke-width="2" />
+<text x="322.0" y="1104.5" font-size="11.5" font-weight="800" fill="#5a3200" text-anchor="middle" >104</text>
+<circle cx="288.0" cy="1100.0" r="4.5" fill="#555" />
+<circle cx="356.0" cy="1100.0" r="4.5" fill="#555" />
+<line x1="288.0" y1="1134.0" x2="356.0" y2="1134.0" stroke="#9aa3b0" stroke-width="3" stroke-linecap="round" />
+<path d="M302 1134 a20 13 0 1 0 40 0 a20 13 0 1 0 -40 0" fill="#d2691e" stroke="#8a3b10" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M310 1134 a12 7 0 1 0 24 0 a12 7 0 1 0 -24 0" fill="#f3e3c8" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="314.0" y1="1131.0" x2="330.0" y2="1131.0" stroke="#a0522d" stroke-width="1.4" stroke-linecap="round" />
+<line x1="314.0" y1="1134.0" x2="330.0" y2="1134.0" stroke="#a0522d" stroke-width="1.4" stroke-linecap="round" />
+<line x1="314.0" y1="1137.0" x2="330.0" y2="1137.0" stroke="#a0522d" stroke-width="1.4" stroke-linecap="round" />
+<circle cx="288.0" cy="1134.0" r="4.5" fill="#555" />
+<circle cx="356.0" cy="1134.0" r="4.5" fill="#555" />
+<text x="424.0" y="1227.0" font-size="12.5" font-weight="800" fill="#e05050" text-anchor="start" >rail (+) = 3V3</text>
+<text x="424.0" y="1261.0" font-size="12.5" font-weight="800" fill="#3d7fd6" text-anchor="start" >rail (−) = GND</text>
+<circle cx="220.0" cy="1040.0" r="13" fill="#e63946" stroke="#ffffff" stroke-width="2" />
+<text x="220.0" y="1044.7" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle" >1</text>
+<circle cx="394.0" cy="1134.0" r="13" fill="#e63946" stroke="#ffffff" stroke-width="2" />
+<text x="394.0" y="1138.7" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle" >2</text>
+<circle cx="394.0" cy="1100.0" r="13" fill="#e63946" stroke="#ffffff" stroke-width="2" />
+<text x="394.0" y="1104.7" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle" >3</text>
+<circle cx="266.0" cy="1004.0" r="13" fill="#e63946" stroke="#ffffff" stroke-width="2" />
+<text x="266.0" y="1008.7" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle" >4</text>
+<circle cx="130.0" cy="1198.0" r="13" fill="#e63946" stroke="#ffffff" stroke-width="2" />
+<text x="130.0" y="1202.7" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle" >5</text>
+<circle cx="378.0" cy="1198.0" r="13" fill="#e63946" stroke="#ffffff" stroke-width="2" />
+<text x="378.0" y="1202.7" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle" >6</text>
+<line x1="790.0" y1="1040.0" x2="790.0" y2="1022.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="777.0" y1="1022.0" x2="803.0" y2="1022.0" stroke="#c2610f" stroke-width="3.4" stroke-linecap="round" />
+<text x="790.0" y="1014.0" font-size="13.5" font-weight="800" fill="#c2610f" text-anchor="middle" >3V3</text>
+<line x1="790.0" y1="1040.0" x2="790.0" y2="1058.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="790.0" y1="1102.0" x2="790.0" y2="1120.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<rect x="781.0" y="1058.0" width="18.0" height="44.0" rx="2" fill="#ffffff" stroke="#1e2a4a" stroke-width="2.4" />
+<text x="772.0" y="1078.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="end" >R1</text>
+<text x="772.0" y="1095.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="end" >10k</text>
+<line x1="790.0" y1="1120.0" x2="790.0" y2="1139.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="790.0" y1="1183.0" x2="790.0" y2="1202.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<rect x="781.0" y="1139.0" width="18.0" height="44.0" rx="2" fill="#fff3d6" stroke="#1e2a4a" stroke-width="2.4" />
+<text x="772.0" y="1159.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="end" >LDR</text>
+<line x1="834.0" y1="1131.0" x2="804.0" y2="1147.0" stroke="#d98a16" stroke-width="2" stroke-linecap="round" />
+<path d="M804.0 1147.0 L808.9 1140.7 L812.0 1146.4 Z" fill="#d98a16" stroke="#d98a16" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="834.0" y1="1149.0" x2="804.0" y2="1165.0" stroke="#d98a16" stroke-width="2" stroke-linecap="round" />
+<path d="M804.0 1165.0 L808.9 1158.7 L812.0 1164.4 Z" fill="#d98a16" stroke="#d98a16" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="790.0" cy="1120.0" r="4.8" fill="#1e2a4a" />
+<path d="M790.0 1120.0 L1010.0 1120.0" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="900.0" cy="1120.0" r="4.8" fill="#1e2a4a" />
+<line x1="900.0" y1="1120.0" x2="900.0" y2="1156.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="884.0" y1="1156.0" x2="916.0" y2="1156.0" stroke="#1e2a4a" stroke-width="3.2" stroke-linecap="round" />
+<line x1="884.0" y1="1166.0" x2="916.0" y2="1166.0" stroke="#1e2a4a" stroke-width="3.2" stroke-linecap="round" />
+<line x1="900.0" y1="1166.0" x2="900.0" y2="1202.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<text x="924.0" y="1159.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >C1</text>
+<text x="924.0" y="1176.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="start" >100n</text>
+<path d="M790.0 1202.0 L790.0 1216.0 L900.0 1216.0 L900.0 1202.0" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="845.0" cy="1216.0" r="4.8" fill="#1e2a4a" />
+<line x1="845.0" y1="1216.0" x2="845.0" y2="1232.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="830.0" y1="1232.0" x2="860.0" y2="1232.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="835.5" y1="1237.5" x2="854.5" y2="1237.5" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<line x1="841.0" y1="1243.0" x2="849.0" y2="1243.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<rect x="1010.0" y="1084.0" width="120.0" height="72.0" rx="8" fill="#1f3b57" stroke="#0f2236" stroke-width="2" />
+<text x="1070.0" y="1110.0" font-size="15" font-weight="800" fill="#ffffff" text-anchor="middle" >ESP32</text>
+<text x="1022.0" y="1125.0" font-size="13" font-weight="800" fill="#ffd27a" text-anchor="start" >VP</text>
+<text x="1070.0" y="1146.0" font-size="12.5" font-weight="600" fill="#cfd8e3" text-anchor="middle" >(GPIO 36)</text>
+<circle cx="726.0" cy="1058.0" r="13" fill="#e63946" stroke="#ffffff" stroke-width="2" />
+<text x="726.0" y="1062.7" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle" >1</text>
+<circle cx="726.0" cy="1175.0" r="13" fill="#e63946" stroke="#ffffff" stroke-width="2" />
+<text x="726.0" y="1179.7" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle" >2</text>
+<circle cx="974.0" cy="1165.0" r="13" fill="#e63946" stroke="#ffffff" stroke-width="2" />
+<text x="974.0" y="1169.7" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle" >3</text>
+<circle cx="960.0" cy="1102.0" r="13" fill="#e63946" stroke="#ffffff" stroke-width="2" />
+<text x="960.0" y="1106.7" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle" >4</text>
+<circle cx="824.0" cy="1018.0" r="13" fill="#e63946" stroke="#ffffff" stroke-width="2" />
+<text x="824.0" y="1022.7" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle" >5</text>
+<circle cx="880.0" cy="1246.0" r="13" fill="#e63946" stroke="#ffffff" stroke-width="2" />
+<text x="880.0" y="1250.7" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle" >6</text>
+<text x="600.0" y="1336.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="middle" >Same number = same thing: 1 the 10 kΩ resistor, 2 the LDR, 3 the 100 nF capacitor, 4 the wire to VP, 5 the 3V3 wire, 6 the GND wire.</text>
+<text x="1178.0" y="1366.0" font-size="11.5" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer curriculum · CC BY 4.0</text>
+</svg>

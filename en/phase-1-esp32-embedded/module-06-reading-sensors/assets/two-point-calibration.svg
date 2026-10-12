@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="600" viewBox="0 0 1200 600" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="600" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Two-point calibration of the soil sensor</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >map() draws a straight line from "air = 0%" to "water = 100%"; constrain() fences in the result</text>
+<rect x="130.0" y="110.0" width="700.0" height="400.0" rx="4" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<line x1="130.0" y1="490.0" x2="830.0" y2="490.0" stroke="#f0f0f0" stroke-width="1" stroke-linecap="round" />
+<text x="122.0" y="494.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="end" >-40%</text>
+<line x1="130.0" y1="410.0" x2="830.0" y2="410.0" stroke="#f0f0f0" stroke-width="1" stroke-linecap="round" />
+<text x="122.0" y="414.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="end" >0%</text>
+<line x1="130.0" y1="310.0" x2="830.0" y2="310.0" stroke="#f0f0f0" stroke-width="1" stroke-linecap="round" />
+<text x="122.0" y="314.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="end" >50%</text>
+<line x1="130.0" y1="210.0" x2="830.0" y2="210.0" stroke="#f0f0f0" stroke-width="1" stroke-linecap="round" />
+<text x="122.0" y="214.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="end" >100%</text>
+<line x1="130.0" y1="130.0" x2="830.0" y2="130.0" stroke="#f0f0f0" stroke-width="1" stroke-linecap="round" />
+<text x="122.0" y="134.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="end" >140%</text>
+<text x="130.0" y="530.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="middle" >0</text>
+<text x="300.9" y="530.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="middle" >1000</text>
+<text x="352.2" y="530.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="middle" >1300</text>
+<text x="497.5" y="530.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="middle" >2150</text>
+<text x="642.8" y="530.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="middle" >3000</text>
+<text x="728.3" y="530.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="middle" >3500</text>
+<text x="830.0" y="530.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="middle" >4095</text>
+<text x="480.0" y="554.0" font-size="14" font-weight="700" fill="#4a5568" text-anchor="middle" >raw number from analogRead()</text>
+<text x="58.0" y="310.0" font-size="14" font-weight="700" fill="#4a5568" text-anchor="middle" transform="rotate(-90 58 310.0)">soil moisture (%)</text>
+<line x1="206.9" y1="110.0" x2="788.1" y2="510.0" stroke="#8a8f9c" stroke-width="2" stroke-linecap="round" stroke-dasharray="7 6" />
+<path d="M130.0 210.0 L352.22222222222223 210.0 L642.8205128205128 410.0 L830.0 410.0" fill="none" stroke="#0f8b8d" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="130.0" y1="410.0" x2="830.0" y2="410.0" stroke="#cfd6dc" stroke-width="1.2" stroke-linecap="round" />
+<line x1="130.0" y1="210.0" x2="830.0" y2="210.0" stroke="#cfd6dc" stroke-width="1.2" stroke-linecap="round" />
+<circle cx="642.8" cy="410.0" r="9" fill="#e63946" />
+<text x="628.8" y="440.0" font-size="14" font-weight="800" fill="#e63946" text-anchor="end" >DRY = 3000 (in air) → 0%</text>
+<circle cx="352.2" cy="210.0" r="9" fill="#3a6fc4" />
+<text x="366.2" y="194.0" font-size="14" font-weight="800" fill="#3a6fc4" text-anchor="start" >WET = 1300 (in water) → 100%</text>
+<circle cx="497.5" cy="310.0" r="6" fill="#1e2a4a" />
+<text x="507.5" y="315.0" font-size="13.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >2150 → 50%</text>
+<circle cx="728.3" cy="468.0" r="6" fill="#b45f17" />
+<line x1="728.3" y1="468.0" x2="728.3" y2="410.0" stroke="#b45f17" stroke-width="2" stroke-linecap="round" stroke-dasharray="3 3" />
+<text x="718.3" y="486.0" font-size="13" font-weight="700" fill="#b45f17" text-anchor="end" >3500 → map −29% → constrain 0%</text>
+<circle cx="300.9" cy="176.0" r="6" fill="#b45f17" />
+<line x1="300.9" y1="176.0" x2="300.9" y2="210.0" stroke="#b45f17" stroke-width="2" stroke-linecap="round" stroke-dasharray="3 3" />
+<text x="310.9" y="168.0" font-size="13" font-weight="700" fill="#b45f17" text-anchor="start" >1000 → map 117% → constrain 100%</text>
+<rect x="870.0" y="110.0" width="270.0" height="170.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<line x1="888.0" y1="140.0" x2="928.0" y2="140.0" stroke="#8a8f9c" stroke-width="2" stroke-linecap="round" stroke-dasharray="7 6" />
+<text x="938.0" y="145.0" font-size="14" font-weight="700" fill="#1e2a4a" text-anchor="start" >map() result only</text>
+<line x1="888.0" y1="172.0" x2="928.0" y2="172.0" stroke="#0f8b8d" stroke-width="5" stroke-linecap="round" />
+<text x="938.0" y="177.0" font-size="14" font-weight="700" fill="#1e2a4a" text-anchor="start" >after constrain(…, 0, 100)</text>
+<text x="888.0" y="212.0" font-size="13.5" font-weight="600" fill="#4a5568" text-anchor="start" >Wetter → the raw number</text>
+<text x="888.0" y="232.0" font-size="13.5" font-weight="600" fill="#4a5568" text-anchor="start" >gets SMALLER. map() still works</text>
+<text x="888.0" y="252.0" font-size="13.5" font-weight="600" fill="#4a5568" text-anchor="start" >even in "backward" order.</text>
+<rect x="870.0" y="300.0" width="270.0" height="120.0" rx="10" fill="#fff4c2" />
+<text x="886.0" y="330.0" font-size="14" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">map(raw,</text>
+<text x="886.0" y="352.0" font-size="14" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">    3000, 1300,</text>
+<text x="886.0" y="374.0" font-size="14" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">    0, 100)</text>
+<text x="886.0" y="402.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >3000 and 1300 are just examples</text>
+<text x="1178.0" y="586.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer curriculum · CC BY 4.0</text>
+</svg>

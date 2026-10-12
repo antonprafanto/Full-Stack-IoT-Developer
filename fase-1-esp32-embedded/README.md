@@ -1,5 +1,7 @@
 # 🟧 Fase 1 — ESP32 Embedded: Sensor, Aktuator, & Firmware Tangguh (Modul 5–9)
 
+🌐 **Bahasa Indonesia** · [English](../en/phase-1-esp32-embedded/README.md)
+
 > **Tujuan fase:** Node 1 "Rumah" yang berdiri sendiri — membaca lingkungan, menampilkan data di layar, menggerakkan sesuatu, dengan catu daya sendiri dan firmware yang tidak gampang macet — plus bekal hemat daya untuk Node 2.
 
 Kerjakan modulnya **berurutan**. Satu modul = satu minggu (6–10 jam, dicicil). Klik judul modul untuk membuka artikelnya.

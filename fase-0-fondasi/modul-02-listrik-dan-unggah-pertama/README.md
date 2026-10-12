@@ -1,5 +1,7 @@
 # Modul 2 — Listrik Ramah Awam, Breadboard, & Unggah Pertama ke ESP32 Asli
 
+🌐 **Bahasa Indonesia** · [English](../../en/phase-0-foundations/module-02-electricity-and-first-upload/README.md)
+
 *Fase 0 · Minggu 2 · Perangkat keras (*hardware*): **Kit A Tahap 1** (bisa Wokwi dulu bila kit belum sampai) · Prasyarat: **Modul 1** · Waktu: 8–10 jam, dicicil dalam seminggu*
 
 [⬅️ Modul 1](../modul-01-peta-besar-iot/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · [Modul 3 ➡️](../modul-03-cpp-untuk-esp32/README.md)
@@ -233,7 +235,7 @@ Petunjuk ketiga di gambar itu — bagian logam yang lebih besar di dalam kubah b
 
 Resistor di paketmu berbadan **biru dengan 5 gelang**? Itu jenis yang lebih presisi (±1%) dan sangat umum di paket resistor. Cara bacanya hampir sama: tiga gelang pertama angka, gelang keempat jumlah nol, gelang kelima toleransi. Jadi, 220 Ω = merah-merah-hitam-hitam-cokelat (lihat kotak biru di gambar).
 
-Nilai keempat di kit, **4,7 kΩ** (kuning-ungu-merah-emas), disimpan untuk sensor suhu DS18B20 di Modul 7. Malas menghafal warna? Multimeter bisa membacakannya untukmu (Praktik 1). Meski begitu, kemampuan "melihat 220 Ω dari warnanya" sangat berguna saat komponen berserakan.
+Nilai keempat di kit, **4,7 kΩ** (kuning-ungu-merah-emas), dipakai mulai Modul 6 (pembagi tegangan sensor jarak) dan lagi di Modul 7 (sensor suhu DS18B20). Malas menghafal warna? Multimeter bisa membacakannya untukmu (Praktik 1). Meski begitu, kemampuan "melihat 220 Ω dari warnanya" sangat berguna saat komponen berserakan.
 
 <details>
 <summary><b>Kapasitor dan dioda di kit — cukup dikenali dulu, baru dipakai di Modul 5–6</b></summary>
@@ -1066,7 +1068,7 @@ Tulis juga satu baris di `visi-proyek.md`-mu (dari ➕ Modul 1), di bagian 1 (*T
 | **Kabel jumper** (Dupont) | Kabel pendek dengan ujung colok: M-M (jantan–jantan) untuk breadboard. |
 | **Anoda / katoda** | Kaki + (panjang) / kaki − (pendek) pada LED dan dioda. |
 | **Polaritas** | "Arah" komponen: LED, kapasitor elektrolit, dan dioda punya; resistor tidak. |
-| **Kapasitor** | Komponen penyimpan muatan sesaat; elektrolit (punya arah) dan keramik (tidak). Dipakai mulai Modul 6. |
+| **Kapasitor** | Komponen penyimpan muatan sesaat; elektrolit (punya arah) dan keramik (tidak). Dipakai mulai Modul 5. |
 | **Dioda** | "Katup satu arah" listrik; LED adalah dioda yang bercahaya. |
 | **Korsleting** (hubung singkat) | Kutub + bertemu kutub − tanpa beban; arus melonjak dan panas. |
 | ***Common ground*** (titik nol bersama) | Semua bagian rangkaian berbagi titik nol yang sama. |

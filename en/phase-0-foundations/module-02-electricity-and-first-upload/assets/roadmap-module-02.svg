@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="430" viewBox="0 0 1200 430" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="430" fill="#fffdf7"/>
+<text x="600.0" y="40.0" font-size="26" font-weight="700" fill="#1e2a4a" text-anchor="middle" >Mini roadmap — you are here</text>
+<text x="600.0" y="66.0" font-size="15" font-weight="400" fill="#555" text-anchor="middle" >32 modules = 32 weeks · one running project, "Mini Smart Home", that grows from a blinking LED into an online system</text>
+<rect x="60.0" y="100.0" width="160.0" height="56.0" rx="8" fill="#f4a261" />
+<text x="140.0" y="124.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="middle" >PHASE 0</text>
+<text x="140.0" y="144.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="middle" >Foundations · M1–4</text>
+<rect x="226.0" y="100.0" width="125.0" height="56.0" rx="8" fill="#fde4c8" />
+<text x="288.5" y="124.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="middle" >PHASE 1</text>
+<text x="288.5" y="144.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="middle" >ESP32 · M5–9</text>
+<rect x="357.0" y="100.0" width="176.0" height="56.0" rx="8" fill="#cfe9f3" />
+<text x="445.0" y="124.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="middle" >PHASE 2</text>
+<text x="445.0" y="144.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="middle" >Connectivity · M10–15</text>
+<rect x="539.0" y="100.0" width="196.0" height="56.0" rx="8" fill="#d6f0e3" />
+<text x="637.0" y="124.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="middle" >PHASE 3</text>
+<text x="637.0" y="144.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="middle" >Backend &amp; data · M16–21</text>
+<rect x="741.0" y="100.0" width="170.0" height="56.0" rx="8" fill="#e6dcf5" />
+<text x="826.0" y="124.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="middle" >PHASE 4</text>
+<text x="826.0" y="144.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="middle" >Dashboard · M22–25</text>
+<rect x="917.0" y="100.0" width="223.0" height="56.0" rx="8" fill="#e0e0e0" />
+<text x="1028.5" y="124.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="middle" >PHASE 5</text>
+<text x="1028.5" y="144.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="middle" >Operations &amp; scale · M26–32</text>
+<rect x="60.0" y="170.0" width="30.0" height="26.0" rx="5" fill="#0f8b8d" />
+<text x="75.0" y="188.0" font-size="13" font-weight="600" fill="#fff" text-anchor="middle" >M1</text>
+<rect x="96.0" y="170.0" width="30.0" height="26.0" rx="5" fill="#e63946" />
+<text x="111.0" y="188.0" font-size="13" font-weight="600" fill="#fff" text-anchor="middle" >M2</text>
+<rect x="132.0" y="170.0" width="30.0" height="26.0" rx="5" fill="#fff" stroke="#f4a261" stroke-width="2" />
+<text x="147.0" y="188.0" font-size="13" font-weight="600" fill="#1e2a4a" text-anchor="middle" >M3</text>
+<rect x="168.0" y="170.0" width="30.0" height="26.0" rx="5" fill="#fff" stroke="#f4a261" stroke-width="2" />
+<text x="183.0" y="188.0" font-size="13" font-weight="600" fill="#1e2a4a" text-anchor="middle" >M4</text>
+<path d="M111 215 L111 236" fill="none" stroke="#e63946" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M102 228 L111 238 L120 228" fill="none" stroke="#e63946" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<text x="111.0" y="210.0" font-size="13" font-weight="700" fill="#e63946" text-anchor="middle" >YOU ARE HERE</text>
+<rect x="60.0" y="250.0" width="1080.0" height="150.0" rx="12" fill="#fff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="80.0" y="280.0" font-size="17" font-weight="700" fill="#1e2a4a" text-anchor="start" >Module 2 this week (about 8–10 hours, spread out):</text>
+<circle cx="90.0" cy="310.0" r="10" fill="#0f8b8d" />
+<text x="90.0" y="315.0" font-size="12" font-weight="700" fill="#fff" text-anchor="middle" >1</text>
+<text x="108.0" y="315.0" font-size="14" font-weight="400" fill="#333" text-anchor="start" >Quick Win: an LED lights up on the breadboard — no code</text>
+<circle cx="90.0" cy="340.0" r="10" fill="#0f8b8d" />
+<text x="90.0" y="345.0" font-size="12" font-weight="700" fill="#fff" text-anchor="middle" >2</text>
+<text x="108.0" y="345.0" font-size="14" font-weight="400" fill="#333" text-anchor="start" >Concepts: electricity as water, Ohm's law, breadboard, 3.3 V rule</text>
+<circle cx="90.0" cy="370.0" r="10" fill="#0f8b8d" />
+<text x="90.0" y="375.0" font-size="12" font-weight="700" fill="#fff" text-anchor="middle" >3</text>
+<text x="108.0" y="375.0" font-size="14" font-weight="400" fill="#333" text-anchor="start" >Practice 1: measure voltage, resistors, and connections with a multimeter</text>
+<circle cx="630.0" cy="310.0" r="10" fill="#f4a261" />
+<text x="630.0" y="315.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="middle" >4</text>
+<text x="648.0" y="315.0" font-size="14" font-weight="400" fill="#333" text-anchor="start" >Practice 2: install Arduino IDE 2, the esp32 package &amp; USB driver</text>
+<circle cx="630.0" cy="340.0" r="10" fill="#f4a261" />
+<text x="630.0" y="345.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="middle" >5</text>
+<text x="648.0" y="345.0" font-size="14" font-weight="400" fill="#333" text-anchor="start" >Practices 3–4: upload Blink to a real ESP32 + Serial Monitor</text>
+<circle cx="630.0" cy="370.0" r="10" fill="#f4a261" />
+<text x="630.0" y="375.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="middle" >6</text>
+<text x="648.0" y="375.0" font-size="14" font-weight="400" fill="#333" text-anchor="start" >Practices 5–6: test mistakes in Wokwi + save evidence to GitHub</text>
+<text x="1140.0" y="420.0" font-size="11" font-weight="400" fill="#999" text-anchor="end" >Fullstack IoT Developer curriculum · CC BY 4.0</text>
+</svg>

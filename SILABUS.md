@@ -1,9 +1,11 @@
 # 🎓 Silabus — Fullstack IoT Developer: Zero to Expert
 
+🌐 **Bahasa Indonesia** · [English](en/SYLLABUS.md)
+
 > **Kurikulum 32 modul — satu modul = satu minggu belajar santai (±8 bulan) — untuk orang awam total hingga mampu membangun sistem IoT lengkap dari sensor sampai dashboard di HP.**
 > Hardware: **ESP32 + Raspberry Pi** · Software: **JavaScript/TypeScript (Node.js + React) untuk server & tampilan, sedikit C++ untuk chip** · Bahasa pengantar: **Indonesia, ramah awam**.
 >
-> Status dokumen: **v1.0.8 — disetujui, penulisan materi berjalan; Modul 1–7 (seluruh Fase 0 dan Modul 5–7) tersedia** (12 Oktober 2026). Keputusan yang mendasarinya ada di [§11](#11-keputusan-yang-sudah-disetujui); riwayat perubahan di [§13](#13-riwayat-revisi).
+> Status dokumen: **v1.0.9 — disetujui, penulisan materi berjalan; Modul 1–7 (seluruh Fase 0 dan Modul 5–7) tersedia dalam bahasa Indonesia dan Inggris** (12 Oktober 2026). Keputusan yang mendasarinya ada di [§11](#11-keputusan-yang-sudah-disetujui); riwayat perubahan di [§13](#13-riwayat-revisi).
 
 ---
 
@@ -936,6 +938,8 @@ Satu kalimat per istilah, bahasa manusia. Semua akan dibahas tuntas di modulnya.
 ---
 
 ## 13. Riwayat revisi
+
+**v1.0.9 (12 Okt 2026)** — Edisi bahasa Inggris terbit di folder [`en/`](en/README.md): terjemahan lengkap halaman depan, silabus, pelacak progres, halaman fase, Modul 1–7, dan proyek `mini-smart-home/`, termasuk kode (nama variabel, komentar, pesan Serial, dan nama file berbahasa Inggris), semua gambar, dan kontrak data (nama field Inggris, topik `msh/`). Setiap halaman Indonesia yang punya kembaran kini memuat pemilih bahasa di bawah judulnya. Perbaikan kecil yang ditemukan saat menerjemahkan, diterapkan di kedua edisi: Modul 2 — kapasitor dipakai mulai Modul 5 (bukan Modul 6), dan resistor 4,7 kΩ sudah dipakai di Modul 6 (pembagi tegangan sensor jarak), termasuk di gambar `polaritas-komponen` dan `kode-warna-resistor`; Modul 1 — rujukan jebakan Notepad kini menunjuk Praktik 3 langkah 4, dan `kit-benar-vs-salah.svg` kini berkas XML yang sah; Modul 5 — gambar meja kerja (`meja-kerja-*`, `dua-breadboard`) kembali berwarna penuh, karena palet 256 warna menggeser warna kabel dan gelang resistor.
 
 **v1.0.8 (12 Okt 2026)** — Modul 7 terbit. Firmware Node 1 naik ke v0.4.0: layar OLED (alamat `0x3C`) menampilkan semua bacaan dengan tata letak rancangan pembelajar, dan bacaan bisa dicatat ke kartu microSD sebagai CSV (opsional); Node 1 tetap berjalan walaupun layar atau kartunya tidak ada. `PETA-PIN.md` naik ke versi 3: I2C terpasang dengan jalur bus di breadboard bawah (SCL kolom 19, SDA kolom 20) dan tabel baru **Bus di breadboard**. Versi yang dikunci untuk Modul 7: Adafruit SSD1306 2.5.17 (ikut terpasang: Adafruit GFX Library 1.12.6 dan Adafruit BusIO 1.17.4), Adafruit BME280 Library 2.3.0, OneWire 2.3.8, dan DallasTemperature 4.0.6. OneWire dipasang sendiri karena DallasTemperature 4.0.6 tidak lagi mendaftarkannya sebagai dependensi. Wokwi belum punya BME280; praktiknya memakai BMP180 untuk menunjukkan pemeriksaan chip ID (§5.4).
 

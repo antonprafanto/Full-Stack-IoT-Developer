@@ -1,0 +1,147 @@
+{
+  "version": 1,
+  "author": "Fullstack IoT Developer curriculum",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "wokwi-esp32-devkit-v1",
+      "id": "esp",
+      "top": 0,
+      "left": 0,
+      "rotate": 90,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-photoresistor-sensor",
+      "id": "ldr",
+      "top": -135.9,
+      "left": 49.4,
+      "attrs": {},
+      "rotate": 90
+    },
+    {
+      "type": "wokwi-gnd",
+      "id": "gnd_ldr_GND",
+      "top": -6,
+      "left": 130.8,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-vcc",
+      "id": "vcc_ldr",
+      "top": -68.04,
+      "left": 165.4,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-microsd-card",
+      "id": "sd",
+      "top": 170,
+      "left": 170,
+      "attrs": {},
+      "rotate": 180
+    },
+    {
+      "type": "wokwi-vcc",
+      "id": "vcc_sd",
+      "top": 161.96,
+      "left": 100.4,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-gnd",
+      "id": "gnd_sd",
+      "top": 236,
+      "left": 139.8,
+      "attrs": {}
+    }
+  ],
+  "connections": [
+    [
+      "esp:TX0",
+      "$serialMonitor:RX",
+      "",
+      []
+    ],
+    [
+      "esp:RX0",
+      "$serialMonitor:TX",
+      "",
+      []
+    ],
+    [
+      "ldr:AO",
+      "esp:VP",
+      "orange",
+      []
+    ],
+    [
+      "ldr:GND",
+      "gnd_ldr_GND:GND",
+      "black",
+      []
+    ],
+    [
+      "ldr:VCC",
+      "vcc_ldr:VCC",
+      "red",
+      [
+        "v8",
+        "h24"
+      ]
+    ],
+    [
+      "sd:CS",
+      "esp:D5",
+      "violet",
+      [
+        "h-7",
+        "v-15.19",
+        "h82.13",
+        "v110",
+        "h-185.8"
+      ]
+    ],
+    [
+      "sd:DI",
+      "esp:D23",
+      "green",
+      [
+        "h-43.37"
+      ]
+    ],
+    [
+      "sd:SCK",
+      "esp:D18",
+      "gray",
+      [
+        "h-101.07"
+      ]
+    ],
+    [
+      "sd:DO",
+      "esp:D19",
+      "blue",
+      [
+        "h-91.57"
+      ]
+    ],
+    [
+      "sd:VCC",
+      "vcc_sd:VCC",
+      "red",
+      [
+        "h-64.87"
+      ]
+    ],
+    [
+      "sd:GND",
+      "gnd_sd:GND",
+      "black",
+      [
+        "h-24.87"
+      ]
+    ]
+  ],
+  "dependencies": {}
+}

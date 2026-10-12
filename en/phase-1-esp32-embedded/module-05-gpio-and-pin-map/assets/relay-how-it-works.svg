@@ -1,0 +1,127 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="700" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Relay: a switch moved by a magnet</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Left: the inside of one relay. Right: the 2-channel relay module we use (illustration).</text>
+<rect x="40.0" y="100.0" width="560.0" height="268.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="60.0" y="128.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="start" >Coil without current</text>
+<path d="M70 212 L70 348 L134 348" fill="none" stroke="#7c8594" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="90.0" y="230.0" width="70.0" height="100.0" rx="6" fill="#f6e7c8" stroke="#b8901a" stroke-width="2" />
+<path d="M90 238 Q125 246 160 238" fill="none" stroke="#b45f17" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M90 251 Q125 259 160 251" fill="none" stroke="#b45f17" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M90 264 Q125 272 160 264" fill="none" stroke="#b45f17" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M90 277 Q125 285 160 277" fill="none" stroke="#b45f17" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M90 290 Q125 298 160 290" fill="none" stroke="#b45f17" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M90 303 Q125 311 160 303" fill="none" stroke="#b45f17" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M90 316 Q125 324 160 316" fill="none" stroke="#b45f17" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="116.0" y="216.0" width="18.0" height="132.0" rx="2" fill="#7c8594" />
+<text x="125.0" y="362.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="middle" >coil</text>
+<path d="M200.0 154.0 L208.0 162.0 L192.0 169.2 L208.0 176.4 L192.0 183.6 L208.0 190.8 L192.0 198.0 L200.0 206.0" fill="none" stroke="#4a5568" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="186.0" y1="154.0" x2="214.0" y2="154.0" stroke="#4a5568" stroke-width="3" stroke-linecap="round" />
+<text x="218.0" y="168.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" >spring</text>
+<line x1="70.0" y1="206.0" x2="462.0" y2="206.0" stroke="#b45f17" stroke-width="7" stroke-linecap="round" />
+<circle cx="70.0" cy="206.0" r="7" fill="#1e2a4a" />
+<text x="76.0" y="192.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" >hinge</text>
+<text x="300.0" y="194.0" font-size="12.5" font-weight="700" fill="#b45f17" text-anchor="middle" >lever</text>
+<circle cx="462.0" cy="206.0" r="7" fill="#d9b44a" stroke="#9c7d24" stroke-width="2" />
+<text x="446.0" y="192.0" font-size="15" font-weight="800" fill="#b45f17" text-anchor="end" >COM</text>
+<rect x="454.0" y="190.0" width="60.0" height="8.0" rx="0" fill="#9aa3b0" />
+<text x="524.0" y="199.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >NC</text>
+<rect x="454.0" y="280.0" width="60.0" height="8.0" rx="0" fill="#9aa3b0" />
+<text x="524.0" y="289.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >NO</text>
+<circle cx="462.0" cy="206.0" r="13" fill="none" stroke="#2a9d5c" stroke-width="3" />
+<text x="480.0" y="342.0" font-size="14" font-weight="800" fill="#2a9d5c" text-anchor="middle" >COM touches NC</text>
+<rect x="40.0" y="384.0" width="560.0" height="268.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="60.0" y="412.0" font-size="16" font-weight="800" fill="#3a6fc4" text-anchor="start" >Current through the coil — click!</text>
+<path d="M70 496 L70 632 L134 632" fill="none" stroke="#7c8594" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="90.0" y="514.0" width="70.0" height="100.0" rx="6" fill="#f6e7c8" stroke="#b8901a" stroke-width="2" />
+<path d="M90 522 Q125 530 160 522" fill="none" stroke="#b45f17" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M90 535 Q125 543 160 535" fill="none" stroke="#b45f17" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M90 548 Q125 556 160 548" fill="none" stroke="#b45f17" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M90 561 Q125 569 160 561" fill="none" stroke="#b45f17" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M90 574 Q125 582 160 574" fill="none" stroke="#b45f17" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M90 587 Q125 595 160 587" fill="none" stroke="#b45f17" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M90 600 Q125 608 160 600" fill="none" stroke="#b45f17" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="116.0" y="500.0" width="18.0" height="132.0" rx="2" fill="#7c8594" />
+<text x="125.0" y="646.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="middle" >coil</text>
+<path d="M142 514 q10 -9 20 0" fill="none" stroke="#3a6fc4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M142 524 q10 -9 20 0" fill="none" stroke="#3a6fc4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="170.0" y="530.0" font-size="13" font-weight="800" fill="#3a6fc4" text-anchor="start" >magnet!</text>
+<path d="M200.0 438.0 L208.0 446.0 L192.0 457.6 L208.0 469.2 L192.0 480.7 L208.0 492.3 L192.0 503.9 L200.0 511.9" fill="none" stroke="#4a5568" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="186.0" y1="438.0" x2="214.0" y2="438.0" stroke="#4a5568" stroke-width="3" stroke-linecap="round" />
+<text x="218.0" y="452.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" >spring</text>
+<line x1="70.0" y1="490.0" x2="462.0" y2="556.0" stroke="#b45f17" stroke-width="7" stroke-linecap="round" />
+<circle cx="70.0" cy="490.0" r="7" fill="#1e2a4a" />
+<text x="76.0" y="476.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" >hinge</text>
+<text x="300.0" y="516.7" font-size="12.5" font-weight="700" fill="#b45f17" text-anchor="middle" >lever</text>
+<circle cx="462.0" cy="556.0" r="7" fill="#d9b44a" stroke="#9c7d24" stroke-width="2" />
+<text x="446.0" y="578.0" font-size="15" font-weight="800" fill="#b45f17" text-anchor="end" >COM</text>
+<rect x="454.0" y="474.0" width="60.0" height="8.0" rx="0" fill="#9aa3b0" />
+<text x="524.0" y="483.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >NC</text>
+<rect x="454.0" y="564.0" width="60.0" height="8.0" rx="0" fill="#9aa3b0" />
+<text x="524.0" y="573.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >NO</text>
+<circle cx="462.0" cy="556.0" r="13" fill="none" stroke="#2a9d5c" stroke-width="3" />
+<text x="480.0" y="626.0" font-size="14" font-weight="800" fill="#2a9d5c" text-anchor="middle" >COM touches NO</text>
+<rect x="680.0" y="150.0" width="470.0" height="330.0" rx="10" fill="#2563b8" stroke="#173f7a" stroke-width="2.5" />
+<rect x="662.0" y="204.0" width="24.0" height="12.0" rx="2" fill="#d9b44a" stroke="#9c7d24" stroke-width="1" />
+<text x="696.0" y="215.0" font-size="12.5" font-weight="800" fill="#ffffff" text-anchor="start" >GND</text>
+<rect x="662.0" y="234.0" width="24.0" height="12.0" rx="2" fill="#d9b44a" stroke="#9c7d24" stroke-width="1" />
+<text x="696.0" y="245.0" font-size="12.5" font-weight="800" fill="#ffffff" text-anchor="start" >IN1</text>
+<rect x="662.0" y="264.0" width="24.0" height="12.0" rx="2" fill="#d9b44a" stroke="#9c7d24" stroke-width="1" />
+<text x="696.0" y="275.0" font-size="12.5" font-weight="800" fill="#ffffff" text-anchor="start" >IN2</text>
+<rect x="662.0" y="294.0" width="24.0" height="12.0" rx="2" fill="#d9b44a" stroke="#9c7d24" stroke-width="1" />
+<text x="696.0" y="305.0" font-size="12.5" font-weight="800" fill="#ffffff" text-anchor="start" >VCC</text>
+<rect x="662.0" y="364.0" width="24.0" height="12.0" rx="2" fill="#d9b44a" stroke="#9c7d24" stroke-width="1" />
+<text x="696.0" y="375.0" font-size="12" font-weight="800" fill="#ffffff" text-anchor="start" >GND</text>
+<rect x="662.0" y="390.0" width="24.0" height="12.0" rx="2" fill="#d9b44a" stroke="#9c7d24" stroke-width="1" />
+<text x="696.0" y="401.0" font-size="12" font-weight="800" fill="#ffffff" text-anchor="start" >VCC</text>
+<rect x="662.0" y="416.0" width="24.0" height="12.0" rx="2" fill="#d9b44a" stroke="#9c7d24" stroke-width="1" />
+<text x="696.0" y="427.0" font-size="12" font-weight="800" fill="#ffffff" text-anchor="start" >JD-VCC</text>
+<rect x="658.0" y="386.0" width="32.0" height="36.0" rx="3" fill="#f2c94c" stroke="#b8901a" stroke-width="1.5" />
+<rect x="780.0" y="220.0" width="40.0" height="28.0" rx="3" fill="#f4f5f7" stroke="#9aa3b0" stroke-width="1.5" />
+<text x="800.0" y="239.0" font-size="11" font-weight="800" fill="#3b4656" text-anchor="middle" >817</text>
+<circle cx="848.0" cy="234.0" r="6" fill="#5a1d1d" />
+<rect x="780.0" y="340.0" width="40.0" height="28.0" rx="3" fill="#f4f5f7" stroke="#9aa3b0" stroke-width="1.5" />
+<text x="800.0" y="359.0" font-size="11" font-weight="800" fill="#3b4656" text-anchor="middle" >817</text>
+<circle cx="848.0" cy="354.0" r="6" fill="#ff5a5a" />
+<rect x="880.0" y="180.0" width="150.0" height="120.0" rx="6" fill="#3a7bd5" stroke="#21468f" stroke-width="2" />
+<text x="955.0" y="234.0" font-size="12.5" font-weight="800" fill="#ffffff" text-anchor="middle" >SRD-05VDC</text>
+<text x="955.0" y="252.0" font-size="12" font-weight="600" fill="#dbe8ff" text-anchor="middle" >relay 1</text>
+<rect x="880.0" y="330.0" width="150.0" height="120.0" rx="6" fill="#3a7bd5" stroke="#21468f" stroke-width="2" />
+<text x="955.0" y="384.0" font-size="12.5" font-weight="800" fill="#ffffff" text-anchor="middle" >SRD-05VDC</text>
+<text x="955.0" y="402.0" font-size="12" font-weight="600" fill="#dbe8ff" text-anchor="middle" >relay 2</text>
+<rect x="1060.0" y="190.0" width="66.0" height="30.0" rx="3" fill="#1e8a5a" stroke="#0f5a3a" stroke-width="1.5" />
+<circle cx="1078.0" cy="205.0" r="8" fill="#c0c6cf" stroke="#6b7585" stroke-width="1.5" />
+<line x1="1073.0" y1="205.0" x2="1083.0" y2="205.0" stroke="#6b7585" stroke-width="2" stroke-linecap="round" />
+<text x="1114.0" y="210.0" font-size="11" font-weight="800" fill="#ffffff" text-anchor="middle" >NO</text>
+<rect x="1060.0" y="224.0" width="66.0" height="30.0" rx="3" fill="#1e8a5a" stroke="#0f5a3a" stroke-width="1.5" />
+<circle cx="1078.0" cy="239.0" r="8" fill="#c0c6cf" stroke="#6b7585" stroke-width="1.5" />
+<line x1="1073.0" y1="239.0" x2="1083.0" y2="239.0" stroke="#6b7585" stroke-width="2" stroke-linecap="round" />
+<text x="1114.0" y="244.0" font-size="11" font-weight="800" fill="#ffffff" text-anchor="middle" >COM</text>
+<rect x="1060.0" y="258.0" width="66.0" height="30.0" rx="3" fill="#1e8a5a" stroke="#0f5a3a" stroke-width="1.5" />
+<circle cx="1078.0" cy="273.0" r="8" fill="#c0c6cf" stroke="#6b7585" stroke-width="1.5" />
+<line x1="1073.0" y1="273.0" x2="1083.0" y2="273.0" stroke="#6b7585" stroke-width="2" stroke-linecap="round" />
+<text x="1114.0" y="278.0" font-size="11" font-weight="800" fill="#ffffff" text-anchor="middle" >NC</text>
+<rect x="1060.0" y="340.0" width="66.0" height="30.0" rx="3" fill="#1e8a5a" stroke="#0f5a3a" stroke-width="1.5" />
+<circle cx="1078.0" cy="355.0" r="8" fill="#c0c6cf" stroke="#6b7585" stroke-width="1.5" />
+<line x1="1073.0" y1="355.0" x2="1083.0" y2="355.0" stroke="#6b7585" stroke-width="2" stroke-linecap="round" />
+<text x="1114.0" y="360.0" font-size="11" font-weight="800" fill="#ffffff" text-anchor="middle" >NO</text>
+<rect x="1060.0" y="374.0" width="66.0" height="30.0" rx="3" fill="#1e8a5a" stroke="#0f5a3a" stroke-width="1.5" />
+<circle cx="1078.0" cy="389.0" r="8" fill="#c0c6cf" stroke="#6b7585" stroke-width="1.5" />
+<line x1="1073.0" y1="389.0" x2="1083.0" y2="389.0" stroke="#6b7585" stroke-width="2" stroke-linecap="round" />
+<text x="1114.0" y="394.0" font-size="11" font-weight="800" fill="#ffffff" text-anchor="middle" >COM</text>
+<rect x="1060.0" y="408.0" width="66.0" height="30.0" rx="3" fill="#1e8a5a" stroke="#0f5a3a" stroke-width="1.5" />
+<circle cx="1078.0" cy="423.0" r="8" fill="#c0c6cf" stroke="#6b7585" stroke-width="1.5" />
+<line x1="1073.0" y1="423.0" x2="1083.0" y2="423.0" stroke="#6b7585" stroke-width="2" stroke-linecap="round" />
+<text x="1114.0" y="428.0" font-size="11" font-weight="800" fill="#ffffff" text-anchor="middle" >NC</text>
+<text x="650.0" y="512.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >Pin order varies by maker.</text>
+<text x="650.0" y="530.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >JD-VCC jumper: leave it in place.</text>
+<text x="800.0" y="140.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="middle" >optocoupler + indicator LED</text>
+<text x="1010.0" y="140.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" >screw terminals</text>
+<text x="1010.0" y="498.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="middle" >NO · COM · NC per relay</text>
+<text x="1010.0" y="516.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="middle" >(read the labels on your board)</text>
+<rect x="640.0" y="560.0" width="520.0" height="92.0" rx="12" fill="#fff4c2" />
+<text x="660.0" y="590.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >Our module is active LOW (low-level trigger):</text>
+<text x="660.0" y="614.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="start" >IN = LOW → relay pulls in, indicator LED on</text>
+<text x="660.0" y="636.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="start" >IN = HIGH → relay releases</text>
+<text x="1178.0" y="686.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer curriculum · CC BY 4.0</text>
+</svg>

@@ -1,0 +1,115 @@
+{
+  "version": 1,
+  "author": "Fullstack IoT Developer curriculum",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "wokwi-esp32-devkit-v1",
+      "id": "esp",
+      "top": 0,
+      "left": 0,
+      "rotate": 90,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-hc-sr04",
+      "id": "sonar",
+      "top": -170,
+      "left": 1.3,
+      "attrs": {
+        "distance": "12"
+      }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r_atas",
+      "top": -31.3,
+      "left": 63.2,
+      "attrs": {
+        "value": "4700"
+      },
+      "rotate": 90
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r_bawah",
+      "top": -1.9,
+      "left": 21.2,
+      "attrs": {
+        "value": "10000"
+      }
+    }
+  ],
+  "connections": [
+    [
+      "esp:TX0",
+      "$serialMonitor:RX",
+      "",
+      []
+    ],
+    [
+      "esp:RX0",
+      "$serialMonitor:TX",
+      "",
+      []
+    ],
+    [
+      "sonar:ECHO",
+      "r_atas:1",
+      "gray",
+      []
+    ],
+    [
+      "r_atas:2",
+      "esp:D35",
+      "gray",
+      []
+    ],
+    [
+      "r_atas:2",
+      "r_bawah:2",
+      "gray",
+      []
+    ],
+    [
+      "r_bawah:1",
+      "esp:GND.2",
+      "black",
+      [
+        "h-14.7"
+      ]
+    ],
+    [
+      "sonar:VCC",
+      "esp:VIN",
+      "red",
+      [
+        "v13.5",
+        "h-75.6"
+      ]
+    ],
+    [
+      "sonar:TRIG",
+      "esp:D15",
+      "violet",
+      [
+        "v30.5",
+        "h-152.6",
+        "v237",
+        "h86"
+      ]
+    ],
+    [
+      "sonar:GND",
+      "esp:GND.1",
+      "black",
+      [
+        "v10.5",
+        "h87.4",
+        "v250",
+        "h-183.5"
+      ]
+    ]
+  ],
+  "dependencies": {}
+}

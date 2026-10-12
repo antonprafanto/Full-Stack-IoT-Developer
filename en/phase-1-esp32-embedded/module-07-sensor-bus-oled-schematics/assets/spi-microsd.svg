@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="720" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >SPI and the microSD card</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Four data wires, one "pick me" wire per device · the card works on 3.3 V with the FAT32 file system</text>
+<rect x="60.0" y="150.0" width="140.0" height="300.0" rx="10" fill="#1f3b57" stroke="#0f2236" stroke-width="2" />
+<rect x="90.8" y="210.0" width="78.4" height="180.0" rx="6" fill="#c9ced6" stroke="#7a8494" stroke-width="1.5" />
+<text x="130.0" y="307.0" font-size="19" font-weight="800" fill="#1e2a4a" text-anchor="middle" >ESP32</text>
+<line x1="200.0" y1="200.0" x2="470.0" y2="200.0" stroke="#8a8f9c" stroke-width="5" stroke-linecap="round" />
+<line x1="420.0" y1="200.0" x2="468.0" y2="200.0" stroke="#8a8f9c" stroke-width="4" stroke-linecap="round" />
+<path d="M457.4 205.6 L468.0 200.0 L457.4 194.4" fill="none" stroke="#8a8f9c" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="212.0" y="190.0" font-size="13.5" font-weight="800" fill="#8a8f9c" text-anchor="start" >D18</text>
+<text x="300.0" y="190.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >SCK: clock</text>
+<line x1="200.0" y1="262.0" x2="470.0" y2="262.0" stroke="#2a9d5c" stroke-width="5" stroke-linecap="round" />
+<line x1="420.0" y1="262.0" x2="468.0" y2="262.0" stroke="#2a9d5c" stroke-width="4" stroke-linecap="round" />
+<path d="M457.4 267.6 L468.0 262.0 L457.4 256.4" fill="none" stroke="#2a9d5c" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="212.0" y="252.0" font-size="13.5" font-weight="800" fill="#2a9d5c" text-anchor="start" >D23</text>
+<text x="300.0" y="252.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >MOSI: ESP32 → card</text>
+<line x1="200.0" y1="324.0" x2="470.0" y2="324.0" stroke="#2f6fd1" stroke-width="5" stroke-linecap="round" />
+<line x1="250.0" y1="324.0" x2="204.0" y2="324.0" stroke="#2f6fd1" stroke-width="4" stroke-linecap="round" />
+<path d="M214.6 318.4 L204.0 324.0 L214.6 329.6" fill="none" stroke="#2f6fd1" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="212.0" y="314.0" font-size="13.5" font-weight="800" fill="#2f6fd1" text-anchor="start" >D19</text>
+<text x="300.0" y="314.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >MISO: card → ESP32</text>
+<line x1="200.0" y1="386.0" x2="470.0" y2="386.0" stroke="#7b4fb0" stroke-width="5" stroke-linecap="round" />
+<line x1="420.0" y1="386.0" x2="468.0" y2="386.0" stroke="#7b4fb0" stroke-width="4" stroke-linecap="round" />
+<path d="M457.4 391.6 L468.0 386.0 L457.4 380.4" fill="none" stroke="#7b4fb0" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="212.0" y="376.0" font-size="13.5" font-weight="800" fill="#7b4fb0" text-anchor="start" >D5</text>
+<text x="300.0" y="376.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >CS: LOW = "pick me"</text>
+<rect x="470.0" y="150.0" width="330.0" height="300.0" rx="12" fill="#2f6db3" stroke="#1d4a80" stroke-width="2" />
+<text x="635.0" y="180.0" font-size="15" font-weight="800" fill="#ffffff" text-anchor="middle" >microSD module (regulated)</text>
+<rect x="490.0" y="200.0" width="130.0" height="70.0" rx="6" fill="#1d1d1d" stroke="#000" stroke-width="1.5" />
+<text x="555.0" y="230.0" font-size="13.5" font-weight="800" fill="#ffffff" text-anchor="middle" >regulator</text>
+<text x="555.0" y="250.0" font-size="13" font-weight="700" fill="#ffd166" text-anchor="middle" >5 V → 3.3 V</text>
+<rect x="640.0" y="200.0" width="140.0" height="70.0" rx="6" fill="#1d1d1d" stroke="#000" stroke-width="1.5" />
+<text x="710.0" y="230.0" font-size="13.5" font-weight="800" fill="#ffffff" text-anchor="middle" >voltage</text>
+<text x="710.0" y="250.0" font-size="13.5" font-weight="800" fill="#ffffff" text-anchor="middle" >translator</text>
+<rect x="530.0" y="300.0" width="210.0" height="120.0" rx="8" fill="#c9ced6" stroke="#7a8494" stroke-width="1.5" />
+<rect x="560.0" y="325.0" width="150.0" height="85.0" rx="6" fill="#3a3a3a" stroke="#111" stroke-width="1.5" />
+<text x="635.0" y="365.0" font-size="13.5" font-weight="800" fill="#e8e8e8" text-anchor="middle" >microSD card</text>
+<text x="635.0" y="386.0" font-size="12.5" font-weight="700" fill="#ffd166" text-anchor="middle" >3.3 V · FAT32</text>
+<text x="635.0" y="480.0" font-size="13.5" font-weight="800" fill="#e63946" text-anchor="middle" >this module's VCC: 5 V from the MB102 (top rail)</text>
+<text x="635.0" y="502.0" font-size="13" font-weight="700" fill="#b45f17" text-anchor="middle" >module without a regulator: 3.3 V from the bottom rail</text>
+<rect x="840.0" y="150.0" width="320.0" height="160.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="856.0" y="176.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >log.csv (opened in Notepad)</text>
+<text x="856.0" y="204.0" font-size="14" font-weight="700" fill="#0f8b8d" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">uptime_s,light</text>
+<text x="856.0" y="225.0" font-size="14" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">6,3094</text>
+<text x="856.0" y="246.0" font-size="14" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">11,3102</text>
+<text x="856.0" y="267.0" font-size="14" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">16,1450</text>
+<text x="856.0" y="288.0" font-size="14" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">21,3088</text>
+<rect x="840.0" y="330.0" width="320.0" height="190.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="856.0" y="356.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >opened in a spreadsheet + chart</text>
+<line x1="866.0" y1="502.0" x2="1140.0" y2="502.0" stroke="#8a8f9c" stroke-width="1.2" stroke-linecap="round" />
+<line x1="866.0" y1="370.0" x2="866.0" y2="502.0" stroke="#8a8f9c" stroke-width="1.2" stroke-linecap="round" />
+<path d="M870.0 409.3 L937.5 409.1 L1005.0 457.5 L1072.5 409.5 L1140.0 409.5" fill="none" stroke="#0f8b8d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<text x="1005.0" y="479.5" font-size="12" font-weight="700" fill="#b45f17" text-anchor="middle" >LDR covered by a hand</text>
+<rect x="60.0" y="560.0" width="1100.0" height="120.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="80.0" y="590.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >Remember:</text>
+<text x="80.0" y="616.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="start" >• With several SPI devices: SCK, MOSI, MISO are shared; every device has its own CS.</text>
+<text x="80.0" y="640.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="start" >• File names always start with "/" · FILE_APPEND adds to the end · close() is REQUIRED to save.</text>
+<text x="80.0" y="664.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="start" >• uptime_s = seconds since the board was turned on; back to 0 at every restart (the real clock comes in Module 10).</text>
+<text x="1178.0" y="706.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer curriculum · CC BY 4.0</text>
+</svg>

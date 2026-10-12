@@ -1,5 +1,7 @@
 # 📍 Peta Pin Kanonik — Rumah Pintar Mini
 
+🌐 **Bahasa Indonesia** · [English](../en/mini-smart-home/PIN-MAP.md)
+
 > Dibuat di [Modul 5](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-1-esp32-embedded/modul-05-gpio-dan-peta-pin/README.md#3-anggaran-pin-dan-peta-pin-kanonik-node-1-dan-node-2), diperbarui di [Modul 6](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-1-esp32-embedded/modul-06-membaca-sensor/README.md) dan [Modul 7](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-1-esp32-embedded/modul-07-bus-sensor-oled-skematik/README.md), dan berlaku sampai Modul 28.
 > **Sebelum menambahkan apa pun ke Node 1 atau Node 2, periksa file ini dulu.**
 

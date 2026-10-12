@@ -1,0 +1,68 @@
+{
+  "version": 1,
+  "author": "Fullstack IoT Developer curriculum",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "wokwi-esp32-devkit-v1",
+      "id": "esp",
+      "top": 0,
+      "left": 0,
+      "rotate": 90,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-dht22",
+      "id": "dht",
+      "top": -90,
+      "left": 11,
+      "attrs": {
+        "temperature": "28.5",
+        "humidity": "71"
+      }
+    }
+  ],
+  "connections": [
+    [
+      "esp:TX0",
+      "$serialMonitor:RX",
+      "",
+      []
+    ],
+    [
+      "esp:RX0",
+      "$serialMonitor:TX",
+      "",
+      []
+    ],
+    [
+      "dht:SDA",
+      "esp:D14",
+      "yellow",
+      []
+    ],
+    [
+      "dht:VCC",
+      "esp:3V3",
+      "red",
+      [
+        "v11.1",
+        "h-91",
+        "v139",
+        "h62"
+      ]
+    ],
+    [
+      "dht:GND",
+      "esp:GND.1",
+      "black",
+      [
+        "v7.1",
+        "h120.2",
+        "v138",
+        "h-168.5"
+      ]
+    ]
+  ],
+  "dependencies": {}
+}

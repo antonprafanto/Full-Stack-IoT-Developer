@@ -1,5 +1,7 @@
 # 🟧 Fase 0 — Fondasi: Listrik, Kode, & Peralatan (Modul 1–4)
 
+🌐 **Bahasa Indonesia** · [English](../en/phase-0-foundations/README.md)
+
 > **Tujuan fase:** menghilangkan rasa takut. Di akhir fase ini kamu sudah "berbicara" dengan chip lewat kode, memahami kenapa listrik USB aman, dan punya alat kerja yang dipasang satu per satu saat dibutuhkan.
 
 Kerjakan modulnya **berurutan**. Satu modul = satu minggu (6–10 jam, dicicil). Klik judul modul untuk membuka artikelnya.

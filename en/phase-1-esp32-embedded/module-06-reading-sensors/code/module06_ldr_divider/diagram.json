@@ -1,0 +1,66 @@
+{
+  "version": 1,
+  "author": "Fullstack IoT Developer curriculum",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "wokwi-esp32-devkit-v1",
+      "id": "esp",
+      "top": 0,
+      "left": 0,
+      "rotate": 90,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-photoresistor-sensor",
+      "id": "ldr",
+      "top": -95.9,
+      "left": 49.4,
+      "attrs": {},
+      "rotate": 90
+    }
+  ],
+  "connections": [
+    [
+      "esp:TX0",
+      "$serialMonitor:RX",
+      "",
+      []
+    ],
+    [
+      "esp:RX0",
+      "$serialMonitor:TX",
+      "",
+      []
+    ],
+    [
+      "ldr:AO",
+      "esp:VP",
+      "orange",
+      []
+    ],
+    [
+      "ldr:GND",
+      "esp:GND.1",
+      "black",
+      [
+        "v12",
+        "h34",
+        "v140",
+        "h-168.5"
+      ]
+    ],
+    [
+      "ldr:VCC",
+      "esp:3V3",
+      "red",
+      [
+        "v6",
+        "h32",
+        "v154",
+        "h-186"
+      ]
+    ]
+  ],
+  "dependencies": {}
+}

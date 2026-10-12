@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="540" viewBox="0 0 1200 540" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="540" fill="#fffdf7"/>
+<text x="600.0" y="40.0" font-size="26" font-weight="700" fill="#1e2a4a" text-anchor="middle" >Mini roadmap — you are here</text>
+<text x="600.0" y="66.0" font-size="15" font-weight="400" fill="#555" text-anchor="middle" >32 modules = 32 weeks · one running project, "Mini Smart Home", that grows from a blinking LED into an online system</text>
+<rect x="60.0" y="100.0" width="160.0" height="56.0" rx="8" fill="#e0e0e0" />
+<text x="140.0" y="124.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="middle" >PHASE 0</text>
+<text x="140.0" y="144.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="middle" >Foundations · M1–4</text>
+<rect x="226.0" y="100.0" width="125.0" height="56.0" rx="8" fill="#f4a261" />
+<text x="288.5" y="124.0" font-size="14" font-weight="700" fill="#1e2a4a" text-anchor="middle" >PHASE 1</text>
+<text x="288.5" y="144.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="middle" >ESP32 · M5–9</text>
+<rect x="357.0" y="100.0" width="176.0" height="56.0" rx="8" fill="#cfe9f3" />
+<text x="445.0" y="124.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="middle" >PHASE 2</text>
+<text x="445.0" y="144.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="middle" >Connectivity · M10–15</text>
+<rect x="539.0" y="100.0" width="196.0" height="56.0" rx="8" fill="#d6f0e3" />
+<text x="637.0" y="124.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="middle" >PHASE 3</text>
+<text x="637.0" y="144.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="middle" >Backend &amp; data · M16–21</text>
+<rect x="741.0" y="100.0" width="170.0" height="56.0" rx="8" fill="#e6dcf5" />
+<text x="826.0" y="124.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="middle" >PHASE 4</text>
+<text x="826.0" y="144.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="middle" >Dashboard · M22–25</text>
+<rect x="917.0" y="100.0" width="223.0" height="56.0" rx="8" fill="#e0e0e0" />
+<text x="1028.5" y="124.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="middle" >PHASE 5</text>
+<text x="1028.5" y="144.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="middle" >Operations &amp; scale · M26–32</text>
+<rect x="60.0" y="170.0" width="30.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="75.0" y="188.0" font-size="13" font-weight="600" fill="#fff" text-anchor="middle" >M1</text>
+<rect x="96.0" y="170.0" width="30.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="111.0" y="188.0" font-size="13" font-weight="600" fill="#fff" text-anchor="middle" >M2</text>
+<rect x="132.0" y="170.0" width="30.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="147.0" y="188.0" font-size="13" font-weight="600" fill="#fff" text-anchor="middle" >M3</text>
+<rect x="168.0" y="170.0" width="30.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="183.0" y="188.0" font-size="13" font-weight="600" fill="#fff" text-anchor="middle" >M4</text>
+<rect x="226" y="170.0" width="22" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="237" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M5</text>
+<rect x="251.75" y="170.0" width="22" height="26.0" rx="5" fill="#e63946" />
+<text x="262.75" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M6</text>
+<rect x="277.5" y="170.0" width="22" height="26.0" rx="5" fill="#0f8b8d" />
+<text x="288.5" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M7</text>
+<rect x="303.25" y="170.0" width="22" height="26.0" rx="5" fill="#0f8b8d" />
+<text x="314.25" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M8</text>
+<rect x="329" y="170.0" width="22" height="26.0" rx="5" fill="#0f8b8d" />
+<text x="340" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M9</text>
+<text x="60.0" y="214.0" font-size="13" font-weight="700" fill="#2a9d5c" text-anchor="start" >done ✓ (M1–5)</text>
+<path d="M262.75 200 L262.75 226" fill="none" stroke="#e63946" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M253.75 217 L262.75 227 L271.75 217" fill="none" stroke="#e63946" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<text x="262.75" y="244.0" font-size="13" font-weight="700" fill="#e63946" text-anchor="middle" >YOU ARE HERE</text>
+<text x="328.75" y="244.0" font-size="13" font-weight="700" fill="#b45f17" text-anchor="start" >← five "senses" for Node 1</text>
+<rect x="60.0" y="272.0" width="1080.0" height="236.0" rx="12" fill="#fff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="80.0" y="302.0" font-size="17" font-weight="700" fill="#1e2a4a" text-anchor="start" >Module 6 this week (about 8–10 hours, spread out; Kit A Stage 1):</text>
+<text x="1120.0" y="302.0" font-size="14" font-weight="700" fill="#b45f17" text-anchor="end" >⭐ = required to pass</text>
+<rect x="80.0" y="321.0" width="50.0" height="22.0" rx="11.0" fill="#0f8b8d" />
+<text x="105.0" y="336.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >QW</text>
+<text x="142.0" y="337.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >Quick Win: your first light sensor in Wokwi</text>
+<rect x="80.0" y="351.0" width="50.0" height="22.0" rx="11.0" fill="#0f8b8d" />
+<text x="105.0" y="366.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P1</text>
+<text x="142.0" y="367.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >LDR and voltage divider</text>
+<rect x="80.0" y="381.0" width="50.0" height="22.0" rx="11.0" fill="#0f8b8d" />
+<text x="105.0" y="396.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P2</text>
+<text x="142.0" y="397.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >noise, moving average, and the Serial Plotter</text>
+<rect x="80.0" y="411.0" width="50.0" height="22.0" rx="11.0" fill="#0f8b8d" />
+<text x="105.0" y="426.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P3</text>
+<text x="142.0" y="427.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >calibrating the soil sensor with a glass of water ⭐</text>
+<rect x="80.0" y="441.0" width="50.0" height="22.0" rx="11.0" fill="#0f8b8d" />
+<text x="105.0" y="456.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P4</text>
+<text x="142.0" y="457.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >DHT22: temperature and humidity with a library</text>
+<rect x="80.0" y="471.0" width="50.0" height="22.0" rx="11.0" fill="#0f8b8d" />
+<text x="105.0" y="486.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P5</text>
+<text x="142.0" y="487.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >PIR: motion sensor and its 1-minute warm-up</text>
+<rect x="600.0" y="321.0" width="50.0" height="22.0" rx="11.0" fill="#0f8b8d" />
+<text x="625.0" y="336.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P6</text>
+<text x="662.0" y="337.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >HC-SR04 + voltage divider: water tank level ⭐</text>
+<rect x="600.0" y="351.0" width="50.0" height="22.0" rx="11.0" fill="#0f8b8d" />
+<text x="625.0" y="366.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P7</text>
+<text x="662.0" y="367.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >five-sensor monitor, one neat line every 2 seconds</text>
+<rect x="600.0" y="381.0" width="50.0" height="22.0" rx="11.0" fill="#0f8b8d" />
+<text x="625.0" y="396.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P8</text>
+<text x="662.0" y="397.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >automatic watering (refused if the tank is empty) + lamp ⭐</text>
+<rect x="600.0" y="411.0" width="50.0" height="22.0" rx="11.0" fill="#0f8b8d" />
+<text x="625.0" y="426.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P9</text>
+<text x="662.0" y="427.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >save sketches, calibration notes, and a photo to GitHub</text>
+<rect x="600.0" y="441.0" width="50.0" height="22.0" rx="11.0" fill="#b45f17" />
+<text x="625.0" y="457.4" font-size="15" font-weight="700" fill="#ffffff" text-anchor="middle" >+</text>
+<text x="662.0" y="457.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >Add-on: Node 1 v0.3.0 + PIN-MAP.md version 2 (➕ section)</text>
+<text x="1178.0" y="526.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer curriculum · CC BY 4.0</text>
+</svg>

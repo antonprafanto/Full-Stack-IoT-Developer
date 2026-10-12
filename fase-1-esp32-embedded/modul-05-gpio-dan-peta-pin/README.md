@@ -1,5 +1,7 @@
 # Modul 5 — Anatomi ESP32, Peta Pin Kanonik, Catu Daya, & Mengendalikan Dunia Nyata
 
+🌐 **Bahasa Indonesia** · [English](../../en/phase-1-esp32-embedded/module-05-gpio-and-pin-map/README.md)
+
 *Fase 1 · Minggu 5 · Perangkat keras (*hardware*): **Kit A Tahap 1** + kabel USB A–A (lihat 🧰) — sebagian besar praktik juga bisa di Wokwi · Prasyarat: **Modul 3** (dan rangkaian LED dari Modul 2) · Waktu: 8–10 jam, dicicil dalam seminggu*
 
 [⬅️ Modul 4](../../fase-0-fondasi/modul-04-javascript-nodejs/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · [Modul 6 ➡️](../modul-06-membaca-sensor/README.md)

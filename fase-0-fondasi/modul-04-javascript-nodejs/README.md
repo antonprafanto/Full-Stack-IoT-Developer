@@ -1,5 +1,7 @@
 # Modul 4 — JavaScript & Node.js dari Nol (Bahasa untuk Server & Dashboard)
 
+🌐 **Bahasa Indonesia** · [English](../../en/phase-0-foundations/module-04-javascript-nodejs/README.md)
+
 *Fase 0 · Minggu 4 · Perangkat keras (*hardware*): **tidak perlu** — cukup laptop dan internet · Prasyarat: **Modul 3** · Waktu: 8–10 jam, dicicil dalam seminggu*
 
 [⬅️ Modul 3](../modul-03-cpp-untuk-esp32/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · [Modul 5 ➡️](../../fase-1-esp32-embedded/modul-05-gpio-dan-peta-pin/README.md)

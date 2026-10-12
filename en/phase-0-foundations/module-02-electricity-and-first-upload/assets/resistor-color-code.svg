@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="690" viewBox="0 0 1200 690" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="690" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Reading a resistor's color bands</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >A cream body usually has 4 bands. Read from the left; the gold band (tolerance) is always on the right.</text>
+<rect x="40.0" y="120.0" width="700.0" height="104.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="2" />
+<line x1="70.0" y1="172.0" x2="330.0" y2="172.0" stroke="#9a9a9a" stroke-width="4" stroke-linecap="round" />
+<rect x="120.0" y="150.0" width="160.0" height="44.0" rx="18" fill="#e9cfa6" stroke="#a07b4a" stroke-width="2" />
+<rect x="138.0" y="150.0" width="13.0" height="44.0" rx="0" fill="#e63946" />
+<rect x="170.0" y="150.0" width="13.0" height="44.0" rx="0" fill="#e63946" />
+<rect x="202.0" y="150.0" width="13.0" height="44.0" rx="0" fill="#8b4513" />
+<rect x="248.0" y="150.0" width="13.0" height="44.0" rx="0" fill="#d4a017" />
+<text x="360.0" y="160.0" font-size="26" font-weight="800" fill="#1e2a4a" text-anchor="start" >220 Ω</text>
+<text x="470.0" y="158.0" font-size="13" font-weight="400" fill="#8a8f9c" text-anchor="start" >(this week's LED resistor)</text>
+<text x="360.0" y="186.0" font-size="14" font-weight="600" fill="#4a5568" text-anchor="start" >red · red · brown · gold</text>
+<text x="360.0" y="211.0" font-size="15" font-weight="800" fill="#0f8b8d" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" >2  2  × 10 = 220 Ω</text>
+<rect x="40.0" y="240.0" width="700.0" height="104.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="2" />
+<line x1="70.0" y1="292.0" x2="330.0" y2="292.0" stroke="#9a9a9a" stroke-width="4" stroke-linecap="round" />
+<rect x="120.0" y="270.0" width="160.0" height="44.0" rx="18" fill="#e9cfa6" stroke="#a07b4a" stroke-width="2" />
+<rect x="138.0" y="270.0" width="13.0" height="44.0" rx="0" fill="#8b4513" />
+<rect x="170.0" y="270.0" width="13.0" height="44.0" rx="0" fill="#1b1b1b" />
+<rect x="202.0" y="270.0" width="13.0" height="44.0" rx="0" fill="#e63946" />
+<rect x="248.0" y="270.0" width="13.0" height="44.0" rx="0" fill="#d4a017" />
+<text x="360.0" y="280.0" font-size="26" font-weight="800" fill="#1e2a4a" text-anchor="start" >1 kΩ</text>
+<text x="470.0" y="278.0" font-size="13" font-weight="400" fill="#8a8f9c" text-anchor="start" >(the "dim" experiment)</text>
+<text x="360.0" y="306.0" font-size="14" font-weight="600" fill="#4a5568" text-anchor="start" >brown · black · red · gold</text>
+<text x="360.0" y="331.0" font-size="15" font-weight="800" fill="#0f8b8d" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" >1  0  × 100 = 1,000 Ω = 1 kΩ</text>
+<rect x="40.0" y="360.0" width="700.0" height="104.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="2" />
+<line x1="70.0" y1="412.0" x2="330.0" y2="412.0" stroke="#9a9a9a" stroke-width="4" stroke-linecap="round" />
+<rect x="120.0" y="390.0" width="160.0" height="44.0" rx="18" fill="#e9cfa6" stroke="#a07b4a" stroke-width="2" />
+<rect x="138.0" y="390.0" width="13.0" height="44.0" rx="0" fill="#8b4513" />
+<rect x="170.0" y="390.0" width="13.0" height="44.0" rx="0" fill="#1b1b1b" />
+<rect x="202.0" y="390.0" width="13.0" height="44.0" rx="0" fill="#f28c28" />
+<rect x="248.0" y="390.0" width="13.0" height="44.0" rx="0" fill="#d4a017" />
+<text x="360.0" y="400.0" font-size="26" font-weight="800" fill="#1e2a4a" text-anchor="start" >10 kΩ</text>
+<text x="470.0" y="398.0" font-size="13" font-weight="400" fill="#8a8f9c" text-anchor="start" >(the "very dim" experiment)</text>
+<text x="360.0" y="426.0" font-size="14" font-weight="600" fill="#4a5568" text-anchor="start" >brown · black · orange · gold</text>
+<text x="360.0" y="451.0" font-size="15" font-weight="800" fill="#0f8b8d" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" >1  0  × 1,000 = 10,000 Ω = 10 kΩ</text>
+<rect x="770.0" y="120.0" width="390.0" height="350.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="2" />
+<text x="790.0" y="150.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="start" >Color meanings (digit &amp; multiplier bands)</text>
+<rect x="790.0" y="172.0" width="34.0" height="34.0" rx="6" fill="#1b1b1b" />
+<text x="834.0" y="195.0" font-size="16" font-weight="700" fill="#1e2a4a" text-anchor="start" >0 = black</text>
+<rect x="975.0" y="172.0" width="34.0" height="34.0" rx="6" fill="#8b4513" />
+<text x="1019.0" y="195.0" font-size="16" font-weight="700" fill="#1e2a4a" text-anchor="start" >1 = brown</text>
+<rect x="790.0" y="222.0" width="34.0" height="34.0" rx="6" fill="#e63946" />
+<text x="834.0" y="245.0" font-size="16" font-weight="700" fill="#1e2a4a" text-anchor="start" >2 = red</text>
+<rect x="975.0" y="222.0" width="34.0" height="34.0" rx="6" fill="#f28c28" />
+<text x="1019.0" y="245.0" font-size="16" font-weight="700" fill="#1e2a4a" text-anchor="start" >3 = orange</text>
+<rect x="790.0" y="272.0" width="34.0" height="34.0" rx="6" fill="#f2d024" stroke="#999" stroke-width="1.5" />
+<text x="834.0" y="295.0" font-size="16" font-weight="700" fill="#1e2a4a" text-anchor="start" >4 = yellow</text>
+<rect x="975.0" y="272.0" width="34.0" height="34.0" rx="6" fill="#2a9d5c" />
+<text x="1019.0" y="295.0" font-size="16" font-weight="700" fill="#1e2a4a" text-anchor="start" >5 = green</text>
+<rect x="790.0" y="322.0" width="34.0" height="34.0" rx="6" fill="#2b6cd6" />
+<text x="834.0" y="345.0" font-size="16" font-weight="700" fill="#1e2a4a" text-anchor="start" >6 = blue</text>
+<rect x="975.0" y="322.0" width="34.0" height="34.0" rx="6" fill="#8e44ad" />
+<text x="1019.0" y="345.0" font-size="16" font-weight="700" fill="#1e2a4a" text-anchor="start" >7 = violet</text>
+<rect x="790.0" y="372.0" width="34.0" height="34.0" rx="6" fill="#9a9a9a" />
+<text x="834.0" y="395.0" font-size="16" font-weight="700" fill="#1e2a4a" text-anchor="start" >8 = gray</text>
+<rect x="975.0" y="372.0" width="34.0" height="34.0" rx="6" fill="#ffffff" stroke="#999" stroke-width="1.5" />
+<text x="1019.0" y="395.0" font-size="16" font-weight="700" fill="#1e2a4a" text-anchor="start" >9 = white</text>
+<rect x="790.0" y="422.0" width="34.0" height="22.0" rx="5" fill="#d4a017" />
+<text x="834.0" y="438.0" font-size="14" font-weight="700" fill="#1e2a4a" text-anchor="start" >gold = ±5% tolerance (last band)</text>
+<text x="790.0" y="458.0" font-size="12.5" font-weight="400" fill="#4a5568" text-anchor="start" >The tolerance band sits a bit apart — read it last.</text>
+<rect x="40.0" y="486.0" width="1120.0" height="150.0" rx="12" fill="#cfe9f3" />
+<text x="64.0" y="516.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="start" >Is your resistor blue with 5 bands? (the ±1% type, common in resistor packs)</text>
+<text x="64.0" y="542.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >First three bands = digits, 4th band = number of zeros, 5th band (brown, a bit apart) = ±1% tolerance.</text>
+<rect x="64.0" y="560.0" width="120.0" height="34.0" rx="14" fill="#6fa8dc" stroke="#3d6f9e" stroke-width="1.5" />
+<rect x="76.0" y="560.0" width="9.0" height="34.0" rx="0" fill="#e63946" />
+<rect x="96.0" y="560.0" width="9.0" height="34.0" rx="0" fill="#e63946" />
+<rect x="116.0" y="560.0" width="9.0" height="34.0" rx="0" fill="#1b1b1b" />
+<rect x="136.0" y="560.0" width="9.0" height="34.0" rx="0" fill="#1b1b1b" />
+<rect x="164.0" y="560.0" width="9.0" height="34.0" rx="0" fill="#8b4513" />
+<text x="198.0" y="583.0" font-size="18" font-weight="800" fill="#1e2a4a" text-anchor="start" >220 Ω</text>
+<rect x="434.0" y="560.0" width="120.0" height="34.0" rx="14" fill="#6fa8dc" stroke="#3d6f9e" stroke-width="1.5" />
+<rect x="446.0" y="560.0" width="9.0" height="34.0" rx="0" fill="#8b4513" />
+<rect x="466.0" y="560.0" width="9.0" height="34.0" rx="0" fill="#1b1b1b" />
+<rect x="486.0" y="560.0" width="9.0" height="34.0" rx="0" fill="#1b1b1b" />
+<rect x="506.0" y="560.0" width="9.0" height="34.0" rx="0" fill="#8b4513" />
+<rect x="534.0" y="560.0" width="9.0" height="34.0" rx="0" fill="#8b4513" />
+<text x="568.0" y="583.0" font-size="18" font-weight="800" fill="#1e2a4a" text-anchor="start" >1 kΩ</text>
+<rect x="804.0" y="560.0" width="120.0" height="34.0" rx="14" fill="#6fa8dc" stroke="#3d6f9e" stroke-width="1.5" />
+<rect x="816.0" y="560.0" width="9.0" height="34.0" rx="0" fill="#8b4513" />
+<rect x="836.0" y="560.0" width="9.0" height="34.0" rx="0" fill="#1b1b1b" />
+<rect x="856.0" y="560.0" width="9.0" height="34.0" rx="0" fill="#1b1b1b" />
+<rect x="876.0" y="560.0" width="9.0" height="34.0" rx="0" fill="#e63946" />
+<rect x="904.0" y="560.0" width="9.0" height="34.0" rx="0" fill="#8b4513" />
+<text x="938.0" y="583.0" font-size="18" font-weight="800" fill="#1e2a4a" text-anchor="start" >10 kΩ</text>
+<text x="64.0" y="622.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="start" >Unsure about the colors? Just measure it with a multimeter (Practice 1). The 4.7 kΩ value (yellow-violet-red-gold) is used from Module 6 on.</text>
+<text x="1178.0" y="676.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer curriculum · CC BY 4.0</text>
+</svg>

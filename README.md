@@ -1,5 +1,7 @@
 # Fullstack IoT Developer: Zero to Expert
 
+🌐 **Bahasa Indonesia** · [English](en/README.md)
+
 Kurikulum belajar mandiri **32 modul** dalam Bahasa Indonesia, dari orang awam total sampai mampu membangun sistem IoT lengkap: sensor → ESP32 → Raspberry Pi → server Node.js → dashboard di HP. Satu modul dikerjakan dalam satu minggu, jadi seluruh kurikulum memakan waktu sekitar 8 bulan. Tidak perlu latar belakang elektronika maupun pemrograman.
 
 **[Silabus](SILABUS.md)** · **[Pelacak progres](PROGRES.md)** · **[Mulai dari Modul 1](fase-0-fondasi/modul-01-peta-besar-iot/README.md)** · **[Proyek Rumah Pintar Mini](proyek-rumah-pintar-mini/README.md)**
@@ -17,6 +19,7 @@ Kurikulum belajar mandiri **32 modul** dalam Bahasa Indonesia, dari orang awam t
 - **Perangkat lunak.** Sedikit C++ (Arduino) untuk chip, lalu JavaScript/TypeScript ringan untuk semua sisanya: Node.js 24, Fastify, PostgreSQL + TimescaleDB, MQTT (Mosquitto), Modbus RTU, React 19, dan Docker.
 - **Proyek benang merah.** "Rumah Pintar Mini" tumbuh dari LED berkedip (Modul 1) menjadi sistem online dengan TLS, OTA, CI/CD, dan monitoring (Modul 30), lalu menjadi proyek akhir Anda sendiri (Modul 31–32). Semuanya bertegangan rendah (USB 5 V); kurikulum ini tidak pernah menyentuh listrik 220 V.
 - **Biaya.** Mulai Rp0 dengan simulator; sekitar Rp500–950 ribu untuk kit ESP32 (dua papan); sekitar Rp1,3–2,2 juta kalau ingin memakai Raspberry Pi sungguhan; VPS dan domain opsional di dua bulan terakhir.
+- **Bahasa.** Ditulis dalam Bahasa Indonesia. Edisi bahasa Inggris yang lengkap, termasuk kode, gambar, dan kontrak data proyek, ada di folder [`en/`](en/README.md).
 
 ## Mulai dari mana?
 

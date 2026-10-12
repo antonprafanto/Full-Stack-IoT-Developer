@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="640" viewBox="0 0 1200 640" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="640" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Pins give commands, drivers deliver the power</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Safe limit for one ESP32 pin in this curriculum: about 12 mA</text>
+<rect x="40.0" y="104.0" width="360.0" height="430.0" rx="14" fill="#ffffff" stroke="#2a9d5c" stroke-width="2.5" />
+<text x="220.0" y="136.0" font-size="17" font-weight="800" fill="#2a9d5c" text-anchor="middle" >LED straight from a pin</text>
+<rect x="64.0" y="170.0" width="110.0" height="120.0" rx="8" fill="#eef3f9" stroke="#1f3b57" stroke-width="2.5" />
+<text x="76.0" y="194.0" font-size="14" font-weight="800" fill="#1f3b57" text-anchor="start" >ESP32</text>
+<rect x="165.0" y="247.0" width="18.0" height="18.0" rx="3" fill="#d9b44a" stroke="#9c7d24" stroke-width="1.5" />
+<text x="158.0" y="261.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="end" >D4</text>
+<line x1="183.0" y1="256.0" x2="217.0" y2="256.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<line x1="269.0" y1="256.0" x2="303.0" y2="256.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<rect x="217.0" y="246.0" width="52.0" height="20.0" rx="3" fill="#ffffff" stroke="#1e2a4a" stroke-width="2.5" />
+<text x="243.0" y="238.0" font-size="13.5" font-weight="700" fill="#1e2a4a" text-anchor="middle" >220 Ω</text>
+<line x1="303.0" y1="256.0" x2="333.0" y2="256.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<line x1="333.0" y1="256.0" x2="333.0" y2="304.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<line x1="333.0" y1="328.0" x2="333.0" y2="376.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<path d="M320 304.0 L346 304.0 L333 326.0 Z" fill="#e63946" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="320.0" y1="328.0" x2="346.0" y2="328.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<line x1="349.0" y1="312.0" x2="363.0" y2="300.0" stroke="#e63946" stroke-width="2" stroke-linecap="round" />
+<path d="M360.8 305.6 L363.0 300.0 L357.1 301.3" fill="none" stroke="#e63946" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="358.0" y1="313.8" x2="372.0" y2="301.8" stroke="#e63946" stroke-width="2" stroke-linecap="round" />
+<path d="M369.8 307.4 L372.0 301.8 L366.1 303.1" fill="none" stroke="#e63946" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="333.0" y1="376.0" x2="333.0" y2="390.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<line x1="317.0" y1="390.0" x2="349.0" y2="390.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<line x1="323.0" y1="396.0" x2="343.0" y2="396.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<line x1="329.0" y1="402.0" x2="337.0" y2="402.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<text x="357.0" y="398.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="start" >GND</text>
+<circle cx="80.0" cy="450.0" r="15" fill="#2a9d5c" />
+<path d="M74 450 L78.5 455 L86.5 445" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<text x="104.0" y="446.0" font-size="15" font-weight="700" fill="#2a9d5c" text-anchor="start" >~6 mA — safe.</text>
+<text x="104.0" y="466.2" font-size="15" font-weight="700" fill="#2a9d5c" text-anchor="start" >An LED is fine with 3.3 V.</text>
+<rect x="420.0" y="104.0" width="360.0" height="430.0" rx="14" fill="#ffffff" stroke="#e63946" stroke-width="2.5" />
+<text x="600.0" y="136.0" font-size="17" font-weight="800" fill="#e63946" text-anchor="middle" >Pump straight from a pin</text>
+<rect x="444.0" y="170.0" width="110.0" height="120.0" rx="8" fill="#eef3f9" stroke="#1f3b57" stroke-width="2.5" />
+<text x="456.0" y="194.0" font-size="14" font-weight="800" fill="#1f3b57" text-anchor="start" >ESP32</text>
+<rect x="545.0" y="247.0" width="18.0" height="18.0" rx="3" fill="#d9b44a" stroke="#9c7d24" stroke-width="1.5" />
+<text x="538.0" y="261.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="end" >D25</text>
+<line x1="563.0" y1="256.0" x2="683.0" y2="256.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<line x1="683.0" y1="256.0" x2="683.0" y2="286.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<circle cx="683.0" cy="308.0" r="22" fill="#ffffff" stroke="#1e2a4a" stroke-width="2.5" />
+<text x="683.0" y="314.0" font-size="17" font-weight="800" fill="#1e2a4a" text-anchor="middle" >M</text>
+<text x="715.0" y="314.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="start" >pump</text>
+<line x1="683.0" y1="330.0" x2="683.0" y2="362.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<line x1="683.0" y1="362.0" x2="683.0" y2="376.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<line x1="667.0" y1="376.0" x2="699.0" y2="376.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<line x1="673.0" y1="382.0" x2="693.0" y2="382.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<line x1="679.0" y1="388.0" x2="687.0" y2="388.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<text x="707.0" y="384.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="start" >GND</text>
+<circle cx="460.0" cy="440.0" r="15" fill="#e63946" />
+<path d="M455 435 L465 445 M465 435 L455 445" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<text x="484.0" y="436.0" font-size="14.5" font-weight="700" fill="#e63946" text-anchor="start" >The pump needs ~300 mA and 5 V.</text>
+<text x="484.0" y="455.6" font-size="14.5" font-weight="700" fill="#e63946" text-anchor="start" >Result: the pump stays still, the pin</text>
+<text x="484.0" y="475.1" font-size="14.5" font-weight="700" fill="#e63946" text-anchor="start" >breaks, or the ESP32 restarts.</text>
+<rect x="800.0" y="104.0" width="360.0" height="430.0" rx="14" fill="#ffffff" stroke="#2a9d5c" stroke-width="2.5" />
+<text x="980.0" y="136.0" font-size="17" font-weight="800" fill="#2a9d5c" text-anchor="middle" >Pump through a driver</text>
+<rect x="820.0" y="250.0" width="100.0" height="110.0" rx="8" fill="#eef3f9" stroke="#1f3b57" stroke-width="2.5" />
+<text x="832.0" y="274.0" font-size="14" font-weight="800" fill="#1f3b57" text-anchor="start" >ESP32</text>
+<rect x="911.0" y="317.0" width="18.0" height="18.0" rx="3" fill="#d9b44a" stroke="#9c7d24" stroke-width="1.5" />
+<text x="904.0" y="331.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="end" >D25</text>
+<line x1="1010.0" y1="176.0" x2="1150.0" y2="176.0" stroke="#d62828" stroke-width="4" stroke-linecap="round" />
+<text x="1146.0" y="168.0" font-size="12.5" font-weight="800" fill="#d62828" text-anchor="end" >top rail 5 V (MB102)</text>
+<line x1="1080.0" y1="176.0" x2="1080.0" y2="200.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<circle cx="1080.0" cy="222.0" r="22" fill="#ffffff" stroke="#1e2a4a" stroke-width="2.5" />
+<text x="1080.0" y="228.0" font-size="17" font-weight="800" fill="#1e2a4a" text-anchor="middle" >M</text>
+<line x1="1080.0" y1="244.0" x2="1080.0" y2="266.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<rect x="1040.0" y="266.0" width="80.0" height="54.0" rx="8" fill="#d6f0e3" stroke="#2a9d5c" stroke-width="2" />
+<text x="1080.0" y="290.0" font-size="12.5" font-weight="800" fill="#2a9d5c" text-anchor="middle" >MOSFET</text>
+<text x="1080.0" y="307.0" font-size="11.5" font-weight="600" fill="#2a9d5c" text-anchor="middle" >driver</text>
+<line x1="1080.0" y1="320.0" x2="1080.0" y2="400.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<line x1="1080.0" y1="400.0" x2="1080.0" y2="414.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<line x1="1064.0" y1="414.0" x2="1096.0" y2="414.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<line x1="1070.0" y1="420.0" x2="1090.0" y2="420.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<line x1="1076.0" y1="426.0" x2="1084.0" y2="426.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<text x="1104.0" y="422.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="start" >GND</text>
+<path d="M929 326 L1040 326" fill="none" stroke="#0f8b8d" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="6 5"/>
+<text x="937.0" y="316.0" font-size="12.5" font-weight="800" fill="#0f8b8d" text-anchor="start" >command</text>
+<line x1="1080.0" y1="178.0" x2="1080.0" y2="196.0" stroke="#d62828" stroke-width="3.5" stroke-linecap="round" />
+<path d="M1075.8 188.1 L1080.0 196.0 L1084.2 188.1" fill="none" stroke="#d62828" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="1080.0" y1="336.0" x2="1080.0" y2="362.0" stroke="#d62828" stroke-width="3.5" stroke-linecap="round" />
+<path d="M1075.8 354.1 L1080.0 362.0 L1084.2 354.1" fill="none" stroke="#d62828" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
+<text x="1050.0" y="196.0" font-size="12.5" font-weight="800" fill="#d62828" text-anchor="end" >pump current</text>
+<text x="1050.0" y="212.0" font-size="11.5" font-weight="600" fill="#d62828" text-anchor="end" >(not through the ESP32)</text>
+<path d="M879 372 L879 420 L1062 420" fill="none" stroke="#222222" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<text x="900.0" y="436.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" >shared GND</text>
+<circle cx="836.0" cy="476.0" r="15" fill="#2a9d5c" />
+<path d="M830 476 L834.5 481 L842.5 471" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<text x="860.0" y="472.0" font-size="14.5" font-weight="700" fill="#2a9d5c" text-anchor="start" >The pin only gives commands;</text>
+<text x="860.0" y="491.6" font-size="14.5" font-weight="700" fill="#2a9d5c" text-anchor="start" >the pump power comes from the MB102.</text>
+<rect x="40.0" y="552.0" width="1120.0" height="52.0" rx="10" fill="#dff3e7" />
+<text x="600.0" y="584.0" font-size="15.5" font-weight="700" fill="#1e2a4a" text-anchor="middle" >This week's drivers: the relay module (fan, lamp), the MOSFET (pump), and the circuit inside the servo.</text>
+<text x="1178.0" y="626.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer curriculum · CC BY 4.0</text>
+</svg>

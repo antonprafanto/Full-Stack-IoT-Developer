@@ -1,0 +1,65 @@
+{
+  "version": 1,
+  "author": "Fullstack IoT Developer curriculum",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "wokwi-esp32-devkit-v1",
+      "id": "esp",
+      "top": 0,
+      "left": 0,
+      "rotate": 90,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-potentiometer",
+      "id": "pot",
+      "top": -40,
+      "left": 72.5,
+      "attrs": {
+        "value": "750"
+      }
+    }
+  ],
+  "connections": [
+    [
+      "esp:TX0",
+      "$serialMonitor:RX",
+      "",
+      []
+    ],
+    [
+      "esp:RX0",
+      "$serialMonitor:TX",
+      "",
+      []
+    ],
+    [
+      "pot:SIG",
+      "esp:VN",
+      "green",
+      []
+    ],
+    [
+      "pot:GND",
+      "esp:GND.2",
+      "black",
+      [
+        "v11.5",
+        "h-95"
+      ]
+    ],
+    [
+      "pot:VCC",
+      "esp:3V3",
+      "red",
+      [
+        "v7.5",
+        "h58.5",
+        "v139",
+        "h-183"
+      ]
+    ]
+  ],
+  "dependencies": {}
+}

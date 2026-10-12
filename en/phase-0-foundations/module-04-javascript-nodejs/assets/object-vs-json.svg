@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="720" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Objects and JSON: forms and letters</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Inside a program, data takes the form of objects; to be sent or stored, it's turned into JSON text</text>
+<rect x="80.0" y="120.0" width="380.0" height="250.0" rx="14" fill="#ffffff" stroke="#0f8b8d" stroke-width="2.5" />
+<rect x="80.0" y="120.0" width="380.0" height="46.0" rx="14" fill="#e3f4f4" />
+<rect x="80.0" y="150.0" width="380.0" height="16.0" rx="0" fill="#e3f4f4" />
+<text x="270.0" y="150.0" font-size="18" font-weight="800" fill="#0f8b8d" text-anchor="middle" >JavaScript object</text>
+<text x="270.0" y="192.0" font-size="13.5" font-weight="700" fill="#4a5568" text-anchor="middle" >lives inside the program (memory)</text>
+<rect x="110.0" y="212.0" width="150.0" height="40.0" rx="6" fill="#f4f6f8" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="185.0" y="238.0" font-size="17" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >temperature</text>
+<rect x="270.0" y="212.0" width="160.0" height="40.0" rx="6" fill="#ffffff" stroke="#3a6fc4" stroke-width="2" />
+<text x="350.0" y="238.0" font-size="18" font-weight="800" fill="#3a6fc4" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >28.5</text>
+<rect x="110.0" y="264.0" width="150.0" height="40.0" rx="6" fill="#f4f6f8" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="185.0" y="290.0" font-size="17" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >motion</text>
+<rect x="270.0" y="264.0" width="160.0" height="40.0" rx="6" fill="#ffffff" stroke="#00979d" stroke-width="2" />
+<text x="350.0" y="290.0" font-size="18" font-weight="800" fill="#00979d" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >false</text>
+<text x="270" y="350" font-size="15" font-family="'DejaVu Sans Mono', Consolas, monospace" text-anchor="middle" xml:space="preserve"><tspan fill="#1e2a4a" font-weight="700">{ temperature: </tspan><tspan fill="#3a6fc4" font-weight="700">28.5</tspan><tspan fill="#1e2a4a" font-weight="700">, motion: </tspan><tspan fill="#00979d" font-weight="700">false</tspan><tspan fill="#1e2a4a" font-weight="700"> }</tspan></text>
+<rect x="740.0" y="140.0" width="380.0" height="210.0" rx="0" fill="#fffaf0" stroke="#b45f17" stroke-width="2.5" />
+<path d="M742 142 L930.0 232 L1118 142" fill="none" stroke="#b45f17" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="756.0" y="252.0" width="348.0" height="46.0" rx="6" fill="#ffffff" stroke="#b45f17" stroke-width="1.5" />
+<text x="930.0" y="281.0" font-size="15" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">{"temperature":28.5,"motion":false}</text>
+<text x="930.0" y="326.0" font-size="13.5" font-weight="700" fill="#b45f17" text-anchor="middle" >plain text — can be sent over Wi-Fi</text>
+<text x="930.0" y="344.0" font-size="13.5" font-weight="700" fill="#b45f17" text-anchor="middle" >or saved to a file</text>
+<text x="930.0" y="128.0" font-size="18" font-weight="800" fill="#b45f17" text-anchor="middle" >JSON text (letter)</text>
+<line x1="470.0" y1="196.0" x2="728.0" y2="196.0" stroke="#2a9d5c" stroke-width="3.5" stroke-linecap="round" />
+<path d="M717.4 201.6 L728.0 196.0 L717.4 190.4" fill="none" stroke="#2a9d5c" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="512.0" y="160.0" width="176.0" height="28.0" rx="6" fill="#eef8f2" stroke="#2a9d5c" stroke-width="1.5" />
+<text x="600.0" y="179.0" font-size="15" font-weight="800" fill="#2a9d5c" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">JSON.stringify</text>
+<text x="600.0" y="222.0" font-size="13.5" font-weight="700" fill="#2a9d5c" text-anchor="middle" >object → text</text>
+<line x1="728.0" y1="300.0" x2="470.0" y2="300.0" stroke="#3a6fc4" stroke-width="3.5" stroke-linecap="round" />
+<path d="M480.6 294.4 L470.0 300.0 L480.6 305.6" fill="none" stroke="#3a6fc4" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="530.0" y="264.0" width="140.0" height="28.0" rx="6" fill="#e6eefb" stroke="#3a6fc4" stroke-width="1.5" />
+<text x="600.0" y="283.0" font-size="15" font-weight="800" fill="#3a6fc4" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">JSON.parse</text>
+<text x="600.0" y="326.0" font-size="13.5" font-weight="700" fill="#3a6fc4" text-anchor="middle" >text → object</text>
+<rect x="60.0" y="400.0" width="1080.0" height="270.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="84.0" y="432.0" font-size="17" font-weight="800" fill="#1e2a4a" text-anchor="start" >Five JSON rules (stricter than a JavaScript object):</text>
+<text x="84.0" y="475.0" font-size="15" font-weight="700" fill="#1e2a4a" text-anchor="start" >1. Keys must be in double quotes</text>
+<circle cx="400.0" cy="470.0" r="10" fill="#2a9d5c" />
+<path d="M395 470 L398.5 474 L405.5 465.5" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="418.0" y="475.0" font-size="15" font-weight="700" fill="#2a9d5c" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">"temperature": 28.5</text>
+<circle cx="690.0" cy="470.0" r="10" fill="#e63946" />
+<path d="M685.5 465.5 L694.5 474.5 M694.5 465.5 L685.5 474.5" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="708.0" y="475.0" font-size="15" font-weight="700" fill="#e63946" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">temperature: 28.5</text>
+<text x="84.0" y="515.0" font-size="15" font-weight="700" fill="#1e2a4a" text-anchor="start" >2. Text only in double quotes</text>
+<circle cx="400.0" cy="510.0" r="10" fill="#2a9d5c" />
+<path d="M395 510 L398.5 514 L405.5 505.5" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="418.0" y="515.0" font-size="15" font-weight="700" fill="#2a9d5c" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">"fw": "0.1.0"</text>
+<circle cx="690.0" cy="510.0" r="10" fill="#e63946" />
+<path d="M685.5 505.5 L694.5 514.5 M694.5 505.5 L685.5 514.5" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="708.0" y="515.0" font-size="15" font-weight="700" fill="#e63946" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">'fw': '0.1.0'</text>
+<text x="84.0" y="555.0" font-size="15" font-weight="700" fill="#1e2a4a" text-anchor="start" >3. No comma at the end</text>
+<circle cx="400.0" cy="550.0" r="10" fill="#2a9d5c" />
+<path d="M395 550 L398.5 554 L405.5 545.5" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="418.0" y="555.0" font-size="15" font-weight="700" fill="#2a9d5c" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">{"temperature": 28.5}</text>
+<circle cx="690.0" cy="550.0" r="10" fill="#e63946" />
+<path d="M685.5 545.5 L694.5 554.5 M694.5 545.5 L685.5 554.5" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="708.0" y="555.0" font-size="15" font-weight="700" fill="#e63946" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">{"temperature": 28.5,}</text>
+<text x="84.0" y="595.0" font-size="15" font-weight="700" fill="#1e2a4a" text-anchor="start" >4. No comments</text>
+<circle cx="400.0" cy="590.0" r="10" fill="#2a9d5c" />
+<path d="M395 590 L398.5 594 L405.5 585.5" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="418.0" y="595.0" font-size="15" font-weight="700" fill="#2a9d5c" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">{"temperature": 28.5}</text>
+<circle cx="690.0" cy="590.0" r="10" fill="#e63946" />
+<path d="M685.5 585.5 L694.5 594.5 M694.5 585.5 L685.5 594.5" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="708.0" y="595.0" font-size="15" font-weight="700" fill="#e63946" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">{"temperature": 28.5}  // hot</text>
+<text x="84.0" y="640.0" font-size="15" font-weight="700" fill="#1e2a4a" text-anchor="start" >5. The content may only be: text, numbers, true/false, null, arrays, and objects (no functions, no undefined).</text>
+<text x="1178.0" y="706.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer curriculum · CC BY 4.0</text>
+</svg>

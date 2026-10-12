@@ -1,0 +1,97 @@
+{
+  "version": 1,
+  "author": "Fullstack IoT Developer curriculum",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "wokwi-esp32-devkit-v1",
+      "id": "esp",
+      "top": 0,
+      "left": 0,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "btn",
+      "top": 126.5,
+      "left": -150,
+      "attrs": {
+        "color": "green",
+        "label": "D13"
+      }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r_pompa",
+      "top": 85.6,
+      "left": -95,
+      "attrs": {
+        "value": "220"
+      }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led_pompa",
+      "top": 40,
+      "left": -150,
+      "attrs": {
+        "color": "cyan",
+        "label": "pump"
+      }
+    }
+  ],
+  "connections": [
+    [
+      "esp:TX0",
+      "$serialMonitor:RX",
+      "",
+      []
+    ],
+    [
+      "esp:RX0",
+      "$serialMonitor:TX",
+      "",
+      []
+    ],
+    [
+      "btn:1.r",
+      "esp:D13",
+      "blue",
+      []
+    ],
+    [
+      "btn:2.r",
+      "esp:GND.2",
+      "black",
+      [
+        "h14",
+        "v-9.5"
+      ]
+    ],
+    [
+      "r_pompa:2",
+      "esp:D25",
+      "violet",
+      []
+    ],
+    [
+      "led_pompa:A",
+      "r_pompa:1",
+      "violet",
+      [
+        "v9.3"
+      ]
+    ],
+    [
+      "led_pompa:C",
+      "esp:GND.2",
+      "black",
+      [
+        "v20",
+        "h-12",
+        "v67"
+      ]
+    ]
+  ],
+  "dependencies": {}
+}

@@ -1,5 +1,7 @@
 # Modul 6 — Membaca Sensor: Analog, Digital, & Kalibrasi
 
+🌐 **Bahasa Indonesia** · [English](../../en/phase-1-esp32-embedded/module-06-reading-sensors/README.md)
+
 *Fase 1 · Minggu 6 · Perangkat keras (*hardware*): **Kit A Tahap 1** (lihat 🧰) — semua praktik juga bisa dicoba di Wokwi · Prasyarat: **Modul 5** (meja kerja dua breadboard dan Node 1 v0.2.0) · Waktu: 8–10 jam, dicicil dalam seminggu*
 
 [⬅️ Modul 5](../modul-05-gpio-dan-peta-pin/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · [Modul 7 ➡️](../modul-07-bus-sensor-oled-skematik/README.md)

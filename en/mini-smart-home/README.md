@@ -1,0 +1,23 @@
+# 🏠 Mini Smart Home project — reference version
+
+🌐 **English** · [Bahasa Indonesia](../../proyek-rumah-pintar-mini/README.md)
+
+This folder holds the curriculum's **running-project code** in its latest version. Every module adds one or two parts; the `code/` folder of each module keeps a "snapshot" of that week, while this folder always holds the newest version.
+
+> **For learners:** your own project lives in your own repository, `mini-smart-home`, which you create with GitHub Desktop in [Module 3](../phase-0-foundations/module-03-cpp-for-esp32/README.md#-add-on-to-mini-smart-home). This folder is the **answer key and reference**. The v0.1.0 skeleton (Module 3), the `tools/` folder (Module 4), and `PIN-MAP.md` (Module 5) are meant to be copied as they are. From Module 5 on, you write the firmware yourself with the guidance in each module — compare it with yours if you get stuck, but don't copy it blindly.
+
+## Current contents
+
+| Part | Version | Since module | Description |
+| :--- | :--- | :---: | :--- |
+| [`firmware/node-1-home/`](firmware/node-1-home/node-1-home.ino) | 0.4.0 | [Module 3](../phase-0-foundations/module-03-cpp-for-esp32/README.md), updated in [Module 5](../phase-1-esp32-embedded/module-05-gpio-and-pin-map/README.md#-add-on-to-mini-smart-home), [Module 6](../phase-1-esp32-embedded/module-06-reading-sensors/README.md#-add-on-to-mini-smart-home), and [Module 7](../phase-1-esp32-embedded/module-07-sensor-bus-oled-schematics/README.md#-add-on-to-mini-smart-home) | The Node 1 "Home" program. All actuators have been connected to the canonical pins since v0.2.0: lamp and fan relays, the pump through a MOSFET, the curtain servo, a buzzer, and a manual button. Since v0.3.0, all five sensors are read for real (DHT22, LDR, capacitive soil sensor, PIR, HC-SR04), and there are two local automation rules: automatic watering (the pump refuses to run when the water tank is too low) and the automatic lamp (dark + motion). Since v0.4.0, an OLED display shows every reading, and readings can be logged to a microSD card (optional; with a regulated module, press **EN** after turning on the MB102); Node 1 keeps running even without the display or the card. You can try it from the Serial Monitor (`lamp on`, `fan off`, `pump 3`, `curtain 90`, `beep`, `status`), and it prints the reason for the last restart when it starts. Needs the ESP32Servo 3.2.1 library, DHT sensor library 1.4.7 (installed with it: Adafruit Unified Sensor 1.1.15), and Adafruit SSD1306 2.5.17 (installed with it: Adafruit GFX Library 1.12.6 and Adafruit BusIO 1.17.4). |
+| [`PIN-MAP.md`](PIN-MAP.md) | 3 | [Module 5](../phase-1-esp32-embedded/module-05-gpio-and-pin-map/README.md#3-the-pin-budget-and-the-canonical-pin-map-of-node-1-and-node-2), updated in [Module 6](../phase-1-esp32-embedded/module-06-reading-sensors/README.md#-add-on-to-mini-smart-home) and [Module 7](../phase-1-esp32-embedded/module-07-sensor-bus-oled-schematics/README.md#-add-on-to-mini-smart-home) | The canonical pin map of Node 1 and Node 2, the pins to avoid, how the power rails on the workbench are shared, and the golden power rules. Since version 2, all five Node 1 sensors are marked as connected; since version 3, the I2C bus (OLED display) is connected and there is a table of the buses on the breadboard. Valid until Module 28. |
+| [`tools/`](tools/README.md) | — | [Module 4](../phase-0-foundations/module-04-javascript-nodejs/README.md) | Three Node.js helper tools: `generate-dummy.js` (fake sensor readings that follow the data contract), `webhook-receiver.js` (a mini server on port 3000), and `send-data.js` (a test sender). Used again in Modules 10, 16, and 22. |
+
+## Coming later
+
+Following the [structure in the Syllabus](../SYLLABUS.md#9-repository-folder-structure): `DATA-CONTRACT.md` (Module 11), `firmware/node-2-garden/` (Modules 9 and 14), `edge/` (Modules 12–15), `backend/` (Modules 16–21), `frontend/` (Modules 22–25), and `compose.cloud.yml` (Modules 26–27).
+
+---
+
+[⬅️ Back to the front page](../README.md) · [Syllabus](../SYLLABUS.md) · [Progress tracker](../PROGRESS.md)

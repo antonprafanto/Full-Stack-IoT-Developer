@@ -1,0 +1,318 @@
+{
+  "version": 1,
+  "author": "Fullstack IoT Developer curriculum",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "wokwi-esp32-devkit-v1",
+      "id": "esp",
+      "top": 0,
+      "left": 0,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r_led",
+      "top": 114.3,
+      "left": 128,
+      "attrs": {
+        "value": "220"
+      }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led_status",
+      "top": 92,
+      "left": 186,
+      "attrs": {
+        "color": "red",
+        "label": ""
+      }
+    },
+    {
+      "type": "wokwi-servo",
+      "id": "servo",
+      "top": -150,
+      "left": -560,
+      "attrs": {
+        "hornColor": "#2b6cb0"
+      }
+    },
+    {
+      "type": "wokwi-relay-module",
+      "id": "relay_lampu",
+      "top": -10,
+      "left": -330,
+      "attrs": {
+        "transistor": "pnp"
+      }
+    },
+    {
+      "type": "wokwi-relay-module",
+      "id": "relay_kipas",
+      "top": 70,
+      "left": -330,
+      "attrs": {
+        "transistor": "pnp"
+      }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led_lampu",
+      "top": -110,
+      "left": -150,
+      "attrs": {
+        "color": "yellow",
+        "label": "lamp"
+      }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led_kipas",
+      "top": -110,
+      "left": -100,
+      "attrs": {
+        "color": "blue",
+        "label": "fan"
+      }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r_pompa",
+      "top": 160,
+      "left": -110,
+      "attrs": {
+        "value": "220"
+      }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led_pompa",
+      "top": 135,
+      "left": -175,
+      "attrs": {
+        "color": "cyan",
+        "label": "pump"
+      }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r_buz",
+      "top": 210,
+      "left": -110,
+      "attrs": {
+        "value": "220"
+      }
+    },
+    {
+      "type": "wokwi-buzzer",
+      "id": "buzzer",
+      "top": 160,
+      "left": -255,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "btn",
+      "top": 250,
+      "left": -150,
+      "attrs": {
+        "color": "green",
+        "label": "D13"
+      }
+    }
+  ],
+  "connections": [
+    [
+      "esp:TX0",
+      "$serialMonitor:RX",
+      "",
+      []
+    ],
+    [
+      "esp:RX0",
+      "$serialMonitor:TX",
+      "",
+      []
+    ],
+    [
+      "esp:D4",
+      "r_led:1",
+      "green",
+      []
+    ],
+    [
+      "r_led:2",
+      "led_status:A",
+      "green",
+      [
+        "h24.2"
+      ]
+    ],
+    [
+      "led_status:C",
+      "esp:GND.1",
+      "black",
+      [
+        "v15"
+      ]
+    ],
+    [
+      "relay_lampu:IN",
+      "esp:D32",
+      "green",
+      [
+        "h310",
+        "v43.8"
+      ]
+    ],
+    [
+      "relay_kipas:IN",
+      "esp:D33",
+      "green",
+      [
+        "h302",
+        "v-26.7"
+      ]
+    ],
+    [
+      "servo:PWM",
+      "esp:D26",
+      "orange",
+      [
+        "h516",
+        "v182"
+      ]
+    ],
+    [
+      "r_pompa:2",
+      "esp:D25",
+      "violet",
+      [
+        "h15.2",
+        "v-74.4"
+      ]
+    ],
+    [
+      "r_buz:2",
+      "esp:D27",
+      "orange",
+      [
+        "h-0.8",
+        "v-104.9"
+      ]
+    ],
+    [
+      "btn:1.r",
+      "esp:D13",
+      "blue",
+      [
+        "h23",
+        "v-123.5"
+      ]
+    ],
+    [
+      "led_pompa:A",
+      "r_pompa:1",
+      "violet",
+      []
+    ],
+    [
+      "buzzer:2",
+      "r_buz:1",
+      "orange",
+      []
+    ],
+    [
+      "relay_lampu:VCC",
+      "esp:VIN",
+      "red",
+      []
+    ],
+    [
+      "relay_lampu:GND",
+      "esp:GND.2",
+      "black",
+      []
+    ],
+    [
+      "relay_lampu:COM",
+      "esp:3V3",
+      "red",
+      []
+    ],
+    [
+      "relay_lampu:NO",
+      "led_lampu:A",
+      "blue",
+      []
+    ],
+    [
+      "led_lampu:C",
+      "esp:GND.2",
+      "black",
+      []
+    ],
+    [
+      "relay_kipas:VCC",
+      "esp:VIN",
+      "red",
+      []
+    ],
+    [
+      "relay_kipas:GND",
+      "esp:GND.2",
+      "black",
+      []
+    ],
+    [
+      "relay_kipas:COM",
+      "esp:3V3",
+      "red",
+      []
+    ],
+    [
+      "relay_kipas:NO",
+      "led_kipas:A",
+      "blue",
+      []
+    ],
+    [
+      "led_kipas:C",
+      "esp:GND.2",
+      "black",
+      []
+    ],
+    [
+      "servo:V+",
+      "esp:VIN",
+      "red",
+      []
+    ],
+    [
+      "servo:GND",
+      "esp:GND.2",
+      "black",
+      []
+    ],
+    [
+      "led_pompa:C",
+      "esp:GND.2",
+      "black",
+      []
+    ],
+    [
+      "buzzer:1",
+      "esp:GND.2",
+      "black",
+      []
+    ],
+    [
+      "btn:2.r",
+      "esp:GND.2",
+      "black",
+      []
+    ]
+  ],
+  "dependencies": {}
+}

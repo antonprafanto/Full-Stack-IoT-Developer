@@ -1,5 +1,7 @@
 # Modul 3 — Pemrograman C++ untuk ESP32 dari Nol
 
+🌐 **Bahasa Indonesia** · [English](../../en/phase-0-foundations/module-03-cpp-for-esp32/README.md)
+
 *Fase 0 · Minggu 3 · Perangkat keras (*hardware*): **tidak wajib** — semua praktik bisa tanpa papan (Wokwi, Arduino IDE, GitHub Desktop); papan ESP32 dan breadboard dari Modul 2 boleh ikut dipakai · Prasyarat: **Modul 2** · Waktu: 8–10 jam, dicicil dalam seminggu*
 
 [⬅️ Modul 2](../modul-02-listrik-dan-unggah-pertama/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · [Modul 4 ➡️](../modul-04-javascript-nodejs/README.md)

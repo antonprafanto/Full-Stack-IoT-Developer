@@ -1,5 +1,7 @@
 # 🏠 Proyek Rumah Pintar Mini — versi rujukan
 
+🌐 **Bahasa Indonesia** · [English](../en/mini-smart-home/README.md)
+
 Folder ini berisi **kode proyek benang merah** kurikulum dalam versi terbarunya. Setiap modul menambahkan satu-dua bagian; folder `kode/` di setiap modul menyimpan "potret" pada minggu itu, sedangkan folder ini selalu berisi versi paling baru.
 
 > **Untuk pembelajar:** proyekmu sendiri tinggal di repositori milikmu, `rumah-pintar-mini`, yang dibuat dengan GitHub Desktop di [Modul 3](../fase-0-fondasi/modul-03-cpp-untuk-esp32/README.md#-tambahan-ke-rumah-pintar-mini). Folder ini adalah **kunci jawaban dan rujukan**. Kerangka v0.1.0 (Modul 3), folder `alat/` (Modul 4), dan `PETA-PIN.md` (Modul 5) memang disalin utuh. Mulai Modul 5, isi firmware kamu tulis sendiri dengan panduan di setiap modul — bandingkan dengan milikmu kalau ada yang macet, tetapi jangan menyalinnya mentah-mentah.

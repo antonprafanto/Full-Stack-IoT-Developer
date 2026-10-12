@@ -1,0 +1,150 @@
+{
+  "version": 1,
+  "author": "Fullstack IoT Developer curriculum",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "wokwi-esp32-devkit-v1",
+      "id": "esp",
+      "top": 0,
+      "left": 0,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r_led",
+      "top": 114.3,
+      "left": 128,
+      "attrs": {
+        "value": "220"
+      }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led_status",
+      "top": 92,
+      "left": 186,
+      "attrs": {
+        "color": "red",
+        "label": ""
+      }
+    },
+    {
+      "type": "wokwi-relay-module",
+      "id": "relay_kipas",
+      "top": 40,
+      "left": -330,
+      "attrs": {
+        "transistor": "pnp"
+      }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led_kipas",
+      "top": -40,
+      "left": -150,
+      "attrs": {
+        "color": "blue",
+        "label": "fan"
+      }
+    }
+  ],
+  "connections": [
+    [
+      "esp:TX0",
+      "$serialMonitor:RX",
+      "",
+      []
+    ],
+    [
+      "esp:RX0",
+      "$serialMonitor:TX",
+      "",
+      []
+    ],
+    [
+      "esp:D4",
+      "r_led:1",
+      "green",
+      []
+    ],
+    [
+      "r_led:2",
+      "led_status:A",
+      "green",
+      [
+        "h24.2"
+      ]
+    ],
+    [
+      "led_status:C",
+      "esp:GND.1",
+      "black",
+      [
+        "v15"
+      ]
+    ],
+    [
+      "relay_kipas:IN",
+      "esp:D33",
+      "green",
+      [
+        "h290",
+        "v3.3"
+      ]
+    ],
+    [
+      "relay_kipas:VCC",
+      "esp:VIN",
+      "red",
+      [
+        "h-14",
+        "v139.5",
+        "h339"
+      ]
+    ],
+    [
+      "relay_kipas:GND",
+      "esp:GND.2",
+      "black",
+      [
+        "h-24",
+        "v120",
+        "h349"
+      ]
+    ],
+    [
+      "relay_kipas:COM",
+      "esp:3V3",
+      "red",
+      [
+        "h20",
+        "v-110",
+        "h300",
+        "v228.5",
+        "h-28.7"
+      ]
+    ],
+    [
+      "relay_kipas:NO",
+      "led_kipas:A",
+      "blue",
+      [
+        "h30",
+        "v-78",
+        "h61"
+      ]
+    ],
+    [
+      "led_kipas:C",
+      "esp:GND.2",
+      "black",
+      [
+        "v20",
+        "h-20",
+        "v147"
+      ]
+    ]
+  ],
+  "dependencies": {}
+}
