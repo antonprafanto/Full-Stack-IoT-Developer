@@ -1449,7 +1449,7 @@ Tick honestly. The ⭐ boxes are the **official requirements to pass** from the 
 - [ ] The `mini-smart-home` repository is published on GitHub and contains `firmware/node-1-home/node-1-home.ino` (➕).
 - [ ] ⭐ **Quiz: at least 4 out of 5 correct.**
 
-**You pass when** (per the Syllabus): *the 5-question quiz ≥ 4 correct and the "3-LED traffic light" program runs from code you wrote yourself and is pushed to GitHub.*
+**You pass when** (per the Syllabus): *you get at least 4 of the 5 quiz questions right, and the "3-LED traffic light" program runs from code you wrote yourself and pushed to GitHub.*
 
 ---
 

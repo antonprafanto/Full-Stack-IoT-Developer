@@ -785,7 +785,7 @@ Setiap modul juga diakhiri **checklist "Saya bisa…"** yang Anda centang sendir
 
 ## 9. Struktur folder repositori
 
-Setiap modul adalah satu folder berisi artikel (`README.md`), gambar (`aset/`), dan kode (`kode/`) agar bisa dibaca langsung di GitHub maupun di-*clone* dan dijalankan.
+Setiap modul adalah satu folder berisi artikel (`README.md`), gambar (`aset/`), dan kode (`kode/`) agar bisa dibaca langsung di GitHub maupun di-*clone* dan dijalankan. Edisi bahasa Inggris ada di folder `en/` dengan struktur yang sama; versi Indonesia di akar repositori adalah sumber utamanya.
 
 ```
 Full-Stack-IoT-Developer/
@@ -844,7 +844,8 @@ Full-Stack-IoT-Developer/
 │   ├── backend/
 │   ├── frontend/
 │   └── compose.cloud.yml
-└── _arsip-lama/                   ← kurikulum versi sebelumnya (tidak perlu dibaca)
+├── _arsip-lama/                   ← kurikulum versi sebelumnya (tidak perlu dibaca)
+└── en/                            ← edisi bahasa Inggris: terjemahan lengkap dengan struktur yang sama (nama folder Inggris)
 ```
 
 **Aturan gambar di seluruh materi** (sesuai permintaan): gambar dari internet hanya dipakai jika lisensinya mengizinkan (CC0, CC BY, CC BY-SA, dokumentasi resmi produsen) dan **selalu** disertai keterangan *"Sumber: … , lisensi …"* tepat di bawah gambar plus rekap di `aset/SUMBER.md`; gambar buatan sendiri (diagram SVG/PNG, foto rangkaian) diberi label jelas dan hanya dibuat jika benar-benar memperjelas paragraf tempat ia berada; tidak ada gambar hiasan.
