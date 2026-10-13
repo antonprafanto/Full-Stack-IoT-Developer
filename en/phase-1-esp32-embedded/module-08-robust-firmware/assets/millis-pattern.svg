@@ -1,0 +1,253 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="700" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >The millis() pattern: many schedules, one loop()</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Every task has its own time note · loop() only asks "is it time yet?", then moves on</text>
+<rect x="40.0" y="100.0" width="520.0" height="270.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="60.0" y="130.0" font-size="18" font-weight="800" fill="#1e2a4a" text-anchor="start" >The pattern: three lines</text>
+<text x="84.0" y="170.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">unsigned long now = millis();</text>
+<circle cx="66.0" cy="165.0" r="11" fill="#0f8b8d" stroke="#ffffff" stroke-width="2" />
+<text x="66.0" y="169.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >1</text>
+<text x="84.0" y="196.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve"></text>
+<text x="84.0" y="222.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">if (now - lastTime &gt;= INTERVAL) {</text>
+<circle cx="66.0" cy="217.0" r="11" fill="#0f8b8d" stroke="#ffffff" stroke-width="2" />
+<text x="66.0" y="221.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >2</text>
+<text x="84.0" y="248.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">  lastTime = now;</text>
+<circle cx="66.0" cy="243.0" r="11" fill="#0f8b8d" stroke="#ffffff" stroke-width="2" />
+<text x="66.0" y="247.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >3</text>
+<text x="84.0" y="274.0" font-size="15" font-weight="400" fill="#8a8f9c" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">  // ...do the task</text>
+<text x="84.0" y="300.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">}</text>
+<text x="60.0" y="332.0" font-size="13.5" font-weight="600" fill="#1e2a4a" text-anchor="start" >① glance at the clock · ② INTERVAL passed? · ③ note the time, do it</text>
+<text x="60.0" y="356.0" font-size="13.5" font-weight="700" fill="#0f8b8d" text-anchor="start" >not time yet → move straight on to the next task</text>
+<rect x="590.0" y="100.0" width="570.0" height="270.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="610.0" y="130.0" font-size="18" font-weight="800" fill="#1e2a4a" text-anchor="start" >Three tasks, three notes</text>
+<rect x="610.0" y="150.0" width="530.0" height="58.0" rx="10" fill="#fdeedd" />
+<text x="626.0" y="174.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >Status LED</text>
+<text x="1124.0" y="174.0" font-size="13.5" font-weight="700" fill="#4a5568" text-anchor="end" >every 500 ms</text>
+<text x="626.0" y="197.0" font-size="13" font-weight="400" fill="#4a5568" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">note: lastBlinkTime</text>
+<rect x="610.0" y="220.0" width="530.0" height="58.0" rx="10" fill="#e2f3f1" />
+<text x="626.0" y="244.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >Serial report</text>
+<text x="1124.0" y="244.0" font-size="13.5" font-weight="700" fill="#4a5568" text-anchor="end" >every 2000 ms</text>
+<text x="626.0" y="267.0" font-size="13" font-weight="400" fill="#4a5568" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">note: lastReportTime</text>
+<rect x="610.0" y="290.0" width="530.0" height="58.0" rx="10" fill="#eef1f5" />
+<text x="626.0" y="314.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >Button</text>
+<text x="1124.0" y="314.0" font-size="13.5" font-weight="700" fill="#4a5568" text-anchor="end" >every pass</text>
+<text x="626.0" y="337.0" font-size="13" font-weight="400" fill="#4a5568" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">note: lastChangeTime (steady for 30 ms)</text>
+<rect x="40.0" y="392.0" width="1120.0" height="270.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="60.0" y="422.0" font-size="17" font-weight="800" fill="#1e2a4a" text-anchor="start" >On the timeline: each one runs at its own rhythm</text>
+<text x="196.0" y="457.0" font-size="13.5" font-weight="700" fill="#4a5568" text-anchor="end" >loop() passes</text>
+<line x1="210.0" y1="452.0" x2="1120.0" y2="452.0" stroke="#d9dde3" stroke-width="1.2" stroke-linecap="round" />
+<text x="196.0" y="505.0" font-size="13.5" font-weight="700" fill="#4a5568" text-anchor="end" >LED (500 ms)</text>
+<line x1="210.0" y1="500.0" x2="1120.0" y2="500.0" stroke="#d9dde3" stroke-width="1.2" stroke-linecap="round" />
+<text x="196.0" y="553.0" font-size="13.5" font-weight="700" fill="#4a5568" text-anchor="end" >report (2000 ms)</text>
+<line x1="210.0" y1="548.0" x2="1120.0" y2="548.0" stroke="#d9dde3" stroke-width="1.2" stroke-linecap="round" />
+<text x="196.0" y="601.0" font-size="13.5" font-weight="700" fill="#4a5568" text-anchor="end" >button</text>
+<line x1="210.0" y1="596.0" x2="1120.0" y2="596.0" stroke="#d9dde3" stroke-width="1.2" stroke-linecap="round" />
+<line x1="210.0" y1="442.0" x2="210.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="215.0" y1="442.0" x2="215.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="220.0" y1="442.0" x2="220.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="225.0" y1="442.0" x2="225.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="230.0" y1="442.0" x2="230.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="235.0" y1="442.0" x2="235.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="240.0" y1="442.0" x2="240.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="245.0" y1="442.0" x2="245.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="250.0" y1="442.0" x2="250.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="255.0" y1="442.0" x2="255.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="260.0" y1="442.0" x2="260.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="265.0" y1="442.0" x2="265.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="270.0" y1="442.0" x2="270.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="275.0" y1="442.0" x2="275.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="280.0" y1="442.0" x2="280.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="285.0" y1="442.0" x2="285.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="290.0" y1="442.0" x2="290.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="295.0" y1="442.0" x2="295.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="300.0" y1="442.0" x2="300.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="305.0" y1="442.0" x2="305.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="310.0" y1="442.0" x2="310.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="315.0" y1="442.0" x2="315.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="320.0" y1="442.0" x2="320.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="325.0" y1="442.0" x2="325.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="330.0" y1="442.0" x2="330.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="335.0" y1="442.0" x2="335.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="340.0" y1="442.0" x2="340.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="345.0" y1="442.0" x2="345.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="350.0" y1="442.0" x2="350.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="355.0" y1="442.0" x2="355.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="360.0" y1="442.0" x2="360.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="365.0" y1="442.0" x2="365.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="370.0" y1="442.0" x2="370.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="375.0" y1="442.0" x2="375.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="380.0" y1="442.0" x2="380.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="385.0" y1="442.0" x2="385.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="390.0" y1="442.0" x2="390.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="395.0" y1="442.0" x2="395.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="400.0" y1="442.0" x2="400.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="405.0" y1="442.0" x2="405.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="410.0" y1="442.0" x2="410.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="415.0" y1="442.0" x2="415.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="420.0" y1="442.0" x2="420.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="425.0" y1="442.0" x2="425.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="430.0" y1="442.0" x2="430.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="435.0" y1="442.0" x2="435.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="440.0" y1="442.0" x2="440.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="445.0" y1="442.0" x2="445.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="450.0" y1="442.0" x2="450.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="455.0" y1="442.0" x2="455.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="460.0" y1="442.0" x2="460.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="465.0" y1="442.0" x2="465.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="470.0" y1="442.0" x2="470.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="475.0" y1="442.0" x2="475.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="480.0" y1="442.0" x2="480.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="485.0" y1="442.0" x2="485.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="490.0" y1="442.0" x2="490.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="495.0" y1="442.0" x2="495.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="500.0" y1="442.0" x2="500.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="505.0" y1="442.0" x2="505.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="510.0" y1="442.0" x2="510.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="515.0" y1="442.0" x2="515.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="520.0" y1="442.0" x2="520.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="525.0" y1="442.0" x2="525.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="530.0" y1="442.0" x2="530.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="535.0" y1="442.0" x2="535.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="540.0" y1="442.0" x2="540.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="545.0" y1="442.0" x2="545.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="550.0" y1="442.0" x2="550.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="555.0" y1="442.0" x2="555.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="560.0" y1="442.0" x2="560.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="565.0" y1="442.0" x2="565.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="570.0" y1="442.0" x2="570.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="575.0" y1="442.0" x2="575.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="580.0" y1="442.0" x2="580.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="585.0" y1="442.0" x2="585.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="590.0" y1="442.0" x2="590.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="595.0" y1="442.0" x2="595.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="600.0" y1="442.0" x2="600.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="605.0" y1="442.0" x2="605.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="610.0" y1="442.0" x2="610.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="615.0" y1="442.0" x2="615.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="620.0" y1="442.0" x2="620.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="625.0" y1="442.0" x2="625.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="630.0" y1="442.0" x2="630.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="635.0" y1="442.0" x2="635.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="640.0" y1="442.0" x2="640.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="645.0" y1="442.0" x2="645.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="650.0" y1="442.0" x2="650.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="655.0" y1="442.0" x2="655.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="660.0" y1="442.0" x2="660.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="665.0" y1="442.0" x2="665.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="670.0" y1="442.0" x2="670.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="675.0" y1="442.0" x2="675.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="680.0" y1="442.0" x2="680.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="685.0" y1="442.0" x2="685.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="690.0" y1="442.0" x2="690.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="695.0" y1="442.0" x2="695.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="700.0" y1="442.0" x2="700.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="705.0" y1="442.0" x2="705.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="710.0" y1="442.0" x2="710.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="715.0" y1="442.0" x2="715.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="720.0" y1="442.0" x2="720.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="725.0" y1="442.0" x2="725.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="730.0" y1="442.0" x2="730.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="735.0" y1="442.0" x2="735.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="740.0" y1="442.0" x2="740.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="745.0" y1="442.0" x2="745.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="750.0" y1="442.0" x2="750.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="755.0" y1="442.0" x2="755.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="760.0" y1="442.0" x2="760.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="765.0" y1="442.0" x2="765.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="770.0" y1="442.0" x2="770.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="775.0" y1="442.0" x2="775.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="780.0" y1="442.0" x2="780.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="785.0" y1="442.0" x2="785.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="790.0" y1="442.0" x2="790.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="795.0" y1="442.0" x2="795.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="800.0" y1="442.0" x2="800.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="805.0" y1="442.0" x2="805.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="810.0" y1="442.0" x2="810.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="815.0" y1="442.0" x2="815.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="820.0" y1="442.0" x2="820.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="825.0" y1="442.0" x2="825.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="830.0" y1="442.0" x2="830.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="835.0" y1="442.0" x2="835.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="840.0" y1="442.0" x2="840.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="845.0" y1="442.0" x2="845.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="850.0" y1="442.0" x2="850.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="855.0" y1="442.0" x2="855.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="860.0" y1="442.0" x2="860.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="865.0" y1="442.0" x2="865.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="870.0" y1="442.0" x2="870.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="875.0" y1="442.0" x2="875.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="880.0" y1="442.0" x2="880.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="885.0" y1="442.0" x2="885.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="890.0" y1="442.0" x2="890.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="895.0" y1="442.0" x2="895.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="900.0" y1="442.0" x2="900.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="905.0" y1="442.0" x2="905.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="910.0" y1="442.0" x2="910.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="915.0" y1="442.0" x2="915.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="920.0" y1="442.0" x2="920.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="925.0" y1="442.0" x2="925.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="930.0" y1="442.0" x2="930.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="935.0" y1="442.0" x2="935.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="940.0" y1="442.0" x2="940.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="945.0" y1="442.0" x2="945.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="950.0" y1="442.0" x2="950.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="955.0" y1="442.0" x2="955.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="960.0" y1="442.0" x2="960.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="965.0" y1="442.0" x2="965.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="970.0" y1="442.0" x2="970.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="975.0" y1="442.0" x2="975.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="980.0" y1="442.0" x2="980.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="985.0" y1="442.0" x2="985.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="990.0" y1="442.0" x2="990.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="995.0" y1="442.0" x2="995.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="1000.0" y1="442.0" x2="1000.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="1005.0" y1="442.0" x2="1005.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="1010.0" y1="442.0" x2="1010.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="1015.0" y1="442.0" x2="1015.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="1020.0" y1="442.0" x2="1020.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="1025.0" y1="442.0" x2="1025.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="1030.0" y1="442.0" x2="1030.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="1035.0" y1="442.0" x2="1035.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="1040.0" y1="442.0" x2="1040.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="1045.0" y1="442.0" x2="1045.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="1050.0" y1="442.0" x2="1050.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="1055.0" y1="442.0" x2="1055.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="1060.0" y1="442.0" x2="1060.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="1065.0" y1="442.0" x2="1065.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="1070.0" y1="442.0" x2="1070.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="1075.0" y1="442.0" x2="1075.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="1080.0" y1="442.0" x2="1080.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="1085.0" y1="442.0" x2="1085.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="1090.0" y1="442.0" x2="1090.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="1095.0" y1="442.0" x2="1095.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="1100.0" y1="442.0" x2="1100.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="1105.0" y1="442.0" x2="1105.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="1110.0" y1="442.0" x2="1110.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<line x1="1115.0" y1="442.0" x2="1115.0" y2="462.0" stroke="#0f8b8d" stroke-width="1" stroke-linecap="round" />
+<circle cx="323.8" cy="500.0" r="7" fill="#f4a261" />
+<circle cx="437.5" cy="500.0" r="7" fill="#f4a261" />
+<circle cx="551.2" cy="500.0" r="7" fill="#f4a261" />
+<circle cx="665.0" cy="500.0" r="7" fill="#f4a261" />
+<circle cx="778.8" cy="500.0" r="7" fill="#f4a261" />
+<circle cx="892.5" cy="500.0" r="7" fill="#f4a261" />
+<circle cx="1006.2" cy="500.0" r="7" fill="#f4a261" />
+<circle cx="1120.0" cy="500.0" r="7" fill="#f4a261" />
+<circle cx="665.0" cy="548.0" r="7" fill="#0f8b8d" />
+<circle cx="1120.0" cy="548.0" r="7" fill="#0f8b8d" />
+<line x1="505.8" y1="572.0" x2="505.8" y2="590.0" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" />
+<path d="M502.5 583.8 L505.8 590.0 L509.0 583.8" fill="none" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="515.8" y="584.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >pressed</text>
+<circle cx="509.8" cy="596.0" r="7" fill="#1e2a4a" />
+<text x="521.8" y="612.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >read right away, once its reading is steady for 30 ms</text>
+<line x1="210.0" y1="620.0" x2="210.0" y2="628.0" stroke="#9aa3b0" stroke-width="1.5" stroke-linecap="round" />
+<text x="210.0" y="645.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="middle" >0 ms</text>
+<line x1="437.5" y1="620.0" x2="437.5" y2="628.0" stroke="#9aa3b0" stroke-width="1.5" stroke-linecap="round" />
+<text x="437.5" y="645.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="middle" >1000 ms</text>
+<line x1="665.0" y1="620.0" x2="665.0" y2="628.0" stroke="#9aa3b0" stroke-width="1.5" stroke-linecap="round" />
+<text x="665.0" y="645.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="middle" >2000 ms</text>
+<line x1="892.5" y1="620.0" x2="892.5" y2="628.0" stroke="#9aa3b0" stroke-width="1.5" stroke-linecap="round" />
+<text x="892.5" y="645.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="middle" >3000 ms</text>
+<line x1="1120.0" y1="620.0" x2="1120.0" y2="628.0" stroke="#9aa3b0" stroke-width="1.5" stroke-linecap="round" />
+<text x="1120.0" y="645.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="middle" >4000 ms</text>
+<text x="1178.0" y="686.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer curriculum · CC BY 4.0</text>
+</svg>

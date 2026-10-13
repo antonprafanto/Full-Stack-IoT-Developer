@@ -5,7 +5,7 @@
 > **A 32-module curriculum — one module = one week of relaxed study (about 8 months) — that takes complete beginners all the way to building a full IoT system, from sensors to a dashboard on your phone.**
 > Hardware: **ESP32 + Raspberry Pi** · Software: **JavaScript/TypeScript (Node.js + React) for the server & the interface, a little C++ for the chip** · Language of instruction: **English, beginner-friendly** (this English edition is a complete translation of the Indonesian original).
 >
-> Document status: **v1.0.9 — approved, writing of the material in progress; Modules 1–7 (all of Phase 0 and Modules 5–7) are available in Indonesian and English** (12 October 2026). The decisions behind it are in [§11](#11-approved-decisions); the change history is in [§13](#13-revision-history).
+> Document status: **v1.0.10 — approved, writing of the material in progress; Modules 1–8 (all of Phase 0 and Modules 5–8) are available in Indonesian and English** (13 October 2026). The decisions behind it are in [§11](#11-approved-decisions); the change history is in [§13](#13-revision-history).
 
 ---
 
@@ -467,6 +467,8 @@ Format of each module:
 
 #### Module 8 — Robust Firmware: millis(), State Machines, Modular Code, Watchdog, & Debugging
 *Phase 1 · Week 8 · Hardware: Kit A · Prerequisites: Module 7*
+
+📖 **Available now:** [read Module 8](phase-1-esp32-embedded/module-08-robust-firmware/README.md)
 
 - **After this module you can:** write firmware that does many things "at the same time" without `delay()`, doesn't hang, remembers its settings after a power cut, and is easy to debug — the standard for firmware fit for real use.
 - **Core concepts:** the `delay()` trap & the `millis()` pattern (glancing at the wall clock); a simple *state machine* (IDLE → READING → DISPLAYING → ACTING); splitting code into several `.h/.cpp` files; the *watchdog timer* ("a guard that restarts the chip if the program gets stuck", **written the 3.x way**); storing settings & thresholds in NVS/Preferences (they survive a power cut — later the basis of the "local safety rules" in Module 19); leveled logging (DEBUG/INFO/ERROR); **a systematic debugging method** (change one thing, split in half, isolate); an *uptime counter* on the OLED.
@@ -941,6 +943,8 @@ One sentence per term, in plain language. All of them are covered fully in their
 ---
 
 ## 13. Revision history
+
+**v1.0.10 (13 Oct 2026)** — Module 8 published in Indonesian and English. Node 1 firmware moves to v1.0.0: `loop()` never waits (the `millis()` pattern and *state machines*, including automatic watering STANDBY → WATERING → COOLDOWN), the program is split into 24 files (one main file, `config.h`, and eleven `.h`/`.cpp` modules), a task *watchdog* restarts a `loop()` that is stuck for more than 5 seconds (written the esp32 3.x way: `esp_task_wdt_reconfigure()`), the `soil_watering` threshold and the boot counter are stored in NVS (folder `node1`), leveled logging DEBUG/INFO/ERROR, and a status page on the OLED display (long press of the button) with an *uptime counter*. New Serial commands: `info`, `threshold`, `threshold 35`, `threshold default`, `log debug`/`log info`/`log error`, and `restart`. The Indonesian syllabus now writes the first step of the main cycle in §7 as MENUNGGU (*idle*), as in its code; the English IDLE is unchanged. `PIN-MAP.md` is unchanged.
 
 **v1.0.9 (12 Oct 2026)** — First English edition, in the `en/` folder: a complete translation of the front page, this syllabus, the progress tracker, the phase pages, the modules published so far (Modules 1–7), and the `mini-smart-home/` project, including the code (English identifiers, comments, and file names), the images, and the data contract (English field names, `msh/` topics). Every Indonesian page that has an English counterpart now has a language switcher under its title. Small fixes found while translating, applied to both editions: Module 2 — capacitors are used from Module 5 on (not Module 6), and the 4.7 kΩ resistor is already used in Module 6 (the distance sensor's voltage divider), also in the `component-polarity` and `resistor-color-code` images; Module 1 — the Notepad-trap reference now points to Practice 3, step 4, and `kit-right-vs-wrong.svg` is now a valid XML file; Module 5 — the workbench images (`workbench-*`, `two-breadboards`) are full color again, because the 256-color palette had shifted the wire and resistor-band colors.
 

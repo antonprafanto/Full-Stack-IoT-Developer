@@ -19,7 +19,7 @@ Tick `[x]` every time you meet the **"You pass when"** criteria in [SYLLABUS.md]
 - [ ] **[Module 5](phase-1-esp32-embedded/module-05-gpio-and-pin-map/README.md)** — ESP32 Anatomy, the Canonical Pin Map, Power Supply, & Controlling the Real World
 - [ ] **[Module 6](phase-1-esp32-embedded/module-06-reading-sensors/README.md)** — Reading Sensors: Analog, Digital, & Calibration
 - [ ] **[Module 7](phase-1-esp32-embedded/module-07-sensor-bus-oled-schematics/README.md)** — Sensor Bus Protocols: I2C, 1-Wire, SPI, OLED Display, & Reading Schematics
-- [ ] **Module 8** — Robust Firmware: millis(), State Machines, Modular Code, Watchdog, & Debugging
+- [ ] **[Module 8](phase-1-esp32-embedded/module-08-robust-firmware/README.md)** — Robust Firmware: millis(), State Machines, Modular Code, Watchdog, & Debugging
 - [ ] **Module 9** — Power Supply & Low Power: Adapters, Batteries, Deep Sleep, & Measuring Current
 - [ ] 🎯 Phase 1 checkpoint: Node 1 runs 24 hours on an adapter without restarting; a battery sketch measured at < 15 mA while asleep
 

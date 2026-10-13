@@ -4,7 +4,7 @@
 
 *Phase 1 · Week 7 · Hardware: **Kit A Stage 2** (see 🧰) — you can also try almost every practice in Wokwi · Prerequisite: **Module 6** (Node 1 v0.3.0 with five sensors) · Time: 8–10 hours, spread over the week*
 
-[⬅️ Module 6](../module-06-reading-sensors/README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · [Module 8 ➡️ (coming soon — read the summary in the Syllabus)](../../SYLLABUS.md#module-8--robust-firmware-millis-state-machines-modular-code-watchdog--debugging)
+[⬅️ Module 6](../module-06-reading-sensors/README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · [Module 8 ➡️](../module-08-robust-firmware/README.md)
 
 ---
 
@@ -2533,4 +2533,4 @@ All the sketches in this module, including Node 1 v0.4.0, have been run in Wokwi
 
 ---
 
-[⬅️ Module 6](../module-06-reading-sensors/README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · **Next: Module 8 — Robust Firmware: millis(), State Machines, Modular Code, Watchdog, & Debugging** (coming soon; [read the summary in the Syllabus](../../SYLLABUS.md#module-8--robust-firmware-millis-state-machines-modular-code-watchdog--debugging))
+[⬅️ Module 6](../module-06-reading-sensors/README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · **Next: [Module 8 — Robust Firmware: millis(), State Machines, Modular Code, Watchdog, & Debugging](../module-08-robust-firmware/README.md) ➡️**

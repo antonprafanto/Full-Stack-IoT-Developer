@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="560" viewBox="0 0 1200 560" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="560" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >A button without waiting: short press and long press</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >The signal on pin D13 (INPUT_PULLUP): HIGH = released, LOW = pressed</text>
+<text x="60.0" y="136.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="start" >Short press: released before 1 second</text>
+<text x="156.0" y="174.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="end" >HIGH</text>
+<text x="156.0" y="224.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="end" >LOW</text>
+<path d="M170 170 L265.0 170 L265.0 220 L269.0 170 L272.0 220 L275.0 170 L277.0 220 L455.0 220 L455.0 170 L458.0 220 L461.0 170 L463.0 220 L465.0 170 L1120 170" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="193.0" y="198.0" width="62.0" height="20.0" rx="4" fill="#fdeedd" />
+<text x="224.0" y="213.0" font-size="12" font-weight="700" fill="#b45f17" text-anchor="middle" >bounce</text>
+<line x1="291.1" y1="156.0" x2="291.1" y2="246.0" stroke="#4a5568" stroke-width="2" stroke-linecap="round" stroke-dasharray="5 4" />
+<text x="285.1" y="266.0" font-size="13" font-weight="800" fill="#4a5568" text-anchor="end" >pressed (after 30 ms steady)</text>
+<line x1="479.2" y1="156.0" x2="479.2" y2="246.0" stroke="#0f8b8d" stroke-width="2" stroke-linecap="round" stroke-dasharray="5 4" />
+<text x="485.2" y="266.0" font-size="13" font-weight="800" fill="#0f8b8d" text-anchor="start" >released (after 30 ms steady) → shortPress()</text>
+<line x1="291.1" y1="150.0" x2="766.1" y2="150.0" stroke="#c9ced6" stroke-width="1.4" stroke-linecap="round" stroke-dasharray="4 4" />
+<line x1="766.1" y1="144.0" x2="766.1" y2="156.0" stroke="#c9ced6" stroke-width="1.4" stroke-linecap="round" />
+<text x="772.1" y="154.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="start" >1-second limit</text>
+<text x="60.0" y="346.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="start" >Long press: still held when 1 second has passed</text>
+<text x="156.0" y="384.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="end" >HIGH</text>
+<text x="156.0" y="434.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="end" >LOW</text>
+<path d="M170 380 L265.0 380 L265.0 430 L269.0 380 L272.0 430 L275.0 380 L277.0 430 L977.5 430 L977.5 380 L980.5 430 L983.5 380 L985.5 430 L987.5 380 L1120 380" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="193.0" y="408.0" width="62.0" height="20.0" rx="4" fill="#fdeedd" />
+<text x="224.0" y="423.0" font-size="12" font-weight="700" fill="#b45f17" text-anchor="middle" >bounce</text>
+<line x1="291.1" y1="366.0" x2="291.1" y2="456.0" stroke="#4a5568" stroke-width="2" stroke-linecap="round" stroke-dasharray="5 4" />
+<text x="285.1" y="476.0" font-size="13" font-weight="800" fill="#4a5568" text-anchor="end" >pressed</text>
+<line x1="766.1" y1="366.0" x2="766.1" y2="456.0" stroke="#2f6fd1" stroke-width="2" stroke-linecap="round" stroke-dasharray="5 4" />
+<text x="766.1" y="476.0" font-size="13" font-weight="800" fill="#2f6fd1" text-anchor="middle" >exactly 1 second → longPress()</text>
+<line x1="1001.7" y1="366.0" x2="1001.7" y2="456.0" stroke="#4a5568" stroke-width="2" stroke-linecap="round" stroke-dasharray="5 4" />
+<text x="1001.7" y="476.0" font-size="13" font-weight="800" fill="#4a5568" text-anchor="middle" >released → nothing is called</text>
+<text x="600.0" y="104.0" font-size="13.5" font-weight="700" fill="#b45f17" text-anchor="middle" >A change is only trusted once the reading has been steady for 30 ms; bounces and brief noise don't count.</text>
+<line x1="170.0" y1="500.0" x2="1120.0" y2="500.0" stroke="#9aa3b0" stroke-width="1.2" stroke-linecap="round" />
+<line x1="170.0" y1="495.0" x2="170.0" y2="505.0" stroke="#9aa3b0" stroke-width="1.2" stroke-linecap="round" />
+<text x="170.0" y="524.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="middle" >0 ms</text>
+<line x1="407.5" y1="495.0" x2="407.5" y2="505.0" stroke="#9aa3b0" stroke-width="1.2" stroke-linecap="round" />
+<text x="407.5" y="524.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="middle" >500 ms</text>
+<line x1="645.0" y1="495.0" x2="645.0" y2="505.0" stroke="#9aa3b0" stroke-width="1.2" stroke-linecap="round" />
+<text x="645.0" y="524.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="middle" >1000 ms</text>
+<line x1="882.5" y1="495.0" x2="882.5" y2="505.0" stroke="#9aa3b0" stroke-width="1.2" stroke-linecap="round" />
+<text x="882.5" y="524.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="middle" >1500 ms</text>
+<line x1="1120.0" y1="495.0" x2="1120.0" y2="505.0" stroke="#9aa3b0" stroke-width="1.2" stroke-linecap="round" />
+<text x="1120.0" y="524.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="middle" >2000 ms</text>
+<text x="1178.0" y="546.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer curriculum · CC BY 4.0</text>
+</svg>

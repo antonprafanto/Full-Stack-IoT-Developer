@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="690" viewBox="0 0 1200 690" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="690" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Modular code: guest, menu, and kitchen</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >One module = a .h file (menu) + a .cpp file (kitchen) · the main sketch only reads the menu</text>
+<rect x="40.0" y="100.0" width="330.0" height="330.0" rx="14" fill="#ffffff" stroke="#b9bfca" stroke-width="1.5" />
+<rect x="40.0" y="100.0" width="330.0" height="44.0" rx="14" fill="#4a5568" />
+<rect x="40.0" y="128.0" width="330.0" height="16.0" rx="0" fill="#4a5568" />
+<text x="58.0" y="128.0" font-size="17" font-weight="800" fill="#ffffff" text-anchor="start" >Guest</text>
+<text x="352.0" y="128.0" font-size="14" font-weight="700" fill="#ffffff" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">module08_modular.ino</text>
+<text x="56.0" y="176.0" font-size="13" font-weight="400" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">#include "heartbeat.h"</text>
+<text x="56.0" y="200.0" font-size="13" font-weight="400" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve"></text>
+<text x="56.0" y="224.0" font-size="13" font-weight="400" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve"><tspan fill="#1e2a4a">void </tspan><tspan fill="#b45f17">setup</tspan><tspan fill="#1e2a4a">() {</tspan></text>
+<text x="56.0" y="248.0" font-size="13" font-weight="400" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">  beginHeartbeat(PIN_STATUS_LED);</text>
+<text x="56.0" y="272.0" font-size="13" font-weight="400" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">}</text>
+<text x="56.0" y="296.0" font-size="13" font-weight="400" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve"></text>
+<text x="56.0" y="320.0" font-size="13" font-weight="400" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve"><tspan fill="#1e2a4a">void </tspan><tspan fill="#0f8b8d">loop</tspan><tspan fill="#1e2a4a">() {</tspan></text>
+<text x="56.0" y="344.0" font-size="13" font-weight="400" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">  updateHeartbeat();</text>
+<text x="56.0" y="368.0" font-size="13" font-weight="400" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">}</text>
+<text x="205.0" y="414.0" font-size="13.5" font-weight="700" fill="#4a5568" text-anchor="middle" >orders through the menu</text>
+<rect x="435.0" y="100.0" width="330.0" height="330.0" rx="14" fill="#ffffff" stroke="#2f6fd1" stroke-width="2" />
+<rect x="435.0" y="100.0" width="330.0" height="44.0" rx="14" fill="#2f6fd1" />
+<rect x="435.0" y="128.0" width="330.0" height="16.0" rx="0" fill="#2f6fd1" />
+<text x="453.0" y="128.0" font-size="17" font-weight="800" fill="#ffffff" text-anchor="start" >Menu</text>
+<text x="747.0" y="128.0" font-size="14" font-weight="700" fill="#ffffff" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">heartbeat.h</text>
+<text x="451.0" y="176.0" font-size="13" font-weight="400" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">#pragma once</text>
+<text x="451.0" y="200.0" font-size="13" font-weight="400" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve"></text>
+<text x="451.0" y="224.0" font-size="13" font-weight="400" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">void beginHeartbeat(int pin);</text>
+<text x="451.0" y="248.0" font-size="13" font-weight="400" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">void setHeartbeatRhythm(bool problem);</text>
+<text x="451.0" y="272.0" font-size="13" font-weight="400" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">void updateHeartbeat();</text>
+<text x="600.0" y="414.0" font-size="13.5" font-weight="700" fill="#2f6fd1" text-anchor="middle" >a list of dishes, no recipes</text>
+<rect x="830.0" y="100.0" width="330.0" height="330.0" rx="14" fill="#ffffff" stroke="#b9bfca" stroke-width="1.5" />
+<rect x="830.0" y="100.0" width="330.0" height="44.0" rx="14" fill="#4a5568" />
+<rect x="830.0" y="128.0" width="330.0" height="16.0" rx="0" fill="#4a5568" />
+<text x="848.0" y="128.0" font-size="17" font-weight="800" fill="#ffffff" text-anchor="start" >Kitchen</text>
+<text x="1142.0" y="128.0" font-size="14" font-weight="700" fill="#ffffff" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">heartbeat.cpp</text>
+<text x="846.0" y="176.0" font-size="13" font-weight="400" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">#include &lt;Arduino.h&gt;</text>
+<text x="846.0" y="200.0" font-size="13" font-weight="400" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">#include "heartbeat.h"</text>
+<text x="846.0" y="224.0" font-size="13" font-weight="400" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve"></text>
+<text x="846.0" y="248.0" font-size="13" font-weight="400" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">static int heartbeatPin = -1;</text>
+<text x="846.0" y="272.0" font-size="13" font-weight="400" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve"></text>
+<text x="846.0" y="296.0" font-size="13" font-weight="400" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">void updateHeartbeat() {</text>
+<text x="846.0" y="320.0" font-size="13" font-weight="400" fill="#8a8f9c" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">  // the full recipe</text>
+<text x="846.0" y="344.0" font-size="13" font-weight="400" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">}</text>
+<text x="995.0" y="414.0" font-size="13.5" font-weight="700" fill="#4a5568" text-anchor="middle" >recipes + kitchen secrets (static)</text>
+<line x1="374.0" y1="214.0" x2="429.0" y2="214.0" stroke="#1e2a4a" stroke-width="2.6" stroke-linecap="round" />
+<path d="M420.2 218.7 L429.0 214.0 L420.2 209.3" fill="none" stroke="#1e2a4a" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="402.5" y="200.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="middle" >#include</text>
+<line x1="826.0" y1="214.0" x2="771.0" y2="214.0" stroke="#1e2a4a" stroke-width="2.6" stroke-linecap="round" />
+<path d="M779.8 209.3 L771.0 214.0 L779.8 218.7" fill="none" stroke="#1e2a4a" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="797.5" y="200.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="middle" >#include</text>
+<rect x="40.0" y="452.0" width="1120.0" height="210.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="60.0" y="482.0" font-size="17" font-weight="800" fill="#1e2a4a" text-anchor="start" >On Verify, two stages — two kinds of error</text>
+<circle cx="76.0" cy="520.0" r="13" fill="#2f6fd1" stroke="#ffffff" stroke-width="2" />
+<text x="76.0" y="524.7" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle" >1</text>
+<text x="100.0" y="526.0" font-size="15" font-weight="700" fill="#1e2a4a" text-anchor="start" >Compile stage: every file is translated on its own.</text>
+<text x="1140.0" y="526.0" font-size="13.5" font-weight="700" fill="#4a5568" text-anchor="end" >forgotten #include / typo</text>
+<text x="100.0" y="554.0" font-size="14" font-weight="400" fill="#e63946" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">error: 'beginHeartbeat' was not declared in this scope</text>
+<circle cx="76.0" cy="600.0" r="13" fill="#2f6fd1" stroke="#ffffff" stroke-width="2" />
+<text x="76.0" y="604.7" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle" >2</text>
+<text x="100.0" y="606.0" font-size="15" font-weight="700" fill="#1e2a4a" text-anchor="start" >Link stage (ld): all the results are joined into one program.</text>
+<text x="1140.0" y="606.0" font-size="13.5" font-weight="700" fill="#4a5568" text-anchor="end" >menu yes, kitchen no</text>
+<text x="100.0" y="634.0" font-size="14" font-weight="400" fill="#e63946" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">undefined reference to `updateHeartbeat()'</text>
+<text x="1178.0" y="676.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer curriculum · CC BY 4.0</text>
+</svg>

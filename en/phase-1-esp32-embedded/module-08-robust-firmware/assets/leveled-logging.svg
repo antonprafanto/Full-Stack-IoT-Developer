@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="590" viewBox="0 0 1200 590" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="590" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Leveled logging: the current level works like a filter</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Change the level at any time from the Serial Monitor: log debug · log info · log error</text>
+<rect x="40.0" y="100.0" width="1120.0" height="410.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="60.0" y="132.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >Messages the program creates</text>
+<text x="862.0" y="132.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" >log debug</text>
+<text x="960.0" y="132.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" >log info</text>
+<text x="960.0" y="148.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="middle" >(default)</text>
+<text x="1058.0" y="132.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" >log error</text>
+<rect x="60.0" y="162.0" width="770.0" height="36.0" rx="6" fill="#eef1f5" />
+<rect x="60.0" y="162.0" width="6.0" height="36.0" rx="3" fill="#4a5568" />
+<text x="78.0" y="186.0" font-size="13" font-weight="400" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">[00:12:04] DEBUG Cycle: IDLE -&gt; READING</text>
+<circle cx="862.0" cy="180.0" r="10" fill="#2a9d5c" />
+<path d="M857 180 L860.5 184 L867.5 175.5" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="960.0" cy="180.0" r="10" fill="#e5e7eb" />
+<line x1="955.0" y1="180.0" x2="965.0" y2="180.0" stroke="#9aa3b0" stroke-width="2.2" stroke-linecap="round" />
+<circle cx="1058.0" cy="180.0" r="10" fill="#e5e7eb" />
+<line x1="1053.0" y1="180.0" x2="1063.0" y2="180.0" stroke="#9aa3b0" stroke-width="2.2" stroke-linecap="round" />
+<rect x="60.0" y="212.0" width="770.0" height="36.0" rx="6" fill="#ffffff" />
+<rect x="60.0" y="212.0" width="6.0" height="36.0" rx="3" fill="#0f8b8d" />
+<text x="78.0" y="236.0" font-size="13" font-weight="400" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">[00:12:04] INFO  temperature=28.4 C  humidity=71 %  …  soil=12 %  …</text>
+<circle cx="862.0" cy="230.0" r="10" fill="#2a9d5c" />
+<path d="M857 230 L860.5 234 L867.5 225.5" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="960.0" cy="230.0" r="10" fill="#2a9d5c" />
+<path d="M955 230 L958.5 234 L965.5 225.5" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="1058.0" cy="230.0" r="10" fill="#e5e7eb" />
+<line x1="1053.0" y1="230.0" x2="1063.0" y2="230.0" stroke="#9aa3b0" stroke-width="2.2" stroke-linecap="round" />
+<rect x="60.0" y="262.0" width="770.0" height="36.0" rx="6" fill="#eef1f5" />
+<rect x="60.0" y="262.0" width="6.0" height="36.0" rx="3" fill="#0f8b8d" />
+<text x="78.0" y="286.0" font-size="13" font-weight="400" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">[00:12:04] INFO  Dry soil (12 %, threshold 30 %): trying to water.</text>
+<circle cx="862.0" cy="280.0" r="10" fill="#2a9d5c" />
+<path d="M857 280 L860.5 284 L867.5 275.5" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="960.0" cy="280.0" r="10" fill="#2a9d5c" />
+<path d="M955 280 L958.5 284 L965.5 275.5" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="1058.0" cy="280.0" r="10" fill="#e5e7eb" />
+<line x1="1053.0" y1="280.0" x2="1063.0" y2="280.0" stroke="#9aa3b0" stroke-width="2.2" stroke-linecap="round" />
+<rect x="60.0" y="312.0" width="770.0" height="36.0" rx="6" fill="#ffffff" />
+<rect x="60.0" y="312.0" width="6.0" height="36.0" rx="3" fill="#e63946" />
+<text x="78.0" y="336.0" font-size="13" font-weight="400" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">[00:12:04] ERROR Pump REFUSED: water level only 15 %.</text>
+<circle cx="862.0" cy="330.0" r="10" fill="#2a9d5c" />
+<path d="M857 330 L860.5 334 L867.5 325.5" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="960.0" cy="330.0" r="10" fill="#2a9d5c" />
+<path d="M955 330 L958.5 334 L965.5 325.5" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="1058.0" cy="330.0" r="10" fill="#2a9d5c" />
+<path d="M1053 330 L1056.5 334 L1063.5 325.5" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="60.0" y="362.0" width="770.0" height="36.0" rx="6" fill="#eef1f5" />
+<rect x="60.0" y="362.0" width="6.0" height="36.0" rx="3" fill="#4a5568" />
+<text x="78.0" y="386.0" font-size="13" font-weight="400" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">[00:12:04] DEBUG Watering: STANDBY -&gt; COOLDOWN</text>
+<circle cx="862.0" cy="380.0" r="10" fill="#2a9d5c" />
+<path d="M857 380 L860.5 384 L867.5 375.5" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="960.0" cy="380.0" r="10" fill="#e5e7eb" />
+<line x1="955.0" y1="380.0" x2="965.0" y2="380.0" stroke="#9aa3b0" stroke-width="2.2" stroke-linecap="round" />
+<circle cx="1058.0" cy="380.0" r="10" fill="#e5e7eb" />
+<line x1="1053.0" y1="380.0" x2="1063.0" y2="380.0" stroke="#9aa3b0" stroke-width="2.2" stroke-linecap="round" />
+<rect x="60.0" y="412.0" width="770.0" height="36.0" rx="6" fill="#ffffff" />
+<rect x="60.0" y="412.0" width="6.0" height="36.0" rx="3" fill="#0f8b8d" />
+<text x="78.0" y="436.0" font-size="13" font-weight="400" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">[00:12:06] INFO  temperature=28.4 C  humidity=71 %  …  soil=12 %  …</text>
+<circle cx="862.0" cy="430.0" r="10" fill="#2a9d5c" />
+<path d="M857 430 L860.5 434 L867.5 425.5" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="960.0" cy="430.0" r="10" fill="#2a9d5c" />
+<path d="M955 430 L958.5 434 L965.5 425.5" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="1058.0" cy="430.0" r="10" fill="#e5e7eb" />
+<line x1="1053.0" y1="430.0" x2="1063.0" y2="430.0" stroke="#9aa3b0" stroke-width="2.2" stroke-linecap="round" />
+<text x="60.0" y="486.0" font-size="13.5" font-weight="700" fill="#4a5568" text-anchor="start" >shown = ✓ · hidden = —</text>
+<text x="1140.0" y="486.0" font-size="13.5" font-weight="700" fill="#4a5568" text-anchor="end" >replies to commands (status, info) are always shown</text>
+<text x="600.0" y="545.0" font-size="15" font-weight="700" fill="#1e2a4a" text-anchor="middle" >Good habit: log when something changes, not on every pass of loop().</text>
+<text x="1178.0" y="576.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer curriculum · CC BY 4.0</text>
+</svg>

@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="600" viewBox="0 0 1200 600" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="600" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >The clock that wraps back to zero</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >millis() rolls over after about 49.7 days, like a car's odometer · subtraction still gives the right answer</text>
+<rect x="40.0" y="100.0" width="540.0" height="300.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="60.0" y="130.0" font-size="18" font-weight="800" fill="#1e2a4a" text-anchor="start" >A six-digit odometer</text>
+<text x="60.0" y="168.0" font-size="13.5" font-weight="700" fill="#4a5568" text-anchor="start" >when filling up</text>
+<rect x="60.0" y="178.0" width="38.0" height="52.0" rx="6" fill="#1f2937" />
+<text x="79.0" y="214.4" font-size="30" font-weight="700" fill="#ffffff" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">9</text>
+<rect x="102.0" y="178.0" width="38.0" height="52.0" rx="6" fill="#1f2937" />
+<text x="121.0" y="214.4" font-size="30" font-weight="700" fill="#ffffff" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">9</text>
+<rect x="144.0" y="178.0" width="38.0" height="52.0" rx="6" fill="#1f2937" />
+<text x="163.0" y="214.4" font-size="30" font-weight="700" fill="#ffffff" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">9</text>
+<rect x="186.0" y="178.0" width="38.0" height="52.0" rx="6" fill="#1f2937" />
+<text x="205.0" y="214.4" font-size="30" font-weight="700" fill="#ffffff" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">8</text>
+<rect x="228.0" y="178.0" width="38.0" height="52.0" rx="6" fill="#1f2937" />
+<text x="247.0" y="214.4" font-size="30" font-weight="700" fill="#ffffff" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">0</text>
+<rect x="270.0" y="178.0" width="38.0" height="52.0" rx="6" fill="#1f2937" />
+<text x="289.0" y="214.4" font-size="30" font-weight="700" fill="#ffffff" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">0</text>
+<text x="60.0" y="268.0" font-size="13.5" font-weight="700" fill="#4a5568" text-anchor="start" >now</text>
+<rect x="60.0" y="278.0" width="38.0" height="52.0" rx="6" fill="#1f2937" />
+<text x="79.0" y="314.4" font-size="30" font-weight="700" fill="#ffffff" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">0</text>
+<rect x="102.0" y="278.0" width="38.0" height="52.0" rx="6" fill="#1f2937" />
+<text x="121.0" y="314.4" font-size="30" font-weight="700" fill="#ffffff" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">0</text>
+<rect x="144.0" y="278.0" width="38.0" height="52.0" rx="6" fill="#1f2937" />
+<text x="163.0" y="314.4" font-size="30" font-weight="700" fill="#ffffff" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">0</text>
+<rect x="186.0" y="278.0" width="38.0" height="52.0" rx="6" fill="#1f2937" />
+<text x="205.0" y="314.4" font-size="30" font-weight="700" fill="#ffffff" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">3</text>
+<rect x="228.0" y="278.0" width="38.0" height="52.0" rx="6" fill="#1f2937" />
+<text x="247.0" y="314.4" font-size="30" font-weight="700" fill="#ffffff" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">0</text>
+<rect x="270.0" y="278.0" width="38.0" height="52.0" rx="6" fill="#1f2937" />
+<text x="289.0" y="314.4" font-size="30" font-weight="700" fill="#ffffff" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">0</text>
+<text x="350.0" y="212.0" font-size="14" font-weight="700" fill="#1e2a4a" text-anchor="start" >200 km until it rolls over,</text>
+<text x="350.0" y="234.0" font-size="14" font-weight="700" fill="#1e2a4a" text-anchor="start" >then 300 km more</text>
+<text x="350.0" y="300.0" font-size="20" font-weight="800" fill="#2a9d5c" text-anchor="start" >= 500 km ✓</text>
+<text x="60.0" y="372.0" font-size="14" font-weight="400" fill="#4a5568" text-anchor="start" >000300 − 999800, counted "across zero", is still 500.</text>
+<rect x="620.0" y="100.0" width="540.0" height="300.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="640.0" y="130.0" font-size="18" font-weight="800" fill="#1e2a4a" text-anchor="start" >millis() in an unsigned long</text>
+<text x="640.0" y="168.0" font-size="13.5" font-weight="700" fill="#4a5568" text-anchor="start" >lastTime (296 ms before the rollover)</text>
+<text x="640.0" y="206.0" font-size="30" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">4294967000</text>
+<text x="640.0" y="248.0" font-size="13.5" font-weight="700" fill="#4a5568" text-anchor="start" >now (704 ms after the rollover)</text>
+<text x="640.0" y="286.0" font-size="30" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">704</text>
+<text x="640.0" y="336.0" font-size="16" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">now - lastTime</text>
+<text x="819.6" y="336.0" font-size="18" font-weight="800" fill="#2a9d5c" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">= 1000 ✓</text>
+<text x="640.0" y="372.0" font-size="14" font-weight="400" fill="#4a5568" text-anchor="start" >exactly 1 second, even though the number went back to 0</text>
+<rect x="40.0" y="420.0" width="1120.0" height="150.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<rect x="60.0" y="440.0" width="1080.0" height="52.0" rx="10" fill="#e3f4ea" />
+<circle cx="84.0" cy="466.0" r="11" fill="#2a9d5c" />
+<path d="M79 466 L82.5 470 L89.5 461.5" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="108.0" y="472.0" font-size="16.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">if (now - lastTime &gt;= INTERVAL)</text>
+<text x="1120.0" y="472.0" font-size="14" font-weight="700" fill="#2a9d5c" text-anchor="end" >safe forever, as long as INTERVAL &lt; 49.7 days</text>
+<rect x="60.0" y="502.0" width="1080.0" height="52.0" rx="10" fill="#fde6e8" />
+<circle cx="84.0" cy="528.0" r="11" fill="#e63946" />
+<path d="M79.5 523.5 L88.5 532.5 M88.5 523.5 L79.5 532.5" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="108.0" y="534.0" font-size="16.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">if (millis() &gt;= lastTime + INTERVAL)</text>
+<text x="1120.0" y="534.0" font-size="14" font-weight="700" fill="#e63946" text-anchor="end" >breaks once every 49.7 days: the addition overflows too</text>
+<text x="1178.0" y="586.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer curriculum · CC BY 4.0</text>
+</svg>

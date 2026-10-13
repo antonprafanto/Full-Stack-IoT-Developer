@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="640" viewBox="0 0 1200 640" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="640" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >The watering state machine</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Always exactly one state · every arrow = a transition rule, with its trigger</text>
+<circle cx="250.0" cy="330.0" r="82" fill="#e2f3f1" stroke="#0f8b8d" stroke-width="3" />
+<text x="250.0" y="322.0" font-size="20" font-weight="800" fill="#1e2a4a" text-anchor="middle" >STANDBY</text>
+<text x="250.0" y="346.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="middle" >check the soil</text>
+<text x="250.0" y="364.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="middle" >every 2 seconds</text>
+<circle cx="860.0" cy="200.0" r="82" fill="#dbeafe" stroke="#2f6fd1" stroke-width="3" />
+<text x="860.0" y="192.0" font-size="20" font-weight="800" fill="#1e2a4a" text-anchor="middle" >WATERING</text>
+<text x="860.0" y="216.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="middle" >the pump runs,</text>
+<text x="860.0" y="234.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="middle" >without waiting</text>
+<circle cx="860.0" cy="470.0" r="82" fill="#eef0f3" stroke="#4a5568" stroke-width="3" />
+<text x="860.0" y="462.0" font-size="20" font-weight="800" fill="#1e2a4a" text-anchor="middle" >COOLDOWN</text>
+<text x="860.0" y="486.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="middle" >resting,</text>
+<text x="860.0" y="504.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="middle" >water soaks in</text>
+<path d="M70 330 L162 330" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M157.0 334.3 L166.0 330.0 L157.0 325.7" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="70.0" y="318.0" font-size="13.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >start</text>
+<path d="M318 282 Q540 150 776 192" fill="none" stroke="#2f6fd1" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M768.5 195.1 L778.0 192.0 L769.7 186.4" fill="none" stroke="#2f6fd1" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="390.0" y="100.0" width="320.0" height="74.0" rx="8" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.2" />
+<text x="550.0" y="121.0" font-size="14" font-weight="800" fill="#2f6fd1" text-anchor="middle" >soil &lt; 30% (or the button held)</text>
+<text x="550.0" y="141.0" font-size="14" font-weight="800" fill="#2f6fd1" text-anchor="middle" >and water ≥ 20%</text>
+<text x="550.0" y="162.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="middle" >pump turned on</text>
+<path d="M860 282 L860 384" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M855.7 377.0 L860.0 386.0 L864.3 377.0" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="880.0" y="312.0" width="230.0" height="52.0" rx="8" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.2" />
+<text x="995.0" y="334.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="middle" >3 seconds passed</text>
+<text x="995.0" y="354.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="middle" >pump turned off</text>
+<path d="M778 486 Q540 560 318 380" fill="none" stroke="#0f8b8d" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M325.3 381.8 L316.0 378.0 L318.8 387.6" fill="none" stroke="#0f8b8d" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="430.0" y="512.0" width="200.0" height="34.0" rx="8" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.2" />
+<text x="530.0" y="534.0" font-size="14" font-weight="800" fill="#0f8b8d" text-anchor="middle" >30 seconds passed</text>
+<path d="M332 344 Q560 380 776 452" fill="none" stroke="#e63946" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M768.1 454.0 L778.0 453.0 L771.0 445.8" fill="none" stroke="#e63946" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="425.0" y="372.0" width="320.0" height="74.0" rx="8" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.2" />
+<text x="585.0" y="393.0" font-size="14" font-weight="800" fill="#e63946" text-anchor="middle" >soil &lt; 30% (or the button held),</text>
+<text x="585.0" y="413.0" font-size="14" font-weight="800" fill="#e63946" text-anchor="middle" >but water &lt; 20%</text>
+<text x="585.0" y="434.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="middle" >pump refused, LED blinks fast</text>
+<rect x="40.0" y="580.0" width="1120.0" height="40.0" rx="10" fill="#eef1f5" />
+<text x="600.0" y="605.0" font-size="14.5" font-weight="700" fill="#1e2a4a" text-anchor="middle" >In every state, the heartbeat LED keeps beating and the button is still checked on every pass of loop().</text>
+<text x="1178.0" y="626.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer curriculum · CC BY 4.0</text>
+</svg>
