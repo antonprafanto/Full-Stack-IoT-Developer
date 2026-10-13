@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="540" viewBox="0 0 1200 540" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="540" fill="#fffdf7"/>
+<text x="600.0" y="40.0" font-size="26" font-weight="700" fill="#1e2a4a" text-anchor="middle" >Peta jalan mini — kamu ada di sini</text>
+<text x="600.0" y="66.0" font-size="15" font-weight="400" fill="#555" text-anchor="middle" >32 modul = 32 minggu · satu proyek benang merah "Rumah Pintar Mini" yang tumbuh dari LED berkedip sampai sistem online</text>
+<rect x="60.0" y="100.0" width="140.0" height="56.0" rx="8" fill="#e0e0e0" />
+<text x="130.0" y="124.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="middle" >FASE 0</text>
+<text x="130.0" y="144.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="middle" >Fondasi · M1–4</text>
+<rect x="206.0" y="100.0" width="160.0" height="56.0" rx="8" fill="#f4a261" />
+<text x="286.0" y="124.0" font-size="14" font-weight="700" fill="#1e2a4a" text-anchor="middle" >FASE 1</text>
+<text x="286.0" y="144.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="middle" >ESP32 · M5–9</text>
+<rect x="372.0" y="100.0" width="196.0" height="56.0" rx="8" fill="#cfe9f3" />
+<text x="470.0" y="124.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="middle" >FASE 2</text>
+<text x="470.0" y="144.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="middle" >Konektivitas · M10–15</text>
+<rect x="574.0" y="100.0" width="200.0" height="56.0" rx="8" fill="#d6f0e3" />
+<text x="674.0" y="124.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="middle" >FASE 3</text>
+<text x="674.0" y="144.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="middle" >Backend &amp; data · M16–21</text>
+<rect x="780.0" y="100.0" width="160.0" height="56.0" rx="8" fill="#e6dcf5" />
+<text x="860.0" y="124.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="middle" >FASE 4</text>
+<text x="860.0" y="144.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="middle" >Dashboard · M22–25</text>
+<rect x="946.0" y="100.0" width="194.0" height="56.0" rx="8" fill="#e0e0e0" />
+<text x="1043.0" y="124.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="middle" >FASE 5</text>
+<text x="1043.0" y="144.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="middle" >Operasi &amp; skala · M26–32</text>
+<rect x="60.0" y="170.0" width="30.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="75.0" y="188.0" font-size="13" font-weight="600" fill="#fff" text-anchor="middle" >M1</text>
+<rect x="96.0" y="170.0" width="30.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="111.0" y="188.0" font-size="13" font-weight="600" fill="#fff" text-anchor="middle" >M2</text>
+<rect x="132.0" y="170.0" width="30.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="147.0" y="188.0" font-size="13" font-weight="600" fill="#fff" text-anchor="middle" >M3</text>
+<rect x="168.0" y="170.0" width="30.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="183.0" y="188.0" font-size="13" font-weight="600" fill="#fff" text-anchor="middle" >M4</text>
+<rect x="206.0" y="170.0" width="28.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="220.0" y="188.0" font-size="13" font-weight="600" fill="#fff" text-anchor="middle" >M5</text>
+<rect x="238.0" y="170.0" width="28.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="252.0" y="188.0" font-size="13" font-weight="600" fill="#fff" text-anchor="middle" >M6</text>
+<rect x="270.0" y="170.0" width="28.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="284.0" y="188.0" font-size="13" font-weight="600" fill="#fff" text-anchor="middle" >M7</text>
+<rect x="302.0" y="170.0" width="28.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="316.0" y="188.0" font-size="13" font-weight="600" fill="#fff" text-anchor="middle" >M8</text>
+<rect x="334.0" y="170.0" width="28.0" height="26.0" rx="5" fill="#e63946" />
+<text x="348.0" y="188.0" font-size="13" font-weight="600" fill="#fff" text-anchor="middle" >M9</text>
+<text x="60.0" y="214.0" font-size="13" font-weight="700" fill="#2a9d5c" text-anchor="start" >selesai ✓ (M1–8)</text>
+<path d="M348 200 L348 226" fill="none" stroke="#e63946" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M339 217 L348 227 L357 217" fill="none" stroke="#e63946" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<text x="348.0" y="244.0" font-size="13" font-weight="700" fill="#e63946" text-anchor="middle" >KAMU DI SINI</text>
+<text x="414.0" y="244.0" font-size="13" font-weight="700" fill="#b45f17" text-anchor="start" >← catu daya, tidur, dan checkpoint Fase 1 🎉</text>
+<rect x="60.0" y="272.0" width="1080.0" height="236.0" rx="12" fill="#fff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="80.0" y="302.0" font-size="17" font-weight="700" fill="#1e2a4a" text-anchor="start" >Modul 9 minggu ini (8–10 jam, dicicil; + INA219, 18650/TP4056/MT3608, ESP32 ke-2):</text>
+<text x="1120.0" y="302.0" font-size="14" font-weight="700" fill="#b45f17" text-anchor="end" >⭐ = wajib untuk lulus</text>
+<rect x="80.0" y="325.0" width="50.0" height="22.0" rx="11.0" fill="#0f8b8d" />
+<text x="105.0" y="340.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >KC</text>
+<text x="142.0" y="341.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >Kemenangan Cepat: ESP32 tidur dan bangun sendiri</text>
+<rect x="80.0" y="359.0" width="50.0" height="22.0" rx="11.0" fill="#0f8b8d" />
+<text x="105.0" y="374.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P1</text>
+<text x="142.0" y="375.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >Node 1 tanpa laptop: adaptor sendiri</text>
+<rect x="80.0" y="393.0" width="50.0" height="22.0" rx="11.0" fill="#0f8b8d" />
+<text x="105.0" y="408.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P2</text>
+<text x="142.0" y="409.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >tiga ingatan: RAM, memori RTC, NVS</text>
+<rect x="80.0" y="427.0" width="50.0" height="22.0" rx="11.0" fill="#0f8b8d" />
+<text x="105.0" y="442.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P3</text>
+<text x="142.0" y="443.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >bangun oleh tombol, lalu tidur ringan</text>
+<rect x="80.0" y="461.0" width="50.0" height="22.0" rx="11.0" fill="#0f8b8d" />
+<text x="105.0" y="476.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P4</text>
+<text x="142.0" y="477.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >kerangka Node 2 di papan kedua</text>
+<rect x="600.0" y="325.0" width="50.0" height="22.0" rx="11.0" fill="#0f8b8d" />
+<text x="625.0" y="340.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P5</text>
+<text x="662.0" y="341.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >rakit catu baterai 18650 → TP4056 → MT3608</text>
+<rect x="600.0" y="359.0" width="50.0" height="22.0" rx="11.0" fill="#0f8b8d" />
+<text x="625.0" y="374.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P6</text>
+<text x="662.0" y="375.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >Node 1 jadi alat ukur arus (INA219) ⭐</text>
+<rect x="600.0" y="393.0" width="50.0" height="22.0" rx="11.0" fill="#0f8b8d" />
+<text x="625.0" y="408.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P7</text>
+<text x="662.0" y="409.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >uji power bank: mati sendiri?</text>
+<rect x="600.0" y="427.0" width="50.0" height="22.0" rx="11.0" fill="#0f8b8d" />
+<text x="625.0" y="442.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P8</text>
+<text x="662.0" y="443.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >simpan sketsa dan catatan ke GitHub</text>
+<rect x="600.0" y="461.0" width="50.0" height="22.0" rx="11.0" fill="#b45f17" />
+<text x="625.0" y="477.4" font-size="15" font-weight="700" fill="#ffffff" text-anchor="middle" >+</text>
+<text x="662.0" y="477.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >Tambahan: Node 1 24 jam dari adaptor ⭐ + checkpoint 🎉</text>
+<text x="1178.0" y="526.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

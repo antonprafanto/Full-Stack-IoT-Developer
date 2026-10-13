@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="700" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Tiga pintu listrik papan ESP32 DevKit V1</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Ketiganya berujung di chip ESP32 yang hanya mau 3,3 V, tetapi jalannya berbeda</text>
+<rect x="40.0" y="100.0" width="1120.0" height="270.0" rx="16" fill="#f4f6f9" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="60.0" y="128.0" font-size="14" font-weight="800" fill="#4a5568" text-anchor="start" >Di dalam papan</text>
+<rect x="60.0" y="170.0" width="92.0" height="52.0" rx="6" fill="#c9ced6" stroke="#7a8494" stroke-width="1.6" />
+<rect x="78.0" y="187.0" width="56.0" height="18.0" rx="3" fill="#5a6472" />
+<text x="106.0" y="244.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" >colokan USB</text>
+<text x="106.0" y="262.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="middle" >5 V masuk</text>
+<line x1="152.0" y1="196.0" x2="232.0" y2="196.0" stroke="#b45f17" stroke-width="4" stroke-linecap="round" />
+<path d="M236 182 L236 210 L260 196 Z" fill="#1e2a4a" stroke="#1e2a4a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="261.0" y1="181.0" x2="261.0" y2="211.0" stroke="#1e2a4a" stroke-width="3.5" stroke-linecap="round" />
+<text x="250.0" y="244.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" >dioda</text>
+<text x="250.0" y="262.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="middle" >pintu satu arah</text>
+<line x1="262.0" y1="196.0" x2="520.0" y2="196.0" stroke="#b45f17" stroke-width="4" stroke-linecap="round" />
+<text x="390.0" y="182.0" font-size="14" font-weight="800" fill="#b45f17" text-anchor="middle" >jalur 5 V</text>
+<line x1="390.0" y1="196.0" x2="390.0" y2="370.0" stroke="#b45f17" stroke-width="4" stroke-linecap="round" />
+<circle cx="390.0" cy="196.0" r="6" fill="#b45f17" />
+<rect x="520.0" y="162.0" width="132.0" height="68.0" rx="6" fill="#2b2b2b" />
+<text x="586.0" y="190.0" font-size="14" font-weight="800" fill="#ffffff" text-anchor="middle" >AMS1117</text>
+<text x="586.0" y="210.0" font-size="13" font-weight="700" fill="#d9dde3" text-anchor="middle" >-3.3</text>
+<text x="586.0" y="252.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" >regulator</text>
+<text x="586.0" y="270.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="middle" >butuh masukan sekitar 4,5 V ke atas</text>
+<line x1="652.0" y1="196.0" x2="1000.0" y2="196.0" stroke="#0f8b8d" stroke-width="4" stroke-linecap="round" />
+<text x="740.0" y="182.0" font-size="14" font-weight="800" fill="#0f8b8d" text-anchor="middle" >jalur 3,3 V</text>
+<line x1="700.0" y1="196.0" x2="700.0" y2="370.0" stroke="#0f8b8d" stroke-width="4" stroke-linecap="round" />
+<circle cx="700.0" cy="196.0" r="6" fill="#0f8b8d" />
+<line x1="820.0" y1="196.0" x2="820.0" y2="242.0" stroke="#0f8b8d" stroke-width="2.5" stroke-linecap="round" />
+<circle cx="820.0" cy="196.0" r="4.5" fill="#0f8b8d" />
+<text x="820.0" y="260.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="middle" >LED merah</text>
+<line x1="910.0" y1="196.0" x2="910.0" y2="242.0" stroke="#0f8b8d" stroke-width="2.5" stroke-linecap="round" />
+<circle cx="910.0" cy="196.0" r="4.5" fill="#0f8b8d" />
+<text x="910.0" y="260.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="middle" >chip USB-serial</text>
+<rect x="1000.0" y="146.0" width="136.0" height="100.0" rx="6" fill="#c9ced6" stroke="#7a8494" stroke-width="1.6" />
+<text x="1068.0" y="188.0" font-size="17" font-weight="800" fill="#1e2a4a" text-anchor="middle" >ESP32</text>
+<text x="1068.0" y="210.0" font-size="12.5" font-weight="700" fill="#4a5568" text-anchor="middle" >+ memori flash</text>
+<text x="1068.0" y="230.0" font-size="12.5" font-weight="800" fill="#e63946" text-anchor="middle" >tahan sampai 3,6 V</text>
+<circle cx="48.0" cy="156.0" r="15" fill="#1e2a4a" stroke="#ffffff" stroke-width="2" />
+<text x="48.0" y="161.4" font-size="15" font-weight="700" fill="#ffffff" text-anchor="middle" >1</text>
+<rect x="368.0" y="356.0" width="44.0" height="26.0" rx="3" fill="#d4a72c" stroke="#8a6d12" stroke-width="1.2" />
+<circle cx="346.0" cy="369.0" r="15" fill="#1e2a4a" stroke="#ffffff" stroke-width="2" />
+<text x="346.0" y="374.4" font-size="15" font-weight="700" fill="#ffffff" text-anchor="middle" >2</text>
+<text x="420.0" y="375.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >pin VIN</text>
+<rect x="678.0" y="356.0" width="44.0" height="26.0" rx="3" fill="#d4a72c" stroke="#8a6d12" stroke-width="1.2" />
+<circle cx="656.0" cy="369.0" r="15" fill="#1e2a4a" stroke="#ffffff" stroke-width="2" />
+<text x="656.0" y="374.4" font-size="15" font-weight="700" fill="#ffffff" text-anchor="middle" >3</text>
+<text x="730.0" y="375.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >pin 3V3</text>
+<text x="1140.0" y="360.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="end" >GND: semua pin GND tersambung jadi satu</text>
+<rect x="40.0" y="410.0" width="360.0" height="236.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<circle cx="68.0" cy="440.0" r="14" fill="#1e2a4a" stroke="#ffffff" stroke-width="2" />
+<text x="68.0" y="445.4" font-size="15" font-weight="700" fill="#ffffff" text-anchor="middle" >1</text>
+<text x="92.0" y="446.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="start" >Colokan USB</text>
+<circle cx="72.0" cy="481.0" r="10" fill="#2a9d5c" />
+<path d="M67 481 L70.5 485 L77.5 476.5" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="92.0" y="486.0" font-size="13.5" font-weight="600" fill="#1e2a4a" text-anchor="start" >laptop, charger HP 5 V, power bank</text>
+<circle cx="72.0" cy="517.0" r="10" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.6" />
+<text x="72.0" y="522.0" font-size="13" font-weight="800" fill="#4a5568" text-anchor="middle" >i</text>
+<text x="92.0" y="522.0" font-size="13.5" font-weight="400" fill="#4a5568" text-anchor="start" >dioda menahan listrik dari VIN</text>
+<text x="92.0" y="544.0" font-size="13.5" font-weight="400" fill="#4a5568" text-anchor="start" >supaya tidak mengalir balik ke laptop</text>
+<line x1="60.0" y1="600.0" x2="380.0" y2="600.0" stroke="#e0dcd2" stroke-width="1.2" stroke-linecap="round" />
+<text x="64.0" y="626.0" font-size="13.5" font-weight="800" fill="#0f8b8d" text-anchor="start" >Minggu ini: Node 1, dari charger-nya sendiri</text>
+<rect x="420.0" y="410.0" width="360.0" height="236.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<circle cx="448.0" cy="440.0" r="14" fill="#1e2a4a" stroke="#ffffff" stroke-width="2" />
+<text x="448.0" y="445.4" font-size="15" font-weight="700" fill="#ffffff" text-anchor="middle" >2</text>
+<text x="472.0" y="446.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="start" >Pin VIN (jalur 5 V)</text>
+<circle cx="452.0" cy="481.0" r="10" fill="#2a9d5c" />
+<path d="M447 481 L450.5 485 L457.5 476.5" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="472.0" y="486.0" font-size="13.5" font-weight="600" fill="#1e2a4a" text-anchor="start" >5 V yang stabil, misalnya MT3608 5,0 V</text>
+<circle cx="452.0" cy="517.0" r="10" fill="#e63946" />
+<path d="M447.5 512.5 L456.5 521.5 M456.5 512.5 L447.5 521.5" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="472.0" y="522.0" font-size="13.5" font-weight="600" fill="#1e2a4a" text-anchor="start" >baterai Li-ion langsung (3,0–4,2 V)</text>
+<circle cx="452.0" cy="553.0" r="10" fill="#e63946" />
+<path d="M447.5 548.5 L456.5 557.5 M456.5 548.5 L447.5 557.5" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="472.0" y="558.0" font-size="13.5" font-weight="600" fill="#1e2a4a" text-anchor="start" >bersamaan dengan kabel USB</text>
+<line x1="440.0" y1="600.0" x2="760.0" y2="600.0" stroke="#e0dcd2" stroke-width="1.2" stroke-linecap="round" />
+<text x="444.0" y="626.0" font-size="13.5" font-weight="800" fill="#0f8b8d" text-anchor="start" >Minggu ini: papan kedua, dari baterai</text>
+<rect x="800.0" y="410.0" width="360.0" height="236.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<circle cx="828.0" cy="440.0" r="14" fill="#1e2a4a" stroke="#ffffff" stroke-width="2" />
+<text x="828.0" y="445.4" font-size="15" font-weight="700" fill="#ffffff" text-anchor="middle" >3</text>
+<text x="852.0" y="446.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="start" >Pin 3V3 (jalur 3,3 V)</text>
+<circle cx="832.0" cy="481.0" r="10" fill="#e63946" />
+<path d="M827.5 476.5 L836.5 485.5 M836.5 476.5 L827.5 485.5" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="852.0" y="486.0" font-size="13.5" font-weight="600" fill="#1e2a4a" text-anchor="start" >5 V, dari mana pun</text>
+<circle cx="832.0" cy="517.0" r="10" fill="#e63946" />
+<path d="M827.5 512.5 L836.5 521.5 M836.5 512.5 L827.5 521.5" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="852.0" y="522.0" font-size="13.5" font-weight="600" fill="#1e2a4a" text-anchor="start" >baterai Li-ion langsung (sampai 4,2 V)</text>
+<circle cx="832.0" cy="553.0" r="10" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.6" />
+<text x="832.0" y="558.0" font-size="13" font-weight="800" fill="#4a5568" text-anchor="middle" >i</text>
+<text x="852.0" y="558.0" font-size="13.5" font-weight="400" fill="#4a5568" text-anchor="start" >sesudah regulator: tanpa penjaga</text>
+<line x1="820.0" y1="600.0" x2="1140.0" y2="600.0" stroke="#e0dcd2" stroke-width="1.2" stroke-linecap="round" />
+<text x="824.0" y="626.0" font-size="13.5" font-weight="800" fill="#0f8b8d" text-anchor="start" >Minggu ini: hanya keluaran 3,3 V untuk sensor</text>
+<text x="1178.0" y="686.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

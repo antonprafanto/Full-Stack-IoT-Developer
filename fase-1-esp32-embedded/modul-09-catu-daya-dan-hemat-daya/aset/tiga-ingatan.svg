@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="600" viewBox="0 0 1200 600" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="600" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Tiga ingatan ESP32</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Variabel yang sama, tiga tempat menyimpan · mana yang selamat dari apa?</text>
+<rect x="364.0" y="100.0" width="252.0" height="66.0" rx="10" fill="#eef1f5" stroke="#e0dcd2" stroke-width="1.2" />
+<text x="490.0" y="130.0" font-size="19" font-weight="800" fill="#1e2a4a" text-anchor="middle" >RAM</text>
+<text x="490.0" y="153.0" font-size="14" font-weight="400" fill="#4a5568" text-anchor="middle" >variabel biasa</text>
+<rect x="624.0" y="100.0" width="252.0" height="66.0" rx="10" fill="#e2f3f1" stroke="#e0dcd2" stroke-width="1.2" />
+<text x="750.0" y="130.0" font-size="19" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Memori RTC</text>
+<text x="750.0" y="153.0" font-size="14" font-weight="400" fill="#4a5568" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >RTC_DATA_ATTR</text>
+<rect x="884.0" y="100.0" width="252.0" height="66.0" rx="10" fill="#fdeedd" stroke="#e0dcd2" stroke-width="1.2" />
+<text x="1010.0" y="130.0" font-size="19" font-weight="800" fill="#1e2a4a" text-anchor="middle" >NVS (di flash)</text>
+<text x="1010.0" y="153.0" font-size="14" font-weight="400" fill="#4a5568" text-anchor="middle" >Preferences (Modul 8)</text>
+<rect x="60.0" y="184.0" width="1080.0" height="56.0" rx="8" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.2" />
+<text x="78.0" y="218.0" font-size="16" font-weight="700" fill="#1e2a4a" text-anchor="start" >Bangun dari deep sleep</text>
+<circle cx="456.0" cy="212.0" r="11" fill="#e63946" />
+<path d="M451.5 207.5 L460.5 216.5 M460.5 207.5 L451.5 216.5" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="474.0" y="217.0" font-size="15" font-weight="700" fill="#e63946" text-anchor="start" >hilang</text>
+<circle cx="716.0" cy="212.0" r="11" fill="#2a9d5c" />
+<path d="M711.0 212 L714.5 216 L721.5 207.5" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="734.0" y="217.0" font-size="15" font-weight="700" fill="#2a9d5c" text-anchor="start" >tetap</text>
+<circle cx="976.0" cy="212.0" r="11" fill="#2a9d5c" />
+<path d="M971.0 212 L974.5 216 L981.5 207.5" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="994.0" y="217.0" font-size="15" font-weight="700" fill="#2a9d5c" text-anchor="start" >tetap</text>
+<rect x="60.0" y="250.0" width="1080.0" height="56.0" rx="8" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.2" />
+<text x="78.0" y="284.0" font-size="16" font-weight="700" fill="#1e2a4a" text-anchor="start" >Restart oleh program (ESP.restart)</text>
+<circle cx="456.0" cy="278.0" r="11" fill="#e63946" />
+<path d="M451.5 273.5 L460.5 282.5 M460.5 273.5 L451.5 282.5" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="474.0" y="283.0" font-size="15" font-weight="700" fill="#e63946" text-anchor="start" >hilang</text>
+<circle cx="716.0" cy="278.0" r="11" fill="#e63946" />
+<path d="M711.5 273.5 L720.5 282.5 M720.5 273.5 L711.5 282.5" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="734.0" y="283.0" font-size="15" font-weight="700" fill="#e63946" text-anchor="start" >hilang</text>
+<circle cx="976.0" cy="278.0" r="11" fill="#2a9d5c" />
+<path d="M971.0 278 L974.5 282 L981.5 273.5" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="994.0" y="283.0" font-size="15" font-weight="700" fill="#2a9d5c" text-anchor="start" >tetap</text>
+<rect x="60.0" y="316.0" width="1080.0" height="56.0" rx="8" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.2" />
+<text x="78.0" y="350.0" font-size="16" font-weight="700" fill="#1e2a4a" text-anchor="start" >Tombol EN / listrik dicabut</text>
+<circle cx="456.0" cy="344.0" r="11" fill="#e63946" />
+<path d="M451.5 339.5 L460.5 348.5 M460.5 339.5 L451.5 348.5" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="474.0" y="349.0" font-size="15" font-weight="700" fill="#e63946" text-anchor="start" >hilang</text>
+<circle cx="716.0" cy="344.0" r="11" fill="#e63946" />
+<path d="M711.5 339.5 L720.5 348.5 M720.5 339.5 L711.5 348.5" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="734.0" y="349.0" font-size="15" font-weight="700" fill="#e63946" text-anchor="start" >hilang</text>
+<circle cx="976.0" cy="344.0" r="11" fill="#2a9d5c" />
+<path d="M971.0 344 L974.5 348 L981.5 339.5" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="994.0" y="349.0" font-size="15" font-weight="700" fill="#2a9d5c" text-anchor="start" >tetap</text>
+<rect x="60.0" y="382.0" width="1080.0" height="56.0" rx="8" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.2" />
+<text x="78.0" y="416.0" font-size="16" font-weight="700" fill="#1e2a4a" text-anchor="start" >Program diunggah ulang</text>
+<circle cx="456.0" cy="410.0" r="11" fill="#e63946" />
+<path d="M451.5 405.5 L460.5 414.5 M460.5 405.5 L451.5 414.5" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="474.0" y="415.0" font-size="15" font-weight="700" fill="#e63946" text-anchor="start" >hilang</text>
+<circle cx="716.0" cy="410.0" r="11" fill="#e63946" />
+<path d="M711.5 405.5 L720.5 414.5 M720.5 405.5 L711.5 414.5" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="734.0" y="415.0" font-size="15" font-weight="700" fill="#e63946" text-anchor="start" >hilang</text>
+<circle cx="976.0" cy="410.0" r="11" fill="#2a9d5c" />
+<path d="M971.0 410 L974.5 414 L981.5 405.5" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="994.0" y="415.0" font-size="15" font-weight="700" fill="#2a9d5c" text-anchor="start" >tetap</text>
+<text x="490.0" y="474.0" font-size="14" font-weight="700" fill="#1e2a4a" text-anchor="middle" >Besar: sekitar 520 KB</text>
+<text x="490.0" y="493.0" font-size="13" font-weight="400" fill="#4a5568" text-anchor="middle" >(sebagian dipakai sistem)</text>
+<text x="490.0" y="516.0" font-size="14" font-weight="400" fill="#4a5568" text-anchor="middle" >cepat, tanpa batas tulis</text>
+<text x="490.0" y="538.0" font-size="14" font-weight="700" fill="#0f8b8d" text-anchor="middle" >untuk kerja sehari-hari</text>
+<text x="750.0" y="474.0" font-size="14" font-weight="700" fill="#1e2a4a" text-anchor="middle" >Kecil: 8 KB</text>
+<text x="750.0" y="516.0" font-size="14" font-weight="400" fill="#4a5568" text-anchor="middle" >cepat, tanpa batas tulis</text>
+<text x="750.0" y="538.0" font-size="14" font-weight="700" fill="#0f8b8d" text-anchor="middle" >untuk hal kecil di antara dua tidur</text>
+<text x="1010.0" y="474.0" font-size="14" font-weight="700" fill="#1e2a4a" text-anchor="middle" >Bagian flash sekitar 20 KB</text>
+<text x="1010.0" y="516.0" font-size="14" font-weight="400" fill="#4a5568" text-anchor="middle" >tulis seperlunya: flash bisa aus</text>
+<text x="1010.0" y="538.0" font-size="14" font-weight="700" fill="#0f8b8d" text-anchor="middle" >untuk setelan dan angka penting</text>
+<text x="78.0" y="506.0" font-size="15" font-weight="700" fill="#4a5568" text-anchor="start" >Ukuran dan sifatnya:</text>
+<text x="1178.0" y="586.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

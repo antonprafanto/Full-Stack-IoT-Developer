@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="660" viewBox="0 0 1200 660" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="660" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Mengatur MT3608 ke 5,0 V, sebelum papan disambung</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Tanpa beban: papan kedua dan kapasitor belum dipasang · ukur di rel atas (+) dan (−) breadboard mini</text>
+<rect x="50.0" y="130.0" width="470.0" height="160.0" rx="10" fill="#1d4f9a" stroke="#123468" stroke-width="2" />
+<rect x="63.0" y="143.0" width="30.0" height="30.0" rx="4" fill="#c9ced6" stroke="#7a8494" stroke-width="1.4" />
+<circle cx="78.0" cy="158.0" r="6" fill="#5a6472" />
+<text x="102.0" y="164.0" font-size="14" font-weight="800" fill="#ffffff" text-anchor="start" >VIN−</text>
+<rect x="63.0" y="247.0" width="30.0" height="30.0" rx="4" fill="#c9ced6" stroke="#7a8494" stroke-width="1.4" />
+<circle cx="78.0" cy="262.0" r="6" fill="#5a6472" />
+<text x="102.0" y="268.0" font-size="14" font-weight="800" fill="#ffffff" text-anchor="start" >VIN+</text>
+<rect x="477.0" y="143.0" width="30.0" height="30.0" rx="4" fill="#c9ced6" stroke="#7a8494" stroke-width="1.4" />
+<circle cx="492.0" cy="158.0" r="6" fill="#5a6472" />
+<text x="468.0" y="164.0" font-size="14" font-weight="800" fill="#ffffff" text-anchor="end" >VOUT−</text>
+<rect x="477.0" y="247.0" width="30.0" height="30.0" rx="4" fill="#c9ced6" stroke="#7a8494" stroke-width="1.4" />
+<circle cx="492.0" cy="262.0" r="6" fill="#5a6472" />
+<text x="468.0" y="268.0" font-size="14" font-weight="800" fill="#ffffff" text-anchor="end" >VOUT+</text>
+<rect x="200.0" y="168.0" width="104.0" height="94.0" rx="6" fill="#2f6fd1" stroke="#1d4a80" stroke-width="1.6" />
+<text x="252.0" y="196.0" font-size="12" font-weight="800" fill="#d6e3ff" text-anchor="middle" >3296</text>
+<circle cx="226.0" cy="240.0" r="13" fill="#d4a72c" stroke="#8a6d12" stroke-width="1.6" />
+<line x1="218.0" y1="240.0" x2="234.0" y2="240.0" stroke="#6b5410" stroke-width="2.4" stroke-linecap="round" />
+<circle cx="380.0" cy="210.0" r="34" fill="#2b2b2b" stroke="#111" stroke-width="1.4" />
+<text x="380.0" y="216.0" font-size="14" font-weight="800" fill="#cccccc" text-anchor="middle" >220</text>
+<text x="50.0" y="118.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="start" >Modul MT3608 dilihat dari depan · keempat kabel MT3608 dari langkah 5.4 tetap terpasang (tidak digambar)</text>
+<path d="M220 248 L156 332" fill="none" stroke="#9aa3b0" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M160 326 L108 396" fill="none" stroke="#e63946" stroke-width="18" stroke-linecap="round" stroke-linejoin="round" />
+<text x="300.0" y="330.0" font-size="14.5" font-weight="800" fill="#b45f17" text-anchor="start" >Putar sekrup kuningan pelan-pelan,</text>
+<text x="300.0" y="352.0" font-size="14.5" font-weight="600" fill="#1e2a4a" text-anchor="start" >sekitar setengah putaran setiap kali.</text>
+<text x="300.0" y="380.0" font-size="13.5" font-weight="500" fill="#4a5568" text-anchor="start" >Bisa diputar sekitar 15–25 putaran penuh;</text>
+<text x="300.0" y="400.0" font-size="13.5" font-weight="500" fill="#4a5568" text-anchor="start" >di ujungnya, memutar terus tidak</text>
+<text x="300.0" y="420.0" font-size="13.5" font-weight="500" fill="#4a5568" text-anchor="start" >mengubah apa pun.</text>
+<path d="M200 210 A 36 36 0 0 1 256 214" fill="none" stroke="#b45f17" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M246 204 L256 214 L242 218" fill="none" stroke="#b45f17" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M210 200 L200 210 L214 214" fill="none" stroke="#b45f17" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="900.0" y="110.0" width="250.0" height="360.0" rx="18" fill="#f2c200" stroke="#a88600" stroke-width="2" />
+<rect x="926.0" y="134.0" width="198.0" height="84.0" rx="6" fill="#cfd8c3" stroke="#5d6b52" stroke-width="2" />
+<text x="1025.0" y="196.0" font-size="46" font-weight="800" fill="#1d2a14" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >5.00</text>
+<circle cx="1025.0" cy="306.0" r="58" fill="#2b2b2b" stroke="#111" stroke-width="2" />
+<line x1="1025.0" y1="306.0" x2="985.0" y2="266.0" stroke="#ffffff" stroke-width="5" stroke-linecap="round" />
+<text x="938.0" y="246.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >V</text>
+<line x1="952.0" y1="236.0" x2="970.0" y2="236.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<line x1="952.0" y1="241.0" x2="956.0" y2="241.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<line x1="959.0" y1="241.0" x2="963.0" y2="241.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<line x1="966.0" y1="241.0" x2="970.0" y2="241.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<text x="976.0" y="246.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >20</text>
+<circle cx="950.0" cy="410.0" r="13" fill="#222" stroke="#555" stroke-width="3" />
+<text x="950.0" y="388.0" font-size="11.5" font-weight="800" fill="#333" text-anchor="middle" >10A</text>
+<circle cx="1025.0" cy="410.0" r="13" fill="#222" stroke="#111" stroke-width="3" />
+<text x="1025.0" y="388.0" font-size="11.5" font-weight="800" fill="#333" text-anchor="middle" >COM</text>
+<circle cx="1100.0" cy="410.0" r="13" fill="#222" stroke="#d62828" stroke-width="3" />
+<text x="1100.0" y="388.0" font-size="11.5" font-weight="800" fill="#333" text-anchor="middle" >VΩmA</text>
+<rect x="600.0" y="520.0" width="260.0" height="70.0" rx="6" fill="#f7f5ef" stroke="#cfc9b8" stroke-width="1.6" />
+<line x1="612.0" y1="538.0" x2="848.0" y2="538.0" stroke="#e0474c" stroke-width="1.6" stroke-linecap="round" />
+<line x1="612.0" y1="572.0" x2="848.0" y2="572.0" stroke="#3a8fd6" stroke-width="1.6" stroke-linecap="round" />
+<text x="616.0" y="552.0" font-size="14" font-weight="900" fill="#e0474c" text-anchor="start" >+</text>
+<text x="616.0" y="586.0" font-size="14" font-weight="900" fill="#3a8fd6" text-anchor="start" >−</text>
+<rect x="637.0" y="545.0" width="6.0" height="6.0" rx="1" fill="#8f8a7c" />
+<rect x="637.0" y="561.0" width="6.0" height="6.0" rx="1" fill="#8f8a7c" />
+<rect x="661.0" y="545.0" width="6.0" height="6.0" rx="1" fill="#8f8a7c" />
+<rect x="661.0" y="561.0" width="6.0" height="6.0" rx="1" fill="#8f8a7c" />
+<rect x="685.0" y="545.0" width="6.0" height="6.0" rx="1" fill="#8f8a7c" />
+<rect x="685.0" y="561.0" width="6.0" height="6.0" rx="1" fill="#8f8a7c" />
+<rect x="709.0" y="545.0" width="6.0" height="6.0" rx="1" fill="#8f8a7c" />
+<rect x="709.0" y="561.0" width="6.0" height="6.0" rx="1" fill="#8f8a7c" />
+<rect x="733.0" y="545.0" width="6.0" height="6.0" rx="1" fill="#8f8a7c" />
+<rect x="733.0" y="561.0" width="6.0" height="6.0" rx="1" fill="#8f8a7c" />
+<rect x="757.0" y="545.0" width="6.0" height="6.0" rx="1" fill="#8f8a7c" />
+<rect x="757.0" y="561.0" width="6.0" height="6.0" rx="1" fill="#8f8a7c" />
+<rect x="781.0" y="545.0" width="6.0" height="6.0" rx="1" fill="#8f8a7c" />
+<rect x="781.0" y="561.0" width="6.0" height="6.0" rx="1" fill="#8f8a7c" />
+<rect x="805.0" y="545.0" width="6.0" height="6.0" rx="1" fill="#8f8a7c" />
+<rect x="805.0" y="561.0" width="6.0" height="6.0" rx="1" fill="#8f8a7c" />
+<rect x="829.0" y="545.0" width="6.0" height="6.0" rx="1" fill="#8f8a7c" />
+<rect x="829.0" y="561.0" width="6.0" height="6.0" rx="1" fill="#8f8a7c" />
+<line x1="784.0" y1="548.0" x2="784.0" y2="502.0" stroke="#9aa3b0" stroke-width="3.5" stroke-linecap="round" />
+<circle cx="784.0" cy="548.0" r="3" fill="#1d1d1d" />
+<path d="M712 564 L712 556 L724 556 L724 518" fill="none" stroke="#9aa3b0" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" stroke-linejoin="round"/>
+<circle cx="712.0" cy="564.0" r="3" fill="#1d1d1d" />
+<text x="730.0" y="612.0" font-size="12.5" font-weight="700" fill="#4a5568" text-anchor="middle" >rel atas breadboard mini</text>
+<path d="M1100 423 C 1100 580, 824 508, 784 498" fill="none" stroke="#d62828" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M1025 423 C 1025 500, 744 394, 724 514" fill="none" stroke="#262626" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="784.0" cy="498.0" r="5" fill="#d62828" />
+<circle cx="724.0" cy="514.0" r="5" fill="#262626" />
+<text x="796.0" y="496.0" font-size="12.5" font-weight="800" fill="#d62828" text-anchor="start" >probe merah</text>
+<text x="712.0" y="512.0" font-size="12.5" font-weight="800" fill="#262626" text-anchor="end" >probe hitam</text>
+<rect x="36.0" y="460.0" width="520.0" height="170.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.4" />
+<text x="56.0" y="490.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >Sambil memutar, lihat multimeter:</text>
+<text x="70.0" y="522.0" font-size="13.5" font-weight="800" fill="#0f8b8d" text-anchor="start" >makin dekat ke 5,0 V</text>
+<text x="248.0" y="522.0" font-size="13.5" font-weight="600" fill="#1e2a4a" text-anchor="start" >→ lanjutkan ke arah yang sama</text>
+<text x="70.0" y="550.0" font-size="13.5" font-weight="800" fill="#b45f17" text-anchor="start" >makin jauh dari 5,0 V</text>
+<text x="248.0" y="550.0" font-size="13.5" font-weight="600" fill="#1e2a4a" text-anchor="start" >→ putar ke arah sebaliknya</text>
+<text x="70.0" y="578.0" font-size="13.5" font-weight="800" fill="#4a5568" text-anchor="start" >tidak berubah</text>
+<text x="248.0" y="578.0" font-size="13.5" font-weight="600" fill="#1e2a4a" text-anchor="start" >→ terus putar dengan sabar</text>
+<text x="70.0" y="606.0" font-size="13.5" font-weight="800" fill="#2a9d5c" text-anchor="start" >4,95–5,05 V</text>
+<text x="248.0" y="606.0" font-size="13.5" font-weight="600" fill="#1e2a4a" text-anchor="start" >→ berhenti; tunggu 10 detik, harus tetap</text>
+<text x="1178.0" y="646.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0 · ilustrasi</text>
+</svg>

@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="640" viewBox="0 0 1200 640" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="640" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Brownout: setiap hambatan di jalan memakan sedikit tegangan</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Angka contoh · makin besar arusnya, makin banyak tegangan hilang di jalan · pita merah = batas brownout (sekitar 2,4–2,8 V)</text>
+<rect x="40.0" y="100.0" width="552.0" height="380.0" rx="12" fill="#ffffff" stroke="#2a9d5c" stroke-width="2" />
+<text x="60.0" y="132.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="start" >Adaptor bagus, kabel pendek, arus biasa</text>
+<rect x="104.0" y="278.8" width="464.0" height="17.3" rx="0" fill="#fde6e8" />
+<line x1="104.0" y1="400.0" x2="568.0" y2="400.0" stroke="#4a5568" stroke-width="1.4" stroke-linecap="round" />
+<line x1="104.0" y1="158.0" x2="104.0" y2="400.0" stroke="#4a5568" stroke-width="1.4" stroke-linecap="round" />
+<line x1="99.0" y1="400.0" x2="104.0" y2="400.0" stroke="#4a5568" stroke-width="1.2" stroke-linecap="round" />
+<text x="95.0" y="404.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="end" >0 V</text>
+<line x1="99.0" y1="356.7" x2="104.0" y2="356.7" stroke="#4a5568" stroke-width="1.2" stroke-linecap="round" />
+<text x="95.0" y="360.7" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="end" >1 V</text>
+<line x1="99.0" y1="313.5" x2="104.0" y2="313.5" stroke="#4a5568" stroke-width="1.2" stroke-linecap="round" />
+<text x="95.0" y="317.5" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="end" >2 V</text>
+<line x1="99.0" y1="270.2" x2="104.0" y2="270.2" stroke="#4a5568" stroke-width="1.2" stroke-linecap="round" />
+<text x="95.0" y="274.2" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="end" >3 V</text>
+<line x1="99.0" y1="226.9" x2="104.0" y2="226.9" stroke="#4a5568" stroke-width="1.2" stroke-linecap="round" />
+<text x="95.0" y="230.9" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="end" >4 V</text>
+<line x1="99.0" y1="183.6" x2="104.0" y2="183.6" stroke="#4a5568" stroke-width="1.2" stroke-linecap="round" />
+<text x="95.0" y="187.6" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="end" >5 V</text>
+<rect x="126.0" y="183.6" width="72.0" height="216.4" rx="4" fill="#cfd6e2" />
+<text x="162.0" y="175.6" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="middle" >5 V</text>
+<text x="162.0" y="420.0" font-size="12.5" font-weight="700" fill="#4a5568" text-anchor="middle" >charger</text>
+<rect x="242.0" y="185.8" width="72.0" height="214.2" rx="4" fill="#cfd6e2" />
+<text x="278.0" y="177.8" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="middle" >4,95 V</text>
+<text x="278.0" y="420.0" font-size="12.5" font-weight="700" fill="#4a5568" text-anchor="middle" >sesudah kabel</text>
+<text x="220.0" y="188.7" font-size="11.5" font-weight="700" fill="#b45f17" text-anchor="middle" >−0,05</text>
+<rect x="358.0" y="198.8" width="72.0" height="201.2" rx="4" fill="#cfd6e2" />
+<text x="394.0" y="190.8" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="middle" >4,65 V</text>
+<text x="394.0" y="420.0" font-size="12.5" font-weight="700" fill="#4a5568" text-anchor="middle" >sesudah dioda</text>
+<text x="336.0" y="196.3" font-size="11.5" font-weight="700" fill="#b45f17" text-anchor="middle" >−0,3</text>
+<rect x="474.0" y="257.2" width="72.0" height="142.8" rx="4" fill="#2a9d5c" />
+<text x="510.0" y="249.2" font-size="14" font-weight="800" fill="#2a9d5c" text-anchor="middle" >3,3 V</text>
+<text x="510.0" y="420.0" font-size="12.5" font-weight="700" fill="#4a5568" text-anchor="middle" >chip ESP32</text>
+<text x="436.0" y="214.8" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="start" >regulator</text>
+<line x1="104.0" y1="296.1" x2="568.0" y2="296.1" stroke="#e63946" stroke-width="1.2" stroke-linecap="round" stroke-dasharray="5 4" />
+<line x1="104.0" y1="278.8" x2="568.0" y2="278.8" stroke="#e63946" stroke-width="1.2" stroke-linecap="round" stroke-dasharray="5 4" />
+<circle cx="70.0" cy="448.0" r="11" fill="#2a9d5c" />
+<path d="M65 448 L68.5 452 L75.5 443.5" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="90.0" y="453.0" font-size="15" font-weight="800" fill="#2a9d5c" text-anchor="start" >tetap 3,3 V: aman</text>
+<rect x="608.0" y="100.0" width="552.0" height="380.0" rx="12" fill="#ffffff" stroke="#e63946" stroke-width="2" />
+<text x="628.0" y="132.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="start" >Sumber lemah, kabel panjang, arus melonjak</text>
+<rect x="672.0" y="278.8" width="464.0" height="17.3" rx="0" fill="#fde6e8" />
+<line x1="672.0" y1="400.0" x2="1136.0" y2="400.0" stroke="#4a5568" stroke-width="1.4" stroke-linecap="round" />
+<line x1="672.0" y1="158.0" x2="672.0" y2="400.0" stroke="#4a5568" stroke-width="1.4" stroke-linecap="round" />
+<line x1="667.0" y1="400.0" x2="672.0" y2="400.0" stroke="#4a5568" stroke-width="1.2" stroke-linecap="round" />
+<text x="663.0" y="404.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="end" >0 V</text>
+<line x1="667.0" y1="356.7" x2="672.0" y2="356.7" stroke="#4a5568" stroke-width="1.2" stroke-linecap="round" />
+<text x="663.0" y="360.7" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="end" >1 V</text>
+<line x1="667.0" y1="313.5" x2="672.0" y2="313.5" stroke="#4a5568" stroke-width="1.2" stroke-linecap="round" />
+<text x="663.0" y="317.5" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="end" >2 V</text>
+<line x1="667.0" y1="270.2" x2="672.0" y2="270.2" stroke="#4a5568" stroke-width="1.2" stroke-linecap="round" />
+<text x="663.0" y="274.2" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="end" >3 V</text>
+<line x1="667.0" y1="226.9" x2="672.0" y2="226.9" stroke="#4a5568" stroke-width="1.2" stroke-linecap="round" />
+<text x="663.0" y="230.9" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="end" >4 V</text>
+<line x1="667.0" y1="183.6" x2="672.0" y2="183.6" stroke="#4a5568" stroke-width="1.2" stroke-linecap="round" />
+<text x="663.0" y="187.6" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="end" >5 V</text>
+<rect x="694.0" y="200.9" width="72.0" height="199.1" rx="4" fill="#cfd6e2" />
+<text x="730.0" y="192.9" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="middle" >4,6 V</text>
+<text x="730.0" y="420.0" font-size="12.5" font-weight="700" fill="#4a5568" text-anchor="middle" >charger</text>
+<rect x="810.0" y="231.2" width="72.0" height="168.8" rx="4" fill="#cfd6e2" />
+<text x="846.0" y="223.2" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="middle" >3,9 V</text>
+<text x="846.0" y="420.0" font-size="12.5" font-weight="700" fill="#4a5568" text-anchor="middle" >sesudah kabel</text>
+<text x="788.0" y="220.1" font-size="11.5" font-weight="700" fill="#b45f17" text-anchor="middle" >−0,7</text>
+<rect x="926.0" y="248.5" width="72.0" height="151.5" rx="4" fill="#cfd6e2" />
+<text x="962.0" y="240.5" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="middle" >3,5 V</text>
+<text x="962.0" y="420.0" font-size="12.5" font-weight="700" fill="#4a5568" text-anchor="middle" >sesudah dioda</text>
+<text x="904.0" y="243.9" font-size="11.5" font-weight="700" fill="#b45f17" text-anchor="middle" >−0,4</text>
+<rect x="1042.0" y="300.5" width="72.0" height="99.5" rx="4" fill="#e63946" />
+<text x="1078.0" y="292.5" font-size="14" font-weight="800" fill="#e63946" text-anchor="middle" >2,3 V</text>
+<text x="1078.0" y="420.0" font-size="12.5" font-weight="700" fill="#4a5568" text-anchor="middle" >chip ESP32</text>
+<text x="1004.0" y="264.5" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="start" >regulator</text>
+<line x1="672.0" y1="296.1" x2="1136.0" y2="296.1" stroke="#e63946" stroke-width="1.2" stroke-linecap="round" stroke-dasharray="5 4" />
+<line x1="672.0" y1="278.8" x2="1136.0" y2="278.8" stroke="#e63946" stroke-width="1.2" stroke-linecap="round" stroke-dasharray="5 4" />
+<circle cx="638.0" cy="448.0" r="11" fill="#e63946" />
+<path d="M633.5 443.5 L642.5 452.5 M642.5 443.5 L633.5 452.5" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="658.0" y="453.0" font-size="15" font-weight="800" fill="#e63946" text-anchor="start" >jatuh di bawah batas: papan restart</text>
+<rect x="40.0" y="500.0" width="1120.0" height="108.0" rx="12" fill="#f4f6f9" stroke="#e0dcd2" stroke-width="1.2" />
+<text x="60.0" y="528.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >Obatnya</text>
+<circle cx="74.0" cy="564.0" r="13" fill="#0f8b8d" stroke="#ffffff" stroke-width="2" />
+<text x="74.0" y="569.0" font-size="14" font-weight="700" fill="#ffffff" text-anchor="middle" >1</text>
+<text x="96.0" y="560.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Sumber dan kabel yang kuat</text>
+<text x="96.0" y="582.0" font-size="13" font-weight="400" fill="#4a5568" text-anchor="start" >adaptor ≥ 1 A, kabel pendek; MT3608 diatur 5,0 V</text>
+<circle cx="444.0" cy="564.0" r="13" fill="#0f8b8d" stroke="#ffffff" stroke-width="2" />
+<text x="444.0" y="569.0" font-size="14" font-weight="700" fill="#ffffff" text-anchor="middle" >2</text>
+<text x="466.0" y="560.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Pisahkan beban</text>
+<text x="466.0" y="582.0" font-size="13" font-weight="400" fill="#4a5568" text-anchor="start" >relay, pompa, servo tetap dari MB102</text>
+<circle cx="814.0" cy="564.0" r="13" fill="#0f8b8d" stroke="#ffffff" stroke-width="2" />
+<text x="814.0" y="569.0" font-size="14" font-weight="700" fill="#ffffff" text-anchor="middle" >3</text>
+<text x="836.0" y="560.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Kapasitor 100 µF</text>
+<text x="836.0" y="582.0" font-size="13" font-weight="400" fill="#4a5568" text-anchor="start" >"tandon kecil" di dekat pintu masuk listrik</text>
+<text x="1178.0" y="626.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

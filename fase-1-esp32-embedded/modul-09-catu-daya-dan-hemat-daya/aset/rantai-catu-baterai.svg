@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="640" viewBox="0 0 1200 640" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="640" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Rantai catu baterai papan kedua</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Setiap modul punya tugasnya sendiri · semua tegangan diukur dari GND bersama (OUT−)</text>
+<rect x="36.0" y="150.0" width="252.0" height="206.0" rx="12" fill="#e3f4ea" stroke="#2a9d5c" stroke-width="2" />
+<text x="162.0" y="184.0" font-size="18" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Baterai 18650</text>
+<text x="162.0" y="208.0" font-size="14" font-weight="700" fill="#2a9d5c" text-anchor="middle" font-style="italic" >menyimpan energi</text>
+<rect x="98.0" y="226.0" width="120.0" height="46.0" rx="8" fill="#2f8f5b" stroke="#1f5f3c" stroke-width="1.6" />
+<rect x="218.0" y="240.0" width="8.0" height="18.0" rx="2" fill="#c9ced6" stroke="#7a8494" stroke-width="1.2" />
+<rect x="108.0" y="234.0" width="86.0" height="30.0" rx="4" fill="#3fa56b" />
+<text x="150.0" y="254.0" font-size="14" font-weight="800" fill="#ffffff" text-anchor="middle" >18650</text>
+<text x="206.0" y="255.0" font-size="17" font-weight="900" fill="#ffffff" text-anchor="middle" >+</text>
+<text x="54.0" y="302.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="start" >3,0–4,2 V, turun pelan</text>
+<text x="54.0" y="326.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="start" >seiring pemakaian</text>
+<rect x="72.0" y="372.0" width="180.0" height="30.0" rx="15.0" fill="#2a9d5c" />
+<text x="162.0" y="392.0" font-size="14" font-weight="700" fill="#ffffff" text-anchor="middle" >3,0–4,2 V</text>
+<line x1="294.0" y1="253.0" x2="326.0" y2="253.0" stroke="#4a5568" stroke-width="3" stroke-linecap="round" />
+<path d="M316.3 258.2 L326.0 253.0 L316.3 247.8" fill="none" stroke="#4a5568" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="332.0" y="150.0" width="252.0" height="206.0" rx="12" fill="#e2f3f1" stroke="#0f8b8d" stroke-width="2" />
+<text x="458.0" y="184.0" font-size="18" font-weight="800" fill="#1e2a4a" text-anchor="middle" >TP4056 + proteksi</text>
+<text x="458.0" y="208.0" font-size="14" font-weight="700" fill="#0f8b8d" text-anchor="middle" font-style="italic" >mengisi dan menjaga</text>
+<text x="350.0" y="242.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="start" >B+/B− ← baterai</text>
+<text x="350.0" y="266.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="start" >OUT+/OUT− → beban</text>
+<text x="350.0" y="290.0" font-size="14" font-weight="400" fill="#4a5568" text-anchor="start" >putus kalau terlalu kosong,</text>
+<text x="350.0" y="314.0" font-size="14" font-weight="400" fill="#4a5568" text-anchor="start" >terlalu penuh, atau korsleting</text>
+<rect x="368.0" y="372.0" width="180.0" height="30.0" rx="15.0" fill="#0f8b8d" />
+<text x="458.0" y="392.0" font-size="14" font-weight="700" fill="#ffffff" text-anchor="middle" >3,0–4,2 V (dijaga)</text>
+<line x1="590.0" y1="253.0" x2="622.0" y2="253.0" stroke="#4a5568" stroke-width="3" stroke-linecap="round" />
+<path d="M612.3 258.2 L622.0 253.0 L612.3 247.8" fill="none" stroke="#4a5568" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="628.0" y="150.0" width="252.0" height="206.0" rx="12" fill="#fdeedd" stroke="#b45f17" stroke-width="2" />
+<text x="754.0" y="184.0" font-size="18" font-weight="800" fill="#1e2a4a" text-anchor="middle" >MT3608</text>
+<text x="754.0" y="208.0" font-size="14" font-weight="700" fill="#b45f17" text-anchor="middle" font-style="italic" >menaikkan tegangan</text>
+<text x="646.0" y="242.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="start" >VIN+/VIN− ← OUT TP4056</text>
+<text x="646.0" y="266.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="start" >VOUT+/VOUT− → papan</text>
+<text x="646.0" y="290.0" font-size="14" font-weight="400" fill="#4a5568" text-anchor="start" >diatur ke 5,0 V dengan</text>
+<text x="646.0" y="314.0" font-size="14" font-weight="400" fill="#4a5568" text-anchor="start" >multimeter, tanpa beban</text>
+<rect x="664.0" y="372.0" width="180.0" height="30.0" rx="15.0" fill="#b45f17" />
+<text x="754.0" y="392.0" font-size="14" font-weight="700" fill="#ffffff" text-anchor="middle" >5,0 V</text>
+<line x1="886.0" y1="253.0" x2="918.0" y2="253.0" stroke="#4a5568" stroke-width="3" stroke-linecap="round" />
+<path d="M908.3 258.2 L918.0 253.0 L908.3 247.8" fill="none" stroke="#4a5568" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="924.0" y="150.0" width="252.0" height="206.0" rx="12" fill="#eef1f5" stroke="#1e2a4a" stroke-width="2" />
+<text x="1050.0" y="184.0" font-size="18" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Papan kedua</text>
+<text x="1050.0" y="208.0" font-size="14" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-style="italic" >bangun, baca, tidur</text>
+<text x="942.0" y="242.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="start" >VIN → regulator AMS1117</text>
+<text x="942.0" y="266.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="start" >→ 3,3 V untuk ESP32</text>
+<text x="942.0" y="290.0" font-size="14" font-weight="400" fill="#4a5568" text-anchor="start" >USB papan dicabut</text>
+<text x="942.0" y="314.0" font-size="14" font-weight="400" fill="#4a5568" text-anchor="start" >selama hidup dari baterai</text>
+<rect x="960.0" y="372.0" width="180.0" height="30.0" rx="15.0" fill="#1e2a4a" />
+<text x="1050.0" y="392.0" font-size="14" font-weight="700" fill="#ffffff" text-anchor="middle" >3,3 V di dalam papan</text>
+<rect x="350.0" y="98.0" width="216.0" height="30.0" rx="8" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.4" />
+<text x="458.0" y="118.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="middle" >charger HP 5 V (saat mengisi)</text>
+<line x1="458.0" y1="128.0" x2="458.0" y2="146.0" stroke="#4a5568" stroke-width="2.2" stroke-linecap="round" />
+<path d="M453.8 138.1 L458.0 146.0 L462.2 138.1" fill="none" stroke="#4a5568" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="36.0" y="430.0" width="1128.0" height="176.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.4" />
+<circle cx="64.0" cy="457.0" r="12" fill="#0f8b8d" stroke="#ffffff" stroke-width="2" />
+<text x="64.0" y="461.7" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle" >1</text>
+<text x="86.0" y="462.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >Arus di sisi baterai ≈ 1,6 × arus di sisi 5 V</text>
+<text x="86.0" y="483.0" font-size="13.5" font-weight="400" fill="#4a5568" text-anchor="start" >menaikkan tegangan butuh arus lebih besar, ditambah sedikit daya yang menjadi panas (efisiensi sekitar 85 %)</text>
+<circle cx="64.0" cy="509.0" r="12" fill="#0f8b8d" stroke="#ffffff" stroke-width="2" />
+<text x="64.0" y="513.7" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle" >2</text>
+<text x="86.0" y="514.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >GND seluruh rangkaian diambil dari OUT−</text>
+<text x="86.0" y="535.0" font-size="13.5" font-weight="400" fill="#4a5568" text-anchor="start" >B− hanya untuk baterai; di antara B− dan OUT− ada "sakelar" milik chip proteksi</text>
+<circle cx="64.0" cy="561.0" r="12" fill="#0f8b8d" stroke="#ffffff" stroke-width="2" />
+<text x="64.0" y="565.7" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle" >3</text>
+<text x="86.0" y="566.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >Pin 3V3 tidak pernah diberi tegangan baterai</text>
+<text x="86.0" y="587.0" font-size="13.5" font-weight="400" fill="#4a5568" text-anchor="start" >baterai penuh 4,2 V, sedangkan chip ESP32 hanya tahan sampai 3,6 V</text>
+<text x="1178.0" y="626.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>
