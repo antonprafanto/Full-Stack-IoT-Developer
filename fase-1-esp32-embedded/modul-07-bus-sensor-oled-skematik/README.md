@@ -4,7 +4,7 @@
 
 *Fase 1 · Minggu 7 · Perangkat keras (*hardware*): **Kit A Tahap 2** (lihat 🧰) — hampir semua praktik juga bisa dicoba di Wokwi · Prasyarat: **Modul 6** (Node 1 v0.3.0 dengan lima sensor) · Waktu: 8–10 jam, dicicil dalam seminggu*
 
-[⬅️ Modul 6](../modul-06-membaca-sensor/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · [Modul 8 ➡️ (segera terbit — baca ringkasannya di Silabus)](../../SILABUS.md#modul-8--firmware-tangguh-millis-state-machine-kode-modular-watchdog--debugging)
+[⬅️ Modul 6](../modul-06-membaca-sensor/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · [Modul 8 ➡️](../modul-08-firmware-tangguh/README.md)
 
 ---
 
@@ -2533,4 +2533,4 @@ Semua sketsa di modul ini, termasuk Node 1 v0.4.0, sudah dijalankan di Wokwi den
 
 ---
 
-[⬅️ Modul 6](../modul-06-membaca-sensor/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · **Berikutnya: Modul 8 — Firmware Tangguh: millis(), State Machine, Kode Modular, Watchdog, & Debugging** (segera terbit; [ringkasannya di Silabus](../../SILABUS.md#modul-8--firmware-tangguh-millis-state-machine-kode-modular-watchdog--debugging))
+[⬅️ Modul 6](../modul-06-membaca-sensor/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · **Berikutnya: [Modul 8 — Firmware Tangguh: millis(), State Machine, Kode Modular, Watchdog, & Debugging](../modul-08-firmware-tangguh/README.md) ➡️**

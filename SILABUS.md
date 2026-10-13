@@ -5,7 +5,7 @@
 > **Kurikulum 32 modul — satu modul = satu minggu belajar santai (±8 bulan) — untuk orang awam total hingga mampu membangun sistem IoT lengkap dari sensor sampai dashboard di HP.**
 > Hardware: **ESP32 + Raspberry Pi** · Software: **JavaScript/TypeScript (Node.js + React) untuk server & tampilan, sedikit C++ untuk chip** · Bahasa pengantar: **Indonesia, ramah awam**.
 >
-> Status dokumen: **v1.0.9 — disetujui, penulisan materi berjalan; Modul 1–7 (seluruh Fase 0 dan Modul 5–7) tersedia dalam bahasa Indonesia dan Inggris** (12 Oktober 2026). Keputusan yang mendasarinya ada di [§11](#11-keputusan-yang-sudah-disetujui); riwayat perubahan di [§13](#13-riwayat-revisi).
+> Status dokumen: **v1.0.10 — disetujui, penulisan materi berjalan; Modul 1–8 (seluruh Fase 0 dan Modul 5–8) tersedia dalam bahasa Indonesia dan Inggris** (13 Oktober 2026). Keputusan yang mendasarinya ada di [§11](#11-keputusan-yang-sudah-disetujui); riwayat perubahan di [§13](#13-riwayat-revisi).
 
 ---
 
@@ -468,8 +468,10 @@ Format tiap modul:
 #### Modul 8 — Firmware Tangguh: millis(), State Machine, Kode Modular, Watchdog, & Debugging
 *Fase 1 · Minggu 8 · Hardware: Kit A · Prasyarat: Modul 7*
 
+📖 **Materi sudah tersedia:** [buka artikel Modul 8](fase-1-esp32-embedded/modul-08-firmware-tangguh/README.md)
+
 - **Setelah modul ini Anda bisa:** menulis firmware yang mengerjakan banyak hal "sekaligus" tanpa `delay()`, tidak hang, mengingat setelan setelah mati listrik, dan mudah di-debug — standar firmware yang layak dipakai sungguhan.
-- **Konsep inti:** jebakan `delay()` & pola `millis()` (melirik jam dinding); *state machine* sederhana (IDLE → MEMBACA → MENAMPILKAN → BERTINDAK); memecah kode ke beberapa file `.h/.cpp`; *watchdog timer* ("penjaga yang me-restart kalau program macet", **dengan cara penulisan 3.x**); menyimpan setelan & ambang di NVS/Preferences (tetap ada setelah mati listrik — nanti menjadi dasar "aturan pengaman lokal" di Modul 19); *logging* bertingkat (DEBUG/INFO/ERROR); **metode debugging sistematis** (ubah satu hal, bagi dua, isolasi); *uptime counter* di OLED.
+- **Konsep inti:** jebakan `delay()` & pola `millis()` (melirik jam dinding); *state machine* sederhana (MENUNGGU (*idle*) → MEMBACA → MENAMPILKAN → BERTINDAK); memecah kode ke beberapa file `.h/.cpp`; *watchdog timer* ("penjaga yang me-restart kalau program macet", **dengan cara penulisan 3.x**); menyimpan setelan & ambang di NVS/Preferences (tetap ada setelah mati listrik — nanti menjadi dasar "aturan pengaman lokal" di Modul 19); *logging* bertingkat (DEBUG/INFO/ERROR); **metode debugging sistematis** (ubah satu hal, bagi dua, isolasi); *uptime counter* di OLED.
 - **Alat yang dipakai:** Arduino IDE, library Preferences.
 - **Opsional / bedah teknis:** *interrupt* (menghitung pulsa tanpa melewatkan); FreeRTOS task di dua core ESP32; PlatformIO; pointer & *reference* sekadar untuk membaca kode orang lain.
 - **Praktik & proyek mini:** refaktor seluruh firmware Node 1 ke pola `millis()` + state machine; ambang "tanah kering" disimpan di NVS dan tetap ada setelah dicabut; sengaja membuat *infinite loop* dan lihat watchdog menyelamatkan; uji 24 jam.
@@ -939,6 +941,8 @@ Satu kalimat per istilah, bahasa manusia. Semua akan dibahas tuntas di modulnya.
 ---
 
 ## 13. Riwayat revisi
+
+**v1.0.10 (13 Okt 2026)** — Modul 8 terbit dalam bahasa Indonesia dan Inggris. Firmware Node 1 naik ke v1.0.0: `loop()` tidak pernah menunggu (pola `millis()` dan *state machine*, termasuk siram otomatis SIAGA → MENYIRAM → JEDA), program dipecah menjadi 24 file (satu file utama, `konfigurasi.h`, dan sebelas modul `.h`/`.cpp`), *watchdog* tugas me-*restart* `loop()` yang macet lebih dari 5 detik (cara penulisan paket esp32 3.x: `esp_task_wdt_reconfigure()`), ambang `tanah_siram` dan penghitung nyala tersimpan di NVS (map `node1`), log bertingkat DEBUG/INFO/ERROR, dan halaman status di layar OLED (tekan lama tombol) dengan *uptime counter*. Perintah Serial baru: `info`, `ambang`, `ambang 35`, `ambang bawaan`, `log debug`/`log info`/`log error`, dan `restart`. Langkah pertama siklus utama di §7 kini ditulis MENUNGGU (*idle*), sesuai kodenya. `PETA-PIN.md` tidak berubah.
 
 **v1.0.9 (12 Okt 2026)** — Edisi bahasa Inggris terbit di folder [`en/`](en/README.md): terjemahan lengkap halaman depan, silabus, pelacak progres, halaman fase, Modul 1–7, dan proyek `mini-smart-home/`, termasuk kode (nama variabel, komentar, pesan Serial, dan nama file berbahasa Inggris), semua gambar, dan kontrak data (nama field Inggris, topik `msh/`). Setiap halaman Indonesia yang punya kembaran kini memuat pemilih bahasa di bawah judulnya. Perbaikan kecil yang ditemukan saat menerjemahkan, diterapkan di kedua edisi: Modul 2 — kapasitor dipakai mulai Modul 5 (bukan Modul 6), dan resistor 4,7 kΩ sudah dipakai di Modul 6 (pembagi tegangan sensor jarak), termasuk di gambar `polaritas-komponen` dan `kode-warna-resistor`; Modul 1 — rujukan jebakan Notepad kini menunjuk Praktik 3 langkah 4, dan `kit-benar-vs-salah.svg` kini berkas XML yang sah; Modul 5 — gambar meja kerja (`meja-kerja-*`, `dua-breadboard`) kembali berwarna penuh, karena palet 256 warna menggeser warna kabel dan gelang resistor.
 

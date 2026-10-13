@@ -30,7 +30,7 @@ Kurikulum belajar mandiri **32 modul** dalam Bahasa Indonesia, dari orang awam t
 ## Modul yang sudah tersedia
 
 > [!NOTE]
-> Silabus v1.0 disetujui pada 9 Oktober 2026, dan materi modul ditulis berurutan. Saat ini tersedia **Modul 1–7 dari 32**: seluruh Fase 0 dan tiga modul pertama Fase 1. Daftar lengkap 32 modul ada di [PROGRES.md](PROGRES.md).
+> Silabus v1.0 disetujui pada 9 Oktober 2026, dan materi modul ditulis berurutan. Saat ini tersedia **Modul 1–8 dari 32**: seluruh Fase 0 dan empat modul pertama Fase 1. Daftar lengkap 32 modul ada di [PROGRES.md](PROGRES.md).
 
 | Modul | Judul | Setelah modul ini Anda bisa… | Alat utama |
 | :---: | :--- | :--- | :--- |
@@ -41,7 +41,8 @@ Kurikulum belajar mandiri **32 modul** dalam Bahasa Indonesia, dari orang awam t
 | 5 | **[Anatomi ESP32, Peta Pin Kanonik, Catu Daya, & Mengendalikan Dunia Nyata](fase-1-esp32-embedded/modul-05-gpio-dan-peta-pin/README.md)** | memilih pin ESP32 yang aman, memberi daya beban tanpa membuat ESP32 *restart*, membaca tombol tanpa pantulan, dan mengendalikan LED, buzzer, servo, relay, kipas, serta pompa | Arduino IDE 2, Wokwi, Kit A + MB102 |
 | 6 | **[Membaca Sensor: Analog, Digital, & Kalibrasi](fase-1-esp32-embedded/modul-06-membaca-sensor/README.md)** | membaca lima sensor (cahaya, kelembapan tanah, suhu-kelembapan udara, gerak, jarak), mengubah angka mentah menjadi persen lewat kalibrasi, meredam derau, dan membuat siram otomatis yang menolak menyala saat tandon kosong | Arduino IDE 2 + Serial Plotter, Wokwi, Kit A + multimeter |
 | 7 | **[Protokol Bus Sensor: I2C, 1-Wire, SPI, Layar OLED, & Membaca Skematik](fase-1-esp32-embedded/modul-07-bus-sensor-oled-skematik/README.md)** | menyambung beberapa perangkat ke kabel bersama (I2C, 1-Wire, SPI), menampilkan semua bacaan Node 1 di layar OLED rancangan sendiri, mencatat bacaan ke kartu microSD (opsional), dan membaca skematik | Arduino IDE 2, Wokwi, Kit A Tahap 2 |
-| 8 | Firmware Tangguh: millis(), State Machine, Kode Modular, Watchdog, & Debugging | segera terbit — [ringkasannya di Silabus](SILABUS.md#modul-8--firmware-tangguh-millis-state-machine-kode-modular-watchdog--debugging) | Arduino IDE, Kit A |
+| 8 | **[Firmware Tangguh: millis(), State Machine, Kode Modular, Watchdog, & Debugging](fase-1-esp32-embedded/modul-08-firmware-tangguh/README.md)** | menulis firmware yang mengerjakan banyak hal "sekaligus" tanpa `delay()`, memecah program menjadi beberapa file, menyimpan setelan di NVS supaya tidak hilang saat listrik padam, memasang *watchdog* yang me-*restart* program macet, dan mencari *bug* secara sistematis | Arduino IDE 2, Wokwi, Kit A |
+| 9 | Catu Daya & Hemat Daya: Adaptor, Baterai, Deep Sleep, & Mengukur Arus | segera terbit — [ringkasannya di Silabus](SILABUS.md#modul-9--catu-daya--hemat-daya-adaptor-baterai-deep-sleep--mengukur-arus) | Arduino IDE, Kit A (+ INA219, 18650/TP4056/MT3608) |
 
 Modul per fase juga terdaftar di halaman fasenya: **[Fase 0 — Fondasi](fase-0-fondasi/README.md)** dan **[Fase 1 — ESP32 Embedded](fase-1-esp32-embedded/README.md)**.
 

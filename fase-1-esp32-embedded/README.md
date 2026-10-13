@@ -11,7 +11,7 @@ Kerjakan modulnya **berurutan**. Satu modul = satu minggu (6–10 jam, dicicil).
 | 5 | **[Modul 5 — Anatomi ESP32, Peta Pin Kanonik, Catu Daya, & Mengendalikan Dunia Nyata](modul-05-gpio-dan-peta-pin/README.md)** | Kit A Tahap 1 + kabel USB A–A (sebagian besar praktik bisa di Wokwi) | library ESP32Servo | ✅ tersedia |
 | 6 | **[Modul 6 — Membaca Sensor: Analog, Digital, & Kalibrasi](modul-06-membaca-sensor/README.md)** | Kit A Tahap 1 (sebagian besar praktik bisa di Wokwi) | library DHT sensor (Adafruit) + Adafruit Unified Sensor, Serial Plotter | ✅ tersedia |
 | 7 | **[Modul 7 — Protokol Bus Sensor: I2C, 1-Wire, SPI, Layar OLED, & Membaca Skematik](modul-07-bus-sensor-oled-skematik/README.md)** | Kit A Tahap 2 (hampir semua praktik bisa di Wokwi) | library Adafruit SSD1306 + GFX + BusIO, Adafruit BME280, OneWire + DallasTemperature; SD bawaan paket esp32 | ✅ tersedia |
-| 8 | Modul 8 — Firmware Tangguh: millis(), State Machine, Kode Modular, Watchdog, & Debugging | Kit A | library Preferences (bawaan paket esp32) | ⏳ segera terbit — [ringkasan](../SILABUS.md#modul-8--firmware-tangguh-millis-state-machine-kode-modular-watchdog--debugging) |
+| 8 | **[Modul 8 — Firmware Tangguh: millis(), State Machine, Kode Modular, Watchdog, & Debugging](modul-08-firmware-tangguh/README.md)** | Kit A, tanpa komponen baru (semua praktik bisa di Wokwi) | library Preferences (bawaan paket esp32) | ✅ tersedia |
 | 9 | Modul 9 — Catu Daya & Hemat Daya: Adaptor, Baterai, Deep Sleep, & Mengukur Arus | Kit A (+ INA219, 18650/TP4056/MT3608) | library Adafruit INA219 | ⏳ segera terbit — [ringkasan](../SILABUS.md#modul-9--catu-daya--hemat-daya-adaptor-baterai-deep-sleep--mengukur-arus) |
 
 ## 🎯 Tanda lulus Fase 1
@@ -22,7 +22,7 @@ Sebelum lanjut ke Fase 2, pastikan bukti-bukti ini sudah ada di repositori GitHu
 2. **Proyek checkpoint:** Node 1 hidup mandiri 24 jam dari adaptor, ditambah sketsa baterai yang arusnya terukur.
 3. **Artefak:** firmware Node 1 v1.0, foto rangkaian, `PETA-PIN.md`, dan video 30 detik.
 
-Modul 5 sudah menyumbang dua artefak pertamamu: **`PETA-PIN.md`** dan **foto rangkaian** meja kerjamu. Modul 6 menambah foto rakitan sensor dan catatan kalibrasimu. Modul 7 menambah gambar skematik Node 1 buatanmu sendiri.
+Modul 5 sudah menyumbang dua artefak pertamamu: **`PETA-PIN.md`** dan **foto rangkaian** meja kerjamu. Modul 6 menambah foto rakitan sensor dan catatan kalibrasimu. Modul 7 menambah gambar skematik Node 1 buatanmu sendiri. Modul 8 menyelesaikan **firmware Node 1 v1.0** beserta catatan uji 24 jamnya.
 
 ## 📂 Isi setiap folder modul
 

@@ -19,7 +19,7 @@ Centang `[x]` setiap kali Anda memenuhi kriteria **"Lulus jika"** di [SILABUS.md
 - [ ] **[Modul 5](fase-1-esp32-embedded/modul-05-gpio-dan-peta-pin/README.md)** — Anatomi ESP32, Peta Pin Kanonik, Catu Daya, & Mengendalikan Dunia Nyata
 - [ ] **[Modul 6](fase-1-esp32-embedded/modul-06-membaca-sensor/README.md)** — Membaca Sensor: Analog, Digital, & Kalibrasi
 - [ ] **[Modul 7](fase-1-esp32-embedded/modul-07-bus-sensor-oled-skematik/README.md)** — Protokol Bus Sensor: I2C, 1-Wire, SPI, Layar OLED, & Membaca Skematik
-- [ ] **Modul 8** — Firmware Tangguh: millis(), State Machine, Kode Modular, Watchdog, & Debugging
+- [ ] **[Modul 8](fase-1-esp32-embedded/modul-08-firmware-tangguh/README.md)** — Firmware Tangguh: millis(), State Machine, Kode Modular, Watchdog, & Debugging
 - [ ] **Modul 9** — Catu Daya & Hemat Daya: Adaptor, Baterai, Deep Sleep, & Mengukur Arus
 - [ ] 🎯 Checkpoint Fase 1: Node 1 hidup 24 jam dari adaptor tanpa restart; sketsa baterai terukur < 15 mA saat tidur
 
