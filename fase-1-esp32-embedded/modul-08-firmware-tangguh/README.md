@@ -2695,7 +2695,7 @@ Minggu ini, sumber bukti pertamamu adalah **Serial Monitor**: hampir semua skets
 <details>
 <summary><b><code>Compilation error</code> — pesan error minggu ini</b></summary>
 
-Di depan setiap pesan ada nama file dan nomor barisnya, misalnya `modul08_modular.ino:95:5:` (baris 95, huruf ke-5). Buka tab file itu dan cari baris tersebut. Kalau errornya banyak, baca **pesan error pertama** dulu: error-error berikutnya sering hanya akibat dari yang pertama.
+Di depan setiap pesan ada nama file dan nomor barisnya, misalnya `modul08_modular.ino:97:5:` (baris 97, huruf ke-5). Buka tab file itu dan cari baris tersebut. Kalau errornya banyak, baca **pesan error pertama** dulu: error-error berikutnya sering hanya akibat dari yang pertama.
 
 | Pesan (potongan) | Artinya | Obatnya |
 | :--- | :--- | :--- |
