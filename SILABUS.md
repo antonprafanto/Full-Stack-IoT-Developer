@@ -5,7 +5,7 @@
 > **Kurikulum 32 modul — satu modul = satu minggu belajar santai (±8 bulan) — untuk orang awam total hingga mampu membangun sistem IoT lengkap dari sensor sampai dashboard di HP.**
 > Hardware: **ESP32 + Raspberry Pi** · Software: **JavaScript/TypeScript (Node.js + React) untuk server & tampilan, sedikit C++ untuk chip** · Bahasa pengantar: **Indonesia, ramah awam**.
 >
-> Status dokumen: **v1.0.10 — disetujui, penulisan materi berjalan; Modul 1–8 (seluruh Fase 0 dan Modul 5–8) tersedia dalam bahasa Indonesia dan Inggris** (13 Oktober 2026). Keputusan yang mendasarinya ada di [§11](#11-keputusan-yang-sudah-disetujui); riwayat perubahan di [§13](#13-riwayat-revisi).
+> Status dokumen: **v1.0.11 — disetujui, penulisan materi berjalan; Modul 1–9 (seluruh Fase 0 dan Fase 1) tersedia dalam bahasa Indonesia dan Inggris** (14 Oktober 2026). Keputusan yang mendasarinya ada di [§11](#11-keputusan-yang-sudah-disetujui); riwayat perubahan di [§13](#13-riwayat-revisi).
 
 ---
 
@@ -258,13 +258,14 @@ Perkiraan harga marketplace Indonesia, Oktober 2026 — **bisa berubah**. Pesan 
 | Sensor jarak ultrasonik **3,3 V-kompatibel** (HC-SR04+ / RCWL-1601) — atau HC-SR04 biasa + 2 resistor | 1 | Rp 10–25 rb | Modul 6 | HC-SR04 biasa mengeluarkan 5 V di pin ECHO; **pin ESP32 tidak tahan 5 V** → perlu pembagi tegangan (dijelaskan di Modul 6). Modul 6 memasang semua varian dengan cara yang sama: diberi 5 V dari MB102, ECHO lewat pembagi tegangan 4,7 kΩ + 10 kΩ. |
 | Sensor gerak PIR HC-SR501 | 1 | Rp 10–20 rb | Modul 6 | |
 | **TAHAP 2 (Modul 7–28)** | | | | |
-| ESP32 DevKit V1 ke-2 + kabel USB data ke-2 | 1 + 1 | Rp 55–100 rb | Modul 14 | **Wajib** (Node 2 "Kebun" dipakai Modul 14, 15, 16, 25, 28). |
+| ESP32 DevKit V1 ke-2 + kabel USB data ke-2 | 1 + 1 | Rp 55–100 rb | Modul 9 | **Wajib** (Node 2 "Kebun": kerangkanya dibuat di Modul 9, dipakai Modul 14, 15, 16, 25, 28). |
 | Layar OLED 0,96" SSD1306 I2C (**header tersolder**) | 1 | Rp 25–45 rb | Modul 7 | Cari yang *"sudah solder"*. |
 | Sensor BME280 I2C (**header tersolder**) | 1 | Rp 20–50 rb | Modul 7 | Dipakai di Node 2 (luar ruangan). Hati-hati BMP280 (tanpa kelembapan) dijual dengan nama mirip. |
 | DS18B20 tahan air + **modul/terminal adapter** | 1 | Rp 15–30 rb | Modul 7 | Versi kabel telanjang perlu disolder; versi "modul DS18B20" tinggal colok. |
 | Modul microSD (SPI) + kartu microSD 4–16 GB | 1 | Rp 5–15 rb + kartu | Modul 7 | **Opsional** — hanya untuk latihan SPI & buffer offline; boleh dilepas setelah Modul 11 kalau pin kurang. |
-| **Modul INA219** (pengukur arus/tegangan I2C) | 1 | Rp 15–30 rb | Modul 9 | Mengukur arus tidur Node 2. Multimeter biasa bisa µA, tetapi sekringnya 200 mA rawan putus saat ESP32 bangun. |
-| Baterai Li-ion 18650 + holder + modul charger **TP4056 (dengan proteksi)** + **modul boost MT3608** | 1 set | Rp 35–70 rb | Modul 9 | Dipelajari di Modul 9, dipasang di Node 2 (Modul 14). Boost menaikkan 3,7 V baterai → 5 V ke pin VIN (regulator DevKit butuh ≥ 4,5 V; **jangan** masukkan 4,2 V ke pin 3V3). |
+| **Modul INA219** (pengukur arus/tegangan I2C) | 1 | Rp 15–30 rb | Modul 9 | Mengukur arus tidur Node 2. Multimeter biasa bisa µA, tetapi hambatannya membuat papan yang bangun kekurangan tegangan, dan sekeringnya (sering hanya 200 mA) rawan putus saat WiFi menyala. |
+| Baterai Li-ion 18650 + holder + modul charger **TP4056 (dengan proteksi)** + **modul boost MT3608** | 1 set | Rp 35–70 rb | Modul 9 | Dipelajari di Modul 9, dipasang di Node 2 (Modul 14). Boost menaikkan 3,7 V baterai → 5 V ke pin VIN (regulator DevKit butuh ≥ 4,5 V; **jangan** masukkan 4,2 V ke pin 3V3). Pilih TP4056 versi 6 bantalan (dengan OUT+/OUT−) dan modul yang **kakinya sudah tersolder**: kaki TP4056 dan MT3608 disambung kabel jantan–betina, tidak ditancapkan ke breadboard. |
+| Breadboard mini 400 titik | 1 | Rp 5–10 rb | Modul 9 | Tempat merakit rangkaian baterai Node 2; dipakai lagi di Modul 14. |
 | **Modul RS-485 MAX485** | 2 | Rp 5–10 rb/bh | Modul 15 | Lab Modbus RTU (ESP32 ke-2 berperan sebagai "sensor industri" tiruan). Sensor RS-485 sungguhan (tanah NPK/EC, Rp 150–250 rb) **opsional**. |
 | Kotak proyek plastik + **papan ekspansi ESP32 terminal sekrup** (tanpa solder) — atau perfboard + solder 60 W + timah | 1 set | Rp 25–40 rb (terminal) / Rp 60–120 rb (solder) | Modul 28 | "Dari breadboard ke kotak". Jalur tanpa solder tersedia. |
 | **Total Kit A** | | **≈ Rp 500–950 rb** | | Kit "ESP32 starter" paketan sering lebih murah; Modul 1 memberi daftar isi minimum yang harus ada. |
@@ -284,13 +285,13 @@ Perkiraan harga marketplace Indonesia, Oktober 2026 — **bisa berubah**. Pesan 
 
 ### 5.4 Belajar tanpa hardware: apa yang bisa dan tidak bisa di Wokwi
 
-Wokwi menyediakan ESP32, LED, tombol, potensiometer, buzzer, servo, relay, DHT22, LDR, HC-SR04, PIR, DS18B20, OLED SSD1306, dan modul microSD — jadi **±90 % praktik Modul 1–9 bisa dikerjakan tanpa membeli apa pun.** Yang tidak bisa:
+Wokwi menyediakan ESP32, LED, tombol, potensiometer, buzzer, servo, relay, DHT22, LDR, HC-SR04, PIR, DS18B20, OLED SSD1306, dan modul microSD — jadi **±90 % praktik Modul 1–8 bisa dikerjakan tanpa membeli apa pun**; Modul 9 (tidur dalam dan baterai) sebagian besar butuh papan asli. Yang tidak bisa:
 
 | Praktik | Di Wokwi | Pengganti di simulator |
 | :--- | :--- | :--- |
 | Sensor tanah kapasitif (Modul 6) | Tidak ada | Potensiometer sebagai "tanah basah/kering" |
 | BME280 (Modul 7) | Tidak ada | BMP180 (sepupu lamanya) untuk latihan alamat dan chip ID; DHT22 untuk kelembapan |
-| Mengukur arus *deep sleep* (Modul 9) | Tidak bisa | Pelajari konsepnya; ukur saat kit datang |
+| *Deep sleep* dan mengukur arusnya (Modul 9) | Tidak bisa: papan simulasi langsung *restart* | *Light sleep* dengan alarm timer bisa dicoba; selebihnya pelajari konsepnya, lalu kerjakan di papan asli saat kit datang |
 | Uji "24 jam tanpa restart" (Modul 8) | Tidak praktis | Uji 30 menit di simulator + *uptime counter* |
 | Lab RS-485/Modbus (Modul 15) | Tidak ada | Pelajari konsep & kode; praktik saat kit datang |
 | Kabel kendor, kabel cas, driver USB, catu daya (Modul 2, 5) | Tidak ada | Inilah mengapa hardware asli tetap disarankan |
@@ -303,7 +304,7 @@ Wokwi menyediakan ESP32, LED, tombol, potensiometer, buzzer, servo, relay, DHT22
 | VPS **2 GB RAM** (IDCloudHost, Biznet Gio, DigitalOcean) — 1 GB tidak cukup untuk database + Grafana + API | Rp 100–150 rb/bulan | Modul 27–30 (**sangat disarankan, tidak wajib** — jalur gratis tersedia) |
 | Cloudflare Tunnel, Let's Encrypt, GitHub Actions & Container Registry (repo publik), Cloudflare R2/Backblaze B2 (≤ 10 GB), Telegram | Gratis | |
 
-> **Ringkasan biaya:** mulai dengan **Rp 0** (Wokwi) untuk Modul 1–9, **±Rp 500–950 rb** untuk pengalaman hardware nyata (2 ESP32), **±Rp 1,3–2,2 jt** jika ingin gateway Raspberry Pi sungguhan, dan **±Rp 100–150 rb/bulan + domain** untuk ±2 bulan terakhir jika mengambil jalur VPS.
+> **Ringkasan biaya:** mulai dengan **Rp 0** (Wokwi) untuk Modul 1–8, **±Rp 500–950 rb** untuk pengalaman hardware nyata (2 ESP32), **±Rp 1,3–2,2 jt** jika ingin gateway Raspberry Pi sungguhan, dan **±Rp 100–150 rb/bulan + domain** untuk ±2 bulan terakhir jika mengambil jalur VPS.
 
 ---
 
@@ -479,13 +480,15 @@ Format tiap modul:
 - **✅ Lulus jika:** Node 1 berjalan 24 jam tanpa restart (dicek lewat *uptime counter* di OLED; di Wokwi: 30 menit; laptop masih boleh menjadi catu daya ESP32 — adaptor permanen dipasang di Modul 9), ambang tetap tersimpan setelah mati listrik, dan kode Anda tidak lagi memakai `delay()` di `loop()`.
 
 #### Modul 9 — Catu Daya & Hemat Daya: Adaptor, Baterai, Deep Sleep, & Mengukur Arus
-*Fase 1 · Minggu 9 · Hardware: Kit A (+ INA219, 18650/TP4056/MT3608) · Prasyarat: Modul 8*
+*Fase 1 · Minggu 9 · Hardware: Kit A (+ ESP32 ke-2, INA219, 18650/TP4056/MT3608, breadboard mini) · Prasyarat: Modul 8*
+
+📖 **Materi sudah tersedia:** [buka artikel Modul 9](fase-1-esp32-embedded/modul-09-catu-daya-dan-hemat-daya/README.md)
 
 - **Setelah modul ini Anda bisa:** memberi daya ke perangkat tanpa laptop dengan aman (adaptor, *power bank*, baterai), membuat ESP32 tidur dan bangun sendiri, mengukur berapa lama baterai bertahan, dan tahu kapan DevKit V1 *bukan* pilihan yang tepat.
-- **Konsep inti:** **catu daya tanpa laptop**: adaptor 5 V ke VIN/5V, *power bank* (jebakan auto-off saat arus kecil), *brownout* & kapasitor penyangga; **baterai Li-ion 18650**: TP4056 (pengisian + proteksi), **boost MT3608 → 5 V → VIN** (regulator DevKit butuh ≥ 4,5 V; **jangan** masukkan 4,2 V ke pin 3V3), keamanan baterai (polaritas, suhu, jangan korslet); ***deep sleep* & *light sleep***: bangun oleh timer / tombol, apa yang hilang saat tidur (RAM) dan apa yang tetap (RTC memory, NVS); menghitung umur baterai (mAh ÷ arus rata-rata); **jujur soal DevKit V1**: saat tidur masih "minum" ±10 mA karena regulator & chip USB-nya, jadi baterai bertahan hari–minggu, bukan bulan; mengukur arus dengan **INA219** (dan mengapa multimeter murah berisiko sekringnya putus); **Node 1 selalu hidup dari adaptor — tidak pernah *deep sleep***; sketsa hemat daya ini menjadi dasar Node 2 (Modul 14).
+- **Konsep inti:** **catu daya tanpa laptop**: adaptor 5 V lewat colokan USB papan (pin VIN untuk sumber 5 V lain), *power bank* (jebakan auto-off saat arus kecil), *brownout* & kapasitor penyangga; **baterai Li-ion 18650**: TP4056 (pengisian + proteksi), **boost MT3608 → 5 V → VIN** (regulator DevKit butuh ≥ 4,5 V; **jangan** masukkan 4,2 V ke pin 3V3), keamanan baterai (polaritas, suhu, jangan korslet); ***deep sleep* & *light sleep***: bangun oleh timer / tombol, apa yang hilang saat tidur (RAM) dan apa yang tetap (RTC memory, NVS); menghitung umur baterai (mAh ÷ arus rata-rata); **jujur soal DevKit V1**: saat tidur masih "minum" sekitar 4–5 mA (hasil ukur papan sejenis) karena regulator, LED, & chip USB-nya, jadi baterai hanya bertahan beberapa hari, bukan bulan; mengukur arus dengan **INA219** (dan mengapa multimeter murah berisiko: sekeringnya mudah putus dan hambatannya mengganggu papan); **Node 1 selalu hidup dari adaptor — tidak pernah *deep sleep***; sketsa hemat daya ini menjadi dasar Node 2 (Modul 14).
 - **Alat yang dipakai:** library Adafruit INA219, Preferences.
 - **Opsional / bedah teknis:** board low-power (FireBeetle, TinyPICO) dan modul ESP32 tanpa DevKit; panel surya kecil + TP4056; *ULP coprocessor*.
-- **Praktik & proyek mini:** Node 1 pindah ke adaptor + MB102 permanen; sketsa "tidur 30 detik, bangun, baca DHT22, tidur lagi" di ESP32 dari baterai 18650 lewat MT3608; ukur arus bangun vs tidur dengan INA219 dan hitung perkiraan umur baterai; uji *power bank* mati sendiri dan solusinya.
+- **Praktik & proyek mini:** Node 1 pindah ke adaptor + MB102 permanen; sketsa "tidur 30 detik, bangun, baca DS18B20, tidur lagi" di ESP32 ke-2 dari baterai 18650 lewat MT3608; ukur arus bangun vs tidur dengan INA219 dan hitung perkiraan umur baterai; uji *power bank* mati sendiri dan solusinya.
 - **➕ Rumah Pintar Mini:** Node 1 dengan catu daya permanen; "kerangka Node 2" (sketsa hemat daya + rangkaian baterai) siap dipakai Modul 14. 🎉 **Checkpoint Fase 1.**
 - **✅ Lulus jika:** Node 1 hidup dari adaptor (bukan laptop) selama 24 jam, dan sketsa baterai Anda terukur < 15 mA saat tidur dengan perhitungan umur baterai yang Anda tulis sendiri.
 
@@ -941,6 +944,8 @@ Satu kalimat per istilah, bahasa manusia. Semua akan dibahas tuntas di modulnya.
 ---
 
 ## 13. Riwayat revisi
+
+**v1.0.11 (14 Okt 2026)** — Modul 9 terbit dalam bahasa Indonesia dan Inggris, dan Fase 1 selesai. Node 1 kini mendapat listrik dari *charger* HP-nya sendiri lewat colokan USB papan (firmware tetap v1.0.0), lalu menjalani uji 24 jam tanpa laptop. Kerangka Node 2 (`firmware/node-2-kebun/` v0.1.0) berjalan di ESP32 ke-2: bangun setiap 30 detik, membaca **DS18B20** di GPIO 27 (bukan DHT22 seperti tertulis sebelumnya, supaya DHT22 tetap di Node 1 selama uji 24 jam), lalu *deep sleep*; papannya hidup dari baterai 18650 → TP4056 → MT3608 (5,0 V) → VIN di breadboard mini 400 titik. Papan Node 1 menjadi alat ukur arus dengan INA219 (Adafruit INA219 1.2.3, alamat `0x40`). ESP32 ke-2 dan breadboard mini kini tercatat mulai dipakai di Modul 9 (§5.2). Wokwi belum mendukung *deep sleep* ESP32 (§5.4), jadi sebagian besar praktik Modul 9 dikerjakan di papan asli. `PETA-PIN.md` naik ke versi 4: aturan emas nomor 2 (Node 1 dari *charger*-nya sendiri), kerangka Node 2 terpasang, dan bagian baru rangkaian baterai Node 2. Rincian Modul 9 di §7 dan baris INA219 di §5.2 disesuaikan dengan hasil riset modul: arus tidur papan DevKit V1 sekitar 4–5 mA (bukan ±10 mA), jadi baterai bertahan beberapa hari.
 
 **v1.0.10 (13 Okt 2026)** — Modul 8 terbit dalam bahasa Indonesia dan Inggris. Firmware Node 1 naik ke v1.0.0: `loop()` tidak pernah menunggu (pola `millis()` dan *state machine*, termasuk siram otomatis SIAGA → MENYIRAM → JEDA), program dipecah menjadi 24 file (satu file utama, `konfigurasi.h`, dan sebelas modul `.h`/`.cpp`), *watchdog* tugas me-*restart* `loop()` yang macet lebih dari 5 detik (cara penulisan paket esp32 3.x: `esp_task_wdt_reconfigure()`), ambang `tanah_siram` dan penghitung nyala tersimpan di NVS (map `node1`), log bertingkat DEBUG/INFO/ERROR, dan halaman status di layar OLED (tekan lama tombol) dengan *uptime counter*. Perintah Serial baru: `info`, `ambang`, `ambang 35`, `ambang bawaan`, `log debug`/`log info`/`log error`, dan `restart`. Langkah pertama siklus utama di §7 kini ditulis MENUNGGU (*idle*), sesuai kodenya. `PETA-PIN.md` tidak berubah.
 

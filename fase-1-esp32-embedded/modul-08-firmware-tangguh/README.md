@@ -4,7 +4,7 @@
 
 *Fase 1 · Minggu 8 · Perangkat keras (*hardware*): **meja kerja Node 1 dari Modul 7** — tidak ada komponen baru dan tidak ada kabel baru; semua praktik juga bisa dicoba di Wokwi · Prasyarat: **Modul 7** (Node 1 v0.4.0 dengan layar OLED) · Waktu: 8–10 jam, dicicil dalam seminggu*
 
-[⬅️ Modul 7](../modul-07-bus-sensor-oled-skematik/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · [Modul 9 ➡️ (segera terbit — baca ringkasannya di Silabus)](../../SILABUS.md#modul-9--catu-daya--hemat-daya-adaptor-baterai-deep-sleep--mengukur-arus)
+[⬅️ Modul 7](../modul-07-bus-sensor-oled-skematik/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · [Modul 9 ➡️](../modul-09-catu-daya-dan-hemat-daya/README.md)
 
 ---
 
@@ -3597,4 +3597,4 @@ Semua sketsa di modul ini, termasuk Node 1 v1.0 dengan 24 filenya, sudah dijalan
 
 ---
 
-[⬅️ Modul 7](../modul-07-bus-sensor-oled-skematik/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · **Berikutnya: Modul 9 — Catu Daya & Hemat Daya: Adaptor, Baterai, Deep Sleep, & Mengukur Arus** (segera terbit; [ringkasannya di Silabus](../../SILABUS.md#modul-9--catu-daya--hemat-daya-adaptor-baterai-deep-sleep--mengukur-arus))
+[⬅️ Modul 7](../modul-07-bus-sensor-oled-skematik/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · **Berikutnya: [Modul 9 — Catu Daya & Hemat Daya: Adaptor, Baterai, Deep Sleep, & Mengukur Arus](../modul-09-catu-daya-dan-hemat-daya/README.md) ➡️**
