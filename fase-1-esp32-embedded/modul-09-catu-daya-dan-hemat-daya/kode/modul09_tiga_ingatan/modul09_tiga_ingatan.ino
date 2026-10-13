@@ -11,7 +11,7 @@ const unsigned long LAMA_TIDUR_DETIK = 5;
 
 int hitungRam = 0;                // variabel biasa: disimpan di RAM
 RTC_DATA_ATTR int hitungRtc = 0;  // disimpan di memori RTC: bertahan selama deep sleep
-Preferences arsip;                 // NVS dari Modul 8: bertahan walaupun listrik padam
+Preferences arsip;                // NVS dari Modul 8: bertahan walaupun listrik padam
 
 // Nama pendek untuk alasan papan terakhir kali menyala (seperti Node 1 v1.0).
 const char* namaAlasan() {

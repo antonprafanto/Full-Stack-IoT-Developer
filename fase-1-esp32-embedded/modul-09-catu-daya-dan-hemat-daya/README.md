@@ -310,9 +310,9 @@ Angka-angka ini untuk **chip ESP32 saja**. Papan DevKit V1 punya regulator, LED,
 **Membuat ESP32 tidur dalam** cukup tiga baris, seperti di Kemenangan Cepat:
 
 ```cpp
-Serial.flush();                                   // tunggu semua huruf terkirim
+Serial.flush();                                  // tunggu semua huruf terkirim
 esp_sleep_enable_timer_wakeup(30 * 1000000ULL);  // pasang alarm 30 detik (satuannya mikrodetik)
-esp_deep_sleep_start();                           // tidur; baris di bawahnya tidak pernah dijalankan
+esp_deep_sleep_start();                          // tidur; baris di bawahnya tidak pernah dijalankan
 ```
 
 `ULL` di belakang angka berarti "hitung dengan bilangan bulat yang sangat besar". Tanpa `ULL`, alarm yang lebih lama daripada sekitar 35 menit menghasilkan angka mikrodetik yang terlalu besar untuk bilangan bulat biasa sehingga alarmnya kacau.
@@ -637,7 +637,7 @@ Sketsa ini membuat papan tidur 5 detik berulang-ulang, dan setiap kali bangun ia
 
    int hitungRam = 0;                // variabel biasa: disimpan di RAM
    RTC_DATA_ATTR int hitungRtc = 0;  // disimpan di memori RTC: bertahan selama deep sleep
-   Preferences arsip;                 // NVS dari Modul 8: bertahan walaupun listrik padam
+   Preferences arsip;                // NVS dari Modul 8: bertahan walaupun listrik padam
 
    // Nama pendek untuk alasan papan terakhir kali menyala (seperti Node 1 v1.0).
    const char* namaAlasan() {
@@ -785,7 +785,7 @@ Angka NVS-mu bisa lebih besar kalau sketsa ini pernah berjalan sebelumnya. Cocok
      Serial.printf("Tidur %lu detik. Tekan tombol untuk membangunkan lebih cepat.\n", LAMA_TIDUR_DETIK);
      Serial.flush();
      esp_sleep_enable_timer_wakeup(LAMA_TIDUR_DETIK * 1000000ULL);  // pintu bangun 1: alarm timer
-     esp_sleep_enable_ext0_wakeup(PIN_TOMBOL_BANGUN, 0);              // pintu bangun 2: D13 menjadi LOW
+     esp_sleep_enable_ext0_wakeup(PIN_TOMBOL_BANGUN, 0);            // pintu bangun 2: D13 menjadi LOW
      rtc_gpio_pullup_en(PIN_TOMBOL_BANGUN);   // pastikan pull-up D13 tetap aktif selama tidur
      rtc_gpio_pulldown_dis(PIN_TOMBOL_BANGUN);
      esp_deep_sleep_start();
@@ -842,7 +842,7 @@ Sekarang bandingkan dengan tidur ringan. Bagian ini bisa dikerjakan di papan Nod
      Serial.println("Praktik 3B - light sleep: isi RAM dan jam millis() tetap terjaga.");
 
      esp_sleep_enable_timer_wakeup(LAMA_TIDUR_DETIK * 1000000ULL);  // pintu bangun 1: alarm timer
-     gpio_wakeup_enable(PIN_TOMBOL_BANGUN, GPIO_INTR_LOW_LEVEL);     // pintu bangun 2: D13 menjadi LOW
+     gpio_wakeup_enable(PIN_TOMBOL_BANGUN, GPIO_INTR_LOW_LEVEL);    // pintu bangun 2: D13 menjadi LOW
      esp_sleep_enable_gpio_wakeup();
    }
 

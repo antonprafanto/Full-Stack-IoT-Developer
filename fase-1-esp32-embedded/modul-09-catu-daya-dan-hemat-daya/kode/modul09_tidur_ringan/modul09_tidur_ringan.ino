@@ -13,7 +13,7 @@ void setup() {
   Serial.println("Praktik 3B - light sleep: isi RAM dan jam millis() tetap terjaga.");
 
   esp_sleep_enable_timer_wakeup(LAMA_TIDUR_DETIK * 1000000ULL);  // pintu bangun 1: alarm timer
-  gpio_wakeup_enable(PIN_TOMBOL_BANGUN, GPIO_INTR_LOW_LEVEL);     // pintu bangun 2: D13 menjadi LOW
+  gpio_wakeup_enable(PIN_TOMBOL_BANGUN, GPIO_INTR_LOW_LEVEL);    // pintu bangun 2: D13 menjadi LOW
   esp_sleep_enable_gpio_wakeup();
 }
 

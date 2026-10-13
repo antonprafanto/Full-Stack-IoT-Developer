@@ -46,7 +46,7 @@ void setup() {
   Serial.printf("Tidur %lu detik. Tekan tombol untuk membangunkan lebih cepat.\n", LAMA_TIDUR_DETIK);
   Serial.flush();
   esp_sleep_enable_timer_wakeup(LAMA_TIDUR_DETIK * 1000000ULL);  // pintu bangun 1: alarm timer
-  esp_sleep_enable_ext0_wakeup(PIN_TOMBOL_BANGUN, 0);              // pintu bangun 2: D13 menjadi LOW
+  esp_sleep_enable_ext0_wakeup(PIN_TOMBOL_BANGUN, 0);            // pintu bangun 2: D13 menjadi LOW
   rtc_gpio_pullup_en(PIN_TOMBOL_BANGUN);   // pastikan pull-up D13 tetap aktif selama tidur
   rtc_gpio_pulldown_dis(PIN_TOMBOL_BANGUN);
   esp_deep_sleep_start();
