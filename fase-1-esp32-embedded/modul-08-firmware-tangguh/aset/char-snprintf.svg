@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="620" viewBox="0 0 1200 620" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="620" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >char[] dan snprintf(): mengisi kotak isian teks</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Laci huruf berukuran tetap, disiapkan sekali · tidak ada pinjam-meminjam memori</text>
+<rect x="40.0" y="100.0" width="1120.0" height="250.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="60.0" y="140.0" font-size="16" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">char teks[22];</text>
+<text x="212.0" y="140.0" font-size="13.5" font-weight="700" fill="#4a5568" text-anchor="start" >← 22 laci: 21 huruf + 1 tanda akhir</text>
+<rect x="484.3" y="156.0" width="17.3" height="23.0" rx="4" fill="#cdeeea" />
+<line x1="485.3" y1="181.0" x2="500.6" y2="181.0" stroke="#0f8b8d" stroke-width="2.4" stroke-linecap="round" />
+<rect x="504.6" y="156.0" width="17.3" height="23.0" rx="4" fill="#cdeeea" />
+<line x1="505.6" y1="181.0" x2="520.8" y2="181.0" stroke="#0f8b8d" stroke-width="2.4" stroke-linecap="round" />
+<rect x="552.2" y="156.0" width="17.3" height="23.0" rx="4" fill="#fdeedd" />
+<line x1="553.2" y1="181.0" x2="568.5" y2="181.0" stroke="#b45f17" stroke-width="2.4" stroke-linecap="round" />
+<text x="60.0" y="172.0" font-size="16" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">snprintf(teks, sizeof(teks), "Ambang tanah: %d%%", 30);</text>
+<text x="484.9" y="200.0" font-size="12.5" font-weight="700" fill="#0f8b8d" text-anchor="middle" >kotak isian</text>
+<text x="513.2" y="218.0" font-size="12.5" font-weight="700" fill="#0f8b8d" text-anchor="middle" >%% = tanda %</text>
+<text x="560.9" y="200.0" font-size="12.5" font-weight="700" fill="#b45f17" text-anchor="middle" >bahan</text>
+<rect x="60.0" y="236.0" width="47.0" height="48.0" rx="4" fill="#ffffff" stroke="#c9ced6" stroke-width="1.2" />
+<text x="83.5" y="267.0" font-size="19" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">A</text>
+<text x="83.5" y="302.0" font-size="13" font-weight="600" fill="#8a8f9c" text-anchor="middle" >0</text>
+<rect x="109.0" y="236.0" width="47.0" height="48.0" rx="4" fill="#ffffff" stroke="#c9ced6" stroke-width="1.2" />
+<text x="132.5" y="267.0" font-size="19" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">m</text>
+<text x="132.5" y="302.0" font-size="13" font-weight="600" fill="#8a8f9c" text-anchor="middle" >1</text>
+<rect x="158.0" y="236.0" width="47.0" height="48.0" rx="4" fill="#ffffff" stroke="#c9ced6" stroke-width="1.2" />
+<text x="181.5" y="267.0" font-size="19" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">b</text>
+<text x="181.5" y="302.0" font-size="13" font-weight="600" fill="#8a8f9c" text-anchor="middle" >2</text>
+<rect x="207.0" y="236.0" width="47.0" height="48.0" rx="4" fill="#ffffff" stroke="#c9ced6" stroke-width="1.2" />
+<text x="230.5" y="267.0" font-size="19" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">a</text>
+<text x="230.5" y="302.0" font-size="13" font-weight="600" fill="#8a8f9c" text-anchor="middle" >3</text>
+<rect x="256.0" y="236.0" width="47.0" height="48.0" rx="4" fill="#ffffff" stroke="#c9ced6" stroke-width="1.2" />
+<text x="279.5" y="267.0" font-size="19" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">n</text>
+<text x="279.5" y="302.0" font-size="13" font-weight="600" fill="#8a8f9c" text-anchor="middle" >4</text>
+<rect x="305.0" y="236.0" width="47.0" height="48.0" rx="4" fill="#ffffff" stroke="#c9ced6" stroke-width="1.2" />
+<text x="328.5" y="267.0" font-size="19" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">g</text>
+<text x="328.5" y="302.0" font-size="13" font-weight="600" fill="#8a8f9c" text-anchor="middle" >5</text>
+<rect x="354.0" y="236.0" width="47.0" height="48.0" rx="4" fill="#ffffff" stroke="#c9ced6" stroke-width="1.2" />
+<text x="377.5" y="266.0" font-size="15" font-weight="400" fill="#8a8f9c" text-anchor="middle" >␣</text>
+<text x="377.5" y="302.0" font-size="13" font-weight="600" fill="#8a8f9c" text-anchor="middle" >6</text>
+<rect x="403.0" y="236.0" width="47.0" height="48.0" rx="4" fill="#ffffff" stroke="#c9ced6" stroke-width="1.2" />
+<text x="426.5" y="267.0" font-size="19" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">t</text>
+<text x="426.5" y="302.0" font-size="13" font-weight="600" fill="#8a8f9c" text-anchor="middle" >7</text>
+<rect x="452.0" y="236.0" width="47.0" height="48.0" rx="4" fill="#ffffff" stroke="#c9ced6" stroke-width="1.2" />
+<text x="475.5" y="267.0" font-size="19" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">a</text>
+<text x="475.5" y="302.0" font-size="13" font-weight="600" fill="#8a8f9c" text-anchor="middle" >8</text>
+<rect x="501.0" y="236.0" width="47.0" height="48.0" rx="4" fill="#ffffff" stroke="#c9ced6" stroke-width="1.2" />
+<text x="524.5" y="267.0" font-size="19" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">n</text>
+<text x="524.5" y="302.0" font-size="13" font-weight="600" fill="#8a8f9c" text-anchor="middle" >9</text>
+<rect x="550.0" y="236.0" width="47.0" height="48.0" rx="4" fill="#ffffff" stroke="#c9ced6" stroke-width="1.2" />
+<text x="573.5" y="267.0" font-size="19" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">a</text>
+<text x="573.5" y="302.0" font-size="13" font-weight="600" fill="#8a8f9c" text-anchor="middle" >10</text>
+<rect x="599.0" y="236.0" width="47.0" height="48.0" rx="4" fill="#ffffff" stroke="#c9ced6" stroke-width="1.2" />
+<text x="622.5" y="267.0" font-size="19" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">h</text>
+<text x="622.5" y="302.0" font-size="13" font-weight="600" fill="#8a8f9c" text-anchor="middle" >11</text>
+<rect x="648.0" y="236.0" width="47.0" height="48.0" rx="4" fill="#ffffff" stroke="#c9ced6" stroke-width="1.2" />
+<text x="671.5" y="267.0" font-size="19" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">:</text>
+<text x="671.5" y="302.0" font-size="13" font-weight="600" fill="#8a8f9c" text-anchor="middle" >12</text>
+<rect x="697.0" y="236.0" width="47.0" height="48.0" rx="4" fill="#ffffff" stroke="#c9ced6" stroke-width="1.2" />
+<text x="720.5" y="266.0" font-size="15" font-weight="400" fill="#8a8f9c" text-anchor="middle" >␣</text>
+<text x="720.5" y="302.0" font-size="13" font-weight="600" fill="#8a8f9c" text-anchor="middle" >13</text>
+<rect x="746.0" y="236.0" width="47.0" height="48.0" rx="4" fill="#ffffff" stroke="#c9ced6" stroke-width="1.2" />
+<text x="769.5" y="267.0" font-size="19" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">3</text>
+<text x="769.5" y="302.0" font-size="13" font-weight="600" fill="#8a8f9c" text-anchor="middle" >14</text>
+<rect x="795.0" y="236.0" width="47.0" height="48.0" rx="4" fill="#ffffff" stroke="#c9ced6" stroke-width="1.2" />
+<text x="818.5" y="267.0" font-size="19" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">0</text>
+<text x="818.5" y="302.0" font-size="13" font-weight="600" fill="#8a8f9c" text-anchor="middle" >15</text>
+<rect x="844.0" y="236.0" width="47.0" height="48.0" rx="4" fill="#ffffff" stroke="#c9ced6" stroke-width="1.2" />
+<text x="867.5" y="267.0" font-size="19" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">%</text>
+<text x="867.5" y="302.0" font-size="13" font-weight="600" fill="#8a8f9c" text-anchor="middle" >16</text>
+<rect x="893.0" y="236.0" width="47.0" height="48.0" rx="4" fill="#fdeedd" stroke="#c9ced6" stroke-width="1.2" />
+<text x="916.5" y="267.0" font-size="15" font-weight="700" fill="#b45f17" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">\0</text>
+<text x="916.5" y="302.0" font-size="13" font-weight="600" fill="#8a8f9c" text-anchor="middle" >17</text>
+<text x="916.5" y="230.0" font-size="12" font-weight="800" fill="#b45f17" text-anchor="middle" >tanda akhir</text>
+<rect x="942.0" y="236.0" width="47.0" height="48.0" rx="4" fill="#f1f2f5" stroke="#c9ced6" stroke-width="1.2" />
+<text x="965.5" y="302.0" font-size="13" font-weight="600" fill="#8a8f9c" text-anchor="middle" >18</text>
+<rect x="991.0" y="236.0" width="47.0" height="48.0" rx="4" fill="#f1f2f5" stroke="#c9ced6" stroke-width="1.2" />
+<text x="1014.5" y="302.0" font-size="13" font-weight="600" fill="#8a8f9c" text-anchor="middle" >19</text>
+<rect x="1040.0" y="236.0" width="47.0" height="48.0" rx="4" fill="#f1f2f5" stroke="#c9ced6" stroke-width="1.2" />
+<text x="1063.5" y="302.0" font-size="13" font-weight="600" fill="#8a8f9c" text-anchor="middle" >20</text>
+<rect x="1089.0" y="236.0" width="47.0" height="48.0" rx="4" fill="#f1f2f5" stroke="#c9ced6" stroke-width="1.2" />
+<text x="1112.5" y="302.0" font-size="13" font-weight="600" fill="#8a8f9c" text-anchor="middle" >21</text>
+<text x="60.0" y="338.0" font-size="13.5" font-weight="700" fill="#4a5568" text-anchor="start" >teks = "Ambang tanah: 30%" · ␣ = spasi · laci sesudah tanda akhir tidak dipakai, tetapi juga tidak merepotkan</text>
+<rect x="40.0" y="370.0" width="550.0" height="220.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="60.0" y="400.0" font-size="16" font-weight="800" fill="#e63946" text-anchor="start" >String: pinjam, kembalikan, ulangi</text>
+<rect x="408.0" y="389.0" width="13.0" height="13.0" rx="2" fill="#c7cdd6" stroke="#9aa3b0" stroke-width="1" />
+<text x="426.0" y="400.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" >terpakai</text>
+<rect x="492.0" y="389.0" width="13.0" height="13.0" rx="2" fill="#ffffff" stroke="#9aa3b0" stroke-width="1" />
+<text x="510.0" y="400.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" >kosong</text>
+<rect x="60.0" y="424.0" width="38.0" height="40.0" rx="3" fill="#c7cdd6" stroke="#9aa3b0" stroke-width="1.2" />
+<rect x="100.0" y="424.0" width="23.0" height="40.0" rx="3" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.2" />
+<rect x="125.0" y="424.0" width="58.0" height="40.0" rx="3" fill="#c7cdd6" stroke="#9aa3b0" stroke-width="1.2" />
+<rect x="185.0" y="424.0" width="18.0" height="40.0" rx="3" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.2" />
+<rect x="205.0" y="424.0" width="33.0" height="40.0" rx="3" fill="#c7cdd6" stroke="#9aa3b0" stroke-width="1.2" />
+<rect x="240.0" y="424.0" width="28.0" height="40.0" rx="3" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.2" />
+<rect x="270.0" y="424.0" width="43.0" height="40.0" rx="3" fill="#c7cdd6" stroke="#9aa3b0" stroke-width="1.2" />
+<rect x="315.0" y="424.0" width="23.0" height="40.0" rx="3" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.2" />
+<rect x="340.0" y="424.0" width="48.0" height="40.0" rx="3" fill="#c7cdd6" stroke="#9aa3b0" stroke-width="1.2" />
+<rect x="390.0" y="424.0" width="20.0" height="40.0" rx="3" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.2" />
+<rect x="412.0" y="424.0" width="38.0" height="40.0" rx="3" fill="#c7cdd6" stroke="#9aa3b0" stroke-width="1.2" />
+<rect x="452.0" y="424.0" width="26.0" height="40.0" rx="3" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.2" />
+<rect x="480.0" y="424.0" width="48.0" height="40.0" rx="3" fill="#c7cdd6" stroke="#9aa3b0" stroke-width="1.2" />
+<rect x="530.0" y="424.0" width="38.0" height="40.0" rx="3" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.2" />
+<text x="60.0" y="492.0" font-size="13.5" font-weight="600" fill="#1e2a4a" text-anchor="start" >heap berlubang-lubang (fragmentasi): total kosongnya banyak,</text>
+<text x="60.0" y="514.0" font-size="13.5" font-weight="600" fill="#1e2a4a" text-anchor="start" >tetapi tidak ada satu potongan yang cukup besar.</text>
+<text x="60.0" y="554.0" font-size="13.5" font-weight="700" fill="#4a5568" text-anchor="start" >Masih boleh untuk perintah yang datang sesekali.</text>
+<rect x="610.0" y="370.0" width="550.0" height="220.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="630.0" y="400.0" font-size="16" font-weight="800" fill="#2a9d5c" text-anchor="start" >char[]: laci tetap</text>
+<rect x="630.0" y="424.0" width="46.0" height="40.0" rx="3" fill="#ffffff" stroke="#2a9d5c" stroke-width="1.6" />
+<rect x="680.0" y="424.0" width="46.0" height="40.0" rx="3" fill="#ffffff" stroke="#2a9d5c" stroke-width="1.6" />
+<rect x="730.0" y="424.0" width="46.0" height="40.0" rx="3" fill="#ffffff" stroke="#2a9d5c" stroke-width="1.6" />
+<rect x="780.0" y="424.0" width="46.0" height="40.0" rx="3" fill="#ffffff" stroke="#2a9d5c" stroke-width="1.6" />
+<rect x="830.0" y="424.0" width="46.0" height="40.0" rx="3" fill="#ffffff" stroke="#2a9d5c" stroke-width="1.6" />
+<rect x="880.0" y="424.0" width="46.0" height="40.0" rx="3" fill="#ffffff" stroke="#2a9d5c" stroke-width="1.6" />
+<rect x="930.0" y="424.0" width="46.0" height="40.0" rx="3" fill="#ffffff" stroke="#2a9d5c" stroke-width="1.6" />
+<rect x="980.0" y="424.0" width="46.0" height="40.0" rx="3" fill="#ffffff" stroke="#2a9d5c" stroke-width="1.6" />
+<rect x="1030.0" y="424.0" width="46.0" height="40.0" rx="3" fill="#ffffff" stroke="#2a9d5c" stroke-width="1.6" />
+<rect x="1080.0" y="424.0" width="46.0" height="40.0" rx="3" fill="#ffffff" stroke="#2a9d5c" stroke-width="1.6" />
+<text x="630.0" y="492.0" font-size="13.5" font-weight="600" fill="#1e2a4a" text-anchor="start" >disiapkan sekali, dipakai ulang selamanya.</text>
+<text x="630.0" y="514.0" font-size="13.5" font-weight="600" fill="#1e2a4a" text-anchor="start" >snprintf() tidak pernah menulis melebihi lacinya.</text>
+<text x="630.0" y="554.0" font-size="13.5" font-weight="700" fill="#4a5568" text-anchor="start" >Untuk log, baris CSV, dan halaman status Node 1.</text>
+<text x="1178.0" y="606.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

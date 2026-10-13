@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="470" viewBox="0 0 1200 470" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="470" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Siklus utama Node 1 v1.0</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Satu langkah per putaran loop() · di antara langkah, tugas-tugas kecil tetap diperiksa</text>
+<rect x="60.0" y="110.0" width="240.0" height="120.0" rx="14" fill="#f5f7fa" stroke="#9aa3b0" stroke-width="1.8" />
+<text x="180.0" y="148.0" font-size="18" font-weight="800" fill="#1e2a4a" text-anchor="middle" >MENUNGGU</text>
+<text x="180.0" y="176.0" font-size="13.5" font-weight="600" fill="#4a5568" text-anchor="middle" >sudah 2 detik sejak</text>
+<text x="180.0" y="196.0" font-size="13.5" font-weight="600" fill="#4a5568" text-anchor="middle" >bacaan terakhir?</text>
+<rect x="340.0" y="110.0" width="240.0" height="120.0" rx="14" fill="#f5f7fa" stroke="#9aa3b0" stroke-width="1.8" />
+<text x="460.0" y="148.0" font-size="18" font-weight="800" fill="#1e2a4a" text-anchor="middle" >MEMBACA</text>
+<text x="460.0" y="176.0" font-size="13.5" font-weight="600" fill="#4a5568" text-anchor="middle" >bacaSensor()</text>
+<text x="460.0" y="196.0" font-size="13.5" font-weight="600" fill="#4a5568" text-anchor="middle" >(paling lama sekitar 70 ms)</text>
+<rect x="620.0" y="110.0" width="240.0" height="120.0" rx="14" fill="#f5f7fa" stroke="#9aa3b0" stroke-width="1.8" />
+<text x="740.0" y="148.0" font-size="18" font-weight="800" fill="#1e2a4a" text-anchor="middle" >MENAMPILKAN</text>
+<text x="740.0" y="176.0" font-size="13.5" font-weight="600" fill="#4a5568" text-anchor="middle" >log, layar OLED,</text>
+<text x="740.0" y="196.0" font-size="13.5" font-weight="600" fill="#4a5568" text-anchor="middle" >CSV setiap 30 detik</text>
+<rect x="900.0" y="110.0" width="240.0" height="120.0" rx="14" fill="#f5f7fa" stroke="#9aa3b0" stroke-width="1.8" />
+<text x="1020.0" y="148.0" font-size="18" font-weight="800" fill="#1e2a4a" text-anchor="middle" >BERTINDAK</text>
+<text x="1020.0" y="176.0" font-size="13.5" font-weight="600" fill="#4a5568" text-anchor="middle" >aturan otomatis,</text>
+<text x="1020.0" y="196.0" font-size="13.5" font-weight="600" fill="#4a5568" text-anchor="middle" >kirimData() (rak M10–11)</text>
+<line x1="304.0" y1="170.0" x2="334.0" y2="170.0" stroke="#2f6fd1" stroke-width="2.6" stroke-linecap="round" />
+<path d="M325.2 174.7 L334.0 170.0 L325.2 165.3" fill="none" stroke="#2f6fd1" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="584.0" y1="170.0" x2="614.0" y2="170.0" stroke="#2f6fd1" stroke-width="2.6" stroke-linecap="round" />
+<path d="M605.2 174.7 L614.0 170.0 L605.2 165.3" fill="none" stroke="#2f6fd1" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="864.0" y1="170.0" x2="894.0" y2="170.0" stroke="#2f6fd1" stroke-width="2.6" stroke-linecap="round" />
+<path d="M885.2 174.7 L894.0 170.0 L885.2 165.3" fill="none" stroke="#2f6fd1" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M1020 232 L1020 268 Q1020 284 1004 284 L196 284 Q180 284 180 268 L180 236" fill="none" stroke="#2f6fd1" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M184.3 243.0 L180.0 234.0 L175.7 243.0" fill="none" stroke="#2f6fd1" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="600.0" y="304.0" font-size="13.5" font-weight="700" fill="#2f6fd1" text-anchor="middle" >kembali MENUNGGU</text>
+<rect x="60.0" y="330.0" width="1080.0" height="112.0" rx="12" fill="#eef1f5" />
+<text x="84.0" y="360.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >Di setiap putaran loop(), sebelum langkah siklus:</text>
+<rect x="84.0" y="374.0" width="160.0" height="26.0" rx="13" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.2" />
+<text x="164.0" y="392.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="middle" >beri makan watchdog</text>
+<rect x="254.0" y="374.0" width="196.0" height="26.0" rx="13" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.2" />
+<text x="352.0" y="392.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="middle" >sampel analog setiap 2 ms</text>
+<rect x="460.0" y="374.0" width="250.0" height="26.0" rx="13" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.2" />
+<text x="585.0" y="392.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="middle" >pompa &amp; buzzer padam tepat waktu</text>
+<rect x="720.0" y="374.0" width="300.0" height="26.0" rx="13" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.2" />
+<text x="870.0" y="392.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="middle" >keadaan siram (MENYIRAM → JEDA → SIAGA)</text>
+<rect x="84.0" y="408.0" width="92.0" height="26.0" rx="13" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.2" />
+<text x="130.0" y="426.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="middle" >detak LED</text>
+<rect x="186.0" y="408.0" width="124.0" height="26.0" rx="13" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.2" />
+<text x="248.0" y="426.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="middle" >halaman status</text>
+<rect x="320.0" y="408.0" width="70.0" height="26.0" rx="13" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.2" />
+<text x="355.0" y="426.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="middle" >tombol</text>
+<rect x="400.0" y="408.0" width="124.0" height="26.0" rx="13" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.2" />
+<text x="462.0" y="426.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="middle" >perintah Serial</text>
+<text x="1178.0" y="456.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

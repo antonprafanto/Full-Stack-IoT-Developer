@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="800" fill="#fffdf7"/>
+<text x="600.0" y="36.0" font-size="22" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Menyalakan peringatan kompiler di Arduino IDE 2 (ilustrasi)</text>
+<rect x="46.0" y="72.0" width="680.0" height="600.0" rx="8" fill="#000000" opacity="0.13"/>
+<rect x="40.0" y="64.0" width="680.0" height="600.0" rx="8" fill="#ffffff" stroke="#b9c0c6" stroke-width="1.5" />
+<rect x="40.0" y="64.0" width="680.0" height="46.0" rx="8" fill="#f3f5f6" />
+<rect x="40.0" y="94.0" width="680.0" height="16.0" rx="0" fill="#f3f5f6" />
+<text x="60.0" y="93.0" font-size="15" font-weight="700" fill="#2c353a" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Preferences</text>
+<text x="700.0" y="93.0" font-size="14" font-weight="400" fill="#555555" text-anchor="middle" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >✕</text>
+<text x="64.0" y="140.0" font-size="14" font-weight="700" fill="#2c353a" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Settings</text>
+<line x1="60.0" y1="150.0" x2="130.0" y2="150.0" stroke="#00979d" stroke-width="2.5" stroke-linecap="round" />
+<text x="152.0" y="140.0" font-size="14" font-weight="400" fill="#7a868b" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Network</text>
+<line x1="56.0" y1="152.0" x2="704.0" y2="152.0" stroke="#e1e4e6" stroke-width="1.2" stroke-linecap="round" />
+<g opacity="0.45">
+<text x="64.0" y="182.0" font-size="13.5" font-weight="400" fill="#2c353a" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Sketchbook location:</text>
+<rect x="64.0" y="192.0" width="520.0" height="26.0" rx="3" fill="#ffffff" stroke="#b9c0c6" stroke-width="1.2" />
+<text x="74.0" y="210.0" font-size="13" font-weight="400" fill="#2c353a" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >C:\Users\NAMAMU\Documents\Arduino</text>
+<rect x="596.0" y="191.0" width="92.0" height="28.0" rx="14" fill="#ffffff" stroke="#00979d" stroke-width="2" />
+<text x="642.0" y="210.0" font-size="12.5" font-weight="700" fill="#00979d" text-anchor="middle" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >BROWSE</text>
+<rect x="64.0" y="234.0" width="14.0" height="14.0" rx="3" fill="#ffffff" stroke="#7a868b" stroke-width="1.4" />
+<text x="86.0" y="245.0" font-size="13.5" font-weight="400" fill="#2c353a" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Show files inside Sketches</text>
+<text x="64.0" y="282.0" font-size="13.5" font-weight="400" fill="#2c353a" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Editor font size:</text>
+<text x="64.0" y="318.0" font-size="13.5" font-weight="400" fill="#2c353a" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Interface scale:</text>
+<text x="64.0" y="354.0" font-size="13.5" font-weight="400" fill="#2c353a" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Theme:</text>
+<text x="64.0" y="390.0" font-size="13.5" font-weight="400" fill="#2c353a" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Language:</text>
+<text x="64.0" y="426.0" font-size="13.5" font-weight="400" fill="#2c353a" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Show verbose output during</text>
+<rect x="330.0" y="265.0" width="64.0" height="26.0" rx="3" fill="#ffffff" stroke="#b9c0c6" stroke-width="1.2" />
+<text x="340.0" y="283.0" font-size="13.5" font-weight="400" fill="#2c353a" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >14</text>
+<rect x="330.0" y="307.0" width="14.0" height="14.0" rx="3" fill="#00979d" stroke="#00979d" stroke-width="1.4" />
+<path d="M333 314 L336 317 L341 310" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="352.0" y="318.0" font-size="13.5" font-weight="400" fill="#2c353a" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Automatic</text>
+<rect x="440.0" y="301.0" width="76.0" height="26.0" rx="3" fill="#ffffff" stroke="#b9c0c6" stroke-width="1.2" />
+<text x="450.0" y="319.0" font-size="13.5" font-weight="400" fill="#2c353a" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >100 %</text>
+<rect x="330.0" y="337.0" width="200.0" height="26.0" rx="3" fill="#ffffff" stroke="#b9c0c6" stroke-width="1.2" />
+<text x="340.0" y="355.0" font-size="13.5" font-weight="400" fill="#2c353a" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Light</text>
+<path d="M512 347 L517 352 L522 347" fill="none" stroke="#555555" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="330.0" y="373.0" width="200.0" height="26.0" rx="3" fill="#ffffff" stroke="#b9c0c6" stroke-width="1.2" />
+<text x="340.0" y="391.0" font-size="13.5" font-weight="400" fill="#2c353a" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >English</text>
+<path d="M512 383 L517 388 L522 383" fill="none" stroke="#555555" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="542.0" y="390.0" font-size="13" font-weight="400" fill="#2c353a" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >(Reload required)</text>
+<rect x="330.0" y="415.0" width="14.0" height="14.0" rx="3" fill="#ffffff" stroke="#7a868b" stroke-width="1.4" />
+<text x="352.0" y="426.0" font-size="13.5" font-weight="400" fill="#2c353a" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >compile</text>
+<rect x="440.0" y="415.0" width="14.0" height="14.0" rx="3" fill="#ffffff" stroke="#7a868b" stroke-width="1.4" />
+<text x="462.0" y="426.0" font-size="13.5" font-weight="400" fill="#2c353a" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >upload</text>
+<rect x="64.0" y="498.0" width="14.0" height="14.0" rx="3" fill="#ffffff" stroke="#7a868b" stroke-width="1.4" />
+<text x="86.0" y="509.0" font-size="13.5" font-weight="400" fill="#2c353a" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Verify code after upload</text>
+<rect x="64.0" y="528.0" width="14.0" height="14.0" rx="3" fill="#00979d" stroke="#00979d" stroke-width="1.4" />
+<path d="M67 535 L70 538 L75 531" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="86.0" y="539.0" font-size="13.5" font-weight="400" fill="#2c353a" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Auto save</text>
+<rect x="64.0" y="558.0" width="14.0" height="14.0" rx="3" fill="#ffffff" stroke="#7a868b" stroke-width="1.4" />
+<text x="86.0" y="569.0" font-size="13.5" font-weight="400" fill="#2c353a" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Editor Quick Suggestions</text>
+</g>
+<text x="64.0" y="468.0" font-size="13.5" font-weight="700" fill="#2c353a" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Compiler warnings</text>
+<rect x="330.0" y="451.0" width="160.0" height="26.0" rx="3" fill="#ffffff" stroke="#b9c0c6" stroke-width="1.2" />
+<text x="340.0" y="469.0" font-size="13.5" font-weight="400" fill="#2c353a" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >More</text>
+<path d="M472 461 L477 466 L482 461" fill="none" stroke="#555555" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="510.0" y="468.0" font-size="12.5" font-weight="700" fill="#4a5568" text-anchor="start" >← bawaan: None</text>
+<rect x="333.0" y="486.0" width="160.0" height="120.0" rx="4" fill="#000000" opacity="0.12"/>
+<rect x="330.0" y="482.0" width="160.0" height="120.0" rx="4" fill="#ffffff" stroke="#b9c0c6" stroke-width="1.2" />
+<text x="342.0" y="506.0" font-size="13.5" font-weight="400" fill="#2c353a" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >None</text>
+<text x="342.0" y="534.0" font-size="13.5" font-weight="400" fill="#2c353a" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Default</text>
+<rect x="334.0" y="544.0" width="152.0" height="26.0" rx="3" fill="#e3f2f2" />
+<text x="342.0" y="562.0" font-size="13.5" font-weight="700" fill="#2c353a" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >More</text>
+<text x="342.0" y="590.0" font-size="13.5" font-weight="400" fill="#2c353a" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >All</text>
+<rect x="496.0" y="612.0" width="104.0" height="34.0" rx="17" fill="#ffffff" stroke="#00979d" stroke-width="2" />
+<text x="548.0" y="634.0" font-size="13.5" font-weight="700" fill="#00979d" text-anchor="middle" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >CANCEL</text>
+<rect x="612.0" y="612.0" width="88.0" height="34.0" rx="17" fill="#00979d" />
+<text x="656.0" y="634.0" font-size="13.5" font-weight="700" fill="#ffffff" text-anchor="middle" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >OK</text>
+<text x="760.0" y="346.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >Panel Output setelah Verify:</text>
+<rect x="760.0" y="360.0" width="400.0" height="160.0" rx="6" fill="#000000" stroke="#3a3a3a" stroke-width="1.2" />
+<text x="772.0" y="388.0" font-size="12.5" font-weight="400" fill="#ffffff" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">…modul08_berburu_bug.ino: In function</text>
+<text x="772.0" y="415.0" font-size="12.5" font-weight="400" fill="#ffffff" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">'void pindahKe(KeadaanSiram)':</text>
+<text x="772.0" y="442.0" font-size="12.5" font-weight="400" fill="#ffffff" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">…modul08_berburu_bug.ino:114:17: warning:</text>
+<text x="772.0" y="469.0" font-size="12.5" font-weight="400" fill="#ffffff" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">unused variable 'waktuMasukKeadaan'</text>
+<text x="772.0" y="496.0" font-size="12.5" font-weight="400" fill="#ffffff" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">[-Wunused-variable]</text>
+<rect x="48.0" y="72.0" width="140.0" height="30.0" rx="6" fill="none" stroke="#e63946" stroke-width="3" />
+<circle cx="202.0" cy="87.0" r="15" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="202.0" y="92.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >1</text>
+<rect x="324.0" y="445.0" width="172.0" height="34.0" rx="6" fill="none" stroke="#e63946" stroke-width="3" />
+<circle cx="306.0" cy="462.0" r="15" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="306.0" y="467.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >2</text>
+<rect x="606.0" y="606.0" width="100.0" height="46.0" rx="6" fill="none" stroke="#e63946" stroke-width="3" />
+<circle cx="656.0" cy="668.0" r="15" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="656.0" y="673.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >3</text>
+<rect x="766.0" y="423.0" width="388.0" height="86.0" rx="6" fill="none" stroke="#e63946" stroke-width="3" />
+<circle cx="1146.0" cy="421.0" r="15" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="1146.0" y="426.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >4</text>
+<circle cx="56.0" cy="711.0" r="11" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="56.0" y="716.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >1</text>
+<text x="76.0" y="716.0" font-size="13.5" font-weight="600" fill="#1e2a4a" text-anchor="start" >File → Preferences… (macOS: Arduino IDE → Settings…)</text>
+<circle cx="616.0" cy="711.0" r="11" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="616.0" y="716.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >2</text>
+<text x="636.0" y="716.0" font-size="13.5" font-weight="600" fill="#1e2a4a" text-anchor="start" >Compiler warnings: ubah None menjadi More</text>
+<circle cx="56.0" cy="739.0" r="11" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="56.0" y="744.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >3</text>
+<text x="76.0" y="744.0" font-size="13.5" font-weight="600" fill="#1e2a4a" text-anchor="start" >klik OK, lalu klik Verify</text>
+<circle cx="616.0" cy="739.0" r="11" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="616.0" y="744.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >4</text>
+<text x="636.0" y="744.0" font-size="13.5" font-weight="600" fill="#1e2a4a" text-anchor="start" >cari peringatan yang menyebut nama file sketsamu</text>
+<text x="1178.0" y="786.0" font-size="11.5" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0 · ilustrasi, bukan tangkapan layar</text>
+</svg>

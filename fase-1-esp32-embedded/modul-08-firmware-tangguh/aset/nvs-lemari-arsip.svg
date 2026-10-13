@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="560" viewBox="0 0 1200 560" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="560" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >RAM lupa, NVS ingat</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Variabel biasa hilang saat listrik padam · setelan di NVS (bagian flash) tetap ada</text>
+<rect x="40.0" y="100.0" width="540.0" height="330.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="60.0" y="132.0" font-size="18" font-weight="800" fill="#1e2a4a" text-anchor="start" >RAM = papan tulis</text>
+<rect x="64.0" y="156.0" width="222.0" height="130.0" rx="8" fill="#ffffff" stroke="#9aa3b0" stroke-width="2" />
+<text x="175.0" y="180.0" font-size="12.5" font-weight="700" fill="#4a5568" text-anchor="middle" >sebelum padam</text>
+<text x="80.0" y="218.0" font-size="16" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">ambang = 35</text>
+<text x="80.0" y="250.0" font-size="16" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">lampu = true</text>
+<line x1="294.0" y1="221.0" x2="350.0" y2="221.0" stroke="#e63946" stroke-width="2.6" stroke-linecap="round" />
+<path d="M342.1 225.2 L350.0 221.0 L342.1 216.8" fill="none" stroke="#e63946" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="322.0" y="208.0" font-size="12.5" font-weight="800" fill="#e63946" text-anchor="middle" >padam</text>
+<rect x="358.0" y="156.0" width="200.0" height="130.0" rx="8" fill="#ffffff" stroke="#9aa3b0" stroke-width="2" />
+<text x="458.0" y="180.0" font-size="12.5" font-weight="700" fill="#4a5568" text-anchor="middle" >menyala lagi</text>
+<text x="374.0" y="218.0" font-size="16" font-weight="700" fill="#7b8494" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">ambang = 30</text>
+<text x="374.0" y="250.0" font-size="16" font-weight="700" fill="#7b8494" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">lampu = false</text>
+<text x="458.0" y="274.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="middle" >(ditulis ulang dari kode)</text>
+<text x="60.0" y="340.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="start" >cepat, tetapi terhapus setiap kali papan padam:</text>
+<text x="60.0" y="362.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="start" >saat menyala lagi, ambang kembali ke angka di kode (30).</text>
+<text x="60.0" y="404.0" font-size="13.5" font-weight="700" fill="#4a5568" text-anchor="start" >Baca dan tulis sesering apa pun: tidak aus.</text>
+<rect x="620.0" y="100.0" width="540.0" height="330.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="640.0" y="132.0" font-size="18" font-weight="800" fill="#1e2a4a" text-anchor="start" >NVS (flash) = lemari arsip</text>
+<rect x="650.0" y="156.0" width="480.0" height="150.0" rx="8" fill="#f7f3ea" stroke="#b8a98a" stroke-width="2" />
+<rect x="670.0" y="168.0" width="160.0" height="30.0" rx="6" fill="#ffffff" stroke="#b8a98a" stroke-width="1.5" />
+<text x="750.0" y="188.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="middle" >map "node1"</text>
+<rect x="670.0" y="216.0" width="440.0" height="32.0" rx="6" fill="#ffffff" stroke="#d9cfba" stroke-width="1.2" />
+<text x="690.0" y="238.0" font-size="15" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">tanah_siram</text>
+<text x="1090.0" y="238.0" font-size="15" font-weight="800" fill="#0f8b8d" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">35</text>
+<rect x="670.0" y="258.0" width="440.0" height="32.0" rx="6" fill="#ffffff" stroke="#d9cfba" stroke-width="1.2" />
+<text x="690.0" y="280.0" font-size="15" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">jumlah_nyala</text>
+<text x="1090.0" y="280.0" font-size="15" font-weight="800" fill="#0f8b8d" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">4</text>
+<text x="640.0" y="340.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="start" >tetap ada setelah restart, listrik padam, dan unggah ulang</text>
+<text x="640.0" y="362.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="start" >sketsa (di Wokwi: hilang kalau ■ lalu ▶).</text>
+<text x="640.0" y="404.0" font-size="13.5" font-weight="700" fill="#b45f17" text-anchor="start" >Tulis hanya kalau berubah: flash bisa aus.</text>
+<rect x="40.0" y="450.0" width="1120.0" height="80.0" rx="12" fill="#eef1f5" />
+<text x="60.0" y="482.0" font-size="15" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">arsip.begin("node1", false);</text>
+<text x="60.0" y="510.0" font-size="15" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">int ambang = arsip.getInt("tanah_siram", 30);</text>
+<text x="1140.0" y="482.0" font-size="13.5" font-weight="700" fill="#4a5568" text-anchor="end" >nama map dan label: paling panjang 15 huruf</text>
+<text x="1140.0" y="510.0" font-size="13.5" font-weight="700" fill="#4a5568" text-anchor="end" >30 = jawaban bawaan kalau labelnya belum ada</text>
+<text x="1178.0" y="546.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>
