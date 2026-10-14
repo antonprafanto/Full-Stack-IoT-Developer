@@ -5,7 +5,7 @@
 > **A 32-module curriculum — one module = one week of relaxed study (about 8 months) — that takes complete beginners all the way to building a full IoT system, from sensors to a dashboard on your phone.**
 > Hardware: **ESP32 + Raspberry Pi** · Software: **JavaScript/TypeScript (Node.js + React) for the server & the interface, a little C++ for the chip** · Language of instruction: **English, beginner-friendly** (this English edition is a complete translation of the Indonesian original).
 >
-> Document status: **v1.0.10 — approved, writing of the material in progress; Modules 1–8 (all of Phase 0 and Modules 5–8) are available in Indonesian and English** (13 October 2026). The decisions behind it are in [§11](#11-approved-decisions); the change history is in [§13](#13-revision-history).
+> Document status: **v1.0.11 — approved, writing of the material in progress; Modules 1–9 (all of Phase 0 and Phase 1) are available in Indonesian and English** (14 October 2026). The decisions behind it are in [§11](#11-approved-decisions); the change history is in [§13](#13-revision-history).
 
 ---
 
@@ -258,13 +258,14 @@ Estimated Indonesian marketplace prices, October 2026 — **subject to change**.
 | **3.3 V-compatible** ultrasonic distance sensor (HC-SR04+ / RCWL-1601) — or a regular HC-SR04 + 2 resistors | 1 | IDR 10,000–25,000 | Module 6 | The regular HC-SR04 outputs 5 V on its ECHO pin; **ESP32 pins can't tolerate 5 V** → you need a voltage divider (explained in Module 6). Module 6 wires every variant the same way: powered with 5 V from the MB102, with ECHO going through a 4.7 kΩ + 10 kΩ voltage divider. |
 | HC-SR501 PIR motion sensor | 1 | IDR 10,000–20,000 | Module 6 | |
 | **STAGE 2 (Modules 7–28)** | | | | |
-| 2nd ESP32 DevKit V1 + 2nd USB data cable | 1 + 1 | IDR 55,000–100,000 | Module 14 | **Required** (Node 2 "Garden" is used in Modules 14, 15, 16, 25, 28). |
+| 2nd ESP32 DevKit V1 + 2nd USB data cable | 1 + 1 | IDR 55,000–100,000 | Module 9 | **Required** (Node 2 "Garden": its skeleton is built in Module 9, and it is used in Modules 14, 15, 16, 25, 28). |
 | 0.96" SSD1306 I2C OLED display (**soldered headers**) | 1 | IDR 25,000–45,000 | Module 7 | Look for *"sudah solder"* ("already soldered"). |
 | BME280 I2C sensor (**soldered headers**) | 1 | IDR 20,000–50,000 | Module 7 | Used on Node 2 (outdoors). Watch out for the BMP280 (no humidity), which is sold under a similar name. |
 | Waterproof DS18B20 + **adapter module/terminal** | 1 | IDR 15,000–30,000 | Module 7 | The bare-wire version needs soldering; the "DS18B20 module" version just plugs in. |
 | microSD module (SPI) + 4–16 GB microSD card | 1 | IDR 5,000–15,000 + card | Module 7 | **Optional** — only for SPI practice & an offline buffer; it can be removed after Module 11 if you run short of pins. |
-| **INA219 module** (I2C current/voltage meter) | 1 | IDR 15,000–30,000 | Module 9 | Measures Node 2's sleep current. A regular multimeter can measure µA, but its 200 mA fuse tends to blow when the ESP32 wakes up. |
-| 18650 Li-ion battery + holder + **TP4056 charger module (with protection)** + **MT3608 boost module** | 1 set | IDR 35,000–70,000 | Module 9 | Studied in Module 9, installed on Node 2 (Module 14). The boost raises the battery's 3.7 V → 5 V into the VIN pin (the DevKit's regulator needs ≥ 4.5 V; **don't** feed 4.2 V into the 3V3 pin). |
+| **INA219 module** (I2C current/voltage meter) | 1 | IDR 15,000–30,000 | Module 9 | Measures Node 2's sleep current. A regular multimeter can measure µA, but its resistance starves a waking board of voltage, and its fuse (often only 200 mA) tends to blow when Wi-Fi turns on. |
+| 18650 Li-ion battery + holder + **TP4056 charger module (with protection)** + **MT3608 boost module** | 1 set | IDR 35,000–70,000 | Module 9 | Studied in Module 9, installed on Node 2 (Module 14). The boost raises the battery's 3.7 V → 5 V into the VIN pin (the DevKit's regulator needs ≥ 4.5 V; **don't** feed 4.2 V into the 3V3 pin). Choose the 6-pad TP4056 version (with OUT+/OUT−) and modules with **soldered headers**: the TP4056 and MT3608 pins are connected with male–female jumper wires, not plugged into the breadboard. |
+| 400-point mini breadboard | 1 | IDR 5,000–10,000 | Module 9 | Where the Node 2 battery circuit is built; used again in Module 14. |
 | **MAX485 RS-485 module** | 2 | IDR 5,000–10,000 each | Module 15 | Modbus RTU lab (the 2nd ESP32 plays a mock "industrial sensor"). A real RS-485 sensor (NPK/EC soil sensor, IDR 150,000–250,000) is **optional**. |
 | Plastic project box + **screw-terminal ESP32 expansion board** (no soldering) — or perfboard + 60 W soldering iron + solder | 1 set | IDR 25,000–40,000 (terminal) / IDR 60,000–120,000 (soldering) | Module 28 | "From breadboard to enclosure". A no-solder path is available. |
 | **Kit A total** | | **≈ IDR 500,000–950,000** | | Bundled "ESP32 starter" kits are often cheaper; Module 1 gives the minimum list of what they must include. |
@@ -284,13 +285,13 @@ Estimated Indonesian marketplace prices, October 2026 — **subject to change**.
 
 ### 5.4 Learning without hardware: what you can and cannot do in Wokwi
 
-Wokwi provides the ESP32, LEDs, buttons, potentiometers, buzzers, servos, relays, the DHT22, LDR, HC-SR04, PIR, DS18B20, SSD1306 OLED, and a microSD module — so **about 90% of the practice in Modules 1–9 can be done without buying anything.** What you can't do:
+Wokwi provides the ESP32, LEDs, buttons, potentiometers, buzzers, servos, relays, the DHT22, LDR, HC-SR04, PIR, DS18B20, SSD1306 OLED, and a microSD module — so **about 90% of the practice in Modules 1–8 can be done without buying anything**; Module 9 (deep sleep and batteries) mostly needs a real board. What you can't do:
 
 | Practice | In Wokwi | Substitute in the simulator |
 | :--- | :--- | :--- |
 | Capacitive soil sensor (Module 6) | Not available | A potentiometer as "wet/dry soil" |
 | BME280 (Module 7) | Not available | The BMP180 (its older cousin) for practicing addresses and the chip ID; the DHT22 for humidity |
-| Measuring deep sleep current (Module 9) | Not possible | Learn the concept; measure when the kit arrives |
+| *Deep sleep* and measuring its current (Module 9) | Not possible: the simulated board restarts immediately | *Light sleep* with the timer alarm can be tried; for the rest, learn the concepts, then do it on a real board when the kit arrives |
 | "24 hours without a restart" test (Module 8) | Not practical | A 30-minute test in the simulator + an *uptime counter* |
 | RS-485/Modbus lab (Module 15) | Not available | Learn the concept & the code; practice when the kit arrives |
 | Loose wires, charging cables, USB drivers, power supply (Modules 2, 5) | Not available | This is why real hardware is still recommended |
@@ -303,7 +304,7 @@ Wokwi provides the ESP32, LEDs, buttons, potentiometers, buzzers, servos, relays
 | VPS with **2 GB RAM** (IDCloudHost, Biznet Gio, DigitalOcean) — 1 GB isn't enough for the database + Grafana + API | IDR 100,000–150,000/month | Modules 27–30 (**highly recommended, not required** — a free path is available) |
 | Cloudflare Tunnel, Let's Encrypt, GitHub Actions & Container Registry (public repo), Cloudflare R2/Backblaze B2 (≤ 10 GB), Telegram | Free | |
 
-> **Cost summary:** start with **IDR 0** (Wokwi) for Modules 1–9, **about IDR 500,000–950,000** for real hardware experience (2 ESP32s), **about IDR 1,300,000–2,200,000** if you want a real Raspberry Pi gateway, and **about IDR 100,000–150,000/month + a domain** for roughly the last 2 months if you take the VPS path.
+> **Cost summary:** start with **IDR 0** (Wokwi) for Modules 1–8, **about IDR 500,000–950,000** for real hardware experience (2 ESP32s), **about IDR 1,300,000–2,200,000** if you want a real Raspberry Pi gateway, and **about IDR 100,000–150,000/month + a domain** for roughly the last 2 months if you take the VPS path.
 
 ---
 
@@ -479,13 +480,15 @@ Format of each module:
 - **✅ You pass when:** Node 1 runs for 24 hours without restarting (checked with the *uptime counter* on the OLED; in Wokwi: 30 minutes; the laptop may still power the ESP32 — the permanent adapter is installed in Module 9), the threshold stays saved after a power cut, and your code no longer uses `delay()` in `loop()`.
 
 #### Module 9 — Power Supply & Low Power: Adapters, Batteries, Deep Sleep, & Measuring Current
-*Phase 1 · Week 9 · Hardware: Kit A (+ INA219, 18650/TP4056/MT3608) · Prerequisites: Module 8*
+*Phase 1 · Week 9 · Hardware: Kit A (+ 2nd ESP32, INA219, 18650/TP4056/MT3608, mini breadboard) · Prerequisites: Module 8*
+
+📖 **Available now:** [read Module 9](phase-1-esp32-embedded/module-09-power-and-low-power/README.md)
 
 - **After this module you can:** power devices safely without a laptop (adapter, power bank, battery), make the ESP32 sleep and wake up by itself, measure how long a battery lasts, and know when the DevKit V1 is *not* the right choice.
-- **Core concepts:** **power without a laptop**: a 5 V adapter into VIN/5V, *power banks* (the auto-off trap at low current), brownout & buffer capacitors; **18650 Li-ion batteries**: TP4056 (charging + protection), **MT3608 boost → 5 V → VIN** (the DevKit's regulator needs ≥ 4.5 V; **don't** feed 4.2 V into the 3V3 pin), battery safety (polarity, temperature, never short it); ***deep sleep* & *light sleep***: waking up by timer / button, what's lost during sleep (RAM) and what stays (RTC memory, NVS); calculating battery life (mAh ÷ average current); **honest about the DevKit V1**: while asleep it still "drinks" about 10 mA because of its regulator & USB chip, so the battery lasts days to weeks, not months; measuring current with the **INA219** (and why a cheap multimeter risks blowing its fuse); **Node 1 always runs from an adapter — it never uses *deep sleep***; this low-power sketch becomes the basis for Node 2 (Module 14).
+- **Core concepts:** **power without a laptop**: a 5 V adapter through the board's USB port (the VIN pin for other 5 V sources), *power banks* (the auto-off trap at low current), brownout & buffer capacitors; **18650 Li-ion batteries**: TP4056 (charging + protection), **MT3608 boost → 5 V → VIN** (the DevKit's regulator needs ≥ 4.5 V; **don't** feed 4.2 V into the 3V3 pin), battery safety (polarity, temperature, never short it); ***deep sleep* & *light sleep***: waking up by timer / button, what's lost during sleep (RAM) and what stays (RTC memory, NVS); calculating battery life (mAh ÷ average current); **honest about the DevKit V1**: while asleep it still "drinks" about 4–5 mA (measured on similar boards) because of its regulator, LED, & USB chip, so the battery only lasts a few days, not months; measuring current with the **INA219** (and why a cheap multimeter is risky: its fuse blows easily and its resistance disturbs the board); **Node 1 always runs from an adapter — it never uses *deep sleep***; this low-power sketch becomes the basis for Node 2 (Module 14).
 - **Tools used:** the Adafruit INA219 library, Preferences.
 - **Optional / technical deep dive:** low-power boards (FireBeetle, TinyPICO) and bare ESP32 modules without a DevKit; a small solar panel + TP4056; the *ULP coprocessor*.
-- **Practice & mini projects:** Node 1 moves permanently to an adapter + MB102; a "sleep 30 seconds, wake up, read the DHT22, sleep again" sketch on an ESP32 running from an 18650 battery through the MT3608; measuring waking vs. sleeping current with the INA219 and calculating the estimated battery life; testing a power bank that switches itself off, and the fix.
+- **Practice & mini projects:** Node 1 moves permanently to an adapter + MB102; a "sleep 30 seconds, wake up, read the DS18B20, sleep again" sketch on the 2nd ESP32 running from an 18650 battery through the MT3608; measuring waking vs. sleeping current with the INA219 and calculating the estimated battery life; testing a power bank that switches itself off, and the fix.
 - **➕ Mini Smart Home:** Node 1 with a permanent power supply; a "Node 2 skeleton" (low-power sketch + battery circuit) ready for Module 14. 🎉 **Phase 1 checkpoint.**
 - **✅ You pass when:** Node 1 runs from an adapter (not a laptop) for 24 hours, and your battery sketch measures < 15 mA while asleep, with a battery-life calculation you wrote yourself.
 
@@ -943,6 +946,8 @@ One sentence per term, in plain language. All of them are covered fully in their
 ---
 
 ## 13. Revision history
+
+**v1.0.11 (14 Oct 2026)** — Module 9 published in Indonesian and English, and Phase 1 is complete. Node 1 now gets its power from its own phone charger through the board's USB port (the firmware stays at v1.0.0), then runs a 24-hour test without a laptop. The Node 2 skeleton (`firmware/node-2-garden/` v0.1.0) runs on the 2nd ESP32: it wakes up every 30 seconds, reads a **DS18B20** on GPIO 27 (not a DHT22 as written before, so the DHT22 stays on Node 1 during the 24-hour test), and goes back to *deep sleep*; the board runs from an 18650 battery → TP4056 → MT3608 (5.0 V) → VIN on a 400-point mini breadboard. The Node 1 board becomes a current meter with an INA219 (Adafruit INA219 1.2.3, address `0x40`). The 2nd ESP32 and the mini breadboard are now listed as first used in Module 9 (§5.2). Wokwi doesn't support ESP32 *deep sleep* yet (§5.4), so most Module 9 practices are done on a real board. `PIN-MAP.md` moves to version 4: golden power rule 2 (Node 1 from its own charger), the Node 2 skeleton connected, and a new Node 2 battery circuit section. The Module 9 details in §7 and the INA219 row in §5.2 were aligned with the module's research: the DevKit V1 board's sleep current is about 4–5 mA (not about 10 mA), so the battery lasts a few days.
 
 **v1.0.10 (13 Oct 2026)** — Module 8 published in Indonesian and English. Node 1 firmware moves to v1.0.0: `loop()` never waits (the `millis()` pattern and *state machines*, including automatic watering STANDBY → WATERING → COOLDOWN), the program is split into 24 files (one main file, `config.h`, and eleven `.h`/`.cpp` modules), a task *watchdog* restarts a `loop()` that is stuck for more than 5 seconds (written the esp32 3.x way: `esp_task_wdt_reconfigure()`), the `soil_watering` threshold and the boot counter are stored in NVS (folder `node1`), leveled logging DEBUG/INFO/ERROR, and a status page on the OLED display (long press of the button) with an *uptime counter*. New Serial commands: `info`, `threshold`, `threshold 35`, `threshold default`, `log debug`/`log info`/`log error`, and `restart`. The Indonesian syllabus now writes the first step of the main cycle in §7 as MENUNGGU (*idle*), as in its code; the English IDLE is unchanged. `PIN-MAP.md` is unchanged.
 

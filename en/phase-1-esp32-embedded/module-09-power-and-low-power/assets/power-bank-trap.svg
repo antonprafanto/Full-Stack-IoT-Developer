@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="640" viewBox="0 0 1200 640" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="640" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >The power bank trap: it switches itself off at low current</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Example: an ESP32 board that wakes for 1 second, then sleeps for 30 seconds · the limit and timing vary between power banks</text>
+<rect x="36.0" y="104.0" width="1128.0" height="218.0" rx="12" fill="#ffffff" stroke="#2a9d5c" stroke-width="1.8" />
+<text x="56.0" y="134.0" font-size="17" font-weight="800" fill="#1e2a4a" text-anchor="start" >Adapter (phone charger)</text>
+<text x="290.0" y="134.0" font-size="14" font-weight="600" fill="#2a9d5c" text-anchor="start" >keeps supplying power, whatever the current</text>
+<line x1="150.0" y1="280.0" x2="1130.0" y2="280.0" stroke="#4a5568" stroke-width="1.4" stroke-linecap="round" />
+<line x1="150.0" y1="152.0" x2="150.0" y2="280.0" stroke="#4a5568" stroke-width="1.4" stroke-linecap="round" />
+<line x1="145.0" y1="280.0" x2="150.0" y2="280.0" stroke="#4a5568" stroke-width="1.2" stroke-linecap="round" />
+<text x="141.0" y="284.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="end" >0 mA</text>
+<line x1="145.0" y1="226.9" x2="150.0" y2="226.9" stroke="#4a5568" stroke-width="1.2" stroke-linecap="round" />
+<text x="141.0" y="230.9" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="end" >30 mA</text>
+<line x1="145.0" y1="173.7" x2="150.0" y2="173.7" stroke="#4a5568" stroke-width="1.2" stroke-linecap="round" />
+<text x="141.0" y="177.7" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="end" >60 mA</text>
+<text x="150.0" y="300.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="middle" >0 s</text>
+<text x="281.1" y="300.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="middle" >10 s</text>
+<text x="412.2" y="300.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="middle" >20 s</text>
+<text x="543.2" y="300.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="middle" >30 s</text>
+<text x="674.3" y="300.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="middle" >40 s</text>
+<text x="805.4" y="300.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="middle" >50 s</text>
+<text x="936.5" y="300.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="middle" >60 s</text>
+<text x="1067.6" y="300.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="middle" >70 s</text>
+<path d="M150.0 271.14285714285717 L176.21621621621622 271.14285714285717 L176.21621621621622 182.57142857142856 L189.32432432432432 182.57142857142856 L189.32432432432432 271.14285714285717 L582.5675675675675 271.14285714285717 L582.5675675675675 182.57142857142856 L595.6756756756756 182.57142857142856 L595.6756756756756 271.14285714285717 L988.918918918919 271.14285714285717 L988.918918918919 182.57142857142856 L1002.027027027027 182.57142857142856 L1002.027027027027 271.14285714285717 L1120.0 271.14285714285717" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="182.8" y="174.6" font-size="11.5" font-weight="800" fill="#b45f17" text-anchor="middle" >awake</text>
+<text x="589.1" y="174.6" font-size="11.5" font-weight="800" fill="#b45f17" text-anchor="middle" >awake</text>
+<text x="995.5" y="174.6" font-size="11.5" font-weight="800" fill="#b45f17" text-anchor="middle" >awake</text>
+<circle cx="1100.0" cy="134.0" r="11" fill="#2a9d5c" />
+<path d="M1095 134 L1098.5 138 L1105.5 129.5" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="36.0" y="344.0" width="1128.0" height="218.0" rx="12" fill="#ffffff" stroke="#e63946" stroke-width="1.8" />
+<text x="56.0" y="374.0" font-size="17" font-weight="800" fill="#1e2a4a" text-anchor="start" >Power bank</text>
+<text x="166.0" y="374.0" font-size="14" font-weight="600" fill="#e63946" text-anchor="start" >thinks the phone is full, then switches itself off</text>
+<line x1="150.0" y1="520.0" x2="1130.0" y2="520.0" stroke="#4a5568" stroke-width="1.4" stroke-linecap="round" />
+<line x1="150.0" y1="392.0" x2="150.0" y2="520.0" stroke="#4a5568" stroke-width="1.4" stroke-linecap="round" />
+<line x1="145.0" y1="520.0" x2="150.0" y2="520.0" stroke="#4a5568" stroke-width="1.2" stroke-linecap="round" />
+<text x="141.0" y="524.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="end" >0 mA</text>
+<line x1="145.0" y1="466.9" x2="150.0" y2="466.9" stroke="#4a5568" stroke-width="1.2" stroke-linecap="round" />
+<text x="141.0" y="470.9" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="end" >30 mA</text>
+<line x1="145.0" y1="413.7" x2="150.0" y2="413.7" stroke="#4a5568" stroke-width="1.2" stroke-linecap="round" />
+<text x="141.0" y="417.7" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="end" >60 mA</text>
+<text x="150.0" y="540.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="middle" >0 s</text>
+<text x="281.1" y="540.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="middle" >10 s</text>
+<text x="412.2" y="540.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="middle" >20 s</text>
+<text x="543.2" y="540.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="middle" >30 s</text>
+<text x="674.3" y="540.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="middle" >40 s</text>
+<text x="805.4" y="540.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="middle" >50 s</text>
+<text x="936.5" y="540.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="middle" >60 s</text>
+<text x="1067.6" y="540.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="middle" >70 s</text>
+<line x1="150.0" y1="466.9" x2="1120.0" y2="466.9" stroke="#e63946" stroke-width="1.6" stroke-linecap="round" stroke-dasharray="6 4" />
+<text x="631.9" y="459.9" font-size="12" font-weight="800" fill="#e63946" text-anchor="start" >power bank limit (example: 30 mA)</text>
+<path d="M150.0 511.14285714285717 L176.21621621621622 511.14285714285717 L176.21621621621622 422.57142857142856 L189.32432432432432 422.57142857142856 L189.32432432432432 511.14285714285717 L385.94594594594594 511.14285714285717 L385.94594594594594 520.0 L1120.0 520.0" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="182.8" y="414.6" font-size="11.5" font-weight="800" fill="#b45f17" text-anchor="middle" >awake</text>
+<rect x="189.3" y="495.2" width="196.6" height="6.0" rx="3" fill="#f4a261" />
+<text x="287.6" y="487.2" font-size="12" font-weight="800" fill="#b45f17" text-anchor="middle" >about 15 s below the limit</text>
+<line x1="385.9" y1="390.0" x2="385.9" y2="520.0" stroke="#e63946" stroke-width="2.2" stroke-linecap="round" />
+<text x="377.9" y="404.0" font-size="13" font-weight="800" fill="#e63946" text-anchor="end" >power bank turns off</text>
+<rect x="582.6" y="422.6" width="13.1" height="88.6" rx="0" fill="none" stroke="#9aa3b0" stroke-width="1.4" stroke-dasharray="4 3"/>
+<rect x="988.9" y="422.6" width="13.1" height="88.6" rx="0" fill="none" stroke="#9aa3b0" stroke-width="1.4" stroke-dasharray="4 3"/>
+<text x="589.1" y="414.6" font-size="12" font-weight="800" fill="#e63946" text-anchor="middle" >never wakes up again</text>
+<circle cx="1100.0" cy="374.0" r="11" fill="#e63946" />
+<path d="M1095.5 369.5 L1104.5 378.5 M1104.5 369.5 L1095.5 378.5" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="600.0" y="604.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="middle" >Tests of several power banks: the limit is about 10–150 mA, and they turn off after about 10–20 seconds below it. A sleeping board draws only a few mA.</text>
+<text x="1178.0" y="626.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer curriculum · CC BY 4.0</text>
+</svg>

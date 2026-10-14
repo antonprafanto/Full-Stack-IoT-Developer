@@ -30,7 +30,7 @@ A self-study curriculum of **32 modules**, from complete beginner to building a 
 ## Available modules
 
 > [!NOTE]
-> Syllabus v1.0 was approved on 9 October 2026, and the modules are written in order. Available now: **Modules 1–8 of 32**: all of Phase 0 and the first four modules of Phase 1. The full list of 32 modules is in [PROGRESS.md](PROGRESS.md).
+> Syllabus v1.0 was approved on 9 October 2026, and the modules are written in order. Available now: **Modules 1–9 of 32**: all of Phase 0 and Phase 1. The full list of 32 modules is in [PROGRESS.md](PROGRESS.md).
 
 | Module | Title | After this module you can… | Main tools |
 | :---: | :--- | :--- | :--- |
@@ -42,7 +42,8 @@ A self-study curriculum of **32 modules**, from complete beginner to building a 
 | 6 | **[Reading Sensors: Analog, Digital, & Calibration](phase-1-esp32-embedded/module-06-reading-sensors/README.md)** | read five sensors (light, soil moisture, air temperature and humidity, motion, distance), turn raw numbers into percentages through calibration, reduce noise, and build automatic watering that refuses to run when the water tank is empty | Arduino IDE 2 + Serial Plotter, Wokwi, Kit A + multimeter |
 | 7 | **[Sensor Bus Protocols: I2C, 1-Wire, SPI, OLED Display, & Reading Schematics](phase-1-esp32-embedded/module-07-sensor-bus-oled-schematics/README.md)** | connect several devices to shared wires (I2C, 1-Wire, SPI), show all Node 1 readings on an OLED display in a layout you design yourself, log readings to a microSD card (optional), and read schematics | Arduino IDE 2, Wokwi, Kit A Stage 2 |
 | 8 | **[Robust Firmware: millis(), State Machines, Modular Code, Watchdog, & Debugging](phase-1-esp32-embedded/module-08-robust-firmware/README.md)** | write firmware that does many things "at the same time" without `delay()`, split a program into several files, keep settings in NVS so they survive a power cut, install a *watchdog* that restarts a stuck program, and hunt bugs systematically | Arduino IDE 2, Wokwi, Kit A |
-| 9 | Power Supply & Low Power: Adapters, Batteries, Deep Sleep, & Measuring Current | coming soon — [read the summary in the Syllabus](SYLLABUS.md#module-9--power-supply--low-power-adapters-batteries-deep-sleep--measuring-current) | Arduino IDE, Kit A (+ INA219, 18650/TP4056/MT3608) |
+| 9 | **[Power Supply & Low Power: Adapters, Batteries, Deep Sleep, & Measuring Current](phase-1-esp32-embedded/module-09-power-and-low-power/README.md)** | power a device safely without a laptop, make the ESP32 sleep and wake up by itself, build a safe 18650 battery supply, measure current with the INA219 and calculate battery life, and complete the Phase 1 *checkpoint* | Arduino IDE 2, multimeter, Kit A Stage 2 (2nd ESP32, INA219, 18650 + TP4056 + MT3608) |
+| 10 | Wi-Fi & HTTP: Devices Start Talking to the Network | coming soon — [read the summary in the Syllabus](SYLLABUS.md#module-10--wi-fi--http-devices-start-talking-to-the-network) | Arduino IDE, Kit A |
 
 The modules of each phase are also listed on the phase pages: **[Phase 0 — Foundations](phase-0-foundations/README.md)** and **[Phase 1 — ESP32 Embedded](phase-1-esp32-embedded/README.md)**.
 

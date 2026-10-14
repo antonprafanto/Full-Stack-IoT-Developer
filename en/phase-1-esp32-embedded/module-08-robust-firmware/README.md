@@ -4,7 +4,7 @@
 
 *Phase 1 · Week 8 · Hardware: **the Node 1 workbench from Module 7** — no new parts and no new wires; you can also try every practice in Wokwi · Prerequisite: **Module 7** (Node 1 v0.4.0 with the OLED display) · Time: 8–10 hours, spread over the week*
 
-[⬅️ Module 7](../module-07-sensor-bus-oled-schematics/README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · [Module 9 ➡️ (coming soon — read the summary in the Syllabus)](../../SYLLABUS.md#module-9--power-supply--low-power-adapters-batteries-deep-sleep--measuring-current)
+[⬅️ Module 7](../module-07-sensor-bus-oled-schematics/README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · [Module 9 ➡️](../module-09-power-and-low-power/README.md)
 
 ---
 
@@ -3595,4 +3595,4 @@ All the sketches in this module, including Node 1 v1.0 with its 24 files, have b
 
 ---
 
-[⬅️ Module 7](../module-07-sensor-bus-oled-schematics/README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · **Next: Module 9 — Power Supply & Low Power: Adapters, Batteries, Deep Sleep, & Measuring Current** (coming soon; [read the summary in the Syllabus](../../SYLLABUS.md#module-9--power-supply--low-power-adapters-batteries-deep-sleep--measuring-current))
+[⬅️ Module 7](../module-07-sensor-bus-oled-schematics/README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · **Next: [Module 9 — Power Supply & Low Power: Adapters, Batteries, Deep Sleep, & Measuring Current](../module-09-power-and-low-power/README.md) ➡️**
