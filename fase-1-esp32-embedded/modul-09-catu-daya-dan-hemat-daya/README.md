@@ -1540,7 +1540,7 @@ Ingat, yang boleh panas adalah **modul TP4056** (chip pengisinya), bukan baterai
 <details>
 <summary><b>Lampu TP4056 tidak menyala, berkedip, atau langsung menandakan penuh</b></summary>
 
-- **Tidak ada lampu sama sekali:** *charger* atau kabelnya tidak memberi listrik. Coba colokan dan kabel lain. Kalau colokan TP4056-mu USB-C dan kamu memakai *charger* USB-C dengan kabel USB-C ke USB-C, coba *charger* bercolokan USB-A dengan kabel USB-A ke USB-C: sebagian modul USB-C murah tidak punya resistor kecil yang dibutuhkan *charger* USB-C sebelum mau mengeluarkan listrik.
+- **Tidak ada lampu sama sekali:** *charger* atau kabelnya tidak memberi listrik. Coba *charger* dan kabel lain. Kalau colokan TP4056-mu USB-C dan kamu memakai *charger* USB-C dengan kabel USB-C ke USB-C, coba *charger* bercolokan USB-A dengan kabel USB-A ke USB-C: sebagian modul USB-C murah tidak punya resistor kecil yang dibutuhkan *charger* USB-C sebelum mau mengeluarkan listrik.
 - **Lampu merah berkedip-kedip, sedangkan lampu satunya menyala:** TP4056 tidak menemukan baterai. Periksa kabel B+ dan B− di kolom 3 dan 6, dan pastikan baterai menyentuh dudukannya.
 - **Langsung menyala tanda penuh:** baterainya memang sudah hampir penuh, atau B+/B− tidak tersambung ke baterai. Ukur tegangannya (5.2): kalau di atas 4,1 V, baterainya memang sudah penuh.
 
