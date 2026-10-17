@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="590" viewBox="0 0 1200 590" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="590" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Finding Node 1: a fixed address or a .local name</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Main path: the router reserves the address · bonus: the ESP32 announces its own name</text>
+<rect x="50.0" y="110.0" width="540.0" height="390.0" rx="16" fill="#ffffff" stroke="#0f8b8d" stroke-width="2" />
+<text x="74.0" y="144.0" font-size="17" font-weight="800" fill="#0f8b8d" text-anchor="start" >Fixed address through the router (main path)</text>
+<text x="74.0" y="170.0" font-size="14" font-weight="600" fill="#4a5568" text-anchor="start" >DHCP reservation: "a reserved house number"</text>
+<rect x="74.0" y="192.0" width="492.0" height="110.0" rx="10" fill="#eef1f5" />
+<text x="94.0" y="220.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Router admin page · Address Reservation</text>
+<text x="94.0" y="252.0" font-size="15" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">MAC A4-CF-12-E5-B7-C0</text>
+<line x1="320.0" y1="247.0" x2="380.0" y2="247.0" stroke="#0f8b8d" stroke-width="2.5" stroke-linecap="round" />
+<path d="M371.2 251.7 L380.0 247.0 L371.2 242.3" fill="none" stroke="#0f8b8d" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<text x="390.0" y="252.0" font-size="15" font-weight="800" fill="#0f8b8d" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">192.168.1.23</text>
+<text x="94.0" y="284.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="start" >the router knows the ESP32 by its ID card number (MAC address)</text>
+<circle cx="92.0" cy="329.0" r="9" fill="#2a9d5c" />
+<path d="M87 329 L90.5 333 L97.5 324.5" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="112.0" y="334.0" font-size="14.5" font-weight="600" fill="#1e2a4a" text-anchor="start" >the ESP32 still asks for an address the usual way</text>
+<circle cx="92.0" cy="363.0" r="9" fill="#2a9d5c" />
+<path d="M87 363 L90.5 367 L97.5 358.5" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="112.0" y="368.0" font-size="14.5" font-weight="600" fill="#1e2a4a" text-anchor="start" >the address doesn't change even when the router restarts</text>
+<circle cx="92.0" cy="397.0" r="9" fill="#2a9d5c" />
+<path d="M87 397 L90.5 401 L97.5 392.5" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="112.0" y="402.0" font-size="14.5" font-weight="600" fill="#1e2a4a" text-anchor="start" >the /off link on the phone always works</text>
+<text x="92.0" y="436.0" font-size="18" font-weight="800" fill="#b45f17" text-anchor="middle" >!</text>
+<text x="112.0" y="436.0" font-size="14.5" font-weight="600" fill="#1e2a4a" text-anchor="start" >needs access to the router's admin page (just once)</text>
+<rect x="620.0" y="110.0" width="530.0" height="390.0" rx="16" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="644.0" y="144.0" font-size="17" font-weight="800" fill="#1e2a4a" text-anchor="start" >The name node1.local (bonus)</text>
+<text x="644.0" y="170.0" font-size="14" font-weight="600" fill="#4a5568" text-anchor="start" >mDNS: the ESP32 "shouts" on the home network</text>
+<rect x="675.0" y="220.0" width="30.0" height="40.0" rx="3" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<rect x="681.0" y="226.0" width="18.0" height="14.0" rx="2" fill="none" stroke="#1e2a4a" stroke-width="1.6" />
+<line x1="675.0" y1="230.0" x2="670.0" y2="230.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="705.0" y1="230.0" x2="710.0" y2="230.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="675.0" y1="238.0" x2="670.0" y2="238.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="705.0" y1="238.0" x2="710.0" y2="238.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="675.0" y1="246.0" x2="670.0" y2="246.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="705.0" y1="246.0" x2="710.0" y2="246.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="675.0" y1="254.0" x2="670.0" y2="254.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="705.0" y1="254.0" x2="710.0" y2="254.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<rect x="730.0" y="214.0" width="200.0" height="46.0" rx="12" fill="#fdeedd" stroke="#f4a261" stroke-width="1.5" />
+<text x="830.0" y="243.0" font-size="16" font-weight="800" fill="#b45f17" text-anchor="middle" >"I'm node1!"</text>
+<circle cx="662.0" cy="307.0" r="10" fill="#2a9d5c" />
+<path d="M657 307 L660.5 311 L667.5 302.5" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="684.0" y="312.0" font-size="14.5" font-weight="600" fill="#1e2a4a" text-anchor="start" >Windows 10/11, macOS, Linux laptops</text>
+<circle cx="662.0" cy="347.0" r="10" fill="#2a9d5c" />
+<path d="M657 347 L660.5 351 L667.5 342.5" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="684.0" y="352.0" font-size="14.5" font-weight="600" fill="#1e2a4a" text-anchor="start" >iPhone</text>
+<text x="662.0" y="394.0" font-size="20" font-weight="800" fill="#b45f17" text-anchor="middle" >!</text>
+<text x="684.0" y="392.0" font-size="14.5" font-weight="600" fill="#1e2a4a" text-anchor="start" >Android phones: often fail, especially older ones</text>
+<circle cx="662.0" cy="427.0" r="10" fill="#e63946" />
+<path d="M657.5 422.5 L666.5 431.5 M666.5 422.5 L657.5 431.5" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="684.0" y="432.0" font-size="14.5" font-weight="600" fill="#1e2a4a" text-anchor="start" >over mobile data or a VPN</text>
+<text x="644.0" y="484.0" font-size="14" font-weight="700" fill="#4a5568" text-anchor="start" >If it fails, use its IP address.</text>
+<text x="600.0" y="540.0" font-size="14" font-weight="700" fill="#4a5568" text-anchor="middle" >Other ways to see the address: the Serial Monitor, the Node 1 v1.1 OLED status page, or the router's device list.</text>
+<text x="1178.0" y="576.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer curriculum · CC BY 4.0</text>
+</svg>

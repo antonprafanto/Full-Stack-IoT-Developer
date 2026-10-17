@@ -1,16 +1,18 @@
-// Node 1 "Home" - firmware v1.0.0 (Module 8)
+// Node 1 "Home" - firmware v1.1.0 (Module 10)
 // The running project: Mini Smart Home.
 //
-// New in v1.0.0: no delay() in loop() (the millis() pattern and state machines), the code is split
-// into several files, a watchdog restarts a stuck program, the "soil_watering" threshold is saved
-// in NVS, leveled logging (DEBUG/INFO/ERROR), and a status page on the OLED display (long button press).
+// New in v1.1.0: connects to the home WiFi through a WiFiManager portal (no password in the code),
+// the time from the internet (NTP), readings sent to a mini server on the laptop every minute (HTTP POST with JSON),
+// and the lamp can be turned on or off from a phone's browser. The WiFi may drop; Node 1 keeps working.
+// From v1.0.0 (Module 8): no delay() in loop(), modular code, watchdog, NVS, leveled logging, status page.
 // Commands from the Serial Monitor: lamp on, fan off, pump 3, curtain 90, beep, status, info,
-// threshold, threshold 35, threshold default, log debug, log info, log error, restart.
+// threshold, threshold 35, threshold default, log debug, log info, log error, wifi, wifi forget, send, restart.
 //
 // Libraries: ESP32Servo version 3.2.1, DHT sensor library version 1.4.7
 // (installed with it: Adafruit Unified Sensor version 1.1.15), Adafruit SSD1306 version 2.5.17
-// (installed with it: Adafruit GFX Library version 1.12.6 and Adafruit BusIO version 1.17.4).
-// Wire, SPI, SD, and Preferences already come with the esp32 package.
+// (installed with it: Adafruit GFX Library version 1.12.6 and Adafruit BusIO version 1.17.4),
+// WiFiManager version 2.0.17, and ArduinoJson version 7.4.3.
+// Wire, SPI, SD, Preferences, WiFi, WebServer, HTTPClient, and ESPmDNS already come with the esp32 package.
 
 #include <esp_task_wdt.h>  // watchdog
 #include "config.h"
@@ -25,6 +27,7 @@
 #include "card.h"
 #include "commands.h"
 #include "rules.h"
+#include "network.h"  // Module 10
 
 // ---------- Main cycle: IDLE -> READING -> DISPLAYING -> ACTING -> IDLE ... ----------
 enum CycleStep { IDLE, READING, DISPLAYING, ACTING };
@@ -96,9 +99,9 @@ void checkProblems(SensorReading b) {
   sonarFailedBefore = sonarFailed;
 }
 
-// ---------- Modules 10-11: send the reading to the server ----------
+// ---------- Module 10: send the reading to the server (Module 11 replaces it with MQTT) ----------
 void sendData(SensorReading b) {
-  // not filled in yet
+  sendReading(b);  // network.cpp: actually sends every SEND_INTERVAL (1 minute)
 }
 
 // One cycle step per pass of loop(): no step waits for long.
@@ -151,6 +154,7 @@ void setup() {
   beginButton(PIN_BUTTON);
   setupDisplay();  // Module 7
   setupCard();     // Module 7 (optional)
+  setupNetwork();  // Module 10: the WiFi portal may wait here because the watchdog isn't watching yet
 
   // The watchdog, written the esp32 package version 3 way (Concept 8)
   esp_task_wdt_config_t watchdogConfig = {
@@ -172,6 +176,7 @@ void loop() {
   updateRules();         // WATERING -> COOLDOWN -> STANDBY
   updateHeartbeat();     // status LED
   updateDisplay();       // status page: the clock ticks, then it goes back by itself
+  updateNetwork();       // Module 10: WiFi, internet time, and the web server; never waits long
   handleButton();
   checkSerialCommand();
   runCycle();

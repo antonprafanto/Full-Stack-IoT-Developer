@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="600" viewBox="0 0 1200 600" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="600" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >The ESP32 becomes a web server</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Roles reversed: the ESP32 used to send letters (client); now it waits for letters (server)</text>
+<rect x="50.0" y="120.0" width="300.0" height="300.0" rx="18" fill="#ffffff" stroke="#1e2a4a" stroke-width="2" />
+<rect x="68.0" y="140.0" width="264.0" height="30.0" rx="15" fill="#eef1f5" />
+<text x="84.0" y="160.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">http://192.168.1.23/on</text>
+<text x="200.0" y="214.0" font-size="17" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Lamp: ON</text>
+<text x="200.0" y="252.0" font-size="15" font-weight="700" fill="#2f6fd1" text-anchor="middle" text-decoration="underline">Turn the lamp on</text>
+<text x="200.0" y="284.0" font-size="15" font-weight="700" fill="#2f6fd1" text-anchor="middle" text-decoration="underline">Turn the lamp off</text>
+<text x="200.0" y="396.0" font-size="14" font-weight="700" fill="#4a5568" text-anchor="middle" >phone browser</text>
+<line x1="350.0" y1="220.0" x2="540.0" y2="220.0" stroke="#2f6fd1" stroke-width="2.5" stroke-linecap="round" />
+<path d="M531.2 224.7 L540.0 220.0 L531.2 215.3" fill="none" stroke="#2f6fd1" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<text x="445.0" y="208.0" font-size="15" font-weight="800" fill="#2f6fd1" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >GET /on</text>
+<line x1="540.0" y1="300.0" x2="350.0" y2="300.0" stroke="#0f8b8d" stroke-width="2.5" stroke-linecap="round" />
+<path d="M358.8 295.3 L350.0 300.0 L358.8 304.7" fill="none" stroke="#0f8b8d" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<text x="445.0" y="326.0" font-size="14" font-weight="800" fill="#0f8b8d" text-anchor="middle" >200 + HTML page</text>
+<rect x="540.0" y="120.0" width="380.0" height="300.0" rx="18" fill="#eef1f5" stroke="#1e2a4a" stroke-width="2" />
+<rect x="565.0" y="140.0" width="30.0" height="40.0" rx="3" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<rect x="571.0" y="146.0" width="18.0" height="14.0" rx="2" fill="none" stroke="#1e2a4a" stroke-width="1.6" />
+<line x1="565.0" y1="150.0" x2="560.0" y2="150.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="595.0" y1="150.0" x2="600.0" y2="150.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="565.0" y1="158.0" x2="560.0" y2="158.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="595.0" y1="158.0" x2="600.0" y2="158.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="565.0" y1="166.0" x2="560.0" y2="166.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="595.0" y1="166.0" x2="600.0" y2="166.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="565.0" y1="174.0" x2="560.0" y2="174.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="595.0" y1="174.0" x2="600.0" y2="174.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<text x="614.0" y="152.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="start" >ESP32 · WebServer at door 80</text>
+<text x="614.0" y="174.0" font-size="13.5" font-weight="600" fill="#4a5568" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">192.168.1.23</text>
+<text x="566.0" y="214.0" font-size="13.5" font-weight="400" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">server.on("/", handleRoot);</text>
+<text x="566.0" y="238.0" font-size="13.5" font-weight="700" fill="#2f6fd1" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">server.on("/on", handleOn);</text>
+<text x="566.0" y="262.0" font-size="13.5" font-weight="400" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">server.on("/off", handleOff);</text>
+<text x="566.0" y="286.0" font-size="13.5" font-weight="400" fill="#4a5568" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">server.onNotFound(…);  // 404</text>
+<text x="566.0" y="334.0" font-size="13.5" font-weight="400" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">void loop() {</text>
+<text x="566.0" y="358.0" font-size="13.5" font-weight="700" fill="#0f8b8d" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">  server.handleClient();</text>
+<text x="566.0" y="382.0" font-size="13.5" font-weight="400" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">}</text>
+<line x1="920.0" y1="270.0" x2="1000.0" y2="270.0" stroke="#b45f17" stroke-width="2.5" stroke-linecap="round" />
+<path d="M991.2 274.7 L1000.0 270.0 L991.2 265.3" fill="none" stroke="#b45f17" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="1000.0" y="210.0" width="150.0" height="120.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="1075.0" y="246.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Lamp relay</text>
+<text x="1075.0" y="270.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">D32 (active LOW)</text>
+<text x="1075.0" y="300.0" font-size="16" font-weight="800" fill="#b45f17" text-anchor="middle" >"click"</text>
+<rect x="50.0" y="450.0" width="1100.0" height="110.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="74.0" y="482.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >handleClient() hardly waits at all:</text>
+<text x="326.0" y="482.0" font-size="14" font-weight="600" fill="#4a5568" text-anchor="start" >no one knocking → back within 1 millisecond; someone → served in a few milliseconds.</text>
+<text x="74.0" y="512.0" font-size="15" font-weight="800" fill="#e63946" text-anchor="start" >No password:</text>
+<text x="192.0" y="512.0" font-size="14" font-weight="600" fill="#4a5568" text-anchor="start" >anyone on your home Wi-Fi can open it. Home network only; never set up port forwarding.</text>
+<text x="74.0" y="540.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >Module 11:</text>
+<text x="169.0" y="540.0" font-size="14" font-weight="600" fill="#4a5568" text-anchor="start" >the /on and /off links are retired, replaced by commands over MQTT.</text>
+<text x="1178.0" y="586.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer curriculum · CC BY 4.0</text>
+</svg>

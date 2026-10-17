@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="860" viewBox="0 0 1200 860" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="860" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Node 1 v1.1: one new module, a few small changes</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >26 files · marked NEW = a new file · CHANGED = a v1.0 file changed a little</text>
+<rect x="420.0" y="96.0" width="360.0" height="44.0" rx="10" fill="#eef1f5" stroke="#9aa3b0" stroke-width="1.8" />
+<text x="600.0" y="124.0" font-size="15" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">config.h</text>
+<rect x="790.0" y="108.0" width="76.0" height="22.0" rx="11.0" fill="#b45f17" />
+<text x="828.0" y="123.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >CHANGED</text>
+<text x="876.0" y="124.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="start" >version 1.1.0 + network section</text>
+<rect x="400.0" y="300.0" width="400.0" height="116.0" rx="14" fill="#ffffff" stroke="#1e2a4a" stroke-width="3" />
+<text x="600.0" y="334.0" font-size="17" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">node-1-home.ino</text>
+<rect x="710.0" y="310.0" width="76.0" height="22.0" rx="11.0" fill="#b45f17" />
+<text x="748.0" y="325.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >CHANGED</text>
+<text x="600.0" y="384.0" font-size="13.5" font-weight="700" fill="#4a5568" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >setupNetwork() · updateNetwork()</text>
+<text x="600.0" y="404.0" font-size="13.5" font-weight="700" fill="#4a5568" text-anchor="middle" >sendData() is now filled in</text>
+<rect x="40.0" y="160.0" width="320.0" height="140.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="56.0" y="186.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Senses and hands</text>
+<rect x="52.0" y="200.0" width="296.0" height="42.0" rx="8" fill="#eef1f5" />
+<text x="64.0" y="218.0" font-size="13.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">sensors.h/.cpp</text>
+<text x="64.0" y="235.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >five sensors</text>
+<rect x="52.0" y="250.0" width="296.0" height="42.0" rx="8" fill="#eef1f5" />
+<text x="64.0" y="268.0" font-size="13.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">actuators.h/.cpp</text>
+<text x="64.0" y="285.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >relays, pump, servo, buzzer</text>
+<rect x="40.0" y="330.0" width="320.0" height="240.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="56.0" y="356.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Interface</text>
+<rect x="52.0" y="370.0" width="296.0" height="42.0" rx="8" fill="#eef1f5" />
+<text x="64.0" y="388.0" font-size="13.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">button.h/.cpp</text>
+<text x="64.0" y="405.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >short and long press</text>
+<rect x="52.0" y="420.0" width="296.0" height="42.0" rx="8" fill="#eef1f5" />
+<text x="64.0" y="438.0" font-size="13.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">heartbeat.h/.cpp</text>
+<text x="64.0" y="455.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >status LED</text>
+<rect x="52.0" y="470.0" width="296.0" height="42.0" rx="8" fill="#eef1f5" />
+<text x="64.0" y="488.0" font-size="13.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">display.h/.cpp</text>
+<text x="64.0" y="505.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >status: Wi-Fi line, portal message</text>
+<rect x="272.0" y="481.0" width="68.0" height="20.0" rx="10.0" fill="#b45f17" />
+<text x="306.0" y="495.0" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle" >CHANGED</text>
+<rect x="52.0" y="520.0" width="296.0" height="42.0" rx="8" fill="#eef1f5" />
+<text x="64.0" y="538.0" font-size="13.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">commands.h/.cpp</text>
+<text x="64.0" y="555.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >only .cpp: wifi, wifi forget, send</text>
+<rect x="272.0" y="531.0" width="68.0" height="20.0" rx="10.0" fill="#b45f17" />
+<text x="306.0" y="545.0" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle" >CHANGED</text>
+<rect x="840.0" y="160.0" width="320.0" height="140.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="856.0" y="186.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Brain and records</text>
+<rect x="852.0" y="200.0" width="296.0" height="42.0" rx="8" fill="#eef1f5" />
+<text x="864.0" y="218.0" font-size="13.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">rules.h/.cpp</text>
+<text x="864.0" y="235.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >automatic watering and lamp</text>
+<rect x="852.0" y="250.0" width="296.0" height="42.0" rx="8" fill="#eef1f5" />
+<text x="864.0" y="268.0" font-size="13.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">card.h/.cpp</text>
+<text x="864.0" y="285.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >microSD CSV (optional)</text>
+<rect x="840.0" y="330.0" width="320.0" height="190.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="856.0" y="356.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Endurance</text>
+<rect x="852.0" y="370.0" width="296.0" height="42.0" rx="8" fill="#eef1f5" />
+<text x="864.0" y="388.0" font-size="13.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">settings.h/.cpp</text>
+<text x="864.0" y="405.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >NVS: threshold, boot count</text>
+<rect x="852.0" y="420.0" width="296.0" height="42.0" rx="8" fill="#eef1f5" />
+<text x="864.0" y="438.0" font-size="13.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">system.h/.cpp</text>
+<text x="864.0" y="455.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >uptime, restart reason</text>
+<rect x="852.0" y="470.0" width="296.0" height="42.0" rx="8" fill="#eef1f5" />
+<text x="864.0" y="488.0" font-size="13.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">logger.h/.cpp</text>
+<text x="864.0" y="505.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >DEBUG/INFO/ERROR logs</text>
+<rect x="330.0" y="600.0" width="540.0" height="170.0" rx="14" fill="#e2f3f1" stroke="#0f8b8d" stroke-width="2.4" />
+<rect x="350.0" y="614.0" width="64.0" height="22.0" rx="11.0" fill="#0f8b8d" />
+<text x="382.0" y="629.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >NEW</text>
+<text x="424.0" y="630.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">network.h/.cpp</text>
+<text x="350.0" y="666.0" font-size="13.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >Wi-Fi + WiFiManager portal + reconnect guard (P3–P4)</text>
+<text x="350.0" y="692.0" font-size="13.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >internet time and ts (P5) · JSON to the laptop every minute (P7)</text>
+<text x="350.0" y="718.0" font-size="13.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >web server /, /on, /off (P8) · the name node1.local (P9)</text>
+<text x="350.0" y="752.0" font-size="13.5" font-weight="800" fill="#0f8b8d" text-anchor="start" >Wi-Fi may drop, Node 1 must not stop</text>
+<line x1="360.0" y1="230.0" x2="400.0" y2="320.0" stroke="#b8c0cc" stroke-width="2" stroke-linecap="round" stroke-dasharray="6 5" />
+<line x1="360.0" y1="450.0" x2="400.0" y2="384.0" stroke="#b8c0cc" stroke-width="2" stroke-linecap="round" stroke-dasharray="6 5" />
+<line x1="840.0" y1="230.0" x2="800.0" y2="320.0" stroke="#b8c0cc" stroke-width="2" stroke-linecap="round" stroke-dasharray="6 5" />
+<line x1="840.0" y1="425.0" x2="800.0" y2="384.0" stroke="#b8c0cc" stroke-width="2" stroke-linecap="round" stroke-dasharray="6 5" />
+<line x1="600.0" y1="140.0" x2="600.0" y2="300.0" stroke="#b8c0cc" stroke-width="2" stroke-linecap="round" stroke-dasharray="6 5" />
+<line x1="600.0" y1="416.0" x2="600.0" y2="600.0" stroke="#0f8b8d" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="6 5" />
+<text x="600.0" y="800.0" font-size="13.5" font-weight="700" fill="#4a5568" text-anchor="middle" >Dashed line = #include · PIN-MAP.md doesn't change: Wi-Fi uses no pins</text>
+<text x="600.0" y="822.0" font-size="13.5" font-weight="700" fill="#4a5568" text-anchor="middle" >All the files are in one sketch folder: firmware/node-1-home/</text>
+<text x="1178.0" y="846.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer curriculum · CC BY 4.0</text>
+</svg>

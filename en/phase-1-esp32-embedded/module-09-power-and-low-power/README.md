@@ -4,7 +4,7 @@
 
 *Phase 1 · Week 9 · Hardware: **the Node 1 workbench from Module 8**, **a second ESP32 board**, an **INA219** module, and a set of **18650 battery + TP4056 + MT3608** (see 🧰) — most of this week's practices need a real board · Prerequisite: **Module 8** (Node 1 v1.0) · Time: 8–10 hours, spread over the week; the 24-hour test in the ➕ section runs on its own*
 
-[⬅️ Module 8](../module-08-robust-firmware/README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · [Module 10 ➡️ (coming soon — read the summary in the Syllabus)](../../SYLLABUS.md#module-10--wi-fi--http-devices-start-talking-to-the-network)
+[⬅️ Module 8](../module-08-robust-firmware/README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · [Module 10 ➡️](../../phase-2-connectivity/module-10-wifi-and-http/README.md)
 
 ---
 
@@ -1946,7 +1946,7 @@ Check them all before you move on to Module 10:
 
 **You pass when** (according to the Syllabus): *Node 1 runs from an adapter (not a laptop) for 24 hours, and your battery sketch measures < 15 mA while asleep, with a battery-life calculation you wrote yourself.*
 
-🎉 **Phase 1 checkpoint.** If all the evidence in the ➕ D table is checked off, **Phase 1 is complete**. You now have a robust, independent Node 1 and a low-power Node 2 skeleton. In **Module 10**, Node 1 starts talking to the network over Wi-Fi and HTTP.
+🎉 **Phase 1 checkpoint.** If all the evidence in the ➕ D table is checked off, **Phase 1 is complete**. You now have a robust, independent Node 1 and a low-power Node 2 skeleton. In **[Module 10](../../phase-2-connectivity/module-10-wifi-and-http/README.md)**, Node 1 starts talking to the network over Wi-Fi and HTTP.
 
 ---
 
@@ -1978,4 +1978,4 @@ All the sketches in this module, including the Practice 6 current meter, have be
 
 ---
 
-[⬅️ Module 8](../module-08-robust-firmware/README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · **Next: Module 10 — Wi-Fi & HTTP: Devices Start Talking to the Network** (coming soon; [read the summary in the Syllabus](../../SYLLABUS.md#module-10--wi-fi--http-devices-start-talking-to-the-network))
+[⬅️ Module 8](../module-08-robust-firmware/README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · **Next: [Module 10 — Wi-Fi & HTTP: Devices Start Talking to the Network](../../phase-2-connectivity/module-10-wifi-and-http/README.md) ➡️**

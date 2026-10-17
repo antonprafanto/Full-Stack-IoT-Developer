@@ -7,6 +7,7 @@
 #include "logger.h"
 #include "system.h"
 #include "settings.h"
+#include "network.h"  // Module 10: networkText()
 #include "display.h"
 
 const byte DISPLAY_ADDRESS = 0x3C;             // the OLED display's address on the I2C bus
@@ -188,7 +189,7 @@ static void drawStatusPage() {
   snprintf(text, sizeof(text), "Boot #%lu", bootCount());
   display.setCursor(0, 38);
   display.print(text);
-  snprintf(text, sizeof(text), "Soil threshold: %d%%", soilWateringThreshold());  // %% = the percent sign
+  snprintf(text, sizeof(text), "WiFi %s", networkText());  // Module 10: Node 1's IP address, "disconnected", or "off"
   display.setCursor(0, 47);
   display.print(text);
   snprintf(text, sizeof(text), "v%s  free %luKB", FIRMWARE_VERSION, ESP.getFreeHeap() / 1024);
@@ -232,4 +233,24 @@ void updateDisplay() {
   if (now - statusDrawnTime >= 1000) {
     drawStatusPage();  // redraw every 1 second so the uptime clock ticks
   }
+}
+
+// ---------- Module 10: a short four-line message ----------
+// For example, the WiFi portal instructions. The readings page comes back with the next reading.
+void showMessage(const char* title, const char* line2, const char* line3, const char* line4) {
+  if (!displayFound) {
+    return;
+  }
+  display.clearDisplay();
+  display.setTextSize(1);
+  display.setCursor(0, 0);
+  display.print(title);
+  display.drawFastHLine(0, 11, 128, SSD1306_WHITE);  // divider line under the title
+  display.setCursor(0, 18);
+  display.print(line2);
+  display.setCursor(0, 30);
+  display.print(line3);
+  display.setCursor(0, 46);
+  display.print(line4);
+  display.display();
 }

@@ -34,4 +34,4 @@ Module 5 already gives you your first two artifacts: **`PIN-MAP.md`** and a **ph
 
 ---
 
-[⬅️ Phase 0 — Foundations](../phase-0-foundations/README.md) · [Front page](../README.md) · [Syllabus](../SYLLABUS.md) · [Progress tracker](../PROGRESS.md) · **Start: [Module 5](module-05-gpio-and-pin-map/README.md) ➡️**
+[⬅️ Phase 0 — Foundations](../phase-0-foundations/README.md) · [Front page](../README.md) · [Syllabus](../SYLLABUS.md) · [Progress tracker](../PROGRESS.md) · **Start: [Module 5](module-05-gpio-and-pin-map/README.md) ➡️** · [Phase 2 ➡️](../phase-2-connectivity/README.md)

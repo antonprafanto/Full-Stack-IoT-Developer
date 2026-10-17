@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="600" viewBox="0 0 1200 600" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="600" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >A Wi-Fi portal like at a hotel (WiFiManager)</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >The Wi-Fi name and password are entered on a phone, then saved in NVS: not in any code</text>
+<rect x="50.0" y="130.0" width="220.0" height="92.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="160.0" y="158.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="middle" >ESP32 powers up</text>
+<text x="160.0" y="182.0" font-size="13.5" font-weight="600" fill="#4a5568" text-anchor="middle" >checks NVS</text>
+<path d="M420 118 L532 176 L420 234 L308 176 Z" fill="#ffffff" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="420.0" y="172.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Wi-Fi already</text>
+<text x="420.0" y="194.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="middle" >saved?</text>
+<line x1="270.0" y1="176.0" x2="306.0" y2="176.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<path d="M297.2 180.7 L306.0 176.0 L297.2 171.3" fill="none" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="640.0" y="120.0" width="300.0" height="112.0" rx="12" fill="#e3f4ea" stroke="#2a9d5c" stroke-width="1.8" />
+<text x="790.0" y="148.0" font-size="16" font-weight="800" fill="#2a9d5c" text-anchor="middle" >Connects to the home Wi-Fi</text>
+<text x="790.0" y="172.0" font-size="13.5" font-weight="600" fill="#4a5568" text-anchor="middle" >using the Wi-Fi saved</text>
+<text x="790.0" y="193.0" font-size="13.5" font-weight="600" fill="#4a5568" text-anchor="middle" >in NVS</text>
+<line x1="532.0" y1="176.0" x2="636.0" y2="176.0" stroke="#2a9d5c" stroke-width="2.5" stroke-linecap="round" />
+<path d="M627.2 180.7 L636.0 176.0 L627.2 171.3" fill="none" stroke="#2a9d5c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<text x="584.0" y="164.0" font-size="14" font-weight="800" fill="#2a9d5c" text-anchor="middle" >yes</text>
+<text x="584.0" y="198.0" font-size="12.5" font-weight="700" fill="#2a9d5c" text-anchor="middle" >no portal</text>
+<line x1="420.0" y1="234.0" x2="420.0" y2="300.0" stroke="#b45f17" stroke-width="2.5" stroke-linecap="round" />
+<path d="M415.3 291.2 L420.0 300.0 L424.7 291.2" fill="none" stroke="#b45f17" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<text x="434.0" y="270.0" font-size="14" font-weight="800" fill="#b45f17" text-anchor="start" >not yet (or the D13 button is held)</text>
+<rect x="280.0" y="304.0" width="280.0" height="112.0" rx="12" fill="#fdeedd" stroke="#f4a261" stroke-width="1.8" />
+<text x="420.0" y="332.0" font-size="16" font-weight="800" fill="#b45f17" text-anchor="middle" >ESP32 becomes an access point</text>
+<text x="420.0" y="356.0" font-size="13.5" font-weight="600" fill="#4a5568" text-anchor="middle" >a Wi-Fi named Node1-Home</text>
+<text x="420.0" y="377.0" font-size="13.5" font-weight="600" fill="#4a5568" text-anchor="middle" >portal at 192.168.4.1</text>
+<line x1="560.0" y1="360.0" x2="636.0" y2="360.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<path d="M627.2 364.7 L636.0 360.0 L627.2 355.3" fill="none" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="640.0" y="296.0" width="300.0" height="128.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="790.0" y="324.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Phone opens the portal</text>
+<text x="790.0" y="348.0" font-size="13.5" font-weight="600" fill="#4a5568" text-anchor="middle" >connect to Node1-Home</text>
+<text x="790.0" y="369.0" font-size="13.5" font-weight="600" fill="#4a5568" text-anchor="middle" >pick the home Wi-Fi, enter the password,</text>
+<text x="790.0" y="390.0" font-size="13.5" font-weight="600" fill="#4a5568" text-anchor="middle" >tap Save</text>
+<line x1="940.0" y1="360.0" x2="990.0" y2="360.0" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" />
+<path d="M981.2 364.7 L990.0 360.0 L981.2 355.3" fill="none" stroke="#1e2a4a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="994.0" y="296.0" width="176.0" height="128.0" rx="12" fill="#e2f3f1" stroke="#0f8b8d" stroke-width="1.8" />
+<text x="1082.0" y="324.0" font-size="16" font-weight="800" fill="#0f8b8d" text-anchor="middle" >Saved</text>
+<text x="1082.0" y="348.0" font-size="13.5" font-weight="600" fill="#4a5568" text-anchor="middle" >in the Wi-Fi's NVS</text>
+<text x="1082.0" y="369.0" font-size="13.5" font-weight="600" fill="#4a5568" text-anchor="middle" >(Module 8: the filing</text>
+<text x="1082.0" y="390.0" font-size="13.5" font-weight="600" fill="#4a5568" text-anchor="middle" >cabinet)</text>
+<path d="M1082 296 L1082 176 L944 176" fill="none" stroke="#0f8b8d" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M954 168 L944 176 L954 184" fill="none" stroke="#0f8b8d" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<text x="1072.0" y="236.0" font-size="13" font-weight="700" fill="#0f8b8d" text-anchor="end" >then connects</text>
+<rect x="50.0" y="456.0" width="1100.0" height="108.0" rx="12" fill="#eef1f5" />
+<text x="74.0" y="486.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >Phone:</text>
+<text x="140.0" y="486.0" font-size="14" font-weight="600" fill="#4a5568" text-anchor="start" >An iPhone usually opens the login sheet right away. Android shows the notification "Sign in to Wi-Fi network",</text>
+<text x="140.0" y="510.0" font-size="14" font-weight="600" fill="#4a5568" text-anchor="start" >but on some phones it doesn't appear. The way out is always the same: turn off mobile data, choose to stay connected,</text>
+<text x="140.0" y="534.0" font-size="14" font-weight="600" fill="#4a5568" text-anchor="start" >then open http://192.168.4.1 in the browser. The portal closes by itself after 3 minutes if it isn't used.</text>
+<text x="1178.0" y="586.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer curriculum · CC BY 4.0</text>
+</svg>

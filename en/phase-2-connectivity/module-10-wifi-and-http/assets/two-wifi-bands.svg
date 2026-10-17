@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="600" viewBox="0 0 1200 600" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="600" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Two Wi-Fi bands: the ESP32 only hears 2.4 GHz</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >A home router usually broadcasts both; phones and laptops can use either one</text>
+<rect x="86.0" y="230.0" width="48.0" height="18.0" rx="4" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<line x1="98.0" y1="230.0" x2="92.0" y2="214.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<line x1="122.0" y1="230.0" x2="128.0" y2="214.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<circle cx="98.0" cy="239.0" r="1.8" fill="#1e2a4a" />
+<circle cx="106.0" cy="239.0" r="1.8" fill="#1e2a4a" />
+<circle cx="114.0" cy="239.0" r="1.8" fill="#1e2a4a" />
+<text x="110.0" y="276.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Router</text>
+<path d="M150 196 Q170.0 174 190.0 196 Q210.0 218 230.0 196 Q250.0 174 270.0 196 Q290.0 218 310.0 196 Q330.0 174 350.0 196 Q370.0 218 390.0 196 Q410.0 174 430.0 196 Q450.0 218 470.0 196 Q490.0 174 510.0 196 Q530.0 218 550.0 196 Q570.0 174 590.0 196 Q610.0 218 630.0 196 Q650.0 174 670.0 196 Q690.0 218 710.0 196" fill="none" stroke="#0f8b8d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M150 286 Q158.0 270 166.0 286 Q174.0 302 182.0 286 Q190.0 270 198.0 286 Q206.0 302 214.0 286 Q222.0 270 230.0 286 Q238.0 302 246.0 286 Q254.0 270 262.0 286 Q270.0 302 278.0 286 Q286.0 270 294.0 286 Q302.0 302 310.0 286 Q318.0 270 326.0 286 Q334.0 302 342.0 286 Q350.0 270 358.0 286 Q366.0 302 374.0 286 Q382.0 270 390.0 286 Q398.0 302 406.0 286 Q414.0 270 422.0 286" fill="none" stroke="#f4a261" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<text x="150.0" y="158.0" font-size="15" font-weight="700" fill="#0f8b8d" text-anchor="start" >2.4 GHz: long range, gets through walls</text>
+<text x="450.0" y="292.0" font-size="15" font-weight="700" fill="#b45f17" text-anchor="start" >5 GHz: faster, short range</text>
+<rect x="760.0" y="130.0" width="380.0" height="170.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<rect x="797.0" y="170.0" width="30.0" height="40.0" rx="3" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<rect x="803.0" y="176.0" width="18.0" height="14.0" rx="2" fill="none" stroke="#1e2a4a" stroke-width="1.6" />
+<line x1="797.0" y1="180.0" x2="792.0" y2="180.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="827.0" y1="180.0" x2="832.0" y2="180.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="797.0" y1="188.0" x2="792.0" y2="188.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="827.0" y1="188.0" x2="832.0" y2="188.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="797.0" y1="196.0" x2="792.0" y2="196.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="827.0" y1="196.0" x2="832.0" y2="196.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="797.0" y1="204.0" x2="792.0" y2="204.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="827.0" y1="204.0" x2="832.0" y2="204.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<text x="850.0" y="176.0" font-size="17" font-weight="800" fill="#1e2a4a" text-anchor="start" >ESP32 (DevKit V1)</text>
+<circle cx="862.0" cy="214.0" r="11" fill="#2a9d5c" />
+<path d="M857 214 L860.5 218 L867.5 209.5" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="882.0" y="219.0" font-size="15" font-weight="700" fill="#2a9d5c" text-anchor="start" >hears 2.4 GHz</text>
+<circle cx="862.0" cy="250.0" r="11" fill="#e63946" />
+<path d="M857.5 245.5 L866.5 254.5 M866.5 245.5 L857.5 254.5" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="882.0" y="255.0" font-size="15" font-weight="700" fill="#e63946" text-anchor="start" >deaf to 5 GHz</text>
+<text x="850.0" y="284.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="start" >5 GHz networks are never visible</text>
+<rect x="60.0" y="340.0" width="346.0" height="196.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="82.0" y="374.0" font-size="17" font-weight="800" fill="#1e2a4a" text-anchor="start" >One name for both bands</text>
+<path d="M94.9 423.3 Q100.0 419.4 105.1 423.3" fill="none" stroke="#0f8b8d" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M89.8 420.6 Q100.0 412.8 110.2 420.6" fill="none" stroke="#0f8b8d" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M84.7 417.9 Q100.0 406.2 115.3 417.9" fill="none" stroke="#0f8b8d" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="100.0" cy="426.0" r="2.6" fill="#0f8b8d" />
+<text x="130.0" y="422.0" font-size="14.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">OurHome</text>
+<text x="130.0" y="444.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="start" >(2.4 + 5 GHz)</text>
+<circle cx="94.0" cy="492.0" r="11" fill="#2a9d5c" />
+<path d="M89 492 L92.5 496 L99.5 487.5" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="114.0" y="488.0" font-size="14" font-weight="700" fill="#2a9d5c" text-anchor="start" >usually works:</text>
+<text x="114.0" y="510.0" font-size="14" font-weight="600" fill="#4a5568" text-anchor="start" >the ESP32 uses its 2.4 GHz band</text>
+<rect x="426.0" y="340.0" width="346.0" height="196.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="448.0" y="374.0" font-size="17" font-weight="800" fill="#1e2a4a" text-anchor="start" >Two different names</text>
+<path d="M460.9 423.3 Q466.0 419.4 471.1 423.3" fill="none" stroke="#0f8b8d" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M455.8 420.6 Q466.0 412.8 476.2 420.6" fill="none" stroke="#0f8b8d" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M450.7 417.9 Q466.0 406.2 481.3 417.9" fill="none" stroke="#0f8b8d" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="466.0" cy="426.0" r="2.6" fill="#0f8b8d" />
+<text x="496.0" y="422.0" font-size="14.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">OurHome  ·  OurHome_5G</text>
+<circle cx="460.0" cy="492.0" r="11" fill="#2a9d5c" />
+<path d="M455 492 L458.5 496 L465.5 487.5" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="480.0" y="488.0" font-size="14" font-weight="700" fill="#2a9d5c" text-anchor="start" >choose the name WITHOUT "5G"</text>
+<rect x="792.0" y="340.0" width="346.0" height="196.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="814.0" y="374.0" font-size="17" font-weight="800" fill="#1e2a4a" text-anchor="start" >5 GHz only</text>
+<path d="M826.9 423.3 Q832.0 419.4 837.1 423.3" fill="none" stroke="#f4a261" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M821.8 420.6 Q832.0 412.8 842.2 420.6" fill="none" stroke="#f4a261" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M816.7 417.9 Q832.0 406.2 847.3 417.9" fill="none" stroke="#f4a261" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="832.0" cy="426.0" r="2.6" fill="#f4a261" />
+<text x="862.0" y="422.0" font-size="14.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">MyOffice_5G</text>
+<circle cx="826.0" cy="492.0" r="11" fill="#e63946" />
+<path d="M821.5 487.5 L830.5 496.5 M830.5 487.5 L821.5 496.5" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="846.0" y="488.0" font-size="14" font-weight="700" fill="#e63946" text-anchor="start" >not visible:</text>
+<text x="846.0" y="510.0" font-size="14" font-weight="600" fill="#4a5568" text-anchor="start" >turn on 2.4 GHz or use a phone hotspot</text>
+<text x="1178.0" y="586.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer curriculum · CC BY 4.0</text>
+</svg>

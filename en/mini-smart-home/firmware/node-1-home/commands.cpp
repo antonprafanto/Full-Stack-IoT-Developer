@@ -8,6 +8,7 @@
 #include "sensors.h"
 #include "actuators.h"
 #include "rules.h"
+#include "network.h"
 #include "commands.h"
 
 const int MAX_LINE_LENGTH = 40;
@@ -125,13 +126,23 @@ void checkSerialCommand() {
     setLogLevel(LEVEL_ERROR);
     Serial.println("Log level: ERROR (problems only)");
     return;
+  } else if (command == "wifi") {
+    printNetworkInfo();  // Module 10
+    return;
+  } else if (command == "wifi forget") {
+    forgetWiFi();  // Module 10: erases the saved WiFi, then restarts into the portal
+    return;
+  } else if (command == "send") {
+    sendNow();  // Module 10: sends the last reading to the server right now
+    return;
   } else if (command == "restart") {
     Serial.println("Restarting now...");
     Serial.flush();  // wait until the message above has really been sent
     ESP.restart();
   } else if (command != "status") {
     Serial.println("Unknown command. Examples: lamp on, fan off, pump 3, curtain 90, beep, status,");
-    Serial.println("info, threshold, threshold 35, threshold default, log debug, log info, log error, restart");
+    Serial.println("info, threshold, threshold 35, threshold default, log debug, log info, log error, wifi, wifi forget,");
+    Serial.println("send, restart");
     return;
   }
   printStatus();
