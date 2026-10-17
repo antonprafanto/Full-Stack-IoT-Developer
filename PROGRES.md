@@ -25,7 +25,7 @@ Centang `[x]` setiap kali Anda memenuhi kriteria **"Lulus jika"** di [SILABUS.md
 
 ## 🟦 Fase 2 — Konektivitas (Modul 10–15)
 
-- [ ] **Modul 10** — WiFi & HTTP: Perangkat Mulai Berbicara dengan Jaringan
+- [ ] **[Modul 10](fase-2-konektivitas/modul-10-wifi-dan-http/README.md)** — WiFi & HTTP: Perangkat Mulai Berbicara dengan Jaringan
 - [ ] **Modul 11** — MQTT: Bahasa Resmi Dunia IoT & Kontrak Data Proyek
 - [ ] **Modul 12** — Raspberry Pi & Linux Dasar: Gateway yang Selalu Hidup
 - [ ] **Modul 13** — Node-RED & Dashboard 2: Dashboard Pertama Tanpa Koding

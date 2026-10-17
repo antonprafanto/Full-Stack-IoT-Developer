@@ -34,4 +34,4 @@ Modul 5 sudah menyumbang dua artefak pertamamu: **`PETA-PIN.md`** dan **foto ran
 
 ---
 
-[⬅️ Fase 0 — Fondasi](../fase-0-fondasi/README.md) · [Halaman depan](../README.md) · [Silabus](../SILABUS.md) · [Pelacak progres](../PROGRES.md) · **Mulai: [Modul 5](modul-05-gpio-dan-peta-pin/README.md) ➡️**
+[⬅️ Fase 0 — Fondasi](../fase-0-fondasi/README.md) · [Halaman depan](../README.md) · [Silabus](../SILABUS.md) · [Pelacak progres](../PROGRES.md) · **Mulai: [Modul 5](modul-05-gpio-dan-peta-pin/README.md) ➡️** · [Fase 2 ➡️](../fase-2-konektivitas/README.md)

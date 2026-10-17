@@ -4,7 +4,7 @@
 
 *Fase 1 · Minggu 9 · Perangkat keras (*hardware*): **meja kerja Node 1 dari Modul 8**, **papan ESP32 kedua**, modul **INA219**, dan satu set **baterai 18650 + TP4056 + MT3608** (lihat 🧰) — sebagian besar praktik minggu ini butuh papan asli · Prasyarat: **Modul 8** (Node 1 v1.0) · Waktu: 8–10 jam, dicicil dalam seminggu; uji 24 jam di bagian ➕ berjalan sendiri*
 
-[⬅️ Modul 8](../modul-08-firmware-tangguh/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · [Modul 10 ➡️ (segera terbit — baca ringkasannya di Silabus)](../../SILABUS.md#modul-10--wifi--http-perangkat-mulai-berbicara-dengan-jaringan)
+[⬅️ Modul 8](../modul-08-firmware-tangguh/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · [Modul 10 ➡️](../../fase-2-konektivitas/modul-10-wifi-dan-http/README.md)
 
 ---
 
@@ -1946,7 +1946,7 @@ Centang semuanya sebelum lanjut ke Modul 10:
 
 **Lulus jika** (sesuai Silabus): *Node 1 hidup dari adaptor (bukan laptop) selama 24 jam, dan sketsa bateraimu terukur < 15 mA saat tidur dengan perhitungan umur baterai yang kamu tulis sendiri.*
 
-🎉 ***Checkpoint* Fase 1.** Kalau semua bukti di tabel ➕ D sudah tercentang, **Fase 1 selesai**. Kamu kini punya Node 1 yang tangguh dan mandiri, serta kerangka Node 2 yang hemat daya. Di **Modul 10**, Node 1 mulai berbicara dengan jaringan lewat WiFi dan HTTP.
+🎉 ***Checkpoint* Fase 1.** Kalau semua bukti di tabel ➕ D sudah tercentang, **Fase 1 selesai**. Kamu kini punya Node 1 yang tangguh dan mandiri, serta kerangka Node 2 yang hemat daya. Di **[Modul 10](../../fase-2-konektivitas/modul-10-wifi-dan-http/README.md)**, Node 1 mulai berbicara dengan jaringan lewat WiFi dan HTTP.
 
 ---
 
@@ -1978,4 +1978,4 @@ Semua sketsa di modul ini, termasuk pengukur arus Praktik 6, sudah dikompilasi d
 
 ---
 
-[⬅️ Modul 8](../modul-08-firmware-tangguh/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · **Berikutnya: Modul 10 — WiFi & HTTP: Perangkat Mulai Berbicara dengan Jaringan** (segera terbit; [ringkasannya di Silabus](../../SILABUS.md#modul-10--wifi--http-perangkat-mulai-berbicara-dengan-jaringan))
+[⬅️ Modul 8](../modul-08-firmware-tangguh/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · **Berikutnya: [Modul 10 — WiFi & HTTP: Perangkat Mulai Berbicara dengan Jaringan](../../fase-2-konektivitas/modul-10-wifi-dan-http/README.md) ➡️**
