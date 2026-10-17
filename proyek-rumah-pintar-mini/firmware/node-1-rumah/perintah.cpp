@@ -8,6 +8,7 @@
 #include "sensor.h"
 #include "aktuator.h"
 #include "aturan.h"
+#include "jaringan.h"
 #include "perintah.h"
 
 const int PANJANG_BARIS_MAKS = 40;
@@ -125,13 +126,23 @@ void periksaPerintahSerial() {
     aturTingkatLog(TINGKAT_ERROR);
     Serial.println("Tingkat log: ERROR (hanya masalah)");
     return;
+  } else if (perintah == "wifi") {
+    cetakInfoJaringan();  // Modul 10
+    return;
+  } else if (perintah == "wifi lupa") {
+    lupakanWiFi();  // Modul 10: menghapus WiFi tersimpan, lalu restart ke portal
+    return;
+  } else if (perintah == "kirim") {
+    kirimSekarang();  // Modul 10: kirim bacaan terakhir ke server sekarang juga
+    return;
   } else if (perintah == "restart") {
     Serial.println("Restart sekarang...");
     Serial.flush();  // tunggu sampai pesan di atas benar-benar terkirim
     ESP.restart();
   } else if (perintah != "status") {
     Serial.println("Perintah tidak dikenal. Contoh: lampu on, kipas off, pompa 3, tirai 90, bunyi, status,");
-    Serial.println("info, ambang, ambang 35, ambang bawaan, log debug, log info, log error, restart");
+    Serial.println("info, ambang, ambang 35, ambang bawaan, log debug, log info, log error, wifi, wifi lupa,");
+    Serial.println("kirim, restart");
     return;
   }
   cetakStatus();

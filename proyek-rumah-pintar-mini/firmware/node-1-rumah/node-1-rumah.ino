@@ -1,16 +1,18 @@
-// Node 1 "Rumah" - firmware v1.0.0 (Modul 8)
+// Node 1 "Rumah" - firmware v1.1.0 (Modul 10)
 // Proyek benang merah: Rumah Pintar Mini.
 //
-// Baru di v1.0.0: tidak ada delay() di loop() (pola millis() dan state machine), kode dipecah
-// menjadi beberapa file, watchdog me-restart program yang macet, ambang "tanah_siram" tersimpan
-// di NVS, log bertingkat (DEBUG/INFO/ERROR), dan halaman status di layar OLED (tekan lama tombol).
+// Baru di v1.1.0: tersambung ke WiFi rumah lewat portal WiFiManager (kata sandi tidak ditulis di kode),
+// jam dari internet (NTP), bacaan dikirim ke server mini di laptop setiap menit (HTTP POST berisi JSON),
+// dan lampu bisa dinyalakan atau dimatikan dari browser HP. WiFi boleh putus, Node 1 tetap bekerja.
+// Dari v1.0.0 (Modul 8): tanpa delay() di loop(), kode modular, watchdog, NVS, log bertingkat, halaman status.
 // Perintah lewat Serial Monitor: lampu on, kipas off, pompa 3, tirai 90, bunyi, status, info,
-// ambang, ambang 35, ambang bawaan, log debug, log info, log error, restart.
+// ambang, ambang 35, ambang bawaan, log debug, log info, log error, wifi, wifi lupa, kirim, restart.
 //
 // Library: ESP32Servo versi 3.2.1, DHT sensor library versi 1.4.7
 // (ikut terpasang: Adafruit Unified Sensor versi 1.1.15), Adafruit SSD1306 versi 2.5.17
-// (ikut terpasang: Adafruit GFX Library versi 1.12.6 dan Adafruit BusIO versi 1.17.4).
-// Wire, SPI, SD, dan Preferences sudah ikut paket esp32.
+// (ikut terpasang: Adafruit GFX Library versi 1.12.6 dan Adafruit BusIO versi 1.17.4),
+// WiFiManager versi 2.0.17, dan ArduinoJson versi 7.4.3.
+// Wire, SPI, SD, Preferences, WiFi, WebServer, HTTPClient, dan ESPmDNS sudah ikut paket esp32.
 
 #include <esp_task_wdt.h>  // watchdog
 #include "konfigurasi.h"
@@ -25,6 +27,7 @@
 #include "kartu.h"
 #include "perintah.h"
 #include "aturan.h"
+#include "jaringan.h"  // Modul 10
 
 // ---------- Siklus utama: MENUNGGU -> MEMBACA -> MENAMPILKAN -> BERTINDAK -> MENUNGGU ... ----------
 enum LangkahSiklus { MENUNGGU, MEMBACA, MENAMPILKAN, BERTINDAK };
@@ -96,9 +99,9 @@ void periksaMasalah(BacaanSensor b) {
   sonarGagalTadi = sonarGagal;
 }
 
-// ---------- Modul 10-11: mengirim bacaan ke server ----------
+// ---------- Modul 10: mengirim bacaan ke server (Modul 11 menggantinya dengan MQTT) ----------
 void kirimData(BacaanSensor b) {
-  // belum diisi
+  kirimBacaan(b);  // jaringan.cpp: benar-benar mengirim setiap JEDA_KIRIM (1 menit)
 }
 
 // Satu langkah siklus per putaran loop(): tidak ada langkah yang menunggu lama.
@@ -151,6 +154,7 @@ void setup() {
   mulaiTombol(PIN_TOMBOL);
   siapkanLayar();  // Modul 7
   siapkanKartu();  // Modul 7 (opsional)
+  siapkanJaringan();  // Modul 10: portal WiFi boleh menunggu di sini karena watchdog belum mengawasi
 
   // Watchdog dengan cara penulisan paket esp32 versi 3 (Konsep 8)
   esp_task_wdt_config_t konfigurasiWatchdog = {
@@ -172,6 +176,7 @@ void loop() {
   perbaruiAturan();      // MENYIRAM -> JEDA -> SIAGA
   perbaruiDetak();       // LED status
   perbaruiLayar();       // halaman status: jam berdetak, lalu kembali sendiri
+  perbaruiJaringan();    // Modul 10: WiFi, jam internet, dan server web; tidak pernah menunggu lama
   tanganiTombol();
   periksaPerintahSerial();
   jalankanSiklus();

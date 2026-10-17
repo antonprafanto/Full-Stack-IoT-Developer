@@ -2,7 +2,7 @@
 // Pin mengikuti PETA-PIN.md. Angka kalibrasi adalah hasil Modul 6 milikmu sendiri.
 #pragma once
 
-const char VERSI_FIRMWARE[] = "1.0.0";
+const char VERSI_FIRMWARE[] = "1.1.0";
 
 // ---------- Peta pin kanonik Node 1 (salinan dari PETA-PIN.md) ----------
 const int PIN_LED_STATUS = 4;    // Modul 2
@@ -41,3 +41,12 @@ const unsigned long JEDA_BACA = 2000;          // sensor dibaca setiap 2 detik
 const unsigned long LAMA_JEDA_SIRAM = 30000;   // sesudah menyiram, istirahat 30 detik
 const unsigned long JEDA_CATAT_KARTU = 30000;  // satu baris CSV setiap 30 detik
 const unsigned long BATAS_WATCHDOG = 5000;     // loop() macet lebih dari 5 detik = restart
+
+// ---------- Modul 10: jaringan ----------
+const bool PAKAI_WOKWI = false;                           // true HANYA di Wokwi: menyambung ke Wokwi-GUEST tanpa portal
+const char NAMA_PERANGKAT[] = "node1";                    // nama di daftar perangkat router dan alamat node1.local
+const char NAMA_PORTAL[] = "Node1-Rumah";                 // nama WiFi sementara selama portal terbuka
+const unsigned long BATAS_PORTAL = 180;                   // detik: portal menutup sendiri kalau tidak dipakai
+const char ALAMAT_SERVER[] = "http://192.168.1.10:3000";  // GANTI dengan alamat IP laptopmu (Praktik 7)
+const unsigned long JEDA_KIRIM = 60000;                   // bacaan dikirim ke server setiap 1 menit
+const char ZONA_WAKTU[] = "WIB-7";                        // WITA: "WITA-8", WIT: "WIT-9" (Praktik 5)

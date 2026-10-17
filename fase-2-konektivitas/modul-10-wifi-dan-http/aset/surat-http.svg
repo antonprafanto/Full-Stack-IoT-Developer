@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="665" viewBox="0 0 1200 665" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="665" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >HTTP = surat-menyurat</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Satu surat permintaan, satu surat balasan · isinya teks biasa (Praktik 7; sebagian header balasan disingkat)</text>
+<rect x="50.0" y="104.0" width="250.0" height="64.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<rect x="71.0" y="116.0" width="30.0" height="40.0" rx="3" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<rect x="77.0" y="122.0" width="18.0" height="14.0" rx="2" fill="none" stroke="#1e2a4a" stroke-width="1.6" />
+<line x1="71.0" y1="126.0" x2="66.0" y2="126.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="101.0" y1="126.0" x2="106.0" y2="126.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="71.0" y1="134.0" x2="66.0" y2="134.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="101.0" y1="134.0" x2="106.0" y2="134.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="71.0" y1="142.0" x2="66.0" y2="142.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="101.0" y1="142.0" x2="106.0" y2="142.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="71.0" y1="150.0" x2="66.0" y2="150.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="101.0" y1="150.0" x2="106.0" y2="150.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<text x="118.0" y="132.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="start" >ESP32</text>
+<text x="118.0" y="154.0" font-size="13.5" font-weight="600" fill="#4a5568" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">192.168.1.23</text>
+<rect x="900.0" y="104.0" width="250.0" height="64.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<rect x="920.0" y="121.0" width="40.0" height="26.0" rx="3" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<path d="M914 151 L966 151" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="972.0" y="132.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="start" >Laptop</text>
+<text x="972.0" y="154.0" font-size="13.5" font-weight="600" fill="#4a5568" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">192.168.1.10:3000</text>
+<line x1="310.0" y1="126.0" x2="890.0" y2="126.0" stroke="#2f6fd1" stroke-width="2.5" stroke-linecap="round" />
+<path d="M881.2 130.7 L890.0 126.0 L881.2 121.3" fill="none" stroke="#2f6fd1" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<text x="600.0" y="116.0" font-size="14" font-weight="800" fill="#2f6fd1" text-anchor="middle" >1. permintaan</text>
+<line x1="890.0" y1="152.0" x2="310.0" y2="152.0" stroke="#0f8b8d" stroke-width="2.5" stroke-linecap="round" />
+<path d="M318.8 147.3 L310.0 152.0 L318.8 156.7" fill="none" stroke="#0f8b8d" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<text x="600.0" y="172.0" font-size="14" font-weight="800" fill="#0f8b8d" text-anchor="middle" >2. balasan</text>
+<rect x="50.0" y="196.0" width="660.0" height="325.0" rx="12" fill="#ffffff" stroke="#2f6fd1" stroke-width="2" />
+<text x="70.0" y="226.0" font-size="16" font-weight="800" fill="#2f6fd1" text-anchor="start" >Surat permintaan</text>
+<text x="70.0" y="258.0" font-size="13.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">POST /telemetry HTTP/1.1</text>
+<text x="70.0" y="283.0" font-size="13.5" font-weight="400" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">Host: 192.168.1.10:3000</text>
+<text x="70.0" y="308.0" font-size="13.5" font-weight="400" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">User-Agent: ESP32HTTPClient</text>
+<text x="70.0" y="333.0" font-size="13.5" font-weight="400" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">Connection: keep-alive</text>
+<text x="70.0" y="358.0" font-size="13.5" font-weight="400" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">Accept-Encoding: identity;q=1,chunked;q=0.1,*;q=0</text>
+<text x="70.0" y="383.0" font-size="13.5" font-weight="400" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">Content-Type: application/json</text>
+<text x="70.0" y="408.0" font-size="13.5" font-weight="400" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">Content-Length: 71</text>
+<text x="70.0" y="458.0" font-size="13.5" font-weight="400" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">{"ts":"2026-10-17T01:30:12Z","suhu":28.5,</text>
+<text x="70.0" y="483.0" font-size="13.5" font-weight="400" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">"kelembapan":71,"cahaya":2310}</text>
+<path d="M560 244 L570 244 L570 264 L560 264" fill="none" stroke="#2f6fd1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="580.0" y="259.0" font-size="13.5" font-weight="800" fill="#2f6fd1" text-anchor="start" >metode + jalur</text>
+<path d="M560 270 L570 270 L570 414 L560 414" fill="none" stroke="#4a5568" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="580.0" y="347.0" font-size="13.5" font-weight="800" fill="#4a5568" text-anchor="start" >header (kepala)</text>
+<path d="M560 420 L570 420 L570 439 L560 439" fill="none" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="580.0" y="434.5" font-size="13.5" font-weight="800" fill="#9aa3b0" text-anchor="start" >baris kosong</text>
+<path d="M560 445 L570 445 L570 489 L560 489" fill="none" stroke="#b45f17" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="580.0" y="464.0" font-size="13.5" font-weight="800" fill="#b45f17" text-anchor="start" >body (isi),</text>
+<text x="580.0" y="482.0" font-size="12.5" font-weight="700" fill="#b45f17" text-anchor="start" >satu baris</text>
+<rect x="740.0" y="196.0" width="410.0" height="325.0" rx="12" fill="#ffffff" stroke="#0f8b8d" stroke-width="2" />
+<text x="760.0" y="226.0" font-size="16" font-weight="800" fill="#0f8b8d" text-anchor="start" >Surat balasan</text>
+<text x="760.0" y="258.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">HTTP/1.1 200 OK</text>
+<text x="760.0" y="283.0" font-size="13.5" font-weight="400" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">Content-Type: application/json</text>
+<text x="760.0" y="308.0" font-size="13.5" font-weight="400" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">Connection: keep-alive</text>
+<text x="760.0" y="333.0" font-size="13.5" font-weight="400" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">…</text>
+<text x="760.0" y="383.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">{"ok":true}</text>
+<text x="760.0" y="410.0" font-size="14" font-weight="800" fill="#2a9d5c" text-anchor="start" >200 = kode status: berhasil</text>
+<text x="760.0" y="434.0" font-size="13.5" font-weight="600" fill="#4a5568" text-anchor="start" >4xx = salah di pengirim (404: jalur tidak ada)</text>
+<text x="760.0" y="456.0" font-size="13.5" font-weight="600" fill="#4a5568" text-anchor="start" >5xx = salah di server (500)</text>
+<text x="760.0" y="478.0" font-size="13.5" font-weight="700" fill="#e63946" text-anchor="start" >angka negatif = tidak ada balasan (HTTPClient)</text>
+<rect x="50.0" y="545.0" width="1100.0" height="76.0" rx="12" fill="#eef1f5" />
+<text x="74.0" y="577.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >GET = "tolong berikan…" (tanpa body) · POST = "terimalah kiriman ini" (dengan body)</text>
+<text x="74.0" y="603.0" font-size="14" font-weight="600" fill="#4a5568" text-anchor="start" >Header Content-Type memberi tahu jenis isinya; HTTPClient menghitung Content-Length sendiri.</text>
+<text x="1178.0" y="651.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

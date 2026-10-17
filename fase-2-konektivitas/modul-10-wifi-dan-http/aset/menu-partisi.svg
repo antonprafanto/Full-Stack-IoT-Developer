@@ -1,0 +1,208 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1090" viewBox="0 0 1200 1090" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="1090" fill="#fffdf7"/>
+<text x="600.0" y="40.0" font-size="26" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Menu Tools untuk ESP32 Dev Module (ilustrasi)</text>
+<text x="600.0" y="72.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Arduino IDE 2.3.10 dan paket esp32 3.3.12 · nomor COM bergantung pada laptopmu</text>
+<rect x="44.0" y="106.0" width="1120.0" height="840.0" rx="8" fill="#000000" opacity="0.10"/>
+<rect x="40.0" y="100.0" width="1120.0" height="840.0" rx="6" fill="#ffffff" stroke="#b9c0c2" stroke-width="1.2" />
+<rect x="40.0" y="100.0" width="1120.0" height="34.0" rx="6" fill="#ffffff" />
+<rect x="52.0" y="109.0" width="16.0" height="16.0" rx="4" fill="#005c5f" />
+<text x="60.0" y="121.0" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle" >∞</text>
+<text x="78.0" y="122.0" font-size="13.5" font-weight="400" fill="#333333" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >node-1-rumah | Arduino IDE 2.3.10</text>
+<text x="1048.0" y="122.0" font-size="13" font-weight="400" fill="#333333" text-anchor="middle" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >—</text>
+<text x="1088.0" y="122.0" font-size="13" font-weight="400" fill="#333333" text-anchor="middle" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >☐</text>
+<text x="1128.0" y="122.0" font-size="13" font-weight="400" fill="#333333" text-anchor="middle" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >✕</text>
+<rect x="40.0" y="134.0" width="1120.0" height="28.0" rx="0" fill="#292a2d" />
+<text x="54.0" y="153.0" font-size="13.5" font-weight="400" fill="#d6d6d6" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >File</text>
+<text x="96.0" y="153.0" font-size="13.5" font-weight="400" fill="#d6d6d6" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Edit</text>
+<text x="138.0" y="153.0" font-size="13.5" font-weight="400" fill="#d6d6d6" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Sketch</text>
+<text x="194.0" y="153.0" font-size="13.5" font-weight="400" fill="#d6d6d6" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Tools</text>
+<text x="243.0" y="153.0" font-size="13.5" font-weight="400" fill="#d6d6d6" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Help</text>
+<rect x="40.0" y="162.0" width="1120.0" height="56.0" rx="0" fill="#005c5f" />
+<circle cx="74.0" cy="190.0" r="17" fill="#7ec9d0" />
+<path d="M67 190 L72 195 L81 185" fill="none" stroke="#ffffff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="116.0" cy="190.0" r="17" fill="#7ec9d0" />
+<path d="M109 190 L123 190 M118 185 L123 190 L118 195" fill="none" stroke="#ffffff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="158.0" cy="190.0" r="17" fill="#2f7e82" />
+<path d="M155 183 L165 190 L155 197 Z" fill="none" stroke="#9fd3d6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="153.0" cy="194.0" r="3.5" fill="none" stroke="#9fd3d6" stroke-width="1.8" />
+<rect x="188.0" y="173.0" width="300.0" height="34.0" rx="3" fill="#ffffff" />
+<path d="M208 197 L208 181 M205 184 L208 181 L211 184 M208 191 L203 187 L203 184 M208 189 L213 185" fill="none" stroke="#4e5b61" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="208.0" cy="198.0" r="2" fill="#4e5b61" />
+<text x="226.0" y="195.0" font-size="14.5" font-weight="700" fill="#4e5b61" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >ESP32 Dev Module</text>
+<path d="M464 186 L470 193 L476 186" fill="none" stroke="#4e5b61" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M1085 192 L1090 192 L1093 183 L1096 198 L1099 190 L1103 190" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="1127.0" cy="190.0" r="6.5" fill="none" stroke="#ffffff" stroke-width="2" />
+<circle cx="1127.0" cy="190.0" r="1.6" fill="#ffffff" />
+<line x1="1118.0" y1="190.0" x2="1120.5" y2="190.0" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+<circle cx="1137.0" cy="190.0" r="1.4" fill="#ffffff" />
+<circle cx="1141.0" cy="190.0" r="1.4" fill="#ffffff" />
+<rect x="40.0" y="218.0" width="54.0" height="696.0" rx="0" fill="#ececec" />
+<path d="M56 243 L63 243 L66 246 L78 246 L78 258 L56 258 Z" fill="none" stroke="#8a9799" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="56.0" y="294.0" width="22.0" height="15.0" rx="2" fill="none" stroke="#8a9799" stroke-width="1.8" />
+<line x1="53.0" y1="298.0" x2="56.0" y2="298.0" stroke="#8a9799" stroke-width="1.8" stroke-linecap="round" />
+<line x1="53.0" y1="304.0" x2="56.0" y2="304.0" stroke="#8a9799" stroke-width="1.8" stroke-linecap="round" />
+<line x1="62.0" y1="303.0" x2="73.0" y2="303.0" stroke="#8a9799" stroke-width="1.8" stroke-linecap="round" />
+<rect x="56.0" y="345.0" width="5.0" height="18.0" rx="1" fill="none" stroke="#8a9799" stroke-width="1.6" />
+<rect x="63.0" y="345.0" width="5.0" height="18.0" rx="1" fill="none" stroke="#8a9799" stroke-width="1.6" />
+<rect x="70.0" y="347.0" width="5.0" height="16.0" rx="1" fill="none" stroke="#8a9799" stroke-width="1.6" />
+<path d="M63 397 L76 406 L63 415" fill="none" stroke="#8a9799" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="61.0" cy="411.0" r="4" fill="none" stroke="#8a9799" stroke-width="1.6" />
+<circle cx="65.0" cy="456.0" r="7" fill="none" stroke="#8a9799" stroke-width="1.8" />
+<line x1="70.0" y1="461.0" x2="76.0" y2="467.0" stroke="#8a9799" stroke-width="2" stroke-linecap="round" />
+<rect x="40.0" y="914.0" width="1120.0" height="26.0" rx="0" fill="#005c5f" />
+<text x="1096.0" y="932.0" font-size="13" font-weight="400" fill="#ffffff" text-anchor="end" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" xml:space="preserve">Ln 1, Col 1    UTF-8    ESP32 Dev Module on COM3</text>
+<path d="M1111 930 L1111 925 Q1111 920 1116 920 Q1121 920 1121 925 L1121 930 Z" fill="none" stroke="#ffffff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="1116.0" cy="932.5" r="1.4" fill="#ffffff" />
+<rect x="1134.0" y="921.0" width="14.0" height="11.0" rx="1" fill="none" stroke="#ffffff" stroke-width="1.4" />
+<rect x="94.0" y="218.0" width="1066.0" height="36.0" rx="0" fill="#f7f9fa" />
+<rect x="94.0" y="218.0" width="190.0" height="36.0" rx="0" fill="#ffffff" />
+<text x="108.0" y="241.0" font-size="13.5" font-weight="400" fill="#333333" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >node-1-rumah.ino</text>
+<text x="1138.0" y="240.0" font-size="14" font-weight="700" fill="#777" text-anchor="end" >···</text>
+<text x="138.0" y="276.0" font-size="14" font-weight="400" fill="#30858d" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >1</text>
+<text x="164.0" y="276.0" font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5" xml:space="preserve"><tspan fill="#95a5a6">// Node 1 "Rumah" - firmware v1.1.0 (Modul 10)</tspan></text>
+<text x="138.0" y="298.0" font-size="14" font-weight="400" fill="#30858d" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >2</text>
+<text x="164.0" y="298.0" font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5" xml:space="preserve"><tspan fill="#95a5a6">// Proyek benang merah: Rumah Pintar Mini.</tspan></text>
+<text x="138.0" y="320.0" font-size="14" font-weight="400" fill="#30858d" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >3</text>
+<text x="164.0" y="320.0" font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5" xml:space="preserve"><tspan fill="#95a5a6">//</tspan></text>
+<text x="138.0" y="342.0" font-size="14" font-weight="400" fill="#30858d" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >4</text>
+<text x="164.0" y="342.0" font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5" xml:space="preserve"><tspan fill="#95a5a6">// Baru di v1.1.0: tersambung ke WiFi rumah lewat portal WiFiManager (kata sandi tidak</tspan></text>
+<text x="138.0" y="364.0" font-size="14" font-weight="400" fill="#30858d" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >5</text>
+<text x="164.0" y="364.0" font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5" xml:space="preserve"><tspan fill="#95a5a6">// ditulis di kode), jam dari internet (NTP), bacaan dikirim ke server mini di laptop</tspan></text>
+<text x="138.0" y="386.0" font-size="14" font-weight="400" fill="#30858d" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >6</text>
+<text x="164.0" y="386.0" font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5" xml:space="preserve"><tspan fill="#95a5a6">// setiap menit (HTTP POST berisi JSON), dan lampu bisa dinyalakan atau dimatikan dari</tspan></text>
+<text x="138.0" y="408.0" font-size="14" font-weight="400" fill="#30858d" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >7</text>
+<text x="164.0" y="408.0" font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5" xml:space="preserve"><tspan fill="#95a5a6">// browser HP. WiFi boleh putus, Node 1 tetap bekerja.</tspan></text>
+<text x="138.0" y="430.0" font-size="14" font-weight="400" fill="#30858d" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >8</text>
+<text x="138.0" y="452.0" font-size="14" font-weight="400" fill="#30858d" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >9</text>
+<text x="164.0" y="452.0" font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5" xml:space="preserve"><tspan fill="#4e5b61">#</tspan><tspan fill="#4e5b61">include</tspan><tspan fill="#4e5b61"> </tspan><tspan fill="#4e5b61">&lt;</tspan><tspan fill="#4e5b61">esp_task_wdt</tspan><tspan fill="#4e5b61">.</tspan><tspan fill="#4e5b61">h</tspan><tspan fill="#4e5b61">&gt;</tspan><tspan fill="#4e5b61">  </tspan><tspan fill="#95a5a6">// watchdog</tspan></text>
+<text x="138.0" y="474.0" font-size="14" font-weight="400" fill="#30858d" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >10</text>
+<text x="164.0" y="474.0" font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5" xml:space="preserve"><tspan fill="#4e5b61">#</tspan><tspan fill="#4e5b61">include</tspan><tspan fill="#4e5b61"> </tspan><tspan fill="#005c5f">"konfigurasi.h"</tspan></text>
+<text x="138.0" y="496.0" font-size="14" font-weight="400" fill="#30858d" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >11</text>
+<text x="164.0" y="496.0" font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5" xml:space="preserve"><tspan fill="#4e5b61">#</tspan><tspan fill="#4e5b61">include</tspan><tspan fill="#4e5b61"> </tspan><tspan fill="#005c5f">"pencatat.h"</tspan></text>
+<text x="138.0" y="518.0" font-size="14" font-weight="400" fill="#30858d" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >12</text>
+<text x="164.0" y="518.0" font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5" xml:space="preserve"><tspan fill="#4e5b61">#</tspan><tspan fill="#4e5b61">include</tspan><tspan fill="#4e5b61"> </tspan><tspan fill="#005c5f">"sistem.h"</tspan></text>
+<text x="138.0" y="540.0" font-size="14" font-weight="400" fill="#30858d" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >13</text>
+<text x="164.0" y="540.0" font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5" xml:space="preserve"><tspan fill="#4e5b61">#</tspan><tspan fill="#4e5b61">include</tspan><tspan fill="#4e5b61"> </tspan><tspan fill="#005c5f">"pengaturan.h"</tspan></text>
+<text x="138.0" y="562.0" font-size="14" font-weight="400" fill="#30858d" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >14</text>
+<text x="164.0" y="562.0" font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5" xml:space="preserve"><tspan fill="#4e5b61">#</tspan><tspan fill="#4e5b61">include</tspan><tspan fill="#4e5b61"> </tspan><tspan fill="#005c5f">"sensor.h"</tspan></text>
+<text x="138.0" y="584.0" font-size="14" font-weight="400" fill="#30858d" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >15</text>
+<text x="164.0" y="584.0" font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5" xml:space="preserve"><tspan fill="#4e5b61">#</tspan><tspan fill="#4e5b61">include</tspan><tspan fill="#4e5b61"> </tspan><tspan fill="#005c5f">"aktuator.h"</tspan></text>
+<text x="138.0" y="606.0" font-size="14" font-weight="400" fill="#30858d" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" >16</text>
+<text x="164.0" y="606.0" font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5" xml:space="preserve"><tspan fill="#4e5b61">#</tspan><tspan fill="#4e5b61">include</tspan><tspan fill="#4e5b61"> </tspan><tspan fill="#005c5f">"detak.h"</tspan></text>
+<line x1="152.0" y1="258.0" x2="152.0" y2="910.0" stroke="#e6e6e6" stroke-width="1" stroke-linecap="round" />
+<text x="298.0" y="241.0" font-size="13.5" font-weight="400" fill="#888888" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >aktuator.cpp</text>
+<line x1="399.6" y1="226.0" x2="399.6" y2="246.0" stroke="#dddddd" stroke-width="1" stroke-linecap="round" />
+<text x="413.6" y="241.0" font-size="13.5" font-weight="400" fill="#888888" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >aktuator.h</text>
+<line x1="500.6" y1="226.0" x2="500.6" y2="246.0" stroke="#dddddd" stroke-width="1" stroke-linecap="round" />
+<text x="514.6" y="241.0" font-size="13.5" font-weight="400" fill="#888888" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >aturan.cpp</text>
+<line x1="601.6" y1="226.0" x2="601.6" y2="246.0" stroke="#dddddd" stroke-width="1" stroke-linecap="round" />
+<text x="615.6" y="241.0" font-size="13.5" font-weight="400" fill="#888888" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >aturan.h</text>
+<line x1="688.0" y1="226.0" x2="688.0" y2="246.0" stroke="#dddddd" stroke-width="1" stroke-linecap="round" />
+<text x="702.0" y="241.0" font-size="13.5" font-weight="400" fill="#888888" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >detak.cpp</text>
+<line x1="781.7" y1="226.0" x2="781.7" y2="246.0" stroke="#dddddd" stroke-width="1" stroke-linecap="round" />
+<text x="795.7" y="241.0" font-size="13.5" font-weight="400" fill="#888888" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >detak.h</text>
+<line x1="860.8" y1="226.0" x2="860.8" y2="246.0" stroke="#dddddd" stroke-width="1" stroke-linecap="round" />
+<text x="874.8" y="241.0" font-size="13.5" font-weight="400" fill="#888888" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >jaringan.cpp</text>
+<line x1="976.4" y1="226.0" x2="976.4" y2="246.0" stroke="#dddddd" stroke-width="1" stroke-linecap="round" />
+<text x="990.4" y="241.0" font-size="13.5" font-weight="400" fill="#888888" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >jaringan.h</text>
+<line x1="1077.4" y1="226.0" x2="1077.4" y2="246.0" stroke="#dddddd" stroke-width="1" stroke-linecap="round" />
+<line x1="94.0" y1="253.0" x2="284.0" y2="253.0" stroke="#00979d" stroke-width="2" stroke-linecap="round" />
+<rect x="186.0" y="136.0" width="46.0" height="24.0" rx="3" fill="#4a4b50" />
+<text x="194.0" y="153.0" font-size="13.5" font-weight="400" fill="#ffffff" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Tools</text>
+<rect x="189.0" y="166.0" width="560.0" height="722.0" rx="4" fill="#000" opacity="0.16"/>
+<rect x="186.0" y="162.0" width="560.0" height="722.0" rx="4" fill="#ffffff" stroke="#c8c8c8" stroke-width="1" />
+<text x="216.0" y="185.0" font-size="13.5" font-weight="400" fill="#222" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Auto Format</text>
+<text x="724.0" y="185.0" font-size="13" font-weight="400" fill="#777" text-anchor="end" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Ctrl+T</text>
+<text x="216.0" y="211.0" font-size="13.5" font-weight="400" fill="#222" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Archive Sketch</text>
+<text x="216.0" y="237.0" font-size="13.5" font-weight="400" fill="#222" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Manage Libraries...</text>
+<text x="724.0" y="237.0" font-size="13" font-weight="400" fill="#777" text-anchor="end" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Ctrl+Shift+I</text>
+<text x="216.0" y="263.0" font-size="13.5" font-weight="400" fill="#222" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Serial Monitor</text>
+<text x="724.0" y="263.0" font-size="13" font-weight="400" fill="#777" text-anchor="end" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Ctrl+Shift+M</text>
+<text x="216.0" y="289.0" font-size="13.5" font-weight="400" fill="#222" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Serial Plotter</text>
+<line x1="194.0" y1="301.0" x2="738.0" y2="301.0" stroke="#e3e3e3" stroke-width="1" stroke-linecap="round" />
+<text x="216.0" y="324.0" font-size="13.5" font-weight="400" fill="#222" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Firmware Updater</text>
+<text x="216.0" y="350.0" font-size="13.5" font-weight="400" fill="#222" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Upload SSL Root Certificates</text>
+<line x1="194.0" y1="362.0" x2="738.0" y2="362.0" stroke="#e3e3e3" stroke-width="1" stroke-linecap="round" />
+<text x="216.0" y="385.0" font-size="13.5" font-weight="400" fill="#222" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Board: "ESP32 Dev Module"</text>
+<path d="M726 375.0 L732 380.0 L726 385.0" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="216.0" y="411.0" font-size="13.5" font-weight="400" fill="#222" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Port: "COM3"</text>
+<path d="M726 401.0 L732 406.0 L726 411.0" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="216.0" y="437.0" font-size="13.5" font-weight="400" fill="#222" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Reload Board Data</text>
+<text x="216.0" y="463.0" font-size="13.5" font-weight="400" fill="#222" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Get Board Info</text>
+<line x1="194.0" y1="475.0" x2="738.0" y2="475.0" stroke="#e3e3e3" stroke-width="1" stroke-linecap="round" />
+<text x="216.0" y="498.0" font-size="13.5" font-weight="400" fill="#222" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >CPU Frequency: "240MHz (WiFi/BT)"</text>
+<path d="M726 488.0 L732 493.0 L726 498.0" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="216.0" y="524.0" font-size="13.5" font-weight="400" fill="#222" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Core Debug Level: "None"</text>
+<path d="M726 514.0 L732 519.0 L726 524.0" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="216.0" y="550.0" font-size="13.5" font-weight="400" fill="#222" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Erase All Flash Before Sketch Upload: "Disabled"</text>
+<path d="M726 540.0 L732 545.0 L726 550.0" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="216.0" y="576.0" font-size="13.5" font-weight="400" fill="#222" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Events Run On: "Core 1"</text>
+<path d="M726 566.0 L732 571.0 L726 576.0" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="216.0" y="602.0" font-size="13.5" font-weight="400" fill="#222" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Flash Frequency: "80MHz"</text>
+<path d="M726 592.0 L732 597.0 L726 602.0" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="216.0" y="628.0" font-size="13.5" font-weight="400" fill="#222" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Flash Mode: "DIO"</text>
+<path d="M726 618.0 L732 623.0 L726 628.0" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="216.0" y="654.0" font-size="13.5" font-weight="400" fill="#222" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Flash Size: "4MB (32Mb)"</text>
+<path d="M726 644.0 L732 649.0 L726 654.0" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="216.0" y="680.0" font-size="13.5" font-weight="400" fill="#222" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >JTAG Adapter: "Disabled"</text>
+<path d="M726 670.0 L732 675.0 L726 680.0" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="216.0" y="706.0" font-size="13.5" font-weight="400" fill="#222" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Arduino Runs On: "Core 1"</text>
+<path d="M726 696.0 L732 701.0 L726 706.0" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="188.0" y="714.0" width="556.0" height="26.0" rx="0" fill="#cce8ff" />
+<text x="216.0" y="732.0" font-size="13.5" font-weight="400" fill="#222" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Partition Scheme: "Minimal SPIFFS (1.9MB APP with OTA/128KB SPIFFS)"</text>
+<path d="M726 722.0 L732 727.0 L726 732.0" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="216.0" y="758.0" font-size="13.5" font-weight="400" fill="#222" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >PSRAM: "Disabled"</text>
+<path d="M726 748.0 L732 753.0 L726 758.0" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="216.0" y="784.0" font-size="13.5" font-weight="400" fill="#222" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Upload Speed: "921600"</text>
+<path d="M726 774.0 L732 779.0 L726 784.0" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="216.0" y="810.0" font-size="13.5" font-weight="400" fill="#222" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Zigbee Mode: "Disabled"</text>
+<path d="M726 800.0 L732 805.0 L726 810.0" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="194.0" y1="822.0" x2="738.0" y2="822.0" stroke="#e3e3e3" stroke-width="1" stroke-linecap="round" />
+<text x="216.0" y="845.0" font-size="13.5" font-weight="400" fill="#222" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Programmer</text>
+<path d="M726 835.0 L732 840.0 L726 845.0" fill="none" stroke="#666" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="216.0" y="871.0" font-size="13.5" font-weight="400" fill="#222" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Burn Bootloader</text>
+<rect x="745.0" y="374.0" width="400.0" height="530.0" rx="4" fill="#000" opacity="0.16"/>
+<rect x="742.0" y="370.0" width="400.0" height="530.0" rx="4" fill="#ffffff" stroke="#c8c8c8" stroke-width="1" />
+<text x="772.0" y="393.0" font-size="13.5" font-weight="400" fill="#222" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Default 4MB with spiffs (1.2MB APP/1.5MB SPIFFS)</text>
+<text x="772.0" y="419.0" font-size="13.5" font-weight="400" fill="#222" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Default 4MB with ffat (1.2MB APP/1.5MB FATFS)</text>
+<text x="772.0" y="445.0" font-size="13.5" font-weight="400" fill="#222" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >8M with spiffs (3MB APP/1.5MB SPIFFS)</text>
+<text x="772.0" y="471.0" font-size="13.5" font-weight="400" fill="#222" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Minimal (1.3MB APP/700KB SPIFFS)</text>
+<text x="772.0" y="497.0" font-size="13.5" font-weight="400" fill="#222" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >No FS 4MB (2MB APP x2)</text>
+<text x="772.0" y="523.0" font-size="13.5" font-weight="400" fill="#222" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >No OTA (2MB APP/2MB SPIFFS)</text>
+<text x="772.0" y="549.0" font-size="13.5" font-weight="400" fill="#222" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >No OTA (1MB APP/3MB SPIFFS)</text>
+<text x="772.0" y="575.0" font-size="13.5" font-weight="400" fill="#222" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >No OTA (2MB APP/2MB FATFS)</text>
+<text x="772.0" y="601.0" font-size="13.5" font-weight="400" fill="#222" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >No OTA (1MB APP/3MB FATFS)</text>
+<text x="772.0" y="627.0" font-size="13.5" font-weight="400" fill="#222" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Huge APP (3MB No OTA/1MB SPIFFS)</text>
+<rect x="744.0" y="635.0" width="396.0" height="26.0" rx="0" fill="#cce8ff" />
+<path d="M752 648.0 L756 652.0 L763 643.0" fill="none" stroke="#222" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<text x="772.0" y="653.0" font-size="13.5" font-weight="400" fill="#222" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Minimal SPIFFS (1.9MB APP with OTA/128KB SPIFFS)</text>
+<text x="772.0" y="679.0" font-size="13.5" font-weight="400" fill="#222" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >16M Flash (2MB APP/12.5MB FATFS)</text>
+<text x="772.0" y="705.0" font-size="13.5" font-weight="400" fill="#222" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >16M Flash (3MB APP/9.9MB FATFS)</text>
+<text x="772.0" y="731.0" font-size="13.5" font-weight="400" fill="#222" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >RainMaker 4MB</text>
+<text x="772.0" y="757.0" font-size="13.5" font-weight="400" fill="#222" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >RainMaker 4MB No OTA</text>
+<text x="772.0" y="783.0" font-size="13.5" font-weight="400" fill="#222" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >RainMaker 8MB</text>
+<text x="772.0" y="809.0" font-size="13.5" font-weight="400" fill="#222" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Storage APP (2MB APP/1MB NVS/1MB SPIFFS)</text>
+<text x="772.0" y="835.0" font-size="13.5" font-weight="400" fill="#222" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Zigbee ZCZR 4MB with spiffs</text>
+<text x="772.0" y="861.0" font-size="13.5" font-weight="400" fill="#222" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Zigbee ZCZR 8MB with spiffs</text>
+<text x="772.0" y="887.0" font-size="13.5" font-weight="400" fill="#222" text-anchor="start" font-family="'Open Sans', 'Segoe UI', Arial, sans-serif" >Custom</text>
+<rect x="186.0" y="365.0" width="278.0" height="30.0" rx="8" fill="none" stroke="#e63946" stroke-width="3" />
+<circle cx="164.0" cy="380.0" r="15" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="164.0" y="385.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >1</text>
+<rect x="186.0" y="712.0" width="560.0" height="30.0" rx="8" fill="none" stroke="#e63946" stroke-width="3" />
+<rect x="742.0" y="633.0" width="400.0" height="30.0" rx="8" fill="none" stroke="#e63946" stroke-width="3" />
+<circle cx="1164.0" cy="648.0" r="15" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="1164.0" y="653.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >2</text>
+<rect x="186.0" y="608.0" width="198.0" height="30.0" rx="8" fill="none" stroke="#e63946" stroke-width="3" />
+<circle cx="164.0" cy="623.0" r="15" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="164.0" y="628.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >3</text>
+<circle cx="54.0" cy="978.0" r="12" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="54.0" y="983.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >1</text>
+<text x="74.0" y="983.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >Papan: ESP32 Dev Module (lewat kotak pilihan papan di bilah atas → Select other board and port…)</text>
+<circle cx="54.0" cy="1008.0" r="12" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="54.0" y="1013.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >2</text>
+<text x="74.0" y="1013.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >Tools → Partition Scheme → Minimal SPIFFS (1.9MB APP with OTA/128KB SPIFFS)</text>
+<circle cx="54.0" cy="1038.0" r="12" fill="#e63946" stroke="#ffffff" stroke-width="2.5" />
+<text x="54.0" y="1043.5" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >3</text>
+<text x="74.0" y="1043.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >Tools → Flash Mode → DIO</text>
+<text x="1178.0" y="1076.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0 · ilustrasi, bukan tangkapan layar</text>
+</svg>

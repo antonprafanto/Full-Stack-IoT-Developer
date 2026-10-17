@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="646" viewBox="0 0 1200 646" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="646" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Program membengkak: rak-rak di memori flash 4 MB</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Skema partisi menentukan besar setiap rak · mulai Modul 10: Minimal SPIFFS</text>
+<text x="60.0" y="126.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="start" >Bawaan: Default 4MB with spiffs (1.2MB APP/1.5MB SPIFFS)</text>
+<rect x="60.0" y="140.0" width="16.9" height="54.0" rx="0" fill="#c9d1db" stroke="#ffffff" stroke-width="1.5" />
+<rect x="76.9" y="140.0" width="337.5" height="54.0" rx="0" fill="#e2f3f1" stroke="#ffffff" stroke-width="1.5" />
+<text x="245.6" y="163.0" font-size="14" font-weight="800" fill="#0f8b8d" text-anchor="middle" >app0 · 1,25 MB</text>
+<text x="245.6" y="183.0" font-size="13" font-weight="600" fill="#0f8b8d" text-anchor="middle" >program yang berjalan</text>
+<rect x="414.4" y="140.0" width="337.5" height="54.0" rx="0" fill="#eef1f5" stroke="#ffffff" stroke-width="1.5" />
+<text x="583.1" y="163.0" font-size="14" font-weight="800" fill="#4a5568" text-anchor="middle" >app1 · 1,25 MB</text>
+<text x="583.1" y="183.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="middle" >rak OTA (Modul 28)</text>
+<rect x="751.9" y="140.0" width="371.2" height="54.0" rx="0" fill="#f3f4f6" stroke="#ffffff" stroke-width="1.5" />
+<text x="937.5" y="163.0" font-size="14" font-weight="800" fill="#9aa3b0" text-anchor="middle" >SPIFFS · sekitar 1,4 MB</text>
+<text x="937.5" y="183.0" font-size="13" font-weight="600" fill="#9aa3b0" text-anchor="middle" >rak file (tidak dipakai)</text>
+<rect x="1123.1" y="140.0" width="16.9" height="54.0" rx="0" fill="#c9d1db" stroke="#ffffff" stroke-width="1.5" />
+<text x="60.0" y="316.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="start" >Mulai modul ini: Minimal SPIFFS (1.9MB APP with OTA/128KB SPIFFS)</text>
+<rect x="60.0" y="330.0" width="16.9" height="54.0" rx="0" fill="#c9d1db" stroke="#ffffff" stroke-width="1.5" />
+<rect x="76.9" y="330.0" width="506.2" height="54.0" rx="0" fill="#e2f3f1" stroke="#ffffff" stroke-width="1.5" />
+<text x="330.0" y="353.0" font-size="14" font-weight="800" fill="#0f8b8d" text-anchor="middle" >app0 · 1,875 MB</text>
+<text x="330.0" y="373.0" font-size="13" font-weight="600" fill="#0f8b8d" text-anchor="middle" >program yang berjalan</text>
+<rect x="583.1" y="330.0" width="506.2" height="54.0" rx="0" fill="#eef1f5" stroke="#ffffff" stroke-width="1.5" />
+<text x="836.2" y="353.0" font-size="14" font-weight="800" fill="#4a5568" text-anchor="middle" >app1 · 1,875 MB</text>
+<text x="836.2" y="373.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="middle" >rak OTA (Modul 28)</text>
+<rect x="1089.4" y="330.0" width="33.8" height="54.0" rx="0" fill="#f3f4f6" stroke="#ffffff" stroke-width="1.5" />
+<rect x="1123.1" y="330.0" width="16.9" height="54.0" rx="0" fill="#c9d1db" stroke="#ffffff" stroke-width="1.5" />
+<rect x="76.9" y="206.0" width="337.5" height="16.0" rx="3" fill="#0f8b8d" />
+<rect x="414.4" y="203.0" width="14.0" height="22.0" rx="3" fill="#e63946" />
+<rect x="76.9" y="206.0" width="337.5" height="16.0" rx="3" fill="none" stroke="#e63946" stroke-width="1.5" />
+<text x="438.4" y="219.0" font-size="13.5" font-weight="800" fill="#e63946" text-anchor="start" >Node 1 v1.1: 1.315.235 byte, lebih 4.515 byte daripada raknya: tidak muat!</text>
+<rect x="76.9" y="396.0" width="338.7" height="16.0" rx="3" fill="#0f8b8d" />
+<rect x="76.9" y="396.0" width="506.2" height="16.0" rx="3" fill="none" stroke="#0f8b8d" stroke-width="1.5" />
+<text x="593.1" y="409.0" font-size="13.5" font-weight="800" fill="#0f8b8d" text-anchor="start" >Node 1 v1.1: 1.315.235 byte = 66 %</text>
+<text x="1106.2" y="322.0" font-size="12.5" font-weight="700" fill="#4a5568" text-anchor="middle" >SPIFFS 128 KB</text>
+<rect x="60.0" y="450.0" width="1080.0" height="156.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="84.0" y="482.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >Bagian abu-abu di ujung kiri: bootloader, tabel partisi, dan NVS 20 KB · letaknya SAMA di kedua skema:</text>
+<text x="84.0" y="506.0" font-size="14.5" font-weight="600" fill="#4a5568" text-anchor="start" >ambang siram, angka "Nyala ke-", dan WiFi tersimpan tidak hilang saat skemanya diganti.</text>
+<text x="84.0" y="530.0" font-size="14.5" font-weight="600" fill="#4a5568" text-anchor="start" >Abu-abu kecil di ujung kanan: coredump 64 KB, catatan sistem saat program mogok, juga sama di kedua skema.</text>
+<text x="84.0" y="560.0" font-size="14.5" font-weight="600" fill="#4a5568" text-anchor="start" >Dua rak program = jalan untuk OTA (Modul 28): program baru dikirim lewat WiFi ke rak yang kosong.</text>
+<text x="84.0" y="588.0" font-size="14.5" font-weight="700" fill="#b45f17" text-anchor="start" >Menu Partition Scheme tidak ada di pilihan papan DOIT ESP32 DEVKIT V1: pakai ESP32 Dev Module (bagian Tambahan, langkah A).</text>
+<text x="1178.0" y="632.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="640" viewBox="0 0 1200 640" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="640" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >HTTP, HTTPS dengan setInsecure(), dan HTTPS yang diperiksa</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Dua pelindung HTTPS: amplop tersegel (enkripsi) dan kartu identitas server (sertifikat)</text>
+<rect x="50.0" y="110.0" width="352.0" height="440.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="226.0" y="146.0" font-size="18" font-weight="800" fill="#1e2a4a" text-anchor="middle" >HTTP polos</text>
+<text x="226.0" y="172.0" font-size="14" font-weight="600" fill="#4a5568" text-anchor="middle" >kartu pos</text>
+<rect x="178.0" y="200.0" width="96.0" height="62.0" rx="4" fill="#ffffff" stroke="#1e2a4a" stroke-width="2" />
+<line x1="188.0" y1="214.0" x2="238.0" y2="214.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<line x1="188.0" y1="225.0" x2="238.0" y2="225.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<line x1="188.0" y1="236.0" x2="238.0" y2="236.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<line x1="188.0" y1="247.0" x2="238.0" y2="247.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<rect x="248.0" y="208.0" width="18.0" height="22.0" rx="2" fill="none" stroke="#1e2a4a" stroke-width="1.5" />
+<circle cx="84.0" cy="312.0" r="11" fill="#e63946" />
+<path d="M79.5 307.5 L88.5 316.5 M88.5 307.5 L79.5 316.5" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="104.0" y="317.0" font-size="14.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >isi aman dari penguping</text>
+<circle cx="84.0" cy="356.0" r="11" fill="#e63946" />
+<path d="M79.5 351.5 L88.5 360.5 M88.5 351.5 L79.5 360.5" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="104.0" y="361.0" font-size="14.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >identitas server diperiksa</text>
+<line x1="70.0" y1="392.0" x2="382.0" y2="392.0" stroke="#e0dcd2" stroke-width="1.5" stroke-linecap="round" />
+<text x="72.0" y="420.0" font-size="13.5" font-weight="800" fill="#4a5568" text-anchor="start" >Dipakai untuk:</text>
+<text x="72.0" y="444.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="start" >ESP32 → laptopmu, di rumah</text>
+<text x="72.0" y="480.0" font-size="13.5" font-weight="800" fill="#4a5568" text-anchor="start" >Sampai kapan:</text>
+<text x="72.0" y="504.0" font-size="14" font-weight="700" fill="#1e2a4a" text-anchor="start" >sampai Fase 3 dan 5</text>
+<rect x="426.0" y="110.0" width="352.0" height="440.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="602.0" y="146.0" font-size="18" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >HTTPS + setInsecure()</text>
+<text x="602.0" y="172.0" font-size="14" font-weight="600" fill="#4a5568" text-anchor="middle" >amplop tersegel, kurir tidak dicek</text>
+<rect x="554.0" y="200.0" width="96.0" height="62.0" rx="6" fill="#ffffff" stroke="#1e2a4a" stroke-width="2" />
+<path d="M554 202 L602 236 L650 202" fill="none" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="602.0" cy="236.0" r="10" fill="#b45f17" />
+<circle cx="602.0" cy="236.0" r="5.5" fill="none" stroke="#f4a261" stroke-width="1.6" />
+<text x="694.0" y="238.0" font-size="30" font-weight="800" fill="#b45f17" text-anchor="middle" >?</text>
+<circle cx="460.0" cy="312.0" r="11" fill="#2a9d5c" />
+<path d="M455 312 L458.5 316 L465.5 307.5" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="480.0" y="317.0" font-size="14.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >isi aman dari penguping</text>
+<circle cx="460.0" cy="356.0" r="11" fill="#e63946" />
+<path d="M455.5 351.5 L464.5 360.5 M464.5 351.5 L455.5 360.5" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="480.0" y="361.0" font-size="14.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >identitas server diperiksa</text>
+<line x1="446.0" y1="392.0" x2="758.0" y2="392.0" stroke="#e0dcd2" stroke-width="1.5" stroke-linecap="round" />
+<text x="448.0" y="420.0" font-size="13.5" font-weight="800" fill="#4a5568" text-anchor="start" >Dipakai untuk:</text>
+<text x="448.0" y="444.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="start" >ESP32 → API publik (Open-Meteo)</text>
+<text x="448.0" y="480.0" font-size="13.5" font-weight="800" fill="#4a5568" text-anchor="start" >Sampai kapan:</text>
+<text x="448.0" y="504.0" font-size="14" font-weight="700" fill="#b45f17" text-anchor="start" >SEMENTARA, sampai Modul 27</text>
+<rect x="802.0" y="110.0" width="352.0" height="440.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="978.0" y="146.0" font-size="18" font-weight="800" fill="#1e2a4a" text-anchor="middle" >HTTPS diperiksa</text>
+<text x="978.0" y="172.0" font-size="14" font-weight="600" fill="#4a5568" text-anchor="middle" >amplop tersegel + kartu identitas</text>
+<rect x="930.0" y="200.0" width="96.0" height="62.0" rx="6" fill="#ffffff" stroke="#1e2a4a" stroke-width="2" />
+<path d="M930 202 L978 236 L1026 202" fill="none" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="978.0" cy="236.0" r="10" fill="#b45f17" />
+<circle cx="978.0" cy="236.0" r="5.5" fill="none" stroke="#f4a261" stroke-width="1.6" />
+<rect x="1038.0" y="214.0" width="52.0" height="34.0" rx="4" fill="#ffffff" stroke="#0f8b8d" stroke-width="2" />
+<circle cx="1052.0" cy="228.0" r="6" fill="none" stroke="#0f8b8d" stroke-width="1.8" />
+<line x1="1062.0" y1="224.0" x2="1082.0" y2="224.0" stroke="#0f8b8d" stroke-width="1.8" stroke-linecap="round" />
+<line x1="1062.0" y1="234.0" x2="1078.0" y2="234.0" stroke="#0f8b8d" stroke-width="1.8" stroke-linecap="round" />
+<circle cx="1086.0" cy="252.0" r="9" fill="#2a9d5c" />
+<path d="M1081 252 L1084.5 256 L1091.5 247.5" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="836.0" cy="312.0" r="11" fill="#2a9d5c" />
+<path d="M831 312 L834.5 316 L841.5 307.5" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="856.0" y="317.0" font-size="14.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >isi aman dari penguping</text>
+<circle cx="836.0" cy="356.0" r="11" fill="#2a9d5c" />
+<path d="M831 356 L834.5 360 L841.5 351.5" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="856.0" y="361.0" font-size="14.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >identitas server diperiksa</text>
+<line x1="822.0" y1="392.0" x2="1134.0" y2="392.0" stroke="#e0dcd2" stroke-width="1.5" stroke-linecap="round" />
+<text x="824.0" y="420.0" font-size="13.5" font-weight="800" fill="#4a5568" text-anchor="start" >Dipakai untuk:</text>
+<text x="824.0" y="444.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="start" >semua yang terbuka ke internet</text>
+<text x="824.0" y="480.0" font-size="13.5" font-weight="800" fill="#4a5568" text-anchor="start" >Sampai kapan:</text>
+<text x="824.0" y="504.0" font-size="14" font-weight="700" fill="#1e2a4a" text-anchor="start" >mulai Modul 27</text>
+<text x="600.0" y="588.0" font-size="14" font-weight="700" fill="#4a5568" text-anchor="middle" >setInsecure() menjaga isi surat, tetapi siapa pun yang menyamar sebagai server tetap diterima. Jangan dipakai untuk kata sandi atau perintah.</text>
+<text x="1178.0" y="626.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

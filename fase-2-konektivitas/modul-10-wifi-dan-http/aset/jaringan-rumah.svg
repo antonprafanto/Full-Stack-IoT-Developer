@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="640" viewBox="0 0 1200 640" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="640" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Jaringan rumah = perumahan berpagar</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Router membagikan nomor rumah (alamat IP lokal); setiap perangkat punya nomor KTP (alamat MAC)</text>
+<rect x="40.0" y="104.0" width="760.0" height="470.0" rx="18" fill="#ffffff" stroke="#9aa3b0" stroke-width="2" stroke-dasharray="10 7"/>
+<text x="64.0" y="134.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="start" >Di dalam pagar: jaringan rumahmu (blok 192.168.1.x)</text>
+<rect x="70.0" y="148.0" width="350.0" height="112.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<rect x="92.0" y="189.0" width="40.0" height="26.0" rx="3" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<path d="M86 219 L138 219" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="152.0" y="182.0" font-size="18" font-weight="800" fill="#1e2a4a" text-anchor="start" >Laptop</text>
+<text x="152.0" y="210.0" font-size="16" font-weight="700" fill="#0f8b8d" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">IP 192.168.1.10</text>
+<text x="152.0" y="236.0" font-size="14" font-weight="600" fill="#4a5568" text-anchor="start" >penerima-webhook.js, port 3000</text>
+<rect x="70.0" y="288.0" width="350.0" height="112.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<rect x="101.0" y="325.0" width="22.0" height="38.0" rx="5" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<circle cx="112.0" cy="357.0" r="1.8" fill="#1e2a4a" />
+<text x="152.0" y="322.0" font-size="18" font-weight="800" fill="#1e2a4a" text-anchor="start" >HP</text>
+<text x="152.0" y="350.0" font-size="16" font-weight="700" fill="#0f8b8d" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">IP 192.168.1.42</text>
+<text x="152.0" y="376.0" font-size="14" font-weight="600" fill="#4a5568" text-anchor="start" >browser untuk /on dan /off</text>
+<rect x="70.0" y="428.0" width="350.0" height="112.0" rx="12" fill="#eef1f5" stroke="#e0dcd2" stroke-width="1.5" />
+<rect x="97.0" y="464.0" width="30.0" height="40.0" rx="3" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<rect x="103.0" y="470.0" width="18.0" height="14.0" rx="2" fill="none" stroke="#1e2a4a" stroke-width="1.6" />
+<line x1="97.0" y1="474.0" x2="92.0" y2="474.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="127.0" y1="474.0" x2="132.0" y2="474.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="97.0" y1="482.0" x2="92.0" y2="482.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="127.0" y1="482.0" x2="132.0" y2="482.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="97.0" y1="490.0" x2="92.0" y2="490.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="127.0" y1="490.0" x2="132.0" y2="490.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="97.0" y1="498.0" x2="92.0" y2="498.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="127.0" y1="498.0" x2="132.0" y2="498.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<text x="152.0" y="462.0" font-size="18" font-weight="800" fill="#1e2a4a" text-anchor="start" >ESP32 (Node 1)</text>
+<text x="152.0" y="490.0" font-size="16" font-weight="700" fill="#0f8b8d" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">IP 192.168.1.23</text>
+<text x="152.0" y="516.0" font-size="14" font-weight="600" fill="#4a5568" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" >MAC A4:CF:12:E5:B7:C0</text>
+<text x="152.0" y="562.0" font-size="14" font-weight="700" fill="#b45f17" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" >→ device_id a4cf12e5b7c0 (Lampiran A)</text>
+<rect x="560.0" y="240.0" width="216.0" height="216.0" rx="14" fill="#ffffff" stroke="#1e2a4a" stroke-width="2.2" />
+<rect x="644.0" y="276.0" width="48.0" height="18.0" rx="4" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<line x1="656.0" y1="276.0" x2="650.0" y2="260.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<line x1="680.0" y1="276.0" x2="686.0" y2="260.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<circle cx="656.0" cy="285.0" r="1.8" fill="#1e2a4a" />
+<circle cx="664.0" cy="285.0" r="1.8" fill="#1e2a4a" />
+<circle cx="672.0" cy="285.0" r="1.8" fill="#1e2a4a" />
+<text x="668.0" y="324.0" font-size="19" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Router</text>
+<text x="668.0" y="346.0" font-size="14" font-weight="600" fill="#4a5568" text-anchor="middle" >"pos satpam"</text>
+<text x="668.0" y="374.0" font-size="16" font-weight="700" fill="#0f8b8d" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">192.168.1.1</text>
+<text x="668.0" y="394.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="middle" >gateway</text>
+<text x="668.0" y="418.0" font-size="13" font-weight="700" fill="#2f6fd1" text-anchor="middle" >DHCP: membagi nomor</text>
+<text x="668.0" y="440.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="middle" >gerbang ke internet →</text>
+<line x1="420.0" y1="204.0" x2="560.0" y2="348.0" stroke="#b8c0cc" stroke-width="2" stroke-linecap="round" stroke-dasharray="6 6" />
+<line x1="420.0" y1="344.0" x2="560.0" y2="348.0" stroke="#b8c0cc" stroke-width="2" stroke-linecap="round" stroke-dasharray="6 6" />
+<line x1="420.0" y1="484.0" x2="560.0" y2="348.0" stroke="#b8c0cc" stroke-width="2" stroke-linecap="round" stroke-dasharray="6 6" />
+<text x="497.0" y="322.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="middle" >WiFi</text>
+<rect x="794.0" y="330.0" width="12.0" height="36.0" rx="0" fill="#fffdf7" />
+<line x1="776.0" y1="348.0" x2="856.0" y2="348.0" stroke="#1e2a4a" stroke-width="3" stroke-linecap="round" />
+<rect x="856.0" y="184.0" width="304.0" height="330.0" rx="16" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="1008.0" y="216.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Internet (di luar pagar)</text>
+<text x="1008.0" y="246.0" font-size="13.5" font-weight="600" fill="#4a5568" text-anchor="middle" >alamat perumahanmu di jalan raya:</text>
+<text x="1008.0" y="270.0" font-size="15" font-weight="700" fill="#b45f17" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">203.0.113.7  (IP publik)</text>
+<rect x="880.0" y="300.0" width="256.0" height="76.0" rx="10" fill="#eef1f5" />
+<rect x="896.0" y="318.0" width="36.0" height="11.0" rx="2" fill="none" stroke="#1e2a4a" stroke-width="1.8" />
+<circle cx="903.0" cy="323.5" r="1.6" fill="#1e2a4a" />
+<rect x="896.0" y="332.0" width="36.0" height="11.0" rx="2" fill="none" stroke="#1e2a4a" stroke-width="1.8" />
+<circle cx="903.0" cy="337.5" r="1.6" fill="#1e2a4a" />
+<rect x="896.0" y="346.0" width="36.0" height="11.0" rx="2" fill="none" stroke="#1e2a4a" stroke-width="1.8" />
+<circle cx="903.0" cy="351.5" r="1.6" fill="#1e2a4a" />
+<text x="944.0" y="332.0" font-size="14" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">api.open-meteo.com</text>
+<text x="944.0" y="356.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="start" >server cuaca (Praktik 6)</text>
+<rect x="880.0" y="394.0" width="256.0" height="76.0" rx="10" fill="#eef1f5" />
+<rect x="896.0" y="412.0" width="36.0" height="11.0" rx="2" fill="none" stroke="#1e2a4a" stroke-width="1.8" />
+<circle cx="903.0" cy="417.5" r="1.6" fill="#1e2a4a" />
+<rect x="896.0" y="426.0" width="36.0" height="11.0" rx="2" fill="none" stroke="#1e2a4a" stroke-width="1.8" />
+<circle cx="903.0" cy="431.5" r="1.6" fill="#1e2a4a" />
+<rect x="896.0" y="440.0" width="36.0" height="11.0" rx="2" fill="none" stroke="#1e2a4a" stroke-width="1.8" />
+<circle cx="903.0" cy="445.5" r="1.6" fill="#1e2a4a" />
+<text x="944.0" y="426.0" font-size="14" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">pool.ntp.org</text>
+<text x="944.0" y="450.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="start" >server jam (Praktik 5)</text>
+<text x="1008.0" y="498.0" font-size="13" font-weight="700" fill="#2f6fd1" text-anchor="middle" >nama → nomor: tanya DNS</text>
+<text x="420.0" y="612.0" font-size="14.5" font-weight="700" fill="#4a5568" text-anchor="middle" >Surat dari internet hanya sampai di pos satpam. Orang di luar tidak bisa langsung mengetuk ESP32-mu.</text>
+<text x="1178.0" y="626.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

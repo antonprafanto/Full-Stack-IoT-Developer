@@ -7,6 +7,7 @@
 #include "pencatat.h"
 #include "sistem.h"
 #include "pengaturan.h"
+#include "jaringan.h"  // Modul 10: teksJaringan()
 #include "layar.h"
 
 const byte ALAMAT_LAYAR = 0x3C;                   // alamat layar OLED di bus I2C
@@ -188,7 +189,7 @@ static void gambarHalamanStatus() {
   snprintf(teks, sizeof(teks), "Nyala ke-%lu", jumlahNyala());
   layar.setCursor(0, 38);
   layar.print(teks);
-  snprintf(teks, sizeof(teks), "Ambang tanah: %d%%", ambangTanahSiram());  // %% = tanda persen
+  snprintf(teks, sizeof(teks), "WiFi %s", teksJaringan());  // Modul 10: alamat IP Node 1, "putus", atau "mati"
   layar.setCursor(0, 47);
   layar.print(teks);
   snprintf(teks, sizeof(teks), "v%s  bebas %luKB", VERSI_FIRMWARE, ESP.getFreeHeap() / 1024);
@@ -232,4 +233,24 @@ void perbaruiLayar() {
   if (sekarang - waktuStatusDigambar >= 1000) {
     gambarHalamanStatus();  // gambar ulang setiap 1 detik supaya jam uptime berdetak
   }
+}
+
+// ---------- Modul 10: pesan singkat empat baris ----------
+// Misalnya petunjuk portal WiFi. Halaman bacaan kembali tampil bersama bacaan berikutnya.
+void tampilkanPesan(const char* judul, const char* baris2, const char* baris3, const char* baris4) {
+  if (!layarAda) {
+    return;
+  }
+  layar.clearDisplay();
+  layar.setTextSize(1);
+  layar.setCursor(0, 0);
+  layar.print(judul);
+  layar.drawFastHLine(0, 11, 128, SSD1306_WHITE);  // garis pemisah di bawah judul
+  layar.setCursor(0, 18);
+  layar.print(baris2);
+  layar.setCursor(0, 30);
+  layar.print(baris3);
+  layar.setCursor(0, 46);
+  layar.print(baris4);
+  layar.display();
 }
