@@ -2410,7 +2410,7 @@ Inilah uji yang sama dengan Praktik 3, tetapi kali ini untuk Node 1 lengkap. **B
 | ***Gateway*** (gerbang) | Alamat router itu sendiri, misalnya `192.168.1.1`. Surat ke luar jaringan dititipkan ke sini. |
 | ***Subnet mask*** (penanda blok) | Menentukan bagian depan alamat yang harus sama supaya dua perangkat dianggap bertetangga, misalnya `255.255.255.0`. |
 | **Alamat MAC** | "Nomor KTP" perangkat yang dicetak pabrik, misalnya `A4:CF:12:E5:B7:C0`. |
-| **`device_id`** | Identitas Node 1 di proyek ini: 12 huruf heksadesimal kecil dari alamat MAC, misalnya `a4cf12e5b7c0` (Lampiran A). |
+| **`device_id`** | Identitas Node 1 di proyek ini: 12 digit heksadesimal (huruf kecil) dari alamat MAC, misalnya `a4cf12e5b7c0` (Lampiran A). |
 | **DNS** | "Buku telepon" jaringan yang menerjemahkan nama, misalnya `api.open-meteo.com`, menjadi alamat IP. |
 | **SSID** | Nama jaringan WiFi. Huruf besar-kecilnya harus sama persis. |
 | **2,4 GHz dan 5 GHz** | Dua jalur frekuensi WiFi. ESP32 di papan DevKit V1 hanya bisa memakai 2,4 GHz. |
