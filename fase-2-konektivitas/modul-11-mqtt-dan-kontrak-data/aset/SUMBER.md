@@ -1,0 +1,22 @@
+# Sumber & atribusi gambar — Modul 11
+
+Rekap semua gambar di folder ini. Diagram dan ilustrasi orisinal kurikulum berlisensi **CC BY 4.0**, dan file `.svg`-nya disertakan agar bisa diubah. Semua sumber diakses Oktober 2026.
+
+| File | Jenis | Sumber | Lisensi / catatan |
+| :--- | :--- | :--- | :--- |
+| `peta-jalan-modul-11.png` / `.svg` | Diagram orisinal: posisi Modul 11 di kurikulum dan sebelas hal yang dikerjakan minggu ini | Kurikulum Fullstack IoT Developer | CC BY 4.0 |
+| `surat-vs-grup.png` / `.svg` | Diagram orisinal: HTTP (Modul 10) sebagai surat pribadi dan MQTT sebagai grup obrolan. Ukuran kepala surat HTTP dari surat Praktik 7 Modul 10; ukuran paket MQTT dari standar [MQTT 3.1.1](https://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html) | Kurikulum Fullstack IoT Developer | CC BY 4.0 |
+| `pubsub-grup.png` / `.svg` | Diagram orisinal: *publish/subscribe* dengan analogi grup WhatsApp; topik mengikuti kontrak data Lampiran A | Kurikulum Fullstack IoT Developer | CC BY 4.0 |
+| `mosquitto-pintu.png` / `.svg` | Diagram orisinal: mode lokal saja Mosquitto 2.x dan dua baris konfigurasi. Teks peringatan dari kode sumber [Mosquitto](https://github.com/eclipse-mosquitto/mosquitto/tree/v2.1.2) 2.1.2; dua baris konfigurasi dari halaman [Authentication methods](https://mosquitto.org/documentation/authentication-methods/) | Kurikulum Fullstack IoT Developer | CC BY 4.0 |
+| `pohon-topik.png` / `.svg` | Diagram orisinal: pohon topik `rpm/…` dan langganan dengan *wildcard*; aturan *wildcard* dan `$SYS` dari standar MQTT 3.1.1 (bagian 4.7) | Kurikulum Fullstack IoT Developer | CC BY 4.0 |
+| `kontrak-lima-topik.png` / `.svg` | Diagram orisinal: lima topik kontrak data dan contoh isinya, sesuai Lampiran A dan `KONTRAK-DATA.md` | Kurikulum Fullstack IoT Developer | CC BY 4.0 |
+| `qos-tiga-tingkat.png` / `.svg` | Diagram orisinal: alur paket QoS 0, 1, dan 2 dari standar MQTT 3.1.1 (bagian 4.3); kemampuan QoS PubSubClient3 dari kode sumber [PubSubClient3](https://github.com/hmueller01/pubsubclient3/tree/v3.3.2) 3.3.2 | Kurikulum Fullstack IoT Developer | CC BY 4.0 |
+| `retained-wasiat-detak.png` / `.svg` | Diagram orisinal: pesan *retained*, *Last Will*, dan *keep-alive* pada garis waktu; aturan 1,5 kali *keep-alive* dari standar MQTT 3.1.1, *keep-alive* 15 detik dari PubSubClient3 3.3.2 | Kurikulum Fullstack IoT Developer | CC BY 4.0 |
+| `kapan-kirim.png` / `.svg` | Diagram orisinal: jadwal 10 detik dan kiriman segera (*report-by-exception*) dengan jeda paling sedikit 2 detik, sesuai sketsa Praktik 7 dan Node 1 v1.2 | Kurikulum Fullstack IoT Developer | CC BY 4.0 |
+| `perintah-ack.png` / `.svg` | Diagram orisinal: urutan perintah `cmd` dan jawaban `ack`; waktu pulang-pergi di Wokwi dari uji modul ini | Kurikulum Fullstack IoT Developer | CC BY 4.0 |
+| `wadah-256.png` / `.svg` | Diagram orisinal: paket masuk yang melebihi wadah 256 byte dibuang; perilaku dari kode sumber PubSubClient3 3.3.2 (`readPacket()`), ukuran paket dihitung menurut standar MQTT 3.1.1 | Kurikulum Fullstack IoT Developer | CC BY 4.0 |
+| `tidak-macet.png` / `.svg` | Diagram orisinal: tiga cara menunggu broker yang mati atau macet; batas waktu bawaan dari kode sumber PubSubClient3 3.3.2 dan `NetworkClient` paket [arduino-esp32](https://github.com/espressif/arduino-esp32/tree/3.3.12) 3.3.12; *watchdog* 5 detik dari Modul 8 | Kurikulum Fullstack IoT Developer | CC BY 4.0 |
+| `peta-file-node1-v12.png` / `.svg` | Diagram orisinal: 26 file Node 1 v1.2, file yang ditulis ulang dan file yang berubah | Kurikulum Fullstack IoT Developer | CC BY 4.0 |
+| `diagram-pubsub-proyek.png` / `.svg` | Diagram orisinal: contoh diagram *pub/sub* proyek untuk Praktik 9 | Kurikulum Fullstack IoT Developer | CC BY 4.0 |
+| `mqttx-kc.png` / `.svg` | Ilustrasi orisinal tampilan MQTTX 1.13.1 (bukan tangkapan layar): sambungan ke broker publik, langganan, gelembung pesan, dan kotak kirim. Label antarmuka dari kode sumber [MQTTX](https://github.com/emqx/MQTTX/tree/v1.13.1) 1.13.1 (© EMQ Technologies, lisensi Apache 2.0); kode topik dan jam hanya contoh | Kurikulum Fullstack IoT Developer | CC BY 4.0 untuk susunan dan penanda |
+| `mqttx-sambungan-laptop.png` / `.svg` | Ilustrasi orisinal tampilan MQTTX 1.13.1 (bukan tangkapan layar): formulir sambungan baru ke broker di laptop. Label antarmuka dari kode sumber [MQTTX](https://github.com/emqx/MQTTX/tree/v1.13.1) 1.13.1 (© EMQ Technologies, lisensi Apache 2.0); nama klien (Client ID) hanya contoh | Kurikulum Fullstack IoT Developer | CC BY 4.0 untuk susunan dan penanda |

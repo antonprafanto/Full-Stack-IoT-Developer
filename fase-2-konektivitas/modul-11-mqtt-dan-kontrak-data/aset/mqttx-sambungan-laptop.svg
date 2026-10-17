@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="700" fill="#fffdf7"/>
+<text x="600.0" y="40.0" font-size="24" font-weight="800" fill="#1e2a4a" text-anchor="middle" >MQTTX: sambungan baru ke broker di laptop</text>
+<text x="600.0" y="72.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Praktik 2.3 · yang diubah hanya Name dan Host; kolom lain biarkan apa adanya</text>
+<rect x="44.0" y="102.0" width="1120.0" height="560.0" rx="8" fill="#000000" opacity="0.10"/>
+<rect x="40.0" y="96.0" width="1120.0" height="560.0" rx="6" fill="#ffffff" stroke="#c3c9d1" stroke-width="1.2" />
+<rect x="40.0" y="96.0" width="1120.0" height="30.0" rx="6" fill="#f2f3f5" />
+<rect x="40.0" y="116.0" width="1120.0" height="10.0" rx="0" fill="#f2f3f5" />
+<line x1="40.0" y1="126.0" x2="1160.0" y2="126.0" stroke="#dfe3e8" stroke-width="1" stroke-linecap="round" />
+<text x="54.0" y="116.0" font-size="12.5" font-weight="600" fill="#6b7280" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" xml:space="preserve">MQTTX</text>
+<text x="1068.0" y="116.0" font-size="12" font-weight="400" fill="#6b7280" text-anchor="middle" >—</text>
+<text x="1100.0" y="116.0" font-size="12" font-weight="400" fill="#6b7280" text-anchor="middle" >☐</text>
+<text x="1132.0" y="116.0" font-size="12" font-weight="400" fill="#6b7280" text-anchor="middle" >✕</text>
+<rect x="40.0" y="127.0" width="56.0" height="529.0" rx="0" fill="#262a33" />
+<rect x="54.0" y="142.0" width="28.0" height="28.0" rx="6" fill="#34c388" />
+<text x="68.0" y="162.0" font-size="15" font-weight="800" fill="#ffffff" text-anchor="middle" >X</text>
+<rect x="60.0" y="192.0" width="16.0" height="16.0" rx="4" fill="none" stroke="#6b7380" stroke-width="1.3" />
+<rect x="60.0" y="236.0" width="16.0" height="16.0" rx="4" fill="none" stroke="#6b7380" stroke-width="1.3" />
+<rect x="60.0" y="280.0" width="16.0" height="16.0" rx="4" fill="none" stroke="#6b7380" stroke-width="1.3" />
+<rect x="60.0" y="324.0" width="16.0" height="16.0" rx="4" fill="none" stroke="#6b7380" stroke-width="1.3" />
+<rect x="60.0" y="368.0" width="16.0" height="16.0" rx="4" fill="none" stroke="#6b7380" stroke-width="1.3" />
+<line x1="68.0" y1="239.0" x2="68.0" y2="249.0" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+<line x1="63.0" y1="244.0" x2="73.0" y2="244.0" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+<line x1="96.0" y1="172.0" x2="1160.0" y2="172.0" stroke="#dfe3e8" stroke-width="1" stroke-linecap="round" />
+<text x="116.0" y="156.0" font-size="13" font-weight="600" fill="#6b7280" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" xml:space="preserve">‹ Back</text>
+<text x="192.0" y="156.0" font-size="15" font-weight="700" fill="#202124" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" xml:space="preserve">New</text>
+<rect x="1030.0" y="138.0" width="104.0" height="30.0" rx="5" fill="#34c388" />
+<text x="1082.0" y="158.0" font-size="13.5" font-weight="700" fill="#ffffff" text-anchor="middle" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" xml:space="preserve">Connect</text>
+<circle cx="1028.0" cy="138.0" r="13" fill="#b45f17" stroke="#ffffff" stroke-width="2" />
+<text x="1028.0" y="143.0" font-size="14" font-weight="800" fill="#ffffff" text-anchor="middle" >3</text>
+<text x="136.0" y="204.0" font-size="14" font-weight="700" fill="#6b7280" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" xml:space="preserve">General</text>
+<rect x="136.0" y="216.0" width="640.0" height="284.0" rx="8" fill="#ffffff" stroke="#dfe3e8" stroke-width="1.2" />
+<text x="268.0" y="253.0" font-size="13" font-weight="400" fill="#202124" text-anchor="end" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" xml:space="preserve">* Name</text>
+<rect x="286.0" y="234.0" width="470.0" height="28.0" rx="4" fill="#ffffff" stroke="#b45f17" stroke-width="1.2" />
+<text x="296.0" y="252.7" font-size="13" font-weight="400" fill="#202124" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" xml:space="preserve">Broker laptop</text>
+<circle cx="768.0" cy="236.0" r="13" fill="#b45f17" stroke="#ffffff" stroke-width="2" />
+<text x="768.0" y="241.0" font-size="14" font-weight="800" fill="#ffffff" text-anchor="middle" >1</text>
+<text x="268.0" y="293.0" font-size="13" font-weight="400" fill="#202124" text-anchor="end" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" xml:space="preserve">* Host</text>
+<rect x="286.0" y="274.0" width="100.0" height="28.0" rx="4" fill="#ffffff" stroke="#dfe3e8" stroke-width="1.2" />
+<text x="296.0" y="292.5" font-size="12.5" font-weight="400" fill="#202124" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" xml:space="preserve">mqtt://</text>
+<path d="M368 285.0 L373 290.0 L378 285.0" fill="none" stroke="#6b7280" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="394.0" y="274.0" width="362.0" height="28.0" rx="4" fill="#ffffff" stroke="#b45f17" stroke-width="1.8" />
+<text x="404.0" y="293.0" font-size="13" font-weight="600" fill="#202124" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">127.0.0.1</text>
+<text x="516.0" y="293.0" font-size="12" font-weight="400" fill="#6b7280" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" xml:space="preserve">(semula: broker.emqx.io)</text>
+<circle cx="768.0" cy="276.0" r="13" fill="#b45f17" stroke="#ffffff" stroke-width="2" />
+<text x="768.0" y="281.0" font-size="14" font-weight="800" fill="#ffffff" text-anchor="middle" >2</text>
+<text x="268.0" y="333.0" font-size="13" font-weight="400" fill="#202124" text-anchor="end" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" xml:space="preserve">* Port</text>
+<rect x="286.0" y="314.0" width="470.0" height="28.0" rx="4" fill="#ffffff" stroke="#dfe3e8" stroke-width="1.2" />
+<text x="296.0" y="332.7" font-size="13" font-weight="400" fill="#202124" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">1883</text>
+<text x="268.0" y="373.0" font-size="13" font-weight="400" fill="#202124" text-anchor="end" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" xml:space="preserve">Client ID</text>
+<rect x="286.0" y="354.0" width="470.0" height="28.0" rx="4" fill="#ffffff" stroke="#dfe3e8" stroke-width="1.2" />
+<text x="296.0" y="372.7" font-size="13" font-weight="400" fill="#202124" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">mqttx_3f9a1c2b</text>
+<text x="268.0" y="413.0" font-size="13" font-weight="400" fill="#202124" text-anchor="end" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" xml:space="preserve">Username</text>
+<rect x="286.0" y="394.0" width="470.0" height="28.0" rx="4" fill="#ffffff" stroke="#dfe3e8" stroke-width="1.2" />
+<text x="296.0" y="412.7" font-size="13" font-weight="400" fill="#202124" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" xml:space="preserve"></text>
+<text x="268.0" y="453.0" font-size="13" font-weight="400" fill="#202124" text-anchor="end" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" xml:space="preserve">Password</text>
+<rect x="286.0" y="434.0" width="470.0" height="28.0" rx="4" fill="#ffffff" stroke="#dfe3e8" stroke-width="1.2" />
+<text x="296.0" y="452.7" font-size="13" font-weight="400" fill="#202124" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" xml:space="preserve"></text>
+<text x="268.0" y="488.0" font-size="13" font-weight="400" fill="#202124" text-anchor="end" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" xml:space="preserve">SSL/TLS</text>
+<rect x="286.0" y="474.0" width="34.0" height="18.0" rx="9" fill="#d0d5dc" />
+<circle cx="296.0" cy="483.0" r="7" fill="#ffffff" />
+<text x="136.0" y="528.0" font-size="14" font-weight="700" fill="#6b7280" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" xml:space="preserve">Advanced</text>
+<rect x="136.0" y="540.0" width="640.0" height="104.0" rx="8" fill="#ffffff" stroke="#dfe3e8" stroke-width="1.2" />
+<text x="268.0" y="575.0" font-size="13" font-weight="400" fill="#202124" text-anchor="end" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" xml:space="preserve">MQTT Version</text>
+<rect x="286.0" y="556.0" width="160.0" height="28.0" rx="4" fill="#ffffff" stroke="#dfe3e8" stroke-width="1.2" />
+<text x="296.0" y="574.5" font-size="12.5" font-weight="400" fill="#202124" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" xml:space="preserve">5.0</text>
+<path d="M428 567.0 L433 572.0 L438 567.0" fill="none" stroke="#6b7280" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="268.0" y="617.0" font-size="13" font-weight="400" fill="#202124" text-anchor="end" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" xml:space="preserve">Keep Alive</text>
+<rect x="286.0" y="598.0" width="160.0" height="28.0" rx="4" fill="#ffffff" stroke="#dfe3e8" stroke-width="1.2" />
+<text x="296.0" y="616.7" font-size="13" font-weight="400" fill="#202124" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">60</text>
+<text x="454.0" y="617.0" font-size="12.5" font-weight="400" fill="#6b7280" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" xml:space="preserve">(s)</text>
+<text x="486.0" y="575.0" font-size="12" font-weight="400" fill="#6b7280" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" xml:space="preserve">MQTT 5.0 boleh dibiarkan: Mosquitto</text>
+<text x="486.0" y="593.0" font-size="12" font-weight="400" fill="#6b7280" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" xml:space="preserve">mengerti 3.1.1 (ESP32) dan 5.0 (MQTTX).</text>
+<rect x="806.0" y="216.0" width="334.0" height="284.0" rx="8" fill="#fbfbfc" stroke="#dfe3e8" stroke-width="1" />
+<text x="822.0" y="530.0" font-size="12" font-weight="400" fill="#6b7280" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" xml:space="preserve">Kolom Advanced lain (Connect Timeout,</text>
+<text x="822.0" y="548.0" font-size="12" font-weight="400" fill="#6b7280" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" xml:space="preserve">Auto Reconnect, Clean Start, …) tidak</text>
+<text x="822.0" y="566.0" font-size="12" font-weight="400" fill="#6b7280" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" xml:space="preserve">digambar: biarkan apa adanya.</text>
+<circle cx="830.0" cy="242.0" r="13" fill="#b45f17" stroke="#ffffff" stroke-width="2" />
+<text x="830.0" y="247.0" font-size="14" font-weight="800" fill="#ffffff" text-anchor="middle" >1</text>
+<text x="852.0" y="247.0" font-size="13.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" xml:space="preserve">Name</text>
+<text x="852.0" y="268.0" font-size="12.5" font-weight="400" fill="#202124" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" xml:space="preserve">nama bebas, hanya untukmu:</text>
+<text x="852.0" y="286.0" font-size="12.5" font-weight="400" fill="#202124" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" xml:space="preserve">Broker laptop</text>
+<circle cx="830.0" cy="322.0" r="13" fill="#b45f17" stroke="#ffffff" stroke-width="2" />
+<text x="830.0" y="327.0" font-size="14" font-weight="800" fill="#ffffff" text-anchor="middle" >2</text>
+<text x="852.0" y="327.0" font-size="13.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" xml:space="preserve">Host</text>
+<text x="852.0" y="348.0" font-size="12.5" font-weight="400" fill="#202124" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" xml:space="preserve">ganti broker.emqx.io dengan</text>
+<text x="852.0" y="366.0" font-size="12.5" font-weight="400" fill="#202124" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" xml:space="preserve">127.0.0.1 = laptop ini sendiri</text>
+<text x="852.0" y="384.0" font-size="12.5" font-weight="400" fill="#202124" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" xml:space="preserve">(Praktik 2.4: alamat IP laptop)</text>
+<circle cx="830.0" cy="420.0" r="13" fill="#b45f17" stroke="#ffffff" stroke-width="2" />
+<text x="830.0" y="425.0" font-size="14" font-weight="800" fill="#ffffff" text-anchor="middle" >3</text>
+<text x="852.0" y="425.0" font-size="13.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" xml:space="preserve">Connect</text>
+<text x="852.0" y="446.0" font-size="12.5" font-weight="400" fill="#202124" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" xml:space="preserve">lalu tunggu pemberitahuan Connected</text>
+<text x="1178.0" y="686.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0 · ilustrasi, bukan tangkapan layar (MQTTX 1.13.1)</text>
+</svg>

@@ -2,27 +2,38 @@
 #include <Arduino.h>
 #include <esp_mac.h>  // esp_read_mac(): alamat MAC langsung dari chip
 #include <WiFi.h>
-#include <WiFiManager.h>  // library WiFiManager: portal WiFi (Praktik 4)
-#include <WebServer.h>
-#include <ESPmDNS.h>
-#include <HTTPClient.h>
-#include <ArduinoJson.h>  // library ArduinoJson (Praktik 6)
+#include <WiFiManager.h>   // library WiFiManager: portal WiFi (Modul 10)
+#include <PubSubClient.h>  // library PubSubClient3: MQTT (Modul 11)
+#include <ArduinoJson.h>   // library ArduinoJson
 #include <time.h>
 #include "konfigurasi.h"
 #include "pencatat.h"
+#include "sistem.h"
+#include "pengaturan.h"
 #include "sensor.h"
 #include "aktuator.h"
 #include "layar.h"
 #include "jaringan.h"
 
+#ifndef MQTT_QOS1  // hanya PubSubClient3 yang punya nama ini
+#error "Yang terpakai PubSubClient lama (2.8). Hapus lewat Library Manager, lalu pasang PubSubClient3 versi 3.3.2."
+#endif
+
 const unsigned long BATAS_TANPA_PERCOBAAN = 60000;  // penjaga: 60 detik tanpa percobaan menyambung = suruh mencoba lagi
-const int BATAS_WAKTU_HTTP = 1500;                  // milidetik; menyambung + menunggu balasan tetap jauh di bawah 5 detik
+const unsigned long JEDA_COBA_MQTT = 5000;          // gagal menyambung ke broker? coba lagi 5 detik kemudian
+const unsigned long JEDA_SEGERA_MIN = 2000;         // kiriman segera paling sering setiap 2 detik
+const char BROKER_WOKWI[] = "broker.emqx.io";      // Wokwi tidak bisa menjangkau laptopmu: pakai broker publik
 
-static WebServer server(80);
-static char idPerangkat[13] = "";  // device_id: 12 huruf heksadesimal + tanda akhir teks (Lampiran A)
-static char alamatKirim[96] = "";  // ALAMAT_SERVER + "/rpm/<device_id>/telemetry"
+static WiFiClient klienJaringan;          // sambungan TCP ke broker
+static PubSubClient mqtt(klienJaringan);  // MQTT berjalan di atas sambungan itu
+static char idPerangkat[13] = "";  // device_id: 12 digit heksadesimal + tanda akhir teks (Lampiran A)
+static char topikTelemetry[40] = "";
+static char topikStatus[40] = "";
+static char topikVitals[40] = "";
+static char topikCmd[40] = "";
+static char topikAck[40] = "";
 
-// ---------- Bendera dari fungsi peristiwa WiFi (Praktik 3) ----------
+// ---------- Bendera dari fungsi peristiwa WiFi (Modul 10, Praktik 3) ----------
 static volatile bool benderaDapatIp = false;
 static volatile bool benderaPutus = false;
 static volatile uint8_t alasanPutus = 0;
@@ -30,17 +41,28 @@ static volatile unsigned long waktuPeristiwaTerakhir = 0;  // millis() saat peri
 
 static bool punyaWiFi = false;  // ada WiFi tersimpan (atau Wokwi-GUEST) yang dituju?
 static bool tersambung = false;
-static bool layananSudahMulai = false;  // jam internet dan nama node1.local dimulai sekali saja
+static bool layananSudahMulai = false;  // jam internet dimulai sekali saja
 static bool jamSudahDilaporkan = false;
 static unsigned long waktuPutus = 0;
 static unsigned long waktuPenjagaTerakhir = 0;
 
-// ---------- Kiriman ke server di laptop (Praktik 7) ----------
+// ---------- MQTT (Modul 11) ----------
+static bool mqttTersambung = false;
+static bool sudahCobaMqtt = false;
+static unsigned long waktuCobaMqttTerakhir = 0;
+static int kodeGagalTerakhir = 0;  // supaya kegagalan yang sama tidak dicatat setiap 5 detik
 static BacaanSensor bacaanKirim;
 static bool adaBacaan = false;
 static bool sudahPernahKirim = false;
 static unsigned long waktuKirimTerakhir = 0;
-static int kodeKirimTerakhir = 0;  // kode status kiriman terakhir; 0 = belum pernah mengirim
+static uint8_t keadaanTerakhir = 0;  // kejadian penting yang terakhir diketahui (lihat keadaanPenting())
+static bool keadaanDikenal = false;
+static const char* alasanSegera = nullptr;  // bukan nullptr = ada kejadian penting yang belum terkirim
+static bool sudahKirimVitals = false;
+static unsigned long waktuVitalsTerakhir = 0;
+static unsigned long jumlahTerbit = 0;
+static char idTerakhir[8][40];  // 8 id perintah terakhir yang sudah diterima (termasuk yang ditolak)
+static int posisiId = 0;
 
 // Dipanggil paket esp32 dari "petugas" WiFi, bukan dari loop(): cukup menaikkan bendera.
 static void saatPeristiwaWiFi(arduino_event_id_t peristiwa, arduino_event_info_t info) {
@@ -63,7 +85,21 @@ static const char* namaAlasan(uint8_t kode) {
   return nama;
 }
 
-// ---------- Cap waktu (Praktik 5) ----------
+// Arti angka mqtt.state() (Modul 11, Konsep 10). Angka 1-5 adalah jawaban broker sendiri.
+static const char* namaKeadaanMqtt(int kode) {
+  switch (kode) {
+    case -4: return "broker tidak menjawab tepat waktu";
+    case -3: return "sambungan terputus";
+    case -2: return "gagal tersambung ke broker";
+    case -1: return "belum tersambung";
+    case 0: return "tersambung";
+    case 4: return "nama pengguna atau kata sandi ditolak";
+    case 5: return "tidak diizinkan broker";
+    default: return "ditolak broker";
+  }
+}
+
+// ---------- Cap waktu (Modul 10, Praktik 5) ----------
 bool buatTs(char* ts, size_t ukuran) {
   time_t sekarang = time(nullptr);
   struct tm utc;
@@ -75,94 +111,7 @@ bool buatTs(char* ts, size_t ukuran) {
   return true;
 }
 
-// ---------- Server web: /, /on, dan /off (Praktik 8) ----------
-// Halaman siap tempel; tampilan yang cantik menunggu Modul 22.
-static const char HALAMAN[] = R"(<!DOCTYPE html>
-<html>
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Node 1 Rumah</title>
-</head>
-<body style="font-family: sans-serif; font-size: 20px; padding: 16px">
-<h2>Node 1 Rumah</h2>
-<p>Lampu: <b>%LAMPU%</b></p>
-<p><a href="/on">Nyalakan lampu</a></p>
-<p><a href="/off">Matikan lampu</a></p>
-<p>Suhu %SUHU%&nbsp;&deg;C, kelembapan %LEMBAP%&nbsp;%<br>
-Cahaya %CAHAYA%, tanah %TANAH%&nbsp;%<br>
-Air tandon %AIR%&nbsp;%</p>
-<p><small>Firmware %FW%, %JAM%</small></p>
-</body>
-</html>)";
-
-// Angka bacaan, atau "--" kalau bacaannya gagal (-1).
-static String angkaAtauStrip(int nilai) {
-  if (nilai < 0) {
-    return "--";
-  }
-  return String(nilai);
-}
-
-static void kirimHalaman() {
-  BacaanSensor b = bacaanTerakhir();
-  String html = HALAMAN;
-  if (lampuMenyala()) {
-    html.replace("%LAMPU%", "MENYALA");
-  } else {
-    html.replace("%LAMPU%", "PADAM");
-  }
-  String teksSuhu = "--";
-  if (!isnan(b.suhu)) {
-    teksSuhu = String(b.suhu, 1);
-  }
-  html.replace("%SUHU%", teksSuhu);
-  html.replace("%LEMBAP%", angkaAtauStrip(b.kelembapan));
-  html.replace("%CAHAYA%", String(b.cahaya));
-  html.replace("%TANAH%", String(b.tanah));
-  html.replace("%AIR%", angkaAtauStrip(b.level_air));
-  html.replace("%FW%", VERSI_FIRMWARE);
-
-  char jam[24] = "jam belum disetel";
-  time_t sekarang = time(nullptr);
-  struct tm lokal;
-  localtime_r(&sekarang, &lokal);
-  if (lokal.tm_year + 1900 >= 2025) {
-    strftime(jam, sizeof(jam), "%d-%m-%Y %H:%M %Z", &lokal);  // misalnya 17-10-2026 08:30 WIB
-  }
-  html.replace("%JAM%", jam);
-  server.send(200, "text/html", html);
-}
-
-static void tanganiBeranda() {
-  kirimHalaman();
-}
-
-static void tanganiOn() {
-  aturLampu(true);
-  logInfo("Browser %s: lampu on", server.client().remoteIP().toString().c_str());
-  kirimHalaman();
-}
-
-static void tanganiOff() {
-  aturLampu(false);
-  logInfo("Browser %s: lampu off", server.client().remoteIP().toString().c_str());
-  kirimHalaman();
-}
-
-static void tanganiTidakAda() {
-  server.send(404, "text/plain", "404: halaman ini tidak ada. Coba /, /on, atau /off");
-}
-
-static void siapkanServerWeb() {
-  server.on("/", tanganiBeranda);
-  server.on("/on", tanganiOn);
-  server.on("/off", tanganiOff);
-  server.onNotFound(tanganiTidakAda);
-  server.begin();
-}
-
-// ---------- Portal WiFi (Praktik 4) ----------
+// ---------- Portal WiFi (Modul 10, Praktik 4) ----------
 // Menunggu di sini boleh: dipanggil dari setup(), sebelum watchdog mengawasi loop().
 static void bukaPortal() {
   logInfo("Portal WiFi terbuka selama %lu detik: sambungkan HP ke WiFi \"%s\", lalu buka http://192.168.4.1",
@@ -191,20 +140,158 @@ static void bukaPortal() {
   punyaWiFi = wm.getWiFiIsSaved();
 }
 
+// ---------- Perintah lewat MQTT (Modul 11, Praktik 6) ----------
+static bool sudahDiterima(const char* id) {
+  for (int i = 0; i < 8; i++) {
+    if (strcmp(idTerakhir[i], id) == 0) {
+      return true;
+    }
+  }
+  return false;
+}
+
+static void ingatId(const char* id) {
+  snprintf(idTerakhir[posisiId], sizeof(idTerakhir[posisiId]), "%s", id);
+  posisiId = (posisiId + 1) % 8;  // yang paling lama ditimpa
+}
+
+// Jawaban atas perintah (Lampiran A): id yang sama, ok, keadaan keempat aktuator, dan pesan kalau ditolak.
+static void kirimAck(const char* id, bool ok, const char* pesan) {
+  JsonDocument jawaban;
+  jawaban["id"] = id;
+  char ts[21];
+  if (buatTs(ts, sizeof(ts))) {
+    jawaban["ts"] = ts;
+  } else {
+    jawaban["ts"] = nullptr;  // jam belum disetel: tetap dijawab, tanpa cap waktu
+  }
+  jawaban["ok"] = ok;
+  if (!ok) {
+    jawaban["pesan"] = pesan;
+  }
+  JsonObject keadaan = jawaban["state"].to<JsonObject>();
+  keadaan["kipas"] = kipasMenyala();
+  keadaan["lampu"] = lampuMenyala();
+  keadaan["pompa"] = pompaMenyala();
+  keadaan["tirai"] = sudutTirai();
+  char isi[256];
+  size_t panjang = serializeJson(jawaban, isi, sizeof(isi));
+  if (panjang >= sizeof(isi)) {
+    logError("Ack terlalu panjang untuk wadah isi[]: tidak dikirim.");
+    return;
+  }
+  mqtt.publish(topikAck, isi);
+  logDebug("Isi ack: %s", isi);
+}
+
+// Satu perintah "set": menjawab nullptr kalau berhasil, atau alasan penolakannya.
+static const char* kerjakanSet(JsonDocument& perintah) {
+  const char* target = perintah["target"] | "";
+  JsonVariant nilai = perintah["nilai"];
+  if (strcmp(target, "lampu") == 0) {
+    if (!nilai.is<bool>()) {
+      return "nilai lampu harus true atau false";
+    }
+    aturLampu(nilai.as<bool>());
+    return nullptr;
+  }
+  if (strcmp(target, "kipas") == 0) {
+    if (!nilai.is<bool>()) {
+      return "nilai kipas harus true atau false";
+    }
+    aturKipas(nilai.as<bool>());
+    return nullptr;
+  }
+  if (strcmp(target, "pompa") == 0) {
+    if (!nilai.is<int>() || nilai.as<int>() < 1 || nilai.as<int>() > 10) {
+      return "nilai pompa harus 1-10 detik";
+    }
+    int levelAir = bacaanTerakhir().level_air;
+    if (!nyalakanPompa(nilai.as<int>(), levelAir)) {  // pengaman tandon Modul 6 tetap berlaku
+      return levelAir < 0 ? "pompa ditolak: air tandon tidak terbaca" : "pompa ditolak: air tandon kurang";
+    }
+    return nullptr;
+  }
+  if (strcmp(target, "tirai") == 0) {
+    if (!nilai.is<int>() || nilai.as<int>() < 0 || nilai.as<int>() > 180) {
+      return "nilai tirai harus 0-180 derajat";
+    }
+    aturTirai(nilai.as<int>());
+    return nullptr;
+  }
+  return "target tidak dikenal";
+}
+
+// Dipanggil library di dalam mqtt.loop() setiap ada pesan di rpm/<device_id>/cmd.
+// Urutannya: baca JSON, periksa, kerjakan, jawab. Perintah yang id-nya sudah pernah diterima diabaikan.
+static void saatPesanMqtt(char* topik, byte* isi, unsigned int panjang) {
+  JsonDocument perintah;
+  DeserializationError galat = deserializeJson(perintah, isi, panjang);  // isi tidak diakhiri tanda akhir teks
+  if (galat) {
+    logError("Perintah bukan JSON yang sah (%s): diabaikan.", galat.c_str());  // tanpa id: tidak bisa dijawab
+    return;
+  }
+  const char* id = perintah["id"] | "";  // "" kalau id tidak ada atau bukan teks
+  if (id[0] == 0) {
+    logError("Perintah tanpa id: diabaikan.");
+    return;
+  }
+  if (strlen(id) >= sizeof(idTerakhir[0])) {  // paling panjang 39 huruf: muat di pengingat id dan di ack
+    logError("Perintah dengan id lebih dari 39 huruf: diabaikan.");
+    return;
+  }
+  if (sudahDiterima(id)) {
+    logInfo("Perintah %s sudah pernah diterima: diabaikan.", id);
+    return;
+  }
+  ingatId(id);
+  const char* aksi = perintah["aksi"] | "";
+  const char* pesan = "aksi tidak dikenal";
+  if (strcmp(aksi, "set") == 0) {
+    pesan = kerjakanSet(perintah);
+  } else if (strcmp(aksi, "config") == 0) {
+    pesan = "aksi config belum didukung (Modul 19)";
+  } else if (strcmp(aksi, "update") == 0) {
+    pesan = "aksi update belum didukung (Modul 28)";
+  }
+  if (pesan == nullptr) {
+    logInfo("Perintah %s: %s %s dikerjakan.", id, aksi, perintah["target"] | "");
+  } else {
+    logError("Perintah %s ditolak: %s", id, pesan);
+  }
+  kirimAck(id, pesan == nullptr, pesan);
+}
+
 void siapkanJaringan() {
   WiFi.onEvent(saatPeristiwaWiFi);   // daftarkan SEBELUM mulai menyambung
-  WiFi.setHostname(NAMA_PERANGKAT);  // nama di daftar perangkat router (Praktik 9)
+  WiFi.setHostname(NAMA_PERANGKAT);  // nama di daftar perangkat router (Modul 10, Praktik 9)
   WiFi.mode(WIFI_STA);               // wajib sebelum bertanya "sudah ada WiFi tersimpan?"
 
   uint8_t mac[6];
   esp_read_mac(mac, ESP_MAC_WIFI_STA);  // WiFi.macAddress() masih 00:00:... selama WiFi belum selesai menyala
   snprintf(idPerangkat, sizeof(idPerangkat), "%02x%02x%02x%02x%02x%02x", mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
-  snprintf(alamatKirim, sizeof(alamatKirim), "%s/rpm/%s/telemetry", ALAMAT_SERVER, idPerangkat);
+  snprintf(topikTelemetry, sizeof(topikTelemetry), "rpm/%s/telemetry", idPerangkat);
+  snprintf(topikStatus, sizeof(topikStatus), "rpm/%s/status", idPerangkat);
+  snprintf(topikVitals, sizeof(topikVitals), "rpm/%s/vitals", idPerangkat);
+  snprintf(topikCmd, sizeof(topikCmd), "rpm/%s/cmd", idPerangkat);
+  snprintf(topikAck, sizeof(topikAck), "rpm/%s/ack", idPerangkat);
   logInfo("device_id %s", idPerangkat);
 
+  klienJaringan.setConnectionTimeout(1000);  // menyambung TCP ke broker paling lama 1 detik (bawaan: 3 detik)
   if (PAKAI_WOKWI) {
-    logInfo("Mode Wokwi: menyambung ke Wokwi-GUEST, tanpa portal.");
-    WiFi.begin("Wokwi-GUEST", "", 6);  // 6 = kanal Wokwi-GUEST, supaya lebih cepat
+    mqtt.setServer(BROKER_WOKWI, PORT_BROKER);
+  } else {
+    mqtt.setServer(ALAMAT_BROKER, PORT_BROKER);  // alamat IP, bukan nama: tidak perlu mencari nama (DNS)
+  }
+  mqtt.setSocketTimeout(1);  // menunggu jawaban broker paling lama 1 detik (bawaan: 15 detik)
+  if (!mqtt.setBufferSize(512)) {  // ruang pesan 512 byte (bawaan: 256)
+    logError("Memori tidak cukup untuk ruang pesan MQTT 512 byte.");
+  }
+  mqtt.setCallback(saatPesanMqtt);
+
+  if (PAKAI_WOKWI) {
+    logInfo("Mode Wokwi: menyambung ke Wokwi-GUEST tanpa portal, broker publik %s.", BROKER_WOKWI);
+    WiFi.begin("Wokwi-GUEST", "", 6);  // 6 = kanal Wokwi-GUEST supaya lebih cepat
     punyaWiFi = true;
   } else {
     WiFiManager wm;
@@ -221,21 +308,15 @@ void siapkanJaringan() {
       logInfo("Menyambung ke WiFi tersimpan \"%s\" (tanpa menunggu)...", wm.getWiFiSSID().c_str());
     }
   }
-  siapkanServerWeb();
 }
 
-// Sekali saja, saat pertama tersambung: jam internet (Praktik 5) dan nama node1.local (Praktik 9).
+// Sekali saja, saat pertama tersambung: jam internet (Modul 10, Praktik 5).
 static void mulaiLayanan() {
   configTzTime(ZONA_WAKTU, "pool.ntp.org", "asia.pool.ntp.org");
-  if (MDNS.begin(NAMA_PERANGKAT)) {
-    MDNS.addService("http", "tcp", 80);
-  }
   layananSudahMulai = true;
-  logInfo("Buka di HP: http://%s/ atau http://%s.local/ (sering gagal di HP Android)",
-          WiFi.localIP().toString().c_str(), NAMA_PERANGKAT);
 }
 
-// Penjaga (Konsep 4): kalau lama sekali tidak ada percobaan menyambung, suruh paket esp32 mencoba lagi.
+// Penjaga (Modul 10, Konsep 4): kalau lama sekali tidak ada percobaan menyambung, suruh paket esp32 mencoba lagi.
 static void jagaSambungan() {
   if (tersambung || !punyaWiFi) {
     return;
@@ -248,6 +329,83 @@ static void jagaSambungan() {
     logInfo("Penjaga WiFi: %lu detik tanpa percobaan baru, mencoba menyambung lagi.", BATAS_TANPA_PERCOBAAN / 1000);
     WiFi.reconnect();
   }
+}
+
+// ---------- Laporan kesehatan: vitals (Lampiran A) ----------
+static void kirimVitals() {
+  char ts[21];
+  if (!buatTs(ts, sizeof(ts))) {
+    return;  // setiap data wajib membawa ts: tunggu sampai jam disetel
+  }
+  JsonDocument dokumen;
+  dokumen["ts"] = ts;
+  dokumen["rssi"] = WiFi.RSSI();
+  dokumen["uptime_s"] = uptimeDetik();
+  dokumen["heap_free"] = ESP.getFreeHeap();
+  char isi[128];
+  size_t panjang = serializeJson(dokumen, isi, sizeof(isi));
+  if (panjang >= sizeof(isi)) {
+    logError("Vitals terlalu panjang untuk wadah isi[]: tidak dikirim.");
+    sudahKirimVitals = true;  // jangan dicoba lagi di setiap putaran loop()
+    waktuVitalsTerakhir = millis();
+    return;
+  }
+  if (mqtt.publish(topikVitals, isi)) {
+    sudahKirimVitals = true;
+    waktuVitalsTerakhir = millis();
+    logDebug("Isi vitals: %s", isi);
+  }
+}
+
+// Satu kali percobaan menyambung ke broker, paling sering setiap JEDA_COBA_MQTT. Tidak pernah berputar menunggu.
+static void cobaSambungkanBroker() {
+  if (sudahCobaMqtt && millis() - waktuCobaMqttTerakhir < JEDA_COBA_MQTT) {
+    return;
+  }
+  sudahCobaMqtt = true;
+  waktuCobaMqttTerakhir = millis();
+  unsigned long mulai = millis();
+  // Surat wasiat: topik status, QoS 1, retained, isi "offline" (Modul 11, Konsep 7).
+  if (mqtt.connect(idPerangkat, topikStatus, 1, true, "offline")) {
+    mqttTersambung = true;
+    kodeGagalTerakhir = 0;
+    mqtt.publish(topikStatus, "online", true);  // retained: pelanggan yang datang belakangan tetap melihatnya
+    mqtt.subscribe(topikCmd, 1);                // langganan diulang setiap kali tersambung (clean session)
+    logInfo("MQTT tersambung ke broker %s:%u dalam %lu ms, sebagai %s", PAKAI_WOKWI ? BROKER_WOKWI : ALAMAT_BROKER,
+            PORT_BROKER, millis() - mulai, idPerangkat);
+    sudahKirimVitals = false;  // vitals pertama segera dikirim
+    return;
+  }
+  int kode = mqtt.state();
+  if (kode != kodeGagalTerakhir) {  // kegagalan yang sama tidak dicatat setiap 5 detik
+    kodeGagalTerakhir = kode;
+    logError("MQTT gagal tersambung ke broker setelah %lu ms: %s (kode %d). Broker di laptop menyala?",
+             millis() - mulai, namaKeadaanMqtt(kode), kode);
+  }
+}
+
+static void jagaMqtt() {
+  if (!tersambung) {
+    if (mqttTersambung) {
+      mqttTersambung = false;
+      logError("MQTT ikut putus karena WiFi putus.");
+    }
+    return;
+  }
+  if (mqtt.connected()) {
+    mqtt.loop();  // menerima perintah dan menjaga sambungan tetap hidup (keep-alive)
+    if (!sudahKirimVitals || millis() - waktuVitalsTerakhir >= JEDA_VITALS) {
+      kirimVitals();
+    }
+    return;
+  }
+  if (mqttTersambung) {
+    mqttTersambung = false;
+    int kode = mqtt.state();
+    logError("MQTT PUTUS: %s (kode %d). Node 1 tetap bekerja dan mencoba lagi setiap %lu detik.",
+             namaKeadaanMqtt(kode), kode, JEDA_COBA_MQTT / 1000);
+  }
+  cobaSambungkanBroker();
 }
 
 void perbaruiJaringan() {
@@ -284,57 +442,108 @@ void perbaruiJaringan() {
     }
   }
   jagaSambungan();
-  server.handleClient();  // layani browser yang mengetuk, lalu langsung kembali
+  jagaMqtt();
 }
 
-// ---------- Kirim bacaan ke server (Praktik 7) ----------
-// Menjawab false kalau kiriman tidak dicoba karena WiFi belum tersambung atau jam belum disetel.
-static bool kirimKeServer() {
+// ---------- Kirim bacaan: telemetry (Modul 11, Praktik 3 dan 7) ----------
+// Kejadian penting sebagai deretan bit: gerak, gelap, tanah kering, air tandon rendah.
+static uint8_t keadaanPenting(BacaanSensor b) {
+  uint8_t k = 0;
+  if (b.gerak) {
+    k |= 1;
+  }
+  if (b.cahaya < AMBANG_GELAP) {
+    k |= 2;
+  }
+  if (b.tanah < ambangTanahSiram()) {
+    k |= 4;
+  }
+  if (b.level_air >= 0 && b.level_air < LEVEL_AIR_MINIMUM) {
+    k |= 8;
+  }
+  return k;
+}
+
+// Kalimat singkat untuk log: kejadian mana yang berubah.
+static const char* namaPerubahan(uint8_t berubah, uint8_t sekarang, int levelAir) {
+  if (berubah & 1) {
+    return (sekarang & 1) ? "gerakan terlihat" : "gerakan berhenti";
+  }
+  if (berubah & 2) {
+    return (sekarang & 2) ? "menjadi gelap" : "menjadi terang";
+  }
+  if (berubah & 4) {
+    return (sekarang & 4) ? "tanah mengering" : "tanah basah lagi";
+  }
+  if (sekarang & 8) {
+    return "air tandon rendah";
+  }
+  return levelAir < 0 ? "air tandon tidak terbaca" : "air tandon cukup lagi";  // -1 = HC-SR04 gagal dibaca
+}
+
+// Menjawab false kalau kiriman tidak dicoba karena MQTT belum tersambung atau jam belum disetel.
+static bool terbitkanTelemetry(const char* alasan) {
   char ts[21];
-  if (!tersambung || !buatTs(ts, sizeof(ts))) {
+  if (!mqtt.connected() || !buatTs(ts, sizeof(ts))) {
     return false;  // setiap data wajib membawa ts (Lampiran A): tunggu sampai jam disetel
   }
   JsonDocument dokumen;
   dokumen["ts"] = ts;
   dokumen["fw"] = VERSI_FIRMWARE;
   dokumen["suhu"] = bacaanKirim.suhu;  // NAN ditulis ArduinoJson sebagai null
-  dokumen["kelembapan"] = bacaanKirim.kelembapan;
+  if (bacaanKirim.kelembapan < 0) {
+    dokumen["kelembapan"] = nullptr;  // bacaan gagal ditulis null (kontrak data)
+  } else {
+    dokumen["kelembapan"] = bacaanKirim.kelembapan;
+  }
   dokumen["cahaya"] = bacaanKirim.cahaya;
   dokumen["tanah"] = bacaanKirim.tanah;
   dokumen["gerak"] = bacaanKirim.gerak;
-  dokumen["level_air"] = bacaanKirim.level_air;
-  char isi[192];
-  serializeJson(dokumen, isi, sizeof(isi));
-
-  HTTPClient http;
-  http.setConnectTimeout(BATAS_WAKTU_HTTP);
-  http.setTimeout(BATAS_WAKTU_HTTP);
-  http.begin(alamatKirim);
-  http.addHeader("Content-Type", "application/json");
-  unsigned long mulai = millis();
-  int kode = http.POST(isi);
-  http.end();
-  kodeKirimTerakhir = kode;
-  if (kode == 200) {
-    logInfo("Terkirim ke server (kode 200, %lu ms)", millis() - mulai);
-  } else if (kode > 0) {
-    logError("Server menjawab kode %d. Alamatnya benar? %s", kode, alamatKirim);
+  if (bacaanKirim.level_air < 0) {
+    dokumen["level_air"] = nullptr;
   } else {
-    logError("Gagal kirim: %s (kode %d). Penerima di laptop menyala?", HTTPClient::errorToString(kode).c_str(), kode);
+    dokumen["level_air"] = bacaanKirim.level_air;
   }
-  logDebug("Isi kiriman: %s", isi);
+  char isi[192];
+  size_t panjang = serializeJson(dokumen, isi, sizeof(isi));
+  if (panjang >= sizeof(isi)) {
+    logError("Telemetry terlalu panjang untuk wadah isi[]: tidak dikirim.");
+    return true;
+  }
+  if (mqtt.publish(topikTelemetry, isi)) {
+    jumlahTerbit++;
+    logInfo("Terbit telemetry (%s)", alasan);
+  } else {
+    logError("Gagal menerbitkan telemetry.");
+  }
+  logDebug("Isi telemetry: %s", isi);
   return true;
 }
 
 void kirimBacaan(BacaanSensor b) {
+  unsigned long sekarang = millis();  // dicatat sebelum menerbitkan: jadwal dihitung dari saat bacaan datang
   bacaanKirim = b;
   adaBacaan = true;
-  if (sudahPernahKirim && millis() - waktuKirimTerakhir < JEDA_KIRIM) {
-    return;  // belum waktunya
+  uint8_t k = keadaanPenting(b);
+  if (!keadaanDikenal) {
+    keadaanDikenal = true;
+  } else if (k != keadaanTerakhir) {
+    alasanSegera = namaPerubahan(k ^ keadaanTerakhir, k, b.level_air);
   }
-  if (kirimKeServer()) {
-    sudahPernahKirim = true;
-    waktuKirimTerakhir = millis();
+  keadaanTerakhir = k;
+  // Bacaan datang sekitar setiap 2 detik, tidak pernah persis: beri toleransi setengah jeda baca.
+  unsigned long sejak = sekarang - waktuKirimTerakhir + JEDA_BACA / 2;
+  if (alasanSegera != nullptr && (!sudahPernahKirim || sejak >= JEDA_SEGERA_MIN)) {
+    if (terbitkanTelemetry(alasanSegera)) {  // kejadian penting: kirim segera
+      alasanSegera = nullptr;
+      sudahPernahKirim = true;
+      waktuKirimTerakhir = sekarang;
+    }
+  } else if (!sudahPernahKirim || sejak >= JEDA_KIRIM) {  // bacaan yang paling dekat dengan 10 detik
+    if (terbitkanTelemetry("jadwal 10 detik")) {
+      sudahPernahKirim = true;
+      waktuKirimTerakhir = sekarang;
+    }
   }
 }
 
@@ -343,8 +552,8 @@ void kirimSekarang() {
     Serial.println("kirim: belum ada bacaan, coba lagi 2 detik kemudian.");
     return;
   }
-  if (!kirimKeServer()) {
-    Serial.println("kirim: belum bisa, WiFi belum tersambung atau jam belum disetel.");
+  if (!terbitkanTelemetry("perintah kirim")) {
+    Serial.println("kirim: belum bisa, MQTT belum tersambung atau jam belum disetel.");
     return;
   }
   sudahPernahKirim = true;
@@ -353,15 +562,16 @@ void kirimSekarang() {
 
 // ---------- Untuk layar dan perintah Serial ----------
 const char* teksJaringan() {
-  static char teks[16];  // alamat IP terpanjang "255.255.255.255" = 15 huruf
-  if (tersambung) {
-    snprintf(teks, sizeof(teks), "%s", WiFi.localIP().toString().c_str());
-    return teks;
+  if (!punyaWiFi) {
+    return "mati";
   }
-  if (punyaWiFi) {
+  if (!tersambung) {
     return "putus";
   }
-  return "mati";
+  if (mqtt.connected()) {
+    return "ok, MQTT ok";
+  }
+  return "ok, MQTT putus";
 }
 
 void cetakInfoJaringan() {
@@ -376,8 +586,15 @@ void cetakInfoJaringan() {
   char ts[21] = "belum disetel";
   buatTs(ts, sizeof(ts));
   Serial.printf("wifi: device_id %s, nama %s, jam %s\n", idPerangkat, NAMA_PERANGKAT, ts);
-  Serial.printf("wifi: kirim ke %s setiap %lu detik, kode terakhir %d\n", alamatKirim, JEDA_KIRIM / 1000,
-                kodeKirimTerakhir);
+  const char* broker = PAKAI_WOKWI ? BROKER_WOKWI : ALAMAT_BROKER;
+  if (mqtt.connected()) {
+    Serial.printf("mqtt: tersambung ke %s:%u sebagai %s\n", broker, PORT_BROKER, idPerangkat);
+  } else {
+    Serial.printf("mqtt: PUTUS dari %s:%u, %s (kode %d)\n", broker, PORT_BROKER, namaKeadaanMqtt(mqtt.state()),
+                  mqtt.state());
+  }
+  Serial.printf("mqtt: telemetry setiap %lu detik dan segera saat ada kejadian penting, vitals setiap %lu menit, "
+                "%lu kali terbit\n", JEDA_KIRIM / 1000, JEDA_VITALS / 60000, jumlahTerbit);
 }
 
 void lupakanWiFi() {

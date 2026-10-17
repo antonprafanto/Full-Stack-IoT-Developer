@@ -1,9 +1,9 @@
-// Node 1 "Rumah" - firmware v1.1.0 (Modul 10)
+// Node 1 "Rumah" - firmware v1.2.0 (Modul 11)
 // Proyek benang merah: Rumah Pintar Mini.
 //
-// Baru di v1.1.0: tersambung ke WiFi rumah lewat portal WiFiManager (kata sandi tidak ditulis di kode),
-// jam dari internet (NTP), bacaan dikirim ke server mini di laptop setiap menit (HTTP POST berisi JSON),
-// dan lampu bisa dinyalakan atau dimatikan dari browser HP. WiFi boleh putus, Node 1 tetap bekerja.
+// Baru di v1.2.0: semua komunikasi lewat MQTT sesuai kontrak data (Lampiran A): telemetry setiap 10 detik dan
+// segera saat ada kejadian penting, vitals setiap 5 menit, status online/offline otomatis (Last Will), dan
+// perintah dari broker yang dijawab ack. Server web /on /off dan kiriman HTTP dari v1.1.0 dipensiunkan.
 // Dari v1.0.0 (Modul 8): tanpa delay() di loop(), kode modular, watchdog, NVS, log bertingkat, halaman status.
 // Perintah lewat Serial Monitor: lampu on, kipas off, pompa 3, tirai 90, bunyi, status, info,
 // ambang, ambang 35, ambang bawaan, log debug, log info, log error, wifi, wifi lupa, kirim, restart.
@@ -11,8 +11,8 @@
 // Library: ESP32Servo versi 3.2.1, DHT sensor library versi 1.4.7
 // (ikut terpasang: Adafruit Unified Sensor versi 1.1.15), Adafruit SSD1306 versi 2.5.17
 // (ikut terpasang: Adafruit GFX Library versi 1.12.6 dan Adafruit BusIO versi 1.17.4),
-// WiFiManager versi 2.0.17, dan ArduinoJson versi 7.4.3.
-// Wire, SPI, SD, Preferences, WiFi, WebServer, HTTPClient, dan ESPmDNS sudah ikut paket esp32.
+// WiFiManager versi 2.0.17, ArduinoJson versi 7.4.3, dan PubSubClient3 versi 3.3.2.
+// Wire, SPI, SD, Preferences, dan WiFi sudah ikut paket esp32.
 
 #include <esp_task_wdt.h>  // watchdog
 #include "konfigurasi.h"
@@ -27,7 +27,7 @@
 #include "kartu.h"
 #include "perintah.h"
 #include "aturan.h"
-#include "jaringan.h"  // Modul 10
+#include "jaringan.h"  // Modul 10-11
 
 // ---------- Siklus utama: MENUNGGU -> MEMBACA -> MENAMPILKAN -> BERTINDAK -> MENUNGGU ... ----------
 enum LangkahSiklus { MENUNGGU, MEMBACA, MENAMPILKAN, BERTINDAK };
@@ -99,9 +99,9 @@ void periksaMasalah(BacaanSensor b) {
   sonarGagalTadi = sonarGagal;
 }
 
-// ---------- Modul 10: mengirim bacaan ke server (Modul 11 menggantinya dengan MQTT) ----------
+// ---------- Modul 10-11: mengirim bacaan lewat MQTT ----------
 void kirimData(BacaanSensor b) {
-  kirimBacaan(b);  // jaringan.cpp: benar-benar mengirim setiap JEDA_KIRIM (1 menit)
+  kirimBacaan(b);  // jaringan.cpp: terbit setiap JEDA_KIRIM (10 detik) dan segera saat ada kejadian penting
 }
 
 // Satu langkah siklus per putaran loop(): tidak ada langkah yang menunggu lama.
@@ -176,7 +176,7 @@ void loop() {
   perbaruiAturan();      // MENYIRAM -> JEDA -> SIAGA
   perbaruiDetak();       // LED status
   perbaruiLayar();       // halaman status: jam berdetak, lalu kembali sendiri
-  perbaruiJaringan();    // Modul 10: WiFi, jam internet, dan server web; tidak pernah menunggu lama
+  perbaruiJaringan();    // Modul 10-11: WiFi, jam internet, dan MQTT; tidak pernah menunggu lama
   tanganiTombol();
   periksaPerintahSerial();
   jalankanSiklus();

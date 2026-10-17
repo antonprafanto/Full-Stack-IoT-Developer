@@ -189,7 +189,7 @@ static void gambarHalamanStatus() {
   snprintf(teks, sizeof(teks), "Nyala ke-%lu", jumlahNyala());
   layar.setCursor(0, 38);
   layar.print(teks);
-  snprintf(teks, sizeof(teks), "WiFi %s", teksJaringan());  // Modul 10: alamat IP Node 1, "putus", atau "mati"
+  snprintf(teks, sizeof(teks), "WiFi %s", teksJaringan());  // Modul 11: misalnya "WiFi ok, MQTT ok"
   layar.setCursor(0, 47);
   layar.print(teks);
   snprintf(teks, sizeof(teks), "v%s  bebas %luKB", VERSI_FIRMWARE, ESP.getFreeHeap() / 1024);

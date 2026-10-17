@@ -133,7 +133,7 @@ void periksaPerintahSerial() {
     lupakanWiFi();  // Modul 10: menghapus WiFi tersimpan, lalu restart ke portal
     return;
   } else if (perintah == "kirim") {
-    kirimSekarang();  // Modul 10: kirim bacaan terakhir ke server sekarang juga
+    kirimSekarang();  // Modul 11: terbitkan telemetry sekarang juga lewat MQTT
     return;
   } else if (perintah == "restart") {
     Serial.println("Restart sekarang...");

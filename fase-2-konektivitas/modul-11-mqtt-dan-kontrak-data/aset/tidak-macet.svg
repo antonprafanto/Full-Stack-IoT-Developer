@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="640" viewBox="0 0 1200 640" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="640" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Broker mati atau macet, Node 1 tetap bekerja</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Tiga cara menunggu broker selama 30 detik · watchdog Modul 8 me-restart papan kalau loop() macet lebih dari 5 detik</text>
+<text x="40.0" y="168.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >Pola tutorial</text>
+<text x="40.0" y="190.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">while (!mqtt.connected())</text>
+<text x="40.0" y="298.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >Batas bawaan library</text>
+<text x="40.0" y="320.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">broker macet: CONNACK 15 s</text>
+<text x="40.0" y="428.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >Resep kita</text>
+<text x="40.0" y="450.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">≤ 1 s, setiap 5 s</text>
+<rect x="250.0" y="154.0" width="146.7" height="32.0" rx="5" fill="#fde6e8" stroke="#e63946" stroke-width="1.4" />
+<text x="323.3" y="175.0" font-size="11.5" font-weight="800" fill="#e63946" text-anchor="middle" >loop() tertahan</text>
+<text x="396.7" y="146.0" font-size="11.5" font-weight="800" fill="#e63946" text-anchor="middle" >⟳ restart</text>
+<rect x="426.0" y="154.0" width="146.7" height="32.0" rx="5" fill="#fde6e8" stroke="#e63946" stroke-width="1.4" />
+<text x="499.3" y="175.0" font-size="11.5" font-weight="800" fill="#e63946" text-anchor="middle" >loop() tertahan</text>
+<text x="572.7" y="146.0" font-size="11.5" font-weight="800" fill="#e63946" text-anchor="middle" >⟳ restart</text>
+<rect x="602.0" y="154.0" width="146.7" height="32.0" rx="5" fill="#fde6e8" stroke="#e63946" stroke-width="1.4" />
+<text x="675.3" y="175.0" font-size="11.5" font-weight="800" fill="#e63946" text-anchor="middle" >loop() tertahan</text>
+<text x="748.7" y="146.0" font-size="11.5" font-weight="800" fill="#e63946" text-anchor="middle" >⟳ restart</text>
+<rect x="778.0" y="154.0" width="146.7" height="32.0" rx="5" fill="#fde6e8" stroke="#e63946" stroke-width="1.4" />
+<text x="851.3" y="175.0" font-size="11.5" font-weight="800" fill="#e63946" text-anchor="middle" >loop() tertahan</text>
+<text x="924.7" y="146.0" font-size="11.5" font-weight="800" fill="#e63946" text-anchor="middle" >⟳ restart</text>
+<rect x="954.0" y="154.0" width="146.7" height="32.0" rx="5" fill="#fde6e8" stroke="#e63946" stroke-width="1.4" />
+<text x="1027.3" y="175.0" font-size="11.5" font-weight="800" fill="#e63946" text-anchor="middle" >loop() tertahan</text>
+<text x="1100.7" y="146.0" font-size="11.5" font-weight="800" fill="#e63946" text-anchor="middle" >⟳ restart</text>
+<rect x="250.0" y="284.0" width="29.3" height="32.0" rx="5" fill="#e2f3f1" stroke="#0f8b8d" stroke-width="1.4" />
+<rect x="279.3" y="284.0" width="146.7" height="32.0" rx="5" fill="#fde6e8" stroke="#e63946" stroke-width="1.4" />
+<text x="352.7" y="305.0" font-size="11.5" font-weight="800" fill="#e63946" text-anchor="middle" >connect() menunggu…</text>
+<rect x="426.0" y="284.0" width="293.3" height="32.0" rx="5" fill="none" stroke="#9aa3b0" stroke-width="1.4" stroke-dasharray="5 4"/>
+<text x="572.7" y="305.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="middle" >sisa 10 s yang tidak pernah sampai</text>
+<text x="426.0" y="276.0" font-size="11.5" font-weight="800" fill="#e63946" text-anchor="middle" >⟳ watchdog: restart</text>
+<text x="729.3" y="305.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" >lalu berulang dari awal</text>
+<text x="729.3" y="324.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" >(broker yang mati total: gagal cepat atau setelah 3 s)</text>
+<rect x="250.0" y="414.0" width="880.0" height="32.0" rx="5" fill="#e2f3f1" stroke="#0f8b8d" stroke-width="1.4" />
+<rect x="250.0" y="414.0" width="29.3" height="32.0" rx="4" fill="#d5dbe3" stroke="#9aa3b0" stroke-width="1" />
+<rect x="396.7" y="414.0" width="29.3" height="32.0" rx="4" fill="#d5dbe3" stroke="#9aa3b0" stroke-width="1" />
+<rect x="543.3" y="414.0" width="29.3" height="32.0" rx="4" fill="#d5dbe3" stroke="#9aa3b0" stroke-width="1" />
+<rect x="690.0" y="414.0" width="29.3" height="32.0" rx="4" fill="#d5dbe3" stroke="#9aa3b0" stroke-width="1" />
+<rect x="836.7" y="414.0" width="29.3" height="32.0" rx="4" fill="#d5dbe3" stroke="#9aa3b0" stroke-width="1" />
+<rect x="983.3" y="414.0" width="29.3" height="32.0" rx="4" fill="#d5dbe3" stroke="#9aa3b0" stroke-width="1" />
+<text x="704.7" y="404.0" font-size="12.5" font-weight="800" fill="#0f8b8d" text-anchor="middle" >loop() terus berputar: sensor, tombol, pompa, layar tetap jalan</text>
+<text x="264.7" y="466.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="middle" >coba ≤ 1 s</text>
+<circle cx="1152.0" cy="430.0" r="12" fill="#2a9d5c" />
+<path d="M1147.0 430 L1150.5 434 L1157.5 425.5" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="250.0" y1="500.0" x2="1130.0" y2="500.0" stroke="#9aa3b0" stroke-width="1.5" stroke-linecap="round" />
+<line x1="250.0" y1="496.0" x2="250.0" y2="504.0" stroke="#9aa3b0" stroke-width="1.5" stroke-linecap="round" />
+<text x="250.0" y="522.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="middle" >0 s</text>
+<line x1="396.7" y1="496.0" x2="396.7" y2="504.0" stroke="#9aa3b0" stroke-width="1.5" stroke-linecap="round" />
+<text x="396.7" y="522.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="middle" >5 s</text>
+<line x1="543.3" y1="496.0" x2="543.3" y2="504.0" stroke="#9aa3b0" stroke-width="1.5" stroke-linecap="round" />
+<text x="543.3" y="522.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="middle" >10 s</text>
+<line x1="690.0" y1="496.0" x2="690.0" y2="504.0" stroke="#9aa3b0" stroke-width="1.5" stroke-linecap="round" />
+<text x="690.0" y="522.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="middle" >15 s</text>
+<line x1="836.7" y1="496.0" x2="836.7" y2="504.0" stroke="#9aa3b0" stroke-width="1.5" stroke-linecap="round" />
+<text x="836.7" y="522.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="middle" >20 s</text>
+<line x1="983.3" y1="496.0" x2="983.3" y2="504.0" stroke="#9aa3b0" stroke-width="1.5" stroke-linecap="round" />
+<text x="983.3" y="522.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="middle" >25 s</text>
+<line x1="1130.0" y1="496.0" x2="1130.0" y2="504.0" stroke="#9aa3b0" stroke-width="1.5" stroke-linecap="round" />
+<text x="1130.0" y="522.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="middle" >30 s</text>
+<rect x="30.0" y="544.0" width="1140.0" height="64.0" rx="10" fill="#eef1f5" />
+<text x="52.0" y="572.0" font-size="13.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">setConnectionTimeout(1000) · setSocketTimeout(1) · alamat IP, bukan nama</text>
+<text x="52.0" y="594.0" font-size="13.5" font-weight="600" fill="#4a5568" text-anchor="start" >Coba menyambung paling sering setiap 5 detik, hanya saat WiFi tersambung; mqtt.loop() di setiap putaran.</text>
+<text x="1178.0" y="626.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

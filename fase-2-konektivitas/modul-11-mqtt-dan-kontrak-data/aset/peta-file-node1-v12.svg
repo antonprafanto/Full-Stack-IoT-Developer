@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="860" viewBox="0 0 1200 860" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="860" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Node 1 v1.2: satu file ditulis ulang, lima berubah sedikit, sisanya tetap</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >26 file · TULIS ULANG = isi baru · UBAH = sedikit berubah · KETERANGAN (KET.) = hanya komentar · tanpa tanda = tetap</text>
+<rect x="400.0" y="96.0" width="400.0" height="44.0" rx="10" fill="#eef1f5" stroke="#9aa3b0" stroke-width="1.8" />
+<text x="600.0" y="124.0" font-size="15" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">konfigurasi.h</text>
+<rect x="810.0" y="108.0" width="64.0" height="22.0" rx="11.0" fill="#b45f17" />
+<text x="842.0" y="123.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >UBAH</text>
+<text x="884.0" y="124.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="start" >versi 1.2.0 + bagian "Modul 11: MQTT"</text>
+<rect x="400.0" y="300.0" width="400.0" height="116.0" rx="14" fill="#ffffff" stroke="#1e2a4a" stroke-width="3" />
+<text x="600.0" y="334.0" font-size="17" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">node-1-rumah.ino</text>
+<rect x="545.0" y="350.0" width="110.0" height="22.0" rx="11.0" fill="#4a5568" />
+<text x="600.0" y="365.0" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle" >KETERANGAN</text>
+<text x="600.0" y="400.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="middle" >versi, daftar library, catatan "Modul 10-11"</text>
+<rect x="40.0" y="160.0" width="320.0" height="140.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="56.0" y="186.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Indra dan tangan</text>
+<rect x="52.0" y="200.0" width="296.0" height="42.0" rx="8" fill="#eef1f5" />
+<text x="64.0" y="218.0" font-size="13.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">sensor.h/.cpp</text>
+<text x="64.0" y="235.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >lima sensor</text>
+<rect x="52.0" y="250.0" width="296.0" height="42.0" rx="8" fill="#eef1f5" />
+<text x="64.0" y="268.0" font-size="13.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">aktuator.h/.cpp</text>
+<text x="64.0" y="285.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >relay, pompa, servo, buzzer</text>
+<rect x="40.0" y="330.0" width="320.0" height="240.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="56.0" y="356.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Antarmuka</text>
+<rect x="52.0" y="370.0" width="296.0" height="42.0" rx="8" fill="#eef1f5" />
+<text x="64.0" y="388.0" font-size="13.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">tombol.h/.cpp</text>
+<text x="64.0" y="405.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >tekan pendek dan lama</text>
+<rect x="52.0" y="420.0" width="296.0" height="42.0" rx="8" fill="#eef1f5" />
+<text x="64.0" y="438.0" font-size="13.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">detak.h/.cpp</text>
+<text x="64.0" y="455.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >LED status</text>
+<rect x="52.0" y="470.0" width="296.0" height="42.0" rx="8" fill="#eef1f5" />
+<text x="64.0" y="488.0" font-size="13.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">layar.h/.cpp</text>
+<text x="64.0" y="505.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >hanya .cpp: "WiFi ok, MQTT ok"</text>
+<rect x="284.0" y="481.0" width="56.0" height="20.0" rx="10.0" fill="#4a5568" />
+<text x="312.0" y="495.0" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle" >KET.</text>
+<rect x="52.0" y="520.0" width="296.0" height="42.0" rx="8" fill="#eef1f5" />
+<text x="64.0" y="538.0" font-size="13.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">perintah.h/.cpp</text>
+<text x="64.0" y="555.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >hanya .cpp: catatan "kirim"</text>
+<rect x="284.0" y="531.0" width="56.0" height="20.0" rx="10.0" fill="#4a5568" />
+<text x="312.0" y="545.0" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle" >KET.</text>
+<rect x="840.0" y="160.0" width="320.0" height="140.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="856.0" y="186.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Otak dan catatan</text>
+<rect x="852.0" y="200.0" width="296.0" height="42.0" rx="8" fill="#eef1f5" />
+<text x="864.0" y="218.0" font-size="13.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">aturan.h/.cpp</text>
+<text x="864.0" y="235.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >siram dan lampu otomatis</text>
+<rect x="852.0" y="250.0" width="296.0" height="42.0" rx="8" fill="#eef1f5" />
+<text x="864.0" y="268.0" font-size="13.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">kartu.h/.cpp</text>
+<text x="864.0" y="285.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >CSV microSD (opsional)</text>
+<rect x="840.0" y="330.0" width="320.0" height="190.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="856.0" y="356.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Daya tahan</text>
+<rect x="852.0" y="370.0" width="296.0" height="42.0" rx="8" fill="#eef1f5" />
+<text x="864.0" y="388.0" font-size="13.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">pengaturan.h/.cpp</text>
+<text x="864.0" y="405.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >NVS: ambang, jumlah nyala</text>
+<rect x="852.0" y="420.0" width="296.0" height="42.0" rx="8" fill="#eef1f5" />
+<text x="864.0" y="438.0" font-size="13.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">sistem.h/.cpp</text>
+<text x="864.0" y="455.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >uptime, alasan restart</text>
+<rect x="852.0" y="470.0" width="296.0" height="42.0" rx="8" fill="#eef1f5" />
+<text x="864.0" y="488.0" font-size="13.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">pencatat.h/.cpp</text>
+<text x="864.0" y="505.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >log DEBUG/INFO/ERROR</text>
+<rect x="300.0" y="588.0" width="600.0" height="200.0" rx="14" fill="#e2f3f1" stroke="#0f8b8d" stroke-width="2.4" />
+<rect x="320.0" y="602.0" width="120.0" height="22.0" rx="11.0" fill="#0f8b8d" />
+<text x="380.0" y="617.1" font-size="11.5" font-weight="700" fill="#ffffff" text-anchor="middle" >TULIS ULANG</text>
+<text x="452.0" y="618.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">jaringan.cpp</text>
+<text x="620.0" y="618.0" font-size="12.5" font-weight="700" fill="#4a5568" text-anchor="start" >(+ keterangan di jaringan.h)</text>
+<text x="320.0" y="654.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="start" >tetap dari Modul 10: WiFi + portal + penjaga sambung ulang + jam internet</text>
+<text x="320.0" y="679.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="start" >baru: sambungan MQTT + wasiat offline + online retained (P3–P4)</text>
+<text x="320.0" y="704.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="start" >baru: telemetry 10 s + segera saat penting (P3, P7) · vitals 5 menit</text>
+<text x="320.0" y="729.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="start" >baru: cmd → ack untuk lampu, kipas, pompa, tirai (P6)</text>
+<text x="320.0" y="754.0" font-size="13" font-weight="700" fill="#e63946" text-anchor="start" >pensiun: kiriman HTTP, server web /on /off, node1.local</text>
+<line x1="360.0" y1="230.0" x2="400.0" y2="320.0" stroke="#b8c0cc" stroke-width="2" stroke-linecap="round" stroke-dasharray="6 5" />
+<line x1="360.0" y1="450.0" x2="400.0" y2="384.0" stroke="#b8c0cc" stroke-width="2" stroke-linecap="round" stroke-dasharray="6 5" />
+<line x1="840.0" y1="230.0" x2="800.0" y2="320.0" stroke="#b8c0cc" stroke-width="2" stroke-linecap="round" stroke-dasharray="6 5" />
+<line x1="840.0" y1="425.0" x2="800.0" y2="384.0" stroke="#b8c0cc" stroke-width="2" stroke-linecap="round" stroke-dasharray="6 5" />
+<line x1="600.0" y1="140.0" x2="600.0" y2="300.0" stroke="#b8c0cc" stroke-width="2" stroke-linecap="round" stroke-dasharray="6 5" />
+<line x1="600.0" y1="416.0" x2="600.0" y2="588.0" stroke="#0f8b8d" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="6 5" />
+<text x="600.0" y="816.0" font-size="13.5" font-weight="700" fill="#4a5568" text-anchor="middle" >Garis putus-putus = #include · PETA-PIN.md tidak berubah: MQTT tidak memakai pin</text>
+<text x="1178.0" y="846.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

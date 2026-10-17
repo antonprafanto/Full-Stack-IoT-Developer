@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="830" viewBox="0 0 1200 830" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="830" fill="#fffdf7"/>
+<text x="600.0" y="40.0" font-size="24" font-weight="800" fill="#1e2a4a" text-anchor="middle" >MQTTX: mengobrol dengan ESP32 lewat broker publik</text>
+<text x="600.0" y="72.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Kemenangan Cepat langkah 5–7 · kode topik 5230e8 hanya contoh; pakai kode yang tercetak di Serial Monitor-mu</text>
+<rect x="44.0" y="102.0" width="1120.0" height="560.0" rx="8" fill="#000000" opacity="0.10"/>
+<rect x="40.0" y="96.0" width="1120.0" height="560.0" rx="6" fill="#ffffff" stroke="#c3c9d1" stroke-width="1.2" />
+<rect x="40.0" y="96.0" width="1120.0" height="30.0" rx="6" fill="#f2f3f5" />
+<rect x="40.0" y="116.0" width="1120.0" height="10.0" rx="0" fill="#f2f3f5" />
+<line x1="40.0" y1="126.0" x2="1160.0" y2="126.0" stroke="#dfe3e8" stroke-width="1" stroke-linecap="round" />
+<text x="54.0" y="116.0" font-size="12.5" font-weight="600" fill="#6b7280" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" xml:space="preserve">MQTTX</text>
+<text x="1068.0" y="116.0" font-size="12" font-weight="400" fill="#6b7280" text-anchor="middle" >—</text>
+<text x="1100.0" y="116.0" font-size="12" font-weight="400" fill="#6b7280" text-anchor="middle" >☐</text>
+<text x="1132.0" y="116.0" font-size="12" font-weight="400" fill="#6b7280" text-anchor="middle" >✕</text>
+<rect x="40.0" y="127.0" width="56.0" height="529.0" rx="0" fill="#262a33" />
+<rect x="54.0" y="142.0" width="28.0" height="28.0" rx="6" fill="#34c388" />
+<text x="68.0" y="162.0" font-size="15" font-weight="800" fill="#ffffff" text-anchor="middle" >X</text>
+<rect x="60.0" y="192.0" width="16.0" height="16.0" rx="4" fill="none" stroke="#6b7380" stroke-width="1.3" />
+<rect x="60.0" y="236.0" width="16.0" height="16.0" rx="4" fill="none" stroke="#6b7380" stroke-width="1.3" />
+<rect x="60.0" y="280.0" width="16.0" height="16.0" rx="4" fill="none" stroke="#6b7380" stroke-width="1.3" />
+<rect x="60.0" y="324.0" width="16.0" height="16.0" rx="4" fill="none" stroke="#6b7380" stroke-width="1.3" />
+<rect x="60.0" y="368.0" width="16.0" height="16.0" rx="4" fill="none" stroke="#6b7380" stroke-width="1.3" />
+<line x1="68.0" y1="239.0" x2="68.0" y2="249.0" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+<line x1="63.0" y1="244.0" x2="73.0" y2="244.0" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+<rect x="96.0" y="127.0" width="230.0" height="529.0" rx="0" fill="#f7f8fa" />
+<line x1="326.0" y1="127.0" x2="326.0" y2="656.0" stroke="#dfe3e8" stroke-width="1" stroke-linecap="round" />
+<text x="112.0" y="158.0" font-size="14" font-weight="700" fill="#202124" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" xml:space="preserve">Connections</text>
+<circle cx="90.0" cy="232.0" r="13" fill="#b45f17" stroke="#ffffff" stroke-width="2" />
+<text x="90.0" y="237.0" font-size="14" font-weight="800" fill="#ffffff" text-anchor="middle" >1</text>
+<rect x="104.0" y="176.0" width="214.0" height="40.0" rx="6" fill="#ffffff" stroke="#dfe3e8" stroke-width="1" />
+<text x="116.0" y="201.0" font-size="13" font-weight="700" fill="#34c388" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" xml:space="preserve">Broker publik@broker.emqx…</text>
+<line x1="327.0" y1="172.0" x2="1160.0" y2="172.0" stroke="#dfe3e8" stroke-width="1" stroke-linecap="round" />
+<text x="345.0" y="156.0" font-size="15" font-weight="700" fill="#202124" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" xml:space="preserve">Broker publik</text>
+<rect x="900.0" y="135.0" width="236.0" height="32.0" rx="6" fill="#000000" opacity="0.08"/>
+<rect x="898.0" y="133.0" width="236.0" height="32.0" rx="6" fill="#ffffff" stroke="#dfe3e8" stroke-width="1.2" />
+<circle cx="916.0" cy="149.0" r="8" fill="#34c388" />
+<path d="M912 149 L915 152 L921 146" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<text x="932.0" y="154.0" font-size="13" font-weight="600" fill="#202124" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" xml:space="preserve">Connected</text>
+<text x="1006.0" y="154.0" font-size="11.5" font-weight="400" fill="#6b7280" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" xml:space="preserve">(muncul sebentar)</text>
+<rect x="327.0" y="173.0" width="250.0" height="483.0" rx="0" fill="#ffffff" />
+<line x1="577.0" y1="173.0" x2="577.0" y2="656.0" stroke="#dfe3e8" stroke-width="1" stroke-linecap="round" />
+<rect x="341.0" y="188.0" width="222.0" height="32.0" rx="5" fill="#34c388" />
+<text x="452.0" y="209.0" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" xml:space="preserve">+ New Subscription</text>
+<circle cx="565.0" cy="188.0" r="13" fill="#b45f17" stroke="#ffffff" stroke-width="2" />
+<text x="565.0" y="193.0" font-size="14" font-weight="800" fill="#ffffff" text-anchor="middle" >2</text>
+<rect x="341.0" y="232.0" width="222.0" height="44.0" rx="5" fill="#ffffff" stroke="#dfe3e8" stroke-width="1" />
+<rect x="341.0" y="232.0" width="5.0" height="44.0" rx="2" fill="#7a8fe6" />
+<text x="355.0" y="251.0" font-size="12.5" font-weight="600" fill="#202124" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">belajar-iot/5230e8/#</text>
+<text x="355.0" y="268.0" font-size="11.5" font-weight="400" fill="#6b7280" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" xml:space="preserve">QoS 0</text>
+<rect x="578.0" y="173.0" width="582.0" height="300.0" rx="0" fill="#fbfbfc" />
+<rect x="588.0" y="182.0" width="46.0" height="24.0" rx="5" fill="#ffffff" stroke="#dfe3e8" stroke-width="1" />
+<text x="611.0" y="199.0" font-size="12" font-weight="600" fill="#202124" text-anchor="middle" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" xml:space="preserve">All</text>
+<text x="672.0" y="199.0" font-size="12" font-weight="400" fill="#6b7280" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" xml:space="preserve">Received</text>
+<text x="750.0" y="199.0" font-size="12" font-weight="400" fill="#6b7280" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" xml:space="preserve">Published</text>
+<rect x="594.0" y="218.0" width="330.0" height="64.0" rx="8" fill="#f1f3f5" />
+<text x="606.0" y="237.0" font-size="11.5" font-weight="600" fill="#6b7280" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" xml:space="preserve">Topic: belajar-iot/5230e8/dari-esp32   QoS: 0</text>
+<text x="606.0" y="260.0" font-size="13.5" font-weight="600" fill="#202124" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" xml:space="preserve">Halo dari ESP32 ke-1</text>
+<text x="604.0" y="300.0" font-size="10.5" font-weight="400" fill="#6b7280" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" xml:space="preserve">2026-10-18 08:30:15:120</text>
+<rect x="814.0" y="306.0" width="330.0" height="64.0" rx="8" fill="#e8f7f0" />
+<text x="826.0" y="325.0" font-size="11.5" font-weight="600" fill="#6b7280" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" xml:space="preserve">Topic: belajar-iot/5230e8/dari-laptop   QoS: 0</text>
+<text x="826.0" y="348.0" font-size="13.5" font-weight="600" fill="#202124" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" xml:space="preserve">Halo juga dari laptop!</text>
+<text x="1134.0" y="388.0" font-size="10.5" font-weight="400" fill="#6b7280" text-anchor="end" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" xml:space="preserve">2026-10-18 08:30:18:402</text>
+<rect x="594.0" y="394.0" width="330.0" height="64.0" rx="8" fill="#f1f3f5" />
+<text x="606.0" y="413.0" font-size="11.5" font-weight="600" fill="#6b7280" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" xml:space="preserve">Topic: belajar-iot/5230e8/dari-laptop   QoS: 0</text>
+<text x="606.0" y="436.0" font-size="13.5" font-weight="600" fill="#202124" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" xml:space="preserve">Halo juga dari laptop!</text>
+<text x="604.0" y="476.0" font-size="10.5" font-weight="400" fill="#6b7280" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" xml:space="preserve"></text>
+<line x1="578.0" y1="474.0" x2="1160.0" y2="474.0" stroke="#dfe3e8" stroke-width="1.2" stroke-linecap="round" />
+<rect x="578.0" y="475.0" width="582.0" height="181.0" rx="0" fill="#ffffff" />
+<rect x="592.0" y="486.0" width="118.0" height="28.0" rx="4" fill="#ffffff" stroke="#dfe3e8" stroke-width="1.2" />
+<text x="602.0" y="504.5" font-size="12.5" font-weight="400" fill="#202124" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" xml:space="preserve">Plaintext</text>
+<path d="M692 497.0 L697 502.0 L702 497.0" fill="none" stroke="#6b7280" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="594.0" cy="486.0" r="13" fill="#b45f17" stroke="#ffffff" stroke-width="2" />
+<text x="594.0" y="491.0" font-size="14" font-weight="800" fill="#ffffff" text-anchor="middle" >3</text>
+<rect x="720.0" y="486.0" width="86.0" height="28.0" rx="4" fill="#ffffff" stroke="#dfe3e8" stroke-width="1.2" />
+<text x="730.0" y="504.5" font-size="12.5" font-weight="400" fill="#202124" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" xml:space="preserve">QoS 0</text>
+<path d="M788 497.0 L793 502.0 L798 497.0" fill="none" stroke="#6b7280" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="820.0" y="493.0" width="14.0" height="14.0" rx="3" fill="#ffffff" stroke="#6b7280" stroke-width="1.2" />
+<text x="840.0" y="505.0" font-size="12.5" font-weight="400" fill="#202124" text-anchor="start" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" xml:space="preserve">Retain</text>
+<rect x="592.0" y="524.0" width="554.0" height="30.0" rx="4" fill="#ffffff" stroke="#dfe3e8" stroke-width="1.2" />
+<text x="602.0" y="544.0" font-size="13" font-weight="400" fill="#202124" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">belajar-iot/5230e8/dari-laptop</text>
+<text x="602.0" y="580.0" font-size="13.5" font-weight="400" fill="#202124" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">Halo juga dari laptop!</text>
+<circle cx="1114.0" cy="622.0" r="20" fill="#34c388" />
+<path d="M1105 615 L1124 622 L1105 629 L1109 622 Z" fill="#ffffff" stroke="#ffffff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="1084.0" cy="598.0" r="13" fill="#b45f17" stroke="#ffffff" stroke-width="2" />
+<text x="1084.0" y="603.0" font-size="14" font-weight="800" fill="#ffffff" text-anchor="middle" >4</text>
+<circle cx="65.0" cy="682.0" r="13" fill="#b45f17" stroke="#ffffff" stroke-width="2" />
+<text x="65.0" y="687.0" font-size="14" font-weight="800" fill="#ffffff" text-anchor="middle" >1</text>
+<text x="86.0" y="687.0" font-size="13" font-weight="600" fill="#1e2a4a" text-anchor="start" >New Connection (tombol di tengah layar, atau ikon + di bilah kiri): Name "Broker publik"; Host dan Port sudah terisi; Connect</text>
+<circle cx="65.0" cy="712.0" r="13" fill="#b45f17" stroke="#ffffff" stroke-width="2" />
+<text x="65.0" y="717.0" font-size="14" font-weight="800" fill="#ffffff" text-anchor="middle" >2</text>
+<text x="86.0" y="717.0" font-size="13" font-weight="600" fill="#1e2a4a" text-anchor="start" >New Subscription: Topic belajar-iot/&lt;kode&gt;/#, lalu Confirm</text>
+<circle cx="65.0" cy="742.0" r="13" fill="#b45f17" stroke="#ffffff" stroke-width="2" />
+<text x="65.0" y="747.0" font-size="14" font-weight="800" fill="#ffffff" text-anchor="middle" >3</text>
+<text x="86.0" y="747.0" font-size="13" font-weight="600" fill="#1e2a4a" text-anchor="start" >format Plaintext, lalu isi Topic dengan topik dari-laptop milikmu</text>
+<circle cx="65.0" cy="772.0" r="13" fill="#b45f17" stroke="#ffffff" stroke-width="2" />
+<text x="65.0" y="777.0" font-size="14" font-weight="800" fill="#ffffff" text-anchor="middle" >4</text>
+<text x="86.0" y="777.0" font-size="13" font-weight="600" fill="#1e2a4a" text-anchor="start" >ketik pesannya, lalu klik tombol kirim (atau Ctrl + Enter)</text>
+<text x="1178.0" y="816.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0 · ilustrasi, bukan tangkapan layar (MQTTX 1.13.1)</text>
+</svg>
