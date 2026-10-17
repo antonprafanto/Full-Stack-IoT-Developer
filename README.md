@@ -30,7 +30,7 @@ Kurikulum belajar mandiri **32 modul** dalam Bahasa Indonesia, dari orang awam t
 ## Modul yang sudah tersedia
 
 > [!NOTE]
-> Silabus v1.0 disetujui pada 9 Oktober 2026, dan materi modul ditulis berurutan. Saat ini tersedia **Modul 1–10 dari 32**: seluruh Fase 0 dan Fase 1, serta modul pertama Fase 2. Daftar lengkap 32 modul ada di [PROGRES.md](PROGRES.md).
+> Silabus v1.0 disetujui pada 9 Oktober 2026, dan materi modul ditulis berurutan. Saat ini tersedia **Modul 1–11 dari 32**: seluruh Fase 0 dan Fase 1, serta Modul 10–11 dari Fase 2. Daftar lengkap 32 modul ada di [PROGRES.md](PROGRES.md).
 
 | Modul | Judul | Setelah modul ini Anda bisa… | Alat utama |
 | :---: | :--- | :--- | :--- |
@@ -44,7 +44,8 @@ Kurikulum belajar mandiri **32 modul** dalam Bahasa Indonesia, dari orang awam t
 | 8 | **[Firmware Tangguh: millis(), State Machine, Kode Modular, Watchdog, & Debugging](fase-1-esp32-embedded/modul-08-firmware-tangguh/README.md)** | menulis firmware yang mengerjakan banyak hal "sekaligus" tanpa `delay()`, memecah program menjadi beberapa file, menyimpan setelan di NVS supaya tidak hilang saat listrik padam, memasang *watchdog* yang me-*restart* program macet, dan mencari *bug* secara sistematis | Arduino IDE 2, Wokwi, Kit A |
 | 9 | **[Catu Daya & Hemat Daya: Adaptor, Baterai, Deep Sleep, & Mengukur Arus](fase-1-esp32-embedded/modul-09-catu-daya-dan-hemat-daya/README.md)** | memberi listrik ke perangkat tanpa laptop dengan aman, membuat ESP32 tidur dan bangun sendiri, merakit catu baterai 18650 yang aman, mengukur arus dengan INA219 lalu menghitung umur baterai, dan menuntaskan *checkpoint* Fase 1 | Arduino IDE 2, multimeter, Kit A Tahap 2 (ESP32 ke-2, INA219, 18650 + TP4056 + MT3608) |
 | 10 | **[WiFi & HTTP: Perangkat Mulai Berbicara dengan Jaringan](fase-2-konektivitas/modul-10-wifi-dan-http/README.md)** | menyambungkan ESP32 ke WiFi rumah tanpa menulis kata sandi di kode, membuatnya tersambung lagi sendiri saat WiFi putus, mengambil jam dari internet, mengirim bacaan sensor ke laptop lewat HTTP, dan menyalakan lampu dari browser HP | Arduino IDE 2, Kit A, laptop + Node.js, HP |
-| 11 | MQTT: Bahasa Resmi Dunia IoT & Kontrak Data Proyek | segera terbit — [ringkasannya di Silabus](SILABUS.md#modul-11--mqtt-bahasa-resmi-dunia-iot--kontrak-data-proyek) | Mosquitto, MQTTX, Kit A |
+| 11 | **[MQTT: Bahasa Resmi Dunia IoT & Kontrak Data Proyek](fase-2-konektivitas/modul-11-mqtt-dan-kontrak-data/README.md)** | menjalankan broker MQTT sendiri di laptop, membuat ESP32 menerbitkan bacaan dan menerima perintah lewat broker, status *online*/*offline* otomatis, perintah yang selalu dijawab `ack`, serta kontrak data proyek lengkap dengan alat pemeriksanya | Mosquitto, MQTTX, Kit A, laptop + Node.js |
+| 12 | Raspberry Pi & Linux Dasar: Gateway yang Selalu Hidup | segera terbit — [ringkasannya di Silabus](SILABUS.md#modul-12--raspberry-pi--linux-dasar-gateway-yang-selalu-hidup) | Raspberry Pi (Kit B), SSH, Mosquitto |
 
 Modul per fase juga terdaftar di halaman fasenya: **[Fase 0 — Fondasi](fase-0-fondasi/README.md)**, **[Fase 1 — ESP32 Embedded](fase-1-esp32-embedded/README.md)**, dan **[Fase 2 — Konektivitas](fase-2-konektivitas/README.md)**.
 

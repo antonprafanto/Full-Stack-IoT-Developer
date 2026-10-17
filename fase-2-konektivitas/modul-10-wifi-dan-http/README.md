@@ -4,7 +4,7 @@
 
 *Fase 2 · Minggu 10 · Perangkat keras (*hardware*): **meja kerja Node 1 dari Modul 9**, **laptop**, **HP**, dan **WiFi 2,4 GHz** yang boleh kamu pakai (lihat 🧰) — tanpa komponen baru · Prasyarat: **Modul 8** (Node 1 v1.0) dan **Modul 4** (JSON dan server mini) · Waktu: 8–10 jam, dicicil dalam seminggu*
 
-[⬅️ Modul 9](../../fase-1-esp32-embedded/modul-09-catu-daya-dan-hemat-daya/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · [Modul 11 ➡️ (segera terbit — baca ringkasannya di Silabus)](../../SILABUS.md#modul-11--mqtt-bahasa-resmi-dunia-iot--kontrak-data-proyek)
+[⬅️ Modul 9](../../fase-1-esp32-embedded/modul-09-catu-daya-dan-hemat-daya/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · [Modul 11 ➡️](../modul-11-mqtt-dan-kontrak-data/README.md)
 
 ---
 
@@ -2498,7 +2498,7 @@ Centang semuanya sebelum lanjut ke Modul 11:
 
 **Lulus jika** (sesuai Silabus): *Kamu bisa mematikan lampu dari HP lewat tautan ESP32, server mini di laptop mencetak JSON dari Node 1, dan perangkat tersambung kembali sendiri setelah router dimatikan 1 menit.*
 
-Selamat — Node 1 kini benar-benar menjadi perangkat IoT: tersambung, tahu waktu, melapor, dan bisa diperintah dari jauh. Namun, cara kita masih "surat pribadi": Node 1 harus tahu alamat laptopmu, dan HP-mu harus tahu alamat Node 1. Di **Modul 11**, semua perangkat cukup berbicara lewat satu "kantor pos" bernama ***broker* MQTT**. Tautan `/on` dan `/off` dipensiunkan, dan kontrak data Lampiran A mulai dipakai sepenuhnya.
+Selamat — Node 1 kini benar-benar menjadi perangkat IoT: tersambung, tahu waktu, melapor, dan bisa diperintah dari jauh. Namun, cara kita masih "surat pribadi": Node 1 harus tahu alamat laptopmu, dan HP-mu harus tahu alamat Node 1. Di **[Modul 11](../modul-11-mqtt-dan-kontrak-data/README.md)**, semua perangkat cukup berbicara lewat satu "kantor pos" bernama ***broker* MQTT**. Tautan `/on` dan `/off` dipensiunkan, dan kontrak data Lampiran A mulai dipakai sepenuhnya.
 
 ---
 
@@ -2533,4 +2533,4 @@ Semua sketsa di modul ini sudah dikompilasi dengan paket esp32 versi 3 dan dijal
 
 ---
 
-[⬅️ Modul 9](../../fase-1-esp32-embedded/modul-09-catu-daya-dan-hemat-daya/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · **Berikutnya: Modul 11 — MQTT: Bahasa Resmi Dunia IoT & Kontrak Data Proyek** (segera terbit; [ringkasannya di Silabus](../../SILABUS.md#modul-11--mqtt-bahasa-resmi-dunia-iot--kontrak-data-proyek))
+[⬅️ Modul 9](../../fase-1-esp32-embedded/modul-09-catu-daya-dan-hemat-daya/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · **Berikutnya: [Modul 11 — MQTT: Bahasa Resmi Dunia IoT & Kontrak Data Proyek](../modul-11-mqtt-dan-kontrak-data/README.md) ➡️**

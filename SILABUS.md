@@ -5,7 +5,7 @@
 > **Kurikulum 32 modul — satu modul = satu minggu belajar santai (±8 bulan) — untuk orang awam total hingga mampu membangun sistem IoT lengkap dari sensor sampai dashboard di HP.**
 > Hardware: **ESP32 + Raspberry Pi** · Software: **JavaScript/TypeScript (Node.js + React) untuk server & tampilan, sedikit C++ untuk chip** · Bahasa pengantar: **Indonesia, ramah awam**.
 >
-> Status dokumen: **v1.0.12 — disetujui, penulisan materi berjalan; Modul 1–10 (seluruh Fase 0 dan Fase 1, serta modul pertama Fase 2) tersedia dalam bahasa Indonesia dan Inggris** (17 Oktober 2026). Keputusan yang mendasarinya ada di [§11](#11-keputusan-yang-sudah-disetujui); riwayat perubahan di [§13](#13-riwayat-revisi).
+> Status dokumen: **v1.0.13 — disetujui, penulisan materi berjalan; Modul 1–11 (seluruh Fase 0 dan Fase 1, serta Modul 10–11 dari Fase 2) tersedia dalam bahasa Indonesia dan Inggris** (18 Oktober 2026). Keputusan yang mendasarinya ada di [§11](#11-keputusan-yang-sudah-disetujui); riwayat perubahan di [§13](#13-riwayat-revisi).
 
 ---
 
@@ -121,7 +121,7 @@ Semua pilihan di bawah ini **gratis / open-source**, aktif dirawat per Oktober 2
 | Simulator | **Wokwi** (di browser) | Modul 1–9 bisa dikerjakan **±90 % tanpa hardware** (tabel substitusi di §5.4). |
 | Gateway | **Raspberry Pi 5 (2 GB cukup, 4 GB lebih lega)** + Raspberry Pi OS (Debian 13 "Trixie") | Di 2026 Pi 5 2 GB lebih murah daripada Pi 4 4 GB. Pi 4 4 GB (baru/bekas) tetap didukung sebagai jalur hemat. Di awal, laptop Anda bisa menggantikannya. |
 | Broker pesan | **MQTT — Eclipse Mosquitto** | Protokol standar de facto IoT. Ringan, jalan di Pi, dipahami semua platform cloud, punya fitur *bridge* untuk meneruskan ke pusat. |
-| Library MQTT di ESP32 | **PubSubClient** | Paling banyak contohnya. Keterbatasannya (hanya QoS 0 untuk kirim, buffer 256 byte) dibahas jujur di Modul 11. |
+| Library MQTT di ESP32 | **PubSubClient3** (penerus PubSubClient) | Cara pakainya sama dengan PubSubClient, library yang paling banyak contohnya tetapi tidak dirawat lagi sejak Juni 2026. Keterbatasannya (QoS 1 tanpa kirim ulang, wadah pesan 256 byte) dibahas jujur di Modul 11. |
 | Kaca pembesar MQTT | **MQTTX** | Aktif dirawat (MQTT Explorer sudah lama tidak diperbarui). |
 | Protokol industri | **Modbus RTU lewat RS-485** (modul MAX485, library ModbusMaster) | Protokol yang paling sering diminta lowongan smart farming / system integrator di Indonesia (sensor NPK/EC, flow meter, inverter). |
 | Low-code | **Node-RED + Dashboard 2** (`@flowfuse/node-red-dashboard`) | Dashboard & otomasi *drag-and-drop* untuk "kemenangan cepat" di Modul 13. Dashboard 1 yang lama sudah *deprecated*. |
@@ -293,6 +293,7 @@ Wokwi menyediakan ESP32, LED, tombol, potensiometer, buzzer, servo, relay, DHT22
 | BME280 (Modul 7) | Tidak ada | BMP180 (sepupu lamanya) untuk latihan alamat dan chip ID; DHT22 untuk kelembapan |
 | *Deep sleep* dan mengukur arusnya (Modul 9) | Tidak bisa: papan simulasi langsung *restart* | *Light sleep* dengan alarm timer bisa dicoba; selebihnya pelajari konsepnya, lalu kerjakan di papan asli saat kit datang |
 | Portal WiFi, server web ESP32, kiriman ke laptop, dan uji cabut router (Modul 10) | Tidak bisa: layanan gratis Wokwi hanya mengizinkan sambungan **keluar** ke internet | Menyambung ke jaringan `Wokwi-GUEST`, jam NTP, dan HTTPS ke API publik bisa dicoba; selebihnya di papan asli |
+| Broker MQTT di laptop (Modul 11) | Tidak bisa: ESP32 simulasi tidak bisa menjangkau laptopmu | Semua sketsa jalan dengan broker publik (`broker.emqx.io`, uji QoS di `broker.hivemq.com`), diamati lewat MQTTX; syarat `ack` di bawah 1 detik tetap dibuktikan di papan asli |
 | Uji "24 jam tanpa restart" (Modul 8) | Tidak praktis | Uji 30 menit di simulator + *uptime counter* |
 | Lab RS-485/Modbus (Modul 15) | Tidak ada | Pelajari konsep & kode; praktik saat kit datang |
 | Kabel kendor, kabel cas, driver USB, catu daya (Modul 2, 5) | Tidak ada | Inilah mengapa hardware asli tetap disarankan |
@@ -515,9 +516,11 @@ Format tiap modul:
 #### Modul 11 — MQTT: Bahasa Resmi Dunia IoT & Kontrak Data Proyek
 *Fase 2 · Minggu 11 · Hardware: Kit A + laptop sebagai broker · Prasyarat: Modul 10*
 
+📖 **Materi sudah tersedia:** [buka artikel Modul 11](fase-2-konektivitas/modul-11-mqtt-dan-kontrak-data/README.md)
+
 - **Setelah modul ini Anda bisa:** memahami *publish/subscribe* sampai ke tulang; menjalankan broker sendiri di laptop; membuat Node 1 mengirim data dan menerima perintah lewat MQTT **dengan skema topik & JSON yang dipakai sampai akhir kurikulum (Lampiran A)**.
-- **Konsep inti:** mengapa HTTP kurang cocok untuk ribuan perangkat; model pub/sub (grup WhatsApp: *broker* = server WA, *topic* = nama grup); instalasi Mosquitto di laptop (**jebakan Mosquitto 2.x: default hanya menerima dari laptop sendiri — perlu 2 baris konfigurasi — dan firewall Windows**); `mosquitto_pub/sub` & MQTTX; **kontrak data (Lampiran A)**: `device_id` dari MAC chip, topik `rpm/<device_id>/telemetry` (satu JSON berisi semua sensor + `ts` + `fw`), `/cmd`, `/ack`, `/status` (LWT, *retained*), `/vitals` (RSSI, uptime, heap — tiap 5 menit); wildcard `+` dan `#`; **QoS 0/1/2** (surat biasa / tercatat / kurir tanda tangan) — **didemokan dari laptop**, karena PubSubClient di ESP32 hanya bisa mengirim QoS 0; *retained message* ("papan pengumuman"); **Last Will & Testament** ("surat wasiat" → status online/offline otomatis); *keep-alive*; **`setBufferSize()`** karena buffer default 256 byte memotong JSON diam-diam; **kirim tiap 10 detik + kirim segera jika nilai berubah melewati ambang** (*report-by-exception*); pola *command → ack*.
-- **Alat yang dipakai:** Mosquitto, MQTTX, library PubSubClient.
+- **Konsep inti:** mengapa HTTP kurang cocok untuk ribuan perangkat; model pub/sub (grup WhatsApp: *broker* = server WA, *topic* = nama grup); instalasi Mosquitto di laptop (**jebakan Mosquitto 2.x: default hanya menerima dari laptop sendiri — perlu 2 baris konfigurasi — dan firewall Windows**); `mosquitto_pub/sub` & MQTTX; **kontrak data (Lampiran A)**: `device_id` dari MAC chip, topik `rpm/<device_id>/telemetry` (satu JSON berisi semua sensor + `ts` + `fw`), `/cmd`, `/ack`, `/status` (LWT, *retained*), `/vitals` (RSSI, uptime, heap — tiap 5 menit); wildcard `+` dan `#`; **QoS 0/1/2** (surat biasa / tercatat / kurir tanda tangan) — **didemokan dari laptop**, karena library MQTT di ESP32 tidak pernah mengirim ulang pesan QoS 1-nya (PubSubClient 2.8 bahkan hanya bisa QoS 0); *retained message* ("papan pengumuman"); **Last Will & Testament** ("surat wasiat" → status online/offline otomatis); *keep-alive*; **`setBufferSize()`** karena wadah bawaan 256 byte membuang pesan masuk yang lebih besar secara diam-diam; **kirim tiap 10 detik + kirim segera jika nilai berubah melewati ambang** (*report-by-exception*); pola *command → ack*.
+- **Alat yang dipakai:** Mosquitto, MQTTX, library PubSubClient3, dan library `mqtt` untuk Node.js (alat pemeriksa kontrak).
 - **Opsional / bedah teknis:** MQTT 5 vs 3.1.1; library alternatif (esp_mqtt bawaan ESP-IDF) yang mendukung QoS 1/2; MQTT over WebSocket.
 - **Praktik & proyek mini:** Node 1 publish `telemetry` & `vitals`; subscribe `cmd` → relay/pompa/servo + balas `ack`; LWT menampilkan ONLINE/OFFLINE di MQTTX; uji QoS 1 vs 0 dengan `mosquitto_sub` sambil mematikan WiFi; web server `/on` `/off` dipensiunkan; file `KONTRAK-DATA.md` dibuat.
 - **➕ Rumah Pintar Mini:** seluruh komunikasi pindah ke MQTT sesuai Lampiran A.
@@ -848,7 +851,7 @@ Full-Stack-IoT-Developer/
 │   ├── KONTRAK-DATA.md            ← salinan Lampiran A yang selalu diperbarui (dibuat Modul 11)
 │   ├── PETA-PIN.md                ← peta pin kanonik Node 1 & Node 2 (dibuat Modul 5)
 │   ├── firmware/{node-1-rumah, node-2-kebun}/
-│   ├── edge/                      ← compose.edge.yml + konfigurasi Mosquitto bridge (Pi)
+│   ├── edge/                      ← konfigurasi broker Mosquitto (laptop di Modul 11, Pi mulai Modul 12) + compose.edge.yml + bridge
 │   ├── backend/
 │   ├── frontend/
 │   └── compose.cloud.yml
@@ -948,6 +951,8 @@ Satu kalimat per istilah, bahasa manusia. Semua akan dibahas tuntas di modulnya.
 
 ## 13. Riwayat revisi
 
+**v1.0.13 (18 Okt 2026)** — Modul 11 terbit dalam bahasa Indonesia dan Inggris. Firmware Node 1 naik ke v1.2.0: seluruh komunikasinya lewat MQTT ke broker Mosquitto di laptop (`telemetry` setiap 10 detik ditambah kiriman segera saat keadaan gerak, gelap-terang, tanah, atau air tandon berganti, paling sering setiap 2 detik; `vitals` setelah tersambung lalu setiap 5 menit; status `online` *retained* dan wasiat `offline`; perintah `set` untuk lampu, kipas, pompa, dan tirai yang dijawab `ack`), sedangkan server web `/on` `/off`, mDNS, dan kiriman HTTP pensiun. Proyek mendapat `KONTRAK-DATA.md` (versi 1.0), `edge/mosquitto-lan.conf`, dan `alat/pemeriksa-kontrak.js` (library `mqtt` 5.16.1). Keputusan kontrak yang ditetapkan Modul 11 dicatat di Lampiran A: bacaan gagal ditulis `null`, nama klien MQTT sama dengan `device_id`, kolom `pesan` di `ack`, aturan (3) yang diperjelas, aturan baru (7), (8), dan (9), serta jadwal `vitals`. Library MQTT di §3 diganti **PubSubClient3** 3.3.2, penerus PubSubClient 2.8 yang sejak Juni 2026 tidak dirawat; versi lain yang dikunci untuk Modul 11: Mosquitto 2.1.2, MQTTX 1.13.1. Rincian Modul 11 di §7 disesuaikan dengan hasil riset: wadah bawaan 256 byte **membuang** pesan masuk yang lebih besar (bukan memotongnya), dan library MQTT di ESP32 tidak mengirim ulang QoS 1. Tabel Wokwi di §5.4 ditambah baris Modul 11, dan folder `edge/` di §9 kini juga memuat konfigurasi broker sejak Modul 11.
+
 **v1.0.12 (17 Okt 2026)** — Modul 10 terbit dalam bahasa Indonesia dan Inggris, membuka Fase 2. Firmware Node 1 naik ke v1.1.0 dengan modul baru `jaringan.h`/`jaringan.cpp` (kini 26 file): WiFi lewat portal WiFiManager tanpa kata sandi di kode, sambung ulang otomatis paket esp32 ditambah penjaga 60 detik, jam NTP (`pool.ntp.org`, cadangan `asia.pool.ntp.org`, zona POSIX `WIB-7`), kiriman JSON Lampiran A (`ts`, `fw`, dan keenam bacaan) setiap menit ke `alat/penerima-webhook.js` lewat HTTP POST di jalur `/rpm/<device_id>/telemetry`, server web dengan tautan `/on` dan `/off`, dan nama `node1.local`. Mulai Node 1 v1.1, sketsa diunggah dengan pilihan papan **ESP32 Dev Module** (Partition Scheme **Minimal SPIFFS (1.9MB APP with OTA/128KB SPIFFS)**, Flash Mode **DIO**), karena pilihan DOIT ESP32 DEVKIT V1 tidak punya menu Partition Scheme, sedangkan Node 1 v1.1 (1.315.235 byte) tidak muat lagi di rak program bawaannya (1.310.720 byte). Versi yang dikunci untuk Modul 10: WiFiManager 2.0.17 dan ArduinoJson 7.4.3. Rincian Modul 10 di §7 disesuaikan dengan hasil riset: nama `.local` di HP Android "sering gagal" (Android 11 ke atas sudah mendukungnya sebagian), bukan "tidak jalan". Tabel Wokwi di §5.4 ditambah baris Modul 10: layanan gratis Wokwi hanya mengizinkan sambungan keluar.
 
 **v1.0.11 (14 Okt 2026)** — Modul 9 terbit dalam bahasa Indonesia dan Inggris, dan Fase 1 selesai. Node 1 kini mendapat listrik dari *charger* HP-nya sendiri lewat colokan USB papan (firmware tetap v1.0.0), lalu menjalani uji 24 jam tanpa laptop. Kerangka Node 2 (`firmware/node-2-kebun/` v0.1.0) berjalan di ESP32 ke-2: bangun setiap 30 detik, membaca **DS18B20** di GPIO 27 (bukan DHT22 seperti tertulis sebelumnya, supaya DHT22 tetap di Node 1 selama uji 24 jam), lalu *deep sleep*; papannya hidup dari baterai 18650 → TP4056 → MT3608 (5,0 V) → VIN di breadboard mini 400 titik. Papan Node 1 menjadi alat ukur arus dengan INA219 (Adafruit INA219 1.2.3, alamat `0x40`). ESP32 ke-2 dan breadboard mini kini tercatat mulai dipakai di Modul 9 (§5.2). Wokwi belum mendukung *deep sleep* ESP32 (§5.4), jadi sebagian besar praktik Modul 9 dikerjakan di papan asli. `PETA-PIN.md` naik ke versi 4: aturan emas nomor 2 (Node 1 dari *charger*-nya sendiri), kerangka Node 2 terpasang, dan bagian baru rangkaian baterai Node 2. Rincian Modul 9 di §7 dan baris INA219 di §5.2 disesuaikan dengan hasil riset modul: arus tidur papan DevKit V1 sekitar 4–5 mA (bukan ±10 mA), jadi baterai bertahan beberapa hari.
@@ -986,7 +991,7 @@ Satu kalimat per istilah, bahasa manusia. Semua akan dibahas tuntas di modulnya.
 
 > **Apa ini?** "Bahasa bersama" yang dipakai firmware, gateway, backend, database, dan dashboard supaya semua modul cocok satu sama lain. Pemula tidak perlu memahaminya sekarang — Modul 11 menjelaskannya pelan-pelan, dan salinan yang selalu diperbarui ada di `proyek-rumah-pintar-mini/KONTRAK-DATA.md`.
 
-**Identitas perangkat.** `device_id` = 12 digit heksadesimal dari alamat MAC chip, huruf kecil, contoh `a4cf12e5b7c0`. Dipakai sebagai nama topik, kunci tabel `devices`, nama pengguna broker (Modul 21), dan identitas OTA (Modul 28). Lokasi ("ruang tamu", "kebun") adalah **metadata di tabel `devices`**, bukan bagian dari topik.
+**Identitas perangkat.** `device_id` = 12 digit heksadesimal dari alamat MAC chip, huruf kecil, contoh `a4cf12e5b7c0`. Dipakai sebagai nama topik, nama klien MQTT (*client ID*, Modul 11), kunci tabel `devices`, nama pengguna broker (Modul 21), dan identitas OTA (Modul 28). Lokasi ("ruang tamu", "kebun") adalah **metadata di tabel `devices`**, bukan bagian dari topik.
 
 **Topik MQTT** (awalan `rpm` = Rumah Pintar Mini):
 
@@ -1017,6 +1022,7 @@ Node 2 (ESP-NOW) tidak tersambung ke broker; **Node 1 menerbitkan atas namanya**
 
 // rpm/a4cf12e5b7c0/ack
 { "id": "c-20261009-0917", "ts": "2026-10-09T09:41:32Z", "ok": true, "state": { "kipas": true, "lampu": false, "pompa": false, "tirai": 90 } }
+{ "id": "c-20261009-0920", "ts": "2026-10-09T09:42:05Z", "ok": false, "pesan": "nilai pompa harus 1-10 detik", "state": { "kipas": true, "lampu": false, "pompa": false, "tirai": 90 } }
 ```
 
 **Satuan kolom `telemetry`** (ditetapkan di Modul 6; bacaan gagal **ditandai**, bukan disembunyikan):
@@ -1030,8 +1036,10 @@ Node 2 (ESP-NOW) tidak tersambung ke broker; **Node 1 menerbitkan atas namanya**
 | `gerak` | boolean | `true` = PIR melihat gerakan | PIR HC-SR501 (D34) | — |
 | `level_air` | bilangan bulat | % isi tandon, 0 = kosong, 100 = penuh (hasil kalibrasi dua titik) | HC-SR04 (TRIG D15, ECHO D35) | `-1` |
 
-Cara menuliskan bacaan gagal di JSON (misalnya `null`) ditetapkan di Modul 11.
+**Bacaan gagal ditulis `null` di JSON**, untuk semua kolom (ditetapkan di Modul 11). Tanda gagal di firmware (`NAN`, `-1`) tidak pernah keluar dari perangkat.
+
+**Jawaban `ack`** selalu membawa `id` perintahnya, `ts` (atau `null` kalau jam perangkat belum disetel), `ok`, dan `state` berisi keadaan semua aktuator; kalau `ok` bernilai `false`, kolom `pesan` berisi alasan penolakannya (Modul 11). `vitals` dikirim sekali setelah perangkat tersambung, lalu setiap 5 menit.
 
 **Nilai `reset_reason`** di `vitals` adalah salah satu dari `POWERON`, `BROWNOUT`, `SW`, `PANIC`, `WDT`, `DEEPSLEEP`, atau `UNKNOWN`. Fungsi penerjemahnya, `alasanReset()`, ditulis di Modul 5; kolom ini baru dikirim mulai Modul 28, jadi `vitals` Modul 11–27 boleh belum memuatnya.
 
-**Aturan yang dipegang semua modul:** (1) `ts` dibuat perangkat, bukan server — supaya data susulan (Modul 27) tercatat pada waktu kejadian; (2) database menolak duplikat `(device_id, ts)` (Modul 17); (3) perangkat mengirim `telemetry` tiap 10 detik **dan** segera saat nilai berubah melewati ambang (Modul 11); (4) setiap `cmd` wajib dijawab `ack` dengan `id` yang sama dalam 5 detik (Modul 19); (5) `cmd` berjenis `config` dikirim *retained* dan disimpan perangkat di NVS sebagai dasar aturan pengaman lokal (Modul 19); (6) perangkat hanya boleh menulis ke topik `device_id`-nya sendiri — ditegakkan ACL broker (Modul 21).
+**Aturan yang dipegang semua modul:** (1) `ts` dibuat perangkat, bukan server — supaya data susulan (Modul 27) tercatat pada waktu kejadian; (2) database menolak duplikat `(device_id, ts)` (Modul 17); (3) perangkat mengirim `telemetry` tiap 10 detik **dan** segera saat keadaan penting berganti (gerakan, gelap-terang pada `cahaya` 1000, tanah di bawah ambang siram, air tandon di bawah 20 %), paling sering setiap 2 detik (Modul 11); (4) setiap `cmd` wajib dijawab `ack` dengan `id` yang sama dalam 5 detik (Modul 19); (5) `cmd` berjenis `config` dikirim *retained* dan disimpan perangkat di NVS sebagai dasar aturan pengaman lokal (Modul 19); (6) perangkat hanya boleh menulis ke topik `device_id`-nya sendiri — ditegakkan ACL broker (Modul 21); (7) bacaan gagal ditulis `null` di JSON, untuk semua kolom (Modul 11); (8) perintah ber-`id` sama hanya dikerjakan sekali: perangkat mengingat paling sedikit 8 `id` terakhir, `id` paling panjang 39 huruf, dan karena ingatan itu hilang saat perangkat *restart*, perintah `set` tidak pernah dikirim *retained* (Modul 11); (9) sambungan MQTT memakai *client ID* = `device_id`, *clean session*, *keep-alive* 15 detik, dan wasiat `offline` (QoS 1, *retained*) di topik `status` (Modul 11).

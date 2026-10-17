@@ -9,7 +9,7 @@ Kerjakan modulnya **berurutan**. Satu modul = satu minggu (6–10 jam, dicicil).
 | Minggu | Modul | Perangkat keras | Alat yang dipasang di modul ini | Status |
 | :---: | :--- | :--- | :--- | :--- |
 | 10 | **[Modul 10 — WiFi & HTTP: Perangkat Mulai Berbicara dengan Jaringan](modul-10-wifi-dan-http/README.md)** | Kit A tanpa komponen baru, ditambah laptop, HP, dan WiFi 2,4 GHz (sebagian praktik bisa di Wokwi) | library WiFiManager dan ArduinoJson; WiFi, HTTPClient, WebServer, dan ESPmDNS (bawaan paket esp32) | ✅ tersedia |
-| 11 | Modul 11 — MQTT: Bahasa Resmi Dunia IoT & Kontrak Data Proyek | Kit A + laptop sebagai broker | Mosquitto, MQTTX, library PubSubClient | ⏳ segera terbit — [ringkasan](../SILABUS.md#modul-11--mqtt-bahasa-resmi-dunia-iot--kontrak-data-proyek) |
+| 11 | **[Modul 11 — MQTT: Bahasa Resmi Dunia IoT & Kontrak Data Proyek](modul-11-mqtt-dan-kontrak-data/README.md)** | Kit A tanpa komponen baru, ditambah laptop sebagai broker (semua sketsa bisa dicoba di Wokwi dengan broker publik) | Mosquitto, MQTTX, library PubSubClient3, library `mqtt` untuk Node.js | ✅ tersedia |
 | 12 | Modul 12 — Raspberry Pi & Linux Dasar: Gateway yang Selalu Hidup | Kit B (atau laptop / Pi Zero 2 W) | Raspberry Pi Imager, SSH, Mosquitto | ⏳ segera terbit — [ringkasan](../SILABUS.md#modul-12--raspberry-pi--linux-dasar-gateway-yang-selalu-hidup) |
 | 13 | Modul 13 — Node-RED & Dashboard 2: Dashboard Pertama Tanpa Koding | Kit B (atau laptop) | Node-RED + `@flowfuse/node-red-dashboard` | ⏳ segera terbit — [ringkasan](../SILABUS.md#modul-13--node-red--dashboard-2-dashboard-pertama-tanpa-koding) |
 | 14 | Modul 14 — Node 2 "Kebun": Sensor Bertenaga Baterai via ESP-NOW | Kit A Tahap 2 (2 ESP32, baterai) | library esp_now bawaan paket esp32, INA219 | ⏳ segera terbit — [ringkasan](../SILABUS.md#modul-14--node-2-kebun-sensor-bertenaga-baterai-via-esp-now) |
@@ -23,7 +23,7 @@ Sebelum lanjut ke Fase 3, pastikan bukti-bukti ini sudah ada di repositori GitHu
 2. **Proyek checkpoint:** Node 1 + Node 2 + gateway Raspberry Pi + lab Modbus.
 3. **Artefak:** `KONTRAK-DATA.md` dan flow Node-RED (JSON).
 
-Modul 10 membuka fase ini: Node 1 v1.1 tersambung ke WiFi rumah tanpa kata sandi di kodenya, tahu jam yang tepat, mengirim bacaannya dalam bentuk JSON sesuai kontrak data, dan lampunya bisa dimatikan dari HP. Mulai Modul 11, kiriman yang sama berjalan lewat MQTT.
+Modul 10 membuka fase ini: Node 1 v1.1 tersambung ke WiFi rumah tanpa kata sandi di kodenya, tahu jam yang tepat, mengirim bacaannya dalam bentuk JSON sesuai kontrak data, dan lampunya bisa dimatikan dari HP. Modul 11 memindahkan seluruh komunikasinya ke MQTT: Node 1 v1.2 berbicara lewat broker Mosquitto dengan kontrak data yang dipakai sampai akhir kurikulum, dan artefak pertama fase ini, `KONTRAK-DATA.md`, mulai tersimpan di proyekmu.
 
 ## 📂 Isi setiap folder modul
 
