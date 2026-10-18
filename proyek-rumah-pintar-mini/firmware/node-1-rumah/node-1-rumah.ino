@@ -1,4 +1,4 @@
-// Node 1 "Rumah" - firmware v1.2.0 (Modul 11)
+// Node 1 "Rumah" - firmware v1.2.1 (Modul 12: broker pindah ke gateway Raspberry Pi)
 // Proyek benang merah: Rumah Pintar Mini.
 //
 // Baru di v1.2.0: semua komunikasi lewat MQTT sesuai kontrak data (Lampiran A): telemetry setiap 10 detik dan

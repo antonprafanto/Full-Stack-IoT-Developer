@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="640" viewBox="0 0 1200 640" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="640" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Rumah Pintar Mini setelah Modul 12</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Broker pindah dari laptop ke gateway · laptop tinggal pemantau · garis putus-putus = menyusul</text>
+<rect x="440.0" y="190.0" width="320.0" height="190.0" rx="16" fill="#e2f3f1" stroke="#0f8b8d" stroke-width="2.6" />
+<path d="M462 244 L486 226 L510 244" fill="none" stroke="#0f8b8d" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="467.0" y="244.0" width="38.0" height="28.0" rx="2" fill="none" stroke="#0f8b8d" stroke-width="2.2" />
+<rect x="477.0" y="252.0" width="18.0" height="5.0" rx="1" fill="#0f8b8d" />
+<text x="522.0" y="240.0" font-size="16.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Gateway Raspberry Pi</text>
+<text x="522.0" y="264.0" font-size="12.5" font-weight="700" fill="#4a5568" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">192.168.1.37:1883</text>
+<text x="522.0" y="288.0" font-size="12.5" font-weight="700" fill="#0f8b8d" text-anchor="start" >Mosquitto = layanan systemd</text>
+<text x="462.0" y="322.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >• menyala sendiri saat Pi menyala</text>
+<text x="462.0" y="342.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >• bangkit sendiri kalau crash</text>
+<text x="462.0" y="362.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >• retained tersimpan di kartu</text>
+<rect x="40.0" y="220.0" width="250.0" height="130.0" rx="12" fill="#ffffff" stroke="#1e2a4a" stroke-width="2.4" />
+<rect x="61.0" y="265.0" width="30.0" height="40.0" rx="3" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<rect x="67.0" y="271.0" width="18.0" height="14.0" rx="2" fill="none" stroke="#1e2a4a" stroke-width="1.6" />
+<line x1="61.0" y1="275.0" x2="56.0" y2="275.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="91.0" y1="275.0" x2="96.0" y2="275.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="61.0" y1="283.0" x2="56.0" y2="283.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="91.0" y1="283.0" x2="96.0" y2="283.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="61.0" y1="291.0" x2="56.0" y2="291.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="91.0" y1="291.0" x2="96.0" y2="291.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="61.0" y1="299.0" x2="56.0" y2="299.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="91.0" y1="299.0" x2="96.0" y2="299.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<text x="110.0" y="281.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Node 1 v1.2.1</text>
+<text x="110.0" y="301.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >a4cf12e5b7c0</text>
+<line x1="292.0" y1="236.0" x2="436.0" y2="236.0" stroke="#2f6fd1" stroke-width="2.2" stroke-linecap="round" />
+<path d="M428.9 239.8 L436.0 236.0 L428.9 232.2" fill="none" stroke="#2f6fd1" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="366.0" y="230.0" font-size="11.5" font-weight="800" fill="#2f6fd1" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">telemetry</text>
+<line x1="292.0" y1="266.0" x2="436.0" y2="266.0" stroke="#2a9d5c" stroke-width="2.2" stroke-linecap="round" />
+<path d="M428.9 269.8 L436.0 266.0 L428.9 262.2" fill="none" stroke="#2a9d5c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="366.0" y="260.0" font-size="11.5" font-weight="800" fill="#2a9d5c" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">status·vitals·ack</text>
+<line x1="436.0" y1="330.0" x2="292.0" y2="330.0" stroke="#b45f17" stroke-width="2.2" stroke-linecap="round" />
+<path d="M299.1 326.2 L292.0 330.0 L299.1 333.8" fill="none" stroke="#b45f17" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="366.0" y="324.0" font-size="11.5" font-weight="800" fill="#b45f17" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">cmd</text>
+<text x="166.0" y="376.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >ALAMAT_BROKER = 192.168.1.37</text>
+<rect x="910.0" y="150.0" width="250.0" height="76.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<rect x="926.0" y="173.0" width="40.0" height="26.0" rx="3" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<path d="M920 203.0 L972 203.0" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="980.0" y="184.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >MQTTX (laptop)</text>
+<text x="980.0" y="204.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >pemantau · boleh mati</text>
+<rect x="910.0" y="250.0" width="250.0" height="76.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<rect x="926.0" y="273.0" width="40.0" height="26.0" rx="3" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<path d="M920 303.0 L972 303.0" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="980.0" y="284.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >pemeriksa-kontrak.js</text>
+<text x="980.0" y="304.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >node … 192.168.1.37</text>
+<rect x="910.0" y="350.0" width="250.0" height="76.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<rect x="926.0" y="373.0" width="40.0" height="26.0" rx="3" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<path d="M920 403.0 L972 403.0" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="980.0" y="384.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >SSH ke Pi</text>
+<text x="980.0" y="404.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >perawatan &amp; catatan</text>
+<line x1="764.0" y1="300.0" x2="906.0" y2="200.0" stroke="#0f8b8d" stroke-width="2.2" stroke-linecap="round" />
+<path d="M902.4 207.1 L906.0 200.0 L898.1 201.0" fill="none" stroke="#0f8b8d" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="764.0" y1="300.0" x2="906.0" y2="288.0" stroke="#0f8b8d" stroke-width="2.2" stroke-linecap="round" />
+<path d="M899.3 292.3 L906.0 288.0 L898.6 284.9" fill="none" stroke="#0f8b8d" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="906.0" y1="176.0" x2="764.0" y2="236.0" stroke="#b45f17" stroke-width="2.2" stroke-linecap="round" />
+<path d="M769.0 229.8 L764.0 236.0 L772.0 236.7" fill="none" stroke="#b45f17" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="836.0" y="196.0" font-size="11.5" font-weight="800" fill="#b45f17" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">cmd</text>
+<line x1="764.0" y1="330.0" x2="906.0" y2="388.0" stroke="#4a5568" stroke-width="2" stroke-linecap="round" />
+<rect x="440.0" y="430.0" width="320.0" height="70.0" rx="12" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.5" stroke-dasharray="7 5"/>
+<rect x="452.0" y="448.0" width="48.0" height="34.0" rx="4" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<circle cx="459.0" cy="454.0" r="1.3" fill="#1e2a4a" />
+<circle cx="464.4" cy="454.0" r="1.3" fill="#1e2a4a" />
+<circle cx="469.8" cy="454.0" r="1.3" fill="#1e2a4a" />
+<circle cx="475.2" cy="454.0" r="1.3" fill="#1e2a4a" />
+<circle cx="480.6" cy="454.0" r="1.3" fill="#1e2a4a" />
+<circle cx="486.0" cy="454.0" r="1.3" fill="#1e2a4a" />
+<rect x="484.0" y="461.0" width="12.0" height="9.0" rx="1" fill="none" stroke="#1e2a4a" stroke-width="1.5" />
+<rect x="464.0" y="463.0" width="12.0" height="12.0" rx="1.5" fill="none" stroke="#1e2a4a" stroke-width="1.5" />
+<text x="510.0" y="461.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Node-RED di Pi</text>
+<text x="510.0" y="481.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >Modul 13 · otomasi &amp; dashboard v0</text>
+<line x1="600.0" y1="384.0" x2="600.0" y2="428.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" stroke-dasharray="6 5" />
+<rect x="40.0" y="430.0" width="250.0" height="70.0" rx="12" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.5" stroke-dasharray="7 5"/>
+<rect x="61.0" y="445.0" width="30.0" height="40.0" rx="3" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<rect x="67.0" y="451.0" width="18.0" height="14.0" rx="2" fill="none" stroke="#1e2a4a" stroke-width="1.6" />
+<line x1="61.0" y1="455.0" x2="56.0" y2="455.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="91.0" y1="455.0" x2="96.0" y2="455.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="61.0" y1="463.0" x2="56.0" y2="463.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="91.0" y1="463.0" x2="96.0" y2="463.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="61.0" y1="471.0" x2="56.0" y2="471.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="91.0" y1="471.0" x2="96.0" y2="471.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="61.0" y1="479.0" x2="56.0" y2="479.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="91.0" y1="479.0" x2="96.0" y2="479.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<text x="110.0" y="461.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Node 2 "Kebun"</text>
+<text x="110.0" y="481.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >Modul 14 · lewat Node 1</text>
+<line x1="275.0" y1="354.0" x2="275.0" y2="428.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" stroke-dasharray="6 5" />
+<rect x="40.0" y="528.0" width="1120.0" height="64.0" rx="10" fill="#eef1f5" />
+<text x="62.0" y="556.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >Broker di laptop (Modul 11) pensiun.</text>
+<text x="62.0" y="578.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="start" >Laptop masih dipakai untuk MQTTX, pemeriksa kontrak, dan SSH, tetapi Rumah Pintar Mini tidak lagi bergantung padanya.</text>
+<text x="1178.0" y="626.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

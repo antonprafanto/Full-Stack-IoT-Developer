@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="600" viewBox="0 0 1200 600" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="600" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >systemd: satpam yang menyalakan, membangunkan, dan mencatat</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Satu hari dalam hidup layanan mosquitto di gateway</text>
+<line x1="70.0" y1="236.0" x2="1130.0" y2="236.0" stroke="#d5dbe3" stroke-width="6" stroke-linecap="round" />
+<circle cx="120.0" cy="236.0" r="16" fill="#1e2a4a" />
+<text x="120.0" y="202.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Pi menyala</text>
+<text x="120.0" y="280.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="middle" >systemd membaca daftar tugas</text>
+<circle cx="300.0" cy="236.0" r="16" fill="#2a9d5c" />
+<text x="300.0" y="202.0" font-size="15" font-weight="800" fill="#2a9d5c" text-anchor="middle" >mosquitto jalan</text>
+<text x="300.0" y="280.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="middle" >enabled = ikut menyala</text>
+<text x="300.0" y="300.0" font-size="12" font-weight="700" fill="#2a9d5c" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >active (running)</text>
+<circle cx="500.0" cy="236.0" r="16" fill="#e63946" />
+<text x="500.0" y="202.0" font-size="15" font-weight="800" fill="#e63946" text-anchor="middle" >crash!</text>
+<text x="500.0" y="280.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="middle" >program mati mendadak</text>
+<circle cx="680.0" cy="236.0" r="16" fill="#2a9d5c" />
+<text x="680.0" y="202.0" font-size="15" font-weight="800" fill="#2a9d5c" text-anchor="middle" >dibangunkan lagi</text>
+<text x="680.0" y="280.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="middle" >aturan Restart=on-failure</text>
+<text x="680.0" y="300.0" font-size="12" font-weight="700" fill="#2a9d5c" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >active (running)</text>
+<circle cx="880.0" cy="236.0" r="16" fill="#1e2a4a" />
+<text x="880.0" y="202.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="middle" >sudo poweroff</text>
+<text x="880.0" y="280.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="middle" >dihentikan dengan rapi</text>
+<text x="880.0" y="300.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >retained disimpan</text>
+<circle cx="1060.0" cy="236.0" r="16" fill="#4a5568" />
+<text x="1060.0" y="202.0" font-size="15" font-weight="800" fill="#4a5568" text-anchor="middle" >Pi mati</text>
+<text x="1060.0" y="280.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="middle" >aman dicabut</text>
+<path d="M494 230 L506 242 M506 230 L494 242" fill="none" stroke="#ffffff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M512 176 Q590 112 668 176" fill="none" stroke="#2a9d5c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M656 172 L669 178 L660 166" fill="none" stroke="#2a9d5c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="590.0" y="124.0" font-size="12.5" font-weight="800" fill="#2a9d5c" text-anchor="middle" >otomatis</text>
+<rect x="70.0" y="360.0" width="520.0" height="180.0" rx="14" fill="#ffffff" stroke="#0f8b8d" stroke-width="2" />
+<text x="92.0" y="392.0" font-size="15.5" font-weight="800" fill="#0f8b8d" text-anchor="start" >Buku catatan satpam (journal)</text>
+<text x="92.0" y="420.0" font-size="14" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">journalctl -u mosquitto</text>
+<text x="92.0" y="444.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="start" >kapan layanan dinyalakan, dimatikan, atau gagal</text>
+<text x="92.0" y="476.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Catatan Mosquitto sendiri (klien masuk-keluar):</text>
+<text x="92.0" y="502.0" font-size="14" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">/var/log/mosquitto/mosquitto.log</text>
+<text x="92.0" y="526.0" font-size="12.5" font-weight="700" fill="#4a5568" text-anchor="start" >journal hilang saat Pi menyala ulang; mosquitto.log tetap ada di kartu</text>
+<rect x="620.0" y="360.0" width="510.0" height="180.0" rx="14" fill="#eef1f5" />
+<text x="642.0" y="392.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Bicara dengan satpam: systemctl</text>
+<text x="642.0" y="424.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">systemctl status mosquitto</text>
+<text x="1112.0" y="424.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="end" >bagaimana keadaannya?</text>
+<text x="642.0" y="452.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">sudo systemctl restart mosquitto</text>
+<text x="1112.0" y="452.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="end" >matikan, nyalakan lagi</text>
+<text x="642.0" y="480.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">sudo systemctl enable mosquitto</text>
+<text x="1112.0" y="480.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="end" >masuk daftar tugas pagi</text>
+<text x="642.0" y="508.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">sudo systemctl disable mosquitto</text>
+<text x="1112.0" y="508.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="end" >coret dari daftar</text>
+<text x="1178.0" y="586.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

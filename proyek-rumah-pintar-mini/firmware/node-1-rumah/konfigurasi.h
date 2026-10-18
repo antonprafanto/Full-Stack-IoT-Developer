@@ -2,7 +2,7 @@
 // Pin mengikuti PETA-PIN.md. Angka kalibrasi adalah hasil Modul 6 milikmu sendiri.
 #pragma once
 
-const char VERSI_FIRMWARE[] = "1.2.0";
+const char VERSI_FIRMWARE[] = "1.2.1";
 
 // ---------- Peta pin kanonik Node 1 (salinan dari PETA-PIN.md) ----------
 const int PIN_LED_STATUS = 4;    // Modul 2
@@ -50,7 +50,7 @@ const unsigned long BATAS_PORTAL = 180;    // detik: portal menutup sendiri kala
 const char ZONA_WAKTU[] = "WIB-7";         // WITA: "WITA-8", WIT: "WIT-9" (Modul 10, Praktik 5)
 
 // ---------- Modul 11: MQTT ----------
-const char ALAMAT_BROKER[] = "192.168.1.10";  // GANTI dengan alamat IP laptopmu (broker Mosquitto, Praktik 1)
+const char ALAMAT_BROKER[] = "192.168.1.37";  // GANTI dengan alamat tetap gateway Pi-mu (Modul 12, Praktik 2)
 const uint16_t PORT_BROKER = 1883;
 const unsigned long JEDA_KIRIM = 10000;       // telemetry setiap 10 detik, ditambah segera saat ada kejadian penting
 const unsigned long JEDA_VITALS = 300000;     // vitals (kesehatan Node 1) setiap 5 menit

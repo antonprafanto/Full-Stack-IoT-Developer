@@ -379,7 +379,7 @@ static void cobaSambungkanBroker() {
   int kode = mqtt.state();
   if (kode != kodeGagalTerakhir) {  // kegagalan yang sama tidak dicatat setiap 5 detik
     kodeGagalTerakhir = kode;
-    logError("MQTT gagal tersambung ke broker setelah %lu ms: %s (kode %d). Broker di laptop menyala?",
+    logError("MQTT gagal tersambung ke broker setelah %lu ms: %s (kode %d). Broker di gateway menyala?",
              millis() - mulai, namaKeadaanMqtt(kode), kode);
   }
 }
