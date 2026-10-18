@@ -4,7 +4,7 @@
 
 *Fase 2 · Minggu 12 · Perangkat keras (*hardware*): **Kit B** — Raspberry Pi 5 atau Pi 4, kartu microSD *high-endurance*, adaptor resmi, kabel LAN (lihat 🧰), atau **jalur laptop** tanpa Pi · Prasyarat: **Modul 11** (broker dan Node 1 v1.2) dan **Modul 4** (terminal) · Waktu: 8–10 jam, dicicil dalam seminggu*
 
-[⬅️ Modul 11](../modul-11-mqtt-dan-kontrak-data/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · [Modul 13 ➡️ (segera terbit — baca ringkasannya di Silabus)](../../SILABUS.md#modul-13--node-red--dashboard-2-dashboard-pertama-tanpa-koding)
+[⬅️ Modul 11](../modul-11-mqtt-dan-kontrak-data/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · [Modul 13 ➡️](../modul-13-node-red-dashboard/README.md)
 
 ---
 
@@ -1881,4 +1881,4 @@ Syarat lulus dari Silabus: **cabut laptop, Node 1 tetap tersambung ke broker di 
 
 ---
 
-[⬅️ Modul 11](../modul-11-mqtt-dan-kontrak-data/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · **Berikutnya: Modul 13 — Node-RED & Dashboard 2: Dashboard Pertama Tanpa Koding** (segera terbit; [ringkasannya di Silabus](../../SILABUS.md#modul-13--node-red--dashboard-2-dashboard-pertama-tanpa-koding))
+[⬅️ Modul 11](../modul-11-mqtt-dan-kontrak-data/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · **Berikutnya: [Modul 13 — Node-RED & Dashboard 2: Dashboard Pertama Tanpa Koding](../modul-13-node-red-dashboard/README.md) ➡️**

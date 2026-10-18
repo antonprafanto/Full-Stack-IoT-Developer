@@ -5,7 +5,7 @@
 > **Kurikulum 32 modul — satu modul = satu minggu belajar santai (±8 bulan) — untuk orang awam total hingga mampu membangun sistem IoT lengkap dari sensor sampai dashboard di HP.**
 > Hardware: **ESP32 + Raspberry Pi** · Software: **JavaScript/TypeScript (Node.js + React) untuk server & tampilan, sedikit C++ untuk chip** · Bahasa pengantar: **Indonesia, ramah awam**.
 >
-> Status dokumen: **v1.0.14 — disetujui, penulisan materi berjalan; Modul 1–12 (seluruh Fase 0 dan Fase 1, serta Modul 10–12 dari Fase 2) tersedia dalam bahasa Indonesia dan Inggris** (18 Oktober 2026). Keputusan yang mendasarinya ada di [§11](#11-keputusan-yang-sudah-disetujui); riwayat perubahan di [§13](#13-riwayat-revisi).
+> Status dokumen: **v1.0.15 — disetujui, penulisan materi berjalan; Modul 1–13 (seluruh Fase 0 dan Fase 1, serta Modul 10–13 dari Fase 2) tersedia dalam bahasa Indonesia dan Inggris** (18 Oktober 2026). Keputusan yang mendasarinya ada di [§11](#11-keputusan-yang-sudah-disetujui); riwayat perubahan di [§13](#13-riwayat-revisi).
 
 ---
 
@@ -296,6 +296,7 @@ Wokwi menyediakan ESP32, LED, tombol, potensiometer, buzzer, servo, relay, DHT22
 | Broker MQTT di laptop (Modul 11) | Tidak bisa: ESP32 simulasi tidak bisa menjangkau laptopmu | Semua sketsa jalan dengan broker publik (`broker.emqx.io`, uji QoS di `broker.hivemq.com`), diamati lewat MQTTX; syarat `ack` di bawah 1 detik tetap dibuktikan di papan asli |
 | Uji "24 jam tanpa restart" (Modul 8) | Tidak praktis | Uji 30 menit di simulator + *uptime counter* |
 | Raspberry Pi sebagai gateway (Modul 12) | Tidak ada: Wokwi hanya menyimulasikan mikrokontroler | Jalur laptop: Mosquitto sebagai layanan di laptop (Praktik 7 Modul 12); Node 1 di Wokwi tetap memakai broker publik |
+| Node-RED dan Dashboard 2 (Modul 13) | Tidak ada: Node-RED berjalan di Pi atau laptop, bukan di ESP32 | Jalur laptop: Node-RED di laptop (Praktik 8 Modul 13) berlangganan broker publik tempat Node 1 di Wokwi menerbitkan; jangan dipakai untuk relay sungguhan |
 | Lab RS-485/Modbus (Modul 15) | Tidak ada | Pelajari konsep & kode; praktik saat kit datang |
 | Kabel kendor, kabel cas, driver USB, catu daya (Modul 2, 5) | Tidak ada | Inilah mengapa hardware asli tetap disarankan |
 
@@ -543,11 +544,13 @@ Format tiap modul:
 #### Modul 13 — Node-RED & Dashboard 2: Dashboard Pertama Tanpa Koding
 *Fase 2 · Minggu 13 · Hardware: Kit B (atau laptop) · Prasyarat: Modul 12*
 
+📖 **Materi sudah tersedia:** [buka artikel Modul 13](fase-2-konektivitas/modul-13-node-red-dashboard/README.md)
+
 - **Setelah modul ini Anda bisa:** membuat dashboard & otomasi dengan *drag-and-drop* dalam hitungan menit, memahami pola "alur data" (*flow*) yang nanti Anda tulis sendiri di backend, dan punya "dashboard v0" di HP untuk Rumah Pintar Mini.
-- **Konsep inti:** apa itu *low-code* dan kapan ia cukup; instalasi Node-RED di Pi (dan sebagai *service*); konsep *flow*, *node*, *message* (`msg.payload`); node MQTT in/out; mengubah JSON (node *change*, *function* kecil); **Dashboard 2** (`@flowfuse/node-red-dashboard`): gauge, grafik, saklar, teks; otomasi sederhana (jika suhu > 30 → publish `cmd` kipas; *hysteresis* sederhana); *debug node* sebagai "kaca pembesar"; ekspor/impor *flow* (JSON) ke repositori; **Node-RED akan "pensiun" sebagai otak di Modul 16** — tetapi tetap alat debug yang berguna.
+- **Konsep inti:** apa itu *low-code* dan kapan ia cukup; instalasi Node-RED di Pi (dan sebagai *service*); konsep *flow*, *node*, *message* (`msg.payload`); node MQTT in/out; mengubah JSON (node *change*, *function* kecil); **Dashboard 2** (`@flowfuse/node-red-dashboard`): gauge, grafik, sakelar, teks; otomasi sederhana (jika suhu > 30 → publish `cmd` kipas; *hysteresis* sederhana); *debug node* sebagai "kaca pembesar"; ekspor/impor *flow* (JSON) ke repositori; **Node-RED akan "pensiun" sebagai otak di Modul 16** — tetapi tetap alat debug yang berguna.
 - **Alat yang dipakai:** Node-RED + `@flowfuse/node-red-dashboard` (**diinstal di modul ini**).
 - **Opsional / bedah teknis:** node *function* dengan JavaScript (hubungan dengan Modul 4); Node-RED vs Home Assistant.
-- **Praktik & proyek mini:** dashboard Node-RED menampilkan 5 sensor Node 1 + tombol relay/pompa/servo; otomasi kipas & siram; dibuka dari HP di jaringan rumah; *flow* disimpan di repo.
+- **Praktik & proyek mini:** dashboard Node-RED menampilkan 5 sensor Node 1 + sakelar lampu & kipas, tombol pompa, dan penggeser tirai (servo); otomasi kipas berhisteresis (siram terjadwal menjadi tantangan mandiri; aturan siram lokal Node 1 tetap berjalan); dibuka dari HP di jaringan rumah; *flow* disimpan di repo.
 - **➕ Rumah Pintar Mini:** dashboard v0 (Node-RED) & otomasi pertama yang berjalan 24 jam di Pi.
 - **✅ Lulus jika:** HP membuka dashboard Node-RED di Pi, tombol kipas berfungsi, otomasi menyalakan kipas saat sensor dihangatkan, dan *flow* JSON ada di repositori Anda.
 
@@ -953,6 +956,8 @@ Satu kalimat per istilah, bahasa manusia. Semua akan dibahas tuntas di modulnya.
 ---
 
 ## 13. Riwayat revisi
+
+**v1.0.15 (18 Okt 2026)** — Modul 13 terbit dalam bahasa Indonesia dan Inggris. Gateway Rumah Pintar Mini kini juga menjalankan Node-RED 5.0.8, dipasang dengan skrip resmi `install-update-nodered-deb` (bersama Node.js 24) sebagai layanan systemd `nodered`, dengan editor yang dijaga kata sandi (`node-red admin init`). Dashboard v0 memakai FlowFuse Dashboard (`@flowfuse/node-red-dashboard`) 1.33.0 di `/dashboard/rumah`: status, kelima sensor, grafik 1 jam, sakelar lampu dan kipas yang baru bergeser setelah `ack`, tombol siram 5 detik, penggeser tirai, dan jawaban terakhir. Perintah dari Node-RED mengikuti kontrak data (`id` unik dari `$millis()`, QoS 1, tanpa *retain*) dan `LULUS` di pemeriksa kontrak. Otomasi pertama: kipas nyala di atas 30 °C dan padam di bawah 28 °C (histeresis, penjaga `null`, filter "hanya kalau berubah"). Node 1 tetap v1.2.1. Proyek mendapat `edge/node-red-flows.json`, dan resep `edge/README.md` mendapat bagian Node-RED. Jalur laptop: Node-RED dengan `npm install -g node-red`. Silabus §7 Modul 13: siram terjadwal menjadi tantangan mandiri karena Node 1 sudah punya aturan siram lokal.
 
 **v1.0.14 (18 Okt 2026)** — Modul 12 terbit dalam bahasa Indonesia dan Inggris. Gateway Rumah Pintar Mini kini Raspberry Pi: Raspberry Pi OS Lite (64-bit) berbasis Debian 13 "Trixie" ditulis dengan Raspberry Pi Imager 2.0.12 tanpa monitor (nama host, pengguna, WiFi cadangan, dan SSH diisi di langkah Customisation; Imager menitipkannya sebagai berkas cloud-init), dimasuki lewat SSH, diberi alamat tetap lewat pemesanan di router (cara yang disarankan dokumentasi resmi) atau `nmcli` pada sambungan `netplan-eth0` (alamat di luar rentang DHCP), dan menjalankan Mosquitto 2.0.21 dari paket Debian sebagai layanan systemd (`Restart=on-failure` bawaan, catatan di `/var/log/mosquitto/mosquitto.log`, *journal* Raspberry Pi OS disimpan di RAM). Firmware Node 1 naik ke v1.2.1: hanya `ALAMAT_BROKER` (gateway), versi, dan satu pesan galat yang berubah. Proyek mendapat `edge/gateway-pi.conf` dan `edge/README.md` (resep membangun ulang gateway). Jalur laptop: Mosquitto sebagai layanan Windows (`mosquitto install`), macOS (`brew services`), atau Linux (`systemctl`). Catatan untuk modul berikutnya: sejak April 2026, Raspberry Pi OS meminta kata sandi untuk `sudo`.
 
