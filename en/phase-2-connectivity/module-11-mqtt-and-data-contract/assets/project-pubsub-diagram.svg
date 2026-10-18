@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="700" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Example pub/sub diagram: Mini Smart Home</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Compare it with your own drawing · dashed line = a client that comes in a later module</text>
+<rect x="440.0" y="210.0" width="320.0" height="160.0" rx="16" fill="#e2f3f1" stroke="#0f8b8d" stroke-width="2.6" />
+<path d="M462 270 L486 252 L510 270" fill="none" stroke="#0f8b8d" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="466.0" y="270.0" width="40.0" height="28.0" rx="3" fill="none" stroke="#0f8b8d" stroke-width="2.2" />
+<rect x="476.0" y="278.0" width="20.0" height="5.0" rx="1" fill="#0f8b8d" />
+<line x1="474.0" y1="290.0" x2="498.0" y2="290.0" stroke="#0f8b8d" stroke-width="2" stroke-linecap="round" />
+<text x="522.0" y="268.0" font-size="16.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Mosquitto broker</text>
+<text x="522.0" y="292.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">laptop 192.168.1.10:1883</text>
+<text x="522.0" y="316.0" font-size="12" font-weight="700" fill="#0f8b8d" text-anchor="start" >Module 12: moves to</text>
+<text x="522.0" y="334.0" font-size="12" font-weight="700" fill="#0f8b8d" text-anchor="start" >Raspberry Pi</text>
+<rect x="40.0" y="210.0" width="250.0" height="160.0" rx="12" fill="#ffffff" stroke="#1e2a4a" stroke-width="2.4" />
+<rect x="59.0" y="270.0" width="30.0" height="40.0" rx="3" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<rect x="65.0" y="276.0" width="18.0" height="14.0" rx="2" fill="none" stroke="#1e2a4a" stroke-width="1.6" />
+<line x1="59.0" y1="280.0" x2="54.0" y2="280.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="89.0" y1="280.0" x2="94.0" y2="280.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="59.0" y1="288.0" x2="54.0" y2="288.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="89.0" y1="288.0" x2="94.0" y2="288.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="59.0" y1="296.0" x2="54.0" y2="296.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="89.0" y1="296.0" x2="94.0" y2="296.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="59.0" y1="304.0" x2="54.0" y2="304.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="89.0" y1="304.0" x2="94.0" y2="304.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<text x="106.0" y="286.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Node 1 "Home"</text>
+<text x="106.0" y="306.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >a4cf12e5b7c0</text>
+<text x="366.0" y="198.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >msh/a4cf12e5b7c0/…</text>
+<line x1="292.0" y1="240.0" x2="436.0" y2="240.0" stroke="#2f6fd1" stroke-width="2.2" stroke-linecap="round" />
+<path d="M428.9 243.8 L436.0 240.0 L428.9 236.2" fill="none" stroke="#2f6fd1" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="366.0" y="235.0" font-size="11.5" font-weight="800" fill="#2f6fd1" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">telemetry</text>
+<line x1="292.0" y1="268.0" x2="436.0" y2="268.0" stroke="#2a9d5c" stroke-width="2.2" stroke-linecap="round" />
+<path d="M428.9 271.8 L436.0 268.0 L428.9 264.2" fill="none" stroke="#2a9d5c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="366.0" y="263.0" font-size="11.5" font-weight="800" fill="#2a9d5c" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">status (retained)</text>
+<line x1="292.0" y1="296.0" x2="436.0" y2="296.0" stroke="#4a5568" stroke-width="2.2" stroke-linecap="round" />
+<path d="M428.9 299.8 L436.0 296.0 L428.9 292.2" fill="none" stroke="#4a5568" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="366.0" y="291.0" font-size="11.5" font-weight="800" fill="#4a5568" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">vitals</text>
+<line x1="292.0" y1="324.0" x2="436.0" y2="324.0" stroke="#0f8b8d" stroke-width="2.2" stroke-linecap="round" />
+<path d="M428.9 327.8 L436.0 324.0 L428.9 320.2" fill="none" stroke="#0f8b8d" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="366.0" y="319.0" font-size="11.5" font-weight="800" fill="#0f8b8d" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">ack</text>
+<line x1="436.0" y1="352.0" x2="292.0" y2="352.0" stroke="#b45f17" stroke-width="2.2" stroke-linecap="round" />
+<path d="M299.1 348.2 L292.0 352.0 L299.1 355.8" fill="none" stroke="#b45f17" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="366.0" y="347.0" font-size="11.5" font-weight="800" fill="#b45f17" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">cmd (QoS 1)</text>
+<text x="166.0" y="392.0" font-size="12.5" font-weight="800" fill="#2a9d5c" text-anchor="middle" >last will: status = offline</text>
+<rect x="910.0" y="120.0" width="250.0" height="76.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<rect x="924.0" y="143.0" width="40.0" height="26.0" rx="3" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<path d="M918 173.0 L970 173.0" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="976.0" y="154.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >MQTTX</text>
+<text x="976.0" y="174.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >subscribes msh/#, sends cmd</text>
+<rect x="910.0" y="224.0" width="250.0" height="76.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<circle cx="940.0" cy="258.0" r="11" fill="none" stroke="#1e2a4a" stroke-width="2.2" />
+<line x1="948.0" y1="266.0" x2="958.0" y2="276.0" stroke="#1e2a4a" stroke-width="3" stroke-linecap="round" />
+<text x="976.0" y="258.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >contract-checker.js</text>
+<text x="976.0" y="278.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >subscribes to msh/#</text>
+<line x1="764.0" y1="236.0" x2="906.0" y2="164.0" stroke="#0f8b8d" stroke-width="2.4" stroke-linecap="round" />
+<path d="M901.4 170.5 L906.0 164.0 L898.0 163.8" fill="none" stroke="#0f8b8d" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="906.0" y1="182.0" x2="764.0" y2="252.0" stroke="#b45f17" stroke-width="2.2" stroke-linecap="round" />
+<path d="M768.7 245.5 L764.0 252.0 L772.0 252.2" fill="none" stroke="#b45f17" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="764.0" y1="276.0" x2="906.0" y2="262.0" stroke="#0f8b8d" stroke-width="2.4" stroke-linecap="round" />
+<path d="M899.3 266.4 L906.0 262.0 L898.6 259.0" fill="none" stroke="#0f8b8d" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="826.0" y="176.0" font-size="12" font-weight="800" fill="#0f8b8d" text-anchor="end" >all msh/…</text>
+<text x="842.0" y="236.0" font-size="12" font-weight="800" fill="#b45f17" text-anchor="middle" >cmd</text>
+<text x="835.0" y="292.0" font-size="12" font-weight="800" fill="#0f8b8d" text-anchor="middle" >all msh/…</text>
+<rect x="910.0" y="336.0" width="250.0" height="70.0" rx="12" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.5" stroke-dasharray="7 5"/>
+<rect x="924.0" y="355.0" width="40.0" height="30.0" rx="3" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<path d="M930 378.0 L939 368.0 L947 374.0 L958 362.0" fill="none" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="976.0" y="367.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Node-RED</text>
+<text x="976.0" y="387.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >Module 13</text>
+<rect x="910.0" y="430.0" width="250.0" height="70.0" rx="12" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.5" stroke-dasharray="7 5"/>
+<rect x="926.0" y="445.0" width="36.0" height="11.0" rx="2" fill="none" stroke="#1e2a4a" stroke-width="1.8" />
+<circle cx="933.0" cy="450.5" r="1.6" fill="#1e2a4a" />
+<rect x="926.0" y="459.0" width="36.0" height="11.0" rx="2" fill="none" stroke="#1e2a4a" stroke-width="1.8" />
+<circle cx="933.0" cy="464.5" r="1.6" fill="#1e2a4a" />
+<rect x="926.0" y="473.0" width="36.0" height="11.0" rx="2" fill="none" stroke="#1e2a4a" stroke-width="1.8" />
+<circle cx="933.0" cy="478.5" r="1.6" fill="#1e2a4a" />
+<text x="976.0" y="461.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Backend + database</text>
+<text x="976.0" y="481.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >Modules 16–17</text>
+<line x1="764.0" y1="330.0" x2="906.0" y2="371.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" stroke-dasharray="6 5" />
+<line x1="764.0" y1="352.0" x2="906.0" y2="465.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" stroke-dasharray="6 5" />
+<rect x="440.0" y="430.0" width="320.0" height="70.0" rx="12" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.5" stroke-dasharray="7 5"/>
+<rect x="454.0" y="449.0" width="40.0" height="30.0" rx="3" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<path d="M460 472.0 L469 462.0 L477 468.0 L488 456.0" fill="none" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="506.0" y="461.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Dashboard</text>
+<text x="506.0" y="481.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >Module 22 · via the backend</text>
+<line x1="762.0" y1="485.0" x2="906.0" y2="485.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" stroke-dasharray="6 5" />
+<rect x="40.0" y="430.0" width="250.0" height="70.0" rx="12" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.5" stroke-dasharray="7 5"/>
+<rect x="59.0" y="445.0" width="30.0" height="40.0" rx="3" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<rect x="65.0" y="451.0" width="18.0" height="14.0" rx="2" fill="none" stroke="#1e2a4a" stroke-width="1.6" />
+<line x1="59.0" y1="455.0" x2="54.0" y2="455.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="89.0" y1="455.0" x2="94.0" y2="455.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="59.0" y1="463.0" x2="54.0" y2="463.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="89.0" y1="463.0" x2="94.0" y2="463.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="59.0" y1="471.0" x2="54.0" y2="471.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="89.0" y1="471.0" x2="94.0" y2="471.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="59.0" y1="479.0" x2="54.0" y2="479.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="89.0" y1="479.0" x2="94.0" y2="479.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<text x="106.0" y="461.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Node 2 "Garden"</text>
+<text x="106.0" y="481.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >Module 14 · via Node 1</text>
+<line x1="250.0" y1="428.0" x2="250.0" y2="372.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" stroke-dasharray="6 5" />
+<text x="260.0" y="418.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" >ESP-NOW</text>
+<rect x="40.0" y="540.0" width="1120.0" height="112.0" rx="10" fill="#eef1f5" />
+<text x="62.0" y="570.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >What your diagram must include:</text>
+<text x="62.0" y="596.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="start" >• the broker in the middle, with its address · all the clients around it</text>
+<text x="62.0" y="618.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="start" >• an arrow for every topic, from the publisher to the broker and from the broker to the subscriber, with the topic name</text>
+<text x="62.0" y="640.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="start" >• retained + last will marks on status, QoS 1 on the cmd subscription, the msh/# wildcard on subscribers</text>
+<text x="1178.0" y="686.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer curriculum · CC BY 4.0</text>
+</svg>

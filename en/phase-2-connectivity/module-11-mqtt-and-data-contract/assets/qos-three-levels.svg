@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="690" viewBox="0 0 1200 690" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="690" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >QoS: three levels of effort to deliver a message</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Sequence diagram: time runs from top to bottom · sender on the left, receiver on the right</text>
+<rect x="30.0" y="98.0" width="360.0" height="470.0" rx="14" fill="#ffffff" stroke="#2f6fd1" stroke-width="2" />
+<text x="50.0" y="130.0" font-size="19" font-weight="800" fill="#2f6fd1" text-anchor="start" >QoS 0</text>
+<text x="130.0" y="130.0" font-size="15" font-weight="700" fill="#1e2a4a" text-anchor="start" >regular mail</text>
+<text x="100.0" y="162.0" font-size="13" font-weight="800" fill="#4a5568" text-anchor="middle" >Sender</text>
+<text x="320.0" y="162.0" font-size="13" font-weight="800" fill="#4a5568" text-anchor="middle" >Receiver</text>
+<line x1="100.0" y1="172.0" x2="100.0" y2="470.0" stroke="#d5dbe3" stroke-width="2" stroke-linecap="round" stroke-dasharray="5 5" />
+<line x1="320.0" y1="172.0" x2="320.0" y2="470.0" stroke="#d5dbe3" stroke-width="2" stroke-linecap="round" stroke-dasharray="5 5" />
+<rect x="420.0" y="98.0" width="360.0" height="470.0" rx="14" fill="#ffffff" stroke="#b45f17" stroke-width="2" />
+<text x="440.0" y="130.0" font-size="19" font-weight="800" fill="#b45f17" text-anchor="start" >QoS 1</text>
+<text x="520.0" y="130.0" font-size="15" font-weight="700" fill="#1e2a4a" text-anchor="start" >registered mail</text>
+<text x="490.0" y="162.0" font-size="13" font-weight="800" fill="#4a5568" text-anchor="middle" >Sender</text>
+<text x="710.0" y="162.0" font-size="13" font-weight="800" fill="#4a5568" text-anchor="middle" >Receiver</text>
+<line x1="490.0" y1="172.0" x2="490.0" y2="470.0" stroke="#d5dbe3" stroke-width="2" stroke-linecap="round" stroke-dasharray="5 5" />
+<line x1="710.0" y1="172.0" x2="710.0" y2="470.0" stroke="#d5dbe3" stroke-width="2" stroke-linecap="round" stroke-dasharray="5 5" />
+<rect x="810.0" y="98.0" width="360.0" height="470.0" rx="14" fill="#ffffff" stroke="#0f8b8d" stroke-width="2" />
+<text x="830.0" y="130.0" font-size="19" font-weight="800" fill="#0f8b8d" text-anchor="start" >QoS 2</text>
+<text x="910.0" y="130.0" font-size="15" font-weight="700" fill="#1e2a4a" text-anchor="start" >courier with signature</text>
+<text x="880.0" y="162.0" font-size="13" font-weight="800" fill="#4a5568" text-anchor="middle" >Sender</text>
+<text x="1100.0" y="162.0" font-size="13" font-weight="800" fill="#4a5568" text-anchor="middle" >Receiver</text>
+<line x1="880.0" y1="172.0" x2="880.0" y2="470.0" stroke="#d5dbe3" stroke-width="2" stroke-linecap="round" stroke-dasharray="5 5" />
+<line x1="1100.0" y1="172.0" x2="1100.0" y2="470.0" stroke="#d5dbe3" stroke-width="2" stroke-linecap="round" stroke-dasharray="5 5" />
+<line x1="100.0" y1="205.0" x2="320.0" y2="205.0" stroke="#2f6fd1" stroke-width="2.6" stroke-linecap="round" />
+<path d="M311.2 209.7 L320.0 205.0 L311.2 200.3" fill="none" stroke="#2f6fd1" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="178.4" y="182.0" width="63.2" height="21.0" rx="4" fill="#fffdf7" />
+<text x="210.0" y="197.0" font-size="12" font-weight="700" fill="#2f6fd1" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">PUBLISH</text>
+<text x="210.0" y="252.0" font-size="13.5" font-weight="600" fill="#4a5568" text-anchor="middle" >no receipt,</text>
+<text x="210.0" y="272.0" font-size="13.5" font-weight="600" fill="#4a5568" text-anchor="middle" >no resending</text>
+<text x="210.0" y="500.0" font-size="14" font-weight="800" fill="#2f6fd1" text-anchor="middle" >arrives once, or is lost</text>
+<text x="210.0" y="524.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="middle" >Node 1's telemetry uses this</text>
+<line x1="490.0" y1="200.0" x2="710.0" y2="200.0" stroke="#b45f17" stroke-width="2.6" stroke-linecap="round" />
+<path d="M701.2 204.7 L710.0 200.0 L701.2 195.3" fill="none" stroke="#b45f17" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="539.1" y="177.0" width="121.8" height="21.0" rx="4" fill="#fffdf7" />
+<text x="600.0" y="192.0" font-size="12" font-weight="700" fill="#b45f17" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">PUBLISH (no. 7)</text>
+<line x1="710.0" y1="240.0" x2="490.0" y2="240.0" stroke="#b45f17" stroke-width="2.6" stroke-linecap="round" />
+<path d="M498.8 235.3 L490.0 240.0 L498.8 244.7" fill="none" stroke="#b45f17" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="542.8" y="217.0" width="114.5" height="21.0" rx="4" fill="#fffdf7" />
+<text x="600.0" y="232.0" font-size="12" font-weight="700" fill="#b45f17" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">PUBACK (no. 7)</text>
+<text x="600.0" y="292.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="middle" >if the PUBACK is lost on the way:</text>
+<line x1="490.0" y1="322.0" x2="710.0" y2="322.0" stroke="#b45f17" stroke-width="2.6" stroke-linecap="round" />
+<path d="M701.2 326.7 L710.0 322.0 L701.2 317.3" fill="none" stroke="#b45f17" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="539.1" y="299.0" width="121.8" height="21.0" rx="4" fill="#fffdf7" />
+<text x="600.0" y="314.0" font-size="12" font-weight="700" fill="#b45f17" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">PUBLISH (no. 8)</text>
+<line x1="710.0" y1="360.0" x2="600.0" y2="360.0" stroke="#9aa3b0" stroke-width="2.2" stroke-linecap="round" stroke-dasharray="6 5" />
+<circle cx="585.0" cy="360.0" r="10" fill="#e63946" />
+<path d="M580.5 355.5 L589.5 364.5 M589.5 355.5 L580.5 364.5" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="645.0" y="352.0" font-size="11.5" font-weight="700" fill="#e63946" text-anchor="middle" >PUBACK lost</text>
+<line x1="490.0" y1="410.0" x2="710.0" y2="410.0" stroke="#b45f17" stroke-width="2.6" stroke-linecap="round" />
+<path d="M701.2 414.7 L710.0 410.0 L701.2 405.3" fill="none" stroke="#b45f17" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="600.0" y="382.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="middle" >after reconnecting:</text>
+<rect x="506.8" y="388.0" width="186.5" height="20.0" rx="4" fill="#fffdf7" />
+<text x="600.0" y="402.0" font-size="11" font-weight="700" fill="#b45f17" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">PUBLISH again (no. 8, DUP)</text>
+<text x="600.0" y="438.0" font-size="12.5" font-weight="700" fill="#4a5568" text-anchor="middle" >the receiver gets</text>
+<text x="600.0" y="456.0" font-size="12.5" font-weight="700" fill="#4a5568" text-anchor="middle" >the same message twice</text>
+<text x="600.0" y="500.0" font-size="14" font-weight="800" fill="#b45f17" text-anchor="middle" >always arrives, may be doubled</text>
+<text x="600.0" y="524.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="middle" >Node 1's cmd subscription uses this</text>
+<line x1="880.0" y1="200.0" x2="1100.0" y2="200.0" stroke="#0f8b8d" stroke-width="2.6" stroke-linecap="round" />
+<path d="M1091.2 204.7 L1100.0 200.0 L1091.2 195.3" fill="none" stroke="#0f8b8d" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="947.4" y="177.0" width="85.2" height="21.0" rx="4" fill="#fffdf7" />
+<text x="990.0" y="192.0" font-size="12" font-weight="700" fill="#0f8b8d" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">1. PUBLISH</text>
+<line x1="1100.0" y1="252.0" x2="880.0" y2="252.0" stroke="#0f8b8d" stroke-width="2.6" stroke-linecap="round" />
+<path d="M888.8 247.3 L880.0 252.0 L888.8 256.7" fill="none" stroke="#0f8b8d" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="951.1" y="229.0" width="77.9" height="21.0" rx="4" fill="#fffdf7" />
+<text x="990.0" y="244.0" font-size="12" font-weight="700" fill="#0f8b8d" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">2. PUBREC</text>
+<line x1="880.0" y1="304.0" x2="1100.0" y2="304.0" stroke="#0f8b8d" stroke-width="2.6" stroke-linecap="round" />
+<path d="M1091.2 308.7 L1100.0 304.0 L1091.2 299.3" fill="none" stroke="#0f8b8d" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="951.1" y="281.0" width="77.9" height="21.0" rx="4" fill="#fffdf7" />
+<text x="990.0" y="296.0" font-size="12" font-weight="700" fill="#0f8b8d" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">3. PUBREL</text>
+<line x1="1100.0" y1="356.0" x2="880.0" y2="356.0" stroke="#0f8b8d" stroke-width="2.6" stroke-linecap="round" />
+<path d="M888.8 351.3 L880.0 356.0 L888.8 360.7" fill="none" stroke="#0f8b8d" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="947.4" y="333.0" width="85.2" height="21.0" rx="4" fill="#fffdf7" />
+<text x="990.0" y="348.0" font-size="12" font-weight="700" fill="#0f8b8d" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">4. PUBCOMP</text>
+<text x="990.0" y="420.0" font-size="13.5" font-weight="600" fill="#4a5568" text-anchor="middle" >a four-step handover</text>
+<text x="990.0" y="500.0" font-size="14" font-weight="800" fill="#0f8b8d" text-anchor="middle" >exactly once, the slowest</text>
+<text x="990.0" y="524.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="middle" >PubSubClient3: can't subscribe with QoS 2</text>
+<rect x="30.0" y="586.0" width="1140.0" height="76.0" rx="10" fill="#eef1f5" />
+<text x="52.0" y="616.0" font-size="13.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >QoS applies per leg: publisher → broker uses the publisher's QoS; broker → subscriber uses the lower of the published QoS and the subscription QoS.</text>
+<text x="52.0" y="642.0" font-size="13.5" font-weight="600" fill="#4a5568" text-anchor="start" >PubSubClient3 on the ESP32: subscribes with QoS 0 or 1; publishes QoS 1 but never resends (like QoS 0 when the connection drops).</text>
+<text x="1178.0" y="676.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer curriculum · CC BY 4.0</text>
+</svg>

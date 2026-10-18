@@ -30,7 +30,7 @@ A self-study curriculum of **32 modules**, from complete beginner to building a 
 ## Available modules
 
 > [!NOTE]
-> Syllabus v1.0 was approved on 9 October 2026, and the modules are written in order. Available now: **Modules 1–10 of 32**: all of Phase 0 and Phase 1, plus the first module of Phase 2. The full list of 32 modules is in [PROGRESS.md](PROGRESS.md).
+> Syllabus v1.0 was approved on 9 October 2026, and the modules are written in order. Available now: **Modules 1–11 of 32**: all of Phase 0 and Phase 1, plus Modules 10–11 of Phase 2. The full list of 32 modules is in [PROGRESS.md](PROGRESS.md).
 
 | Module | Title | After this module you can… | Main tools |
 | :---: | :--- | :--- | :--- |
@@ -44,7 +44,8 @@ A self-study curriculum of **32 modules**, from complete beginner to building a 
 | 8 | **[Robust Firmware: millis(), State Machines, Modular Code, Watchdog, & Debugging](phase-1-esp32-embedded/module-08-robust-firmware/README.md)** | write firmware that does many things "at the same time" without `delay()`, split a program into several files, keep settings in NVS so they survive a power cut, install a *watchdog* that restarts a stuck program, and hunt bugs systematically | Arduino IDE 2, Wokwi, Kit A |
 | 9 | **[Power Supply & Low Power: Adapters, Batteries, Deep Sleep, & Measuring Current](phase-1-esp32-embedded/module-09-power-and-low-power/README.md)** | power a device safely without a laptop, make the ESP32 sleep and wake up by itself, build a safe 18650 battery supply, measure current with the INA219 and calculate battery life, and complete the Phase 1 *checkpoint* | Arduino IDE 2, multimeter, Kit A Stage 2 (2nd ESP32, INA219, 18650 + TP4056 + MT3608) |
 | 10 | **[Wi-Fi & HTTP: Devices Start Talking to the Network](phase-2-connectivity/module-10-wifi-and-http/README.md)** | connect the ESP32 to your home Wi-Fi without writing the password in the code, make it reconnect by itself when the Wi-Fi drops, get the time from the internet, send sensor readings to a laptop over HTTP, and turn the lamp on from a phone browser | Arduino IDE 2, Kit A, laptop + Node.js, phone |
-| 11 | MQTT: The Official Language of IoT & the Project Data Contract | coming soon — [read the summary in the Syllabus](SYLLABUS.md#module-11--mqtt-the-official-language-of-iot--the-project-data-contract) | Mosquitto, MQTTX, Kit A |
+| 11 | **[MQTT: The Official Language of IoT & the Project Data Contract](phase-2-connectivity/module-11-mqtt-and-data-contract/README.md)** | run your own MQTT broker on the laptop, make the ESP32 publish readings and receive commands through the broker, get automatic *online*/*offline* status and commands that are always answered with an `ack`, and keep the project's data contract together with its checker | Mosquitto, MQTTX, Kit A, laptop + Node.js |
+| 12 | Raspberry Pi & Linux Basics: A Gateway That's Always On | coming soon — [read the summary in the Syllabus](SYLLABUS.md#module-12--raspberry-pi--linux-basics-a-gateway-thats-always-on) | Raspberry Pi (Kit B), SSH, Mosquitto |
 
 The modules of each phase are also listed on the phase pages: **[Phase 0 — Foundations](phase-0-foundations/README.md)**, **[Phase 1 — ESP32 Embedded](phase-1-esp32-embedded/README.md)**, and **[Phase 2 — Connectivity](phase-2-connectivity/README.md)**.
 

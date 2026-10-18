@@ -1,0 +1,228 @@
+// contract-checker.js — checks every MQTT message of the project against the data contract
+// (Syllabus Appendix A and DATA-CONTRACT.md). Module 11 - Practice 8. Used again in later modules.
+// Needs the mqtt library:  npm install mqtt@5.16.1
+// Run:  node contract-checker.js                               (broker on this laptop)
+//       node contract-checker.js 192.168.1.10                  (broker on another computer)
+//       node contract-checker.js broker.emqx.io 240ac45e114b   (public broker: one device_id only)
+// Stop: Ctrl + C
+
+import mqtt from "mqtt";
+
+const address = process.argv[2] || "127.0.0.1";
+const device = process.argv[3]; // may be left out: only messages from this device_id are checked
+if (device !== undefined && !/^[0-9a-f]{12}$/.test(device)) {
+  console.log(`device_id must be 12 lowercase hexadecimal digits, for example 240ac45e114b. Got: ${device}`);
+  process.exit(1);
+}
+const subscription = device ? `msh/${device}/#` : "msh/#";
+const KINDS = ["telemetry", "status", "vitals", "cmd", "ack"];
+const FIELDS = {
+  telemetry: { all: ["ts", "fw", "temperature", "humidity", "light", "soil", "motion", "water_level"] },
+  vitals: { all: ["ts", "rssi", "uptime_s", "heap_free", "reset_reason"], required: ["ts", "rssi", "uptime_s", "heap_free"] },
+  cmd: { all: ["id", "ts", "action", "target", "value", "thresholds", "url", "version"], required: ["id", "action"] },
+  ack: { all: ["id", "ts", "ok", "message", "state"], required: ["id", "ts", "ok", "state"] },
+};
+const RESET_REASONS = ["POWERON", "BROWNOUT", "SW", "PANIC", "WDT", "DEEPSLEEP", "UNKNOWN"];
+const SET_VALUES = { // the valid values for each target of a "set" command (DATA-CONTRACT.md section 7)
+  lamp: [(n) => typeof n === "boolean", "true or false"],
+  fan: [(n) => typeof n === "boolean", "true or false"],
+  pump: [(n) => Number.isInteger(n) && n >= 1 && n <= 10, "a whole number from 1 to 10 (seconds)"],
+  curtain: [(n) => Number.isInteger(n) && n >= 0 && n <= 180, "a whole number from 0 to 180 (degrees)"],
+};
+const seenCommands = new Map(); // command id -> time seen (ms)
+const count = { passed: 0, failed: 0 };
+
+const time = () => new Date().toLocaleTimeString("en-US");
+const printSummary = () => console.log(`Summary: ${count.passed} messages PASS, ${count.failed} messages FAIL.`);
+const text = (x) => (x === undefined ? "(empty)" : JSON.stringify(x));
+
+// Required fields must be present, and no field outside the contract is allowed. Returns which fields are present.
+function checkFields(content, kind, problems) {
+  const { all, required = all } = FIELDS[kind];
+  for (const field of required) {
+    if (!(field in content)) {
+      problems.push(`field "${field}" is missing`);
+    }
+  }
+  for (const field of Object.keys(content)) {
+    if (!all.includes(field)) {
+      problems.push(`field "${field}" is not in the data contract`);
+    }
+  }
+  return (field) => field in content; // used to check only the fields that are really there
+}
+
+// The ts timestamp: UTC ISO-8601 like 2026-10-18T01:30:12Z, no more than 5 minutes ahead of the laptop's clock.
+function checkTs(ts, problems) {
+  if (typeof ts !== "string" || !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/.test(ts)) {
+    problems.push(`"ts" must look like 2026-10-18T01:30:12Z (UTC), got ${text(ts)}`);
+  } else if (Number.isNaN(Date.parse(ts)) || new Date(ts).getUTCFullYear() < 2025) {
+    problems.push(`"ts" is not a sensible date: ${ts} (is the device's clock set?)`);
+  } else if (Date.parse(ts) - Date.now() > 5 * 60 * 1000) {
+    problems.push(`"ts" is more than 5 minutes ahead of the laptop's clock: ${ts}`);
+  }
+}
+
+// A whole number within a range; nullAllowed = a failed reading may be written as null.
+function checkInteger(name, value, min, max, nullAllowed, problems) {
+  if (value === null && nullAllowed) {
+    return;
+  }
+  if (!Number.isInteger(value) || value < min || value > max) {
+    const orNull = nullAllowed ? " or null" : "";
+    problems.push(`"${name}" must be a whole number from ${min} to ${max}${orNull}, got ${text(value)}`);
+  }
+}
+
+function checkTelemetry(content, problems) {
+  const has = checkFields(content, "telemetry", problems);
+  if (has("ts")) checkTs(content.ts, problems);
+  if (has("fw") && (typeof content.fw !== "string" || !/^\d+\.\d+\.\d+$/.test(content.fw))) {
+    problems.push(`"fw" must be a version like "1.2.0", got ${text(content.fw)}`);
+  }
+  if (has("temperature") && content.temperature !== null && (typeof content.temperature !== "number" || content.temperature < -40 || content.temperature > 80)) {
+    problems.push(`"temperature" must be a number from -40 to 80 or null, got ${text(content.temperature)}`);
+  }
+  if (has("humidity")) checkInteger("humidity", content.humidity, 0, 100, true, problems);
+  if (has("light")) checkInteger("light", content.light, 0, 4095, false, problems);
+  if (has("soil")) checkInteger("soil", content.soil, 0, 100, false, problems);
+  if (has("motion") && typeof content.motion !== "boolean") {
+    problems.push(`"motion" must be true or false, got ${text(content.motion)}`);
+  }
+  if (has("water_level")) checkInteger("water_level", content.water_level, 0, 100, true, problems);
+}
+
+function checkVitals(content, problems) {
+  const has = checkFields(content, "vitals", problems);
+  if (has("ts")) checkTs(content.ts, problems);
+  if (has("rssi")) checkInteger("rssi", content.rssi, -120, 0, false, problems);
+  if (has("uptime_s") && (!Number.isInteger(content.uptime_s) || content.uptime_s < 0)) {
+    problems.push(`"uptime_s" must be a whole number, 0 or more, got ${text(content.uptime_s)}`);
+  }
+  if (has("heap_free") && (!Number.isInteger(content.heap_free) || content.heap_free <= 0)) {
+    problems.push(`"heap_free" must be a whole number greater than 0, got ${text(content.heap_free)}`);
+  }
+  if (has("reset_reason") && !RESET_REASONS.includes(content.reset_reason)) {
+    problems.push(`"reset_reason" must be one of ${RESET_REASONS.join(", ")}`);
+  }
+}
+
+// A command id: text of 1 to 39 characters (the device ignores longer ids).
+function validId(id) {
+  return typeof id === "string" && id.length >= 1 && id.length <= 39;
+}
+
+function checkCmd(content, problems) {
+  const has = checkFields(content, "cmd", problems);
+  if (has("id") && !validId(content.id)) {
+    problems.push(`"id" must be text of 1 to 39 characters, got ${text(content.id)}`);
+  } else if (has("id")) {
+    seenCommands.set(content.id, Date.now()); // noted to measure how long the ack takes to come
+  }
+  if (has("ts")) checkTs(content.ts, problems);
+  if (has("action") && !["set", "config", "update"].includes(content.action)) {
+    problems.push(`"action" must be "set", "config", or "update", got ${text(content.action)}`);
+  }
+  if (content.action === "set") {
+    if (!Object.hasOwn(SET_VALUES, content.target)) {
+      problems.push(`"target" must be lamp, fan, pump, or curtain, got ${text(content.target)}`);
+    } else if (!SET_VALUES[content.target][0](content.value)) {
+      problems.push(`"value" for ${content.target} must be ${SET_VALUES[content.target][1]}, got ${text(content.value)}`);
+    }
+  }
+}
+
+// Returns an extra note: how long the device took to answer the command.
+function checkAck(content, problems) {
+  const has = checkFields(content, "ack", problems);
+  if (has("id") && !validId(content.id)) {
+    problems.push(`"id" must be text of 1 to 39 characters, got ${text(content.id)}`);
+  }
+  if (has("ts") && content.ts !== null) checkTs(content.ts, problems); // null is allowed: the device's clock isn't set yet
+  if (has("ok") && typeof content.ok !== "boolean") {
+    problems.push(`"ok" must be true or false, got ${text(content.ok)}`);
+  }
+  if (has("state") && (typeof content.state !== "object" || content.state === null || Array.isArray(content.state))) {
+    problems.push(`"state" must hold the actuators' state, for example {"lamp": true}`);
+  }
+  if (content.ok === false && typeof content.message !== "string") {
+    problems.push(`an ack that refuses (ok: false) must carry a "message" with the reason`);
+  }
+  if (!seenCommands.has(content.id)) {
+    return "  (the checker didn't see its command)";
+  }
+  const elapsed = Date.now() - seenCommands.get(content.id);
+  const verdict = elapsed < 1000 ? "under 1 second" : "MORE than 1 second";
+  return `  (answered ${elapsed} ms after the command: ${verdict})`;
+}
+
+function check(topic, contentText, retained) {
+  const parts = topic.split("/");
+  const problems = [];
+  let note = retained ? "  [retained]" : "";
+  if (parts.length !== 3 || parts[0] !== "msh" || !/^[0-9a-f]{12}$/.test(parts[1]) || !KINDS.includes(parts[2])) {
+    problems.push("topic outside the data contract: must be msh/<device_id>/<telemetry|status|vitals|cmd|ack>, "
+      + "with a device_id of 12 lowercase hexadecimal digits");
+  } else if (parts[2] === "status") {
+    if (contentText === "") {
+      note += "  (empty message: the retained status was just cleared)";
+    } else if (!["online", "offline", "offline-mode"].includes(contentText)) {
+      problems.push(`the status content must be online, offline, or offline-mode, got ${text(contentText)}`);
+    }
+  } else {
+    let content;
+    try {
+      content = JSON.parse(contentText);
+    } catch (error) {
+      problems.push(`the content is not valid JSON: ${contentText.slice(0, 60)}`);
+    }
+    if (content !== undefined && (typeof content !== "object" || content === null || Array.isArray(content))) {
+      problems.push("the content must be a JSON object { ... }");
+    } else if (content !== undefined) {
+      if (parts[2] === "telemetry") checkTelemetry(content, problems);
+      if (parts[2] === "vitals") checkVitals(content, problems);
+      if (parts[2] === "cmd") checkCmd(content, problems);
+      if (parts[2] === "ack") note += checkAck(content, problems);
+    }
+  }
+  const passed = problems.length === 0;
+  count[passed ? "passed" : "failed"]++;
+  console.log(`[${time()}] ${topic}  ${passed ? "PASS" : "FAIL"}${note}`);
+  for (const m of problems) {
+    console.log(`   - ${m}`);
+  }
+}
+
+const client = mqtt.connect(`mqtt://${address}:1883`, {
+  clientId: "checker-" + Math.random().toString(16).slice(2, 8), // a unique name, no clashes
+  connectTimeout: 5000,
+  reconnectPeriod: 0, // doesn't retry by itself: run it again once the broker is running
+});
+let everConnected = false; // an error after connecting means the connection dropped midway
+client.on("error", (error) => {
+  const cause = error.code || error.message;
+  if (everConnected) {
+    console.log(`\nConnection to broker ${address}:1883 lost (${cause}). Run the checker again once the broker is running.`);
+    printSummary();
+  } else {
+    console.log(`Can't connect to broker ${address}:1883 (${cause}). Is the broker running?`);
+  }
+  process.exit(1);
+});
+client.on("connect", () => {
+  everConnected = true;
+  console.log(`Contract checker ready on broker ${address}:1883 (subscribed to ${subscription}) — press Ctrl + C to stop.`);
+  client.subscribe(subscription);
+});
+client.on("message", (topic, content, packet) => check(topic, content.toString(), packet.retain));
+// Without this listener, the tool just goes quiet if the broker is stopped midway (reconnectPeriod: 0).
+client.on("close", () => {
+  console.log(`\nConnection to broker ${address}:1883 lost. Run the checker again once the broker is running.`);
+  printSummary();
+  process.exit(1);
+});
+process.on("SIGINT", () => {
+  console.log("");
+  printSummary();
+  process.exit(0);
+});

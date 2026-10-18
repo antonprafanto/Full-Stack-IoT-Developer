@@ -189,7 +189,7 @@ static void drawStatusPage() {
   snprintf(text, sizeof(text), "Boot #%lu", bootCount());
   display.setCursor(0, 38);
   display.print(text);
-  snprintf(text, sizeof(text), "WiFi %s", networkText());  // Module 10: Node 1's IP address, "disconnected", or "off"
+  snprintf(text, sizeof(text), "WiFi %s", networkText());  // Module 11: for example "WiFi ok, MQTT ok"
   display.setCursor(0, 47);
   display.print(text);
   snprintf(text, sizeof(text), "v%s  free %luKB", FIRMWARE_VERSION, ESP.getFreeHeap() / 1024);

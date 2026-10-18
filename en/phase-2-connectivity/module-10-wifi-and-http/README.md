@@ -4,7 +4,7 @@
 
 *Phase 2 · Week 10 · Hardware: **the Node 1 workbench from Module 9**, **a laptop**, **a phone**, and **2.4 GHz Wi-Fi** that you're allowed to use (see 🧰) — no new parts · Prerequisites: **Module 8** (Node 1 v1.0) and **Module 4** (JSON and the mini server) · Time: 8–10 hours, spread over the week*
 
-[⬅️ Module 9](../../phase-1-esp32-embedded/module-09-power-and-low-power/README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · [Module 11 ➡️ (coming soon — read the summary in the Syllabus)](../../SYLLABUS.md#module-11--mqtt-the-official-language-of-iot--the-project-data-contract)
+[⬅️ Module 9](../../phase-1-esp32-embedded/module-09-power-and-low-power/README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · [Module 11 ➡️](../module-11-mqtt-and-data-contract/README.md)
 
 ---
 
@@ -2498,7 +2498,7 @@ Check them all before you move on to Module 11:
 
 **You pass when** (according to the Syllabus): *you can turn off the lamp from your phone through the ESP32's link, the mini server on the laptop prints JSON from Node 1, and the device reconnects by itself after the router has been off for 1 minute.*
 
-Congratulations — Node 1 is now a real IoT device: connected, aware of the time, reporting, and controllable from afar. But our way of doing it is still "private letters": Node 1 has to know your laptop's address, and your phone has to know Node 1's address. In **Module 11**, all the devices simply talk through one "post office" called the **MQTT broker**. The `/on` and `/off` links retire, and the Appendix A data contract comes into full use.
+Congratulations — Node 1 is now a real IoT device: connected, aware of the time, reporting, and controllable from afar. But our way of doing it is still "private letters": Node 1 has to know your laptop's address, and your phone has to know Node 1's address. In **[Module 11](../module-11-mqtt-and-data-contract/README.md)**, all the devices simply talk through one "post office" called the **MQTT broker**. The `/on` and `/off` links retire, and the Appendix A data contract comes into full use.
 
 ---
 
@@ -2533,4 +2533,4 @@ All the sketches in this module have been compiled with version 3 of the esp32 p
 
 ---
 
-[⬅️ Module 9](../../phase-1-esp32-embedded/module-09-power-and-low-power/README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · **Next: Module 11 — MQTT: The Official Language of IoT & the Project Data Contract** (coming soon; [read the summary in the Syllabus](../../SYLLABUS.md#module-11--mqtt-the-official-language-of-iot--the-project-data-contract))
+[⬅️ Module 9](../../phase-1-esp32-embedded/module-09-power-and-low-power/README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · **Next: [Module 11 — MQTT: The Official Language of IoT & the Project Data Contract](../module-11-mqtt-and-data-contract/README.md) ➡️**

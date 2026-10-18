@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="650" viewBox="0 0 1200 650" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="650" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Publish/subscribe: the broker as a WhatsApp group server</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >The publisher only names a topic; the broker passes it to every subscriber of that topic</text>
+<rect x="40.0" y="100.0" width="1120.0" height="168.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="70.0" y="128.0" font-size="14.5" font-weight="800" fill="#4a5568" text-anchor="start" >WhatsApp group</text>
+<text x="440.0" y="128.0" font-size="14.5" font-weight="800" fill="#0f8b8d" text-anchor="start" >MQTT</text>
+<text x="810.0" y="128.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >In our project</text>
+<text x="70.0" y="158.0" font-size="14.5" font-weight="600" fill="#1e2a4a" text-anchor="start" >WhatsApp server</text>
+<text x="440.0" y="158.0" font-size="14.5" font-weight="800" fill="#0f8b8d" text-anchor="start" >broker</text>
+<text x="810.0" y="158.0" font-size="14.5" font-weight="600" fill="#1e2a4a" text-anchor="start" >Mosquitto on the laptop</text>
+<text x="70.0" y="186.0" font-size="14.5" font-weight="600" fill="#1e2a4a" text-anchor="start" >Group name</text>
+<text x="440.0" y="186.0" font-size="14.5" font-weight="800" fill="#0f8b8d" text-anchor="start" >topic</text>
+<text x="810.0" y="186.0" font-size="13.5" font-weight="600" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">msh/a4cf12e5b7c0/telemetry</text>
+<text x="70.0" y="214.0" font-size="14.5" font-weight="600" fill="#1e2a4a" text-anchor="start" >Post to the group</text>
+<text x="440.0" y="214.0" font-size="14.5" font-weight="800" fill="#0f8b8d" text-anchor="start" >publish</text>
+<text x="810.0" y="214.0" font-size="14.5" font-weight="600" fill="#1e2a4a" text-anchor="start" >Node 1 sends readings</text>
+<text x="70.0" y="242.0" font-size="14.5" font-weight="600" fill="#1e2a4a" text-anchor="start" >Join the group</text>
+<text x="440.0" y="242.0" font-size="14.5" font-weight="800" fill="#0f8b8d" text-anchor="start" >subscribe</text>
+<text x="810.0" y="242.0" font-size="13.5" font-weight="600" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">MQTTX: msh/#</text>
+<rect x="40.0" y="330.0" width="250.0" height="70.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<rect x="59.0" y="345.0" width="30.0" height="40.0" rx="3" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<rect x="65.0" y="351.0" width="18.0" height="14.0" rx="2" fill="none" stroke="#1e2a4a" stroke-width="1.6" />
+<line x1="59.0" y1="355.0" x2="54.0" y2="355.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="89.0" y1="355.0" x2="94.0" y2="355.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="59.0" y1="363.0" x2="54.0" y2="363.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="89.0" y1="363.0" x2="94.0" y2="363.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="59.0" y1="371.0" x2="54.0" y2="371.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="89.0" y1="371.0" x2="94.0" y2="371.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="59.0" y1="379.0" x2="54.0" y2="379.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="89.0" y1="379.0" x2="94.0" y2="379.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<text x="106.0" y="361.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Node 1</text>
+<text x="106.0" y="381.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >publisher</text>
+<rect x="470.0" y="318.0" width="260.0" height="94.0" rx="14" fill="#e2f3f1" stroke="#0f8b8d" stroke-width="2.4" />
+<path d="M488 359 L512 341 L536 359" fill="none" stroke="#0f8b8d" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="492.0" y="359.0" width="40.0" height="28.0" rx="3" fill="none" stroke="#0f8b8d" stroke-width="2.2" />
+<rect x="502.0" y="367.0" width="20.0" height="5.0" rx="1" fill="#0f8b8d" />
+<line x1="500.0" y1="379.0" x2="524.0" y2="379.0" stroke="#0f8b8d" stroke-width="2" stroke-linecap="round" />
+<text x="548.0" y="358.0" font-size="17" font-weight="800" fill="#1e2a4a" text-anchor="start" >Broker</text>
+<text x="548.0" y="382.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="start" >passes on</text>
+<rect x="910.0" y="300.0" width="250.0" height="62.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<rect x="924.0" y="316.0" width="40.0" height="26.0" rx="3" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<path d="M918 346.0 L970 346.0" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="976.0" y="327.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >MQTTX</text>
+<text x="976.0" y="347.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >subscribed: msh/#</text>
+<rect x="910.0" y="380.0" width="250.0" height="62.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<circle cx="940.0" cy="407.0" r="11" fill="none" stroke="#1e2a4a" stroke-width="2.2" />
+<line x1="948.0" y1="415.0" x2="958.0" y2="425.0" stroke="#1e2a4a" stroke-width="3" stroke-linecap="round" />
+<text x="976.0" y="407.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Checker</text>
+<text x="976.0" y="427.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >subscribed: msh/#</text>
+<rect x="910.0" y="460.0" width="250.0" height="62.0" rx="12" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.5" stroke-dasharray="7 5"/>
+<rect x="933.0" y="472.0" width="22.0" height="38.0" rx="5" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<circle cx="944.0" cy="504.0" r="1.8" fill="#1e2a4a" />
+<text x="976.0" y="487.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Other client</text>
+<text x="976.0" y="507.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >subscribed: msh/+/status</text>
+<line x1="296.0" y1="365.0" x2="464.0" y2="365.0" stroke="#0f8b8d" stroke-width="3" stroke-linecap="round" />
+<path d="M455.2 369.7 L464.0 365.0 L455.2 360.3" fill="none" stroke="#0f8b8d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="330.0" cy="365.0" r="12" fill="#b45f17" stroke="#ffffff" stroke-width="2" />
+<text x="330.0" y="369.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >1</text>
+<rect x="361.4" y="338.5" width="61.1" height="20.5" rx="4" fill="#fffdf7" />
+<text x="392.0" y="353.0" font-size="11.5" font-weight="700" fill="#0f8b8d" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">PUBLISH</text>
+<line x1="736.0" y1="352.0" x2="904.0" y2="331.0" stroke="#0f8b8d" stroke-width="3" stroke-linecap="round" />
+<path d="M895.8 336.8 L904.0 331.0 L894.7 327.4" fill="none" stroke="#0f8b8d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="736.0" y1="372.0" x2="904.0" y2="411.0" stroke="#0f8b8d" stroke-width="3" stroke-linecap="round" />
+<path d="M894.3 413.6 L904.0 411.0 L896.5 404.4" fill="none" stroke="#0f8b8d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="770.0" cy="360.0" r="12" fill="#b45f17" stroke="#ffffff" stroke-width="2" />
+<text x="770.0" y="364.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >2</text>
+<line x1="736.0" y1="392.0" x2="904.0" y2="491.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" stroke-dasharray="6 6" />
+<circle cx="820.0" cy="442.0" r="10" fill="#e63946" />
+<path d="M815.5 437.5 L824.5 446.5 M824.5 437.5 L815.5 446.5" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="103.2" y="432.0" width="253.6" height="21.0" rx="4" fill="#fffdf7" />
+<text x="230.0" y="447.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">topic: msh/a4cf12e5b7c0/telemetry</text>
+<rect x="110.5" y="456.0" width="238.9" height="21.0" rx="4" fill="#fffdf7" />
+<text x="230.0" y="471.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">{"ts":"…","temperature":28.5,…}</text>
+<text x="800.0" y="474.0" font-size="12.5" font-weight="700" fill="#e63946" text-anchor="end" >other topic: not sent</text>
+<rect x="40.0" y="548.0" width="1120.0" height="70.0" rx="10" fill="#eef1f5" />
+<circle cx="70.0" cy="573.0" r="10" fill="#b45f17" stroke="#ffffff" stroke-width="2" />
+<text x="70.0" y="576.6" font-size="10" font-weight="700" fill="#ffffff" text-anchor="middle" >1</text>
+<text x="88.0" y="578.0" font-size="14" font-weight="700" fill="#1e2a4a" text-anchor="start" >Node 1 publishes once, without knowing who reads it ·</text>
+<circle cx="540.0" cy="573.0" r="10" fill="#b45f17" stroke="#ffffff" stroke-width="2" />
+<text x="540.0" y="576.6" font-size="10" font-weight="700" fill="#ffffff" text-anchor="middle" >2</text>
+<text x="558.0" y="578.0" font-size="14" font-weight="700" fill="#1e2a4a" text-anchor="start" >the broker sends a copy to every subscriber whose topic matches</text>
+<text x="60.0" y="602.0" font-size="13.5" font-weight="600" fill="#4a5568" text-anchor="start" >Unlike WhatsApp: the broker keeps no history; whoever joins later doesn't see old messages (except retained ones, Concept 7)</text>
+<text x="1178.0" y="636.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer curriculum · CC BY 4.0</text>
+</svg>

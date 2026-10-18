@@ -26,7 +26,7 @@ Tick `[x]` every time you meet the **"You pass when"** criteria in [SYLLABUS.md]
 ## 🟦 Phase 2 — Connectivity (Modules 10–15)
 
 - [ ] **[Module 10](phase-2-connectivity/module-10-wifi-and-http/README.md)** — Wi-Fi & HTTP: Devices Start Talking to the Network
-- [ ] **Module 11** — MQTT: The Official Language of IoT & the Project Data Contract
+- [ ] **[Module 11](phase-2-connectivity/module-11-mqtt-and-data-contract/README.md)** — MQTT: The Official Language of IoT & the Project Data Contract
 - [ ] **Module 12** — Raspberry Pi & Linux Basics: A Gateway That's Always On
 - [ ] **Module 13** — Node-RED & Dashboard 2: Your First Dashboard Without Coding
 - [ ] **Module 14** — Node 2 "Garden": Battery-Powered Sensors via ESP-NOW

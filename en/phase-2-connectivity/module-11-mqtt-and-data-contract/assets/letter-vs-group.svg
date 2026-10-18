@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="640" viewBox="0 0 1200 640" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="640" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >HTTP = a private letter, MQTT = a group chat</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Who has to know whose address? Left: Module 10. Right: this week.</text>
+<rect x="30.0" y="100.0" width="555.0" height="440.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<text x="52.0" y="132.0" font-size="17" font-weight="800" fill="#2f6fd1" text-anchor="start" >Module 10 · HTTP</text>
+<rect x="56.0" y="160.0" width="220.0" height="64.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<rect x="75.0" y="172.0" width="30.0" height="40.0" rx="3" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<rect x="81.0" y="178.0" width="18.0" height="14.0" rx="2" fill="none" stroke="#1e2a4a" stroke-width="1.6" />
+<line x1="75.0" y1="182.0" x2="70.0" y2="182.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="105.0" y1="182.0" x2="110.0" y2="182.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="75.0" y1="190.0" x2="70.0" y2="190.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="105.0" y1="190.0" x2="110.0" y2="190.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="75.0" y1="198.0" x2="70.0" y2="198.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="105.0" y1="198.0" x2="110.0" y2="198.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="75.0" y1="206.0" x2="70.0" y2="206.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="105.0" y1="206.0" x2="110.0" y2="206.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<text x="122.0" y="188.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Node 1</text>
+<text x="122.0" y="208.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >192.168.1.23 · web server</text>
+<rect x="340.0" y="160.0" width="220.0" height="64.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<rect x="354.0" y="177.0" width="40.0" height="26.0" rx="3" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<path d="M348 207.0 L400 207.0" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="406.0" y="188.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Laptop</text>
+<text x="406.0" y="208.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >192.168.1.10:3000</text>
+<rect x="56.0" y="330.0" width="220.0" height="64.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<rect x="79.0" y="343.0" width="22.0" height="38.0" rx="5" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<circle cx="90.0" cy="375.0" r="1.8" fill="#1e2a4a" />
+<text x="122.0" y="358.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Phone</text>
+<text x="122.0" y="378.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >browser</text>
+<rect x="340.0" y="330.0" width="220.0" height="64.0" rx="12" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.5" stroke-dasharray="7 5"/>
+<rect x="354.0" y="346.0" width="40.0" height="30.0" rx="3" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<path d="M360 369.0 L369 359.0 L377 365.0 L388 353.0" fill="none" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="406.0" y="358.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Dashboard</text>
+<text x="406.0" y="378.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >later (Module 13)</text>
+<line x1="282.0" y1="182.0" x2="334.0" y2="182.0" stroke="#2f6fd1" stroke-width="2.5" stroke-linecap="round" />
+<path d="M325.2 186.7 L334.0 182.0 L325.2 177.3" fill="none" stroke="#2f6fd1" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="288.0" y="148.5" width="40.1" height="20.5" rx="4" fill="#fffdf7" />
+<text x="308.0" y="163.0" font-size="11.5" font-weight="700" fill="#2f6fd1" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">POST</text>
+<line x1="166.0" y1="324.0" x2="166.0" y2="230.0" stroke="#2f6fd1" stroke-width="2.5" stroke-linecap="round" />
+<path d="M170.7 238.8 L166.0 230.0 L161.3 238.8" fill="none" stroke="#2f6fd1" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="135.4" y="266.5" width="61.1" height="20.5" rx="4" fill="#fffdf7" />
+<text x="166.0" y="281.0" font-size="11.5" font-weight="700" fill="#2f6fd1" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">GET /on</text>
+<line x1="250.0" y1="230.0" x2="380.0" y2="324.0" stroke="#9aa3b0" stroke-width="2.5" stroke-linecap="round" />
+<path d="M370.1 322.6 L380.0 324.0 L375.6 315.0" fill="none" stroke="#9aa3b0" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="277.4" y="256.5" width="89.2" height="20.5" rx="4" fill="#fffdf7" />
+<text x="322.0" y="271.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">POST again?</text>
+<text x="56.0" y="440.0" font-size="13.5" font-weight="600" fill="#4a5568" text-anchor="start" >• every sender has to know every receiver's address</text>
+<text x="56.0" y="464.0" font-size="13.5" font-weight="600" fill="#4a5568" text-anchor="start" >• to take commands, Node 1 has to be a web server</text>
+<text x="56.0" y="488.0" font-size="13.5" font-weight="600" fill="#4a5568" text-anchor="start" >• a new receiver = a new send from Node 1</text>
+<text x="56.0" y="512.0" font-size="13.5" font-weight="600" fill="#4a5568" text-anchor="start" >• nobody knows when Node 1 is dead</text>
+<rect x="615.0" y="100.0" width="555.0" height="440.0" rx="14" fill="#ffffff" stroke="#0f8b8d" stroke-width="2" />
+<text x="637.0" y="132.0" font-size="17" font-weight="800" fill="#0f8b8d" text-anchor="start" >Module 11 · MQTT</text>
+<rect x="780.0" y="250.0" width="230.0" height="74.0" rx="14" fill="#e2f3f1" stroke="#0f8b8d" stroke-width="2.2" />
+<path d="M794 284 L818 266 L842 284" fill="none" stroke="#0f8b8d" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="798.0" y="284.0" width="40.0" height="28.0" rx="3" fill="none" stroke="#0f8b8d" stroke-width="2.2" />
+<rect x="808.0" y="292.0" width="20.0" height="5.0" rx="1" fill="#0f8b8d" />
+<line x1="806.0" y1="304.0" x2="830.0" y2="304.0" stroke="#0f8b8d" stroke-width="2" stroke-linecap="round" />
+<text x="852.0" y="282.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="start" >Broker</text>
+<text x="852.0" y="304.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >laptop · door 1883</text>
+<rect x="640.0" y="150.0" width="220.0" height="64.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<rect x="659.0" y="162.0" width="30.0" height="40.0" rx="3" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<rect x="665.0" y="168.0" width="18.0" height="14.0" rx="2" fill="none" stroke="#1e2a4a" stroke-width="1.6" />
+<line x1="659.0" y1="172.0" x2="654.0" y2="172.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="689.0" y1="172.0" x2="694.0" y2="172.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="659.0" y1="180.0" x2="654.0" y2="180.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="689.0" y1="180.0" x2="694.0" y2="180.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="659.0" y1="188.0" x2="654.0" y2="188.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="689.0" y1="188.0" x2="694.0" y2="188.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="659.0" y1="196.0" x2="654.0" y2="196.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="689.0" y1="196.0" x2="694.0" y2="196.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<text x="706.0" y="178.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Node 1</text>
+<text x="706.0" y="198.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >client</text>
+<rect x="930.0" y="150.0" width="220.0" height="64.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<rect x="944.0" y="167.0" width="40.0" height="26.0" rx="3" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<path d="M938 197.0 L990 197.0" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="996.0" y="178.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >MQTTX</text>
+<text x="996.0" y="198.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >client</text>
+<rect x="640.0" y="362.0" width="220.0" height="64.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<circle cx="670.0" cy="390.0" r="11" fill="none" stroke="#1e2a4a" stroke-width="2.2" />
+<line x1="678.0" y1="398.0" x2="688.0" y2="408.0" stroke="#1e2a4a" stroke-width="3" stroke-linecap="round" />
+<text x="706.0" y="390.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Checker</text>
+<text x="706.0" y="410.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >client</text>
+<rect x="930.0" y="362.0" width="220.0" height="64.0" rx="12" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.5" stroke-dasharray="7 5"/>
+<rect x="944.0" y="378.0" width="40.0" height="30.0" rx="3" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<path d="M950 401.0 L959 391.0 L967 397.0 L978 385.0" fill="none" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="996.0" y="390.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Dashboard</text>
+<text x="996.0" y="410.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >later, client</text>
+<line x1="750.0" y1="214.0" x2="840.0" y2="250.0" stroke="#0f8b8d" stroke-width="3" stroke-linecap="round" />
+<line x1="1040.0" y1="214.0" x2="950.0" y2="250.0" stroke="#0f8b8d" stroke-width="3" stroke-linecap="round" />
+<line x1="750.0" y1="362.0" x2="840.0" y2="324.0" stroke="#0f8b8d" stroke-width="3" stroke-linecap="round" />
+<line x1="1040.0" y1="362.0" x2="950.0" y2="324.0" stroke="#0f8b8d" stroke-width="3" stroke-linecap="round" />
+<rect x="620.3" y="223.0" width="139.5" height="20.0" rx="4" fill="#fffdf7" />
+<text x="690.0" y="237.0" font-size="11" font-weight="700" fill="#0f8b8d" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">publishes telemetry</text>
+<rect x="657.2" y="241.0" width="65.7" height="20.0" rx="4" fill="#fffdf7" />
+<text x="690.0" y="255.0" font-size="11" font-weight="700" fill="#0f8b8d" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">gets cmd</text>
+<rect x="1050.4" y="223.0" width="99.2" height="20.0" rx="4" fill="#fffdf7" />
+<text x="1100.0" y="237.0" font-size="11" font-weight="700" fill="#0f8b8d" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">publishes cmd</text>
+<rect x="1047.0" y="241.0" width="105.9" height="20.0" rx="4" fill="#fffdf7" />
+<text x="1100.0" y="255.0" font-size="11" font-weight="700" fill="#0f8b8d" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">gets telemetry</text>
+<text x="641.0" y="452.0" font-size="13.5" font-weight="600" fill="#4a5568" text-anchor="start" >• every client only needs one address: the broker's</text>
+<text x="641.0" y="474.0" font-size="13.5" font-weight="600" fill="#4a5568" text-anchor="start" >• the client opens the connection and keeps it open</text>
+<text x="641.0" y="496.0" font-size="13.5" font-weight="600" fill="#4a5568" text-anchor="start" >• one connection, messages flow both ways</text>
+<text x="641.0" y="518.0" font-size="13.5" font-weight="600" fill="#4a5568" text-anchor="start" >• a new reader doesn't change Node 1's firmware</text>
+<rect x="30.0" y="556.0" width="1140.0" height="52.0" rx="10" fill="#eef1f5" />
+<text x="600.0" y="588.0" font-size="14" font-weight="700" fill="#1e2a4a" text-anchor="middle" >One reading over HTTP: a letter head of about 200 bytes + a reply letter · over MQTT: about 30 extra bytes, no reply</text>
+<text x="1178.0" y="626.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer curriculum · CC BY 4.0</text>
+</svg>

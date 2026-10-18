@@ -133,7 +133,7 @@ void checkSerialCommand() {
     forgetWiFi();  // Module 10: erases the saved WiFi, then restarts into the portal
     return;
   } else if (command == "send") {
-    sendNow();  // Module 10: sends the last reading to the server right now
+    sendNow();  // Module 11: publishes telemetry right now over MQTT
     return;
   } else if (command == "restart") {
     Serial.println("Restarting now...");

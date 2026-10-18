@@ -1,9 +1,9 @@
-// Node 1 "Home" - firmware v1.1.0 (Module 10)
+// Node 1 "Home" - firmware v1.2.0 (Module 11)
 // The running project: Mini Smart Home.
 //
-// New in v1.1.0: connects to the home WiFi through a WiFiManager portal (no password in the code),
-// the time from the internet (NTP), readings sent to a mini server on the laptop every minute (HTTP POST with JSON),
-// and the lamp can be turned on or off from a phone's browser. The WiFi may drop; Node 1 keeps working.
+// New in v1.2.0: all communication over MQTT, following the data contract (Appendix A): telemetry every 10 seconds and
+// immediately when something important happens, vitals every 5 minutes, automatic online/offline status (Last Will), and
+// commands from the broker answered with an ack. The /on /off web server and the HTTP sending of v1.1.0 are retired.
 // From v1.0.0 (Module 8): no delay() in loop(), modular code, watchdog, NVS, leveled logging, status page.
 // Commands from the Serial Monitor: lamp on, fan off, pump 3, curtain 90, beep, status, info,
 // threshold, threshold 35, threshold default, log debug, log info, log error, wifi, wifi forget, send, restart.
@@ -11,8 +11,8 @@
 // Libraries: ESP32Servo version 3.2.1, DHT sensor library version 1.4.7
 // (installed with it: Adafruit Unified Sensor version 1.1.15), Adafruit SSD1306 version 2.5.17
 // (installed with it: Adafruit GFX Library version 1.12.6 and Adafruit BusIO version 1.17.4),
-// WiFiManager version 2.0.17, and ArduinoJson version 7.4.3.
-// Wire, SPI, SD, Preferences, WiFi, WebServer, HTTPClient, and ESPmDNS already come with the esp32 package.
+// WiFiManager version 2.0.17, ArduinoJson version 7.4.3, and PubSubClient3 version 3.3.2.
+// Wire, SPI, SD, Preferences, and WiFi already come with the esp32 package.
 
 #include <esp_task_wdt.h>  // watchdog
 #include "config.h"
@@ -27,7 +27,7 @@
 #include "card.h"
 #include "commands.h"
 #include "rules.h"
-#include "network.h"  // Module 10
+#include "network.h"  // Modules 10-11
 
 // ---------- Main cycle: IDLE -> READING -> DISPLAYING -> ACTING -> IDLE ... ----------
 enum CycleStep { IDLE, READING, DISPLAYING, ACTING };
@@ -99,9 +99,9 @@ void checkProblems(SensorReading b) {
   sonarFailedBefore = sonarFailed;
 }
 
-// ---------- Module 10: send the reading to the server (Module 11 replaces it with MQTT) ----------
+// ---------- Modules 10-11: sending readings over MQTT ----------
 void sendData(SensorReading b) {
-  sendReading(b);  // network.cpp: actually sends every SEND_INTERVAL (1 minute)
+  sendReading(b);  // network.cpp: publishes every SEND_INTERVAL (10 seconds) and immediately when something important happens
 }
 
 // One cycle step per pass of loop(): no step waits for long.
@@ -176,7 +176,7 @@ void loop() {
   updateRules();         // WATERING -> COOLDOWN -> STANDBY
   updateHeartbeat();     // status LED
   updateDisplay();       // status page: the clock ticks, then it goes back by itself
-  updateNetwork();       // Module 10: WiFi, internet time, and the web server; never waits long
+  updateNetwork();       // Modules 10-11: WiFi, internet time, and MQTT; never waits long
   handleButton();
   checkSerialCommand();
   runCycle();

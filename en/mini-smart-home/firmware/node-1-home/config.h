@@ -2,7 +2,7 @@
 // The pins follow PIN-MAP.md. The calibration numbers are your own Module 6 results.
 #pragma once
 
-const char FIRMWARE_VERSION[] = "1.1.0";
+const char FIRMWARE_VERSION[] = "1.2.0";
 
 // ---------- Node 1 canonical pin map (copied from PIN-MAP.md) ----------
 const int PIN_STATUS_LED = 4;      // Module 2
@@ -43,10 +43,14 @@ const unsigned long CARD_LOG_INTERVAL = 30000;       // one CSV line every 30 se
 const unsigned long WATCHDOG_TIMEOUT = 5000;         // loop() stuck for more than 5 seconds = restart
 
 // ---------- Module 10: network ----------
-const bool USE_WOKWI = false;                              // true ONLY in Wokwi: connects to Wokwi-GUEST without the portal
-const char DEVICE_NAME[] = "node1";                        // the name in the router's device list and the address node1.local
-const char PORTAL_NAME[] = "Node1-Home";                   // temporary WiFi name while the portal is open
-const unsigned long PORTAL_TIMEOUT = 180;                  // seconds: the portal closes by itself when unused
-const char SERVER_ADDRESS[] = "http://192.168.1.10:3000";  // REPLACE with your laptop's IP address (Practice 7)
-const unsigned long SEND_INTERVAL = 60000;                 // readings are sent to the server every 1 minute
-const char TIME_ZONE[] = "WIB-7";                          // WITA: "WITA-8", WIT: "WIT-9" (Practice 5)
+const bool USE_WOKWI = false;              // true ONLY in Wokwi: Wokwi-GUEST without the portal, public broker
+const char DEVICE_NAME[] = "node1";        // the name in the router's device list
+const char PORTAL_NAME[] = "Node1-Home";   // temporary WiFi name while the portal is open
+const unsigned long PORTAL_TIMEOUT = 180;  // seconds: the portal closes by itself when unused
+const char TIME_ZONE[] = "WIB-7";          // WITA: "WITA-8", WIT: "WIT-9" (Module 10, Practice 5)
+
+// ---------- Module 11: MQTT ----------
+const char BROKER_ADDRESS[] = "192.168.1.10";  // REPLACE with your laptop's IP address (the Mosquitto broker, Practice 1)
+const uint16_t BROKER_PORT = 1883;
+const unsigned long SEND_INTERVAL = 10000;     // telemetry every 10 seconds, plus immediately when something important happens
+const unsigned long VITALS_INTERVAL = 300000;  // vitals (Node 1's health) every 5 minutes
