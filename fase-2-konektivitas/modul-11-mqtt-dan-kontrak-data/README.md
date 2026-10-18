@@ -4,7 +4,7 @@
 
 *Fase 2 · Minggu 11 · Perangkat keras (*hardware*): **meja kerja Node 1 dari Modul 10** dan **laptop** yang menjadi broker (lihat 🧰) — tanpa komponen baru · Prasyarat: **Modul 10** (Node 1 v1.1) · Waktu: 8–10 jam, dicicil dalam seminggu*
 
-[⬅️ Modul 10](../modul-10-wifi-dan-http/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · [Modul 12 ➡️ (segera terbit — baca ringkasannya di Silabus)](../../SILABUS.md#modul-12--raspberry-pi--linux-dasar-gateway-yang-selalu-hidup)
+[⬅️ Modul 10](../modul-10-wifi-dan-http/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · [Modul 12 ➡️](../modul-12-raspberry-pi-dan-linux/README.md)
 
 ---
 
@@ -3028,4 +3028,4 @@ Semua sketsa di modul ini sudah dikompilasi dengan paket esp32 versi 3 dan dijal
 
 ---
 
-[⬅️ Modul 10](../modul-10-wifi-dan-http/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · **Berikutnya: Modul 12 — Raspberry Pi & Linux Dasar: Gateway yang Selalu Hidup** (segera terbit; [ringkasannya di Silabus](../../SILABUS.md#modul-12--raspberry-pi--linux-dasar-gateway-yang-selalu-hidup))
+[⬅️ Modul 10](../modul-10-wifi-dan-http/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · **Berikutnya: [Modul 12 — Raspberry Pi & Linux Dasar: Gateway yang Selalu Hidup](../modul-12-raspberry-pi-dan-linux/README.md) ➡️**

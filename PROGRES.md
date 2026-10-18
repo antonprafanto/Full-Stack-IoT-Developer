@@ -27,7 +27,7 @@ Centang `[x]` setiap kali Anda memenuhi kriteria **"Lulus jika"** di [SILABUS.md
 
 - [ ] **[Modul 10](fase-2-konektivitas/modul-10-wifi-dan-http/README.md)** — WiFi & HTTP: Perangkat Mulai Berbicara dengan Jaringan
 - [ ] **[Modul 11](fase-2-konektivitas/modul-11-mqtt-dan-kontrak-data/README.md)** — MQTT: Bahasa Resmi Dunia IoT & Kontrak Data Proyek
-- [ ] **Modul 12** — Raspberry Pi & Linux Dasar: Gateway yang Selalu Hidup
+- [ ] **[Modul 12](fase-2-konektivitas/modul-12-raspberry-pi-dan-linux/README.md)** — Raspberry Pi & Linux Dasar: Gateway yang Selalu Hidup
 - [ ] **Modul 13** — Node-RED & Dashboard 2: Dashboard Pertama Tanpa Koding
 - [ ] **Modul 14** — Node 2 "Kebun": Sensor Bertenaga Baterai via ESP-NOW
 - [ ] **Modul 15** — Lab Modbus RTU/RS-485 & Memilih Protokol yang Tepat

@@ -5,7 +5,7 @@
 > **Kurikulum 32 modul — satu modul = satu minggu belajar santai (±8 bulan) — untuk orang awam total hingga mampu membangun sistem IoT lengkap dari sensor sampai dashboard di HP.**
 > Hardware: **ESP32 + Raspberry Pi** · Software: **JavaScript/TypeScript (Node.js + React) untuk server & tampilan, sedikit C++ untuk chip** · Bahasa pengantar: **Indonesia, ramah awam**.
 >
-> Status dokumen: **v1.0.13 — disetujui, penulisan materi berjalan; Modul 1–11 (seluruh Fase 0 dan Fase 1, serta Modul 10–11 dari Fase 2) tersedia dalam bahasa Indonesia dan Inggris** (18 Oktober 2026). Keputusan yang mendasarinya ada di [§11](#11-keputusan-yang-sudah-disetujui); riwayat perubahan di [§13](#13-riwayat-revisi).
+> Status dokumen: **v1.0.14 — disetujui, penulisan materi berjalan; Modul 1–12 (seluruh Fase 0 dan Fase 1, serta Modul 10–12 dari Fase 2) tersedia dalam bahasa Indonesia dan Inggris** (18 Oktober 2026). Keputusan yang mendasarinya ada di [§11](#11-keputusan-yang-sudah-disetujui); riwayat perubahan di [§13](#13-riwayat-revisi).
 
 ---
 
@@ -275,7 +275,7 @@ Perkiraan harga marketplace Indonesia, Oktober 2026 — **bisa berubah**. Pesan 
 | Komponen | Perkiraan harga | Catatan |
 | :--- | ---: | :--- |
 | **Raspberry Pi 5 — 2 GB** (pilihan utama) atau 4 GB | Rp 1,0 – 1,5 jt | Jalur hemat: Pi 4 Model B 4 GB baru/bekas (Rp 700 rb – 1,1 jt); semua materi diuji di keduanya. |
-| microSD 32 GB **high-endurance** (A2) + **card reader USB** | Rp 90–150 rb | Kartu biasa cepat rusak jika database 24/7 dijalankan di Pi (jalur gratis). |
+| microSD 32 GB **high-endurance** (A1/A2 hanya nilai tambah) + **card reader USB** | Rp 90–150 rb | Kartu biasa cepat rusak jika database 24/7 dijalankan di Pi (jalur gratis). |
 | Adaptor daya resmi (Pi 5: USB-C 5 V 5 A; Pi 4: USB-C 5 V 3 A) | Rp 150–300 rb | Adaptor HP sering kurang kuat → Pi restart sendiri. |
 | Casing + pendingin aktif (Pi 5) / heatsink (Pi 4) | Rp 50–200 rb | |
 | **Kabel LAN (Ethernet)** 1–2 m | Rp 10–20 rb | Gateway sebaiknya lewat kabel, bukan berebut WiFi dengan ESP32. |
@@ -295,6 +295,7 @@ Wokwi menyediakan ESP32, LED, tombol, potensiometer, buzzer, servo, relay, DHT22
 | Portal WiFi, server web ESP32, kiriman ke laptop, dan uji cabut router (Modul 10) | Tidak bisa: layanan gratis Wokwi hanya mengizinkan sambungan **keluar** ke internet | Menyambung ke jaringan `Wokwi-GUEST`, jam NTP, dan HTTPS ke API publik bisa dicoba; selebihnya di papan asli |
 | Broker MQTT di laptop (Modul 11) | Tidak bisa: ESP32 simulasi tidak bisa menjangkau laptopmu | Semua sketsa jalan dengan broker publik (`broker.emqx.io`, uji QoS di `broker.hivemq.com`), diamati lewat MQTTX; syarat `ack` di bawah 1 detik tetap dibuktikan di papan asli |
 | Uji "24 jam tanpa restart" (Modul 8) | Tidak praktis | Uji 30 menit di simulator + *uptime counter* |
+| Raspberry Pi sebagai gateway (Modul 12) | Tidak ada: Wokwi hanya menyimulasikan mikrokontroler | Jalur laptop: Mosquitto sebagai layanan di laptop (Praktik 7 Modul 12); Node 1 di Wokwi tetap memakai broker publik |
 | Lab RS-485/Modbus (Modul 15) | Tidak ada | Pelajari konsep & kode; praktik saat kit datang |
 | Kabel kendor, kabel cas, driver USB, catu daya (Modul 2, 5) | Tidak ada | Inilah mengapa hardware asli tetap disarankan |
 
@@ -529,13 +530,15 @@ Format tiap modul:
 #### Modul 12 — Raspberry Pi & Linux Dasar: Gateway yang Selalu Hidup
 *Fase 2 · Minggu 12 · Hardware: Kit B (atau laptop / Pi Zero 2 W) · Prasyarat: Modul 11, Modul 4 (terminal)*
 
+📖 **Materi sudah tersedia:** [buka artikel Modul 12](fase-2-konektivitas/modul-12-raspberry-pi-dan-linux/README.md)
+
 - **Setelah modul ini Anda bisa:** menyiapkan Raspberry Pi tanpa monitor (*headless*), nyaman dengan perintah Linux dasar, dan memindahkan broker ke Pi sehingga perangkat punya "kantor pos" yang hidup 24/7 tanpa laptop.
 - **Konsep inti:** peran gateway & *edge* (kenapa tidak semua langsung ke cloud: biaya, internet putus, privasi); Raspberry Pi Imager + setelan SSH/WiFi sebelum boot; **SSH** ("terminal jarak jauh"); **Linux dasar** 20 perintah yang cukup (`cd`, `ls`, `nano`, `sudo`, `apt`, `systemctl`, `journalctl`); IP tetap lewat kabel LAN (**`nmcli` di Trixie, bukan `dhcpcd.conf` lama**); Mosquitto di Pi — **jujur: masih tanpa password di jaringan rumah; dikunci di Modul 21**; *systemd service* (jalan otomatis saat boot, restart sendiri saat crash); membaca log; backup kartu SD; kapan Pi perlu *reboot* otomatis; **mengapa microSD biasa cepat rusak** dan kenapa kita pakai kartu *high-endurance*.
 - **Alat yang dipakai:** Raspberry Pi Imager, SSH, Mosquitto.
 - **Opsional / bedah teknis:** GPIO Raspberry Pi (perbandingan dengan ESP32; proyek kita tidak memakainya); Pi sebagai *access point* sendiri; apa bedanya Pi 4 & Pi 5.
 - **Praktik & proyek mini:** Pi hidup headless & dapat di-SSH lewat kabel LAN; broker pindah ke Pi; Node 1 diarahkan ke broker Pi; MQTTX di laptop memantau lewat Pi; membaca log Mosquitto.
 - **➕ Rumah Pintar Mini:** gateway permanen.
-- **✅ Lulus jika:** cabut laptop, Node 1 tetap tersambung ke broker di Pi (dibuktikan lewat MQTTX di HP/laptop lain), dan Anda bisa masuk ke Pi lewat SSH serta membaca lognya. *(Jalur laptop: Mosquitto jalan sebagai service 24 jam tanpa membuka terminal.)*
+- **✅ Lulus jika:** cabut laptop, Node 1 tetap tersambung ke broker di Pi (dibuktikan lewat catatan broker di Pi atau MQTTX di HP/laptop lain), dan Anda bisa masuk ke Pi lewat SSH serta membaca lognya. *(Jalur laptop: Mosquitto jalan sebagai service 24 jam tanpa membuka terminal.)*
 
 #### Modul 13 — Node-RED & Dashboard 2: Dashboard Pertama Tanpa Koding
 *Fase 2 · Minggu 13 · Hardware: Kit B (atau laptop) · Prasyarat: Modul 12*
@@ -950,6 +953,8 @@ Satu kalimat per istilah, bahasa manusia. Semua akan dibahas tuntas di modulnya.
 ---
 
 ## 13. Riwayat revisi
+
+**v1.0.14 (18 Okt 2026)** — Modul 12 terbit dalam bahasa Indonesia dan Inggris. Gateway Rumah Pintar Mini kini Raspberry Pi: Raspberry Pi OS Lite (64-bit) berbasis Debian 13 "Trixie" ditulis dengan Raspberry Pi Imager 2.0.12 tanpa monitor (nama host, pengguna, WiFi cadangan, dan SSH diisi di langkah Customisation; Imager menitipkannya sebagai berkas cloud-init), dimasuki lewat SSH, diberi alamat tetap lewat pemesanan di router (cara yang disarankan dokumentasi resmi) atau `nmcli` pada sambungan `netplan-eth0` (alamat di luar rentang DHCP), dan menjalankan Mosquitto 2.0.21 dari paket Debian sebagai layanan systemd (`Restart=on-failure` bawaan, catatan di `/var/log/mosquitto/mosquitto.log`, *journal* Raspberry Pi OS disimpan di RAM). Firmware Node 1 naik ke v1.2.1: hanya `ALAMAT_BROKER` (gateway), versi, dan satu pesan galat yang berubah. Proyek mendapat `edge/gateway-pi.conf` dan `edge/README.md` (resep membangun ulang gateway). Jalur laptop: Mosquitto sebagai layanan Windows (`mosquitto install`), macOS (`brew services`), atau Linux (`systemctl`). Catatan untuk modul berikutnya: sejak April 2026, Raspberry Pi OS meminta kata sandi untuk `sudo`.
 
 **v1.0.13 (18 Okt 2026)** — Modul 11 terbit dalam bahasa Indonesia dan Inggris. Firmware Node 1 naik ke v1.2.0: seluruh komunikasinya lewat MQTT ke broker Mosquitto di laptop (`telemetry` setiap 10 detik ditambah kiriman segera saat keadaan gerak, gelap-terang, tanah, atau air tandon berganti, paling sering setiap 2 detik; `vitals` setelah tersambung lalu setiap 5 menit; status `online` *retained* dan wasiat `offline`; perintah `set` untuk lampu, kipas, pompa, dan tirai yang dijawab `ack`), sedangkan server web `/on` `/off`, mDNS, dan kiriman HTTP pensiun. Proyek mendapat `KONTRAK-DATA.md` (versi 1.0), `edge/mosquitto-lan.conf`, dan `alat/pemeriksa-kontrak.js` (library `mqtt` 5.16.1). Keputusan kontrak yang ditetapkan Modul 11 dicatat di Lampiran A: bacaan gagal ditulis `null`, nama klien MQTT sama dengan `device_id`, kolom `pesan` di `ack`, aturan (3) yang diperjelas, aturan baru (7), (8), dan (9), serta jadwal `vitals`. Library MQTT di §3 diganti **PubSubClient3** 3.3.2, penerus PubSubClient 2.8 yang sejak Juni 2026 tidak dirawat; versi lain yang dikunci untuk Modul 11: Mosquitto 2.1.2, MQTTX 1.13.1. Rincian Modul 11 di §7 disesuaikan dengan hasil riset: wadah bawaan 256 byte **membuang** pesan masuk yang lebih besar (bukan memotongnya), dan library MQTT di ESP32 tidak mengirim ulang QoS 1. Tabel Wokwi di §5.4 ditambah baris Modul 11, dan folder `edge/` di §9 kini juga memuat konfigurasi broker sejak Modul 11.
 
