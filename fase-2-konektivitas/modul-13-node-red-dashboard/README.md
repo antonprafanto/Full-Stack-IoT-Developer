@@ -4,7 +4,7 @@
 
 *Fase 2 · Minggu 13 · Perangkat keras (*hardware*): **Kit B** — gateway Raspberry Pi dari Modul 12, Node 1 v1.2.1, dan HP yang tersambung ke WiFi rumah, atau **jalur laptop** tanpa Pi · Prasyarat: **Modul 12** (gateway dan broker Mosquitto) dan **Modul 11** (kontrak data) · Waktu: 8–10 jam, dicicil dalam seminggu*
 
-[⬅️ Modul 12](../modul-12-raspberry-pi-dan-linux/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · [Modul 14 ➡️ (segera terbit — baca ringkasannya di Silabus)](../../SILABUS.md#modul-14--node-2-kebun-sensor-bertenaga-baterai-via-esp-now)
+[⬅️ Modul 12](../modul-12-raspberry-pi-dan-linux/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · [Modul 14 ➡️](../modul-14-node-2-esp-now/README.md)
 
 ---
 
@@ -1448,4 +1448,4 @@ Syarat lulus dari Silabus: **HP membuka dashboard Node-RED di Pi, tombol kipas b
 
 ---
 
-[⬅️ Modul 12](../modul-12-raspberry-pi-dan-linux/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · **Berikutnya: Modul 14 — Node 2 "Kebun": Sensor Bertenaga Baterai via ESP-NOW** (segera terbit; [ringkasannya di Silabus](../../SILABUS.md#modul-14--node-2-kebun-sensor-bertenaga-baterai-via-esp-now))
+[⬅️ Modul 12](../modul-12-raspberry-pi-dan-linux/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · **Berikutnya: [Modul 14 — Node 2 "Kebun": Sensor Bertenaga Baterai via ESP-NOW](../modul-14-node-2-esp-now/README.md) ➡️**

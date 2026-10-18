@@ -30,7 +30,7 @@ Kurikulum belajar mandiri **32 modul** dalam Bahasa Indonesia, dari orang awam t
 ## Modul yang sudah tersedia
 
 > [!NOTE]
-> Silabus v1.0 disetujui pada 9 Oktober 2026, dan materi modul ditulis berurutan. Saat ini tersedia **Modul 1–13 dari 32**: seluruh Fase 0 dan Fase 1, serta Modul 10–13 dari Fase 2. Daftar lengkap 32 modul ada di [PROGRES.md](PROGRES.md).
+> Silabus v1.0 disetujui pada 9 Oktober 2026, dan materi modul ditulis berurutan. Saat ini tersedia **Modul 1–14 dari 32**: seluruh Fase 0 dan Fase 1, serta Modul 10–14 dari Fase 2. Daftar lengkap 32 modul ada di [PROGRES.md](PROGRES.md).
 
 | Modul | Judul | Setelah modul ini Anda bisa… | Alat utama |
 | :---: | :--- | :--- | :--- |
@@ -47,7 +47,8 @@ Kurikulum belajar mandiri **32 modul** dalam Bahasa Indonesia, dari orang awam t
 | 11 | **[MQTT: Bahasa Resmi Dunia IoT & Kontrak Data Proyek](fase-2-konektivitas/modul-11-mqtt-dan-kontrak-data/README.md)** | menjalankan broker MQTT sendiri di laptop, membuat ESP32 menerbitkan bacaan dan menerima perintah lewat broker, status *online*/*offline* otomatis, perintah yang selalu dijawab `ack`, serta kontrak data proyek lengkap dengan alat pemeriksanya | Mosquitto, MQTTX, Kit A, laptop + Node.js |
 | 12 | **[Raspberry Pi & Linux Dasar: Gateway yang Selalu Hidup](fase-2-konektivitas/modul-12-raspberry-pi-dan-linux/README.md)** | menyiapkan Raspberry Pi tanpa monitor, masuk lewat SSH, sekitar 20 perintah Linux dasar, alamat tetap, dan broker Mosquitto sebagai layanan yang menyala dan bangkit sendiri: gateway 24 jam yang membuat Rumah Pintar Mini tetap hidup tanpa laptop | Raspberry Pi (Kit B) atau laptop, SSH, Mosquitto |
 | 13 | **[Node-RED & Dashboard 2: Dashboard Pertama Tanpa Koding](fase-2-konektivitas/modul-13-node-red-dashboard/README.md)** | memasang Node-RED di gateway sebagai layanan, menyusun flow tanpa menulis program, dashboard v0 di HP (jarum, tangki air, grafik, sakelar yang menunggu `ack`), otomasi kipas berhisteresis, dan menyimpan flow ke repositori | Node-RED di Pi (Kit B) atau laptop, HP |
-| 14 | Node 2 "Kebun": Sensor Bertenaga Baterai via ESP-NOW | segera terbit — [ringkasannya di Silabus](SILABUS.md#modul-14--node-2-kebun-sensor-bertenaga-baterai-via-esp-now) | 2 ESP32, baterai 18650 |
+| 14 | **[Node 2 "Kebun": Sensor Bertenaga Baterai via ESP-NOW](fase-2-konektivitas/modul-14-node-2-esp-now/README.md)** | Node 2 bertenaga baterai di kebun berbicara langsung ke Node 1 lewat ESP-NOW tanpa router: mencari channel router, paket 33 byte, Node 1 sebagai jembatan ke MQTT yang tetap mendengar saat router mati, kartu Kebun di Node-RED, ukur arus dan umur baterai, serta enkripsi ESP-NOW | 2 ESP32, baterai 18650, BME280, DS18B20, INA219 |
+| 15 | Lab Modbus RTU/RS-485 & Memilih Protokol yang Tepat | segera terbit — [ringkasannya di Silabus](SILABUS.md#modul-15--lab-modbus-rturs-485--memilih-protokol-yang-tepat) | 2 ESP32, 2 MAX485 |
 
 Modul per fase juga terdaftar di halaman fasenya: **[Fase 0 — Fondasi](fase-0-fondasi/README.md)**, **[Fase 1 — ESP32 Embedded](fase-1-esp32-embedded/README.md)**, dan **[Fase 2 — Konektivitas](fase-2-konektivitas/README.md)**.
 
