@@ -2,7 +2,7 @@
 
 🌐 **Bahasa Indonesia** · [English](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/mini-smart-home/edge/README.md)
 
-Gateway adalah Raspberry Pi yang menjalankan broker MQTT Rumah Pintar Mini 24 jam ([Modul 12](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-2-konektivitas/modul-12-raspberry-pi-dan-linux/README.md)). Halaman ini adalah **cadangan utamanya**: kalau kartu microSD rusak, gateway bisa dibangun ulang dari kartu kosong dalam sekitar 30 menit dengan resep di bawah. Isi tabelnya dengan data gateway-mu sendiri.
+Gateway adalah Raspberry Pi yang menjalankan broker MQTT Rumah Pintar Mini 24 jam ([Modul 12](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-2-konektivitas/modul-12-raspberry-pi-dan-linux/README.md)), dan sejak [Modul 13](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-2-konektivitas/modul-13-node-red-dashboard/README.md) juga menjalankan Node-RED dengan dashboard dan otomasi kipas. Halaman ini adalah **cadangan utamanya**: kalau kartu microSD rusak, gateway bisa dibangun ulang dari kartu kosong dalam sekitar satu jam dengan resep di bawah. Isi tabelnya dengan data gateway-mu sendiri.
 
 > [!CAUTION]
 > **Jangan pernah menulis kata sandi** (Pi, WiFi, atau apa pun) di berkas ini atau di mana pun di repositori.
@@ -24,6 +24,7 @@ Gateway adalah Raspberry Pi yang menjalankan broker MQTT Rumah Pintar Mini 24 ja
 | :--- | :--- | :--- |
 | [`mosquitto-lan.conf`](mosquitto-lan.conf) | laptop ([Modul 11](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-2-konektivitas/modul-11-mqtt-dan-kontrak-data/README.md)) | `mosquitto -v -c mosquitto-lan.conf` di terminal |
 | [`gateway-pi.conf`](gateway-pi.conf) | gateway Pi (Modul 12) | di Pi: `/etc/mosquitto/conf.d/gateway-pi.conf` |
+| [`node-red-flows.json`](node-red-flows.json) | gateway Pi (Modul 13) | semua flow Node-RED; dipulihkan lewat **Import** di editor (langkah 11) |
 
 ## Resep membangun ulang
 
@@ -66,3 +67,30 @@ Gateway adalah Raspberry Pi yang menjalankan broker MQTT Rumah Pintar Mini 24 ja
 | `sudo apt update`, lalu `sudo apt full-upgrade` | pembaruan terpasang; `sudo reboot` kalau ada pembaruan *kernel* |
 
 Setiap kali pengaturan di Pi berubah, salin lagi berkasnya ke folder ini (`scp budi@192.168.1.37:/etc/mosquitto/conf.d/gateway-pi.conf edge/`), lalu lakukan *commit*.
+
+## Node-RED dan dashboard (Modul 13)
+
+Node-RED berjalan di gateway yang sama sebagai layanan systemd `nodered` ([Modul 13](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-2-konektivitas/modul-13-node-red-dashboard/README.md)). Semua flow-nya, yaitu dashboard v0 dan otomasi kipas, tersimpan di [`node-red-flows.json`](node-red-flows.json). Kata sandi editor dan *passphrase* tidak pernah ikut terekspor; jangan pernah mencatatnya di sini.
+
+| Bagian | Gateway ini |
+| :--- | :--- |
+| Node-RED | 5.0.8, dipasang dengan skrip resmi `install-update-nodered-deb` (bersama Node.js 24), layanan `nodered`, editor `http://192.168.1.37:1880` |
+| Pengguna editor | `admin` (kata sandi tidak dicatat di sini) |
+| Dashboard | FlowFuse Dashboard (`@flowfuse/node-red-dashboard`) 1.33.0, `http://192.168.1.37:1880/dashboard/rumah` |
+| Otomasi | kipas nyala di atas 30 °C, padam di bawah 28 °C |
+
+Lanjutan resep, setelah langkah 7 di atas:
+
+8. **Pasang Node-RED** di Pi, sebagai `budi` dan **tanpa** `sudo`:
+
+   ```bash
+   bash <(curl -sL https://github.com/node-red/linux-installers/releases/latest/download/install-update-nodered-deb)
+   ```
+
+   Ketik `y` untuk pertanyaan pertama (dalam 30 detik) dan `n` untuk *Pi-specific nodes*. Di `node-red admin init`, jawab persis seperti tabel Kemenangan Cepat Modul 13: `Share Anonymouse Usage Information` **No, do not send my usage data**; `Do you want to setup user security?` **Yes**, dengan **Username** `admin` dan kata sandi editor baru; `Do you want to enable the Projects feature?` **No**; *passphrase* diisi (catat di tempat aman, jangan di sini); `Allow Function nodes to load external modules?` **No**; lalu tekan **Enter** untuk pertanyaan lainnya. Jangan asal menekan **Enter** di semua pertanyaan: pilihan bawaan untuk data penggunaan dan modul tambahan adalah `Yes`, dan *passphrase* yang dikosongkan membuat kredensial tersimpan tanpa enkripsi.
+9. **Nyalakan layanannya**: `sudo systemctl enable --now nodered.service`.
+10. **Pasang Dashboard 2**: di laptop, buka `http://192.168.1.37:1880` dan masuk. Menu utama → **Manage palette** → tab **Install** → cari `@flowfuse/node-red-dashboard` → klik **install** pada paket yang namanya **persis** itu (bukan `@flowfuse/node-red-dashboard-2-…`) → klik **Install** di jendela konfirmasi.
+11. **Pulihkan flow**: menu utama → **Import** → **select a file to import** → pilih `edge/node-red-flows.json` dari folder `rumah-pintar-mini` di laptop → **Import**, lalu **Deploy**.
+12. **Uji**: `systemctl status nodered` menulis `enabled` dan `active (running)`; HP membuka dashboard; sakelar **Kipas** menggerakkan relay dan bergeser setelah `ack` tiba.
+
+Setiap kali flow berubah, ekspor lagi dari editor (menu utama → **Export** → **all flows** → **formatted** → **Download**), timpa `edge/node-red-flows.json`, lalu lakukan *commit*.

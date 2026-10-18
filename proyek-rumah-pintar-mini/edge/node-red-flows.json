@@ -1,0 +1,1152 @@
+[
+    {
+        "id": "f13a000000000001",
+        "type": "tab",
+        "label": "Rumah Pintar Mini",
+        "disabled": false,
+        "info": "Dashboard v0 dan otomasi kipas (Modul 13). Ganti a4cf12e5b7c0 dengan device_id Node 1-mu.",
+        "env": []
+    },
+    {
+        "id": "f13b000000000001",
+        "type": "mqtt-broker",
+        "name": "Mosquitto di gateway",
+        "broker": "localhost",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "f13c000000000001",
+        "type": "ui-base",
+        "name": "Rumah Pintar Mini",
+        "path": "/dashboard",
+        "appIcon": "",
+        "includeClientData": true,
+        "acceptsClientConfig": [
+            "ui-notification",
+            "ui-control"
+        ],
+        "showPathInSidebar": false,
+        "headerContent": "page",
+        "navigationStyle": "default",
+        "titleBarStyle": "default",
+        "showReconnectNotification": true,
+        "notificationDisplayTime": 1,
+        "showDisconnectNotification": true,
+        "allowInstall": false
+    },
+    {
+        "id": "f13c000000000002",
+        "type": "ui-theme",
+        "name": "Default Theme",
+        "colors": {
+            "surface": "#fcfcfd",
+            "primary": "#0d74ce",
+            "bgPage": "#f9f9fb",
+            "groupBg": "#ffffff",
+            "groupOutline": "#d9d9e0"
+        },
+        "sizes": {
+            "density": "default",
+            "pagePadding": "12px",
+            "groupGap": "12px",
+            "groupBorderRadius": "4px",
+            "widgetGap": "12px"
+        }
+    },
+    {
+        "id": "f13c000000000003",
+        "type": "ui-page",
+        "name": "Rumah",
+        "ui": "f13c000000000001",
+        "path": "/rumah",
+        "icon": "home",
+        "layout": "grid",
+        "theme": "f13c000000000002",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": "0",
+                "cols": "3"
+            },
+            {
+                "name": "Tablet",
+                "px": "576",
+                "cols": "6"
+            },
+            {
+                "name": "Small Desktop",
+                "px": "768",
+                "cols": "9"
+            },
+            {
+                "name": "Desktop",
+                "px": "1024",
+                "cols": "12"
+            }
+        ],
+        "tabs": [],
+        "order": 1,
+        "className": "",
+        "visible": true,
+        "disabled": false
+    },
+    {
+        "id": "f13c000000000004",
+        "type": "ui-group",
+        "name": "Sensor",
+        "page": "f13c000000000003",
+        "width": "6",
+        "height": "1",
+        "order": 1,
+        "showTitle": true,
+        "className": "",
+        "visible": true,
+        "disabled": false,
+        "groupType": "default",
+        "tab": ""
+    },
+    {
+        "id": "f13c000000000005",
+        "type": "ui-group",
+        "name": "Kendali",
+        "page": "f13c000000000003",
+        "width": "6",
+        "height": "1",
+        "order": 2,
+        "showTitle": true,
+        "className": "",
+        "visible": true,
+        "disabled": false,
+        "groupType": "default",
+        "tab": ""
+    },
+    {
+        "id": "f13c000000000006",
+        "type": "ui-group",
+        "name": "Grafik",
+        "page": "f13c000000000003",
+        "width": "6",
+        "height": "1",
+        "order": 3,
+        "showTitle": true,
+        "className": "",
+        "visible": true,
+        "disabled": false,
+        "groupType": "default",
+        "tab": ""
+    },
+    {
+        "id": "f13c000000000009",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "@flowfuse/node-red-dashboard": "1.33.0"
+        }
+    },
+    {
+        "id": "f13d000000000000",
+        "type": "comment",
+        "z": "f13a000000000001",
+        "name": "1 · Sensor: telemetry dan status Node 1 ke dashboard",
+        "info": "",
+        "x": 230,
+        "y": 30,
+        "wires": []
+    },
+    {
+        "id": "f13d000000000001",
+        "type": "mqtt in",
+        "z": "f13a000000000001",
+        "name": "telemetry Node 1",
+        "topic": "rpm/a4cf12e5b7c0/telemetry",
+        "qos": "0",
+        "datatype": "auto-detect",
+        "broker": "f13b000000000001",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 150,
+        "y": 100,
+        "wires": [
+            [
+                "f13d000000000002",
+                "f13d000000000003",
+                "f13d000000000004",
+                "f13d000000000005",
+                "f13d000000000006",
+                "f13d000000000007"
+            ]
+        ]
+    },
+    {
+        "id": "f13d000000000002",
+        "type": "debug",
+        "z": "f13a000000000001",
+        "name": "lihat telemetry",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 450,
+        "y": 70,
+        "wires": []
+    },
+    {
+        "id": "f13d000000000003",
+        "type": "switch",
+        "z": "f13a000000000001",
+        "name": "DHT22 terbaca?",
+        "property": "payload.suhu",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "nnull"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 420,
+        "y": 140,
+        "wires": [
+            [
+                "f13e000000000001",
+                "f13e000000000002",
+                "f13e000000000003",
+                "f13f000000000001"
+            ]
+        ]
+    },
+    {
+        "id": "f13e000000000001",
+        "type": "ui-gauge",
+        "z": "f13a000000000001",
+        "name": "",
+        "group": "f13c000000000004",
+        "order": 2,
+        "value": "payload.suhu",
+        "valueType": "msg",
+        "width": 3,
+        "height": 3,
+        "gtype": "gauge-half",
+        "gstyle": "needle",
+        "title": "Suhu",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "°C",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#5CD65C",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "28",
+                "color": "#FFC800",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "30",
+                "color": "#EA5353",
+                "text": "",
+                "textType": "label"
+            }
+        ],
+        "min": 0,
+        "max": 50,
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 690,
+        "y": 100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f13e000000000002",
+        "type": "ui-gauge",
+        "z": "f13a000000000001",
+        "name": "",
+        "group": "f13c000000000004",
+        "order": 3,
+        "value": "payload.kelembapan",
+        "valueType": "msg",
+        "width": 3,
+        "height": 3,
+        "gtype": "gauge-half",
+        "gstyle": "needle",
+        "title": "Kelembapan",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "%",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#FFC800",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "40",
+                "color": "#5CD65C",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "80",
+                "color": "#FFC800",
+                "text": "",
+                "textType": "label"
+            }
+        ],
+        "min": 0,
+        "max": 100,
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 700,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f13e000000000003",
+        "type": "ui-chart",
+        "z": "f13a000000000001",
+        "group": "f13c000000000006",
+        "name": "",
+        "label": "Suhu & kelembapan (1 jam terakhir)",
+        "order": 1,
+        "chartType": "line",
+        "category": "[\"suhu\",\"kelembapan\"]",
+        "categoryType": "json",
+        "xAxisLabel": "",
+        "xAxisProperty": "",
+        "xAxisPropertyType": "timestamp",
+        "xAxisType": "time",
+        "xAxisFormat": "",
+        "xAxisFormatType": "auto",
+        "xmin": "",
+        "xmax": "",
+        "yAxisLabel": "",
+        "yAxisProperty": "payload",
+        "yAxisPropertyType": "msg",
+        "ymin": "0",
+        "ymax": "100",
+        "bins": 10,
+        "action": "append",
+        "stackSeries": false,
+        "pointShape": "circle",
+        "pointRadius": 4,
+        "showLegend": true,
+        "removeOlder": "1",
+        "removeOlderUnit": "3600",
+        "removeOlderPoints": "",
+        "colors": [
+            "#0095FF",
+            "#FF0000",
+            "#FF7F0E",
+            "#2CA02C",
+            "#A347E1",
+            "#D62728",
+            "#FF9896",
+            "#9467BD",
+            "#C5B0D5"
+        ],
+        "textColor": [
+            "#666666"
+        ],
+        "textColorDefault": true,
+        "gridColor": [
+            "#e5e5e5"
+        ],
+        "gridColorDefault": true,
+        "width": 6,
+        "height": 8,
+        "className": "",
+        "interpolation": "linear",
+        "x": 750,
+        "y": 180,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f13d000000000004",
+        "type": "switch",
+        "z": "f13a000000000001",
+        "name": "air terbaca?",
+        "property": "payload.level_air",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "nnull"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 410,
+        "y": 220,
+        "wires": [
+            [
+                "f13e000000000004"
+            ]
+        ]
+    },
+    {
+        "id": "f13e000000000004",
+        "type": "ui-gauge",
+        "z": "f13a000000000001",
+        "name": "",
+        "group": "f13c000000000004",
+        "order": 5,
+        "value": "payload.level_air",
+        "valueType": "msg",
+        "width": 3,
+        "height": 3,
+        "gtype": "gauge-tank",
+        "gstyle": "needle",
+        "title": "Air tandon",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "%",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#EA5353",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "20",
+                "color": "#5CD65C",
+                "text": "",
+                "textType": "label"
+            }
+        ],
+        "min": 0,
+        "max": 100,
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 690,
+        "y": 220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f13d000000000005",
+        "type": "ui-gauge",
+        "z": "f13a000000000001",
+        "name": "",
+        "group": "f13c000000000004",
+        "order": 4,
+        "value": "payload.tanah",
+        "valueType": "msg",
+        "width": 3,
+        "height": 3,
+        "gtype": "gauge-half",
+        "gstyle": "needle",
+        "title": "Tanah",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "%",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#EA5353",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "30",
+                "color": "#5CD65C",
+                "text": "",
+                "textType": "label"
+            }
+        ],
+        "min": 0,
+        "max": 100,
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 410,
+        "y": 260,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f13d000000000006",
+        "type": "ui-text",
+        "z": "f13a000000000001",
+        "group": "f13c000000000004",
+        "order": 6,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Cahaya",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "Helvetica",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload.cahaya < 1000 ? \"gelap (\" & payload.cahaya & \")\" : \"terang (\" & payload.cahaya & \")\"",
+        "valueType": "jsonata",
+        "x": 410,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "f13d000000000007",
+        "type": "ui-text",
+        "z": "f13a000000000001",
+        "group": "f13c000000000004",
+        "order": 7,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Gerak",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "Helvetica",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload.gerak ? \"ada gerakan\" : \"sepi\"",
+        "valueType": "jsonata",
+        "x": 410,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "f13d000000000008",
+        "type": "mqtt in",
+        "z": "f13a000000000001",
+        "name": "status Node 1",
+        "topic": "rpm/a4cf12e5b7c0/status",
+        "qos": "1",
+        "datatype": "auto-detect",
+        "broker": "f13b000000000001",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 140,
+        "y": 400,
+        "wires": [
+            [
+                "f13d000000000009",
+                "f13d00000000000a"
+            ]
+        ]
+    },
+    {
+        "id": "f13d000000000009",
+        "type": "ui-text",
+        "z": "f13a000000000001",
+        "group": "f13c000000000004",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Node 1",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "Helvetica",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "x": 410,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "f13d00000000000a",
+        "type": "debug",
+        "z": "f13a000000000001",
+        "name": "lihat status",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 420,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "f137000000000000",
+        "type": "comment",
+        "z": "f13a000000000001",
+        "name": "3 · Kendali dari HP: widget → buat cmd → mqtt out",
+        "info": "",
+        "x": 330,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "f137000000000002",
+        "type": "ui-switch",
+        "z": "f13a000000000001",
+        "name": "",
+        "label": "Kipas",
+        "group": "f13c000000000005",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "decouple": true,
+        "topic": "kipas",
+        "topicType": "str",
+        "style": "",
+        "className": "",
+        "layout": "row-spread",
+        "clickableArea": "switch",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "x": 740,
+        "y": 700,
+        "wires": [
+            [
+                "f138000000000001"
+            ]
+        ]
+    },
+    {
+        "id": "f137000000000001",
+        "type": "ui-switch",
+        "z": "f13a000000000001",
+        "name": "",
+        "label": "Lampu",
+        "group": "f13c000000000005",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "decouple": true,
+        "topic": "lampu",
+        "topicType": "str",
+        "style": "",
+        "className": "",
+        "layout": "row-spread",
+        "clickableArea": "switch",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "x": 740,
+        "y": 750,
+        "wires": [
+            [
+                "f138000000000001"
+            ]
+        ]
+    },
+    {
+        "id": "f137000000000003",
+        "type": "ui-button",
+        "z": "f13a000000000001",
+        "group": "f13c000000000005",
+        "name": "",
+        "label": "Siram 5 detik",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "emulateClick": false,
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "iconPosition": "left",
+        "payload": "5",
+        "payloadType": "num",
+        "topic": "pompa",
+        "topicType": "str",
+        "buttonColor": "",
+        "textColor": "",
+        "iconColor": "",
+        "enableClick": true,
+        "enablePointerdown": false,
+        "pointerdownPayload": "",
+        "pointerdownPayloadType": "str",
+        "enablePointerup": false,
+        "pointerupPayload": "",
+        "pointerupPayloadType": "str",
+        "x": 740,
+        "y": 800,
+        "wires": [
+            [
+                "f138000000000001"
+            ]
+        ]
+    },
+    {
+        "id": "f137000000000004",
+        "type": "ui-slider",
+        "z": "f13a000000000001",
+        "group": "f13c000000000005",
+        "name": "",
+        "label": "Tirai (derajat)",
+        "tooltip": "",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "outs": "end",
+        "topic": "tirai",
+        "topicType": "str",
+        "thumbLabel": true,
+        "showTicks": "always",
+        "min": 0,
+        "max": 180,
+        "step": 10,
+        "className": "",
+        "iconPrepend": "",
+        "iconAppend": "",
+        "color": "",
+        "colorTrack": "",
+        "colorThumb": "",
+        "showTextField": false,
+        "x": 750,
+        "y": 850,
+        "wires": [
+            [
+                "f138000000000001"
+            ]
+        ]
+    },
+    {
+        "id": "f138000000000001",
+        "type": "change",
+        "z": "f13a000000000001",
+        "name": "buat cmd",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\n  \"id\": \"nr-\" & $string($millis()),\n  \"ts\": $now(\"[Y0001]-[M01]-[D01]T[H01]:[m01]:[s01]Z\"),\n  \"aksi\": \"set\",\n  \"target\": topic,\n  \"nilai\": payload\n}",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1250,
+        "y": 760,
+        "wires": [
+            [
+                "f138000000000002",
+                "f138000000000003"
+            ]
+        ]
+    },
+    {
+        "id": "f138000000000002",
+        "type": "mqtt out",
+        "z": "f13a000000000001",
+        "name": "cmd Node 1",
+        "topic": "rpm/a4cf12e5b7c0/cmd",
+        "qos": "1",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "f13b000000000001",
+        "x": 1460,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "f138000000000003",
+        "type": "debug",
+        "z": "f13a000000000001",
+        "name": "lihat cmd",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1450,
+        "y": 790,
+        "wires": []
+    },
+    {
+        "id": "f139000000000000",
+        "type": "comment",
+        "z": "f13a000000000001",
+        "name": "4 · Jawaban Node 1 (ack) → keadaan sakelar yang sebenarnya",
+        "info": "",
+        "x": 330,
+        "y": 920,
+        "wires": []
+    },
+    {
+        "id": "f139000000000001",
+        "type": "mqtt in",
+        "z": "f13a000000000001",
+        "name": "ack Node 1",
+        "topic": "rpm/a4cf12e5b7c0/ack",
+        "qos": "0",
+        "datatype": "auto-detect",
+        "broker": "f13b000000000001",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 130,
+        "y": 1000,
+        "wires": [
+            [
+                "f139000000000002",
+                "f139000000000003",
+                "f139000000000004",
+                "f139000000000005",
+                "f139000000000006"
+            ]
+        ]
+    },
+    {
+        "id": "f139000000000003",
+        "type": "change",
+        "z": "f13a000000000001",
+        "name": "keadaan kipas",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.state.kipas",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 380,
+        "y": 960,
+        "wires": [
+            [
+                "f137000000000002"
+            ]
+        ]
+    },
+    {
+        "id": "f139000000000002",
+        "type": "change",
+        "z": "f13a000000000001",
+        "name": "keadaan lampu",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.state.lampu",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 380,
+        "y": 1000,
+        "wires": [
+            [
+                "f137000000000001"
+            ]
+        ]
+    },
+    {
+        "id": "f139000000000004",
+        "type": "change",
+        "z": "f13a000000000001",
+        "name": "keadaan tirai",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.state.tirai",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 380,
+        "y": 1040,
+        "wires": [
+            [
+                "f137000000000004"
+            ]
+        ]
+    },
+    {
+        "id": "f139000000000005",
+        "type": "ui-text",
+        "z": "f13a000000000001",
+        "group": "f13c000000000005",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Jawaban terakhir",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "Helvetica",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload.ok ? \"dikerjakan\" : payload.pesan",
+        "valueType": "jsonata",
+        "x": 390,
+        "y": 1080,
+        "wires": []
+    },
+    {
+        "id": "f139000000000006",
+        "type": "debug",
+        "z": "f13a000000000001",
+        "name": "lihat ack",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 360,
+        "y": 1120,
+        "wires": []
+    },
+    {
+        "id": "f13f000000000000",
+        "type": "comment",
+        "z": "f13a000000000001",
+        "name": "2 · Otomasi kipas: nyala > 30 °C, padam < 28 °C",
+        "info": "",
+        "x": 300,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "f13f000000000001",
+        "type": "switch",
+        "z": "f13a000000000001",
+        "name": "histeresis 30/28",
+        "property": "payload.suhu",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "gt",
+                "v": "30",
+                "vt": "num"
+            },
+            {
+                "t": "lt",
+                "v": "28",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 640,
+        "y": 560,
+        "wires": [
+            [
+                "f13f000000000002"
+            ],
+            [
+                "f13f000000000003"
+            ]
+        ]
+    },
+    {
+        "id": "f13f000000000002",
+        "type": "change",
+        "z": "f13a000000000001",
+        "name": "kipas nyala",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "true",
+                "tot": "bool"
+            },
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "kipas",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 840,
+        "y": 540,
+        "wires": [
+            [
+                "f13f000000000004"
+            ]
+        ]
+    },
+    {
+        "id": "f13f000000000003",
+        "type": "change",
+        "z": "f13a000000000001",
+        "name": "kipas padam",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "false",
+                "tot": "bool"
+            },
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "kipas",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 840,
+        "y": 580,
+        "wires": [
+            [
+                "f13f000000000004"
+            ]
+        ]
+    },
+    {
+        "id": "f13f000000000004",
+        "type": "rbe",
+        "z": "f13a000000000001",
+        "name": "hanya kalau berubah",
+        "func": "rbe",
+        "gap": "",
+        "start": "",
+        "inout": "out",
+        "septopics": true,
+        "property": "payload",
+        "topi": "topic",
+        "x": 1050,
+        "y": 560,
+        "wires": [
+            [
+                "f138000000000001"
+            ]
+        ]
+    }
+]
