@@ -5,7 +5,7 @@
 > **A 32-module curriculum — one module = one week of relaxed study (about 8 months) — that takes complete beginners all the way to building a full IoT system, from sensors to a dashboard on your phone.**
 > Hardware: **ESP32 + Raspberry Pi** · Software: **JavaScript/TypeScript (Node.js + React) for the server & the interface, a little C++ for the chip** · Language of instruction: **English, beginner-friendly** (this English edition is a complete translation of the Indonesian original).
 >
-> Document status: **v1.0.13 — approved, writing of the material in progress; Modules 1–11 (all of Phase 0 and Phase 1, plus Modules 10–11 of Phase 2) are available in Indonesian and English** (18 October 2026). The decisions behind it are in [§11](#11-approved-decisions); the change history is in [§13](#13-revision-history).
+> Document status: **v1.0.14 — approved, writing of the material in progress; Modules 1–12 (all of Phase 0 and Phase 1, plus Modules 10–12 of Phase 2) are available in Indonesian and English** (18 October 2026). The decisions behind it are in [§11](#11-approved-decisions); the change history is in [§13](#13-revision-history).
 
 ---
 
@@ -275,7 +275,7 @@ Estimated Indonesian marketplace prices, October 2026 — **subject to change**.
 | Part | Estimated price | Notes |
 | :--- | ---: | :--- |
 | **Raspberry Pi 5 — 2 GB** (main choice) or 4 GB | IDR 1,000,000–1,500,000 | Budget path: a new/used Pi 4 Model B 4 GB (IDR 700,000–1,100,000); all the material is tested on both. |
-| 32 GB **high-endurance** (A2) microSD + **USB card reader** | IDR 90,000–150,000 | Regular cards wear out quickly if a 24/7 database runs on the Pi (free path). |
+| 32 GB **high-endurance** microSD (A1/A2 only a bonus) + **USB card reader** | IDR 90,000–150,000 | Regular cards wear out quickly if a 24/7 database runs on the Pi (free path). |
 | Official power adapter (Pi 5: USB-C 5 V 5 A; Pi 4: USB-C 5 V 3 A) | IDR 150,000–300,000 | Phone chargers are often not strong enough → the Pi restarts on its own. |
 | Case + active cooler (Pi 5) / heatsink (Pi 4) | IDR 50,000–200,000 | |
 | **LAN (Ethernet) cable**, 1–2 m | IDR 10,000–20,000 | The gateway should use a cable rather than compete with the ESP32 for Wi-Fi. |
@@ -295,6 +295,7 @@ Wokwi provides the ESP32, LEDs, buttons, potentiometers, buzzers, servos, relays
 | The Wi-Fi portal, the ESP32 web server, sending to the laptop, and the router unplug test (Module 10) | Not possible: Wokwi's free service only allows **outgoing** connections to the internet | Connecting to the `Wokwi-GUEST` network, the NTP clock, and HTTPS to public APIs can be tried; the rest on a real board |
 | An MQTT broker on the laptop (Module 11) | Not possible: the simulated ESP32 can't reach your laptop | Every sketch runs with a public broker (`broker.emqx.io`, the QoS test on `broker.hivemq.com`), watched through MQTTX; the `ack` under 1 second is still proven on a real board |
 | "24 hours without a restart" test (Module 8) | Not practical | A 30-minute test in the simulator + an *uptime counter* |
+| The Raspberry Pi as a gateway (Module 12) | Not available: Wokwi only simulates microcontrollers | Laptop path: Mosquitto as a service on the laptop (Module 12, Practice 7); Node 1 in Wokwi keeps using the public broker |
 | RS-485/Modbus lab (Module 15) | Not available | Learn the concept & the code; practice when the kit arrives |
 | Loose wires, charging cables, USB drivers, power supply (Modules 2, 5) | Not available | This is why real hardware is still recommended |
 
@@ -529,13 +530,15 @@ Format of each module:
 #### Module 12 — Raspberry Pi & Linux Basics: A Gateway That's Always On
 *Phase 2 · Week 12 · Hardware: Kit B (or a laptop / Pi Zero 2 W) · Prerequisites: Module 11, Module 4 (terminal)*
 
+📖 **Available now:** [read Module 12](phase-2-connectivity/module-12-raspberry-pi-and-linux/README.md)
+
 - **After this module you can:** set up a Raspberry Pi without a monitor (*headless*), get comfortable with basic Linux commands, and move the broker to the Pi so the devices have a "post office" that runs 24/7 without a laptop.
 - **Core concepts:** the role of the gateway & the *edge* (why not everything goes straight to the cloud: cost, internet outages, privacy); Raspberry Pi Imager + SSH/Wi-Fi settings before the first boot; **SSH** ("a remote terminal"); **Linux basics**: the 20 commands that are enough (`cd`, `ls`, `nano`, `sudo`, `apt`, `systemctl`, `journalctl`); a fixed IP over a LAN cable (**`nmcli` on Trixie, not the old `dhcpcd.conf`**); Mosquitto on the Pi — **honestly: still without a password on the home network; it gets locked down in Module 21**; *systemd services* (start automatically at boot, restart themselves after a crash); reading logs; backing up the SD card; when the Pi needs an automatic *reboot*; **why regular microSD cards wear out quickly** and why we use a *high-endurance* card.
 - **Tools used:** Raspberry Pi Imager, SSH, Mosquitto.
 - **Optional / technical deep dive:** Raspberry Pi GPIO (compared with the ESP32; our project doesn't use it); the Pi as its own *access point*; the differences between the Pi 4 & Pi 5.
 - **Practice & mini projects:** the Pi running headless & reachable over SSH through a LAN cable; the broker moves to the Pi; Node 1 is pointed at the Pi's broker; MQTTX on the laptop monitors through the Pi; reading the Mosquitto logs.
 - **➕ Mini Smart Home:** a permanent gateway.
-- **✅ You pass when:** you unplug the laptop and Node 1 stays connected to the broker on the Pi (proven with MQTTX on a phone/another laptop), and you can log in to the Pi over SSH and read its logs. *(Laptop path: Mosquitto runs as a 24-hour service without a terminal open.)*
+- **✅ You pass when:** you unplug the laptop and Node 1 stays connected to the broker on the Pi (proven with the broker's log on the Pi or with MQTTX on a phone/another laptop), and you can log in to the Pi over SSH and read its logs. *(Laptop path: Mosquitto runs as a 24-hour service without a terminal open.)*
 
 #### Module 13 — Node-RED & Dashboard 2: Your First Dashboard Without Coding
 *Phase 2 · Week 13 · Hardware: Kit B (or a laptop) · Prerequisites: Module 12*
@@ -952,6 +955,8 @@ One sentence per term, in plain language. All of them are covered fully in their
 ---
 
 ## 13. Revision history
+
+**v1.0.14 (18 Oct 2026)** — Module 12 published in Indonesian and English. The Mini Smart Home gateway is now a Raspberry Pi: Raspberry Pi OS Lite (64-bit), based on Debian 13 "Trixie", written with Raspberry Pi Imager 2.0.12 without a monitor (host name, user, backup Wi-Fi, and SSH are filled in at the Customisation step; Imager passes them on as cloud-init files), reached over SSH, given a fixed address through a reservation on the router (the method the official documentation recommends) or with `nmcli` on the `netplan-eth0` connection (an address outside the DHCP range), and running Mosquitto 2.0.21 from the Debian package as a systemd service (`Restart=on-failure` built in, logs in `/var/log/mosquitto/mosquitto.log`, the Raspberry Pi OS *journal* kept in RAM). Node 1 firmware moves to v1.2.1: only `BROKER_ADDRESS` (the gateway), the version, and one error message change. The project gains `edge/gateway-pi.conf` and `edge/README.md` (the recipe to rebuild the gateway). Laptop path: Mosquitto as a service on Windows (`mosquitto install`), macOS (`brew services`), or Linux (`systemctl`). A note for later modules: since April 2026, Raspberry Pi OS asks for a password for `sudo`.
 
 **v1.0.13 (18 Oct 2026)** — Module 11 published in Indonesian and English. Node 1 firmware moves to v1.2.0: all of its communication goes over MQTT to a Mosquitto broker on the laptop (`telemetry` every 10 seconds plus an immediate send when motion, dark/bright, soil, or the water tank changes state, at most every 2 seconds; `vitals` after connecting and then every 5 minutes; a retained `online` status and an `offline` last will; `set` commands for the lamp, fan, pump, and curtain, each answered with an `ack`), while the `/on` `/off` web server, mDNS, and HTTP sending are retired. The project gains `DATA-CONTRACT.md` (version 1.0), `edge/mosquitto-lan.conf`, and `tools/contract-checker.js` (`mqtt` library 5.16.1). The data-contract decisions made in Module 11 are recorded in Appendix A: failed readings are written as `null`, the MQTT client name equals `device_id`, the `message` column in `ack`, the clarified rule (3), the new rules (7), (8), and (9), and the `vitals` schedule. The MQTT library in §3 becomes **PubSubClient3** 3.3.2, the successor of PubSubClient 2.8, which has not been maintained since June 2026; other versions locked for Module 11: Mosquitto 2.1.2, MQTTX 1.13.1. The Module 11 details in §7 were aligned with the research: the default 256-byte container **throws away** bigger incoming messages (it doesn't cut them), and the MQTT library on the ESP32 doesn't resend QoS 1. The Wokwi table in §5.4 gained a Module 11 row, and the `edge/` folder in §9 now also holds the broker configuration from Module 11 on.
 

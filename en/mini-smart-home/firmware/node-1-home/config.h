@@ -2,7 +2,7 @@
 // The pins follow PIN-MAP.md. The calibration numbers are your own Module 6 results.
 #pragma once
 
-const char FIRMWARE_VERSION[] = "1.2.0";
+const char FIRMWARE_VERSION[] = "1.2.1";
 
 // ---------- Node 1 canonical pin map (copied from PIN-MAP.md) ----------
 const int PIN_STATUS_LED = 4;      // Module 2
@@ -50,7 +50,7 @@ const unsigned long PORTAL_TIMEOUT = 180;  // seconds: the portal closes by itse
 const char TIME_ZONE[] = "WIB-7";          // WITA: "WITA-8", WIT: "WIT-9" (Module 10, Practice 5)
 
 // ---------- Module 11: MQTT ----------
-const char BROKER_ADDRESS[] = "192.168.1.10";  // REPLACE with your laptop's IP address (the Mosquitto broker, Practice 1)
+const char BROKER_ADDRESS[] = "192.168.1.37";  // REPLACE with your Pi gateway's fixed address (Module 12, Practice 2)
 const uint16_t BROKER_PORT = 1883;
 const unsigned long SEND_INTERVAL = 10000;     // telemetry every 10 seconds, plus immediately when something important happens
 const unsigned long VITALS_INTERVAL = 300000;  // vitals (Node 1's health) every 5 minutes

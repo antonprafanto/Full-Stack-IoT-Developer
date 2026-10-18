@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="600" viewBox="0 0 1200 600" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="600" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >systemd: the guard who starts services, wakes them up, and keeps a log</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >One day in the life of the mosquitto service on the gateway</text>
+<line x1="70.0" y1="236.0" x2="1130.0" y2="236.0" stroke="#d5dbe3" stroke-width="6" stroke-linecap="round" />
+<circle cx="120.0" cy="236.0" r="16" fill="#1e2a4a" />
+<text x="120.0" y="202.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Pi powers on</text>
+<text x="120.0" y="280.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="middle" >systemd reads the duty list</text>
+<circle cx="300.0" cy="236.0" r="16" fill="#2a9d5c" />
+<text x="300.0" y="202.0" font-size="15" font-weight="800" fill="#2a9d5c" text-anchor="middle" >mosquitto runs</text>
+<text x="300.0" y="280.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="middle" >enabled = starts with the Pi</text>
+<text x="300.0" y="300.0" font-size="12" font-weight="700" fill="#2a9d5c" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >active (running)</text>
+<circle cx="500.0" cy="236.0" r="16" fill="#e63946" />
+<text x="500.0" y="202.0" font-size="15" font-weight="800" fill="#e63946" text-anchor="middle" >crash!</text>
+<text x="500.0" y="280.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="middle" >the program dies suddenly</text>
+<circle cx="680.0" cy="236.0" r="16" fill="#2a9d5c" />
+<text x="680.0" y="202.0" font-size="15" font-weight="800" fill="#2a9d5c" text-anchor="middle" >woken up again</text>
+<text x="680.0" y="280.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="middle" >the Restart=on-failure rule</text>
+<text x="680.0" y="300.0" font-size="12" font-weight="700" fill="#2a9d5c" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >active (running)</text>
+<circle cx="880.0" cy="236.0" r="16" fill="#1e2a4a" />
+<text x="880.0" y="202.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="middle" >sudo poweroff</text>
+<text x="880.0" y="280.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="middle" >stopped neatly</text>
+<text x="880.0" y="300.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >retained saved</text>
+<circle cx="1060.0" cy="236.0" r="16" fill="#4a5568" />
+<text x="1060.0" y="202.0" font-size="15" font-weight="800" fill="#4a5568" text-anchor="middle" >Pi is off</text>
+<text x="1060.0" y="280.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="middle" >safe to unplug</text>
+<path d="M494 230 L506 242 M506 230 L494 242" fill="none" stroke="#ffffff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M512 176 Q590 112 668 176" fill="none" stroke="#2a9d5c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M656 172 L669 178 L660 166" fill="none" stroke="#2a9d5c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="590.0" y="124.0" font-size="12.5" font-weight="800" fill="#2a9d5c" text-anchor="middle" >automatic</text>
+<rect x="70.0" y="360.0" width="520.0" height="180.0" rx="14" fill="#ffffff" stroke="#0f8b8d" stroke-width="2" />
+<text x="92.0" y="392.0" font-size="15.5" font-weight="800" fill="#0f8b8d" text-anchor="start" >The guard's logbook (journal)</text>
+<text x="92.0" y="420.0" font-size="14" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">journalctl -u mosquitto</text>
+<text x="92.0" y="444.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="start" >when the service was started, stopped, or failed</text>
+<text x="92.0" y="476.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Mosquitto's own log (clients coming and going):</text>
+<text x="92.0" y="502.0" font-size="14" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">/var/log/mosquitto/mosquitto.log</text>
+<text x="92.0" y="526.0" font-size="12.5" font-weight="700" fill="#4a5568" text-anchor="start" >the journal is lost when the Pi restarts; mosquitto.log stays on the card</text>
+<rect x="620.0" y="360.0" width="510.0" height="180.0" rx="14" fill="#eef1f5" />
+<text x="642.0" y="392.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Talking to the guard: systemctl</text>
+<text x="642.0" y="424.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">systemctl status mosquitto</text>
+<text x="1112.0" y="424.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="end" >how is it doing?</text>
+<text x="642.0" y="452.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">sudo systemctl restart mosquitto</text>
+<text x="1112.0" y="452.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="end" >stop, then start again</text>
+<text x="642.0" y="480.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">sudo systemctl enable mosquitto</text>
+<text x="1112.0" y="480.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="end" >add to the morning duty list</text>
+<text x="642.0" y="508.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">sudo systemctl disable mosquitto</text>
+<text x="1112.0" y="508.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="end" >cross off the list</text>
+<text x="1178.0" y="586.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer curriculum · CC BY 4.0</text>
+</svg>

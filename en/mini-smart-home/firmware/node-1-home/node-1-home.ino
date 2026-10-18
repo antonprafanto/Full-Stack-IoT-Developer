@@ -1,4 +1,4 @@
-// Node 1 "Home" - firmware v1.2.0 (Module 11)
+// Node 1 "Home" - firmware v1.2.1 (Module 12: the broker moves to the Raspberry Pi gateway)
 // The running project: Mini Smart Home.
 //
 // New in v1.2.0: all communication over MQTT, following the data contract (Appendix A): telemetry every 10 seconds and

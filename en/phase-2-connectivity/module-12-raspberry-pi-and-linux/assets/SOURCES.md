@@ -1,0 +1,15 @@
+# Sources & Image Credits — Module 12
+
+A summary of every image in this folder. The curriculum's original diagrams are licensed **CC BY 4.0**, and their `.svg` files are included so they can be modified. All sources were accessed in October 2026.
+
+| File | Type | Source | License / notes |
+| :--- | :--- | :--- | :--- |
+| `roadmap-module-12.png` / `.svg` | Original diagram: where Module 12 sits in the curriculum and the things you do this week | Fullstack IoT Developer curriculum | CC BY 4.0 |
+| `gateway-at-home.png` / `.svg` | Original diagram: the Raspberry Pi gateway in the home network, the devices, the monitors, and the internet server (later) | Fullstack IoT Developer curriculum | CC BY 4.0 |
+| `meet-the-raspberry-pi-5.jpg` | Photo of a Raspberry Pi 5 with labels on the ports that are used and the ones that aren't | Photo [Raspberry Pi 5](https://commons.wikimedia.org/wiki/File:Raspberry_Pi_5.jpg) by SimonWaldherr (Wikimedia Commons, January 14, 2024); cropped, labels by the author; the positions of the lights and the power button from the Raspberry Pi documentation | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.en) |
+| `imager-steps-1-4.png`, `imager-steps-5-8.png`, `imager-steps-10-11.png` | Collages of Raspberry Pi Imager 2.0 screenshots with step numbers and captions in English | Screenshots from the [official Raspberry Pi documentation](https://github.com/raspberrypi/documentation/tree/adf36e91b8/documentation/asciidoc/computers/getting-started/images/imager) (Raspberry Pi Ltd); labels checked against the source code of [Raspberry Pi Imager 2.0.12](https://github.com/raspberrypi/rpi-imager/tree/v2.0.12); the example entries in the images (names, city, Wi-Fi) belong to the original documentation | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.en), following the original screenshots |
+| `ssh-remote-terminal.png` / `.svg` | Original diagram: SSH as a remote terminal, and the fingerprint at the first greeting; the prompt and message texts from OpenSSH and Raspberry Pi OS | Fullstack IoT Developer curriculum | CC BY 4.0 |
+| `linux-folder-map.png` / `.svg` | Original diagram: the Linux folders used this week; the Mosquitto paths from the Debian Trixie package | Fullstack IoT Developer curriculum | CC BY 4.0 |
+| `systemd-guard.png` / `.svg` | Original diagram: the Mosquitto service looked after by systemd; the `Restart=on-failure` rule and the log locations from the Debian Mosquitto package | Fullstack IoT Developer curriculum | CC BY 4.0 |
+| `microsd-card-wear.png` / `.svg` | Original diagram: microSD card wear and three things that keep the gateway safe; from the Raspberry Pi documentation, [LWN](https://lwn.net/Articles/428584/), and the [SD Association](https://www.sdcard.org/developers/sd-standard-overview/application-performance-class/) | Fullstack IoT Developer curriculum | CC BY 4.0 |
+| `project-gateway-diagram.png` / `.svg` | Original diagram: Mini Smart Home after Module 12, Node 1 v1.2.1 and the Pi gateway | Fullstack IoT Developer curriculum | CC BY 4.0 |

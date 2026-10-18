@@ -379,7 +379,7 @@ static void tryConnectBroker() {
   int code = mqtt.state();
   if (code != lastFailCode) {  // the same failure isn't logged every 5 seconds
     lastFailCode = code;
-    logError("MQTT failed to connect to the broker after %lu ms: %s (code %d). Is the broker on the laptop running?",
+    logError("MQTT failed to connect to the broker after %lu ms: %s (code %d). Is the broker on the gateway running?",
              millis() - start, mqttStateName(code), code);
   }
 }

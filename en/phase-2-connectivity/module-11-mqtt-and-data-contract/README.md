@@ -4,7 +4,7 @@
 
 *Phase 2 · Week 11 · Hardware: **the Node 1 workbench from Module 10** and **a laptop** that becomes the broker (see 🧰) — no new parts · Prerequisites: **Module 10** (Node 1 v1.1) · Time: 8–10 hours, spread over the week*
 
-[⬅️ Module 10](../module-10-wifi-and-http/README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · [Module 12 ➡️ (coming soon — read the summary in the Syllabus)](../../SYLLABUS.md#module-12--raspberry-pi--linux-basics-a-gateway-thats-always-on)
+[⬅️ Module 10](../module-10-wifi-and-http/README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · [Module 12 ➡️](../module-12-raspberry-pi-and-linux/README.md)
 
 ---
 
@@ -3028,4 +3028,4 @@ All the sketches in this module have been compiled with version 3 of the esp32 p
 
 ---
 
-[⬅️ Module 10](../module-10-wifi-and-http/README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · **Next: Module 12 — Raspberry Pi & Linux Basics: A Gateway That's Always On** (coming soon; [read the summary in the Syllabus](../../SYLLABUS.md#module-12--raspberry-pi--linux-basics-a-gateway-thats-always-on))
+[⬅️ Module 10](../module-10-wifi-and-http/README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · **Next: [Module 12 — Raspberry Pi & Linux Basics: A Gateway That's Always On](../module-12-raspberry-pi-and-linux/README.md) ➡️**
