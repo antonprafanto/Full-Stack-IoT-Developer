@@ -606,7 +606,7 @@ paket = kepala 2–3 byte + panjang topik 2 byte + topik + (2 byte nomor paket u
 
 Contoh: perintah `set` ke `rpm/a4cf12e5b7c0/cmd` (topik 20 byte) dengan isi JSON sekitar 95 byte membentuk paket sekitar 120 byte. Masih muat.
 
-**Yang terjadi kalau paket masuk lebih besar daripada wadahnya:** library tetap membaca paket itu sampai habis supaya sambungan tidak kacau, lalu **membuangnya diam-diam**. Fungsi penerima perintah tidak dipanggil, tidak ada pesan error, dan `mqtt.loop()` tetap melapor semuanya baik-baik saja. Dari luar, gejalanya hanya satu: **`ack` tidak pernah datang**. Silabus menyebutnya "memotong JSON diam-diam"; sebenarnya pesan itu tidak dipotong, melainkan **dibuang utuh**. Akibatnya sama berbahayanya karena tidak ada yang tahu.
+**Yang terjadi kalau paket masuk lebih besar daripada wadahnya:** library tetap membaca paket itu sampai habis supaya sambungan tidak kacau, lalu **membuangnya diam-diam**. Fungsi penerima perintah tidak dipanggil, tidak ada pesan error, dan `mqtt.loop()` tetap melapor semuanya baik-baik saja. Dari luar, gejalanya hanya satu: **`ack` tidak pernah datang**. Perhatikan: pesan itu tidak dipotong, melainkan **dibuang utuh**. Akibatnya sama berbahayanya karena tidak ada yang tahu.
 
 ![Wadah pesan 256 byte yang membuang diam-diam: yang harus muat adalah seluruh paket MQTT yang masuk, bukan hanya isi JSON-nya. Tiga batang. Pertama, perintah set biasa, paket 121 byte (kepala 2 byte, panjang topik, topik 20 byte, nomor paket, isi JSON 95 byte) muat di wadah 256 byte, centang hijau. Kedua, perintah dengan catatan panjang, paket 287 byte, isi JSON 260 byte melewati batas wadah 256 byte; bagian yang melewati batas berwarna merah, silang merah, melewati wadah: dibaca sampai habis, lalu dibuang. Ketiga, setelah setBufferSize(512), paket 287 byte yang sama muat di wadah 512 byte, centang hijau. Legenda: kepala 2 sampai 3 byte; panjang topik 2 ditambah nomor paket 2; topik rpm/<id>/cmd 20 byte; isi JSON. Catatan bawah: paket yang dibuang tidak memanggil fungsi penerima, tidak ada pesan error, mqtt.loop() tetap baik-baik saja; satu-satunya gejala, ack tidak pernah datang; obatnya satu baris di setup(), mqtt.setBufferSize(512)](aset/wadah-256.png)
 
@@ -623,7 +623,7 @@ Ukuran paket pesan-pesan Node 1 hari ini:
 | `telemetry` (delapan kolom) | keluar | 155–165 byte |
 | `ack` yang menolak, lengkap dengan alasannya | keluar | sekitar 200 byte |
 
-Semuanya memang masih muat dalam 256 byte, tetapi sisanya tipis. Spasi dan baris baru di perintah yang diketik rapi ikut terhitung, dan konfigurasi di Modul 19 akan bertambah kolom. Pesan masuk yang kelak melewati 256 byte akan hilang tanpa jejak. Karena itu, semua sketsa minggu ini memperbesar wadahnya menjadi **512 byte** di `setup()`:
+Semuanya memang masih muat dalam 256 byte, tetapi sisanya tipis. Spasi dan baris baru di perintah yang diketik rapi ikut terhitung, dan konfigurasi di Modul 19 akan bertambah kolom. Pesan masuk yang kelak melewati 256 byte akan hilang tanpa jejak. Karena itu, firmware Node 1 dan sketsa Praktik 3, 4, 6, dan 7 memperbesar wadahnya menjadi **512 byte** di `setup()`:
 
 ```cpp
 mqtt.setBufferSize(512);  // ruang pesan 512 byte (bawaan: 256); menjawab false kalau memori tidak cukup
