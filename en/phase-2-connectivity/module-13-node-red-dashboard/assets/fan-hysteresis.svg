@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="650" viewBox="0 0 1200 650" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="650" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Hysteresis: a fan that isn't jumpy</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >On above 30 °C · off below 28 °C · in between: leave the last state</text>
+<rect x="120.0" y="236.2" width="1000.0" height="96.9" rx="0" fill="#fff4d6" />
+<line x1="120.0" y1="430.0" x2="1120.0" y2="430.0" stroke="#ece8de" stroke-width="1" stroke-linecap="round" />
+<text x="108.0" y="435.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="end" >26</text>
+<line x1="120.0" y1="381.6" x2="1120.0" y2="381.6" stroke="#ece8de" stroke-width="1" stroke-linecap="round" />
+<text x="108.0" y="386.6" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="end" >27</text>
+<line x1="120.0" y1="333.1" x2="1120.0" y2="333.1" stroke="#ece8de" stroke-width="1" stroke-linecap="round" />
+<text x="108.0" y="338.1" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="end" >28</text>
+<line x1="120.0" y1="284.7" x2="1120.0" y2="284.7" stroke="#ece8de" stroke-width="1" stroke-linecap="round" />
+<text x="108.0" y="289.7" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="end" >29</text>
+<line x1="120.0" y1="236.2" x2="1120.0" y2="236.2" stroke="#ece8de" stroke-width="1" stroke-linecap="round" />
+<text x="108.0" y="241.2" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="end" >30</text>
+<line x1="120.0" y1="187.8" x2="1120.0" y2="187.8" stroke="#ece8de" stroke-width="1" stroke-linecap="round" />
+<text x="108.0" y="192.8" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="end" >31</text>
+<line x1="120.0" y1="139.4" x2="1120.0" y2="139.4" stroke="#ece8de" stroke-width="1" stroke-linecap="round" />
+<text x="108.0" y="144.4" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="end" >32</text>
+<text x="108.0" y="110.0" font-size="12.5" font-weight="800" fill="#4a5568" text-anchor="end" >°C</text>
+<line x1="120.0" y1="236.2" x2="1120.0" y2="236.2" stroke="#e63946" stroke-width="2" stroke-linecap="round" stroke-dasharray="8 6" />
+<line x1="120.0" y1="333.1" x2="1120.0" y2="333.1" stroke="#2f6fd1" stroke-width="2" stroke-linecap="round" stroke-dasharray="8 6" />
+<text x="130.0" y="227.2" font-size="13" font-weight="800" fill="#e63946" text-anchor="start" >on threshold: above 30</text>
+<text x="599.2" y="289.7" font-size="13" font-weight="800" fill="#b45f17" text-anchor="middle" >28–30 °C band: leave the last state</text>
+<text x="599.2" y="355.1" font-size="13" font-weight="800" fill="#2f6fd1" text-anchor="middle" >off threshold: below 28</text>
+<path d="M120.0 381.6 L128.3 369.8 L136.7 370.2 L145.0 375.7 L153.3 361.1 L161.7 343.8 L170.0 356.1 L178.3 359.3 L186.7 329.9 L195.0 326.6 L203.3 347.8 L211.7 329.2 L220.0 303.8 L228.3 321.5 L236.7 326.5 L245.0 296.9 L253.3 293.5 L261.7 309.1 L270.0 296.6 L278.3 279.0 L286.7 282.9 L295.0 286.2 L303.3 276.6 L311.7 264.5 L320.0 263.2 L328.3 270.5 L336.7 260.9 L345.0 241.6 L353.3 250.4 L361.7 260.6 L370.0 235.0 L378.3 224.7 L386.7 248.1 L395.0 239.0 L403.3 210.0 L411.7 223.3 L420.0 237.0 L428.3 211.2 L436.7 201.9 L445.0 220.2 L453.3 214.7 L461.7 196.3 L470.0 198.9 L478.3 206.1 L486.7 200.0 L495.0 189.3 L503.3 187.4 L511.7 196.7 L520.0 193.4 L528.3 174.8 L536.7 180.1 L545.0 196.8 L553.3 178.1 L561.7 162.6 L570.0 186.4 L578.3 188.4 L586.7 159.4 L595.0 167.3 L603.3 189.1 L611.7 170.1 L620.0 156.4 L628.3 176.1 L636.7 178.9 L645.0 161.7 L653.3 163.1 L661.7 174.2 L670.0 172.8 L678.3 168.5 L686.7 170.8 L695.0 185.7 L703.3 192.7 L711.7 180.5 L720.0 186.0 L728.3 210.9 L736.7 204.4 L745.0 188.8 L753.3 213.9 L761.7 229.8 L770.0 206.6 L778.3 211.2 L786.7 241.6 L795.0 234.1 L803.3 219.4 L811.7 240.8 L820.0 254.2 L828.3 241.9 L836.7 243.5 L845.0 259.5 L853.3 264.7 L861.7 260.7 L870.0 260.9 L878.3 274.2 L886.7 284.7 L895.0 274.1 L903.3 273.9 L911.7 299.2 L920.0 299.7 L928.3 280.4 L936.7 299.2 L945.0 322.2 L953.3 302.3 L961.7 298.1 L970.0 329.4 L978.3 329.7 L986.7 310.8 L995.0 327.3 L1003.3 346.0 L1011.7 335.6 L1020.0 332.9 L1028.3 348.5 L1036.7 356.4 L1045.0 352.9 L1053.3 351.5 L1061.7 362.7 L1070.0 375.9 L1078.3 368.2 L1086.7 363.0 L1095.0 386.4 L1103.3 394.2 L1111.7 373.5 L1120.0 384.7" fill="none" stroke="#1e2a4a" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="370.0" cy="235.0" r="7" fill="#e63946" />
+<line x1="364.0" y1="229.0" x2="344.0" y2="182.1" stroke="#e63946" stroke-width="1.6" stroke-linecap="round" />
+<text x="340.0" y="178.1" font-size="13" font-weight="800" fill="#e63946" text-anchor="end" >1 command: fan on</text>
+<circle cx="1003.3" cy="346.0" r="7" fill="#2f6fd1" />
+<line x1="997.3" y1="352.0" x2="977.3" y2="381.2" stroke="#2f6fd1" stroke-width="1.6" stroke-linecap="round" />
+<text x="973.3" y="389.2" font-size="13" font-weight="800" fill="#2f6fd1" text-anchor="end" >1 command: fan off</text>
+<text x="108.0" y="482.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="end" >fan</text>
+<rect x="120.0" y="462.0" width="250.0" height="30.0" rx="6" fill="#e8e8e8" />
+<text x="245.0" y="482.0" font-size="13" font-weight="800" fill="#4a5568" text-anchor="middle" >OFF</text>
+<rect x="370.0" y="462.0" width="633.3" height="30.0" rx="6" fill="#0f8b8d" />
+<text x="686.7" y="482.0" font-size="13" font-weight="800" fill="#ffffff" text-anchor="middle" >ON (stays on even though the temperature dips into the 28–30 band)</text>
+<rect x="1003.3" y="462.0" width="116.7" height="30.0" rx="6" fill="#e8e8e8" />
+<text x="1061.7" y="482.0" font-size="13" font-weight="800" fill="#4a5568" text-anchor="middle" >OFF</text>
+<text x="620.0" y="516.0" font-size="12.5" font-weight="700" fill="#4a5568" text-anchor="middle" >time →  (one point = one temperature reading from Node 1, every 10 seconds)</text>
+<rect x="120.0" y="540.0" width="1000.0" height="66.0" rx="10" fill="#eef1f5" />
+<text x="140.0" y="566.0" font-size="13.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >With only one threshold at 30 °C, the same curve triggers 8 commands: the relay clicks every time the temperature</text>
+<text x="140.0" y="588.0" font-size="13.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >wobbles 29.9 → 30.1 → 29.9. With two thresholds (hysteresis), only 2 commands: one on, one off.</text>
+<text x="1178.0" y="636.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer curriculum · CC BY 4.0</text>
+</svg>

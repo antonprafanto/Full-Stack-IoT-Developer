@@ -5,7 +5,7 @@
 > **A 32-module curriculum — one module = one week of relaxed study (about 8 months) — that takes complete beginners all the way to building a full IoT system, from sensors to a dashboard on your phone.**
 > Hardware: **ESP32 + Raspberry Pi** · Software: **JavaScript/TypeScript (Node.js + React) for the server & the interface, a little C++ for the chip** · Language of instruction: **English, beginner-friendly** (this English edition is a complete translation of the Indonesian original).
 >
-> Document status: **v1.0.14 — approved, writing of the material in progress; Modules 1–12 (all of Phase 0 and Phase 1, plus Modules 10–12 of Phase 2) are available in Indonesian and English** (18 October 2026). The decisions behind it are in [§11](#11-approved-decisions); the change history is in [§13](#13-revision-history).
+> Document status: **v1.0.15 — approved, writing of the material in progress; Modules 1–13 (all of Phase 0 and Phase 1, plus Modules 10–13 of Phase 2) are available in Indonesian and English** (18 October 2026). The decisions behind it are in [§11](#11-approved-decisions); the change history is in [§13](#13-revision-history).
 
 ---
 
@@ -296,6 +296,7 @@ Wokwi provides the ESP32, LEDs, buttons, potentiometers, buzzers, servos, relays
 | An MQTT broker on the laptop (Module 11) | Not possible: the simulated ESP32 can't reach your laptop | Every sketch runs with a public broker (`broker.emqx.io`, the QoS test on `broker.hivemq.com`), watched through MQTTX; the `ack` under 1 second is still proven on a real board |
 | "24 hours without a restart" test (Module 8) | Not practical | A 30-minute test in the simulator + an *uptime counter* |
 | The Raspberry Pi as a gateway (Module 12) | Not available: Wokwi only simulates microcontrollers | Laptop path: Mosquitto as a service on the laptop (Module 12, Practice 7); Node 1 in Wokwi keeps using the public broker |
+| Node-RED and Dashboard 2 (Module 13) | Not available: Node-RED runs on the Pi or a laptop, not on the ESP32 | Laptop path: Node-RED on the laptop (Module 13, Practice 8) subscribes to the public broker where Node 1 in Wokwi publishes; don't use it for a real relay |
 | RS-485/Modbus lab (Module 15) | Not available | Learn the concept & the code; practice when the kit arrives |
 | Loose wires, charging cables, USB drivers, power supply (Modules 2, 5) | Not available | This is why real hardware is still recommended |
 
@@ -543,11 +544,13 @@ Format of each module:
 #### Module 13 — Node-RED & Dashboard 2: Your First Dashboard Without Coding
 *Phase 2 · Week 13 · Hardware: Kit B (or a laptop) · Prerequisites: Module 12*
 
+📖 **Available now:** [read Module 13](phase-2-connectivity/module-13-node-red-dashboard/README.md)
+
 - **After this module you can:** build dashboards & automation with *drag-and-drop* in a matter of minutes, understand the "data flow" (flow) pattern that you will later write yourself in the backend, and have a "dashboard v0" on your phone for the Mini Smart Home.
 - **Core concepts:** what *low-code* is and when it's enough; installing Node-RED on the Pi (and as a *service*); the flow, *node*, and *message* (`msg.payload`) concepts; MQTT in/out nodes; transforming JSON (the *change* node, small *function* nodes); **Dashboard 2** (`@flowfuse/node-red-dashboard`): gauges, charts, switches, text; simple automation (if temperature > 30 → publish a fan `cmd`; simple hysteresis); the *debug node* as a "magnifying glass"; exporting/importing flows (JSON) to the repository; **Node-RED will "retire" as the brain in Module 16** — but it remains a useful debugging tool.
 - **Tools used:** Node-RED + `@flowfuse/node-red-dashboard` (**installed in this module**).
 - **Optional / technical deep dive:** *function* nodes with JavaScript (the connection with Module 4); Node-RED vs. Home Assistant.
-- **Practice & mini projects:** a Node-RED dashboard showing Node 1's 5 sensors + relay/pump/servo buttons; fan & watering automation; opened from a phone on the home network; the flow saved in the repo.
+- **Practice & mini projects:** a Node-RED dashboard showing Node 1's 5 sensors + lamp & fan switches, a pump button, and a curtain slider (servo); fan automation with hysteresis (scheduled watering becomes an independent challenge; Node 1's local watering rule keeps running); opened from a phone on the home network; the flow saved in the repo.
 - **➕ Mini Smart Home:** dashboard v0 (Node-RED) & the first automation, running 24 hours a day on the Pi.
 - **✅ You pass when:** your phone opens the Node-RED dashboard on the Pi, the fan button works, the automation turns on the fan when the sensor is warmed up, and the flow JSON is in your repository.
 
@@ -955,6 +958,8 @@ One sentence per term, in plain language. All of them are covered fully in their
 ---
 
 ## 13. Revision history
+
+**v1.0.15 (18 Oct 2026)** — Module 13 published in Indonesian and English. The Mini Smart Home gateway now also runs Node-RED 5.0.8, installed with the official `install-update-nodered-deb` script (together with Node.js 24) as the `nodered` systemd service, with a password-protected editor (`node-red admin init`). Dashboard v0 uses FlowFuse Dashboard (`@flowfuse/node-red-dashboard`) 1.33.0 at `/dashboard/home`: the status, all five sensors, a one-hour chart, lamp and fan switches that only move after the `ack`, a 5-second watering button, a curtain slider, and the last reply. Commands from Node-RED follow the data contract (a unique `id` from `$millis()`, QoS 1, retain off) and get `PASS` from the contract checker. The first automation: the fan turns on above 30 °C and off below 28 °C (hysteresis, a `null` guard, and an "only when it changes" filter). Node 1 stays at v1.2.1. The project gains `edge/node-red-flows.json`, and the `edge/README.md` recipe gains a Node-RED section. Laptop path: Node-RED with `npm install -g node-red`. Syllabus §7, Module 13: scheduled watering becomes an independent challenge because Node 1 already has a local watering rule.
 
 **v1.0.14 (18 Oct 2026)** — Module 12 published in Indonesian and English. The Mini Smart Home gateway is now a Raspberry Pi: Raspberry Pi OS Lite (64-bit), based on Debian 13 "Trixie", written with Raspberry Pi Imager 2.0.12 without a monitor (host name, user, backup Wi-Fi, and SSH are filled in at the Customisation step; Imager passes them on as cloud-init files), reached over SSH, given a fixed address through a reservation on the router (the method the official documentation recommends) or with `nmcli` on the `netplan-eth0` connection (an address outside the DHCP range), and running Mosquitto 2.0.21 from the Debian package as a systemd service (`Restart=on-failure` built in, logs in `/var/log/mosquitto/mosquitto.log`, the Raspberry Pi OS *journal* kept in RAM). Node 1 firmware moves to v1.2.1: only `BROKER_ADDRESS` (the gateway), the version, and one error message change. The project gains `edge/gateway-pi.conf` and `edge/README.md` (the recipe to rebuild the gateway). Laptop path: Mosquitto as a service on Windows (`mosquitto install`), macOS (`brew services`), or Linux (`systemctl`). A note for later modules: since April 2026, Raspberry Pi OS asks for a password for `sudo`.
 

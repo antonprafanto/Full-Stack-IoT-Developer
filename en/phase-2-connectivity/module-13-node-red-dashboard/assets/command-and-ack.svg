@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="640" viewBox="0 0 1200 640" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="640" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >An honest switch: command out, ack back</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Top path: command (cmd) · bottom path: reply (ack) · the switch only moves once the ack arrives</text>
+<rect x="40.0" y="150.0" width="200.0" height="320.0" rx="14" fill="#ffffff" stroke="#1e2a4a" stroke-width="1.8" />
+<rect x="129.0" y="177.0" width="22.0" height="38.0" rx="5" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<circle cx="140.0" cy="209.0" r="1.8" fill="#1e2a4a" />
+<text x="140.0" y="244.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Phone</text>
+<text x="140.0" y="266.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="middle" >Fan switch</text>
+<text x="140.0" y="300.0" font-size="12.5" font-weight="700" fill="#b45f17" text-anchor="middle" >1. tapped:</text>
+<text x="140.0" y="318.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="middle" >waiting sign</text>
+<text x="140.0" y="402.0" font-size="12.5" font-weight="700" fill="#2a9d5c" text-anchor="middle" >7. ack arrives:</text>
+<text x="140.0" y="420.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="middle" >moves to on</text>
+<rect x="280.0" y="130.0" width="520.0" height="360.0" rx="14" fill="#ffffff" stroke="#0f8b8d" stroke-width="2.2" />
+<rect x="290.0" y="144.0" width="14.0" height="10.0" rx="2" fill="none" stroke="#0f8b8d" stroke-width="2" />
+<rect x="324.0" y="144.0" width="14.0" height="10.0" rx="2" fill="none" stroke="#0f8b8d" stroke-width="2" />
+<rect x="307.0" y="164.0" width="14.0" height="10.0" rx="2" fill="none" stroke="#0f8b8d" stroke-width="2" />
+<path d="M304 149 C312 149 312 169 307 169" fill="none" stroke="#0f8b8d" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M321 169 C328 169 318 149 324 149" fill="none" stroke="#0f8b8d" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<text x="344.0" y="164.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >Node-RED on the gateway</text>
+<rect x="300.0" y="186.0" width="228.0" height="84.0" rx="8" fill="#fdeedd" />
+<text x="314.0" y="216.0" font-size="15" font-weight="800" fill="#b45f17" text-anchor="start" >make cmd</text>
+<text x="314.0" y="238.0" font-size="11.5" font-weight="400" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" >JSONata: new id, ts,</text>
+<text x="314.0" y="255.0" font-size="11.5" font-weight="400" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" >action, target, value</text>
+<rect x="555.0" y="186.0" width="228.0" height="84.0" rx="8" fill="#fdeedd" />
+<text x="569.0" y="216.0" font-size="15" font-weight="800" fill="#b45f17" text-anchor="start" >mqtt out</text>
+<text x="569.0" y="238.0" font-size="11.5" font-weight="400" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" >msh/&lt;device_id&gt;/cmd</text>
+<text x="569.0" y="255.0" font-size="11.5" font-weight="400" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" >QoS 1 · Retain false</text>
+<rect x="300.0" y="376.0" width="228.0" height="84.0" rx="8" fill="#e3f4ea" />
+<text x="314.0" y="406.0" font-size="15" font-weight="800" fill="#2a9d5c" text-anchor="start" >fan state</text>
+<text x="314.0" y="428.0" font-size="11.5" font-weight="400" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" >payload ←</text>
+<text x="314.0" y="445.0" font-size="11.5" font-weight="400" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" >payload.state.fan</text>
+<rect x="555.0" y="376.0" width="228.0" height="84.0" rx="8" fill="#e3f4ea" />
+<text x="569.0" y="406.0" font-size="15" font-weight="800" fill="#2a9d5c" text-anchor="start" >mqtt in</text>
+<text x="569.0" y="428.0" font-size="11.5" font-weight="400" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" >msh/&lt;device_id&gt;/ack</text>
+<rect x="840.0" y="150.0" width="150.0" height="320.0" rx="14" fill="#ffffff" stroke="#0f8b8d" stroke-width="1.8" />
+<path d="M891 204 L915 186 L939 204" fill="none" stroke="#0f8b8d" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="896.0" y="204.0" width="38.0" height="28.0" rx="2" fill="none" stroke="#0f8b8d" stroke-width="2.2" />
+<rect x="906.0" y="212.0" width="18.0" height="5.0" rx="1" fill="#0f8b8d" />
+<text x="915.0" y="262.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Mosquitto</text>
+<text x="915.0" y="282.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="middle" >door 1883</text>
+<rect x="1030.0" y="150.0" width="140.0" height="320.0" rx="14" fill="#ffffff" stroke="#1e2a4a" stroke-width="2" />
+<rect x="1085.0" y="190.0" width="30.0" height="40.0" rx="3" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<rect x="1091.0" y="196.0" width="18.0" height="14.0" rx="2" fill="none" stroke="#1e2a4a" stroke-width="1.6" />
+<line x1="1085.0" y1="200.0" x2="1080.0" y2="200.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="1115.0" y1="200.0" x2="1120.0" y2="200.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="1085.0" y1="208.0" x2="1080.0" y2="208.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="1115.0" y1="208.0" x2="1120.0" y2="208.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="1085.0" y1="216.0" x2="1080.0" y2="216.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="1115.0" y1="216.0" x2="1120.0" y2="216.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="1085.0" y1="224.0" x2="1080.0" y2="224.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="1115.0" y1="224.0" x2="1120.0" y2="224.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<text x="1100.0" y="262.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Node 1</text>
+<text x="1100.0" y="300.0" font-size="12.5" font-weight="700" fill="#b45f17" text-anchor="middle" >4. fan relay</text>
+<text x="1100.0" y="318.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="middle" >clicks</text>
+<text x="1100.0" y="402.0" font-size="12.5" font-weight="700" fill="#2a9d5c" text-anchor="middle" >5. answers with</text>
+<text x="1100.0" y="420.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="middle" >ack</text>
+<line x1="242.0" y1="228.0" x2="296.0" y2="228.0" stroke="#b45f17" stroke-width="2.6" stroke-linecap="round" />
+<path d="M288.1 232.2 L296.0 228.0 L288.1 223.8" fill="none" stroke="#b45f17" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="530.0" y1="228.0" x2="551.0" y2="228.0" stroke="#b45f17" stroke-width="2.6" stroke-linecap="round" />
+<path d="M543.9 231.8 L551.0 228.0 L543.9 224.2" fill="none" stroke="#b45f17" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="785.0" y1="228.0" x2="836.0" y2="228.0" stroke="#b45f17" stroke-width="2.6" stroke-linecap="round" />
+<path d="M828.1 232.2 L836.0 228.0 L828.1 223.8" fill="none" stroke="#b45f17" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="992.0" y1="228.0" x2="1026.0" y2="228.0" stroke="#b45f17" stroke-width="2.6" stroke-linecap="round" />
+<path d="M1018.1 232.2 L1026.0 228.0 L1018.1 223.8" fill="none" stroke="#b45f17" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="269.0" cy="202.0" r="11" fill="#b45f17" stroke="#ffffff" stroke-width="2" />
+<text x="269.0" y="206.0" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle" >1</text>
+<circle cx="541.0" cy="202.0" r="11" fill="#b45f17" stroke="#ffffff" stroke-width="2" />
+<text x="541.0" y="206.0" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle" >2</text>
+<circle cx="810.0" cy="202.0" r="11" fill="#b45f17" stroke="#ffffff" stroke-width="2" />
+<text x="810.0" y="206.0" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle" >3</text>
+<circle cx="1009.0" cy="202.0" r="11" fill="#b45f17" stroke="#ffffff" stroke-width="2" />
+<text x="1009.0" y="206.0" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle" >4</text>
+<line x1="1026.0" y1="418.0" x2="994.0" y2="418.0" stroke="#2a9d5c" stroke-width="2.6" stroke-linecap="round" />
+<path d="M1001.9 413.8 L994.0 418.0 L1001.9 422.2" fill="none" stroke="#2a9d5c" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="836.0" y1="418.0" x2="787.0" y2="418.0" stroke="#2a9d5c" stroke-width="2.6" stroke-linecap="round" />
+<path d="M794.9 413.8 L787.0 418.0 L794.9 422.2" fill="none" stroke="#2a9d5c" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="551.0" y1="418.0" x2="532.0" y2="418.0" stroke="#2a9d5c" stroke-width="2.6" stroke-linecap="round" />
+<path d="M539.1 414.2 L532.0 418.0 L539.1 421.8" fill="none" stroke="#2a9d5c" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="296.0" y1="418.0" x2="244.0" y2="418.0" stroke="#2a9d5c" stroke-width="2.6" stroke-linecap="round" />
+<path d="M251.9 413.8 L244.0 418.0 L251.9 422.2" fill="none" stroke="#2a9d5c" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="1009.0" cy="444.0" r="11" fill="#2a9d5c" stroke="#ffffff" stroke-width="2" />
+<text x="1009.0" y="448.0" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle" >5</text>
+<circle cx="810.0" cy="444.0" r="11" fill="#2a9d5c" stroke="#ffffff" stroke-width="2" />
+<text x="810.0" y="448.0" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle" >6</text>
+<circle cx="269.0" cy="444.0" r="11" fill="#2a9d5c" stroke="#ffffff" stroke-width="2" />
+<text x="269.0" y="448.0" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle" >7</text>
+<rect x="40.0" y="500.0" width="760.0" height="96.0" rx="10" fill="#eef1f5" />
+<text x="58.0" y="526.0" font-size="13" font-weight="800" fill="#b45f17" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" >cmd</text>
+<text x="104.0" y="526.0" font-size="12" font-weight="400" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">{"id":"nr-1792301487215","ts":"…","action":"set","target":"fan","value":true}</text>
+<text x="58.0" y="552.0" font-size="13" font-weight="800" fill="#2a9d5c" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" >ack</text>
+<text x="104.0" y="552.0" font-size="12" font-weight="400" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">{"id":"nr-1792301487215","ts":"…","ok":true,"state":{"fan":true,"lamp":false,…}}</text>
+<text x="58.0" y="580.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >The same id links the reply to its command (Module 11).</text>
+<rect x="840.0" y="500.0" width="330.0" height="96.0" rx="10" fill="#fde6e8" />
+<text x="858.0" y="528.0" font-size="14" font-weight="800" fill="#e63946" text-anchor="start" >Node 1 off?</text>
+<text x="858.0" y="550.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >No ack: the switch keeps</text>
+<text x="858.0" y="570.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >waiting and doesn't pretend</text>
+<text x="858.0" y="588.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >it worked.</text>
+<text x="1178.0" y="626.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer curriculum · CC BY 4.0</text>
+</svg>

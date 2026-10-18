@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="640" viewBox="0 0 1200 640" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="640" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Mini Smart Home after Module 13</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >The gateway now has a face (dashboard v0) and a first brain (fan automation) · dashed line = comes later</text>
+<rect x="420.0" y="140.0" width="360.0" height="250.0" rx="16" fill="#e2f3f1" stroke="#0f8b8d" stroke-width="2.6" />
+<rect x="442.0" y="159.0" width="48.0" height="34.0" rx="4" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<circle cx="449.0" cy="165.0" r="1.3" fill="#1e2a4a" />
+<circle cx="454.4" cy="165.0" r="1.3" fill="#1e2a4a" />
+<circle cx="459.8" cy="165.0" r="1.3" fill="#1e2a4a" />
+<circle cx="465.2" cy="165.0" r="1.3" fill="#1e2a4a" />
+<circle cx="470.6" cy="165.0" r="1.3" fill="#1e2a4a" />
+<circle cx="476.0" cy="165.0" r="1.3" fill="#1e2a4a" />
+<rect x="474.0" y="172.0" width="12.0" height="9.0" rx="1" fill="none" stroke="#1e2a4a" stroke-width="1.5" />
+<rect x="454.0" y="174.0" width="12.0" height="12.0" rx="1.5" fill="none" stroke="#1e2a4a" stroke-width="1.5" />
+<text x="500.0" y="172.0" font-size="16.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Raspberry Pi gateway</text>
+<text x="500.0" y="194.0" font-size="12.5" font-weight="700" fill="#4a5568" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">192.168.1.37</text>
+<rect x="440.0" y="210.0" width="320.0" height="54.0" rx="10" fill="#ffffff" stroke="#0f8b8d" stroke-width="1.6" />
+<path d="M450 234 L474 216 L498 234" fill="none" stroke="#0f8b8d" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="455.0" y="234.0" width="38.0" height="28.0" rx="2" fill="none" stroke="#0f8b8d" stroke-width="2.2" />
+<rect x="465.0" y="242.0" width="18.0" height="5.0" rx="1" fill="#0f8b8d" />
+<text x="506.0" y="233.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Mosquitto</text>
+<text x="506.0" y="253.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >service · door 1883</text>
+<line x1="590.0" y1="266.0" x2="590.0" y2="290.0" stroke="#0f8b8d" stroke-width="2.2" stroke-linecap="round" />
+<path d="M586.7 283.8 L590.0 290.0 L593.3 283.8" fill="none" stroke="#0f8b8d" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="610.0" y1="290.0" x2="610.0" y2="266.0" stroke="#0f8b8d" stroke-width="2.2" stroke-linecap="round" />
+<path d="M613.3 272.2 L610.0 266.0 L606.7 272.2" fill="none" stroke="#0f8b8d" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="624.0" y="283.0" font-size="11.5" font-weight="700" fill="#0f8b8d" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" >localhost:1883</text>
+<rect x="440.0" y="292.0" width="320.0" height="94.0" rx="10" fill="#ffffff" stroke="#0f8b8d" stroke-width="1.6" />
+<rect x="450.0" y="314.0" width="14.0" height="10.0" rx="2" fill="none" stroke="#0f8b8d" stroke-width="2" />
+<rect x="484.0" y="314.0" width="14.0" height="10.0" rx="2" fill="none" stroke="#0f8b8d" stroke-width="2" />
+<rect x="467.0" y="334.0" width="14.0" height="10.0" rx="2" fill="none" stroke="#0f8b8d" stroke-width="2" />
+<path d="M464 319 C472 319 472 339 467 339" fill="none" stroke="#0f8b8d" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M481 339 C488 339 478 319 484 319" fill="none" stroke="#0f8b8d" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<text x="506.0" y="316.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Node-RED</text>
+<text x="506.0" y="336.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >service · door 1880</text>
+<text x="506.0" y="356.0" font-size="12.5" font-weight="700" fill="#0f8b8d" text-anchor="start" >• dashboard v0</text>
+<text x="506.0" y="374.0" font-size="12.5" font-weight="700" fill="#0f8b8d" text-anchor="start" >• fan automation 30/28</text>
+<rect x="40.0" y="182.0" width="236.0" height="110.0" rx="12" fill="#ffffff" stroke="#1e2a4a" stroke-width="2.4" />
+<rect x="61.0" y="217.0" width="30.0" height="40.0" rx="3" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<rect x="67.0" y="223.0" width="18.0" height="14.0" rx="2" fill="none" stroke="#1e2a4a" stroke-width="1.6" />
+<line x1="61.0" y1="227.0" x2="56.0" y2="227.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="91.0" y1="227.0" x2="96.0" y2="227.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="61.0" y1="235.0" x2="56.0" y2="235.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="91.0" y1="235.0" x2="96.0" y2="235.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="61.0" y1="243.0" x2="56.0" y2="243.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="91.0" y1="243.0" x2="96.0" y2="243.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="61.0" y1="251.0" x2="56.0" y2="251.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="91.0" y1="251.0" x2="96.0" y2="251.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<text x="110.0" y="233.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Node 1 v1.2.1</text>
+<text x="110.0" y="253.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >unchanged this week</text>
+<line x1="278.0" y1="226.0" x2="436.0" y2="226.0" stroke="#2f6fd1" stroke-width="2.2" stroke-linecap="round" />
+<path d="M428.9 229.8 L436.0 226.0 L428.9 222.2" fill="none" stroke="#2f6fd1" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="293.7" y="188.5" width="110.5" height="18.5" rx="4" fill="#fffdf7" />
+<text x="349.0" y="201.0" font-size="9.5" font-weight="700" fill="#2f6fd1" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">telemetry·status·</text>
+<rect x="314.0" y="203.5" width="69.9" height="18.5" rx="4" fill="#fffdf7" />
+<text x="349.0" y="216.0" font-size="9.5" font-weight="700" fill="#2f6fd1" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">vitals·ack</text>
+<line x1="436.0" y1="250.0" x2="278.0" y2="250.0" stroke="#b45f17" stroke-width="2.2" stroke-linecap="round" />
+<path d="M285.1 246.2 L278.0 250.0 L285.1 253.8" fill="none" stroke="#b45f17" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="332.9" y="253.0" width="32.1" height="20.0" rx="4" fill="#fffdf7" />
+<text x="349.0" y="267.0" font-size="11" font-weight="700" fill="#b45f17" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">cmd</text>
+<rect x="900.0" y="130.0" width="260.0" height="76.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<rect x="925.0" y="149.0" width="22.0" height="38.0" rx="5" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<circle cx="936.0" cy="181.0" r="1.8" fill="#1e2a4a" />
+<text x="970.0" y="164.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Phone</text>
+<text x="970.0" y="184.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >dashboard /dashboard/home</text>
+<rect x="900.0" y="230.0" width="260.0" height="76.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<rect x="916.0" y="253.0" width="40.0" height="26.0" rx="3" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<path d="M910 283.0 L962 283.0" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="970.0" y="264.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Laptop</text>
+<text x="970.0" y="284.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >editor :1880, MQTTX, SSH</text>
+<rect x="900.0" y="330.0" width="260.0" height="76.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<path d="M916 378.0 Q906 378.0 908 368.0 Q910 358.0 922 360.0 Q928 348.0 942 353.0 Q954 350.0 956 362.0 Q966 364.0 964 373.0 Q962 378.0 954 378.0 Z" fill="none" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="970.0" y="364.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >GitHub</text>
+<text x="970.0" y="384.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >edge/node-red-flows.json</text>
+<line x1="896.0" y1="168.0" x2="764.0" y2="316.0" stroke="#0f8b8d" stroke-width="2.2" stroke-linecap="round" />
+<path d="M765.9 308.2 L764.0 316.0 L771.5 313.2" fill="none" stroke="#0f8b8d" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="896.0" y1="268.0" x2="764.0" y2="340.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<path d="M768.4 333.3 L764.0 340.0 L772.0 339.9" fill="none" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="896.0" y1="368.0" x2="764.0" y2="366.0" stroke="#4a5568" stroke-width="2" stroke-linecap="round" />
+<rect x="804.8" y="343.5" width="50.4" height="19.5" rx="4" fill="#fffdf7" />
+<text x="830.0" y="357.0" font-size="10.5" font-weight="700" fill="#4a5568" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">export</text>
+<rect x="40.0" y="440.0" width="236.0" height="70.0" rx="12" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.5" stroke-dasharray="7 5"/>
+<rect x="61.0" y="455.0" width="30.0" height="40.0" rx="3" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<rect x="67.0" y="461.0" width="18.0" height="14.0" rx="2" fill="none" stroke="#1e2a4a" stroke-width="1.6" />
+<line x1="61.0" y1="465.0" x2="56.0" y2="465.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="91.0" y1="465.0" x2="96.0" y2="465.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="61.0" y1="473.0" x2="56.0" y2="473.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="91.0" y1="473.0" x2="96.0" y2="473.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="61.0" y1="481.0" x2="56.0" y2="481.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="91.0" y1="481.0" x2="96.0" y2="481.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="61.0" y1="489.0" x2="56.0" y2="489.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="91.0" y1="489.0" x2="96.0" y2="489.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<text x="110.0" y="471.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Node 2 "Garden"</text>
+<text x="110.0" y="491.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >Module 14 · via Node 1</text>
+<line x1="158.0" y1="296.0" x2="158.0" y2="436.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" stroke-dasharray="6 5" />
+<rect x="420.0" y="440.0" width="360.0" height="70.0" rx="12" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.5" stroke-dasharray="7 5"/>
+<rect x="436.0" y="460.0" width="40.0" height="26.0" rx="3" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<path d="M430 490.0 L482 490.0" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="490.0" y="471.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >TypeScript backend</text>
+<text x="490.0" y="491.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >Module 16 · the brain moves here</text>
+<line x1="600.0" y1="394.0" x2="600.0" y2="436.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" stroke-dasharray="6 5" />
+<rect x="40.0" y="532.0" width="1120.0" height="60.0" rx="10" fill="#eef1f5" />
+<text x="62.0" y="558.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Node 1 stays v1.2.1: the data contract lets new listeners (Node-RED) join without changing the device.</text>
+<text x="62.0" y="578.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="start" >Node 1's local rules (automatic watering and lamp) keep running; Node-RED only handles the fan.</text>
+<text x="1178.0" y="626.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer curriculum · CC BY 4.0</text>
+</svg>

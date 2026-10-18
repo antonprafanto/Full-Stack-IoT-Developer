@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="640" viewBox="0 0 1200 640" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="640" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Node-RED on the gateway: one Pi, two services</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Mosquitto delivers messages · Node-RED processes, displays, and gives commands</text>
+<rect x="380.0" y="110.0" width="440.0" height="400.0" rx="16" fill="#e2f3f1" stroke="#0f8b8d" stroke-width="2.6" />
+<rect x="404.0" y="129.0" width="48.0" height="34.0" rx="4" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<circle cx="411.0" cy="135.0" r="1.3" fill="#1e2a4a" />
+<circle cx="416.4" cy="135.0" r="1.3" fill="#1e2a4a" />
+<circle cx="421.8" cy="135.0" r="1.3" fill="#1e2a4a" />
+<circle cx="427.2" cy="135.0" r="1.3" fill="#1e2a4a" />
+<circle cx="432.6" cy="135.0" r="1.3" fill="#1e2a4a" />
+<circle cx="438.0" cy="135.0" r="1.3" fill="#1e2a4a" />
+<rect x="436.0" y="142.0" width="12.0" height="9.0" rx="1" fill="none" stroke="#1e2a4a" stroke-width="1.5" />
+<rect x="416.0" y="144.0" width="12.0" height="12.0" rx="1.5" fill="none" stroke="#1e2a4a" stroke-width="1.5" />
+<text x="462.0" y="141.0" font-size="16.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Raspberry Pi "gateway"</text>
+<text x="462.0" y="162.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">192.168.1.37</text>
+<rect x="404.0" y="190.0" width="392.0" height="110.0" rx="12" fill="#ffffff" stroke="#0f8b8d" stroke-width="1.8" />
+<path d="M420 232 L444 214 L468 232" fill="none" stroke="#0f8b8d" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="425.0" y="232.0" width="38.0" height="28.0" rx="2" fill="none" stroke="#0f8b8d" stroke-width="2.2" />
+<rect x="435.0" y="240.0" width="18.0" height="5.0" rx="1" fill="#0f8b8d" />
+<text x="482.0" y="222.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >Mosquitto (Module 12)</text>
+<text x="482.0" y="244.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="start" >mosquitto service · door 1883</text>
+<text x="482.0" y="266.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="start" >the MQTT post office</text>
+<rect x="404.0" y="340.0" width="392.0" height="150.0" rx="12" fill="#ffffff" stroke="#0f8b8d" stroke-width="1.8" />
+<rect x="420.0" y="372.0" width="14.0" height="10.0" rx="2" fill="none" stroke="#0f8b8d" stroke-width="2" />
+<rect x="454.0" y="372.0" width="14.0" height="10.0" rx="2" fill="none" stroke="#0f8b8d" stroke-width="2" />
+<rect x="437.0" y="392.0" width="14.0" height="10.0" rx="2" fill="none" stroke="#0f8b8d" stroke-width="2" />
+<path d="M434 377 C442 377 442 397 437 397" fill="none" stroke="#0f8b8d" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M451 397 C458 397 448 377 454 377" fill="none" stroke="#0f8b8d" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<text x="482.0" y="372.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >Node-RED (this week)</text>
+<text x="482.0" y="394.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="start" >nodered service · door 1880</text>
+<text x="482.0" y="420.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">~/.node-red/</text>
+<text x="482.0" y="442.0" font-size="12" font-weight="400" fill="#4a5568" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">  settings.js  flows.json</text>
+<text x="482.0" y="462.0" font-size="12" font-weight="400" fill="#4a5568" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">  flows_cred.json  node_modules/</text>
+<line x1="600.0" y1="304.0" x2="600.0" y2="336.0" stroke="#0f8b8d" stroke-width="2.4" stroke-linecap="round" />
+<path d="M596.2 328.9 L600.0 336.0 L603.8 328.9" fill="none" stroke="#0f8b8d" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="620.0" y1="336.0" x2="620.0" y2="304.0" stroke="#0f8b8d" stroke-width="2.4" stroke-linecap="round" />
+<path d="M623.8 311.1 L620.0 304.0 L616.2 311.1" fill="none" stroke="#0f8b8d" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="664.9" y="310.5" width="110.2" height="20.5" rx="4" fill="#ffffff" />
+<text x="720.0" y="325.0" font-size="11.5" font-weight="700" fill="#0f8b8d" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">localhost:1883</text>
+<rect x="40.0" y="210.0" width="280.0" height="80.0" rx="12" fill="#ffffff" stroke="#1e2a4a" stroke-width="2.2" />
+<rect x="61.0" y="230.0" width="30.0" height="40.0" rx="3" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<rect x="67.0" y="236.0" width="18.0" height="14.0" rx="2" fill="none" stroke="#1e2a4a" stroke-width="1.6" />
+<line x1="61.0" y1="240.0" x2="56.0" y2="240.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="91.0" y1="240.0" x2="96.0" y2="240.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="61.0" y1="248.0" x2="56.0" y2="248.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="91.0" y1="248.0" x2="96.0" y2="248.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="61.0" y1="256.0" x2="56.0" y2="256.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="91.0" y1="256.0" x2="96.0" y2="256.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="61.0" y1="264.0" x2="56.0" y2="264.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="91.0" y1="264.0" x2="96.0" y2="264.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<text x="110.0" y="246.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Node 1 v1.2.1</text>
+<text x="110.0" y="266.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >telemetry, status, ack ↔ cmd</text>
+<line x1="322.0" y1="238.0" x2="400.0" y2="238.0" stroke="#2f6fd1" stroke-width="2.4" stroke-linecap="round" />
+<path d="M392.1 242.2 L400.0 238.0 L392.1 233.8" fill="none" stroke="#2f6fd1" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="400.0" y1="262.0" x2="322.0" y2="262.0" stroke="#b45f17" stroke-width="2.4" stroke-linecap="round" />
+<path d="M329.9 257.8 L322.0 262.0 L329.9 266.2" fill="none" stroke="#b45f17" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="330.0" y="212.5" width="40.1" height="20.5" rx="4" fill="#fffdf7" />
+<text x="350.0" y="227.0" font-size="11.5" font-weight="700" fill="#2f6fd1" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">MQTT</text>
+<rect x="880.0" y="150.0" width="290.0" height="86.0" rx="12" fill="#ffffff" stroke="#1e2a4a" stroke-width="1.6" />
+<rect x="896.0" y="178.0" width="40.0" height="26.0" rx="3" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<path d="M890 208.0 L942 208.0" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="950.0" y="189.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Laptop: editor</text>
+<text x="950.0" y="209.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >http://192.168.1.37:1880</text>
+<line x1="876.0" y1="194.0" x2="800.0" y2="410.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<path d="M798.8 402.1 L800.0 410.0 L805.9 404.6" fill="none" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="880.0" y="246.0" width="290.0" height="54.0" rx="10" fill="#e3f4ea" />
+<text x="898.0" y="270.0" font-size="13.5" font-weight="800" fill="#2a9d5c" text-anchor="start" >protected by Username + Password</text>
+<text x="898.0" y="290.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >from node-red admin init</text>
+<rect x="880.0" y="330.0" width="290.0" height="86.0" rx="12" fill="#ffffff" stroke="#1e2a4a" stroke-width="1.6" />
+<rect x="905.0" y="354.0" width="22.0" height="38.0" rx="5" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<circle cx="916.0" cy="386.0" r="1.8" fill="#1e2a4a" />
+<text x="950.0" y="369.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Phone: dashboard</text>
+<text x="950.0" y="389.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >:1880/dashboard/home</text>
+<line x1="876.0" y1="380.0" x2="800.0" y2="440.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<path d="M803.2 432.7 L800.0 440.0 L807.9 438.6" fill="none" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="880.0" y="426.0" width="290.0" height="54.0" rx="10" fill="#fdeedd" />
+<text x="898.0" y="450.0" font-size="13.5" font-weight="800" fill="#b45f17" text-anchor="start" >no password</text>
+<text x="898.0" y="470.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >home Wi-Fi only; lock in Module 21</text>
+<rect x="40.0" y="536.0" width="1130.0" height="60.0" rx="12" fill="#eef1f5" />
+<circle cx="76.0" cy="566.0" r="14" fill="#e63946" />
+<path d="M70 560 L82 572 M82 560 L70 572" fill="none" stroke="#ffffff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="104.0" y="562.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >No port forwarding to 1880 or 1883:</text>
+<text x="104.0" y="582.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="start" >the Node-RED editor can run any command on the Pi, and the broker has no password yet; both are only opened from the home network.</text>
+<text x="1178.0" y="626.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer curriculum · CC BY 4.0</text>
+</svg>

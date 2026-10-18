@@ -4,7 +4,7 @@
 
 *Phase 2 · Week 12 · Hardware: **Kit B** — a Raspberry Pi 5 or Pi 4, a *high-endurance* microSD card, the official power adapter, a LAN cable (see 🧰), or the **laptop path** without a Pi · Prerequisites: **Module 11** (the broker and Node 1 v1.2) and **Module 4** (the terminal) · Time: 8–10 hours, spread over the week*
 
-[⬅️ Module 11](../module-11-mqtt-and-data-contract/README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · [Module 13 ➡️ (coming soon — read the summary in the Syllabus)](../../SYLLABUS.md#module-13--node-red--dashboard-2-your-first-dashboard-without-coding)
+[⬅️ Module 11](../module-11-mqtt-and-data-contract/README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · [Module 13 ➡️](../module-13-node-red-dashboard/README.md)
 
 ---
 
@@ -1881,4 +1881,4 @@ The completion requirement from the Syllabus: **you unplug the laptop, and Node 
 
 ---
 
-[⬅️ Module 11](../module-11-mqtt-and-data-contract/README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · **Next: Module 13 — Node-RED & Dashboard 2: Your First Dashboard Without Coding** (coming soon; [read the summary in the Syllabus](../../SYLLABUS.md#module-13--node-red--dashboard-2-your-first-dashboard-without-coding))
+[⬅️ Module 11](../module-11-mqtt-and-data-contract/README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · **Next: [Module 13 — Node-RED & Dashboard 2: Your First Dashboard Without Coding](../module-13-node-red-dashboard/README.md) ➡️**
