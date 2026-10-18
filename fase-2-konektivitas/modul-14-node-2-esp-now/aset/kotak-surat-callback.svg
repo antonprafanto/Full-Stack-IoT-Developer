@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="600" viewBox="0 0 1200 600" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="600" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Callback ESP-NOW: titip di kotak surat, olah di loop()</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Dua tugas yang benar-benar berjalan bersamaan, di dua inti prosesor</text>
+<rect x="30.0" y="104.0" width="420.0" height="400.0" rx="14" fill="#fdeedd" stroke="#b45f17" stroke-width="2" />
+<text x="50.0" y="132.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="start" >Inti 0 · petugas WiFi</text>
+<text x="50.0" y="152.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >tugas berprioritas tinggi milik paket esp32</text>
+<rect x="50.0" y="166.0" width="190.0" height="26.0" rx="13.0" fill="#b45f17" />
+<text x="145.0" y="183.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >paket ESP-NOW tiba</text>
+<line x1="145.0" y1="194.0" x2="145.0" y2="214.0" stroke="#b45f17" stroke-width="2" stroke-linecap="round" />
+<path d="M141.7 207.8 L145.0 214.0 L148.3 207.8" fill="none" stroke="#b45f17" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="50.0" y="216.0" width="380.0" height="160.0" rx="10" fill="#ffffff" stroke="#b45f17" stroke-width="1.4" />
+<text x="66.0" y="240.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">saatTerimaEspNow()</text>
+<text x="66.0" y="266.0" font-size="13" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">1. bukan siaran dan tepat 33 byte?</text>
+<text x="66.0" y="287.0" font-size="13" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">2. salin isi paket, alamat pengirim,</text>
+<text x="66.0" y="308.0" font-size="13" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">   dan kekuatan sinyal</text>
+<text x="66.0" y="329.0" font-size="13" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">3. catat millis() saat tiba</text>
+<text x="66.0" y="350.0" font-size="13" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">4. xQueueSend(…, 0): titip, tanpa menunggu</text>
+<text x="50.0" y="404.0" font-size="13" font-weight="800" fill="#e63946" text-anchor="start" >Jangan di dalam callback:</text>
+<line x1="52.0" y1="420.0" x2="64.0" y2="432.0" stroke="#e63946" stroke-width="2.2" stroke-linecap="round" />
+<line x1="52.0" y1="432.0" x2="64.0" y2="420.0" stroke="#e63946" stroke-width="2.2" stroke-linecap="round" />
+<text x="74.0" y="431.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" >Serial.print</text>
+<line x1="252.0" y1="420.0" x2="264.0" y2="432.0" stroke="#e63946" stroke-width="2.2" stroke-linecap="round" />
+<line x1="252.0" y1="432.0" x2="264.0" y2="420.0" stroke="#e63946" stroke-width="2.2" stroke-linecap="round" />
+<text x="274.0" y="431.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" >mqtt.publish</text>
+<line x1="52.0" y1="450.0" x2="64.0" y2="462.0" stroke="#e63946" stroke-width="2.2" stroke-linecap="round" />
+<line x1="52.0" y1="462.0" x2="64.0" y2="450.0" stroke="#e63946" stroke-width="2.2" stroke-linecap="round" />
+<text x="74.0" y="461.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="start" >menyusun JSON</text>
+<line x1="252.0" y1="450.0" x2="264.0" y2="462.0" stroke="#e63946" stroke-width="2.2" stroke-linecap="round" />
+<line x1="252.0" y1="462.0" x2="264.0" y2="450.0" stroke="#e63946" stroke-width="2.2" stroke-linecap="round" />
+<text x="274.0" y="461.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="start" >menunggu</text>
+<line x1="452.0" y1="296.0" x2="520.0" y2="296.0" stroke="#b45f17" stroke-width="3" stroke-linecap="round" />
+<path d="M511.2 300.7 L520.0 296.0 L511.2 291.3" fill="none" stroke="#b45f17" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="524.0" y="190.0" width="152.0" height="236.0" rx="12" fill="#ffffff" stroke="#1e2a4a" stroke-width="2" />
+<text x="600.0" y="214.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="middle" >kotak surat</text>
+<text x="600.0" y="232.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="middle" >antrean FreeRTOS</text>
+<rect x="546.0" y="244.0" width="108.0" height="17.0" rx="3" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.2" />
+<rect x="546.0" y="265.0" width="108.0" height="17.0" rx="3" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.2" />
+<rect x="546.0" y="286.0" width="108.0" height="17.0" rx="3" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.2" />
+<rect x="546.0" y="307.0" width="108.0" height="17.0" rx="3" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.2" />
+<rect x="546.0" y="328.0" width="108.0" height="17.0" rx="3" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.2" />
+<rect x="546.0" y="349.0" width="108.0" height="17.0" rx="3" fill="#e2f3f1" stroke="#0f8b8d" stroke-width="1.2" />
+<text x="600.0" y="362.0" font-size="11" font-weight="700" fill="#0f8b8d" text-anchor="middle" >paket</text>
+<rect x="546.0" y="370.0" width="108.0" height="17.0" rx="3" fill="#e2f3f1" stroke="#0f8b8d" stroke-width="1.2" />
+<text x="600.0" y="383.0" font-size="11" font-weight="700" fill="#0f8b8d" text-anchor="middle" >paket</text>
+<rect x="546.0" y="391.0" width="108.0" height="17.0" rx="3" fill="#e2f3f1" stroke="#0f8b8d" stroke-width="1.2" />
+<text x="600.0" y="404.0" font-size="11" font-weight="700" fill="#0f8b8d" text-anchor="middle" >paket</text>
+<text x="600.0" y="446.0" font-size="12.5" font-weight="700" fill="#4a5568" text-anchor="middle" >8 slot</text>
+<line x1="678.0" y1="296.0" x2="746.0" y2="296.0" stroke="#0f8b8d" stroke-width="3" stroke-linecap="round" />
+<path d="M737.2 300.7 L746.0 296.0 L737.2 291.3" fill="none" stroke="#0f8b8d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="750.0" y="104.0" width="420.0" height="400.0" rx="14" fill="#e2f3f1" stroke="#0f8b8d" stroke-width="2" />
+<text x="770.0" y="132.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="start" >Inti 1 · loop()</text>
+<text x="770.0" y="152.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >boleh lama, boleh mencetak, boleh MQTT</text>
+<rect x="770.0" y="170.0" width="380.0" height="214.0" rx="10" fill="#ffffff" stroke="#0f8b8d" stroke-width="1.4" />
+<text x="786.0" y="194.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">perbaruiJembatan()</text>
+<text x="786.0" y="222.0" font-size="13" font-weight="600" fill="#1e2a4a" text-anchor="start" >1. xQueueReceive(…, 0): ambil yang sudah ada</text>
+<text x="786.0" y="248.0" font-size="13" font-weight="600" fill="#1e2a4a" text-anchor="start" >2. periksa MAC, tanda 0x52, dan versi</text>
+<text x="786.0" y="274.0" font-size="13" font-weight="600" fill="#1e2a4a" text-anchor="start" >3. buang paket ganda, hitung yang hilang</text>
+<text x="786.0" y="300.0" font-size="13" font-weight="600" fill="#1e2a4a" text-anchor="start" >4. simpan ke rak tunggu</text>
+<text x="786.0" y="326.0" font-size="13" font-weight="600" fill="#1e2a4a" text-anchor="start" >5. terbitkan lewat MQTT (paling banyak 3)</text>
+<text x="786.0" y="352.0" font-size="13" font-weight="600" fill="#1e2a4a" text-anchor="start" >6. cetak log ke Serial Monitor</text>
+<path d="M779 412 L784 418 L794 406" fill="none" stroke="#2a9d5c" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="802.0" y="417.0" font-size="13" font-weight="800" fill="#2a9d5c" text-anchor="start" >semua pekerjaan panjang di sini</text>
+<rect x="30.0" y="520.0" width="1140.0" height="52.0" rx="10" fill="#eef1f5" />
+<text x="600.0" y="552.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Callback dan loop() berjalan bersamaan di dua inti · kotak surat menyalin setiap titipan utuh, satu per satu</text>
+<text x="1178.0" y="586.0" font-size="11" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

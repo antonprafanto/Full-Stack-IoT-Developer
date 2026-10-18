@@ -4,7 +4,7 @@
         "type": "tab",
         "label": "Rumah Pintar Mini",
         "disabled": false,
-        "info": "Dashboard v0 dan otomasi kipas (Modul 13). Ganti a4cf12e5b7c0 dengan device_id Node 1-mu.",
+        "info": "Dashboard v0 dan otomasi kipas (Modul 13). Ganti a4cf12e5b7c0 dengan device_id Node 1-mu. Bagian 5 (Modul 14): ganti 246f28b1c7d4 dengan device_id Node 2-mu.",
         "env": []
     },
     {
@@ -166,6 +166,21 @@
         "modules": {
             "@flowfuse/node-red-dashboard": "1.33.0"
         }
+    },
+    {
+        "id": "f14c000000000001",
+        "type": "ui-group",
+        "name": "Kebun",
+        "page": "f13c000000000003",
+        "width": "6",
+        "height": "1",
+        "order": 4,
+        "showTitle": true,
+        "className": "",
+        "visible": true,
+        "disabled": false,
+        "groupType": "default",
+        "tab": ""
     },
     {
         "id": "f13d000000000000",
@@ -1148,5 +1163,569 @@
                 "f138000000000001"
             ]
         ]
+    },
+    {
+        "id": "f14d000000000000",
+        "type": "comment",
+        "z": "f13a000000000001",
+        "name": "5 · Kebun: telemetry dan status Node 2 (diterbitkan Node 1 atas nama Node 2)",
+        "info": "Ganti 246f28b1c7d4 dengan device_id Node 2-mu (Modul 14).",
+        "x": 370,
+        "y": 1200,
+        "wires": []
+    },
+    {
+        "id": "f14d000000000001",
+        "type": "mqtt in",
+        "z": "f13a000000000001",
+        "name": "telemetry Node 2",
+        "topic": "rpm/246f28b1c7d4/telemetry",
+        "qos": "0",
+        "datatype": "auto-detect",
+        "broker": "f13b000000000001",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 190,
+        "y": 1260,
+        "wires": [
+            [
+                "f14d000000000002",
+                "f14d000000000003",
+                "f14d000000000004",
+                "f14d000000000005",
+                "f14d000000000006",
+                "f14e000000000005",
+                "f14e000000000006",
+                "f14e000000000007",
+                "f14d000000000007"
+            ]
+        ]
+    },
+    {
+        "id": "f14d000000000002",
+        "type": "debug",
+        "z": "f13a000000000001",
+        "name": "lihat telemetry Node 2",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 500,
+        "y": 1260,
+        "wires": []
+    },
+    {
+        "id": "f14d000000000003",
+        "type": "switch",
+        "z": "f13a000000000001",
+        "name": "suhu udara terbaca?",
+        "property": "payload.suhu",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "nnull"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 480,
+        "y": 1310,
+        "wires": [
+            [
+                "f14e000000000001"
+            ]
+        ]
+    },
+    {
+        "id": "f14d000000000004",
+        "type": "switch",
+        "z": "f13a000000000001",
+        "name": "kelembapan terbaca?",
+        "property": "payload.kelembapan",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "nnull"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 480,
+        "y": 1360,
+        "wires": [
+            [
+                "f14e000000000002"
+            ]
+        ]
+    },
+    {
+        "id": "f14d000000000005",
+        "type": "switch",
+        "z": "f13a000000000001",
+        "name": "tanah terbaca?",
+        "property": "payload.tanah",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "nnull"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 470,
+        "y": 1410,
+        "wires": [
+            [
+                "f14e000000000003"
+            ]
+        ]
+    },
+    {
+        "id": "f14d000000000006",
+        "type": "switch",
+        "z": "f13a000000000001",
+        "name": "suhu tanah terbaca?",
+        "property": "payload.suhu_tanah",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "nnull"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 480,
+        "y": 1460,
+        "wires": [
+            [
+                "f14e000000000004"
+            ]
+        ]
+    },
+    {
+        "id": "f14e000000000001",
+        "type": "ui-gauge",
+        "z": "f13a000000000001",
+        "name": "",
+        "group": "f14c000000000001",
+        "order": 3,
+        "value": "payload.suhu",
+        "valueType": "msg",
+        "width": 3,
+        "height": 3,
+        "gtype": "gauge-half",
+        "gstyle": "needle",
+        "title": "Suhu udara",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "°C",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#5CD65C",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "28",
+                "color": "#FFC800",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "30",
+                "color": "#EA5353",
+                "text": "",
+                "textType": "label"
+            }
+        ],
+        "min": 0,
+        "max": 50,
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 760,
+        "y": 1310,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f14e000000000002",
+        "type": "ui-gauge",
+        "z": "f13a000000000001",
+        "name": "",
+        "group": "f14c000000000001",
+        "order": 4,
+        "value": "payload.kelembapan",
+        "valueType": "msg",
+        "width": 3,
+        "height": 3,
+        "gtype": "gauge-half",
+        "gstyle": "needle",
+        "title": "Kelembapan udara",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "%",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#FFC800",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "40",
+                "color": "#5CD65C",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "85",
+                "color": "#FFC800",
+                "text": "",
+                "textType": "label"
+            }
+        ],
+        "min": 0,
+        "max": 100,
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 760,
+        "y": 1360,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f14e000000000003",
+        "type": "ui-gauge",
+        "z": "f13a000000000001",
+        "name": "",
+        "group": "f14c000000000001",
+        "order": 5,
+        "value": "payload.tanah",
+        "valueType": "msg",
+        "width": 3,
+        "height": 3,
+        "gtype": "gauge-half",
+        "gstyle": "needle",
+        "title": "Tanah kebun",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "%",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#EA5353",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "30",
+                "color": "#5CD65C",
+                "text": "",
+                "textType": "label"
+            }
+        ],
+        "min": 0,
+        "max": 100,
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 760,
+        "y": 1410,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f14e000000000004",
+        "type": "ui-gauge",
+        "z": "f13a000000000001",
+        "name": "",
+        "group": "f14c000000000001",
+        "order": 6,
+        "value": "payload.suhu_tanah",
+        "valueType": "msg",
+        "width": 3,
+        "height": 3,
+        "gtype": "gauge-half",
+        "gstyle": "needle",
+        "title": "Suhu tanah",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "°C",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#5CD65C",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "30",
+                "color": "#FFC800",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "35",
+                "color": "#EA5353",
+                "text": "",
+                "textType": "label"
+            }
+        ],
+        "min": 0,
+        "max": 50,
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 760,
+        "y": 1460,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f14e000000000005",
+        "type": "ui-text",
+        "z": "f13a000000000001",
+        "group": "f14c000000000001",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Bacaan terakhir",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "Helvetica",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "$fromMillis($toMillis(payload.ts), \"[D01]/[M01] [H01]:[m01]\", \"+0700\")",
+        "valueType": "jsonata",
+        "x": 470,
+        "y": 1510,
+        "wires": []
+    },
+    {
+        "id": "f14e000000000006",
+        "type": "ui-text",
+        "z": "f13a000000000001",
+        "group": "f14c000000000001",
+        "order": 7,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Tekanan udara",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "Helvetica",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload.tekanan != null ? $string(payload.tekanan) & \" hPa\" : \"tidak terbaca\"",
+        "valueType": "jsonata",
+        "x": 470,
+        "y": 1560,
+        "wires": []
+    },
+    {
+        "id": "f14e000000000007",
+        "type": "ui-text",
+        "z": "f13a000000000001",
+        "group": "f14c000000000001",
+        "order": 8,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Baterai",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "Helvetica",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload.baterai != null ? $string(payload.baterai) & \" V\" : \"tidak diukur\"",
+        "valueType": "jsonata",
+        "x": 460,
+        "y": 1610,
+        "wires": []
+    },
+    {
+        "id": "f14d000000000007",
+        "type": "change",
+        "z": "f13a000000000001",
+        "name": "waktu bacaan (ms)",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload.waktu",
+                "pt": "msg",
+                "to": "$toMillis(payload.ts)",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 480,
+        "y": 1660,
+        "wires": [
+            [
+                "f14e000000000008"
+            ]
+        ]
+    },
+    {
+        "id": "f14e000000000008",
+        "type": "ui-chart",
+        "z": "f13a000000000001",
+        "group": "f14c000000000001",
+        "name": "",
+        "label": "Suhu udara & suhu tanah (24 jam)",
+        "order": 9,
+        "chartType": "line",
+        "category": "[\"suhu\",\"suhu_tanah\"]",
+        "categoryType": "json",
+        "xAxisLabel": "",
+        "xAxisProperty": "waktu",
+        "xAxisPropertyType": "property",
+        "xAxisType": "time",
+        "xAxisFormat": "",
+        "xAxisFormatType": "auto",
+        "xmin": "",
+        "xmax": "",
+        "yAxisLabel": "",
+        "yAxisProperty": "payload",
+        "yAxisPropertyType": "msg",
+        "ymin": "0",
+        "ymax": "50",
+        "bins": 10,
+        "action": "append",
+        "stackSeries": false,
+        "pointShape": "circle",
+        "pointRadius": 4,
+        "showLegend": true,
+        "removeOlder": "24",
+        "removeOlderUnit": "3600",
+        "removeOlderPoints": "",
+        "colors": [
+            "#0095FF",
+            "#FF0000",
+            "#FF7F0E",
+            "#2CA02C",
+            "#A347E1",
+            "#D62728",
+            "#FF9896",
+            "#9467BD",
+            "#C5B0D5"
+        ],
+        "textColor": [
+            "#666666"
+        ],
+        "textColorDefault": true,
+        "gridColor": [
+            "#e5e5e5"
+        ],
+        "gridColorDefault": true,
+        "width": 6,
+        "height": 8,
+        "className": "",
+        "interpolation": "linear",
+        "x": 790,
+        "y": 1660,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f14d000000000008",
+        "type": "mqtt in",
+        "z": "f13a000000000001",
+        "name": "status Node 2",
+        "topic": "rpm/246f28b1c7d4/status",
+        "qos": "1",
+        "datatype": "auto-detect",
+        "broker": "f13b000000000001",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 180,
+        "y": 1720,
+        "wires": [
+            [
+                "f14e000000000009"
+            ]
+        ]
+    },
+    {
+        "id": "f14e000000000009",
+        "type": "ui-text",
+        "z": "f13a000000000001",
+        "group": "f14c000000000001",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Node 2 (lewat Node 1)",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "Helvetica",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "x": 490,
+        "y": 1720,
+        "wires": []
     }
 ]

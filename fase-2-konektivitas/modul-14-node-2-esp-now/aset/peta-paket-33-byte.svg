@@ -1,0 +1,188 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="640" viewBox="0 0 1200 640" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="640" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Paket 33 byte: formulir yang sama di kedua ujung</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >struct PaketNode2 di paket-node2.h · dibaca dari kiri ke kanan, byte 0 sampai 32</text>
+<rect x="72.0" y="262.0" width="32.0" height="44.0" rx="0" fill="#eef1f5" stroke="#9aa3b0" stroke-width="1.2" />
+<text x="88.0" y="290.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">52</text>
+<rect x="72.0" y="262.0" width="32.0" height="44.0" rx="0" fill="none" stroke="#9aa3b0" stroke-width="2.4" />
+<line x1="74.0" y1="254.0" x2="102.0" y2="254.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<line x1="74.0" y1="254.0" x2="74.0" y2="260.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<line x1="102.0" y1="254.0" x2="102.0" y2="260.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<line x1="88.0" y1="254.0" x2="88.0" y2="176.0" stroke="#9aa3b0" stroke-width="1.2" stroke-linecap="round" stroke-dasharray="3 3" />
+<text x="88.0" y="168.0" font-size="12.5" font-weight="800" fill="#4a5568" text-anchor="middle" >tanda "R"</text>
+<text x="88.0" y="152.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="middle" >0</text>
+<rect x="104.0" y="262.0" width="32.0" height="44.0" rx="0" fill="#eef1f5" stroke="#9aa3b0" stroke-width="1.2" />
+<text x="120.0" y="290.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">01</text>
+<rect x="104.0" y="262.0" width="32.0" height="44.0" rx="0" fill="none" stroke="#9aa3b0" stroke-width="2.4" />
+<line x1="106.0" y1="254.0" x2="134.0" y2="254.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<line x1="106.0" y1="254.0" x2="106.0" y2="260.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<line x1="134.0" y1="254.0" x2="134.0" y2="260.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<line x1="120.0" y1="254.0" x2="120.0" y2="232.0" stroke="#9aa3b0" stroke-width="1.2" stroke-linecap="round" stroke-dasharray="3 3" />
+<text x="120.0" y="224.0" font-size="12.5" font-weight="800" fill="#4a5568" text-anchor="middle" >versi</text>
+<text x="120.0" y="208.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="middle" >1</text>
+<rect x="136.0" y="262.0" width="32.0" height="44.0" rx="0" fill="#eef1f5" stroke="#9aa3b0" stroke-width="1.2" />
+<text x="152.0" y="290.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">01</text>
+<rect x="168.0" y="262.0" width="32.0" height="44.0" rx="0" fill="#eef1f5" stroke="#9aa3b0" stroke-width="1.2" />
+<text x="184.0" y="290.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">00</text>
+<rect x="200.0" y="262.0" width="32.0" height="44.0" rx="0" fill="#eef1f5" stroke="#9aa3b0" stroke-width="1.2" />
+<text x="216.0" y="290.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">00</text>
+<rect x="136.0" y="262.0" width="96.0" height="44.0" rx="0" fill="none" stroke="#9aa3b0" stroke-width="2.4" />
+<line x1="138.0" y1="254.0" x2="230.0" y2="254.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<line x1="138.0" y1="254.0" x2="138.0" y2="260.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<line x1="230.0" y1="254.0" x2="230.0" y2="260.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<line x1="184.0" y1="254.0" x2="184.0" y2="232.0" stroke="#9aa3b0" stroke-width="1.2" stroke-linecap="round" stroke-dasharray="3 3" />
+<text x="184.0" y="224.0" font-size="12.5" font-weight="800" fill="#4a5568" text-anchor="middle" >fw 1.0.0</text>
+<text x="184.0" y="208.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="middle" >2–4</text>
+<rect x="232.0" y="262.0" width="32.0" height="44.0" rx="0" fill="#e6eefb" stroke="#2f6fd1" stroke-width="1.2" />
+<text x="248.0" y="290.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">AD</text>
+<rect x="264.0" y="262.0" width="32.0" height="44.0" rx="0" fill="#e6eefb" stroke="#2f6fd1" stroke-width="1.2" />
+<text x="280.0" y="290.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">9C</text>
+<rect x="232.0" y="262.0" width="64.0" height="44.0" rx="0" fill="none" stroke="#2f6fd1" stroke-width="2.4" />
+<line x1="234.0" y1="254.0" x2="294.0" y2="254.0" stroke="#2f6fd1" stroke-width="2" stroke-linecap="round" />
+<line x1="234.0" y1="254.0" x2="234.0" y2="260.0" stroke="#2f6fd1" stroke-width="2" stroke-linecap="round" />
+<line x1="294.0" y1="254.0" x2="294.0" y2="260.0" stroke="#2f6fd1" stroke-width="2" stroke-linecap="round" />
+<line x1="264.0" y1="254.0" x2="264.0" y2="176.0" stroke="#2f6fd1" stroke-width="1.2" stroke-linecap="round" stroke-dasharray="3 3" />
+<text x="264.0" y="168.0" font-size="12.5" font-weight="800" fill="#2f6fd1" text-anchor="middle" >sesi</text>
+<text x="264.0" y="152.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="middle" >5–6</text>
+<rect x="296.0" y="262.0" width="32.0" height="44.0" rx="0" fill="#e6eefb" stroke="#2f6fd1" stroke-width="1.2" />
+<text x="312.0" y="290.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">01</text>
+<rect x="328.0" y="262.0" width="32.0" height="44.0" rx="0" fill="#e6eefb" stroke="#2f6fd1" stroke-width="1.2" />
+<text x="344.0" y="290.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">00</text>
+<rect x="360.0" y="262.0" width="32.0" height="44.0" rx="0" fill="#e6eefb" stroke="#2f6fd1" stroke-width="1.2" />
+<text x="376.0" y="290.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">00</text>
+<rect x="392.0" y="262.0" width="32.0" height="44.0" rx="0" fill="#e6eefb" stroke="#2f6fd1" stroke-width="1.2" />
+<text x="408.0" y="290.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">00</text>
+<rect x="296.0" y="262.0" width="128.0" height="44.0" rx="0" fill="none" stroke="#2f6fd1" stroke-width="2.4" />
+<line x1="298.0" y1="254.0" x2="422.0" y2="254.0" stroke="#2f6fd1" stroke-width="2" stroke-linecap="round" />
+<line x1="298.0" y1="254.0" x2="298.0" y2="260.0" stroke="#2f6fd1" stroke-width="2" stroke-linecap="round" />
+<line x1="422.0" y1="254.0" x2="422.0" y2="260.0" stroke="#2f6fd1" stroke-width="2" stroke-linecap="round" />
+<line x1="360.0" y1="254.0" x2="360.0" y2="232.0" stroke="#2f6fd1" stroke-width="1.2" stroke-linecap="round" stroke-dasharray="3 3" />
+<text x="360.0" y="224.0" font-size="12.5" font-weight="800" fill="#2f6fd1" text-anchor="middle" >urutan</text>
+<text x="360.0" y="208.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="middle" >7–10</text>
+<rect x="424.0" y="262.0" width="32.0" height="44.0" rx="0" fill="#e6eefb" stroke="#2f6fd1" stroke-width="1.2" />
+<text x="440.0" y="290.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">2C</text>
+<rect x="456.0" y="262.0" width="32.0" height="44.0" rx="0" fill="#e6eefb" stroke="#2f6fd1" stroke-width="1.2" />
+<text x="472.0" y="290.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">01</text>
+<rect x="424.0" y="262.0" width="64.0" height="44.0" rx="0" fill="none" stroke="#2f6fd1" stroke-width="2.4" />
+<line x1="426.0" y1="254.0" x2="486.0" y2="254.0" stroke="#2f6fd1" stroke-width="2" stroke-linecap="round" />
+<line x1="426.0" y1="254.0" x2="426.0" y2="260.0" stroke="#2f6fd1" stroke-width="2" stroke-linecap="round" />
+<line x1="486.0" y1="254.0" x2="486.0" y2="260.0" stroke="#2f6fd1" stroke-width="2" stroke-linecap="round" />
+<line x1="456.0" y1="254.0" x2="456.0" y2="176.0" stroke="#2f6fd1" stroke-width="1.2" stroke-linecap="round" stroke-dasharray="3 3" />
+<text x="456.0" y="168.0" font-size="12.5" font-weight="800" fill="#2f6fd1" text-anchor="middle" >jeda (s)</text>
+<text x="456.0" y="152.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="middle" >11–12</text>
+<rect x="488.0" y="262.0" width="32.0" height="44.0" rx="0" fill="#e6eefb" stroke="#2f6fd1" stroke-width="1.2" />
+<text x="504.0" y="290.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">01</text>
+<rect x="488.0" y="262.0" width="32.0" height="44.0" rx="0" fill="none" stroke="#2f6fd1" stroke-width="2.4" />
+<line x1="490.0" y1="254.0" x2="518.0" y2="254.0" stroke="#2f6fd1" stroke-width="2" stroke-linecap="round" />
+<line x1="490.0" y1="254.0" x2="490.0" y2="260.0" stroke="#2f6fd1" stroke-width="2" stroke-linecap="round" />
+<line x1="518.0" y1="254.0" x2="518.0" y2="260.0" stroke="#2f6fd1" stroke-width="2" stroke-linecap="round" />
+<line x1="504.0" y1="254.0" x2="504.0" y2="232.0" stroke="#2f6fd1" stroke-width="1.2" stroke-linecap="round" stroke-dasharray="3 3" />
+<text x="504.0" y="224.0" font-size="12.5" font-weight="800" fill="#2f6fd1" text-anchor="middle" >percobaan</text>
+<text x="504.0" y="208.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="middle" >13</text>
+<rect x="520.0" y="262.0" width="32.0" height="44.0" rx="0" fill="#e2f3f1" stroke="#0f8b8d" stroke-width="1.2" />
+<text x="536.0" y="290.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">00</text>
+<rect x="552.0" y="262.0" width="32.0" height="44.0" rx="0" fill="#e2f3f1" stroke="#0f8b8d" stroke-width="1.2" />
+<text x="568.0" y="290.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">00</text>
+<rect x="584.0" y="262.0" width="32.0" height="44.0" rx="0" fill="#e2f3f1" stroke="#0f8b8d" stroke-width="1.2" />
+<text x="600.0" y="290.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">C0</text>
+<rect x="616.0" y="262.0" width="32.0" height="44.0" rx="0" fill="#e2f3f1" stroke="#0f8b8d" stroke-width="1.2" />
+<text x="632.0" y="290.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">7F</text>
+<rect x="520.0" y="262.0" width="128.0" height="44.0" rx="0" fill="none" stroke="#0f8b8d" stroke-width="2.4" />
+<line x1="522.0" y1="254.0" x2="646.0" y2="254.0" stroke="#0f8b8d" stroke-width="2" stroke-linecap="round" />
+<line x1="522.0" y1="254.0" x2="522.0" y2="260.0" stroke="#0f8b8d" stroke-width="2" stroke-linecap="round" />
+<line x1="646.0" y1="254.0" x2="646.0" y2="260.0" stroke="#0f8b8d" stroke-width="2" stroke-linecap="round" />
+<line x1="584.0" y1="254.0" x2="584.0" y2="176.0" stroke="#0f8b8d" stroke-width="1.2" stroke-linecap="round" stroke-dasharray="3 3" />
+<text x="584.0" y="168.0" font-size="12.5" font-weight="800" fill="#0f8b8d" text-anchor="middle" >suhu udara</text>
+<text x="584.0" y="152.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="middle" >14–17</text>
+<rect x="648.0" y="262.0" width="32.0" height="44.0" rx="0" fill="#e2f3f1" stroke="#0f8b8d" stroke-width="1.2" />
+<text x="664.0" y="290.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">00</text>
+<rect x="680.0" y="262.0" width="32.0" height="44.0" rx="0" fill="#e2f3f1" stroke="#0f8b8d" stroke-width="1.2" />
+<text x="696.0" y="290.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">00</text>
+<rect x="712.0" y="262.0" width="32.0" height="44.0" rx="0" fill="#e2f3f1" stroke="#0f8b8d" stroke-width="1.2" />
+<text x="728.0" y="290.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">C0</text>
+<rect x="744.0" y="262.0" width="32.0" height="44.0" rx="0" fill="#e2f3f1" stroke="#0f8b8d" stroke-width="1.2" />
+<text x="760.0" y="290.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">7F</text>
+<rect x="648.0" y="262.0" width="128.0" height="44.0" rx="0" fill="none" stroke="#0f8b8d" stroke-width="2.4" />
+<line x1="650.0" y1="254.0" x2="774.0" y2="254.0" stroke="#0f8b8d" stroke-width="2" stroke-linecap="round" />
+<line x1="650.0" y1="254.0" x2="650.0" y2="260.0" stroke="#0f8b8d" stroke-width="2" stroke-linecap="round" />
+<line x1="774.0" y1="254.0" x2="774.0" y2="260.0" stroke="#0f8b8d" stroke-width="2" stroke-linecap="round" />
+<line x1="712.0" y1="254.0" x2="712.0" y2="232.0" stroke="#0f8b8d" stroke-width="1.2" stroke-linecap="round" stroke-dasharray="3 3" />
+<text x="712.0" y="224.0" font-size="12.5" font-weight="800" fill="#0f8b8d" text-anchor="middle" >kelembapan</text>
+<text x="712.0" y="208.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="middle" >18–21</text>
+<rect x="776.0" y="262.0" width="32.0" height="44.0" rx="0" fill="#e2f3f1" stroke="#0f8b8d" stroke-width="1.2" />
+<text x="792.0" y="290.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">00</text>
+<rect x="808.0" y="262.0" width="32.0" height="44.0" rx="0" fill="#e2f3f1" stroke="#0f8b8d" stroke-width="1.2" />
+<text x="824.0" y="290.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">00</text>
+<rect x="840.0" y="262.0" width="32.0" height="44.0" rx="0" fill="#e2f3f1" stroke="#0f8b8d" stroke-width="1.2" />
+<text x="856.0" y="290.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">C0</text>
+<rect x="872.0" y="262.0" width="32.0" height="44.0" rx="0" fill="#e2f3f1" stroke="#0f8b8d" stroke-width="1.2" />
+<text x="888.0" y="290.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">7F</text>
+<rect x="776.0" y="262.0" width="128.0" height="44.0" rx="0" fill="none" stroke="#0f8b8d" stroke-width="2.4" />
+<line x1="778.0" y1="254.0" x2="902.0" y2="254.0" stroke="#0f8b8d" stroke-width="2" stroke-linecap="round" />
+<line x1="778.0" y1="254.0" x2="778.0" y2="260.0" stroke="#0f8b8d" stroke-width="2" stroke-linecap="round" />
+<line x1="902.0" y1="254.0" x2="902.0" y2="260.0" stroke="#0f8b8d" stroke-width="2" stroke-linecap="round" />
+<line x1="840.0" y1="254.0" x2="840.0" y2="176.0" stroke="#0f8b8d" stroke-width="1.2" stroke-linecap="round" stroke-dasharray="3 3" />
+<text x="840.0" y="168.0" font-size="12.5" font-weight="800" fill="#0f8b8d" text-anchor="middle" >tekanan</text>
+<text x="840.0" y="152.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="middle" >22–25</text>
+<rect x="904.0" y="262.0" width="32.0" height="44.0" rx="0" fill="#e2f3f1" stroke="#0f8b8d" stroke-width="1.2" />
+<text x="920.0" y="290.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">00</text>
+<rect x="936.0" y="262.0" width="32.0" height="44.0" rx="0" fill="#e2f3f1" stroke="#0f8b8d" stroke-width="1.2" />
+<text x="952.0" y="290.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">00</text>
+<rect x="968.0" y="262.0" width="32.0" height="44.0" rx="0" fill="#e2f3f1" stroke="#0f8b8d" stroke-width="1.2" />
+<text x="984.0" y="290.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">D8</text>
+<rect x="1000.0" y="262.0" width="32.0" height="44.0" rx="0" fill="#e2f3f1" stroke="#0f8b8d" stroke-width="1.2" />
+<text x="1016.0" y="290.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">41</text>
+<rect x="904.0" y="262.0" width="128.0" height="44.0" rx="0" fill="none" stroke="#0f8b8d" stroke-width="2.4" />
+<line x1="906.0" y1="254.0" x2="1030.0" y2="254.0" stroke="#0f8b8d" stroke-width="2" stroke-linecap="round" />
+<line x1="906.0" y1="254.0" x2="906.0" y2="260.0" stroke="#0f8b8d" stroke-width="2" stroke-linecap="round" />
+<line x1="1030.0" y1="254.0" x2="1030.0" y2="260.0" stroke="#0f8b8d" stroke-width="2" stroke-linecap="round" />
+<line x1="968.0" y1="254.0" x2="968.0" y2="232.0" stroke="#0f8b8d" stroke-width="1.2" stroke-linecap="round" stroke-dasharray="3 3" />
+<text x="968.0" y="224.0" font-size="12.5" font-weight="800" fill="#0f8b8d" text-anchor="middle" >suhu tanah</text>
+<text x="968.0" y="208.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="middle" >26–29</text>
+<rect x="1032.0" y="262.0" width="32.0" height="44.0" rx="0" fill="#fdeedd" stroke="#b45f17" stroke-width="1.2" />
+<text x="1048.0" y="290.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">37</text>
+<rect x="1032.0" y="262.0" width="32.0" height="44.0" rx="0" fill="none" stroke="#b45f17" stroke-width="2.4" />
+<line x1="1034.0" y1="254.0" x2="1062.0" y2="254.0" stroke="#b45f17" stroke-width="2" stroke-linecap="round" />
+<line x1="1034.0" y1="254.0" x2="1034.0" y2="260.0" stroke="#b45f17" stroke-width="2" stroke-linecap="round" />
+<line x1="1062.0" y1="254.0" x2="1062.0" y2="260.0" stroke="#b45f17" stroke-width="2" stroke-linecap="round" />
+<line x1="1048.0" y1="254.0" x2="1048.0" y2="176.0" stroke="#b45f17" stroke-width="1.2" stroke-linecap="round" stroke-dasharray="3 3" />
+<text x="1048.0" y="168.0" font-size="12.5" font-weight="800" fill="#b45f17" text-anchor="middle" >tanah %</text>
+<text x="1048.0" y="152.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="middle" >30</text>
+<rect x="1064.0" y="262.0" width="32.0" height="44.0" rx="0" fill="#f3f3f3" stroke="#4a5568" stroke-width="1.2" />
+<text x="1080.0" y="290.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">00</text>
+<rect x="1096.0" y="262.0" width="32.0" height="44.0" rx="0" fill="#f3f3f3" stroke="#4a5568" stroke-width="1.2" />
+<text x="1112.0" y="290.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">00</text>
+<rect x="1064.0" y="262.0" width="64.0" height="44.0" rx="0" fill="none" stroke="#4a5568" stroke-width="2.4" />
+<line x1="1066.0" y1="254.0" x2="1126.0" y2="254.0" stroke="#4a5568" stroke-width="2" stroke-linecap="round" />
+<line x1="1066.0" y1="254.0" x2="1066.0" y2="260.0" stroke="#4a5568" stroke-width="2" stroke-linecap="round" />
+<line x1="1126.0" y1="254.0" x2="1126.0" y2="260.0" stroke="#4a5568" stroke-width="2" stroke-linecap="round" />
+<line x1="1096.0" y1="254.0" x2="1096.0" y2="232.0" stroke="#4a5568" stroke-width="1.2" stroke-linecap="round" stroke-dasharray="3 3" />
+<text x="1096.0" y="224.0" font-size="12.5" font-weight="800" fill="#4a5568" text-anchor="middle" >baterai mV</text>
+<text x="1096.0" y="208.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="middle" >31–32</text>
+<text x="72.0" y="330.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="start" >Contoh nyata dari Wokwi (Praktik 2): tidak ada BME280, DS18B20 27,0 °C, potensiometer 55 %</text>
+<rect x="72.0" y="362.0" width="520.0" height="32.0" rx="8" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.2" />
+<text x="86.0" y="383.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">AD 9C</text>
+<text x="258.0" y="383.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="start" >→ sesi 0x9CAD (angka acak)</text>
+<rect x="612.0" y="362.0" width="520.0" height="32.0" rx="8" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.2" />
+<text x="626.0" y="383.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">01 00 00 00</text>
+<text x="798.0" y="383.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="start" >→ urutan 1</text>
+<rect x="72.0" y="402.0" width="520.0" height="32.0" rx="8" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.2" />
+<text x="86.0" y="423.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">2C 01</text>
+<text x="258.0" y="423.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="start" >→ 0x012C = 300 detik</text>
+<rect x="612.0" y="402.0" width="520.0" height="32.0" rx="8" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.2" />
+<text x="626.0" y="423.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">00 00 C0 7F × 3</text>
+<text x="798.0" y="423.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="start" >→ NAN: Wokwi tidak punya BME280</text>
+<rect x="72.0" y="442.0" width="520.0" height="32.0" rx="8" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.2" />
+<text x="86.0" y="463.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">00 00 D8 41</text>
+<text x="258.0" y="463.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="start" >→ suhu tanah 27,0 °C</text>
+<rect x="612.0" y="442.0" width="520.0" height="32.0" rx="8" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.2" />
+<text x="626.0" y="463.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">37</text>
+<text x="798.0" y="463.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="start" >→ tanah 0x37 = 55 %</text>
+<rect x="72.0" y="482.0" width="520.0" height="32.0" rx="8" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.2" />
+<text x="86.0" y="503.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">00 00</text>
+<text x="258.0" y="503.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="start" >→ baterai tidak diukur</text>
+<rect x="72.0" y="530.0" width="1056.0" height="70.0" rx="10" fill="#e6eefb" />
+<text x="92.0" y="556.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >Little-endian: angka lebih dari satu byte ditulis byte terkecil dulu.</text>
+<text x="92.0" y="580.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="start" >2C 01 berarti 0x012C = 300. Node 1 dan Node 2 sama-sama ESP32, jadi susunannya cocok di kedua ujung.</text>
+<text x="1178.0" y="626.0" font-size="11" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

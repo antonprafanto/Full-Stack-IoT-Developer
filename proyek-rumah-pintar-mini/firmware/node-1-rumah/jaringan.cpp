@@ -45,6 +45,7 @@ static bool layananSudahMulai = false;  // jam internet dimulai sekali saja
 static bool jamSudahDilaporkan = false;
 static unsigned long waktuPutus = 0;
 static unsigned long waktuPenjagaTerakhir = 0;
+static uint8_t kanalRouter = 0;  // Modul 14: channel router saat terakhir tersambung; ESP-NOW ikut channel ini
 
 // ---------- MQTT (Modul 11) ----------
 static bool mqttTersambung = false;
@@ -265,6 +266,9 @@ static void saatPesanMqtt(char* topik, byte* isi, unsigned int panjang) {
 void siapkanJaringan() {
   WiFi.onEvent(saatPeristiwaWiFi);   // daftarkan SEBELUM mulai menyambung
   WiFi.setHostname(NAMA_PERANGKAT);  // nama di daftar perangkat router (Modul 10, Praktik 9)
+  WiFi.setSleep(false);              // Modul 14: radio selalu mendengar ESP-NOW (dipasang SEBELUM WiFi.mode)
+  WiFi.setAutoReconnect(false);      // Modul 14: saat router mati, paket esp32 tidak memindai terus-menerus;
+                                     // yang mencoba lagi hanya penjaga 60 detik di jagaSambungan()
   WiFi.mode(WIFI_STA);               // wajib sebelum bertanya "sudah ada WiFi tersimpan?"
 
   uint8_t mac[6];
@@ -317,12 +321,19 @@ static void mulaiLayanan() {
 }
 
 // Penjaga (Modul 10, Konsep 4): kalau lama sekali tidak ada percobaan menyambung, suruh paket esp32 mencoba lagi.
+// Sejak v1.3.0 (Modul 14) penjaga ini satu-satunya yang menyuruh menyambung lagi: setAutoReconnect(false).
 static void jagaSambungan() {
   if (tersambung || !punyaWiFi) {
     return;
   }
   unsigned long peristiwaTerakhir = waktuPeristiwaTerakhir;  // salin DULU: petugas WiFi bisa mengubahnya kapan saja
   unsigned long sekarang = millis();                         // baru baca jam, jadi sekarang >= peristiwaTerakhir
+  // Modul 14: 3 detik tanpa peristiwa WiFi dan 3 detik sesudah percobaan penjaga = radio tidak sedang memindai.
+  // Kembalikan radio ke channel router supaya paket ESP-NOW Node 2 tetap terdengar selama router mati.
+  if (kanalRouter != 0 && sekarang - peristiwaTerakhir >= 3000 && sekarang - waktuPenjagaTerakhir >= 3000
+      && WiFi.channel() != kanalRouter) {
+    WiFi.setChannel(kanalRouter);
+  }
   if (sekarang - peristiwaTerakhir >= BATAS_TANPA_PERCOBAAN
       && sekarang - waktuPenjagaTerakhir >= BATAS_TANPA_PERCOBAAN) {
     waktuPenjagaTerakhir = sekarang;
@@ -414,17 +425,18 @@ void perbaruiJaringan() {
     if (tersambung) {  // baru saja putus; percobaan ulang yang gagal tidak dilaporkan satu per satu
       tersambung = false;
       waktuPutus = millis();
-      logError("WiFi PUTUS (alasan %u: %s). Node 1 tetap bekerja; paket esp32 mencoba menyambung lagi.", alasanPutus,
-               namaAlasan(alasanPutus));
+      logError("WiFi PUTUS (alasan %u: %s). Node 1 tetap bekerja dan mencoba lagi setiap %lu detik.", alasanPutus,
+               namaAlasan(alasanPutus), BATAS_TANPA_PERCOBAAN / 1000);
     }
   }
   if (benderaDapatIp) {
     benderaDapatIp = false;
     if (WiFi.status() == WL_CONNECTED) {  // masih tersambung saat bendera diturunkan?
       tersambung = true;
+      kanalRouter = WiFi.channel();  // Modul 14: diingat untuk ESP-NOW
       if (waktuPutus == 0) {
-        logInfo("WiFi tersambung ke \"%s\": IP %s, sinyal %d dBm", WiFi.SSID().c_str(),
-                WiFi.localIP().toString().c_str(), WiFi.RSSI());
+        logInfo("WiFi tersambung ke \"%s\": IP %s, sinyal %d dBm, channel %u", WiFi.SSID().c_str(),
+                WiFi.localIP().toString().c_str(), WiFi.RSSI(), kanalRouter);
       } else {
         logInfo("WiFi tersambung LAGI setelah %lu detik: IP %s", (millis() - waktuPutus) / 1000,
                 WiFi.localIP().toString().c_str());
@@ -586,6 +598,8 @@ void cetakInfoJaringan() {
   char ts[21] = "belum disetel";
   buatTs(ts, sizeof(ts));
   Serial.printf("wifi: device_id %s, nama %s, jam %s\n", idPerangkat, NAMA_PERANGKAT, ts);
+  Serial.printf("wifi: channel radio %ld, channel router %u (0 = belum pernah tersambung)\n", (long)WiFi.channel(),
+                kanalRouter);  // Modul 14
   const char* broker = PAKAI_WOKWI ? BROKER_WOKWI : ALAMAT_BROKER;
   if (mqtt.connected()) {
     Serial.printf("mqtt: tersambung ke %s:%u sebagai %s\n", broker, PORT_BROKER, idPerangkat);
@@ -603,4 +617,16 @@ void lupakanWiFi() {
   WiFi.disconnect(true, true);  // true, true = matikan radio DAN hapus WiFi tersimpan dari NVS
   delay(500);
   ESP.restart();
+}
+
+// ---------- Modul 14: dipakai jembatan Node 2 (jembatan.cpp) ----------
+bool mqttSiap() {
+  return tersambung && mqtt.connected();
+}
+
+bool terbitkan(const char* topik, const char* isi, bool retained) {
+  if (!mqttSiap()) {
+    return false;
+  }
+  return mqtt.publish(topik, isi, retained);
 }

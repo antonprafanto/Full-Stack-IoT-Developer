@@ -1,5 +1,6 @@
 // pemeriksa-kontrak.js — memeriksa setiap pesan MQTT proyek terhadap kontrak data
 // (Lampiran A Silabus dan KONTRAK-DATA.md). Modul 11 - Praktik 8. Dipakai lagi di modul-modul berikutnya.
+// Versi 1.1 (Modul 14): telemetry Node 2, yang diterbitkan Node 1 atas nama Node 2, diperiksa dengan kolomnya sendiri.
 // Butuh library mqtt:  npm install mqtt@5.16.1
 // Jalankan:  node pemeriksa-kontrak.js                               (broker di laptop ini)
 //            node pemeriksa-kontrak.js 192.168.1.10                  (broker di komputer lain)
@@ -17,7 +18,10 @@ if (perangkat !== undefined && !/^[0-9a-f]{12}$/.test(perangkat)) {
 const langganan = perangkat ? `rpm/${perangkat}/#` : "rpm/#";
 const JENIS = ["telemetry", "status", "vitals", "cmd", "ack"];
 const KOLOM = {
-  telemetry: { semua: ["ts", "fw", "suhu", "kelembapan", "cahaya", "tanah", "gerak", "level_air"] },
+  "telemetry Node 1": { semua: ["ts", "fw", "suhu", "kelembapan", "cahaya", "tanah", "gerak", "level_air"] },
+  "telemetry Node 2": { // kontrak 1.1: baterai boleh tidak ada (pembagi tegangan pilihan)
+    semua: ["ts", "fw", "suhu", "kelembapan", "tekanan", "suhu_tanah", "tanah", "baterai"],
+    wajib: ["ts", "fw", "suhu", "kelembapan", "tekanan", "suhu_tanah", "tanah"] },
   vitals: { semua: ["ts", "rssi", "uptime_s", "heap_free", "reset_reason"], wajib: ["ts", "rssi", "uptime_s", "heap_free"] },
   cmd: { semua: ["id", "ts", "aksi", "target", "nilai", "ambang", "url", "versi"], wajib: ["id", "aksi"] },
   ack: { semua: ["id", "ts", "ok", "pesan", "state"], wajib: ["id", "ts", "ok", "state"] },
@@ -74,8 +78,17 @@ function periksaBulat(nama, nilai, palingKecil, palingBesar, bolehNull, masalah)
   }
 }
 
+// Angka desimal dalam rentang tertentu, atau null (bacaan gagal).
+function periksaDesimal(nama, nilai, palingKecil, palingBesar, masalah) {
+  if (nilai !== null && (typeof nilai !== "number" || nilai < palingKecil || nilai > palingBesar)) {
+    masalah.push(`"${nama}" harus angka ${palingKecil} sampai ${palingBesar} atau null, isinya ${teks(nilai)}`);
+  }
+}
+
+// Kontrak 1.1: kolom sensor menurut perangkat. Telemetry Node 2 dikenali dari kolom khasnya.
 function periksaTelemetry(isi, masalah) {
-  const ada = periksaKolom(isi, "telemetry", masalah);
+  const node2 = "tekanan" in isi || "suhu_tanah" in isi;
+  const ada = periksaKolom(isi, node2 ? "telemetry Node 2" : "telemetry Node 1", masalah);
   if (ada("ts")) periksaTs(isi.ts, masalah);
   if (ada("fw") && (typeof isi.fw !== "string" || !/^\d+\.\d+\.\d+$/.test(isi.fw))) {
     masalah.push(`"fw" harus versi seperti "1.2.0", isinya ${teks(isi.fw)}`);
@@ -85,11 +98,15 @@ function periksaTelemetry(isi, masalah) {
   }
   if (ada("kelembapan")) periksaBulat("kelembapan", isi.kelembapan, 0, 100, true, masalah);
   if (ada("cahaya")) periksaBulat("cahaya", isi.cahaya, 0, 4095, false, masalah);
-  if (ada("tanah")) periksaBulat("tanah", isi.tanah, 0, 100, false, masalah);
+  if (ada("tanah")) periksaBulat("tanah", isi.tanah, 0, 100, node2, masalah); // null hanya untuk Node 2
   if (ada("gerak") && typeof isi.gerak !== "boolean") {
     masalah.push(`"gerak" harus true atau false, isinya ${teks(isi.gerak)}`);
   }
   if (ada("level_air")) periksaBulat("level_air", isi.level_air, 0, 100, true, masalah);
+  if (ada("tekanan")) periksaDesimal("tekanan", isi.tekanan, 300, 1100, masalah);
+  if (ada("suhu_tanah")) periksaDesimal("suhu_tanah", isi.suhu_tanah, -55, 125, masalah);
+  if (ada("baterai")) periksaDesimal("baterai", isi.baterai, 2.5, 4.5, masalah);
+  return node2 ? "  (telemetry Node 2)" : "";
 }
 
 function periksaVitals(isi, masalah) {
@@ -179,7 +196,7 @@ function periksa(topik, isiTeks, retained) {
     if (isi !== undefined && (typeof isi !== "object" || isi === null || Array.isArray(isi))) {
       masalah.push("isinya harus objek JSON { ... }");
     } else if (isi !== undefined) {
-      if (bagian[2] === "telemetry") periksaTelemetry(isi, masalah);
+      if (bagian[2] === "telemetry") catatan += periksaTelemetry(isi, masalah);
       if (bagian[2] === "vitals") periksaVitals(isi, masalah);
       if (bagian[2] === "cmd") periksaCmd(isi, masalah);
       if (bagian[2] === "ack") catatan += periksaAck(isi, masalah);

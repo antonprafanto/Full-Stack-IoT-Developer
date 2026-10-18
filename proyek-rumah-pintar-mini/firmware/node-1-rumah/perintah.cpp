@@ -9,6 +9,7 @@
 #include "aktuator.h"
 #include "aturan.h"
 #include "jaringan.h"
+#include "jembatan.h"
 #include "perintah.h"
 
 const int PANJANG_BARIS_MAKS = 40;
@@ -132,6 +133,13 @@ void periksaPerintahSerial() {
   } else if (perintah == "wifi lupa") {
     lupakanWiFi();  // Modul 10: menghapus WiFi tersimpan, lalu restart ke portal
     return;
+  } else if (perintah == "node2") {
+    cetakInfoNode2();  // Modul 14: statistik paket Node 2
+    return;
+  } else if (perintah == "node2 nol") {
+    nolkanHitunganNode2();  // Modul 14: hitungan mulai dari nol, misalnya tepat saat router dicabut
+    cetakInfoNode2();
+    return;
   } else if (perintah == "kirim") {
     kirimSekarang();  // Modul 11: terbitkan telemetry sekarang juga lewat MQTT
     return;
@@ -142,7 +150,7 @@ void periksaPerintahSerial() {
   } else if (perintah != "status") {
     Serial.println("Perintah tidak dikenal. Contoh: lampu on, kipas off, pompa 3, tirai 90, bunyi, status,");
     Serial.println("info, ambang, ambang 35, ambang bawaan, log debug, log info, log error, wifi, wifi lupa,");
-    Serial.println("kirim, restart");
+    Serial.println("kirim, node2, node2 nol, restart");
     return;
   }
   cetakStatus();

@@ -14,3 +14,5 @@ bool buatTs(char* ts, size_t ukuran);  // cap waktu UTC ISO-8601 (Lampiran A); f
 const char* teksJaringan();            // untuk layar: "ok, MQTT ok", "ok, MQTT putus", "putus", atau "mati"
 void cetakInfoJaringan();              // jawaban perintah Serial "wifi"
 void lupakanWiFi();                    // perintah Serial "wifi lupa": hapus WiFi tersimpan, lalu restart
+bool mqttSiap();                       // Modul 14: true kalau WiFi dan MQTT sedang tersambung
+bool terbitkan(const char* topik, const char* isi, bool retained);  // Modul 14: terbit atas nama Node 2

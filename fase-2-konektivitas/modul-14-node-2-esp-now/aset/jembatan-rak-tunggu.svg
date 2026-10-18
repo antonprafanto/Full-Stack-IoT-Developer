@@ -1,0 +1,131 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="640" viewBox="0 0 1200 640" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="640" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Node 1 sebagai jembatan: rak tunggu dan ts yang dimundurkan</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Paket Node 2 tetap tiba walaupun router mati; yang tertunda hanya perjalanan Node 1 → broker</text>
+<rect x="30.0" y="104.0" width="360.0" height="404.0" rx="14" fill="#ffffff" stroke="#0f8b8d" stroke-width="2" />
+<text x="50.0" y="132.0" font-size="16" font-weight="800" fill="#0f8b8d" text-anchor="start" >Router hidup</text>
+<text x="50.0" y="152.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="start" >pukul 10.00</text>
+<rect x="420.0" y="104.0" width="360.0" height="404.0" rx="14" fill="#ffffff" stroke="#e63946" stroke-width="2" />
+<text x="440.0" y="132.0" font-size="16" font-weight="800" fill="#e63946" text-anchor="start" >Router mati</text>
+<text x="440.0" y="152.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="start" >10.05 sampai 10.35</text>
+<rect x="810.0" y="104.0" width="360.0" height="404.0" rx="14" fill="#ffffff" stroke="#0f8b8d" stroke-width="2" />
+<text x="830.0" y="132.0" font-size="16" font-weight="800" fill="#0f8b8d" text-anchor="start" >Router hidup lagi</text>
+<text x="830.0" y="152.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="start" >pukul 10.36</text>
+<rect x="61.0" y="194.0" width="30.0" height="40.0" rx="3" fill="none" stroke="#b45f17" stroke-width="2" />
+<rect x="67.0" y="200.0" width="18.0" height="14.0" rx="2" fill="none" stroke="#b45f17" stroke-width="1.6" />
+<line x1="61.0" y1="204.0" x2="56.0" y2="204.0" stroke="#b45f17" stroke-width="1.6" stroke-linecap="round" />
+<line x1="91.0" y1="204.0" x2="96.0" y2="204.0" stroke="#b45f17" stroke-width="1.6" stroke-linecap="round" />
+<line x1="61.0" y1="212.0" x2="56.0" y2="212.0" stroke="#b45f17" stroke-width="1.6" stroke-linecap="round" />
+<line x1="91.0" y1="212.0" x2="96.0" y2="212.0" stroke="#b45f17" stroke-width="1.6" stroke-linecap="round" />
+<line x1="61.0" y1="220.0" x2="56.0" y2="220.0" stroke="#b45f17" stroke-width="1.6" stroke-linecap="round" />
+<line x1="91.0" y1="220.0" x2="96.0" y2="220.0" stroke="#b45f17" stroke-width="1.6" stroke-linecap="round" />
+<line x1="61.0" y1="228.0" x2="56.0" y2="228.0" stroke="#b45f17" stroke-width="1.6" stroke-linecap="round" />
+<line x1="91.0" y1="228.0" x2="96.0" y2="228.0" stroke="#b45f17" stroke-width="1.6" stroke-linecap="round" />
+<text x="76.0" y="254.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="middle" >Node 2</text>
+<line x1="100.0" y1="212.0" x2="158.0" y2="212.0" stroke="#b45f17" stroke-width="2.4" stroke-linecap="round" />
+<path d="M150.9 215.8 L158.0 212.0 L150.9 208.2" fill="none" stroke="#b45f17" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="129.0" y="200.0" font-size="12" font-weight="800" fill="#b45f17" text-anchor="middle" >10.00</text>
+<rect x="162.0" y="176.0" width="206.0" height="74.0" rx="8" fill="#eef1f5" stroke="#e0dcd2" stroke-width="1.2" />
+<rect x="174.0" y="186.0" width="26.0" height="24.0" rx="3" fill="#e2f3f1" stroke="#0f8b8d" stroke-width="1.2" />
+<rect x="206.0" y="186.0" width="26.0" height="24.0" rx="3" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.2" />
+<rect x="238.0" y="186.0" width="26.0" height="24.0" rx="3" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.2" />
+<rect x="270.0" y="186.0" width="26.0" height="24.0" rx="3" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.2" />
+<rect x="302.0" y="186.0" width="26.0" height="24.0" rx="3" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.2" />
+<rect x="334.0" y="186.0" width="26.0" height="24.0" rx="3" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.2" />
+<rect x="174.0" y="216.0" width="26.0" height="24.0" rx="3" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.2" />
+<rect x="206.0" y="216.0" width="26.0" height="24.0" rx="3" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.2" />
+<rect x="238.0" y="216.0" width="26.0" height="24.0" rx="3" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.2" />
+<rect x="270.0" y="216.0" width="26.0" height="24.0" rx="3" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.2" />
+<rect x="302.0" y="216.0" width="26.0" height="24.0" rx="3" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.2" />
+<rect x="334.0" y="216.0" width="26.0" height="24.0" rx="3" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.2" />
+<text x="265.0" y="268.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" >rak tunggu: 1 dari 96</text>
+<line x1="265.0" y1="284.0" x2="265.0" y2="330.0" stroke="#0f8b8d" stroke-width="2.4" stroke-linecap="round" />
+<path d="M261.2 322.9 L265.0 330.0 L268.8 322.9" fill="none" stroke="#0f8b8d" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M241 356 L265 338 L289 356" fill="none" stroke="#0f8b8d" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="246.0" y="356.0" width="38.0" height="28.0" rx="2" fill="none" stroke="#0f8b8d" stroke-width="2.2" />
+<rect x="256.0" y="364.0" width="18.0" height="5.0" rx="1" fill="#0f8b8d" />
+<text x="265.0" y="402.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" >broker</text>
+<rect x="50.0" y="424.0" width="320.0" height="64.0" rx="10" fill="#e2f3f1" />
+<text x="66.0" y="450.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="start" >langsung terbit:</text>
+<text x="66.0" y="472.0" font-size="12.5" font-weight="700" fill="#0f8b8d" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">"ts":"…T03:00:00Z" (10.00 WIB)</text>
+<rect x="451.0" y="194.0" width="30.0" height="40.0" rx="3" fill="none" stroke="#b45f17" stroke-width="2" />
+<rect x="457.0" y="200.0" width="18.0" height="14.0" rx="2" fill="none" stroke="#b45f17" stroke-width="1.6" />
+<line x1="451.0" y1="204.0" x2="446.0" y2="204.0" stroke="#b45f17" stroke-width="1.6" stroke-linecap="round" />
+<line x1="481.0" y1="204.0" x2="486.0" y2="204.0" stroke="#b45f17" stroke-width="1.6" stroke-linecap="round" />
+<line x1="451.0" y1="212.0" x2="446.0" y2="212.0" stroke="#b45f17" stroke-width="1.6" stroke-linecap="round" />
+<line x1="481.0" y1="212.0" x2="486.0" y2="212.0" stroke="#b45f17" stroke-width="1.6" stroke-linecap="round" />
+<line x1="451.0" y1="220.0" x2="446.0" y2="220.0" stroke="#b45f17" stroke-width="1.6" stroke-linecap="round" />
+<line x1="481.0" y1="220.0" x2="486.0" y2="220.0" stroke="#b45f17" stroke-width="1.6" stroke-linecap="round" />
+<line x1="451.0" y1="228.0" x2="446.0" y2="228.0" stroke="#b45f17" stroke-width="1.6" stroke-linecap="round" />
+<line x1="481.0" y1="228.0" x2="486.0" y2="228.0" stroke="#b45f17" stroke-width="1.6" stroke-linecap="round" />
+<text x="466.0" y="254.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="middle" >Node 2</text>
+<line x1="490.0" y1="212.0" x2="548.0" y2="212.0" stroke="#b45f17" stroke-width="2.4" stroke-linecap="round" />
+<path d="M540.9 215.8 L548.0 212.0 L540.9 208.2" fill="none" stroke="#b45f17" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="519.0" y="200.0" font-size="11.5" font-weight="800" fill="#b45f17" text-anchor="middle" >tetap tiba</text>
+<rect x="552.0" y="176.0" width="206.0" height="74.0" rx="8" fill="#eef1f5" stroke="#e0dcd2" stroke-width="1.2" />
+<rect x="564.0" y="186.0" width="26.0" height="24.0" rx="3" fill="#e2f3f1" stroke="#0f8b8d" stroke-width="1.2" />
+<rect x="596.0" y="186.0" width="26.0" height="24.0" rx="3" fill="#e2f3f1" stroke="#0f8b8d" stroke-width="1.2" />
+<rect x="628.0" y="186.0" width="26.0" height="24.0" rx="3" fill="#e2f3f1" stroke="#0f8b8d" stroke-width="1.2" />
+<rect x="660.0" y="186.0" width="26.0" height="24.0" rx="3" fill="#e2f3f1" stroke="#0f8b8d" stroke-width="1.2" />
+<rect x="692.0" y="186.0" width="26.0" height="24.0" rx="3" fill="#e2f3f1" stroke="#0f8b8d" stroke-width="1.2" />
+<rect x="724.0" y="186.0" width="26.0" height="24.0" rx="3" fill="#e2f3f1" stroke="#0f8b8d" stroke-width="1.2" />
+<rect x="564.0" y="216.0" width="26.0" height="24.0" rx="3" fill="#e2f3f1" stroke="#0f8b8d" stroke-width="1.2" />
+<rect x="596.0" y="216.0" width="26.0" height="24.0" rx="3" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.2" />
+<rect x="628.0" y="216.0" width="26.0" height="24.0" rx="3" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.2" />
+<rect x="660.0" y="216.0" width="26.0" height="24.0" rx="3" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.2" />
+<rect x="692.0" y="216.0" width="26.0" height="24.0" rx="3" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.2" />
+<rect x="724.0" y="216.0" width="26.0" height="24.0" rx="3" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.2" />
+<text x="655.0" y="268.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" >rak tunggu: 7 dari 96</text>
+<line x1="655.0" y1="284.0" x2="655.0" y2="330.0" stroke="#9aa3b0" stroke-width="2.2" stroke-linecap="round" stroke-dasharray="5 4" />
+<line x1="646.0" y1="297.0" x2="664.0" y2="315.0" stroke="#e63946" stroke-width="2.6" stroke-linecap="round" />
+<line x1="646.0" y1="315.0" x2="664.0" y2="297.0" stroke="#e63946" stroke-width="2.6" stroke-linecap="round" />
+<path d="M631 356 L655 338 L679 356" fill="none" stroke="#9aa3b0" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="636.0" y="356.0" width="38.0" height="28.0" rx="2" fill="none" stroke="#9aa3b0" stroke-width="2.2" />
+<rect x="646.0" y="364.0" width="18.0" height="5.0" rx="1" fill="#9aa3b0" />
+<text x="655.0" y="402.0" font-size="12.5" font-weight="800" fill="#e63946" text-anchor="middle" >broker tak terjangkau</text>
+<rect x="440.0" y="424.0" width="320.0" height="64.0" rx="10" fill="#fde6e8" />
+<text x="456.0" y="450.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="start" >paket 10.05, 10.10, …, 10.35</text>
+<text x="456.0" y="472.0" font-size="13" font-weight="700" fill="#e63946" text-anchor="start" >menumpuk di rak, menunggu</text>
+<rect x="830.0" y="176.0" width="206.0" height="74.0" rx="8" fill="#eef1f5" stroke="#e0dcd2" stroke-width="1.2" />
+<rect x="842.0" y="186.0" width="26.0" height="24.0" rx="3" fill="#e2f3f1" stroke="#0f8b8d" stroke-width="1.2" />
+<rect x="874.0" y="186.0" width="26.0" height="24.0" rx="3" fill="#e2f3f1" stroke="#0f8b8d" stroke-width="1.2" />
+<rect x="906.0" y="186.0" width="26.0" height="24.0" rx="3" fill="#e2f3f1" stroke="#0f8b8d" stroke-width="1.2" />
+<rect x="938.0" y="186.0" width="26.0" height="24.0" rx="3" fill="#e2f3f1" stroke="#0f8b8d" stroke-width="1.2" />
+<rect x="970.0" y="186.0" width="26.0" height="24.0" rx="3" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.2" />
+<rect x="1002.0" y="186.0" width="26.0" height="24.0" rx="3" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.2" />
+<rect x="842.0" y="216.0" width="26.0" height="24.0" rx="3" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.2" />
+<rect x="874.0" y="216.0" width="26.0" height="24.0" rx="3" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.2" />
+<rect x="906.0" y="216.0" width="26.0" height="24.0" rx="3" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.2" />
+<rect x="938.0" y="216.0" width="26.0" height="24.0" rx="3" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.2" />
+<rect x="970.0" y="216.0" width="26.0" height="24.0" rx="3" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.2" />
+<rect x="1002.0" y="216.0" width="26.0" height="24.0" rx="3" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.2" />
+<text x="933.0" y="268.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" >rak dikosongkan, yang tertua dulu</text>
+<line x1="933.0" y1="284.0" x2="933.0" y2="330.0" stroke="#0f8b8d" stroke-width="2.4" stroke-linecap="round" />
+<path d="M929.2 322.9 L933.0 330.0 L936.8 322.9" fill="none" stroke="#0f8b8d" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="923.0" y="302.0" font-size="11.5" font-weight="800" fill="#0f8b8d" text-anchor="end" >≤ 3 per</text>
+<text x="923.0" y="318.0" font-size="11.5" font-weight="800" fill="#0f8b8d" text-anchor="end" >putaran loop()</text>
+<path d="M909 356 L933 338 L957 356" fill="none" stroke="#0f8b8d" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="914.0" y="356.0" width="38.0" height="28.0" rx="2" fill="none" stroke="#0f8b8d" stroke-width="2.2" />
+<rect x="924.0" y="364.0" width="18.0" height="5.0" rx="1" fill="#0f8b8d" />
+<text x="933.0" y="402.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" >broker</text>
+<rect x="1050.0" y="176.0" width="104.0" height="210.0" rx="8" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.2" />
+<text x="1102.0" y="198.0" font-size="12" font-weight="800" fill="#0f8b8d" text-anchor="middle" >ts mundur</text>
+<text x="1102.0" y="224.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">10.05</text>
+<text x="1102.0" y="247.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">10.10</text>
+<text x="1102.0" y="270.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">10.15</text>
+<text x="1102.0" y="293.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">10.20</text>
+<text x="1102.0" y="316.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">10.25</text>
+<text x="1102.0" y="339.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">10.30</text>
+<text x="1102.0" y="362.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">10.35</text>
+<rect x="830.0" y="424.0" width="320.0" height="64.0" rx="10" fill="#e2f3f1" />
+<text x="846.0" y="450.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="start" >grafik yang memakai ts menggambar</text>
+<text x="846.0" y="472.0" font-size="13" font-weight="700" fill="#0f8b8d" text-anchor="start" >titik-titik itu di jam kejadiannya</text>
+<line x1="392.0" y1="300.0" x2="416.0" y2="300.0" stroke="#4a5568" stroke-width="2" stroke-linecap="round" />
+<path d="M409.8 303.3 L416.0 300.0 L409.8 296.7" fill="none" stroke="#4a5568" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="782.0" y1="300.0" x2="806.0" y2="300.0" stroke="#4a5568" stroke-width="2" stroke-linecap="round" />
+<path d="M799.8 303.3 L806.0 300.0 L799.8 296.7" fill="none" stroke="#4a5568" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="30.0" y="524.0" width="1140.0" height="66.0" rx="10" fill="#eef1f5" />
+<text x="50.0" y="550.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" >ts = jam Node 1 sekarang − (millis() sekarang − millis() saat paket tiba)</text>
+<text x="50.0" y="574.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="start" >Rak tunggu ada di RAM: isinya hilang kalau Node 1 restart. Rak penuh (96 bacaan) berarti bacaan tertua tergusur.</text>
+<text x="1178.0" y="626.0" font-size="11" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

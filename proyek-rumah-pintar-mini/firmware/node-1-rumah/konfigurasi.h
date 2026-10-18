@@ -2,7 +2,7 @@
 // Pin mengikuti PETA-PIN.md. Angka kalibrasi adalah hasil Modul 6 milikmu sendiri.
 #pragma once
 
-const char VERSI_FIRMWARE[] = "1.2.1";
+const char VERSI_FIRMWARE[] = "1.3.0";
 
 // ---------- Peta pin kanonik Node 1 (salinan dari PETA-PIN.md) ----------
 const int PIN_LED_STATUS = 4;    // Modul 2
@@ -54,3 +54,9 @@ const char ALAMAT_BROKER[] = "192.168.1.37";  // GANTI dengan alamat tetap gatew
 const uint16_t PORT_BROKER = 1883;
 const unsigned long JEDA_KIRIM = 10000;       // telemetry setiap 10 detik, ditambah segera saat ada kejadian penting
 const unsigned long JEDA_VITALS = 300000;     // vitals (kesehatan Node 1) setiap 5 menit
+
+// ---------- Modul 14: jembatan ESP-NOW untuk Node 2 "Kebun" ----------
+// Alamat MAC WiFi Node 2, dicetak Node 2 saat pertama menyala. Paket ESP-NOW dari alamat lain ditolak.
+const uint8_t MAC_NODE2[6] = {0x24, 0x6F, 0x28, 0xB1, 0xC7, 0xD4};  // GANTI dengan MAC Node 2-mu
+const int ANTREAN_NODE2 = 96;  // rak tunggu: bacaan Node 2 yang ditahan saat broker tak terjangkau (8 jam pada jeda 5 menit)
+const unsigned long CADANGAN_OFFLINE_NODE2 = 60000;  // Node 2 "offline" setelah 3 x jedanya + 1 menit

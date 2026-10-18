@@ -2,7 +2,7 @@
 
 🌐 **Bahasa Indonesia** · [English](../en/mini-smart-home/PIN-MAP.md)
 
-> Dibuat di [Modul 5](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-1-esp32-embedded/modul-05-gpio-dan-peta-pin/README.md#3-anggaran-pin-dan-peta-pin-kanonik-node-1-dan-node-2), diperbarui di [Modul 6](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-1-esp32-embedded/modul-06-membaca-sensor/README.md), [Modul 7](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-1-esp32-embedded/modul-07-bus-sensor-oled-skematik/README.md), dan [Modul 9](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-1-esp32-embedded/modul-09-catu-daya-dan-hemat-daya/README.md); berlaku sampai Modul 28.
+> Dibuat di [Modul 5](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-1-esp32-embedded/modul-05-gpio-dan-peta-pin/README.md#3-anggaran-pin-dan-peta-pin-kanonik-node-1-dan-node-2), diperbarui di [Modul 6](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-1-esp32-embedded/modul-06-membaca-sensor/README.md), [Modul 7](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-1-esp32-embedded/modul-07-bus-sensor-oled-skematik/README.md), [Modul 9](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-1-esp32-embedded/modul-09-catu-daya-dan-hemat-daya/README.md), dan [Modul 14](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-2-konektivitas/modul-14-node-2-esp-now/README.md); berlaku sampai Modul 28.
 > **Sebelum menambahkan apa pun ke Node 1 atau Node 2, periksa file ini dulu.**
 
 ## Aturan
@@ -37,16 +37,17 @@ ESP32 DevKit V1 pertama, di dalam rumah. Sejak Modul 9, papan ini mendapat listr
 
 ## Node 2 "Kebun"
 
-ESP32 DevKit V1 kedua, dari baterai. Kerangkanya (DS18B20 dan LED "bangun") dipasang di Modul 9; sisanya dirakit di Modul 14.
+ESP32 DevKit V1 kedua, dari baterai. Kerangkanya (DS18B20 dan LED "bangun") dipasang di Modul 9; BME280, sensor tanah ke-2, dan ESP-NOW ke Node 1 ditambahkan di Modul 14. Papan ini tidak pernah tersambung ke router: ia hanya mengirim paket ke Node 1.
 
-| GPIO | Untuk | Mulai | Keadaan setelah Modul 9 | Catatan |
+| GPIO | Untuk | Mulai | Keadaan setelah Modul 14 | Catatan |
 | :--- | :--- | :---: | :--- | :--- |
-| 27 | DS18B20 (1-Wire) | M9 | terpasang | modul adaptor (resistor 4,7 kΩ ke 3V3 sudah ada di modul), daya dari pin 3V3 papan; sampai Modul 14, kabel betina–betina langsung ke kaki papan |
+| 27 | DS18B20 (1-Wire) | M9 | terpasang | modul adaptor (resistor 4,7 kΩ ke 3V3 sudah ada di modul); sejak Modul 14, VCC dan GND-nya diambil dari rel bawah breadboard mini (lihat **Sensor Node 2**), DAT tetap langsung ke kaki D27; resolusi 10 bit |
 | 2 | LED biru bawaan: tanda "sedang bangun" | M9 | terpasang | menyala selama papan bangun, padam selama tidur |
-| 21 / 22 | I2C: BME280 | M14 | dipesan | |
-| 39 (VN) | Sensor tanah ke-2 | M14 | dipesan | pin sama dengan Node 1, jadi kodenya bisa dipakai ulang |
+| 21 / 22 | I2C SDA / SCL: BME280 (alamat `0x76` atau `0x77`) | M14 | terpasang | VIN dari rel bawah (+) 3,3 V; dibaca dalam mode *forced* (sekali ukur, lalu sensor tidur sendiri) |
+| 39 (VN) | Sensor tanah ke-2: AOUT | M14 | terpasang | ADC1; pin sama dengan Node 1, jadi kodenya bisa dipakai ulang; kalibrasi dua titik diulang dengan listrik dari D32 |
+| 32 (D32) | Sensor tanah ke-2: VCC | M14 | terpasang | keluaran HIGH **hanya selama bangun** (sensor menyedot sekitar 5 mA); **jangan** ke 3V3 karena sensor akan menyala terus selama Node 2 tidur |
 | 16 / 17 / 2 | RS-485 untuk lab Modul 15 | M15 | dipesan | hanya selama lab, dengan sketsa lab tersendiri; MAX485 dilepas lagi setelahnya karena GPIO 2 juga LED "bangun" |
-| 36 (VP) | Cadangan, misalnya tegangan baterai | — | — | opsional; pembagi tegangan dari OUT+ TP4056 |
+| 36 (VP) | Tegangan baterai | M14 | opsional | pembagi tegangan 2 × 100 kΩ dari OUT+ ke OUT− TP4056, titik tengah ke VP, kapasitor 100 nF dari VP ke GND (bedah teknis Modul 14) |
 
 ## Rangkaian baterai Node 2 (sejak Modul 9)
 
@@ -58,7 +59,18 @@ Dirakit di breadboard mini 400 titik. **Rel atas (−)** = GND, **rel atas (+)**
 | TP4056 (6 bantalan, dengan proteksi) | B− → 3c, B+ → 6c; OUT+ → 12d, OUT− → rel atas (−); IN+/IN− tidak dipakai | diisi lewat colokan USB-nya dengan *charger* HP; beban **selalu** dari OUT+/OUT− |
 | MT3608 | VIN+ → 12b, VIN− → rel atas (−); VOUT+ → rel atas (+), VOUT− → rel atas (−) | diatur ke **5,0 V** dengan multimeter **tanpa beban**, sebelum papan disambung |
 | Kapasitor 100 µF | kaki (+) → rel atas (+), kaki (−) → rel atas (−) | dipasang **sesudah** MT3608 diatur |
-| Papan Node 2 | VIN → rel atas (+) kolom 29; GND (deretan kiri, di atas VIN) → rel atas (−) kolom 28 | saat mengukur arus: VIN lewat INA219 (VIN+ dari rel atas (+) kolom 29, VIN− ke 27a, VIN papan ke 27e), dan GND breadboard mini disatukan dengan rel bawah (−) meja kerja Node 1 |
+| Papan Node 2 | VIN → rel atas (+) kolom 29; GND (deretan kiri, di atas VIN) → rel atas (−) kolom 28 | saat mengukur arus: VIN lewat INA219 (VIN+ dari rel atas (+) kolom 29, VIN− ke 27a, VIN papan ke 27e), dan rel atas (−) breadboard mini (bukan rel bawahnya) disatukan dengan rel bawah (−) meja kerja Node 1 kolom 30 lewat kabel jantan–jantan hitam |
+
+## Sensor Node 2 (sejak Modul 14)
+
+Sensor tidak ditancapkan ke breadboard: kakinya disambung kabel. Yang dipakai dari breadboard mini hanya **rel bawah**: **rel bawah (+) = 3,3 V** dari pin 3V3 papan, **rel bawah (−) = GND**. Tempel label "3V3" di rel bawah supaya tidak tertukar dengan rel atas (+), yang berisi 5,0 V dari MT3608.
+
+| Bagian | Sambungan | Kabel |
+| :--- | :--- | :--- |
+| Rel bawah | 3V3 papan (deretan kanan, paling bawah) → rel bawah (+) kolom 29; GND papan (deretan kanan, di atas 3V3) → rel bawah (−) kolom 28 | jantan–betina, oranye dan hitam |
+| BME280 | VIN → rel bawah (+) kolom 15, GND → rel bawah (−) kolom 16, SCL → D22, SDA → D21 | VIN dan GND jantan–betina; SCL (kuning) dan SDA (biru) betina–betina |
+| Adaptor DS18B20 | VCC → rel bawah (+) kolom 24, GND → rel bawah (−) kolom 27, DAT → D27 | VCC dan GND jantan–betina; DAT (ungu) betina–betina |
+| Sensor tanah ke-2 | ujung betina kabelnya: VCC langsung ke kaki D32, AOUT langsung ke kaki VN; GND lewat jumper jantan–jantan hitam ke rel bawah (−) kolom 21 | ikuti tulisan di papan sensor (GND, VCC, AOUT), bukan warna kabelnya |
 
 **Selama hidup dari baterai, USB papan Node 2 dicabut**, dan **pin 3V3-nya tidak pernah diberi tegangan baterai**. Mau mengunggah program? Cabut dulu kabel VIN dan GND-nya.
 
@@ -111,7 +123,8 @@ Layar OLED: GND ke rel bawah (−) kolom 17, VCC ke rel bawah (+) kolom 18. Modu
 | 2 | 6 | Kelima sensor Node 1 terpasang (DHT22, LDR, sensor tanah kapasitif, PIR, HC-SR04); sensor 5 V di rel atas, sensor 3,3 V di rel bawah. |
 | 3 | 7 | Bus I2C terpasang (layar OLED di `0x3C`, jalur bus di kolom 19 dan 20, daya dari rel bawah); microSD opsional; latihan DS18B20 di GPIO 16 selesai; tabel **Bus di breadboard**. |
 | 4 | 9 | Node 1 mendapat listrik dari *charger*-nya sendiri (aturan emas nomor 2, 4, dan 5). Kerangka Node 2 terpasang: DS18B20 di GPIO 27 dan LED "bangun" di GPIO 2. Bagian baru **Rangkaian baterai Node 2**. Alamat I2C `0x40` dipesan untuk INA219, alat ukur sementara. |
+| 5 | 14 | Node 2 lengkap: BME280 di I2C (D21/D22), sensor tanah ke-2 di VN dengan VCC dari **D32** (padam selama tidur), DS18B20 pindah ke rel bawah breadboard mini; VP opsional untuk tegangan baterai. Bagian baru **Sensor Node 2**. Node 1 tidak berubah. |
 
 ---
 
-[⬅️ Kembali ke folder proyek](README.md) · [Modul 5](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-1-esp32-embedded/modul-05-gpio-dan-peta-pin/README.md) · [Modul 7](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-1-esp32-embedded/modul-07-bus-sensor-oled-skematik/README.md) · [Modul 9](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-1-esp32-embedded/modul-09-catu-daya-dan-hemat-daya/README.md) · [Silabus](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/SILABUS.md)
+[⬅️ Kembali ke folder proyek](README.md) · [Modul 5](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-1-esp32-embedded/modul-05-gpio-dan-peta-pin/README.md) · [Modul 7](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-1-esp32-embedded/modul-07-bus-sensor-oled-skematik/README.md) · [Modul 9](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-1-esp32-embedded/modul-09-catu-daya-dan-hemat-daya/README.md) · [Modul 14](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-2-konektivitas/modul-14-node-2-esp-now/README.md) · [Silabus](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/SILABUS.md)
