@@ -1,0 +1,4 @@
+# library dari npm: besar, dan bisa dibuat ulang dengan npm install
+node_modules/
+# setelan rahasia laptop ini; contohnya ada di .env.example
+.env

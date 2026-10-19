@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="700" fill="#fffdf7"/>
+<text x="600" y="44" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle">Git untuk tim: <tspan font-style="italic">branch</tspan>, <tspan font-style="italic">pull request</tspan>, dan <tspan font-style="italic">review</tspan></text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" xml:space="preserve">Praktik 8: fitur <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.7">GET /devices/:id/vitals</tspan> dikerjakan di cabangnya sendiri, diperiksa, lalu digabung ke <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.7">main</tspan></text>
+<rect x="30.0" y="100.0" width="390.0" height="560.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.4" />
+<rect x="48.0" y="119.0" width="40.0" height="26.0" rx="3" fill="none" stroke="#4a5568" stroke-width="2" />
+<path d="M42 149 L94 149" fill="none" stroke="#4a5568" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="102.0" y="130.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >di laptop</text>
+<text x="102.0" y="148.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >terminal VS Code</text>
+<rect x="430.0" y="100.0" width="430.0" height="560.0" rx="14" fill="#eef1f5" stroke="#e0dcd2" stroke-width="1.4" />
+<path d="M448 144 Q438 144 440 134 Q442 124 454 126 Q460 114 474 119 Q486 116 488 128 Q498 130 496 139 Q494 144 486 144 Z" fill="none" stroke="#4a5568" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="502.0" y="130.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >di GitHub</text>
+<text x="502.0" y="148.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >browser</text>
+<rect x="870.0" y="100.0" width="300.0" height="560.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.4" />
+<rect x="888.0" y="119.0" width="40.0" height="26.0" rx="3" fill="none" stroke="#4a5568" stroke-width="2" />
+<path d="M882 149 L934 149" fill="none" stroke="#4a5568" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="942.0" y="130.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >di laptop lagi</text>
+<text x="942.0" y="148.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >terminal VS Code</text>
+<line x1="46.0" y1="290.0" x2="1154.0" y2="290.0" stroke="#1e2a4a" stroke-width="4" stroke-linecap="round" />
+<text x="52.0" y="276.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">main</text>
+<path d="M150 290 C 185 290 185 206 225 206 L 715 206 C 755 206 755 290 790 290" fill="none" stroke="#1a7f37" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="236.0" y="192.0" font-size="13" font-weight="800" fill="#1a7f37" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">fitur/vitals</text>
+<circle cx="96.0" cy="290.0" r="7" fill="#ffffff" stroke="#9aa3b0" stroke-width="2.4" />
+<circle cx="150.0" cy="290.0" r="10" fill="#ffffff" stroke="#1e2a4a" stroke-width="3" />
+<text x="150.0" y="322.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="middle" >templat</text>
+<text x="150.0" y="338.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-style="italic" >pull request</text>
+<circle cx="330.0" cy="206.0" r="10" fill="#ffffff" stroke="#1a7f37" stroke-width="3" />
+<text x="330.0" y="236.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">GET /devices/:id/vitals</text>
+<rect x="525.0" y="191.0" width="150.0" height="30.0" rx="15" fill="#1a7f37" />
+<text x="600.0" y="211.0" font-size="13" font-weight="800" fill="#ffffff" text-anchor="middle" font-style="italic" >pull request #1</text>
+<circle cx="790.0" cy="290.0" r="12" fill="#ffffff" stroke="#1e2a4a" stroke-width="3" />
+<circle cx="790.0" cy="290.0" r="5.5" fill="#1e2a4a" />
+<text x="790.0" y="324.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="middle" >Merge pull request #1</text>
+<text x="1010.0" y="322.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="middle" >main di laptop maju</text>
+<text x="1010.0" y="338.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="middle" xml:space="preserve">ke <tspan font-style="italic">merge commit</tspan> itu</text>
+<circle cx="214.0" cy="258.0" r="12" fill="#1e2a4a" stroke="#ffffff" stroke-width="2" />
+<text x="214.0" y="262.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >1</text>
+<circle cx="366.0" cy="178.0" r="12" fill="#1e2a4a" stroke="#ffffff" stroke-width="2" />
+<text x="366.0" y="182.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >2</text>
+<circle cx="425.0" cy="206.0" r="12" fill="#1e2a4a" stroke="#ffffff" stroke-width="2" />
+<text x="425.0" y="210.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >3</text>
+<circle cx="600.0" cy="172.0" r="12" fill="#1e2a4a" stroke="#ffffff" stroke-width="2" />
+<text x="600.0" y="176.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >4</text>
+<circle cx="772.0" cy="238.0" r="12" fill="#1e2a4a" stroke="#ffffff" stroke-width="2" />
+<text x="772.0" y="242.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >5</text>
+<circle cx="826.0" cy="290.0" r="12" fill="#1e2a4a" stroke="#ffffff" stroke-width="2" />
+<text x="826.0" y="294.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >6</text>
+<circle cx="1010.0" cy="290.0" r="12" fill="#1e2a4a" stroke="#ffffff" stroke-width="2" />
+<text x="1010.0" y="294.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >7</text>
+<circle cx="60.0" cy="373.0" r="12" fill="#1e2a4a" stroke="#ffffff" stroke-width="2" />
+<text x="60.0" y="377.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >1</text>
+<text x="82.0" y="378.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12.4" font-weight="700">git switch -c fitur/vitals</tspan></text>
+<text x="82.0" y="398.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">cabang baru dari <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="700">main</tspan>; <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="700">main</tspan> tidak tersentuh</text>
+<circle cx="60.0" cy="428.0" r="12" fill="#1e2a4a" stroke="#ffffff" stroke-width="2" />
+<text x="60.0" y="432.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >2</text>
+<text x="82.0" y="433.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">tulis fiturnya, lalu uji sendiri</text>
+<text x="82.0" y="453.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="700">npm run cek</tspan>, kirim dari Bruno, lihat di <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="700">/docs</tspan></text>
+<text x="82.0" y="472.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">lalu <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="700">git add .</tspan> dan <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="700">git commit</tspan></text>
+<circle cx="60.0" cy="502.0" r="12" fill="#1e2a4a" stroke="#ffffff" stroke-width="2" />
+<text x="60.0" y="506.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >3</text>
+<text x="82.0" y="507.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12.4" font-weight="700">git push -u origin fitur/vitals</tspan></text>
+<text x="82.0" y="527.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">cabangnya dikirim ke GitHub; <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="700">-u</tspan> mengingat</text>
+<text x="82.0" y="546.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">pasangan cabang laptop dan GitHub</text>
+<circle cx="460.0" cy="373.0" r="12" fill="#1e2a4a" stroke="#ffffff" stroke-width="2" />
+<text x="460.0" y="377.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >4</text>
+<text x="482.0" y="378.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-style="italic">Pull request</tspan> #1</text>
+<text x="482.0" y="398.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">base: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="700">main</tspan> ← compare: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="700">fitur/vitals</tspan></text>
+<rect x="482.0" y="413.0" width="13.0" height="13.0" rx="3" fill="#ffffff" stroke="#1a7f37" stroke-width="1.4" />
+<text x="504.0" y="424.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="700">npm run cek</tspan> lolos</text>
+<rect x="482.0" y="435.0" width="13.0" height="13.0" rx="3" fill="#ffffff" stroke="#1a7f37" stroke-width="1.4" />
+<text x="504.0" y="446.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">dicoba di Bruno, tesnya lulus</text>
+<rect x="482.0" y="457.0" width="13.0" height="13.0" rx="3" fill="#ffffff" stroke="#1a7f37" stroke-width="1.4" />
+<text x="504.0" y="468.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">tampil di <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="700">/docs</tspan></text>
+<rect x="482.0" y="479.0" width="13.0" height="13.0" rx="3" fill="#ffffff" stroke="#1a7f37" stroke-width="1.4" />
+<text x="504.0" y="490.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">tidak ada <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="700">.env</tspan> atau kata sandi</text>
+<circle cx="460.0" cy="518.0" r="12" fill="#1e2a4a" stroke="#ffffff" stroke-width="2" />
+<text x="460.0" y="522.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >5</text>
+<text x="482.0" y="523.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-style="italic">Review</tspan>: periksa, lalu centang checklist</text>
+<text x="482.0" y="543.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">tab Files changed, komentar di satu baris,</text>
+<text x="482.0" y="562.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">Review changes → Comment → Submit review</text>
+<circle cx="460.0" cy="592.0" r="12" fill="#1e2a4a" stroke="#ffffff" stroke-width="2" />
+<text x="460.0" y="596.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >6</text>
+<text x="482.0" y="597.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-style="italic">Merge</tspan>: Create a merge commit</text>
+<text x="482.0" y="617.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">Merge pull request → Confirm merge,</text>
+<text x="482.0" y="636.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">lalu Delete branch</text>
+<circle cx="900.0" cy="373.0" r="12" fill="#1e2a4a" stroke="#ffffff" stroke-width="2" />
+<text x="900.0" y="377.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >7</text>
+<text x="922.0" y="378.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">pulang ke <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12.4" font-weight="700">main</tspan></text>
+<text x="922.0" y="406.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="700">git switch main</tspan></text>
+<text x="922.0" y="432.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="700">git pull --prune</tspan></text>
+<text x="922.0" y="458.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="700">git branch -d fitur/vitals</tspan></text>
+<text x="922.0" y="498.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">main di laptop menerima</text>
+<text x="922.0" y="517.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-style="italic">merge commit</tspan> dari GitHub;</text>
+<text x="922.0" y="536.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">cabang fitur dihapus</text>
+<text x="922.0" y="578.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >bukti di riwayat:</text>
+<text x="922.0" y="600.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">git log --oneline --graph</text>
+<text x="1178.0" y="686.0" font-size="11" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

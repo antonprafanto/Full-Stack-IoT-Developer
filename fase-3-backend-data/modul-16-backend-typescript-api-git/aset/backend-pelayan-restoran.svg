@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="626" viewBox="0 0 1200 626" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="626" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Backend dan API: pelayan restoran</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Tamu memesan lewat pelayan, pelayan berbicara dengan dapur · tamu tidak pernah masuk dapur</text>
+<rect x="30.0" y="112.0" width="220.0" height="290.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="50.0" y="144.0" font-size="18" font-weight="800" fill="#1e2a4a" text-anchor="start" >Tamu</text>
+<text x="50.0" y="164.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >siapa pun yang bertanya</text>
+<rect x="51.0" y="200.0" width="38.0" height="28.0" rx="4" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<line x1="51.0" y1="208.0" x2="89.0" y2="208.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<circle cx="56.0" cy="204.0" r="1.1" fill="#1e2a4a" />
+<circle cx="60.5" cy="204.0" r="1.1" fill="#1e2a4a" />
+<circle cx="65.0" cy="204.0" r="1.1" fill="#1e2a4a" />
+<text x="102.0" y="211.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Bruno</text>
+<text x="102.0" y="229.0" font-size="12.5" font-weight="700" fill="#1a7f37" text-anchor="start" >minggu ini</text>
+<rect x="51.0" y="264.0" width="38.0" height="28.0" rx="4" fill="none" stroke="#9aa3b0" stroke-width="2" />
+<path d="M57 285 L65 277 L72 282 L83 270" fill="none" stroke="#9aa3b0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<text x="102.0" y="275.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >dashboard React</text>
+<text x="102.0" y="293.0" font-size="12.5" font-weight="700" fill="#4a5568" text-anchor="start" >kelak, Modul 22</text>
+<rect x="59.0" y="323.0" width="22.0" height="38.0" rx="5" fill="none" stroke="#9aa3b0" stroke-width="2" />
+<circle cx="70.0" cy="355.0" r="1.8" fill="#9aa3b0" />
+<text x="102.0" y="339.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >aplikasi HP</text>
+<text x="102.0" y="357.0" font-size="12.5" font-weight="700" fill="#4a5568" text-anchor="start" >kelak</text>
+<rect x="390.0" y="104.0" width="420.0" height="306.0" rx="16" fill="#dafbe1" stroke="#1a7f37" stroke-width="2.4" />
+<rect x="410.0" y="120.0" width="36.0" height="11.0" rx="2" fill="none" stroke="#1a7f37" stroke-width="1.8" />
+<circle cx="417.0" cy="125.5" r="1.6" fill="#1a7f37" />
+<rect x="410.0" y="134.0" width="36.0" height="11.0" rx="2" fill="none" stroke="#1a7f37" stroke-width="1.8" />
+<circle cx="417.0" cy="139.5" r="1.6" fill="#1a7f37" />
+<rect x="410.0" y="148.0" width="36.0" height="11.0" rx="2" fill="none" stroke="#1a7f37" stroke-width="1.8" />
+<circle cx="417.0" cy="153.5" r="1.6" fill="#1a7f37" />
+<text x="462.0" y="136.0" font-size="18" font-weight="800" fill="#1e2a4a" text-anchor="start" >Pelayan = backend</text>
+<text x="462.0" y="156.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >program server buatanmu, berjalan terus di laptop</text>
+<rect x="408.0" y="178.0" width="384.0" height="214.0" rx="12" fill="#ffffff" stroke="#1a7f37" stroke-width="1.4" />
+<text x="426.0" y="206.0" font-size="15" font-weight="800" fill="#1a7f37" text-anchor="start" >Daftar menu = API</text>
+<text x="426.0" y="226.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >pintu yang boleh diketuk tamu</text>
+<text x="426.0" y="260.0" font-size="13" font-weight="800" fill="#1a7f37" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">GET</text>
+<text x="470.0" y="260.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">/devices</text>
+<text x="470.0" y="279.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" font-style="italic" >"daftar perangkat, tolong"</text>
+<text x="426.0" y="304.0" font-size="13" font-weight="800" fill="#1a7f37" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">GET</text>
+<text x="470.0" y="304.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">/devices/:id/latest</text>
+<text x="470.0" y="323.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" font-style="italic" >"bacaan terbarunya, tolong"</text>
+<text x="426.0" y="348.0" font-size="13" font-weight="800" fill="#1a7f37" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">POST</text>
+<text x="470.0" y="348.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">/devices/:id/command</text>
+<text x="470.0" y="367.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" font-style="italic" >"nyalakan lampu Node 1"</text>
+<rect x="950.0" y="112.0" width="220.0" height="290.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="970.0" y="144.0" font-size="18" font-weight="800" fill="#1e2a4a" text-anchor="start" >Dapur</text>
+<text x="970.0" y="164.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >perangkat dan broker</text>
+<rect x="975.0" y="194.0" width="30.0" height="40.0" rx="3" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<rect x="981.0" y="200.0" width="18.0" height="14.0" rx="2" fill="none" stroke="#1e2a4a" stroke-width="1.6" />
+<line x1="975.0" y1="204.0" x2="970.0" y2="204.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="1005.0" y1="204.0" x2="1010.0" y2="204.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="975.0" y1="212.0" x2="970.0" y2="212.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="1005.0" y1="212.0" x2="1010.0" y2="212.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="975.0" y1="220.0" x2="970.0" y2="220.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="1005.0" y1="220.0" x2="1010.0" y2="220.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="975.0" y1="228.0" x2="970.0" y2="228.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="1005.0" y1="228.0" x2="1010.0" y2="228.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<text x="1024.0" y="211.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Node 1 "Rumah"</text>
+<text x="1024.0" y="229.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >sensor + relay</text>
+<rect x="975.0" y="258.0" width="30.0" height="40.0" rx="3" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<rect x="981.0" y="264.0" width="18.0" height="14.0" rx="2" fill="none" stroke="#1e2a4a" stroke-width="1.6" />
+<line x1="975.0" y1="268.0" x2="970.0" y2="268.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="1005.0" y1="268.0" x2="1010.0" y2="268.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="975.0" y1="276.0" x2="970.0" y2="276.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="1005.0" y1="276.0" x2="1010.0" y2="276.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="975.0" y1="284.0" x2="970.0" y2="284.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="1005.0" y1="284.0" x2="1010.0" y2="284.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="975.0" y1="292.0" x2="970.0" y2="292.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="1005.0" y1="292.0" x2="1010.0" y2="292.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<text x="1024.0" y="275.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Node 2 "Kebun"</text>
+<text x="1024.0" y="293.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >lewat Node 1</text>
+<path d="M966 336 L990 318 L1014 336" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="971.0" y="336.0" width="38.0" height="28.0" rx="2" fill="none" stroke="#1e2a4a" stroke-width="2.2" />
+<rect x="981.0" y="344.0" width="18.0" height="5.0" rx="1" fill="#1e2a4a" />
+<text x="1024.0" y="339.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Mosquitto</text>
+<text x="1024.0" y="357.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >di Pi 192.168.1.37</text>
+<rect x="288.0" y="176.0" width="64.0" height="22.0" rx="11.0" fill="#1e2a4a" />
+<text x="320.0" y="191.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >HTTP</text>
+<line x1="254.0" y1="244.0" x2="386.0" y2="244.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<path d="M378.1 248.2 L386.0 244.0 L378.1 239.8" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="320.0" y="236.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="middle" >permintaan</text>
+<line x1="386.0" y1="290.0" x2="254.0" y2="290.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<path d="M261.9 285.8 L254.0 290.0 L261.9 294.2" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="320.0" y="312.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="middle" >jawaban +</text>
+<text x="320.0" y="329.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="middle" >kode status</text>
+<text x="320.0" y="370.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="middle" >bahasa semua</text>
+<text x="320.0" y="386.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="middle" >aplikasi</text>
+<rect x="848.0" y="176.0" width="64.0" height="22.0" rx="11.0" fill="#1e2a4a" />
+<text x="880.0" y="191.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >MQTT</text>
+<line x1="814.0" y1="244.0" x2="946.0" y2="244.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<path d="M938.1 248.2 L946.0 244.0 L938.1 239.8" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="880.0" y="236.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">cmd</text>
+<line x1="946.0" y1="290.0" x2="814.0" y2="290.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<path d="M821.9 285.8 L814.0 290.0 L821.9 294.2" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="880.0" y="312.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">rpm/#</text>
+<text x="880.0" y="330.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="middle" >telemetry, status,</text>
+<text x="880.0" y="346.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="middle" >vitals, ack</text>
+<text x="30.0" y="446.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Pelayan menambah tiga hal yang tidak dimiliki dapur:</text>
+<rect x="30.0" y="464.0" width="360.0" height="122.0" rx="12" fill="#ffffff" stroke="#1a7f37" stroke-width="1.8" />
+<circle cx="62.0" cy="496.0" r="13" fill="#1a7f37" stroke="#ffffff" stroke-width="2" />
+<text x="62.0" y="501.0" font-size="14" font-weight="700" fill="#ffffff" text-anchor="middle" >1</text>
+<text x="86.0" y="502.0" font-size="16" font-weight="800" fill="#1a7f37" text-anchor="start" >memeriksa</text>
+<text x="86.0" y="528.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">setiap pesan dan permintaan dicek</text>
+<text x="86.0" y="548.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">dengan Zod sebelum dipercaya</text>
+<text x="86.0" y="568.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve">(Konsep 7)</text>
+<rect x="420.0" y="464.0" width="360.0" height="122.0" rx="12" fill="#ffffff" stroke="#1a7f37" stroke-width="1.8" />
+<circle cx="452.0" cy="496.0" r="13" fill="#1a7f37" stroke="#ffffff" stroke-width="2" />
+<text x="452.0" y="501.0" font-size="14" font-weight="700" fill="#ffffff" text-anchor="middle" >2</text>
+<text x="476.0" y="502.0" font-size="16" font-weight="800" fill="#1a7f37" text-anchor="start" >mengingat</text>
+<text x="476.0" y="528.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">keadaan terakhir setiap perangkat dan</text>
+<text x="476.0" y="548.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">perintah yang menunggu ack, di memori</text>
+<text x="476.0" y="568.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve">(kelak di database, Modul 17)</text>
+<rect x="810.0" y="464.0" width="360.0" height="122.0" rx="12" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.5" stroke-dasharray="7 5"/>
+<circle cx="842.0" cy="496.0" r="13" fill="#9aa3b0" stroke="#ffffff" stroke-width="2" />
+<text x="842.0" y="501.0" font-size="14" font-weight="700" fill="#ffffff" text-anchor="middle" >3</text>
+<text x="866.0" y="502.0" font-size="16" font-weight="800" fill="#4a5568" text-anchor="start" >menjaga pintu</text>
+<rect x="1090.0" y="488.0" width="60.0" height="20.0" rx="10.0" fill="#9aa3b0" />
+<text x="1120.0" y="502.1" font-size="11.5" font-weight="700" fill="#ffffff" text-anchor="middle" >kelak</text>
+<text x="866.0" y="528.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">siapa boleh memesan apa:</text>
+<text x="866.0" y="548.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">masuk (<tspan font-style="italic">login</tspan>) dan peran pengguna</text>
+<text x="866.0" y="568.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="start" xml:space="preserve">(Modul 20, belum minggu ini)</text>
+<text x="1178.0" y="612.0" font-size="11" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

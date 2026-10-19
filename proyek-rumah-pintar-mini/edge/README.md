@@ -2,7 +2,7 @@
 
 🌐 **Bahasa Indonesia** · [English](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/mini-smart-home/edge/README.md)
 
-Gateway adalah Raspberry Pi yang menjalankan broker MQTT Rumah Pintar Mini 24 jam ([Modul 12](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-2-konektivitas/modul-12-raspberry-pi-dan-linux/README.md)), dan sejak [Modul 13](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-2-konektivitas/modul-13-node-red-dashboard/README.md) juga menjalankan Node-RED dengan dashboard dan otomasi kipas; sejak [Modul 14](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-2-konektivitas/modul-14-node-2-esp-now/README.md), dashboard itu punya kartu Kebun untuk Node 2, dan sejak [Modul 15](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-2-konektivitas/modul-15-modbus-rs485-dan-protokol/README.md), grup Sensor RS-485 untuk sensor tanah RS-485 yang dibaca Node 1. Halaman ini adalah **cadangan utamanya**: kalau kartu microSD rusak, gateway bisa dibangun ulang dari kartu kosong dalam sekitar satu jam dengan resep di bawah. Isi tabelnya dengan data gateway-mu sendiri.
+Gateway adalah Raspberry Pi yang menjalankan broker MQTT Rumah Pintar Mini 24 jam ([Modul 12](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-2-konektivitas/modul-12-raspberry-pi-dan-linux/README.md)), dan sejak [Modul 13](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-2-konektivitas/modul-13-node-red-dashboard/README.md) juga menjalankan Node-RED dengan dashboard dan otomasi kipas (otomasinya dimatikan sejak [Modul 16](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-3-backend-data/modul-16-backend-typescript-api-git/README.md) karena otaknya pindah ke backend); sejak [Modul 14](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-2-konektivitas/modul-14-node-2-esp-now/README.md), dashboard itu punya kartu Kebun untuk Node 2, dan sejak [Modul 15](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-2-konektivitas/modul-15-modbus-rs485-dan-protokol/README.md), grup Sensor RS-485 untuk sensor tanah RS-485 yang dibaca Node 1. Halaman ini adalah **cadangan utamanya**: kalau kartu microSD rusak, gateway bisa dibangun ulang dari kartu kosong dalam sekitar satu jam dengan resep di bawah. Isi tabelnya dengan data gateway-mu sendiri.
 
 > [!CAUTION]
 > **Jangan pernah menulis kata sandi** (Pi, WiFi, atau apa pun) di berkas ini atau di mana pun di repositori.
@@ -70,14 +70,14 @@ Setiap kali pengaturan di Pi berubah, salin lagi berkasnya ke folder ini (`scp b
 
 ## Node-RED dan dashboard (Modul 13)
 
-Node-RED berjalan di gateway yang sama sebagai layanan systemd `nodered` ([Modul 13](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-2-konektivitas/modul-13-node-red-dashboard/README.md)). Semua flow-nya, yaitu dashboard v0 (dengan kartu Kebun sejak Modul 14 dan grup Sensor RS-485 sejak Modul 15) dan otomasi kipas, tersimpan di [`node-red-flows.json`](node-red-flows.json). Kata sandi editor dan *passphrase* tidak pernah ikut terekspor; jangan pernah mencatatnya di sini.
+Node-RED berjalan di gateway yang sama sebagai layanan systemd `nodered` ([Modul 13](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-2-konektivitas/modul-13-node-red-dashboard/README.md)). Semua flow-nya, yaitu dashboard v0 (dengan kartu Kebun sejak Modul 14 dan grup Sensor RS-485 sejak Modul 15) dan otomasi kipas (dimatikan sejak Modul 16 karena otak Rumah Pintar Mini pindah ke backend), tersimpan di [`node-red-flows.json`](node-red-flows.json). Kata sandi editor dan *passphrase* tidak pernah ikut terekspor; jangan pernah mencatatnya di sini.
 
 | Bagian | Gateway ini |
 | :--- | :--- |
 | Node-RED | 5.0.8, dipasang dengan skrip resmi `install-update-nodered-deb` (bersama Node.js 24), layanan `nodered`, editor `http://192.168.1.37:1880` |
 | Pengguna editor | `admin` (kata sandi tidak dicatat di sini) |
 | Dashboard | FlowFuse Dashboard (`@flowfuse/node-red-dashboard`) 1.33.0, `http://192.168.1.37:1880/dashboard/rumah` |
-| Otomasi | kipas nyala di atas 30 °C, padam di bawah 28 °C |
+| Otomasi | dimatikan sejak Modul 16: empat node bagian 2 (kipas nyala di atas 30 °C, padam di bawah 28 °C) bertanda `"d": true` dan tampak pudar di editor |
 
 Lanjutan resep, setelah langkah 7 di atas:
 
