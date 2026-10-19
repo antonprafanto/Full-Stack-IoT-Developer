@@ -30,7 +30,7 @@ Kurikulum belajar mandiri **32 modul** dalam Bahasa Indonesia, dari orang awam t
 ## Modul yang sudah tersedia
 
 > [!NOTE]
-> Silabus v1.0 disetujui pada 9 Oktober 2026, dan materi modul ditulis berurutan. Saat ini tersedia **Modul 1–15 dari 32**: seluruh Fase 0, Fase 1, dan Fase 2. Daftar lengkap 32 modul ada di [PROGRES.md](PROGRES.md).
+> Silabus v1.0 disetujui pada 9 Oktober 2026, dan materi modul ditulis berurutan. Saat ini tersedia **Modul 1–16 dari 32**: seluruh Fase 0, Fase 1, dan Fase 2, serta Modul 16 dari Fase 3. Daftar lengkap 32 modul ada di [PROGRES.md](PROGRES.md).
 
 | Modul | Judul | Setelah modul ini Anda bisa… | Alat utama |
 | :---: | :--- | :--- | :--- |
@@ -49,9 +49,10 @@ Kurikulum belajar mandiri **32 modul** dalam Bahasa Indonesia, dari orang awam t
 | 13 | **[Node-RED & Dashboard 2: Dashboard Pertama Tanpa Koding](fase-2-konektivitas/modul-13-node-red-dashboard/README.md)** | memasang Node-RED di gateway sebagai layanan, menyusun flow tanpa menulis program, dashboard v0 di HP (jarum, tangki air, grafik, sakelar yang menunggu `ack`), otomasi kipas berhisteresis, dan menyimpan flow ke repositori | Node-RED di Pi (Kit B) atau laptop, HP |
 | 14 | **[Node 2 "Kebun": Sensor Bertenaga Baterai via ESP-NOW](fase-2-konektivitas/modul-14-node-2-esp-now/README.md)** | Node 2 bertenaga baterai di kebun berbicara langsung ke Node 1 lewat ESP-NOW tanpa router: mencari channel router, paket 33 byte, Node 1 sebagai jembatan ke MQTT yang tetap mendengar saat router mati, kartu Kebun di Node-RED, ukur arus dan umur baterai, serta enkripsi ESP-NOW | 2 ESP32, baterai 18650, BME280, DS18B20, INA219 |
 | 15 | **[Lab Modbus RTU/RS-485 & Memilih Protokol yang Tepat](fase-2-konektivitas/modul-15-modbus-rs485-dan-protokol/README.md)** | membaca sensor industri lewat kabel RS-485 dengan Modbus RTU: modul MAX485 dan tombol bicara DE/RE, papan kedua sebagai sensor tanah tiruan, bingkai dan CRC dengan tangan, ModbusMaster, Node 1 v1.4.0 memasukkan bacaannya ke `telemetry` dan dashboard lewat kabel 5 m, serta memilih protokol yang tepat untuk lima skenario | 2 ESP32, 2 MAX485, kabel UTP 5 m |
-| 16 | Backend Pertama dengan TypeScript Ringan: Menerima Data, API, & Git untuk Tim | segera terbit — [ringkasannya di Silabus](SILABUS.md#modul-16--backend-pertama-dengan-typescript-ringan-menerima-data-api--git-untuk-tim) | laptop (Kit A + B) |
+| 16 | **[Backend Pertama dengan TypeScript Ringan: Menerima Data, API, & Git untuk Tim](fase-3-backend-data/modul-16-backend-typescript-api-git/README.md)** | membangun server Node.js dengan TypeScript ringan yang mendengarkan semua pesan MQTT, menolak data yang melanggar kontrak (Zod), dan menyediakan API berdokumentasi (`/docs`) untuk membaca perangkat serta menyalakan relay sambil menunggu `ack`; menguji dengan Bruno dan simulator 10 perangkat; bekerja seperti tim dengan *branch*, *pull request*, dan *review* | Node.js 24, Fastify, Zod, Bruno, Git |
+| 17 | Database Pertama: SQL Dasar & Skema "Rumah Pintar Mini" (PostgreSQL via Docker) | segera terbit — [ringkasannya di Silabus](SILABUS.md#modul-17--database-pertama-sql-dasar--skema-rumah-pintar-mini-postgresql-via-docker) | laptop, Docker Desktop |
 
-Modul per fase juga terdaftar di halaman fasenya: **[Fase 0 — Fondasi](fase-0-fondasi/README.md)**, **[Fase 1 — ESP32 Embedded](fase-1-esp32-embedded/README.md)**, dan **[Fase 2 — Konektivitas](fase-2-konektivitas/README.md)**.
+Modul per fase juga terdaftar di halaman fasenya: **[Fase 0 — Fondasi](fase-0-fondasi/README.md)**, **[Fase 1 — ESP32 Embedded](fase-1-esp32-embedded/README.md)**, **[Fase 2 — Konektivitas](fase-2-konektivitas/README.md)**, dan **[Fase 3 — Backend & Data](fase-3-backend-data/README.md)**.
 
 ## Peta kurikulum
 

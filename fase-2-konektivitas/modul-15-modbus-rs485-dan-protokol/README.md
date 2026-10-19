@@ -4,7 +4,7 @@
 
 *Fase 2 · Minggu 15 · Perangkat keras (*hardware*): **Kit A Tahap 2** — dua modul RS-485 MAX485, kabel UTP 5 m, dan papan ESP32 kedua (papan Node 2 yang dipinjam sebentar dari kebun); ditambah Node 1, gateway Pi, dan HP dari Modul 12–14 · Prasyarat: **Modul 14** (dua papan dan Node 1 v1.3.0), **Modul 7** (bus dan skematik), dan pembagi tegangan **Modul 6** · Waktu: 8–10 jam, dicicil dalam seminggu*
 
-[⬅️ Modul 14](../modul-14-node-2-esp-now/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · [Modul 16 ➡️ (segera terbit — baca ringkasannya di Silabus)](../../SILABUS.md#modul-16--backend-pertama-dengan-typescript-ringan-menerima-data-api--git-untuk-tim)
+[⬅️ Modul 14](../modul-14-node-2-esp-now/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · [Modul 16 ➡️](../../fase-3-backend-data/modul-16-backend-typescript-api-git/README.md)
 
 ---
 
@@ -2513,4 +2513,4 @@ Syarat lulus dari Silabus: **Node 1 bisa membaca register Modbus dari ESP32 kedu
 
 ---
 
-[⬅️ Modul 14](../modul-14-node-2-esp-now/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · **Berikutnya: Modul 16 — Backend Pertama dengan TypeScript Ringan** (segera terbit; [ringkasannya di Silabus](../../SILABUS.md#modul-16--backend-pertama-dengan-typescript-ringan-menerima-data-api--git-untuk-tim))
+[⬅️ Modul 14](../modul-14-node-2-esp-now/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · **Berikutnya: [Modul 16 — Backend Pertama dengan TypeScript Ringan](../../fase-3-backend-data/modul-16-backend-typescript-api-git/README.md) ➡️**

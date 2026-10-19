@@ -35,7 +35,7 @@ Centang `[x]` setiap kali Anda memenuhi kriteria **"Lulus jika"** di [SILABUS.md
 
 ## 🟩 Fase 3 — Backend & Data (Modul 16–21)
 
-- [ ] **Modul 16** — Backend Pertama dengan TypeScript Ringan: Menerima Data, API, & Git untuk Tim
+- [ ] **[Modul 16](fase-3-backend-data/modul-16-backend-typescript-api-git/README.md)** — Backend Pertama dengan TypeScript Ringan: Menerima Data, API, & Git untuk Tim
 - [ ] **Modul 17** — Database Pertama: SQL Dasar & Skema "Rumah Pintar Mini" (PostgreSQL via Docker)
 - [ ] **Modul 18** — TimescaleDB: Data Deret Waktu, Agregasi Otomatis, Retensi, & Backup
 - [ ] **Modul 19** — Realtime, Kendali Dua Arah, Aturan Otomatis (Cloud & Lokal), & Notifikasi
