@@ -27,7 +27,7 @@
 #include "card.h"
 #include "commands.h"
 #include "rules.h"
-#include "network.h"  // Module 10
+#include "networking.h"  // Module 10
 
 // ---------- Main cycle: IDLE -> READING -> DISPLAYING -> ACTING -> IDLE ... ----------
 enum CycleStep { IDLE, READING, DISPLAYING, ACTING };
@@ -101,7 +101,7 @@ void checkProblems(SensorReading b) {
 
 // ---------- Module 10: send the reading to the server (Module 11 replaces it with MQTT) ----------
 void sendData(SensorReading b) {
-  sendReading(b);  // network.cpp: actually sends every SEND_INTERVAL (1 minute)
+  sendReading(b);  // networking.cpp: actually sends every SEND_INTERVAL (1 minute)
 }
 
 // One cycle step per pass of loop(): no step waits for long.

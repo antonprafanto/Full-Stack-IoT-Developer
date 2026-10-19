@@ -7,7 +7,7 @@
 #include "logger.h"
 #include "system.h"
 #include "settings.h"
-#include "network.h"  // Module 10: networkText()
+#include "networking.h"  // Module 10: networkText()
 #include "display.h"
 
 const byte DISPLAY_ADDRESS = 0x3C;             // the OLED display's address on the I2C bus

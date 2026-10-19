@@ -61,7 +61,7 @@
 <rect x="330.0" y="600.0" width="540.0" height="170.0" rx="14" fill="#e2f3f1" stroke="#0f8b8d" stroke-width="2.4" />
 <rect x="350.0" y="614.0" width="64.0" height="22.0" rx="11.0" fill="#0f8b8d" />
 <text x="382.0" y="629.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >NEW</text>
-<text x="424.0" y="630.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">network.h/.cpp</text>
+<text x="424.0" y="630.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">networking.h/.cpp</text>
 <text x="350.0" y="666.0" font-size="13.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >Wi-Fi + WiFiManager portal + reconnect guard (P3–P4)</text>
 <text x="350.0" y="692.0" font-size="13.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >internet time and ts (P5) · JSON to the laptop every minute (P7)</text>
 <text x="350.0" y="718.0" font-size="13.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >web server /, /on, /off (P8) · the name node1.local (P9)</text>

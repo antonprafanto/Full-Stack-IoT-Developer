@@ -1,4 +1,4 @@
-// network.h - Node 1 on the home network: WiFi, internet time, sending readings, and the web server (Module 10)
+// networking.h - Node 1 on the home network: WiFi, internet time, sending readings, and the web server (Module 10)
 // The principle: the WiFi may drop, Node 1 must not stop. No function here waits for long,
 // except the WiFi portal, which is only opened in setup() before the watchdog is watching.
 // Module 11 replaces the HTTP sending and the web server with MQTT.

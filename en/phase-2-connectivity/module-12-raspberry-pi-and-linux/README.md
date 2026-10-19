@@ -1670,7 +1670,7 @@ This week, Mini Smart Home gets a **permanent gateway**: a Raspberry Pi called `
 | :--- | :--- |
 | `firmware/node-1-home/config.h` | `FIRMWARE_VERSION` becomes `"1.2.1"`, `BROKER_ADDRESS` becomes the Pi's fixed address |
 | `firmware/node-1-home/node-1-home.ino` | the version comment line at the very top |
-| `firmware/node-1-home/network.cpp` | the error message `Is the broker on the laptop running?` becomes `Is the broker on the gateway running?` |
+| `firmware/node-1-home/networking.cpp` | the error message `Is the broker on the laptop running?` becomes `Is the broker on the gateway running?` |
 | `edge/gateway-pi.conf` | **new**: a copy of the gateway broker's settings (Practice 6.2) |
 | `edge/README.md` | **new**: the recipe for rebuilding the gateway (step E) |
 
@@ -1691,7 +1691,7 @@ This week, Mini Smart Home gets a **permanent gateway**: a Raspberry Pi called `
    // Node 1 "Home" - firmware v1.2.1 (Module 12: the broker moves to the Raspberry Pi gateway)
    ```
 
-4. In the `network.cpp` tab, press **Ctrl + F**, search for `Is the broker on the laptop running?`, then replace the word `laptop` with `gateway`.
+4. In the `networking.cpp` tab (called `network.cpp` before 19 October 2026; see the note in [Module 10](../module-10-wifi-and-http/README.md#b-create-two-new-files-and-change-configh)), press **Ctrl + F**, search for `Is the broker on the laptop running?`, then replace the word `laptop` with `gateway`.
 
 That's all: Node 1 doesn't need to know that its broker is now a Raspberry Pi. It still connects to an address at door 1883, exactly as in Module 11. This is the advantage of the data contract and MQTT: the post office may move, but the letters stay the same.
 

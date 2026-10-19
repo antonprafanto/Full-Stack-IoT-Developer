@@ -1,4 +1,4 @@
-// network.cpp - the code of the network module. Its functions are listed in network.h.
+// networking.cpp - the code of the network module. Its functions are listed in networking.h.
 #include <Arduino.h>
 #include <esp_mac.h>  // esp_read_mac(): the MAC address straight from the chip
 #include <WiFi.h>
@@ -13,7 +13,7 @@
 #include "sensors.h"
 #include "actuators.h"
 #include "display.h"
-#include "network.h"
+#include "networking.h"
 
 #ifndef MQTT_QOS1  // only PubSubClient3 has this name
 #error "The old PubSubClient (2.8) is in use. Remove it in the Library Manager, then install PubSubClient3 version 3.3.2."
@@ -379,7 +379,7 @@ static void tryConnectBroker() {
   int code = mqtt.state();
   if (code != lastFailCode) {  // the same failure isn't logged every 5 seconds
     lastFailCode = code;
-    logError("MQTT failed to connect to the broker after %lu ms: %s (code %d). Is the broker on the laptop running?",
+    logError("MQTT failed to connect to the broker after %lu ms: %s (code %d). Is the broker on the gateway running?",
              millis() - start, mqttStateName(code), code);
   }
 }

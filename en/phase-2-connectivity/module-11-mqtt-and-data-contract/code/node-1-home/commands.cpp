@@ -8,7 +8,7 @@
 #include "sensors.h"
 #include "actuators.h"
 #include "rules.h"
-#include "network.h"
+#include "networking.h"
 #include "commands.h"
 
 const int MAX_LINE_LENGTH = 40;

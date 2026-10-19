@@ -1,4 +1,4 @@
-// network.cpp - the code of the network module. Its functions are listed in network.h.
+// networking.cpp - the code of the network module. Its functions are listed in networking.h.
 #include <Arduino.h>
 #include <esp_mac.h>  // esp_read_mac(): the MAC address straight from the chip
 #include <WiFi.h>
@@ -13,7 +13,7 @@
 #include "sensors.h"
 #include "actuators.h"
 #include "display.h"
-#include "network.h"
+#include "networking.h"
 
 const unsigned long NO_ATTEMPT_TIMEOUT = 60000;  // guard: 60 seconds without a connection attempt = tell it to try again
 const int HTTP_TIMEOUT = 1500;                   // milliseconds; connecting + waiting for the reply stays far below 5 seconds

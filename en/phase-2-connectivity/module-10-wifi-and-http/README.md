@@ -2183,17 +2183,17 @@ Module 10's contribution to the running project: **Node 1 v1.1**. Everything you
 - sending the readings of all five sensors to `webhook-receiver.js` **every minute**, as JSON that follows Appendix A (Practice 7);
 - a **web server** with the `/on` and `/off` links for the lamp, at `http://node1.local` or its IP address (Practices 8–9).
 
-Node 1 now has **26 files**: the 24 files of v1.0 plus `network.h` and `network.cpp`. You don't rewrite all of them; two new files and a few small changes are enough.
+Node 1 now has **26 files**: the 24 files of v1.0 plus `networking.h` and `networking.cpp`. You don't rewrite all of them; two new files and a few small changes are enough.
 
 > 🖥️ **Tools used:** **Arduino IDE** (with the **WiFiManager** and **ArduinoJson** libraries from Practices 4 and 6), **VS Code** with the receiver from Practice 7, **GitHub Desktop**, the complete workbench with the MB102 and Node 1's charger, a **phone**, and a router you're allowed to turn off for a moment. In Wokwi, use Node 1's [`diagram.json`](code/node-1-home/diagram.json) and [`libraries.txt`](code/node-1-home/libraries.txt) from this module's `code/` folder, then change `USE_WOKWI` to `true` (step B): the portal code is then left out of the compiled program, so the program fits on the Wokwi board. Don't have a Node 1 Wokwi project from Module 8 yet? Create all the other files through **▾ → New file...** and fill them from the [`code/node-1-home/`](code/node-1-home/) folder, as in Module 8's ➕. Wokwi can only test the Wi-Fi, the clock, and the log: the portal, the mini server on the laptop, and the phone can't be reached from there.
 >
 > ⭐ **Required** — part of the completion requirements: the mini server on the laptop prints JSON from Node 1 (step E), the lamp is turned off from a phone through Node 1's link (step F), and Node 1 reconnects by itself after the router has been off for 1 minute (step G).
 
-![Map of Node 1 v1.1's 26 files: one new module, a few small changes. In the middle, node-1-home.ino marked CHANGED: it calls setupNetwork() and updateNetwork(), and sendData() is now filled in. At the top, config.h marked CHANGED: version 1.1.0 and the network section. Left, senses and hands: sensors.h/.cpp (five sensors) and actuators.h/.cpp (relays, pump, servo, buzzer); interface: button.h/.cpp (short and long press), heartbeat.h/.cpp (status LED), display.h/.cpp marked CHANGED (status: the Wi-Fi line and the portal message), and commands.h/.cpp marked CHANGED (only the .cpp: wifi, wifi forget, send). Right, brain and records: rules.h/.cpp (automatic watering and lamp) and card.h/.cpp (microSD CSV, optional); endurance: settings.h/.cpp (NVS: threshold, boot count), system.h/.cpp (uptime, restart reason), and logger.h/.cpp (DEBUG/INFO/ERROR logs). Bottom, network.h/.cpp marked NEW: Wi-Fi, the WiFiManager portal, and the reconnect guard (Practices 3–4); internet time and ts (Practice 5); JSON sent to the laptop every minute (Practice 7); the web server /, /on, and /off (Practice 8); the name node1.local (Practice 9); the Wi-Fi may drop, Node 1 must not stop. A dashed line means #include; PIN-MAP.md doesn't change because Wi-Fi uses no pins; all the files are in one sketch folder, firmware/node-1-home/](assets/node1-v11-file-map.png)
+![Map of Node 1 v1.1's 26 files: one new module, a few small changes. In the middle, node-1-home.ino marked CHANGED: it calls setupNetwork() and updateNetwork(), and sendData() is now filled in. At the top, config.h marked CHANGED: version 1.1.0 and the network section. Left, senses and hands: sensors.h/.cpp (five sensors) and actuators.h/.cpp (relays, pump, servo, buzzer); interface: button.h/.cpp (short and long press), heartbeat.h/.cpp (status LED), display.h/.cpp marked CHANGED (status: the Wi-Fi line and the portal message), and commands.h/.cpp marked CHANGED (only the .cpp: wifi, wifi forget, send). Right, brain and records: rules.h/.cpp (automatic watering and lamp) and card.h/.cpp (microSD CSV, optional); endurance: settings.h/.cpp (NVS: threshold, boot count), system.h/.cpp (uptime, restart reason), and logger.h/.cpp (DEBUG/INFO/ERROR logs). Bottom, networking.h/.cpp marked NEW: Wi-Fi, the WiFiManager portal, and the reconnect guard (Practices 3–4); internet time and ts (Practice 5); JSON sent to the laptop every minute (Practice 7); the web server /, /on, and /off (Practice 8); the name node1.local (Practice 9); the Wi-Fi may drop, Node 1 must not stop. A dashed line means #include; PIN-MAP.md doesn't change because Wi-Fi uses no pins; all the files are in one sketch folder, firmware/node-1-home/](assets/node1-v11-file-map.png)
 
 | File | What changes | How |
 | :--- | :--- | :--- |
-| `network.h` / `.cpp` | **new**: Wi-Fi, the portal, the clock, sending to the server, the web server, and the name `node1.local` | create new tabs, copy them from the curriculum (step B) |
+| `networking.h` / `.cpp` | **new**: Wi-Fi, the portal, the clock, sending to the server, the web server, and the name `node1.local` | create new tabs, copy them from the curriculum (step B) |
 | `config.h` | version `1.1.0` and the new section "Module 10: network" | change two parts; your calibration numbers stay (step B) |
 | `node-1-home.ino` | calls `setupNetwork()` and `updateNetwork()`; `sendData()` is now filled in | replace all of its contents (step C) |
 | `commands.cpp` | the new commands `wifi`, `wifi forget`, and `send` | replace all of its contents (step C) |
@@ -2220,9 +2220,12 @@ Arduino IDE remembers these settings for the **ESP32 Dev Module** option, so you
 
 ### B. Create two new files and change `config.h`
 
-1. **`network.h` and `network.cpp`.** With `node-1-home.ino` open, create two new tabs as in Module 8 (**⋯ → New Tab**, type the name with its ending, then click **OK**; in Wokwi: **▾ → New file...**). Fill each one the same way: right-click the file's name → **Open link in new tab**, click **Copy raw file**, go back to Arduino IDE, then paste (**Ctrl + V**).
-   - [`network.h`](code/node-1-home/network.h)
-   - [`network.cpp`](code/node-1-home/network.cpp)
+1. **`networking.h` and `networking.cpp`.** With `node-1-home.ino` open, create two new tabs as in Module 8 (**⋯ → New Tab**, type the name with its ending, then click **OK**; in Wokwi: **▾ → New file...**). Fill each one the same way: right-click the file's name → **Open link in new tab**, click **Copy raw file**, go back to Arduino IDE, then paste (**Ctrl + V**).
+   - [`networking.h`](code/node-1-home/networking.h)
+   - [`networking.cpp`](code/node-1-home/networking.cpp)
+
+   > 📝 **Renamed on 19 October 2026.** These two files used to be called `network.h` and `network.cpp`. Windows and macOS don't tell capital letters from small ones in file names, so the old name clashed with the esp32 package's own `Network.h`: Node 1 didn't compile there, and the first error was `'network_event_handle_t' does not name a type`. Already have tabs with the old names? Click the `network.h` tab, choose **⋯ → Rename**, type `networking.h`, then click **OK** (in Wokwi: **▾ → Rename**, type the new name, then click **RENAME**). Do the same for `network.cpp`. Then change `#include "network.h"` to `#include "networking.h"` in the four tabs that have that line: `node-1-home.ino` (in Wokwi: `sketch.ino`), `networking.cpp`, `display.cpp`, and `commands.cpp`.
+
 2. **The firmware version.** In the **`config.h`** tab, change `"1.0.0"` on the `FIRMWARE_VERSION` line to `"1.1.0"`.
 3. **The network section.** Still in `config.h`, scroll to the very bottom, then add this section after the `WATCHDOG_TIMEOUT` line:
 
@@ -2252,7 +2255,7 @@ Your Module 6 calibration numbers and your rules at the top of `config.h` aren't
    1. At the very top, right **below** the `#include "settings.h"` line, add:
 
       ```cpp
-      #include "network.h"  // Module 10: networkText()
+      #include "networking.h"  // Module 10: networkText()
       ```
 
    2. Press **Ctrl + F**, search for `Soil threshold`, then replace that **whole line** with:
@@ -2286,7 +2289,7 @@ Your Module 6 calibration numbers and your rules at the top of `config.h` aren't
       }
       ```
 
-**Check before you go on:** there are now **26** tabs (in Wokwi, the `diagram.json` tab and the library tab don't count, as in Module 8), the `network.cpp` tab starts with `// network.cpp - the code of the network module…`, and the main tab's first line says `firmware v1.1.0 (Module 10)`.
+**Check before you go on:** there are now **26** tabs (in Wokwi, the `diagram.json` tab and the library tab don't count, as in Module 8), the `networking.cpp` tab starts with `// networking.cpp - the code of the network module…`, and the main tab's first line says `firmware v1.1.0 (Module 10)`.
 
 ### D. Verify, Upload, and connect to Wi-Fi
 
@@ -2346,7 +2349,7 @@ Your Module 6 calibration numbers and your rules at the top of `config.h` aren't
 1. On your phone (mobile data off), open `http://192.168.1.23/` (your Node 1's address from the status page), or `http://node1.local/` if your phone isn't an Android phone.
 2. Node 1's page now shows the lamp's state, the latest readings, the firmware version, and the local time. Tap **Turn the lamp on**, then **Turn the lamp off**. The relay goes "click", its indicator LED goes out, and the Serial Monitor logs `Browser 192.168.1.42: lamp off`.
 
-   ![Illustration of the Node 1 v1.1 page in a phone browser, rendered from the HTML in network.cpp; the readings and addresses are only examples. Address bar http://node1.local/off, heading Node 1 Home. Marker 1 on Lamp: OFF, the lamp's current state; marker 2 on the link Turn the lamp on, a link to /on that turns the lamp relay on; marker 3 on the link Turn the lamp off, a link to /off that turns the lamp relay off; marker 4 on the latest sensor readings: temperature 28.4 °C, humidity 71 %, light 2310, soil 37 %, and water tank 64 %; marker 5 on the firmware version and the local time from NTP: Firmware 1.1.0, 17-10-2026 08:32 WIB. The box next to it: the address can be the .local name (laptop, iPhone) or the fixed IP address from Practice 9, for example http://192.168.1.23/off](assets/phone-node1.png)
+   ![Illustration of the Node 1 v1.1 page in a phone browser, rendered from the HTML in networking.cpp; the readings and addresses are only examples. Address bar http://node1.local/off, heading Node 1 Home. Marker 1 on Lamp: OFF, the lamp's current state; marker 2 on the link Turn the lamp on, a link to /on that turns the lamp relay on; marker 3 on the link Turn the lamp off, a link to /off that turns the lamp relay off; marker 4 on the latest sensor readings: temperature 28.4 °C, humidity 71 %, light 2310, soil 37 %, and water tank 64 %; marker 5 on the firmware version and the local time from NTP: Firmware 1.1.0, 17-10-2026 08:32 WIB. The box next to it: the address can be the .local name (laptop, iPhone) or the fixed IP address from Practice 9, for example http://192.168.1.23/off](assets/phone-node1.png)
 
    **The second completion requirement is met: you turned off the lamp from your phone through the ESP32's link.**
 3. A lamp turned on from the phone can still be turned off with the D13 button or the `lamp off` command, and the other way around. All three change the same lamp. The page on the phone doesn't update itself: to see the latest state, open its main address again (for example `http://192.168.1.23/`). Don't reload a page whose address ends with `/on` or `/off`, because its command would be sent once more (🔬 "Why the `/on` and `/off` links aren't quite right").
@@ -2383,7 +2386,7 @@ This is the same test as Practice 3, but this time for the complete Node 1. **Te
 
 ### H. Save to GitHub and complete the evidence
 
-1. **`mini-smart-home`**: in GitHub Desktop, choose the **`mini-smart-home`** repository. The **Changes** list holds two new files (`network.h`, `network.cpp`) and five changed files. **Check the contents of `config.h` in the right panel:** there's no password of any kind there, only your laptop's IP address. Fill in **Summary** with `Node 1 v1.1: Wi-Fi, internet time, sending data, and the web server (Module 10)`, click **Commit … to main**, then **Push origin**.
+1. **`mini-smart-home`**: in GitHub Desktop, choose the **`mini-smart-home`** repository. The **Changes** list holds two new files (`networking.h`, `networking.cpp`) and five changed files. **Check the contents of `config.h` in the right panel:** there's no password of any kind there, only your laptop's IP address. Fill in **Summary** with `Node 1 v1.1: Wi-Fi, internet time, sending data, and the web server (Module 10)`, click **Commit … to main**, then **Push origin**.
 2. First complete this evidence table in `notes-module10.md`; you commit it in step 3:
 
 | Evidence | Your result |
@@ -2525,7 +2528,7 @@ Congratulations — Node 1 is now a real IoT device: connected, aware of the tim
 | `roadmap-module-10`, `home-network`, `two-wifi-bands`, `reconnect`, `wifi-portal`, `ntp-clock` (`.png` + `.svg`) | Original diagrams of the Fullstack IoT Developer curriculum. The disconnect reason codes and the NTP delays from the source code of the esp32 package and ESP-IDF; the IP and MAC addresses are only examples. | CC BY 4.0 |
 | `http-letter`, `https-setinsecure`, `web-server`, `fixed-address`, `flash-partitions`, `node1-v11-file-map` (`.png` + `.svg`) | Original diagrams. The HTTP letter's contents follow HTTPClient of the esp32 package 3.3.12; the shelf sizes from the esp32 package's partition tables; Node 1's size from compiling it in Wokwi. | CC BY 4.0 |
 | `phone-portal` (`.png` + `.svg`) | Original illustration: the portal page rendered from the original HTML, CSS, and text of the [WiFiManager](https://github.com/tzapu/WiFiManager) 2.0.17 library (© tzapu, MIT license); the Wi-Fi names are only examples. | CC BY 4.0 for the layout and markers; the page content follows WiFiManager's MIT license |
-| `phone-switch`, `phone-node1` (`.png` + `.svg`) | Original illustrations: the pages rendered from the HTML in the Practice 8 sketch and in Node 1 v1.1's `network.cpp`; the numbers and addresses are only examples. | CC BY 4.0 |
+| `phone-switch`, `phone-node1` (`.png` + `.svg`) | Original illustrations: the pages rendered from the HTML in the Practice 8 sketch and in Node 1 v1.1's `networking.cpp`; the numbers and addresses are only examples. | CC BY 4.0 |
 | `partition-menu` (`.png` + `.svg`) | Original illustration of the Arduino IDE 2.3.10 interface, not a screenshot; the menu labels from the Arduino IDE source code and the `boards.txt` of the esp32 package 3.3.12. | CC BY 4.0 |
 | `github-desktop-gitignore` (`.png` + `.svg`) | Original illustration of the GitHub Desktop 3.6.6 interface, not a screenshot; the window texts from the [GitHub Desktop](https://github.com/desktop/desktop) source code (MIT license); the contents of the **Changes** list are only an example. | CC BY 4.0 |
 
