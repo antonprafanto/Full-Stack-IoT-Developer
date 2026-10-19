@@ -1,6 +1,9 @@
-// Node 1 "Rumah" - firmware v1.3.0 (Modul 14: jembatan ESP-NOW untuk Node 2 "Kebun")
+// Node 1 "Rumah" - firmware v1.4.0 (Modul 15: sensor tanah RS-485 lewat Modbus RTU)
 // Proyek benang merah: Rumah Pintar Mini.
 //
+// Baru di v1.4.0: Node 1 menjadi klien Modbus RTU. Setiap 10 detik ia membaca tiga loker sensor tanah RS-485
+// (lewat modul MAX485 di Serial2) dan menambahkan tanah_rs485, suhu_tanah, dan ec ke telemetry (kontrak data 1.2).
+// Sensornya dipakai setelah perintah "rs485 on". LED status pindah ke D2 karena D4 kini menjadi pin DE/RE.
 // Baru di v1.3.0: Node 1 mendengar paket ESP-NOW dari Node 2 "Kebun" dan menerbitkannya ke broker atas nama
 // Node 2 (rpm/<device_id Node 2>/telemetry dan /status), termasuk bacaan yang tertahan selama router mati.
 // Radio tidak lagi tidur (setSleep false) dan tidak menyambung ulang sendiri: penjaga 60 detik yang mencoba lagi.
@@ -9,12 +12,13 @@
 // perintah dari broker yang dijawab ack. Server web /on /off dan kiriman HTTP dari v1.1.0 dipensiunkan.
 // Dari v1.0.0 (Modul 8): tanpa delay() di loop(), kode modular, watchdog, NVS, log bertingkat, halaman status.
 // Perintah lewat Serial Monitor: lampu on, kipas off, pompa 3, tirai 90, bunyi, status, info,
-// ambang, ambang 35, ambang bawaan, log debug, log info, log error, wifi, wifi lupa, kirim, node2, node2 nol, restart.
+// ambang, ambang 35, ambang bawaan, log debug, log info, log error, wifi, wifi lupa, kirim, node2, node2 nol,
+// rs485, rs485 on, rs485 off, restart.
 //
 // Library: ESP32Servo versi 3.2.1, DHT sensor library versi 1.4.7
 // (ikut terpasang: Adafruit Unified Sensor versi 1.1.15), Adafruit SSD1306 versi 2.5.17
 // (ikut terpasang: Adafruit GFX Library versi 1.12.6 dan Adafruit BusIO versi 1.17.4),
-// WiFiManager versi 2.0.17, ArduinoJson versi 7.4.3, dan PubSubClient3 versi 3.3.2.
+// WiFiManager versi 2.0.17, ArduinoJson versi 7.4.3, PubSubClient3 versi 3.3.2, dan ModbusMaster versi 2.0.1.
 // Wire, SPI, SD, Preferences, dan WiFi sudah ikut paket esp32.
 
 #include <esp_task_wdt.h>  // watchdog
@@ -32,6 +36,7 @@
 #include "aturan.h"
 #include "jaringan.h"  // Modul 10-11
 #include "jembatan.h"  // Modul 14: Node 2 lewat ESP-NOW
+#include "rs485.h"     // Modul 15: sensor tanah RS-485
 
 // ---------- Siklus utama: MENUNGGU -> MEMBACA -> MENAMPILKAN -> BERTINDAK -> MENUNGGU ... ----------
 enum LangkahSiklus { MENUNGGU, MEMBACA, MENAMPILKAN, BERTINDAK };
@@ -160,6 +165,7 @@ void setup() {
   siapkanKartu();  // Modul 7 (opsional)
   siapkanJaringan();  // Modul 10: portal WiFi boleh menunggu di sini karena watchdog belum mengawasi
   siapkanJembatan();  // Modul 14: sesudah WiFi menyala
+  siapkanRS485();     // Modul 15
 
   // Watchdog dengan cara penulisan paket esp32 versi 3 (Konsep 8)
   esp_task_wdt_config_t konfigurasiWatchdog = {
@@ -186,6 +192,7 @@ void loop() {
   tanganiTombol();
   periksaPerintahSerial();
   jalankanSiklus();
+  perbaruiRS485();      // Modul 15: sensor RS-485 setiap 10 detik; menunggu sampai 2 detik kalau sensor diam
 
   catatLamaPutaran(micros() - mulaiPutaran);
 }

@@ -13,6 +13,7 @@
 #include "sensor.h"
 #include "aktuator.h"
 #include "layar.h"
+#include "rs485.h"
 #include "jaringan.h"
 
 #ifndef MQTT_QOS1  // hanya PubSubClient3 yang punya nama ini
@@ -516,7 +517,8 @@ static bool terbitkanTelemetry(const char* alasan) {
   } else {
     dokumen["level_air"] = bacaanKirim.level_air;
   }
-  char isi[192];
+  tulisKolomRS485(dokumen);  // Modul 15: tanah_rs485, suhu_tanah, ec (hanya kalau sensor RS-485 dipakai)
+  char isi[256];  // Modul 15: diperbesar dari 192 untuk tiga kolom RS-485
   size_t panjang = serializeJson(dokumen, isi, sizeof(isi));
   if (panjang >= sizeof(isi)) {
     logError("Telemetry terlalu panjang untuk wadah isi[]: tidak dikirim.");

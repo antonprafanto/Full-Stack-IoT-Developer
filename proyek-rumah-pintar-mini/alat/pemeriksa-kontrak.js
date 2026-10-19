@@ -1,6 +1,7 @@
 // pemeriksa-kontrak.js — memeriksa setiap pesan MQTT proyek terhadap kontrak data
 // (Lampiran A Silabus dan KONTRAK-DATA.md). Modul 11 - Praktik 8. Dipakai lagi di modul-modul berikutnya.
 // Versi 1.1 (Modul 14): telemetry Node 2, yang diterbitkan Node 1 atas nama Node 2, diperiksa dengan kolomnya sendiri.
+// Versi 1.2 (Modul 15): telemetry Node 1 boleh membawa tiga kolom sensor RS-485 (tanah_rs485, suhu_tanah, ec).
 // Butuh library mqtt:  npm install mqtt@5.16.1
 // Jalankan:  node pemeriksa-kontrak.js                               (broker di laptop ini)
 //            node pemeriksa-kontrak.js 192.168.1.10                  (broker di komputer lain)
@@ -18,7 +19,9 @@ if (perangkat !== undefined && !/^[0-9a-f]{12}$/.test(perangkat)) {
 const langganan = perangkat ? `rpm/${perangkat}/#` : "rpm/#";
 const JENIS = ["telemetry", "status", "vitals", "cmd", "ack"];
 const KOLOM = {
-  "telemetry Node 1": { semua: ["ts", "fw", "suhu", "kelembapan", "cahaya", "tanah", "gerak", "level_air"] },
+  "telemetry Node 1": { // kontrak 1.2: tiga kolom sensor RS-485 hanya ada kalau sensornya dipasang
+    semua: ["ts", "fw", "suhu", "kelembapan", "cahaya", "tanah", "gerak", "level_air", "tanah_rs485", "suhu_tanah", "ec"],
+    wajib: ["ts", "fw", "suhu", "kelembapan", "cahaya", "tanah", "gerak", "level_air"] },
   "telemetry Node 2": { // kontrak 1.1: baterai boleh tidak ada (pembagi tegangan pilihan)
     semua: ["ts", "fw", "suhu", "kelembapan", "tekanan", "suhu_tanah", "tanah", "baterai"],
     wajib: ["ts", "fw", "suhu", "kelembapan", "tekanan", "suhu_tanah", "tanah"] },
@@ -85,9 +88,10 @@ function periksaDesimal(nama, nilai, palingKecil, palingBesar, masalah) {
   }
 }
 
-// Kontrak 1.1: kolom sensor menurut perangkat. Telemetry Node 2 dikenali dari kolom khasnya.
+// Kontrak 1.1: kolom sensor menurut perangkat. Telemetry Node 2 dikenali dari kolom khasnya ("tekanan"),
+// karena sejak kontrak 1.2 "suhu_tanah" juga bisa datang dari sensor RS-485 Node 1.
 function periksaTelemetry(isi, masalah) {
-  const node2 = "tekanan" in isi || "suhu_tanah" in isi;
+  const node2 = "tekanan" in isi || ("suhu_tanah" in isi && !("cahaya" in isi));
   const ada = periksaKolom(isi, node2 ? "telemetry Node 2" : "telemetry Node 1", masalah);
   if (ada("ts")) periksaTs(isi.ts, masalah);
   if (ada("fw") && (typeof isi.fw !== "string" || !/^\d+\.\d+\.\d+$/.test(isi.fw))) {
@@ -106,6 +110,14 @@ function periksaTelemetry(isi, masalah) {
   if (ada("tekanan")) periksaDesimal("tekanan", isi.tekanan, 300, 1100, masalah);
   if (ada("suhu_tanah")) periksaDesimal("suhu_tanah", isi.suhu_tanah, -55, 125, masalah);
   if (ada("baterai")) periksaDesimal("baterai", isi.baterai, 2.5, 4.5, masalah);
+  if (!node2) {
+    const rs485 = ["tanah_rs485", "suhu_tanah", "ec"].filter((k) => k in isi);
+    if (rs485.length > 0 && rs485.length < 3) { // kontrak 1.2: ketiganya selalu bersama
+      masalah.push(`kolom sensor RS-485 harus lengkap (tanah_rs485, suhu_tanah, ec), yang ada hanya ${rs485.join(", ")}`);
+    }
+    if (ada("tanah_rs485")) periksaDesimal("tanah_rs485", isi.tanah_rs485, 0, 100, masalah);
+    if (ada("ec")) periksaBulat("ec", isi.ec, 0, 20000, true, masalah);
+  }
   return node2 ? "  (telemetry Node 2)" : "";
 }
 

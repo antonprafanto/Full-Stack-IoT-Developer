@@ -2,7 +2,7 @@
 
 🌐 **Bahasa Indonesia** · [English](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/mini-smart-home/DATA-CONTRACT.md)
 
-> **Versi kontrak 1.1** ([Modul 14](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-2-konektivitas/modul-14-node-2-esp-now/README.md), Oktober 2026; versi 1.0 dari Modul 11). Rujukan utamanya adalah [Lampiran A Silabus](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/SILABUS.md#14-lampiran-a--kontrak-data-rumah-pintar-mini); file ini salinan kerjanya yang ikut tersimpan di proyek. **Aturan mainnya:** setiap perubahan ditulis di sini dan di Lampiran A dulu, baru kodenya diubah, lalu versi firmware dinaikkan.
+> **Versi kontrak 1.2** ([Modul 15](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-2-konektivitas/modul-15-modbus-rs485-dan-protokol/README.md), Oktober 2026; versi 1.1 dari Modul 14, versi 1.0 dari Modul 11). Rujukan utamanya adalah [Lampiran A Silabus](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/SILABUS.md#14-lampiran-a--kontrak-data-rumah-pintar-mini); file ini salinan kerjanya yang ikut tersimpan di proyek. **Aturan mainnya:** setiap perubahan ditulis di sini dan di Lampiran A dulu, baru kodenya diubah, lalu versi firmware dinaikkan.
 
 Kontrak data adalah "bahasa bersama" semua bagian proyek: firmware, broker, alat pemeriksa, *gateway* (Modul 12), Node-RED (Modul 13), *backend* (Modul 16), database (Modul 17), dan dashboard (Modul 22). Selama semuanya mengikuti kontrak ini, setiap bagian bisa dibuat pada minggu yang berbeda dan tetap cocok satu sama lain. Penjelasan lengkapnya ada di [Modul 11](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-2-konektivitas/modul-11-mqtt-dan-kontrak-data/README.md).
 
@@ -62,6 +62,22 @@ Node 2 (ESP-NOW) tidak tersambung ke broker. Mulai Modul 14, **Node 1 menerbitka
 
 **Kiriman segera** (*report-by-exception*) terjadi saat salah satu keadaan ini **berubah**: ada atau tidaknya gerakan; gelap atau terang (gelap = `cahaya` di bawah `1000`); tanah di bawah atau di atas ambang siram; air tandon di bawah atau di atas 20 %. Kiriman segera paling sering setiap 2 detik, dan jadwal 10 detik berikutnya dihitung dari kiriman terakhir.
 
+### Kolom sensor RS-485 di `telemetry` Node 1 (mulai kontrak 1.2, Modul 15)
+
+Tiga kolom ini hanya ada kalau sensor tanah RS-485 terpasang dan dinyalakan dengan perintah `rs485 on` di Node 1. Ketiganya selalu datang bersama; kalau sensornya tidak dipakai, ketiganya tidak ditulis sama sekali.
+
+```json
+{"ts":"2026-10-19T02:10:05Z","fw":"1.4.0","suhu":28.5,"kelembapan":71,"cahaya":2310,"tanah":37,"gerak":false,"level_air":64,"tanah_rs485":58.5,"suhu_tanah":25.3,"ec":1200}
+```
+
+| Kolom | Tipe | Satuan dan rentang | Sumber (Modbus RTU, fungsi 03) | Kalau bacaan gagal |
+| :--- | :--- | :--- | :--- | :--- |
+| `tanah_rs485` | angka desimal, satu angka di belakang koma | % kelembapan tanah menurut sensor RS-485, 0–100 | loker 0 dibagi 10 | `null` |
+| `suhu_tanah` | angka desimal, satu angka di belakang koma | °C, −55 sampai 125 (nama dan artinya sama dengan kolom Node 2) | loker 1 dibagi 10, bertanda | `null` |
+| `ec` | bilangan bulat | µS/cm (daya hantar listrik tanah), 0–20.000 | loker 2 | `null` |
+
+Sensor RS-485 dibaca setiap 10 detik; `telemetry` membawa bacaan terakhirnya. Kalau pembacaan terakhir gagal (sensor tidak menjawab, CRC salah, atau *exception*), ketiga kolom ditulis `null`. Nama `tanah_rs485` sengaja dibedakan dari `tanah`: Node 1 sudah punya `tanah` dari sensor kapasitif, dan kedua alat mengukur dengan cara dan skala yang berbeda. Peta loker di atas milik sensor tiruan Modul 15; sensor sungguhan punya peta sendiri, tetapi kolomnya tetap sama.
+
 ### `telemetry` Node 2 (mulai kontrak 1.1, Modul 14)
 
 ```json
@@ -79,7 +95,7 @@ Node 2 (ESP-NOW) tidak tersambung ke broker. Mulai Modul 14, **Node 1 menerbitka
 | `tanah` | bilangan bulat | %, hasil kalibrasi dua titik sensor tanah ke-2 | sensor tanah kapasitif ke-2 (VN/GPIO 39, listriknya dari D32) | `null` |
 | `baterai` | angka desimal, dua angka di belakang koma | volt baterai, 2,5–4,5 | pembagi tegangan (VP/GPIO 36), **pilihan** | `null`; kolomnya tidak ada kalau tidak dipasang |
 
-**Kolom menurut perangkat.** Setiap perangkat hanya menulis kolom sensor yang ia punya: Node 1 tidak pernah menulis `tekanan`, dan Node 2 tidak pernah menulis `cahaya`. Kolom sensor yang tidak dipasang tidak ditulis; kolom sensor yang gagal dibaca ditulis `null`. Nama yang sama berarti hal yang sama (`suhu` = suhu udara di sekitar perangkat, `tanah` = persen kelembapan tanah) supaya database dan grafik bisa membandingkan rumah dan kebun tanpa kolom baru.
+**Kolom menurut perangkat.** Setiap perangkat hanya menulis kolom sensor yang ia punya: Node 1 tidak pernah menulis `tekanan`, dan Node 2 tidak pernah menulis `cahaya`. Kolom sensor yang tidak dipasang tidak ditulis; kolom sensor yang gagal dibaca ditulis `null`. Nama yang sama berarti hal yang sama (`suhu` = suhu udara di sekitar perangkat, `tanah` = persen kelembapan tanah, `suhu_tanah` = suhu tanah, baik dari DS18B20 Node 2 maupun dari sensor RS-485 Node 1) supaya database dan grafik bisa membandingkan rumah dan kebun tanpa kolom baru.
 
 ## 5. `status`
 
@@ -161,12 +177,13 @@ Teks biasa, bukan JSON:
 
 ## 10. Memeriksa kepatuhan
 
-Jalankan [`alat/pemeriksa-kontrak.js`](alat/pemeriksa-kontrak.js) (`node pemeriksa-kontrak.js` di folder `alat`, setelah `npm install`). Ia berlangganan `rpm/#` dan memberi cap **LULUS** atau **GAGAL** pada setiap pesan, lengkap dengan alasannya dan lama jawaban setiap `ack`. Di broker publik, tulis juga `device_id`-mu di belakang alamat broker (`node pemeriksa-kontrak.js broker.emqx.io <device_id>`) supaya hanya pesan perangkatmu yang diperiksa. Setiap perubahan firmware harus lolos pemeriksaan ini sebelum di-*commit*. Sejak kontrak 1.1, pemeriksa mengenali `telemetry` Node 2 dari kolom khasnya (`tekanan`, `suhu_tanah`), memeriksanya dengan daftar kolom Node 2, dan menandainya `(telemetry Node 2)`.
+Jalankan [`alat/pemeriksa-kontrak.js`](alat/pemeriksa-kontrak.js) (`node pemeriksa-kontrak.js` di folder `alat`, setelah `npm install`). Ia berlangganan `rpm/#` dan memberi cap **LULUS** atau **GAGAL** pada setiap pesan, lengkap dengan alasannya dan lama jawaban setiap `ack`. Di broker publik, tulis juga `device_id`-mu di belakang alamat broker (`node pemeriksa-kontrak.js broker.emqx.io <device_id>`) supaya hanya pesan perangkatmu yang diperiksa. Setiap perubahan firmware harus lolos pemeriksaan ini sebelum di-*commit*. Sejak kontrak 1.1, pemeriksa mengenali `telemetry` Node 2 dari kolom khasnya, memeriksanya dengan daftar kolom Node 2, dan menandainya `(telemetry Node 2)`. Sejak kontrak 1.2 (pemeriksa versi 1.2), kolom khas itu adalah `tekanan` karena `suhu_tanah` kini juga bisa datang dari Node 1; pemeriksa juga memastikan tiga kolom RS-485 Node 1 selalu lengkap.
 
 ## 11. Riwayat perubahan
 
 | Versi kontrak | Modul | Perubahan |
 | :--- | :--- | :--- |
+| 1.2 | Modul 15 | Node 1 boleh membawa tiga kolom sensor tanah RS-485 (Modbus RTU): `tanah_rs485`, `suhu_tanah`, dan `ec`, selalu bersama dan hanya kalau sensornya dipasang dan dinyalakan (`rs485 on`); `null` kalau pembacaan terakhir gagal. Data Node 2 tidak berubah. |
 | 1.1 | Modul 14 | Node 2 lewat Node 1: kolom baru `tekanan`, `suhu_tanah`, dan `baterai` (pilihan); kolom sensor menurut perangkat (aturan 9); `ts` Node 2 dibuat Node 1 saat paket diterima; `status` Node 2 diterbitkan Node 1; `tanah` Node 2 boleh `null`; Node 1 boleh menulis topik Node 2 (aturan 6). Data Node 1 tidak berubah. |
 | 1.0 | Modul 11 | Kontrak mulai dipakai lewat MQTT. Ditetapkan: bacaan gagal ditulis `null`; *client ID* = `device_id`; `telemetry` setiap 10 detik ditambah kiriman segera; `vitals` tanpa `reset_reason` sampai Modul 28; kolom `pesan` di `ack`; target `set` beserta rentang nilainya; `id` perintah paling panjang 39 huruf; perintah ber-`id` sama diabaikan. |
 

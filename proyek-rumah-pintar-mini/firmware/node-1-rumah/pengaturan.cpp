@@ -8,6 +8,7 @@
 static Preferences arsip;  // "lemari arsip" NVS; kita memakai map bernama "node1"
 static int ambang = AMBANG_TANAH_SIRAM_BAWAAN;
 static unsigned long nyalaKe = 0;
+static bool pakaiRS485 = false;  // Modul 15: bawaannya tidak dipakai (sensor belum dipasang)
 
 void muatPengaturan() {
   arsip.begin("node1", false);  // false = map dibuka untuk dibaca DAN ditulis
@@ -21,6 +22,7 @@ void muatPengaturan() {
     asal = "dari NVS";
   }
   logInfo("Nyala ke-%lu. Ambang tanah_siram: %d %% (%s)", nyalaKe, ambang, asal);
+  pakaiRS485 = arsip.getBool("rs485", false);  // label belum pernah ditulis = tidak dipakai
 }
 
 int ambangTanahSiram() {
@@ -52,4 +54,17 @@ void hapusAmbangTanahSiram() {
 
 unsigned long jumlahNyala() {
   return nyalaKe;
+}
+
+bool sensorRS485Dipakai() {
+  return pakaiRS485;
+}
+
+void simpanSensorRS485Dipakai(bool pakai) {
+  if (pakai == pakaiRS485 && arsip.isKey("rs485")) {
+    return;  // sudah sama: tidak perlu menulis ulang (jumlah tulis flash terbatas)
+  }
+  arsip.putBool("rs485", pakai);
+  pakaiRS485 = pakai;
+  logInfo("Sensor RS-485 %s (disimpan ke NVS)", pakai ? "dipakai" : "tidak dipakai");
 }

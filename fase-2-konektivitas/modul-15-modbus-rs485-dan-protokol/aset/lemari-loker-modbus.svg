@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="636" viewBox="0 0 1200 636" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="636" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Lembar data sensor tanah RS-485 tiruan</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Alamat server 1 · 9600 baud 8N1 · dua lemari loker 16 bit</text>
+<rect x="30.0" y="104.0" width="560.0" height="318.0" rx="12" fill="#fdeedd" stroke="#b45f17" stroke-width="1.8" />
+<text x="50.0" y="134.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="start" >Holding register</text>
+<text x="50.0" y="156.0" font-size="12.5" font-weight="700" fill="#b45f17" text-anchor="start" >dibaca fungsi 03 · loker 3 ditulis fungsi 06</text>
+<rect x="50.0" y="174.0" width="520.0" height="52.0" rx="8" fill="#ffffff" stroke="#b45f17" stroke-width="1.2" />
+<text x="66.0" y="206.0" font-size="13" font-weight="700" fill="#b45f17" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">loker 0</text>
+<text x="170.0" y="206.0" font-size="15" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">585</text>
+<text x="260.0" y="198.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="start" >kelembapan tanah</text>
+<text x="260.0" y="216.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >×10 → 58,5 %</text>
+<rect x="50.0" y="236.0" width="520.0" height="52.0" rx="8" fill="#ffffff" stroke="#b45f17" stroke-width="1.2" />
+<text x="66.0" y="268.0" font-size="13" font-weight="700" fill="#b45f17" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">loker 1</text>
+<text x="170.0" y="268.0" font-size="15" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">253</text>
+<text x="260.0" y="260.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="start" >suhu tanah</text>
+<text x="260.0" y="278.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >×10, bertanda → 25,3 °C</text>
+<rect x="50.0" y="298.0" width="520.0" height="52.0" rx="8" fill="#ffffff" stroke="#b45f17" stroke-width="1.2" />
+<text x="66.0" y="330.0" font-size="13" font-weight="700" fill="#b45f17" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">loker 2</text>
+<text x="170.0" y="330.0" font-size="15" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">1.200</text>
+<text x="260.0" y="322.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="start" >EC</text>
+<text x="260.0" y="340.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >µS/cm, tanpa pengali</text>
+<rect x="50.0" y="360.0" width="520.0" height="52.0" rx="8" fill="#ffffff" stroke="#b45f17" stroke-width="1.2" />
+<text x="66.0" y="392.0" font-size="13" font-weight="700" fill="#b45f17" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">loker 3</text>
+<text x="170.0" y="392.0" font-size="15" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">1</text>
+<text x="260.0" y="384.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="start" >alamat server</text>
+<text x="260.0" y="402.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >1–247, boleh ditulis</text>
+<rect x="610.0" y="104.0" width="560.0" height="256.0" rx="12" fill="#e2f3f1" stroke="#0f8b8d" stroke-width="1.8" />
+<text x="630.0" y="134.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="start" >Input register</text>
+<text x="630.0" y="156.0" font-size="12.5" font-weight="700" fill="#0f8b8d" text-anchor="start" >dibaca fungsi 04 · hanya-baca</text>
+<rect x="630.0" y="174.0" width="520.0" height="52.0" rx="8" fill="#ffffff" stroke="#0f8b8d" stroke-width="1.2" />
+<text x="646.0" y="206.0" font-size="13" font-weight="700" fill="#0f8b8d" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">loker 0</text>
+<text x="750.0" y="206.0" font-size="15" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">585</text>
+<text x="840.0" y="198.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="start" >kelembapan tanah</text>
+<text x="840.0" y="216.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >isi sama dengan holding</text>
+<rect x="630.0" y="236.0" width="520.0" height="52.0" rx="8" fill="#ffffff" stroke="#0f8b8d" stroke-width="1.2" />
+<text x="646.0" y="268.0" font-size="13" font-weight="700" fill="#0f8b8d" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">loker 1</text>
+<text x="750.0" y="268.0" font-size="15" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">253</text>
+<text x="840.0" y="260.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="start" >suhu tanah</text>
+<text x="840.0" y="278.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >isi sama dengan holding</text>
+<rect x="630.0" y="298.0" width="520.0" height="52.0" rx="8" fill="#ffffff" stroke="#0f8b8d" stroke-width="1.2" />
+<text x="646.0" y="330.0" font-size="13" font-weight="700" fill="#0f8b8d" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">loker 2</text>
+<text x="750.0" y="330.0" font-size="15" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">1.200</text>
+<text x="840.0" y="322.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="start" >EC</text>
+<text x="840.0" y="340.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >isi sama dengan holding</text>
+<rect x="610.0" y="380.0" width="560.0" height="108.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.4" />
+<text x="628.0" y="404.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >Angka minus: komplemen dua</text>
+<text x="628.0" y="428.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >−5,0 °C × 10 = −50 → disimpan FF CE (65.486)</text>
+<text x="628.0" y="446.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >baca dengan (int16_t) → −50 → −5,0 °C</text>
+<text x="628.0" y="464.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >lupa (int16_t)? terbaca 6.548,6 °C</text>
+<rect x="30.0" y="520.0" width="1140.0" height="74.0" rx="10" fill="#eef1f5" />
+<text x="52.0" y="546.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Nomor yang bergeser satu: lembar data gaya lama menulis "40001" untuk holding register pertama = loker 0 di kode.</text>
+<text x="52.0" y="570.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="start" >Loker di luar 0–3 (fungsi 03) atau 0–2 (fungsi 04) dijawab exception 02. Perintah tulis ke loker 0–2 diabaikan.</text>
+<text x="1178.0" y="622.0" font-size="11" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

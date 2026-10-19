@@ -10,6 +10,7 @@
 #include "aturan.h"
 #include "jaringan.h"
 #include "jembatan.h"
+#include "rs485.h"
 #include "perintah.h"
 
 const int PANJANG_BARIS_MAKS = 40;
@@ -140,6 +141,17 @@ void periksaPerintahSerial() {
     nolkanHitunganNode2();  // Modul 14: hitungan mulai dari nol, misalnya tepat saat router dicabut
     cetakInfoNode2();
     return;
+  } else if (perintah == "rs485") {
+    cetakInfoRS485();  // Modul 15: sensor tanah RS-485
+    return;
+  } else if (perintah == "rs485 on") {
+    pakaiRS485(true);  // Modul 15: mulai membaca sensor setiap 10 detik
+    cetakInfoRS485();
+    return;
+  } else if (perintah == "rs485 off") {
+    pakaiRS485(false);  // Modul 15: berhenti membaca; kolomnya hilang dari telemetry
+    cetakInfoRS485();
+    return;
   } else if (perintah == "kirim") {
     kirimSekarang();  // Modul 11: terbitkan telemetry sekarang juga lewat MQTT
     return;
@@ -150,7 +162,7 @@ void periksaPerintahSerial() {
   } else if (perintah != "status") {
     Serial.println("Perintah tidak dikenal. Contoh: lampu on, kipas off, pompa 3, tirai 90, bunyi, status,");
     Serial.println("info, ambang, ambang 35, ambang bawaan, log debug, log info, log error, wifi, wifi lupa,");
-    Serial.println("kirim, node2, node2 nol, restart");
+    Serial.println("kirim, node2, node2 nol, rs485, rs485 on, rs485 off, restart");
     return;
   }
   cetakStatus();

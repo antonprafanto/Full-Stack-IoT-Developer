@@ -7,3 +7,5 @@ bool ambangDariNvs();                     // true kalau ambang itu berasal dari 
 bool simpanAmbangTanahSiram(int persen);  // menjawab false kalau angkanya di luar 0-100
 void hapusAmbangTanahSiram();             // kembali memakai AMBANG_TANAH_SIRAM_BAWAAN di konfigurasi.h
 unsigned long jumlahNyala();              // sudah berapa kali Node 1 menyala, termasuk restart
+bool sensorRS485Dipakai();                // Modul 15: true setelah perintah "rs485 on"
+void simpanSensorRS485Dipakai(bool pakai);  // Modul 15: "rs485 on" / "rs485 off", disimpan di NVS

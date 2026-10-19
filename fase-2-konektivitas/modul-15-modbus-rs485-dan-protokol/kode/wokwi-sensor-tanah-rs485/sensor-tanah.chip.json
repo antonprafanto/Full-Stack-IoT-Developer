@@ -1,0 +1,10 @@
+{
+  "name": "Sensor Tanah RS-485 (tiruan)",
+  "author": "Kurikulum Fullstack IoT Developer (Modul 15)",
+  "pins": ["VCC", "GND", "RO", "DI", "DE_RE", ""],
+  "controls": [
+    { "id": "kelembapan", "label": "Kelembapan tanah (%)", "type": "range", "min": 0, "max": 100, "step": 0.1 },
+    { "id": "suhu", "label": "Suhu tanah (°C)", "type": "range", "min": -40, "max": 80, "step": 0.1 },
+    { "id": "ec", "label": "EC (µS/cm)", "type": "range", "min": 0, "max": 20000, "step": 10 }
+  ]
+}

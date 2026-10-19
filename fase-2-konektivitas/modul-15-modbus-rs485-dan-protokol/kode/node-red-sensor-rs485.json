@@ -1,0 +1,265 @@
+[
+    {
+        "id": "f15c000000000001",
+        "type": "ui-group",
+        "name": "Sensor RS-485",
+        "page": "f13c000000000003",
+        "width": "6",
+        "height": "1",
+        "order": 5,
+        "showTitle": true,
+        "className": "",
+        "visible": true,
+        "disabled": false,
+        "groupType": "default",
+        "tab": ""
+    },
+    {
+        "id": "f15d000000000000",
+        "type": "comment",
+        "z": "f13a000000000001",
+        "name": "6 · Sensor RS-485: tiga kolom Modbus di telemetry Node 1 (Modul 15)",
+        "info": "Ganti a4cf12e5b7c0 dengan device_id Node 1-mu. Kolomnya hanya ada setelah perintah \"rs485 on\" di Node 1.",
+        "x": 330,
+        "y": 1800,
+        "wires": []
+    },
+    {
+        "id": "f15d000000000001",
+        "type": "mqtt in",
+        "z": "f13a000000000001",
+        "name": "telemetry Node 1 (RS-485)",
+        "topic": "rpm/a4cf12e5b7c0/telemetry",
+        "qos": "0",
+        "datatype": "auto-detect",
+        "broker": "f13b000000000001",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 200,
+        "y": 1860,
+        "wires": [
+            [
+                "f15d000000000002",
+                "f15e000000000001",
+                "f15d000000000003",
+                "f15d000000000004",
+                "f15e000000000004"
+            ]
+        ]
+    },
+    {
+        "id": "f15d000000000002",
+        "type": "debug",
+        "z": "f13a000000000001",
+        "name": "lihat kolom RS-485",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 500,
+        "y": 1860,
+        "wires": []
+    },
+    {
+        "id": "f15e000000000001",
+        "type": "ui-text",
+        "z": "f13a000000000001",
+        "group": "f15c000000000001",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Keadaan sensor",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "Helvetica",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "$exists(payload.tanah_rs485) ? (payload.tanah_rs485 != null ? \"terbaca\" : \"tidak terbaca\") : \"tidak dipakai\"",
+        "valueType": "jsonata",
+        "x": 470,
+        "y": 1910,
+        "wires": []
+    },
+    {
+        "id": "f15d000000000003",
+        "type": "switch",
+        "z": "f13a000000000001",
+        "name": "kelembapan RS-485 terbaca?",
+        "property": "payload.tanah_rs485",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "nnull"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 500,
+        "y": 1960,
+        "wires": [
+            [
+                "f15e000000000002"
+            ]
+        ]
+    },
+    {
+        "id": "f15d000000000004",
+        "type": "switch",
+        "z": "f13a000000000001",
+        "name": "suhu tanah RS-485 terbaca?",
+        "property": "payload.suhu_tanah",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "nnull"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 500,
+        "y": 2010,
+        "wires": [
+            [
+                "f15e000000000003"
+            ]
+        ]
+    },
+    {
+        "id": "f15e000000000002",
+        "type": "ui-gauge",
+        "z": "f13a000000000001",
+        "name": "",
+        "group": "f15c000000000001",
+        "order": 2,
+        "value": "payload.tanah_rs485",
+        "valueType": "msg",
+        "width": 3,
+        "height": 3,
+        "gtype": "gauge-half",
+        "gstyle": "needle",
+        "title": "Kelembapan tanah (RS-485)",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "%",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#EA5353",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "30",
+                "color": "#5CD65C",
+                "text": "",
+                "textType": "label"
+            }
+        ],
+        "min": 0,
+        "max": 100,
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 790,
+        "y": 1960,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f15e000000000003",
+        "type": "ui-gauge",
+        "z": "f13a000000000001",
+        "name": "",
+        "group": "f15c000000000001",
+        "order": 3,
+        "value": "payload.suhu_tanah",
+        "valueType": "msg",
+        "width": 3,
+        "height": 3,
+        "gtype": "gauge-half",
+        "gstyle": "needle",
+        "title": "Suhu tanah (RS-485)",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "°C",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#5CD65C",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "30",
+                "color": "#FFC800",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "35",
+                "color": "#EA5353",
+                "text": "",
+                "textType": "label"
+            }
+        ],
+        "min": 0,
+        "max": 50,
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 790,
+        "y": 2010,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f15e000000000004",
+        "type": "ui-text",
+        "z": "f13a000000000001",
+        "group": "f15c000000000001",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "EC (daya hantar listrik)",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "Helvetica",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload.ec != null ? $string(payload.ec) & \" µS/cm\" : \"-\"",
+        "valueType": "jsonata",
+        "x": 480,
+        "y": 2060,
+        "wires": []
+    }
+]
