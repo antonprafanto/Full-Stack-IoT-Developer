@@ -4,7 +4,7 @@
 
 *Fase 2 · Minggu 14 · Perangkat keras (*hardware*): **Kit A Tahap 2** — papan ESP32 kedua (Node 2) dengan rangkaian baterai Modul 9, BME280, DS18B20, sensor tanah kapasitif ke-2, dan INA219; ditambah Node 1, gateway Pi, dan HP dari Modul 12–13 · Prasyarat: **Modul 13** (dashboard Node-RED) dan **Modul 9** (catu daya dan hemat daya) · Waktu: 8–10 jam, dicicil dalam seminggu, ditambah 1–3 jam mengisi baterai sambil ditunggui*
 
-[⬅️ Modul 13](../modul-13-node-red-dashboard/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · [Modul 15 ➡️ (segera terbit — baca ringkasannya di Silabus)](../../SILABUS.md#modul-15--lab-modbus-rturs-485--memilih-protokol-yang-tepat)
+[⬅️ Modul 13](../modul-13-node-red-dashboard/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · [Modul 15 ➡️](../modul-15-modbus-rs485-dan-protokol/README.md)
 
 ---
 
@@ -2858,4 +2858,4 @@ Syarat lulus dari Silabus: **data Node 2 tampil di Node-RED dengan `device_id` s
 
 ---
 
-[⬅️ Modul 13](../modul-13-node-red-dashboard/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · **Berikutnya: Modul 15 — Lab Modbus RTU/RS-485 & Memilih Protokol yang Tepat** (segera terbit; [ringkasannya di Silabus](../../SILABUS.md#modul-15--lab-modbus-rturs-485--memilih-protokol-yang-tepat))
+[⬅️ Modul 13](../modul-13-node-red-dashboard/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · **Berikutnya: [Modul 15 — Lab Modbus RTU/RS-485 & Memilih Protokol yang Tepat](../modul-15-modbus-rs485-dan-protokol/README.md) ➡️**

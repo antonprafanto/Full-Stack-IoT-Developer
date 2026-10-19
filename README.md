@@ -30,7 +30,7 @@ Kurikulum belajar mandiri **32 modul** dalam Bahasa Indonesia, dari orang awam t
 ## Modul yang sudah tersedia
 
 > [!NOTE]
-> Silabus v1.0 disetujui pada 9 Oktober 2026, dan materi modul ditulis berurutan. Saat ini tersedia **Modul 1–14 dari 32**: seluruh Fase 0 dan Fase 1, serta Modul 10–14 dari Fase 2. Daftar lengkap 32 modul ada di [PROGRES.md](PROGRES.md).
+> Silabus v1.0 disetujui pada 9 Oktober 2026, dan materi modul ditulis berurutan. Saat ini tersedia **Modul 1–15 dari 32**: seluruh Fase 0, Fase 1, dan Fase 2. Daftar lengkap 32 modul ada di [PROGRES.md](PROGRES.md).
 
 | Modul | Judul | Setelah modul ini Anda bisa… | Alat utama |
 | :---: | :--- | :--- | :--- |
@@ -48,7 +48,8 @@ Kurikulum belajar mandiri **32 modul** dalam Bahasa Indonesia, dari orang awam t
 | 12 | **[Raspberry Pi & Linux Dasar: Gateway yang Selalu Hidup](fase-2-konektivitas/modul-12-raspberry-pi-dan-linux/README.md)** | menyiapkan Raspberry Pi tanpa monitor, masuk lewat SSH, sekitar 20 perintah Linux dasar, alamat tetap, dan broker Mosquitto sebagai layanan yang menyala dan bangkit sendiri: gateway 24 jam yang membuat Rumah Pintar Mini tetap hidup tanpa laptop | Raspberry Pi (Kit B) atau laptop, SSH, Mosquitto |
 | 13 | **[Node-RED & Dashboard 2: Dashboard Pertama Tanpa Koding](fase-2-konektivitas/modul-13-node-red-dashboard/README.md)** | memasang Node-RED di gateway sebagai layanan, menyusun flow tanpa menulis program, dashboard v0 di HP (jarum, tangki air, grafik, sakelar yang menunggu `ack`), otomasi kipas berhisteresis, dan menyimpan flow ke repositori | Node-RED di Pi (Kit B) atau laptop, HP |
 | 14 | **[Node 2 "Kebun": Sensor Bertenaga Baterai via ESP-NOW](fase-2-konektivitas/modul-14-node-2-esp-now/README.md)** | Node 2 bertenaga baterai di kebun berbicara langsung ke Node 1 lewat ESP-NOW tanpa router: mencari channel router, paket 33 byte, Node 1 sebagai jembatan ke MQTT yang tetap mendengar saat router mati, kartu Kebun di Node-RED, ukur arus dan umur baterai, serta enkripsi ESP-NOW | 2 ESP32, baterai 18650, BME280, DS18B20, INA219 |
-| 15 | Lab Modbus RTU/RS-485 & Memilih Protokol yang Tepat | segera terbit — [ringkasannya di Silabus](SILABUS.md#modul-15--lab-modbus-rturs-485--memilih-protokol-yang-tepat) | 2 ESP32, 2 MAX485 |
+| 15 | **[Lab Modbus RTU/RS-485 & Memilih Protokol yang Tepat](fase-2-konektivitas/modul-15-modbus-rs485-dan-protokol/README.md)** | membaca sensor industri lewat kabel RS-485 dengan Modbus RTU: modul MAX485 dan tombol bicara DE/RE, papan kedua sebagai sensor tanah tiruan, bingkai dan CRC dengan tangan, ModbusMaster, Node 1 v1.4.0 memasukkan bacaannya ke `telemetry` dan dashboard lewat kabel 5 m, serta memilih protokol yang tepat untuk lima skenario | 2 ESP32, 2 MAX485, kabel UTP 5 m |
+| 16 | Backend Pertama dengan TypeScript Ringan: Menerima Data, API, & Git untuk Tim | segera terbit — [ringkasannya di Silabus](SILABUS.md#modul-16--backend-pertama-dengan-typescript-ringan-menerima-data-api--git-untuk-tim) | laptop (Kit A + B) |
 
 Modul per fase juga terdaftar di halaman fasenya: **[Fase 0 — Fondasi](fase-0-fondasi/README.md)**, **[Fase 1 — ESP32 Embedded](fase-1-esp32-embedded/README.md)**, dan **[Fase 2 — Konektivitas](fase-2-konektivitas/README.md)**.
 

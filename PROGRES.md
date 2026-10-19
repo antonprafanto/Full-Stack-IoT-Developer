@@ -30,7 +30,7 @@ Centang `[x]` setiap kali Anda memenuhi kriteria **"Lulus jika"** di [SILABUS.md
 - [ ] **[Modul 12](fase-2-konektivitas/modul-12-raspberry-pi-dan-linux/README.md)** — Raspberry Pi & Linux Dasar: Gateway yang Selalu Hidup
 - [ ] **[Modul 13](fase-2-konektivitas/modul-13-node-red-dashboard/README.md)** — Node-RED & Dashboard 2: Dashboard Pertama Tanpa Koding
 - [ ] **[Modul 14](fase-2-konektivitas/modul-14-node-2-esp-now/README.md)** — Node 2 "Kebun": Sensor Bertenaga Baterai via ESP-NOW
-- [ ] **Modul 15** — Lab Modbus RTU/RS-485 & Memilih Protokol yang Tepat
+- [ ] **[Modul 15](fase-2-konektivitas/modul-15-modbus-rs485-dan-protokol/README.md)** — Lab Modbus RTU/RS-485 & Memilih Protokol yang Tepat
 - [ ] 🎯 Checkpoint Fase 2: Node 1 + Node 2 + gateway Pi; Node 1 bisa membaca register Modbus
 
 ## 🟩 Fase 3 — Backend & Data (Modul 16–21)
