@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="640" viewBox="0 0 1200 640" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="640" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Modbus RTU frames: the question and the answer</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >"Server 1, function 03, read me 3 registers starting at register 0" · Practice 3 recording</text>
+<text x="40.0" y="114.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >Node 1's question (8 bytes)</text>
+<rect x="40.0" y="130.0" width="70.0" height="44.0" rx="6" fill="#e6eefb" stroke="#2f6fd1" stroke-width="1.6" />
+<text x="75.0" y="158.1" font-size="17" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">01</text>
+<text x="75.0" y="196.0" font-size="12" font-weight="700" fill="#2f6fd1" text-anchor="middle" >address</text>
+<text x="75.0" y="212.0" font-size="12" font-weight="700" fill="#2f6fd1" text-anchor="middle" >server 1</text>
+<rect x="120.0" y="130.0" width="70.0" height="44.0" rx="6" fill="#e2f3f1" stroke="#0f8b8d" stroke-width="1.6" />
+<text x="155.0" y="158.1" font-size="17" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">03</text>
+<text x="155.0" y="196.0" font-size="12" font-weight="700" fill="#0f8b8d" text-anchor="middle" >function 03:</text>
+<text x="155.0" y="212.0" font-size="12" font-weight="700" fill="#0f8b8d" text-anchor="middle" >read holding</text>
+<rect x="200.0" y="130.0" width="104.0" height="44.0" rx="6" fill="#efe9f8" stroke="#6d4aa8" stroke-width="1.6" />
+<text x="252.0" y="158.1" font-size="17" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">00 00</text>
+<text x="252.0" y="196.0" font-size="12" font-weight="700" fill="#6d4aa8" text-anchor="middle" >starting at</text>
+<text x="252.0" y="212.0" font-size="12" font-weight="700" fill="#6d4aa8" text-anchor="middle" >register 0</text>
+<rect x="314.0" y="130.0" width="104.0" height="44.0" rx="6" fill="#efe9f8" stroke="#6d4aa8" stroke-width="1.6" />
+<text x="366.0" y="158.1" font-size="17" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">00 03</text>
+<text x="366.0" y="196.0" font-size="12" font-weight="700" fill="#6d4aa8" text-anchor="middle" >a count of</text>
+<text x="366.0" y="212.0" font-size="12" font-weight="700" fill="#6d4aa8" text-anchor="middle" >3 registers</text>
+<rect x="428.0" y="130.0" width="104.0" height="44.0" rx="6" fill="#eef1f5" stroke="#4a5568" stroke-width="1.6" />
+<text x="480.0" y="158.1" font-size="17" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">05 CB</text>
+<text x="480.0" y="196.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="middle" >CRC</text>
+<text x="480.0" y="212.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="middle" >(low byte first)</text>
+<text x="40.0" y="284.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >The server's answer (11 bytes)</text>
+<rect x="40.0" y="300.0" width="70.0" height="44.0" rx="6" fill="#e6eefb" stroke="#2f6fd1" stroke-width="1.6" />
+<text x="75.0" y="328.1" font-size="17" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">01</text>
+<text x="75.0" y="366.0" font-size="12" font-weight="700" fill="#2f6fd1" text-anchor="middle" >from</text>
+<text x="75.0" y="382.0" font-size="12" font-weight="700" fill="#2f6fd1" text-anchor="middle" >server 1</text>
+<rect x="120.0" y="300.0" width="70.0" height="44.0" rx="6" fill="#e2f3f1" stroke="#0f8b8d" stroke-width="1.6" />
+<text x="155.0" y="328.1" font-size="17" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">03</text>
+<text x="155.0" y="366.0" font-size="12" font-weight="700" fill="#0f8b8d" text-anchor="middle" >function 03</text>
+<text x="155.0" y="382.0" font-size="12" font-weight="700" fill="#0f8b8d" text-anchor="middle" >(normal)</text>
+<rect x="200.0" y="300.0" width="70.0" height="44.0" rx="6" fill="#fdeedd" stroke="#b45f17" stroke-width="1.6" />
+<text x="235.0" y="328.1" font-size="17" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">06</text>
+<text x="235.0" y="366.0" font-size="12" font-weight="700" fill="#b45f17" text-anchor="middle" >6 bytes</text>
+<text x="235.0" y="382.0" font-size="12" font-weight="700" fill="#b45f17" text-anchor="middle" >of data</text>
+<rect x="280.0" y="300.0" width="104.0" height="44.0" rx="6" fill="#efe9f8" stroke="#6d4aa8" stroke-width="1.6" />
+<text x="332.0" y="328.1" font-size="17" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">02 49</text>
+<text x="332.0" y="366.0" font-size="12" font-weight="700" fill="#6d4aa8" text-anchor="middle" >register 0 = 585</text>
+<text x="332.0" y="382.0" font-size="12" font-weight="700" fill="#6d4aa8" text-anchor="middle" >→ 58.5%</text>
+<rect x="394.0" y="300.0" width="104.0" height="44.0" rx="6" fill="#efe9f8" stroke="#6d4aa8" stroke-width="1.6" />
+<text x="446.0" y="328.1" font-size="17" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">00 FD</text>
+<text x="446.0" y="366.0" font-size="12" font-weight="700" fill="#6d4aa8" text-anchor="middle" >register 1 = 253</text>
+<text x="446.0" y="382.0" font-size="12" font-weight="700" fill="#6d4aa8" text-anchor="middle" >→ 25.3 °C</text>
+<rect x="508.0" y="300.0" width="104.0" height="44.0" rx="6" fill="#efe9f8" stroke="#6d4aa8" stroke-width="1.6" />
+<text x="560.0" y="328.1" font-size="17" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">04 B0</text>
+<text x="560.0" y="366.0" font-size="12" font-weight="700" fill="#6d4aa8" text-anchor="middle" >register 2</text>
+<text x="560.0" y="382.0" font-size="12" font-weight="700" fill="#6d4aa8" text-anchor="middle" >= 1,200</text>
+<rect x="622.0" y="300.0" width="104.0" height="44.0" rx="6" fill="#eef1f5" stroke="#4a5568" stroke-width="1.6" />
+<text x="674.0" y="328.1" font-size="17" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">6F DD</text>
+<text x="674.0" y="366.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="middle" >CRC</text>
+<text x="40.0" y="454.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >A refusal answer (exception, 5 bytes)</text>
+<rect x="40.0" y="470.0" width="70.0" height="44.0" rx="6" fill="#e6eefb" stroke="#2f6fd1" stroke-width="1.6" />
+<text x="75.0" y="498.1" font-size="17" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">01</text>
+<text x="75.0" y="536.0" font-size="12" font-weight="700" fill="#2f6fd1" text-anchor="middle" >server 1</text>
+<rect x="120.0" y="470.0" width="70.0" height="44.0" rx="6" fill="#e2f3f1" stroke="#0f8b8d" stroke-width="1.6" />
+<text x="155.0" y="498.1" font-size="17" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">83</text>
+<text x="155.0" y="536.0" font-size="12" font-weight="700" fill="#0f8b8d" text-anchor="middle" >03 + 80:</text>
+<text x="155.0" y="552.0" font-size="12" font-weight="700" fill="#0f8b8d" text-anchor="middle" >refused</text>
+<rect x="200.0" y="470.0" width="70.0" height="44.0" rx="6" fill="#fdeedd" stroke="#b45f17" stroke-width="1.6" />
+<text x="235.0" y="498.1" font-size="17" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">02</text>
+<text x="235.0" y="536.0" font-size="12" font-weight="700" fill="#b45f17" text-anchor="middle" >code 02:</text>
+<text x="235.0" y="552.0" font-size="12" font-weight="700" fill="#b45f17" text-anchor="middle" >register<tspan x="235.0" y="568.0">does not exist</tspan></text>
+<rect x="280.0" y="470.0" width="104.0" height="44.0" rx="6" fill="#eef1f5" stroke="#4a5568" stroke-width="1.6" />
+<text x="332.0" y="498.1" font-size="17" font-weight="700" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">C0 F1</text>
+<text x="332.0" y="536.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="middle" >CRC</text>
+<rect x="690.0" y="450.0" width="480.0" height="120.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.4" />
+<text x="708.0" y="476.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >How to read a register's two bytes</text>
+<text x="708.0" y="500.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >high byte first: 02 49 = 2 × 256 + 73 = 585</text>
+<text x="708.0" y="517.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >(hexadecimal 49 = 4 × 16 + 9 = 73)</text>
+<text x="708.0" y="534.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >CRC: computed from all the bytes before it;</text>
+<text x="708.0" y="551.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >a broken frame is silently dropped → timeout</text>
+<text x="1178.0" y="626.0" font-size="11" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer curriculum · CC BY 4.0</text>
+</svg>

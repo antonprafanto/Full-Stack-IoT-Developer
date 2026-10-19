@@ -2,10 +2,10 @@
 // The pins follow PIN-MAP.md. The calibration numbers are your own Module 6 results.
 #pragma once
 
-const char FIRMWARE_VERSION[] = "1.3.0";
+const char FIRMWARE_VERSION[] = "1.4.0";
 
 // ---------- Node 1 canonical pin map (copied from PIN-MAP.md) ----------
-const int PIN_STATUS_LED = 4;      // Module 2
+const int PIN_STATUS_LED = 2;      // Module 2; moved from D4 to D2 in Module 15 (D4 is now the RS-485 DE/RE)
 const int PIN_BUTTON = 13;         // Module 5, INPUT_PULLUP
 const int PIN_LAMP_RELAY = 32;     // Module 5, active-LOW relay
 const int PIN_FAN_RELAY = 33;      // Module 5, active-LOW relay
@@ -21,8 +21,9 @@ const int PIN_ECHO = 35;           // Module 6, HC-SR04 ECHO through a voltage d
 const int PIN_SDA = 21;            // Module 7, I2C: OLED display
 const int PIN_SCL = 22;            // Module 7, I2C: OLED display
 const int PIN_SD_CS = 5;           // Module 7, microSD (optional); SCK = 18, MISO = 19, MOSI = 23
-// Reserved for later modules (don't use them for anything else):
-// Module 15: RS-485 RX = 16, TX = 17, DE/RE = 2
+const int PIN_RS485_RX = 16;       // Module 15, RX2 <- RO of the MAX485 module through a 4.7 kΩ + 10 kΩ voltage divider
+const int PIN_RS485_TX = 17;       // Module 15, TX2 -> DI of the MAX485 module
+const int PIN_RS485_DE_RE = 4;     // Module 15, D4 -> DE and RE of the MAX485 module, joined together
 
 // ---------- Module 6: your calibration results (Practices 3 and 6) ----------
 const int SOIL_DRY = 3000;          // raw soil sensor value in air
@@ -60,3 +61,10 @@ const unsigned long VITALS_INTERVAL = 300000;  // vitals (Node 1's health) every
 const uint8_t MAC_NODE2[6] = {0x24, 0x6F, 0x28, 0xB1, 0xC7, 0xD4};  // REPLACE with your Node 2's MAC
 const int NODE2_SHELF_SIZE = 96;  // holding shelf: Node 2 readings kept while the broker is unreachable (8 hours at a 5-minute interval)
 const unsigned long NODE2_OFFLINE_MARGIN = 60000;  // Node 2 is "offline" after 3 x its interval + 1 minute
+
+// ---------- Module 15: RS-485 soil sensor (Modbus RTU) ----------
+// Whether it is used is set with the Serial command "rs485 on" / "rs485 off" (saved in NVS).
+const unsigned long RS485_BAUD = 9600;                 // sensor datasheet: 9600 baud, 8N1
+const uint8_t RS485_SENSOR_ADDRESS = 1;                // the sensor's server address (datasheet: default 1)
+const unsigned long RS485_READ_INTERVAL = 10000;       // the sensor is read every 10 seconds
+const unsigned long RS485_SLOW_READ_INTERVAL = 60000;  // after 3 times without a reply: every 60 seconds

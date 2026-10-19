@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="620" viewBox="0 0 1200 620" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="620" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Ordinary signal and differential signal</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Noise from motors and pumps hits long cables · RS-485 reads the difference between two wires</text>
+<rect x="30.0" y="104.0" width="560.0" height="420.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<rect x="50.0" y="118.0" width="250.0" height="26.0" rx="13.0" fill="#4a5568" />
+<text x="175.0" y="135.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >ordinary signal: one wire + GND</text>
+<text x="50.0" y="172.0" font-size="13.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >What the receiver reads: the wire's voltage against GND</text>
+<path d="M70.0 220.0 L124.0 220.0 L124.0 300.0 L178.0 300.0 L178.0 220.0 L232.0 220.0 L232.0 220.0 L286.0 220.0 L286.0 300.0 L340.0 300.0 L340.0 300.0 L394.0 300.0 L394.0 220.0 L448.0 220.0 L448.0 300.0 L502.0 300.0" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M146.0 300.0 L151.0 254.0 L156.0 300.0" fill="none" stroke="#e63946" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M255.0 220.0 L260.0 272.0 L265.0 220.0" fill="none" stroke="#e63946" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M365.0 300.0 L370.0 276.0 L375.0 300.0" fill="none" stroke="#e63946" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="60.0" y1="260.0" x2="520.0" y2="260.0" stroke="#9aa3b0" stroke-width="1.4" stroke-linecap="round" stroke-dasharray="6 4" />
+<text x="530.0" y="264.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >threshold</text>
+<line x1="144.0" y1="333.0" x2="158.0" y2="347.0" stroke="#e63946" stroke-width="2.4" stroke-linecap="round" />
+<line x1="144.0" y1="347.0" x2="158.0" y2="333.0" stroke="#e63946" stroke-width="2.4" stroke-linecap="round" />
+<line x1="253.0" y1="333.0" x2="267.0" y2="347.0" stroke="#e63946" stroke-width="2.4" stroke-linecap="round" />
+<line x1="253.0" y1="347.0" x2="267.0" y2="333.0" stroke="#e63946" stroke-width="2.4" stroke-linecap="round" />
+<text x="50.0" y="384.0" font-size="14" font-weight="700" fill="#e63946" text-anchor="start" >Noise spikes cross the threshold:</text>
+<text x="50.0" y="404.0" font-size="14" font-weight="700" fill="#e63946" text-anchor="start" >a 0 is read as 1 and the other way around.</text>
+<text x="50.0" y="440.0" font-size="13.5" font-weight="600" fill="#4a5568" text-anchor="start" >Fine for short wires on a board or breadboard</text>
+<text x="50.0" y="459.0" font-size="13.5" font-weight="600" fill="#4a5568" text-anchor="start" >(UART, I2C, analog sensors), not hundreds of meters.</text>
+<rect x="610.0" y="104.0" width="560.0" height="420.0" rx="14" fill="#ffffff" stroke="#6d4aa8" stroke-width="1.8" />
+<rect x="630.0" y="118.0" width="300.0" height="26.0" rx="13.0" fill="#6d4aa8" />
+<text x="780.0" y="135.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >RS-485: differential, two twisted wires</text>
+<text x="630.0" y="172.0" font-size="13.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >Wires A and B are always opposite; noise hits both of them</text>
+<path d="M650.0 200.0 L704.0 200.0 L704.0 240.0 L758.0 240.0 L758.0 200.0 L812.0 200.0 L812.0 200.0 L866.0 200.0 L866.0 240.0 L920.0 240.0 L920.0 240.0 L974.0 240.0 L974.0 200.0 L1028.0 200.0 L1028.0 240.0 L1082.0 240.0" fill="none" stroke="#6d4aa8" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M726.0 240.0 L731.0 218.0 L736.0 240.0" fill="none" stroke="#e63946" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M835.0 200.0 L840.0 222.0 L845.0 200.0" fill="none" stroke="#e63946" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M945.0 240.0 L950.0 218.0 L955.0 240.0" fill="none" stroke="#e63946" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M650.0 318.0 L704.0 318.0 L704.0 278.0 L758.0 278.0 L758.0 318.0 L812.0 318.0 L812.0 318.0 L866.0 318.0 L866.0 278.0 L920.0 278.0 L920.0 278.0 L974.0 278.0 L974.0 318.0 L1028.0 318.0 L1028.0 278.0 L1082.0 278.0" fill="none" stroke="#9b86c9" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M726.0 278.0 L731.0 256.0 L736.0 278.0" fill="none" stroke="#e63946" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M835.0 318.0 L840.0 340.0 L845.0 318.0" fill="none" stroke="#e63946" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M945.0 278.0 L950.0 256.0 L955.0 278.0" fill="none" stroke="#e63946" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="1104.0" y="222.0" font-size="14" font-weight="800" fill="#6d4aa8" text-anchor="start" >A</text>
+<text x="1104.0" y="300.0" font-size="14" font-weight="800" fill="#9b86c9" text-anchor="start" >B</text>
+<line x1="640.0" y1="344.0" x2="1100.0" y2="344.0" stroke="#e0dcd2" stroke-width="1.2" stroke-linecap="round" />
+<text x="630.0" y="370.0" font-size="13.5" font-weight="800" fill="#6d4aa8" text-anchor="start" >What the receiver reads: A − B</text>
+<path d="M650.0 394.0 L704.0 394.0 L704.0 440.0 L758.0 440.0 L758.0 394.0 L812.0 394.0 L812.0 394.0 L866.0 394.0 L866.0 440.0 L920.0 440.0 L920.0 440.0 L974.0 440.0 L974.0 394.0 L1028.0 394.0 L1028.0 440.0 L1082.0 440.0" fill="none" stroke="#6d4aa8" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M670 460 L675 466 L685 454" fill="none" stroke="#2a9d5c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M724 460 L729 466 L739 454" fill="none" stroke="#2a9d5c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M778 460 L783 466 L793 454" fill="none" stroke="#2a9d5c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M832 460 L837 466 L847 454" fill="none" stroke="#2a9d5c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M886 460 L891 466 L901 454" fill="none" stroke="#2a9d5c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M940 460 L945 466 L955 454" fill="none" stroke="#2a9d5c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M994 460 L999 466 L1009 454" fill="none" stroke="#2a9d5c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M1048 460 L1053 466 L1063 454" fill="none" stroke="#2a9d5c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="630.0" y="490.0" font-size="13.5" font-weight="700" fill="#2a9d5c" text-anchor="start" >The spikes are the same on A and B, so they vanish when subtracted.</text>
+<text x="630.0" y="509.0" font-size="13.5" font-weight="700" fill="#2a9d5c" text-anchor="start" >The receiver still reliably reads a difference as small as 0.2 V.</text>
+<rect x="30.0" y="538.0" width="1140.0" height="44.0" rx="10" fill="#eef1f5" />
+<text x="600.0" y="566.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="middle" >The result: an RS-485 cable can be about 1,200 m long at low speeds (Modbus specification: 1,000 m at 9600 baud).</text>
+<text x="1178.0" y="606.0" font-size="11" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer curriculum · CC BY 4.0</text>
+</svg>

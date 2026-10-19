@@ -1,0 +1,265 @@
+[
+    {
+        "id": "f15c000000000001",
+        "type": "ui-group",
+        "name": "RS-485 Sensor",
+        "page": "f13c000000000003",
+        "width": "6",
+        "height": "1",
+        "order": 5,
+        "showTitle": true,
+        "className": "",
+        "visible": true,
+        "disabled": false,
+        "groupType": "default",
+        "tab": ""
+    },
+    {
+        "id": "f15d000000000000",
+        "type": "comment",
+        "z": "f13a000000000001",
+        "name": "6 · RS-485 Sensor: three Modbus fields in Node 1 telemetry (Module 15)",
+        "info": "Replace a4cf12e5b7c0 with your Node 1's device_id. The fields only exist after the \"rs485 on\" command on Node 1.",
+        "x": 330,
+        "y": 1800,
+        "wires": []
+    },
+    {
+        "id": "f15d000000000001",
+        "type": "mqtt in",
+        "z": "f13a000000000001",
+        "name": "telemetry Node 1 (RS-485)",
+        "topic": "msh/a4cf12e5b7c0/telemetry",
+        "qos": "0",
+        "datatype": "auto-detect",
+        "broker": "f13b000000000001",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 200,
+        "y": 1860,
+        "wires": [
+            [
+                "f15d000000000002",
+                "f15e000000000001",
+                "f15d000000000003",
+                "f15d000000000004",
+                "f15e000000000004"
+            ]
+        ]
+    },
+    {
+        "id": "f15d000000000002",
+        "type": "debug",
+        "z": "f13a000000000001",
+        "name": "watch RS-485 fields",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 500,
+        "y": 1860,
+        "wires": []
+    },
+    {
+        "id": "f15e000000000001",
+        "type": "ui-text",
+        "z": "f13a000000000001",
+        "group": "f15c000000000001",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Sensor state",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "Helvetica",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "$exists(payload.soil_rs485) ? (payload.soil_rs485 != null ? \"reading\" : \"no reading\") : \"not in use\"",
+        "valueType": "jsonata",
+        "x": 470,
+        "y": 1910,
+        "wires": []
+    },
+    {
+        "id": "f15d000000000003",
+        "type": "switch",
+        "z": "f13a000000000001",
+        "name": "RS-485 moisture present?",
+        "property": "payload.soil_rs485",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "nnull"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 500,
+        "y": 1960,
+        "wires": [
+            [
+                "f15e000000000002"
+            ]
+        ]
+    },
+    {
+        "id": "f15d000000000004",
+        "type": "switch",
+        "z": "f13a000000000001",
+        "name": "RS-485 soil temperature present?",
+        "property": "payload.soil_temperature",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "nnull"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 500,
+        "y": 2010,
+        "wires": [
+            [
+                "f15e000000000003"
+            ]
+        ]
+    },
+    {
+        "id": "f15e000000000002",
+        "type": "ui-gauge",
+        "z": "f13a000000000001",
+        "name": "",
+        "group": "f15c000000000001",
+        "order": 2,
+        "value": "payload.soil_rs485",
+        "valueType": "msg",
+        "width": 3,
+        "height": 3,
+        "gtype": "gauge-half",
+        "gstyle": "needle",
+        "title": "Soil moisture (RS-485)",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "%",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#EA5353",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "30",
+                "color": "#5CD65C",
+                "text": "",
+                "textType": "label"
+            }
+        ],
+        "min": 0,
+        "max": 100,
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 790,
+        "y": 1960,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f15e000000000003",
+        "type": "ui-gauge",
+        "z": "f13a000000000001",
+        "name": "",
+        "group": "f15c000000000001",
+        "order": 3,
+        "value": "payload.soil_temperature",
+        "valueType": "msg",
+        "width": 3,
+        "height": 3,
+        "gtype": "gauge-half",
+        "gstyle": "needle",
+        "title": "Soil temperature (RS-485)",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "°C",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#5CD65C",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "30",
+                "color": "#FFC800",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "35",
+                "color": "#EA5353",
+                "text": "",
+                "textType": "label"
+            }
+        ],
+        "min": 0,
+        "max": 50,
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 790,
+        "y": 2010,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f15e000000000004",
+        "type": "ui-text",
+        "z": "f13a000000000001",
+        "group": "f15c000000000001",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "EC (electrical conductivity)",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "Helvetica",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload.ec != null ? $string(payload.ec) & \" µS/cm\" : \"-\"",
+        "valueType": "jsonata",
+        "x": 480,
+        "y": 2060,
+        "wires": []
+    }
+]

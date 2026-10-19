@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="640" viewBox="0 0 1200 640" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="640" fill="#fffdf7"/>
+<text x="600.0" y="40.0" font-size="26" font-weight="700" fill="#1e2a4a" text-anchor="middle" >Mini roadmap — you are here</text>
+<text x="600.0" y="66.0" font-size="15" font-weight="400" fill="#555" text-anchor="middle" >32 modules = 32 weeks · one running project, "Mini Smart Home", that grows from a blinking LED into an online system</text>
+<rect x="60.0" y="100.0" width="160.0" height="56.0" rx="8" fill="#e0e0e0" />
+<text x="140.0" y="124.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="middle" >PHASE 0</text>
+<text x="140.0" y="144.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="middle" >Foundations · M1–4</text>
+<rect x="226.0" y="100.0" width="125.0" height="56.0" rx="8" fill="#e0e0e0" />
+<text x="288.5" y="124.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="middle" >PHASE 1</text>
+<text x="288.5" y="144.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="middle" >ESP32 · M5–9</text>
+<rect x="357.0" y="100.0" width="176.0" height="56.0" rx="8" fill="#f4a261" />
+<text x="445.0" y="124.0" font-size="14" font-weight="700" fill="#1e2a4a" text-anchor="middle" >PHASE 2</text>
+<text x="445.0" y="144.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="middle" >Connectivity · M10–15</text>
+<rect x="539.0" y="100.0" width="196.0" height="56.0" rx="8" fill="#d6f0e3" />
+<text x="637.0" y="124.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="middle" >PHASE 3</text>
+<text x="637.0" y="144.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="middle" >Backend &amp; data · M16–21</text>
+<rect x="741.0" y="100.0" width="170.0" height="56.0" rx="8" fill="#e6dcf5" />
+<text x="826.0" y="124.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="middle" >PHASE 4</text>
+<text x="826.0" y="144.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="middle" >Dashboard · M22–25</text>
+<rect x="917.0" y="100.0" width="223.0" height="56.0" rx="8" fill="#e0e0e0" />
+<text x="1028.5" y="124.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="middle" >PHASE 5</text>
+<text x="1028.5" y="144.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="middle" >Operations &amp; scale · M26–32</text>
+<rect x="60.0" y="170.0" width="30.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="75.0" y="188.0" font-size="13" font-weight="600" fill="#fff" text-anchor="middle" >M1</text>
+<rect x="96.0" y="170.0" width="30.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="111.0" y="188.0" font-size="13" font-weight="600" fill="#fff" text-anchor="middle" >M2</text>
+<rect x="132.0" y="170.0" width="30.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="147.0" y="188.0" font-size="13" font-weight="600" fill="#fff" text-anchor="middle" >M3</text>
+<rect x="168.0" y="170.0" width="30.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="183.0" y="188.0" font-size="13" font-weight="600" fill="#fff" text-anchor="middle" >M4</text>
+<rect x="226.00" y="170.0" width="22.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="237.00" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M5</text>
+<rect x="251.75" y="170.0" width="22.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="262.75" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M6</text>
+<rect x="277.50" y="170.0" width="22.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="288.50" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M7</text>
+<rect x="303.25" y="170.0" width="22.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="314.25" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M8</text>
+<rect x="329.00" y="170.0" width="22.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="340.00" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M9</text>
+<rect x="357.00" y="170.0" width="27.5" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="370.75" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M10</text>
+<rect x="386.70" y="170.0" width="27.5" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="400.45" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M11</text>
+<rect x="416.40" y="170.0" width="27.5" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="430.15" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M12</text>
+<rect x="446.10" y="170.0" width="27.5" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="459.85" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M13</text>
+<rect x="475.80" y="170.0" width="27.5" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="489.55" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M14</text>
+<rect x="505.50" y="170.0" width="27.5" height="26.0" rx="5" fill="#e63946" />
+<text x="519.25" y="187.2" font-size="11.5" font-weight="700" fill="#fff" text-anchor="middle" >M15</text>
+<text x="60.0" y="214.0" font-size="13" font-weight="700" fill="#2a9d5c" text-anchor="start" >done ✓ (M1–14)</text>
+<line x1="519.25" y1="202.0" x2="519.25" y2="228.0" stroke="#e63946" stroke-width="2.4" stroke-linecap="round" />
+<path d="M515.45 220.9 L519.25 228.0 L523.05 220.9" fill="none" stroke="#e63946" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="519.25" y="248.0" font-size="14" font-weight="800" fill="#e63946" text-anchor="middle" >YOU ARE HERE</text>
+<text x="596.35" y="248.0" font-size="14" font-weight="700" fill="#b45f17" text-anchor="start" >← Node 1 reads an industrial sensor over an RS-485 cable · Phase 2 checkpoint</text>
+<rect x="60.0" y="270.0" width="1080.0" height="320.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="80.0" y="302.0" font-size="17" font-weight="700" fill="#1e2a4a" text-anchor="start" >Module 15 this week (8–10 hours, spread out)</text>
+<text x="1120.0" y="302.0" font-size="14" font-weight="700" fill="#b45f17" text-anchor="end" >⭐ = required to pass</text>
+<text x="80.0" y="326.0" font-size="14" font-weight="600" fill="#4a5568" text-anchor="start" >Kit A Stage 2: two MAX485 modules, 5 m UTP cable, 4.7 kΩ and 10 kΩ resistors, second board (Node 2, borrowed)</text>
+<rect x="80.0" y="349.0" width="50.0" height="22.0" rx="11.0" fill="#0f8b8d" />
+<text x="105.0" y="364.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >QW</text>
+<text x="142.0" y="365.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >Quick Win: hello over two wires</text>
+<rect x="80.0" y="383.0" width="50.0" height="22.0" rx="11.0" fill="#0f8b8d" />
+<text x="105.0" y="398.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P1</text>
+<text x="142.0" y="399.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >walkie-talkie: taking turns to talk (DE/RE)</text>
+<rect x="80.0" y="417.0" width="50.0" height="22.0" rx="11.0" fill="#0f8b8d" />
+<text x="105.0" y="432.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P2</text>
+<text x="142.0" y="433.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >a mock RS-485 soil sensor on the second board</text>
+<rect x="80.0" y="451.0" width="50.0" height="22.0" rx="11.0" fill="#0f8b8d" />
+<text x="105.0" y="466.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P3</text>
+<text x="142.0" y="467.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >Modbus frames by hand</text>
+<rect x="80.0" y="485.0" width="50.0" height="22.0" rx="11.0" fill="#0f8b8d" />
+<text x="105.0" y="500.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P4</text>
+<text x="142.0" y="501.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >ModbusMaster: reading three registers</text>
+<rect x="610.0" y="349.0" width="50.0" height="22.0" rx="11.0" fill="#0f8b8d" />
+<text x="635.0" y="364.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P5</text>
+<text x="672.0" y="365.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >Node 1 v1.4.0: the RS-485 sensor joins the telemetry ⭐</text>
+<rect x="610.0" y="383.0" width="50.0" height="22.0" rx="11.0" fill="#0f8b8d" />
+<text x="635.0" y="398.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P6</text>
+<text x="672.0" y="399.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >the RS-485 Sensor group in Node-RED, 5 m cable ⭐</text>
+<rect x="610.0" y="417.0" width="50.0" height="22.0" rx="11.0" fill="#0f8b8d" />
+<text x="635.0" y="432.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P7</text>
+<text x="672.0" y="433.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >choosing a protocol: five scenarios ⭐</text>
+<rect x="610.0" y="451.0" width="50.0" height="22.0" rx="11.0" fill="#b45f17" />
+<text x="635.0" y="467.4" font-size="15" font-weight="700" fill="#ffffff" text-anchor="middle" >+</text>
+<text x="672.0" y="467.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" >Add-on: contract 1.2, pin map 6, save ⭐</text>
+<text x="80.0" y="532.0" font-size="14" font-weight="600" fill="#4a5568" text-anchor="start" >No MAX485 modules or second board? Wokwi has no RS-485 parts yet and can't connect two ESP32s yet.</text>
+<text x="80.0" y="554.0" font-size="14" font-weight="600" fill="#4a5568" text-anchor="start" >The Wokwi path uses the mock "RS-485 Soil Sensor" chip to test its Modbus language (Practices 3–5).</text>
+<text x="80.0" y="576.0" font-size="14" font-weight="600" fill="#4a5568" text-anchor="start" >The 5 m cable and two boards talking over a cable need real boards.</text>
+<text x="1178.0" y="626.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer curriculum · CC BY 4.0</text>
+</svg>

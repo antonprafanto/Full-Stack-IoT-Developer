@@ -1,0 +1,10 @@
+{
+  "name": "RS-485 Soil Sensor (mock)",
+  "author": "Fullstack IoT Developer curriculum (Module 15)",
+  "pins": ["VCC", "GND", "RO", "DI", "DE_RE", ""],
+  "controls": [
+    { "id": "moisture", "label": "Soil moisture (%)", "type": "range", "min": 0, "max": 100, "step": 0.1 },
+    { "id": "temperature", "label": "Soil temperature (°C)", "type": "range", "min": -40, "max": 80, "step": 0.1 },
+    { "id": "ec", "label": "EC (µS/cm)", "type": "range", "min": 0, "max": 20000, "step": 10 }
+  ]
+}

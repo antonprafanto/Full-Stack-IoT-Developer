@@ -1,0 +1,106 @@
+{
+  "version": 1,
+  "author": "Fullstack IoT Developer curriculum (Module 15)",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "wokwi-esp32-devkit-v1",
+      "id": "esp",
+      "top": 0,
+      "left": 0,
+      "attrs": {}
+    },
+    {
+      "type": "chip-soil-sensor",
+      "id": "sensor",
+      "top": 90,
+      "left": 150,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-vcc",
+      "id": "vcc_sensor",
+      "top": 60,
+      "left": 160,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-logic-analyzer",
+      "id": "logic",
+      "top": 230,
+      "left": 150,
+      "attrs": {
+        "channelNames": "DI,RO,DE_RE"
+      }
+    }
+  ],
+  "connections": [
+    [
+      "esp:TX0",
+      "$serialMonitor:RX",
+      "",
+      []
+    ],
+    [
+      "esp:RX0",
+      "$serialMonitor:TX",
+      "",
+      []
+    ],
+    [
+      "esp:TX2",
+      "sensor:DI",
+      "green",
+      []
+    ],
+    [
+      "sensor:RO",
+      "esp:RX2",
+      "blue",
+      []
+    ],
+    [
+      "esp:D4",
+      "sensor:DE_RE",
+      "orange",
+      []
+    ],
+    [
+      "vcc_sensor:VCC",
+      "sensor:VCC",
+      "red",
+      []
+    ],
+    [
+      "esp:GND.1",
+      "sensor:GND",
+      "black",
+      []
+    ],
+    [
+      "logic:D0",
+      "esp:TX2",
+      "green",
+      []
+    ],
+    [
+      "logic:D1",
+      "esp:RX2",
+      "blue",
+      []
+    ],
+    [
+      "logic:D2",
+      "esp:D4",
+      "orange",
+      []
+    ],
+    [
+      "logic:GND",
+      "esp:GND.1",
+      "black",
+      []
+    ]
+  ],
+  "dependencies": {}
+}

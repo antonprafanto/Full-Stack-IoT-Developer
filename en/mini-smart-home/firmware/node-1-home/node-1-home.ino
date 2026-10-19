@@ -1,6 +1,9 @@
-// Node 1 "Home" - firmware v1.3.0 (Module 14: the ESP-NOW bridge for Node 2 "Garden")
+// Node 1 "Home" - firmware v1.4.0 (Module 15: RS-485 soil sensor over Modbus RTU)
 // The running project: Mini Smart Home.
 //
+// New in v1.4.0: Node 1 is now a Modbus RTU client. Every 10 seconds it reads three registers of the RS-485 soil sensor
+// (via the MAX485 module on Serial2) and adds soil_rs485, soil_temperature, and ec to telemetry (data contract 1.2).
+// The sensor is used after the "rs485 on" command. The status LED moves to D2 because D4 is now the DE/RE pin.
 // New in v1.3.0: Node 1 listens for ESP-NOW packets from Node 2 "Garden" and publishes them to the broker on behalf of
 // Node 2 (msh/<device_id Node 2>/telemetry and /status), including readings held back while the router was off.
 // The radio no longer sleeps (setSleep false) and doesn't reconnect by itself: the 60-second guard retries.
@@ -9,12 +12,13 @@
 // commands from the broker answered with an ack. The /on /off web server and the HTTP sending of v1.1.0 are retired.
 // From v1.0.0 (Module 8): no delay() in loop(), modular code, watchdog, NVS, leveled logging, status page.
 // Commands from the Serial Monitor: lamp on, fan off, pump 3, curtain 90, beep, status, info,
-// threshold, threshold 35, threshold default, log debug, log info, log error, wifi, wifi forget, send, node2, node2 reset, restart.
+// threshold, threshold 35, threshold default, log debug, log info, log error, wifi, wifi forget, send, node2,
+// node2 reset, rs485, rs485 on, rs485 off, restart.
 //
 // Libraries: ESP32Servo version 3.2.1, DHT sensor library version 1.4.7
 // (installed with it: Adafruit Unified Sensor version 1.1.15), Adafruit SSD1306 version 2.5.17
 // (installed with it: Adafruit GFX Library version 1.12.6 and Adafruit BusIO version 1.17.4),
-// WiFiManager version 2.0.17, ArduinoJson version 7.4.3, and PubSubClient3 version 3.3.2.
+// WiFiManager version 2.0.17, ArduinoJson version 7.4.3, PubSubClient3 version 3.3.2, and ModbusMaster version 2.0.1.
 // Wire, SPI, SD, Preferences, and WiFi already come with the esp32 package.
 
 #include <esp_task_wdt.h>  // watchdog
@@ -32,6 +36,7 @@
 #include "rules.h"
 #include "networking.h"  // Modules 10-11
 #include "bridge.h"   // Module 14: Node 2 over ESP-NOW
+#include "rs485.h"    // Module 15: RS-485 soil sensor
 
 // ---------- Main cycle: IDLE -> READING -> DISPLAYING -> ACTING -> IDLE ... ----------
 enum CycleStep { IDLE, READING, DISPLAYING, ACTING };
@@ -160,6 +165,7 @@ void setup() {
   setupCard();     // Module 7 (optional)
   setupNetwork();  // Module 10: the WiFi portal may wait here because the watchdog isn't watching yet
   setupBridge();   // Module 14: after the WiFi is on
+  setupRS485();    // Module 15
 
   // The watchdog, written the esp32 package version 3 way (Concept 8)
   esp_task_wdt_config_t watchdogConfig = {
@@ -186,6 +192,7 @@ void loop() {
   handleButton();
   checkSerialCommand();
   runCycle();
+  updateRS485();         // Module 15: the RS-485 sensor every 10 seconds; waits up to 2 seconds if the sensor is silent
 
   recordLoopTime(micros() - loopStart);
 }

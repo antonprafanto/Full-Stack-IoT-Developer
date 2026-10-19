@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="830" viewBox="0 0 1200 830" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="830" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Decision tree: which protocol fits?</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Answer the questions from top to bottom · stop at the first "yes"</text>
+<rect x="30.0" y="112.0" width="640.0" height="74.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<circle cx="56.0" cy="149.0" r="13" fill="#1e2a4a" stroke="#ffffff" stroke-width="2" />
+<text x="56.0" y="153.7" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle" >1</text>
+<text x="80.0" y="154.0" font-size="14" font-weight="700" fill="#1e2a4a" text-anchor="start" >Can the sensor be wired, and is the environment industrial (lots of noise)?</text>
+<line x1="674.0" y1="149.0" x2="744.0" y2="149.0" stroke="#6d4aa8" stroke-width="2.4" stroke-linecap="round" />
+<path d="M736.1 153.2 L744.0 149.0 L736.1 144.8" fill="none" stroke="#6d4aa8" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="709.0" y="141.0" font-size="12.5" font-weight="800" fill="#6d4aa8" text-anchor="middle" >yes</text>
+<rect x="750.0" y="116.0" width="420.0" height="66.0" rx="10" fill="#ffffff" stroke="#6d4aa8" stroke-width="2" />
+<text x="770.0" y="144.0" font-size="16" font-weight="800" fill="#6d4aa8" text-anchor="start" >RS-485 / Modbus RTU</text>
+<text x="770.0" y="166.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >Modbus TCP if there's already Ethernet/a PLC</text>
+<line x1="110.0" y1="186.0" x2="110.0" y2="214.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<path d="M106.7 207.8 L110.0 214.0 L113.3 207.8" fill="none" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="122.0" y="206.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" >no</text>
+<rect x="30.0" y="216.0" width="640.0" height="74.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<circle cx="56.0" cy="253.0" r="13" fill="#1e2a4a" stroke="#ffffff" stroke-width="2" />
+<text x="56.0" y="257.7" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle" >2</text>
+<text x="80.0" y="258.0" font-size="14" font-weight="700" fill="#1e2a4a" text-anchor="start" >Is there Wi-Fi at the location, and power?</text>
+<line x1="674.0" y1="253.0" x2="744.0" y2="253.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<path d="M736.1 257.2 L744.0 253.0 L736.1 248.8" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="709.0" y="245.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" >yes</text>
+<rect x="750.0" y="220.0" width="420.0" height="66.0" rx="10" fill="#ffffff" stroke="#1e2a4a" stroke-width="2" />
+<text x="770.0" y="248.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="start" >Wi-Fi</text>
+<text x="770.0" y="270.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >straight to MQTT, like Node 1</text>
+<line x1="110.0" y1="290.0" x2="110.0" y2="318.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<path d="M106.7 311.8 L110.0 318.0 L113.3 311.8" fill="none" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="122.0" y="310.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" >no</text>
+<rect x="30.0" y="320.0" width="640.0" height="74.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<circle cx="56.0" cy="357.0" r="13" fill="#1e2a4a" stroke="#ffffff" stroke-width="2" />
+<text x="56.0" y="361.7" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle" >3</text>
+<text x="80.0" y="362.0" font-size="14" font-weight="700" fill="#1e2a4a" text-anchor="start" >Less than about 150 m from an ESP32 on Wi-Fi, running on an 18650 battery?</text>
+<line x1="674.0" y1="357.0" x2="744.0" y2="357.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<path d="M736.1 361.2 L744.0 357.0 L736.1 352.8" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="709.0" y="349.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" >yes</text>
+<rect x="750.0" y="324.0" width="420.0" height="66.0" rx="10" fill="#ffffff" stroke="#1e2a4a" stroke-width="2" />
+<text x="770.0" y="352.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="start" >ESP-NOW</text>
+<text x="770.0" y="374.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >like Node 2 in Module 14</text>
+<line x1="110.0" y1="394.0" x2="110.0" y2="422.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<path d="M106.7 415.8 L110.0 422.0 L113.3 415.8" fill="none" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="122.0" y="414.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" >no</text>
+<rect x="30.0" y="424.0" width="640.0" height="74.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<circle cx="56.0" cy="461.0" r="13" fill="#1e2a4a" stroke="#ffffff" stroke-width="2" />
+<text x="56.0" y="465.7" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle" >4</text>
+<text x="80.0" y="466.0" font-size="14" font-weight="700" fill="#1e2a4a" text-anchor="start" >A smart home device, or must it last long on a coin cell?</text>
+<line x1="674.0" y1="461.0" x2="744.0" y2="461.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<path d="M736.1 465.2 L744.0 461.0 L736.1 456.8" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="709.0" y="453.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" >yes</text>
+<rect x="750.0" y="428.0" width="420.0" height="66.0" rx="10" fill="#ffffff" stroke="#1e2a4a" stroke-width="2" />
+<text x="770.0" y="456.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="start" >Zigbee / Thread + Matter</text>
+<text x="770.0" y="478.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >needs a hub or a border router</text>
+<line x1="110.0" y1="498.0" x2="110.0" y2="526.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<path d="M106.7 519.8 L110.0 526.0 L113.3 519.8" fill="none" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="122.0" y="518.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" >no</text>
+<rect x="30.0" y="528.0" width="640.0" height="74.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<circle cx="56.0" cy="565.0" r="13" fill="#1e2a4a" stroke="#ffffff" stroke-width="2" />
+<text x="56.0" y="569.7" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle" >5</text>
+<text x="80.0" y="570.0" font-size="14" font-weight="700" fill="#1e2a4a" text-anchor="start" >Devices spread widely or moving, cellular signal, ready to pay for a data plan?</text>
+<line x1="674.0" y1="565.0" x2="744.0" y2="565.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<path d="M736.1 569.2 L744.0 565.0 L736.1 560.8" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="709.0" y="557.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" >yes</text>
+<rect x="750.0" y="532.0" width="420.0" height="66.0" rx="10" fill="#ffffff" stroke="#1e2a4a" stroke-width="2" />
+<text x="770.0" y="560.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="start" >NB-IoT</text>
+<text x="770.0" y="582.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >special SIM card; LTE-M not listed for Indonesia yet</text>
+<line x1="110.0" y1="602.0" x2="110.0" y2="630.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<path d="M106.7 623.8 L110.0 630.0 L113.3 623.8" fill="none" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="122.0" y="622.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" >no</text>
+<rect x="30.0" y="632.0" width="640.0" height="74.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<circle cx="56.0" cy="669.0" r="13" fill="#1e2a4a" stroke="#ffffff" stroke-width="2" />
+<text x="56.0" y="673.7" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle" >6</text>
+<text x="80.0" y="674.0" font-size="14" font-weight="700" fill="#1e2a4a" text-anchor="start" >Kilometers, small data, rare sends, no power?</text>
+<line x1="674.0" y1="669.0" x2="744.0" y2="669.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<path d="M736.1 673.2 L744.0 669.0 L736.1 664.8" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="709.0" y="661.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" >yes</text>
+<rect x="750.0" y="636.0" width="420.0" height="66.0" rx="10" fill="#ffffff" stroke="#1e2a4a" stroke-width="2" />
+<text x="770.0" y="664.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="start" >LoRa / LoRaWAN</text>
+<text x="770.0" y="686.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >920–923 MHz (AS923-2), at most 1% of the time</text>
+<rect x="30.0" y="738.0" width="1140.0" height="56.0" rx="10" fill="#eef1f5" />
+<text x="52.0" y="762.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >Talking to a phone nearby (a scale, a watch, a device's first setup)? → BLE</text>
+<text x="52.0" y="782.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >This tree is a simplification; the final answer is still weighed against the Concept 8 table and the costs where you are.</text>
+<text x="1178.0" y="816.0" font-size="11" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer curriculum · CC BY 4.0</text>
+</svg>

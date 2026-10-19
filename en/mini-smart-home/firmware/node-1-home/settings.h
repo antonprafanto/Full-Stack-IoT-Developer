@@ -7,3 +7,5 @@ bool thresholdFromNvs();                      // true if that threshold comes fr
 bool saveSoilWateringThreshold(int percent);  // returns false if the number is outside 0-100
 void removeSoilWateringThreshold();           // back to using DEFAULT_SOIL_WATERING_THRESHOLD in config.h
 unsigned long bootCount();                    // how many times Node 1 has booted, restarts included
+bool rs485SensorEnabled();                    // Module 15: true after the "rs485 on" command
+void saveRs485SensorEnabled(bool enabled);    // Module 15: "rs485 on" / "rs485 off", saved in NVS

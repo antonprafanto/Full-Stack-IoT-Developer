@@ -2,7 +2,7 @@
 
 🌐 **English** · [Bahasa Indonesia](../../proyek-rumah-pintar-mini/PETA-PIN.md)
 
-> Created in [Module 5](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-1-esp32-embedded/module-05-gpio-and-pin-map/README.md#3-the-pin-budget-and-the-canonical-pin-map-of-node-1-and-node-2), updated in [Module 6](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-1-esp32-embedded/module-06-reading-sensors/README.md), [Module 7](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-1-esp32-embedded/module-07-sensor-bus-oled-schematics/README.md), [Module 9](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-1-esp32-embedded/module-09-power-and-low-power/README.md), and [Module 14](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-14-node-2-esp-now/README.md); valid until Module 28.
+> Created in [Module 5](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-1-esp32-embedded/module-05-gpio-and-pin-map/README.md#3-the-pin-budget-and-the-canonical-pin-map-of-node-1-and-node-2), updated in [Module 6](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-1-esp32-embedded/module-06-reading-sensors/README.md), [Module 7](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-1-esp32-embedded/module-07-sensor-bus-oled-schematics/README.md), [Module 9](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-1-esp32-embedded/module-09-power-and-low-power/README.md), [Module 14](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-14-node-2-esp-now/README.md), and [Module 15](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-15-modbus-rs485-and-protocols/README.md); valid until Module 28.
 > **Before you add anything to Node 1 or Node 2, check this file first.**
 
 ## Rules
@@ -13,11 +13,11 @@
 
 ## Node 1 "Home"
 
-The first ESP32 DevKit V1, inside the house. Since Module 9, this board gets its power from **its own charger** through the board's USB port. This board never runs on a battery and never sleeps.
+The first ESP32 DevKit V1, inside the house. Since Module 9, this board gets its power from **its own charger** through the board's USB port. This board never runs on a battery and never sleeps. Since Module 15, a MAX485 module is also connected so that Node 1 can read industrial sensors over an RS-485 cable (see **RS-485 on the Node 1 workbench**).
 
-| GPIO (label on the board) | For | Direction | Since | Status after Module 9 | Notes |
+| GPIO (label on the board) | For | Direction | Since | Status after Module 15 | Notes |
 | :--- | :--- | :--- | :---: | :--- | :--- |
-| 4 (D4) | Status LED | output | M2 | connected | through a 220 Ω resistor |
+| 2 (D2) | Status LED | output | M2 | connected | through a 220 Ω resistor; on D4 until Module 14, moved to D2 in Module 15; the board's built-in blue LED blinks along with it; strapping pin: an LED to GND is safe, but don't connect anything that pulls D2 HIGH (see the D4 row) |
 | 13 (D13) | Manual button | input | M5 | connected | `INPUT_PULLUP`; the other leg goes to GND |
 | 32 (D32) | Lamp relay (IN1) | output | M5 | connected | active-LOW relay |
 | 33 (D33) | Fan relay (IN2) | output | M5 | connected | active-LOW relay |
@@ -32,8 +32,8 @@ The first ESP32 DevKit V1, inside the house. Since Module 9, this board gets its
 | 15 (D15) | HC-SR04 TRIG | output | M6 | connected | strapping pin, safe as an output; the HC-SR04 gets 5 V from the top rail |
 | 21 / 22 (D21 / D22) | I2C SDA / SCL: OLED display (address `0x3C`) | bus | M7 | connected | bus strips on the lower breadboard (see **Buses on the breadboard**); the display gets 3.3 V from the bottom rail; the BME280 is only practice and moves to Node 2; address `0x40` is reserved for the **INA219**, a temporary current meter (Module 9), connected in the BME280's holes only while measuring |
 | 18 / 19 / 23 / 5 (D18 / D19 / D23 / D5) | microSD SCK / MISO / MOSI / CS | SPI bus | M7 | optional | connect it according to the **Buses on the breadboard** table; logs `node1.csv`; regulated module: press **EN** after turning on the MB102 so the card is detected; D5 is a strapping pin (HIGH at power-up), safe as a CS output; may be removed after Module 11 |
-| 16 / 17 (RX2 / TX2) | RS-485 RO / DI (MAX485) | UART bus | M15 | reserved | GPIO 16 was borrowed for the DS18B20 practice in Module 7 (finished, the sensor is stored for Node 2); the RO output of a MAX485 module powered with 5 V is first brought down to 3.3 V (Module 15) |
-| 2 (D2) | RS-485 DE/RE + built-in blue LED | output | M15 | reserved | strapping pin; the blue LED lights up while transmitting |
+| 16 / 17 (RX2 / TX2) | RS-485 RO / DI (MAX485) | UART bus | M15 | connected | `Serial2` 9600 baud 8N1, the pins **must** be written in `Serial2.begin()` (without pins, the esp32 3.x package uses GPIO 4 and 25); the RO of the 5 V module goes through a 4.7 kΩ + 10 kΩ voltage divider (5 V → about 3.4 V), DI goes straight to the pin |
+| 4 (D4) | RS-485 DE and RE (joined together) | output | M15 | connected | HIGH = talk, LOW = listen; not a strapping pin (the blue MAX485 module pulls DE and RE up to 5 V through 10 kΩ: on D2, uploading a program could fail, so D2 went to the status LED) |
 
 ## Node 2 "Garden"
 
@@ -46,7 +46,7 @@ The second ESP32 DevKit V1, battery powered. Its skeleton (DS18B20 and the "awak
 | 21 / 22 | I2C SDA / SCL: BME280 (address `0x76` or `0x77`) | M14 | connected | VIN from the bottom rail (+) 3.3 V; read in forced mode (one measurement, then the sensor sleeps by itself) |
 | 39 (VN) | Second soil sensor: AOUT | M14 | connected | ADC1; same pin as on Node 1, so the code can be reused; the two-point calibration is done again with power from D32 |
 | 32 (D32) | Second soil sensor: VCC | M14 | connected | output HIGH **only while awake** (the sensor draws about 5 mA); **not** 3V3, because the sensor would then stay on all the time while Node 2 sleeps |
-| 16 / 17 / 2 | RS-485 for the Module 15 lab | M15 | reserved | only during the lab, with its own lab sketch; the MAX485 is removed again afterwards because GPIO 2 is also the "awake" LED |
+| 16 / 17 / 4 | RS-485 for the Module 15 lab (the Node 2 board borrowed as a mock "RS-485 soil sensor") | M15 | done | only during the lab, with its own lab sketch; the MAX485 gets its power from the VIN pin of the board, which is plugged into USB; after the lab, the MAX485 is removed and the Node 2 firmware is uploaded again |
 | 36 (VP) | Battery voltage | M14 | optional | a 2 × 100 kΩ voltage divider from the TP4056's OUT+ to OUT−, the midpoint to VP, a 100 nF capacitor from VP to GND (Module 14 technical deep dive) |
 
 ## Node 2 battery circuit (since Module 9)
@@ -105,7 +105,21 @@ One bus = one strip of connected holes shared by several devices. A new device o
 | I2C SCL (D22) | yellow, from 17e to 19f | column 19, rows f–j | OLED display: SCL at 19j |
 | SPI (optional) | — | each ESP32 pin's own strip, row e | microSD: CS 11e, SCK 12e, MISO 13e, MOSI 18e |
 
-OLED display: GND to the bottom rail (−) column 17, VCC to the bottom rail (+) column 18. microSD module: GND to the bottom rail (−) column 21; VCC of a regulated module to the top rail (+) column 22 (5 V), a 3.3 V-only module to the bottom rail (+) column 21. A regulated module is only detected if the MB102 is already on when the program looks for the card, so after turning on the MB102, press **EN**. **Column 9, rows f–j, is the status LED's cathode strip (GND)**, so don't use it for data wires.
+OLED display: GND to the bottom rail (−) column 17, VCC to the bottom rail (+) column 18. microSD module: GND to the bottom rail (−) column 21; VCC of a regulated module to the top rail (+) column 22 (5 V), a 3.3 V-only module to the bottom rail (+) column 21. A regulated module is only detected if the MB102 is already on when the program looks for the card, so after turning on the MB102, press **EN**. **Column 8, rows f–j, is the status LED's cathode strip (GND)** since Module 15 (column 9 before that), so don't use it for data wires.
+
+## RS-485 on the Node 1 workbench (since Module 15)
+
+All the holes are on the **lower breadboard**, except the end of the module's VCC wire, which goes into the top rail (+) of the upper breadboard. The MAX485 module isn't plugged into the breadboard: its pins are connected with male–female wires. Column 8, rows a–e (the D4 strip), also joins DE and RE together.
+
+| Part | Connections | Notes |
+| :--- | :--- | :--- |
+| Status LED (moved) | 220 Ω resistor 7e → 7g; LED long leg 7i, short leg 8i; black wire 8j → bottom rail (−) column 8 | 7e = the D2 strip |
+| RO voltage divider | 4.7 kΩ resistor 9e → 9g (across the center channel); 10 kΩ resistor 9c → 5c | 9e and 9c = the RX2 strip, 5c = the GND strip; the midpoint is the RX2 strip |
+| MAX485 module: RO, DE, RE, DI | RO → 9i; DE → 8e; RE → 8d; DI → 10e | 10e = the TX2 strip; 8c (under the body of the 10 kΩ resistor) is left empty |
+| MAX485 module: VCC, GND | VCC → top rail (+) column 3 (5 V from the MB102); GND → bottom rail (−) column 14 | **not** 3.3 V |
+| Bus cable | A to A, B to B; a third wire, GND, from bottom rail (−) column 15 to the GND of the device at the other end | completion test: a UTP cable ≥ 5 m (one twisted pair for A/B) |
+
+The 120 Ω resistor on the module (R7, the terminator) is left in place: two modules at the two ends of the cable = exactly two terminators.
 
 ## Golden power rules
 
@@ -124,7 +138,8 @@ OLED display: GND to the bottom rail (−) column 17, VCC to the bottom rail (+)
 | 3 | 7 | I2C bus connected (OLED display at `0x3C`, bus strips in columns 19 and 20, powered from the bottom rail); optional microSD; DS18B20 practice on GPIO 16 finished; new **Buses on the breadboard** table. |
 | 4 | 9 | Node 1 gets its power from its own charger (golden power rules 2, 4, and 5). Node 2 skeleton connected: DS18B20 on GPIO 27 and the "awake" LED on GPIO 2. New **Node 2 battery circuit** section. I2C address `0x40` reserved for the INA219, a temporary measuring tool. |
 | 5 | 14 | Node 2 complete: the BME280 on I2C (D21/D22), the second soil sensor on VN with VCC from **D32** (off during sleep), the DS18B20 moves to the mini breadboard's bottom rail; VP optional for the battery voltage. New **Node 2 sensors** section. Node 1 doesn't change. |
+| 6 | 15 | RS-485 connected on Node 1: RX2/TX2 (16/17) and **DE/RE on D4**; the status LED moves from D4 to **D2** (the MAX485 module pulls DE/RE up to 5 V, so D2 as DE/RE could make uploads fail). The second-board lab uses 16/17/4. New **RS-485 on the Node 1 workbench** section. |
 
 ---
 
-[⬅️ Back to the project folder](README.md) · [Module 5](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-1-esp32-embedded/module-05-gpio-and-pin-map/README.md) · [Module 7](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-1-esp32-embedded/module-07-sensor-bus-oled-schematics/README.md) · [Module 9](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-1-esp32-embedded/module-09-power-and-low-power/README.md) · [Module 14](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-14-node-2-esp-now/README.md) · [Syllabus](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/SYLLABUS.md)
+[⬅️ Back to the project folder](README.md) · [Module 5](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-1-esp32-embedded/module-05-gpio-and-pin-map/README.md) · [Module 7](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-1-esp32-embedded/module-07-sensor-bus-oled-schematics/README.md) · [Module 9](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-1-esp32-embedded/module-09-power-and-low-power/README.md) · [Module 14](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-14-node-2-esp-now/README.md) · [Module 15](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-15-modbus-rs485-and-protocols/README.md) · [Syllabus](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/SYLLABUS.md)

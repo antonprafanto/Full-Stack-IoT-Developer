@@ -2,7 +2,7 @@
 
 🌐 **English** · [Bahasa Indonesia](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/proyek-rumah-pintar-mini/KONTRAK-DATA.md)
 
-> **Contract version 1.1** ([Module 14](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-14-node-2-esp-now/README.md), October 2026; version 1.0 from Module 11). Its main reference is [Appendix A of the Syllabus](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/SYLLABUS.md#14-appendix-a--mini-smart-home-data-contract); this file is its working copy, kept in the project. **The ground rules:** every change is written here and in Appendix A first, then the code is changed, then the firmware version goes up.
+> **Contract version 1.2** ([Module 15](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-15-modbus-rs485-and-protocols/README.md), October 2026; version 1.1 from Module 14, version 1.0 from Module 11). Its main reference is [Appendix A of the Syllabus](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/SYLLABUS.md#14-appendix-a--mini-smart-home-data-contract); this file is its working copy, kept in the project. **The ground rules:** every change is written here and in Appendix A first, then the code is changed, then the firmware version goes up.
 
 The data contract is the "shared language" of every part of the project: the firmware, the broker, the contract checker, the gateway (Module 12), Node-RED (Module 13), the backend (Module 16), the database (Module 17), and the dashboard (Module 22). As long as they all follow this contract, each part can be built in a different week and still fit together with the others. The full explanation is in [Module 11](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-11-mqtt-and-data-contract/README.md).
 
@@ -62,6 +62,22 @@ Node 2 (ESP-NOW) isn't connected to the broker. From Module 14 on, **Node 1 publ
 
 **Immediate sends** (*report-by-exception*) happen when one of these states **changes**: motion or no motion; dark or bright (dark = `light` below `1000`); the soil below or above the watering threshold; the water tank below or above 20%. Immediate sends happen at most every 2 seconds, and the next 10-second slot is counted from the last send.
 
+### RS-485 sensor fields in Node 1 `telemetry` (from contract 1.2, Module 15)
+
+These three fields only exist when an RS-485 soil sensor is connected and switched on with the `rs485 on` command on Node 1. The three always come together; when the sensor isn't in use, none of them is written at all.
+
+```json
+{"ts":"2026-10-19T02:10:05Z","fw":"1.4.0","temperature":28.5,"humidity":71,"light":2310,"soil":37,"motion":false,"water_level":64,"soil_rs485":58.5,"soil_temperature":25.3,"ec":1200}
+```
+
+| Field | Type | Unit and range | Source (Modbus RTU, function 03) | If the reading fails |
+| :--- | :--- | :--- | :--- | :--- |
+| `soil_rs485` | decimal number, one digit after the decimal point | % soil moisture according to the RS-485 sensor, 0–100 | register 0 divided by 10 | `null` |
+| `soil_temperature` | decimal number, one digit after the decimal point | °C, −55 to 125 (the same name and meaning as Node 2's field) | register 1 divided by 10, signed | `null` |
+| `ec` | integer | µS/cm (the soil's electrical conductivity), 0–20,000 | register 2 | `null` |
+
+The RS-485 sensor is read every 10 seconds; `telemetry` carries its last reading. If the last reading failed (the sensor didn't answer, a wrong CRC, or an exception), all three fields are written as `null`. The name `soil_rs485` is deliberately different from `soil`: Node 1 already has `soil` from the capacitive sensor, and the two devices measure in different ways and on different scales. The register map above belongs to the Module 15 mock sensor; a real sensor has its own map, but the fields stay the same.
+
 ### Node 2 `telemetry` (from contract 1.1, Module 14)
 
 ```json
@@ -79,7 +95,7 @@ Node 2 (ESP-NOW) isn't connected to the broker. From Module 14 on, **Node 1 publ
 | `soil` | integer | %, from the two-point calibration of the second soil sensor | second capacitive soil sensor (VN/GPIO 39, powered from D32) | `null` |
 | `battery` | decimal number, two digits after the decimal point | battery volts, 2.5–4.5 | voltage divider (VP/GPIO 36), **optional** | `null`; the field is missing if the divider isn't fitted |
 
-**Fields per device.** Every device writes only the sensor fields it has: Node 1 never writes `pressure`, and Node 2 never writes `light`. The field of a sensor that isn't fitted isn't written; the field of a sensor that fails to read is written as `null`. The same name means the same thing (`temperature` = the air temperature around the device, `soil` = the soil moisture percentage) so that the database and the charts can compare the house and the garden without new fields.
+**Fields per device.** Every device writes only the sensor fields it has: Node 1 never writes `pressure`, and Node 2 never writes `light`. The field of a sensor that isn't fitted isn't written; the field of a sensor that fails to read is written as `null`. The same name means the same thing (`temperature` = the air temperature around the device, `soil` = the soil moisture percentage, `soil_temperature` = the soil temperature, whether from Node 2's DS18B20 or from Node 1's RS-485 sensor) so that the database and the charts can compare the house and the garden without new fields.
 
 ## 5. `status`
 
@@ -161,12 +177,13 @@ Plain text, not JSON:
 
 ## 10. Checking compliance
 
-Run [`tools/contract-checker.js`](tools/contract-checker.js) (`node contract-checker.js` in the `tools` folder, after `npm install`). It subscribes to `msh/#` and stamps **PASS** or **FAIL** on every message, with its reasons and how long each `ack` took. On a public broker, also write your `device_id` after the broker's address (`node contract-checker.js broker.emqx.io <device_id>`) so only your device's messages are checked. Every firmware change must pass this check before it's committed. Since contract 1.1, the checker recognizes Node 2's `telemetry` by its typical fields (`pressure`, `soil_temperature`), checks it against Node 2's field list, and marks it `(telemetry Node 2)`.
+Run [`tools/contract-checker.js`](tools/contract-checker.js) (`node contract-checker.js` in the `tools` folder, after `npm install`). It subscribes to `msh/#` and stamps **PASS** or **FAIL** on every message, with its reasons and how long each `ack` took. On a public broker, also write your `device_id` after the broker's address (`node contract-checker.js broker.emqx.io <device_id>`) so only your device's messages are checked. Every firmware change must pass this check before it's committed. Since contract 1.1, the checker recognizes Node 2's `telemetry` by its typical field, checks it against Node 2's field list, and marks it `(telemetry Node 2)`. Since contract 1.2 (checker version 1.2), that typical field is `pressure`, because `soil_temperature` can now also come from Node 1; the checker also makes sure that Node 1's three RS-485 fields are always complete.
 
 ## 11. Change history
 
 | Contract version | Module | Change |
 | :--- | :--- | :--- |
+| 1.2 | Module 15 | Node 1 may carry three RS-485 soil sensor fields (Modbus RTU): `soil_rs485`, `soil_temperature`, and `ec`, always together and only when the sensor is connected and switched on (`rs485 on`); `null` if the last reading failed. Node 2's data doesn't change. |
 | 1.1 | Module 14 | Node 2 via Node 1: new fields `pressure`, `soil_temperature`, and `battery` (optional); sensor fields per device (rule 9); Node 2's `ts` is made by Node 1 when the packet is received; Node 2's `status` is published by Node 1; Node 2's `soil` may be `null`; Node 1 may write to Node 2's topics (rule 6). Node 1's data doesn't change. |
 | 1.0 | Module 11 | The contract comes into use over MQTT. Decided: failed readings are written as `null`; *client ID* = `device_id`; `telemetry` every 10 seconds plus immediate sends; `vitals` without `reset_reason` until Module 28; the `message` field in `ack`; the `set` targets with their value ranges; command `id`s of 39 characters at most; commands with the same `id` are ignored. |
 

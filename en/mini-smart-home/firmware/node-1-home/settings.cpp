@@ -8,6 +8,7 @@
 static Preferences archive;  // the NVS "filing cabinet"; we use the folder named "node1"
 static int threshold = DEFAULT_SOIL_WATERING_THRESHOLD;
 static unsigned long bootNumber = 0;
+static bool useRS485 = false;  // Module 15: not in use by default (no sensor connected yet)
 
 void loadSettings() {
   archive.begin("node1", false);  // false = the folder is opened for reading AND writing
@@ -21,6 +22,7 @@ void loadSettings() {
     source = "from NVS";
   }
   logInfo("Boot #%lu. soil_watering threshold: %d %% (%s)", bootNumber, threshold, source);
+  useRS485 = archive.getBool("rs485", false);  // label never written = not in use
 }
 
 int soilWateringThreshold() {
@@ -52,4 +54,17 @@ void removeSoilWateringThreshold() {
 
 unsigned long bootCount() {
   return bootNumber;
+}
+
+bool rs485SensorEnabled() {
+  return useRS485;
+}
+
+void saveRs485SensorEnabled(bool enabled) {
+  if (enabled == useRS485 && archive.isKey("rs485")) {
+    return;  // already the same: no need to write it again (flash can only be written so many times)
+  }
+  archive.putBool("rs485", enabled);
+  useRS485 = enabled;
+  logInfo("RS-485 sensor %s (saved to NVS)", enabled ? "in use" : "not in use");
 }

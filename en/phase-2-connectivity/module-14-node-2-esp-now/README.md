@@ -4,7 +4,7 @@
 
 *Phase 2 · Week 14 · Hardware: **Kit A Stage 2** — a second ESP32 board (Node 2) with the battery circuit from Module 9, a BME280, a DS18B20, a second capacitive soil sensor, and an INA219; plus Node 1, the Pi gateway, and the phone from Modules 12–13 · Prerequisites: **Module 13** (the Node-RED dashboard) and **Module 9** (power supply and low power) · Time: 8–10 hours, spread over the week, plus 1–3 hours of charging the battery while someone watches it*
 
-[⬅️ Module 13](../module-13-node-red-dashboard/README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · [Module 15 ➡️ (coming soon — read the summary in the Syllabus)](../../SYLLABUS.md#module-15--modbus-rturs-485-lab--choosing-the-right-protocol)
+[⬅️ Module 13](../module-13-node-red-dashboard/README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · [Module 15 ➡️](../module-15-modbus-rs485-and-protocols/README.md)
 
 ---
 
@@ -2860,4 +2860,4 @@ The completion requirement from the Syllabus: **Node 2's data shows up in Node-R
 
 ---
 
-[⬅️ Module 13](../module-13-node-red-dashboard/README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · **Next: Module 15 — Modbus RTU/RS-485 Lab & Choosing the Right Protocol** (coming soon; [read the summary in the Syllabus](../../SYLLABUS.md#module-15--modbus-rturs-485-lab--choosing-the-right-protocol))
+[⬅️ Module 13](../module-13-node-red-dashboard/README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · **Next: [Module 15 — Modbus RTU/RS-485 Lab & Choosing the Right Protocol](../module-15-modbus-rs485-and-protocols/README.md) ➡️**

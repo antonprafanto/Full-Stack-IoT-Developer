@@ -1,6 +1,7 @@
 // contract-checker.js — checks every MQTT message of the project against the data contract
 // (Syllabus Appendix A and DATA-CONTRACT.md). Module 11 - Practice 8. Used again in later modules.
 // Version 1.1 (Module 14): Node 2 telemetry, which Node 1 publishes on behalf of Node 2, is checked against its own fields.
+// Version 1.2 (Module 15): Node 1 telemetry may carry three RS-485 sensor fields (soil_rs485, soil_temperature, ec).
 // Needs the mqtt library:  npm install mqtt@5.16.1
 // Run:  node contract-checker.js                               (broker on this laptop)
 //       node contract-checker.js 192.168.1.10                  (broker on another computer)
@@ -18,7 +19,9 @@ if (device !== undefined && !/^[0-9a-f]{12}$/.test(device)) {
 const subscription = device ? `msh/${device}/#` : "msh/#";
 const KINDS = ["telemetry", "status", "vitals", "cmd", "ack"];
 const FIELDS = {
-  "telemetry Node 1": { all: ["ts", "fw", "temperature", "humidity", "light", "soil", "motion", "water_level"] },
+  "telemetry Node 1": { // contract 1.2: the three RS-485 sensor fields exist only when the sensor is connected
+    all: ["ts", "fw", "temperature", "humidity", "light", "soil", "motion", "water_level", "soil_rs485", "soil_temperature", "ec"],
+    required: ["ts", "fw", "temperature", "humidity", "light", "soil", "motion", "water_level"] },
   "telemetry Node 2": { // contract 1.1: battery may be missing (the voltage divider is optional)
     all: ["ts", "fw", "temperature", "humidity", "pressure", "soil_temperature", "soil", "battery"],
     required: ["ts", "fw", "temperature", "humidity", "pressure", "soil_temperature", "soil"] },
@@ -85,9 +88,10 @@ function checkDecimal(name, value, min, max, problems) {
   }
 }
 
-// Contract 1.1: sensor fields per device. Node 2 telemetry is recognized by its own typical fields.
+// Contract 1.1: sensor fields per device. Node 2 telemetry is recognized by its own typical field ("pressure"),
+// because since contract 1.2 "soil_temperature" can also come from the RS-485 sensor of Node 1.
 function checkTelemetry(content, problems) {
-  const node2 = "pressure" in content || "soil_temperature" in content;
+  const node2 = "pressure" in content || ("soil_temperature" in content && !("light" in content));
   const has = checkFields(content, node2 ? "telemetry Node 2" : "telemetry Node 1", problems);
   if (has("ts")) checkTs(content.ts, problems);
   if (has("fw") && (typeof content.fw !== "string" || !/^\d+\.\d+\.\d+$/.test(content.fw))) {
@@ -106,6 +110,14 @@ function checkTelemetry(content, problems) {
   if (has("pressure")) checkDecimal("pressure", content.pressure, 300, 1100, problems);
   if (has("soil_temperature")) checkDecimal("soil_temperature", content.soil_temperature, -55, 125, problems);
   if (has("battery")) checkDecimal("battery", content.battery, 2.5, 4.5, problems);
+  if (!node2) {
+    const rs485 = ["soil_rs485", "soil_temperature", "ec"].filter((k) => k in content);
+    if (rs485.length > 0 && rs485.length < 3) { // contract 1.2: the three always come together
+      problems.push(`RS-485 sensor fields must be complete (soil_rs485, soil_temperature, ec), got only ${rs485.join(", ")}`);
+    }
+    if (has("soil_rs485")) checkDecimal("soil_rs485", content.soil_rs485, 0, 100, problems);
+    if (has("ec")) checkInteger("ec", content.ec, 0, 20000, true, problems);
+  }
   return node2 ? "  (telemetry Node 2)" : "";
 }
 

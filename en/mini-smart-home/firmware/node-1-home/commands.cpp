@@ -10,6 +10,7 @@
 #include "rules.h"
 #include "networking.h"
 #include "bridge.h"
+#include "rs485.h"
 #include "commands.h"
 
 const int MAX_LINE_LENGTH = 40;
@@ -140,6 +141,17 @@ void checkSerialCommand() {
     resetNode2Counters();  // Module 14: the counters start from zero, for example right when the router is unplugged
     printNode2Info();
     return;
+  } else if (command == "rs485") {
+    printRS485Info();  // Module 15: RS-485 soil sensor
+    return;
+  } else if (command == "rs485 on") {
+    useRS485(true);  // Module 15: start reading the sensor every 10 seconds
+    printRS485Info();
+    return;
+  } else if (command == "rs485 off") {
+    useRS485(false);  // Module 15: stop reading; its fields disappear from telemetry
+    printRS485Info();
+    return;
   } else if (command == "send") {
     sendNow();  // Module 11: publishes telemetry right now over MQTT
     return;
@@ -150,7 +162,7 @@ void checkSerialCommand() {
   } else if (command != "status") {
     Serial.println("Unknown command. Examples: lamp on, fan off, pump 3, curtain 90, beep, status,");
     Serial.println("info, threshold, threshold 35, threshold default, log debug, log info, log error, wifi, wifi forget,");
-    Serial.println("send, node2, node2 reset, restart");
+    Serial.println("send, node2, node2 reset, rs485, rs485 on, rs485 off, restart");
     return;
   }
   printStatus();

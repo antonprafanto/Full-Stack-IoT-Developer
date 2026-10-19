@@ -30,7 +30,7 @@ Tick `[x]` every time you meet the **"You pass when"** criteria in [SYLLABUS.md]
 - [ ] **[Module 12](phase-2-connectivity/module-12-raspberry-pi-and-linux/README.md)** — Raspberry Pi & Linux Basics: A Gateway That's Always On
 - [ ] **[Module 13](phase-2-connectivity/module-13-node-red-dashboard/README.md)** — Node-RED & Dashboard 2: Your First Dashboard Without Coding
 - [ ] **[Module 14](phase-2-connectivity/module-14-node-2-esp-now/README.md)** — Node 2 "Garden": Battery-Powered Sensors via ESP-NOW
-- [ ] **Module 15** — Modbus RTU/RS-485 Lab & Choosing the Right Protocol
+- [ ] **[Module 15](phase-2-connectivity/module-15-modbus-rs485-and-protocols/README.md)** — Modbus RTU/RS-485 Lab & Choosing the Right Protocol
 - [ ] 🎯 Phase 2 checkpoint: Node 1 + Node 2 + the Pi gateway; Node 1 can read a Modbus register
 
 ## 🟩 Phase 3 — Backend & Data (Modules 16–21)

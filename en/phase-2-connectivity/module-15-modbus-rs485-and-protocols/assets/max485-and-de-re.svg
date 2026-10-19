@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="680" viewBox="0 0 1200 680" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="680" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >The MAX485 module and the DE/RE "talk button"</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >One pair of wires used in turns, like a walkie-talkie</text>
+<rect x="30.0" y="104.0" width="560.0" height="360.0" rx="14" fill="#ffffff" stroke="#6d4aa8" stroke-width="1.8" />
+<rect x="50.0" y="118.0" width="180.0" height="26.0" rx="13.0" fill="#6d4aa8" />
+<text x="140.0" y="135.7" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle" >D4 HIGH = talk</text>
+<rect x="50.0" y="170.0" width="120.0" height="250.0" rx="10" fill="#eef1f5" />
+<text x="110.0" y="194.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="middle" >ESP32</text>
+<text x="64.0" y="244.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">TX2 (17)</text>
+<text x="64.0" y="324.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">RX2 (16)</text>
+<text x="64.0" y="394.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">D4</text>
+<rect x="230.0" y="170.0" width="200.0" height="250.0" rx="10" fill="#efe9f8" stroke="#6d4aa8" stroke-width="1.6" />
+<text x="330.0" y="194.0" font-size="15" font-weight="800" fill="#6d4aa8" text-anchor="middle" >MAX485</text>
+<path d="M280 217.0 L334 240 L280 263.0 Z" fill="#6d4aa8" stroke="#6d4aa8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="307.0" y="281.0" font-size="12" font-weight="700" fill="#6d4aa8" text-anchor="middle" >transmitter</text>
+<path d="M334 297.0 L280 320 L334 343.0 Z" fill="#ffffff" stroke="#9aa3b0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="5 4"/>
+<text x="307.0" y="361.0" font-size="12" font-weight="700" fill="#9aa3b0" text-anchor="middle" >receiver</text>
+<text x="236.0" y="234.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">DI</text>
+<text x="236.0" y="314.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">RO</text>
+<text x="236.0" y="384.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">DE+RE</text>
+<line x1="170.0" y1="240.0" x2="280.0" y2="240.0" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" />
+<line x1="170.0" y1="320.0" x2="280.0" y2="320.0" stroke="#9aa3b0" stroke-width="2.2" stroke-linecap="round" />
+<line x1="170.0" y1="390.0" x2="270.0" y2="390.0" stroke="#b45f17" stroke-width="2.4" stroke-linecap="round" />
+<rect x="176.0" y="370.5" width="40.1" height="20.5" rx="4" fill="#eef1f5" />
+<text x="196.0" y="385.0" font-size="11.5" font-weight="700" fill="#b45f17" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">HIGH</text>
+<line x1="406.0" y1="268.0" x2="570.0" y2="268.0" stroke="#6d4aa8" stroke-width="3" stroke-linecap="round" />
+<line x1="406.0" y1="292.0" x2="570.0" y2="292.0" stroke="#6d4aa8" stroke-width="3" stroke-linecap="round" stroke-dasharray="6 4" />
+<text x="500.0" y="258.0" font-size="13" font-weight="800" fill="#6d4aa8" text-anchor="middle" >A</text>
+<text x="500.0" y="312.0" font-size="13" font-weight="800" fill="#6d4aa8" text-anchor="middle" >B</text>
+<line x1="334.0" y1="308.0" x2="406.0" y2="268.0" stroke="#9aa3b0" stroke-width="1.8" stroke-linecap="round" />
+<line x1="334.0" y1="332.0" x2="406.0" y2="292.0" stroke="#9aa3b0" stroke-width="1.8" stroke-linecap="round" />
+<line x1="334.0" y1="240.0" x2="406.0" y2="268.0" stroke="#6d4aa8" stroke-width="1.8" stroke-linecap="round" />
+<line x1="334.0" y1="240.0" x2="406.0" y2="292.0" stroke="#6d4aa8" stroke-width="1.8" stroke-linecap="round" />
+<circle cx="406.0" cy="268.0" r="4" fill="#6d4aa8" />
+<circle cx="406.0" cy="292.0" r="4" fill="#6d4aa8" />
+<text x="440.0" y="350.0" font-size="12.5" font-weight="700" fill="#6d4aa8" text-anchor="start" >letters from TX2</text>
+<text x="440.0" y="368.0" font-size="12.5" font-weight="700" fill="#6d4aa8" text-anchor="start" >go out onto A and B,</text>
+<text x="440.0" y="386.0" font-size="12.5" font-weight="700" fill="#6d4aa8" text-anchor="start" >always opposite;</text>
+<text x="440.0" y="404.0" font-size="12.5" font-weight="700" fill="#6d4aa8" text-anchor="start" >receiver off</text>
+<rect x="610.0" y="104.0" width="560.0" height="360.0" rx="14" fill="#ffffff" stroke="#0f8b8d" stroke-width="1.8" />
+<rect x="630.0" y="118.0" width="180.0" height="26.0" rx="13.0" fill="#0f8b8d" />
+<text x="720.0" y="135.7" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle" >D4 LOW = listen</text>
+<rect x="630.0" y="170.0" width="120.0" height="250.0" rx="10" fill="#eef1f5" />
+<text x="690.0" y="194.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="middle" >ESP32</text>
+<text x="644.0" y="244.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">TX2 (17)</text>
+<text x="644.0" y="324.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">RX2 (16)</text>
+<text x="644.0" y="394.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">D4</text>
+<rect x="810.0" y="170.0" width="200.0" height="250.0" rx="10" fill="#efe9f8" stroke="#6d4aa8" stroke-width="1.6" />
+<text x="910.0" y="194.0" font-size="15" font-weight="800" fill="#6d4aa8" text-anchor="middle" >MAX485</text>
+<path d="M860 217.0 L914 240 L860 263.0 Z" fill="#ffffff" stroke="#9aa3b0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="5 4"/>
+<text x="887.0" y="281.0" font-size="12" font-weight="700" fill="#9aa3b0" text-anchor="middle" >transmitter</text>
+<path d="M914 297.0 L860 320 L914 343.0 Z" fill="#0f8b8d" stroke="#0f8b8d" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="887.0" y="361.0" font-size="12" font-weight="700" fill="#0f8b8d" text-anchor="middle" >receiver</text>
+<text x="816.0" y="234.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">DI</text>
+<text x="816.0" y="314.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">RO</text>
+<text x="816.0" y="384.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">DE+RE</text>
+<line x1="750.0" y1="240.0" x2="860.0" y2="240.0" stroke="#9aa3b0" stroke-width="2.2" stroke-linecap="round" />
+<line x1="750.0" y1="320.0" x2="860.0" y2="320.0" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" />
+<line x1="750.0" y1="390.0" x2="850.0" y2="390.0" stroke="#b45f17" stroke-width="2.4" stroke-linecap="round" />
+<rect x="759.5" y="370.5" width="33.0" height="20.5" rx="4" fill="#eef1f5" />
+<text x="776.0" y="385.0" font-size="11.5" font-weight="700" fill="#b45f17" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">LOW</text>
+<line x1="986.0" y1="268.0" x2="1150.0" y2="268.0" stroke="#6d4aa8" stroke-width="3" stroke-linecap="round" />
+<line x1="986.0" y1="292.0" x2="1150.0" y2="292.0" stroke="#6d4aa8" stroke-width="3" stroke-linecap="round" stroke-dasharray="6 4" />
+<text x="1080.0" y="258.0" font-size="13" font-weight="800" fill="#6d4aa8" text-anchor="middle" >A</text>
+<text x="1080.0" y="312.0" font-size="13" font-weight="800" fill="#6d4aa8" text-anchor="middle" >B</text>
+<line x1="914.0" y1="240.0" x2="986.0" y2="268.0" stroke="#9aa3b0" stroke-width="1.8" stroke-linecap="round" />
+<line x1="914.0" y1="240.0" x2="986.0" y2="292.0" stroke="#9aa3b0" stroke-width="1.8" stroke-linecap="round" />
+<line x1="914.0" y1="308.0" x2="986.0" y2="268.0" stroke="#0f8b8d" stroke-width="1.8" stroke-linecap="round" />
+<line x1="914.0" y1="332.0" x2="986.0" y2="292.0" stroke="#0f8b8d" stroke-width="1.8" stroke-linecap="round" />
+<circle cx="986.0" cy="268.0" r="4" fill="#6d4aa8" />
+<circle cx="986.0" cy="292.0" r="4" fill="#6d4aa8" />
+<text x="1020.0" y="350.0" font-size="12.5" font-weight="700" fill="#0f8b8d" text-anchor="start" >letters from the cable</text>
+<text x="1020.0" y="368.0" font-size="12.5" font-weight="700" fill="#0f8b8d" text-anchor="start" >(difference A − B)</text>
+<text x="1020.0" y="386.0" font-size="12.5" font-weight="700" fill="#0f8b8d" text-anchor="start" >come into RX2;</text>
+<text x="1020.0" y="404.0" font-size="12.5" font-weight="700" fill="#0f8b8d" text-anchor="start" >transmitter quiet</text>
+<rect x="30.0" y="480.0" width="560.0" height="170.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.4" />
+<text x="50.0" y="506.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >The correct talking order</text>
+<circle cx="64.0" cy="534.0" r="10" fill="#1e2a4a" stroke="#ffffff" stroke-width="2" />
+<text x="64.0" y="538.0" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle" >1</text>
+<text x="84.0" y="538.0" font-size="12.5" font-weight="700" fill="#b45f17" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">D4 HIGH</text>
+<text x="250.0" y="538.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="start" >press the talk button</text>
+<circle cx="64.0" cy="562.0" r="10" fill="#1e2a4a" stroke="#ffffff" stroke-width="2" />
+<text x="64.0" y="566.0" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle" >2</text>
+<text x="84.0" y="566.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">Serial2.print(…)</text>
+<text x="250.0" y="566.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="start" >hand the letters to the UART queue</text>
+<circle cx="64.0" cy="590.0" r="10" fill="#1e2a4a" stroke="#ffffff" stroke-width="2" />
+<text x="64.0" y="594.0" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle" >3</text>
+<text x="84.0" y="594.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">Serial2.flush()</text>
+<text x="250.0" y="594.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="start" >wait for the last letter to go out</text>
+<circle cx="64.0" cy="618.0" r="10" fill="#1e2a4a" stroke="#ffffff" stroke-width="2" />
+<text x="64.0" y="622.0" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle" >4</text>
+<text x="84.0" y="622.0" font-size="12.5" font-weight="700" fill="#b45f17" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">D4 LOW</text>
+<text x="250.0" y="622.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="start" >release: back to listening</text>
+<rect x="610.0" y="480.0" width="560.0" height="170.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.4" />
+<text x="630.0" y="506.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >Voltage</text>
+<text x="630.0" y="532.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="start" >The MAX485 module gets 5 V. DI, DE, and RE already treat</text>
+<text x="630.0" y="551.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="start" >2.0 V as HIGH, so 3.3 V from the ESP32 is enough.</text>
+<text x="630.0" y="582.0" font-size="13" font-weight="700" fill="#6d4aa8" text-anchor="start" >RO puts out almost 5 V → through the 4.7 kΩ + 10 kΩ divider</text>
+<text x="630.0" y="601.0" font-size="13" font-weight="700" fill="#6d4aa8" text-anchor="start" >→ about 3.4 V at RX2, safe for an ESP32 pin.</text>
+<text x="630.0" y="632.0" font-size="12.5" font-weight="700" fill="#e63946" text-anchor="start" >Always write the Serial2 RX/TX pins: Serial2.begin(9600, SERIAL_8N1, 16, 17).</text>
+<text x="1178.0" y="666.0" font-size="11" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer curriculum · CC BY 4.0</text>
+</svg>

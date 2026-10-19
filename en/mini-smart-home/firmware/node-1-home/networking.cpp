@@ -13,6 +13,7 @@
 #include "sensors.h"
 #include "actuators.h"
 #include "display.h"
+#include "rs485.h"
 #include "networking.h"
 
 #ifndef MQTT_QOS1  // only PubSubClient3 has this name
@@ -516,7 +517,8 @@ static bool publishTelemetry(const char* reason) {
   } else {
     doc["water_level"] = readingToSend.water_level;
   }
-  char content[192];
+  writeRS485Fields(doc);  // Module 15: soil_rs485, soil_temperature, ec (only when the RS-485 sensor is in use)
+  char content[256];  // Module 15: enlarged from 192 for the three RS-485 fields
   size_t length = serializeJson(doc, content, sizeof(content));
   if (length >= sizeof(content)) {
     logError("Telemetry too long for the content[] container: not sent.");
