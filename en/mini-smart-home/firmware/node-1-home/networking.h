@@ -14,3 +14,5 @@ bool makeTs(char* ts, size_t size);  // UTC ISO-8601 timestamp (Appendix A); fal
 const char* networkText();           // for the display: "ok, MQTT ok", "ok, MQTT down", "disconnected", or "off"
 void printNetworkInfo();             // the reply to the Serial command "wifi"
 void forgetWiFi();                   // Serial command "wifi forget": erase the saved WiFi, then restart
+bool mqttReady();                    // Module 14: true when WiFi and MQTT are both connected
+bool publishTo(const char* topic, const char* content, bool retained);  // Module 14: publish on behalf of Node 2

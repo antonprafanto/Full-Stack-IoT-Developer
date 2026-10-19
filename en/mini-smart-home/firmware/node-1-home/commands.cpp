@@ -9,6 +9,7 @@
 #include "actuators.h"
 #include "rules.h"
 #include "networking.h"
+#include "bridge.h"
 #include "commands.h"
 
 const int MAX_LINE_LENGTH = 40;
@@ -132,6 +133,13 @@ void checkSerialCommand() {
   } else if (command == "wifi forget") {
     forgetWiFi();  // Module 10: erases the saved WiFi, then restarts into the portal
     return;
+  } else if (command == "node2") {
+    printNode2Info();  // Module 14: Node 2 packet statistics
+    return;
+  } else if (command == "node2 reset") {
+    resetNode2Counters();  // Module 14: the counters start from zero, for example right when the router is unplugged
+    printNode2Info();
+    return;
   } else if (command == "send") {
     sendNow();  // Module 11: publishes telemetry right now over MQTT
     return;
@@ -142,7 +150,7 @@ void checkSerialCommand() {
   } else if (command != "status") {
     Serial.println("Unknown command. Examples: lamp on, fan off, pump 3, curtain 90, beep, status,");
     Serial.println("info, threshold, threshold 35, threshold default, log debug, log info, log error, wifi, wifi forget,");
-    Serial.println("send, restart");
+    Serial.println("send, node2, node2 reset, restart");
     return;
   }
   printStatus();

@@ -45,6 +45,7 @@ static bool servicesStarted = false;  // the internet time is started only once
 static bool clockReported = false;
 static unsigned long disconnectTime = 0;
 static unsigned long lastGuardTime = 0;
+static uint8_t routerChannel = 0;  // Module 14: the router's channel at the last connection; ESP-NOW follows this channel
 
 // ---------- MQTT (Module 11) ----------
 static bool mqttConnected = false;
@@ -265,6 +266,9 @@ static void onMqttMessage(char* topic, byte* content, unsigned int length) {
 void setupNetwork() {
   WiFi.onEvent(onWiFiEvent);      // register it BEFORE starting to connect
   WiFi.setHostname(DEVICE_NAME);  // the name in the router's device list (Module 10, Practice 9)
+  WiFi.setSleep(false);           // Module 14: the radio always listens for ESP-NOW (set BEFORE WiFi.mode)
+  WiFi.setAutoReconnect(false);   // Module 14: when the router is off, the esp32 package doesn't scan nonstop;
+                                  // only the 60-second guard in guardConnection() tries again
   WiFi.mode(WIFI_STA);            // required before asking "is there a saved WiFi?"
 
   uint8_t mac[6];
@@ -317,12 +321,19 @@ static void startServices() {
 }
 
 // The guard (Module 10, Concept 4): if there has been no connection attempt for a very long time, tell the esp32 package to try again.
+// Since v1.3.0 (Module 14) this guard is the only one that orders a reconnect: setAutoReconnect(false).
 static void guardConnection() {
   if (connected || !hasWiFi) {
     return;
   }
   unsigned long lastEvent = lastEventTime;  // copy it FIRST: the WiFi worker can change it at any moment
   unsigned long now = millis();             // only then read the clock, so now >= lastEvent
+  // Module 14: 3 seconds without a WiFi event and 3 seconds after the guard's attempt = the radio isn't scanning.
+  // Put the radio back on the router's channel so that Node 2's ESP-NOW packets are still heard while the router is off.
+  if (routerChannel != 0 && now - lastEvent >= 3000 && now - lastGuardTime >= 3000
+      && WiFi.channel() != routerChannel) {
+    WiFi.setChannel(routerChannel);
+  }
   if (now - lastEvent >= NO_ATTEMPT_TIMEOUT
       && now - lastGuardTime >= NO_ATTEMPT_TIMEOUT) {
     lastGuardTime = now;
@@ -414,17 +425,18 @@ void updateNetwork() {
     if (connected) {  // just disconnected; failed retries are not reported one by one
       connected = false;
       disconnectTime = millis();
-      logError("WiFi DISCONNECTED (reason %u: %s). Node 1 keeps working; the esp32 package is trying to reconnect.", disconnectReason,
-               reasonName(disconnectReason));
+      logError("WiFi DISCONNECTED (reason %u: %s). Node 1 keeps working and retries every %lu seconds.", disconnectReason,
+               reasonName(disconnectReason), NO_ATTEMPT_TIMEOUT / 1000);
     }
   }
   if (gotIpFlag) {
     gotIpFlag = false;
     if (WiFi.status() == WL_CONNECTED) {  // still connected when the flag is lowered?
       connected = true;
+      routerChannel = WiFi.channel();  // Module 14: remembered for ESP-NOW
       if (disconnectTime == 0) {
-        logInfo("WiFi connected to \"%s\": IP %s, signal %d dBm", WiFi.SSID().c_str(),
-                WiFi.localIP().toString().c_str(), WiFi.RSSI());
+        logInfo("WiFi connected to \"%s\": IP %s, signal %d dBm, channel %u", WiFi.SSID().c_str(),
+                WiFi.localIP().toString().c_str(), WiFi.RSSI(), routerChannel);
       } else {
         logInfo("WiFi connected AGAIN after %lu seconds: IP %s", (millis() - disconnectTime) / 1000,
                 WiFi.localIP().toString().c_str());
@@ -586,6 +598,8 @@ void printNetworkInfo() {
   char ts[21] = "not set yet";
   makeTs(ts, sizeof(ts));
   Serial.printf("wifi: device_id %s, name %s, time %s\n", deviceId, DEVICE_NAME, ts);
+  Serial.printf("wifi: radio channel %ld, router channel %u (0 = never connected)\n", (long)WiFi.channel(),
+                routerChannel);  // Module 14
   const char* broker = USE_WOKWI ? WOKWI_BROKER : BROKER_ADDRESS;
   if (mqtt.connected()) {
     Serial.printf("mqtt: connected to %s:%u as %s\n", broker, BROKER_PORT, deviceId);
@@ -603,4 +617,16 @@ void forgetWiFi() {
   WiFi.disconnect(true, true);  // true, true = turn off the radio AND erase the saved WiFi from NVS
   delay(500);
   ESP.restart();
+}
+
+// ---------- Module 14: used by the Node 2 bridge (bridge.cpp) ----------
+bool mqttReady() {
+  return connected && mqtt.connected();
+}
+
+bool publishTo(const char* topic, const char* content, bool retained) {
+  if (!mqttReady()) {
+    return false;
+  }
+  return mqtt.publish(topic, content, retained);
 }

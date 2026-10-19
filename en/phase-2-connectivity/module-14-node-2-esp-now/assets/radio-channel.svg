@@ -1,0 +1,168 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="744" viewBox="0 0 1200 744" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="744" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Channels: one radio, one frequency</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >The ESP-NOW sender and receiver must be on the same channel</text>
+<text x="40.0" y="118.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >2.4 GHz Wi-Fi band</text>
+<rect x="40.0" y="128.0" width="80.0" height="40.0" rx="6" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="80.0" y="154.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="middle" >1</text>
+<rect x="126.0" y="128.0" width="80.0" height="40.0" rx="6" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="166.0" y="154.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="middle" >2</text>
+<rect x="212.0" y="128.0" width="80.0" height="40.0" rx="6" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="252.0" y="154.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="middle" >3</text>
+<rect x="298.0" y="128.0" width="80.0" height="40.0" rx="6" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="338.0" y="154.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="middle" >4</text>
+<rect x="384.0" y="128.0" width="80.0" height="40.0" rx="6" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="424.0" y="154.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="middle" >5</text>
+<rect x="470.0" y="128.0" width="80.0" height="40.0" rx="6" fill="#0f8b8d" stroke="#0f8b8d" stroke-width="1.6" />
+<text x="510.0" y="154.0" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle" >6</text>
+<rect x="556.0" y="128.0" width="80.0" height="40.0" rx="6" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="596.0" y="154.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="middle" >7</text>
+<rect x="642.0" y="128.0" width="80.0" height="40.0" rx="6" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="682.0" y="154.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="middle" >8</text>
+<rect x="728.0" y="128.0" width="80.0" height="40.0" rx="6" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="768.0" y="154.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="middle" >9</text>
+<rect x="814.0" y="128.0" width="80.0" height="40.0" rx="6" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="854.0" y="154.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="middle" >10</text>
+<rect x="900.0" y="128.0" width="80.0" height="40.0" rx="6" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="940.0" y="154.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="middle" >11</text>
+<rect x="986.0" y="128.0" width="80.0" height="40.0" rx="6" fill="#fde6e8" stroke="#e63946" stroke-width="1.6" />
+<text x="1026.0" y="154.0" font-size="16" font-weight="800" fill="#e63946" text-anchor="middle" >12</text>
+<rect x="1072.0" y="128.0" width="80.0" height="40.0" rx="6" fill="#fde6e8" stroke="#e63946" stroke-width="1.6" />
+<text x="1112.0" y="154.0" font-size="16" font-weight="800" fill="#e63946" text-anchor="middle" >13</text>
+<rect x="488.0" y="206.0" width="44.0" height="16.0" rx="4" fill="none" stroke="#0f8b8d" stroke-width="2" />
+<line x1="498.0" y1="206.0" x2="494.0" y2="190.0" stroke="#0f8b8d" stroke-width="2" stroke-linecap="round" />
+<line x1="522.0" y1="206.0" x2="526.0" y2="190.0" stroke="#0f8b8d" stroke-width="2" stroke-linecap="round" />
+<circle cx="500.0" cy="214.0" r="1.6" fill="#0f8b8d" />
+<circle cx="507.0" cy="214.0" r="1.6" fill="#0f8b8d" />
+<circle cx="514.0" cy="214.0" r="1.6" fill="#0f8b8d" />
+<text x="510.0" y="246.0" font-size="13" font-weight="800" fill="#0f8b8d" text-anchor="middle" >router "OurHome"</text>
+<text x="1069.0" y="194.0" font-size="12.5" font-weight="700" fill="#e63946" text-anchor="middle" >12–13: refused by an ESP32</text>
+<text x="1069.0" y="212.0" font-size="12.5" font-weight="700" fill="#e63946" text-anchor="middle" >that isn't connected</text>
+<rect x="40.0" y="268.0" width="340.0" height="116.0" rx="12" fill="#ffffff" stroke="#0f8b8d" stroke-width="1.8" />
+<rect x="63.0" y="306.0" width="30.0" height="40.0" rx="3" fill="none" stroke="#0f8b8d" stroke-width="2" />
+<rect x="69.0" y="312.0" width="18.0" height="14.0" rx="2" fill="none" stroke="#0f8b8d" stroke-width="1.6" />
+<line x1="63.0" y1="316.0" x2="58.0" y2="316.0" stroke="#0f8b8d" stroke-width="1.6" stroke-linecap="round" />
+<line x1="93.0" y1="316.0" x2="98.0" y2="316.0" stroke="#0f8b8d" stroke-width="1.6" stroke-linecap="round" />
+<line x1="63.0" y1="324.0" x2="58.0" y2="324.0" stroke="#0f8b8d" stroke-width="1.6" stroke-linecap="round" />
+<line x1="93.0" y1="324.0" x2="98.0" y2="324.0" stroke="#0f8b8d" stroke-width="1.6" stroke-linecap="round" />
+<line x1="63.0" y1="332.0" x2="58.0" y2="332.0" stroke="#0f8b8d" stroke-width="1.6" stroke-linecap="round" />
+<line x1="93.0" y1="332.0" x2="98.0" y2="332.0" stroke="#0f8b8d" stroke-width="1.6" stroke-linecap="round" />
+<line x1="63.0" y1="340.0" x2="58.0" y2="340.0" stroke="#0f8b8d" stroke-width="1.6" stroke-linecap="round" />
+<line x1="93.0" y1="340.0" x2="98.0" y2="340.0" stroke="#0f8b8d" stroke-width="1.6" stroke-linecap="round" />
+<text x="112.0" y="300.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >Node 1 (connected to the router)</text>
+<text x="112.0" y="324.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="start" >its radio follows the router's channel:</text>
+<text x="112.0" y="343.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="start" >channel 6</text>
+<rect x="400.0" y="268.0" width="760.0" height="116.0" rx="12" fill="#ffffff" stroke="#b45f17" stroke-width="1.8" />
+<rect x="423.0" y="306.0" width="30.0" height="40.0" rx="3" fill="none" stroke="#b45f17" stroke-width="2" />
+<rect x="429.0" y="312.0" width="18.0" height="14.0" rx="2" fill="none" stroke="#b45f17" stroke-width="1.6" />
+<line x1="423.0" y1="316.0" x2="418.0" y2="316.0" stroke="#b45f17" stroke-width="1.6" stroke-linecap="round" />
+<line x1="453.0" y1="316.0" x2="458.0" y2="316.0" stroke="#b45f17" stroke-width="1.6" stroke-linecap="round" />
+<line x1="423.0" y1="324.0" x2="418.0" y2="324.0" stroke="#b45f17" stroke-width="1.6" stroke-linecap="round" />
+<line x1="453.0" y1="324.0" x2="458.0" y2="324.0" stroke="#b45f17" stroke-width="1.6" stroke-linecap="round" />
+<line x1="423.0" y1="332.0" x2="418.0" y2="332.0" stroke="#b45f17" stroke-width="1.6" stroke-linecap="round" />
+<line x1="453.0" y1="332.0" x2="458.0" y2="332.0" stroke="#b45f17" stroke-width="1.6" stroke-linecap="round" />
+<line x1="423.0" y1="340.0" x2="418.0" y2="340.0" stroke="#b45f17" stroke-width="1.6" stroke-linecap="round" />
+<line x1="453.0" y1="340.0" x2="458.0" y2="340.0" stroke="#b45f17" stroke-width="1.6" stroke-linecap="round" />
+<text x="472.0" y="300.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >Node 2 (not connected): finds it by itself</text>
+<text x="472.0" y="328.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" >wake #1: scan for the name "OurHome" (about 2.2 seconds) → channel 6 → store in RTC → send</text>
+<text x="472.0" y="354.0" font-size="12" font-weight="700" fill="#0f8b8d" text-anchor="start" >next wakes: take channel 6 from RTC memory → send right away, without scanning</text>
+<text x="472.0" y="374.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >two failed wakes in a row → scan again</text>
+<text x="40.0" y="422.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >While the router is off: which channel is Node 1's radio on?</text>
+<rect x="40.0" y="444.0" width="1120.0" height="92.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.4" />
+<text x="60.0" y="470.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >Node 1 v1.2.1</text>
+<text x="200.0" y="470.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >scans all the channels nonstop, about 2.4 seconds per attempt</text>
+<rect x="200.0" y="488.0" width="13.6" height="22.0" rx="1" fill="#f4a261" />
+<rect x="214.8" y="488.0" width="13.6" height="22.0" rx="1" fill="#f4a261" />
+<rect x="229.6" y="488.0" width="13.6" height="22.0" rx="1" fill="#f4a261" />
+<rect x="244.4" y="488.0" width="13.6" height="22.0" rx="1" fill="#f4a261" />
+<rect x="259.2" y="488.0" width="13.6" height="22.0" rx="1" fill="#f4a261" />
+<rect x="274.0" y="488.0" width="13.6" height="22.0" rx="1" fill="#f4a261" />
+<rect x="288.8" y="488.0" width="13.6" height="22.0" rx="1" fill="#f4a261" />
+<rect x="303.6" y="488.0" width="13.6" height="22.0" rx="1" fill="#f4a261" />
+<rect x="318.4" y="488.0" width="13.6" height="22.0" rx="1" fill="#f4a261" />
+<rect x="333.2" y="488.0" width="13.6" height="22.0" rx="1" fill="#f4a261" />
+<rect x="348.0" y="488.0" width="13.6" height="22.0" rx="1" fill="#f4a261" />
+<rect x="362.8" y="488.0" width="13.6" height="22.0" rx="1" fill="#f4a261" />
+<rect x="377.6" y="488.0" width="13.6" height="22.0" rx="1" fill="#f4a261" />
+<rect x="392.4" y="488.0" width="13.6" height="22.0" rx="1" fill="#f4a261" />
+<rect x="407.2" y="488.0" width="13.6" height="22.0" rx="1" fill="#f4a261" />
+<rect x="422.0" y="488.0" width="13.6" height="22.0" rx="1" fill="#f4a261" />
+<rect x="436.8" y="488.0" width="13.6" height="22.0" rx="1" fill="#f4a261" />
+<rect x="451.6" y="488.0" width="13.6" height="22.0" rx="1" fill="#f4a261" />
+<rect x="466.4" y="488.0" width="13.6" height="22.0" rx="1" fill="#f4a261" />
+<rect x="481.2" y="488.0" width="13.6" height="22.0" rx="1" fill="#f4a261" />
+<rect x="496.0" y="488.0" width="13.6" height="22.0" rx="1" fill="#f4a261" />
+<rect x="510.8" y="488.0" width="13.6" height="22.0" rx="1" fill="#f4a261" />
+<rect x="525.6" y="488.0" width="13.6" height="22.0" rx="1" fill="#f4a261" />
+<rect x="540.4" y="488.0" width="13.6" height="22.0" rx="1" fill="#f4a261" />
+<rect x="555.2" y="488.0" width="13.6" height="22.0" rx="1" fill="#f4a261" />
+<rect x="570.0" y="488.0" width="13.6" height="22.0" rx="1" fill="#f4a261" />
+<rect x="584.8" y="488.0" width="13.6" height="22.0" rx="1" fill="#f4a261" />
+<rect x="599.6" y="488.0" width="13.6" height="22.0" rx="1" fill="#f4a261" />
+<rect x="614.4" y="488.0" width="13.6" height="22.0" rx="1" fill="#f4a261" />
+<rect x="629.2" y="488.0" width="13.6" height="22.0" rx="1" fill="#f4a261" />
+<rect x="644.0" y="488.0" width="13.6" height="22.0" rx="1" fill="#f4a261" />
+<rect x="658.8" y="488.0" width="13.6" height="22.0" rx="1" fill="#f4a261" />
+<rect x="673.6" y="488.0" width="13.6" height="22.0" rx="1" fill="#f4a261" />
+<rect x="688.4" y="488.0" width="13.6" height="22.0" rx="1" fill="#f4a261" />
+<rect x="703.2" y="488.0" width="13.6" height="22.0" rx="1" fill="#f4a261" />
+<rect x="718.0" y="488.0" width="13.6" height="22.0" rx="1" fill="#f4a261" />
+<rect x="732.8" y="488.0" width="13.6" height="22.0" rx="1" fill="#f4a261" />
+<rect x="747.6" y="488.0" width="13.6" height="22.0" rx="1" fill="#f4a261" />
+<rect x="762.4" y="488.0" width="13.6" height="22.0" rx="1" fill="#f4a261" />
+<rect x="777.2" y="488.0" width="13.6" height="22.0" rx="1" fill="#f4a261" />
+<rect x="792.0" y="488.0" width="13.6" height="22.0" rx="1" fill="#f4a261" />
+<rect x="806.8" y="488.0" width="13.6" height="22.0" rx="1" fill="#f4a261" />
+<rect x="821.6" y="488.0" width="13.6" height="22.0" rx="1" fill="#f4a261" />
+<rect x="836.4" y="488.0" width="13.6" height="22.0" rx="1" fill="#f4a261" />
+<rect x="851.2" y="488.0" width="13.6" height="22.0" rx="1" fill="#f4a261" />
+<rect x="866.0" y="488.0" width="13.6" height="22.0" rx="1" fill="#f4a261" />
+<rect x="880.8" y="488.0" width="13.6" height="22.0" rx="1" fill="#f4a261" />
+<rect x="895.6" y="488.0" width="13.6" height="22.0" rx="1" fill="#f4a261" />
+<rect x="910.4" y="488.0" width="13.6" height="22.0" rx="1" fill="#f4a261" />
+<rect x="925.2" y="488.0" width="13.6" height="22.0" rx="1" fill="#f4a261" />
+<text x="200.0" y="526.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="middle" >0 s</text>
+<text x="570.0" y="526.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="middle" >60 s</text>
+<text x="940.0" y="526.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="middle" >120 s</text>
+<line x1="261.7" y1="482.0" x2="261.7" y2="516.0" stroke="#1e2a4a" stroke-width="1.2" stroke-linecap="round" stroke-dasharray="2 2" />
+<line x1="385.0" y1="482.0" x2="385.0" y2="516.0" stroke="#1e2a4a" stroke-width="1.2" stroke-linecap="round" stroke-dasharray="2 2" />
+<line x1="508.3" y1="482.0" x2="508.3" y2="516.0" stroke="#1e2a4a" stroke-width="1.2" stroke-linecap="round" stroke-dasharray="2 2" />
+<line x1="631.7" y1="482.0" x2="631.7" y2="516.0" stroke="#1e2a4a" stroke-width="1.2" stroke-linecap="round" stroke-dasharray="2 2" />
+<line x1="755.0" y1="482.0" x2="755.0" y2="516.0" stroke="#1e2a4a" stroke-width="1.2" stroke-linecap="round" stroke-dasharray="2 2" />
+<line x1="878.3" y1="482.0" x2="878.3" y2="516.0" stroke="#1e2a4a" stroke-width="1.2" stroke-linecap="round" stroke-dasharray="2 2" />
+<line x1="993.0" y1="492.0" x2="1007.0" y2="506.0" stroke="#e63946" stroke-width="2.4" stroke-linecap="round" />
+<line x1="993.0" y1="506.0" x2="1007.0" y2="492.0" stroke="#e63946" stroke-width="2.4" stroke-linecap="round" />
+<text x="1016.0" y="496.0" font-size="12.5" font-weight="800" fill="#e63946" text-anchor="start" >Node 2's packets</text>
+<text x="1016.0" y="512.0" font-size="12.5" font-weight="800" fill="#e63946" text-anchor="start" >lost</text>
+<rect x="40.0" y="548.0" width="1120.0" height="92.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.4" />
+<text x="60.0" y="574.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >Node 1 v1.3.0</text>
+<text x="200.0" y="574.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >tries once every 60 seconds, then goes back to channel 6</text>
+<rect x="200.0" y="592.0" width="740.0" height="22.0" rx="4" fill="#e2f3f1" stroke="#0f8b8d" stroke-width="1" />
+<rect x="555.0" y="592.0" width="15.0" height="22.0" rx="2" fill="#f4a261" />
+<rect x="925.0" y="592.0" width="15.0" height="22.0" rx="2" fill="#f4a261" />
+<text x="200.0" y="630.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="middle" >0 s</text>
+<text x="570.0" y="630.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="middle" >60 s</text>
+<text x="940.0" y="630.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="middle" >120 s</text>
+<line x1="261.7" y1="586.0" x2="261.7" y2="620.0" stroke="#1e2a4a" stroke-width="1.2" stroke-linecap="round" stroke-dasharray="2 2" />
+<line x1="385.0" y1="586.0" x2="385.0" y2="620.0" stroke="#1e2a4a" stroke-width="1.2" stroke-linecap="round" stroke-dasharray="2 2" />
+<line x1="508.3" y1="586.0" x2="508.3" y2="620.0" stroke="#1e2a4a" stroke-width="1.2" stroke-linecap="round" stroke-dasharray="2 2" />
+<line x1="631.7" y1="586.0" x2="631.7" y2="620.0" stroke="#1e2a4a" stroke-width="1.2" stroke-linecap="round" stroke-dasharray="2 2" />
+<line x1="755.0" y1="586.0" x2="755.0" y2="620.0" stroke="#1e2a4a" stroke-width="1.2" stroke-linecap="round" stroke-dasharray="2 2" />
+<line x1="878.3" y1="586.0" x2="878.3" y2="620.0" stroke="#1e2a4a" stroke-width="1.2" stroke-linecap="round" stroke-dasharray="2 2" />
+<rect x="319.0" y="595.0" width="132.0" height="16.0" rx="3" fill="#e2f3f1" />
+<text x="385.0" y="608.0" font-size="12" font-weight="800" fill="#0f8b8d" text-anchor="middle" >stays on channel 6</text>
+<rect x="689.0" y="595.0" width="132.0" height="16.0" rx="3" fill="#e2f3f1" />
+<text x="755.0" y="608.0" font-size="12" font-weight="800" fill="#0f8b8d" text-anchor="middle" >stays on channel 6</text>
+<path d="M993 603 L998 609 L1008 597" fill="none" stroke="#2a9d5c" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="1016.0" y="600.0" font-size="12.5" font-weight="800" fill="#2a9d5c" text-anchor="start" >Node 2's packets</text>
+<text x="1016.0" y="616.0" font-size="12.5" font-weight="800" fill="#2a9d5c" text-anchor="start" >received</text>
+<rect x="200.0" y="652.0" width="22.0" height="14.0" rx="2" fill="#f4a261" />
+<text x="230.0" y="664.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" >scanning: hopping between channels</text>
+<rect x="470.0" y="652.0" width="22.0" height="14.0" rx="2" fill="#0f8b8d" />
+<text x="500.0" y="664.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" >on channel 6</text>
+<line x1="640.0" y1="650.0" x2="640.0" y2="668.0" stroke="#1e2a4a" stroke-width="1.2" stroke-linecap="round" stroke-dasharray="2 2" />
+<text x="652.0" y="664.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" >when Node 2 sends (example, spaced closer together)</text>
+<rect x="40.0" y="680.0" width="1120.0" height="32.0" rx="8" fill="#fde6e8" />
+<text x="60.0" y="701.0" font-size="13" font-weight="800" fill="#e63946" text-anchor="start" >A router on channel 12 or 13 is refused by an ESP32 that isn't connected (the "world" rule: channels 1–11). Lock the router on 1, 6, or 11.</text>
+<text x="1178.0" y="730.0" font-size="11" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer curriculum · CC BY 4.0</text>
+</svg>

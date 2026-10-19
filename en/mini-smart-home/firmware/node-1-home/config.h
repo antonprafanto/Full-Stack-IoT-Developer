@@ -2,7 +2,7 @@
 // The pins follow PIN-MAP.md. The calibration numbers are your own Module 6 results.
 #pragma once
 
-const char FIRMWARE_VERSION[] = "1.2.1";
+const char FIRMWARE_VERSION[] = "1.3.0";
 
 // ---------- Node 1 canonical pin map (copied from PIN-MAP.md) ----------
 const int PIN_STATUS_LED = 4;      // Module 2
@@ -54,3 +54,9 @@ const char BROKER_ADDRESS[] = "192.168.1.37";  // REPLACE with your Pi gateway's
 const uint16_t BROKER_PORT = 1883;
 const unsigned long SEND_INTERVAL = 10000;     // telemetry every 10 seconds, plus immediately when something important happens
 const unsigned long VITALS_INTERVAL = 300000;  // vitals (Node 1's health) every 5 minutes
+
+// ---------- Module 14: ESP-NOW bridge for Node 2 "Garden" ----------
+// Node 2's WiFi MAC address, printed by Node 2 when it first powers up. ESP-NOW packets from other addresses are rejected.
+const uint8_t MAC_NODE2[6] = {0x24, 0x6F, 0x28, 0xB1, 0xC7, 0xD4};  // REPLACE with your Node 2's MAC
+const int NODE2_SHELF_SIZE = 96;  // holding shelf: Node 2 readings kept while the broker is unreachable (8 hours at a 5-minute interval)
+const unsigned long NODE2_OFFLINE_MARGIN = 60000;  // Node 2 is "offline" after 3 x its interval + 1 minute

@@ -1,12 +1,15 @@
-// Node 1 "Home" - firmware v1.2.1 (Module 12: the broker moves to the Raspberry Pi gateway)
+// Node 1 "Home" - firmware v1.3.0 (Module 14: the ESP-NOW bridge for Node 2 "Garden")
 // The running project: Mini Smart Home.
 //
+// New in v1.3.0: Node 1 listens for ESP-NOW packets from Node 2 "Garden" and publishes them to the broker on behalf of
+// Node 2 (msh/<device_id Node 2>/telemetry and /status), including readings held back while the router was off.
+// The radio no longer sleeps (setSleep false) and doesn't reconnect by itself: the 60-second guard retries.
 // New in v1.2.0: all communication over MQTT, following the data contract (Appendix A): telemetry every 10 seconds and
 // immediately when something important happens, vitals every 5 minutes, automatic online/offline status (Last Will), and
 // commands from the broker answered with an ack. The /on /off web server and the HTTP sending of v1.1.0 are retired.
 // From v1.0.0 (Module 8): no delay() in loop(), modular code, watchdog, NVS, leveled logging, status page.
 // Commands from the Serial Monitor: lamp on, fan off, pump 3, curtain 90, beep, status, info,
-// threshold, threshold 35, threshold default, log debug, log info, log error, wifi, wifi forget, send, restart.
+// threshold, threshold 35, threshold default, log debug, log info, log error, wifi, wifi forget, send, node2, node2 reset, restart.
 //
 // Libraries: ESP32Servo version 3.2.1, DHT sensor library version 1.4.7
 // (installed with it: Adafruit Unified Sensor version 1.1.15), Adafruit SSD1306 version 2.5.17
@@ -28,6 +31,7 @@
 #include "commands.h"
 #include "rules.h"
 #include "networking.h"  // Modules 10-11
+#include "bridge.h"   // Module 14: Node 2 over ESP-NOW
 
 // ---------- Main cycle: IDLE -> READING -> DISPLAYING -> ACTING -> IDLE ... ----------
 enum CycleStep { IDLE, READING, DISPLAYING, ACTING };
@@ -155,6 +159,7 @@ void setup() {
   setupDisplay();  // Module 7
   setupCard();     // Module 7 (optional)
   setupNetwork();  // Module 10: the WiFi portal may wait here because the watchdog isn't watching yet
+  setupBridge();   // Module 14: after the WiFi is on
 
   // The watchdog, written the esp32 package version 3 way (Concept 8)
   esp_task_wdt_config_t watchdogConfig = {
@@ -177,6 +182,7 @@ void loop() {
   updateHeartbeat();     // status LED
   updateDisplay();       // status page: the clock ticks, then it goes back by itself
   updateNetwork();       // Modules 10-11: WiFi, internet time, and MQTT; never waits long
+  updateBridge();        // Module 14: Node 2 packets -> holding shelf -> broker; never waits
   handleButton();
   checkSerialCommand();
   runCycle();

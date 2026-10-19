@@ -2,7 +2,7 @@
 
 🌐 **English** · [Bahasa Indonesia](../../proyek-rumah-pintar-mini/PETA-PIN.md)
 
-> Created in [Module 5](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-1-esp32-embedded/module-05-gpio-and-pin-map/README.md#3-the-pin-budget-and-the-canonical-pin-map-of-node-1-and-node-2), updated in [Module 6](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-1-esp32-embedded/module-06-reading-sensors/README.md), [Module 7](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-1-esp32-embedded/module-07-sensor-bus-oled-schematics/README.md), and [Module 9](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-1-esp32-embedded/module-09-power-and-low-power/README.md); valid until Module 28.
+> Created in [Module 5](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-1-esp32-embedded/module-05-gpio-and-pin-map/README.md#3-the-pin-budget-and-the-canonical-pin-map-of-node-1-and-node-2), updated in [Module 6](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-1-esp32-embedded/module-06-reading-sensors/README.md), [Module 7](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-1-esp32-embedded/module-07-sensor-bus-oled-schematics/README.md), [Module 9](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-1-esp32-embedded/module-09-power-and-low-power/README.md), and [Module 14](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-14-node-2-esp-now/README.md); valid until Module 28.
 > **Before you add anything to Node 1 or Node 2, check this file first.**
 
 ## Rules
@@ -37,16 +37,17 @@ The first ESP32 DevKit V1, inside the house. Since Module 9, this board gets its
 
 ## Node 2 "Garden"
 
-The second ESP32 DevKit V1, battery powered. Its skeleton (DS18B20 and the "awake" LED) is connected in Module 9; the rest is built in Module 14.
+The second ESP32 DevKit V1, battery powered. Its skeleton (DS18B20 and the "awake" LED) is connected in Module 9; the BME280, the second soil sensor, and ESP-NOW to Node 1 are added in Module 14. This board never connects to the router: it only sends packets to Node 1.
 
-| GPIO | For | Since | Status after Module 9 | Notes |
+| GPIO | For | Since | Status after Module 14 | Notes |
 | :--- | :--- | :---: | :--- | :--- |
-| 27 | DS18B20 (1-Wire) | M9 | connected | adapter module (the 4.7 kΩ resistor to 3V3 is already on the module), powered from the board's 3V3 pin; until Module 14, female–female wires go straight to the board's pins |
+| 27 | DS18B20 (1-Wire) | M9 | connected | adapter module (the 4.7 kΩ resistor to 3V3 is already on the module); since Module 14, its VCC and GND come from the mini breadboard's bottom rail (see **Node 2 sensors**), while DAT still goes straight to the D27 pin; 10-bit resolution |
 | 2 | Built-in blue LED: "awake" indicator | M9 | connected | on while the board is awake, off while it sleeps |
-| 21 / 22 | I2C: BME280 | M14 | reserved | |
-| 39 (VN) | Second soil sensor | M14 | reserved | same pin as on Node 1, so the code can be reused |
+| 21 / 22 | I2C SDA / SCL: BME280 (address `0x76` or `0x77`) | M14 | connected | VIN from the bottom rail (+) 3.3 V; read in forced mode (one measurement, then the sensor sleeps by itself) |
+| 39 (VN) | Second soil sensor: AOUT | M14 | connected | ADC1; same pin as on Node 1, so the code can be reused; the two-point calibration is done again with power from D32 |
+| 32 (D32) | Second soil sensor: VCC | M14 | connected | output HIGH **only while awake** (the sensor draws about 5 mA); **not** 3V3, because the sensor would then stay on all the time while Node 2 sleeps |
 | 16 / 17 / 2 | RS-485 for the Module 15 lab | M15 | reserved | only during the lab, with its own lab sketch; the MAX485 is removed again afterwards because GPIO 2 is also the "awake" LED |
-| 36 (VP) | Spare, for example battery voltage | — | — | optional; voltage divider from the TP4056 OUT+ |
+| 36 (VP) | Battery voltage | M14 | optional | a 2 × 100 kΩ voltage divider from the TP4056's OUT+ to OUT−, the midpoint to VP, a 100 nF capacitor from VP to GND (Module 14 technical deep dive) |
 
 ## Node 2 battery circuit (since Module 9)
 
@@ -58,7 +59,18 @@ Built on a 400-point mini breadboard. **Top rail (−)** = GND, **top rail (+)**
 | TP4056 (6 pads, with protection) | B− → 3c, B+ → 6c; OUT+ → 12d, OUT− → top rail (−); IN+/IN− not used | charged through its USB port with a phone charger; loads **always** from OUT+/OUT− |
 | MT3608 | VIN+ → 12b, VIN− → top rail (−); VOUT+ → top rail (+), VOUT− → top rail (−) | set to **5.0 V** with a multimeter **without a load**, before the board is connected |
 | 100 µF capacitor | (+) leg → top rail (+), (−) leg → top rail (−) | installed **after** the MT3608 is set |
-| Node 2 board | VIN → top rail (+) column 29; GND (left row, above VIN) → top rail (−) column 28 | while measuring current: VIN goes through the INA219 (VIN+ from top rail (+) column 29, VIN− to 27a, board VIN to 27e), and the mini breadboard's GND is joined with the bottom rail (−) of the Node 1 workbench |
+| Node 2 board | VIN → top rail (+) column 29; GND (left row, above VIN) → top rail (−) column 28 | while measuring current: VIN goes through the INA219 (VIN+ from top rail (+) column 29, VIN− to 27a, board VIN to 27e), and the mini breadboard's top rail (−) (not its bottom rail) is joined with the Node 1 workbench's bottom rail (−) column 30 by a black male–male wire |
+
+## Node 2 sensors (since Module 14)
+
+The sensors aren't plugged into the breadboard: their pins are connected with wires. The only part of the mini breadboard they use is the **bottom rail**: **bottom rail (+) = 3.3 V** from the board's 3V3 pin, **bottom rail (−) = GND**. Stick a "3V3" label on the bottom rail so that it isn't mixed up with the top rail (+), which carries 5.0 V from the MT3608.
+
+| Part | Connections | Wires |
+| :--- | :--- | :--- |
+| Bottom rail | board 3V3 (right row, at the very bottom) → bottom rail (+) column 29; board GND (right row, above 3V3) → bottom rail (−) column 28 | male–female, orange and black |
+| BME280 | VIN → bottom rail (+) column 15, GND → bottom rail (−) column 16, SCL → D22, SDA → D21 | VIN and GND male–female; SCL (yellow) and SDA (blue) female–female |
+| DS18B20 adapter | VCC → bottom rail (+) column 24, GND → bottom rail (−) column 27, DAT → D27 | VCC and GND male–female; DAT (purple) female–female |
+| Second soil sensor | the female ends of its wires: VCC straight onto the D32 pin, AOUT straight onto the VN pin; GND through a black male–male jumper wire to bottom rail (−) column 21 | follow the labels on the sensor board (GND, VCC, AOUT), not the wire colors |
 
 **While running from the battery, Node 2's USB is unplugged**, and **its 3V3 pin never gets battery voltage**. Want to upload a program? Unplug its VIN and GND wires first.
 
@@ -71,7 +83,7 @@ Built on a 400-point mini breadboard. **Top rail (−)** = GND, **top rail (+)**
 | 6–11 | Used by the flash memory. Not broken out on 30-pin boards; on 38-pin boards they are labeled `D0`–`D3` (or `SD0`–`SD3`), `CMD`, `CLK`. Watch out: the label `D2` or `SD2` on a 38-pin board is GPIO 9, not GPIO 2. |
 | 0 | The **BOOT** button (selects download mode). Not broken out on 30-pin boards. |
 | 34–39 for buttons or outputs | Input only, and no internal pull-up. |
-| 36 and 39 for digital inputs with an *interrupt* | Per the *ESP32 Series SoC Errata*: the input is briefly pulled low while the ADC or Wi-Fi is active. That is why the PIR and ECHO are on 34/35. |
+| 36 and 39 for digital inputs with an interrupt | Per the *ESP32 Series SoC Errata*: the input is briefly pulled low while the ADC or Wi-Fi is active. That is why the PIR and ECHO are on 34/35. |
 
 ## Power rails on the workbench (since Module 5)
 
@@ -111,7 +123,8 @@ OLED display: GND to the bottom rail (−) column 17, VCC to the bottom rail (+)
 | 2 | 6 | All five Node 1 sensors connected (DHT22, LDR, capacitive soil sensor, PIR, HC-SR04); 5 V sensors on the top rail, 3.3 V sensors on the bottom rail. |
 | 3 | 7 | I2C bus connected (OLED display at `0x3C`, bus strips in columns 19 and 20, powered from the bottom rail); optional microSD; DS18B20 practice on GPIO 16 finished; new **Buses on the breadboard** table. |
 | 4 | 9 | Node 1 gets its power from its own charger (golden power rules 2, 4, and 5). Node 2 skeleton connected: DS18B20 on GPIO 27 and the "awake" LED on GPIO 2. New **Node 2 battery circuit** section. I2C address `0x40` reserved for the INA219, a temporary measuring tool. |
+| 5 | 14 | Node 2 complete: the BME280 on I2C (D21/D22), the second soil sensor on VN with VCC from **D32** (off during sleep), the DS18B20 moves to the mini breadboard's bottom rail; VP optional for the battery voltage. New **Node 2 sensors** section. Node 1 doesn't change. |
 
 ---
 
-[⬅️ Back to the project folder](README.md) · [Module 5](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-1-esp32-embedded/module-05-gpio-and-pin-map/README.md) · [Module 7](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-1-esp32-embedded/module-07-sensor-bus-oled-schematics/README.md) · [Module 9](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-1-esp32-embedded/module-09-power-and-low-power/README.md) · [Syllabus](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/SYLLABUS.md)
+[⬅️ Back to the project folder](README.md) · [Module 5](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-1-esp32-embedded/module-05-gpio-and-pin-map/README.md) · [Module 7](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-1-esp32-embedded/module-07-sensor-bus-oled-schematics/README.md) · [Module 9](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-1-esp32-embedded/module-09-power-and-low-power/README.md) · [Module 14](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-14-node-2-esp-now/README.md) · [Syllabus](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/SYLLABUS.md)

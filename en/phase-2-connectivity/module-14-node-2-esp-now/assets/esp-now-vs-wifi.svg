@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="640" viewBox="0 0 1200 640" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="640" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Two ways to send a message from the garden</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Ordinary Wi-Fi goes through the router, ESP-NOW straight to Node 1's MAC address</text>
+<rect x="30.0" y="104.0" width="1140.0" height="214.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<rect x="50.0" y="118.0" width="150.0" height="26.0" rx="13.0" fill="#4a5568" />
+<text x="125.0" y="135.9" font-size="13.5" font-weight="700" fill="#ffffff" text-anchor="middle" >Ordinary Wi-Fi</text>
+<rect x="85.0" y="190.0" width="30.0" height="40.0" rx="3" fill="none" stroke="#4a5568" stroke-width="2" />
+<rect x="91.0" y="196.0" width="18.0" height="14.0" rx="2" fill="none" stroke="#4a5568" stroke-width="1.6" />
+<line x1="85.0" y1="200.0" x2="80.0" y2="200.0" stroke="#4a5568" stroke-width="1.6" stroke-linecap="round" />
+<line x1="115.0" y1="200.0" x2="120.0" y2="200.0" stroke="#4a5568" stroke-width="1.6" stroke-linecap="round" />
+<line x1="85.0" y1="208.0" x2="80.0" y2="208.0" stroke="#4a5568" stroke-width="1.6" stroke-linecap="round" />
+<line x1="115.0" y1="208.0" x2="120.0" y2="208.0" stroke="#4a5568" stroke-width="1.6" stroke-linecap="round" />
+<line x1="85.0" y1="216.0" x2="80.0" y2="216.0" stroke="#4a5568" stroke-width="1.6" stroke-linecap="round" />
+<line x1="115.0" y1="216.0" x2="120.0" y2="216.0" stroke="#4a5568" stroke-width="1.6" stroke-linecap="round" />
+<line x1="85.0" y1="224.0" x2="80.0" y2="224.0" stroke="#4a5568" stroke-width="1.6" stroke-linecap="round" />
+<line x1="115.0" y1="224.0" x2="120.0" y2="224.0" stroke="#4a5568" stroke-width="1.6" stroke-linecap="round" />
+<text x="100.0" y="252.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Node 2</text>
+<rect x="168.0" y="172.0" width="192.0" height="74.0" rx="10" fill="#eef1f5" />
+<circle cx="188.0" cy="192.0" r="11" fill="#4a5568" stroke="#ffffff" stroke-width="2" />
+<text x="188.0" y="196.0" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle" >1</text>
+<text x="206.0" y="197.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >register with the router:</text>
+<text x="206.0" y="217.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >Wi-Fi name + password</text>
+<line x1="362.0" y1="209.0" x2="374.0" y2="209.0" stroke="#4a5568" stroke-width="1.8" stroke-linecap="round" />
+<path d="M368.7 211.8 L374.0 209.0 L368.7 206.2" fill="none" stroke="#4a5568" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="376.0" y="172.0" width="192.0" height="74.0" rx="10" fill="#eef1f5" />
+<circle cx="396.0" cy="192.0" r="11" fill="#4a5568" stroke="#ffffff" stroke-width="2" />
+<text x="396.0" y="196.0" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle" >2</text>
+<text x="414.0" y="197.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >ask for an IP address</text>
+<text x="414.0" y="217.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >(DHCP)</text>
+<line x1="570.0" y1="209.0" x2="582.0" y2="209.0" stroke="#4a5568" stroke-width="1.8" stroke-linecap="round" />
+<path d="M576.7 211.8 L582.0 209.0 L576.7 206.2" fill="none" stroke="#4a5568" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="584.0" y="172.0" width="192.0" height="74.0" rx="10" fill="#eef1f5" />
+<circle cx="604.0" cy="192.0" r="11" fill="#4a5568" stroke="#ffffff" stroke-width="2" />
+<text x="604.0" y="196.0" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle" >3</text>
+<text x="622.0" y="197.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >only then send</text>
+<text x="622.0" y="217.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >messages via the router</text>
+<line x1="794.0" y1="209.0" x2="858.0" y2="209.0" stroke="#4a5568" stroke-width="2.4" stroke-linecap="round" />
+<path d="M850.1 213.2 L858.0 209.0 L850.1 204.8" fill="none" stroke="#4a5568" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="880.0" y="210.0" width="44.0" height="16.0" rx="4" fill="none" stroke="#4a5568" stroke-width="2" />
+<line x1="890.0" y1="210.0" x2="886.0" y2="194.0" stroke="#4a5568" stroke-width="2" stroke-linecap="round" />
+<line x1="914.0" y1="210.0" x2="918.0" y2="194.0" stroke="#4a5568" stroke-width="2" stroke-linecap="round" />
+<circle cx="892.0" cy="218.0" r="1.6" fill="#4a5568" />
+<circle cx="899.0" cy="218.0" r="1.6" fill="#4a5568" />
+<circle cx="906.0" cy="218.0" r="1.6" fill="#4a5568" />
+<text x="902.0" y="252.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" >router</text>
+<line x1="946.0" y1="209.0" x2="1010.0" y2="209.0" stroke="#4a5568" stroke-width="2.4" stroke-linecap="round" />
+<path d="M1002.1 213.2 L1010.0 209.0 L1002.1 204.8" fill="none" stroke="#4a5568" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="1045.0" y="190.0" width="30.0" height="40.0" rx="3" fill="none" stroke="#4a5568" stroke-width="2" />
+<rect x="1051.0" y="196.0" width="18.0" height="14.0" rx="2" fill="none" stroke="#4a5568" stroke-width="1.6" />
+<line x1="1045.0" y1="200.0" x2="1040.0" y2="200.0" stroke="#4a5568" stroke-width="1.6" stroke-linecap="round" />
+<line x1="1075.0" y1="200.0" x2="1080.0" y2="200.0" stroke="#4a5568" stroke-width="1.6" stroke-linecap="round" />
+<line x1="1045.0" y1="208.0" x2="1040.0" y2="208.0" stroke="#4a5568" stroke-width="1.6" stroke-linecap="round" />
+<line x1="1075.0" y1="208.0" x2="1080.0" y2="208.0" stroke="#4a5568" stroke-width="1.6" stroke-linecap="round" />
+<line x1="1045.0" y1="216.0" x2="1040.0" y2="216.0" stroke="#4a5568" stroke-width="1.6" stroke-linecap="round" />
+<line x1="1075.0" y1="216.0" x2="1080.0" y2="216.0" stroke="#4a5568" stroke-width="1.6" stroke-linecap="round" />
+<line x1="1045.0" y1="224.0" x2="1040.0" y2="224.0" stroke="#4a5568" stroke-width="1.6" stroke-linecap="round" />
+<line x1="1075.0" y1="224.0" x2="1080.0" y2="224.0" stroke="#4a5568" stroke-width="1.6" stroke-linecap="round" />
+<text x="1060.0" y="252.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Node 1 / broker</text>
+<text x="168.0" y="280.0" font-size="13.5" font-weight="600" fill="#4a5568" text-anchor="start" >about 1–3 seconds with the radio on before the first message · every message goes via the router</text>
+<text x="168.0" y="302.0" font-size="13.5" font-weight="800" fill="#e63946" text-anchor="start" >router off = messages can't be sent</text>
+<rect x="30.0" y="336.0" width="1140.0" height="214.0" rx="14" fill="#e2f3f1" stroke="#0f8b8d" stroke-width="2.2" />
+<rect x="50.0" y="350.0" width="130.0" height="26.0" rx="13.0" fill="#0f8b8d" />
+<text x="115.0" y="367.9" font-size="13.5" font-weight="700" fill="#ffffff" text-anchor="middle" >ESP-NOW</text>
+<rect x="85.0" y="424.0" width="30.0" height="40.0" rx="3" fill="none" stroke="#b45f17" stroke-width="2" />
+<rect x="91.0" y="430.0" width="18.0" height="14.0" rx="2" fill="none" stroke="#b45f17" stroke-width="1.6" />
+<line x1="85.0" y1="434.0" x2="80.0" y2="434.0" stroke="#b45f17" stroke-width="1.6" stroke-linecap="round" />
+<line x1="115.0" y1="434.0" x2="120.0" y2="434.0" stroke="#b45f17" stroke-width="1.6" stroke-linecap="round" />
+<line x1="85.0" y1="442.0" x2="80.0" y2="442.0" stroke="#b45f17" stroke-width="1.6" stroke-linecap="round" />
+<line x1="115.0" y1="442.0" x2="120.0" y2="442.0" stroke="#b45f17" stroke-width="1.6" stroke-linecap="round" />
+<line x1="85.0" y1="450.0" x2="80.0" y2="450.0" stroke="#b45f17" stroke-width="1.6" stroke-linecap="round" />
+<line x1="115.0" y1="450.0" x2="120.0" y2="450.0" stroke="#b45f17" stroke-width="1.6" stroke-linecap="round" />
+<line x1="85.0" y1="458.0" x2="80.0" y2="458.0" stroke="#b45f17" stroke-width="1.6" stroke-linecap="round" />
+<line x1="115.0" y1="458.0" x2="120.0" y2="458.0" stroke="#b45f17" stroke-width="1.6" stroke-linecap="round" />
+<text x="100.0" y="486.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Node 2</text>
+<rect x="1045.0" y="424.0" width="30.0" height="40.0" rx="3" fill="none" stroke="#0f8b8d" stroke-width="2" />
+<rect x="1051.0" y="430.0" width="18.0" height="14.0" rx="2" fill="none" stroke="#0f8b8d" stroke-width="1.6" />
+<line x1="1045.0" y1="434.0" x2="1040.0" y2="434.0" stroke="#0f8b8d" stroke-width="1.6" stroke-linecap="round" />
+<line x1="1075.0" y1="434.0" x2="1080.0" y2="434.0" stroke="#0f8b8d" stroke-width="1.6" stroke-linecap="round" />
+<line x1="1045.0" y1="442.0" x2="1040.0" y2="442.0" stroke="#0f8b8d" stroke-width="1.6" stroke-linecap="round" />
+<line x1="1075.0" y1="442.0" x2="1080.0" y2="442.0" stroke="#0f8b8d" stroke-width="1.6" stroke-linecap="round" />
+<line x1="1045.0" y1="450.0" x2="1040.0" y2="450.0" stroke="#0f8b8d" stroke-width="1.6" stroke-linecap="round" />
+<line x1="1075.0" y1="450.0" x2="1080.0" y2="450.0" stroke="#0f8b8d" stroke-width="1.6" stroke-linecap="round" />
+<line x1="1045.0" y1="458.0" x2="1040.0" y2="458.0" stroke="#0f8b8d" stroke-width="1.6" stroke-linecap="round" />
+<line x1="1075.0" y1="458.0" x2="1080.0" y2="458.0" stroke="#0f8b8d" stroke-width="1.6" stroke-linecap="round" />
+<text x="1060.0" y="486.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Node 1</text>
+<line x1="140.0" y1="428.0" x2="1016.0" y2="428.0" stroke="#b45f17" stroke-width="3" stroke-linecap="round" />
+<path d="M1006.3 433.2 L1016.0 428.0 L1006.3 422.8" fill="none" stroke="#b45f17" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="397.7" y="403.0" width="360.7" height="22.0" rx="4" fill="#e2f3f1" />
+<text x="578.0" y="419.0" font-size="13" font-weight="700" fill="#b45f17" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">1 frame to the MAC address A4:CF:12:E5:B7:C0</text>
+<line x1="1016.0" y1="462.0" x2="140.0" y2="462.0" stroke="#0f8b8d" stroke-width="2.4" stroke-linecap="round" />
+<path d="M147.9 457.8 L140.0 462.0 L147.9 466.2" fill="none" stroke="#0f8b8d" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="461.2" y="466.0" width="233.7" height="22.0" rx="4" fill="#e2f3f1" />
+<text x="578.0" y="482.0" font-size="13" font-weight="700" fill="#0f8b8d" text-anchor="middle" font-family="Inter, 'DejaVu Sans', Arial, sans-serif" xml:space="preserve">ACK from Node 1's radio: "got it!"</text>
+<rect x="556.0" y="388.0" width="44.0" height="16.0" rx="4" fill="none" stroke="#9aa3b0" stroke-width="2" />
+<line x1="566.0" y1="388.0" x2="562.0" y2="372.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<line x1="590.0" y1="388.0" x2="594.0" y2="372.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<circle cx="568.0" cy="396.0" r="1.6" fill="#9aa3b0" />
+<circle cx="575.0" cy="396.0" r="1.6" fill="#9aa3b0" />
+<circle cx="582.0" cy="396.0" r="1.6" fill="#9aa3b0" />
+<line x1="594.0" y1="374.0" x2="606.0" y2="386.0" stroke="#e63946" stroke-width="2" stroke-linecap="round" />
+<line x1="594.0" y1="386.0" x2="606.0" y2="374.0" stroke="#e63946" stroke-width="2" stroke-linecap="round" />
+<text x="612.0" y="392.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="start" >router not used</text>
+<text x="168.0" y="520.0" font-size="13.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >no router, no Wi-Fi password · send + ACK take only a few milliseconds</text>
+<text x="168.0" y="540.0" font-size="13.5" font-weight="800" fill="#0f8b8d" text-anchor="start" >as long as both are on the same channel, ESP-NOW keeps working even when the router is off</text>
+<rect x="30.0" y="566.0" width="1140.0" height="46.0" rx="10" fill="#eef1f5" />
+<text x="52.0" y="595.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >Unicast to one address → an ACK.   Broadcast to FF:FF:FF:FF:FF:FF → never an ACK.</text>
+<text x="1178.0" y="626.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer curriculum · CC BY 4.0</text>
+</svg>

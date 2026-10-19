@@ -1,5 +1,6 @@
 // contract-checker.js — checks every MQTT message of the project against the data contract
 // (Syllabus Appendix A and DATA-CONTRACT.md). Module 11 - Practice 8. Used again in later modules.
+// Version 1.1 (Module 14): Node 2 telemetry, which Node 1 publishes on behalf of Node 2, is checked against its own fields.
 // Needs the mqtt library:  npm install mqtt@5.16.1
 // Run:  node contract-checker.js                               (broker on this laptop)
 //       node contract-checker.js 192.168.1.10                  (broker on another computer)
@@ -17,7 +18,10 @@ if (device !== undefined && !/^[0-9a-f]{12}$/.test(device)) {
 const subscription = device ? `msh/${device}/#` : "msh/#";
 const KINDS = ["telemetry", "status", "vitals", "cmd", "ack"];
 const FIELDS = {
-  telemetry: { all: ["ts", "fw", "temperature", "humidity", "light", "soil", "motion", "water_level"] },
+  "telemetry Node 1": { all: ["ts", "fw", "temperature", "humidity", "light", "soil", "motion", "water_level"] },
+  "telemetry Node 2": { // contract 1.1: battery may be missing (the voltage divider is optional)
+    all: ["ts", "fw", "temperature", "humidity", "pressure", "soil_temperature", "soil", "battery"],
+    required: ["ts", "fw", "temperature", "humidity", "pressure", "soil_temperature", "soil"] },
   vitals: { all: ["ts", "rssi", "uptime_s", "heap_free", "reset_reason"], required: ["ts", "rssi", "uptime_s", "heap_free"] },
   cmd: { all: ["id", "ts", "action", "target", "value", "thresholds", "url", "version"], required: ["id", "action"] },
   ack: { all: ["id", "ts", "ok", "message", "state"], required: ["id", "ts", "ok", "state"] },
@@ -74,8 +78,17 @@ function checkInteger(name, value, min, max, nullAllowed, problems) {
   }
 }
 
+// A decimal number within a range, or null (a failed reading).
+function checkDecimal(name, value, min, max, problems) {
+  if (value !== null && (typeof value !== "number" || value < min || value > max)) {
+    problems.push(`"${name}" must be a number from ${min} to ${max} or null, got ${text(value)}`);
+  }
+}
+
+// Contract 1.1: sensor fields per device. Node 2 telemetry is recognized by its own typical fields.
 function checkTelemetry(content, problems) {
-  const has = checkFields(content, "telemetry", problems);
+  const node2 = "pressure" in content || "soil_temperature" in content;
+  const has = checkFields(content, node2 ? "telemetry Node 2" : "telemetry Node 1", problems);
   if (has("ts")) checkTs(content.ts, problems);
   if (has("fw") && (typeof content.fw !== "string" || !/^\d+\.\d+\.\d+$/.test(content.fw))) {
     problems.push(`"fw" must be a version like "1.2.0", got ${text(content.fw)}`);
@@ -85,11 +98,15 @@ function checkTelemetry(content, problems) {
   }
   if (has("humidity")) checkInteger("humidity", content.humidity, 0, 100, true, problems);
   if (has("light")) checkInteger("light", content.light, 0, 4095, false, problems);
-  if (has("soil")) checkInteger("soil", content.soil, 0, 100, false, problems);
+  if (has("soil")) checkInteger("soil", content.soil, 0, 100, node2, problems); // null only for Node 2
   if (has("motion") && typeof content.motion !== "boolean") {
     problems.push(`"motion" must be true or false, got ${text(content.motion)}`);
   }
   if (has("water_level")) checkInteger("water_level", content.water_level, 0, 100, true, problems);
+  if (has("pressure")) checkDecimal("pressure", content.pressure, 300, 1100, problems);
+  if (has("soil_temperature")) checkDecimal("soil_temperature", content.soil_temperature, -55, 125, problems);
+  if (has("battery")) checkDecimal("battery", content.battery, 2.5, 4.5, problems);
+  return node2 ? "  (telemetry Node 2)" : "";
 }
 
 function checkVitals(content, problems) {
@@ -179,7 +196,7 @@ function check(topic, contentText, retained) {
     if (content !== undefined && (typeof content !== "object" || content === null || Array.isArray(content))) {
       problems.push("the content must be a JSON object { ... }");
     } else if (content !== undefined) {
-      if (parts[2] === "telemetry") checkTelemetry(content, problems);
+      if (parts[2] === "telemetry") note += checkTelemetry(content, problems);
       if (parts[2] === "vitals") checkVitals(content, problems);
       if (parts[2] === "cmd") checkCmd(content, problems);
       if (parts[2] === "ack") note += checkAck(content, problems);

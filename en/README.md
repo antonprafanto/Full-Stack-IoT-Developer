@@ -30,7 +30,7 @@ A self-study curriculum of **32 modules**, from complete beginner to building a 
 ## Available modules
 
 > [!NOTE]
-> Syllabus v1.0 was approved on 9 October 2026, and the modules are written in order. Available now: **Modules 1–13 of 32**: all of Phase 0 and Phase 1, plus Modules 10–13 of Phase 2. The full list of 32 modules is in [PROGRESS.md](PROGRESS.md).
+> Syllabus v1.0 was approved on 9 October 2026, and the modules are written in order. Available now: **Modules 1–14 of 32**: all of Phase 0 and Phase 1, plus Modules 10–14 of Phase 2. The full list of 32 modules is in [PROGRESS.md](PROGRESS.md).
 
 | Module | Title | After this module you can… | Main tools |
 | :---: | :--- | :--- | :--- |
@@ -47,7 +47,8 @@ A self-study curriculum of **32 modules**, from complete beginner to building a 
 | 11 | **[MQTT: The Official Language of IoT & the Project Data Contract](phase-2-connectivity/module-11-mqtt-and-data-contract/README.md)** | run your own MQTT broker on the laptop, make the ESP32 publish readings and receive commands through the broker, get automatic *online*/*offline* status and commands that are always answered with an `ack`, and keep the project's data contract together with its checker | Mosquitto, MQTTX, Kit A, laptop + Node.js |
 | 12 | **[Raspberry Pi & Linux Basics: A Gateway That's Always On](phase-2-connectivity/module-12-raspberry-pi-and-linux/README.md)** | set up a Raspberry Pi without a monitor, log in over SSH, about 20 basic Linux commands, a fixed address, and the Mosquitto broker as a service that starts and gets back up by itself: a 24-hour gateway that keeps Mini Smart Home alive without the laptop | Raspberry Pi (Kit B) or a laptop, SSH, Mosquitto |
 | 13 | **[Node-RED & Dashboard 2: Your First Dashboard Without Coding](phase-2-connectivity/module-13-node-red-dashboard/README.md)** | install Node-RED on the gateway as a service, build flows without writing a program, dashboard v0 on your phone (gauges, a water tank, a chart, switches that wait for the `ack`), fan automation with hysteresis, and saving the flows to the repository | Node-RED on the Pi (Kit B) or a laptop, a phone |
-| 14 | Node 2 "Garden": Battery-Powered Sensors via ESP-NOW | coming soon — [read the summary in the Syllabus](SYLLABUS.md#module-14--node-2-garden-battery-powered-sensors-via-esp-now) | 2 ESP32s, an 18650 battery |
+| 14 | **[Node 2 "Garden": Battery-Powered Sensors via ESP-NOW](phase-2-connectivity/module-14-node-2-esp-now/README.md)** | the battery-powered Node 2 in the garden talks directly to Node 1 over ESP-NOW without a router: finding the router's channel, a 33-byte packet, Node 1 as a bridge to MQTT that keeps listening while the router is off, the Garden card in Node-RED, measuring the current and the battery life, and ESP-NOW encryption | 2 ESP32s, an 18650 battery, BME280, DS18B20, INA219 |
+| 15 | Modbus RTU/RS-485 Lab & Choosing the Right Protocol | coming soon — [read the summary in the Syllabus](SYLLABUS.md#module-15--modbus-rturs-485-lab--choosing-the-right-protocol) | 2 ESP32s, 2 MAX485s |
 
 The modules of each phase are also listed on the phase pages: **[Phase 0 — Foundations](phase-0-foundations/README.md)**, **[Phase 1 — ESP32 Embedded](phase-1-esp32-embedded/README.md)**, and **[Phase 2 — Connectivity](phase-2-connectivity/README.md)**.
 

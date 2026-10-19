@@ -4,7 +4,7 @@
 
 *Phase 2 · Week 13 · Hardware: **Kit B** — the Raspberry Pi gateway from Module 12, Node 1 v1.2.1, and a phone connected to the home Wi-Fi, or the **laptop path** without a Pi · Prerequisites: **Module 12** (the gateway and the Mosquitto broker) and **Module 11** (the data contract) · Time: 8–10 hours, spread over the week*
 
-[⬅️ Module 12](../module-12-raspberry-pi-and-linux/README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · [Module 14 ➡️ (coming soon — read the summary in the Syllabus)](../../SYLLABUS.md#module-14--node-2-garden-battery-powered-sensors-via-esp-now)
+[⬅️ Module 12](../module-12-raspberry-pi-and-linux/README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · [Module 14 ➡️](../module-14-node-2-esp-now/README.md)
 
 ---
 
@@ -1448,4 +1448,4 @@ The completion requirement from the Syllabus: **your phone opens the Node-RED da
 
 ---
 
-[⬅️ Module 12](../module-12-raspberry-pi-and-linux/README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · **Next: Module 14 — Node 2 "Garden": Battery-Powered Sensors via ESP-NOW** (coming soon; [read the summary in the Syllabus](../../SYLLABUS.md#module-14--node-2-garden-battery-powered-sensors-via-esp-now))
+[⬅️ Module 12](../module-12-raspberry-pi-and-linux/README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · **Next: [Module 14 — Node 2 "Garden": Battery-Powered Sensors via ESP-NOW](../module-14-node-2-esp-now/README.md) ➡️**

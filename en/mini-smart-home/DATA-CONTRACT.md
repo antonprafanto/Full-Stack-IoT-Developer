@@ -2,7 +2,7 @@
 
 🌐 **English** · [Bahasa Indonesia](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/proyek-rumah-pintar-mini/KONTRAK-DATA.md)
 
-> **Contract version 1.0** (Module 11, October 2026). Its main reference is [Appendix A of the Syllabus](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/SYLLABUS.md#14-appendix-a--mini-smart-home-data-contract); this file is its working copy, kept in the project. **The ground rules:** every change is written here and in Appendix A first, then the code is changed, then the firmware version goes up.
+> **Contract version 1.1** ([Module 14](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-14-node-2-esp-now/README.md), October 2026; version 1.0 from Module 11). Its main reference is [Appendix A of the Syllabus](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/SYLLABUS.md#14-appendix-a--mini-smart-home-data-contract); this file is its working copy, kept in the project. **The ground rules:** every change is written here and in Appendix A first, then the code is changed, then the firmware version goes up.
 
 The data contract is the "shared language" of every part of the project: the firmware, the broker, the contract checker, the gateway (Module 12), Node-RED (Module 13), the backend (Module 16), the database (Module 17), and the dashboard (Module 22). As long as they all follow this contract, each part can be built in a different week and still fit together with the others. The full explanation is in [Module 11](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-11-mqtt-and-data-contract/README.md).
 
@@ -18,13 +18,13 @@ Prefix `msh` = Mini Smart Home. Topics are always lowercase and do **not** start
 
 | Topic | Direction | Content | Retained | When |
 | :--- | :--- | :--- | :---: | :--- |
-| `msh/<device_id>/telemetry` | device → broker | all sensor readings in one JSON | no | every 10 seconds, and immediately when something important happens |
-| `msh/<device_id>/status` | device → broker | the text `online`, `offline`, or `offline-mode` | **yes** | `online` when connected; `offline` is published by the broker (*Last Will*) |
+| `msh/<device_id>/telemetry` | device → broker | all sensor readings in one JSON | no | Node 1: every 10 seconds, and immediately when something important happens. Node 2: once every time it wakes up (5 minutes), published by Node 1 |
+| `msh/<device_id>/status` | device → broker | the text `online`, `offline`, or `offline-mode` | **yes** | `online` when connected; `offline` is published by the broker (*Last Will*). Node 2: both are published by Node 1 (section 5) |
 | `msh/<device_id>/vitals` | device → broker | device health | no | once after connecting, then every 5 minutes |
 | `msh/<device_id>/cmd` | broker → device | one command | only `config` (Module 19) | any time |
 | `msh/<device_id>/ack` | device → broker | the answer to one command | no | right after the command is received |
 
-Node 2 (ESP-NOW) isn't connected to the broker; from Module 14 on, **Node 1 publishes on its behalf** at `msh/<device_id_node2>/telemetry` and `/status`.
+Node 2 (ESP-NOW) isn't connected to the broker. From Module 14 on, **Node 1 publishes on its behalf** at `msh/<device_id Node 2>/telemetry` and `/status`: Node 1 receives Node 2's ESP-NOW packets, gives them a `ts`, holds them back while the broker can't be reached, then publishes them with Node 2's `device_id`. Node 2's `device_id` is made the same way, from Node 2's Wi-Fi MAC address. Node 2 doesn't send `vitals` and doesn't receive `cmd`.
 
 *Wildcards* that subscribers often use: `msh/+/status` (the status of every device), `msh/<device_id>/#` (all of one device's messages), and `msh/#` (the whole project).
 
@@ -62,6 +62,25 @@ Node 2 (ESP-NOW) isn't connected to the broker; from Module 14 on, **Node 1 publ
 
 **Immediate sends** (*report-by-exception*) happen when one of these states **changes**: motion or no motion; dark or bright (dark = `light` below `1000`); the soil below or above the watering threshold; the water tank below or above 20%. Immediate sends happen at most every 2 seconds, and the next 10-second slot is counted from the last send.
 
+### Node 2 `telemetry` (from contract 1.1, Module 14)
+
+```json
+{"ts":"2026-10-25T01:30:12Z","fw":"1.0.0","temperature":29.4,"humidity":78,"pressure":1008.6,"soil_temperature":27.3,"soil":41}
+```
+
+| Field | Type | Unit and range | Node 2 sensor (pin) | If the reading fails |
+| :--- | :--- | :--- | :--- | :--- |
+| `ts` | text | UTC time in ISO-8601, **made by Node 1 when the ESP-NOW packet is received** | Node 1's NTP clock | the message is held back until Node 1's clock is set |
+| `fw` | text | the firmware version of **Node 2** (carried in the packet), for example `1.0.0` | — | — |
+| `temperature` | decimal number, one digit after the decimal point | air °C, −40 to 80 | BME280 (I2C: D21/D22) | `null` |
+| `humidity` | integer | % relative humidity, 0–100 | BME280 | `null` |
+| `pressure` | decimal number, one digit after the decimal point | hPa, 300–1,100 | BME280 | `null` |
+| `soil_temperature` | decimal number, one digit after the decimal point | °C, −55 to 125 | DS18B20 (D27) | `null` |
+| `soil` | integer | %, from the two-point calibration of the second soil sensor | second capacitive soil sensor (VN/GPIO 39, powered from D32) | `null` |
+| `battery` | decimal number, two digits after the decimal point | battery volts, 2.5–4.5 | voltage divider (VP/GPIO 36), **optional** | `null`; the field is missing if the divider isn't fitted |
+
+**Fields per device.** Every device writes only the sensor fields it has: Node 1 never writes `pressure`, and Node 2 never writes `light`. The field of a sensor that isn't fitted isn't written; the field of a sensor that fails to read is written as `null`. The same name means the same thing (`temperature` = the air temperature around the device, `soil` = the soil moisture percentage) so that the database and the charts can compare the house and the garden without new fields.
+
 ## 5. `status`
 
 Plain text, not JSON:
@@ -71,6 +90,8 @@ Plain text, not JSON:
 | `online` | the device is connected | the device, every time it connects |
 | `offline` | the device disappeared without saying goodbye (power cut, Wi-Fi dropped, stuck) | the broker, from the device's last will |
 | `offline-mode` | the device stopped on purpose, for example before a firmware update | the device (used from Module 28 on) |
+
+**Node 2's status** is published by **Node 1** (retained): `online` when the first valid packet from Node 2 arrives, `offline` if there's no packet for **3 × Node 2's interval + 1 minute** (a 5-minute interval = 16 minutes). Node 2 has no MQTT connection of its own, so it has no last will. That's why Node 2's status means "Node 1 still hears Node 2", and it can only be trusted while Node 1's own status is `online`.
 
 ## 6. `vitals`
 
@@ -128,23 +149,25 @@ Plain text, not JSON:
 
 ## 9. Shared rules
 
-1. `ts` is made by the device, not by the server, so late-arriving data (Module 27) is recorded at the time it happened.
+1. `ts` is made by the device, not by the server, so late-arriving data (Module 27) is recorded at the time it happened. Node 2 has no clock that can be trusted, so its `ts` is made by **Node 1**, its gateway node in the house, when the ESP-NOW packet is received, and it's kept even if the message is only published later (for example, after the router was off).
 2. The database rejects duplicate `(device_id, ts)` pairs (Module 17).
-3. `telemetry` every 10 seconds **and** immediately when something important happens (section 4).
+3. `telemetry` every 10 seconds **and** immediately when something important happens (section 4). Node 2: once every time it wakes up, without immediate sends.
 4. Every `cmd` is answered with one `ack` with the same `id` within 5 seconds; Node 1's target is under 1 second. Messages that aren't JSON, have no `id`, or have an `id` longer than 39 characters can't be answered and are only logged by the device.
 5. A `cmd` of the `config` type is sent retained and stored by the device in NVS as the basis for the local safety rules (Module 19).
-6. A device may only write to the topics of its own `device_id`; this rule is enforced by the broker's access list (Module 21).
+6. A device may only write to the topics of its own `device_id`; this rule is enforced by the broker's access list (Module 21). One exception: Node 1 also writes Node 2's `telemetry` and `status`, and the Module 21 access list records it.
 7. Failed readings are written as `null` in the JSON, for every field. Marker numbers such as `-1` never leave the device.
 8. A command with the same `id` is carried out only once; the device remembers at least the last eight `id`s and ignores repeats. This memory is lost when the device restarts, so `set` commands must not be sent retained (section 7).
+9. Every device only sends the sensor fields it has (section 4, "Fields per device").
 
 ## 10. Checking compliance
 
-Run [`tools/contract-checker.js`](tools/contract-checker.js) (`node contract-checker.js` in the `tools` folder, after `npm install`). It subscribes to `msh/#` and stamps **PASS** or **FAIL** on every message, with its reasons and how long each `ack` took. On a public broker, also write your `device_id` after the broker's address (`node contract-checker.js broker.emqx.io <device_id>`) so only your device's messages are checked. Every firmware change must pass this check before it's committed.
+Run [`tools/contract-checker.js`](tools/contract-checker.js) (`node contract-checker.js` in the `tools` folder, after `npm install`). It subscribes to `msh/#` and stamps **PASS** or **FAIL** on every message, with its reasons and how long each `ack` took. On a public broker, also write your `device_id` after the broker's address (`node contract-checker.js broker.emqx.io <device_id>`) so only your device's messages are checked. Every firmware change must pass this check before it's committed. Since contract 1.1, the checker recognizes Node 2's `telemetry` by its typical fields (`pressure`, `soil_temperature`), checks it against Node 2's field list, and marks it `(telemetry Node 2)`.
 
 ## 11. Change history
 
 | Contract version | Module | Change |
 | :--- | :--- | :--- |
+| 1.1 | Module 14 | Node 2 via Node 1: new fields `pressure`, `soil_temperature`, and `battery` (optional); sensor fields per device (rule 9); Node 2's `ts` is made by Node 1 when the packet is received; Node 2's `status` is published by Node 1; Node 2's `soil` may be `null`; Node 1 may write to Node 2's topics (rule 6). Node 1's data doesn't change. |
 | 1.0 | Module 11 | The contract comes into use over MQTT. Decided: failed readings are written as `null`; *client ID* = `device_id`; `telemetry` every 10 seconds plus immediate sends; `vitals` without `reset_reason` until Module 28; the `message` field in `ack`; the `set` targets with their value ranges; command `id`s of 39 characters at most; commands with the same `id` are ignored. |
 
 ## My devices

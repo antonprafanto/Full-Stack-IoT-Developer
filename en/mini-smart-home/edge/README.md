@@ -2,7 +2,7 @@
 
 🌐 **English** · [Bahasa Indonesia](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/proyek-rumah-pintar-mini/edge/README.md)
 
-The gateway is the Raspberry Pi that runs the Mini Smart Home MQTT broker 24 hours a day ([Module 12](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-12-raspberry-pi-and-linux/README.md)), and since [Module 13](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-13-node-red-dashboard/README.md) it also runs Node-RED with the dashboard and the fan automation. This page is its **main backup**: if the microSD card breaks, the gateway can be rebuilt from a blank card in about an hour with the recipe below. Fill in the table with your own gateway's details.
+The gateway is the Raspberry Pi that runs the Mini Smart Home MQTT broker 24 hours a day ([Module 12](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-12-raspberry-pi-and-linux/README.md)), and since [Module 13](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-13-node-red-dashboard/README.md) it also runs Node-RED with the dashboard and the fan automation; since [Module 14](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-14-node-2-esp-now/README.md), that dashboard has a Garden card for Node 2. This page is its **main backup**: if the microSD card breaks, the gateway can be rebuilt from a blank card in about an hour with the recipe below. Fill in the table with your own gateway's details.
 
 > [!CAUTION]
 > **Never write a password** (the Pi's, the Wi-Fi's, or any other) in this file or anywhere else in the repository.
@@ -70,7 +70,7 @@ Every time the settings on the Pi change, copy the file to this folder again (`s
 
 ## Node-RED and the dashboard (Module 13)
 
-Node-RED runs on this same gateway, as the systemd service `nodered` ([Module 13](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-13-node-red-dashboard/README.md)). All its flows, that is, dashboard v0 and the fan automation, are saved in [`node-red-flows.json`](node-red-flows.json). The editor password and the passphrase are never exported; never write them down here.
+Node-RED runs on this same gateway, as the systemd service `nodered` ([Module 13](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-13-node-red-dashboard/README.md)). All its flows, that is, dashboard v0 (with the Garden card since Module 14) and the fan automation, are saved in [`node-red-flows.json`](node-red-flows.json). The editor password and the passphrase are never exported; never write them down here.
 
 | Part | This gateway |
 | :--- | :--- |
@@ -91,6 +91,6 @@ The recipe continues, after step 7 above:
 9. **Start the service**: `sudo systemctl enable --now nodered.service`.
 10. **Install Dashboard 2**: on the laptop, open `http://192.168.1.37:1880` and log in. Main menu → **Manage palette** → the **Install** tab → search for `@flowfuse/node-red-dashboard` → click **install** on the package whose name is **exactly** that (not `@flowfuse/node-red-dashboard-2-…`) → click **Install** in the confirmation window.
 11. **Restore the flows**: main menu → **Import** → **select a file to import** → choose `edge/node-red-flows.json` from the `mini-smart-home` folder on the laptop → **Import**, then **Deploy**.
-12. **Test**: `systemctl status nodered` says `enabled` and `active (running)`; the phone opens the dashboard; the **Fan** switch moves the relay and slides over after the `ack` arrives.
+12. **Test**: `systemctl status nodered` says `enabled` and `active (running)`; the phone opens the dashboard; the **Fan** switch moves the relay and slides over after the `ack` arrives; the **Garden** card fills in again as soon as Node 2 wakes up (within 5 minutes at most).
 
 Every time the flows change, export them again from the editor (main menu → **Export** → **all flows** → **formatted** → **Download**), overwrite `edge/node-red-flows.json`, then make a commit.
