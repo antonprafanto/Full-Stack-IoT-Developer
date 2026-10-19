@@ -2258,7 +2258,7 @@ Di modul ini, pin DE/RE diatur kode (`preTransmission`/`postTransmission`). UART
 
 ```cpp
 Serial2.begin(9600, SERIAL_8N1, 16, 17);
-Serial2.setPins(-1, -1, -1, 4);                 // RTS = D4, disambung ke DE dan RE
+Serial2.setPins(-1, -1, -1, 4);                // RTS = D4, disambung ke DE dan RE
 Serial2.setMode(UART_MODE_RS485_HALF_DUPLEX);  // RTS HIGH selama mengirim, LOW sesudah bit terakhir
 ```
 
