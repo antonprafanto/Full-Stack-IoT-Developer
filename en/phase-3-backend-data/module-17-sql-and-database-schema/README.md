@@ -30,7 +30,7 @@ By the end of the week, **backend v0.2** stores every `telemetry`, `status`, `vi
 > - **Almost all of this week's work is on the laptop.** Every command box says where it's used: the **VS Code terminal** (in the `backend` folder), **Docker Desktop**, **DBeaver**, **Bruno**, **MQTTX**, or **psql** (the SQL window inside the database container). The Pi's address `192.168.1.37`, Node 1's `device_id` `a4cf12e5b7c0`, and Node 2's `device_id` `246f28b1c7d4` are only examples; use your own.
 > - **Hardware isn't required.** Practice 4 uses 7 days of **practice data** made by this module's script, so you can learn SQL without waiting a week. Practices 5–7 need real messages: from Node 1 and Node 2, or from the **Module 16 simulator** (`tools/device-simulator.js`) with `f00d00000001` in place of Node 1's `device_id`.
 > - **No Raspberry Pi yet?** Follow the **laptop path** as in Modules 12–16: the broker runs on the laptop, and the address `mqtt://192.168.1.37:1883` is replaced with your laptop broker's address. The database runs on the laptop anyway, whichever path you take.
-> - **The Expected output boxes.** The author has run this module's TypeScript and SQL code on a Windows laptop with Node.js 24, a lab MQTT broker, a mock Node 1 and Node 2, and a lab PostgreSQL server. The output of the `docker` commands and the Docker Desktop screens are written from the official documentation and Docker's source code, and are marked **example** (see 📚). The dates, times, `id`s, and millisecond numbers on your screen will certainly be different.
+> - **The Expected output boxes.** The author has run this module's TypeScript and SQL code on a Windows laptop with Node.js 24, a lab MQTT broker, a mock Node 1 and Node 2, and a lab PostgreSQL server. The output of the `docker` commands and of psql inside the container has been checked against a real Docker Desktop, while the Docker Desktop screens are written from the official documentation. Outputs that contain IDs, times, or sizes are marked **example** (see 📚). The dates, times, `id`s, and millisecond numbers on your screen will certainly be different.
 > - macOS users: replace **Ctrl** with **Cmd** for shortcuts in VS Code, DBeaver, the browser, and Bruno. **Except in the terminal:** stopping a running program is still **Ctrl + C**. Terminal commands are exactly the same on Windows and macOS, unless stated otherwise.
 
 > [!WARNING]
@@ -401,7 +401,7 @@ Status: Downloaded newer image for timescale/timescaledb:2.30.2-pg17
 3f9c2a7d41e85b06c2d9a1f47e3b8c5d90a6e2f17b4c8d3e5f60a1b2c3d4e5f6
 ```
 
-The long last line is your new **container ID** (yours is different). The download happens only once: next time, the mold is already on the laptop.
+The long last line is your new **container ID** (yours is different). The download happens only once: next time, the mold is already on the laptop, and `docker run` answers right away with just that ID line. Careful: this ID is printed **before** the container is started. If there's still a `docker: Error response from daemon: …` line below it, the container failed to start; see the **Not working?** box at the end of the Quick Win.
 
 ### Step 3 — Make sure the container is running (2 minutes)
 
@@ -457,7 +457,7 @@ smarthome=# SELECT now();
 smarthome=# 
 ```
 
-Look at the endings. The first answer ends in `+00`: the database answers with **UTC** time (world time), which is seven hours behind WIB. After `SET TIME ZONE 'Asia/Jakarta'`, the same question is answered with the ending `+07`, and it matches the WIB wall clock. (Living in WITA or WIT, Central or Eastern Indonesia Time? This clock is still WIB, one or two hours behind yours.) Only the way the time is written changes, not the time itself. Concept 9 explains why this matters, including the zone names for WITA and WIT. Leave psql with:
+Look at the endings. The first answer ends in `+00`: the database answers with **UTC** time (world time), which is seven hours behind WIB. After `SET TIME ZONE 'Asia/Jakarta'`, the same question is answered with the ending `+07`, and it matches the WIB wall clock. (Living in WITA or WIT, Central or Eastern Indonesia Time? This clock is still WIB, one or two hours behind yours.) Only the way the time is written changes, not the time itself. Concept 9 explains why this matters, including the zone names for WITA and WIT. After you leave psql, Docker Desktop usually prints a few lines that start with `What's next:`, for example `Try Docker Debug … → docker debug smarthome-db`. Those are only feature suggestions from Docker Desktop, not errors and not steps of this module, so just ignore them. Similar `What's next:` lines also appear after `docker logs` and near the error messages of `docker run` (an invitation to ask Gordon, Docker's AI assistant). Leave psql with:
 
 ```text
 \q
@@ -475,9 +475,11 @@ Close that terminal, open it again, then run `docker ps` once more: `smarthome-d
 > - `failed to connect to the docker API at npipe:////./pipe/dockerDesktopLinuxEngine…` (Windows) or `Cannot connect to the Docker daemon…` / `failed to connect to the docker API at unix://…` (macOS) → Docker Desktop isn't running yet. Open the app, wait until the whale icon stops moving, then try again.
 > - `docker: Error response from daemon: Conflict. The container name "/smarthome-db" is already in use…` → the container has already been created. Don't run `docker run` again; start it with `docker start smarthome-db`.
 > - `ports are not available` or `port is already allocated` → counter 5432 is already used by another program. Go back to step 1, item 2, and use counter 5433 (or 5434 if 5433 is taken too). The failed `docker run` command leaves behind a container that can't start, so first delete it with `docker rm smarthome-db` before running step 2 again.
-> - psql answers `database "smarthome" does not exist` → the `-e POSTGRES_DB=smarthome` part was left out. See 🚨 "The `smarthome` database doesn't exist, or the new password doesn't work".
+> - psql answers with an error in the first few seconds after `docker run`, for example `connection to server on socket "/var/run/postgresql/.s.PGSQL.5432" failed: No such file or directory`, `the database system is shutting down`, or even `database "smarthome" does not exist` → the database hasn't finished setting itself up for the first time yet (on the author's laptop, about 8 seconds after `docker run`; on a slower laptop it can take longer). Wait about half a minute, then repeat the `docker exec` command of step 4.
+> - psql **still** answers `database "smarthome" does not exist` after you've waited → the `-e POSTGRES_DB=smarthome` part was left out. See 🚨 "The `smarthome` database doesn't exist, or the new password doesn't work".
 > - In psql, after **Enter** there's no answer and the start of the line changes from `smarthome=#` to `smarthome-#` → the semicolon was forgotten, so psql is still waiting for the rest of the statement. Type `;`, then press **Enter**. If the statement turns out to have a typo, psql answers with an `ERROR` that doesn't break anything; type it again correctly.
 > - A message that mentions `toomanyrequests` and `pull rate limit` → Docker Hub limits downloads made without signing in to 100 per 6 hours per internet address, and that limit can run out on a shared campus or classroom network. Try again a few hours later, use another network, or sign in to a free Docker account (its limit is 200).
+> - In step 3, the **STATUS** column says `Restarting (1) …` (now and then briefly `Up Less than a second`) and the **PORTS** column is empty, or in step 4 you get `Error response from daemon: Container … is restarting, wait until the container is running` → the container fails to start and keeps being restarted. The most common cause is that the `-e POSTGRES_PASSWORD=…` part was left out. See 🚨 "The `smarthome-db` container stops by itself or won't start".
 > - Other error messages: see 🚨 "The `smarthome-db` container stops by itself or won't start".
 
 > ➡️ **Done with the Quick Win?** Read [Concept 1](#1-why-a-database-a-notice-board-and-an-archive-book) and [Concept 2](#2-just-enough-docker-the-mold-the-container-the-counter-and-the-cupboard), then do the practices in the order given at the start of 🧠.
@@ -784,7 +786,7 @@ docker ps -a
 docker logs smarthome-db
 ```
 
-`docker ps` shows the containers that are running; the extra `-a` (for "all") also shows the stopped ones. `docker logs` shows everything PostgreSQL has written since its container was created. This first log is long because PostgreSQL has just set up its cupboard. Scroll down to the bottom of it.
+`docker ps` shows the containers that are running; the extra `-a` (for "all") also shows the stopped ones. Besides `smarthome-db`, the list also shows the container from `docker run hello-world` in 🐳 Setup: `hello-world` in the **IMAGE** column, `Exited (0) …` under **STATUS**, and a random name under **NAMES** (for example `eager_turing`), because that command didn't use `--name`. That container has already finished its job; just leave it, or delete it with `docker rm` followed by its random name. `docker logs` shows everything PostgreSQL has written since its container was created. This first log is long because PostgreSQL has just set up its cupboard. Scroll down to the bottom of it.
 
 **Expected output** (example, the end of `docker logs`):
 
@@ -796,9 +798,23 @@ PostgreSQL init process complete; ready for start up.
 … UTC [1] LOG:  listening on IPv6 address "::", port 5432
 …
 … UTC [1] LOG:  database system is ready to accept connections
+… UTC [87] LOG:  TimescaleDB background worker launcher connected to shared catalogs
+… UTC [82] LOG:  checkpoint starting: time
+… UTC [82] LOG:  checkpoint complete: wrote 320 buffers (0.1%); …
 ```
 
-The line **`database system is ready to accept connections`** means the database is ready to accept connections. The first time the container starts, that line appears **twice**: once for a temporary server used while setting up the `smarthome` database, and once for the real server after `PostgreSQL init process complete`. The address `0.0.0.0` here is the address **inside** the container; from outside, the counter is still only open to your laptop's `127.0.0.1` (Concept 2). In Docker Desktop, you can see the same log by clicking the container's name in the **Containers** list → the **Logs** tab.
+The line **`database system is ready to accept connections`** means the database is ready to accept connections. The TimescaleDB line after it always appears too, every time the server starts. If the container has been running for more than five minutes, there's also a pair of lines below that, `checkpoint starting: time` and `checkpoint complete: …`. PostgreSQL regularly saves the contents of its memory to disk (once every five minutes, as long as there's new data), so that's normal too. At the very bottom, Docker Desktop adds three lines that start with `What's next:` (an invitation to open Docker Desktop's **Logs** view). They aren't part of the PostgreSQL log, and you can ignore them. The first time the container starts, the `ready to accept connections` line appears **twice**: once for a temporary server used while setting up the `smarthome` database, and once for the real server after `PostgreSQL init process complete`. The address `0.0.0.0` here is the address **inside** the container; from outside, the counter is still only open to your laptop's `127.0.0.1` (Concept 2). In Docker Desktop, you can see the same log by clicking the container's name in the **Containers** list → the **Logs** tab.
+
+> [!NOTE]
+> **The `WARNING`, `ERROR`, and `FATAL` lines in the first log are normal.** The log of the first setup holds a few lines that sound scary. They all come with this image, and none of them needs fixing:
+>
+> - `sh: locale: not found` and `WARNING:  no usable system locales were found`: the mini Linux inside the image doesn't include the `locale` program (the list of system languages). The database still uses UTF-8, so text in any language is safe.
+> - `initdb: warning: enabling "trust" authentication for local connections` and the `initdb: hint: …` line below it: connections from **inside** the container aren't asked for a password. That's why psql in the Quick Win got straight in. Connections from the laptop (DBeaver and the backend) must still use the password.
+> - `ERROR:  background worker "TimescaleDB Background Worker Scheduler for database 1" trying to connect to template database, exiting`: a TimescaleDB background worker tries to start in the template database, then backs off by itself.
+> - Three `FATAL:  terminating background worker … due to administrator command` lines: the temporary server is shut down after the setup is finished, and its background workers are stopped along with it. `FATAL` here only means that the worker stopped, not that the database is broken. The same lines appear again every time the container is stopped with `docker stop`.
+> - Small `alter_job` tables that mention `Telemetry Reporter`: a sign that `-e TIMESCALEDB_TELEMETRY=off` works, that is, the job that sends statistics is switched off. A list like `shared_buffers = …` after them shows the settings that `timescaledb-tune` calculates automatically from the RAM and CPU available to Docker.
+>
+> The only messages that need your attention are the ones at the **very bottom** of the log, after the last `database system is ready to accept connections` line (🚨 "The `smarthome-db` container stops by itself or won't start").
 
 #### 1.2 Stop it and start it again
 
@@ -808,7 +824,7 @@ docker ps -a
 docker start smarthome-db
 ```
 
-`docker stop` shuts PostgreSQL down neatly (it finishes its writing first), and `docker start` starts it again. In between, `docker ps -a` shows the **STATUS** column with `Exited (0) …`, which means it stopped normally. **Don't** use `docker run` to start a container that already exists; `run` always creates a **new** container, and it will be refused because the name is already taken. In Docker Desktop, the **⏹** (stop) and **▶** (start) buttons on the container's row do the same thing.
+`docker stop` shuts PostgreSQL down neatly (it finishes its writing first), and `docker start` starts it again. In between, `docker ps -a` shows the **STATUS** column of the `smarthome-db` row with `Exited (0) …` (for example `Exited (0) 3 seconds ago`), which means it stopped normally. **Don't** use `docker run` to start a container that already exists; `run` always creates a **new** container, and it will be refused because the name is already taken. In Docker Desktop, the **⏹** (stop) and **▶** (start) buttons on the container's row do the same thing.
 
 #### 1.3 Prove that the data stays
 
@@ -839,7 +855,7 @@ Create a small test table, put one row in it, then stop the container and start 
 (1 row)
 ```
 
-The row is still there. It isn't stored in the container, but in the `smarthome-data` **volume** (the cupboard in Concept 2). You can see that volume in Docker Desktop, in the **Volumes** menu.
+The row is still there. It isn't stored in the container, but in the `smarthome-data` **volume** (the cupboard in Concept 2). You can see that volume in Docker Desktop, in the **Volumes** menu, or in the terminal with `docker volume ls`: its answer has the columns `DRIVER` and `VOLUME NAME`, with a row that shows `local` and `smarthome-data`.
 
 #### 1.4 Clean up the test table
 
@@ -1228,7 +1244,7 @@ That's an important property of migrations: they're safe to repeat. If you get a
 
 **In DBeaver:** click the `smarthome` connection in the left panel, press **F5** (refresh), then open its contents down to `public` (in the **Full** view: **Schemas** → `public` → **Tables**). There are seven tables: the six Mini Smart Home tables plus `schema_migrations`. Double-click `readings`, then open the **Diagram** tab: DBeaver draws that table along with its relation line to `devices`, like part of the schema picture in [Concept 4](#4-relations-and-the-mini-smart-home-schema-tables-that-point-to-each-other).
 
-**In psql** (`docker exec -it smarthome-db psql -U postgres -d smarthome`), the command `\dt` (describe tables) shows the list of tables, and `\d readings` shows its columns. The answer to `\d readings` is quite long: if psql stops with `--More--` on the bottom line, press **Space** to continue or **q** to stop. When you're done, leave with `\q` before running `npm run check` in 3.9. **Expected output** (`\dt`):
+**In psql** (`docker exec -it smarthome-db psql -U postgres -d smarthome`), the command `\dt` (describe tables) shows the list of tables, and `\d readings` shows its columns. The answer to `\d readings` is quite long: if psql stops with `--More--` on the bottom line, press **Space** to continue or **q** to stop. As soon as `smarthome=#` appears again, the list is finished, so there's no need to press **q** (the letter would just end up typed into psql). When you're done, leave with `\q` before running `npm run check` in 3.9. **Expected output** (`\dt`):
 
 ```text
                List of relations
@@ -2406,9 +2422,9 @@ Click the title of the problem that looks most like yours. For almost every data
 <details>
 <summary><b>The <code>smarthome-db</code> container stops by itself or won't start</b></summary>
 
-Run `docker ps -a`. If the container's **STATUS** column says `Exited (…)`, not `Up …`, read the reason with `docker logs smarthome-db` (the very bottom part):
+Run `docker ps -a`. If the container's **STATUS** column says `Exited (…)` or `Restarting (…)`, not `Up …`, read the reason with `docker logs smarthome-db` (the very bottom part). `Restarting` means that the container failed to start, and `--restart unless-stopped` keeps restarting it, so the same error message can be written many times in the log:
 
-- **`Error: Database is uninitialized and superuser password is not specified.`** The `-e POSTGRES_PASSWORD=…` part was left out of `docker run`. Delete that failed container with `docker rm smarthome-db`, then run the full command of Quick Win step 2 again. Its data was never created, so nothing is lost.
+- **`Error: Database is uninitialized and superuser password is not specified.`** The `-e POSTGRES_PASSWORD=…` part was left out of `docker run`, and the **STATUS** column usually says `Restarting (1) …`. First stop that failed container with `docker stop smarthome-db`, then delete it with `docker rm smarthome-db`. Without `docker stop`, `docker rm` is refused with the message `container is restarting: stop the container before removing or force remove`. After that, run the full command of Quick Win step 2 again. Its data was never created, so nothing is lost.
 - **`No space left on device`.** The laptop's disk is full. Free up some space (see the collapsible section "The laptop feels slow since Docker was installed, or disk space is running low" below), then run `docker start smarthome-db`.
 - **`docker start` answers `ports are not available` or `port is already allocated`.** Counter 5432 is now used by another program, for example another PostgreSQL that starts when the laptop is turned on. See the next collapsible section.
 
@@ -2421,7 +2437,7 @@ After the laptop restarts, the container doesn't start **until** Docker Desktop 
 <details>
 <summary><b><code>ports are not available</code> or <code>port is already allocated</code>: counter 5432 is already taken</b></summary>
 
-The full message holds `Error response from daemon:` (with `docker run`, it starts with `docker:`), then mentions `5432`. It means that counter 5432 on the laptop is already in use: usually by a PostgreSQL that was once installed directly on the laptop (for example for a university course), or by another container.
+The full message holds `Error response from daemon:` (with `docker run`, it starts with `docker:`), then mentions `5432`. On Windows, for example: `ports are not available: exposing port TCP 127.0.0.1:5432 -> 127.0.0.1:0: listen tcp4 127.0.0.1:5432: bind: An attempt was made to access a socket in a way forbidden by its access permissions.` Even though it mentions "access permissions", the problem isn't Administrator rights but a counter that another program is using. It means that counter 5432 on the laptop is already in use: usually by a PostgreSQL that was once installed directly on the laptop (for example for a university course), or by another container.
 
 1. Delete the container, whether it's the new container left behind after a failed `docker run` or the old container that `docker start` failed to start: `docker rm smarthome-db`. Its data volume isn't deleted along with it.
 2. Run the command of Quick Win step 2 again, but with `-p 127.0.0.1:5433:5432` (counter 5433 on the laptop is passed on to 5432 inside the container). If the error message now mentions `5433`, that counter is taken too (for example by a second PostgreSQL version): delete the container again, then use `5434` in the same way.
@@ -2436,13 +2452,13 @@ Don't stop or uninstall that other PostgreSQL if you aren't sure who uses it.
 
 The `-e POSTGRES_PASSWORD=…` and `-e POSTGRES_DB=…` settings are only used **once**, when the container first prepares the volume while it's still empty. Once the `smarthome-data` volume holds data, those settings are ignored, even if the container is created again with a different password or database name.
 
-- **`database "smarthome" does not exist`**: the first database was created without `POSTGRES_DB`. Create it now (your other data isn't touched):
+- **`database "smarthome" does not exist`** that still appears after the container has been running for more than half a minute (in the first few seconds after `docker run`, this message really does show up for a moment while the database sets itself up): the first database was created without `POSTGRES_DB`. Create it now (your other data isn't touched):
 
   ```text
   docker exec -it smarthome-db psql -U postgres -c "CREATE DATABASE smarthome;"
   ```
 
-  psql's answer: `CREATE DATABASE`. The TimescaleDB add-on is installed in this new database too, because the image has already installed it in PostgreSQL's template database.
+  psql's answer: `CREATE DATABASE`. If the answer is `ERROR:  database "smarthome" already exists`, the database turns out to exist already, so there's nothing to fix. The TimescaleDB add-on is installed in this new database too, because the image has already installed it in PostgreSQL's template database.
 - **`password authentication failed for user "postgres"`** (in DBeaver, in `npm run migrate`, or in the backend's log), even though the password seems right: the password that counts is the one from when the volume was **first** created. Use that old password, or change the password from inside the container (psql inside the container doesn't ask for a password):
 
   ```text
@@ -2535,7 +2551,7 @@ No data is wrong; what's different is the way it's displayed (Concept 9).
 <summary><b>The laptop feels slow since Docker was installed, or disk space is running low</b></summary>
 
 - **When you aren't studying, quit Docker Desktop.** On Windows, right-click the whale icon in the notification area; on macOS, click the whale icon in the menu bar. Then choose **Quit Docker Desktop**. Your data is safe in the volume, and the container starts again when Docker Desktop is opened. On Windows, the big process named `Vmmem` or `VmmemWSL` in Task Manager is Docker's small Linux machine; it gets smaller after Docker Desktop is closed.
-- **See what's eating the disk** with `docker system df` (the **SIZE** column in the `Images`, `Containers`, and `Local Volumes` rows). For this module, almost all of it is the `timescale/timescaledb` mold and your data volume, and both are really needed. If the laptop's disk is very tight, free up space outside Docker first.
+- **See what's eating the disk** with `docker system df` (the **SIZE** column in the `Images`, `Containers`, and `Local Volumes` rows). For this module, almost all of it is the `timescale/timescaledb` mold and your data volume, and both are really needed. Don't be surprised if that mold is listed at about 2.2 GB (`2.222GB`) even though its download was only about 552 MB: on disk, Docker keeps the original download as well as its unpacked contents. A newly created database volume is about 70 MB. If the laptop's disk is very tight, free up space outside Docker first.
 - **Don't** throw away volumes just to free up space, for example with `docker volume prune --all` or the delete button in the **Volumes** menu. A volume that no container is using at the moment, including `smarthome-data` if its container has been deleted, gets thrown away together with the whole content of the database.
 
 </details>
@@ -3092,7 +3108,7 @@ The completion requirement from the Syllabus: **you can write the SQL for "avera
 | `roadmap-module-17`, `board-and-archive`, `docker-image-container`, `smart-home-schema`, `time-utc-wib`, `duplicate-send`, `daily-average-query`, `project-diagram-module-17` (`.png` + `.svg`) | Original diagrams of the Fullstack IoT Developer curriculum. The schema from this module's `001_initial_schema.sql` migration; Docker's behavior from the Docker documentation above; time and duplicate sends from the PostgreSQL documentation and data contract 1.2; the numbers of the daily average query from the `npm run seed-history` practice data. | CC BY 4.0 |
 | `swagger-history.png` | Real screenshots of the `/docs` page of this module's backend (Swagger UI 5.32.6 through @fastify/swagger-ui 6.1.2) on the author's laptop: the `GET /devices/{id}/readings` route tried with **Try it out**; cropped and rearranged, with title, numbers, and captions by the author. | Swagger UI is licensed Apache 2.0; @fastify/swagger-ui is licensed MIT; image: CC BY 4.0 |
 
-**About the Expected output boxes.** All of this module's backend code, including each of its stages in the `code/stages/` folder, has been checked with `npm run check` (TypeScript 7.0.2) and run with Node.js 24.21.0 on Windows. The output of the SQL, the backend, the Bruno CLI, and Swagger UI was recorded on the author's laptop with a lab PostgreSQL server (version 18; all the SQL in this module behaves the same on PostgreSQL 17), psql, a local MQTT broker, and a mock Node 1 and Node 2 that send messages exactly as the data contract says. The practice data is made with `npm run seed-history`, so its averages are the same on anyone's laptop. The output of the `docker` commands and the Docker Desktop screens were **not** recorded from the screen: they were all written from Docker's official documentation and source code (October 2026), and they're marked **example**. The dates, times, `id`s, and waits on your screen will certainly be different.
+**About the Expected output boxes.** All of this module's backend code, including each of its stages in the `code/stages/` folder, has been checked with `npm run check` (TypeScript 7.0.2) and run with Node.js 24.21.0 on Windows. The output of the SQL, the backend, the Bruno CLI, and Swagger UI was recorded on the author's laptop with a lab PostgreSQL server (version 18; all the SQL in this module behaves the same on PostgreSQL 17), psql, a local MQTT broker, and a mock Node 1 and Node 2 that send messages exactly as the data contract says. The practice data is made with `npm run seed-history`, so its averages are the same on anyone's laptop. The output of the `docker` commands and of psql inside the container was checked against recordings made on the author's Windows laptop (Docker Desktop 4.77, Docker Engine 29.5.3, the same `timescale/timescaledb:2.30.2-pg17` image), except for the image's first download and `hello-world`, which were written from Docker's source code and the `hello-world` image. The Docker Desktop screens were written from the official documentation (October 2026). Outputs that contain IDs, times, or sizes are marked **example**. The dates, times, `id`s, and waits on your screen will certainly be different.
 
 ---
 

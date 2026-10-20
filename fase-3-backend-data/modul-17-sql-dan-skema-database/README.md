@@ -30,7 +30,7 @@ Di akhir minggu, **backend v0.2** menyimpan setiap `telemetry`, `status`, `vital
 > - **Hampir semua pekerjaan minggu ini ada di laptop.** Setiap kotak perintah disertai keterangan tempatnya: **terminal VS Code** (di folder `backend`), **Docker Desktop**, **DBeaver**, **Bruno**, **MQTTX**, atau **psql** (jendela SQL di dalam kontainer database). Alamat Pi `192.168.1.37`, `device_id` Node 1 `a4cf12e5b7c0`, dan `device_id` Node 2 `246f28b1c7d4` hanya contoh; pakai milikmu sendiri.
 > - **Perangkat keras tidak wajib.** Praktik 4 memakai **data latihan** 7 hari yang dibuat oleh skrip modul ini, jadi kamu bisa belajar SQL tanpa menunggu seminggu. Praktik 5–7 butuh pesan sungguhan: dari Node 1 dan Node 2, atau dari **simulator Modul 16** (`alat/simulator-perangkat.js`) dengan `f00d00000001` sebagai pengganti `device_id` Node 1.
 > - **Belum punya Raspberry Pi?** Ikuti **jalur laptop** seperti Modul 12–16: broker berjalan di laptop, dan alamat `mqtt://192.168.1.37:1883` diganti dengan alamat broker laptopmu. Database-nya memang berjalan di laptop, di jalur mana pun.
-> - **Kotak Hasilnya.** Kode TypeScript dan SQL modul ini sudah dijalankan penulis di laptop Windows dengan Node.js 24, broker MQTT lab, Node 1 dan Node 2 tiruan, dan server PostgreSQL lab. Keluaran perintah `docker` dan tampilan Docker Desktop ditulis berdasarkan dokumentasi resmi dan kode sumber Docker, lalu ditandai **contoh** (lihat 📚). Tanggal, jam, `id`, dan angka milidetik di layarmu tentu berbeda.
+> - **Kotak Hasilnya.** Kode TypeScript dan SQL modul ini sudah dijalankan penulis di laptop Windows dengan Node.js 24, broker MQTT lab, Node 1 dan Node 2 tiruan, dan server PostgreSQL lab. Keluaran perintah `docker` dan psql di dalam kontainer sudah dicocokkan dengan Docker Desktop sungguhan, sedangkan tampilan Docker Desktop ditulis berdasarkan dokumentasi resmi. Keluaran yang memuat ID, jam, atau ukuran ditandai **contoh** (lihat 📚). Tanggal, jam, `id`, dan angka milidetik di layarmu tentu berbeda.
 > - Pengguna macOS: ganti **Ctrl** dengan **Cmd** untuk pintasan di VS Code, DBeaver, browser, dan Bruno. **Kecuali di terminal:** menghentikan program yang sedang berjalan tetap **Ctrl + C**. Perintah terminal sama persis di Windows dan macOS, kecuali disebut lain.
 
 > [!WARNING]
@@ -401,7 +401,7 @@ Status: Downloaded newer image for timescale/timescaledb:2.30.2-pg17
 3f9c2a7d41e85b06c2d9a1f47e3b8c5d90a6e2f17b4c8d3e5f60a1b2c3d4e5f6
 ```
 
-Baris terakhir yang panjang adalah **ID kontainer** barumu (milikmu berbeda). Unduhan hanya terjadi sekali: lain kali, cetakannya sudah ada di laptop.
+Baris terakhir yang panjang adalah **ID kontainer** barumu (milikmu berbeda). Unduhan hanya terjadi sekali: lain kali, cetakannya sudah ada di laptop, dan `docker run` langsung menjawab dengan baris ID itu saja. Hati-hati, ID ini dicetak **sebelum** kontainernya dinyalakan. Kalau di bawahnya masih ada baris `docker: Error response from daemon: …`, kontainernya gagal menyala; lihat kotak **Tidak jalan?** di akhir Kemenangan Cepat.
 
 ### Langkah 3 — Pastikan kontainernya berjalan (2 menit)
 
@@ -457,7 +457,7 @@ rumahpintar=# SELECT now();
 rumahpintar=# 
 ```
 
-Perhatikan akhirannya. Jawaban pertama berakhiran `+00`: database menjawab dengan jam **UTC** (waktu dunia), yang tujuh jam di belakang WIB. Setelah `SET TIME ZONE 'Asia/Jakarta'`, pertanyaan yang sama dijawab dengan akhiran `+07` dan cocok dengan jam dinding WIB. (Tinggal di WITA atau WIT? Jam ini tetap WIB, satu atau dua jam di belakang jammu.) Yang berubah hanya cara menuliskan jamnya, bukan jamnya sendiri. Konsep 9 membahas mengapa ini penting, termasuk nama zona untuk WITA dan WIT. Keluar dari psql dengan:
+Perhatikan akhirannya. Jawaban pertama berakhiran `+00`: database menjawab dengan jam **UTC** (waktu dunia), yang tujuh jam di belakang WIB. Setelah `SET TIME ZONE 'Asia/Jakarta'`, pertanyaan yang sama dijawab dengan akhiran `+07` dan cocok dengan jam dinding WIB. (Tinggal di WITA atau WIT? Jam ini tetap WIB, satu atau dua jam di belakang jammu.) Yang berubah hanya cara menuliskan jamnya, bukan jamnya sendiri. Konsep 9 membahas mengapa ini penting, termasuk nama zona untuk WITA dan WIT. Setelah kamu keluar dari psql, Docker Desktop biasanya mencetak beberapa baris yang diawali `What's next:`, misalnya `Try Docker Debug … → docker debug rumahpintar-db`. Itu hanya saran fitur dari Docker Desktop, bukan galat dan bukan langkah modul ini, jadi abaikan saja. Baris `What's next:` serupa juga muncul setelah `docker logs` dan di dekat pesan galat `docker run` (ajakan bertanya kepada Gordon, asisten AI Docker). Keluar dari psql dengan:
 
 ```text
 \q
@@ -475,9 +475,11 @@ Tutup terminal itu, buka lagi, lalu jalankan `docker ps` sekali lagi: `rumahpint
 > - `failed to connect to the docker API at npipe:////./pipe/dockerDesktopLinuxEngine…` (Windows) atau `Cannot connect to the Docker daemon…` / `failed to connect to the docker API at unix://…` (macOS) → Docker Desktop belum menyala. Buka aplikasinya, tunggu sampai ikon paus berhenti bergerak, lalu ulangi.
 > - `docker: Error response from daemon: Conflict. The container name "/rumahpintar-db" is already in use…` → kontainernya sudah pernah dibuat. Jangan menjalankan `docker run` lagi; nyalakan dengan `docker start rumahpintar-db`.
 > - `ports are not available` atau `port is already allocated` → loket 5432 sudah dipakai program lain. Kembali ke langkah 1 nomor 2 dan pakai loket 5433 (atau 5434 kalau 5433 juga terpakai). Perintah `docker run` yang gagal ini meninggalkan kontainer yang tidak bisa menyala, jadi hapus dulu dengan `docker rm rumahpintar-db` sebelum menjalankan ulang langkah 2.
-> - psql menjawab `database "rumahpintar" does not exist` → bagian `-e POSTGRES_DB=rumahpintar` terlewat. Lihat 🚨 "Database `rumahpintar` tidak ada, atau sandi baru tidak berlaku".
+> - psql menjawab galat pada detik-detik pertama setelah `docker run`, misalnya `connection to server on socket "/var/run/postgresql/.s.PGSQL.5432" failed: No such file or directory`, `the database system is shutting down`, atau bahkan `database "rumahpintar" does not exist` → database belum selesai menyiapkan diri untuk pertama kali (di laptop penulis sekitar 8 detik setelah `docker run`; di laptop yang lebih lambat bisa lebih lama). Tunggu sekitar setengah menit, lalu ulangi perintah `docker exec` di langkah 4.
+> - psql **masih** menjawab `database "rumahpintar" does not exist` setelah menunggu → bagian `-e POSTGRES_DB=rumahpintar` terlewat. Lihat 🚨 "Database `rumahpintar` tidak ada, atau sandi baru tidak berlaku".
 > - Di psql, setelah **Enter** tidak ada jawaban dan awal barisnya berubah dari `rumahpintar=#` menjadi `rumahpintar-#` → titik komanya terlupa, jadi psql masih menunggu lanjutan kalimatnya. Ketik `;` lalu tekan **Enter**. Kalau kalimatnya ternyata salah ketik, psql menjawab dengan `ERROR` yang tidak merusak apa pun; ketik ulang dengan benar.
 > - Pesan yang menyebut `toomanyrequests` dan `pull rate limit` → Docker Hub membatasi unduhan tanpa masuk (*sign in*) menjadi 100 per 6 jam untuk satu alamat internet, dan batas itu bisa habis di jaringan kampus atau kelas yang dipakai bersama. Coba lagi beberapa jam kemudian, pakai jaringan lain, atau masuk ke akun Docker gratis (batasnya 200).
+> - Di langkah 3, kolom **STATUS** berbunyi `Restarting (1) …` (sesekali sempat `Up Less than a second`) dan kolom **PORTS** kosong, atau di langkah 4 muncul `Error response from daemon: Container … is restarting, wait until the container is running` → kontainernya gagal menyala dan terus dicoba ulang. Penyebab tersering adalah bagian `-e POSTGRES_PASSWORD=…` yang terlewat. Lihat 🚨 "Kontainer `rumahpintar-db` berhenti sendiri atau tidak mau menyala".
 > - Pesan galat lain: lihat 🚨 "Kontainer `rumahpintar-db` berhenti sendiri atau tidak mau menyala".
 
 > ➡️ **Selesai Kemenangan Cepat?** Baca [Konsep 1](#1-mengapa-database-papan-pengumuman-dan-buku-arsip) dan [Konsep 2](#2-docker-secukupnya-cetakan-kontainer-loket-dan-lemari), lalu kerjakan praktik sesuai urutan di awal 🧠.
@@ -784,7 +786,7 @@ docker ps -a
 docker logs rumahpintar-db
 ```
 
-`docker ps` menampilkan kontainer yang sedang menyala; tambahan `-a` (*all*, semua) ikut menampilkan yang berhenti. `docker logs` menampilkan semua yang ditulis PostgreSQL sejak kontainernya dibuat. Log pertama ini panjang karena PostgreSQL baru saja menyiapkan lemarinya. Gulir ke bagian bawahnya.
+`docker ps` menampilkan kontainer yang sedang menyala; tambahan `-a` (*all*, semua) ikut menampilkan yang berhenti. Selain `rumahpintar-db`, daftarnya juga memuat kontainer dari `docker run hello-world` di 🐳 Persiapan: kolom **IMAGE** `hello-world`, **STATUS** `Exited (0) …`, dan **NAMES** berupa nama acak (misalnya `eager_turing`) karena perintahnya tidak memakai `--name`. Kontainer itu sudah selesai bertugas; biarkan saja, atau hapus dengan `docker rm` diikuti nama acaknya. `docker logs` menampilkan semua yang ditulis PostgreSQL sejak kontainernya dibuat. Log pertama ini panjang karena PostgreSQL baru saja menyiapkan lemarinya. Gulir ke bagian bawahnya.
 
 **Hasilnya** (contoh, bagian akhir `docker logs`):
 
@@ -796,9 +798,23 @@ PostgreSQL init process complete; ready for start up.
 … UTC [1] LOG:  listening on IPv6 address "::", port 5432
 …
 … UTC [1] LOG:  database system is ready to accept connections
+… UTC [87] LOG:  TimescaleDB background worker launcher connected to shared catalogs
+… UTC [82] LOG:  checkpoint starting: time
+… UTC [82] LOG:  checkpoint complete: wrote 320 buffers (0.1%); …
 ```
 
-Baris **`database system is ready to accept connections`** berarti database siap menerima sambungan. Saat kontainer pertama kali menyala, baris itu muncul **dua kali**: sekali untuk server sementara yang dipakai saat menyiapkan database `rumahpintar`, dan sekali untuk server sesungguhnya setelah `PostgreSQL init process complete`. Alamat `0.0.0.0` di sini adalah alamat **di dalam** kontainer; dari luar, loketnya tetap hanya terbuka untuk `127.0.0.1` laptopmu (Konsep 2). Di Docker Desktop, log yang sama bisa dilihat dengan mengeklik nama kontainer di daftar **Containers** → tab **Logs**.
+Baris **`database system is ready to accept connections`** berarti database siap menerima sambungan. Baris TimescaleDB sesudahnya selalu ikut muncul setiap kali server menyala. Kalau kontainernya sudah menyala lebih dari lima menit, di bawahnya ada juga pasangan baris `checkpoint starting: time` dan `checkpoint complete: …`: PostgreSQL menyimpan isi memorinya ke disk secara berkala (lima menit sekali selama ada data baru), jadi itu juga normal. Paling bawah, Docker Desktop menambahkan tiga baris yang diawali `What's next:` (ajakan membuka tampilan **Logs** Docker Desktop). Baris itu bukan bagian dari log PostgreSQL dan boleh diabaikan. Saat kontainer pertama kali menyala, baris `ready to accept connections` muncul **dua kali**: sekali untuk server sementara yang dipakai saat menyiapkan database `rumahpintar`, dan sekali untuk server sesungguhnya setelah `PostgreSQL init process complete`. Alamat `0.0.0.0` di sini adalah alamat **di dalam** kontainer; dari luar, loketnya tetap hanya terbuka untuk `127.0.0.1` laptopmu (Konsep 2). Di Docker Desktop, log yang sama bisa dilihat dengan mengeklik nama kontainer di daftar **Containers** → tab **Logs**.
+
+> [!NOTE]
+> **Baris `WARNING`, `ERROR`, dan `FATAL` di log pertama itu normal.** Log persiapan pertama memuat beberapa baris yang terdengar menakutkan. Semuanya bawaan image ini dan tidak perlu diperbaiki:
+>
+> - `sh: locale: not found` dan `WARNING:  no usable system locales were found`: Linux mini di dalam image tidak membawa program `locale` (daftar bahasa sistem). Database tetap memakai UTF-8, jadi teks berbahasa Indonesia aman.
+> - `initdb: warning: enabling "trust" authentication for local connections` dan baris `initdb: hint: …` di bawahnya: sambungan dari **dalam** kontainer tidak ditanya sandi. Itulah sebabnya psql di Kemenangan Cepat langsung masuk. Sambungan dari laptop (DBeaver dan backend) tetap wajib memakai sandi.
+> - `ERROR:  background worker "TimescaleDB Background Worker Scheduler for database 1" trying to connect to template database, exiting`: pekerja latar (*background worker*) TimescaleDB mencoba menyala di database templat, lalu mundur sendiri.
+> - Tiga baris `FATAL:  terminating background worker … due to administrator command`: server sementara dimatikan setelah persiapan selesai, dan pekerja latarnya ikut dihentikan. `FATAL` di sini hanya berarti pekerja itu berhenti, bukan database-nya rusak. Baris yang sama muncul lagi setiap kali kontainer dihentikan dengan `docker stop`.
+> - Tabel kecil `alter_job` yang menyebut `Telemetry Reporter`: tanda bahwa `-e TIMESCALEDB_TELEMETRY=off` bekerja, yaitu tugas pengirim statistik dimatikan. Daftar seperti `shared_buffers = …` sesudahnya adalah setelan yang dihitung otomatis oleh `timescaledb-tune` menurut RAM dan CPU yang tersedia untuk Docker.
+>
+> Yang perlu diperhatikan hanyalah pesan di bagian **paling bawah** log, sesudah baris `database system is ready to accept connections` yang terakhir (🚨 "Kontainer `rumahpintar-db` berhenti sendiri atau tidak mau menyala").
 
 #### 1.2 Menghentikan dan menyalakan lagi
 
@@ -808,7 +824,7 @@ docker ps -a
 docker start rumahpintar-db
 ```
 
-`docker stop` mematikan PostgreSQL dengan rapi (ia menyelesaikan tulisannya dulu), dan `docker start` menyalakannya lagi. Di antara keduanya, `docker ps -a` menunjukkan kolom **STATUS** berisi `Exited (0) …`, yang berarti berhenti dengan normal. **Jangan** memakai `docker run` untuk menyalakan kontainer yang sudah ada; `run` selalu membuat kontainer **baru** dan akan ditolak karena namanya sudah dipakai. Di Docker Desktop, tombol **⏹** (*stop*) dan **▶** (*start*) di baris kontainer melakukan hal yang sama.
+`docker stop` mematikan PostgreSQL dengan rapi (ia menyelesaikan tulisannya dulu), dan `docker start` menyalakannya lagi. Di antara keduanya, `docker ps -a` menunjukkan kolom **STATUS** baris `rumahpintar-db` berisi `Exited (0) …` (misalnya `Exited (0) 3 seconds ago`), yang berarti berhenti dengan normal. **Jangan** memakai `docker run` untuk menyalakan kontainer yang sudah ada; `run` selalu membuat kontainer **baru** dan akan ditolak karena namanya sudah dipakai. Di Docker Desktop, tombol **⏹** (*stop*) dan **▶** (*start*) di baris kontainer melakukan hal yang sama.
 
 #### 1.3 Buktikan datanya tetap ada
 
@@ -839,7 +855,7 @@ Buat tabel uji kecil, isi satu baris, lalu matikan dan nyalakan kontainernya.
 (1 row)
 ```
 
-Barisnya masih ada. Ia tidak tersimpan di kontainer, melainkan di **volume** `rumahpintar-data` (lemari di Konsep 2). Volume itu terlihat di Docker Desktop, menu **Volumes**.
+Barisnya masih ada. Ia tidak tersimpan di kontainer, melainkan di **volume** `rumahpintar-data` (lemari di Konsep 2). Volume itu terlihat di Docker Desktop, menu **Volumes**, atau di terminal dengan `docker volume ls`: jawabannya berkolom `DRIVER` dan `VOLUME NAME`, dengan baris `local` dan `rumahpintar-data`.
 
 #### 1.4 Bersihkan tabel uji
 
@@ -1228,7 +1244,7 @@ Itulah sifat penting migrasi: aman diulang. Kalau yang muncul justru galat, liha
 
 **Di DBeaver:** klik koneksi `rumahpintar` di panel kiri, tekan **F5** (*refresh*, segarkan), lalu buka isinya sampai `public` (di tampilan **Full**: **Schemas** → `public` → **Tables**). Ada tujuh tabel: keenam tabel Rumah Pintar Mini ditambah `schema_migrations`. Klik dua kali `readings`, lalu buka tab **Diagram**: DBeaver menggambar tabel itu beserta garis relasinya ke `devices`, mirip sebagian gambar skema di [Konsep 4](#4-relasi-dan-skema-rumah-pintar-mini-tabel-yang-saling-menunjuk).
 
-**Di psql** (`docker exec -it rumahpintar-db psql -U postgres -d rumahpintar`), perintah `\dt` (*describe tables*) menampilkan daftar tabel, dan `\d readings` menampilkan kolom-kolomnya. Jawaban `\d readings` cukup panjang: kalau psql berhenti dengan tulisan `--More--` di baris paling bawah, tekan **Spasi** untuk melanjutkan atau **q** untuk berhenti. Setelah selesai, keluar dengan `\q` sebelum menjalankan `npm run cek` di 3.9. **Hasilnya** (`\dt`):
+**Di psql** (`docker exec -it rumahpintar-db psql -U postgres -d rumahpintar`), perintah `\dt` (*describe tables*) menampilkan daftar tabel, dan `\d readings` menampilkan kolom-kolomnya. Jawaban `\d readings` cukup panjang: kalau psql berhenti dengan tulisan `--More--` di baris paling bawah, tekan **Spasi** untuk melanjutkan atau **q** untuk berhenti. Begitu `rumahpintar=#` muncul lagi, daftarnya sudah habis, jadi **q** tidak perlu ditekan (hurufnya malah ikut terketik di psql). Setelah selesai, keluar dengan `\q` sebelum menjalankan `npm run cek` di 3.9. **Hasilnya** (`\dt`):
 
 ```text
                List of relations
@@ -2406,9 +2422,9 @@ Klik judul masalah yang paling mirip dengan yang kamu alami. Untuk hampir semua 
 <details>
 <summary><b>Kontainer <code>rumahpintar-db</code> berhenti sendiri atau tidak mau menyala</b></summary>
 
-Jalankan `docker ps -a`. Kalau kolom **STATUS** kontainernya `Exited (…)`, bukan `Up …`, baca alasannya dengan `docker logs rumahpintar-db` (bagian paling bawah):
+Jalankan `docker ps -a`. Kalau kolom **STATUS** kontainernya `Exited (…)` atau `Restarting (…)`, bukan `Up …`, baca alasannya dengan `docker logs rumahpintar-db` (bagian paling bawah). `Restarting` berarti kontainernya gagal menyala, lalu terus dicoba ulang oleh `--restart unless-stopped`, jadi pesan galat yang sama bisa tertulis berkali-kali di log:
 
-- **`Error: Database is uninitialized and superuser password is not specified.`** Bagian `-e POSTGRES_PASSWORD=…` terlewat saat `docker run`. Hapus kontainer yang gagal itu dengan `docker rm rumahpintar-db`, lalu jalankan lagi perintah Kemenangan Cepat langkah 2 dengan lengkap. Datanya belum pernah dibuat, jadi tidak ada yang hilang.
+- **`Error: Database is uninitialized and superuser password is not specified.`** Bagian `-e POSTGRES_PASSWORD=…` terlewat saat `docker run`, dan kolom **STATUS** biasanya berbunyi `Restarting (1) …`. Hentikan dulu kontainer yang gagal itu dengan `docker stop rumahpintar-db`, lalu hapus dengan `docker rm rumahpintar-db`. Tanpa `docker stop`, `docker rm` ditolak dengan pesan `container is restarting: stop the container before removing or force remove`. Setelah itu, jalankan lagi perintah Kemenangan Cepat langkah 2 dengan lengkap. Datanya belum pernah dibuat, jadi tidak ada yang hilang.
 - **`No space left on device`.** Ruang disk laptop habis. Kosongkan ruang (lihat bagian lipat "Laptop terasa berat sejak memasang Docker, atau ruang disk menipis" di bawah), lalu jalankan `docker start rumahpintar-db`.
 - **`docker start` menjawab `ports are not available` atau `port is already allocated`.** Loket 5432 kini dipakai program lain, misalnya PostgreSQL lain yang ikut menyala saat laptop dihidupkan. Lihat bagian lipat berikutnya.
 
@@ -2421,7 +2437,7 @@ Setelah laptop dinyalakan ulang, kontainer belum menyala **sampai** Docker Deskt
 <details>
 <summary><b><code>ports are not available</code> atau <code>port is already allocated</code>: loket 5432 sudah terpakai</b></summary>
 
-Pesan lengkapnya memuat `Error response from daemon:` (di `docker run` diawali `docker:`), lalu menyebut `5432`. Artinya, loket 5432 di laptop sudah dipakai: biasanya oleh PostgreSQL yang pernah dipasang langsung di laptop (misalnya untuk kuliah), atau oleh kontainer lain.
+Pesan lengkapnya memuat `Error response from daemon:` (di `docker run` diawali `docker:`), lalu menyebut `5432`. Di Windows, misalnya: `ports are not available: exposing port TCP 127.0.0.1:5432 -> 127.0.0.1:0: listen tcp4 127.0.0.1:5432: bind: An attempt was made to access a socket in a way forbidden by its access permissions.` Walaupun menyebut *access permissions* (izin akses), masalahnya bukan hak Administrator, melainkan loket yang sedang dipakai program lain. Artinya, loket 5432 di laptop sudah dipakai: biasanya oleh PostgreSQL yang pernah dipasang langsung di laptop (misalnya untuk kuliah), atau oleh kontainer lain.
 
 1. Hapus kontainernya, baik kontainer baru yang tertinggal setelah `docker run` gagal maupun kontainer lama yang gagal dinyalakan oleh `docker start`: `docker rm rumahpintar-db`. Volume datanya tidak ikut terhapus.
 2. Jalankan lagi perintah Kemenangan Cepat langkah 2, tetapi dengan `-p 127.0.0.1:5433:5432` (loket 5433 di laptop diteruskan ke 5432 di dalam kontainer). Kalau pesan galatnya kini menyebut `5433`, loket itu juga sudah terpakai (misalnya oleh PostgreSQL versi kedua): hapus lagi kontainernya, lalu pakai `5434` dengan cara yang sama.
@@ -2436,13 +2452,13 @@ Jangan mematikan atau mencopot PostgreSQL lain itu kalau kamu tidak yakin siapa 
 
 Isian `-e POSTGRES_PASSWORD=…` dan `-e POSTGRES_DB=…` hanya dipakai **sekali**, saat kontainer pertama kali menyiapkan volume yang masih kosong. Setelah volume `rumahpintar-data` berisi, isian itu diabaikan walaupun kontainernya dibuat ulang dengan sandi atau nama database yang berbeda.
 
-- **`database "rumahpintar" does not exist`**: database pertama dibuat tanpa `POSTGRES_DB`. Buat sekarang (datamu yang lain tidak tersentuh):
+- **`database "rumahpintar" does not exist`** yang masih muncul setelah kontainernya menyala lebih dari setengah menit (pada detik-detik pertama setelah `docker run`, pesan ini memang sempat muncul selama database menyiapkan diri): database pertama dibuat tanpa `POSTGRES_DB`. Buat sekarang (datamu yang lain tidak tersentuh):
 
   ```text
   docker exec -it rumahpintar-db psql -U postgres -c "CREATE DATABASE rumahpintar;"
   ```
 
-  Jawaban psql: `CREATE DATABASE`. Tambahan TimescaleDB ikut terpasang di database baru ini karena image-nya sudah memasangnya di database templat (*template*) PostgreSQL.
+  Jawaban psql: `CREATE DATABASE`. Kalau jawabannya `ERROR:  database "rumahpintar" already exists`, database-nya ternyata sudah ada, jadi tidak ada yang perlu diperbaiki. Tambahan TimescaleDB ikut terpasang di database baru ini karena image-nya sudah memasangnya di database templat (*template*) PostgreSQL.
 - **`password authentication failed for user "postgres"`** (di DBeaver, di `npm run migrasi`, atau di log backend), padahal sandinya terasa benar: yang berlaku adalah sandi saat volume **pertama kali** dibuat. Pakai sandi lama itu, atau ganti sandinya dari dalam kontainer (psql di dalam kontainer tidak meminta sandi):
 
   ```text
@@ -2535,7 +2551,7 @@ Tidak ada data yang salah; yang berbeda adalah cara menampilkannya (Konsep 9).
 <summary><b>Laptop terasa berat sejak memasang Docker, atau ruang disk menipis</b></summary>
 
 - **Saat tidak sedang belajar, matikan Docker Desktop.** Di Windows, klik kanan ikon paus di area notifikasi; di macOS, klik ikon paus di bilah menu. Lalu pilih **Quit Docker Desktop**. Datamu aman di volume, dan kontainernya ikut menyala lagi saat Docker Desktop dibuka. Di Windows, proses besar bernama `Vmmem` atau `VmmemWSL` di Task Manager adalah mesin Linux kecil milik Docker; ukurannya mengecil setelah Docker Desktop ditutup.
-- **Lihat apa yang memakan disk** dengan `docker system df` (kolom **SIZE** di baris `Images`, `Containers`, dan `Local Volumes`). Untuk modul ini, hampir seluruhnya adalah cetakan `timescale/timescaledb` dan volume datamu, dan keduanya memang dibutuhkan. Kalau disk laptop sangat sempit, kosongkan ruang di luar Docker lebih dulu.
+- **Lihat apa yang memakan disk** dengan `docker system df` (kolom **SIZE** di baris `Images`, `Containers`, dan `Local Volumes`). Untuk modul ini, hampir seluruhnya adalah cetakan `timescale/timescaledb` dan volume datamu, dan keduanya memang dibutuhkan. Jangan kaget kalau cetakan itu tercatat sekitar 2,2 GB (`2.222GB`) walaupun unduhannya hanya sekitar 552 MB: di disk, Docker menyimpan unduhan aslinya sekaligus isinya yang sudah dibongkar. Volume database yang baru dibuat sekitar 70 MB. Kalau disk laptop sangat sempit, kosongkan ruang di luar Docker lebih dulu.
 - **Jangan** membuang volume hanya untuk membebaskan ruang, misalnya dengan `docker volume prune --all` atau tombol hapus di menu **Volumes**. Volume yang sedang tidak dipakai kontainer, termasuk `rumahpintar-data` kalau kontainernya sudah dihapus, ikut terbuang beserta seluruh isi database.
 
 </details>
@@ -3092,7 +3108,7 @@ Syarat lulus dari Silabus: **menulis SQL "rata-rata suhu per hari 7 hari terakhi
 | `peta-jalan-modul-17`, `papan-dan-arsip`, `docker-cetakan-kontainer`, `skema-rumah-pintar`, `waktu-utc-wib`, `kiriman-ganda`, `kueri-rata-rata-harian`, `diagram-proyek-modul-17` (`.png` + `.svg`) | Diagram orisinal kurikulum Fullstack IoT Developer. Skema dari migrasi `001_skema_awal.sql` modul ini; perilaku Docker dari dokumentasi Docker di atas; waktu dan kiriman ganda dari dokumentasi PostgreSQL dan kontrak data 1.2; angka kueri rata-rata harian dari data latihan `npm run isi-riwayat`. | CC BY 4.0 |
 | `swagger-riwayat.png` | Tangkapan layar asli halaman `/docs` backend modul ini (Swagger UI 5.32.6 lewat @fastify/swagger-ui 6.1.2) di laptop penulis: rute `GET /devices/{id}/readings` yang dicoba dengan **Try it out**; dipotong dan disusun ulang, dengan judul, nomor, dan keterangan oleh penulis. | Swagger UI berlisensi Apache 2.0; @fastify/swagger-ui berlisensi MIT; gambar: CC BY 4.0 |
 
-**Tentang kotak Hasilnya.** Semua kode backend modul ini, termasuk setiap tahapnya di folder `kode/tahap/`, sudah diperiksa dengan `npm run cek` (TypeScript 7.0.2) dan dijalankan dengan Node.js 24.21.0 di Windows. Keluaran SQL, backend, Bruno CLI, dan Swagger UI direkam penulis di laptopnya dengan server PostgreSQL lab (versi 18; semua SQL di modul ini berperilaku sama di PostgreSQL 17), psql, broker MQTT lokal, serta Node 1 dan Node 2 tiruan yang mengirim pesan persis menurut kontrak data. Data latihan dibuat dengan `npm run isi-riwayat`, jadi angka rata-ratanya sama di laptop siapa pun. Keluaran perintah `docker` dan tampilan Docker Desktop **tidak** direkam dari layar: semuanya ditulis berdasarkan dokumentasi resmi dan kode sumber Docker (Oktober 2026), dan ditandai **contoh**. Tanggal, jam, `id`, dan lama tunggu di layarmu tentu berbeda.
+**Tentang kotak Hasilnya.** Semua kode backend modul ini, termasuk setiap tahapnya di folder `kode/tahap/`, sudah diperiksa dengan `npm run cek` (TypeScript 7.0.2) dan dijalankan dengan Node.js 24.21.0 di Windows. Keluaran SQL, backend, Bruno CLI, dan Swagger UI direkam penulis di laptopnya dengan server PostgreSQL lab (versi 18; semua SQL di modul ini berperilaku sama di PostgreSQL 17), psql, broker MQTT lokal, serta Node 1 dan Node 2 tiruan yang mengirim pesan persis menurut kontrak data. Data latihan dibuat dengan `npm run isi-riwayat`, jadi angka rata-ratanya sama di laptop siapa pun. Keluaran perintah `docker` dan psql di dalam kontainer dicocokkan dengan rekaman di laptop Windows penulis (Docker Desktop 4.77, Docker Engine 29.5.3, image `timescale/timescaledb:2.30.2-pg17` yang sama), kecuali unduhan pertama image dan `hello-world`, yang ditulis berdasarkan kode sumber Docker dan image `hello-world`. Tampilan Docker Desktop ditulis berdasarkan dokumentasi resmi (Oktober 2026). Keluaran yang memuat ID, jam, atau ukuran ditandai **contoh**. Tanggal, jam, `id`, dan lama tunggu di layarmu tentu berbeda.
 
 ---
 
