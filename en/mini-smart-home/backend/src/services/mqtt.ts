@@ -1,10 +1,11 @@
-// mqtt.ts - the backend as an MQTT client: listens to msh/#, checks every message, and sends commands.
+// mqtt.ts - the backend as an MQTT client: listens to msh/#, checks every message, stores it, and sends commands.
 import mqtt from "mqtt";
 import type { FastifyBaseLogger } from "fastify";
 import type { ZodError } from "zod";
 import { Ack, DeviceId, Status, TelemetryNode1, TelemetryNode2, Vitals } from "../schemas/contract.ts";
 import type { SetCommand } from "../schemas/contract.ts";
 import { counts, deliverAck, saveStatus, saveTelemetry, saveVitals } from "./store.ts";
+import { archiveStatus, archiveTelemetry, archiveVitals } from "../db/archive.ts";
 
 let client: mqtt.MqttClient | undefined;
 
@@ -29,6 +30,11 @@ function reject(topic: string, reason: string, log: FastifyBaseLogger): void {
   log.warn(`REJECTED ${topic}: ${reason}`);
 }
 
+// writing to the database failed (for example the database container was stopped): log it, but the server keeps running
+function archiveFailed(topic: string, log: FastifyBaseLogger) {
+  return (error: Error) => log.error(`couldn't save ${topic} to the database: ${error.message}`);
+}
+
 // summarize the list of issues from Zod, for example "humidity: Too big: expected number to be <=100"
 function summarize(error: ZodError): string {
   return error.issues.map((m) => `${m.path.join(".") || "content"}: ${m.message}`).join("; ");
@@ -46,6 +52,7 @@ function receive(topic: string, text: string, log: FastifyBaseLogger): void {
     const result = Status.safeParse(text);
     if (!result.success) return reject(topic, `unknown status "${text}"`, log);
     saveStatus(deviceId, result.data);
+    archiveStatus(deviceId, result.data).catch(archiveFailed(topic, log));
     counts.received++;
     return;
   }
@@ -62,10 +69,15 @@ function receive(topic: string, text: string, log: FastifyBaseLogger): void {
     const result = (hasPressure ? TelemetryNode2 : TelemetryNode1).safeParse(json);
     if (!result.success) return reject(topic, summarize(result.error), log);
     saveTelemetry(deviceId, result.data);
+    const ts = result.data.ts;
+    archiveTelemetry(deviceId, result.data)
+      .then((isNew) => { if (!isNew) log.info(`duplicate skipped: ${deviceId} ${ts}`); })
+      .catch(archiveFailed(topic, log));
   } else if (kind === "vitals") {
     const result = Vitals.safeParse(json);
     if (!result.success) return reject(topic, summarize(result.error), log);
     saveVitals(deviceId, result.data);
+    archiveVitals(deviceId, result.data).catch(archiveFailed(topic, log));
   } else if (kind === "ack") {
     const result = Ack.safeParse(json);
     if (!result.success) return reject(topic, summarize(result.error), log);

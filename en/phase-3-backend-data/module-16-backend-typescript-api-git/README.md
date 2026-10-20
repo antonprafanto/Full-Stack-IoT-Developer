@@ -4,7 +4,7 @@
 
 *Phase 3 · Week 16 · Hardware: **Kit A + B** — Node 1, Node 2, and the Pi gateway from Modules 12–15, or **just a laptop** (this module's simulator stands in for the devices) · Prerequisites: **Module 4** (JavaScript and Node.js), **Module 11** (MQTT and the data contract), **Module 15** (data contract 1.2) · Time: 8–10 hours, spread over the week*
 
-[⬅️ Module 15](../../phase-2-connectivity/module-15-modbus-rs485-and-protocols/README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · [Module 17 ➡️ (coming soon — read the summary in the Syllabus)](../../SYLLABUS.md#module-17--your-first-database-sql-basics--the-mini-smart-home-schema-postgresql-via-docker)
+[⬅️ Module 15](../../phase-2-connectivity/module-15-modbus-rs485-and-protocols/README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · [Module 17 ➡️](../module-17-sql-and-database-schema/README.md)
 
 ---
 
@@ -3367,4 +3367,4 @@ The completion requirement from the Syllabus: **`GET /devices/<id>/latest` in Br
 
 ---
 
-[⬅️ Module 15](../../phase-2-connectivity/module-15-modbus-rs485-and-protocols/README.md) · [Phase 3](../README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · **Next: Module 17 — Your First Database** (coming soon; [read the summary in the Syllabus](../../SYLLABUS.md#module-17--your-first-database-sql-basics--the-mini-smart-home-schema-postgresql-via-docker))
+[⬅️ Module 15](../../phase-2-connectivity/module-15-modbus-rs485-and-protocols/README.md) · [Phase 3](../README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · **Next: [Module 17 — Your First Database](../module-17-sql-and-database-schema/README.md) ➡️**

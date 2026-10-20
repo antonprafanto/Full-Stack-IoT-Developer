@@ -1,5 +1,5 @@
 // store.ts - keeps the last state of every device in memory.
-// The data is lost when the server stops; Module 17 replaces this with a database.
+// This data is lost when the server stops; its permanent copy is saved to the database by archive.ts (Module 17).
 import type { Ack, Status, TelemetryNode1, TelemetryNode2, Vitals } from "../schemas/contract.ts";
 
 export interface Device {

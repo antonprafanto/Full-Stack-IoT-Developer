@@ -1,0 +1,4 @@
+# libraries from npm: big, and npm install can rebuild them
+node_modules/
+# this laptop's secret settings; the example is in .env.example
+.env
