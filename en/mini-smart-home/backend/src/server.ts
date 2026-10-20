@@ -1,4 +1,4 @@
-// server.ts - the entry point of the Mini Smart Home backend v0.2 (Module 17: data is stored in the database).
+// server.ts - the entry point of the Mini Smart Home backend v0.3 (Module 18: the history can be summarized per 15 minutes, hour, and day).
 // Run: npm run dev (automatically restarts when a file is saved) or npm start.
 import Fastify, { LogController } from "fastify";
 import swagger from "@fastify/swagger";
@@ -22,7 +22,7 @@ app.setValidatorCompiler(validatorCompiler); // Zod schemas check the content of
 app.setSerializerCompiler(serializerCompiler); // ...and the shape of replies
 
 await app.register(swagger, {
-  openapi: { info: { title: "Mini Smart Home API", description: "Backend v0.2 (Module 17)", version: "0.2.0" } },
+  openapi: { info: { title: "Mini Smart Home API", description: "Backend v0.3 (Module 18)", version: "0.3.0" } },
   transform: jsonSchemaTransform, // the same Zod schemas become the OpenAPI documentation
 });
 await app.register(swaggerUi, { routePrefix: "/docs" });

@@ -5,7 +5,7 @@
 > **A 32-module curriculum — one module = one week of relaxed study (about 8 months) — that takes complete beginners all the way to building a full IoT system, from sensors to a dashboard on your phone.**
 > Hardware: **ESP32 + Raspberry Pi** · Software: **JavaScript/TypeScript (Node.js + React) for the server & the interface, a little C++ for the chip** · Language of instruction: **English, beginner-friendly** (this English edition is a complete translation of the Indonesian original).
 >
-> Document status: **v1.0.19 — approved, writing of the material in progress; Modules 1–17 (all of Phase 0, Phase 1, and Phase 2, plus Modules 16–17 of Phase 3) are available in English; new modules appear in Indonesian first, and their English edition follows module by module** (20 October 2026). The decisions behind it are in [§11](#11-approved-decisions); the change history is in [§13](#13-revision-history).
+> Document status: **v1.0.20 — approved, writing of the material in progress; Modules 1–18 (all of Phase 0, Phase 1, and Phase 2, plus Modules 16–18 of Phase 3) are available in English; new modules appear in Indonesian first, and their English edition follows module by module** (21 October 2026). The decisions behind it are in [§11](#11-approved-decisions); the change history is in [§13](#13-revision-history).
 
 ---
 
@@ -616,9 +616,11 @@ Format of each module:
 #### Module 18 — TimescaleDB: Time-Series Data, Automatic Aggregation, Retention, & Backup
 *Phase 3 · Week 18 · Hardware: — (data from the backend/simulator) · Prerequisites: Module 17*
 
+📖 **Available now:** [read Module 18](phase-3-backend-data/module-18-timescaledb/README.md)
+
 - **After this module you can:** store millions of rows of sensor data efficiently, answer "the average per 15 minutes" in an instant, discard old data automatically without losing its summaries, and create/restore backups.
 - **Core concepts:** why sensor data is different from shop data (it keeps growing, is rarely changed, and is queried by time range); **hypertables** ("a table that's automatically sliced by time"); `time_bucket` ("the average per 15 minutes"); *continuous aggregates* (summaries computed automatically); *retention policies* ("discard raw data older than 90 days, keep the hourly averages forever"); compression; the right *indexes*; the API `bucket=1h`; **backup & restore** (`pg_dump`/`pg_restore`) — "a backup that has never been restored = no backup".
-- **Tools used:** TimescaleDB, DBeaver, `pg_dump`.
+- **Tools used:** TimescaleDB (already installed in the Module 17 image), psql and DBeaver, `pg_dump`/`pg_restore` (inside the container).
 - **Optional / technical deep dive:** InfluxDB for comparison; plain PostgreSQL *partitioning*; downsampling for charts.
 - **Practice & mini projects:** `readings` converted into a hypertable; the API `GET /devices/:id/readings?from=&to=&bucket=1h`; loading 1 million dummy rows & comparing the speed with/without a hypertable; an hourly *continuous aggregate*; 90-day retention; a backup and then a restore into an empty database.
 - **➕ Mini Smart Home:** scalable history; backend v0.3.
@@ -967,6 +969,8 @@ One sentence per term, in plain language. All of them are covered fully in their
 ---
 
 ## 13. Revision history
+
+**v1.0.20 (21 Oct 2026)** — Module 18 published in Indonesian and English. Mini Smart Home gets **backend v0.3** and a database that's ready to grow, still on the image `timescale/timescaledb:2.30.2-pg17` (TimescaleDB 2.30.2 Community, no new download), through four numbered migrations: `002_hypertable.sql` (`readings` becomes a hypertable with 1-day chunks), `003_hourly_summary.sql` (the continuous aggregate `readings_hourly` with average columns and `_n` value counts so the daily average is exact, real-time summaries, a policy every 30 minutes), `004_retention.sql` (raw readings dropped after 90 days, summaries kept), and `005_columnstore.sql` (readings older than 7 days compressed per column). A load test with a million rows (`backend/test/load-1-million.sql`, test device `beef00000001`) proves that the query "the hourly average over the last 7 days" finishes in tens of milliseconds from the hypertable and in under 1 ms from the summary book, with a fair comparison against a plain table. A `pg_dump -Fc` backup and a restore into a new database (`template0`, `timescaledb_pre_restore()`/`timescaledb_post_restore()`) are proven with an `md5` fingerprint. The API `GET /devices/:id/readings` gets `?bucket=15m|1h|1d` (a fixed Zod choice, at most 1,000 buckets, WIB days for `1d`). The data contract stays at version 1.2. The Module 18 tool list in §7 is completed.
 
 **v1.0.19 (20 Oct 2026)** — Module 17 published in Indonesian and English. Mini Smart Home gets **backend v0.2**: a PostgreSQL 17.11 + TimescaleDB 2.30.2 database in a Docker container (Docker Desktop 4.95, an image with a locked tag, `timescale/timescaledb:2.30.2-pg17`, the same as `latest-pg17` when the module was written; port `127.0.0.1:5432`, volume `smarthome-data`), a six-table schema (`devices`, `readings`, `device_health`, `commands`, `users`, `rules`) through the numbered migration `backend/migrations/001_initial_schema.sql` and a migration runner without a library (`npm run migrate`, the `schema_migrations` table, one transaction per file), the `pg` 8.23.1 library with a *pool*, 7 days of practice data (`npm run seed-history`, the same numbers on anyone's laptop), every MQTT message archived with `INSERT … ON CONFLICT (device_id, ts) DO NOTHING` (a duplicate send is stored once), the API `GET /devices/:id/readings?from=&to=` (the last hour by default, at most 1,000 readings with a `truncated` flag, `503` when the database can't be reached), and API commands recorded in the `commands` table. The Module 16 in-memory store stays in use for the latest state. DBeaver Community 26.2.3 becomes the window into the database. The data contract stays at version 1.2. The Module 17 tool list in §7 is completed (DBeaver installed in this module, psql).
 

@@ -1,5 +1,7 @@
 # Backend Rumah Pintar Mini
 
+🌐 **Bahasa Indonesia** · [English](../../../../en/phase-3-backend-data/module-18-timescaledb/code/backend/README.md)
+
 Backend v0.3 proyek Rumah Pintar Mini: server Node.js 24 dengan TypeScript ringan yang mendengarkan semua pesan MQTT `rpm/#`, memeriksa setiap pesan dengan kontrak data 1.2 (skema Zod), menyimpan keadaan terakhir setiap perangkat di memori, mengarsipkan semua pesan ke database PostgreSQL dengan tambahan TimescaleDB (lewat Docker), dan menyediakan API berdokumentasi. Riwayat bacaan bisa diminta mentah atau sudah diringkas per 15 menit, per jam, atau per hari.
 
 ## Menjalankan

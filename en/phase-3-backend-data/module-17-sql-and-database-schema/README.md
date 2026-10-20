@@ -4,7 +4,7 @@
 
 *Phase 3 · Week 17 · Hardware: **Kit A + B** — Node 1, Node 2, and the Pi gateway from Modules 12–16, or **just a laptop** (the Module 16 simulator and this module's practice data stand in for the devices) · Prerequisites: **Module 16** (backend v0.1) · Time: 8–10 hours, spread over the week*
 
-[⬅️ Module 16](../module-16-backend-typescript-api-git/README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · [Module 18 ➡️ (coming soon — read the summary in the Syllabus)](../../SYLLABUS.md#module-18--timescaledb-time-series-data-automatic-aggregation-retention--backup)
+[⬅️ Module 16](../module-16-backend-typescript-api-git/README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · [Module 18 ➡️](../module-18-timescaledb/README.md)
 
 ---
 
@@ -3112,4 +3112,4 @@ The completion requirement from the Syllabus: **you can write the SQL for "avera
 
 ---
 
-[⬅️ Module 16](../module-16-backend-typescript-api-git/README.md) · [Phase 3](../README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · **Next: Module 18 — TimescaleDB** (coming soon; [read the summary in the Syllabus](../../SYLLABUS.md#module-18--timescaledb-time-series-data-automatic-aggregation-retention--backup))
+[⬅️ Module 16](../module-16-backend-typescript-api-git/README.md) · [Phase 3](../README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · **Next: [Module 18 — TimescaleDB](../module-18-timescaledb/README.md) ➡️**

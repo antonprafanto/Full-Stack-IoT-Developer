@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="880" viewBox="0 0 1200 880" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="880" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Backup and restore: photocopy the archive, then prove it can be restored</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">A backup that has never been restored = no backup</tspan> · Practice 7</text>
+<rect x="30.0" y="100.0" width="1140.0" height="516.0" rx="16" fill="#ffffff" stroke="#1e2a4a" stroke-width="2.2" />
+<rect x="46.0" y="119.0" width="40.0" height="26.0" rx="3" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<path d="M40 149 L92 149" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="100.0" y="130.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="start" >Laptop</text>
+<text x="100.0" y="149.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">the VS Code terminal in the <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568" font-weight="700">backend</tspan> folder (on Windows: PowerShell, not Git Bash)</text>
+<rect x="46.0" y="166.0" width="1108.0" height="266.0" rx="14" fill="#eef1f5" />
+<text x="66.0" y="192.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >Docker Desktop</text>
+<rect x="62.0" y="206.0" width="1076.0" height="210.0" rx="12" fill="#e6edf5" stroke="#336791" stroke-width="2" />
+<rect x="77.2" y="228.6" width="10.0" height="6.0" rx="1" fill="none" stroke="#336791" stroke-width="1.5" />
+<line x1="80.5" y1="230.2" x2="80.5" y2="233.0" stroke="#336791" stroke-width="1" stroke-linecap="butt" />
+<line x1="83.9" y1="230.2" x2="83.9" y2="233.0" stroke="#336791" stroke-width="1" stroke-linecap="butt" />
+<rect x="88.8" y="228.6" width="10.0" height="6.0" rx="1" fill="none" stroke="#336791" stroke-width="1.5" />
+<line x1="92.1" y1="230.2" x2="92.1" y2="233.0" stroke="#336791" stroke-width="1" stroke-linecap="butt" />
+<line x1="95.5" y1="230.2" x2="95.5" y2="233.0" stroke="#336791" stroke-width="1" stroke-linecap="butt" />
+<rect x="83.0" y="221.4" width="10.0" height="6.0" rx="1" fill="none" stroke="#336791" stroke-width="1.5" />
+<line x1="86.3" y1="223.0" x2="86.3" y2="225.8" stroke="#336791" stroke-width="1" stroke-linecap="butt" />
+<line x1="89.7" y1="223.0" x2="89.7" y2="225.8" stroke="#336791" stroke-width="1" stroke-linecap="butt" />
+<text x="108.0" y="233.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12.4" font-weight="800">smarthome-db</tspan> container (PostgreSQL 17 + TimescaleDB 2.30.2)</text>
+<rect x="80.0" y="256.0" width="212.0" height="140.0" rx="10" fill="#ffffff" stroke="#336791" stroke-width="1.8" />
+<path d="M95 279 L95 301 A15 5 0 0 0 125 301 L125 279" fill="none" stroke="#336791" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<ellipse cx="110" cy="279" rx="15" ry="5" fill="none" stroke="#336791" stroke-width="2"/>
+<path d="M95 290 A15 5 0 0 0 125 290" fill="none" stroke="#336791" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="136.0" y="288.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">smarthome</text>
+<text x="136.0" y="307.0" font-size="12.5" font-weight="700" fill="#4a5568" text-anchor="start" >the original database</text>
+<text x="98.0" y="342.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >never overwritten:</text>
+<text x="98.0" y="360.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >a restore always goes</text>
+<text x="98.0" y="378.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >into a NEW database</text>
+<line x1="294.0" y1="303.0" x2="384.0" y2="303.0" stroke="#336791" stroke-width="2.4" stroke-linecap="round" />
+<path d="M376.9 306.8 L384.0 303.0 L376.9 299.2" fill="none" stroke="#336791" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="339.0" y="293.0" font-size="12" font-weight="800" fill="#336791" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">pg_dump -Fc</text>
+<text x="339.0" y="322.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="middle" >7.3</text>
+<rect x="388.0" y="268.0" width="204.0" height="70.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<path d="M399 289 L414 289 L421 296 L421 317 L399 317 Z" fill="none" stroke="#1e2a4a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M414 289 L414 296 L421 296" fill="none" stroke="#1e2a4a" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="404.0" y1="301.0" x2="416.0" y2="301.0" stroke="#1e2a4a" stroke-width="1.3" stroke-linecap="round" />
+<line x1="404.0" y1="306.0" x2="416.0" y2="306.0" stroke="#1e2a4a" stroke-width="1.3" stroke-linecap="round" />
+<line x1="404.0" y1="311.0" x2="416.0" y2="311.0" stroke="#1e2a4a" stroke-width="1.3" stroke-linecap="round" />
+<text x="430.0" y="298.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">/tmp/smarthome.dump</text>
+<text x="430.0" y="318.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >inside the container</text>
+<rect x="630.0" y="268.0" width="190.0" height="70.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<path d="M641 289 L656 289 L663 296 L663 317 L641 317 Z" fill="none" stroke="#1e2a4a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M656 289 L656 296 L663 296" fill="none" stroke="#1e2a4a" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="646.0" y1="301.0" x2="658.0" y2="301.0" stroke="#1e2a4a" stroke-width="1.3" stroke-linecap="round" />
+<line x1="646.0" y1="306.0" x2="658.0" y2="306.0" stroke="#1e2a4a" stroke-width="1.3" stroke-linecap="round" />
+<line x1="646.0" y1="311.0" x2="658.0" y2="311.0" stroke="#1e2a4a" stroke-width="1.3" stroke-linecap="round" />
+<text x="672.0" y="298.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">/tmp/restore.dump</text>
+<text x="672.0" y="318.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >a copy from the laptop</text>
+<line x1="822.0" y1="303.0" x2="858.0" y2="303.0" stroke="#336791" stroke-width="2.4" stroke-linecap="round" />
+<path d="M850.9 306.8 L858.0 303.0 L850.9 299.2" fill="none" stroke="#336791" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="862.0" y="222.0" width="260.0" height="182.0" rx="10" fill="#ffffff" stroke="#336791" stroke-width="1.8" />
+<path d="M877 241 L877 263 A15 5 0 0 0 907 263 L907 241" fill="none" stroke="#336791" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<ellipse cx="892" cy="241" rx="15" ry="5" fill="none" stroke="#336791" stroke-width="2"/>
+<path d="M877 252 A15 5 0 0 0 907 252" fill="none" stroke="#336791" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="918.0" y="250.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">smarthome_restored</text>
+<text x="918.0" y="268.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" >NEW database (7.4)</text>
+<circle cx="886.0" cy="294.0" r="10" fill="#336791" stroke="#ffffff" stroke-width="2" />
+<text x="886.0" y="298.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >2</text>
+<text x="904.0" y="298.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">createdb -T template0</text>
+<circle cx="886.0" cy="316.0" r="10" fill="#336791" stroke="#ffffff" stroke-width="2" />
+<text x="886.0" y="320.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >3</text>
+<text x="904.0" y="320.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">CREATE EXTENSION timescaledb</text>
+<circle cx="886.0" cy="338.0" r="10" fill="#336791" stroke="#ffffff" stroke-width="2" />
+<text x="886.0" y="342.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >4</text>
+<text x="904.0" y="342.0" font-size="12" font-weight="800" fill="#336791" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">timescaledb_pre_restore()</text>
+<circle cx="886.0" cy="360.0" r="10" fill="#336791" stroke="#ffffff" stroke-width="2" />
+<text x="886.0" y="364.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >5</text>
+<text x="904.0" y="364.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">pg_restore</text>
+<circle cx="886.0" cy="382.0" r="10" fill="#336791" stroke="#ffffff" stroke-width="2" />
+<text x="886.0" y="386.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >6</text>
+<text x="904.0" y="386.0" font-size="12" font-weight="800" fill="#336791" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">timescaledb_post_restore()</text>
+<rect x="46.0" y="470.0" width="774.0" height="126.0" rx="12" fill="#ffffff" stroke="#1e2a4a" stroke-width="1.8" />
+<path d="M67 502 L78 502 L82 506 L101 506 L101 526 L67 526 Z" fill="none" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="67.0" y1="511.0" x2="101.0" y2="511.0" stroke="#1e2a4a" stroke-width="1.4" stroke-linecap="round" />
+<text x="114.0" y="509.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12.9" font-weight="800">backup/</tspan> folder on the laptop</text>
+<text x="114.0" y="533.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">smarthome-2026-10-20.dump</text>
+<text x="114.0" y="557.0" font-size="12.5" font-weight="800" fill="#336791" text-anchor="start" >about 5 MB</text>
+<text x="452.0" y="521.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800">not in Git</tspan>: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="700">backup/</tspan> is in <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="700">.gitignore</tspan> (7.7)</text>
+<text x="452.0" y="547.0" font-size="12.5" font-weight="700" fill="#4a5568" text-anchor="start" >copy it to a flash drive or Google Drive too</text>
+<line x1="430.0" y1="340.0" x2="430.0" y2="462.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<path d="M426.2 460.9 L430.0 468.0 L433.8 460.9" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="442.0" y="458.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">docker cp</text>
+<line x1="725.0" y1="468.0" x2="725.0" y2="346.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<path d="M728.8 347.1 L725.0 340.0 L721.2 347.1" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="748.0" cy="453.0" r="10" fill="#336791" stroke="#ffffff" stroke-width="2" />
+<text x="748.0" y="457.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >1</text>
+<text x="764.0" y="458.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">docker cp</text>
+<text x="840.0" y="452.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" >what's restored: the file on the laptop,</text>
+<text x="840.0" y="470.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" >not what is left in the container</text>
+<rect x="840.0" y="488.0" width="314.0" height="108.0" rx="10" fill="#fde6e8" stroke="#e63946" stroke-width="1.4" stroke-dasharray="6 4"/>
+<line x1="854.0" y1="506.0" x2="866.0" y2="518.0" stroke="#e63946" stroke-width="2.4" stroke-linecap="round" />
+<line x1="854.0" y1="518.0" x2="866.0" y2="506.0" stroke="#e63946" stroke-width="2.4" stroke-linecap="round" />
+<text x="876.0" y="517.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Don't <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="800">pg_dump</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="800">…</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="800">&gt;</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="800">file.dump</tspan></text>
+<text x="858.0" y="540.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" >In Windows PowerShell 5.1, the contents</text>
+<text x="858.0" y="559.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" >become UTF-16 text and the file breaks.</text>
+<text x="858.0" y="582.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" xml:space="preserve">Use <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="700">-f</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="700">/tmp/…</tspan>, then <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="700">docker</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="700">cp</tspan>.</text>
+<rect x="30.0" y="636.0" width="1140.0" height="214.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="48.0" y="664.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >Proof: the same fingerprint query in both databases (7.2 and 7.5)</text>
+<text x="48.0" y="684.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">number of readings, md5 of all rows, summary rows, binders, and your own <tspan>job</tspan>s</text>
+<text x="300.0" y="718.0" font-size="12.5" font-weight="700" fill="#4a5568" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">readings |           fingerprint            | summaries | chunks | jobs</text>
+<line x1="300.0" y1="727.0" x2="837.0" y2="727.0" stroke="#d5dbe3" stroke-width="1.2" stroke-linecap="round" />
+<text x="48.0" y="754.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">smarthome</text>
+<text x="48.0" y="771.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" >the original, before the backup (7.2)</text>
+<text x="300.0" y="754.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">  785394 | 4af27a1271c640a4fa1d914cf2c26392 |      3263 |     91 |    3</text>
+<text x="48.0" y="798.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">smarthome_restored</text>
+<text x="48.0" y="815.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" >the copy, after the restore (7.5)</text>
+<text x="300.0" y="798.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">  785394 | 4af27a1271c640a4fa1d914cf2c26392 |      3263 |     91 |    3</text>
+<path d="M863 776 L868 782 L878 770" fill="none" stroke="#2a9d5c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<text x="888.0" y="771.0" font-size="14" font-weight="800" fill="#2a9d5c" text-anchor="start" >exactly the same,</text>
+<text x="888.0" y="791.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="start" >character for character</text>
+<text x="48.0" y="836.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >The fingerprint on your laptop will certainly differ from this example; what matters is that the original and the copy are the same.</text>
+<text x="1178.0" y="866.0" font-size="11" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer curriculum · CC BY 4.0</text>
+</svg>

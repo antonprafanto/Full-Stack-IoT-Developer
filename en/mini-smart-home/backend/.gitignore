@@ -2,3 +2,5 @@
 node_modules/
 # this laptop's secret settings; the example is in .env.example
 .env
+# a photocopy of the database (pg_dump): large and holds personal data, keep it outside Git
+backup/
