@@ -1,0 +1,180 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="850" viewBox="0 0 1200 850" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="850" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Mini Smart Home after Module 16</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >The brain moves to a backend you built yourself · dashed line = optional, retired, or coming later</text>
+<rect x="30.0" y="112.0" width="196.0" height="178.0" rx="14" fill="#fdeedd" stroke="#b45f17" stroke-width="2" />
+<rect x="47.0" y="130.0" width="30.0" height="40.0" rx="3" fill="none" stroke="#b45f17" stroke-width="2" />
+<rect x="53.0" y="136.0" width="18.0" height="14.0" rx="2" fill="none" stroke="#b45f17" stroke-width="1.6" />
+<line x1="47.0" y1="140.0" x2="42.0" y2="140.0" stroke="#b45f17" stroke-width="1.6" stroke-linecap="round" />
+<line x1="77.0" y1="140.0" x2="82.0" y2="140.0" stroke="#b45f17" stroke-width="1.6" stroke-linecap="round" />
+<line x1="47.0" y1="148.0" x2="42.0" y2="148.0" stroke="#b45f17" stroke-width="1.6" stroke-linecap="round" />
+<line x1="77.0" y1="148.0" x2="82.0" y2="148.0" stroke="#b45f17" stroke-width="1.6" stroke-linecap="round" />
+<line x1="47.0" y1="156.0" x2="42.0" y2="156.0" stroke="#b45f17" stroke-width="1.6" stroke-linecap="round" />
+<line x1="77.0" y1="156.0" x2="82.0" y2="156.0" stroke="#b45f17" stroke-width="1.6" stroke-linecap="round" />
+<line x1="47.0" y1="164.0" x2="42.0" y2="164.0" stroke="#b45f17" stroke-width="1.6" stroke-linecap="round" />
+<line x1="77.0" y1="164.0" x2="82.0" y2="164.0" stroke="#b45f17" stroke-width="1.6" stroke-linecap="round" />
+<text x="90.0" y="146.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Node 2 "Garden"</text>
+<text x="90.0" y="166.0" font-size="12.5" font-weight="700" fill="#b45f17" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">v1.0.0</text>
+<rect x="40.0" y="203.0" width="40.0" height="18.0" rx="4" fill="none" stroke="#b45f17" stroke-width="2" />
+<rect x="80.0" y="208.0" width="5.0" height="8.0" rx="1" fill="#b45f17" />
+<rect x="44.0" y="207.0" width="14.0" height="10.0" rx="2" fill="#b45f17" />
+<text x="90.0" y="217.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" >18650 battery</text>
+<text x="48.0" y="266.0" font-size="12.5" font-weight="700" fill="#b45f17" text-anchor="start" >unchanged</text>
+<line x1="228.0" y1="200.0" x2="286.0" y2="200.0" stroke="#b45f17" stroke-width="2.6" stroke-linecap="round" />
+<path d="M278.1 204.2 L286.0 200.0 L278.1 195.8" fill="none" stroke="#b45f17" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="257.0" y="188.0" font-size="11" font-weight="800" fill="#b45f17" text-anchor="middle" >ESP-NOW</text>
+<rect x="290.0" y="112.0" width="210.0" height="178.0" rx="14" fill="#e2f3f1" stroke="#0f8b8d" stroke-width="2.2" />
+<rect x="307.0" y="130.0" width="30.0" height="40.0" rx="3" fill="none" stroke="#0f8b8d" stroke-width="2" />
+<rect x="313.0" y="136.0" width="18.0" height="14.0" rx="2" fill="none" stroke="#0f8b8d" stroke-width="1.6" />
+<line x1="307.0" y1="140.0" x2="302.0" y2="140.0" stroke="#0f8b8d" stroke-width="1.6" stroke-linecap="round" />
+<line x1="337.0" y1="140.0" x2="342.0" y2="140.0" stroke="#0f8b8d" stroke-width="1.6" stroke-linecap="round" />
+<line x1="307.0" y1="148.0" x2="302.0" y2="148.0" stroke="#0f8b8d" stroke-width="1.6" stroke-linecap="round" />
+<line x1="337.0" y1="148.0" x2="342.0" y2="148.0" stroke="#0f8b8d" stroke-width="1.6" stroke-linecap="round" />
+<line x1="307.0" y1="156.0" x2="302.0" y2="156.0" stroke="#0f8b8d" stroke-width="1.6" stroke-linecap="round" />
+<line x1="337.0" y1="156.0" x2="342.0" y2="156.0" stroke="#0f8b8d" stroke-width="1.6" stroke-linecap="round" />
+<line x1="307.0" y1="164.0" x2="302.0" y2="164.0" stroke="#0f8b8d" stroke-width="1.6" stroke-linecap="round" />
+<line x1="337.0" y1="164.0" x2="342.0" y2="164.0" stroke="#0f8b8d" stroke-width="1.6" stroke-linecap="round" />
+<text x="350.0" y="146.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Node 1 "Home"</text>
+<text x="350.0" y="166.0" font-size="12.5" font-weight="700" fill="#0f8b8d" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">v1.4.0</text>
+<text x="308.0" y="212.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >sensors, relays, Node 2</text>
+<text x="308.0" y="230.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >bridge, RS-485 sensor</text>
+<text x="308.0" y="266.0" font-size="12.5" font-weight="700" fill="#0f8b8d" text-anchor="start" >unchanged</text>
+<line x1="502.0" y1="200.0" x2="556.0" y2="200.0" stroke="#2f6fd1" stroke-width="2.6" stroke-linecap="round" />
+<path d="M548.1 204.2 L556.0 200.0 L548.1 195.8" fill="none" stroke="#2f6fd1" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="529.0" y="188.0" font-size="11" font-weight="800" fill="#2f6fd1" text-anchor="middle" >MQTT</text>
+<rect x="560.0" y="112.0" width="300.0" height="276.0" rx="14" fill="#ffffff" stroke="#1e2a4a" stroke-width="2.2" />
+<rect x="572.0" y="131.0" width="48.0" height="34.0" rx="4" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<circle cx="579.0" cy="137.0" r="1.3" fill="#1e2a4a" />
+<circle cx="584.4" cy="137.0" r="1.3" fill="#1e2a4a" />
+<circle cx="589.8" cy="137.0" r="1.3" fill="#1e2a4a" />
+<circle cx="595.2" cy="137.0" r="1.3" fill="#1e2a4a" />
+<circle cx="600.6" cy="137.0" r="1.3" fill="#1e2a4a" />
+<circle cx="606.0" cy="137.0" r="1.3" fill="#1e2a4a" />
+<rect x="604.0" y="144.0" width="12.0" height="9.0" rx="1" fill="none" stroke="#1e2a4a" stroke-width="1.5" />
+<rect x="584.0" y="146.0" width="12.0" height="12.0" rx="1.5" fill="none" stroke="#1e2a4a" stroke-width="1.5" />
+<text x="630.0" y="144.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >Raspberry Pi gateway</text>
+<text x="630.0" y="164.0" font-size="12.5" font-weight="700" fill="#4a5568" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">192.168.1.37</text>
+<rect x="576.0" y="182.0" width="268.0" height="54.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.4" />
+<path d="M584 206 L608 188 L632 206" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="589.0" y="206.0" width="38.0" height="28.0" rx="2" fill="none" stroke="#1e2a4a" stroke-width="2.2" />
+<rect x="599.0" y="214.0" width="18.0" height="5.0" rx="1" fill="#1e2a4a" />
+<text x="640.0" y="205.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >Mosquitto</text>
+<text x="640.0" y="224.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >MQTT broker</text>
+<rect x="576.0" y="246.0" width="268.0" height="126.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.4" />
+<rect x="584.0" y="264.0" width="14.0" height="10.0" rx="2" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<rect x="618.0" y="264.0" width="14.0" height="10.0" rx="2" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<rect x="601.0" y="284.0" width="14.0" height="10.0" rx="2" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<path d="M598 269 C606 269 606 289 601 289" fill="none" stroke="#1e2a4a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M615 289 C622 289 612 269 618 269" fill="none" stroke="#1e2a4a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<text x="640.0" y="272.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >Node-RED</text>
+<text x="640.0" y="292.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >dashboard, Garden card,</text>
+<text x="640.0" y="310.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >RS-485 Sensor group</text>
+<rect x="592.0" y="318.0" width="236.0" height="44.0" rx="6" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.4" stroke-dasharray="5 4"/>
+<text x="606.0" y="336.0" font-size="12.5" font-weight="700" fill="#9aa3b0" text-anchor="start" text-decoration="line-through">fan automation</text>
+<text x="606.0" y="354.0" font-size="12" font-weight="700" fill="#9aa3b0" text-anchor="start" >retired since Module 16</text>
+<rect x="900.0" y="268.0" width="270.0" height="72.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<rect x="925.0" y="285.0" width="22.0" height="38.0" rx="5" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<circle cx="936.0" cy="317.0" r="1.8" fill="#1e2a4a" />
+<text x="970.0" y="300.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Phone</text>
+<text x="970.0" y="320.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >still: Node-RED dashboard</text>
+<line x1="862.0" y1="304.0" x2="896.0" y2="304.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<path d="M888.9 307.8 L896.0 304.0 L888.9 300.2" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="30.0" y="412.0" width="270.0" height="110.0" rx="12" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.6" stroke-dasharray="7 5"/>
+<text x="48.0" y="438.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >simulator (optional)</text>
+<text x="48.0" y="458.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >10 fake devices, on the laptop</text>
+<text x="48.0" y="482.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">f00d00000001 … f00d00000010</text>
+<text x="48.0" y="506.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >stand-ins for Node 1 and Node 2</text>
+<path d="M165 410 L165 330 Q165 318 177 318 L532 318 Q544 318 544 306 L544 238 Q544 226 556 226" fill="none" stroke="#9aa3b0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="7 5"/>
+<path d="M546 220 L556 226 L546 232" fill="none" stroke="#9aa3b0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="350.0" y="310.0" font-size="11" font-weight="800" fill="#9aa3b0" text-anchor="middle" >MQTT</text>
+<rect x="30.0" y="540.0" width="270.0" height="110.0" rx="12" fill="#eef1f5" />
+<text x="48.0" y="566.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Honest note:</text>
+<text x="48.0" y="588.0" font-size="13" font-weight="600" fill="#1e2a4a" text-anchor="start" >the backend runs on the laptop</text>
+<text x="48.0" y="608.0" font-size="13" font-weight="600" fill="#1e2a4a" text-anchor="start" >(127.0.0.1:8080); its data is lost</text>
+<text x="48.0" y="628.0" font-size="13" font-weight="600" fill="#1e2a4a" text-anchor="start" >when the server stops.</text>
+<rect x="330.0" y="400.0" width="840.0" height="250.0" rx="16" fill="#ffffff" stroke="#1a7f37" stroke-width="2.4" />
+<rect x="348.0" y="417.0" width="40.0" height="26.0" rx="3" fill="none" stroke="#1a7f37" stroke-width="2" />
+<path d="M342 447 L394 447" fill="none" stroke="#1a7f37" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="402.0" y="428.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Laptop</text>
+<text x="402.0" y="448.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >backend listening at 127.0.0.1:8080</text>
+<rect x="346.0" y="466.0" width="534.0" height="170.0" rx="12" fill="#dafbe1" stroke="#1a7f37" stroke-width="1.8" />
+<text x="364.0" y="492.0" font-size="15.5" font-weight="800" fill="#1a7f37" text-anchor="start" >backend v0.1 (new)</text>
+<text x="364.0" y="518.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Fastify + light TypeScript</text>
+<text x="364.0" y="540.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">• subscribes to <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="800">msh/#</tspan></text>
+<text x="364.0" y="562.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">• data contract 1.2 as Zod schemas:</text>
+<text x="364.0" y="584.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">   broken message → <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="800">REJECTED</tspan></text>
+<text x="364.0" y="606.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">• in-memory store</text>
+<text x="640.0" y="492.0" font-size="12.5" font-weight="800" fill="#4a5568" text-anchor="start" >API</text>
+<text x="640.0" y="518.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">GET  /health</text>
+<text x="640.0" y="537.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">GET  /devices</text>
+<text x="640.0" y="556.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">GET  /devices/:id/latest</text>
+<text x="640.0" y="575.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">GET  /devices/:id/vitals</text>
+<text x="640.0" y="594.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">POST /devices/:id/command</text>
+<text x="640.0" y="613.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">GET  /docs</text>
+<rect x="920.0" y="466.0" width="234.0" height="74.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.4" />
+<rect x="935.0" y="489.0" width="38.0" height="28.0" rx="4" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<line x1="935.0" y1="497.0" x2="973.0" y2="497.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<circle cx="940.0" cy="493.0" r="1.1" fill="#1e2a4a" />
+<circle cx="944.5" cy="493.0" r="1.1" fill="#1e2a4a" />
+<circle cx="949.0" cy="493.0" r="1.1" fill="#1e2a4a" />
+<text x="986.0" y="499.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Bruno</text>
+<text x="986.0" y="519.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >trying the API</text>
+<rect x="920.0" y="562.0" width="234.0" height="74.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.4" />
+<rect x="935.0" y="585.0" width="38.0" height="28.0" rx="4" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<line x1="935.0" y1="593.0" x2="973.0" y2="593.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<circle cx="940.0" cy="589.0" r="1.1" fill="#1e2a4a" />
+<circle cx="944.5" cy="589.0" r="1.1" fill="#1e2a4a" />
+<circle cx="949.0" cy="589.0" r="1.1" fill="#1e2a4a" />
+<text x="986.0" y="595.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >browser</text>
+<text x="986.0" y="615.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >opening /docs</text>
+<line x1="916.0" y1="503.0" x2="884.0" y2="503.0" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" />
+<path d="M891.1 499.2 L884.0 503.0 L891.1 506.8" fill="none" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="916.0" y1="599.0" x2="884.0" y2="599.0" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" />
+<path d="M891.1 595.2 L884.0 599.0 L891.1 602.8" fill="none" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="900.0" y="555.0" font-size="11" font-weight="800" fill="#1e2a4a" text-anchor="middle" >HTTP</text>
+<line x1="690.0" y1="390.0" x2="690.0" y2="462.0" stroke="#1a7f37" stroke-width="2.6" stroke-linecap="round" />
+<path d="M685.8 454.1 L690.0 462.0 L694.2 454.1" fill="none" stroke="#1a7f37" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="730.0" y1="462.0" x2="730.0" y2="390.0" stroke="#1a7f37" stroke-width="2.6" stroke-linecap="round" />
+<path d="M734.2 397.9 L730.0 390.0 L725.8 397.9" fill="none" stroke="#1a7f37" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="682.0" y="434.0" font-size="12" font-weight="800" fill="#1a7f37" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">msh/#</text>
+<text x="738.0" y="434.0" font-size="12" font-weight="800" fill="#1a7f37" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">cmd</text>
+<rect x="30.0" y="674.0" width="840.0" height="146.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<path d="M50 716 Q40 716 42 706 Q44 696 56 698 Q62 686 76 691 Q88 688 90 700 Q100 702 98 711 Q96 716 88 716 Z" fill="none" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="108.0" y="708.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >GitHub: mini-smart-home</text>
+<text x="50.0" y="746.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">backend/</text>
+<text x="120.0" y="746.0" font-size="12.5" font-weight="700" fill="#1a7f37" text-anchor="start" >new: src/, bruno/, README.md</text>
+<text x="50.0" y="772.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">tools/device-simulator.js</text>
+<text x="243.2" y="772.0" font-size="12.5" font-weight="700" fill="#1a7f37" text-anchor="start" >new</text>
+<text x="50.0" y="798.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">.github/pull_request_template.md</text>
+<text x="294.0" y="798.0" font-size="12.5" font-weight="700" fill="#1a7f37" text-anchor="start" >new</text>
+<text x="480.0" y="746.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">edge/node-red-flows.json</text>
+<text x="666.0" y="746.0" font-size="12.5" font-weight="700" fill="#4a5568" text-anchor="start" >fan automation switched off</text>
+<text x="480.0" y="772.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">DATA-CONTRACT.md</text>
+<text x="608.0" y="772.0" font-size="12.5" font-weight="700" fill="#4a5568" text-anchor="start" >still 1.2</text>
+<text x="480.0" y="798.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">firmware/</text>
+<text x="557.2" y="798.0" font-size="12.5" font-weight="700" fill="#4a5568" text-anchor="start" >unchanged</text>
+<text x="890.0" y="690.0" font-size="12.5" font-weight="800" fill="#4a5568" text-anchor="start" >coming next</text>
+<rect x="890.0" y="700.0" width="280.0" height="36.0" rx="8" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.4" stroke-dasharray="7 5"/>
+<g transform="translate(912 718) scale(0.62) translate(-912 -718)">
+<path d="M897 707 L897 729 A15 5 0 0 0 927 729 L927 707" fill="none" stroke="#4a5568" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<ellipse cx="912" cy="707" rx="15" ry="5" fill="none" stroke="#4a5568" stroke-width="2"/>
+<path d="M897 718 A15 5 0 0 0 927 718" fill="none" stroke="#4a5568" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+</g>
+<text x="936.0" y="723.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Module 17</text>
+<text x="1008.0" y="723.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >database</text>
+<rect x="890.0" y="741.0" width="280.0" height="36.0" rx="8" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.4" stroke-dasharray="7 5"/>
+<g transform="translate(912 759) scale(0.62) translate(-912 -759)">
+<path d="M912 744 L927 759 L912 774 L897 759 Z" fill="none" stroke="#4a5568" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="912.0" y="763.5" font-size="13" font-weight="800" fill="#4a5568" text-anchor="middle" >?</text>
+</g>
+<text x="936.0" y="764.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Module 19</text>
+<text x="1008.0" y="764.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >backend automation rules</text>
+<rect x="890.0" y="782.0" width="280.0" height="36.0" rx="8" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.4" stroke-dasharray="7 5"/>
+<g transform="translate(912 800) scale(0.62) translate(-912 -800)">
+<rect x="893.0" y="786.0" width="38.0" height="28.0" rx="4" fill="none" stroke="#4a5568" stroke-width="2" />
+<path d="M899 807 L907 799 L914 804 L925 792" fill="none" stroke="#4a5568" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+</g>
+<text x="936.0" y="805.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Module 22</text>
+<text x="1008.0" y="805.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >React dashboard</text>
+<text x="1178.0" y="836.0" font-size="11" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer curriculum · CC BY 4.0</text>
+</svg>

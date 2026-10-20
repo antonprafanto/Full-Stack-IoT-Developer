@@ -2,7 +2,7 @@
 
 🌐 **English** · [Bahasa Indonesia](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/proyek-rumah-pintar-mini/edge/README.md)
 
-The gateway is the Raspberry Pi that runs the Mini Smart Home MQTT broker 24 hours a day ([Module 12](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-12-raspberry-pi-and-linux/README.md)), and since [Module 13](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-13-node-red-dashboard/README.md) it also runs Node-RED with the dashboard and the fan automation; since [Module 14](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-14-node-2-esp-now/README.md), that dashboard has a Garden card for Node 2, and since [Module 15](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-15-modbus-rs485-and-protocols/README.md), an RS-485 Sensor group for the RS-485 soil sensor that Node 1 reads. This page is its **main backup**: if the microSD card breaks, the gateway can be rebuilt from a blank card in about an hour with the recipe below. Fill in the table with your own gateway's details.
+The gateway is the Raspberry Pi that runs the Mini Smart Home MQTT broker 24 hours a day ([Module 12](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-12-raspberry-pi-and-linux/README.md)), and since [Module 13](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-13-node-red-dashboard/README.md) it also runs Node-RED with the dashboard and the fan automation (the automation has been switched off since [Module 16](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-3-backend-data/module-16-backend-typescript-api-git/README.md), because the brain has moved to the backend); since [Module 14](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-14-node-2-esp-now/README.md), that dashboard has a Garden card for Node 2, and since [Module 15](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-15-modbus-rs485-and-protocols/README.md), an RS-485 Sensor group for the RS-485 soil sensor that Node 1 reads. This page is its **main backup**: if the microSD card breaks, the gateway can be rebuilt from a blank card in about an hour with the recipe below. Fill in the table with your own gateway's details.
 
 > [!CAUTION]
 > **Never write a password** (the Pi's, the Wi-Fi's, or any other) in this file or anywhere else in the repository.
@@ -70,14 +70,14 @@ Every time the settings on the Pi change, copy the file to this folder again (`s
 
 ## Node-RED and the dashboard (Module 13)
 
-Node-RED runs on this same gateway, as the systemd service `nodered` ([Module 13](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-13-node-red-dashboard/README.md)). All its flows, that is, dashboard v0 (with the Garden card since Module 14 and the RS-485 Sensor group since Module 15) and the fan automation, are saved in [`node-red-flows.json`](node-red-flows.json). The editor password and the passphrase are never exported; never write them down here.
+Node-RED runs on this same gateway, as the systemd service `nodered` ([Module 13](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-13-node-red-dashboard/README.md)). All its flows, that is, dashboard v0 (with the Garden card since Module 14 and the RS-485 Sensor group since Module 15) and the fan automation (switched off since Module 16, because Mini Smart Home's brain has moved to the backend), are saved in [`node-red-flows.json`](node-red-flows.json). The editor password and the passphrase are never exported; never write them down here.
 
 | Part | This gateway |
 | :--- | :--- |
 | Node-RED | 5.0.8, installed with the official `install-update-nodered-deb` script (together with Node.js 24), service `nodered`, editor `http://192.168.1.37:1880` |
 | Editor user | `admin` (the password isn't recorded here) |
 | Dashboard | FlowFuse Dashboard (`@flowfuse/node-red-dashboard`) 1.33.0, `http://192.168.1.37:1880/dashboard/home` |
-| Automation | fan on above 30 °C, off below 28 °C |
+| Automation | switched off since Module 16: the four nodes of section 2 (fan on above 30 °C, off below 28 °C) are marked `"d": true` and look faded in the editor |
 
 The recipe continues, after step 7 above:
 

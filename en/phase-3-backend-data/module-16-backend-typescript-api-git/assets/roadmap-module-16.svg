@@ -1,0 +1,114 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="676" viewBox="0 0 1200 676" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="676" fill="#fffdf7"/>
+<text x="600.0" y="40.0" font-size="26" font-weight="700" fill="#1e2a4a" text-anchor="middle" >Mini roadmap — you are here</text>
+<text x="600.0" y="66.0" font-size="15" font-weight="400" fill="#555" text-anchor="middle" >32 modules = 32 weeks · one running project, "Mini Smart Home", that grows from a blinking LED into an online system</text>
+<rect x="60.0" y="100.0" width="160.0" height="56.0" rx="8" fill="#e0e0e0" />
+<text x="140.0" y="124.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="middle" >PHASE 0</text>
+<text x="140.0" y="144.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="middle" >Foundations · M1–4</text>
+<rect x="226.0" y="100.0" width="125.0" height="56.0" rx="8" fill="#e0e0e0" />
+<text x="288.5" y="124.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="middle" >PHASE 1</text>
+<text x="288.5" y="144.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="middle" >ESP32 · M5–9</text>
+<rect x="357.0" y="100.0" width="176.0" height="56.0" rx="8" fill="#e0e0e0" />
+<text x="445.0" y="124.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="middle" >PHASE 2</text>
+<text x="445.0" y="144.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="middle" >Connectivity · M10–15</text>
+<rect x="539.0" y="100.0" width="196.0" height="56.0" rx="8" fill="#dafbe1" stroke="#1a7f37" stroke-width="2.4" />
+<text x="637.0" y="124.0" font-size="14" font-weight="800" fill="#1a7f37" text-anchor="middle" >PHASE 3</text>
+<text x="637.0" y="144.0" font-size="14" font-weight="700" fill="#1a7f37" text-anchor="middle" >Backend &amp; data · M16–21</text>
+<rect x="741.0" y="100.0" width="170.0" height="56.0" rx="8" fill="#e6dcf5" />
+<text x="826.0" y="124.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="middle" >PHASE 4</text>
+<text x="826.0" y="144.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="middle" >Dashboard · M22–25</text>
+<rect x="917.0" y="100.0" width="223.0" height="56.0" rx="8" fill="#e0e0e0" />
+<text x="1028.5" y="124.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="middle" >PHASE 5</text>
+<text x="1028.5" y="144.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="middle" >Operations &amp; scale · M26–32</text>
+<rect x="60.0" y="170.0" width="30.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="75.0" y="188.0" font-size="13" font-weight="600" fill="#fff" text-anchor="middle" >M1</text>
+<rect x="96.0" y="170.0" width="30.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="111.0" y="188.0" font-size="13" font-weight="600" fill="#fff" text-anchor="middle" >M2</text>
+<rect x="132.0" y="170.0" width="30.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="147.0" y="188.0" font-size="13" font-weight="600" fill="#fff" text-anchor="middle" >M3</text>
+<rect x="168.0" y="170.0" width="30.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="183.0" y="188.0" font-size="13" font-weight="600" fill="#fff" text-anchor="middle" >M4</text>
+<rect x="226.00" y="170.0" width="22.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="237.00" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M5</text>
+<rect x="251.75" y="170.0" width="22.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="262.75" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M6</text>
+<rect x="277.50" y="170.0" width="22.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="288.50" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M7</text>
+<rect x="303.25" y="170.0" width="22.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="314.25" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M8</text>
+<rect x="329.00" y="170.0" width="22.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="340.00" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M9</text>
+<rect x="357.00" y="170.0" width="27.5" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="370.75" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M10</text>
+<rect x="386.70" y="170.0" width="27.5" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="400.45" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M11</text>
+<rect x="416.40" y="170.0" width="27.5" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="430.15" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M12</text>
+<rect x="446.10" y="170.0" width="27.5" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="459.85" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M13</text>
+<rect x="475.80" y="170.0" width="27.5" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="489.55" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M14</text>
+<rect x="505.50" y="170.0" width="27.5" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="519.25" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M15</text>
+<rect x="539.00" y="170.0" width="30.8" height="26.0" rx="5" fill="#e63946" />
+<text x="554.40" y="187.2" font-size="11.5" font-weight="700" fill="#fff" text-anchor="middle" >M16</text>
+<rect x="572.04" y="170.0" width="30.8" height="26.0" rx="5" fill="#1a7f37" />
+<text x="587.44" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M17</text>
+<rect x="605.08" y="170.0" width="30.8" height="26.0" rx="5" fill="#1a7f37" />
+<text x="620.48" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M18</text>
+<rect x="638.12" y="170.0" width="30.8" height="26.0" rx="5" fill="#1a7f37" />
+<text x="653.52" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M19</text>
+<rect x="671.16" y="170.0" width="30.8" height="26.0" rx="5" fill="#1a7f37" />
+<text x="686.56" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M20</text>
+<rect x="704.20" y="170.0" width="30.8" height="26.0" rx="5" fill="#1a7f37" />
+<text x="719.60" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M21</text>
+<text x="60.0" y="214.0" font-size="13" font-weight="700" fill="#2a9d5c" text-anchor="start" >done ✓ (M1–15)</text>
+<line x1="554.40" y1="202.0" x2="554.40" y2="228.0" stroke="#e63946" stroke-width="2.4" stroke-linecap="round" />
+<path d="M550.60 220.9 L554.40 228.0 L558.20 220.9" fill="none" stroke="#e63946" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="554.40" y="248.0" font-size="14" font-weight="800" fill="#e63946" text-anchor="middle" >YOU ARE HERE</text>
+<text x="631.50" y="248.0" font-size="14" font-weight="700" fill="#1a7f37" text-anchor="start" >← your own server: listens to MQTT,</text>
+<text x="649.50" y="268.0" font-size="14" font-weight="700" fill="#1a7f37" text-anchor="start" >checks the contract, a documented API, Git for teams</text>
+<rect x="60.0" y="290.0" width="1080.0" height="346.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="80.0" y="322.0" font-size="17" font-weight="700" fill="#1e2a4a" text-anchor="start" >Module 16 this week (8–10 hours, spread out)</text>
+<text x="1120.0" y="322.0" font-size="14" font-weight="700" fill="#4a5568" text-anchor="end" >⭐ = required to pass</text>
+<text x="80.0" y="346.0" font-size="14" font-weight="600" fill="#4a5568" text-anchor="start" >Kit A + B (Node 1, Node 2, and the Pi gateway from Modules 12–15), or a laptop + the simulator: hardware not required</text>
+<rect x="80.0" y="371.0" width="50.0" height="22.0" rx="11" fill="#1a7f37" />
+<path d="M99.17 379.88 A6.2 6.2 0 0 1 110.37 378.90" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M107.42 377.20 L110.37 378.90 L110.37 375.50" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M110.83 384.12 A6.2 6.2 0 0 1 99.63 385.10" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M102.58 386.80 L99.63 385.10 L99.63 388.50" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<text x="142.0" y="387.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">JavaScript warm-up</text>
+<rect x="80.0" y="405.0" width="50.0" height="22.0" rx="11.0" fill="#1a7f37" />
+<text x="105.0" y="420.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >QW</text>
+<text x="142.0" y="421.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Quick Win: the first server answers <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13.8">/health</tspan></text>
+<rect x="80.0" y="439.0" width="50.0" height="22.0" rx="11.0" fill="#1a7f37" />
+<text x="105.0" y="454.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P1</text>
+<text x="142.0" y="455.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Git in the terminal: the first <tspan>commit</tspan> of the backend</text>
+<rect x="80.0" y="473.0" width="50.0" height="22.0" rx="11.0" fill="#1a7f37" />
+<text x="105.0" y="488.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P2</text>
+<text x="142.0" y="489.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">project structure, light TypeScript, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13.8">.env</tspan></text>
+<rect x="80.0" y="507.0" width="50.0" height="22.0" rx="11.0" fill="#1a7f37" />
+<text x="105.0" y="522.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P3</text>
+<text x="142.0" y="523.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the backend listens to the broker</text>
+<rect x="80.0" y="541.0" width="50.0" height="22.0" rx="11.0" fill="#1a7f37" />
+<text x="105.0" y="556.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P4</text>
+<text x="142.0" y="557.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">never trust the device: the Zod contract</text>
+<rect x="610.0" y="371.0" width="50.0" height="22.0" rx="11.0" fill="#1a7f37" />
+<text x="635.0" y="386.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P5</text>
+<text x="672.0" y="387.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the latest reading, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13.8">/docs</tspan>, and Bruno ⭐</text>
+<rect x="610.0" y="405.0" width="50.0" height="22.0" rx="11.0" fill="#1a7f37" />
+<text x="635.0" y="420.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P6</text>
+<text x="672.0" y="421.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">commands through the API: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13.8">cmd</tspan> and <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13.8">ack</tspan> ⭐</text>
+<rect x="610.0" y="439.0" width="50.0" height="22.0" rx="11.0" fill="#1a7f37" />
+<text x="635.0" y="454.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P7</text>
+<text x="672.0" y="455.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">a ten-device simulator</text>
+<rect x="610.0" y="473.0" width="50.0" height="22.0" rx="11.0" fill="#1a7f37" />
+<text x="635.0" y="488.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P8</text>
+<text x="672.0" y="489.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Git for teams: <tspan>branches</tspan>, <tspan>pull requests</tspan>, <tspan>reviews</tspan> ⭐</text>
+<rect x="610.0" y="507.0" width="50.0" height="22.0" rx="11.0" fill="#1e2a4a" />
+<text x="635.0" y="523.4" font-size="15" font-weight="700" fill="#ffffff" text-anchor="middle" >+</text>
+<text x="672.0" y="523.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Add-on: backend v0.1, the Node-RED automation retires ⭐</text>
+<text x="80.0" y="590.0" font-size="14" font-weight="600" fill="#4a5568" text-anchor="start" >Almost all of this week's work is on the laptop, in VS Code. No Node 1 and Node 2 yet? The Practice 7 simulator stands in for both.</text>
+<text x="80.0" y="612.0" font-size="14" font-weight="600" fill="#4a5568" text-anchor="start" >No Raspberry Pi yet? Follow the laptop path of Modules 12–15: the broker runs on the laptop, and its address replaces the Pi's.</text>
+<text x="1178.0" y="662.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer curriculum · CC BY 4.0</text>
+</svg>

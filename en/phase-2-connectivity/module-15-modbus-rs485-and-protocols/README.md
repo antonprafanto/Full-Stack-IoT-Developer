@@ -4,7 +4,7 @@
 
 *Phase 2 · Week 15 · Hardware: **Kit A Stage 2** — two MAX485 RS-485 modules, a 5 m UTP cable, and a second ESP32 board (the Node 2 board, borrowed from the garden for a while); plus Node 1, the Pi gateway, and the phone from Modules 12–14 · Prerequisites: **Module 14** (two boards and Node 1 v1.3.0), **Module 7** (buses and schematics), and the voltage divider of **Module 6** · Time: 8–10 hours, spread over the week*
 
-[⬅️ Module 14](../module-14-node-2-esp-now/README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · [Module 16 ➡️ (coming soon — read the summary in the Syllabus)](../../SYLLABUS.md#module-16--your-first-backend-with-light-typescript-receiving-data-apis--git-for-teams)
+[⬅️ Module 14](../module-14-node-2-esp-now/README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · [Module 16 ➡️](../../phase-3-backend-data/module-16-backend-typescript-api-git/README.md)
 
 ---
 
@@ -2513,4 +2513,4 @@ The completion requirement from the Syllabus: **Node 1 can read Modbus registers
 
 ---
 
-[⬅️ Module 14](../module-14-node-2-esp-now/README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · **Next: Module 16 — Your First Backend with Light TypeScript** (coming soon; [read the summary in the Syllabus](../../SYLLABUS.md#module-16--your-first-backend-with-light-typescript-receiving-data-apis--git-for-teams))
+[⬅️ Module 14](../module-14-node-2-esp-now/README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · **Next: [Module 16 — Your First Backend with Light TypeScript](../../phase-3-backend-data/module-16-backend-typescript-api-git/README.md) ➡️**

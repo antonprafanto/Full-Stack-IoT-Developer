@@ -1032,6 +1032,7 @@
         "id": "f13f000000000001",
         "type": "switch",
         "z": "f13a000000000001",
+        "d": true,
         "name": "hysteresis 30/28",
         "property": "payload.temperature",
         "propertyType": "msg",
@@ -1065,6 +1066,7 @@
         "id": "f13f000000000002",
         "type": "change",
         "z": "f13a000000000001",
+        "d": true,
         "name": "fan on",
         "rules": [
             {
@@ -1099,6 +1101,7 @@
         "id": "f13f000000000003",
         "type": "change",
         "z": "f13a000000000001",
+        "d": true,
         "name": "fan off",
         "rules": [
             {
@@ -1133,6 +1136,7 @@
         "id": "f13f000000000004",
         "type": "rbe",
         "z": "f13a000000000001",
+        "d": true,
         "name": "only when it changes",
         "func": "rbe",
         "gap": "",

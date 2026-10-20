@@ -30,7 +30,7 @@ A self-study curriculum of **32 modules**, from complete beginner to building a 
 ## Available modules
 
 > [!NOTE]
-> Syllabus v1.0 was approved on 9 October 2026, and the modules are written in order. Available now: **Modules 1–15 of 32**: all of Phase 0, Phase 1, and Phase 2. The full list of 32 modules is in [PROGRESS.md](PROGRESS.md).
+> Syllabus v1.0 was approved on 9 October 2026, and the modules are written in order. Available now: **Modules 1–16 of 32**: all of Phase 0, Phase 1, and Phase 2, plus Module 16 of Phase 3. The full list of 32 modules is in [PROGRESS.md](PROGRESS.md).
 
 | Module | Title | After this module you can… | Main tools |
 | :---: | :--- | :--- | :--- |
@@ -49,9 +49,10 @@ A self-study curriculum of **32 modules**, from complete beginner to building a 
 | 13 | **[Node-RED & Dashboard 2: Your First Dashboard Without Coding](phase-2-connectivity/module-13-node-red-dashboard/README.md)** | install Node-RED on the gateway as a service, build flows without writing a program, dashboard v0 on your phone (gauges, a water tank, a chart, switches that wait for the `ack`), fan automation with hysteresis, and saving the flows to the repository | Node-RED on the Pi (Kit B) or a laptop, a phone |
 | 14 | **[Node 2 "Garden": Battery-Powered Sensors via ESP-NOW](phase-2-connectivity/module-14-node-2-esp-now/README.md)** | the battery-powered Node 2 in the garden talks directly to Node 1 over ESP-NOW without a router: finding the router's channel, a 33-byte packet, Node 1 as a bridge to MQTT that keeps listening while the router is off, the Garden card in Node-RED, measuring the current and the battery life, and ESP-NOW encryption | 2 ESP32s, an 18650 battery, BME280, DS18B20, INA219 |
 | 15 | **[Modbus RTU/RS-485 Lab & Choosing the Right Protocol](phase-2-connectivity/module-15-modbus-rs485-and-protocols/README.md)** | reading an industrial sensor over an RS-485 cable with Modbus RTU: the MAX485 module and the DE/RE talk button, the second board as a mock soil sensor, frames and the CRC by hand, ModbusMaster, Node 1 v1.4.0 putting its readings into `telemetry` and the dashboard over a 5 m cable, and choosing the right protocol for five scenarios | 2 ESP32s, 2 MAX485s, a 5 m UTP cable |
-| 16 | Your First Backend with Light TypeScript: Receiving Data, APIs, & Git for Teams | coming soon — [read the summary in the Syllabus](SYLLABUS.md#module-16--your-first-backend-with-light-typescript-receiving-data-apis--git-for-teams) | laptop (Kit A + B) |
+| 16 | **[Your First Backend with Light TypeScript: Receiving Data, APIs, & Git for Teams](phase-3-backend-data/module-16-backend-typescript-api-git/README.md)** | build a Node.js server with light TypeScript that listens to every MQTT message, rejects data that breaks the contract (Zod), and provides a documented API (`/docs`) to read the devices and turn on a relay while waiting for the `ack`; test it with Bruno and a 10-device simulator; work like a team with branches, pull requests, and reviews | Node.js 24, Fastify, Zod, Bruno, Git |
+| 17 | Your First Database: SQL Basics & the "Mini Smart Home" Schema (PostgreSQL via Docker) | coming soon — [read the summary in the Syllabus](SYLLABUS.md#module-17--your-first-database-sql-basics--the-mini-smart-home-schema-postgresql-via-docker) | laptop, Docker Desktop |
 
-The modules of each phase are also listed on the phase pages: **[Phase 0 — Foundations](phase-0-foundations/README.md)**, **[Phase 1 — ESP32 Embedded](phase-1-esp32-embedded/README.md)**, and **[Phase 2 — Connectivity](phase-2-connectivity/README.md)**.
+The modules of each phase are also listed on the phase pages: **[Phase 0 — Foundations](phase-0-foundations/README.md)**, **[Phase 1 — ESP32 Embedded](phase-1-esp32-embedded/README.md)**, **[Phase 2 — Connectivity](phase-2-connectivity/README.md)**, and **[Phase 3 — Backend & Data](phase-3-backend-data/README.md)**.
 
 ## Curriculum map
 

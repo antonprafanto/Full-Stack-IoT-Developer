@@ -1,5 +1,7 @@
 # Backend Rumah Pintar Mini
 
+🌐 **Bahasa Indonesia** · [English](../../../../en/phase-3-backend-data/module-16-backend-typescript-api-git/code/backend/README.md)
+
 Backend v0.1 proyek Rumah Pintar Mini: server Node.js 24 dengan TypeScript ringan yang mendengarkan semua pesan MQTT `rpm/#`, memeriksa setiap pesan dengan kontrak data 1.2 (skema Zod), menyimpan keadaan terakhir setiap perangkat di memori, dan menyediakan API berdokumentasi.
 
 ## Menjalankan

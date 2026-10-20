@@ -1,0 +1,21 @@
+{
+  "name": "mini-smart-home-backend",
+  "version": "0.1.0",
+  "description": "Mini Smart Home backend (Module 16): listens to MQTT, checks the data contract, and provides an API",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch --env-file=.env src/server.ts",
+    "start": "node --env-file=.env src/server.ts",
+    "check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "fastify": "^5.12.7",
+    "mqtt": "^5.16.1"
+  },
+  "devDependencies": {
+    "@types/node": "^24.19.2",
+    "pino-pretty": "^13.2.0",
+    "typescript": "^7.0.2"
+  }
+}
