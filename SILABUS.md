@@ -5,7 +5,7 @@
 > **Kurikulum 32 modul — satu modul = satu minggu belajar santai (±8 bulan) — untuk orang awam total hingga mampu membangun sistem IoT lengkap dari sensor sampai dashboard di HP.**
 > Hardware: **ESP32 + Raspberry Pi** · Software: **JavaScript/TypeScript (Node.js + React) untuk server & tampilan, sedikit C++ untuk chip** · Bahasa pengantar: **Indonesia, ramah awam**.
 >
-> Status dokumen: **v1.0.19 — disetujui, penulisan materi berjalan; Modul 1–17 (seluruh Fase 0, Fase 1, dan Fase 2, serta Modul 16–17 dari Fase 3) tersedia dalam bahasa Indonesia, dan edisi bahasa Inggrisnya menyusul modul demi modul** (20 Oktober 2026). Keputusan yang mendasarinya ada di [§11](#11-keputusan-yang-sudah-disetujui); riwayat perubahan di [§13](#13-riwayat-revisi).
+> Status dokumen: **v1.0.20 — disetujui, penulisan materi berjalan; Modul 1–18 (seluruh Fase 0, Fase 1, dan Fase 2, serta Modul 16–18 dari Fase 3) tersedia dalam bahasa Indonesia, dan edisi bahasa Inggrisnya menyusul modul demi modul** (21 Oktober 2026). Keputusan yang mendasarinya ada di [§11](#11-keputusan-yang-sudah-disetujui); riwayat perubahan di [§13](#13-riwayat-revisi).
 
 ---
 
@@ -616,9 +616,11 @@ Format tiap modul:
 #### Modul 18 — TimescaleDB: Data Deret Waktu, Agregasi Otomatis, Retensi, & Backup
 *Fase 3 · Minggu 18 · Hardware: — (data dari backend/simulator) · Prasyarat: Modul 17*
 
+📖 **Materi sudah tersedia:** [buka artikel Modul 18](fase-3-backend-data/modul-18-timescaledb/README.md)
+
 - **Setelah modul ini Anda bisa:** menyimpan jutaan baris data sensor secara efisien, menjawab "rata-rata per 15 menit" dalam sekejap, membuang data lama otomatis tanpa kehilangan ringkasannya, dan membuat/memulihkan backup.
 - **Konsep inti:** mengapa data sensor berbeda dari data toko (selalu bertambah, jarang diubah, ditanya per rentang waktu); **hypertable** ("tabel yang otomatis dipotong per waktu"); `time_bucket` ("rata-rata per 15 menit"); *continuous aggregate* (ringkasan yang dihitung otomatis); *retention policy* ("buang data mentah > 90 hari, simpan rata-rata per jam selamanya"); kompresi; *index* yang tepat; API `bucket=1h`; **backup & restore** (`pg_dump`/`pg_restore`) — "backup yang belum pernah di-restore = tidak ada backup".
-- **Alat yang dipakai:** TimescaleDB, DBeaver, `pg_dump`.
+- **Alat yang dipakai:** TimescaleDB (sudah terpasang di image Modul 17), psql dan DBeaver, `pg_dump`/`pg_restore` (di dalam kontainer).
 - **Opsional / bedah teknis:** InfluxDB sebagai pembanding; *partitioning* PostgreSQL biasa; *downsampling* untuk grafik.
 - **Praktik & proyek mini:** `readings` diubah menjadi hypertable; API `GET /devices/:id/readings?from=&to=&bucket=1h`; memuat 1 juta baris dummy & membandingkan kecepatan dengan/tanpa hypertable; *continuous aggregate* per jam; retensi 90 hari; backup lalu restore ke database kosong.
 - **➕ Rumah Pintar Mini:** riwayat yang skalabel; backend v0.3.
@@ -965,6 +967,8 @@ Satu kalimat per istilah, bahasa manusia. Semua akan dibahas tuntas di modulnya.
 ---
 
 ## 13. Riwayat revisi
+
+**v1.0.20 (21 Okt 2026)** — Modul 18 terbit dalam bahasa Indonesia. Rumah Pintar Mini mendapat **backend v0.3** dan database yang siap tumbuh, tetap di image `timescale/timescaledb:2.30.2-pg17` (TimescaleDB 2.30.2 Community, tanpa unduhan baru), lewat empat migrasi bernomor: `002_hypertable.sql` (`readings` menjadi hypertable dengan *chunk* 1 hari), `003_ringkasan_per_jam.sql` (*continuous aggregate* `readings_per_jam` dengan kolom rata-rata dan banyaknya nilai `_n` supaya rata-rata harian tepat, ringkasan *real-time*, kebijakan setiap 30 menit), `004_retensi.sql` (bacaan mentah dibuang setelah 90 hari, ringkasan tetap), dan `005_columnstore.sql` (bacaan yang lebih tua daripada 7 hari dipadatkan per kolom). Uji beban sejuta baris (`backend/uji/beban-1-juta.sql`, perangkat uji `beef00000001`) membuktikan kueri "rata-rata per jam 7 hari terakhir" selesai dalam puluhan milidetik dari hypertable dan kurang dari 1 ms dari buku ringkasan, dengan pembanding jujur tabel biasa. Backup `pg_dump -Fc` dan restore ke database baru (`template0`, `timescaledb_pre_restore()`/`timescaledb_post_restore()`) dibuktikan dengan sidik jari `md5`. API `GET /devices/:id/readings` mendapat `?bucket=15m|1h|1d` (pilihan tetap Zod, paling banyak 1.000 ember, hari WIB untuk `1d`). Kontrak data tetap versi 1.2. Daftar alat Modul 18 di §7 dilengkapi.
 
 **v1.0.19 (20 Okt 2026)** — Modul 17 terbit dalam bahasa Indonesia. Rumah Pintar Mini mendapat **backend v0.2**: database PostgreSQL 17.11 + TimescaleDB 2.30.2 di kontainer Docker (Docker Desktop 4.95, image dengan tag terkunci `timescale/timescaledb:2.30.2-pg17`, sama dengan `latest-pg17` saat modul ditulis; loket `127.0.0.1:5432`, volume `rumahpintar-data`), skema enam tabel (`devices`, `readings`, `device_health`, `commands`, `users`, `rules`) lewat migrasi bernomor `backend/migrasi/001_skema_awal.sql` dan pelari migrasi tanpa library (`npm run migrasi`, tabel `schema_migrations`, satu transaksi per file), library `pg` 8.23.1 dengan *pool*, data latihan 7 hari (`npm run isi-riwayat`, angka sama di laptop siapa pun), arsip semua pesan MQTT dengan `INSERT … ON CONFLICT (device_id, ts) DO NOTHING` (kiriman ganda tersimpan sekali), API `GET /devices/:id/readings?from=&to=` (bawaan satu jam terakhir, paling banyak 1.000 bacaan dengan penanda `terpotong`, `503` saat database tidak bisa dihubungi), dan perintah API yang tercatat di tabel `commands`. Gudang memori Modul 16 tetap dipakai untuk keadaan terbaru. DBeaver Community 26.2.3 menjadi jendela ke database. Kontrak data tetap versi 1.2. Daftar alat Modul 17 di §7 dilengkapi (DBeaver dipasang di modul ini, psql). Ejaan "contekan" di §4 dan §7 diganti bentuk baku "sontekan".
 

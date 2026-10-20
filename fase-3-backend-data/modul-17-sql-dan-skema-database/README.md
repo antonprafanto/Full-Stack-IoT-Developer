@@ -4,7 +4,7 @@
 
 *Fase 3 · Minggu 17 · Perangkat keras (*hardware*): **Kit A + B** — Node 1, Node 2, dan gateway Pi dari Modul 12–16, atau **laptop saja** (simulator Modul 16 dan data latihan modul ini menggantikan perangkat) · Prasyarat: **Modul 16** (backend v0.1) · Waktu: 8–10 jam, dicicil dalam satu minggu*
 
-[⬅️ Modul 16](../modul-16-backend-typescript-api-git/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · [Modul 18 ➡️ (segera terbit — baca ringkasannya di Silabus)](../../SILABUS.md#modul-18--timescaledb-data-deret-waktu-agregasi-otomatis-retensi--backup)
+[⬅️ Modul 16](../modul-16-backend-typescript-api-git/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · [Modul 18 ➡️](../modul-18-timescaledb/README.md)
 
 ---
 
@@ -3112,4 +3112,4 @@ Syarat lulus dari Silabus: **menulis SQL "rata-rata suhu per hari 7 hari terakhi
 
 ---
 
-[⬅️ Modul 16](../modul-16-backend-typescript-api-git/README.md) · [Fase 3](../README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · **Berikutnya: Modul 18 — TimescaleDB** (segera terbit; [ringkasannya di Silabus](../../SILABUS.md#modul-18--timescaledb-data-deret-waktu-agregasi-otomatis-retensi--backup))
+[⬅️ Modul 16](../modul-16-backend-typescript-api-git/README.md) · [Fase 3](../README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · **Berikutnya: [Modul 18 — TimescaleDB](../modul-18-timescaledb/README.md) ➡️**

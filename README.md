@@ -30,7 +30,7 @@ Kurikulum belajar mandiri **32 modul** dalam Bahasa Indonesia, dari orang awam t
 ## Modul yang sudah tersedia
 
 > [!NOTE]
-> Silabus v1.0 disetujui pada 9 Oktober 2026, dan materi modul ditulis berurutan. Saat ini tersedia **Modul 1–17 dari 32**: seluruh Fase 0, Fase 1, dan Fase 2, serta Modul 16–17 dari Fase 3. Daftar lengkap 32 modul ada di [PROGRES.md](PROGRES.md).
+> Silabus v1.0 disetujui pada 9 Oktober 2026, dan materi modul ditulis berurutan. Saat ini tersedia **Modul 1–18 dari 32**: seluruh Fase 0, Fase 1, dan Fase 2, serta Modul 16–18 dari Fase 3. Daftar lengkap 32 modul ada di [PROGRES.md](PROGRES.md).
 
 | Modul | Judul | Setelah modul ini Anda bisa… | Alat utama |
 | :---: | :--- | :--- | :--- |
@@ -51,7 +51,8 @@ Kurikulum belajar mandiri **32 modul** dalam Bahasa Indonesia, dari orang awam t
 | 15 | **[Lab Modbus RTU/RS-485 & Memilih Protokol yang Tepat](fase-2-konektivitas/modul-15-modbus-rs485-dan-protokol/README.md)** | membaca sensor industri lewat kabel RS-485 dengan Modbus RTU: modul MAX485 dan tombol bicara DE/RE, papan kedua sebagai sensor tanah tiruan, bingkai dan CRC dengan tangan, ModbusMaster, Node 1 v1.4.0 memasukkan bacaannya ke `telemetry` dan dashboard lewat kabel 5 m, serta memilih protokol yang tepat untuk lima skenario | 2 ESP32, 2 MAX485, kabel UTP 5 m |
 | 16 | **[Backend Pertama dengan TypeScript Ringan: Menerima Data, API, & Git untuk Tim](fase-3-backend-data/modul-16-backend-typescript-api-git/README.md)** | membangun server Node.js dengan TypeScript ringan yang mendengarkan semua pesan MQTT, menolak data yang melanggar kontrak (Zod), dan menyediakan API berdokumentasi (`/docs`) untuk membaca perangkat serta menyalakan relay sambil menunggu `ack`; menguji dengan Bruno dan simulator 10 perangkat; bekerja seperti tim dengan *branch*, *pull request*, dan *review* | Node.js 24, Fastify, Zod, Bruno, Git |
 | 17 | **[Database Pertama: SQL Dasar & Skema "Rumah Pintar Mini" (PostgreSQL via Docker)](fase-3-backend-data/modul-17-sql-dan-skema-database/README.md)** | menjalankan database PostgreSQL di laptop dengan satu perintah Docker, merancang tabel Rumah Pintar Mini lewat migrasi bernomor, menulis SQL untuk pertanyaan nyata (rata-rata suhu per hari, jam tanah paling kering), mencegah kiriman ganda, dan membuat backend v0.2 menyimpan semua pesan serta menyediakan API riwayat | Docker Desktop, PostgreSQL 17, DBeaver, `pg` |
-| 18 | TimescaleDB: Data Deret Waktu, Agregasi Otomatis, Retensi, & Backup | segera terbit — [ringkasannya di Silabus](SILABUS.md#modul-18--timescaledb-data-deret-waktu-agregasi-otomatis-retensi--backup) | laptop, Docker Desktop |
+| 18 | **[TimescaleDB: Data Deret Waktu, Agregasi Otomatis, Retensi, & Backup](fase-3-backend-data/modul-18-timescaledb/README.md)** | mengubah tabel bacaan menjadi hypertable yang dijilid per hari, meringkas data per 15 menit, per jam, dan per hari WIB dengan `time_bucket`, mengukur kecepatan sejuta baris dengan jujur (`EXPLAIN (ANALYZE)`), membuat ringkasan per jam yang diperbarui otomatis, membuang dan memadatkan data lama tanpa kehilangan ringkasannya, membuktikan backup bisa dipulihkan, dan menambahkan riwayat per ember ke backend v0.3 | TimescaleDB, psql, `pg_dump`/`pg_restore` |
+| 19 | Realtime, Kendali Dua Arah, Aturan Otomatis (Cloud & Lokal), & Notifikasi | segera terbit — [ringkasannya di Silabus](SILABUS.md#modul-19--realtime-kendali-dua-arah-aturan-otomatis-cloud--lokal--notifikasi) | Kit A + B (atau laptop) |
 
 Modul per fase juga terdaftar di halaman fasenya: **[Fase 0 — Fondasi](fase-0-fondasi/README.md)**, **[Fase 1 — ESP32 Embedded](fase-1-esp32-embedded/README.md)**, **[Fase 2 — Konektivitas](fase-2-konektivitas/README.md)**, dan **[Fase 3 — Backend & Data](fase-3-backend-data/README.md)**.
 
