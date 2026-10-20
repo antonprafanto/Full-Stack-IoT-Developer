@@ -1,0 +1,156 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="812" viewBox="0 0 1200 812" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="812" fill="#fffdf7"/>
+<text x="600" y="44" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle">Waktu: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="25">timestamptz</tspan>, UTC, dan WIB</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" >Atas: satu bacaan Node 1 tampil di empat jendela · bawah: jebakan saat mengelompokkan per hari</text>
+<text x="30.0" y="120.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="start" >Satu titik waktu, empat cara menulis</text>
+<rect x="360.0" y="98.0" width="480.0" height="84.0" rx="12" fill="#e6edf5" stroke="#336791" stroke-width="2" />
+<path d="M381 129 L381 151 A15 5 0 0 0 411 151 L411 129" fill="none" stroke="#336791" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<ellipse cx="396" cy="129" rx="15" ry="5" fill="none" stroke="#336791" stroke-width="2"/>
+<path d="M381 140 A15 5 0 0 0 411 140" fill="none" stroke="#336791" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="426.0" y="125.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">bacaan Node 1 di tabel <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12.9" font-weight="800">readings</tspan></text>
+<text x="426.0" y="149.0" font-size="14" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12.9" font-weight="800">ts</tspan> = <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12.9" font-weight="800">2026-10-20T03:10:00Z</tspan></text>
+<text x="426.0" y="170.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >disimpan sebagai satu titik waktu (UTC)</text>
+<line x1="600.0" y1="182.0" x2="600.0" y2="202.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<line x1="165.0" y1="202.0" x2="1035.0" y2="202.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<line x1="165.0" y1="202.0" x2="165.0" y2="218.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<path d="M161.7 215.8 L165.0 222.0 L168.3 215.8" fill="none" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="30.0" y="226.0" width="270.0" height="140.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<rect x="45.0" y="246.0" width="38.0" height="28.0" rx="4" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<line x1="45.0" y1="254.0" x2="83.0" y2="254.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<circle cx="50.0" cy="250.0" r="1.1" fill="#1e2a4a" />
+<circle cx="54.5" cy="250.0" r="1.1" fill="#1e2a4a" />
+<circle cx="59.0" cy="250.0" r="1.1" fill="#1e2a4a" />
+<text x="96.0" y="256.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">psql di kontainer</text>
+<text x="96.0" y="276.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">zona sesi: UTC (bawaan server)</text>
+<text x="48.0" y="306.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">tanpa pengaturan apa pun</text>
+<rect x="42.0" y="320.0" width="246.0" height="34.0" rx="8" fill="#eef1f5" />
+<text x="52.0" y="342.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve"><tspan>2026-10-20 03:10:00</tspan><tspan fill="#336791" font-weight="800">+00</tspan></text>
+<line x1="455.0" y1="202.0" x2="455.0" y2="218.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<path d="M451.7 215.8 L455.0 222.0 L458.3 215.8" fill="none" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="320.0" y="226.0" width="270.0" height="140.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<rect x="335.0" y="246.0" width="38.0" height="28.0" rx="4" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<line x1="335.0" y1="254.0" x2="373.0" y2="254.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<circle cx="340.0" cy="250.0" r="1.1" fill="#1e2a4a" />
+<circle cx="344.5" cy="250.0" r="1.1" fill="#1e2a4a" />
+<circle cx="349.0" cy="250.0" r="1.1" fill="#1e2a4a" />
+<text x="386.0" y="256.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">psql + <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13.3" font-weight="800">SET</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13.3" font-weight="800">TIME</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13.3" font-weight="800">ZONE</tspan></text>
+<text x="386.0" y="276.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">zona sesi: WIB</text>
+<text x="338.0" y="306.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.0" font-weight="700">SET TIME ZONE 'Asia/Jakarta'</tspan></text>
+<rect x="332.0" y="320.0" width="246.0" height="34.0" rx="8" fill="#eef1f5" />
+<text x="342.0" y="342.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve"><tspan>2026-10-20 10:10:00</tspan><tspan fill="#336791" font-weight="800">+07</tspan></text>
+<line x1="745.0" y1="202.0" x2="745.0" y2="218.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<path d="M741.7 215.8 L745.0 222.0 L748.3 215.8" fill="none" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="610.0" y="226.0" width="270.0" height="140.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<rect x="625.0" y="246.0" width="38.0" height="28.0" rx="4" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<line x1="625.0" y1="254.0" x2="663.0" y2="254.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<circle cx="630.0" cy="250.0" r="1.1" fill="#1e2a4a" />
+<circle cx="634.5" cy="250.0" r="1.1" fill="#1e2a4a" />
+<circle cx="639.0" cy="250.0" r="1.1" fill="#1e2a4a" />
+<text x="676.0" y="256.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">DBeaver di laptop</text>
+<text x="676.0" y="276.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">zona sesi: zona laptop (WIB)</text>
+<text x="628.0" y="306.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">dikirim DBeaver saat menyambung</text>
+<rect x="622.0" y="320.0" width="246.0" height="34.0" rx="8" fill="#eef1f5" />
+<text x="632.0" y="342.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve"><tspan>2026-10-20 10:10:00.000</tspan><tspan fill="#336791" font-weight="800"> +0700</tspan></text>
+<line x1="1035.0" y1="202.0" x2="1035.0" y2="218.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<path d="M1031.7 215.8 L1035.0 222.0 L1038.3 215.8" fill="none" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="900.0" y="226.0" width="270.0" height="140.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<rect x="915.0" y="246.0" width="38.0" height="28.0" rx="4" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<line x1="915.0" y1="254.0" x2="953.0" y2="254.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<circle cx="920.0" cy="250.0" r="1.1" fill="#1e2a4a" />
+<circle cx="924.5" cy="250.0" r="1.1" fill="#1e2a4a" />
+<circle cx="929.0" cy="250.0" r="1.1" fill="#1e2a4a" />
+<text x="966.0" y="256.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">backend / API</text>
+<text x="966.0" y="276.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">library <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.6" font-weight="700">pg</tspan>: objek <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.6" font-weight="700">Date</tspan></text>
+<text x="918.0" y="306.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">format kontrak, tanpa milidetik</text>
+<rect x="912.0" y="320.0" width="246.0" height="34.0" rx="8" fill="#eef1f5" />
+<text x="922.0" y="342.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve"><tspan>2026-10-20T03:10:00</tspan><tspan fill="#336791" font-weight="800">Z</tspan></text>
+<text x="600.0" y="398.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="middle" xml:space="preserve">Keempatnya titik waktu yang <tspan font-weight="800">sama</tspan>, hanya ditulis berbeda · akhiran <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12.9" fill="#336791" font-weight="800">+00</tspan> atau <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12.9" fill="#336791" font-weight="800">Z</tspan> = UTC, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12.9" fill="#336791" font-weight="800">+07</tspan> atau <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12.9" fill="#336791" font-weight="800">+0700</tspan> = WIB</text>
+<line x1="30.0" y1="420.0" x2="1170.0" y2="420.0" stroke="#e0dcd2" stroke-width="1.4" stroke-linecap="round" />
+<text x="30" y="452" font-size="16" font-weight="800" fill="#1e2a4a">Jebakan saat mengelompokkan per hari<tspan font-size="14" font-weight="600" fill="#4a5568"> · hari menurut UTC baru dimulai pukul 07.00 WIB</tspan></text>
+<rect x="136.0" y="476.0" width="514.0" height="210.0" rx="8" fill="#e6edf5" />
+<text x="405.0" y="498.0" font-size="13" font-weight="800" fill="#336791" text-anchor="middle" >bacaan pukul 00.00–06.59 WIB</text>
+<text x="30.0" y="550.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >UTC</text>
+<text x="30.0" y="568.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >UTC+0</text>
+<line x1="160.0" y1="544.0" x2="1140.0" y2="544.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<line x1="160.0" y1="539.0" x2="160.0" y2="549.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<text x="160.0" y="532.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="middle" >17.00</text>
+<line x1="230.0" y1="539.0" x2="230.0" y2="549.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<text x="230.0" y="532.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="middle" >18.00</text>
+<line x1="300.0" y1="539.0" x2="300.0" y2="549.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<text x="300.0" y="532.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="middle" >19.00</text>
+<line x1="370.0" y1="539.0" x2="370.0" y2="549.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<text x="370.0" y="532.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="middle" >20.00</text>
+<line x1="440.0" y1="539.0" x2="440.0" y2="549.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<text x="440.0" y="532.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="middle" >21.00</text>
+<line x1="510.0" y1="539.0" x2="510.0" y2="549.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<text x="510.0" y="532.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="middle" >22.00</text>
+<line x1="580.0" y1="539.0" x2="580.0" y2="549.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<text x="580.0" y="532.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="middle" >23.00</text>
+<line x1="650.0" y1="539.0" x2="650.0" y2="549.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<rect x="628.0" y="517.0" width="44.0" height="20.0" rx="5" fill="#ffffff" stroke="#1e2a4a" stroke-width="1.2" />
+<text x="650.0" y="532.0" font-size="11.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" >00.00</text>
+<line x1="720.0" y1="539.0" x2="720.0" y2="549.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<text x="720.0" y="532.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="middle" >01.00</text>
+<line x1="790.0" y1="539.0" x2="790.0" y2="549.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<text x="790.0" y="532.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="middle" >02.00</text>
+<line x1="860.0" y1="539.0" x2="860.0" y2="549.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<text x="860.0" y="532.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="middle" >03.00</text>
+<line x1="930.0" y1="539.0" x2="930.0" y2="549.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<text x="930.0" y="532.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="middle" >04.00</text>
+<line x1="1000.0" y1="539.0" x2="1000.0" y2="549.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<text x="1000.0" y="532.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="middle" >05.00</text>
+<line x1="1070.0" y1="539.0" x2="1070.0" y2="549.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<text x="1070.0" y="532.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="middle" >06.00</text>
+<line x1="1140.0" y1="539.0" x2="1140.0" y2="549.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<text x="1140.0" y="532.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="middle" >07.00</text>
+<text x="30.0" y="646.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >WIB</text>
+<text x="30.0" y="664.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >UTC+7</text>
+<line x1="160.0" y1="640.0" x2="1140.0" y2="640.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<line x1="160.0" y1="635.0" x2="160.0" y2="645.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<text x="160.0" y="628.0" font-size="11.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" >00.00</text>
+<line x1="230.0" y1="635.0" x2="230.0" y2="645.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<text x="230.0" y="628.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="middle" >01.00</text>
+<line x1="300.0" y1="635.0" x2="300.0" y2="645.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<text x="300.0" y="628.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="middle" >02.00</text>
+<line x1="370.0" y1="635.0" x2="370.0" y2="645.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<text x="370.0" y="628.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="middle" >03.00</text>
+<line x1="440.0" y1="635.0" x2="440.0" y2="645.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<text x="440.0" y="628.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="middle" >04.00</text>
+<line x1="510.0" y1="635.0" x2="510.0" y2="645.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<text x="510.0" y="628.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="middle" >05.00</text>
+<line x1="580.0" y1="635.0" x2="580.0" y2="645.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<text x="580.0" y="628.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="middle" >06.00</text>
+<line x1="650.0" y1="635.0" x2="650.0" y2="645.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<rect x="628.0" y="613.0" width="44.0" height="20.0" rx="5" fill="#ffffff" stroke="#1e2a4a" stroke-width="1.2" />
+<text x="650.0" y="628.0" font-size="11.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" >07.00</text>
+<line x1="720.0" y1="635.0" x2="720.0" y2="645.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<text x="720.0" y="628.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="middle" >08.00</text>
+<line x1="790.0" y1="635.0" x2="790.0" y2="645.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<text x="790.0" y="628.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="middle" >09.00</text>
+<line x1="860.0" y1="635.0" x2="860.0" y2="645.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<text x="860.0" y="628.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="middle" >10.00</text>
+<line x1="930.0" y1="635.0" x2="930.0" y2="645.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<text x="930.0" y="628.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="middle" >11.00</text>
+<line x1="1000.0" y1="635.0" x2="1000.0" y2="645.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<text x="1000.0" y="628.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="middle" >12.00</text>
+<line x1="1070.0" y1="635.0" x2="1070.0" y2="645.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<text x="1070.0" y="628.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="middle" >13.00</text>
+<line x1="1140.0" y1="635.0" x2="1140.0" y2="645.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<text x="1140.0" y="628.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="middle" >14.00</text>
+<rect x="160.0" y="556.0" width="487.0" height="24.0" rx="5" fill="#d9dfe7" />
+<rect x="653.0" y="556.0" width="487.0" height="24.0" rx="5" fill="#e9edf2" />
+<text x="405.0" y="573.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" >19 Oktober (tanggal UTC)</text>
+<text x="895.0" y="573.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="middle" >20 Oktober (tanggal UTC)</text>
+<rect x="160.0" y="652.0" width="980.0" height="24.0" rx="5" fill="#e9edf2" />
+<text x="405.0" y="669.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" >20 Oktober (tanggal WIB)</text>
+<line x1="650.0" y1="486.0" x2="650.0" y2="516.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" stroke-dasharray="4 3" />
+<line x1="650.0" y1="584.0" x2="650.0" y2="614.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" stroke-dasharray="4 3" />
+<text x="660.0" y="498.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >pergantian hari UTC = pukul 07.00 WIB</text>
+<line x1="38.0" y1="711.0" x2="50.0" y2="723.0" stroke="#e63946" stroke-width="2.6" stroke-linecap="round" />
+<line x1="38.0" y1="723.0" x2="50.0" y2="711.0" stroke="#e63946" stroke-width="2.6" stroke-linecap="round" />
+<text x="62.0" y="722.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12.9" font-weight="800">ts::date</tspan> di sesi UTC (psql di kontainer, backend) memasukkan bacaan pukul 00.00–06.59 WIB ke <tspan font-weight="800" fill="#e63946">19 Oktober</tspan>: salah</text>
+<path d="M37 748 L42 754 L52 742" fill="none" stroke="#2a9d5c" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="62.0" y="753.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12.9" font-weight="800">(ts</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12.9" font-weight="800">AT</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12.9" font-weight="800">TIME</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12.9" font-weight="800">ZONE</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12.9" font-weight="800">'Asia/Jakarta')::date</tspan> memasukkannya ke <tspan font-weight="800" fill="#2a9d5c">20 Oktober</tspan> di jendela mana pun: benar</text>
+<text x="62.0" y="780.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">Di DBeaver (sesi WIB) <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568" font-weight="700">ts::date</tspan> kebetulan benar; jangan bergantung pada zona sesi.</text>
+<text x="1178.0" y="798.0" font-size="11" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

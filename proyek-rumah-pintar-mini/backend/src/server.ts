@@ -1,4 +1,4 @@
-// server.ts - pintu masuk backend Rumah Pintar Mini v0.1 (Modul 16).
+// server.ts - pintu masuk backend Rumah Pintar Mini v0.2 (Modul 17: data tersimpan di database).
 // Jalankan: npm run dev (otomatis mulai ulang saat file disimpan) atau npm start.
 import Fastify, { LogController } from "fastify";
 import swagger from "@fastify/swagger";
@@ -8,6 +8,7 @@ import { env } from "./config/env.ts";
 import { ruteKesehatan } from "./routes/kesehatan.ts";
 import { rutePerangkat } from "./routes/perangkat.ts";
 import { mulaiMqtt } from "./services/mqtt.ts";
+import { databaseHidup } from "./db/arsip.ts";
 
 const app = Fastify({
   logger: { transport: { target: "pino-pretty", options: { translateTime: "SYS:HH:MM:ss", ignore: "pid,hostname,reqId" } } },
@@ -21,13 +22,15 @@ app.setValidatorCompiler(validatorCompiler); // skema Zod memeriksa isi perminta
 app.setSerializerCompiler(serializerCompiler); // ...dan bentuk jawaban
 
 await app.register(swagger, {
-  openapi: { info: { title: "Rumah Pintar Mini API", description: "Backend v0.1 (Modul 16)", version: "0.1.0" } },
+  openapi: { info: { title: "Rumah Pintar Mini API", description: "Backend v0.2 (Modul 17)", version: "0.2.0" } },
   transform: jsonSchemaTransform, // skema Zod yang sama menjadi dokumentasi OpenAPI
 });
 await app.register(swaggerUi, { routePrefix: "/docs" });
 await app.register(ruteKesehatan);
 await app.register(rutePerangkat);
 
+if (await databaseHidup()) app.log.info("database siap");
+else app.log.warn("database belum bisa dihubungi: periksa kontainer database dan DATABASE_URL di .env");
 mulaiMqtt(env.MQTT_URL, app.log);
 await app.listen({ port: env.PORT, host: env.HOST });
 app.log.info(`dokumentasi API: http://${env.HOST}:${env.PORT}/docs`);

@@ -1,0 +1,134 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="680" viewBox="0 0 1200 680" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="680" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Kueri syarat lulus: rata-rata suhu per hari</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" xml:space="preserve">Dibaca menurut urutan database mengerjakannya · perangkat latihan <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.7">f00d00000001</tspan>, dijalankan 20 Oktober 2026</text>
+<rect x="30.0" y="100.0" width="290.0" height="544.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<rect x="360.0" y="100.0" width="250.0" height="544.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<rect x="680.0" y="100.0" width="490.0" height="544.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<circle cx="54.0" cy="126.0" r="13" fill="#336791" stroke="#ffffff" stroke-width="2" />
+<text x="54.0" y="131.0" font-size="14" font-weight="700" fill="#ffffff" text-anchor="middle" >1</text>
+<text x="76.0" y="131.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">FROM readings WHERE …</text>
+<text x="46.0" y="158.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">perangkat <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.0" fill="#1e2a4a" font-weight="700">f00d00000001</tspan>, pukul 00.00 WIB</text>
+<text x="46.0" y="176.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >13 Okt sampai sebelum 00.00 WIB 20 Okt</text>
+<rect x="46.0" y="192.0" width="258.0" height="322.0" rx="10" fill="#ffffff" stroke="#336791" stroke-width="1.2" />
+<text x="62.0" y="214.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">ts (WIB)</text>
+<text x="288.0" y="214.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">suhu</text>
+<line x1="54.0" y1="224.0" x2="296.0" y2="224.0" stroke="#336791" stroke-width="1" stroke-linecap="round" />
+<text x="62.0" y="248.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">2026-10-13 00:00</text>
+<text x="288.0" y="248.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">23.3</text>
+<text x="62.0" y="274.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">2026-10-13 00:10</text>
+<text x="288.0" y="274.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">23.3</text>
+<text x="62.0" y="300.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">2026-10-13 00:20</text>
+<text x="288.0" y="300.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">22.7</text>
+<text x="62.0" y="360.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">2026-10-14 00:00</text>
+<text x="288.0" y="360.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">22.3</text>
+<text x="62.0" y="420.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">2026-10-19 23:40</text>
+<text x="288.0" y="420.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">23.5</text>
+<text x="62.0" y="446.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">2026-10-19 23:50</text>
+<text x="288.0" y="446.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">23.2</text>
+<circle cx="120.0" cy="316.0" r="1.7" fill="#9aa3b0" />
+<circle cx="120.0" cy="323.0" r="1.7" fill="#9aa3b0" />
+<circle cx="120.0" cy="330.0" r="1.7" fill="#9aa3b0" />
+<circle cx="120.0" cy="376.0" r="1.7" fill="#9aa3b0" />
+<circle cx="120.0" cy="383.0" r="1.7" fill="#9aa3b0" />
+<circle cx="120.0" cy="390.0" r="1.7" fill="#9aa3b0" />
+<line x1="54.0" y1="462.0" x2="296.0" y2="462.0" stroke="#d5dbe3" stroke-width="1" stroke-linecap="round" stroke-dasharray="4 4" />
+<text x="62.0" y="486.0" font-size="14" font-weight="800" fill="#336791" text-anchor="start" >1.008 bacaan</text>
+<text x="62.0" y="504.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >7 hari × 144 bacaan</text>
+<text x="46.0" y="542.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >hari ini (20 Okt) tidak ikut</text>
+<text x="46.0" y="560.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >karena belum lengkap</text>
+<line x1="324.0" y1="380.0" x2="356.0" y2="380.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<path d="M348.9 383.8 L356.0 380.0 L348.9 376.2" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="384.0" cy="126.0" r="13" fill="#336791" stroke="#ffffff" stroke-width="2" />
+<text x="384.0" y="131.0" font-size="14" font-weight="700" fill="#ffffff" text-anchor="middle" >2</text>
+<text x="406.0" y="131.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">GROUP BY hari</text>
+<text x="376.0" y="158.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >per tanggal WIB, lewat</text>
+<text x="376.0" y="176.0" font-size="11" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">AT TIME ZONE 'Asia/Jakarta'</text>
+<rect x="376.0" y="218.0" width="218.0" height="36.0" rx="8" fill="#e6edf5" stroke="#336791" stroke-width="1.2" />
+<text x="390.0" y="241.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">2026-10-13</text>
+<text x="582.0" y="241.0" font-size="12.5" font-weight="700" fill="#4a5568" text-anchor="end" >144 bacaan</text>
+<line x1="598.0" y1="236.0" x2="690.0" y2="236.0" stroke="#9aa3b0" stroke-width="1.6" stroke-linecap="round" />
+<path d="M683.8 239.3 L690.0 236.0 L683.8 232.7" fill="none" stroke="#9aa3b0" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="376.0" y="266.0" width="218.0" height="36.0" rx="8" fill="#e6edf5" stroke="#336791" stroke-width="1.2" />
+<text x="390.0" y="289.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">2026-10-14</text>
+<text x="582.0" y="289.0" font-size="12.5" font-weight="700" fill="#4a5568" text-anchor="end" >144 bacaan</text>
+<line x1="598.0" y1="284.0" x2="690.0" y2="284.0" stroke="#9aa3b0" stroke-width="1.6" stroke-linecap="round" />
+<path d="M683.8 287.3 L690.0 284.0 L683.8 280.7" fill="none" stroke="#9aa3b0" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="376.0" y="314.0" width="218.0" height="36.0" rx="8" fill="#e6edf5" stroke="#336791" stroke-width="1.2" />
+<text x="390.0" y="337.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">2026-10-15</text>
+<text x="582.0" y="337.0" font-size="12.5" font-weight="700" fill="#4a5568" text-anchor="end" >144 bacaan</text>
+<line x1="598.0" y1="332.0" x2="690.0" y2="332.0" stroke="#9aa3b0" stroke-width="1.6" stroke-linecap="round" />
+<path d="M683.8 335.3 L690.0 332.0 L683.8 328.7" fill="none" stroke="#9aa3b0" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="376.0" y="362.0" width="218.0" height="36.0" rx="8" fill="#e6edf5" stroke="#336791" stroke-width="1.2" />
+<text x="390.0" y="385.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">2026-10-16</text>
+<text x="582.0" y="385.0" font-size="12.5" font-weight="700" fill="#4a5568" text-anchor="end" >144 bacaan</text>
+<line x1="598.0" y1="380.0" x2="690.0" y2="380.0" stroke="#9aa3b0" stroke-width="1.6" stroke-linecap="round" />
+<path d="M683.8 383.3 L690.0 380.0 L683.8 376.7" fill="none" stroke="#9aa3b0" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="376.0" y="410.0" width="218.0" height="36.0" rx="8" fill="#e6edf5" stroke="#336791" stroke-width="1.2" />
+<text x="390.0" y="433.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">2026-10-17</text>
+<text x="582.0" y="433.0" font-size="12.5" font-weight="700" fill="#4a5568" text-anchor="end" >144 bacaan</text>
+<line x1="598.0" y1="428.0" x2="690.0" y2="428.0" stroke="#9aa3b0" stroke-width="1.6" stroke-linecap="round" />
+<path d="M683.8 431.3 L690.0 428.0 L683.8 424.7" fill="none" stroke="#9aa3b0" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="376.0" y="458.0" width="218.0" height="36.0" rx="8" fill="#e6edf5" stroke="#336791" stroke-width="1.2" />
+<text x="390.0" y="481.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">2026-10-18</text>
+<text x="582.0" y="481.0" font-size="12.5" font-weight="700" fill="#4a5568" text-anchor="end" >144 bacaan</text>
+<line x1="598.0" y1="476.0" x2="690.0" y2="476.0" stroke="#9aa3b0" stroke-width="1.6" stroke-linecap="round" />
+<path d="M683.8 479.3 L690.0 476.0 L683.8 472.7" fill="none" stroke="#9aa3b0" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="376.0" y="506.0" width="218.0" height="36.0" rx="8" fill="#e6edf5" stroke="#336791" stroke-width="1.2" />
+<text x="390.0" y="529.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">2026-10-19</text>
+<text x="582.0" y="529.0" font-size="12.5" font-weight="700" fill="#4a5568" text-anchor="end" >144 bacaan</text>
+<line x1="598.0" y1="524.0" x2="690.0" y2="524.0" stroke="#9aa3b0" stroke-width="1.6" stroke-linecap="round" />
+<path d="M683.8 527.3 L690.0 524.0 L683.8 520.7" fill="none" stroke="#9aa3b0" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="376.0" y="584.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >7 kelompok, satu per tanggal</text>
+<text x="700.0" y="131.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >Hasil: satu baris per kelompok</text>
+<text x="700.0" y="158.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >tujuh baris, sama dengan kotak Hasilnya di 4.5</text>
+<rect x="694.0" y="186.0" width="462.0" height="364.0" rx="10" fill="#ffffff" stroke="#336791" stroke-width="1.4" />
+<path d="M695 214 L695 196 Q695 187 704 187 L1146 187 Q1155 187 1155 196 L1155 214 Z" fill="#e6edf5" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="694.0" y1="214.0" x2="1156.0" y2="214.0" stroke="#336791" stroke-width="1.2" stroke-linecap="round" />
+<text x="712.0" y="206.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">hari</text>
+<circle cx="758.1" cy="201.0" r="10" fill="#336791" stroke="#ffffff" stroke-width="2" />
+<text x="758.1" y="205.0" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle" >5</text>
+<text x="880.0" y="206.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">rata_suhu</text>
+<circle cx="963.8" cy="201.0" r="10" fill="#336791" stroke="#ffffff" stroke-width="2" />
+<text x="963.8" y="205.0" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle" >3</text>
+<text x="1040.0" y="206.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">jumlah</text>
+<circle cx="1101.2" cy="201.0" r="10" fill="#336791" stroke="#ffffff" stroke-width="2" />
+<text x="1101.2" y="205.0" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle" >4</text>
+<text x="712.0" y="241.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">2026-10-13</text>
+<text x="880.0" y="241.0" font-size="13" font-weight="800" fill="#336791" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">26.2</text>
+<text x="1040.0" y="241.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">144</text>
+<line x1="704.0" y1="260.0" x2="1146.0" y2="260.0" stroke="#d5dbe3" stroke-width="1" stroke-linecap="round" />
+<text x="712.0" y="289.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">2026-10-14</text>
+<text x="880.0" y="289.0" font-size="13" font-weight="800" fill="#336791" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">25.6</text>
+<text x="1040.0" y="289.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">144</text>
+<line x1="704.0" y1="308.0" x2="1146.0" y2="308.0" stroke="#d5dbe3" stroke-width="1" stroke-linecap="round" />
+<text x="712.0" y="337.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">2026-10-15</text>
+<text x="880.0" y="337.0" font-size="13" font-weight="800" fill="#336791" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">26.5</text>
+<text x="1040.0" y="337.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">144</text>
+<line x1="704.0" y1="356.0" x2="1146.0" y2="356.0" stroke="#d5dbe3" stroke-width="1" stroke-linecap="round" />
+<text x="712.0" y="385.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">2026-10-16</text>
+<text x="880.0" y="385.0" font-size="13" font-weight="800" fill="#336791" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">27.1</text>
+<text x="1040.0" y="385.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">144</text>
+<line x1="704.0" y1="404.0" x2="1146.0" y2="404.0" stroke="#d5dbe3" stroke-width="1" stroke-linecap="round" />
+<text x="712.0" y="433.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">2026-10-17</text>
+<text x="880.0" y="433.0" font-size="13" font-weight="800" fill="#336791" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">26.7</text>
+<text x="1040.0" y="433.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">144</text>
+<line x1="704.0" y1="452.0" x2="1146.0" y2="452.0" stroke="#d5dbe3" stroke-width="1" stroke-linecap="round" />
+<text x="712.0" y="481.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">2026-10-18</text>
+<text x="880.0" y="481.0" font-size="13" font-weight="800" fill="#336791" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">25.8</text>
+<text x="1040.0" y="481.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">144</text>
+<line x1="704.0" y1="500.0" x2="1146.0" y2="500.0" stroke="#d5dbe3" stroke-width="1" stroke-linecap="round" />
+<text x="712.0" y="529.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">2026-10-19</text>
+<text x="880.0" y="529.0" font-size="13" font-weight="800" fill="#336791" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">26.3</text>
+<text x="1040.0" y="529.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">144</text>
+<circle cx="708.0" cy="574.0" r="10" fill="#336791" stroke="#ffffff" stroke-width="2" />
+<text x="708.0" y="578.0" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle" >3</text>
+<text x="726.0" y="578.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.0" font-weight="800">round(avg(suhu)::numeric,</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.0" font-weight="800">1)</tspan>: rata-rata, satu angka di belakang koma</text>
+<circle cx="708.0" cy="598.0" r="10" fill="#336791" stroke="#ffffff" stroke-width="2" />
+<text x="708.0" y="602.0" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle" >4</text>
+<text x="726.0" y="602.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.0" font-weight="800">count(*)</tspan>: jumlah bacaan; 144 = 24 jam × 6 bacaan per jam</text>
+<circle cx="708.0" cy="622.0" r="10" fill="#336791" stroke="#ffffff" stroke-width="2" />
+<text x="708.0" y="626.0" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle" >5</text>
+<text x="726.0" y="626.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.0" font-weight="800">ORDER</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.0" font-weight="800">BY</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.0" font-weight="800">hari</tspan>: urutkan dari hari tertua</text>
+<text x="1178.0" y="666.0" font-size="11" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

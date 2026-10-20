@@ -1,10 +1,11 @@
-// mqtt.ts - backend sebagai klien MQTT: mendengar rpm/#, memeriksa setiap pesan, dan mengirim perintah.
+// mqtt.ts - backend sebagai klien MQTT: mendengar rpm/#, memeriksa setiap pesan, menyimpannya, dan mengirim perintah.
 import mqtt from "mqtt";
 import type { FastifyBaseLogger } from "fastify";
 import type { ZodError } from "zod";
 import { Ack, DeviceId, Status, TelemetryNode1, TelemetryNode2, Vitals } from "../schemas/kontrak.ts";
 import type { PerintahSet } from "../schemas/kontrak.ts";
 import { hitungan, serahkanAck, simpanStatus, simpanTelemetry, simpanVitals } from "./gudang.ts";
+import { arsipkanStatus, arsipkanTelemetry, arsipkanVitals } from "../db/arsip.ts";
 
 let klien: mqtt.MqttClient | undefined;
 
@@ -29,6 +30,11 @@ function tolak(topik: string, alasan: string, log: FastifyBaseLogger): void {
   log.warn(`DITOLAK ${topik}: ${alasan}`);
 }
 
+// gagal menulis ke database (misalnya kontainer database dimatikan): catat di log, tetapi server tetap berjalan
+function gagalArsip(topik: string, log: FastifyBaseLogger) {
+  return (galat: Error) => log.error(`gagal menyimpan ${topik} ke database: ${galat.message}`);
+}
+
 // ringkas daftar masalah dari Zod, misalnya "kelembapan: Terlalu besar: diharapkan number menjadi <=100"
 function ringkas(galat: ZodError): string {
   return galat.issues.map((m) => `${m.path.join(".") || "isi"}: ${m.message}`).join("; ");
@@ -46,6 +52,7 @@ function terima(topik: string, teks: string, log: FastifyBaseLogger): void {
     const hasil = Status.safeParse(teks);
     if (!hasil.success) return tolak(topik, `status "${teks}" tidak dikenal`, log);
     simpanStatus(deviceId, hasil.data);
+    arsipkanStatus(deviceId, hasil.data).catch(gagalArsip(topik, log));
     hitungan.diterima++;
     return;
   }
@@ -62,10 +69,15 @@ function terima(topik: string, teks: string, log: FastifyBaseLogger): void {
     const hasil = (punyaTekanan ? TelemetryNode2 : TelemetryNode1).safeParse(json);
     if (!hasil.success) return tolak(topik, ringkas(hasil.error), log);
     simpanTelemetry(deviceId, hasil.data);
+    const ts = hasil.data.ts;
+    arsipkanTelemetry(deviceId, hasil.data)
+      .then((baru) => { if (!baru) log.info(`kiriman ganda dilewati: ${deviceId} ${ts}`); })
+      .catch(gagalArsip(topik, log));
   } else if (jenis === "vitals") {
     const hasil = Vitals.safeParse(json);
     if (!hasil.success) return tolak(topik, ringkas(hasil.error), log);
     simpanVitals(deviceId, hasil.data);
+    arsipkanVitals(deviceId, hasil.data).catch(gagalArsip(topik, log));
   } else if (jenis === "ack") {
     const hasil = Ack.safeParse(json);
     if (!hasil.success) return tolak(topik, ringkas(hasil.error), log);

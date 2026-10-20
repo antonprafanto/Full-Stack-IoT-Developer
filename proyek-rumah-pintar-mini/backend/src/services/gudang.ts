@@ -1,5 +1,5 @@
 // gudang.ts - menyimpan keadaan terakhir setiap perangkat di memori.
-// Data hilang saat server dimatikan; Modul 17 menggantinya dengan database.
+// Data ini hilang saat server dimatikan; salinan permanennya disimpan ke database oleh arsip.ts (Modul 17).
 import type { Ack, Status, TelemetryNode1, TelemetryNode2, Vitals } from "../schemas/kontrak.ts";
 
 export interface Perangkat {

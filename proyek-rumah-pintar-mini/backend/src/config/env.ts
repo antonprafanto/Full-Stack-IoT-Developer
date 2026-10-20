@@ -11,6 +11,7 @@ function wajib(nama: string): string {
 
 export const env = {
   MQTT_URL: wajib("MQTT_URL"), // alamat broker, misalnya mqtt://192.168.1.37:1883
+  DATABASE_URL: wajib("DATABASE_URL"), // alamat database, misalnya postgres://postgres:<sandi>@127.0.0.1:5432/rumahpintar
   PORT: Number(process.env.PORT || 8080), // nomor loket server
   HOST: process.env.HOST || "127.0.0.1", // 127.0.0.1 = hanya bisa diketuk dari laptop ini
 };

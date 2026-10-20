@@ -1,0 +1,29 @@
+info:
+  name: nyalakan lampu
+  type: http
+  seq: 4
+
+http:
+  method: POST
+  url: "{{baseUrl}}/devices/a4cf12e5b7c0/command"
+  body:
+    type: json
+    data: |-
+      {
+        "target": "lampu",
+        "nilai": true
+      }
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "200"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: true

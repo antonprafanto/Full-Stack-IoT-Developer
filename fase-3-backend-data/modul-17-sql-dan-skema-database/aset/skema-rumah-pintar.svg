@@ -1,0 +1,196 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="740" viewBox="0 0 1200 740" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="740" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Skema Rumah Pintar Mini: enam tabel</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" xml:space="preserve">Tiga tabel menunjuk <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.7">devices</tspan> lewat kunci tamu <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.7">device_id</tspan> · <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.7">users</tspan> dan <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.7">rules</tspan> disiapkan sekarang, dipakai nanti</text>
+<rect x="30.0" y="112.0" width="300.0" height="394.0" rx="10" fill="#ffffff" stroke="#336791" stroke-width="1.8" />
+<path d="M31 166 L31 122 Q31 113 40 113 L320 113 Q329 113 329 122 L329 166 Z" fill="#e6edf5" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="30.0" y1="166.0" x2="330.0" y2="166.0" stroke="#336791" stroke-width="1.2" stroke-linecap="butt" />
+<text x="46.0" y="136.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">readings</text>
+<text x="46.0" y="156.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">dari <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="700">rpm/&lt;id&gt;/telemetry</tspan></text>
+<circle cx="43.5" cy="183.0" r="3.6" fill="none" stroke="#336791" stroke-width="1.6" />
+<line x1="47.1" y1="183.0" x2="56.0" y2="183.0" stroke="#336791" stroke-width="1.6" stroke-linecap="round" />
+<line x1="53.2" y1="183.0" x2="53.2" y2="186.4" stroke="#336791" stroke-width="1.6" stroke-linecap="round" />
+<line x1="56.0" y1="183.0" x2="56.0" y2="186.4" stroke="#336791" stroke-width="1.6" stroke-linecap="round" />
+<line x1="59.0" y1="183.0" x2="72.0" y2="183.0" stroke="#336791" stroke-width="1.6" stroke-linecap="round" />
+<path d="M68 179.4 L72.4 183.0 L68 186.6" fill="none" stroke="#336791" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="82.0" y="187.5" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">device_id</text>
+<text x="170.0" y="187.5" font-size="11.5" font-weight="400" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568">text</tspan></text>
+<circle cx="43.5" cy="205.0" r="3.6" fill="none" stroke="#336791" stroke-width="1.6" />
+<line x1="47.1" y1="205.0" x2="56.0" y2="205.0" stroke="#336791" stroke-width="1.6" stroke-linecap="round" />
+<line x1="53.2" y1="205.0" x2="53.2" y2="208.4" stroke="#336791" stroke-width="1.6" stroke-linecap="round" />
+<line x1="56.0" y1="205.0" x2="56.0" y2="208.4" stroke="#336791" stroke-width="1.6" stroke-linecap="round" />
+<text x="66.0" y="209.5" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">ts</text>
+<text x="170.0" y="209.5" font-size="11.5" font-weight="400" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568">timestamptz</tspan></text>
+<text x="66.0" y="231.5" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">diterima</text>
+<text x="170.0" y="231.5" font-size="11.5" font-weight="400" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568">timestamptz</tspan></text>
+<text x="66.0" y="253.5" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">fw</text>
+<text x="170.0" y="253.5" font-size="11.5" font-weight="400" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568">text</tspan></text>
+<text x="66.0" y="275.5" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">suhu</text>
+<text x="170.0" y="275.5" font-size="11.5" font-weight="400" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568">double precision</tspan></text>
+<text x="66.0" y="297.5" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">kelembapan</text>
+<text x="170.0" y="297.5" font-size="11.5" font-weight="400" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568">integer</tspan></text>
+<text x="66.0" y="319.5" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">cahaya</text>
+<text x="170.0" y="319.5" font-size="11.5" font-weight="400" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568">integer</tspan></text>
+<text x="66.0" y="341.5" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">tanah</text>
+<text x="170.0" y="341.5" font-size="11.5" font-weight="400" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568">integer</tspan></text>
+<text x="66.0" y="363.5" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">gerak</text>
+<text x="170.0" y="363.5" font-size="11.5" font-weight="400" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568">boolean</tspan></text>
+<text x="66.0" y="385.5" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">level_air</text>
+<text x="170.0" y="385.5" font-size="11.5" font-weight="400" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568">integer</tspan></text>
+<text x="66.0" y="407.5" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">tekanan</text>
+<text x="170.0" y="407.5" font-size="11.5" font-weight="400" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568">double precision</tspan></text>
+<text x="66.0" y="429.5" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">suhu_tanah</text>
+<text x="170.0" y="429.5" font-size="11.5" font-weight="400" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568">double precision</tspan></text>
+<text x="66.0" y="451.5" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">baterai</text>
+<text x="170.0" y="451.5" font-size="11.5" font-weight="400" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568">double precision</tspan></text>
+<text x="66.0" y="473.5" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">tanah_rs485</text>
+<text x="170.0" y="473.5" font-size="11.5" font-weight="400" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568">double precision</tspan></text>
+<text x="66.0" y="495.5" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">ec</text>
+<text x="170.0" y="495.5" font-size="11.5" font-weight="400" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568">integer</tspan></text>
+<path d="M253 176.0 L258 176.0 L258 212.0 L253 212.0" fill="none" stroke="#336791" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+<text x="264.0" y="198.0" font-size="11" font-weight="700" fill="#336791" text-anchor="start" >gabungan</text>
+<rect x="420.0" y="112.0" width="300.0" height="262.0" rx="10" fill="#ffffff" stroke="#336791" stroke-width="1.8" />
+<path d="M421 166 L421 122 Q421 113 430 113 L710 113 Q719 113 719 122 L719 166 Z" fill="#e6edf5" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="420.0" y1="166.0" x2="720.0" y2="166.0" stroke="#336791" stroke-width="1.2" stroke-linecap="butt" />
+<text x="436.0" y="136.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">devices</text>
+<text x="436.0" y="156.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">dari <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="700">rpm/&lt;id&gt;/status</tspan> + pesan pertama</text>
+<circle cx="433.5" cy="183.0" r="3.6" fill="none" stroke="#336791" stroke-width="1.6" />
+<line x1="437.1" y1="183.0" x2="446.0" y2="183.0" stroke="#336791" stroke-width="1.6" stroke-linecap="round" />
+<line x1="443.2" y1="183.0" x2="443.2" y2="186.4" stroke="#336791" stroke-width="1.6" stroke-linecap="round" />
+<line x1="446.0" y1="183.0" x2="446.0" y2="186.4" stroke="#336791" stroke-width="1.6" stroke-linecap="round" />
+<text x="456.0" y="187.5" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">device_id</text>
+<text x="592.0" y="187.5" font-size="11.5" font-weight="400" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568">text</tspan></text>
+<text x="456.0" y="209.5" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">jenis</text>
+<text x="592.0" y="209.5" font-size="11.5" font-weight="400" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568">text</tspan></text>
+<text x="456.0" y="231.5" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">nama</text>
+<text x="592.0" y="231.5" font-size="11.5" font-weight="400" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568">text</tspan></text>
+<text x="456.0" y="253.5" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">lokasi</text>
+<text x="592.0" y="253.5" font-size="11.5" font-weight="400" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568">text</tspan></text>
+<text x="456.0" y="275.5" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">lat</text>
+<text x="592.0" y="275.5" font-size="11.5" font-weight="400" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568">double precision</tspan></text>
+<text x="456.0" y="297.5" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">lng</text>
+<text x="592.0" y="297.5" font-size="11.5" font-weight="400" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568">double precision</tspan></text>
+<text x="456.0" y="319.5" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">status</text>
+<text x="592.0" y="319.5" font-size="11.5" font-weight="400" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568">text</tspan></text>
+<text x="456.0" y="341.5" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">terakhir_dilihat</text>
+<text x="592.0" y="341.5" font-size="11.5" font-weight="400" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568">timestamptz</tspan></text>
+<text x="456.0" y="363.5" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">dibuat</text>
+<text x="592.0" y="363.5" font-size="11.5" font-weight="400" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568">timestamptz</tspan></text>
+<rect x="870.0" y="112.0" width="300.0" height="174.0" rx="10" fill="#ffffff" stroke="#336791" stroke-width="1.8" />
+<path d="M871 166 L871 122 Q871 113 880 113 L1160 113 Q1169 113 1169 122 L1169 166 Z" fill="#e6edf5" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="870.0" y1="166.0" x2="1170.0" y2="166.0" stroke="#336791" stroke-width="1.2" stroke-linecap="butt" />
+<text x="886.0" y="136.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">device_health</text>
+<text x="886.0" y="156.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">dari <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="700">rpm/&lt;id&gt;/vitals</tspan></text>
+<circle cx="883.5" cy="183.0" r="3.6" fill="none" stroke="#336791" stroke-width="1.6" />
+<line x1="887.1" y1="183.0" x2="896.0" y2="183.0" stroke="#336791" stroke-width="1.6" stroke-linecap="round" />
+<line x1="893.2" y1="183.0" x2="893.2" y2="186.4" stroke="#336791" stroke-width="1.6" stroke-linecap="round" />
+<line x1="896.0" y1="183.0" x2="896.0" y2="186.4" stroke="#336791" stroke-width="1.6" stroke-linecap="round" />
+<line x1="899.0" y1="183.0" x2="912.0" y2="183.0" stroke="#336791" stroke-width="1.6" stroke-linecap="round" />
+<path d="M908 179.4 L912.4 183.0 L908 186.6" fill="none" stroke="#336791" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="922.0" y="187.5" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">device_id</text>
+<text x="1010.0" y="187.5" font-size="11.5" font-weight="400" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568">text</tspan></text>
+<circle cx="883.5" cy="205.0" r="3.6" fill="none" stroke="#336791" stroke-width="1.6" />
+<line x1="887.1" y1="205.0" x2="896.0" y2="205.0" stroke="#336791" stroke-width="1.6" stroke-linecap="round" />
+<line x1="893.2" y1="205.0" x2="893.2" y2="208.4" stroke="#336791" stroke-width="1.6" stroke-linecap="round" />
+<line x1="896.0" y1="205.0" x2="896.0" y2="208.4" stroke="#336791" stroke-width="1.6" stroke-linecap="round" />
+<text x="906.0" y="209.5" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">ts</text>
+<text x="1010.0" y="209.5" font-size="11.5" font-weight="400" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568">timestamptz</tspan></text>
+<text x="906.0" y="231.5" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">rssi</text>
+<text x="1010.0" y="231.5" font-size="11.5" font-weight="400" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568">integer</tspan></text>
+<text x="906.0" y="253.5" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">uptime_s</text>
+<text x="1010.0" y="253.5" font-size="11.5" font-weight="400" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568">integer</tspan></text>
+<text x="906.0" y="275.5" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">heap_free</text>
+<text x="1010.0" y="275.5" font-size="11.5" font-weight="400" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568">integer</tspan></text>
+<path d="M1093 176.0 L1098 176.0 L1098 212.0 L1093 212.0" fill="none" stroke="#336791" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+<text x="1104.0" y="198.0" font-size="11" font-weight="700" fill="#336791" text-anchor="start" >gabungan</text>
+<rect x="870.0" y="316.0" width="300.0" height="240.0" rx="10" fill="#ffffff" stroke="#336791" stroke-width="1.8" />
+<path d="M871 370 L871 326 Q871 317 880 317 L1160 317 Q1169 317 1169 326 L1169 370 Z" fill="#e6edf5" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="870.0" y1="370.0" x2="1170.0" y2="370.0" stroke="#336791" stroke-width="1.2" stroke-linecap="butt" />
+<text x="886.0" y="340.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">commands</text>
+<text x="886.0" y="360.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">dari <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="700">POST</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="700">/devices/:id/command</tspan></text>
+<circle cx="883.5" cy="387.0" r="3.6" fill="none" stroke="#336791" stroke-width="1.6" />
+<line x1="887.1" y1="387.0" x2="896.0" y2="387.0" stroke="#336791" stroke-width="1.6" stroke-linecap="round" />
+<line x1="893.2" y1="387.0" x2="893.2" y2="390.4" stroke="#336791" stroke-width="1.6" stroke-linecap="round" />
+<line x1="896.0" y1="387.0" x2="896.0" y2="390.4" stroke="#336791" stroke-width="1.6" stroke-linecap="round" />
+<text x="906.0" y="391.5" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">id</text>
+<text x="1010.0" y="391.5" font-size="11.5" font-weight="400" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568">text</tspan></text>
+<line x1="881.0" y1="409.0" x2="894.0" y2="409.0" stroke="#336791" stroke-width="1.6" stroke-linecap="round" />
+<path d="M890 405.4 L894.4 409.0 L890 412.6" fill="none" stroke="#336791" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="906.0" y="413.5" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">device_id</text>
+<text x="1010.0" y="413.5" font-size="11.5" font-weight="400" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568">text</tspan></text>
+<text x="906.0" y="435.5" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">dikirim</text>
+<text x="1010.0" y="435.5" font-size="11.5" font-weight="400" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568">timestamptz</tspan></text>
+<text x="906.0" y="457.5" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">target</text>
+<text x="1010.0" y="457.5" font-size="11.5" font-weight="400" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568">text</tspan></text>
+<text x="906.0" y="479.5" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">nilai</text>
+<text x="1010.0" y="479.5" font-size="11.5" font-weight="400" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568">jsonb</tspan></text>
+<text x="906.0" y="501.5" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">ack_ok</text>
+<text x="1010.0" y="501.5" font-size="11.5" font-weight="400" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568">boolean</tspan></text>
+<text x="906.0" y="523.5" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">ack_pesan</text>
+<text x="1010.0" y="523.5" font-size="11.5" font-weight="400" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568">text</tspan></text>
+<text x="906.0" y="545.5" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">lama_ms</text>
+<text x="1010.0" y="545.5" font-size="11.5" font-weight="400" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568">integer</tspan></text>
+<text x="362.0" y="432.0" font-size="13" font-weight="800" fill="#4a5568" text-anchor="start" >disiapkan sekarang, dipakai nanti</text>
+<rect x="360.0" y="444.0" width="234.0" height="174.0" rx="10" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.6" stroke-dasharray="7 5"/>
+<path d="M361 498 L361 454 Q361 445 370 445 L584 445 Q593 445 593 454 L593 498 Z" fill="#eef1f5" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="360.0" y1="498.0" x2="594.0" y2="498.0" stroke="#9aa3b0" stroke-width="1.2" stroke-linecap="butt" stroke-dasharray="6 4" />
+<text x="376.0" y="468.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">users</text>
+<text x="376.0" y="488.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">dipakai Modul 20</text>
+<circle cx="373.5" cy="515.0" r="3.6" fill="none" stroke="#4a5568" stroke-width="1.6" />
+<line x1="377.1" y1="515.0" x2="386.0" y2="515.0" stroke="#4a5568" stroke-width="1.6" stroke-linecap="round" />
+<line x1="383.2" y1="515.0" x2="383.2" y2="518.4" stroke="#4a5568" stroke-width="1.6" stroke-linecap="round" />
+<line x1="386.0" y1="515.0" x2="386.0" y2="518.4" stroke="#4a5568" stroke-width="1.6" stroke-linecap="round" />
+<text x="396.0" y="519.5" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">id</text>
+<text x="464.0" y="519.5" font-size="11.5" font-weight="400" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568">integer</tspan> otomatis</text>
+<text x="396.0" y="541.5" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">email</text>
+<text x="464.0" y="541.5" font-size="11.5" font-weight="400" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568">text</tspan> unik</text>
+<text x="396.0" y="563.5" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">nama</text>
+<text x="464.0" y="563.5" font-size="11.5" font-weight="400" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568">text</tspan></text>
+<text x="396.0" y="585.5" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">peran</text>
+<text x="464.0" y="585.5" font-size="11.5" font-weight="400" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568">text</tspan>: admin/viewer</text>
+<text x="396.0" y="607.5" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">dibuat</text>
+<text x="464.0" y="607.5" font-size="11.5" font-weight="400" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568">timestamptz</tspan></text>
+<rect x="606.0" y="444.0" width="234.0" height="196.0" rx="10" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.6" stroke-dasharray="7 5"/>
+<path d="M607 498 L607 454 Q607 445 616 445 L830 445 Q839 445 839 454 L839 498 Z" fill="#eef1f5" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="606.0" y1="498.0" x2="840.0" y2="498.0" stroke="#9aa3b0" stroke-width="1.2" stroke-linecap="butt" stroke-dasharray="6 4" />
+<text x="622.0" y="468.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">rules</text>
+<text x="622.0" y="488.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">dipakai Modul 19</text>
+<circle cx="619.5" cy="515.0" r="3.6" fill="none" stroke="#4a5568" stroke-width="1.6" />
+<line x1="623.1" y1="515.0" x2="632.0" y2="515.0" stroke="#4a5568" stroke-width="1.6" stroke-linecap="round" />
+<line x1="629.2" y1="515.0" x2="629.2" y2="518.4" stroke="#4a5568" stroke-width="1.6" stroke-linecap="round" />
+<line x1="632.0" y1="515.0" x2="632.0" y2="518.4" stroke="#4a5568" stroke-width="1.6" stroke-linecap="round" />
+<text x="642.0" y="519.5" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">id</text>
+<text x="710.0" y="519.5" font-size="11.5" font-weight="400" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568">integer</tspan> otomatis</text>
+<text x="642.0" y="541.5" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">nama</text>
+<text x="710.0" y="541.5" font-size="11.5" font-weight="400" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568">text</tspan></text>
+<text x="642.0" y="563.5" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">aktif</text>
+<text x="710.0" y="563.5" font-size="11.5" font-weight="400" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568">boolean</tspan></text>
+<text x="642.0" y="585.5" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">kondisi</text>
+<text x="710.0" y="585.5" font-size="11.5" font-weight="400" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568">jsonb</tspan></text>
+<text x="642.0" y="607.5" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">aksi</text>
+<text x="710.0" y="607.5" font-size="11.5" font-weight="400" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568">jsonb</tspan></text>
+<text x="642.0" y="629.5" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">dibuat</text>
+<text x="710.0" y="629.5" font-size="11.5" font-weight="400" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568">timestamptz</tspan></text>
+<path d="M330 183.0 L375 183.0 L375 183.0 L414 183.0" fill="none" stroke="#336791" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M406.9 186.8 L414.0 183.0 L406.9 179.2" fill="none" stroke="#336791" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M870 183.0 L795 183.0 L795 183.0 L726 183.0" fill="none" stroke="#336791" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M870 409.0 L795 409.0 L795 183.0" fill="none" stroke="#336791" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="795.0" cy="183.0" r="3.6" fill="#336791" />
+<path d="M733.1 179.2 L726.0 183.0 L733.1 186.8" fill="none" stroke="#336791" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="30.0" y="530.0" width="310.0" height="172.0" rx="12" fill="#eef1f5" />
+<text x="48.0" y="556.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Keterangan</text>
+<circle cx="53.5" cy="580.0" r="3.6" fill="none" stroke="#336791" stroke-width="1.6" />
+<line x1="57.1" y1="580.0" x2="66.0" y2="580.0" stroke="#336791" stroke-width="1.6" stroke-linecap="round" />
+<line x1="63.2" y1="580.0" x2="63.2" y2="583.4" stroke="#336791" stroke-width="1.6" stroke-linecap="round" />
+<line x1="66.0" y1="580.0" x2="66.0" y2="583.4" stroke="#336791" stroke-width="1.6" stroke-linecap="round" />
+<text x="80.0" y="585.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800">kunci utama</tspan>: nilainya tidak boleh kembar</text>
+<path d="M58 599.0 L63 599.0 L63 615.0 L58 615.0" fill="none" stroke="#336791" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+<text x="80.0" y="611.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800">gabungan</tspan>: yang tidak boleh kembar</text>
+<text x="80.0" y="629.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">adalah pasangan kolomnya</text>
+<line x1="51.0" y1="650.0" x2="64.0" y2="650.0" stroke="#336791" stroke-width="1.6" stroke-linecap="round" />
+<path d="M60 646.4 L64.4 650 L60 653.6" fill="none" stroke="#336791" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="80.0" y="655.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800">kunci tamu</tspan>: menunjuk <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.0" font-weight="700">devices.device_id</tspan></text>
+<line x1="48.0" y1="677.0" x2="68.0" y2="677.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" stroke-dasharray="5 4" />
+<text x="80.0" y="681.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">putus-putus: disiapkan, belum dipakai</text>
+<text x="1178.0" y="726.0" font-size="11" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>
