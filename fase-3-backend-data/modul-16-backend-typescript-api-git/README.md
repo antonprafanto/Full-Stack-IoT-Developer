@@ -4,7 +4,7 @@
 
 *Fase 3 · Minggu 16 · Perangkat keras (*hardware*): **Kit A + B** — Node 1, Node 2, dan gateway Pi dari Modul 12–15, atau **laptop saja** (simulator modul ini menggantikan perangkat) · Prasyarat: **Modul 4** (JavaScript dan Node.js), **Modul 11** (MQTT dan kontrak data), **Modul 15** (kontrak data 1.2) · Waktu: 8–10 jam, dicicil dalam satu minggu*
 
-[⬅️ Modul 15](../../fase-2-konektivitas/modul-15-modbus-rs485-dan-protokol/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · [Modul 17 ➡️ (segera terbit — baca ringkasannya di Silabus)](../../SILABUS.md#modul-17--database-pertama-sql-dasar--skema-rumah-pintar-mini-postgresql-via-docker)
+[⬅️ Modul 15](../../fase-2-konektivitas/modul-15-modbus-rs485-dan-protokol/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · [Modul 17 ➡️](../modul-17-sql-dan-skema-database/README.md)
 
 ---
 
@@ -3367,4 +3367,4 @@ Syarat lulus dari Silabus: **`GET /devices/<id>/latest` di Bruno mengembalikan J
 
 ---
 
-[⬅️ Modul 15](../../fase-2-konektivitas/modul-15-modbus-rs485-dan-protokol/README.md) · [Fase 3](../README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · **Berikutnya: Modul 17 — Database Pertama** (segera terbit; [ringkasannya di Silabus](../../SILABUS.md#modul-17--database-pertama-sql-dasar--skema-rumah-pintar-mini-postgresql-via-docker))
+[⬅️ Modul 15](../../fase-2-konektivitas/modul-15-modbus-rs485-dan-protokol/README.md) · [Fase 3](../README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · **Berikutnya: [Modul 17 — Database Pertama](../modul-17-sql-dan-skema-database/README.md) ➡️**

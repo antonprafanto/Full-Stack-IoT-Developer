@@ -5,7 +5,7 @@
 > **Kurikulum 32 modul — satu modul = satu minggu belajar santai (±8 bulan) — untuk orang awam total hingga mampu membangun sistem IoT lengkap dari sensor sampai dashboard di HP.**
 > Hardware: **ESP32 + Raspberry Pi** · Software: **JavaScript/TypeScript (Node.js + React) untuk server & tampilan, sedikit C++ untuk chip** · Bahasa pengantar: **Indonesia, ramah awam**.
 >
-> Status dokumen: **v1.0.18 — disetujui, penulisan materi berjalan; Modul 1–16 (seluruh Fase 0, Fase 1, dan Fase 2, serta Modul 16 dari Fase 3) tersedia dalam bahasa Indonesia, dan edisi bahasa Inggrisnya menyusul modul demi modul** (19 Oktober 2026). Keputusan yang mendasarinya ada di [§11](#11-keputusan-yang-sudah-disetujui); riwayat perubahan di [§13](#13-riwayat-revisi).
+> Status dokumen: **v1.0.19 — disetujui, penulisan materi berjalan; Modul 1–17 (seluruh Fase 0, Fase 1, dan Fase 2, serta Modul 16–17 dari Fase 3) tersedia dalam bahasa Indonesia, dan edisi bahasa Inggrisnya menyusul modul demi modul** (20 Oktober 2026). Keputusan yang mendasarinya ada di [§11](#11-keputusan-yang-sudah-disetujui); riwayat perubahan di [§13](#13-riwayat-revisi).
 
 ---
 
@@ -170,7 +170,7 @@ Setiap modul adalah satu artikel panjang untuk **satu minggu belajar santai (6�
 - **Aman secara emosional.** Listrik 3,3 V / 5 V dari USB **aman disentuh**; laptop punya pengaman arus; error adalah bagian normal dari belajar, bukan tanda Anda tidak berbakat.
 - **Satu konsep baru per halaman.** Kalau ada dua konsep, salah satunya ditunda ke modul berikutnya.
 - **Praktik → Teori → Eksperimen (metode "sandwich").** Coba dulu, baru dibedah, lalu ubah-ubah sendiri.
-- **Bantuan bertahap (*faded scaffolding*).** Kode lengkap → kode rumpang → kerangka kosong → tantangan tanpa contekan.
+- **Bantuan bertahap (*faded scaffolding*).** Kode lengkap → kode rumpang → kerangka kosong → tantangan tanpa sontekan.
 - **Jujur soal keterbatasan.** Kalau sebuah alat punya kelemahan (misalnya board DevKit boros baterai), itu ditulis, bukan disembunyikan.
 - **Versi dikunci.** Setiap modul menyebut versi persis (core, library, paket npm) dan cara memasang versi itu, supaya kode yang Anda salin benar-benar jalan.
 - **Visual yang jujur.** Gambar hanya dipakai jika benar-benar memperjelas bagian yang sedang dibahas; gambar dari internet selalu disertai sumber & lisensi; gambar buatan sendiri dibuat sederhana dan berlabel.
@@ -603,13 +603,15 @@ Format tiap modul:
 #### Modul 17 — Database Pertama: SQL Dasar & Skema "Rumah Pintar Mini" (PostgreSQL via Docker)
 *Fase 3 · Minggu 17 · Hardware: Kit A + B (atau laptop) · Prasyarat: Modul 16*
 
+📖 **Materi sudah tersedia:** [buka artikel Modul 17](fase-3-backend-data/modul-17-sql-dan-skema-database/README.md)
+
 - **Setelah modul ini Anda bisa:** menjalankan database di laptop apa pun dengan satu perintah, merancang tabel yang benar, menulis SQL untuk pertanyaan nyata, dan tidak kehilangan/menduplikasi data saat perangkat mengirim ulang.
 - **Konsep inti:** mengapa database (bukan file CSV); **Docker "secukupnya"**: satu perintah `docker run timescale/timescaledb:latest-pg17` menjalankan PostgreSQL + TimescaleDB (konsep kontainer dibedah di Modul 26); DBeaver sebagai "jendela" ke database; **SQL dasar**: `CREATE TABLE`, `INSERT`, `SELECT`, `WHERE`, `ORDER BY`, `JOIN`, `GROUP BY`; perancangan skema: `devices` (termasuk `lat`, `lng`, `lokasi`), `readings`, `commands`, `device_health`, `users`, `rules`; `timestamptz` (jebakan WIB vs UTC); **`ts` dari perangkat sebagai waktu data, dan `INSERT … ON CONFLICT (device_id, ts) DO NOTHING` agar kiriman ulang tidak dobel**; koneksi dari Node (`pg` + *pool*); migrasi skema (file SQL bernomor); *batch insert*.
-- **Alat yang dipakai:** Docker Desktop (**diinstal di modul ini**, dipakai satu perintah), PostgreSQL 17, DBeaver, library `pg`.
+- **Alat yang dipakai:** Docker Desktop (**diinstal di modul ini**, dipakai secukupnya), PostgreSQL 17 lewat image TimescaleDB, DBeaver (**diinstal di modul ini**), psql (di dalam kontainer), library `pg`.
 - **Opsional / bedah teknis:** ORM (Drizzle) — kapan membantu, kapan menghalangi belajar SQL; *transaction*; database di Pi (jalur gratis) dan mengapa butuh kartu *high-endurance*.
 - **Praktik & proyek mini:** semua data MQTT tersimpan; API `GET /devices/:id/readings?from=&to=`; query "jam berapa tanah paling kering tiap hari minggu ini?"; mengirim data yang sama dua kali → hanya tersimpan sekali; migrasi skema bernomor di repo.
 - **➕ Rumah Pintar Mini:** riwayat permanen; backend v0.2.
-- **✅ Lulus jika:** Anda bisa menulis SQL "rata-rata suhu per hari 7 hari terakhir" tanpa contekan, kiriman ganda tidak membuat baris dobel, dan API riwayat mengembalikan data dari database.
+- **✅ Lulus jika:** Anda bisa menulis SQL "rata-rata suhu per hari 7 hari terakhir" tanpa sontekan, kiriman ganda tidak membuat baris dobel, dan API riwayat mengembalikan data dari database.
 
 #### Modul 18 — TimescaleDB: Data Deret Waktu, Agregasi Otomatis, Retensi, & Backup
 *Fase 3 · Minggu 18 · Hardware: — (data dari backend/simulator) · Prasyarat: Modul 17*
@@ -963,6 +965,8 @@ Satu kalimat per istilah, bahasa manusia. Semua akan dibahas tuntas di modulnya.
 ---
 
 ## 13. Riwayat revisi
+
+**v1.0.19 (20 Okt 2026)** — Modul 17 terbit dalam bahasa Indonesia. Rumah Pintar Mini mendapat **backend v0.2**: database PostgreSQL 17.11 + TimescaleDB 2.30.2 di kontainer Docker (Docker Desktop 4.95, image dengan tag terkunci `timescale/timescaledb:2.30.2-pg17`, sama dengan `latest-pg17` saat modul ditulis; loket `127.0.0.1:5432`, volume `rumahpintar-data`), skema enam tabel (`devices`, `readings`, `device_health`, `commands`, `users`, `rules`) lewat migrasi bernomor `backend/migrasi/001_skema_awal.sql` dan pelari migrasi tanpa library (`npm run migrasi`, tabel `schema_migrations`, satu transaksi per file), library `pg` 8.23.1 dengan *pool*, data latihan 7 hari (`npm run isi-riwayat`, angka sama di laptop siapa pun), arsip semua pesan MQTT dengan `INSERT … ON CONFLICT (device_id, ts) DO NOTHING` (kiriman ganda tersimpan sekali), API `GET /devices/:id/readings?from=&to=` (bawaan satu jam terakhir, paling banyak 1.000 bacaan dengan penanda `terpotong`, `503` saat database tidak bisa dihubungi), dan perintah API yang tercatat di tabel `commands`. Gudang memori Modul 16 tetap dipakai untuk keadaan terbaru. DBeaver Community 26.2.3 menjadi jendela ke database. Kontrak data tetap versi 1.2. Daftar alat Modul 17 di §7 dilengkapi (DBeaver dipasang di modul ini, psql). Ejaan "contekan" di §4 dan §7 diganti bentuk baku "sontekan".
 
 **v1.0.18 (19 Okt 2026)** — Modul 16 terbit dalam bahasa Indonesia dan membuka Fase 3 (folder `fase-3-backend-data/` beserta halaman fasenya). Rumah Pintar Mini mendapat **backend v0.1** di `proyek-rumah-pintar-mini/backend/`: Node.js 24 menjalankan TypeScript ringan langsung (*type stripping*), dan `npm run cek` (TypeScript 7.0.2) menjadi pemeriksa tipenya; Fastify 5.12.7 dengan fastify-type-provider-zod 7.0.0; kontrak data 1.2 ditulis ulang sebagai skema **Zod** 4.6.7 yang memeriksa setiap pesan `rpm/#` (mqtt.js 5.16.1) dan setiap permintaan API; API `GET /health`, `GET /devices`, `GET /devices/:id/latest`, `GET /devices/:id/vitals`, dan `POST /devices/:id/command` (menunggu `ack` paling lama 5 detik, dengan kode status `200`, `400`, `404`, `409`, `503`, dan `504`); dokumentasi `/docs` dari @fastify/swagger 9.9.2 dan @fastify/swagger-ui 6.1.2; serta koleksi **Bruno** 4.2.1 (format YAML bawaannya) di `backend/bruno/`. Server memakai port **8080** di `127.0.0.1` karena port 3000 sering sudah dipakai program lain dan dipakai Grafana di Modul 25. `id` perintah memuat jam UTC pembuatannya supaya tetap unik setelah server dimulai ulang (perangkat mengabaikan `id` yang pernah ia kerjakan, aturan 8). `alat/` mendapat `simulator-perangkat.js` (sepuluh perangkat palsu `f00d…`, dengan mode `bersihkan`), dan repositori mendapat templat *pull request* `.github/pull_request_template.md`. Otomasi kipas Node-RED dimatikan (empat node bertanda `"d": true` di `edge/node-red-flows.json`) supaya hanya ada satu otak. Git di terminal: Git for Windows 2.56.0 dengan Git Credential Manager, atau Command Line Tools di macOS dengan GitHub CLI 2.102.0. Kontrak data tetap versi 1.2. Daftar alat Modul 16 di §7 dilengkapi (fastify-type-provider-zod, @fastify/swagger-ui, pino-pretty, pemeriksa tipe TypeScript, GitHub CLI), dan status dokumen kini menyebut bahwa edisi bahasa Inggris menyusul modul demi modul.
 
