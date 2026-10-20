@@ -2,3 +2,5 @@
 node_modules/
 # setelan rahasia laptop ini; contohnya ada di .env.example
 .env
+# fotokopi database (pg_dump): besar dan berisi data pribadi, simpan di luar Git
+backup/

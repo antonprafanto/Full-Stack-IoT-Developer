@@ -1,4 +1,4 @@
-// server.ts - pintu masuk backend Rumah Pintar Mini v0.2 (Modul 17: data tersimpan di database).
+// server.ts - pintu masuk backend Rumah Pintar Mini v0.3 (Modul 18: riwayat bisa diringkas per 15 menit, jam, dan hari).
 // Jalankan: npm run dev (otomatis mulai ulang saat file disimpan) atau npm start.
 import Fastify, { LogController } from "fastify";
 import swagger from "@fastify/swagger";
@@ -22,7 +22,7 @@ app.setValidatorCompiler(validatorCompiler); // skema Zod memeriksa isi perminta
 app.setSerializerCompiler(serializerCompiler); // ...dan bentuk jawaban
 
 await app.register(swagger, {
-  openapi: { info: { title: "Rumah Pintar Mini API", description: "Backend v0.2 (Modul 17)", version: "0.2.0" } },
+  openapi: { info: { title: "Rumah Pintar Mini API", description: "Backend v0.3 (Modul 18)", version: "0.3.0" } },
   transform: jsonSchemaTransform, // skema Zod yang sama menjadi dokumentasi OpenAPI
 });
 await app.register(swaggerUi, { routePrefix: "/docs" });

@@ -1,7 +1,7 @@
 {
   "name": "rumah-pintar-mini-backend",
-  "version": "0.2.0",
-  "description": "Backend Rumah Pintar Mini (Modul 16-17): mendengar MQTT, memeriksa kontrak data, menyimpan semua pesan ke database, dan menyediakan API",
+  "version": "0.3.0",
+  "description": "Backend Rumah Pintar Mini (Modul 16-18): mendengar MQTT, memeriksa kontrak data, menyimpan semua pesan ke database deret waktu, dan menyediakan API riwayat beserta ringkasannya",
   "private": true,
   "type": "module",
   "scripts": {
