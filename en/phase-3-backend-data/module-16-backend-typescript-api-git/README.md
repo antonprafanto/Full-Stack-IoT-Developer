@@ -1828,7 +1828,7 @@ A new file, `backend/bruno/environments/local.yml`, shows up in VS Code. It only
 
    Click **Create**.
 2. The `health` request opens in a new tab. Click **Send** at the right end of the address bar (or press **Ctrl + Enter**). The answer panel on the right shows the code `200 OK`, how long the request took in milliseconds, and the content of the answer, for example `{"ok":true,"broker":true,"received":42,"rejected":0}`.
-3. Add an automatic test. In the row of tabs below the address bar, open the **Assert** tab. Its table always has one empty row: type `res.status` in the **Expr** column, leave **Operator** at `eq` ("equals"), then type `200` in the **Value** column.
+3. Add an automatic test. In the row of tabs below the address bar, open the **Assert** tab. Its table always has one empty row: type `res.status` in the **Expr** column, leave **Operator** at `equals` (saved in the file as `eq`), then type `200` in the **Value** column.
 4. Save the request with **Ctrl + S**: the test is now written into the file `backend/bruno/health.yml` too, which Bruno created as soon as you clicked **Create** in step 1. Click **Send** again. The **Tests** tab in the answer panel now carries a small number `1`, and it holds `Assertions (1), Passed: 1, Failed: 0`. From now on, Bruno checks the status code every time this request is sent. If the answer isn't `200`, the test is marked as failed.
 5. In the same way, create two more requests, each with the same `res.status` `eq` `200` test, then save them:
 
@@ -2590,7 +2590,7 @@ The pattern is exactly the same as the `/latest` route above it: one schema that
 Don't burden the reviewer with mistakes you can find yourself. Do these three checks, following the checklist in the template:
 
 1. **The type checker.** In the second terminal, run `npm run check`. It must pass, without any error messages.
-2. **Bruno.** Right-click the **Node 1 latest reading** request in the sidebar, then choose **Clone**. In the **Clone Request** dialog, change **Request Name** to `Node 1 vitals`, then click **Clone**. In that new tab, change the word `latest` at the end of the URL to `vitals`, save (**Ctrl + S**), then click **Send**. The `res.status` `eq` `200` test was copied along from the original request.
+2. **Bruno.** Click the **Node 1 latest reading** request in the sidebar so its tab opens, then right-click that **tab** (in the row of tabs at the top) and choose **Clone Request**. In the **Clone Request** dialog, change **Request Name** to `Node 1 vitals`, then click **Clone**. (The **Clone** item in the sidebar menu makes a copy named `Node 1 latest reading copy` straight away, without a dialog; if that happens, right-click the copy and choose **Rename**.) In that new tab, change the word `latest` at the end of the URL to `vitals`, save (**Ctrl + S**), then click **Send**. The `res.status` `eq` `200` test was copied along from the original request.
 
    Most likely, the first answer is **`404`**, `{"message":"no vitals from a4cf12e5b7c0 yet"}`, and the **Tests** tab marks the test as failed. This isn't a mistake in your code. When you saved `devices.ts`, `--watch` restarted the server, so its store is empty again. Node 1 itself only sends `vitals` right after it connects and every 5 minutes after that. Press the **EN** button on the Node 1 board, wait about 15 seconds until its status is `online` again, then send it again. **Expected output:** `200`, with content like this (the numbers on your screen are different):
 

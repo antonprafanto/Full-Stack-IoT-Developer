@@ -1828,7 +1828,7 @@ File baru `backend/bruno/environments/lokal.yml` muncul di VS Code. Isinya hanya
 
    Klik **Create**.
 2. Permintaan `health` terbuka di tab baru. Klik **Send** di ujung kanan bilah alamat (atau tekan **Ctrl + Enter**). Panel jawaban di kanan menampilkan kode `200 OK`, lama permintaannya dalam milidetik, dan isi jawabannya, misalnya `{"ok":true,"broker":true,"diterima":42,"ditolak":0}`.
-3. Tambahkan tes otomatis. Di deretan tab di bawah bilah alamat, buka tab **Assert**. Tabelnya selalu punya satu baris kosong: ketik `res.status` di kolom **Expr**, biarkan **Operator** berisi `eq` ("sama dengan"), lalu ketik `200` di kolom **Value**.
+3. Tambahkan tes otomatis. Di deretan tab di bawah bilah alamat, buka tab **Assert**. Tabelnya selalu punya satu baris kosong: ketik `res.status` di kolom **Expr**, biarkan **Operator** berisi `equals` ("sama dengan"; di file tersimpan sebagai `eq`), lalu ketik `200` di kolom **Value**.
 4. Simpan permintaannya dengan **Ctrl + S**: tes itu kini ikut tertulis di file `backend/bruno/health.yml`, yang sudah dibuat Bruno sejak kamu mengeklik **Create** di langkah 1. Klik **Send** lagi. Tab **Tests** di panel jawaban kini diberi angka kecil `1`, dan isinya `Assertions (1), Passed: 1, Failed: 0`. Mulai sekarang, Bruno memeriksa kode status setiap kali permintaan ini dikirim. Kalau jawabannya bukan `200`, tesnya ditandai gagal.
 5. Dengan cara yang sama, buat dua permintaan lagi, masing-masing dengan tes `res.status` `eq` `200` yang sama, lalu simpan:
 
@@ -2590,7 +2590,7 @@ Polanya sama persis dengan rute `/latest` di atasnya: skema yang sama-sama dipak
 Jangan bebani peninjau dengan kesalahan yang bisa kamu temukan sendiri. Kerjakan tiga pemeriksaan ini, sesuai checklist di templat:
 
 1. **Pemeriksa tipe.** Di terminal kedua, jalankan `npm run cek`. Harus lolos, tanpa pesan galat.
-2. **Bruno.** Klik kanan permintaan **bacaan terbaru Node 1** di bilah samping, lalu pilih **Clone**. Di dialog **Clone Request**, ganti **Request Name** menjadi `vitals Node 1`, lalu klik **Clone**. Di tab baru itu, ganti kata `latest` di ujung URL menjadi `vitals`, simpan (**Ctrl + S**), lalu klik **Send**. Tes `res.status` `eq` `200` ikut tersalin dari permintaan aslinya.
+2. **Bruno.** Klik permintaan **bacaan terbaru Node 1** di bilah samping supaya tab-nya terbuka, lalu klik kanan **tab** itu (di deretan tab atas) dan pilih **Clone Request**. Di dialog **Clone Request**, ganti **Request Name** menjadi `vitals Node 1`, lalu klik **Clone**. (Menu **Clone** di bilah samping langsung membuat salinan bernama `bacaan terbaru Node 1 copy` tanpa dialog; kalau terlanjur, klik kanan salinan itu → **Rename**.) Di tab baru itu, ganti kata `latest` di ujung URL menjadi `vitals`, simpan (**Ctrl + S**), lalu klik **Send**. Tes `res.status` `eq` `200` ikut tersalin dari permintaan aslinya.
 
    Kemungkinan besar jawaban pertamanya **`404`**, `{"pesan":"belum ada vitals dari a4cf12e5b7c0"}`, dan tab **Tests** menandai tesnya gagal. Ini bukan kesalahan kodemu. Saat kamu menyimpan `perangkat.ts`, `--watch` memulai ulang server sehingga gudangnya kosong lagi. Node 1 sendiri hanya mengirim `vitals` sesaat setelah tersambung dan setiap 5 menit sesudahnya. Tekan tombol **EN** di papan Node 1, tunggu sekitar 15 detik sampai statusnya `online` lagi, lalu kirim ulang. **Hasilnya:** `200`, dengan isi seperti ini (angka di layarmu berbeda):
 
