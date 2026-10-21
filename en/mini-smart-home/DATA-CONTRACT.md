@@ -2,7 +2,7 @@
 
 🌐 **English** · [Bahasa Indonesia](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/proyek-rumah-pintar-mini/KONTRAK-DATA.md)
 
-> **Contract version 1.2** ([Module 15](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-15-modbus-rs485-and-protocols/README.md), October 2026; version 1.1 from Module 14, version 1.0 from Module 11). Its main reference is [Appendix A of the Syllabus](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/SYLLABUS.md#14-appendix-a--mini-smart-home-data-contract); this file is its working copy, kept in the project. **The ground rules:** every change is written here and in Appendix A first, then the code is changed, then the firmware version goes up.
+> **Contract version 1.3** ([Module 19](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-3-backend-data/module-19-realtime-rules-notifications/README.md), October 2026; version 1.2 from Module 15, version 1.1 from Module 14, version 1.0 from Module 11). Its main reference is [Appendix A of the Syllabus](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/SYLLABUS.md#14-appendix-a--mini-smart-home-data-contract); this file is its working copy, kept in the project. **The ground rules:** every change is written here and in Appendix A first, then the code is changed, then the firmware version goes up.
 
 The data contract is the "shared language" of every part of the project: the firmware, the broker, the contract checker, the gateway (Module 12), Node-RED (Module 13), the backend (Module 16), the database (Module 17), and the dashboard (Module 22). As long as they all follow this contract, each part can be built in a different week and still fit together with the others. The full explanation is in [Module 11](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-11-mqtt-and-data-contract/README.md).
 
@@ -60,7 +60,27 @@ Node 2 (ESP-NOW) isn't connected to the broker. From Module 14 on, **Node 1 publ
 | `motion` | boolean | `true` = the PIR sees motion | PIR HC-SR501 (D34) | — |
 | `water_level` | integer | % of the water tank filled, 0 = empty, 100 = full | HC-SR04 (TRIG D15, ECHO D35) | `null` |
 
-**Immediate sends** (*report-by-exception*) happen when one of these states **changes**: motion or no motion; dark or bright (dark = `light` below `1000`); the soil below or above the watering threshold; the water tank below or above 20%. Immediate sends happen at most every 2 seconds, and the next 10-second slot is counted from the last send.
+**Immediate sends** (*report-by-exception*) happen when one of these states **changes**: motion or no motion; dark or bright (dark = `light` below `1000`); the soil below or above the watering threshold; the water tank below or above 20%; and, from contract 1.3 on, the state of one of the actuators (`state`, see below). Immediate sends happen at most every 2 seconds, and the next 10-second slot is counted from the last send.
+
+### The actuator `state` in Node 1's `telemetry` (from contract 1.3 on, Module 19)
+
+Every Node 1 `telemetry` carries a `state` object: the state of the four actuators when the message was made. Its content is **exactly the same** as `state` in `ack` (section 8).
+
+```json
+{"ts":"2026-10-21T06:10:12Z","fw":"1.5.0","temperature":31.2,"humidity":70,"light":2310,"soil":37,"motion":false,"water_level":64,"state":{"fan":true,"lamp":false,"pump":false,"curtain":90}}
+```
+
+| Field inside `state` | Type | Content |
+| :--- | :--- | :--- |
+| `fan` | boolean | `true` = the fan relay (D33) is on |
+| `lamp` | boolean | `true` = the lamp relay (D32) is on |
+| `pump` | boolean | `true` = the pump is watering right now |
+| `curtain` | integer | the angle of the curtain servo (D26), 0–180 degrees |
+
+- Node 1 v1.5.0 **always** writes `state`, also when its actuators are changed by a local rule (automatic watering, automatic lamp, the safety fan), not only by a command. When the state of one of the actuators changes, Node 1 sends a `telemetry` right away (an immediate send), so the server knows the latest state without waiting 10 seconds.
+- `state` isn't a sensor reading: the `readings` table in the database has no column for it. The server uses it as the **reported state** (*reported*), and the important changes are recorded as events (Module 19).
+- Node 2 has no actuators, so Node 2's `telemetry` **never** carries `state`.
+- Older Node 1 firmware (up to v1.4.0) doesn't write `state`. Its messages are still valid; the server only learns its actuator state from the next `ack`.
 
 ### RS-485 sensor fields in Node 1 `telemetry` (from contract 1.2, Module 15)
 
@@ -109,6 +129,8 @@ Plain text, not JSON:
 
 **Node 2's status** is published by **Node 1** (retained): `online` when the first valid packet from Node 2 arrives, `offline` if there's no packet for **3 × Node 2's interval + 1 minute** (a 5-minute interval = 16 minutes). Node 2 has no MQTT connection of its own, so it has no last will. That's why Node 2's status means "Node 1 still hears Node 2", and it can only be trusted while Node 1's own status is `online`.
 
+**Module 19's offline mode doesn't use `status`.** While the broker can't be reached, the device can't publish anything anyway, so its report is only sent after it reconnects, through `vitals` (section 6). The content of `status` stays `online` and `offline`; `offline-mode` still belongs to Module 28.
+
 ## 6. `vitals`
 
 ```json
@@ -121,7 +143,19 @@ Plain text, not JSON:
 | `rssi` | Wi-Fi signal strength in dBm, a negative integer |
 | `uptime_s` | how many seconds the device has been on |
 | `heap_free` | free *heap* memory in bytes |
+| `offline_s` | **from contract 1.3 on (Module 19):** how many seconds the device ran in offline mode before it reconnected (an integer ≥ 0) |
+| `local_fan` | **from contract 1.3 on (Module 19):** how many times the local safety rule turned the fan on during that offline mode (an integer ≥ 0) |
 | `reset_reason` | **from Module 28 on:** `POWERON`, `BROWNOUT`, `SW`, `PANIC`, `WDT`, `DEEPSLEEP`, or `UNKNOWN` |
+
+`offline_s` and `local_fan` are the **offline-mode report** (section 9, rule 5). The two always come together, and only in the first `vitals` after the device reconnects from offline mode; in other `vitals` neither of them is written:
+
+```json
+{"ts":"2026-10-21T06:20:41Z","rssi":-58,"uptime_s":5412,"heap_free":181940,"offline_s":214,"local_fan":1}
+```
+
+The device sends that reporting `vitals` about **10 seconds** after it reconnects, not instantly. A server that reconnects too (for example because the broker was just started again) needs a few seconds to subscribe, while `vitals` isn't retained, so a report published too early can be missed.
+
+This report is only kept in the device's memory. If the device restarts before it could send it, that offline-mode report is lost.
 
 ## 7. `cmd`
 
@@ -144,7 +178,23 @@ Plain text, not JSON:
 | `pump` | an integer from 1 to 10 (seconds) | refused if the water tank is below 20% or can't be read |
 | `curtain` | an integer from 0 to 180 (degrees) | servo D26 |
 
-**`action: "config"`** (Module 19) carries `thresholds`, for example `{"temp_fan_on":30,"soil_watering":30}`, is sent retained, and is stored by the device in NVS. **`action: "update"`** (Module 28) carries the `url` and the `version` of the new firmware. Until those modules, the device answers both with `ok:false`.
+**`action: "config"`** (from contract 1.3 on, Module 19) sends the thresholds of the local safety rules to the device:
+
+```json
+{"id":"c-20261021-061500-3","ts":"2026-10-21T06:15:00Z","action":"config","thresholds":{"temp_fan_on":30,"soil_watering":30}}
+```
+
+| Key inside `thresholds` | Type | Content |
+| :--- | :--- | :--- |
+| `temp_fan_on` | number, 15–45 | °C. In offline mode, the local safety turns the fan on when `temperature` is **above** this number, then turns it off when `temperature` is **below** this number − 2 |
+| `soil_watering` | integer, 0–100 | %. The automatic watering threshold (Modules 6 and 8) |
+
+- `thresholds` contains **at least one** of the two keys. A key that isn't sent doesn't change. Any other key, a wrong type, or a number out of range makes the whole command refused (`ok:false`): the device checks every key first, and only saves if all of them are valid.
+- Valid thresholds are stored in NVS, **only the ones whose value changed**, then the device answers with an ordinary `ack`. The thresholds stay in use after the device restarts or the power goes out.
+- `config` is sent with **QoS 1, retained**: a device that has just started or just reconnected receives the last thresholds as soon as it subscribes to `cmd`. Because its `id` is the same, a `config` that arrives again after a reconnect is carried out only once while the device is on (rule 8).
+- An empty message on the `cmd` topic means someone deleted its retained message (for example with **Clear Retained Message** in MQTTX). The device ignores it without answering.
+
+**`action: "update"`** (Module 28) carries the `url` and the `version` of the new firmware. Until that module, the device answers it with `ok:false`.
 
 **Never** send a `set` command with the retained flag: the broker hands it over again every time the device connects, and the device carries it out again as soon as its `id` memory is empty, for example after a restart (section 9, rule 8).
 
@@ -161,7 +211,7 @@ Plain text, not JSON:
 | `ts` | the time of the answer (UTC), or `null` if the device's clock isn't set yet |
 | `ok` | `true` if the command was carried out, `false` if it was refused |
 | `message` | the reason for the refusal; **required** if `ok` is `false` |
-| `state` | the current state of **all** the actuators: `fan`, `lamp`, `pump` (boolean), `curtain` (degrees) |
+| `state` | the current state of **all** the actuators: `fan`, `lamp`, `pump` (boolean), `curtain` (degrees). From contract 1.3 on, the same object is also in every Node 1 `telemetry` (section 4) |
 
 ## 9. Shared rules
 
@@ -169,20 +219,22 @@ Plain text, not JSON:
 2. The database rejects duplicate `(device_id, ts)` pairs (Module 17).
 3. `telemetry` every 10 seconds **and** immediately when something important happens (section 4). Node 2: once every time it wakes up, without immediate sends.
 4. Every `cmd` is answered with one `ack` with the same `id` within 5 seconds; Node 1's target is under 1 second. Messages that aren't JSON, have no `id`, or have an `id` longer than 39 characters can't be answered and are only logged by the device.
-5. A `cmd` of the `config` type is sent retained and stored by the device in NVS as the basis for the local safety rules (Module 19).
+5. A `cmd` of the `config` type is sent retained and stored by the device in NVS as the basis for the local safety rules (Module 19). **Offline mode** = the broker (or the Wi-Fi) unreachable continuously for 2 minutes or more since the last connection. In offline mode, the local safety turns the fan on when `temperature` is above `temp_fan_on`. Any fan it turned on itself is turned off again when `temperature` is below `temp_fan_on` − 2, also after reconnecting, unless another command (`set fan` from the server, MQTTX, or Serial) has already taken the fan over: **whoever turned it on turns it off**. After reconnecting, the device reports its offline mode through `vitals` (section 6).
 6. A device may only write to the topics of its own `device_id`; this rule is enforced by the broker's access list (Module 21). One exception: Node 1 also writes Node 2's `telemetry` and `status`, and the Module 21 access list records it.
 7. Failed readings are written as `null` in the JSON, for every field. Marker numbers such as `-1` never leave the device.
 8. A command with the same `id` is carried out only once; the device remembers at least the last eight `id`s and ignores repeats. This memory is lost when the device restarts, so `set` commands must not be sent retained (section 7).
 9. Every device only sends the sensor fields it has (section 4, "Fields per device").
+10. A topic has only **one** retained message. Deleting the retained message on `cmd` (for example a `set` command that was retained by mistake) deletes `config` as well, and a broker without storage (persistence) loses every retained message when it restarts. That's why the server publishes `config` again every time it connects to the broker and every time its threshold changes. The device stays safe in between: its last thresholds are stored in NVS.
 
 ## 10. Checking compliance
 
-Run [`tools/contract-checker.js`](tools/contract-checker.js) (`node contract-checker.js` in the `tools` folder, after `npm install`). It subscribes to `msh/#` and stamps **PASS** or **FAIL** on every message, with its reasons and how long each `ack` took. On a public broker, also write your `device_id` after the broker's address (`node contract-checker.js broker.emqx.io <device_id>`) so only your device's messages are checked. Every firmware change must pass this check before it's committed. Since contract 1.1, the checker recognizes Node 2's `telemetry` by its typical field, checks it against Node 2's field list, and marks it `(telemetry Node 2)`. Since contract 1.2 (checker version 1.2), that typical field is `pressure`, because `soil_temperature` can now also come from Node 1; the checker also makes sure that Node 1's three RS-485 fields are always complete.
+Run [`tools/contract-checker.js`](tools/contract-checker.js) (`node contract-checker.js` in the `tools` folder, after `npm install`). It subscribes to `msh/#` and stamps **PASS** or **FAIL** on every message, with its reasons and how long each `ack` took. On a public broker, also write your `device_id` after the broker's address (`node contract-checker.js broker.emqx.io <device_id>`) so only your device's messages are checked. Every firmware change must pass this check before it's committed. Since contract 1.1, the checker recognizes Node 2's `telemetry` by its typical field, checks it against Node 2's field list, and marks it `(telemetry Node 2)`. Since contract 1.2 (checker version 1.2), that typical field is `pressure`, because `soil_temperature` can now also come from Node 1; the checker also makes sure that Node 1's three RS-485 fields are always complete. Since contract 1.3 (checker version 1.3), the checker also checks the content of `state` in Node 1's `telemetry` and in `ack`, makes sure that the offline-mode report in `vitals` is always complete (`offline_s` and `local_fan`), checks the content of `thresholds` in every `config`, marks a `set` command retained on the broker as FAIL, and accepts an empty message on `cmd` as a sign that a retained message was just cleared.
 
 ## 11. Change history
 
 | Contract version | Module | Change |
 | :--- | :--- | :--- |
+| 1.3 | Module 19 | Node 1's `telemetry` carries `state` (the state of the four actuators, the same as `ack.state`), and immediate sends also happen when an actuator's state changes; `vitals` may carry the offline-mode report `offline_s` and `local_fan`, always together and only in the first `vitals` after reconnecting (sent about 10 seconds after connecting); `config` in detail: `thresholds` contains `temp_fan_on` (15–45 °C) and/or `soil_watering` (0–100%), QoS 1 retained, stored in NVS; the local safety rule and offline mode (rule 5); one retained message per topic, so the server publishes `config` again (rule 10). `status` doesn't change. Node 2's data doesn't change. |
 | 1.2 | Module 15 | Node 1 may carry three RS-485 soil sensor fields (Modbus RTU): `soil_rs485`, `soil_temperature`, and `ec`, always together and only when the sensor is connected and switched on (`rs485 on`); `null` if the last reading failed. Node 2's data doesn't change. |
 | 1.1 | Module 14 | Node 2 via Node 1: new fields `pressure`, `soil_temperature`, and `battery` (optional); sensor fields per device (rule 9); Node 2's `ts` is made by Node 1 when the packet is received; Node 2's `status` is published by Node 1; Node 2's `soil` may be `null`; Node 1 may write to Node 2's topics (rule 6). Node 1's data doesn't change. |
 | 1.0 | Module 11 | The contract comes into use over MQTT. Decided: failed readings are written as `null`; *client ID* = `device_id`; `telemetry` every 10 seconds plus immediate sends; `vitals` without `reset_reason` until Module 28; the `message` field in `ack`; the `set` targets with their value ranges; command `id`s of 39 characters at most; commands with the same `id` are ignored. |

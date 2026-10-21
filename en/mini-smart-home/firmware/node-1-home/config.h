@@ -2,7 +2,7 @@
 // The pins follow PIN-MAP.md. The calibration numbers are your own Module 6 results.
 #pragma once
 
-const char FIRMWARE_VERSION[] = "1.4.0";
+const char FIRMWARE_VERSION[] = "1.5.0";
 
 // ---------- Node 1 canonical pin map (copied from PIN-MAP.md) ----------
 const int PIN_STATUS_LED = 2;      // Module 2; moved from D4 to D2 in Module 15 (D4 is now the RS-485 DE/RE)
@@ -68,3 +68,12 @@ const unsigned long RS485_BAUD = 9600;                 // sensor datasheet: 9600
 const uint8_t RS485_SENSOR_ADDRESS = 1;                // the sensor's server address (datasheet: default 1)
 const unsigned long RS485_READ_INTERVAL = 10000;       // the sensor is read every 10 seconds
 const unsigned long RS485_SLOW_READ_INTERVAL = 60000;  // after 3 times without a reply: every 60 seconds
+
+// ---------- Module 19: local safety rule and offline mode ----------
+// The fan threshold is sent by the server with the "config" command and saved in NVS (label "temp_fan_on").
+const float DEFAULT_TEMP_FAN_ON = 30.0;             // Appendix A: "temp_fan_on"; used while NVS holds no threshold yet
+const float TEMP_FAN_MIN = 15.0;                    // a config with temp_fan_on outside 15-45 °C is refused
+const float TEMP_FAN_MAX = 45.0;
+const float FAN_HYSTERESIS = 2.0;                   // the safety fan turns off below temp_fan_on - 2 °C (hysteresis)
+const unsigned long OFFLINE_MODE_TIMEOUT = 120000;  // broker unreachable for 2 minutes without a break = offline mode
+const unsigned long OFFLINE_TEST_TIME = 180000;     // "test offline" command: the broker counts as gone for 3 minutes

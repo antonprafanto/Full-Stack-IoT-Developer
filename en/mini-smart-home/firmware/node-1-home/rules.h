@@ -1,4 +1,4 @@
-// rules.h - Node 1's local automation rules: automatic watering and automatic lamp (Modules 6 & 19)
+// rules.h - Node 1's local automation rules: automatic watering, automatic lamp (Module 6), and safety fan (Module 19)
 #pragma once
 #include "sensors.h"  // SensorReading
 

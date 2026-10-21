@@ -7,7 +7,7 @@
 #include "logger.h"
 #include "system.h"
 #include "settings.h"
-#include "networking.h"  // Module 10: networkText()
+#include "networking.h"  // Module 10: networkText(); Module 19: offlineMode()
 #include "display.h"
 
 const byte DISPLAY_ADDRESS = 0x3C;             // the OLED display's address on the I2C bus
@@ -189,7 +189,11 @@ static void drawStatusPage() {
   snprintf(text, sizeof(text), "Boot #%lu", bootCount());
   display.setCursor(0, 38);
   display.print(text);
-  snprintf(text, sizeof(text), "WiFi %s", networkText());  // Module 11: for example "WiFi ok, MQTT ok"
+  if (offlineMode()) {
+    snprintf(text, sizeof(text), "OFFLINE MODE");  // Module 19: broker unreachable for more than 2 minutes
+  } else {
+    snprintf(text, sizeof(text), "WiFi %s", networkText());  // Module 11: for example "WiFi ok, MQTT ok"
+  }
   display.setCursor(0, 47);
   display.print(text);
   snprintf(text, sizeof(text), "v%s  free %luKB", FIRMWARE_VERSION, ESP.getFreeHeap() / 1024);

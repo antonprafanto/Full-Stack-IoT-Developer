@@ -1,8 +1,10 @@
 // archive.ts - writes the messages that passed the contract checks to the database, and reads them back for the history API
-// (raw readings, or their summary per 15 minutes, per hour, and per day).
+// (raw readings, or their summary per 15 minutes, per hour, and per day). Module 19: automation rules (the rules table) and
+// the event log (the events table).
 // The in-memory store (store.ts) remains the "notice board" for the latest state; the database is its archive book.
 import { pool } from "./pool.ts";
 import type { Ack, SetCommand, Status, TelemetryNode1, TelemetryNode2, Vitals } from "../schemas/contract.ts";
+import type { Rule } from "../schemas/rules.ts";
 
 // Make sure the device has a row in the devices table (created if it isn't there yet), then update when it was last heard.
 // Columns that aren't given (null) don't overwrite the old values, thanks to coalesce.
@@ -48,15 +50,79 @@ export async function archiveVitals(deviceId: string, content: Vitals): Promise<
   );
 }
 
-// One command from the API with its result: the ack (ok or refused), or null if no ack came within 5 seconds.
+// One command with its result: the ack (ok or refused), or null if no ack came within 5 seconds. Module 19: also
+// who ordered it (source), which rule (if it came from a rule or a schedule), and the actuator state according to its ack.
 export async function archiveCommand(commandId: string, deviceId: string, command: SetCommand, sentAt: Date,
-  ack: Ack | null, waitMs: number): Promise<void> {
+  ack: Ack | null, waitMs: number, source: string, ruleId: number | null): Promise<void> {
   await pool.query(
-    `INSERT INTO commands (id, device_id, sent_at, target, value, ack_ok, ack_message, wait_ms)
-     VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
+    `INSERT INTO commands (id, device_id, sent_at, target, value, ack_ok, ack_message, wait_ms, source, rule_id, state)
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
     [commandId, deviceId, sentAt, command.target, JSON.stringify(command.value), ack?.ok ?? null,
-      ack?.message ?? null, waitMs],
+      ack?.message ?? null, waitMs, source, ruleId, ack === null ? null : JSON.stringify(ack.state)],
   );
+}
+
+// Module 19: one row of the rules table, as it is (condition and action are checked by Zod in automation.ts before use).
+export interface RuleRow {
+  id: number;
+  name: string;
+  active: boolean;
+  condition: unknown;
+  action: unknown;
+  created_at: Date;
+  updated_at: Date;
+}
+
+const RULE_COLUMNS = "id, name, active, condition, action, created_at, updated_at";
+
+export async function getAllRules(): Promise<RuleRow[]> {
+  const result = await pool.query<RuleRow>(`SELECT ${RULE_COLUMNS} FROM rules ORDER BY id`);
+  return result.rows;
+}
+
+export async function insertRule(a: Rule): Promise<RuleRow> {
+  const result = await pool.query<RuleRow>(
+    `INSERT INTO rules (name, active, condition, action) VALUES ($1, $2, $3, $4) RETURNING ${RULE_COLUMNS}`,
+    [a.name, a.active, JSON.stringify(a.condition), JSON.stringify(a.action)],
+  );
+  return result.rows[0];
+}
+
+// The result is undefined if no rule has that number.
+export async function updateRule(id: number, a: Rule): Promise<RuleRow | undefined> {
+  const result = await pool.query<RuleRow>(
+    `UPDATE rules SET name = $2, active = $3, condition = $4, action = $5, updated_at = now() WHERE id = $1 RETURNING ${RULE_COLUMNS}`,
+    [id, a.name, a.active, JSON.stringify(a.condition), JSON.stringify(a.action)],
+  );
+  return result.rows[0];
+}
+
+// Module 19: the event log (the events table, migration 007).
+export type EventKind = "rule" | "rule-changed" | "schedule" | "status" | "offline-report" | "command";
+
+export interface NewEvent {
+  device_id: string | null; // null for an event that doesn't belong to one device (for example a changed rule)
+  kind: EventKind;
+  source: string; // api, rule, schedule, telegram, device
+  rule_id: number | null;
+  message: string; // a sentence for humans, the same as its Telegram message
+  data?: unknown; // the raw details
+}
+
+// an event that is already stored: plus its number and time (this is what Socket.IO sends as "event")
+export interface SavedEvent extends NewEvent {
+  id: number;
+  occurred_at: string;
+}
+
+export async function saveEvent(e: NewEvent): Promise<SavedEvent> {
+  const result = await pool.query<{ id: string; occurred_at: Date }>(
+    `INSERT INTO events (device_id, kind, source, rule_id, message, data) VALUES ($1, $2, $3, $4, $5, $6)
+     RETURNING id, occurred_at`,
+    [e.device_id, e.kind, e.source, e.rule_id, e.message, e.data === undefined ? null : JSON.stringify(e.data)],
+  );
+  const { id, occurred_at } = result.rows[0];
+  return { id: Number(id), occurred_at: contractTime(occurred_at), ...e }; // a bigint comes from pg as text
 }
 
 // A time in the data contract format (UTC, without milliseconds), for example 2026-10-20T03:10:00Z

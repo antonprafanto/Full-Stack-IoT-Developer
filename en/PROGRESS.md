@@ -38,7 +38,7 @@ Tick `[x]` every time you meet the **"You pass when"** criteria in [SYLLABUS.md]
 - [ ] **[Module 16](phase-3-backend-data/module-16-backend-typescript-api-git/README.md)** — Your First Backend with Light TypeScript: Receiving Data, APIs, & Git for Teams
 - [ ] **[Module 17](phase-3-backend-data/module-17-sql-and-database-schema/README.md)** — Your First Database: SQL Basics & the "Mini Smart Home" Schema (PostgreSQL via Docker)
 - [ ] **[Module 18](phase-3-backend-data/module-18-timescaledb/README.md)** — TimescaleDB: Time-Series Data, Automatic Aggregation, Retention, & Backup
-- [ ] **Module 19** — Realtime, Two-Way Control, Automation Rules (Cloud & Local), & Notifications
+- [ ] **[Module 19](phase-3-backend-data/module-19-realtime-rules-notifications/README.md)** — Realtime, Two-Way Control, Automation Rules (Cloud & Local), & Notifications
 - [ ] **Module 20** — User Security: Login, JWT in Cookies, Roles, & API Protection
 - [ ] **Module 21** — Device Security: API Keys, Simple Provisioning, & Broker Access Control (ACL)
 - [ ] 🎯 Phase 3 checkpoint: backend v1.0 locked down (people & devices), automation rules (cloud + local safety) and Telegram working

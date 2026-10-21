@@ -1,6 +1,11 @@
-// Node 1 "Home" - firmware v1.4.0 (Module 15: RS-485 soil sensor over Modbus RTU)
+// Node 1 "Home" - firmware v1.5.0 (Module 19: local safety rule and offline mode)
 // The running project: Mini Smart Home.
 //
+// New in v1.5.0: Node 1 accepts the "config" command from the server (temp_fan_on and soil_watering thresholds, saved
+// in NVS). If the broker is unreachable for more than 2 minutes (offline mode), the local safety rule turns the fan on
+// by itself above temp_fan_on and off below temp_fan_on - 2 C; its report goes with the first vitals, 10 seconds after
+// reconnecting. telemetry now carries the state of all four actuators (state) and is published at once when an
+// actuator changes (data contract 1.3). The "test offline" command practices all of this without pulling a cable.
 // New in v1.4.0: Node 1 is now a Modbus RTU client. Every 10 seconds it reads three registers of the RS-485 soil sensor
 // (via the MAX485 module on Serial2) and adds soil_rs485, soil_temperature, and ec to telemetry (data contract 1.2).
 // The sensor is used after the "rs485 on" command. The status LED moves to D2 because D4 is now the DE/RE pin.
@@ -13,7 +18,7 @@
 // From v1.0.0 (Module 8): no delay() in loop(), modular code, watchdog, NVS, leveled logging, status page.
 // Commands from the Serial Monitor: lamp on, fan off, pump 3, curtain 90, beep, status, info,
 // threshold, threshold 35, threshold default, log debug, log info, log error, wifi, wifi forget, send, node2,
-// node2 reset, rs485, rs485 on, rs485 off, restart.
+// node2 reset, rs485, rs485 on, rs485 off, test offline, restart.
 //
 // Libraries: ESP32Servo version 3.2.1, DHT sensor library version 1.4.7
 // (installed with it: Adafruit Unified Sensor version 1.1.15), Adafruit SSD1306 version 2.5.17

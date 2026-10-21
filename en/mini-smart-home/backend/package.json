@@ -1,7 +1,7 @@
 {
   "name": "mini-smart-home-backend",
-  "version": "0.3.0",
-  "description": "Mini Smart Home backend (Modules 16-18): listens to MQTT, checks the data contract, stores every message in a time-series database, and provides a history API with summaries",
+  "version": "0.4.0",
+  "description": "Mini Smart Home backend (Modules 16-19): listens to MQTT, checks the data contract, stores every message in a time-series database, and provides a history API, realtime data, commands, automation rules, schedules, and Telegram notifications",
   "private": true,
   "type": "module",
   "scripts": {
@@ -9,21 +9,27 @@
     "start": "node --env-file=.env src/server.ts",
     "check": "tsc --noEmit",
     "migrate": "node --env-file=.env src/db/migrate.ts",
-    "seed-history": "node --env-file=.env src/db/seed-history.ts"
+    "seed-history": "node --env-file=.env src/db/seed-history.ts",
+    "test": "vitest run"
   },
   "dependencies": {
     "@fastify/swagger": "^9.9.2",
     "@fastify/swagger-ui": "^6.1.2",
     "fastify": "^5.12.7",
     "fastify-type-provider-zod": "^7.0.0",
+    "grammy": "^1.46.0",
     "mqtt": "^5.16.1",
+    "node-cron": "^4.6.0",
     "pg": "^8.23.1",
+    "socket.io": "^4.8.4",
     "zod": "^4.6.7"
   },
   "devDependencies": {
     "@types/node": "^24.19.2",
     "@types/pg": "^8.23.1",
     "pino-pretty": "^13.2.0",
-    "typescript": "^7.0.2"
+    "typescript": "^7.0.2",
+    "vite": "^8.3.4",
+    "vitest": "^5.0.5"
   }
 }

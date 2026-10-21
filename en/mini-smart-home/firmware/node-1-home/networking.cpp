@@ -23,6 +23,7 @@
 const unsigned long NO_ATTEMPT_TIMEOUT = 60000;  // guard: 60 seconds without a connection attempt = tell it to try again
 const unsigned long MQTT_RETRY_INTERVAL = 5000;  // couldn't connect to the broker? try again 5 seconds later
 const unsigned long MIN_IMMEDIATE_GAP = 2000;    // immediate sends at most every 2 seconds
+const unsigned long REPORT_DELAY = 10000;        // Module 19: offline-mode report sent 10 seconds after connecting
 const char WOKWI_BROKER[] = "broker.emqx.io";    // Wokwi can't reach your laptop: use a public broker
 
 static WiFiClient netClient;          // TCP connection to the broker
@@ -58,6 +59,7 @@ static bool hasReading = false;
 static bool hasSent = false;
 static unsigned long lastSendTime = 0;
 static uint8_t lastState = 0;  // the last known important events (see importantState())
+static int lastCurtain = 0;    // Module 19: the curtain angle at the previous reading
 static bool stateKnown = false;
 static const char* immediateReason = nullptr;  // not nullptr = an important event that isn't sent yet
 static bool vitalsSent = false;
@@ -65,6 +67,18 @@ static unsigned long lastVitalsTime = 0;
 static unsigned long publishCount = 0;
 static char lastIds[8][40];  // the last 8 command ids received (including refused ones)
 static int idPosition = 0;
+
+// ---------- Module 19: offline mode and its report ----------
+static unsigned long lastReadyTime = 0;   // millis() the last time WiFi and MQTT were both connected
+static bool offline = false;              // in offline mode right now?
+static unsigned long offlineStartTime = 0;
+static unsigned long offlineEndTime = 0;  // when the last offline mode ended (the report waits from here)
+static uint16_t localFan = 0;             // times the safety rule turned the fan on in this offline mode
+static bool reportPending = false;        // the offline-mode report hasn't gone out with vitals yet
+static unsigned long reportSeconds = 0;   // offline-mode time (seconds) not reported yet
+static uint16_t reportLocalFan = 0;       // number of safety fan turn-ons not reported yet
+static bool offlineTest = false;          // is the "test offline" command running?
+static unsigned long offlineTestTime = 0;
 
 // Called by the esp32 package from the WiFi "worker", not from loop(): just raise a flag.
 static void onWiFiEvent(arduino_event_id_t event, arduino_event_info_t info) {
@@ -157,6 +171,15 @@ static void rememberId(const char* id) {
   idPosition = (idPosition + 1) % 8;  // the oldest one is overwritten
 }
 
+// The state of all four actuators (Appendix A): "state" in ack and, since contract 1.3 (Module 19), also in telemetry.
+static void writeState(JsonDocument& doc) {
+  JsonObject state = doc["state"].to<JsonObject>();
+  state["fan"] = fanOn();
+  state["lamp"] = lampOn();
+  state["pump"] = pumpOn();
+  state["curtain"] = curtainAngle();
+}
+
 // The answer to a command (Appendix A): the same id, ok, the state of all four actuators, and message if refused.
 static void sendAck(const char* id, bool ok, const char* message) {
   JsonDocument reply;
@@ -171,11 +194,7 @@ static void sendAck(const char* id, bool ok, const char* message) {
   if (!ok) {
     reply["message"] = message;
   }
-  JsonObject state = reply["state"].to<JsonObject>();
-  state["fan"] = fanOn();
-  state["lamp"] = lampOn();
-  state["pump"] = pumpOn();
-  state["curtain"] = curtainAngle();
+  writeState(reply);
   char content[256];
   size_t length = serializeJson(reply, content, sizeof(content));
   if (length >= sizeof(content)) {
@@ -224,9 +243,46 @@ static const char* doSet(JsonDocument& command) {
   return "unknown target";
 }
 
+// Module 19: one "config" command. All thresholds are checked first; only if all of them are valid are they saved
+// to NVS (only the ones whose number changed). Returns nullptr if it worked, or the reason it was refused.
+static const char* doConfig(JsonDocument& command) {
+  static char reason[48];  // static: sendAck() still reads its content after this function has ended
+  JsonObject thresholds = command["thresholds"].as<JsonObject>();
+  if (thresholds.isNull() || thresholds.size() == 0) {
+    return "thresholds must contain temp_fan_on or soil_watering";
+  }
+  for (JsonPair p : thresholds) {  // any other name = a typo: refuse everything so that nothing slips through quietly
+    const char* name = p.key().c_str();
+    if (strcmp(name, "temp_fan_on") != 0 && strcmp(name, "soil_watering") != 0) {
+      snprintf(reason, sizeof(reason), "unknown threshold: %s", name);
+      return reason;
+    }
+  }
+  JsonVariant temperature = thresholds["temp_fan_on"];
+  JsonVariant soil = thresholds["soil_watering"];
+  if (!temperature.isNull()
+      && (!temperature.is<float>() || temperature.as<float>() < TEMP_FAN_MIN || temperature.as<float>() > TEMP_FAN_MAX)) {
+    return "temp_fan_on must be a number 15-45";
+  }
+  if (!soil.isNull() && (!soil.is<int>() || soil.as<int>() < 0 || soil.as<int>() > 100)) {
+    return "soil_watering must be a whole number 0-100";
+  }
+  if (!temperature.isNull()) {
+    saveTempFanThreshold(temperature.as<float>());
+  }
+  if (!soil.isNull()) {
+    saveSoilWateringThreshold(soil.as<int>());
+  }
+  return nullptr;
+}
+
 // Called by the library inside mqtt.loop() for every message on msh/<device_id>/cmd.
 // The order: read the JSON, check, carry out, answer. A command whose id was already received is ignored.
 static void onMqttMessage(char* topic, byte* content, unsigned int length) {
+  if (length == 0) {  // Module 19: empty message = someone deleted the retained config from the broker, not a command
+    logDebug("Empty cmd message (retained message deleted): ignored.");
+    return;
+  }
   JsonDocument command;
   DeserializationError error = deserializeJson(command, content, length);  // the content has no end-of-text mark
   if (error) {
@@ -242,22 +298,26 @@ static void onMqttMessage(char* topic, byte* content, unsigned int length) {
     logError("Command with an id longer than 39 characters: ignored.");
     return;
   }
+  const char* action = command["action"] | "";
   if (alreadyReceived(id)) {
-    logInfo("Command %s was already received: ignored.", id);
+    if (strcmp(action, "config") == 0) {  // Module 19: a retained config comes again after every connect: that's normal
+      logDebug("Config %s arrived again (retained, after connecting): already done.", id);
+    } else {
+      logInfo("Command %s was already received: ignored.", id);
+    }
     return;
   }
   rememberId(id);
-  const char* action = command["action"] | "";
   const char* message = "unknown action";
   if (strcmp(action, "set") == 0) {
     message = doSet(command);
   } else if (strcmp(action, "config") == 0) {
-    message = "action config not supported yet (Module 19)";
+    message = doConfig(command);  // Module 19
   } else if (strcmp(action, "update") == 0) {
     message = "action update not supported yet (Module 28)";
   }
   if (message == nullptr) {
-    logInfo("Command %s: %s %s done.", id, action, command["target"] | "");
+    logInfo("Command %s: %s %s done.", id, action, command["target"] | "thresholds");
   } else {
     logError("Command %s refused: %s", id, message);
   }
@@ -313,6 +373,7 @@ void setupNetwork() {
       logInfo("Connecting to the saved WiFi \"%s\" (without waiting)...", wm.getWiFiSSID().c_str());
     }
   }
+  lastReadyTime = millis();  // Module 19: the offline-mode count starts after the WiFi portal, not at power-up
 }
 
 // Only once, at the first connection: the internet time (Module 10, Practice 5).
@@ -354,7 +415,12 @@ static void sendVitals() {
   doc["rssi"] = WiFi.RSSI();
   doc["uptime_s"] = uptimeSeconds();
   doc["heap_free"] = ESP.getFreeHeap();
-  char content[128];
+  bool hasReport = reportPending;  // Module 19: only in the first vitals after offline mode (contract 1.3)
+  if (hasReport) {
+    doc["offline_s"] = reportSeconds;
+    doc["local_fan"] = reportLocalFan;
+  }
+  char content[192];  // Module 19: enlarged from 128 for the offline-mode report
   size_t length = serializeJson(doc, content, sizeof(content));
   if (length >= sizeof(content)) {
     logError("Vitals too long for the content[] container: not sent.");
@@ -366,11 +432,25 @@ static void sendVitals() {
     vitalsSent = true;
     lastVitalsTime = millis();
     logDebug("Vitals content: %s", content);
+    if (hasReport) {
+      logInfo("Offline-mode report sent with vitals: offline_s=%lu, local_fan=%u", reportSeconds,
+              reportLocalFan);
+      reportPending = false;
+      reportSeconds = 0;
+      reportLocalFan = 0;
+    }
   }
 }
 
 // One attempt to connect to the broker, at most every MQTT_RETRY_INTERVAL. Never loops while waiting.
 static void tryConnectBroker() {
+  if (offlineTest) {  // Module 19: the "test offline" command is running: pretend the broker is unreachable
+    if (millis() - offlineTestTime < OFFLINE_TEST_TIME) {
+      return;
+    }
+    offlineTest = false;
+    logInfo("Offline test finished: Node 1 reconnects to the broker.");
+  }
   if (hasTriedMqtt && millis() - lastMqttTryTime < MQTT_RETRY_INTERVAL) {
     return;
   }
@@ -381,6 +461,11 @@ static void tryConnectBroker() {
   if (mqtt.connect(deviceId, statusTopic, 1, true, "offline")) {
     mqttConnected = true;
     lastFailCode = 0;
+    if (USE_WOKWI) {
+      // Module 19: in Wokwi, looking up the address of broker.emqx.io (DNS) after a long disconnect can take more than
+      // 5 seconds, and the watchdog restarts Node 1. Keep its IP address: the next reconnect needs no DNS anymore.
+      mqtt.setServer(netClient.remoteIP(), BROKER_PORT);
+    }
     mqtt.publish(statusTopic, "online", true);  // retained: subscribers who come later still see it
     mqtt.subscribe(cmdTopic, 1);                // subscribe again after every connect (clean session)
     logInfo("MQTT connected to broker %s:%u in %lu ms, as %s", USE_WOKWI ? WOKWI_BROKER : BROKER_ADDRESS,
@@ -406,7 +491,11 @@ static void guardMqtt() {
   }
   if (mqtt.connected()) {
     mqtt.loop();  // receives commands and keeps the connection alive (keep-alive)
-    if (!vitalsSent || millis() - lastVitalsTime >= VITALS_INTERVAL) {
+    // Module 19: after offline mode, the first vitals (the one with the report) waits REPORT_DELAY first. The server
+    // usually lost the broker too and only reconnects a few seconds later. vitals is not retained, so a report
+    // published before the server subscribes again would never arrive.
+    bool reportWaitsForServer = reportPending && millis() - offlineEndTime < REPORT_DELAY;
+    if (!reportWaitsForServer && (!vitalsSent || millis() - lastVitalsTime >= VITALS_INTERVAL)) {
       sendVitals();
     }
     return;
@@ -418,6 +507,33 @@ static void guardMqtt() {
              mqttStateName(code), code, MQTT_RETRY_INTERVAL / 1000);
   }
   tryConnectBroker();
+}
+
+// Module 19: offline mode = WiFi or broker unreachable without a break for OFFLINE_MODE_TIMEOUT, counted from the
+// last connection. During offline mode, the safety fan rule (rules.cpp) works on its own.
+static void guardOfflineMode() {
+  unsigned long now = millis();
+  if (mqttReady()) {
+    lastReadyTime = now;
+    if (offline) {
+      offline = false;
+      offlineEndTime = now;
+      unsigned long elapsed = (now - offlineStartTime) / 1000;
+      reportSeconds += elapsed;  // added up: if the vitals couldn't go out yet, the next offline mode counts too
+      reportLocalFan += localFan;
+      reportPending = true;  // goes with the first vitals after connecting, REPORT_DELAY later (guardMqtt)
+      logInfo("OFFLINE MODE ENDED after %lu seconds: broker reachable again. Local safety turned the fan on %u time(s).", elapsed,
+              localFan);
+    }
+    return;
+  }
+  if (!offline && now - lastReadyTime >= OFFLINE_MODE_TIMEOUT) {
+    offline = true;
+    offlineStartTime = now;
+    localFan = 0;
+    logError("OFFLINE MODE: broker unreachable for %lu seconds. Local safety active: fan turns on above %.1f C.",
+             OFFLINE_MODE_TIMEOUT / 1000, tempFanThreshold());
+  }
 }
 
 void updateNetwork() {
@@ -456,10 +572,12 @@ void updateNetwork() {
   }
   guardConnection();
   guardMqtt();
+  guardOfflineMode();  // Module 19
 }
 
 // ---------- Sending readings: telemetry (Module 11, Practices 3 and 7) ----------
-// Important events as a row of bits: motion, dark, dry soil, low tank water.
+// Important events as a row of bits: motion, dark, dry soil, low tank water,
+// and since Module 19 (contract 1.3) the fan, lamp, and pump being on.
 static uint8_t importantState(SensorReading b) {
   uint8_t s = 0;
   if (b.motion) {
@@ -474,6 +592,15 @@ static uint8_t importantState(SensorReading b) {
   if (b.water_level >= 0 && b.water_level < MIN_WATER_LEVEL) {
     s |= 8;
   }
+  if (fanOn()) {  // Module 19: the actuator states go into state in telemetry
+    s |= 16;
+  }
+  if (lampOn()) {
+    s |= 32;
+  }
+  if (pumpOn()) {
+    s |= 64;
+  }
   return s;
 }
 
@@ -487,6 +614,15 @@ static const char* changeName(uint8_t changed, uint8_t now, int waterLevel) {
   }
   if (changed & 4) {
     return (now & 4) ? "soil drying out" : "soil wet again";
+  }
+  if (changed & 16) {  // Module 19
+    return (now & 16) ? "fan turned on" : "fan turned off";
+  }
+  if (changed & 32) {
+    return (now & 32) ? "lamp turned on" : "lamp turned off";
+  }
+  if (changed & 64) {
+    return (now & 64) ? "pump turned on" : "pump turned off";
   }
   if (now & 8) {
     return "tank water low";
@@ -518,7 +654,8 @@ static bool publishTelemetry(const char* reason) {
     doc["water_level"] = readingToSend.water_level;
   }
   writeRS485Fields(doc);  // Module 15: soil_rs485, soil_temperature, ec (only when the RS-485 sensor is in use)
-  char content[256];  // Module 15: enlarged from 192 for the three RS-485 fields
+  writeState(doc);        // Module 19 (contract 1.3): state, exactly the same as the state in ack
+  char content[320];  // Module 19: enlarged from 256 for state
   size_t length = serializeJson(doc, content, sizeof(content));
   if (length >= sizeof(content)) {
     logError("Telemetry too long for the content[] container: not sent.");
@@ -543,8 +680,11 @@ void sendReading(SensorReading b) {
     stateKnown = true;
   } else if (s != lastState) {
     immediateReason = changeName(s ^ lastState, s, b.water_level);
+  } else if (curtainAngle() != lastCurtain) {
+    immediateReason = "curtain moved";  // Module 19: the curtain angle is part of state too
   }
   lastState = s;
+  lastCurtain = curtainAngle();
   // Readings come about every 2 seconds, never exactly: allow half a read interval of tolerance.
   unsigned long since = now - lastSendTime + READ_INTERVAL / 2;
   if (immediateReason != nullptr && (!hasSent || since >= MIN_IMMEDIATE_GAP)) {
@@ -611,6 +751,20 @@ void printNetworkInfo() {
   }
   Serial.printf("mqtt: telemetry every %lu seconds and immediately when something important happens, vitals every %lu minutes, "
                 "published %lu times\n", SEND_INTERVAL / 1000, VITALS_INTERVAL / 60000, publishCount);
+  unsigned long now = millis();  // Module 19: offline mode
+  if (offline) {
+    Serial.printf("offline mode: YES, for %lu s; local safety has turned the fan on %u time(s)\n",
+                  (now - offlineStartTime) / 1000, localFan);
+  } else if (mqttReady()) {
+    Serial.println("offline mode: no (broker reachable)");
+  } else {
+    Serial.printf("offline mode: not yet; broker unreachable for %lu s (offline mode after %lu s)\n",
+                  (now - lastReadyTime) / 1000, OFFLINE_MODE_TIMEOUT / 1000);
+  }
+  if (offlineTest && now - offlineTestTime < OFFLINE_TEST_TIME) {
+    Serial.printf("offline mode: offline test running, Node 1 reconnects in %lu s\n",
+                  (OFFLINE_TEST_TIME - (now - offlineTestTime)) / 1000);
+  }
 }
 
 void forgetWiFi() {
@@ -631,4 +785,26 @@ bool publishTo(const char* topic, const char* content, bool retained) {
     return false;
   }
   return mqtt.publish(topic, content, retained);
+}
+
+// ---------- Module 19: used by the safety rule (rules.cpp) and the Serial commands ----------
+bool offlineMode() {
+  return offline;
+}
+
+void recordLocalFan() {
+  if (offline) {
+    localFan++;
+  }
+}
+
+// Rehearses "the Pi's LAN cable pulled out" without touching the Pi (and the only way in Wokwi with a public broker).
+// The TCP connection to the broker is closed WITHOUT a goodbye, so the broker publishes the "offline" last will at
+// once; then Node 1 doesn't reconnect for OFFLINE_TEST_TIME. A restart ends this test early.
+void startOfflineTest() {
+  offlineTest = true;
+  offlineTestTime = millis();
+  netClient.stop();
+  Serial.printf("test offline: broker connection cut; offline mode starts in %lu minutes, "
+                "reconnecting in %lu minutes.\n", OFFLINE_MODE_TIMEOUT / 60000, OFFLINE_TEST_TIME / 60000);
 }

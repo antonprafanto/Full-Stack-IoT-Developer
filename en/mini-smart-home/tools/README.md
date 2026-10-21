@@ -2,15 +2,16 @@
 
 🌐 **English** · [Bahasa Indonesia](../../../proyek-rumah-pintar-mini/alat/README.md)
 
-This folder contains small Node.js programs that you create in [Module 4](../../phase-0-foundations/module-04-javascript-nodejs/README.md), [Module 11](../../phase-2-connectivity/module-11-mqtt-and-data-contract/README.md), and [Module 16](../../phase-3-backend-data/module-16-backend-typescript-api-git/README.md), then use again and again in later modules. All of them have been tested with **Node.js 24.21.0**. The first three need no libraries from npm; `contract-checker.js` and `device-simulator.js` need the **mqtt** 5.16.1 library (see "How to use").
+This folder contains small Node.js programs that you create in [Module 4](../../phase-0-foundations/module-04-javascript-nodejs/README.md), [Module 11](../../phase-2-connectivity/module-11-mqtt-and-data-contract/README.md), [Module 16](../../phase-3-backend-data/module-16-backend-typescript-api-git/README.md), and [Module 19](../../phase-3-backend-data/module-19-realtime-rules-notifications/README.md), then use again and again in later modules. All of them have been tested with **Node.js 24.21.0**. The first three need no libraries from npm; `contract-checker.js` and `device-simulator.js` need the **mqtt** 5.16.1 library, and `live-terminal.js` needs **socket.io-client** 4.8.4 (see "How to use").
 
 | File | What it does | Used again in |
 | :--- | :--- | :--- |
 | [`generate-dummy.js`](generate-dummy.js) | Generates fake sensor readings shaped exactly like the [data contract](../../SYLLABUS.md#14-appendix-a--mini-smart-home-data-contract). Run it directly to write `data/readings.json`, or borrow its function: `import { buildTelemetry } from "./generate-dummy.js";` | Module 10 (test data before the sensors are ready), Module 16 (a device simulator for the backend), Module 22 (the dashboard before there are real sensors) |
 | [`webhook-receiver.js`](webhook-receiver.js) | A mini server on port 3000 that prints everything it receives and replies with `{"ok":true}`. | Module 10 (the ESP32 sends its first reading over Wi-Fi to your laptop), then Module 22 as a test receiver |
 | [`send-data.js`](send-data.js) | A test sender: it pretends to be an ESP32 and sends 3 readings to `http://localhost:3000/telemetry`. | Module 10, to test a receiver without a board |
-| [`contract-checker.js`](contract-checker.js) | The data contract's security guard: it subscribes to `msh/#` on the MQTT broker, then stamps every message **PASS** or **FAIL** according to [`DATA-CONTRACT.md`](../DATA-CONTRACT.md), with the reasons and how long each `ack` reply took. | Module 11 (a Node 1 v1.2 completion requirement), Module 14 (version 1.1: Node 2's `telemetry` is checked against its own fields), Module 15 (version 1.2: the three RS-485 sensor fields in Node 1's `telemetry`), then every time the firmware changes or a new device is added |
-| [`device-simulator.js`](device-simulator.js) | Ten fake devices (`f00d00000001` to `f00d00000010`) that speak MQTT exactly as the data contract says: the `online`/`offline` status (through the *Last Will*), `telemetry` every 10 seconds from `buildTelemetry()`, `vitals` on connecting and every 5 minutes, and an `ack` answer to every command. The `clean` mode deletes their retained status from the broker. | Module 16 (testing the backend without a board), then every module that needs many devices |
+| [`contract-checker.js`](contract-checker.js) | The data contract's security guard: it subscribes to `msh/#` on the MQTT broker, then stamps every message **PASS** or **FAIL** according to [`DATA-CONTRACT.md`](../DATA-CONTRACT.md), with the reasons and how long each `ack` reply took. | Module 11 (a Node 1 v1.2 completion requirement), Module 14 (version 1.1: Node 2's `telemetry` is checked against its own fields), Module 15 (version 1.2: the three RS-485 sensor fields in Node 1's `telemetry`), Module 19 (version 1.3: `state` in `telemetry` and `ack`, the offline-mode report in `vitals`, the content of `config`, a retained `set`), then every time the firmware changes or a new device is added |
+| [`device-simulator.js`](device-simulator.js) | Ten fake devices (`f00d00000001` to `f00d00000010`) that speak MQTT exactly as the data contract says: the `online`/`offline` status (through the *Last Will*), `telemetry` every 10 seconds from `buildTelemetry()` (since Module 19 with `state` and an immediate send when an actuator changes), `vitals` on connecting and every 5 minutes, and an `ack` answer to every command, `config` included (stored in `data/simulator-store.json`). Since Module 19, the temperature can be set from the terminal (`temp 33`, `temp random`), and when the broker is unreachable for 2 minutes, the simulator enters offline mode, runs the safety fan, then reports through `vitals` about 10 seconds after it reconnects. The `clean` mode deletes their retained status and `config` from the broker. | Module 16 (testing the backend without a board), Module 19 (automation rules and the "broker off" test), then every module that needs many devices |
+| [`live-terminal.js`](live-terminal.js) | A "small terminal" that connects to the backend through Socket.IO, follows one device (`follow`), then shows each of its readings as soon as it arrives, the status changes of every device, and the event log. It reconnects by itself when the backend restarts. | Module 19, then Module 23 (the live dashboard uses the same events) |
 
 ## How to use
 
@@ -50,13 +51,25 @@ The simulator uses the same library. Write the broker's full address (starting w
 node device-simulator.js mqtt://192.168.1.37:1883
 ```
 
-The word `clean` in the place of the second value deletes the fake devices' retained status from the broker, then the program ends by itself:
+The word `clean` in the place of the second value deletes the fake devices' retained status and `config` from the broker, then the program ends by itself:
 
 ```bash
 node device-simulator.js mqtt://192.168.1.37:1883 clean
 ```
 
-The simulator is explained in Module 16, Practice 7.
+While the simulator runs, type `temp 33` and then **Enter** in the same terminal so that every fake device reads 33.0 °C (use a point for decimals, for example `temp 29.5`); `temp random` brings back a random temperature of 25.0–33.0 °C. The simulator is explained in Module 16, Practice 7, and in Module 19.
+
+`live-terminal.js` needs a running backend and its library (just once, in this `tools` folder):
+
+```bash
+npm install socket.io-client@4.8.4
+```
+
+```bash
+node live-terminal.js http://127.0.0.1:8080 f00d00000001
+```
+
+The first value is the backend's address, the second the `device_id` of the device you want to follow. The explanation is in Module 19, Practice 1.
 
 ## Notes
 

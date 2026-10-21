@@ -4,7 +4,7 @@
 
 *Phase 3 · Week 18 · Hardware: **not required** — data from backend v0.2 (Node 1, Node 2, or the Module 16 simulator) plus 1 million rows of test data made by this module · Prerequisites: **Module 17** (the `smarthome` database in Docker and backend v0.2) · Time: 8–10 hours, spread over the week*
 
-[⬅️ Module 17](../module-17-sql-and-database-schema/README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · [Module 19 ➡️ (coming soon — read the summary in the Syllabus)](../../SYLLABUS.md#module-19--realtime-two-way-control-automation-rules-cloud--local--notifications)
+[⬅️ Module 17](../module-17-sql-and-database-schema/README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · [Module 19 ➡️](../module-19-realtime-rules-notifications/README.md)
 
 ---
 
@@ -3629,4 +3629,4 @@ The completion requirement from the Syllabus: **the query "hourly average over t
 
 ---
 
-[⬅️ Module 17](../module-17-sql-and-database-schema/README.md) · [Phase 3](../README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · **Next: Module 19 — Realtime, Two-Way Control, Automation Rules (Cloud & Local), & Notifications** (coming soon; [read the summary in the Syllabus](../../SYLLABUS.md#module-19--realtime-two-way-control-automation-rules-cloud--local--notifications))
+[⬅️ Module 17](../module-17-sql-and-database-schema/README.md) · [Phase 3](../README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · **Next: [Module 19 — Realtime, Automation Rules, & Notifications](../module-19-realtime-rules-notifications/README.md) ➡️**

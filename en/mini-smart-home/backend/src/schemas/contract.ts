@@ -1,4 +1,4 @@
-// contract.ts - Appendix A (data contract 1.2) as Zod schemas: a contract that runs.
+// contract.ts - Appendix A (data contract 1.3) as Zod schemas: a contract that runs.
 // Every message from a device is checked against these schemas before it is stored ("never trust the device").
 import { z } from "zod";
 
@@ -11,7 +11,16 @@ const Version = z.string().regex(/^\d+\.\d+\.\d+$/, "version must look like x.y.
 const decimal = (min: number, max: number) => z.number().min(min).max(max).nullable();
 const integer = (min: number, max: number) => z.number().int().min(min).max(max).nullable();
 
-// Node 1 telemetry (contract 1.0) plus three RS-485 sensor fields that may be missing (contract 1.2)
+// the state of the four actuators, the same in ack (contract 1.0) and in Node 1 telemetry (contract 1.3)
+export const State = z.strictObject({
+  fan: z.boolean(),
+  lamp: z.boolean(),
+  pump: z.boolean(),
+  curtain: z.number().int().min(0).max(180),
+});
+
+// Node 1 telemetry (contract 1.0) plus three RS-485 sensor fields that may be missing (contract 1.2) and the actuator
+// state (contract 1.3; older firmware doesn't write it yet, so it may be missing)
 export const TelemetryNode1 = z.strictObject({
   ts: Time,
   fw: Version,
@@ -24,6 +33,7 @@ export const TelemetryNode1 = z.strictObject({
   soil_rs485: decimal(0, 100).optional(),
   soil_temperature: decimal(-55, 125).optional(),
   ec: integer(0, 20000).optional(),
+  state: State.optional(),
 });
 
 // Node 2 telemetry (contract 1.1), published by Node 1 on behalf of Node 2; recognized by the pressure field
@@ -40,19 +50,18 @@ export const TelemetryNode2 = z.strictObject({
 
 export const Status = z.enum(["online", "offline", "offline-mode"]);
 
-export const Vitals = z.strictObject({
-  ts: Time,
-  rssi: z.number().int().max(0),
-  uptime_s: z.number().int().min(0),
-  heap_free: z.number().int().min(0),
-});
-
-export const State = z.strictObject({
-  fan: z.boolean(),
-  lamp: z.boolean(),
-  pump: z.boolean(),
-  curtain: z.number().int().min(0).max(180),
-});
+// vitals (contract 1.0) plus the offline-mode report (contract 1.3): offline_s and local_fan always come together
+export const Vitals = z
+  .strictObject({
+    ts: Time,
+    rssi: z.number().int().max(0),
+    uptime_s: z.number().int().min(0),
+    heap_free: z.number().int().min(0),
+    offline_s: z.number().int().min(0).optional(),
+    local_fan: z.number().int().min(0).optional(),
+  })
+  .refine((v) => (v.offline_s === undefined) === (v.local_fan === undefined),
+    "the offline-mode report must be complete: offline_s and local_fan always come together");
 
 export const Ack = z
   .strictObject({
@@ -72,6 +81,16 @@ export const SetCommand = z.discriminatedUnion("target", [
   z.strictObject({ target: z.literal("curtain"), value: z.number().int().min(0).max(180) }),
 ]);
 
+// the thresholds of the local safety rules, sent with the "config" cmd (contract 1.3 section 7): at least one key
+export const Thresholds = z
+  .strictObject({
+    temp_fan_on: z.number().min(15).max(45).optional(),
+    soil_watering: z.number().int().min(0).max(100).optional(),
+  })
+  .refine((a) => a.temp_fan_on !== undefined || a.soil_watering !== undefined, "thresholds must contain temp_fan_on or soil_watering");
+
+export type State = z.infer<typeof State>;
+export type Thresholds = z.infer<typeof Thresholds>;
 export type TelemetryNode1 = z.infer<typeof TelemetryNode1>;
 export type TelemetryNode2 = z.infer<typeof TelemetryNode2>;
 export type Status = z.infer<typeof Status>;

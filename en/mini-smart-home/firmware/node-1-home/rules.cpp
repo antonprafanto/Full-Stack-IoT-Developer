@@ -4,6 +4,7 @@
 #include "logger.h"
 #include "settings.h"
 #include "actuators.h"
+#include "networking.h"  // Module 19: offlineMode() and recordLocalFan()
 #include "rules.h"
 
 // ---------- Automatic watering: the state machine from Practice 3 ----------
@@ -59,10 +60,30 @@ static void autoLamp(SensorReading b) {
   }
 }
 
+// ---------- Local safety fan (Module 19) ----------
+// Normally the server controls the fan. This safety rule only TURNS the fan ON in offline mode (broker unreachable
+// for more than 2 minutes). It also turns off a fan it turned on itself, below temp_fan_on - 2 °C, even when the
+// broker is reachable again, unless the server or you have taken that fan over with a fan command.
+static void safetyFan(SensorReading b) {
+  if (isnan(b.temperature)) {
+    return;  // the DHT22 couldn't be read: don't guess, leave the fan as it is
+  }
+  float onLimit = tempFanThreshold();
+  float offLimit = onLimit - FAN_HYSTERESIS;
+  if (offlineMode() && !fanOn() && b.temperature > onLimit) {
+    logInfo("Local safety: temperature %.1f C above %.1f C, fan turned on.", b.temperature, onLimit);
+    setFanBySafety(true);
+    recordLocalFan();  // counted for the offline-mode report
+  } else if (fanBySafety() && b.temperature < offLimit) {
+    logInfo("Local safety: temperature %.1f C below %.1f C, fan turned off.", b.temperature, offLimit);
+    setFanBySafety(false);
+  }
+}
+
 void runRules(SensorReading b) {
   autoWatering(b);
   autoLamp(b);
-  // Module 19 adds the automatic fan (Appendix A: "temp_fan_on")
+  safetyFan(b);  // Module 19 (Appendix A: "temp_fan_on")
 }
 
 void updateRules() {

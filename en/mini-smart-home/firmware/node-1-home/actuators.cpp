@@ -11,6 +11,7 @@ static Servo curtainServo;
 static bool lamp = false;
 static bool lampOwnedByAutomation = false;  // true if the lamp was turned on by the automation rule
 static bool fan = false;
+static bool fanOwnedBySafety = false;  // Module 19: true if the fan was turned on by the local safety rule
 static int angle = 90;
 
 static bool pump = false;
@@ -73,6 +74,13 @@ void setLampByAutomation(bool isOn) {
 
 void setFan(bool isOn) {
   fan = isOn;
+  fanOwnedBySafety = false;  // Module 19: manual or server command: the fan no longer belongs to the safety rule
+  writeRelay(PIN_FAN_RELAY, isOn);
+}
+
+void setFanBySafety(bool isOn) {
+  fan = isOn;
+  fanOwnedBySafety = isOn;
   writeRelay(PIN_FAN_RELAY, isOn);
 }
 
@@ -117,6 +125,10 @@ bool lampByAutomation() {
 
 bool fanOn() {
   return fan;
+}
+
+bool fanBySafety() {
+  return fanOwnedBySafety;
 }
 
 bool pumpOn() {

@@ -9,3 +9,6 @@ void removeSoilWateringThreshold();           // back to using DEFAULT_SOIL_WATE
 unsigned long bootCount();                    // how many times Node 1 has booted, restarts included
 bool rs485SensorEnabled();                    // Module 15: true after the "rs485 on" command
 void saveRs485SensorEnabled(bool enabled);    // Module 15: "rs485 on" / "rs485 off", saved in NVS
+float tempFanThreshold();                     // Module 19: the safety fan turns on above this number (°C)
+bool tempFanThresholdFromNvs();               // Module 19: true if it comes from NVS (sent by the server with config)
+bool saveTempFanThreshold(float degrees);     // Module 19: returns false if outside TEMP_FAN_MIN-TEMP_FAN_MAX

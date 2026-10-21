@@ -14,4 +14,8 @@ export const env = {
   DATABASE_URL: required("DATABASE_URL"), // the database's address, for example postgres://postgres:<password>@127.0.0.1:5432/smarthome
   PORT: Number(process.env.PORT || 8080), // the server's counter (port) number
   HOST: process.env.HOST || "127.0.0.1", // 127.0.0.1 = only reachable from this laptop
+  // Module 19: Telegram is optional. Empty = Telegram notifications off.
+  TELEGRAM_BOT_TOKEN: process.env.TELEGRAM_BOT_TOKEN ?? "", // the token from @BotFather: a secret, like a password
+  TELEGRAM_CHAT_ID: process.env.TELEGRAM_CHAT_ID ?? "", // the owner's chat_id (the answer to /start)
+  TELEGRAM_API_ROOT: process.env.TELEGRAM_API_ROOT ?? "", // empty = the real Telegram server (lab: a mock Bot API server)
 };

@@ -3,9 +3,14 @@ import mqtt from "mqtt";
 import type { FastifyBaseLogger } from "fastify";
 import type { ZodError } from "zod";
 import { Ack, DeviceId, Status, TelemetryNode1, TelemetryNode2, Vitals } from "../schemas/contract.ts";
-import type { SetCommand } from "../schemas/contract.ts";
-import { counts, deliverAck, saveStatus, saveTelemetry, saveVitals } from "./store.ts";
+import type { Thresholds, SetCommand } from "../schemas/contract.ts";
+import { findDevice, counts, deliverAck, saveStatus, saveTelemetry, saveVitals } from "./store.ts";
 import { archiveStatus, archiveTelemetry, archiveVitals } from "../db/archive.ts";
+import { broadcastStatus, broadcastTelemetry } from "./realtime.ts";
+import { recordReport, deviceRestarted } from "./commands.ts";
+import { sendAllConfigs, evaluateReading } from "./automation.ts";
+import { recordEvent } from "./events.ts";
+import { notify, notifyStatus } from "./telegram.ts";
 
 let client: mqtt.MqttClient | undefined;
 
@@ -15,14 +20,21 @@ export function startMqtt(url: string, log: FastifyBaseLogger): void {
   client.on("connect", () => {
     log.info(`connected to broker ${url}`);
     client?.subscribe("msh/#", { qos: 1 });
+    sendAllConfigs(); // Module 19: a broker without persistence forgets the retained config when restarted (contract rule 10)
   });
   client.on("reconnect", () => log.warn("broker not reachable yet, retrying in 5 seconds"));
   client.on("error", (error) => log.error(`MQTT error: ${error.message}`));
-  client.on("message", (topic, content) => receive(topic, content.toString(), log));
+  // packet.retain = true: an old message the broker kept, sent again because the backend just subscribed (Module 19)
+  client.on("message", (topic, content, packet) => receive(topic, content.toString(), packet.retain, log));
 }
 
 export function brokerConnected(): boolean {
   return client?.connected ?? false;
+}
+
+// Module 19: stopping gracefully — send DISCONNECT to the broker, then close the connection
+export async function stopMqtt(): Promise<void> {
+  await client?.endAsync();
 }
 
 function reject(topic: string, reason: string, log: FastifyBaseLogger): void {
@@ -36,11 +48,11 @@ function archiveFailed(topic: string, log: FastifyBaseLogger) {
 }
 
 // summarize the list of issues from Zod, for example "humidity: Too big: expected number to be <=100"
-function summarize(error: ZodError): string {
+export function summarize(error: ZodError): string {
   return error.issues.map((m) => `${m.path.join(".") || "content"}: ${m.message}`).join("; ");
 }
 
-function receive(topic: string, text: string, log: FastifyBaseLogger): void {
+function receive(topic: string, text: string, retained: boolean, log: FastifyBaseLogger): void {
   const parts = topic.split("/"); // ["msh", device_id, kind]
   if (parts.length !== 3) return reject(topic, "the topic must look like msh/<device_id>/<kind>", log);
   const [, deviceId, kind] = parts;
@@ -51,8 +63,19 @@ function receive(topic: string, text: string, log: FastifyBaseLogger): void {
     if (text === "") return; // an empty message = someone deleting a retained status (Module 11), not a new status
     const result = Status.safeParse(text);
     if (!result.success) return reject(topic, `unknown status "${text}"`, log);
+    const previous = findDevice(deviceId)?.status;
     saveStatus(deviceId, result.data);
-    archiveStatus(deviceId, result.data).catch(archiveFailed(topic, log));
+    const archiving = archiveStatus(deviceId, result.data);
+    archiving.catch(archiveFailed(topic, log));
+    if (result.data !== previous) { // Module 19: only changes are broadcast and recorded
+      broadcastStatus(deviceId, result.data);
+      if (!retained) { // a retained status when the backend starts = an old state, not a new event
+        const message = result.data === "online" ? `${deviceId} back online` : `${deviceId} disconnected (${result.data})`;
+        archiving.then(() => recordEvent({ device_id: deviceId, kind: "status", source: "device", rule_id: null, message }))
+          .catch(() => {}); // a failure to save the status is already logged by archiveFailed
+        notifyStatus(deviceId, result.data); // Telegram: offline is only reported once it lasts 60 seconds
+      }
+    }
     counts.received++;
     return;
   }
@@ -68,19 +91,35 @@ function receive(topic: string, text: string, log: FastifyBaseLogger): void {
     const hasPressure = typeof json === "object" && json !== null && "pressure" in json;
     const result = (hasPressure ? TelemetryNode2 : TelemetryNode1).safeParse(json);
     if (!result.success) return reject(topic, summarize(result.error), log);
-    saveTelemetry(deviceId, result.data);
-    const ts = result.data.ts;
-    archiveTelemetry(deviceId, result.data)
-      .then((isNew) => { if (!isNew) log.info(`duplicate skipped: ${deviceId} ${ts}`); })
+    const content = result.data;
+    saveTelemetry(deviceId, content);
+    broadcastTelemetry(deviceId, content); // Module 19: passed on right away to the clients following this device
+    if (!("pressure" in content)) recordReport(deviceId, content.state ?? null, content.ts); // Module 19: actuator state
+    evaluateReading(deviceId, content); // Module 19: automation rules
+    archiveTelemetry(deviceId, content)
+      .then((isNew) => { if (!isNew) log.info(`duplicate skipped: ${deviceId} ${content.ts}`); })
       .catch(archiveFailed(topic, log));
   } else if (kind === "vitals") {
     const result = Vitals.safeParse(json);
     if (!result.success) return reject(topic, summarize(result.error), log);
-    saveVitals(deviceId, result.data);
-    archiveVitals(deviceId, result.data).catch(archiveFailed(topic, log));
+    const content = result.data;
+    saveVitals(deviceId, content);
+    // Module 19: the first vitals after the device starts carries a small uptime; all its relays have just turned off
+    if (content.uptime_s < 60) deviceRestarted(deviceId, content.uptime_s);
+    const archiving = archiveVitals(deviceId, content);
+    archiving.catch(archiveFailed(topic, log));
+    if (content.offline_s !== undefined) { // Module 19: the offline-mode report (contract 1.3)
+      const message = `${deviceId} back from offline mode after ${content.offline_s} seconds; `
+        + `local safety turned the fan on ${content.local_fan} time(s)`;
+      log.warn(message);
+      archiving.then(() => recordEvent({ device_id: deviceId, kind: "offline-report", source: "device", rule_id: null,
+        message, data: { offline_s: content.offline_s, local_fan: content.local_fan } })).catch(() => {});
+      void notify(`📶 ${message}`);
+    }
   } else if (kind === "ack") {
     const result = Ack.safeParse(json);
     if (!result.success) return reject(topic, summarize(result.error), log);
+    recordReport(deviceId, result.data.state, result.data.ts); // Module 19: every valid ack updates the reported state
     if (!deliverAck(result.data)) log.info(`ack ${result.data.id} arrived, but no command is waiting for it`);
   } else {
     return reject(topic, `message kind "${kind}" isn't in the contract`, log);
@@ -110,4 +149,11 @@ export function sendCommand(deviceId: string, commandId: string, command: SetCom
     value: command.value,
   };
   client?.publish(`msh/${deviceId}/cmd`, JSON.stringify(cmd), { qos: 1, retain: false }); // set is NEVER retained
+}
+
+// Module 19: the thresholds of the local safety rules (contract 1.3 section 7). QoS 1 and retained: a device that has just
+// started or just connected receives them as soon as it subscribes to cmd.
+export function sendConfig(deviceId: string, commandId: string, thresholds: Thresholds): void {
+  const cmd = { id: commandId, ts: new Date().toISOString().slice(0, 19) + "Z", action: "config", thresholds };
+  client?.publish(`msh/${deviceId}/cmd`, JSON.stringify(cmd), { qos: 1, retain: true });
 }

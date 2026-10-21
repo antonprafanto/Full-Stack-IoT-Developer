@@ -16,3 +16,6 @@ void printNetworkInfo();             // the reply to the Serial command "wifi"
 void forgetWiFi();                   // Serial command "wifi forget": erase the saved WiFi, then restart
 bool mqttReady();                    // Module 14: true when WiFi and MQTT are both connected
 bool publishTo(const char* topic, const char* content, bool retained);  // Module 14: publish on behalf of Node 2
+bool offlineMode();                  // Module 19: true while the broker is unreachable for more than 2 minutes
+void recordLocalFan();               // Module 19: called whenever the safety rule turns the fan on (for the report)
+void startOfflineTest();             // Module 19: Serial command "test offline"

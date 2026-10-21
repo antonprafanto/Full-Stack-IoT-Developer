@@ -1,11 +1,11 @@
 // devices.ts - the /devices routes: the device list, the latest reading, the history from the database (raw or summarized),
-// and commands.
+// commands, and the actuator state (desired/reported, Module 19).
 import { z } from "zod";
 import type { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
-import { Ack, DeviceId, SetCommand, Status, TelemetryNode1, TelemetryNode2, Vitals } from "../schemas/contract.ts";
-import { findDevice, allDevices, waitForAck } from "../services/store.ts";
-import { brokerConnected, makeCommandId, sendCommand } from "../services/mqtt.ts";
-import { getSummary, getHistory, archiveCommand, contractTime } from "../db/archive.ts";
+import { Ack, DeviceId, State, SetCommand, Status, TelemetryNode1, TelemetryNode2, Vitals } from "../schemas/contract.ts";
+import { findDevice, allDevices } from "../services/store.ts";
+import { deviceState, issueCommand } from "../services/commands.ts";
+import { getSummary, getHistory, contractTime } from "../db/archive.ts";
 
 const MINUTE = 60 * 1000; // in milliseconds, like Date.getTime()
 const HOUR = 60 * MINUTE;
@@ -180,32 +180,39 @@ export const deviceRoutes: FastifyPluginAsyncZod = async (app) => {
       response: {
         200: z.object({ id: z.string(), wait_ms: z.number(), ack: Ack }).describe("the device answered with an ack"),
         404: ErrorBody.describe("the device has never been heard"),
-        409: ErrorBody.describe("the device is offline, is Node 2, or its kind isn't known yet"),
+        409: ErrorBody.describe("the device is offline, is Node 2, its kind isn't known yet, or an earlier command for "
+          + "the same actuator is still waiting for its ack"),
         503: ErrorBody.describe("the backend is not connected to the broker"),
         504: ErrorBody.describe("no ack within 5 seconds"),
       },
     },
   }, async (req, reply) => {
-    const d = findDevice(req.params.id);
-    if (d === undefined) return reply.code(404).send({ message: `device ${req.params.id} has never been heard` });
-    if (d.kind === "node2") return reply.code(409).send({ message: "Node 2 doesn't accept commands (contract section 2)" });
-    if (d.kind !== "node1") return reply.code(409).send({ message: "device kind not known yet: wait for its first telemetry" });
-    if (d.status !== "online") return reply.code(409).send({ message: `device is ${d.status}, command not sent` });
-    if (!brokerConnected()) return reply.code(503).send({ message: "the backend isn't connected to the broker" });
+    const result = await issueCommand(req.params.id, req.body, "api"); // Module 19: through the same single door
+    if (result.status === "not-sent") return reply.code(result.code).send({ message: result.message });
+    if (result.status === "no-ack") return reply.code(504).send({ message: `no ack for ${result.id} within 5 seconds` });
+    return { id: result.id, wait_ms: result.wait_ms, ack: result.ack };
+  });
 
-    const commandId = makeCommandId();
-    const start = Date.now();
-    const ackPending = waitForAck(commandId, 5000); // start waiting before sending
-    sendCommand(d.device_id, commandId, req.body);
-    const ack = await ackPending;
-    const elapsed = Date.now() - start;
-    archiveCommand(commandId, d.device_id, req.body, new Date(start), ack, elapsed)
-      .catch((error) => req.log.error(`couldn't record command ${commandId} in the database: ${error.message}`));
-    if (ack === null) {
-      req.log.warn(`command ${commandId} to ${d.device_id}: no ack within 5 seconds`);
-      return reply.code(504).send({ message: `no ack for ${commandId} within 5 seconds` });
-    }
-    req.log.info(`command ${commandId} to ${d.device_id}: ack ok=${ack.ok} in ${elapsed} ms`);
-    return { id: commandId, wait_ms: elapsed, ack };
+  app.get("/devices/:id/state", {
+    schema: {
+      tags: ["devices"],
+      summary: "Actuator state: what the server wants (desired) and what the device reports (reported)",
+      params: IdParam,
+      response: {
+        200: z.object({
+          device_id: z.string(),
+          desired: z.object({ fan: z.boolean().optional(), lamp: z.boolean().optional(), curtain: z.number().optional() })
+            .describe("the state the server wants for the fan, the lamp, and the curtain (not the pump: its command runs once)"),
+          reported: State.nullable().describe("the last state the device reported through telemetry or ack"),
+          reported_at: z.string().nullable().describe("server time when that report arrived"),
+          diff: z.array(z.string()).describe("the actuators whose state doesn't match the server's wish yet"),
+        }).describe("desired, reported, and the difference"),
+        404: ErrorBody.describe("the device has never been heard"),
+      },
+    },
+  }, async (req, reply) => {
+    const state = deviceState(req.params.id);
+    if (state === undefined) return reply.code(404).send({ message: `device ${req.params.id} has never been heard` });
+    return state;
   });
 };

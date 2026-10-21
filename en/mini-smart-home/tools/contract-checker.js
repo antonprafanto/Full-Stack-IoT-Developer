@@ -2,6 +2,9 @@
 // (Syllabus Appendix A and DATA-CONTRACT.md). Module 11 - Practice 8. Used again in later modules.
 // Version 1.1 (Module 14): Node 2 telemetry, which Node 1 publishes on behalf of Node 2, is checked against its own fields.
 // Version 1.2 (Module 15): Node 1 telemetry may carry three RS-485 sensor fields (soil_rs485, soil_temperature, ec).
+// Version 1.3 (Module 19): Node 1 telemetry carries state (the actuator state, the same as ack.state); vitals may carry
+// the offline-mode report (offline_s and local_fan, always together); the content of config is checked; a set command
+// retained on the broker is marked FAIL; an empty message on cmd = a retained message was just cleared.
 // Needs the mqtt library:  npm install mqtt@5.16.1
 // Run:  node contract-checker.js                               (broker on this laptop)
 //       node contract-checker.js 192.168.1.10                  (broker on another computer)
@@ -19,13 +22,15 @@ if (device !== undefined && !/^[0-9a-f]{12}$/.test(device)) {
 const subscription = device ? `msh/${device}/#` : "msh/#";
 const KINDS = ["telemetry", "status", "vitals", "cmd", "ack"];
 const FIELDS = {
-  "telemetry Node 1": { // contract 1.2: the three RS-485 sensor fields exist only when the sensor is connected
-    all: ["ts", "fw", "temperature", "humidity", "light", "soil", "motion", "water_level", "soil_rs485", "soil_temperature", "ec"],
+  "telemetry Node 1": { // contract 1.2: the three RS-485 sensor fields exist only when the sensor is connected; 1.3: state
+    all: ["ts", "fw", "temperature", "humidity", "light", "soil", "motion", "water_level", "soil_rs485", "soil_temperature", "ec",
+      "state"],
     required: ["ts", "fw", "temperature", "humidity", "light", "soil", "motion", "water_level"] },
   "telemetry Node 2": { // contract 1.1: battery may be missing (the voltage divider is optional)
     all: ["ts", "fw", "temperature", "humidity", "pressure", "soil_temperature", "soil", "battery"],
     required: ["ts", "fw", "temperature", "humidity", "pressure", "soil_temperature", "soil"] },
-  vitals: { all: ["ts", "rssi", "uptime_s", "heap_free", "reset_reason"], required: ["ts", "rssi", "uptime_s", "heap_free"] },
+  vitals: { all: ["ts", "rssi", "uptime_s", "heap_free", "reset_reason", "offline_s", "local_fan"],
+    required: ["ts", "rssi", "uptime_s", "heap_free"] },
   cmd: { all: ["id", "ts", "action", "target", "value", "thresholds", "url", "version"], required: ["id", "action"] },
   ack: { all: ["id", "ts", "ok", "message", "state"], required: ["id", "ts", "ok", "state"] },
 };
@@ -88,6 +93,45 @@ function checkDecimal(name, value, min, max, problems) {
   }
 }
 
+// Contract 1.3: the state of the four actuators, the same in Node 1 telemetry and in ack (DATA-CONTRACT.md sections 4 and 8).
+function checkState(state, problems) {
+  if (typeof state !== "object" || state === null || Array.isArray(state)) {
+    problems.push(`"state" must hold the actuators' state, for example {"fan":false,"lamp":true,"pump":false,"curtain":90}`);
+    return;
+  }
+  for (const field of ["fan", "lamp", "pump", "curtain"]) {
+    if (!(field in state)) problems.push(`"state" doesn't contain "${field}"`);
+  }
+  for (const field of Object.keys(state)) {
+    if (!["fan", "lamp", "pump", "curtain"].includes(field)) problems.push(`"state.${field}" is not in the data contract`);
+  }
+  for (const field of ["fan", "lamp", "pump"]) {
+    if (field in state && typeof state[field] !== "boolean") {
+      problems.push(`"state.${field}" must be true or false, got ${text(state[field])}`);
+    }
+  }
+  if ("curtain" in state) checkInteger("state.curtain", state.curtain, 0, 180, false, problems);
+}
+
+// Contract 1.3: the thresholds of a config command. Answers "" if they are valid, or the reason (the same as the device).
+function checkThresholds(thresholds) {
+  if (typeof thresholds !== "object" || thresholds === null || Array.isArray(thresholds) || Object.keys(thresholds).length === 0) {
+    return "thresholds must contain temp_fan_on or soil_watering";
+  }
+  for (const name of Object.keys(thresholds)) {
+    if (name !== "temp_fan_on" && name !== "soil_watering") return `unknown threshold: ${name}`;
+  }
+  const temperature = thresholds.temp_fan_on;
+  const soil = thresholds.soil_watering;
+  if (temperature !== undefined && (typeof temperature !== "number" || temperature < 15 || temperature > 45)) {
+    return "temp_fan_on must be a number 15-45";
+  }
+  if (soil !== undefined && (!Number.isInteger(soil) || soil < 0 || soil > 100)) {
+    return "soil_watering must be a whole number 0-100";
+  }
+  return "";
+}
+
 // Contract 1.1: sensor fields per device. Node 2 telemetry is recognized by its own typical field ("pressure"),
 // because since contract 1.2 "soil_temperature" can also come from the RS-485 sensor of Node 1.
 function checkTelemetry(content, problems) {
@@ -117,10 +161,12 @@ function checkTelemetry(content, problems) {
     }
     if (has("soil_rs485")) checkDecimal("soil_rs485", content.soil_rs485, 0, 100, problems);
     if (has("ec")) checkInteger("ec", content.ec, 0, 20000, true, problems);
+    if (has("state")) checkState(content.state, problems); // contract 1.3
   }
   return node2 ? "  (telemetry Node 2)" : "";
 }
 
+// Returns an extra note if vitals carries an offline-mode report (contract 1.3).
 function checkVitals(content, problems) {
   const has = checkFields(content, "vitals", problems);
   if (has("ts")) checkTs(content.ts, problems);
@@ -134,6 +180,13 @@ function checkVitals(content, problems) {
   if (has("reset_reason") && !RESET_REASONS.includes(content.reset_reason)) {
     problems.push(`"reset_reason" must be one of ${RESET_REASONS.join(", ")}`);
   }
+  const report = ["offline_s", "local_fan"].filter((k) => k in content); // contract 1.3: the two always come together
+  if (report.length === 1) {
+    problems.push(`the offline-mode report must be complete (offline_s, local_fan), got only ${report[0]}`);
+  }
+  if (has("offline_s")) checkInteger("offline_s", content.offline_s, 0, 4294967295, false, problems);
+  if (has("local_fan")) checkInteger("local_fan", content.local_fan, 0, 65535, false, problems);
+  return report.length === 2 ? `  (offline-mode report: ${content.offline_s} seconds, fan on ${content.local_fan} time(s))` : "";
 }
 
 // A command id: text of 1 to 39 characters (the device ignores longer ids).
@@ -141,7 +194,7 @@ function validId(id) {
   return typeof id === "string" && id.length >= 1 && id.length <= 39;
 }
 
-function checkCmd(content, problems) {
+function checkCmd(content, problems, retained) {
   const has = checkFields(content, "cmd", problems);
   if (has("id") && !validId(content.id)) {
     problems.push(`"id" must be text of 1 to 39 characters, got ${text(content.id)}`);
@@ -158,6 +211,13 @@ function checkCmd(content, problems) {
     } else if (!SET_VALUES[content.target][0](content.value)) {
       problems.push(`"value" for ${content.target} must be ${SET_VALUES[content.target][1]}, got ${text(content.value)}`);
     }
+    if (retained) { // contract 1.3: only config may be retained on the broker
+      problems.push("set command retained on the broker: delete it with Clear Retained Message (contract section 7)");
+    }
+  }
+  if (content.action === "config") { // contract 1.3
+    const reason = checkThresholds(content.thresholds);
+    if (reason !== "") problems.push(reason);
   }
 }
 
@@ -171,9 +231,7 @@ function checkAck(content, problems) {
   if (has("ok") && typeof content.ok !== "boolean") {
     problems.push(`"ok" must be true or false, got ${text(content.ok)}`);
   }
-  if (has("state") && (typeof content.state !== "object" || content.state === null || Array.isArray(content.state))) {
-    problems.push(`"state" must hold the actuators' state, for example {"lamp": true}`);
-  }
+  if (has("state")) checkState(content.state, problems); // contract 1.3: the content of state is checked too
   if (content.ok === false && typeof content.message !== "string") {
     problems.push(`an ack that refuses (ok: false) must carry a "message" with the reason`);
   }
@@ -198,6 +256,8 @@ function check(topic, contentText, retained) {
     } else if (!["online", "offline", "offline-mode"].includes(contentText)) {
       problems.push(`the status content must be online, offline, or offline-mode, got ${text(contentText)}`);
     }
+  } else if (parts[2] === "cmd" && contentText === "") { // contract 1.3: not a violation
+    note += "  (empty message: the retained cmd was just cleared)";
   } else {
     let content;
     try {
@@ -209,8 +269,8 @@ function check(topic, contentText, retained) {
       problems.push("the content must be a JSON object { ... }");
     } else if (content !== undefined) {
       if (parts[2] === "telemetry") note += checkTelemetry(content, problems);
-      if (parts[2] === "vitals") checkVitals(content, problems);
-      if (parts[2] === "cmd") checkCmd(content, problems);
+      if (parts[2] === "vitals") note += checkVitals(content, problems);
+      if (parts[2] === "cmd") checkCmd(content, problems, retained);
       if (parts[2] === "ack") note += checkAck(content, problems);
     }
   }

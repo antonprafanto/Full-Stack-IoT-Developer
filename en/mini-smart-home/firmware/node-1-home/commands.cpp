@@ -56,6 +56,12 @@ static void printThreshold() {
     source = "from NVS";
   }
   Serial.printf("threshold: soil_watering = %d %% (%s)\n", soilWateringThreshold(), source);
+  source = "default value";  // Module 19: the safety fan threshold, sent by the server with config
+  if (tempFanThresholdFromNvs()) {
+    source = "from NVS";
+  }
+  Serial.printf("threshold: temp_fan_on = %.1f C (%s); safety fan turns off below %.1f C\n", tempFanThreshold(), source,
+                tempFanThreshold() - FAN_HYSTERESIS);
 }
 
 // Returns true if the text is NOT a number: toInt() gives 0, but the text isn't "0" (as in Module 5, Practice 5).
@@ -155,6 +161,9 @@ void checkSerialCommand() {
   } else if (command == "send") {
     sendNow();  // Module 11: publishes telemetry right now over MQTT
     return;
+  } else if (command == "test offline") {
+    startOfflineTest();  // Module 19: practice losing the broker for 3 minutes
+    return;
   } else if (command == "restart") {
     Serial.println("Restarting now...");
     Serial.flush();  // wait until the message above has really been sent
@@ -162,7 +171,7 @@ void checkSerialCommand() {
   } else if (command != "status") {
     Serial.println("Unknown command. Examples: lamp on, fan off, pump 3, curtain 90, beep, status,");
     Serial.println("info, threshold, threshold 35, threshold default, log debug, log info, log error, wifi, wifi forget,");
-    Serial.println("send, node2, node2 reset, rs485, rs485 on, rs485 off, restart");
+    Serial.println("send, node2, node2 reset, rs485, rs485 on, rs485 off, test offline, restart");
     return;
   }
   printStatus();

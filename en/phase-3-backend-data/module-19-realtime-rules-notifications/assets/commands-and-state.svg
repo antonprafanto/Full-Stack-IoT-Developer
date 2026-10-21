@@ -1,0 +1,160 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="936" viewBox="0 0 1200 936" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="936" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >One door for commands, and desired versus reported state</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" xml:space="preserve">Concepts 3–4 · the API, rules, schedules, and Telegram use the same <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5">issueCommand()</tspan> · example: the simulator <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5">f00d00000001</tspan></text>
+<rect x="30.0" y="100.0" width="590.0" height="794.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="50.0" y="130.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >Concept 3 · command → ack → timeout</text>
+<text x="50.0" y="154.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">four sources, recorded in the <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="700">source</tspan> column of <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="700">commands</tspan>:</text>
+<rect x="50.0" y="166.0" width="132.0" height="48.0" rx="8" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.4" />
+<text x="62.0" y="186.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >API (Bruno)</text>
+<text x="62.0" y="204.0" font-size="11.5" font-weight="800" fill="#1a7f37" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">api</text>
+<line x1="116.0" y1="214.0" x2="116.0" y2="230.0" stroke="#1a7f37" stroke-width="2" stroke-linecap="round" />
+<rect x="192.0" y="166.0" width="132.0" height="48.0" rx="8" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.4" />
+<text x="204.0" y="186.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >rules engine</text>
+<text x="204.0" y="204.0" font-size="11.5" font-weight="800" fill="#1a7f37" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">rule</text>
+<line x1="258.0" y1="214.0" x2="258.0" y2="230.0" stroke="#1a7f37" stroke-width="2" stroke-linecap="round" />
+<rect x="334.0" y="166.0" width="132.0" height="48.0" rx="8" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.4" />
+<text x="346.0" y="186.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >schedule</text>
+<text x="346.0" y="204.0" font-size="11.5" font-weight="800" fill="#1a7f37" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">schedule</text>
+<line x1="400.0" y1="214.0" x2="400.0" y2="230.0" stroke="#1a7f37" stroke-width="2" stroke-linecap="round" />
+<rect x="476.0" y="166.0" width="132.0" height="48.0" rx="8" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.4" />
+<text x="488.0" y="186.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Telegram bot</text>
+<text x="488.0" y="204.0" font-size="11.5" font-weight="800" fill="#1a7f37" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">telegram</text>
+<line x1="542.0" y1="214.0" x2="542.0" y2="230.0" stroke="#1a7f37" stroke-width="2" stroke-linecap="round" />
+<line x1="116.0" y1="230.0" x2="542.0" y2="230.0" stroke="#1a7f37" stroke-width="2" stroke-linecap="round" />
+<line x1="170.0" y1="230.0" x2="170.0" y2="250.0" stroke="#1a7f37" stroke-width="2.2" stroke-linecap="round" />
+<path d="M166.7 243.8 L170.0 250.0 L173.3 243.8" fill="none" stroke="#1a7f37" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="50.0" y="254.0" width="240.0" height="86.0" rx="10" fill="#dafbe1" stroke="#1a7f37" stroke-width="2" />
+<rect x="68.0" y="280.0" width="24.0" height="34.0" rx="2" fill="none" stroke="#1a7f37" stroke-width="2" />
+<line x1="68.0" y1="314.0" x2="92.0" y2="314.0" stroke="#1a7f37" stroke-width="2.4" stroke-linecap="round" />
+<rect x="73.0" y="285.0" width="14.0" height="12.0" rx="1" fill="none" stroke="#1a7f37" stroke-width="1.3" />
+<circle cx="85.0" cy="302.0" r="1.9" fill="#1a7f37" />
+<text x="106.0" y="280.0" font-size="12.5" font-weight="800" fill="#1a7f37" text-anchor="start" >one door</text>
+<text x="106.0" y="302.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">issueCommand()</text>
+<text x="106.0" y="322.0" font-size="10.5" font-weight="700" fill="#4a5568" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">src/services/commands.ts</text>
+<rect x="330.0" y="266.0" width="120.0" height="56.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.4" />
+<g transform="translate(358 296) scale(0.6) translate(-358 -296)">
+<path d="M334 290 L358 272 L382 290" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="339.0" y="290.0" width="38.0" height="28.0" rx="2" fill="none" stroke="#1e2a4a" stroke-width="2.2" />
+<rect x="349.0" y="298.0" width="18.0" height="5.0" rx="1" fill="#1e2a4a" />
+</g>
+<text x="382.0" y="300.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" >broker</text>
+<rect x="480.0" y="266.0" width="128.0" height="56.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.4" />
+<g transform="translate(506 294) scale(0.6) translate(-506 -294)">
+<rect x="491.0" y="274.0" width="30.0" height="40.0" rx="3" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<rect x="497.0" y="280.0" width="18.0" height="14.0" rx="2" fill="none" stroke="#1e2a4a" stroke-width="1.6" />
+<line x1="491.0" y1="284.0" x2="486.0" y2="284.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="521.0" y1="284.0" x2="526.0" y2="284.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="491.0" y1="292.0" x2="486.0" y2="292.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="521.0" y1="292.0" x2="526.0" y2="292.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="491.0" y1="300.0" x2="486.0" y2="300.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="521.0" y1="300.0" x2="526.0" y2="300.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="491.0" y1="308.0" x2="486.0" y2="308.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="521.0" y1="308.0" x2="526.0" y2="308.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+</g>
+<text x="528.0" y="300.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" >Node 1</text>
+<line x1="170.0" y1="340.0" x2="170.0" y2="452.0" stroke="#d5dbe3" stroke-width="2" stroke-linecap="round" stroke-dasharray="5 5" />
+<line x1="390.0" y1="322.0" x2="390.0" y2="452.0" stroke="#d5dbe3" stroke-width="2" stroke-linecap="round" stroke-dasharray="5 5" />
+<line x1="544.0" y1="322.0" x2="544.0" y2="452.0" stroke="#d5dbe3" stroke-width="2" stroke-linecap="round" stroke-dasharray="5 5" />
+<line x1="176.0" y1="362.0" x2="538.0" y2="362.0" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" />
+<path d="M530.9 365.8 L538.0 362.0 L530.9 358.2" fill="none" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="390.0" cy="362.0" r="3.2" fill="#1e2a4a" />
+<rect x="240.0" y="340.0" width="136.0" height="16.0" rx="3" fill="#ffffff" />
+<text x="308.0" y="353.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="middle" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.0" font-weight="800">cmd</tspan> with <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.0" font-weight="800">id</tspan></text>
+<rect x="537.0" y="372.0" width="14.0" height="34.0" rx="4" fill="#eef1f5" stroke="#1e2a4a" stroke-width="1.4" />
+<text x="528.0" y="394.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="end" >carries it out</text>
+<line x1="538.0" y1="424.0" x2="176.0" y2="424.0" stroke="#1a7f37" stroke-width="2.4" stroke-linecap="round" />
+<path d="M183.1 420.2 L176.0 424.0 L183.1 427.8" fill="none" stroke="#1a7f37" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="390.0" cy="424.0" r="3.2" fill="#1a7f37" />
+<rect x="220.0" y="402.0" width="176.0" height="16.0" rx="3" fill="#ffffff" />
+<text x="308.0" y="415.0" font-size="12" font-weight="800" fill="#1a7f37" text-anchor="middle" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.0" font-weight="800">ack</tspan>: same <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.0" font-weight="800">id</tspan> + <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.0" font-weight="800">state</tspan></text>
+<line x1="141.2" y1="382.0" x2="158.8" y2="382.0" stroke="#1a7f37" stroke-width="2" stroke-linecap="round" />
+<line x1="141.2" y1="404.0" x2="158.8" y2="404.0" stroke="#1a7f37" stroke-width="2" stroke-linecap="round" />
+<path d="M143.2 382 L156.8 382 L150 393 L156.8 404 L143.2 404 L150 393 Z" fill="none" stroke="#1a7f37" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M145.8 402.5 L154.2 402.5 L150 396.9 Z" fill="#1a7f37" stroke-linecap="round" stroke-linejoin="round" />
+<text x="134.0" y="382.0" font-size="11.5" font-weight="700" fill="#1a7f37" text-anchor="end" >waits</text>
+<text x="134.0" y="398.0" font-size="11.5" font-weight="700" fill="#1a7f37" text-anchor="end" >at most</text>
+<text x="134.0" y="414.0" font-size="12.5" font-weight="800" fill="#1a7f37" text-anchor="end" >5 seconds</text>
+<text x="50.0" y="474.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >The four fates of every command</text>
+<text x="84.0" y="498.0" font-size="11.5" font-weight="800" fill="#4a5568" text-anchor="start" >fate</text>
+<text x="250.0" y="498.0" font-size="11.5" font-weight="800" fill="#4a5568" text-anchor="start" >what it means, an example</text>
+<text x="600.0" y="498.0" font-size="11.5" font-weight="800" fill="#4a5568" text-anchor="end" >API</text>
+<line x1="50.0" y1="506.0" x2="600.0" y2="506.0" stroke="#e0dcd2" stroke-width="1.2" stroke-linecap="round" />
+<path d="M57 534 L62 540 L72 528" fill="none" stroke="#2a9d5c" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="84.0" y="539.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Answered,</text>
+<text x="84.0" y="559.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" font-weight="800">ok: true</tspan></text>
+<text x="250.0" y="539.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the device carries it out;</text>
+<text x="250.0" y="558.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="700">ack.state</tspan> reports <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="700">"fan":</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="700">true</tspan></text>
+<text x="600.0" y="539.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">200</text>
+<line x1="50.0" y1="598.0" x2="600.0" y2="598.0" stroke="#e0dcd2" stroke-width="1.2" stroke-linecap="round" />
+<line x1="58.0" y1="620.0" x2="70.0" y2="632.0" stroke="#e63946" stroke-width="2.4" stroke-linecap="round" />
+<line x1="58.0" y1="632.0" x2="70.0" y2="620.0" stroke="#e63946" stroke-width="2.4" stroke-linecap="round" />
+<text x="84.0" y="631.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Answered,</text>
+<text x="84.0" y="651.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" font-weight="800">ok: false</tspan></text>
+<text x="250.0" y="631.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the device refuses with a reason,</text>
+<text x="250.0" y="650.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">for example <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="700">pump</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="700">value</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="700">must</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="700">be</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="700">1-10</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="700">seconds</tspan></text>
+<text x="600.0" y="631.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">200</text>
+<line x1="50.0" y1="690.0" x2="600.0" y2="690.0" stroke="#e0dcd2" stroke-width="1.2" stroke-linecap="round" />
+<line x1="56.4" y1="709.0" x2="71.6" y2="709.0" stroke="#e63946" stroke-width="2" stroke-linecap="round" />
+<line x1="56.4" y1="727.0" x2="71.6" y2="727.0" stroke="#e63946" stroke-width="2" stroke-linecap="round" />
+<path d="M58.4 709 L69.6 709 L64 718 L69.6 727 L58.4 727 L64 718 Z" fill="none" stroke="#e63946" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M60.5 725.5 L67.5 725.5 L64 721.1 Z" fill="#e63946" stroke-linecap="round" stroke-linejoin="round" />
+<text x="84.0" y="723.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">No <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" font-weight="800">ack</tspan></text>
+<text x="250.0" y="723.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">5 seconds pass without an answer: the device</text>
+<text x="250.0" y="742.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">just disconnected, or the <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="700">cmd</tspan> got lost on the way</text>
+<text x="600.0" y="723.0" font-size="13" font-weight="800" fill="#e63946" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">504</text>
+<line x1="50.0" y1="782.0" x2="600.0" y2="782.0" stroke="#e0dcd2" stroke-width="1.2" stroke-linecap="round" />
+<circle cx="64.0" cy="810.0" r="7" fill="none" stroke="#9aa3b0" stroke-width="2.2" />
+<line x1="59.1" y1="814.9" x2="68.9" y2="805.1" stroke="#9aa3b0" stroke-width="2.2" stroke-linecap="round" />
+<text x="84.0" y="815.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Not sent</text>
+<text x="250.0" y="815.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the backend refuses before sending:</text>
+<text x="250.0" y="834.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">the device is <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="700">offline</tspan>, or an earlier command</text>
+<text x="250.0" y="853.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">for the same actuator is still waiting for its <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="700">ack</tspan></text>
+<text x="600.0" y="815.0" font-size="13" font-weight="800" fill="#e63946" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">409</text>
+<text x="50.0" y="884.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">API code: the answer of <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="700">POST</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="700">/devices/:id/command</tspan>. Sent commands are recorded in <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="700">commands</tspan>.</text>
+<rect x="640.0" y="100.0" width="530.0" height="794.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="660.0" y="130.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >Concept 4 · desired state versus reported state</text>
+<rect x="660.0" y="146.0" width="490.0" height="66.0" rx="10" fill="#dafbe1" stroke="#1a7f37" stroke-width="1.8" />
+<text x="676.0" y="172.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1a7f37">desired state</tspan> (<tspan>desired</tspan>)</text>
+<text x="676.0" y="194.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >last requested by the server, in the backend's memory</text>
+<text x="1134.0" y="184.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">{"fan": true}</text>
+<rect x="660.0" y="222.0" width="490.0" height="86.0" rx="10" fill="#ffffff" stroke="#1e2a4a" stroke-width="1.6" />
+<text x="676.0" y="248.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800">reported state</tspan> (<tspan>reported</tspan>)</text>
+<text x="676.0" y="268.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">from <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" font-weight="700">state</tspan> in <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" font-weight="700">telemetry</tspan> and <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" font-weight="700">ack</tspan> (contract 1.3)</text>
+<text x="676.0" y="294.0" font-size="11.5" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">{"fan": false, "lamp": false, "pump": false, "curtain": 90}</text>
+<rect x="660.0" y="318.0" width="490.0" height="40.0" rx="10" fill="#eef1f5" />
+<text x="676.0" y="343.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800">diff</tspan></text>
+<text x="744.0" y="343.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">["fan"]</text>
+<text x="836.0" y="343.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >fan desired on, reported off</text>
+<rect x="660.0" y="372.0" width="490.0" height="182.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.4" />
+<text x="676.0" y="396.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">The answer of <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="800">GET</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="800">/devices/f00d00000001/state</tspan>:</text>
+<text x="676.0" y="420.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">{</text>
+<text x="676.0" y="436.5" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">  "device_id": "f00d00000001",</text>
+<text x="676.0" y="453.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">  <tspan font-weight="800" fill="#1a7f37">"desired"</tspan>: {"fan": true},</text>
+<text x="676.0" y="469.5" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">  <tspan font-weight="800" fill="#1a7f37">"reported"</tspan>: {"fan": false, "lamp": false,</text>
+<text x="676.0" y="486.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">               "pump": false, "curtain": 90},</text>
+<text x="676.0" y="502.5" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">  "reported_at": "2026-10-21T00:12:08.511Z",</text>
+<text x="676.0" y="519.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">  <tspan font-weight="800" fill="#1a7f37">"diff"</tspan>: ["fan"]</text>
+<text x="676.0" y="535.5" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">}</text>
+<text x="660.0" y="584.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" >The backend reconciles (sends that command again) only if:</text>
+<rect x="662.0" y="601.0" width="13.0" height="13.0" rx="3" fill="#1a7f37" stroke="#1a7f37" stroke-width="1.4" />
+<path d="M665 607.8 L667.6 610.4 L672.2 604.8" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<text x="686.0" y="612.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the device is <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="700">online</tspan></text>
+<rect x="662.0" y="629.0" width="13.0" height="13.0" rx="3" fill="#1a7f37" stroke="#1a7f37" stroke-width="1.4" />
+<path d="M665 635.8 L667.6 638.4 L672.2 632.8" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<text x="686.0" y="640.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">no command for that actuator is still waiting for its <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="700">ack</tspan></text>
+<rect x="662.0" y="657.0" width="13.0" height="13.0" rx="3" fill="#1a7f37" stroke="#1a7f37" stroke-width="1.4" />
+<path d="M665 663.8 L667.6 666.4 L672.2 660.8" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<text x="686.0" y="668.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">at least 30 seconds have passed since the last try</text>
+<rect x="662.0" y="685.0" width="13.0" height="13.0" rx="3" fill="#1a7f37" stroke="#1a7f37" stroke-width="1.4" />
+<path d="M665 691.8 L667.6 694.4 L672.2 688.8" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<text x="686.0" y="696.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">that wish has <tspan font-weight="800">never been fulfilled</tspan> since it was sent</text>
+<text x="660.0" y="736.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800">Except</tspan> a device that just restarted (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="700">uptime_s</tspan> &lt; 60 in <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="700">vitals</tspan>): its relays</text>
+<text x="660.0" y="754.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" >are all off, so every wish for that device is reconciled again.</text>
+<text x="660.0" y="782.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >The last condition keeps the server from fighting Node 1's own brain (the</text>
+<text x="660.0" y="799.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >automatic lamp, local safety) every 30 seconds.</text>
+<rect x="660.0" y="816.0" width="490.0" height="62.0" rx="10" fill="#eef1f5" />
+<text x="676.0" y="840.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" >The desired state is only kept in memory: it's empty again every</text>
+<text x="676.0" y="858.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">time the backend restarts. Its history stays in the table <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" font-weight="700">commands</tspan>.</text>
+<text x="1178.0" y="922.0" font-size="11" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer curriculum · CC BY 4.0</text>
+</svg>

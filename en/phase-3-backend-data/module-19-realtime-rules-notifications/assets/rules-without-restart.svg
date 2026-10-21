@@ -1,0 +1,134 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="800" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Rules in the database: change the threshold via the API, effective at once</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" xml:space="preserve">Concept 7 · example: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5">PUT</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5">/rules/1</tspan> with <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5">on_above</tspan> 32 · the backend is never restarted</text>
+<path d="M250.0 134.0 L250.0 126.0 L1170.0 126.0 L1170.0 134.0" fill="none" stroke="#1a7f37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="710.0" y="116.0" font-size="15" font-weight="800" fill="#1a7f37" text-anchor="middle" xml:space="preserve">all of this happens inside the running backend: no <tspan>restart</tspan> of the server</text>
+<rect x="30.0" y="148.0" width="180.0" height="150.0" rx="12" fill="#ffffff" stroke="#1e2a4a" stroke-width="1.6" />
+<g transform="translate(184 170) scale(0.8) translate(-184 -170)">
+<rect x="165.0" y="156.0" width="38.0" height="28.0" rx="4" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<line x1="165.0" y1="164.0" x2="203.0" y2="164.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<circle cx="170.0" cy="160.0" r="1.1" fill="#1e2a4a" />
+<circle cx="174.5" cy="160.0" r="1.1" fill="#1e2a4a" />
+<circle cx="179.0" cy="160.0" r="1.1" fill="#1e2a4a" />
+</g>
+<text x="46.0" y="198.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" >Bruno or Swagger</text>
+<text x="46.0" y="222.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">PUT /rules/1</text>
+<text x="46.0" y="244.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >body: the whole rule,</text>
+<text x="46.0" y="264.0" font-size="11" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">"on_above": <tspan font-weight="800" fill="#1a7f37">32</tspan></text>
+<text x="46.0" y="282.0" font-size="11" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">"off_below": 30</text>
+<rect x="250.0" y="148.0" width="170.0" height="150.0" rx="12" fill="#ffffff" stroke="#1e2a4a" stroke-width="1.6" />
+<text x="266.0" y="198.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" >Zod checks</text>
+<text x="266.0" y="218.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">schema <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="800">Rule</tspan></text>
+<text x="266.0" y="244.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >wrong content?</text>
+<text x="266.0" y="262.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">400</tspan>, the database isn't</text>
+<text x="266.0" y="280.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >touched</text>
+<rect x="460.0" y="148.0" width="190.0" height="150.0" rx="12" fill="#e6edf5" stroke="#336791" stroke-width="1.8" />
+<path d="M607 167 L607 189 A15 5 0 0 0 637 189 L637 167" fill="none" stroke="#336791" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<ellipse cx="622" cy="167" rx="15" ry="5" fill="none" stroke="#336791" stroke-width="2"/>
+<path d="M607 178 A15 5 0 0 0 637 178" fill="none" stroke="#336791" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="476.0" y="198.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" >PostgreSQL</text>
+<text x="476.0" y="222.0" font-size="12" font-weight="800" fill="#336791" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">UPDATE rules …</text>
+<text x="476.0" y="240.0" font-size="12" font-weight="800" fill="#336791" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">RETURNING</text>
+<text x="476.0" y="266.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">table <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="700">rules</tspan>: the rule is</text>
+<text x="476.0" y="284.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >stored permanently</text>
+<rect x="690.0" y="148.0" width="210.0" height="150.0" rx="12" fill="#dafbe1" stroke="#1a7f37" stroke-width="1.8" />
+<text x="706.0" y="198.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" >reload into memory</text>
+<text x="706.0" y="222.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">loadRules()</text>
+<text x="706.0" y="246.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >memory copy is replaced;</text>
+<text x="706.0" y="264.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >this rule's "for" count</text>
+<text x="706.0" y="282.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >starts again from zero</text>
+<rect x="940.0" y="148.0" width="230.0" height="150.0" rx="12" fill="#ffffff" stroke="#1e2a4a" stroke-width="1.6" />
+<path d="M1144 163 L1159 178 L1144 193 L1129 178 Z" fill="none" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="1144.0" y="182.5" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="middle" >?</text>
+<text x="956.0" y="198.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" >rules engine</text>
+<text x="956.0" y="220.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >evaluates the next reading</text>
+<text x="956.0" y="238.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >with the new threshold</text>
+<text x="956.0" y="264.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">evaluateReading()</text>
+<text x="956.0" y="282.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">→ evaluateThreshold()</text>
+<line x1="212.0" y1="223.0" x2="246.0" y2="223.0" stroke="#1a7f37" stroke-width="2.4" stroke-linecap="round" />
+<path d="M238.9 226.8 L246.0 223.0 L238.9 219.2" fill="none" stroke="#1a7f37" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="422.0" y1="223.0" x2="456.0" y2="223.0" stroke="#1a7f37" stroke-width="2.4" stroke-linecap="round" />
+<path d="M448.9 226.8 L456.0 223.0 L448.9 219.2" fill="none" stroke="#1a7f37" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="652.0" y1="223.0" x2="686.0" y2="223.0" stroke="#1a7f37" stroke-width="2.4" stroke-linecap="round" />
+<path d="M678.9 226.8 L686.0 223.0 L678.9 219.2" fill="none" stroke="#1a7f37" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="902.0" y1="223.0" x2="936.0" y2="223.0" stroke="#1a7f37" stroke-width="2.4" stroke-linecap="round" />
+<path d="M928.9 226.8 L936.0 223.0 L928.9 219.2" fill="none" stroke="#1a7f37" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="795.0" y1="298.0" x2="795.0" y2="340.0" stroke="#1a7f37" stroke-width="2" stroke-linecap="round" />
+<line x1="160.0" y1="340.0" x2="795.0" y2="340.0" stroke="#1a7f37" stroke-width="2" stroke-linecap="round" />
+<line x1="160.0" y1="340.0" x2="160.0" y2="378.0" stroke="#1a7f37" stroke-width="2.2" stroke-linecap="round" />
+<path d="M156.7 371.8 L160.0 378.0 L163.3 371.8" fill="none" stroke="#1a7f37" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="725.0" y1="340.0" x2="725.0" y2="378.0" stroke="#1a7f37" stroke-width="2.2" stroke-linecap="round" />
+<path d="M721.7 371.8 L725.0 378.0 L728.3 371.8" fill="none" stroke="#1a7f37" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="172.0" y="364.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">recordEvent()</text>
+<text x="737.0" y="364.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">sendAllConfigs()</text>
+<rect x="30.0" y="382.0" width="260.0" height="120.0" rx="12" fill="#e6edf5" stroke="#336791" stroke-width="1.6" />
+<path d="M62 403 Q53 398 42 401 L42 426 Q53 423 62 428 Q71 423 82 426 L82 401 Q71 398 62 403 Z" fill="none" stroke="#336791" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="62.0" y1="403.0" x2="62.0" y2="428.0" stroke="#336791" stroke-width="1.6" stroke-linecap="round" />
+<line x1="47.0" y1="408.0" x2="57.0" y2="410.0" stroke="#336791" stroke-width="1.3" stroke-linecap="round" />
+<line x1="67.0" y1="410.0" x2="77.0" y2="408.0" stroke="#336791" stroke-width="1.3" stroke-linecap="round" />
+<line x1="47.0" y1="414.0" x2="57.0" y2="416.0" stroke="#336791" stroke-width="1.3" stroke-linecap="round" />
+<line x1="67.0" y1="416.0" x2="77.0" y2="414.0" stroke="#336791" stroke-width="1.3" stroke-linecap="round" />
+<line x1="47.0" y1="420.0" x2="57.0" y2="422.0" stroke="#336791" stroke-width="1.3" stroke-linecap="round" />
+<line x1="67.0" y1="422.0" x2="77.0" y2="420.0" stroke="#336791" stroke-width="1.3" stroke-linecap="round" />
+<text x="92.0" y="410.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >event log</text>
+<text x="92.0" y="430.0" font-size="12.5" font-weight="800" fill="#336791" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">events</text>
+<text x="46.0" y="460.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">a new row, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="700">kind</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="700">rule-changed</tspan>:</text>
+<text x="46.0" y="478.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >who changed which rule, and when</text>
+<line x1="292.0" y1="442.0" x2="326.0" y2="442.0" stroke="#1a7f37" stroke-width="2.2" stroke-linecap="round" />
+<path d="M318.9 445.8 L326.0 442.0 L318.9 438.2" fill="none" stroke="#1a7f37" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="330.0" y="382.0" width="240.0" height="120.0" rx="12" fill="#ffffff" stroke="#1e2a4a" stroke-width="1.6" />
+<text x="346.0" y="408.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >Socket.IO</text>
+<text x="430.0" y="408.0" font-size="12.5" font-weight="800" fill="#1a7f37" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">event</text>
+<text x="346.0" y="430.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >to every client; the small</text>
+<text x="346.0" y="448.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >terminal writes:</text>
+<text x="346.0" y="474.0" font-size="11" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">event: Rule 1 (Automatic …</text>
+<rect x="600.0" y="382.0" width="256.0" height="120.0" rx="12" fill="#ffffff" stroke="#1e2a4a" stroke-width="1.6" />
+<text x="616.0" y="406.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" font-weight="800">config</tspan> <tspan>retained</tspan>, QoS 1</text>
+<text x="616.0" y="432.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">{"action":"config",</text>
+<text x="616.0" y="450.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve"> "thresholds":{"temp_fan_on":<tspan font-weight="800" fill="#1a7f37">32</tspan>}}</text>
+<text x="616.0" y="476.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">to the <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="700">cmd</tspan> topic of Node 1</text>
+<line x1="858.0" y1="442.0" x2="882.0" y2="442.0" stroke="#1a7f37" stroke-width="2.2" stroke-linecap="round" />
+<path d="M874.9 445.8 L882.0 442.0 L874.9 438.2" fill="none" stroke="#1a7f37" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="886.0" y="382.0" width="136.0" height="120.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.4" />
+<g transform="translate(910 412) scale(0.6) translate(-910 -412)">
+<path d="M886 406 L910 388 L934 406" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="891.0" y="406.0" width="38.0" height="28.0" rx="2" fill="none" stroke="#1e2a4a" stroke-width="2.2" />
+<rect x="901.0" y="414.0" width="18.0" height="5.0" rx="1" fill="#1e2a4a" />
+</g>
+<text x="932.0" y="416.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" >broker</text>
+<text x="900.0" y="444.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >one message</text>
+<text x="900.0" y="462.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan>retained</tspan></text>
+<text x="900.0" y="480.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >per topic</text>
+<line x1="1024.0" y1="442.0" x2="1050.0" y2="442.0" stroke="#1a7f37" stroke-width="2.2" stroke-linecap="round" />
+<path d="M1042.9 445.8 L1050.0 442.0 L1042.9 438.2" fill="none" stroke="#1a7f37" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="1054.0" y="382.0" width="116.0" height="120.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.4" />
+<g transform="translate(1076 410) scale(0.55) translate(-1076 -410)">
+<rect x="1061.0" y="390.0" width="30.0" height="40.0" rx="3" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<rect x="1067.0" y="396.0" width="18.0" height="14.0" rx="2" fill="none" stroke="#1e2a4a" stroke-width="1.6" />
+<line x1="1061.0" y1="400.0" x2="1056.0" y2="400.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="1091.0" y1="400.0" x2="1096.0" y2="400.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="1061.0" y1="408.0" x2="1056.0" y2="408.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="1091.0" y1="408.0" x2="1096.0" y2="408.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="1061.0" y1="416.0" x2="1056.0" y2="416.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="1091.0" y1="416.0" x2="1096.0" y2="416.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="1061.0" y1="424.0" x2="1056.0" y2="424.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="1091.0" y1="424.0" x2="1096.0" y2="424.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+</g>
+<text x="1094.0" y="416.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" >Node 1</text>
+<text x="1068.0" y="444.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >stored</text>
+<text x="1068.0" y="462.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">in <tspan font-weight="800" fill="#1e2a4a">NVS</tspan></text>
+<text x="1068.0" y="480.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >(Concept 10)</text>
+<text x="600.0" y="528.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">Only <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="700">config</tspan> may be <tspan>retained</tspan>: it holds thresholds, and doing it twice gives the same result.</text>
+<text x="600.0" y="546.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">A <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="700">set</tspan> command is never <tspan>retained</tspan>.</text>
+<rect x="30.0" y="566.0" width="1140.0" height="204.0" rx="12" fill="#eef1f5" />
+<text x="48.0" y="592.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Proof in Practice 4.8 (backend log, WIB times): threshold 32 doesn't turn the fan on at 31 °C; the threshold is lowered to 30 again, without a <tspan>restart</tspan>:</text>
+<text x="48.0" y="622.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">[06:51:40] INFO: Rule 1 (Automatic fan) changed through the API: fan f00d00000001 on when temperature …</text>
+<text x="48.0" y="643.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">[06:51:40] INFO: config c-20261020-235140-4 to f00d00000001: temp_fan_on 30 from rule 1 (retained)</text>
+<text x="48.0" y="664.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">[06:51:40] INFO: PUT /rules/1 -&gt; 200 (16 ms)</text>
+<text x="48.0" y="685.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve"><tspan font-weight="800" fill="#1a7f37">[06:51:48]</tspan> INFO: rule 1 (Automatic fan): temperature 31 above 30; fan turned on if it lasts 120 seconds</text>
+<text x="48.0" y="706.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve"><tspan font-weight="800" fill="#1a7f37">[06:53:48]</tspan> INFO: command c-20261020-235348-5 (rule) to f00d00000001: fan = true, ack ok=true in 3 ms</text>
+<text x="48.0" y="727.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve"><tspan font-weight="800" fill="#1a7f37">[06:53:48]</tspan> INFO: rule 1 (Automatic fan): 🌡️ Temperature 31 °C — fan turned on automatically</text>
+<text x="48.0" y="756.0" font-size="12.5" font-weight="700" fill="#1a7f37" text-anchor="start" >The first reading after the change starts the count (06:51:48); exactly 2 minutes later (06:53:48) the rule turns the fan on.</text>
+<text x="1178.0" y="786.0" font-size="11" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer curriculum · CC BY 4.0</text>
+</svg>
