@@ -1,4 +1,4 @@
-// aturan.h - aturan otomatis lokal Node 1: siram otomatis dan lampu otomatis (Modul 6 & 19)
+// aturan.h - aturan otomatis lokal Node 1: siram otomatis, lampu otomatis (Modul 6), dan kipas pengaman (Modul 19)
 #pragma once
 #include "sensor.h"  // BacaanSensor
 

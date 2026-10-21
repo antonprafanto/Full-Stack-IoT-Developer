@@ -2,15 +2,16 @@
 
 🌐 **Bahasa Indonesia** · [English](../../en/mini-smart-home/tools/README.md)
 
-Folder ini berisi program-program kecil Node.js yang dibuat di [Modul 4](../../fase-0-fondasi/modul-04-javascript-nodejs/README.md), [Modul 11](../../fase-2-konektivitas/modul-11-mqtt-dan-kontrak-data/README.md), dan [Modul 16](../../fase-3-backend-data/modul-16-backend-typescript-api-git/README.md), lalu dipakai berulang kali di modul-modul berikutnya. Semuanya sudah diuji dengan **Node.js 24.21.0**. Tiga program pertama tidak membutuhkan library dari npm; `pemeriksa-kontrak.js` dan `simulator-perangkat.js` membutuhkan library **mqtt** 5.16.1 (lihat "Cara memakai").
+Folder ini berisi program-program kecil Node.js yang dibuat di [Modul 4](../../fase-0-fondasi/modul-04-javascript-nodejs/README.md), [Modul 11](../../fase-2-konektivitas/modul-11-mqtt-dan-kontrak-data/README.md), [Modul 16](../../fase-3-backend-data/modul-16-backend-typescript-api-git/README.md), dan [Modul 19](../../fase-3-backend-data/modul-19-realtime-aturan-notifikasi/README.md), lalu dipakai berulang kali di modul-modul berikutnya. Semuanya sudah diuji dengan **Node.js 24.21.0**. Tiga program pertama tidak membutuhkan library dari npm; `pemeriksa-kontrak.js` dan `simulator-perangkat.js` membutuhkan library **mqtt** 5.16.1, dan `terminal-live.js` membutuhkan **socket.io-client** 4.8.4 (lihat "Cara memakai").
 
 | File | Gunanya | Dipakai lagi di |
 | :--- | :--- | :--- |
 | [`generate-dummy.js`](generate-dummy.js) | Membuat bacaan sensor palsu yang bentuknya persis seperti [kontrak data](../../SILABUS.md#14-lampiran-a--kontrak-data-rumah-pintar-mini). Jalankan langsung untuk menulis `data/bacaan.json` atau pinjam fungsinya: `import { buatTelemetri } from "./generate-dummy.js";` | Modul 10 (data uji sebelum sensor siap), Modul 16 (simulator perangkat untuk *backend*), Modul 22 (dashboard sebelum ada sensor sungguhan) |
 | [`penerima-webhook.js`](penerima-webhook.js) | Server mini di port 3000 yang mencetak setiap kiriman dan membalas `{"ok":true}`. | Modul 10 (ESP32 mengirim bacaan pertamanya lewat WiFi ke laptop), lalu Modul 22 sebagai penerima uji |
 | [`kirim-data.js`](kirim-data.js) | Pengirim uji: berpura-pura menjadi ESP32 dan mengirim 3 bacaan ke `http://localhost:3000/telemetry`. | Modul 10, untuk menguji penerima tanpa papan |
-| [`pemeriksa-kontrak.js`](pemeriksa-kontrak.js) | Satpam kontrak data: berlangganan `rpm/#` di broker MQTT, lalu memberi cap **LULUS** atau **GAGAL** pada setiap pesan sesuai [`KONTRAK-DATA.md`](../KONTRAK-DATA.md), lengkap dengan alasannya dan lama setiap jawaban `ack`. | Modul 11 (syarat lulus Node 1 v1.2), Modul 14 (versi 1.1: `telemetry` Node 2 diperiksa dengan kolomnya sendiri), Modul 15 (versi 1.2: tiga kolom sensor RS-485 di `telemetry` Node 1), lalu setiap kali firmware berubah atau perangkat baru ditambahkan |
-| [`simulator-perangkat.js`](simulator-perangkat.js) | Sepuluh perangkat palsu (`f00d00000001` sampai `f00d00000010`) yang berbicara MQTT persis menurut kontrak data: status `online`/`offline` (wasiat, *Last Will*), `telemetry` setiap 10 detik dari `buatTelemetri()`, `vitals` saat tersambung dan setiap 5 menit, serta jawaban `ack` untuk setiap perintah. Mode `bersihkan` menghapus status *retained* mereka dari broker. | Modul 16 (menguji backend tanpa papan), lalu setiap modul yang butuh banyak perangkat |
+| [`pemeriksa-kontrak.js`](pemeriksa-kontrak.js) | Satpam kontrak data: berlangganan `rpm/#` di broker MQTT, lalu memberi cap **LULUS** atau **GAGAL** pada setiap pesan sesuai [`KONTRAK-DATA.md`](../KONTRAK-DATA.md), lengkap dengan alasannya dan lama setiap jawaban `ack`. | Modul 11 (syarat lulus Node 1 v1.2), Modul 14 (versi 1.1: `telemetry` Node 2 diperiksa dengan kolomnya sendiri), Modul 15 (versi 1.2: tiga kolom sensor RS-485 di `telemetry` Node 1), Modul 19 (versi 1.3: `state` di `telemetry` dan `ack`, laporan mode offline di `vitals`, isi `config`, `set` yang tertempel), lalu setiap kali firmware berubah atau perangkat baru ditambahkan |
+| [`simulator-perangkat.js`](simulator-perangkat.js) | Sepuluh perangkat palsu (`f00d00000001` sampai `f00d00000010`) yang berbicara MQTT persis menurut kontrak data: status `online`/`offline` (wasiat, *Last Will*), `telemetry` setiap 10 detik dari `buatTelemetri()` (sejak Modul 19 dengan `state` dan kiriman segera saat aktuator berubah), `vitals` saat tersambung dan setiap 5 menit, serta jawaban `ack` untuk setiap perintah, termasuk `config` (disimpan di `data/arsip-simulator.json`). Sejak Modul 19, suhu bisa diatur dari terminal (`suhu 33`, `suhu acak`), dan saat broker tak terjangkau 2 menit simulator masuk mode offline, menjalankan pengaman kipas, lalu melapor lewat `vitals` sekitar 10 detik setelah tersambung lagi. Mode `bersihkan` menghapus status dan `config` *retained* mereka dari broker. | Modul 16 (menguji backend tanpa papan), Modul 19 (aturan otomatis dan uji "broker mati"), lalu setiap modul yang butuh banyak perangkat |
+| [`terminal-live.js`](terminal-live.js) | "Terminal kecil" yang tersambung ke backend lewat Socket.IO, mengikuti satu perangkat (`ikuti`), lalu menampilkan setiap bacaannya begitu tiba, perubahan status semua perangkat, dan buku kejadian. Menyambung ulang sendiri saat backend dimulai ulang. | Modul 19, lalu Modul 23 (dashboard *live* memakai acara yang sama) |
 
 ## Cara memakai
 
@@ -50,13 +51,25 @@ Simulator memakai library yang sama. Tulis alamat broker lengkap (diawali `mqtt:
 node simulator-perangkat.js mqtt://192.168.1.37:1883
 ```
 
-Kata `bersihkan` di tempat isian kedua menghapus status *retained* perangkat palsu dari broker, lalu programnya selesai sendiri:
+Kata `bersihkan` di tempat isian kedua menghapus status dan `config` *retained* perangkat palsu dari broker, lalu programnya selesai sendiri:
 
 ```bash
 node simulator-perangkat.js mqtt://192.168.1.37:1883 bersihkan
 ```
 
-Penjelasan simulator ada di Modul 16 Praktik 7.
+Selagi simulator berjalan, ketik `suhu 33` lalu **Enter** di terminal yang sama supaya semua perangkat palsu membaca 33,0 °C (pakai titik untuk desimal, misalnya `suhu 29.5`); `suhu acak` mengembalikan suhu acak 25,0–33,0 °C. Penjelasan simulator ada di Modul 16 Praktik 7 dan Modul 19.
+
+`terminal-live.js` butuh backend yang menyala dan library-nya (sekali saja, di folder `alat` ini):
+
+```bash
+npm install socket.io-client@4.8.4
+```
+
+```bash
+node terminal-live.js http://127.0.0.1:8080 f00d00000001
+```
+
+Isian pertama adalah alamat backend, isian kedua `device_id` perangkat yang ingin diikuti. Penjelasannya ada di Modul 19 Praktik 1.
 
 ## Catatan
 

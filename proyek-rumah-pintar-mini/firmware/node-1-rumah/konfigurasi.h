@@ -2,7 +2,7 @@
 // Pin mengikuti PETA-PIN.md. Angka kalibrasi adalah hasil Modul 6 milikmu sendiri.
 #pragma once
 
-const char VERSI_FIRMWARE[] = "1.4.0";
+const char VERSI_FIRMWARE[] = "1.5.0";
 
 // ---------- Peta pin kanonik Node 1 (salinan dari PETA-PIN.md) ----------
 const int PIN_LED_STATUS = 2;    // Modul 2; pindah dari D4 ke D2 di Modul 15 (D4 kini untuk DE/RE RS-485)
@@ -68,3 +68,12 @@ const unsigned long BAUD_RS485 = 9600;              // lembar data sensor: 9600 
 const uint8_t ALAMAT_SENSOR_RS485 = 1;              // alamat server sensor (lembar data: bawaan 1)
 const unsigned long JEDA_BACA_RS485 = 10000;        // sensor dibaca setiap 10 detik
 const unsigned long JEDA_BACA_RS485_LAMBAT = 60000;  // setelah 3 kali tanpa jawaban: setiap 60 detik
+
+// ---------- Modul 19: aturan pengaman lokal dan mode offline ----------
+// Ambang kipas dikirim server lewat perintah "config" dan disimpan di NVS (label "suhu_kipas_on").
+const float SUHU_KIPAS_ON_BAWAAN = 30.0;          // Lampiran A: "suhu_kipas_on"; dipakai selama NVS belum berisi ambang
+const float SUHU_KIPAS_MIN = 15.0;                // config dengan suhu_kipas_on di luar 15-45 °C ditolak
+const float SUHU_KIPAS_MAKS = 45.0;
+const float SELISIH_KIPAS = 2.0;                  // kipas pengaman padam di bawah suhu_kipas_on - 2 °C (histeresis)
+const unsigned long BATAS_MODE_OFFLINE = 120000;  // broker tak terjangkau 2 menit terus-menerus = mode offline
+const unsigned long LAMA_UJI_OFFLINE = 180000;    // perintah "uji offline": broker dianggap hilang selama 3 menit

@@ -1,0 +1,14 @@
+// pengaturan.h - setelan yang tetap ada walaupun listrik padam, disimpan di NVS (Modul 8)
+#pragma once
+
+void muatPengaturan();                    // panggil sekali di setup(): membaca setelan dari NVS
+int ambangTanahSiram();                   // ambang "tanah kering" yang berlaku sekarang, dalam persen
+bool ambangDariNvs();                     // true kalau ambang itu berasal dari NVS, bukan angka bawaan
+bool simpanAmbangTanahSiram(int persen);  // menjawab false kalau angkanya di luar 0-100
+void hapusAmbangTanahSiram();             // kembali memakai AMBANG_TANAH_SIRAM_BAWAAN di konfigurasi.h
+unsigned long jumlahNyala();              // sudah berapa kali Node 1 menyala, termasuk restart
+bool sensorRS485Dipakai();                // Modul 15: true setelah perintah "rs485 on"
+void simpanSensorRS485Dipakai(bool pakai);  // Modul 15: "rs485 on" / "rs485 off", disimpan di NVS
+float ambangSuhuKipas();                    // Modul 19: kipas pengaman menyala di atas angka ini (°C)
+bool ambangSuhuKipasDariNvs();              // Modul 19: true kalau angka itu dari NVS (dikirim server lewat config)
+bool simpanAmbangSuhuKipas(float derajat);  // Modul 19: menjawab false kalau di luar SUHU_KIPAS_MIN-SUHU_KIPAS_MAKS

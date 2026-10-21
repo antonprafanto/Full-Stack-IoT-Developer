@@ -2,7 +2,7 @@
 
 🌐 **Bahasa Indonesia** · [English](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/mini-smart-home/DATA-CONTRACT.md)
 
-> **Versi kontrak 1.2** ([Modul 15](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-2-konektivitas/modul-15-modbus-rs485-dan-protokol/README.md), Oktober 2026; versi 1.1 dari Modul 14, versi 1.0 dari Modul 11). Rujukan utamanya adalah [Lampiran A Silabus](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/SILABUS.md#14-lampiran-a--kontrak-data-rumah-pintar-mini); file ini salinan kerjanya yang ikut tersimpan di proyek. **Aturan mainnya:** setiap perubahan ditulis di sini dan di Lampiran A dulu, baru kodenya diubah, lalu versi firmware dinaikkan.
+> **Versi kontrak 1.3** ([Modul 19](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-3-backend-data/modul-19-realtime-aturan-notifikasi/README.md), Oktober 2026; versi 1.2 dari Modul 15, versi 1.1 dari Modul 14, versi 1.0 dari Modul 11). Rujukan utamanya adalah [Lampiran A Silabus](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/SILABUS.md#14-lampiran-a--kontrak-data-rumah-pintar-mini); file ini salinan kerjanya yang ikut tersimpan di proyek. **Aturan mainnya:** setiap perubahan ditulis di sini dan di Lampiran A dulu, baru kodenya diubah, lalu versi firmware dinaikkan.
 
 Kontrak data adalah "bahasa bersama" semua bagian proyek: firmware, broker, alat pemeriksa, *gateway* (Modul 12), Node-RED (Modul 13), *backend* (Modul 16), database (Modul 17), dan dashboard (Modul 22). Selama semuanya mengikuti kontrak ini, setiap bagian bisa dibuat pada minggu yang berbeda dan tetap cocok satu sama lain. Penjelasan lengkapnya ada di [Modul 11](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-2-konektivitas/modul-11-mqtt-dan-kontrak-data/README.md).
 
@@ -60,7 +60,27 @@ Node 2 (ESP-NOW) tidak tersambung ke broker. Mulai Modul 14, **Node 1 menerbitka
 | `gerak` | boolean | `true` = PIR melihat gerakan | PIR HC-SR501 (D34) | — |
 | `level_air` | bilangan bulat | % isi tandon, 0 = kosong, 100 = penuh | HC-SR04 (TRIG D15, ECHO D35) | `null` |
 
-**Kiriman segera** (*report-by-exception*) terjadi saat salah satu keadaan ini **berubah**: ada atau tidaknya gerakan; gelap atau terang (gelap = `cahaya` di bawah `1000`); tanah di bawah atau di atas ambang siram; air tandon di bawah atau di atas 20 %. Kiriman segera paling sering setiap 2 detik, dan jadwal 10 detik berikutnya dihitung dari kiriman terakhir.
+**Kiriman segera** (*report-by-exception*) terjadi saat salah satu keadaan ini **berubah**: ada atau tidaknya gerakan; gelap atau terang (gelap = `cahaya` di bawah `1000`); tanah di bawah atau di atas ambang siram; air tandon di bawah atau di atas 20 %; dan, mulai kontrak 1.3, keadaan salah satu aktuator (`state`, lihat di bawah). Kiriman segera paling sering setiap 2 detik, dan jadwal 10 detik berikutnya dihitung dari kiriman terakhir.
+
+### Keadaan aktuator `state` di `telemetry` Node 1 (mulai kontrak 1.3, Modul 19)
+
+Setiap `telemetry` Node 1 membawa objek `state`: keadaan keempat aktuator saat pesan itu dibuat. Isinya **sama persis** dengan `state` di `ack` (bagian 8).
+
+```json
+{"ts":"2026-10-21T06:10:12Z","fw":"1.5.0","suhu":31.2,"kelembapan":70,"cahaya":2310,"tanah":37,"gerak":false,"level_air":64,"state":{"kipas":true,"lampu":false,"pompa":false,"tirai":90}}
+```
+
+| Kolom di dalam `state` | Tipe | Isi |
+| :--- | :--- | :--- |
+| `kipas` | boolean | `true` = relay kipas (D33) menyala |
+| `lampu` | boolean | `true` = relay lampu (D32) menyala |
+| `pompa` | boolean | `true` = pompa sedang menyiram |
+| `tirai` | bilangan bulat | sudut servo tirai (D26), 0–180 derajat |
+
+- Node 1 v1.5.0 **selalu** menulis `state`, juga saat aktuatornya diubah aturan lokal (siram otomatis, lampu otomatis, pengaman kipas), bukan hanya oleh perintah. Saat keadaan salah satu aktuator berubah, Node 1 langsung mengirim `telemetry` (kiriman segera), jadi server tahu keadaan terbarunya tanpa menunggu 10 detik.
+- `state` bukan bacaan sensor: tabel `readings` di database tidak punya kolom untuknya. Server memakainya sebagai **keadaan yang dilaporkan** (*reported*), dan perubahan yang penting dicatat sebagai kejadian (Modul 19).
+- Node 2 tidak punya aktuator, jadi `telemetry` Node 2 **tidak** pernah membawa `state`.
+- Firmware Node 1 yang lebih lama (sampai v1.4.0) tidak menulis `state`. Pesannya tetap sah; keadaan aktuatornya baru diketahui server dari `ack` berikutnya.
 
 ### Kolom sensor RS-485 di `telemetry` Node 1 (mulai kontrak 1.2, Modul 15)
 
@@ -109,6 +129,8 @@ Teks biasa, bukan JSON:
 
 **Status Node 2** diterbitkan **Node 1** (*retained*): `online` saat paket sah pertama dari Node 2 tiba, `offline` kalau tidak ada paket selama **3 × jeda Node 2 + 1 menit** (jeda 5 menit = 16 menit). Node 2 tidak punya sambungan MQTT sendiri, jadi tidak punya wasiat. Karena itu, status Node 2 berarti "Node 1 masih mendengar Node 2", dan baru bisa dipercaya selama status Node 1 sendiri `online`.
 
+**Mode offline Modul 19 tidak memakai `status`.** Selama broker tak terjangkau, perangkat memang tidak bisa menerbitkan apa pun, jadi laporannya baru dikirim sesudah tersambung lagi, lewat `vitals` (bagian 6). Isi `status` tetap `online` dan `offline`; `offline-mode` tetap milik Modul 28.
+
 ## 6. `vitals`
 
 ```json
@@ -121,7 +143,19 @@ Teks biasa, bukan JSON:
 | `rssi` | kekuatan sinyal WiFi dalam dBm, bilangan bulat negatif |
 | `uptime_s` | sudah berapa detik perangkat menyala |
 | `heap_free` | sisa memori *heap* dalam byte |
+| `offline_s` | **mulai kontrak 1.3 (Modul 19):** berapa detik perangkat berjalan dalam mode offline sebelum tersambung lagi (bilangan bulat ≥ 0) |
+| `kipas_lokal` | **mulai kontrak 1.3 (Modul 19):** berapa kali aturan pengaman lokal menyalakan kipas selama mode offline itu (bilangan bulat ≥ 0) |
 | `reset_reason` | **mulai Modul 28:** `POWERON`, `BROWNOUT`, `SW`, `PANIC`, `WDT`, `DEEPSLEEP`, atau `UNKNOWN` |
+
+`offline_s` dan `kipas_lokal` adalah **laporan mode offline** (bagian 9, aturan 5). Keduanya selalu datang bersama, dan hanya di `vitals` pertama sesudah perangkat tersambung lagi dari mode offline; di `vitals` lain keduanya tidak ditulis:
+
+```json
+{"ts":"2026-10-21T06:20:41Z","rssi":-58,"uptime_s":5412,"heap_free":181940,"offline_s":214,"kipas_lokal":1}
+```
+
+Perangkat mengirim `vitals` berlaporan itu sekitar **10 detik** sesudah tersambung lagi, bukan seketika. Server yang ikut menyambung ulang (misalnya karena broker baru dinyalakan lagi) butuh beberapa detik untuk berlangganan, sedangkan `vitals` tidak *retained*, jadi laporan yang terbit terlalu cepat bisa terlewat.
+
+Laporan ini hanya disimpan di memori perangkat. Kalau perangkat *restart* sebelum sempat mengirimnya, laporan mode offline itu hilang.
 
 ## 7. `cmd`
 
@@ -144,7 +178,23 @@ Teks biasa, bukan JSON:
 | `pompa` | bilangan bulat 1–10 (detik) | ditolak kalau air tandon di bawah 20 % atau tidak terbaca |
 | `tirai` | bilangan bulat 0–180 (derajat) | servo D26 |
 
-**`aksi: "config"`** (Modul 19) membawa `ambang`, misalnya `{"suhu_kipas_on":30,"tanah_siram":30}`, dikirim *retained*, dan disimpan perangkat di NVS. **`aksi: "update"`** (Modul 28) membawa `url` dan `versi` firmware baru. Sampai modul-modul itu, perangkat menjawab keduanya dengan `ok:false`.
+**`aksi: "config"`** (mulai kontrak 1.3, Modul 19) mengirim ambang aturan pengaman lokal ke perangkat:
+
+```json
+{"id":"c-20261021-061500-3","ts":"2026-10-21T06:15:00Z","aksi":"config","ambang":{"suhu_kipas_on":30,"tanah_siram":30}}
+```
+
+| Kunci di dalam `ambang` | Tipe | Isi |
+| :--- | :--- | :--- |
+| `suhu_kipas_on` | angka, 15–45 | °C. Dalam mode offline, pengaman lokal menyalakan kipas kalau `suhu` **di atas** angka ini, lalu memadamkannya kalau `suhu` **di bawah** angka ini − 2 |
+| `tanah_siram` | bilangan bulat, 0–100 | %. Ambang siram otomatis (Modul 6 dan 8) |
+
+- `ambang` berisi **paling sedikit satu** dari kedua kunci itu. Kunci yang tidak dikirim tidak berubah. Kunci lain, tipe yang salah, atau angka di luar rentang membuat seluruh perintah ditolak (`ok:false`): perangkat memeriksa semua kunci dulu, dan hanya menyimpan kalau semuanya sah.
+- Ambang yang sah disimpan di NVS, **hanya yang nilainya berubah**, lalu perangkat menjawab dengan `ack` biasa. Ambang itu tetap dipakai setelah perangkat *restart* atau listrik padam.
+- `config` dikirim dengan **QoS 1, *retained***: perangkat yang baru menyala atau baru tersambung langsung menerima ambang terakhir begitu berlangganan `cmd`. Karena `id`-nya sama, `config` yang datang lagi setelah sambung ulang hanya dikerjakan sekali selama perangkat menyala (aturan 8).
+- Pesan kosong di topik `cmd` berarti seseorang menghapus pesan *retained*-nya (misalnya **Clear Retained Message** di MQTTX). Perangkat mengabaikannya tanpa menjawab.
+
+**`aksi: "update"`** (Modul 28) membawa `url` dan `versi` firmware baru. Sampai modul itu, perangkat menjawabnya dengan `ok:false`.
 
 **Jangan pernah** mengirim perintah `set` dengan tanda *retained*: broker menyerahkannya lagi setiap kali perangkat menyambung, dan perangkat mengerjakannya lagi begitu ingatan `id`-nya kosong, misalnya setelah *restart* (bagian 9, aturan 8).
 
@@ -161,7 +211,7 @@ Teks biasa, bukan JSON:
 | `ts` | waktu jawaban (UTC), atau `null` kalau jam perangkat belum disetel |
 | `ok` | `true` kalau perintah dikerjakan, `false` kalau ditolak |
 | `pesan` | alasan penolakan; **wajib** ada kalau `ok` bernilai `false` |
-| `state` | keadaan **semua** aktuator saat ini: `kipas`, `lampu`, `pompa` (boolean), `tirai` (derajat) |
+| `state` | keadaan **semua** aktuator saat ini: `kipas`, `lampu`, `pompa` (boolean), `tirai` (derajat). Mulai kontrak 1.3, objek yang sama juga ada di setiap `telemetry` Node 1 (bagian 4) |
 
 ## 9. Aturan bersama
 
@@ -169,20 +219,22 @@ Teks biasa, bukan JSON:
 2. Database menolak duplikat `(device_id, ts)` (Modul 17).
 3. `telemetry` setiap 10 detik **dan** segera saat ada kejadian penting (bagian 4). Node 2: sekali setiap kali bangun, tanpa kiriman segera.
 4. Setiap `cmd` dijawab satu `ack` dengan `id` yang sama dalam 5 detik; target Node 1 di bawah 1 detik. Pesan yang bukan JSON, tanpa `id`, atau ber-`id` lebih dari 39 huruf tidak bisa dijawab dan hanya dicatat di log perangkat.
-5. `cmd` berjenis `config` dikirim *retained* dan disimpan perangkat di NVS sebagai dasar aturan pengaman lokal (Modul 19).
+5. `cmd` berjenis `config` dikirim *retained* dan disimpan perangkat di NVS sebagai dasar aturan pengaman lokal (Modul 19). **Mode offline** = broker (atau WiFi) tak terjangkau terus-menerus selama 2 menit atau lebih sejak sambungan terakhir. Dalam mode offline, pengaman lokal menyalakan kipas kalau `suhu` di atas `suhu_kipas_on`. Kipas yang ia nyalakan sendiri ia padamkan lagi kalau `suhu` di bawah `suhu_kipas_on` − 2, juga sesudah tersambung lagi, kecuali perintah lain (`set kipas` dari server, MQTTX, atau Serial) sudah mengambil alih kipas itu: **yang menyalakan, dia yang memadamkan**. Sesudah tersambung lagi, perangkat melaporkan mode offline-nya lewat `vitals` (bagian 6).
 6. Perangkat hanya boleh menulis ke topik `device_id`-nya sendiri; aturan ini ditegakkan oleh daftar izin broker (Modul 21). Satu pengecualian: Node 1 juga menulis `telemetry` dan `status` Node 2, dan daftar izin Modul 21 mencatatnya.
 7. Bacaan gagal ditulis `null` di JSON, untuk semua kolom. Angka penanda seperti `-1` tidak pernah keluar dari perangkat.
 8. Perintah ber-`id` sama hanya dikerjakan sekali; perangkat mengingat paling sedikit delapan `id` terakhir dan mengabaikan pengulangannya. Ingatan ini hilang saat perangkat *restart*, jadi perintah `set` tidak boleh dikirim *retained* (bagian 7).
 9. Setiap perangkat hanya mengirim kolom sensor yang ia punya (bagian 4, "Kolom menurut perangkat").
+10. Satu topik hanya punya **satu** pesan *retained*. Menghapus pesan *retained* di `cmd` (misalnya perintah `set` yang telanjur tertempel) ikut menghapus `config`, dan broker tanpa penyimpanan (*persistence*) kehilangan semua pesan *retained* saat dimulai ulang. Karena itu server menerbitkan ulang `config` setiap kali ia tersambung ke broker dan setiap kali ambangnya berubah. Perangkat tetap aman di antaranya: ambang terakhirnya tersimpan di NVS.
 
 ## 10. Memeriksa kepatuhan
 
-Jalankan [`alat/pemeriksa-kontrak.js`](alat/pemeriksa-kontrak.js) (`node pemeriksa-kontrak.js` di folder `alat`, setelah `npm install`). Ia berlangganan `rpm/#` dan memberi cap **LULUS** atau **GAGAL** pada setiap pesan, lengkap dengan alasannya dan lama jawaban setiap `ack`. Di broker publik, tulis juga `device_id`-mu di belakang alamat broker (`node pemeriksa-kontrak.js broker.emqx.io <device_id>`) supaya hanya pesan perangkatmu yang diperiksa. Setiap perubahan firmware harus lolos pemeriksaan ini sebelum di-*commit*. Sejak kontrak 1.1, pemeriksa mengenali `telemetry` Node 2 dari kolom khasnya, memeriksanya dengan daftar kolom Node 2, dan menandainya `(telemetry Node 2)`. Sejak kontrak 1.2 (pemeriksa versi 1.2), kolom khas itu adalah `tekanan` karena `suhu_tanah` kini juga bisa datang dari Node 1; pemeriksa juga memastikan tiga kolom RS-485 Node 1 selalu lengkap.
+Jalankan [`alat/pemeriksa-kontrak.js`](alat/pemeriksa-kontrak.js) (`node pemeriksa-kontrak.js` di folder `alat`, setelah `npm install`). Ia berlangganan `rpm/#` dan memberi cap **LULUS** atau **GAGAL** pada setiap pesan, lengkap dengan alasannya dan lama jawaban setiap `ack`. Di broker publik, tulis juga `device_id`-mu di belakang alamat broker (`node pemeriksa-kontrak.js broker.emqx.io <device_id>`) supaya hanya pesan perangkatmu yang diperiksa. Setiap perubahan firmware harus lolos pemeriksaan ini sebelum di-*commit*. Sejak kontrak 1.1, pemeriksa mengenali `telemetry` Node 2 dari kolom khasnya, memeriksanya dengan daftar kolom Node 2, dan menandainya `(telemetry Node 2)`. Sejak kontrak 1.2 (pemeriksa versi 1.2), kolom khas itu adalah `tekanan` karena `suhu_tanah` kini juga bisa datang dari Node 1; pemeriksa juga memastikan tiga kolom RS-485 Node 1 selalu lengkap. Sejak kontrak 1.3 (pemeriksa versi 1.3), pemeriksa juga memeriksa isi `state` di `telemetry` Node 1 dan di `ack`, memastikan laporan mode offline di `vitals` selalu lengkap (`offline_s` dan `kipas_lokal`), memeriksa isi `ambang` setiap `config`, menandai GAGAL perintah `set` yang tertempel (*retained*) di broker, dan menerima pesan kosong di `cmd` sebagai tanda pesan *retained* baru saja dihapus.
 
 ## 11. Riwayat perubahan
 
 | Versi kontrak | Modul | Perubahan |
 | :--- | :--- | :--- |
+| 1.3 | Modul 19 | `telemetry` Node 1 membawa `state` (keadaan keempat aktuator, sama dengan `ack.state`), dan kiriman segera juga terjadi saat keadaan aktuator berubah; `vitals` boleh membawa laporan mode offline `offline_s` dan `kipas_lokal`, selalu bersama dan hanya di `vitals` pertama sesudah tersambung lagi (dikirim sekitar 10 detik sesudah tersambung); `config` dirinci: `ambang` berisi `suhu_kipas_on` (15–45 °C) dan/atau `tanah_siram` (0–100 %), QoS 1 *retained*, disimpan di NVS; aturan pengaman lokal dan mode offline (aturan 5); satu pesan *retained* per topik, jadi server menerbitkan ulang `config` (aturan 10). `status` tidak berubah. Data Node 2 tidak berubah. |
 | 1.2 | Modul 15 | Node 1 boleh membawa tiga kolom sensor tanah RS-485 (Modbus RTU): `tanah_rs485`, `suhu_tanah`, dan `ec`, selalu bersama dan hanya kalau sensornya dipasang dan dinyalakan (`rs485 on`); `null` kalau pembacaan terakhir gagal. Data Node 2 tidak berubah. |
 | 1.1 | Modul 14 | Node 2 lewat Node 1: kolom baru `tekanan`, `suhu_tanah`, dan `baterai` (pilihan); kolom sensor menurut perangkat (aturan 9); `ts` Node 2 dibuat Node 1 saat paket diterima; `status` Node 2 diterbitkan Node 1; `tanah` Node 2 boleh `null`; Node 1 boleh menulis topik Node 2 (aturan 6). Data Node 1 tidak berubah. |
 | 1.0 | Modul 11 | Kontrak mulai dipakai lewat MQTT. Ditetapkan: bacaan gagal ditulis `null`; *client ID* = `device_id`; `telemetry` setiap 10 detik ditambah kiriman segera; `vitals` tanpa `reset_reason` sampai Modul 28; kolom `pesan` di `ack`; target `set` beserta rentang nilainya; `id` perintah paling panjang 39 huruf; perintah ber-`id` sama diabaikan. |

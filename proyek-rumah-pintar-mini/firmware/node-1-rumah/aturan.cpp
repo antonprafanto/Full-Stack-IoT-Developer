@@ -4,6 +4,7 @@
 #include "pencatat.h"
 #include "pengaturan.h"
 #include "aktuator.h"
+#include "jaringan.h"  // Modul 19: modeOffline() dan catatKipasLokal()
 #include "aturan.h"
 
 // ---------- Siram otomatis: state machine dari Praktik 3 ----------
@@ -59,10 +60,30 @@ static void lampuOtomatis(BacaanSensor b) {
   }
 }
 
+// ---------- Kipas pengaman lokal (Modul 19) ----------
+// Biasanya server yang mengatur kipas. Pengaman ini hanya MENYALAKAN kipas dalam mode offline (broker tak terjangkau
+// lebih dari 2 menit). Kipas yang ia nyalakan sendiri juga ia padamkan sendiri di bawah suhu_kipas_on - 2 °C, walaupun
+// broker sudah terjangkau lagi, kecuali server atau kamu sudah mengambil alih kipas itu dengan perintah kipas.
+static void kipasPengaman(BacaanSensor b) {
+  if (isnan(b.suhu)) {
+    return;  // DHT22 gagal dibaca: jangan menebak, biarkan kipas apa adanya
+  }
+  float batasNyala = ambangSuhuKipas();
+  float batasPadam = batasNyala - SELISIH_KIPAS;
+  if (modeOffline() && !kipasMenyala() && b.suhu > batasNyala) {
+    logInfo("Pengaman lokal: suhu %.1f C di atas %.1f C, kipas dinyalakan.", b.suhu, batasNyala);
+    aturKipasPengaman(true);
+    catatKipasLokal();  // dihitung untuk laporan mode offline
+  } else if (kipasDariPengaman() && b.suhu < batasPadam) {
+    logInfo("Pengaman lokal: suhu %.1f C di bawah %.1f C, kipas dipadamkan.", b.suhu, batasPadam);
+    aturKipasPengaman(false);
+  }
+}
+
 void jalankanAturan(BacaanSensor b) {
   siramOtomatis(b);
   lampuOtomatis(b);
-  // Modul 19 menambahkan kipas otomatis (Lampiran A: "suhu_kipas_on")
+  kipasPengaman(b);  // Modul 19 (Lampiran A: "suhu_kipas_on")
 }
 
 void perbaruiAturan() {

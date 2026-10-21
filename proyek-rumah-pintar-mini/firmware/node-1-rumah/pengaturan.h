@@ -9,3 +9,6 @@ void hapusAmbangTanahSiram();             // kembali memakai AMBANG_TANAH_SIRAM_
 unsigned long jumlahNyala();              // sudah berapa kali Node 1 menyala, termasuk restart
 bool sensorRS485Dipakai();                // Modul 15: true setelah perintah "rs485 on"
 void simpanSensorRS485Dipakai(bool pakai);  // Modul 15: "rs485 on" / "rs485 off", disimpan di NVS
+float ambangSuhuKipas();                    // Modul 19: kipas pengaman menyala di atas angka ini (°C)
+bool ambangSuhuKipasDariNvs();              // Modul 19: true kalau angka itu dari NVS (dikirim server lewat config)
+bool simpanAmbangSuhuKipas(float derajat);  // Modul 19: menjawab false kalau di luar SUHU_KIPAS_MIN-SUHU_KIPAS_MAKS

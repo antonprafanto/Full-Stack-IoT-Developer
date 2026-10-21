@@ -1,8 +1,10 @@
 // arsip.ts - menulis pesan yang sudah lolos pemeriksaan kontrak ke database, dan membacanya lagi untuk API riwayat
-// (bacaan mentah, atau ringkasannya per 15 menit, per jam, dan per hari).
+// (bacaan mentah, atau ringkasannya per 15 menit, per jam, dan per hari). Modul 19: aturan otomatis (tabel rules) dan
+// buku kejadian (tabel events).
 // Gudang di memori (gudang.ts) tetap menjadi "papan pengumuman" keadaan terbaru; database adalah buku arsipnya.
 import { pool } from "./pool.ts";
 import type { Ack, PerintahSet, Status, TelemetryNode1, TelemetryNode2, Vitals } from "../schemas/kontrak.ts";
+import type { Aturan } from "../schemas/aturan.ts";
 
 // Pastikan perangkat punya baris di tabel devices (dibuat kalau belum ada), lalu perbarui waktu terakhir terdengar.
 // Kolom yang tidak diberikan (null) tidak menimpa isi lama, berkat coalesce.
@@ -48,15 +50,79 @@ export async function arsipkanVitals(deviceId: string, isi: Vitals): Promise<voi
   );
 }
 
-// Satu perintah dari API beserta hasilnya: ack (ok atau ditolak) atau null kalau tidak ada ack dalam 5 detik.
+// Satu perintah beserta hasilnya: ack (ok atau ditolak) atau null kalau tidak ada ack dalam 5 detik. Modul 19: juga
+// siapa yang menyuruh (sumber), aturan mana (kalau dari aturan atau jadwal), dan keadaan aktuator menurut ack-nya.
 export async function arsipkanPerintah(idPerintah: string, deviceId: string, perintah: PerintahSet, dikirim: Date,
-  ack: Ack | null, lamaMs: number): Promise<void> {
+  ack: Ack | null, lamaMs: number, sumber: string, aturanId: number | null): Promise<void> {
   await pool.query(
-    `INSERT INTO commands (id, device_id, dikirim, target, nilai, ack_ok, ack_pesan, lama_ms)
-     VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
+    `INSERT INTO commands (id, device_id, dikirim, target, nilai, ack_ok, ack_pesan, lama_ms, sumber, aturan_id, state)
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
     [idPerintah, deviceId, dikirim, perintah.target, JSON.stringify(perintah.nilai), ack?.ok ?? null,
-      ack?.pesan ?? null, lamaMs],
+      ack?.pesan ?? null, lamaMs, sumber, aturanId, ack === null ? null : JSON.stringify(ack.state)],
   );
+}
+
+// Modul 19: satu baris tabel rules, apa adanya (kondisi dan aksi diperiksa Zod oleh otomasi.ts sebelum dipakai).
+export interface BarisAturan {
+  id: number;
+  nama: string;
+  aktif: boolean;
+  kondisi: unknown;
+  aksi: unknown;
+  dibuat: Date;
+  diubah: Date;
+}
+
+const KOLOM_ATURAN = "id, nama, aktif, kondisi, aksi, dibuat, diubah";
+
+export async function ambilSemuaAturan(): Promise<BarisAturan[]> {
+  const hasil = await pool.query<BarisAturan>(`SELECT ${KOLOM_ATURAN} FROM rules ORDER BY id`);
+  return hasil.rows;
+}
+
+export async function tambahAturan(a: Aturan): Promise<BarisAturan> {
+  const hasil = await pool.query<BarisAturan>(
+    `INSERT INTO rules (nama, aktif, kondisi, aksi) VALUES ($1, $2, $3, $4) RETURNING ${KOLOM_ATURAN}`,
+    [a.nama, a.aktif, JSON.stringify(a.kondisi), JSON.stringify(a.aksi)],
+  );
+  return hasil.rows[0];
+}
+
+// Hasilnya undefined kalau aturan bernomor itu tidak ada.
+export async function ubahAturan(id: number, a: Aturan): Promise<BarisAturan | undefined> {
+  const hasil = await pool.query<BarisAturan>(
+    `UPDATE rules SET nama = $2, aktif = $3, kondisi = $4, aksi = $5, diubah = now() WHERE id = $1 RETURNING ${KOLOM_ATURAN}`,
+    [id, a.nama, a.aktif, JSON.stringify(a.kondisi), JSON.stringify(a.aksi)],
+  );
+  return hasil.rows[0];
+}
+
+// Modul 19: buku kejadian (tabel events, migrasi 007).
+export type JenisKejadian = "aturan" | "aturan-diubah" | "jadwal" | "status" | "mode-offline" | "perintah";
+
+export interface KejadianBaru {
+  device_id: string | null; // null untuk kejadian yang bukan milik satu perangkat (misalnya aturan diubah)
+  jenis: JenisKejadian;
+  sumber: string; // api, aturan, jadwal, telegram, perangkat
+  aturan_id: number | null;
+  pesan: string; // kalimat untuk manusia, sama dengan pesan Telegram-nya
+  data?: unknown; // rincian mentah
+}
+
+// kejadian yang sudah tersimpan: ditambah nomor dan waktunya (inilah isi acara Socket.IO "kejadian")
+export interface Kejadian extends KejadianBaru {
+  id: number;
+  waktu: string;
+}
+
+export async function simpanKejadian(k: KejadianBaru): Promise<Kejadian> {
+  const hasil = await pool.query<{ id: string; waktu: Date }>(
+    `INSERT INTO events (device_id, jenis, sumber, aturan_id, pesan, data) VALUES ($1, $2, $3, $4, $5, $6)
+     RETURNING id, waktu`,
+    [k.device_id, k.jenis, k.sumber, k.aturan_id, k.pesan, k.data === undefined ? null : JSON.stringify(k.data)],
+  );
+  const { id, waktu } = hasil.rows[0];
+  return { id: Number(id), waktu: waktuKontrak(waktu), ...k }; // bigint datang dari pg sebagai teks
 }
 
 // Waktu berformat kontrak data (UTC, tanpa milidetik), misalnya 2026-10-20T03:10:00Z

@@ -9,6 +9,7 @@ static Preferences arsip;  // "lemari arsip" NVS; kita memakai map bernama "node
 static int ambang = AMBANG_TANAH_SIRAM_BAWAAN;
 static unsigned long nyalaKe = 0;
 static bool pakaiRS485 = false;  // Modul 15: bawaannya tidak dipakai (sensor belum dipasang)
+static float suhuKipas = SUHU_KIPAS_ON_BAWAAN;  // Modul 19: ambang kipas pengaman, dalam °C
 
 void muatPengaturan() {
   arsip.begin("node1", false);  // false = map dibuka untuk dibaca DAN ditulis
@@ -23,6 +24,12 @@ void muatPengaturan() {
   }
   logInfo("Nyala ke-%lu. Ambang tanah_siram: %d %% (%s)", nyalaKe, ambang, asal);
   pakaiRS485 = arsip.getBool("rs485", false);  // label belum pernah ditulis = tidak dipakai
+  suhuKipas = arsip.getFloat("suhu_kipas_on", SUHU_KIPAS_ON_BAWAAN);  // Modul 19
+  asal = "angka bawaan";
+  if (ambangSuhuKipasDariNvs()) {
+    asal = "dari NVS";
+  }
+  logInfo("Ambang suhu_kipas_on: %.1f C (%s)", suhuKipas, asal);
 }
 
 int ambangTanahSiram() {
@@ -67,4 +74,25 @@ void simpanSensorRS485Dipakai(bool pakai) {
   arsip.putBool("rs485", pakai);
   pakaiRS485 = pakai;
   logInfo("Sensor RS-485 %s (disimpan ke NVS)", pakai ? "dipakai" : "tidak dipakai");
+}
+
+float ambangSuhuKipas() {
+  return suhuKipas;
+}
+
+bool ambangSuhuKipasDariNvs() {
+  return arsip.isKey("suhu_kipas_on");  // 13 huruf: masih di bawah batas 15 huruf
+}
+
+bool simpanAmbangSuhuKipas(float derajat) {
+  if (!(derajat >= SUHU_KIPAS_MIN && derajat <= SUHU_KIPAS_MAKS)) {  // ditulis begini supaya NAN ikut ditolak
+    return false;
+  }
+  if (derajat == suhuKipas && ambangSuhuKipasDariNvs()) {
+    return true;  // angkanya sudah sama: tidak perlu menulis ulang (jumlah tulis flash terbatas)
+  }
+  arsip.putFloat("suhu_kipas_on", derajat);
+  suhuKipas = derajat;
+  logInfo("Ambang suhu_kipas_on disimpan ke NVS: %.1f C", suhuKipas);
+  return true;
 }

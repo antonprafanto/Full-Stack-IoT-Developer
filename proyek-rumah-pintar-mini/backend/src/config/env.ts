@@ -14,4 +14,8 @@ export const env = {
   DATABASE_URL: wajib("DATABASE_URL"), // alamat database, misalnya postgres://postgres:<sandi>@127.0.0.1:5432/rumahpintar
   PORT: Number(process.env.PORT || 8080), // nomor loket server
   HOST: process.env.HOST || "127.0.0.1", // 127.0.0.1 = hanya bisa diketuk dari laptop ini
+  // Modul 19: Telegram tidak wajib. Kosong = notifikasi Telegram mati.
+  TELEGRAM_BOT_TOKEN: process.env.TELEGRAM_BOT_TOKEN ?? "", // token dari @BotFather: rahasia, seperti kata sandi
+  TELEGRAM_CHAT_ID: process.env.TELEGRAM_CHAT_ID ?? "", // chat_id pemilik (balasan /start)
+  TELEGRAM_API_ROOT: process.env.TELEGRAM_API_ROOT ?? "", // kosong = server Telegram sungguhan (lab: server Bot API tiruan)
 };

@@ -1,0 +1,43 @@
+info:
+  name: ubah ambang kipas
+  type: http
+  seq: 10
+
+http:
+  method: PUT
+  url: "{{baseUrl}}/rules/1"
+  body:
+    type: json
+    data: |-
+      {
+        "nama": "Kipas otomatis",
+        "aktif": true,
+        "kondisi": {
+          "jenis": "ambang",
+          "device_id": "a4cf12e5b7c0",
+          "besaran": "suhu",
+          "nyala_di_atas": 30,
+          "padam_di_bawah": 28,
+          "selama_detik": 120
+        },
+        "aksi": {
+          "jenis": "sakelar",
+          "device_id": "a4cf12e5b7c0",
+          "target": "kipas",
+          "kabari": true
+        }
+      }
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "200"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: true

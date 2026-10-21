@@ -23,6 +23,7 @@
 const unsigned long BATAS_TANPA_PERCOBAAN = 60000;  // penjaga: 60 detik tanpa percobaan menyambung = suruh mencoba lagi
 const unsigned long JEDA_COBA_MQTT = 5000;          // gagal menyambung ke broker? coba lagi 5 detik kemudian
 const unsigned long JEDA_SEGERA_MIN = 2000;         // kiriman segera paling sering setiap 2 detik
+const unsigned long TUNDA_LAPORAN = 10000;          // Modul 19: laporan mode offline dikirim 10 detik sesudah tersambung
 const char BROKER_WOKWI[] = "broker.emqx.io";      // Wokwi tidak bisa menjangkau laptopmu: pakai broker publik
 
 static WiFiClient klienJaringan;          // sambungan TCP ke broker
@@ -58,6 +59,7 @@ static bool adaBacaan = false;
 static bool sudahPernahKirim = false;
 static unsigned long waktuKirimTerakhir = 0;
 static uint8_t keadaanTerakhir = 0;  // kejadian penting yang terakhir diketahui (lihat keadaanPenting())
+static int tiraiTerakhir = 0;        // Modul 19: sudut tirai pada bacaan sebelumnya
 static bool keadaanDikenal = false;
 static const char* alasanSegera = nullptr;  // bukan nullptr = ada kejadian penting yang belum terkirim
 static bool sudahKirimVitals = false;
@@ -65,6 +67,18 @@ static unsigned long waktuVitalsTerakhir = 0;
 static unsigned long jumlahTerbit = 0;
 static char idTerakhir[8][40];  // 8 id perintah terakhir yang sudah diterima (termasuk yang ditolak)
 static int posisiId = 0;
+
+// ---------- Modul 19: mode offline dan laporannya ----------
+static unsigned long waktuTerakhirSiap = 0;  // millis() terakhir kali WiFi dan MQTT tersambung
+static bool offline = false;                 // sedang mode offline?
+static unsigned long waktuMasukOffline = 0;
+static unsigned long waktuSelesaiOffline = 0;  // kapan mode offline terakhir selesai (laporan menunggu dari sini)
+static uint16_t kipasLokal = 0;              // kipas dinyalakan pengaman selama mode offline ini
+static bool laporanMenunggu = false;         // laporan mode offline belum ikut vitals
+static unsigned long laporanDetik = 0;       // lama mode offline (detik) yang belum dilaporkan
+static uint16_t laporanKipas = 0;            // jumlah kipas dinyalakan pengaman yang belum dilaporkan
+static bool ujiOffline = false;              // perintah "uji offline" sedang berjalan?
+static unsigned long waktuUjiOffline = 0;
 
 // Dipanggil paket esp32 dari "petugas" WiFi, bukan dari loop(): cukup menaikkan bendera.
 static void saatPeristiwaWiFi(arduino_event_id_t peristiwa, arduino_event_info_t info) {
@@ -157,6 +171,15 @@ static void ingatId(const char* id) {
   posisiId = (posisiId + 1) % 8;  // yang paling lama ditimpa
 }
 
+// Keadaan keempat aktuator (Lampiran A): objek "state" di ack, dan mulai kontrak 1.3 (Modul 19) juga di telemetry.
+static void tulisKeadaan(JsonDocument& dokumen) {
+  JsonObject keadaan = dokumen["state"].to<JsonObject>();
+  keadaan["kipas"] = kipasMenyala();
+  keadaan["lampu"] = lampuMenyala();
+  keadaan["pompa"] = pompaMenyala();
+  keadaan["tirai"] = sudutTirai();
+}
+
 // Jawaban atas perintah (Lampiran A): id yang sama, ok, keadaan keempat aktuator, dan pesan kalau ditolak.
 static void kirimAck(const char* id, bool ok, const char* pesan) {
   JsonDocument jawaban;
@@ -171,11 +194,7 @@ static void kirimAck(const char* id, bool ok, const char* pesan) {
   if (!ok) {
     jawaban["pesan"] = pesan;
   }
-  JsonObject keadaan = jawaban["state"].to<JsonObject>();
-  keadaan["kipas"] = kipasMenyala();
-  keadaan["lampu"] = lampuMenyala();
-  keadaan["pompa"] = pompaMenyala();
-  keadaan["tirai"] = sudutTirai();
+  tulisKeadaan(jawaban);
   char isi[256];
   size_t panjang = serializeJson(jawaban, isi, sizeof(isi));
   if (panjang >= sizeof(isi)) {
@@ -224,9 +243,46 @@ static const char* kerjakanSet(JsonDocument& perintah) {
   return "target tidak dikenal";
 }
 
+// Modul 19: satu perintah "config". Semua ambang diperiksa dulu; baru kalau semuanya sah, ambang disimpan ke NVS
+// (yang angkanya berubah saja). Menjawab nullptr kalau berhasil, atau alasan penolakannya.
+static const char* kerjakanConfig(JsonDocument& perintah) {
+  static char alasan[48];  // static: isinya masih dibaca kirimAck() setelah fungsi ini selesai
+  JsonObject ambang = perintah["ambang"].as<JsonObject>();
+  if (ambang.isNull() || ambang.size() == 0) {
+    return "ambang harus berisi suhu_kipas_on atau tanah_siram";
+  }
+  for (JsonPair p : ambang) {  // nama lain = salah ketik: tolak semuanya supaya tidak ada yang diam-diam terlewat
+    const char* nama = p.key().c_str();
+    if (strcmp(nama, "suhu_kipas_on") != 0 && strcmp(nama, "tanah_siram") != 0) {
+      snprintf(alasan, sizeof(alasan), "ambang tidak dikenal: %s", nama);
+      return alasan;
+    }
+  }
+  JsonVariant suhu = ambang["suhu_kipas_on"];
+  JsonVariant tanah = ambang["tanah_siram"];
+  if (!suhu.isNull()
+      && (!suhu.is<float>() || suhu.as<float>() < SUHU_KIPAS_MIN || suhu.as<float>() > SUHU_KIPAS_MAKS)) {
+    return "suhu_kipas_on harus angka 15-45";
+  }
+  if (!tanah.isNull() && (!tanah.is<int>() || tanah.as<int>() < 0 || tanah.as<int>() > 100)) {
+    return "tanah_siram harus bilangan bulat 0-100";
+  }
+  if (!suhu.isNull()) {
+    simpanAmbangSuhuKipas(suhu.as<float>());
+  }
+  if (!tanah.isNull()) {
+    simpanAmbangTanahSiram(tanah.as<int>());
+  }
+  return nullptr;
+}
+
 // Dipanggil library di dalam mqtt.loop() setiap ada pesan di rpm/<device_id>/cmd.
 // Urutannya: baca JSON, periksa, kerjakan, jawab. Perintah yang id-nya sudah pernah diterima diabaikan.
 static void saatPesanMqtt(char* topik, byte* isi, unsigned int panjang) {
+  if (panjang == 0) {  // Modul 19: pesan kosong = seseorang menghapus config retained dari broker, bukan perintah
+    logDebug("Pesan cmd kosong (pesan retained dihapus): diabaikan.");
+    return;
+  }
   JsonDocument perintah;
   DeserializationError galat = deserializeJson(perintah, isi, panjang);  // isi tidak diakhiri tanda akhir teks
   if (galat) {
@@ -242,22 +298,26 @@ static void saatPesanMqtt(char* topik, byte* isi, unsigned int panjang) {
     logError("Perintah dengan id lebih dari 39 huruf: diabaikan.");
     return;
   }
+  const char* aksi = perintah["aksi"] | "";
   if (sudahDiterima(id)) {
-    logInfo("Perintah %s sudah pernah diterima: diabaikan.", id);
+    if (strcmp(aksi, "config") == 0) {  // Modul 19: config retained datang lagi setiap kali menyambung: wajar
+      logDebug("Config %s datang lagi (retained, sesudah menyambung): sudah dikerjakan.", id);
+    } else {
+      logInfo("Perintah %s sudah pernah diterima: diabaikan.", id);
+    }
     return;
   }
   ingatId(id);
-  const char* aksi = perintah["aksi"] | "";
   const char* pesan = "aksi tidak dikenal";
   if (strcmp(aksi, "set") == 0) {
     pesan = kerjakanSet(perintah);
   } else if (strcmp(aksi, "config") == 0) {
-    pesan = "aksi config belum didukung (Modul 19)";
+    pesan = kerjakanConfig(perintah);  // Modul 19
   } else if (strcmp(aksi, "update") == 0) {
     pesan = "aksi update belum didukung (Modul 28)";
   }
   if (pesan == nullptr) {
-    logInfo("Perintah %s: %s %s dikerjakan.", id, aksi, perintah["target"] | "");
+    logInfo("Perintah %s: %s %s dikerjakan.", id, aksi, perintah["target"] | "ambang");
   } else {
     logError("Perintah %s ditolak: %s", id, pesan);
   }
@@ -313,6 +373,7 @@ void siapkanJaringan() {
       logInfo("Menyambung ke WiFi tersimpan \"%s\" (tanpa menunggu)...", wm.getWiFiSSID().c_str());
     }
   }
+  waktuTerakhirSiap = millis();  // Modul 19: hitungan mode offline dimulai sesudah portal WiFi, bukan saat menyala
 }
 
 // Sekali saja, saat pertama tersambung: jam internet (Modul 10, Praktik 5).
@@ -354,7 +415,12 @@ static void kirimVitals() {
   dokumen["rssi"] = WiFi.RSSI();
   dokumen["uptime_s"] = uptimeDetik();
   dokumen["heap_free"] = ESP.getFreeHeap();
-  char isi[128];
+  bool adaLaporan = laporanMenunggu;  // Modul 19: hanya di vitals pertama sesudah mode offline (kontrak 1.3)
+  if (adaLaporan) {
+    dokumen["offline_s"] = laporanDetik;
+    dokumen["kipas_lokal"] = laporanKipas;
+  }
+  char isi[192];  // Modul 19: diperbesar dari 128 untuk laporan mode offline
   size_t panjang = serializeJson(dokumen, isi, sizeof(isi));
   if (panjang >= sizeof(isi)) {
     logError("Vitals terlalu panjang untuk wadah isi[]: tidak dikirim.");
@@ -366,11 +432,25 @@ static void kirimVitals() {
     sudahKirimVitals = true;
     waktuVitalsTerakhir = millis();
     logDebug("Isi vitals: %s", isi);
+    if (adaLaporan) {
+      logInfo("Laporan mode offline terkirim bersama vitals: offline_s=%lu, kipas_lokal=%u", laporanDetik,
+              laporanKipas);
+      laporanMenunggu = false;
+      laporanDetik = 0;
+      laporanKipas = 0;
+    }
   }
 }
 
 // Satu kali percobaan menyambung ke broker, paling sering setiap JEDA_COBA_MQTT. Tidak pernah berputar menunggu.
 static void cobaSambungkanBroker() {
+  if (ujiOffline) {  // Modul 19: perintah "uji offline" sedang berjalan: pura-pura broker tak terjangkau
+    if (millis() - waktuUjiOffline < LAMA_UJI_OFFLINE) {
+      return;
+    }
+    ujiOffline = false;
+    logInfo("Uji offline selesai: Node 1 menyambung ke broker lagi.");
+  }
   if (sudahCobaMqtt && millis() - waktuCobaMqttTerakhir < JEDA_COBA_MQTT) {
     return;
   }
@@ -381,6 +461,11 @@ static void cobaSambungkanBroker() {
   if (mqtt.connect(idPerangkat, topikStatus, 1, true, "offline")) {
     mqttTersambung = true;
     kodeGagalTerakhir = 0;
+    if (PAKAI_WOKWI) {
+      // Modul 19: mencari alamat broker.emqx.io (DNS) sesudah lama putus bisa lebih dari 5 detik di Wokwi, dan watchdog
+      // pun me-restart Node 1. Simpan alamat IP-nya: sambung ulang berikutnya tidak perlu DNS lagi.
+      mqtt.setServer(klienJaringan.remoteIP(), PORT_BROKER);
+    }
     mqtt.publish(topikStatus, "online", true);  // retained: pelanggan yang datang belakangan tetap melihatnya
     mqtt.subscribe(topikCmd, 1);                // langganan diulang setiap kali tersambung (clean session)
     logInfo("MQTT tersambung ke broker %s:%u dalam %lu ms, sebagai %s", PAKAI_WOKWI ? BROKER_WOKWI : ALAMAT_BROKER,
@@ -406,7 +491,11 @@ static void jagaMqtt() {
   }
   if (mqtt.connected()) {
     mqtt.loop();  // menerima perintah dan menjaga sambungan tetap hidup (keep-alive)
-    if (!sudahKirimVitals || millis() - waktuVitalsTerakhir >= JEDA_VITALS) {
+    // Modul 19: sesudah mode offline, vitals pertama (yang membawa laporan) menunggu TUNDA_LAPORAN dulu. Server biasanya
+    // ikut kehilangan broker dan baru menyambung lagi beberapa detik kemudian. vitals tidak retained, jadi laporan yang
+    // terbit sebelum server berlangganan lagi tidak akan pernah sampai.
+    bool laporanMenungguServer = laporanMenunggu && millis() - waktuSelesaiOffline < TUNDA_LAPORAN;
+    if (!laporanMenungguServer && (!sudahKirimVitals || millis() - waktuVitalsTerakhir >= JEDA_VITALS)) {
       kirimVitals();
     }
     return;
@@ -418,6 +507,33 @@ static void jagaMqtt() {
              namaKeadaanMqtt(kode), kode, JEDA_COBA_MQTT / 1000);
   }
   cobaSambungkanBroker();
+}
+
+// Modul 19: mode offline = WiFi atau broker tak terjangkau terus-menerus selama BATAS_MODE_OFFLINE, dihitung dari saat
+// terakhir tersambung. Selama mode offline, aturan pengaman kipas (aturan.cpp) bekerja sendiri.
+static void jagaModeOffline() {
+  unsigned long sekarang = millis();
+  if (mqttSiap()) {
+    waktuTerakhirSiap = sekarang;
+    if (offline) {
+      offline = false;
+      waktuSelesaiOffline = sekarang;
+      unsigned long lama = (sekarang - waktuMasukOffline) / 1000;
+      laporanDetik += lama;  // dijumlahkan: kalau vitals belum sempat terkirim, mode offline berikutnya ikut dihitung
+      laporanKipas += kipasLokal;
+      laporanMenunggu = true;  // ikut vitals pertama sesudah tersambung, TUNDA_LAPORAN kemudian (jagaMqtt)
+      logInfo("MODE OFFLINE SELESAI setelah %lu detik: broker terjangkau lagi. Pengaman menyalakan kipas %u kali.", lama,
+              kipasLokal);
+    }
+    return;
+  }
+  if (!offline && sekarang - waktuTerakhirSiap >= BATAS_MODE_OFFLINE) {
+    offline = true;
+    waktuMasukOffline = sekarang;
+    kipasLokal = 0;
+    logError("MODE OFFLINE: broker tak terjangkau %lu detik. Pengaman lokal bekerja: kipas menyala di atas %.1f C.",
+             BATAS_MODE_OFFLINE / 1000, ambangSuhuKipas());
+  }
 }
 
 void perbaruiJaringan() {
@@ -456,10 +572,12 @@ void perbaruiJaringan() {
   }
   jagaSambungan();
   jagaMqtt();
+  jagaModeOffline();  // Modul 19
 }
 
 // ---------- Kirim bacaan: telemetry (Modul 11, Praktik 3 dan 7) ----------
-// Kejadian penting sebagai deretan bit: gerak, gelap, tanah kering, air tandon rendah.
+// Kejadian penting sebagai deretan bit: gerak, gelap, tanah kering, air tandon rendah,
+// dan mulai Modul 19 (kontrak 1.3) kipas, lampu, dan pompa yang menyala.
 static uint8_t keadaanPenting(BacaanSensor b) {
   uint8_t k = 0;
   if (b.gerak) {
@@ -474,6 +592,15 @@ static uint8_t keadaanPenting(BacaanSensor b) {
   if (b.level_air >= 0 && b.level_air < LEVEL_AIR_MINIMUM) {
     k |= 8;
   }
+  if (kipasMenyala()) {  // Modul 19: keadaan aktuator ikut state di telemetry
+    k |= 16;
+  }
+  if (lampuMenyala()) {
+    k |= 32;
+  }
+  if (pompaMenyala()) {
+    k |= 64;
+  }
   return k;
 }
 
@@ -487,6 +614,15 @@ static const char* namaPerubahan(uint8_t berubah, uint8_t sekarang, int levelAir
   }
   if (berubah & 4) {
     return (sekarang & 4) ? "tanah mengering" : "tanah basah lagi";
+  }
+  if (berubah & 16) {  // Modul 19
+    return (sekarang & 16) ? "kipas menyala" : "kipas padam";
+  }
+  if (berubah & 32) {
+    return (sekarang & 32) ? "lampu menyala" : "lampu padam";
+  }
+  if (berubah & 64) {
+    return (sekarang & 64) ? "pompa menyala" : "pompa padam";
   }
   if (sekarang & 8) {
     return "air tandon rendah";
@@ -518,7 +654,8 @@ static bool terbitkanTelemetry(const char* alasan) {
     dokumen["level_air"] = bacaanKirim.level_air;
   }
   tulisKolomRS485(dokumen);  // Modul 15: tanah_rs485, suhu_tanah, ec (hanya kalau sensor RS-485 dipakai)
-  char isi[256];  // Modul 15: diperbesar dari 192 untuk tiga kolom RS-485
+  tulisKeadaan(dokumen);     // Modul 19 (kontrak 1.3): state, sama persis dengan state di ack
+  char isi[320];  // Modul 19: diperbesar dari 256 untuk state
   size_t panjang = serializeJson(dokumen, isi, sizeof(isi));
   if (panjang >= sizeof(isi)) {
     logError("Telemetry terlalu panjang untuk wadah isi[]: tidak dikirim.");
@@ -543,8 +680,11 @@ void kirimBacaan(BacaanSensor b) {
     keadaanDikenal = true;
   } else if (k != keadaanTerakhir) {
     alasanSegera = namaPerubahan(k ^ keadaanTerakhir, k, b.level_air);
+  } else if (sudutTirai() != tiraiTerakhir) {
+    alasanSegera = "tirai bergerak";  // Modul 19: sudut tirai juga bagian dari state
   }
   keadaanTerakhir = k;
+  tiraiTerakhir = sudutTirai();
   // Bacaan datang sekitar setiap 2 detik, tidak pernah persis: beri toleransi setengah jeda baca.
   unsigned long sejak = sekarang - waktuKirimTerakhir + JEDA_BACA / 2;
   if (alasanSegera != nullptr && (!sudahPernahKirim || sejak >= JEDA_SEGERA_MIN)) {
@@ -611,6 +751,20 @@ void cetakInfoJaringan() {
   }
   Serial.printf("mqtt: telemetry setiap %lu detik dan segera saat ada kejadian penting, vitals setiap %lu menit, "
                 "%lu kali terbit\n", JEDA_KIRIM / 1000, JEDA_VITALS / 60000, jumlahTerbit);
+  unsigned long sekarang = millis();  // Modul 19: mode offline
+  if (offline) {
+    Serial.printf("mode offline: YA, sejak %lu detik lalu; pengaman sudah menyalakan kipas %u kali\n",
+                  (sekarang - waktuMasukOffline) / 1000, kipasLokal);
+  } else if (mqttSiap()) {
+    Serial.println("mode offline: tidak (broker terjangkau)");
+  } else {
+    Serial.printf("mode offline: belum; broker tak terjangkau sejak %lu detik lalu (mode offline setelah %lu detik)\n",
+                  (sekarang - waktuTerakhirSiap) / 1000, BATAS_MODE_OFFLINE / 1000);
+  }
+  if (ujiOffline && sekarang - waktuUjiOffline < LAMA_UJI_OFFLINE) {
+    Serial.printf("mode offline: uji offline berjalan, Node 1 menyambung lagi %lu detik lagi\n",
+                  (LAMA_UJI_OFFLINE - (sekarang - waktuUjiOffline)) / 1000);
+  }
 }
 
 void lupakanWiFi() {
@@ -631,4 +785,26 @@ bool terbitkan(const char* topik, const char* isi, bool retained) {
     return false;
   }
   return mqtt.publish(topik, isi, retained);
+}
+
+// ---------- Modul 19: dipakai aturan pengaman (aturan.cpp) dan perintah Serial ----------
+bool modeOffline() {
+  return offline;
+}
+
+void catatKipasLokal() {
+  if (offline) {
+    kipasLokal++;
+  }
+}
+
+// Latihan "kabel LAN Pi dicabut" tanpa menyentuh Pi (dan satu-satunya cara di Wokwi dengan broker publik).
+// Sambungan TCP ke broker ditutup TANPA pamit, jadi broker langsung menerbitkan wasiat "offline"; lalu Node 1 tidak
+// menyambung lagi selama LAMA_UJI_OFFLINE. Restart menghentikan uji ini lebih awal.
+void mulaiUjiOffline() {
+  ujiOffline = true;
+  waktuUjiOffline = millis();
+  klienJaringan.stop();
+  Serial.printf("uji offline: sambungan broker diputus; mode offline mulai %lu menit lagi, "
+                "sambung lagi %lu menit lagi.\n", BATAS_MODE_OFFLINE / 60000, LAMA_UJI_OFFLINE / 60000);
 }

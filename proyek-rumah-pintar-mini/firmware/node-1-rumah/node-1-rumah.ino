@@ -1,6 +1,11 @@
-// Node 1 "Rumah" - firmware v1.4.0 (Modul 15: sensor tanah RS-485 lewat Modbus RTU)
+// Node 1 "Rumah" - firmware v1.5.0 (Modul 19: aturan pengaman lokal dan mode offline)
 // Proyek benang merah: Rumah Pintar Mini.
 //
+// Baru di v1.5.0: Node 1 menerima perintah "config" dari server: ambang suhu_kipas_on dan tanah_siram, disimpan di
+// NVS. Kalau broker tak terjangkau lebih dari 2 menit (mode offline), pengaman lokal menyalakan kipas sendiri di atas
+// suhu_kipas_on dan memadamkannya di bawah suhu_kipas_on - 2 C; laporannya ikut vitals pertama, 10 detik sesudah
+// tersambung lagi. telemetry kini membawa keadaan keempat aktuator (state) dan terbit segera saat aktuator berubah
+// (kontrak data 1.3). Perintah "uji offline" melatih semua itu tanpa mencabut kabel.
 // Baru di v1.4.0: Node 1 menjadi klien Modbus RTU. Setiap 10 detik ia membaca tiga loker sensor tanah RS-485
 // (lewat modul MAX485 di Serial2) dan menambahkan tanah_rs485, suhu_tanah, dan ec ke telemetry (kontrak data 1.2).
 // Sensornya dipakai setelah perintah "rs485 on". LED status pindah ke D2 karena D4 kini menjadi pin DE/RE.
@@ -13,7 +18,7 @@
 // Dari v1.0.0 (Modul 8): tanpa delay() di loop(), kode modular, watchdog, NVS, log bertingkat, halaman status.
 // Perintah lewat Serial Monitor: lampu on, kipas off, pompa 3, tirai 90, bunyi, status, info,
 // ambang, ambang 35, ambang bawaan, log debug, log info, log error, wifi, wifi lupa, kirim, node2, node2 nol,
-// rs485, rs485 on, rs485 off, restart.
+// rs485, rs485 on, rs485 off, uji offline, restart.
 //
 // Library: ESP32Servo versi 3.2.1, DHT sensor library versi 1.4.7
 // (ikut terpasang: Adafruit Unified Sensor versi 1.1.15), Adafruit SSD1306 versi 2.5.17

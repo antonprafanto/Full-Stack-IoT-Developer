@@ -56,6 +56,12 @@ static void cetakAmbang() {
     asal = "dari NVS";
   }
   Serial.printf("ambang: tanah_siram = %d %% (%s)\n", ambangTanahSiram(), asal);
+  asal = "angka bawaan";  // Modul 19: ambang kipas pengaman, dikirim server lewat config
+  if (ambangSuhuKipasDariNvs()) {
+    asal = "dari NVS";
+  }
+  Serial.printf("ambang: suhu_kipas_on = %.1f C (%s); kipas pengaman padam di bawah %.1f C\n", ambangSuhuKipas(), asal,
+                ambangSuhuKipas() - SELISIH_KIPAS);
 }
 
 // Menjawab true kalau teks BUKAN angka: toInt() memberi 0, padahal teksnya bukan "0" (cara Praktik 5 Modul 5).
@@ -155,6 +161,9 @@ void periksaPerintahSerial() {
   } else if (perintah == "kirim") {
     kirimSekarang();  // Modul 11: terbitkan telemetry sekarang juga lewat MQTT
     return;
+  } else if (perintah == "uji offline") {
+    mulaiUjiOffline();  // Modul 19: latihan broker hilang selama 3 menit
+    return;
   } else if (perintah == "restart") {
     Serial.println("Restart sekarang...");
     Serial.flush();  // tunggu sampai pesan di atas benar-benar terkirim
@@ -162,7 +171,7 @@ void periksaPerintahSerial() {
   } else if (perintah != "status") {
     Serial.println("Perintah tidak dikenal. Contoh: lampu on, kipas off, pompa 3, tirai 90, bunyi, status,");
     Serial.println("info, ambang, ambang 35, ambang bawaan, log debug, log info, log error, wifi, wifi lupa,");
-    Serial.println("kirim, node2, node2 nol, rs485, rs485 on, rs485 off, restart");
+    Serial.println("kirim, node2, node2 nol, rs485, rs485 on, rs485 off, uji offline, restart");
     return;
   }
   cetakStatus();

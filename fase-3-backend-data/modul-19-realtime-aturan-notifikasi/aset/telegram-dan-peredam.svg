@@ -1,0 +1,141 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="880" viewBox="0 0 1200 880" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="880" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Notifikasi Telegram: penting, cepat, dan tidak cerewet</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" xml:space="preserve">Konsep 9 · bot dibuat sekali lewat @BotFather · backend bertanya dengan <tspan font-style="italic">long polling</tspan> · pesan diredam (<tspan font-style="italic">debouncing</tspan>)</text>
+<rect x="30.0" y="100.0" width="320.0" height="750.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="50.0" y="130.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >Membuat bot (sekali saja)</text>
+<circle cx="58.0" cy="162.0" r="11" fill="#1a7f37" stroke="#ffffff" stroke-width="2" />
+<text x="58.0" y="166.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >1</text>
+<text x="78.0" y="167.0" font-size="13" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Di Telegram, buka <tspan font-weight="800">@BotFather</tspan>,</text>
+<text x="78.0" y="186.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">kirim <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" font-weight="800">/newbot</tspan>, lalu beri nama</text>
+<text x="78.0" y="204.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >dan nama pengguna (diakhiri bot)</text>
+<circle cx="58.0" cy="240.0" r="11" fill="#1a7f37" stroke="#ffffff" stroke-width="2" />
+<text x="58.0" y="244.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >2</text>
+<text x="78.0" y="245.0" font-size="13" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">BotFather membalas <tspan font-weight="800">token</tspan></text>
+<rect x="78.0" y="258.0" width="254.0" height="92.0" rx="8" fill="#eef1f5" />
+<rect x="89.0" y="279.0" width="22.0" height="17.0" rx="3" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<path d="M93.5 279 L93.5 274 A6.5 6.5 0 0 1 106.5 274 L106.5 279" fill="none" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="100.0" cy="287.0" r="1.8" fill="#1e2a4a" />
+<text x="122.0" y="282.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >kunci rahasia bot-mu:</text>
+<text x="122.0" y="299.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >siapa pun yang memegangnya</text>
+<text x="122.0" y="315.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >bisa mengendalikan bot-mu</text>
+<text x="92.0" y="338.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve">simpan di <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="800">backend/.env</tspan> saja</text>
+<text x="78.0" y="374.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">TELEGRAM_BOT_TOKEN=…</text>
+<text x="78.0" y="392.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >.env tidak ikut Git (sejak Modul 16)</text>
+<circle cx="58.0" cy="428.0" r="11" fill="#1a7f37" stroke="#ffffff" stroke-width="2" />
+<text x="58.0" y="432.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >3</text>
+<text x="78.0" y="433.0" font-size="13" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Kirim <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" font-weight="800">/start</tspan> ke bot-mu, bot membalas:</text>
+<rect x="78.0" y="446.0" width="254.0" height="72.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.4" />
+<text x="92.0" y="468.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >Halo! chat_id kamu: 777000111</text>
+<text x="92.0" y="486.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" >Tulis angka ini sebagai</text>
+<text x="92.0" y="503.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" >TELEGRAM_CHAT_ID di .env backend.</text>
+<circle cx="58.0" cy="552.0" r="11" fill="#1a7f37" stroke="#ffffff" stroke-width="2" />
+<text x="58.0" y="556.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >4</text>
+<text x="78.0" y="557.0" font-size="13" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Salin <tspan font-weight="800">chat_id</tspan> ke <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" font-weight="800">.env</tspan>:</text>
+<text x="78.0" y="582.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">TELEGRAM_CHAT_ID=777000111</text>
+<text x="78.0" y="606.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#1e2a4a" font-weight="800">/status</tspan> hanya dijawab untuk</text>
+<text x="78.0" y="624.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >chat_id ini: daftar izin bot-mu</text>
+<rect x="46.0" y="652.0" width="288.0" height="100.0" rx="10" fill="#ffffff" stroke="#1e2a4a" stroke-width="1.4" stroke-dasharray="6 4"/>
+<text x="62.0" y="676.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Token telanjur bocor?</text>
+<text x="62.0" y="696.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Kirim <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="800">/token</tspan> ke @BotFather untuk</text>
+<text x="62.0" y="713.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" >membuat token baru, lalu ganti isi</text>
+<text x="62.0" y="730.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="800">.env</tspan>. Token lama tidak berlaku lagi.</text>
+<text x="46.0" y="790.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >Bot dibuat dengan akun Telegram-mu</text>
+<text x="46.0" y="807.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >sendiri, gratis (Praktik 6).</text>
+<rect x="370.0" y="100.0" width="340.0" height="750.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="390.0" y="130.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-style="italic">Long polling</tspan>: backend yang bertanya</text>
+<rect x="390.0" y="150.0" width="300.0" height="50.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.4" />
+<rect x="407.0" y="156.0" width="22.0" height="38.0" rx="5" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<circle cx="418.0" cy="188.0" r="1.8" fill="#1e2a4a" />
+<text x="442.0" y="172.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >HP-mu</text>
+<text x="442.0" y="190.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >aplikasi Telegram</text>
+<line x1="540.0" y1="204.0" x2="540.0" y2="236.0" stroke="#1e2a4a" stroke-width="1.8" stroke-linecap="round" />
+<path d="M542.8 207.3 L540.0 202.0 L537.2 207.3" fill="none" stroke="#1e2a4a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M537.2 232.7 L540.0 238.0 L542.8 232.7" fill="none" stroke="#1e2a4a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<text x="552.0" y="224.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" >percakapan dengan bot</text>
+<rect x="390.0" y="242.0" width="300.0" height="64.0" rx="10" fill="#ffffff" stroke="#1e2a4a" stroke-width="1.6" />
+<path d="M406 286 Q396 286 398 276 Q400 266 412 268 Q418 256 432 261 Q444 258 446 270 Q456 272 454 281 Q452 286 444 286 Z" fill="none" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="462.0" y="270.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >server Telegram</text>
+<text x="462.0" y="289.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >menyimpan pesan untuk bot-mu</text>
+<line x1="420.0" y1="466.0" x2="420.0" y2="312.0" stroke="#1a7f37" stroke-width="2.4" stroke-linecap="round" />
+<path d="M423.8 317.1 L420.0 310.0 L416.2 317.1" fill="none" stroke="#1a7f37" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="432.0" y="336.0" font-size="11.5" font-weight="800" fill="#1a7f37" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">getUpdates</text>
+<text x="432.0" y="354.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" >"ada pesan baru</text>
+<text x="432.0" y="371.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" >untukku?"</text>
+<line x1="650.0" y1="312.0" x2="650.0" y2="462.0" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" />
+<path d="M646.2 458.9 L650.0 466.0 L653.8 458.9" fill="none" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="638.0" y="336.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="end" >jawaban: pesan</text>
+<text x="638.0" y="353.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="end" >baru, misalnya</text>
+<text x="638.0" y="370.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="end" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="800">/status</tspan></text>
+<line x1="531.8" y1="395.0" x2="548.2" y2="395.0" stroke="#4a5568" stroke-width="2" stroke-linecap="round" />
+<line x1="531.8" y1="415.0" x2="548.2" y2="415.0" stroke="#4a5568" stroke-width="2" stroke-linecap="round" />
+<path d="M533.8 395 L546.2 395 L540 405 L546.2 415 L533.8 415 L540 405 Z" fill="none" stroke="#4a5568" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M536.2 413.5 L543.8 413.5 L540 408.5 Z" fill="#4a5568" stroke-linecap="round" stroke-linejoin="round" />
+<text x="540.0" y="434.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="middle" >ditahan sampai ada pesan,</text>
+<text x="540.0" y="450.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="middle" >paling lama 30 detik</text>
+<rect x="390.0" y="476.0" width="300.0" height="216.0" rx="12" fill="#eef1f5" stroke="#9aa3b0" stroke-width="1.4" stroke-dasharray="6 4"/>
+<text x="406.0" y="500.0" font-size="12.5" font-weight="800" fill="#4a5568" text-anchor="start" >jaringan rumah</text>
+<rect x="408.0" y="530.0" width="44.0" height="16.0" rx="4" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<line x1="418.0" y1="530.0" x2="414.0" y2="514.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<line x1="442.0" y1="530.0" x2="446.0" y2="514.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<circle cx="420.0" cy="538.0" r="1.6" fill="#1e2a4a" />
+<circle cx="427.0" cy="538.0" r="1.6" fill="#1e2a4a" />
+<circle cx="434.0" cy="538.0" r="1.6" fill="#1e2a4a" />
+<text x="466.0" y="530.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" >router</text>
+<text x="466.0" y="548.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >tanpa alamat IP publik</text>
+<line x1="430.0" y1="548.0" x2="430.0" y2="600.0" stroke="#1e2a4a" stroke-width="1.8" stroke-linecap="round" />
+<rect x="410.0" y="609.0" width="40.0" height="26.0" rx="3" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<path d="M404 639 L456 639" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="466.0" y="618.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" >backend di laptop</text>
+<text x="466.0" y="636.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">grammY: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="700">bot.start()</tspan></text>
+<text x="466.0" y="654.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >bertanya lagi setiap kali</text>
+<text x="466.0" y="671.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >jawaban datang</text>
+<text x="390.0" y="724.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" >Peringatan dikirim dengan</text>
+<text x="390.0" y="741.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="800">sendMessage</tspan>, juga lewat koneksi keluar.</text>
+<text x="390.0" y="772.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">Cara lain, <tspan font-style="italic">webhook</tspan>: Telegram yang</text>
+<text x="390.0" y="789.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >menghubungi backend. Backend harus</text>
+<text x="390.0" y="806.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >bisa dijangkau dari internet dengan</text>
+<text x="390.0" y="823.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >HTTPS: itu urusan Modul 26–27.</text>
+<rect x="730.0" y="100.0" width="440.0" height="750.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="750.0" y="130.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-style="italic">Debouncing</tspan>: satu siang yang panas</text>
+<text x="750.0" y="150.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >contoh · aturan kipas Node 1 · bacaan setiap 10 detik</text>
+<line x1="808.0" y1="176.0" x2="808.0" y2="726.0" stroke="#d5dbe3" stroke-width="2.4" stroke-linecap="round" />
+<text x="792.0" y="191.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="end" >13.02</text>
+<circle cx="808.0" cy="186.0" r="7" fill="#1a7f37" stroke="#ffffff" stroke-width="2" />
+<text x="826.0" y="191.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >2 menit di atas 30 °C: kipas dinyalakan</text>
+<text x="826.0" y="209.0" font-size="12" font-weight="800" fill="#1a7f37" text-anchor="start" >keadaan berubah: dikirim</text>
+<rect x="826.0" y="219.0" width="336.0" height="32.0" rx="10" fill="#dafbe1" />
+<text x="838.0" y="237.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" >🌡️ Suhu 33 °C — kipas dinyalakan otomatis</text>
+<text x="792.0" y="305.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="end" >13.12</text>
+<circle cx="808.0" cy="300.0" r="6" fill="#ffffff" stroke="#9aa3b0" stroke-width="2" />
+<text x="826.0" y="305.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >masih 33 °C, 10 menit kemudian</text>
+<text x="826.0" y="323.0" font-size="12" font-weight="800" fill="#4a5568" text-anchor="start" >tidak berubah: diam (60 bacaan, 0 pesan)</text>
+<text x="792.0" y="369.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="end" >13.32</text>
+<circle cx="808.0" cy="364.0" r="7" fill="#1a7f37" stroke="#ffffff" stroke-width="2" />
+<text x="826.0" y="369.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >masih panas, 30 menit sejak pesan terakhir</text>
+<text x="826.0" y="387.0" font-size="12" font-weight="800" fill="#1a7f37" text-anchor="start" >pengingat: dikirim</text>
+<rect x="826.0" y="397.0" width="336.0" height="50.0" rx="10" fill="#dafbe1" />
+<text x="838.0" y="415.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" >🌡️ Suhu masih 33 °C — kipas tetap</text>
+<text x="838.0" y="433.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" >menyala (pengingat)</text>
+<text x="792.0" y="499.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="end" >13.48</text>
+<circle cx="808.0" cy="494.0" r="7" fill="#1a7f37" stroke="#ffffff" stroke-width="2" />
+<text x="826.0" y="499.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >turun di bawah 28 °C: kipas dipadamkan</text>
+<text x="826.0" y="517.0" font-size="12" font-weight="800" fill="#1a7f37" text-anchor="start" >kembali aman: dikirim</text>
+<rect x="826.0" y="527.0" width="336.0" height="32.0" rx="10" fill="#dafbe1" />
+<text x="838.0" y="545.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" >✅ Suhu turun ke 27 °C — kipas dipadamkan</text>
+<text x="792.0" y="613.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="end" >14.05</text>
+<circle cx="808.0" cy="608.0" r="6" fill="#ffffff" stroke="#9aa3b0" stroke-width="2" />
+<text x="826.0" y="613.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Node 1 putus 20 detik, lalu kembali</text>
+<text x="826.0" y="631.0" font-size="12" font-weight="800" fill="#4a5568" text-anchor="start" >kurang dari 60 detik: diam</text>
+<text x="792.0" y="677.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="end" >14.20</text>
+<circle cx="808.0" cy="672.0" r="7" fill="#1a7f37" stroke="#ffffff" stroke-width="2" />
+<text x="826.0" y="677.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Node 1 putus lebih dari 60 detik</text>
+<text x="826.0" y="695.0" font-size="12" font-weight="800" fill="#1a7f37" text-anchor="start" >dikirim 60 detik kemudian</text>
+<rect x="826.0" y="705.0" width="336.0" height="32.0" rx="10" fill="#dafbe1" />
+<text x="838.0" y="723.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" >📴 a4cf12e5b7c0 offline sejak 14.20 WIB</text>
+<rect x="750.0" y="760.0" width="400.0" height="74.0" rx="10" fill="#eef1f5" />
+<text x="766.0" y="784.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Cepat: ≤ 10 detik sejak bacaan pemicu (syarat lulus).</text>
+<text x="766.0" y="803.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >Log backend di lab penulis:</text>
+<text x="766.0" y="821.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">Telegram terkirim 0,6 detik setelah bacaan …</text>
+<text x="1178.0" y="866.0" font-size="11" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

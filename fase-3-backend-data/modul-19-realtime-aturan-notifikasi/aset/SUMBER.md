@@ -1,0 +1,15 @@
+# Sumber & atribusi gambar — Modul 19
+
+Rekap semua gambar di folder ini. Diagram orisinal kurikulum berlisensi **CC BY 4.0**, dan file `.svg`-nya disertakan agar bisa diubah. Angka dan teks log di diagram berasal dari lab penulis untuk modul ini: backend v0.4 dengan simulator Modul 19, uji Vitest Praktik 3, uji Telegram lewat server Bot API tiruan, dan uji Wokwi firmware Node 1 v1.5.0. Tangkapan layar Wokwi diambil dari proyek Node 1 v1.5.0 penulis di [wokwi.com](https://wokwi.com). Semua sumber diakses Oktober 2026.
+
+| File | Jenis | Sumber | Lisensi / catatan |
+| :--- | :--- | :--- | :--- |
+| `peta-jalan-modul-19.png` / `.svg` | Diagram orisinal: posisi Modul 19 di kurikulum dan hal yang dikerjakan minggu ini | Kurikulum Fullstack IoT Developer | CC BY 4.0 |
+| `polling-dan-websocket.png` / `.svg` | Diagram orisinal: HTTP *polling* (kotak surat) lawan WebSocket (telepon), dan satu *room* untuk setiap perangkat | Kurikulum Fullstack IoT Developer; perilaku dari [dokumentasi Socket.IO](https://socket.io/docs/v4/) ([cara kerjanya](https://socket.io/docs/v4/how-it-works/), [*room*](https://socket.io/docs/v4/rooms/)); baris terminal dari Praktik 1 | CC BY 4.0 |
+| `perintah-dan-keadaan.png` / `.svg` | Diagram orisinal: satu pintu perintah dengan `ack` dan batas waktu 5 detik, serta keadaan yang diinginkan lawan yang dilaporkan | Kurikulum Fullstack IoT Developer; nilai dari backend v0.4 modul ini (Praktik 2) | CC BY 4.0 |
+| `mesin-aturan.png` / `.svg` | Diagram orisinal: aturan "di atas 30 °C selama 2 menit" dengan histeresis 30/28 dan hitungan yang diulang | Kurikulum Fullstack IoT Developer; angka aturan sama dengan uji Vitest Praktik 3 | CC BY 4.0 |
+| `aturan-tanpa-restart.png` / `.svg` | Diagram orisinal: ambang diubah lewat `PUT /rules/1` dan berlaku tanpa *restart* server | Kurikulum Fullstack IoT Developer; log dari Praktik 4 | CC BY 4.0 |
+| `telegram-dan-peredam.png` / `.svg` | Diagram orisinal: membuat bot di @BotFather, *long polling*, dan peredam (*debouncing*) peringatan | Kurikulum Fullstack IoT Developer; langkah dari [dokumentasi Telegram](https://core.telegram.org/bots/features#botfather); teks pesan dari backend v0.4 modul ini | CC BY 4.0 |
+| `pengaman-lokal.png` / `.svg` | Diagram orisinal: mode offline dan pengaman kipas di Node 1, laporan lewat `vitals`, dan celah yang perlu diketahui | Kurikulum Fullstack IoT Developer; baris Serial dari uji Wokwi firmware v1.5.0 modul ini | CC BY 4.0 |
+| `wokwi-pengaman-lokal.png` | Tangkapan layar: proyek Wokwi Node 1 v1.5.0 setelah perintah `uji offline` (rangkaian, OLED, jendela DHT22, dan potongan Serial Monitor), dengan nomor penanda | Tangkapan layar asli [Wokwi](https://wokwi.com), proyek penulis; dipotong dan disusun ulang, dengan judul, nomor, dan keterangan oleh penulis | Tangkapan layar Wokwi, © Wokwi (CodeMagic LTD), Oktober 2026; dipakai untuk tujuan pendidikan, penanda oleh penulis. Judul, nomor, dan keterangan: CC BY 4.0 |
+| `diagram-proyek-modul-19.png` / `.svg` | Diagram orisinal: Rumah Pintar Mini setelah Modul 19, dengan backend v0.4, firmware Node 1 v1.5.0, dan bot Telegram | Kurikulum Fullstack IoT Developer | CC BY 4.0 |

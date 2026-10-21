@@ -1,11 +1,11 @@
 // perangkat.ts - rute /devices: daftar perangkat, bacaan terbaru, riwayat dari database (mentah atau ringkasan),
-// dan perintah.
+// perintah, dan keadaan aktuator (desired/reported, Modul 19).
 import { z } from "zod";
 import type { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
-import { Ack, DeviceId, PerintahSet, Status, TelemetryNode1, TelemetryNode2, Vitals } from "../schemas/kontrak.ts";
-import { cariPerangkat, semuaPerangkat, tungguAck } from "../services/gudang.ts";
-import { brokerTersambung, buatIdPerintah, kirimPerintah } from "../services/mqtt.ts";
-import { ambilRingkasan, ambilRiwayat, arsipkanPerintah, waktuKontrak } from "../db/arsip.ts";
+import { Ack, DeviceId, Keadaan, PerintahSet, Status, TelemetryNode1, TelemetryNode2, Vitals } from "../schemas/kontrak.ts";
+import { cariPerangkat, semuaPerangkat } from "../services/gudang.ts";
+import { keadaanPerangkat, perintahkan } from "../services/perintah.ts";
+import { ambilRingkasan, ambilRiwayat, waktuKontrak } from "../db/arsip.ts";
 
 const MENIT = 60 * 1000; // dalam milidetik, seperti Date.getTime()
 const JAM = 60 * MENIT;
@@ -180,32 +180,39 @@ export const rutePerangkat: FastifyPluginAsyncZod = async (app) => {
       response: {
         200: z.object({ id: z.string(), lama_ms: z.number(), ack: Ack }).describe("perangkat menjawab dengan ack"),
         404: Galat.describe("perangkat belum pernah terdengar"),
-        409: Galat.describe("perangkat offline, Node 2, atau jenisnya belum diketahui"),
+        409: Galat.describe("perangkat offline, Node 2, jenisnya belum diketahui, atau perintah sebelumnya untuk "
+          + "aktuator yang sama masih menunggu ack"),
         503: Galat.describe("backend tidak tersambung ke broker"),
         504: Galat.describe("tidak ada ack dalam 5 detik"),
       },
     },
   }, async (req, reply) => {
-    const p = cariPerangkat(req.params.id);
-    if (p === undefined) return reply.code(404).send({ pesan: `perangkat ${req.params.id} belum pernah terdengar` });
-    if (p.jenis === "node2") return reply.code(409).send({ pesan: "Node 2 tidak menerima perintah (kontrak bagian 2)" });
-    if (p.jenis !== "node1") return reply.code(409).send({ pesan: "jenis perangkat belum diketahui: tunggu telemetry pertamanya" });
-    if (p.status !== "online") return reply.code(409).send({ pesan: `perangkat sedang ${p.status}, perintah tidak dikirim` });
-    if (!brokerTersambung()) return reply.code(503).send({ pesan: "backend sedang tidak tersambung ke broker" });
+    const hasil = await perintahkan(req.params.id, req.body, "api"); // Modul 19: lewat satu pintu yang sama
+    if (hasil.status === "tidak-dikirim") return reply.code(hasil.kode).send({ pesan: hasil.pesan });
+    if (hasil.status === "tanpa-ack") return reply.code(504).send({ pesan: `tidak ada ack untuk ${hasil.id} dalam 5 detik` });
+    return { id: hasil.id, lama_ms: hasil.lama_ms, ack: hasil.ack };
+  });
 
-    const idPerintah = buatIdPerintah();
-    const mulai = Date.now();
-    const menungguAck = tungguAck(idPerintah, 5000); // mulai menunggu sebelum mengirim
-    kirimPerintah(p.device_id, idPerintah, req.body);
-    const ack = await menungguAck;
-    const lama = Date.now() - mulai;
-    arsipkanPerintah(idPerintah, p.device_id, req.body, new Date(mulai), ack, lama)
-      .catch((galat) => req.log.error(`gagal mencatat perintah ${idPerintah} ke database: ${galat.message}`));
-    if (ack === null) {
-      req.log.warn(`perintah ${idPerintah} ke ${p.device_id}: tidak ada ack dalam 5 detik`);
-      return reply.code(504).send({ pesan: `tidak ada ack untuk ${idPerintah} dalam 5 detik` });
-    }
-    req.log.info(`perintah ${idPerintah} ke ${p.device_id}: ack ok=${ack.ok} dalam ${lama} ms`);
-    return { id: idPerintah, lama_ms: lama, ack };
+  app.get("/devices/:id/state", {
+    schema: {
+      tags: ["perangkat"],
+      summary: "Keadaan aktuator: yang diinginkan server (desired) dan yang dilaporkan perangkat (reported)",
+      params: ParamId,
+      response: {
+        200: z.object({
+          device_id: z.string(),
+          desired: z.object({ kipas: z.boolean().optional(), lampu: z.boolean().optional(), tirai: z.number().optional() })
+            .describe("keadaan yang diinginkan server untuk kipas, lampu, dan tirai (pompa tidak: perintahnya sekali jalan)"),
+          reported: Keadaan.nullable().describe("keadaan terakhir yang dilaporkan perangkat lewat telemetry atau ack"),
+          reported_pada: z.string().nullable().describe("waktu server saat laporan itu tiba"),
+          selisih: z.array(z.string()).describe("aktuator yang keadaannya belum sama dengan keinginan server"),
+        }).describe("desired, reported, dan selisihnya"),
+        404: Galat.describe("perangkat belum pernah terdengar"),
+      },
+    },
+  }, async (req, reply) => {
+    const keadaan = keadaanPerangkat(req.params.id);
+    if (keadaan === undefined) return reply.code(404).send({ pesan: `perangkat ${req.params.id} belum pernah terdengar` });
+    return keadaan;
   });
 };

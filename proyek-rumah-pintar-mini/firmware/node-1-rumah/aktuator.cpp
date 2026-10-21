@@ -11,6 +11,7 @@ static Servo servoTirai;
 static bool lampu = false;
 static bool lampuMilikOtomatis = false;  // true kalau lampu dinyalakan oleh aturan otomatis
 static bool kipas = false;
+static bool kipasMilikPengaman = false;  // Modul 19: true kalau kipas dinyalakan aturan pengaman lokal
 static int sudut = 90;
 
 static bool pompa = false;
@@ -73,6 +74,13 @@ void aturLampuOtomatis(bool nyala) {
 
 void aturKipas(bool nyala) {
   kipas = nyala;
+  kipasMilikPengaman = false;  // Modul 19: perintah manual atau dari server: kipas bukan lagi milik pengaman
+  tulisRelay(PIN_RELAY_KIPAS, nyala);
+}
+
+void aturKipasPengaman(bool nyala) {
+  kipas = nyala;
+  kipasMilikPengaman = nyala;
   tulisRelay(PIN_RELAY_KIPAS, nyala);
 }
 
@@ -117,6 +125,10 @@ bool lampuDariOtomatis() {
 
 bool kipasMenyala() {
   return kipas;
+}
+
+bool kipasDariPengaman() {
+  return kipasMilikPengaman;
 }
 
 bool pompaMenyala() {

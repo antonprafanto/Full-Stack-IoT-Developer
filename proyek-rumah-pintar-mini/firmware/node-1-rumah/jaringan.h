@@ -16,3 +16,6 @@ void cetakInfoJaringan();              // jawaban perintah Serial "wifi"
 void lupakanWiFi();                    // perintah Serial "wifi lupa": hapus WiFi tersimpan, lalu restart
 bool mqttSiap();                       // Modul 14: true kalau WiFi dan MQTT sedang tersambung
 bool terbitkan(const char* topik, const char* isi, bool retained);  // Modul 14: terbit atas nama Node 2
+bool modeOffline();                    // Modul 19: true selama broker tak terjangkau lebih dari 2 menit
+void catatKipasLokal();                // Modul 19: dipanggil pengaman setiap kali menyalakan kipas (untuk laporan)
+void mulaiUjiOffline();                // Modul 19: perintah Serial "uji offline"

@@ -2,6 +2,9 @@
 // (Lampiran A Silabus dan KONTRAK-DATA.md). Modul 11 - Praktik 8. Dipakai lagi di modul-modul berikutnya.
 // Versi 1.1 (Modul 14): telemetry Node 2, yang diterbitkan Node 1 atas nama Node 2, diperiksa dengan kolomnya sendiri.
 // Versi 1.2 (Modul 15): telemetry Node 1 boleh membawa tiga kolom sensor RS-485 (tanah_rs485, suhu_tanah, ec).
+// Versi 1.3 (Modul 19): telemetry Node 1 membawa state (keadaan aktuator, sama dengan ack.state); vitals boleh membawa
+// laporan mode offline (offline_s dan kipas_lokal, selalu bersama); isi config diperiksa; perintah set yang tertempel
+// (retained) di broker ditandai GAGAL; pesan kosong di cmd = pesan retained baru saja dihapus.
 // Butuh library mqtt:  npm install mqtt@5.16.1
 // Jalankan:  node pemeriksa-kontrak.js                               (broker di laptop ini)
 //            node pemeriksa-kontrak.js 192.168.1.10                  (broker di komputer lain)
@@ -19,13 +22,15 @@ if (perangkat !== undefined && !/^[0-9a-f]{12}$/.test(perangkat)) {
 const langganan = perangkat ? `rpm/${perangkat}/#` : "rpm/#";
 const JENIS = ["telemetry", "status", "vitals", "cmd", "ack"];
 const KOLOM = {
-  "telemetry Node 1": { // kontrak 1.2: tiga kolom sensor RS-485 hanya ada kalau sensornya dipasang
-    semua: ["ts", "fw", "suhu", "kelembapan", "cahaya", "tanah", "gerak", "level_air", "tanah_rs485", "suhu_tanah", "ec"],
+  "telemetry Node 1": { // kontrak 1.2: tiga kolom sensor RS-485 hanya ada kalau sensornya dipasang; 1.3: state
+    semua: ["ts", "fw", "suhu", "kelembapan", "cahaya", "tanah", "gerak", "level_air", "tanah_rs485", "suhu_tanah", "ec",
+      "state"],
     wajib: ["ts", "fw", "suhu", "kelembapan", "cahaya", "tanah", "gerak", "level_air"] },
   "telemetry Node 2": { // kontrak 1.1: baterai boleh tidak ada (pembagi tegangan pilihan)
     semua: ["ts", "fw", "suhu", "kelembapan", "tekanan", "suhu_tanah", "tanah", "baterai"],
     wajib: ["ts", "fw", "suhu", "kelembapan", "tekanan", "suhu_tanah", "tanah"] },
-  vitals: { semua: ["ts", "rssi", "uptime_s", "heap_free", "reset_reason"], wajib: ["ts", "rssi", "uptime_s", "heap_free"] },
+  vitals: { semua: ["ts", "rssi", "uptime_s", "heap_free", "reset_reason", "offline_s", "kipas_lokal"],
+    wajib: ["ts", "rssi", "uptime_s", "heap_free"] },
   cmd: { semua: ["id", "ts", "aksi", "target", "nilai", "ambang", "url", "versi"], wajib: ["id", "aksi"] },
   ack: { semua: ["id", "ts", "ok", "pesan", "state"], wajib: ["id", "ts", "ok", "state"] },
 };
@@ -88,6 +93,45 @@ function periksaDesimal(nama, nilai, palingKecil, palingBesar, masalah) {
   }
 }
 
+// Kontrak 1.3: keadaan keempat aktuator, sama di telemetry Node 1 dan di ack (KONTRAK-DATA.md bagian 4 dan 8).
+function periksaState(state, masalah) {
+  if (typeof state !== "object" || state === null || Array.isArray(state)) {
+    masalah.push(`"state" harus berisi keadaan aktuator, misalnya {"kipas":false,"lampu":true,"pompa":false,"tirai":90}`);
+    return;
+  }
+  for (const kolom of ["kipas", "lampu", "pompa", "tirai"]) {
+    if (!(kolom in state)) masalah.push(`"state" tidak memuat "${kolom}"`);
+  }
+  for (const kolom of Object.keys(state)) {
+    if (!["kipas", "lampu", "pompa", "tirai"].includes(kolom)) masalah.push(`"state.${kolom}" tidak ada di kontrak data`);
+  }
+  for (const kolom of ["kipas", "lampu", "pompa"]) {
+    if (kolom in state && typeof state[kolom] !== "boolean") {
+      masalah.push(`"state.${kolom}" harus true atau false, isinya ${teks(state[kolom])}`);
+    }
+  }
+  if ("tirai" in state) periksaBulat("state.tirai", state.tirai, 0, 180, false, masalah);
+}
+
+// Kontrak 1.3: isi ambang perintah config. Jawabannya "" kalau sah, atau alasan penolakannya (sama dengan perangkat).
+function periksaAmbang(ambang) {
+  if (typeof ambang !== "object" || ambang === null || Array.isArray(ambang) || Object.keys(ambang).length === 0) {
+    return "ambang harus berisi suhu_kipas_on atau tanah_siram";
+  }
+  for (const nama of Object.keys(ambang)) {
+    if (nama !== "suhu_kipas_on" && nama !== "tanah_siram") return `ambang tidak dikenal: ${nama}`;
+  }
+  const suhu = ambang.suhu_kipas_on;
+  const tanah = ambang.tanah_siram;
+  if (suhu !== undefined && (typeof suhu !== "number" || suhu < 15 || suhu > 45)) {
+    return "suhu_kipas_on harus angka 15-45";
+  }
+  if (tanah !== undefined && (!Number.isInteger(tanah) || tanah < 0 || tanah > 100)) {
+    return "tanah_siram harus bilangan bulat 0-100";
+  }
+  return "";
+}
+
 // Kontrak 1.1: kolom sensor menurut perangkat. Telemetry Node 2 dikenali dari kolom khasnya ("tekanan"),
 // karena sejak kontrak 1.2 "suhu_tanah" juga bisa datang dari sensor RS-485 Node 1.
 function periksaTelemetry(isi, masalah) {
@@ -117,10 +161,12 @@ function periksaTelemetry(isi, masalah) {
     }
     if (ada("tanah_rs485")) periksaDesimal("tanah_rs485", isi.tanah_rs485, 0, 100, masalah);
     if (ada("ec")) periksaBulat("ec", isi.ec, 0, 20000, true, masalah);
+    if (ada("state")) periksaState(isi.state, masalah); // kontrak 1.3
   }
   return node2 ? "  (telemetry Node 2)" : "";
 }
 
+// Menjawab catatan tambahan kalau vitals membawa laporan mode offline (kontrak 1.3).
 function periksaVitals(isi, masalah) {
   const ada = periksaKolom(isi, "vitals", masalah);
   if (ada("ts")) periksaTs(isi.ts, masalah);
@@ -134,6 +180,13 @@ function periksaVitals(isi, masalah) {
   if (ada("reset_reason") && !ALASAN_RESET.includes(isi.reset_reason)) {
     masalah.push(`"reset_reason" harus salah satu dari ${ALASAN_RESET.join(", ")}`);
   }
+  const laporan = ["offline_s", "kipas_lokal"].filter((k) => k in isi); // kontrak 1.3: keduanya selalu bersama
+  if (laporan.length === 1) {
+    masalah.push(`laporan mode offline harus lengkap (offline_s, kipas_lokal), yang ada hanya ${laporan[0]}`);
+  }
+  if (ada("offline_s")) periksaBulat("offline_s", isi.offline_s, 0, 4294967295, false, masalah);
+  if (ada("kipas_lokal")) periksaBulat("kipas_lokal", isi.kipas_lokal, 0, 65535, false, masalah);
+  return laporan.length === 2 ? `  (laporan mode offline: ${isi.offline_s} detik, kipas ${isi.kipas_lokal} kali)` : "";
 }
 
 // id perintah: teks 1 sampai 39 huruf (id yang lebih panjang diabaikan perangkat).
@@ -141,7 +194,7 @@ function idSah(id) {
   return typeof id === "string" && id.length >= 1 && id.length <= 39;
 }
 
-function periksaCmd(isi, masalah) {
+function periksaCmd(isi, masalah, retained) {
   const ada = periksaKolom(isi, "cmd", masalah);
   if (ada("id") && !idSah(isi.id)) {
     masalah.push(`"id" harus teks 1 sampai 39 huruf, isinya ${teks(isi.id)}`);
@@ -158,6 +211,13 @@ function periksaCmd(isi, masalah) {
     } else if (!NILAI_SET[isi.target][0](isi.nilai)) {
       masalah.push(`"nilai" untuk ${isi.target} harus ${NILAI_SET[isi.target][1]}, isinya ${teks(isi.nilai)}`);
     }
+    if (retained) { // kontrak 1.3: hanya config yang boleh tertempel di broker
+      masalah.push("perintah set tertempel (retained) di broker: hapus dengan Clear Retained Message (kontrak bagian 7)");
+    }
+  }
+  if (isi.aksi === "config") { // kontrak 1.3
+    const alasan = periksaAmbang(isi.ambang);
+    if (alasan !== "") masalah.push(alasan);
   }
 }
 
@@ -171,9 +231,7 @@ function periksaAck(isi, masalah) {
   if (ada("ok") && typeof isi.ok !== "boolean") {
     masalah.push(`"ok" harus true atau false, isinya ${teks(isi.ok)}`);
   }
-  if (ada("state") && (typeof isi.state !== "object" || isi.state === null || Array.isArray(isi.state))) {
-    masalah.push(`"state" harus berisi keadaan aktuator, misalnya {"lampu": true}`);
-  }
+  if (ada("state")) periksaState(isi.state, masalah); // kontrak 1.3: isi state ikut diperiksa
   if (isi.ok === false && typeof isi.pesan !== "string") {
     masalah.push(`ack yang menolak (ok: false) wajib membawa "pesan" berisi alasannya`);
   }
@@ -198,6 +256,8 @@ function periksa(topik, isiTeks, retained) {
     } else if (!["online", "offline", "offline-mode"].includes(isiTeks)) {
       masalah.push(`isi status harus online, offline, atau offline-mode, isinya ${teks(isiTeks)}`);
     }
+  } else if (bagian[2] === "cmd" && isiTeks === "") { // kontrak 1.3: bukan pelanggaran
+    catatan += "  (pesan kosong: cmd retained baru saja dihapus)";
   } else {
     let isi;
     try {
@@ -209,8 +269,8 @@ function periksa(topik, isiTeks, retained) {
       masalah.push("isinya harus objek JSON { ... }");
     } else if (isi !== undefined) {
       if (bagian[2] === "telemetry") catatan += periksaTelemetry(isi, masalah);
-      if (bagian[2] === "vitals") periksaVitals(isi, masalah);
-      if (bagian[2] === "cmd") periksaCmd(isi, masalah);
+      if (bagian[2] === "vitals") catatan += periksaVitals(isi, masalah);
+      if (bagian[2] === "cmd") periksaCmd(isi, masalah, retained);
       if (bagian[2] === "ack") catatan += periksaAck(isi, masalah);
     }
   }
