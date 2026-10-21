@@ -1568,8 +1568,8 @@ Jalankan backend (`npm run dev`) dan terminal kecil untuk perangkat simulator (`
 
    ```text
    [06:27:37] WARN: f00d00000001 baru menyala ulang (uptime 0 detik): keinginan server dicocokkan lagi
-   [06:27:49] WARN: cocokkan f00d00000001: kipas dilaporkan false, padahal diinginkan true (api); perintah dikirim lagi
-   [06:27:49] WARN: cocokkan f00d00000001: tirai dilaporkan 90, padahal diinginkan 45 (api); perintah dikirim lagi
+   [06:27:49] WARN: cocokkan kipas f00d00000001 dilaporkan false, padahal diinginkan true (api); perintah dikirim lagi
+   [06:27:49] WARN: cocokkan tirai f00d00000001 dilaporkan 90, padahal diinginkan 45 (api); perintah dikirim lagi
    [06:27:49] INFO: perintah c-20261020-232749-3 (api) ke f00d00000001: kipas = true, ack ok=true dalam 5 ms
    [06:27:49] INFO: perintah c-20261020-232749-4 (api) ke f00d00000001: tirai = 45, ack ok=true dalam 7 ms
    ```
