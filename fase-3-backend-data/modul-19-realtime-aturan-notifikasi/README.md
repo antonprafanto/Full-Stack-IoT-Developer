@@ -3671,7 +3671,7 @@ Cabang ini berjalan untuk setiap bacaan selama aturan masih menyala, tetapi `kab
 }
 ```
 
-Pesan Telegram dikirim **sesudah** jawaban perangkat diketahui. Jadi, isinya jujur: kalau perangkat tidak menjawab, pesannya berbunyi `tidak menjawab`, bukan `dinyalakan`.
+Pesan Telegram dikirim **sesudah** jawaban perangkat diketahui. Jadi, isinya jujur: kalau perangkat tidak menjawab, pesannya berbunyi `TIDAK menjawab perintah`, bukan `dinyalakan otomatis`.
 
 **`backend/src/services/jadwal.ts`** — tambahkan `import { kabari } from "./telegram.ts";` di bawah impor `catatKejadian`. Lalu tambahkan baris berikut di **dua** tempat, yaitu di `jalankanJadwal()` tepat di bawah `catatKejadian({ … });` (sebelum `return hasil;`), dan di akhir `jadwalTerlewat()`, juga di bawah `catatKejadian({ … });`:
 
@@ -4355,7 +4355,7 @@ Sekarang kirim ambang dari luar.
 [00:00:10] INFO  Perintah cfg-uji-1: config ambang dikerjakan.
 ```
 
-Di MQTTX, `ack` `{"id":"cfg-uji-1",…,"ok":true,"state":{…}}` tiba sekitar satu detik kemudian. Ketik `ambang` lagi: kedua barisnya kini berakhir dengan `(dari NVS)`, dan kipas pengaman padam di bawah `29.0 C`. Coba juga satu `config` yang keliru, tanpa **Retain** dan dengan `id` baru (`id` yang sama akan diabaikan): `{"id":"cfg-uji-2","aksi":"config","ambang":{"suhu_kipas_on":50}}`. Node 1 menolaknya:
+Di MQTTX, `ack` `{"id":"cfg-uji-1",…,"ok":true,"state":{…}}` tiba sekitar satu detik kemudian. Ketik `ambang` lagi: kedua barisnya kini memuat `(dari NVS)`, dan kipas pengaman padam di bawah `29.0 C`. Coba juga satu `config` yang keliru, tanpa **Retain** dan dengan `id` baru (`id` yang sama akan diabaikan): `{"id":"cfg-uji-2","aksi":"config","ambang":{"suhu_kipas_on":50}}`. Node 1 menolaknya:
 
 ```text
 [00:00:15] ERROR Perintah cfg-uji-2 ditolak: suhu_kipas_on harus angka 15-45
