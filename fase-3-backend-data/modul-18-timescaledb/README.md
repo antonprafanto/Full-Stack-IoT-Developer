@@ -4,7 +4,7 @@
 
 *Fase 3 · Minggu 18 · Perangkat keras (*hardware*): **tidak wajib** — data dari backend v0.2 (Node 1, Node 2, atau simulator Modul 16) ditambah 1 juta baris data uji buatan modul ini · Prasyarat: **Modul 17** (database `rumahpintar` di Docker dan backend v0.2) · Waktu: 8–10 jam, dicicil dalam satu minggu*
 
-[⬅️ Modul 17](../modul-17-sql-dan-skema-database/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · [Modul 19 ➡️ (segera terbit — baca ringkasannya di Silabus)](../../SILABUS.md#modul-19--realtime-kendali-dua-arah-aturan-otomatis-cloud--lokal--notifikasi)
+[⬅️ Modul 17](../modul-17-sql-dan-skema-database/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · [Modul 19 ➡️](../modul-19-realtime-aturan-notifikasi/README.md)
 
 ---
 
@@ -3629,4 +3629,4 @@ Syarat lulus dari Silabus: **kueri "rata-rata per jam 7 hari terakhir" dari 1 ju
 
 ---
 
-[⬅️ Modul 17](../modul-17-sql-dan-skema-database/README.md) · [Fase 3](../README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · **Berikutnya: Modul 19 — Realtime, Kendali Dua Arah, Aturan Otomatis (Cloud & Lokal), & Notifikasi** (segera terbit; [ringkasannya di Silabus](../../SILABUS.md#modul-19--realtime-kendali-dua-arah-aturan-otomatis-cloud--lokal--notifikasi))
+[⬅️ Modul 17](../modul-17-sql-dan-skema-database/README.md) · [Fase 3](../README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · **Berikutnya: [Modul 19 — Realtime, Aturan Otomatis, & Notifikasi](../modul-19-realtime-aturan-notifikasi/README.md) ➡️**
