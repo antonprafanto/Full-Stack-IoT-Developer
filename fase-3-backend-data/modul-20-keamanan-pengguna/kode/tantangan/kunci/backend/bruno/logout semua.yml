@@ -1,0 +1,25 @@
+info:
+  name: logout semua
+  type: http
+  seq: 19
+
+http:
+  method: POST
+  url: "{{baseUrl}}/auth/logout-semua"
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "200"
+    - expression: res.body.pesan
+      operator: eq
+      value: semua sesi akun ini sudah dicabut
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: true

@@ -2,7 +2,7 @@
 
 🌐 **Bahasa Indonesia** · [English](../../en/mini-smart-home/tools/README.md)
 
-Folder ini berisi program-program kecil Node.js yang dibuat di [Modul 4](../../fase-0-fondasi/modul-04-javascript-nodejs/README.md), [Modul 11](../../fase-2-konektivitas/modul-11-mqtt-dan-kontrak-data/README.md), [Modul 16](../../fase-3-backend-data/modul-16-backend-typescript-api-git/README.md), dan [Modul 19](../../fase-3-backend-data/modul-19-realtime-aturan-notifikasi/README.md), lalu dipakai berulang kali di modul-modul berikutnya. Semuanya sudah diuji dengan **Node.js 24.21.0**. Tiga program pertama tidak membutuhkan library dari npm; `pemeriksa-kontrak.js` dan `simulator-perangkat.js` membutuhkan library **mqtt** 5.16.1, dan `terminal-live.js` membutuhkan **socket.io-client** 4.8.4 (lihat "Cara memakai").
+Folder ini berisi program-program kecil Node.js yang dibuat di [Modul 4](../../fase-0-fondasi/modul-04-javascript-nodejs/README.md), [Modul 11](../../fase-2-konektivitas/modul-11-mqtt-dan-kontrak-data/README.md), [Modul 16](../../fase-3-backend-data/modul-16-backend-typescript-api-git/README.md), [Modul 19](../../fase-3-backend-data/modul-19-realtime-aturan-notifikasi/README.md), dan [Modul 20](../../fase-3-backend-data/modul-20-keamanan-pengguna/README.md), lalu dipakai berulang kali di modul-modul berikutnya. Semuanya sudah diuji dengan **Node.js 24.21.0**. Tiga program pertama tidak membutuhkan library dari npm; `pemeriksa-kontrak.js` dan `simulator-perangkat.js` membutuhkan library **mqtt** 5.16.1, dan `terminal-live.js` membutuhkan **socket.io-client** 4.8.4 (lihat "Cara memakai").
 
 | File | Gunanya | Dipakai lagi di |
 | :--- | :--- | :--- |
@@ -11,7 +11,7 @@ Folder ini berisi program-program kecil Node.js yang dibuat di [Modul 4](../../f
 | [`kirim-data.js`](kirim-data.js) | Pengirim uji: berpura-pura menjadi ESP32 dan mengirim 3 bacaan ke `http://localhost:3000/telemetry`. | Modul 10, untuk menguji penerima tanpa papan |
 | [`pemeriksa-kontrak.js`](pemeriksa-kontrak.js) | Satpam kontrak data: berlangganan `rpm/#` di broker MQTT, lalu memberi cap **LULUS** atau **GAGAL** pada setiap pesan sesuai [`KONTRAK-DATA.md`](../KONTRAK-DATA.md), lengkap dengan alasannya dan lama setiap jawaban `ack`. | Modul 11 (syarat lulus Node 1 v1.2), Modul 14 (versi 1.1: `telemetry` Node 2 diperiksa dengan kolomnya sendiri), Modul 15 (versi 1.2: tiga kolom sensor RS-485 di `telemetry` Node 1), Modul 19 (versi 1.3: `state` di `telemetry` dan `ack`, laporan mode offline di `vitals`, isi `config`, `set` yang tertempel), lalu setiap kali firmware berubah atau perangkat baru ditambahkan |
 | [`simulator-perangkat.js`](simulator-perangkat.js) | Sepuluh perangkat palsu (`f00d00000001` sampai `f00d00000010`) yang berbicara MQTT persis menurut kontrak data: status `online`/`offline` (wasiat, *Last Will*), `telemetry` setiap 10 detik dari `buatTelemetri()` (sejak Modul 19 dengan `state` dan kiriman segera saat aktuator berubah), `vitals` saat tersambung dan setiap 5 menit, serta jawaban `ack` untuk setiap perintah, termasuk `config` (disimpan di `data/arsip-simulator.json`). Sejak Modul 19, suhu bisa diatur dari terminal (`suhu 33`, `suhu acak`), dan saat broker tak terjangkau 2 menit simulator masuk mode offline, menjalankan pengaman kipas, lalu melapor lewat `vitals` sekitar 10 detik setelah tersambung lagi. Mode `bersihkan` menghapus status dan `config` *retained* mereka dari broker. | Modul 16 (menguji backend tanpa papan), Modul 19 (aturan otomatis dan uji "broker mati"), lalu setiap modul yang butuh banyak perangkat |
-| [`terminal-live.js`](terminal-live.js) | "Terminal kecil" yang tersambung ke backend lewat Socket.IO, mengikuti satu perangkat (`ikuti`), lalu menampilkan setiap bacaannya begitu tiba, perubahan status semua perangkat, dan buku kejadian. Menyambung ulang sendiri saat backend dimulai ulang. | Modul 19, lalu Modul 23 (dashboard *live* memakai acara yang sama) |
+| [`terminal-live.js`](terminal-live.js) | "Terminal kecil" yang tersambung ke backend lewat Socket.IO, mengikuti satu perangkat (`ikuti`), lalu menampilkan setiap bacaannya begitu tiba, perubahan status semua perangkat, dan buku kejadian. Menyambung ulang sendiri saat backend dimulai ulang. Sejak Modul 20, terminal ini *login* dulu dengan akun dari `alat/.env` (cukup akun `viewer`), lalu memperbarui gelangnya sendiri (*refresh*) setiap kali server memutusnya karena kedaluwarsa. | Modul 19, Modul 20 (Socket.IO berkunci), lalu Modul 23 (dashboard *live* memakai acara yang sama) |
 
 ## Cara memakai
 
@@ -65,16 +65,18 @@ Selagi simulator berjalan, ketik `suhu 33` lalu **Enter** di terminal yang sama 
 npm install socket.io-client@4.8.4
 ```
 
+Sejak Modul 20, Socket.IO backend berkunci, jadi terminal ini butuh akun. Salin `.env.example` menjadi `.env` di folder `alat` ini, lalu isi `EMAIL_TERMINAL` (misalnya `viewer@rumah.test`, akun dengan peran `viewer`) dan `SANDI_TERMINAL` (sandi akun itu). File `.env` tidak ikut Git (lihat `.gitignore`). Jalankan dengan `--env-file=.env`:
+
 ```bash
-node terminal-live.js http://127.0.0.1:8080 f00d00000001
+node --env-file=.env terminal-live.js http://127.0.0.1:8080 f00d00000001
 ```
 
-Isian pertama adalah alamat backend, isian kedua `device_id` perangkat yang ingin diikuti. Penjelasannya ada di Modul 19 Praktik 1.
+Isian pertama adalah alamat backend, isian kedua `device_id` perangkat yang ingin diikuti. Terminal ini *login* sendiri; saat server memutusnya karena gelangnya kedaluwarsa (setiap 15 menit), ia memperbarui gelangnya (*refresh*) lalu menyambung lagi. Kalau *login* ditolak (misalnya sandinya sudah diganti), ia berhenti dengan pesan `login ditolak (401). Periksa EMAIL_TERMINAL dan SANDI_TERMINAL di alat/.env.` Penjelasannya ada di Modul 19 Praktik 1 dan Modul 20 Praktik 7.
 
 ## Catatan
 
 - `package.json` di folder ini berisi `"type": "module"` supaya `import`/`export` bisa dipakai. File ini dibuat dengan `npm init -y` lalu `npm pkg set type=module`, sama seperti di Modul 4. Sejak Modul 11, ia juga mencatat library `mqtt` di bagian `dependencies`, dan `package-lock.json` mencatat versi persis setiap library pembantunya.
-- `.gitignore` menyuruh Git mengabaikan `node_modules/` dan `data/`: data palsu tidak perlu disimpan di repositori proyek.
+- `.gitignore` menyuruh Git mengabaikan `node_modules/` dan `data/`: data palsu tidak perlu disimpan di repositori proyek. Sejak Modul 20, Git juga mengabaikan `.env` (akun `terminal-live.js`, berisi sandi); contohnya ada di `.env.example`.
 - **Penerima ini sengaja polos:** siapa pun yang bisa menghubungi laptopmu boleh mengirim apa saja, tanpa kata sandi. Pakai hanya di jaringan rumah. Cara menguncinya dibahas di Modul 20, 21, dan 27.
 
 ---

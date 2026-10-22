@@ -1,0 +1,175 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="872" viewBox="0 0 1200 872" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="872" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" xml:space="preserve">Model ancaman: siapa yang mungkin iseng dan apa akibatnya</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" xml:space="preserve">Konsep 1 · setiap kartu: lewat pintu mana → akibatnya → kuncinya minggu ini</text>
+<rect x="465.0" y="104.0" width="270.0" height="456.0" rx="14" fill="#dafbe1" stroke="#1a7f37" stroke-width="2.2" />
+<path d="M574 148 L600 126 L626 148" fill="none" stroke="#1a7f37" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M581 142 L581 171 L619 171 L619 142" fill="none" stroke="#1a7f37" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="594.0" y="156.0" width="12.0" height="15.0" rx="1.5" fill="none" stroke="#1a7f37" stroke-width="1.8" />
+<text x="600.0" y="204.0" font-size="17" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Rumah Pintar Mini</text>
+<text x="600.0" y="226.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="middle" xml:space="preserve">backend <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12.5" fill="#1e2a4a" font-weight="700">127.0.0.1:8080</tspan></text>
+<line x1="485.0" y1="246.0" x2="715.0" y2="246.0" stroke="#1a7f37" stroke-width="1.2" stroke-linecap="round" />
+<text x="487.0" y="272.0" font-size="12.5" font-weight="800" fill="#1a7f37" text-anchor="start" >yang dijaga</text>
+<circle cx="507.0" cy="312.0" r="21" fill="#ffffff" stroke="#1a7f37" stroke-width="1.4" />
+<g transform="translate(507 312) scale(0.62) translate(-507 -312)">
+<path d="M502.5 319 Q502.5 314 499 310 A9.5 9.5 0 1 1 515 310 Q511.5 314 511.5 319 Z" fill="none" stroke="#1a7f37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="503.0" y1="323.0" x2="511.0" y2="323.0" stroke="#1a7f37" stroke-width="1.8" stroke-linecap="round" />
+<line x1="504.0" y1="327.0" x2="510.0" y2="327.0" stroke="#1a7f37" stroke-width="1.8" stroke-linecap="round" />
+</g>
+<text x="541.0" y="309.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">aktuator</text>
+<text x="541.0" y="328.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">lampu, kipas, pompa, tirai</text>
+<circle cx="507.0" cy="372.0" r="21" fill="#ffffff" stroke="#1a7f37" stroke-width="1.4" />
+<g transform="translate(507 372) scale(0.62) translate(-507 -372)">
+<path d="M507 357 L522 372 L507 387 L492 372 Z" fill="none" stroke="#1a7f37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="507.0" y="376.5" font-size="13" font-weight="800" fill="#1a7f37" text-anchor="middle" >?</text>
+</g>
+<text x="541.0" y="369.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">aturan dan jadwal</text>
+<text x="541.0" y="388.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">kipas otomatis, siram pagi</text>
+<circle cx="507.0" cy="432.0" r="21" fill="#ffffff" stroke="#1a7f37" stroke-width="1.4" />
+<g transform="translate(507 432) scale(0.62) translate(-507 -432)">
+<rect x="488.0" y="418.0" width="38.0" height="28.0" rx="4" fill="none" stroke="#1a7f37" stroke-width="2" />
+<path d="M494 439 L502 431 L509 436 L520 424" fill="none" stroke="#1a7f37" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+</g>
+<text x="541.0" y="429.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">data <tspan font-style="italic">live</tspan> dan riwayat</text>
+<text x="541.0" y="448.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">suhu, kelembapan, gerakan</text>
+<circle cx="507.0" cy="492.0" r="21" fill="#ffffff" stroke="#1a7f37" stroke-width="1.4" />
+<g transform="translate(507 494) scale(0.62) translate(-507 -494)">
+<rect x="496.0" y="491.0" width="22.0" height="17.0" rx="3" fill="none" stroke="#1a7f37" stroke-width="2" />
+<path d="M500.5 491 L500.5 486 A6.5 6.5 0 0 1 513.5 486 L513.5 491" fill="none" stroke="#1a7f37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="507.0" cy="499.0" r="1.8" fill="#1a7f37" />
+</g>
+<text x="541.0" y="489.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">akun dan rahasia</text>
+<text x="541.0" y="508.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">sidik jari sandi, sesi, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="700">.env</tspan></text>
+<rect x="30.0" y="104.0" width="385.0" height="140.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<g transform="translate(62 136) scale(0.85) translate(-62 -136)">
+<circle cx="62.0" cy="128.0" r="6.5" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<path d="M50 151 L50 147 Q50 137 62 137 Q74 137 74 147 L74 151" fill="none" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+</g>
+<text x="92.0" y="134.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Adik atau tamu yang iseng</text>
+<text x="92.0" y="152.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="start" >Konsep 2 dan 6</text>
+<text x="48.0" y="178.0" font-size="11.5" font-weight="800" fill="#4a5568" text-anchor="start" >lewat</text>
+<text x="98.0" y="178.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">API: Bruno, atau dashboard (Modul 22)</text>
+<text x="48.0" y="202.0" font-size="11.5" font-weight="800" fill="#4a5568" text-anchor="start" >akibat</text>
+<text x="98.0" y="202.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">lampu padam, ambang kipas diubah</text>
+<text x="48.0" y="226.0" font-size="11.5" font-weight="800" fill="#1a7f37" text-anchor="start" >kunci</text>
+<text x="98.0" y="226.0" font-size="12.5" font-weight="700" fill="#1a7f37" text-anchor="start" xml:space="preserve"><tspan font-style="italic">login</tspan> (401) + peran <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1a7f37" font-weight="800">viewer</tspan> (403)</text>
+<line x1="417.0" y1="174.0" x2="461.0" y2="174.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<path d="M453.9 177.8 L461.0 174.0 L453.9 170.2" fill="none" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="30.0" y="262.0" width="385.0" height="140.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<g transform="translate(62 294) scale(0.85) translate(-62 -294)">
+<rect x="42.0" y="284.0" width="40.0" height="20.0" rx="5" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<circle cx="50.0" cy="294.0" r="2" fill="#1e2a4a" />
+<circle cx="57.0" cy="294.0" r="2" fill="#1e2a4a" />
+<circle cx="64.0" cy="294.0" r="2" fill="#1e2a4a" />
+<circle cx="71.0" cy="294.0" r="2" fill="#1e2a4a" />
+<line x1="76.0" y1="289.0" x2="76.0" y2="299.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+</g>
+<text x="92.0" y="292.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Penebak sandi otomatis (<tspan font-style="italic">bot</tspan>)</text>
+<text x="92.0" y="310.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="start" >Konsep 3 dan 8</text>
+<text x="48.0" y="336.0" font-size="11.5" font-weight="800" fill="#4a5568" text-anchor="start" >lewat</text>
+<text x="98.0" y="336.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="700">POST</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="700">/auth/login</tspan>, terutama di Fase 5</text>
+<text x="48.0" y="360.0" font-size="11.5" font-weight="800" fill="#4a5568" text-anchor="start" >akibat</text>
+<text x="98.0" y="360.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">akun <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="700">admin</tspan> diambil alih</text>
+<text x="48.0" y="384.0" font-size="11.5" font-weight="800" fill="#1a7f37" text-anchor="start" >kunci</text>
+<text x="98.0" y="384.0" font-size="12.5" font-weight="700" fill="#1a7f37" text-anchor="start" xml:space="preserve">sandi panjang + bcrypt + 10 percobaan per menit</text>
+<line x1="417.0" y1="332.0" x2="461.0" y2="332.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<path d="M453.9 335.8 L461.0 332.0 L453.9 328.2" fill="none" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="30.0" y="420.0" width="385.0" height="140.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<g transform="translate(62 452) scale(0.85) translate(-62 -452)">
+<rect x="43.0" y="438.0" width="38.0" height="28.0" rx="4" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<line x1="43.0" y1="446.0" x2="81.0" y2="446.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<circle cx="48.0" cy="442.0" r="1.1" fill="#1e2a4a" />
+<circle cx="52.5" cy="442.0" r="1.1" fill="#1e2a4a" />
+<circle cx="57.0" cy="442.0" r="1.1" fill="#1e2a4a" />
+</g>
+<text x="92.0" y="450.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Halaman web lain di browser-mu</text>
+<text x="92.0" y="468.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="start" >Konsep 5 dan 9</text>
+<text x="48.0" y="494.0" font-size="11.5" font-weight="800" fill="#4a5568" text-anchor="start" >lewat</text>
+<text x="98.0" y="494.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">browser, yang membawa <tspan font-style="italic">cookie</tspan>-mu otomatis</text>
+<text x="48.0" y="518.0" font-size="11.5" font-weight="800" fill="#4a5568" text-anchor="start" >akibat</text>
+<text x="98.0" y="518.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">perintah terkirim atas namamu</text>
+<text x="48.0" y="542.0" font-size="11.5" font-weight="800" fill="#1a7f37" text-anchor="start" >kunci</text>
+<text x="98.0" y="542.0" font-size="12.5" font-weight="700" fill="#1a7f37" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1a7f37" font-weight="800">SameSite</tspan> + pemeriksaan asal + CORS</text>
+<line x1="417.0" y1="490.0" x2="461.0" y2="490.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<path d="M453.9 493.8 L461.0 490.0 L453.9 486.2" fill="none" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="785.0" y="104.0" width="385.0" height="140.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<g transform="translate(817 136) scale(0.85) translate(-817 -136)">
+<path d="M806 122 L821 122 L828 129 L828 150 L806 150 Z" fill="none" stroke="#1e2a4a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M821 122 L821 129 L828 129" fill="none" stroke="#1e2a4a" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="811.0" y1="134.0" x2="823.0" y2="134.0" stroke="#1e2a4a" stroke-width="1.3" stroke-linecap="round" />
+<line x1="811.0" y1="139.0" x2="823.0" y2="139.0" stroke="#1e2a4a" stroke-width="1.3" stroke-linecap="round" />
+<line x1="811.0" y1="144.0" x2="823.0" y2="144.0" stroke="#1e2a4a" stroke-width="1.3" stroke-linecap="round" />
+</g>
+<text x="847.0" y="134.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Pemegang salinan database</text>
+<text x="847.0" y="152.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="start" >Konsep 3 dan 7</text>
+<text x="803.0" y="178.0" font-size="11.5" font-weight="800" fill="#4a5568" text-anchor="start" >lewat</text>
+<text x="853.0" y="178.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="700">backup/</tspan> (Modul 18), atau laptop hilang</text>
+<text x="803.0" y="202.0" font-size="11.5" font-weight="800" fill="#4a5568" text-anchor="start" >akibat</text>
+<text x="853.0" y="202.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">semua akun dan sesi ikut bocor</text>
+<text x="803.0" y="226.0" font-size="11.5" font-weight="800" fill="#1a7f37" text-anchor="start" >kunci</text>
+<text x="853.0" y="226.0" font-size="12.5" font-weight="700" fill="#1a7f37" text-anchor="start" xml:space="preserve">hanya sidik jari yang disimpan</text>
+<line x1="783.0" y1="174.0" x2="739.0" y2="174.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<path d="M746.1 170.2 L739.0 174.0 L746.1 177.8" fill="none" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="785.0" y="262.0" width="385.0" height="140.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<g transform="translate(817 294) scale(0.85) translate(-817 -294)">
+<path d="M798 294 Q817 279 836 294 Q817 309 798 294 Z" fill="none" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="817.0" cy="294.0" r="5.2" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<circle cx="817.0" cy="294.0" r="1.8" fill="#1e2a4a" />
+</g>
+<text x="847.0" y="292.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Pengintip data <tspan font-style="italic">live</tspan></text>
+<text x="847.0" y="310.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="start" >Konsep 10</text>
+<text x="803.0" y="336.0" font-size="11.5" font-weight="800" fill="#4a5568" text-anchor="start" >lewat</text>
+<text x="853.0" y="336.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Socket.IO</text>
+<text x="803.0" y="360.0" font-size="11.5" font-weight="800" fill="#4a5568" text-anchor="start" >akibat</text>
+<text x="853.0" y="360.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">kebiasaan rumah terbaca: kapan kosong</text>
+<text x="803.0" y="384.0" font-size="11.5" font-weight="800" fill="#1a7f37" text-anchor="start" >kunci</text>
+<text x="853.0" y="384.0" font-size="12.5" font-weight="700" fill="#1a7f37" text-anchor="start" xml:space="preserve">Socket.IO ikut dikunci</text>
+<line x1="783.0" y1="332.0" x2="739.0" y2="332.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<path d="M746.1 328.2 L739.0 332.0 L746.1 335.8" fill="none" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="785.0" y="420.0" width="385.0" height="140.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<g transform="translate(817 452) scale(0.85) translate(-817 -452)">
+<rect x="798.0" y="438.0" width="38.0" height="28.0" rx="4" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<path d="M805 446 L811 452 L805 458" fill="none" stroke="#1e2a4a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="814.0" y1="458.0" x2="826.0" y2="458.0" stroke="#1e2a4a" stroke-width="1.8" stroke-linecap="round" />
+</g>
+<text x="847.0" y="450.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Kamu sendiri, saat terburu-buru</text>
+<text x="847.0" y="468.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="start" >Konsep 11</text>
+<text x="803.0" y="494.0" font-size="11.5" font-weight="800" fill="#4a5568" text-anchor="start" >lewat</text>
+<text x="853.0" y="494.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="700">git</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="700">add</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="700">.</tspan> lalu <tspan font-style="italic">push</tspan> ke GitHub</text>
+<text x="803.0" y="518.0" font-size="11.5" font-weight="800" fill="#4a5568" text-anchor="start" >akibat</text>
+<text x="853.0" y="518.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">rahasia terpampang di GitHub</text>
+<text x="803.0" y="542.0" font-size="11.5" font-weight="800" fill="#1a7f37" text-anchor="start" >kunci</text>
+<text x="853.0" y="542.0" font-size="12.5" font-weight="700" fill="#1a7f37" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1a7f37" font-weight="800">.env</tspan> + <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1a7f37" font-weight="800">.gitignore</tspan> + <tspan font-style="italic">secret scanning</tspan></text>
+<line x1="783.0" y1="490.0" x2="739.0" y2="490.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<path d="M746.1 486.2 L739.0 490.0 L746.1 493.8" fill="none" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="30.0" y="584.0" width="1140.0" height="150.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="50.0" y="612.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Empat prinsip yang memandu semua kunci minggu ini</text>
+<circle cx="61.0" cy="640.0" r="11" fill="#1a7f37" stroke="#ffffff" stroke-width="2" />
+<text x="61.0" y="644.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >1</text>
+<text x="80.0" y="645.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Terkunci secara bawaan</text>
+<text x="80.0" y="664.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-style="italic">deny by default</tspan></text>
+<text x="80.0" y="688.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">semua pintu terkunci; hanya</text>
+<text x="80.0" y="706.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">beberapa yang sengaja dibuka</text>
+<circle cx="343.0" cy="640.0" r="11" fill="#1a7f37" stroke="#ffffff" stroke-width="2" />
+<text x="343.0" y="644.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >2</text>
+<text x="362.0" y="645.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Hak sekecil mungkin</text>
+<text x="362.0" y="664.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-style="italic">least privilege</tspan></text>
+<text x="362.0" y="688.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">yang cukup melihat diberi</text>
+<text x="362.0" y="706.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">akun <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="700">viewer</tspan>, terminal kecil juga</text>
+<circle cx="625.0" cy="640.0" r="11" fill="#1a7f37" stroke="#ffffff" stroke-width="2" />
+<text x="625.0" y="644.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >3</text>
+<text x="644.0" y="645.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Berlapis</text>
+<text x="644.0" y="664.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-style="italic">defense in depth</tspan></text>
+<text x="644.0" y="688.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">satu kunci boleh gagal; kunci</text>
+<text x="644.0" y="706.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">berikutnya masih menahan</text>
+<circle cx="907.0" cy="640.0" r="11" fill="#1a7f37" stroke="#ffffff" stroke-width="2" />
+<text x="907.0" y="644.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >4</text>
+<text x="926.0" y="645.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Rahasia tidak pernah</text>
+<text x="926.0" y="664.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >tinggal di kode</text>
+<text x="926.0" y="688.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">semua rahasia tinggal di <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="700">.env</tspan></text>
+<rect x="30.0" y="750.0" width="1140.0" height="92.0" rx="12" fill="#eef1f5" />
+<text x="50.0" y="776.0" font-size="13" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800">Jujur:</tspan> minggu ini backend hanya mendengar di <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" font-weight="700">127.0.0.1</tspan>, jadi HP atau laptop lain di WiFi rumahmu belum bisa mengetuknya.</text>
+<text x="50.0" y="798.0" font-size="13" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Modul 22 membawa dashboard ke browser dan Fase 5 membawa backend ke internet. Kuncinya dipasang sekarang, selagi rumah masih sepi.</text>
+<text x="50.0" y="820.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">Belum dikunci minggu ini: perangkat dan broker MQTT (Modul 21), serta HTTPS (Fase 5).</text>
+<text x="1178.0" y="858.0" font-size="11" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

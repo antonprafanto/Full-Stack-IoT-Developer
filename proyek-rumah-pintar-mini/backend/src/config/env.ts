@@ -1,21 +1,36 @@
-// env.ts - setelan server dari file .env (dibaca Node.js lewat --env-file) dan diperiksa sekali saat server mulai.
+// env.ts - setelan server dari file .env (dibaca Node.js lewat --env-file), diperiksa skema Zod sekali saat server mulai.
+// Modul 20: .env kini juga berisi rahasia (JWT_SECRET), jadi isinya diperiksa seketat pesan dari perangkat.
+import { z } from "zod";
 
-function wajib(nama: string): string {
-  const nilai = process.env[nama];
-  if (nilai === undefined || nilai === "") {
-    console.error(`Setelan ${nama} belum diisi. Salin .env.example menjadi .env, isi ${nama}, lalu jalankan lagi.`);
-    process.exit(1); // berhenti di sini: tanpa setelan ini server tidak bisa bekerja
-  }
-  return nilai;
+z.config(z.locales.id()); // pesan galat Zod dalam bahasa Indonesia (file ini dibaca paling awal, sebelum kontrak.ts)
+
+const kosong = (nilai: unknown) => (nilai === "" ? undefined : nilai); // baris "NAMA=" tanpa isi = belum diisi
+const wajib = z.preprocess(kosong, z.string({ error: "belum diisi" }));
+
+const Setelan = z.object({
+  MQTT_URL: wajib, // alamat broker, misalnya mqtt://192.168.1.37:1883
+  DATABASE_URL: wajib, // alamat database, misalnya postgres://postgres:<sandi>@127.0.0.1:5432/rumahpintar
+  PORT: z.preprocess(kosong, z.coerce.number().int().min(1).max(65535).default(8080)), // nomor loket server
+  HOST: z.preprocess(kosong, z.string().default("127.0.0.1")), // 127.0.0.1 = hanya bisa diketuk dari laptop ini
+  // Modul 19: Telegram tidak wajib. Kosong = notifikasi Telegram mati.
+  TELEGRAM_BOT_TOKEN: z.string().default(""), // token dari @BotFather: rahasia, seperti kata sandi
+  TELEGRAM_CHAT_ID: z.string().default(""), // chat_id pemilik (balasan /start)
+  TELEGRAM_API_ROOT: z.string().default(""), // kosong = server Telegram sungguhan (lab: server Bot API tiruan)
+  // Modul 20: kunci untuk menandatangani JWT. Siapa pun yang tahu kunci ini bisa membuat "gelang" palsu.
+  JWT_SECRET: z.preprocess(kosong, z.string({ error: "belum diisi" })
+    .min(32, "terlalu pendek (minimal 32 karakter); buat yang baru dengan perintah di .env.example")
+    .refine((s) => !s.startsWith("ganti"), "masih berisi contoh dari .env.example; buat rahasia baru")),
+  // Modul 20: alamat halaman web (origin) yang boleh memanggil API ini dari browser, dipisah koma. Modul 22: Vite di 5173.
+  CORS_ORIGIN: z.preprocess(kosong, z.string().default("http://localhost:5173,http://127.0.0.1:5173")
+    .transform((teks) => teks.split(",").map((asal) => asal.trim()).filter((asal) => asal !== ""))),
+});
+
+const hasil = Setelan.safeParse(process.env);
+if (!hasil.success) {
+  // tampilkan SEMUA masalah sekaligus, supaya tidak perlu bolak-balik memperbaiki satu per satu
+  for (const masalah of hasil.error.issues) console.error(`Setelan ${masalah.path.join(".")} di .env: ${masalah.message}`);
+  console.error("Salin .env.example menjadi .env (atau buka .env-mu), perbaiki setelan di atas, lalu jalankan lagi.");
+  process.exit(1); // berhenti di sini: tanpa setelan yang benar server tidak boleh berjalan
 }
 
-export const env = {
-  MQTT_URL: wajib("MQTT_URL"), // alamat broker, misalnya mqtt://192.168.1.37:1883
-  DATABASE_URL: wajib("DATABASE_URL"), // alamat database, misalnya postgres://postgres:<sandi>@127.0.0.1:5432/rumahpintar
-  PORT: Number(process.env.PORT || 8080), // nomor loket server
-  HOST: process.env.HOST || "127.0.0.1", // 127.0.0.1 = hanya bisa diketuk dari laptop ini
-  // Modul 19: Telegram tidak wajib. Kosong = notifikasi Telegram mati.
-  TELEGRAM_BOT_TOKEN: process.env.TELEGRAM_BOT_TOKEN ?? "", // token dari @BotFather: rahasia, seperti kata sandi
-  TELEGRAM_CHAT_ID: process.env.TELEGRAM_CHAT_ID ?? "", // chat_id pemilik (balasan /start)
-  TELEGRAM_API_ROOT: process.env.TELEGRAM_API_ROOT ?? "", // kosong = server Telegram sungguhan (lab: server Bot API tiruan)
-};
+export const env = hasil.data;

@@ -1,0 +1,140 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="912" viewBox="0 0 1200 912" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="912" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" xml:space="preserve">JWT: gelang masuk konser, disimpan di <tspan font-style="italic">cookie</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="25.8">httpOnly</tspan></text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" xml:space="preserve">Konsep 4–5 · gelang ditandatangani, bukan dirahasiakan · browser yang melampirkannya, bukan kode JavaScript</text>
+<rect x="30.0" y="100.0" width="1140.0" height="420.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="50.0" y="130.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Gelang = JWT: tiga potong teks <tspan font-style="italic">base64url</tspan>, disambung titik</text>
+<text x="1150.0" y="130.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="end" xml:space="preserve">contoh isi dari Konsep 4 · isi dan tanda tangan dipotong dengan …</text>
+<rect x="231.7" y="152.0" width="293.7" height="30.0" rx="5" fill="#eef1f5" />
+<text x="237.7" y="172.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9</text>
+<text x="528.4" y="172.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">.</text>
+<rect x="539.2" y="152.0" width="332.9" height="30.0" rx="5" fill="#dafbe1" />
+<text x="545.2" y="172.0" font-size="13" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">eyJzdWIiOiIxIiwicGVyYW4iOiJhZG1pbiIsInNp…</text>
+<text x="875.1" y="172.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">.</text>
+<rect x="885.9" y="152.0" width="82.4" height="30.0" rx="5" fill="#1a7f37" />
+<text x="891.9" y="172.0" font-size="13" font-weight="800" fill="#ffffff" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">CaO6abpZ…</text>
+<path d="M378.5 184 L378.5 202 L220.0 202 L220.0 222" fill="none" stroke="#9aa3b0" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M217.2 218.7 L220.0 224.0 L222.8 218.7" fill="none" stroke="#9aa3b0" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="50.0" y="228.0" width="340.0" height="274.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.4" />
+<path d="M50 262 L50 238 Q50 228 60 228 L380 228 Q390 228 390 238 L390 262 Z" fill="#eef1f5" stroke-linecap="round" stroke-linejoin="round" />
+<text x="66.0" y="251.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >kepala</text>
+<path d="M705.7 184 L705.7 202 L605.0 202 L605.0 222" fill="none" stroke="#9aa3b0" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M602.2 218.7 L605.0 224.0 L607.8 218.7" fill="none" stroke="#9aa3b0" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="410.0" y="228.0" width="390.0" height="274.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.4" />
+<path d="M410 262 L410 238 Q410 228 420 228 L790 228 Q800 228 800 238 L800 262 Z" fill="#dafbe1" stroke-linecap="round" stroke-linejoin="round" />
+<text x="426.0" y="251.0" font-size="14" font-weight="800" fill="#1a7f37" text-anchor="start" >isi</text>
+<path d="M927.1 184 L927.1 202 L985.0 202 L985.0 222" fill="none" stroke="#9aa3b0" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M982.2 218.7 L985.0 224.0 L987.8 218.7" fill="none" stroke="#9aa3b0" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="820.0" y="228.0" width="330.0" height="274.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.4" />
+<path d="M820 262 L820 238 Q820 228 830 228 L1140 228 Q1150 228 1150 238 L1150 262 Z" fill="#1a7f37" stroke-linecap="round" stroke-linejoin="round" />
+<text x="836.0" y="251.0" font-size="14" font-weight="800" fill="#ffffff" text-anchor="start" >tanda tangan</text>
+<text x="66.0" y="290.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">{"alg":"HS256","typ":"JWT"}</text>
+<text x="66.0" y="320.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">resep tanda tangannya: <tspan font-weight="800">HS256</tspan></text>
+<text x="66.0" y="339.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">(HMAC-SHA256, persis <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="700">createHmac</tspan></text>
+<text x="66.0" y="356.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >di pemanasan langkah 3)</text>
+<text x="66.0" y="390.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" >Kepala dan isi JWT adalah objek JSON yang</text>
+<text x="66.0" y="408.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">ditulis rapat, jadi selalu diawali <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" font-weight="800">{"</tspan>, dan</text>
+<text x="66.0" y="426.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">dalam <tspan font-style="italic">base64url</tspan> awalan itu menjadi <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" font-weight="800">eyJ</tspan>.</text>
+<text x="66.0" y="454.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">Teks panjang berawalan <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#1e2a4a" font-weight="800">eyJ</tspan>: kemungkinan</text>
+<text x="66.0" y="471.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >besar JWT, dan isinya bisa dibaca siapa saja.</text>
+<text x="426.0" y="290.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">{"sub":"1","peran":"admin","sid":1,</text>
+<text x="426.0" y="308.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve"> "iat":1792638611,"exp":1792639511}</text>
+<text x="426.0" y="338.0" font-size="12" font-weight="800" fill="#1a7f37" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">sub</text>
+<text x="474.0" y="338.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">nomor akun di tabel <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="700">users</tspan>, sebagai teks</text>
+<text x="426.0" y="358.0" font-size="12" font-weight="800" fill="#1a7f37" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">peran</text>
+<text x="474.0" y="358.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="700">admin</tspan> atau <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="700">viewer</tspan></text>
+<text x="426.0" y="378.0" font-size="12" font-weight="800" fill="#1a7f37" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">sid</text>
+<text x="474.0" y="378.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">nomor sesi di tabel <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="700">sesi</tspan> (Konsep 7)</text>
+<text x="426.0" y="398.0" font-size="12" font-weight="800" fill="#1a7f37" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">iat</text>
+<text x="474.0" y="398.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">kapan gelang dibuat (detik sejak 1970)</text>
+<text x="426.0" y="418.0" font-size="12" font-weight="800" fill="#1a7f37" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">exp</text>
+<text x="474.0" y="418.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">kedaluwarsa: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="700">iat</tspan> + 900 detik = 15 menit</text>
+<rect x="426.0" y="446.0" width="358.0" height="44.0" rx="8" fill="#dafbe1" />
+<text x="440.0" y="465.0" font-size="12.5" font-weight="800" fill="#1a7f37" text-anchor="start" >bisa dibaca siapa saja, tanpa kunci:</text>
+<text x="440.0" y="482.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" >jadi tanpa email, nama, apalagi sandi</text>
+<circle cx="852.0" cy="281.0" r="5" fill="none" stroke="#1a7f37" stroke-width="2" />
+<path d="M849 286 L847.5 293 L856.5 293 L855 286" fill="none" stroke="#1a7f37" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="839.0" y="293.0" width="26.0" height="8.0" rx="2" fill="none" stroke="#1a7f37" stroke-width="2" />
+<line x1="842.0" y1="307.0" x2="862.0" y2="307.0" stroke="#1a7f37" stroke-width="2" stroke-linecap="round" />
+<text x="880.0" y="288.0" font-size="13.5" font-weight="800" fill="#1a7f37" text-anchor="start" >stempel panitia:</text>
+<text x="880.0" y="306.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >hanya backend yang tahu</text>
+<text x="836.0" y="340.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">HMAC-SHA256(kepala.isi,</text>
+<text x="836.0" y="358.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">            JWT_SECRET)</text>
+<text x="836.0" y="388.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="800">JWT_SECRET</tspan>: 32 <tspan font-style="italic">byte</tspan> acak, hanya</text>
+<text x="836.0" y="405.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">di <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="800">.env</tspan>; kosong, pendek, atau masih</text>
+<text x="836.0" y="422.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" >teks contoh: server menolak berjalan</text>
+<line x1="839.0" y1="450.0" x2="849.0" y2="460.0" stroke="#e63946" stroke-width="2.2" stroke-linecap="round" />
+<line x1="839.0" y1="460.0" x2="849.0" y2="450.0" stroke="#e63946" stroke-width="2.2" stroke-linecap="round" />
+<text x="860.0" y="459.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve">isi diubah (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="800">viewer</tspan> → <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="800">admin</tspan>)?</text>
+<text x="860.0" y="477.0" font-size="12" font-weight="700" fill="#e63946" text-anchor="start" >tanda tangan tak cocok lagi: 401</text>
+<rect x="30.0" y="538.0" width="1140.0" height="344.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="50.0" y="568.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Disimpan di browser sebagai dua <tspan font-style="italic">cookie</tspan> (jawaban <tspan font-style="italic">login</tspan>: dua kepala <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14" font-weight="800">Set-Cookie</tspan>)</text>
+<rect x="50.0" y="584.0" width="380.0" height="268.0" rx="12" fill="#ffffff" stroke="#1e2a4a" stroke-width="1.5" />
+<rect x="61.0" y="598.0" width="38.0" height="28.0" rx="4" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<line x1="61.0" y1="606.0" x2="99.0" y2="606.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<circle cx="66.0" cy="602.0" r="1.1" fill="#1e2a4a" />
+<circle cx="70.5" cy="602.0" r="1.1" fill="#1e2a4a" />
+<circle cx="75.0" cy="602.0" r="1.1" fill="#1e2a4a" />
+<text x="110.0" y="610.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >browser</text>
+<text x="110.0" y="627.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >menyimpan, lalu melampirkan sendiri</text>
+<rect x="66.0" y="646.0" width="348.0" height="62.0" rx="8" fill="#dafbe1" />
+<g transform="translate(92 677) scale(0.8) translate(-92 -677)">
+<ellipse cx="92" cy="675" rx="17" ry="8" fill="none" stroke="#1a7f37" stroke-width="2"/>
+<path d="M75 675 L75 680 A17 8 0 0 0 109 680 L109 675" fill="none" stroke="#1a7f37" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="87.0" y="682.0" width="10.0" height="8.0" rx="1.5" fill="#ffffff" stroke="#1a7f37" stroke-width="1.6" />
+</g>
+<text x="122.0" y="671.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" fill="#1a7f37" font-weight="800">akses</tspan> = gelang (JWT)</text>
+<text x="122.0" y="692.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="700">Path=/</tspan> · <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="700">Max-Age=900</tspan> (15 menit)</text>
+<rect x="66.0" y="720.0" width="348.0" height="62.0" rx="8" fill="#eef1f5" />
+<g transform="translate(92 751) scale(0.8) translate(-92 -751)">
+<rect x="74.0" y="739.0" width="36.0" height="24.0" rx="4" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<line x1="74.0" y1="746.0" x2="110.0" y2="746.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="80.0" y1="753.0" x2="96.0" y2="753.0" stroke="#1e2a4a" stroke-width="1.4" stroke-linecap="round" />
+<line x1="80.0" y1="758.0" x2="92.0" y2="758.0" stroke="#1e2a4a" stroke-width="1.4" stroke-linecap="round" />
+</g>
+<text x="122.0" y="745.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" fill="#1e2a4a" font-weight="800">sesi</tspan> = kartu terusan (Konsep 7)</text>
+<text x="122.0" y="766.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="700">Path=/auth</tspan> · paling lama 7 hari</text>
+<text x="66.0" y="812.0" font-size="12.5" font-weight="800" fill="#1a7f37" text-anchor="start" xml:space="preserve">keduanya: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" font-weight="800">HttpOnly;</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" font-weight="800">SameSite=Strict</tspan></text>
+<text x="66.0" y="836.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">Bruno juga menyimpan <tspan font-style="italic">cookie</tspan> otomatis.</text>
+<line x1="434.0" y1="720.0" x2="552.0" y2="720.0" stroke="#1a7f37" stroke-width="2.6" stroke-linecap="round" />
+<path d="M544.1 724.2 L552.0 720.0 L544.1 715.8" fill="none" stroke="#1a7f37" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="493.0" y="692.0" font-size="12" font-weight="800" fill="#1a7f37" text-anchor="middle" >dilampirkan</text>
+<text x="493.0" y="708.0" font-size="12" font-weight="800" fill="#1a7f37" text-anchor="middle" >otomatis</text>
+<text x="493.0" y="742.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="middle" xml:space="preserve">kepala <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">Cookie</tspan></text>
+<rect x="556.0" y="650.0" width="210.0" height="140.0" rx="12" fill="#dafbe1" stroke="#1a7f37" stroke-width="1.8" />
+<rect x="568.0" y="662.0" width="36.0" height="11.0" rx="2" fill="none" stroke="#1a7f37" stroke-width="1.8" />
+<circle cx="575.0" cy="667.5" r="1.6" fill="#1a7f37" />
+<rect x="568.0" y="676.0" width="36.0" height="11.0" rx="2" fill="none" stroke="#1a7f37" stroke-width="1.8" />
+<circle cx="575.0" cy="681.5" r="1.6" fill="#1a7f37" />
+<rect x="568.0" y="690.0" width="36.0" height="11.0" rx="2" fill="none" stroke="#1a7f37" stroke-width="1.8" />
+<circle cx="575.0" cy="695.5" r="1.6" fill="#1a7f37" />
+<text x="614.0" y="678.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >backend</text>
+<text x="614.0" y="696.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">127.0.0.1:8080</text>
+<text x="572.0" y="738.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="800">akses</tspan> → semua alamat</text>
+<text x="572.0" y="762.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="800">sesi</tspan> → hanya <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="800">/auth/…</tspan></text>
+<rect x="790.0" y="584.0" width="360.0" height="128.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.4" />
+<rect x="802.0" y="600.0" width="36.0" height="28.0" rx="3" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<line x1="802.0" y1="614.0" x2="838.0" y2="614.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="815.0" y1="607.0" x2="825.0" y2="607.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<line x1="815.0" y1="621.0" x2="825.0" y2="621.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<text x="850.0" y="612.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">laci <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" font-weight="800">localStorage</tspan></text>
+<text x="850.0" y="630.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >cara di banyak tutorial</text>
+<line x1="807.0" y1="655.0" x2="817.0" y2="665.0" stroke="#e63946" stroke-width="2.2" stroke-linecap="round" />
+<line x1="807.0" y1="665.0" x2="817.0" y2="655.0" stroke="#e63946" stroke-width="2.2" stroke-linecap="round" />
+<text x="830.0" y="664.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >bisa dibaca JavaScript halaman</text>
+<text x="830.0" y="684.0" font-size="12" font-weight="700" fill="#e63946" text-anchor="start" >XSS: gelang dicuri, lalu dipakai</text>
+<text x="830.0" y="701.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >di tempat lain sampai kedaluwarsa</text>
+<rect x="790.0" y="724.0" width="360.0" height="142.0" rx="12" fill="#ffffff" stroke="#1a7f37" stroke-width="1.6" />
+<g transform="translate(820 752) scale(0.9) translate(-820 -752)">
+<rect x="809.0" y="749.0" width="22.0" height="17.0" rx="3" fill="none" stroke="#1a7f37" stroke-width="2" />
+<path d="M813.5 749 L813.5 744 A6.5 6.5 0 0 1 826.5 744 L826.5 749" fill="none" stroke="#1a7f37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="820.0" cy="757.0" r="1.8" fill="#1a7f37" />
+</g>
+<text x="850.0" y="752.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-style="italic">cookie</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" font-weight="800">HttpOnly</tspan> (backend v0.5)</text>
+<path d="M805 784 L810 790 L820 778" fill="none" stroke="#2a9d5c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="830.0" y="788.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" font-weight="800">document.cookie</tspan> tidak memperlihatkannya</text>
+<text x="830.0" y="808.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" >yang perlu dijaga: CSRF, permintaan</text>
+<text x="830.0" y="825.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >dikirim atas namamu; penangkalnya:</text>
+<text x="830.0" y="842.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="700">SameSite</tspan>, pemeriksaan asal, dan CORS</text>
+<text x="1178.0" y="898.0" font-size="11" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

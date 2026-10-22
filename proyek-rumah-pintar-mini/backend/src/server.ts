@@ -1,11 +1,13 @@
-// server.ts - pintu masuk backend Rumah Pintar Mini v0.4 (Modul 19: data realtime, perintah satu pintu, aturan otomatis,
-// jadwal, dan notifikasi Telegram).
+// server.ts - pintu masuk backend Rumah Pintar Mini v0.5 (Modul 20: login, JWT di cookie, peran, dan pengaman API, di atas
+// Modul 19: data realtime, perintah satu pintu, aturan otomatis, jadwal, dan notifikasi Telegram).
 // Jalankan: npm run dev (otomatis mulai ulang saat file disimpan) atau npm start.
 import Fastify, { LogController } from "fastify";
 import swagger from "@fastify/swagger";
 import swaggerUi from "@fastify/swagger-ui";
 import { jsonSchemaTransform, serializerCompiler, validatorCompiler } from "fastify-type-provider-zod";
 import { env } from "./config/env.ts";
+import { pasangKeamanan } from "./auth/keamanan.ts";
+import { ruteAuth } from "./routes/auth.ts";
 import { ruteKesehatan } from "./routes/kesehatan.ts";
 import { rutePerangkat } from "./routes/perangkat.ts";
 import { ruteAturan } from "./routes/aturan.ts";
@@ -24,17 +26,34 @@ const app = Fastify({
 });
 pakaiLog(app.log); // Modul 19: layanan lain (perintah, aturan, jadwal, Telegram) menulis ke log yang sama
 app.addHook("onResponse", async (req, reply) => {
-  // ...jadi diganti satu baris per permintaan (hook = "middleware" Fastify)
+  // ...jadi diganti satu baris per permintaan (hook = "middleware" Fastify). Hanya metode, alamat, dan kode jawaban:
+  // isi permintaan (sandi!) dan cookie (token!) tidak pernah ditulis ke log.
   req.log.info(`${req.method} ${req.url} -> ${reply.statusCode} (${Math.round(reply.elapsedTime)} ms)`);
 });
 app.setValidatorCompiler(validatorCompiler); // skema Zod memeriksa isi permintaan...
 app.setSerializerCompiler(serializerCompiler); // ...dan bentuk jawaban
 
+await pasangKeamanan(app); // Modul 20: CORS, cookie, JWT, rate limit, dan satpam di setiap permintaan (SEBELUM rute)
 await app.register(swagger, {
-  openapi: { info: { title: "Rumah Pintar Mini API", description: "Backend v0.4 (Modul 19)", version: "0.4.0" } },
+  openapi: {
+    info: {
+      title: "Rumah Pintar Mini API",
+      description: "Backend v0.5 (Modul 20). Semua rute butuh login, kecuali yang tidak bergembok. Login dulu lewat "
+        + "POST /auth/login (Try it out): browser menyimpan cookie akses dan mengirimnya sendiri ke rute lain. "
+        + "Akun viewer hanya boleh melihat (GET); perintah dan perubahan dijawab 403.",
+      version: "0.5.0",
+    },
+    components: {
+      securitySchemes: { // Modul 20: rute bergembok butuh cookie akses dari POST /auth/login
+        cookieAkses: { type: "apiKey", in: "cookie", name: "akses", description: "JWT akses (httpOnly) dari POST /auth/login" },
+      },
+    },
+    security: [{ cookieAkses: [] }], // bawaan: semua rute bergembok; rute terbuka menulis security: []
+  },
   transform: jsonSchemaTransform, // skema Zod yang sama menjadi dokumentasi OpenAPI
 });
 await app.register(swaggerUi, { routePrefix: "/docs" });
+await app.register(ruteAuth); // Modul 20
 await app.register(ruteKesehatan);
 await app.register(rutePerangkat);
 await app.register(ruteAturan); // Modul 19
@@ -46,7 +65,7 @@ try {
 } catch (galat) {
   app.log.error(`aturan otomatis belum bisa dimuat: ${(galat as Error).message}`);
 }
-mulaiRealtime(app); // Modul 19: Socket.IO di alamat /socket.io/
+mulaiRealtime(app); // Modul 19: Socket.IO di alamat /socket.io/ (Modul 20: ikut dikunci)
 mulaiMqtt(env.MQTT_URL, app.log);
 mulaiTelegram(env.TELEGRAM_BOT_TOKEN, env.TELEGRAM_CHAT_ID, env.TELEGRAM_API_ROOT); // Modul 19: tidak ditunggu
 await app.listen({ port: env.PORT, host: env.HOST });

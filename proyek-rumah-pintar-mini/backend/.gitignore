@@ -4,3 +4,6 @@ node_modules/
 .env
 # fotokopi database (pg_dump): besar dan berisi data pribadi, simpan di luar Git
 backup/
+# berkas uji curl Modul 20: berisi sandi dan cookie
+login*.json
+kue*.txt

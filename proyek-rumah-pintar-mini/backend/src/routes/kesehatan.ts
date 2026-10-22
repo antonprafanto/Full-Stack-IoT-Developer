@@ -9,6 +9,7 @@ export const ruteKesehatan: FastifyPluginAsyncZod = async (app) => {
   app.get("/health", {
     schema: {
       tags: ["server"],
+      security: [], // Modul 20: tetap terbuka tanpa login (pemantau dan Docker healthcheck tidak bisa login)
       summary: "Keadaan server: hidup, tersambung ke broker dan database, serta jumlah pesan",
       response: {
         200: z.object({ ok: z.boolean(), broker: z.boolean(), database: z.boolean(), diterima: z.number(), ditolak: z.number() })
