@@ -4,7 +4,7 @@
 
 *Fase 3 · Minggu 20 · Perangkat keras (*hardware*): **Kit A + B** (Node 1 dan gateway Pi dari Modul 12–15) **atau laptop saja** (simulator perangkat Modul 19) · Prasyarat: **Modul 19** (backend v0.4, database `rumahpintar`, dan terminal kecil) · Waktu: 9–11 jam, dicicil dalam satu minggu*
 
-[⬅️ Modul 19](../modul-19-realtime-aturan-notifikasi/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · [Modul 21 ➡️ (segera terbit — baca ringkasannya di Silabus)](../../SILABUS.md#modul-21--keamanan-perangkat-api-key-provisioning-sederhana--hak-akses-broker-acl)
+[⬅️ Modul 19](../modul-19-realtime-aturan-notifikasi/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · [Modul 21 ➡️](../modul-21-keamanan-perangkat-broker/README.md)
 
 ---
 
@@ -4698,4 +4698,4 @@ Syarat lulus dari Silabus: **tanpa *login* semua *endpoint* menjawab 401, akun `
 
 ---
 
-[⬅️ Modul 19](../modul-19-realtime-aturan-notifikasi/README.md) · [Fase 3](../README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · **Berikutnya: Modul 21 — Keamanan Perangkat: API Key, Provisioning Sederhana, & Hak Akses Broker (ACL)** (segera terbit; [ringkasannya di Silabus](../../SILABUS.md#modul-21--keamanan-perangkat-api-key-provisioning-sederhana--hak-akses-broker-acl))
+[⬅️ Modul 19](../modul-19-realtime-aturan-notifikasi/README.md) · [Fase 3](../README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · **Berikutnya: [Modul 21 — Keamanan Perangkat: API Key, Provisioning Sederhana, & Hak Akses Broker (ACL)](../modul-21-keamanan-perangkat-broker/README.md) ➡️**
