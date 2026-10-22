@@ -39,7 +39,7 @@ Centang `[x]` setiap kali Anda memenuhi kriteria **"Lulus jika"** di [SILABUS.md
 - [ ] **[Modul 17](fase-3-backend-data/modul-17-sql-dan-skema-database/README.md)** — Database Pertama: SQL Dasar & Skema "Rumah Pintar Mini" (PostgreSQL via Docker)
 - [ ] **[Modul 18](fase-3-backend-data/modul-18-timescaledb/README.md)** — TimescaleDB: Data Deret Waktu, Agregasi Otomatis, Retensi, & Backup
 - [ ] **[Modul 19](fase-3-backend-data/modul-19-realtime-aturan-notifikasi/README.md)** — Realtime, Kendali Dua Arah, Aturan Otomatis (Cloud & Lokal), & Notifikasi
-- [ ] **Modul 20** — Keamanan Pengguna: Login, JWT di Cookie, Peran, & Pengaman API
+- [ ] **[Modul 20](fase-3-backend-data/modul-20-keamanan-pengguna/README.md)** — Keamanan Pengguna: Login, JWT di Cookie, Peran, & Pengaman API
 - [ ] **Modul 21** — Keamanan Perangkat: API Key, Provisioning Sederhana, & Hak Akses Broker (ACL)
 - [ ] 🎯 Checkpoint Fase 3: backend v1.0 berkunci (manusia & perangkat), aturan otomatis (cloud + pengaman lokal) & Telegram berfungsi
 

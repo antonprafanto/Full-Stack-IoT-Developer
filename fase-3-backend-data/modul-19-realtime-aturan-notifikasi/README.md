@@ -4,7 +4,7 @@
 
 *Fase 3 · Minggu 19 · Perangkat keras (*hardware*): **Kit A + B** (Node 1 dan gateway Pi dari Modul 12–15) **atau laptop saja** (simulator Modul 16 versi baru dan Wokwi) · Prasyarat: **Modul 18** (backend v0.3 dan database `rumahpintar` dengan TimescaleDB) · Waktu: 9–11 jam, dicicil dalam satu minggu*
 
-[⬅️ Modul 18](../modul-18-timescaledb/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · [Modul 20 ➡️ (segera terbit — baca ringkasannya di Silabus)](../../SILABUS.md#modul-20--keamanan-pengguna-login-jwt-di-cookie-peran--pengaman-api)
+[⬅️ Modul 18](../modul-18-timescaledb/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · [Modul 20 ➡️](../modul-20-keamanan-pengguna/README.md)
 
 ---
 
@@ -5442,4 +5442,4 @@ Syarat lulus dari Silabus: **mengubah ambang suhu lewat API langsung mengubah pe
 
 ---
 
-[⬅️ Modul 18](../modul-18-timescaledb/README.md) · [Fase 3](../README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · **Berikutnya: Modul 20 — Keamanan Pengguna: Login, JWT di Cookie, Peran, & Pengaman API** (segera terbit; [ringkasannya di Silabus](../../SILABUS.md#modul-20--keamanan-pengguna-login-jwt-di-cookie-peran--pengaman-api))
+[⬅️ Modul 18](../modul-18-timescaledb/README.md) · [Fase 3](../README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · **Berikutnya: [Modul 20 — Keamanan Pengguna: Login, JWT di Cookie, Peran, & Pengaman API](../modul-20-keamanan-pengguna/README.md) ➡️**
