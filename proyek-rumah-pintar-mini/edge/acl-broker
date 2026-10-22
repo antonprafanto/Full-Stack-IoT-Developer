@@ -1,0 +1,37 @@
+# acl-broker - daftar izin broker Rumah Pintar Mini (Modul 21).
+# Mosquitto membaca berkas ini dari atas ke bawah. Baris berawalan # adalah catatan (# harus huruf pertama baris).
+# Akun yang tidak disebut di sini tidak boleh menulis atau membaca apa pun.
+# Setiap kali berkas ini diubah, RESTART broker (bukan reload).
+
+# 1) Setiap perangkat hanya boleh "bicara" di topiknya sendiri. Baris pattern berlaku untuk SEMUA akun;
+#    %u diganti nama pengguna yang sudah terbukti dengan sandi, yaitu device_id perangkat itu.
+pattern write rpm/%u/telemetry
+pattern write rpm/%u/status
+pattern write rpm/%u/vitals
+pattern write rpm/%u/ack
+pattern read rpm/%u/cmd
+
+# 2) Satu pengecualian di kontrak data (aturan 6): Node 1 menerbitkan telemetry dan status Node 2.
+#    Ganti a4cf12e5b7c0 dengan device_id Node 1-mu dan 246f28b1c7d4 dengan device_id Node 2-mu.
+user a4cf12e5b7c0
+topic write rpm/246f28b1c7d4/telemetry
+topic write rpm/246f28b1c7d4/status
+
+# 3) Backend: membaca semua pesan perangkat, mengirim perintah (set dan config) ke cmd.
+user backend
+topic read rpm/#
+topic write rpm/+/cmd
+
+# 4) Node-RED di gateway Pi: dashboard membaca, sakelar Kipas mengirim cmd.
+user nodered
+topic read rpm/#
+topic write rpm/+/cmd
+
+# 5) Pemeriksa kontrak (alat/pemeriksa-kontrak.js): hanya membaca.
+user pemeriksa
+topic read rpm/#
+
+# 6) Pemantau (MQTTX, mosquitto_sub): hanya melihat, termasuk statistik broker di $SYS.
+user pemantau
+topic read rpm/#
+topic read $SYS/#

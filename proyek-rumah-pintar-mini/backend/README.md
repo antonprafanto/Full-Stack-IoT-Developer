@@ -2,7 +2,7 @@
 
 🌐 **Bahasa Indonesia** · [English](../../en/mini-smart-home/backend/README.md)
 
-Backend v0.5 proyek Rumah Pintar Mini: server Node.js 24 dengan TypeScript ringan yang mendengarkan semua pesan MQTT `rpm/#`, memeriksa setiap pesan dengan kontrak data 1.3 (skema Zod), menyimpan keadaan terakhir setiap perangkat di memori, mengarsipkan semua pesan ke database PostgreSQL dengan tambahan TimescaleDB (lewat Docker), dan menyediakan API berdokumentasi. Riwayat bacaan bisa diminta mentah atau sudah diringkas per 15 menit, per jam, atau per hari. Sejak Modul 19, bacaan juga mengalir *live* lewat Socket.IO, semua perintah lewat satu pintu (dengan keadaan yang diinginkan dan yang dilaporkan), aturan otomatis dan jadwal disimpan di database dan bisa diubah lewat API tanpa memulai ulang server, setiap kejadian penting dicatat, dan peringatan dikirim lewat Telegram. Sejak Modul 20, API dan Socket.IO **berkunci**: tamu harus *login* dulu, akun `viewer` hanya boleh melihat, percobaan *login* dibatasi, dan halaman web lain tidak bisa menyuruh server atas nama pengguna.
+Backend v1.0 proyek Rumah Pintar Mini: server Node.js 24 dengan TypeScript ringan yang mendengarkan semua pesan MQTT `rpm/#`, memeriksa setiap pesan dengan kontrak data 1.4 (skema Zod), menyimpan keadaan terakhir setiap perangkat di memori, mengarsipkan semua pesan ke database PostgreSQL dengan tambahan TimescaleDB (lewat Docker), dan menyediakan API berdokumentasi. Riwayat bacaan bisa diminta mentah atau sudah diringkas per 15 menit, per jam, atau per hari. Sejak Modul 19, bacaan juga mengalir *live* lewat Socket.IO, semua perintah lewat satu pintu (dengan keadaan yang diinginkan dan yang dilaporkan), aturan otomatis dan jadwal disimpan di database dan bisa diubah lewat API tanpa memulai ulang server, setiap kejadian penting dicatat, dan peringatan dikirim lewat Telegram. Sejak Modul 20, API dan Socket.IO **berkunci untuk manusia**: tamu harus *login* dulu, akun `viewer` hanya boleh melihat, percobaan *login* dibatasi, dan halaman web lain tidak bisa menyuruh server atas nama pengguna. Sejak Modul 21, backend juga **berkunci untuk perangkat**: hanya perangkat yang didaftarkan admin (dengan kunci per perangkat) yang datanya diproses, pesan dari perangkat yang belum terdaftar atau kuncinya dicabut diabaikan, dan backend sendiri masuk ke broker dengan akunnya sendiri. 🎉 **Checkpoint Fase 3: rumah berkunci untuk manusia dan perangkat.**
 
 ## Menjalankan
 
@@ -14,7 +14,7 @@ Backend v0.5 proyek Rumah Pintar Mini: server Node.js 24 dengan TypeScript ringa
    ```
 
 3. Di folder ini, jalankan `npm install`.
-4. Salin `.env.example` menjadi `.env`, lalu isi `MQTT_URL` (alamat broker) dan sandi database di `DATABASE_URL`.
+4. Salin `.env.example` menjadi `.env`, lalu isi `MQTT_URL` (alamat broker, **tanpa** nama pengguna/sandi di dalamnya) dan sandi database di `DATABASE_URL`. Sejak Modul 21, isi juga `MQTT_USERNAME` dan `MQTT_PASSWORD`: akun broker milik backend, yang kamu buat di mesin broker dengan `mosquitto_passwd backend`. Buat sandinya dengan perintah `randomBytes(32)` yang sama dengan `JWT_SECRET` di bawah. Kalau brokermu belum dikunci, keduanya boleh dikosongkan (backend masuk tanpa akun, dengan peringatan).
 5. Buat kunci tanda tangan JWT dengan perintah ini, lalu tempel hasilnya (43 karakter acak) di `JWT_SECRET` pada `.env`. Langkah ini wajib **sebelum** langkah berikutnya: server, `npm run migrasi`, dan `npm run pengguna` menolak berjalan kalau `JWT_SECRET` kosong, kurang dari 32 karakter, atau masih berisi contoh.
 
    ```text
@@ -44,7 +44,7 @@ Backend v0.5 proyek Rumah Pintar Mini: server Node.js 24 dengan TypeScript ringa
 | `npm run dev` | menjalankan server dan memulainya ulang setiap kali kode atau `.env` disimpan |
 | `npm start` | menjalankan server tanpa mulai ulang otomatis; **Ctrl + C** menghentikannya dengan rapi (di Windows, `npm run dev` + **Ctrl + C** mematikan server seketika) |
 | `npm run cek` | memeriksa tipe TypeScript, termasuk file uji (jalankan sebelum setiap *commit*) |
-| `npm test` | menjalankan *unit test* *rules engine* (`src/aturan/*.test.ts`) dan *login* (`src/auth/*.test.ts`) dengan Vitest |
+| `npm test` | menjalankan *unit test* dengan Vitest: *rules engine* (`src/aturan/*.test.ts`), *login* (`src/auth/auth.test.ts`), kunci perangkat (`src/auth/kunci.test.ts`, Modul 21), buku tamu dan lapis kedua (`src/services/daftar.test.ts`), dan rute registrasi (`src/routes/perangkat.test.ts`) |
 | `npm run migrasi` | menjalankan file SQL baru di folder `migrasi/` (aman diulang) |
 | `npm run isi-riwayat` | mengisi data latihan 7 hari untuk perangkat latihan `f00d00000001` dan `f00d00000002` |
 | `npm run pengguna -- tambah <email> "<nama>" <admin\|viewer>` | membuat akun; sandi ditanyakan dan hanya tampil sebagai `*` (minimal 15 karakter, maksimal 72 *byte*) |
@@ -69,7 +69,7 @@ docker exec rumahpintar-db psql -U postgres -d rumahpintar -f /tmp/beban-1-juta.
 - **Peran**: `admin` boleh semua; `viewer` hanya `GET`/`HEAD` (selain itu `403`).
 - ***Rate limit***: paling banyak 10 percobaan `POST /auth/login` per menit dari alamat IP yang sama; percobaan ke-11 dijawab `429` dengan kepala `retry-after`. Hitungannya di memori: server dimulai ulang = mulai dari nol.
 - **CORS dan asal halaman**: halaman web di `CORS_ORIGIN` (`.env`, bawaan `http://localhost:5173,http://127.0.0.1:5173` untuk Modul 22) boleh memanggil API dari browser dengan *cookie*. Permintaan selain `GET`/`HEAD` yang membawa kepala `Origin` dari halaman lain ditolak `403`; curl, Bruno, dan Node tidak mengirim `Origin`, jadi tidak terganggu.
-- **Bruno**: koleksi `bruno/` punya permintaan `login admin`, `login viewer`, `login salah`, `siapa saya`, `refresh`, dan `logout`. Sandinya dibaca dari `bruno/.env` (tidak ikut Git) berisi `SANDI_ADMIN=…` dan `SANDI_VIEWER=…`. Kirim `login admin` atau `login viewer` dulu; *cookie*-nya dipakai otomatis oleh permintaan lain.
+- **Bruno**: koleksi `bruno/` punya permintaan `login admin`, `login viewer`, `login salah`, `siapa saya`, `refresh`, dan `logout`, serta (Modul 21) `daftarkan Node 1`, `daftarkan Node 2 lewat Node 1`, `daftarkan perangkat latihan`, `ganti kunci perangkat latihan`, dan `cabut kunci perangkat latihan`. Sandinya dibaca dari `bruno/.env` (tidak ikut Git) berisi `SANDI_ADMIN=…` dan `SANDI_VIEWER=…`. Kirim `login admin` atau `login viewer` dulu; *cookie*-nya dipakai otomatis oleh permintaan lain.
 
 ## API
 
@@ -79,13 +79,16 @@ docker exec rumahpintar-db psql -U postgres -d rumahpintar -f /tmp/beban-1-juta.
 | `POST /auth/refresh` | terbuka (*cookie* `sesi`) | gelang baru + kartu terusan baru |
 | `POST /auth/logout` | terbuka | menghapus sesi dan kedua *cookie*; selalu `{"pesan":"sudah logout"}` |
 | `GET /auth/me` | login | akun yang sedang *login* (dibaca dari database) |
-| `GET /health` | terbuka | server hidup? tersambung ke broker dan database? berapa pesan diterima dan ditolak? |
-| `GET /devices` | login | semua perangkat yang terdengar sejak server menyala |
+| `GET /health` | terbuka | server hidup? tersambung ke broker dan database? berapa pesan `diterima`, `ditolak` (gagal kontrak), dan `diabaikan` (dari perangkat tak terdaftar/dicabut, Modul 21)? |
+| `GET /devices` | login | daftar perangkat dari database: yang terdaftar, yang dicabut, dan baris lama yang belum terdaftar; kolom `kunci` menandai `aktif`/`dicabut`/`tanpa-kunci`/`belum-terdaftar` (sidik jari kunci tidak pernah ikut) |
+| `POST /devices` | admin | daftarkan perangkat (Modul 21): jawabannya memuat `kunci` 43 huruf **yang hanya tampil sekali ini** dan `langkah` berikutnya; `penghubung` untuk perangkat ESP-NOW (Node 2) yang datanya diterbitkan Node 1 (tanpa kunci) |
+| `POST /devices/:id/kunci` | admin | buat kunci baru (kunci lama langsung tidak berlaku); juga menghidupkan lagi perangkat yang dicabut |
+| `POST /devices/:id/cabut` | admin | cabut kunci perangkat yang hilang atau dicuri: backend langsung mengabaikan datanya, perintah kepadanya dijawab 409 |
 | `GET /devices/:id/latest` | login | bacaan `telemetry` terbaru satu perangkat |
 | `GET /devices/:id/vitals` | login | kesehatan terakhir satu perangkat |
 | `GET /devices/:id/readings?from=…&to=…` | login | riwayat bacaan mentah dari database (bawaan: satu jam terakhir; paling banyak 1.000 bacaan) |
 | `GET /devices/:id/readings?bucket=15m\|1h\|1d&from=…&to=…` | login | ringkasan riwayat per 15 menit, per jam, atau per hari WIB (bawaan: 1 hari, 7 hari, atau 30 hari terakhir; paling banyak 1.000 ember) |
-| `POST /devices/:id/command` | admin | kirim perintah `set` ke Node 1, tunggu `ack`-nya paling lama 5 detik, lalu catat di tabel `commands` (dengan `sumber` `api`) |
+| `POST /devices/:id/command` | admin | kirim perintah `set` ke Node 1, tunggu `ack`-nya paling lama 5 detik, lalu catat di tabel `commands` (dengan `sumber` `api`); perangkat yang belum terdaftar dijawab 404, yang kuncinya dicabut 409 |
 | `GET /devices/:id/state` | login | keadaan aktuator: yang diinginkan server (`desired`), yang terakhir dilaporkan perangkat (`reported`, dari `telemetry.state` atau `ack.state`), kapan laporan itu tiba, dan aktuator yang belum cocok (`selisih`) |
 | `GET /rules` | login | semua aturan otomatis yang sedang dipakai server; aturan jadwal ditambah `berikutnya` (UTC) |
 | `POST /rules` | admin | buat aturan baru: ambang (`kondisi.jenis` `ambang` + `aksi.jenis` `sakelar`) atau jadwal (`jadwal` + `perintah`); langsung berlaku |
@@ -106,6 +109,17 @@ Dengan `bucket`, jawabannya berbentuk `{ device_id, dari, sampai, ember, jumlah,
 
 Koleksi Bruno untuk semua rute ada di folder `bruno/` (pilih *environment* `lokal`).
 
+## Keamanan perangkat dan broker (Modul 21)
+
+Sampai Modul 20, backend membuat baris `devices` otomatis untuk perangkat **apa pun** yang mengirim pesan, dan siapa pun yang bisa menghubungi broker boleh menerbitkan ke topik mana pun. Modul 21 menutup keduanya.
+
+- **Daftar resmi + kunci per perangkat.** Perangkat harus didaftarkan admin lewat `POST /devices`. Jawabannya memuat **kunci** 32 *byte* acak (43 huruf `base64url`) yang **hanya tampil sekali**; database hanya menyimpan sidik jari SHA-256-nya (seperti *refresh token* Modul 20). `POST /devices/:id/kunci` membuat kunci baru (yang lama langsung mati), `POST /devices/:id/cabut` mencabutnya. Jawaban registrasi juga memuat `langkah`: pasang kunci yang sama ke perangkat (ketik `kunci <isi>` di Serial Monitor, atau `KUNCI_<DEVICE_ID>=…` di `alat/.env` untuk simulator) dan ke broker (`mosquitto_passwd` di mesin broker). Perangkat ESP-NOW (Node 2) didaftarkan dengan `penghubung` (device\_id Node 1) dan **tidak** diberi kunci: datanya diterbitkan Node 1.
+- **Lapis kedua di backend.** Walaupun broker sudah menjaga pintu, backend memeriksa lagi: pesan dari perangkat yang **belum terdaftar** atau **sudah dicabut** diabaikan seketika (dicatat `DIABAIKAN …` paling sering sekali semenit per perangkat, dihitung di `/health` sebagai `diabaikan`), perintah kepadanya dijawab 404/409, dan backend **tidak lagi** membuat baris `devices` otomatis. Jadi walaupun berkas sandi broker dan database sempat tidak sama, perangkat yang tidak berhak tetap tertolak.
+- **Akun broker milik backend.** Backend masuk ke broker dengan akunnya sendiri (`MQTT_USERNAME`/`MQTT_PASSWORD` di `.env`, **bukan** di dalam `MQTT_URL`), bukan sebagai perangkat atau manusia. Kalau broker menolak akunnya (CONNACK 5), backend mencatatnya sekali dan mencoba lagi tiap 60 detik; begitu akunnya diperbaiki di broker dan broker dimuat ulang, backend pulih sendiri tanpa dijalankan ulang.
+- **Broker (di luar backend).** Berkas contoh `edge/mosquitto-lan.conf`, `edge/gateway-pi.conf`, dan `edge/acl-broker` mengunci broker dengan `allow_anonymous false`, `password_file`, `acl_file` (pola `%u` = `device_id`), dan `use_username_as_clientid`. Lihat `edge/README.md`.
+
+**🎉 Checkpoint Fase 3.** Rumah kini berkunci untuk manusia (akun, login, peran, pengaman API — Modul 20) *dan* untuk perangkat (kunci per perangkat, lapis kedua, akun broker, ACL — Modul 21). Yang **belum** aman, dan jujur disebut: lalu lintas MQTT dan HTTP masih tanpa enkripsi di LAN (kunci terbaca polos oleh penyadap di jaringan yang sama) — wajib TLS sebelum dibuka ke internet (Modul 27); kunci di NVS ESP32 terbaca siapa pun yang memegang papan (*flash encryption*, 🔬); dan hitungan *rate limit* masih di memori.
+
 ## Database
 
 Bentuk tabel ditulis sebagai file SQL bernomor di folder `migrasi/`. File yang sudah diterapkan tidak boleh diubah; setiap perubahan baru masuk ke file dengan nomor berikutnya.
@@ -119,6 +133,7 @@ Bentuk tabel ditulis sebagai file SQL bernomor di folder `migrasi/`. File yang s
 | `005_columnstore.sql` | bacaan yang lebih tua daripada 7 hari dipadatkan per kolom (columnstore) setiap 12 jam |
 | `007_aturan_dan_kejadian.sql` | `rules.diubah` dan pemeriksaan bentuk JSON; `commands.sumber` (`api`, `aturan`, `jadwal`, `telegram`), `commands.aturan_id`, dan `commands.state`; tabel buku kejadian `events` (nomor 006 sengaja dilewati: dipakai Tantangan Tingkat 3 Modul 18) |
 | `008_login_dan_sesi.sql` | `users.sandi_hash` (sidik jari bcrypt) dan `users.sandi_diubah`, email wajib huruf kecil, tabel `sesi` (SHA-256 *refresh token* sekarang dan sebelumnya, kedaluwarsa 7 hari; ikut terhapus bersama akunnya) |
+| `010_kunci_perangkat.sql` | kolom kunci di `devices`: `terdaftar`, `kunci_hash` (SHA-256, 64 huruf heksadesimal), `kunci_dibuat`, `dicabut`, dan `penghubung` (Node 2 → Node 1); empat `CHECK` yang menjaga kunci, pencabutan, dan penghubung tetap konsisten (nomor 009 sengaja dilewati: dipakai Tantangan Tingkat 3 Modul 20) |
 
 Contoh: siapa menyalakan kipas hari ini (WIB)?
 
@@ -169,9 +184,9 @@ SELECT (SELECT count(*) FROM readings) AS bacaan,
 
 Setelah terbukti, hapus salinannya dengan `docker exec rumahpintar-db dropdb -U postgres rumahpintar_pulih`.
 
-## Batasan v0.5
+## Batasan v1.0
 
-- `GET /devices`, `latest`, `vitals`, dan `state` masih dibaca dari memori, jadi kosong lagi setiap server dimulai ulang. Keadaan yang diinginkan (`desired`) dan hitungan "selama" setiap aturan juga hilang saat server dimulai ulang; riwayat bacaan, perintah, aturan, kejadian, akun, dan sesi tersimpan permanen di database.
+- `GET /devices/:id/latest`, `vitals`, dan `state` masih dibaca dari memori, jadi kosong lagi setiap server dimulai ulang. Keadaan yang diinginkan (`desired`) dan hitungan "selama" setiap aturan juga hilang saat server dimulai ulang; riwayat bacaan, perintah, aturan, kejadian, akun, dan sesi tersimpan permanen di database.
 - Bacaan yang datang saat database tidak bisa dihubungi tidak tersimpan.
 - Bacaan mentah hanya disimpan 90 hari; yang lebih tua tinggal ringkasan per jamnya.
 - Hari pada ringkasan `1d` adalah hari WIB (`Asia/Jakarta`), juga bagi perangkat di WITA atau WIT. Jadwal aturan juga dihitung dalam WIB.
@@ -179,4 +194,6 @@ Setelah terbukti, hapus salinannya dengan `docker exec rumahpintar-db dropdb -U 
 - Perubahan aturan langsung di database (misalnya lewat DBeaver) baru terbaca saat server dimulai ulang atau saat aturan lain diubah lewat API; pakai API `/rules`.
 - Gelang (JWT akses) yang sudah dibagikan tetap berlaku sampai kedaluwarsa (paling lama 15 menit), juga sesudah *logout*, ganti peran, ganti sandi, atau hapus akun; sambungan Socket.IO yang sedang berjalan pun baru diputus saat gelangnya habis (kecuali *logout* dari sesi itu sendiri, atau kartu terusan lama yang dipakai lagi 30 detik atau lebih sesudah diganti, yang langsung memutusnya).
 - Hitungan *rate limit* disimpan di memori satu server: dimulai ulang = nol, dan tidak cocok untuk beberapa server sekaligus.
-- *Cookie* belum `Secure` karena server masih `http://`; HTTPS menyusul di Fase 5. Server masih hanya menerima tamu dari laptop ini (`HOST=127.0.0.1`); perangkat (MQTT) belum punya kunci sendiri (Modul 21).
+- *Cookie* belum `Secure` karena server masih `http://`; HTTPS menyusul di Fase 5. Server masih hanya menerima tamu dari laptop ini (`HOST=127.0.0.1`).
+- **Lalu lintas MQTT (dan HTTP) masih tanpa enkripsi.** Nama pengguna dan kunci perangkat terkirim polos di LAN: siapa pun yang bisa melihat paket di jaringan yang sama bisa membacanya (buktikan sendiri dengan `alat/penyadap.js`). Di jaringan rumah tertutup risikonya masih kecil, tetapi **wajib TLS sebelum dibuka ke internet** (Modul 27). Kunci di NVS ESP32 juga terbaca siapa pun yang memegang papan (*flash encryption*, 🔬).
+- Daftar perangkat terdaftar dimuat ke memori saat server menyala; perubahan `devices` langsung di database (bukan lewat API) baru terbaca saat server dimulai ulang. `GET /devices` sendiri selalu dibaca segar dari database.

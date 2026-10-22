@@ -7,7 +7,7 @@
 #include "pencatat.h"
 #include "sistem.h"
 #include "pengaturan.h"
-#include "jaringan.h"  // Modul 10: teksJaringan(); Modul 19: modeOffline()
+#include "jaringan.h"  // Modul 10: teksJaringan(); Modul 19: modeOffline(); Modul 21: mqttDitolak()
 #include "layar.h"
 
 const byte ALAMAT_LAYAR = 0x3C;                   // alamat layar OLED di bus I2C
@@ -189,8 +189,8 @@ static void gambarHalamanStatus() {
   snprintf(teks, sizeof(teks), "Nyala ke-%lu", jumlahNyala());
   layar.setCursor(0, 38);
   layar.print(teks);
-  if (modeOffline()) {
-    snprintf(teks, sizeof(teks), "MODE OFFLINE");  // Modul 19: broker tak terjangkau lebih dari 2 menit
+  if (modeOffline()) {  // Modul 19: broker tak terjangkau lebih dari 2 menit; Modul 21: atau menolak kunci
+    snprintf(teks, sizeof(teks), "%s", mqttDitolak() ? "OFFLINE: MQTT DITOLAK" : "MODE OFFLINE");
   } else {
     snprintf(teks, sizeof(teks), "WiFi %s", teksJaringan());  // Modul 11: misalnya "WiFi ok, MQTT ok"
   }

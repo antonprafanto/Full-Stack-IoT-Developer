@@ -8,7 +8,15 @@ const kosong = (nilai: unknown) => (nilai === "" ? undefined : nilai); // baris 
 const wajib = z.preprocess(kosong, z.string({ error: "belum diisi" }));
 
 const Setelan = z.object({
-  MQTT_URL: wajib, // alamat broker, misalnya mqtt://192.168.1.37:1883
+  // alamat broker, misalnya mqtt://192.168.1.37:1883. Modul 21: TANPA nama pengguna dan sandi di dalamnya (alamat ini ditulis
+  // ke log saat tersambung); akunnya di dua setelan berikut
+  MQTT_URL: wajib.pipe(z.string()
+    .regex(/^mqtts?:\/\//, "harus diawali mqtt:// (atau mqtts:// mulai Modul 27), misalnya mqtt://192.168.1.37:1883")
+    .refine((url) => !url.includes("@"), "jangan menaruh nama pengguna atau sandi di MQTT_URL; pakai MQTT_USERNAME dan MQTT_PASSWORD")),
+  // Modul 21: akun broker milik backend sendiri (dibuat dengan mosquitto_passwd). Keduanya kosong = masuk tanpa akun (hanya
+  // berhasil di broker yang masih terbuka); kalau salah satu diisi, yang lain wajib diisi.
+  MQTT_USERNAME: z.string().default(""),
+  MQTT_PASSWORD: z.string().default(""),
   DATABASE_URL: wajib, // alamat database, misalnya postgres://postgres:<sandi>@127.0.0.1:5432/rumahpintar
   PORT: z.preprocess(kosong, z.coerce.number().int().min(1).max(65535).default(8080)), // nomor loket server
   HOST: z.preprocess(kosong, z.string().default("127.0.0.1")), // 127.0.0.1 = hanya bisa diketuk dari laptop ini
@@ -23,6 +31,10 @@ const Setelan = z.object({
   // Modul 20: alamat halaman web (origin) yang boleh memanggil API ini dari browser, dipisah koma. Modul 22: Vite di 5173.
   CORS_ORIGIN: z.preprocess(kosong, z.string().default("http://localhost:5173,http://127.0.0.1:5173")
     .transform((teks) => teks.split(",").map((asal) => asal.trim()).filter((asal) => asal !== ""))),
+}).refine((s) => s.MQTT_USERNAME !== "" || s.MQTT_PASSWORD === "", { // Modul 21: akun broker harus lengkap
+  message: "MQTT_PASSWORD diisi tetapi MQTT_USERNAME kosong", path: ["MQTT_USERNAME"],
+}).refine((s) => s.MQTT_PASSWORD !== "" || s.MQTT_USERNAME === "", {
+  message: "MQTT_USERNAME diisi tetapi MQTT_PASSWORD kosong (sandi akun backend dari mosquitto_passwd)", path: ["MQTT_PASSWORD"],
 });
 
 const hasil = Setelan.safeParse(process.env);

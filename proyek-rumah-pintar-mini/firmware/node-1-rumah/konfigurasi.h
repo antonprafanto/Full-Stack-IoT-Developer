@@ -2,7 +2,7 @@
 // Pin mengikuti PETA-PIN.md. Angka kalibrasi adalah hasil Modul 6 milikmu sendiri.
 #pragma once
 
-const char VERSI_FIRMWARE[] = "1.5.0";
+const char VERSI_FIRMWARE[] = "1.6.0";
 
 // ---------- Peta pin kanonik Node 1 (salinan dari PETA-PIN.md) ----------
 const int PIN_LED_STATUS = 2;    // Modul 2; pindah dari D4 ke D2 di Modul 15 (D4 kini untuk DE/RE RS-485)
@@ -77,3 +77,7 @@ const float SUHU_KIPAS_MAKS = 45.0;
 const float SELISIH_KIPAS = 2.0;                  // kipas pengaman padam di bawah suhu_kipas_on - 2 °C (histeresis)
 const unsigned long BATAS_MODE_OFFLINE = 120000;  // broker tak terjangkau 2 menit terus-menerus = mode offline
 const unsigned long LAMA_UJI_OFFLINE = 180000;    // perintah "uji offline": broker dianggap hilang selama 3 menit
+
+// ---------- Modul 21: akun broker ----------
+// Nama pengguna broker = device_id. Kuncinya TIDAK ditulis di kode: ketik "kunci <isi>" di Serial Monitor (disimpan di NVS).
+const bool WOKWI_BERKUNCI = false;  // Wokwi saja: true = broker publik BERKUNCI test.mosquitto.org:1884, akun publik "rw"

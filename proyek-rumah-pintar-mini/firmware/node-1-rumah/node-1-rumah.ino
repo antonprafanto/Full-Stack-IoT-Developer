@@ -1,6 +1,10 @@
-// Node 1 "Rumah" - firmware v1.5.0 (Modul 19: aturan pengaman lokal dan mode offline)
+// Node 1 "Rumah" - firmware v1.6.0 (Modul 21: masuk ke broker dengan nama pengguna dan kunci)
 // Proyek benang merah: Rumah Pintar Mini.
 //
+// Baru di v1.6.0: Node 1 masuk ke broker dengan nama pengguna = device_id dan kunci perangkatnya sendiri. Kuncinya tidak
+// pernah ditulis di kode: ketik "kunci <isi>" di Serial Monitor sekali, dan Node 1 menyimpannya di NVS. Kalau broker
+// menolak (kunci salah, belum diisi, atau dicabut), Serial Monitor dan layar menulis DITOLAK, dan Node 1 mencoba lagi
+// setiap 60 detik saja supaya log broker tidak banjir.
 // Baru di v1.5.0: Node 1 menerima perintah "config" dari server: ambang suhu_kipas_on dan tanah_siram, disimpan di
 // NVS. Kalau broker tak terjangkau lebih dari 2 menit (mode offline), pengaman lokal menyalakan kipas sendiri di atas
 // suhu_kipas_on dan memadamkannya di bawah suhu_kipas_on - 2 C; laporannya ikut vitals pertama, 10 detik sesudah
@@ -18,7 +22,7 @@
 // Dari v1.0.0 (Modul 8): tanpa delay() di loop(), kode modular, watchdog, NVS, log bertingkat, halaman status.
 // Perintah lewat Serial Monitor: lampu on, kipas off, pompa 3, tirai 90, bunyi, status, info,
 // ambang, ambang 35, ambang bawaan, log debug, log info, log error, wifi, wifi lupa, kirim, node2, node2 nol,
-// rs485, rs485 on, rs485 off, uji offline, restart.
+// rs485, rs485 on, rs485 off, uji offline, kunci, kunci <isi>, kunci hapus, restart.
 //
 // Library: ESP32Servo versi 3.2.1, DHT sensor library versi 1.4.7
 // (ikut terpasang: Adafruit Unified Sensor versi 1.1.15), Adafruit SSD1306 versi 2.5.17

@@ -1,4 +1,5 @@
-// server.ts - pintu masuk backend Rumah Pintar Mini v0.5 (Modul 20: login, JWT di cookie, peran, dan pengaman API, di atas
+// server.ts - pintu masuk backend Rumah Pintar Mini v1.0 (Modul 21: daftar resmi perangkat dan kuncinya, akun broker sendiri,
+// pesan dari perangkat tak terdaftar/dicabut diabaikan; di atas Modul 20: login, JWT di cookie, peran, dan pengaman API, dan
 // Modul 19: data realtime, perintah satu pintu, aturan otomatis, jadwal, dan notifikasi Telegram).
 // Jalankan: npm run dev (otomatis mulai ulang saat file disimpan) atau npm start.
 import Fastify, { LogController } from "fastify";
@@ -18,6 +19,8 @@ import { hentikanJadwal } from "./services/jadwal.ts";
 import { hentikanTelegram, mulaiTelegram } from "./services/telegram.ts";
 import { pakaiLog } from "./services/log.ts";
 import { databaseHidup } from "./db/arsip.ts";
+import { semuaPerangkatDb } from "./db/perangkat.ts";
+import { isiDaftar } from "./services/daftar.ts";
 import { pool } from "./db/pool.ts";
 
 const app = Fastify({
@@ -38,10 +41,11 @@ await app.register(swagger, {
   openapi: {
     info: {
       title: "Rumah Pintar Mini API",
-      description: "Backend v0.5 (Modul 20). Semua rute butuh login, kecuali yang tidak bergembok. Login dulu lewat "
+      description: "Backend v1.0 (Modul 21). Semua rute butuh login, kecuali yang tidak bergembok. Login dulu lewat "
         + "POST /auth/login (Try it out): browser menyimpan cookie akses dan mengirimnya sendiri ke rute lain. "
-        + "Akun viewer hanya boleh melihat (GET); perintah dan perubahan dijawab 403.",
-      version: "0.5.0",
+        + "Akun viewer hanya boleh melihat (GET); perintah dan perubahan dijawab 403. Perangkat didaftarkan admin lewat "
+        + "POST /devices; kuncinya hanya tampil sekali, dan pesan dari perangkat tak terdaftar atau dicabut diabaikan.",
+      version: "1.0.0",
     },
     components: {
       securitySchemes: { // Modul 20: rute bergembok butuh cookie akses dari POST /auth/login
@@ -66,7 +70,28 @@ try {
   app.log.error(`aturan otomatis belum bisa dimuat: ${(galat as Error).message}`);
 }
 mulaiRealtime(app); // Modul 19: Socket.IO di alamat /socket.io/ (Modul 20: ikut dikunci)
-mulaiMqtt(env.MQTT_URL, app.log);
+
+// Modul 21: buku tamu perangkat terdaftar dimuat dari database SEBELUM mendengar broker. Kalau database belum bisa
+// dihubungi, dicoba lagi setiap 10 detik (dicatat paling sering semenit sekali); selama itu semua pesan perangkat
+// diabaikan: lebih baik kehilangan data sebentar daripada menerima data dari perangkat yang tidak berhak.
+let percobaanDaftar = 0;
+async function muatDaftarPerangkat(): Promise<void> {
+  try {
+    const jumlah = isiDaftar(await semuaPerangkatDb());
+    app.log.info(`daftar perangkat dimuat: ${jumlah} perangkat terdaftar`);
+  } catch (galat) {
+    if (percobaanDaftar % 6 === 0) {
+      app.log.error(`daftar perangkat belum bisa dimuat (${(galat as Error).message}); dicoba lagi setiap 10 detik`);
+    }
+    percobaanDaftar++;
+    setTimeout(() => void muatDaftarPerangkat(), 10_000);
+  }
+}
+await muatDaftarPerangkat();
+if (env.MQTT_USERNAME === "") {
+  app.log.warn("MQTT_USERNAME kosong: backend masuk ke broker TANPA akun (hanya berhasil di broker yang belum dikunci)");
+}
+mulaiMqtt(env.MQTT_URL, env.MQTT_USERNAME === "" ? null : { username: env.MQTT_USERNAME, password: env.MQTT_PASSWORD }, app.log);
 mulaiTelegram(env.TELEGRAM_BOT_TOKEN, env.TELEGRAM_CHAT_ID, env.TELEGRAM_API_ROOT); // Modul 19: tidak ditunggu
 await app.listen({ port: env.PORT, host: env.HOST });
 app.log.info(`dokumentasi API: http://${env.HOST}:${env.PORT}/docs`);

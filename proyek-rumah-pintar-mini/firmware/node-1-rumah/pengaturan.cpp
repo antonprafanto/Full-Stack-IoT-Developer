@@ -10,6 +10,7 @@ static int ambang = AMBANG_TANAH_SIRAM_BAWAAN;
 static unsigned long nyalaKe = 0;
 static bool pakaiRS485 = false;  // Modul 15: bawaannya tidak dipakai (sensor belum dipasang)
 static float suhuKipas = SUHU_KIPAS_ON_BAWAAN;  // Modul 19: ambang kipas pengaman, dalam °C
+static char kunci[65] = "";  // Modul 21: kunci broker, paling panjang 64 huruf + tanda akhir teks; "" = belum ada
 
 void muatPengaturan() {
   arsip.begin("node1", false);  // false = map dibuka untuk dibaca DAN ditulis
@@ -30,6 +31,10 @@ void muatPengaturan() {
     asal = "dari NVS";
   }
   logInfo("Ambang suhu_kipas_on: %.1f C (%s)", suhuKipas, asal);
+  if (arsip.isKey("kunci_broker")) {  // Modul 21; isKey dulu supaya label yang belum ada tidak dianggap galat
+    arsip.getString("kunci_broker", kunci, sizeof(kunci));
+  }
+  logInfo("Kunci broker: %s", kunci[0] != '\0' ? "tersimpan di NVS" : "BELUM ADA (ketik: kunci <isi>)");
 }
 
 int ambangTanahSiram() {
@@ -95,4 +100,42 @@ bool simpanAmbangSuhuKipas(float derajat) {
   suhuKipas = derajat;
   logInfo("Ambang suhu_kipas_on disimpan ke NVS: %.1f C", suhuKipas);
   return true;
+}
+
+// ---------- Modul 21: kunci broker ----------
+// Disimpan di NVS dengan label "kunci_broker" (12 huruf), tidak pernah di kode atau di Git, dan tidak pernah dicetak utuh.
+const char* kunciBroker() {
+  return kunci;
+}
+
+// Huruf yang boleh ada di kunci: A-Z, a-z, 0-9, tanda - dan _ (huruf kunci buatan backend). Spasi, tanda = dan
+// huruf lain hampir pasti salah salin.
+static bool hurufKunciSah(char h) {
+  return (h >= 'A' && h <= 'Z') || (h >= 'a' && h <= 'z') || (h >= '0' && h <= '9') || h == '-' || h == '_';
+}
+
+bool simpanKunciBroker(const char* isi) {
+  size_t panjang = strlen(isi);
+  if (panjang == 0 || panjang >= sizeof(kunci)) {  // 1-64 huruf; tidak harus tepat 43 (Wokwi: readwrite)
+    return false;
+  }
+  for (size_t i = 0; i < panjang; i++) {
+    if (!hurufKunciSah(isi[i])) {
+      return false;
+    }
+  }
+  if (strcmp(isi, kunci) != 0) {  // sama: tidak perlu menulis ulang (jumlah tulis flash terbatas)
+    arsip.putString("kunci_broker", isi);
+    snprintf(kunci, sizeof(kunci), "%s", isi);
+    logInfo("Kunci broker disimpan ke NVS (%u huruf).", (unsigned)panjang);
+  }
+  return true;
+}
+
+void hapusKunciBroker() {
+  if (arsip.isKey("kunci_broker")) {
+    arsip.remove("kunci_broker");
+    logInfo("Kunci broker dihapus dari NVS.");
+  }
+  kunci[0] = '\0';
 }

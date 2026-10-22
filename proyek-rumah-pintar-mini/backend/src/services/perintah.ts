@@ -7,6 +7,7 @@ import { brokerTersambung, buatIdPerintah, kirimPerintah } from "./mqtt.ts";
 import { arsipkanPerintah } from "../db/arsip.ts";
 import { catatKejadian } from "./kejadian.ts";
 import { log } from "./log.ts";
+import { izinPerangkat } from "./daftar.ts";
 
 export type Sumber = "api" | "aturan" | "jadwal" | "telegram"; // siapa yang menyuruh
 
@@ -37,6 +38,9 @@ const menungguAck = new Set<string>(); // "<device_id>/<target>" yang perintahny
 
 export async function perintahkan(deviceId: string, perintah: PerintahSet, sumber: Sumber,
   aturanId: number | null = null): Promise<HasilPerintah> {
+  const izin = izinPerangkat(deviceId); // Modul 21: perangkat yang belum terdaftar atau dicabut tidak menerima perintah
+  if (izin === "dicabut") return { status: "tidak-dikirim", kode: 409, pesan: `kunci perangkat ${deviceId} sudah dicabut` };
+  if (izin !== "terdaftar") return { status: "tidak-dikirim", kode: 404, pesan: `perangkat ${deviceId} belum terdaftar` };
   const p = cariPerangkat(deviceId);
   if (p === undefined) return { status: "tidak-dikirim", kode: 404, pesan: `perangkat ${deviceId} belum pernah terdengar` };
   if (p.jenis === "node2") return { status: "tidak-dikirim", kode: 409, pesan: "Node 2 tidak menerima perintah (kontrak bagian 2)" };

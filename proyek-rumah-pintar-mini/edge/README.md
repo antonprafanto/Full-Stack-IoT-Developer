@@ -22,8 +22,10 @@ Gateway adalah Raspberry Pi yang menjalankan broker MQTT Rumah Pintar Mini 24 ja
 
 | Berkas | Dipakai di | Isi |
 | :--- | :--- | :--- |
-| [`mosquitto-lan.conf`](mosquitto-lan.conf) | laptop ([Modul 11](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-2-konektivitas/modul-11-mqtt-dan-kontrak-data/README.md)) | `mosquitto -v -c mosquitto-lan.conf` di terminal |
-| [`gateway-pi.conf`](gateway-pi.conf) | gateway Pi (Modul 12) | di Pi: `/etc/mosquitto/conf.d/gateway-pi.conf` |
+| [`mosquitto-lan.conf`](mosquitto-lan.conf) | laptop ([Modul 11](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-2-konektivitas/modul-11-mqtt-dan-kontrak-data/README.md); dikunci Modul 21) | `mosquitto -v -c mosquitto-lan.conf` di terminal |
+| [`gateway-pi.conf`](gateway-pi.conf) | gateway Pi (Modul 12; dikunci Modul 21) | di Pi: `/etc/mosquitto/conf.d/gateway-pi.conf` |
+| [`acl-broker`](acl-broker) | gateway Pi dan laptop ([Modul 21](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-3-backend-data/modul-21-keamanan-perangkat-broker/README.md)) | daftar izin broker (ACL): perangkat hanya menulis topiknya sendiri. Di Pi: `/etc/mosquitto/acl-broker` (DI LUAR `conf.d`) |
+| `sandi-broker` | gateway Pi dan laptop (Modul 21) | **tidak ikut Git** (`.gitignore`): berkas sandi akun broker, dibuat **di mesin broker** dengan `mosquitto_passwd` |
 | [`node-red-flows.json`](node-red-flows.json) | gateway Pi (Modul 13) | semua flow Node-RED; dipulihkan lewat **Import** di editor (langkah 11) |
 
 ## Resep membangun ulang
@@ -67,6 +69,41 @@ Gateway adalah Raspberry Pi yang menjalankan broker MQTT Rumah Pintar Mini 24 ja
 | `sudo apt update`, lalu `sudo apt full-upgrade` | pembaruan terpasang; `sudo reboot` kalau ada pembaruan *kernel* |
 
 Setiap kali pengaturan di Pi berubah, salin lagi berkasnya ke folder ini (`scp budi@192.168.1.37:/etc/mosquitto/conf.d/gateway-pi.conf edge/`), lalu lakukan *commit*.
+
+## Mengunci broker (Modul 21)
+
+Sampai Modul 20, broker menerima siapa saja tanpa kata sandi (`allow_anonymous true`). [Modul 21](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-3-backend-data/modul-21-keamanan-perangkat-broker/README.md) menguncinya: setiap program (perangkat, backend, Node-RED, pemantau) masuk dengan akunnya sendiri, dan daftar izin (ACL) membatasi topik yang boleh ditulis atau dibaca tiap akun. `gateway-pi.conf` dan `mosquitto-lan.conf` sudah berisi `allow_anonymous false`, `password_file`, `acl_file`, dan `use_username_as_clientid true`.
+
+- **Berkas sandi `sandi-broker`** berisi sidik jari (bukan kata sandi asli) setiap akun. Dibuat dengan `mosquitto_passwd` **di mesin tempat broker berjalan** (di Pi lewat SSH; berkas sandi Mosquitto 2.1 di laptop **tidak** bisa dipakai Pi 2.0.21, dan sebaliknya). Akun pertama dengan `-c` (buat berkas), sisanya tanpa `-c`:
+
+  ```bash
+  sudo mosquitto_passwd -c /etc/mosquitto/sandi-broker backend
+  sudo mosquitto_passwd /etc/mosquitto/sandi-broker nodered
+  sudo mosquitto_passwd /etc/mosquitto/sandi-broker pemantau
+  ```
+
+  Lalu satu akun untuk setiap perangkat (nama pengguna = `device_id`), tempel kunci 43 huruf dari jawaban `POST /devices` dua kali:
+
+  ```bash
+  sudo mosquitto_passwd /etc/mosquitto/sandi-broker a4cf12e5b7c0
+  ```
+
+  `mosquitto_passwd -b berkas nama sandi` memasukkan sandi langsung di baris perintah — hindari, karena sandinya tertinggal di riwayat terminal. Mencabut akun: `sudo mosquitto_passwd -D /etc/mosquitto/sandi-broker <device_id>`.
+
+- **Hak berkas (Pi).** Mosquitto 2.0 menurunkan hak ke pengguna `mosquitto` segera setelah membaca konfigurasi, jadi `sandi-broker` dan `acl-broker` harus bisa dibacanya:
+
+  ```bash
+  sudo chown mosquitto:mosquitto /etc/mosquitto/sandi-broker /etc/mosquitto/acl-broker
+  sudo chmod 600 /etc/mosquitto/sandi-broker /etc/mosquitto/acl-broker
+  ```
+
+- **Salin ACL** ke Pi (di luar `conf.d` supaya tidak ikut dibaca sebagai pengaturan): `scp edge/acl-broker budi@192.168.1.37:` lalu `sudo cp ~/acl-broker /etc/mosquitto/`. `acl-broker` boleh ikut Git (tidak ada rahasia); `sandi-broker` tidak pernah.
+
+- **Restart, bukan reload, setiap kali ACL diubah** (`sudo systemctl restart mosquitto`): di Mosquitto 2.0.21, berkas ACL yang salah ketik lalu di-*reload* membuat broker berjalan **tanpa ACL sama sekali**, sedangkan salah ketik saat *restart* membuat layanan gagal menyala — jelas terlihat di `systemctl status`. **Menambah atau menghapus akun saja** (berkas sandi) cukup `sudo systemctl reload mosquitto`; klien yang kuncinya baru dicabut langsung diputus. Urutan aman: buat akun `backend` dan `nodered` **sebelum** mengunci, supaya keduanya tidak langsung tertolak.
+
+- **Akun tiap program.** Backend: `backend` (`.env`, `MQTT_USERNAME`/`MQTT_PASSWORD`). Node-RED: `nodered`, diisi di tab **Security** node broker (klik dua kali node "Mosquitto di gateway" → **Security** → Username `nodered` + Password → **Done** → **Deploy**); kredensial itu disimpan terenkripsi di `flows_cred.json`, **tidak** ikut `node-red-flows.json`, jadi ekspor flow tetap aman. MQTTX untuk memantau: akun `pemantau` (boleh membaca `rpm/#` dan `$SYS/#`, tidak boleh menulis). Alat `pemeriksa-kontrak.js`: akun `pemeriksa` (hanya membaca `rpm/#`).
+
+Lalu lintasnya masih tanpa enkripsi: kunci terkirim polos di LAN (lihat `alat/penyadap.js`). Itu belum masalah di jaringan rumah tertutup, tetapi wajib TLS sebelum broker dibuka ke internet (Modul 27) — jangan membuat *port forwarding* ke Pi.
 
 ## Node-RED dan dashboard (Modul 13)
 

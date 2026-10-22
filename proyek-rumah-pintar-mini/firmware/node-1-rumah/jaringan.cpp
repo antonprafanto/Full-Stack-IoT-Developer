@@ -22,13 +22,19 @@
 
 const unsigned long BATAS_TANPA_PERCOBAAN = 60000;  // penjaga: 60 detik tanpa percobaan menyambung = suruh mencoba lagi
 const unsigned long JEDA_COBA_MQTT = 5000;          // gagal menyambung ke broker? coba lagi 5 detik kemudian
+const unsigned long JEDA_COBA_DITOLAK = 60000;      // Modul 21: broker MENOLAK kunci? coba lagi 60 detik kemudian
 const unsigned long JEDA_SEGERA_MIN = 2000;         // kiriman segera paling sering setiap 2 detik
 const unsigned long TUNDA_LAPORAN = 10000;          // Modul 19: laporan mode offline dikirim 10 detik sesudah tersambung
 const char BROKER_WOKWI[] = "broker.emqx.io";      // Wokwi tidak bisa menjangkau laptopmu: pakai broker publik
+const char BROKER_WOKWI_BERKUNCI[] = "test.mosquitto.org";  // Modul 21: pintu 1884 hanya untuk yang punya akun
 
 static WiFiClient klienJaringan;          // sambungan TCP ke broker
 static PubSubClient mqtt(klienJaringan);  // MQTT berjalan di atas sambungan itu
 static char idPerangkat[13] = "";  // device_id: 12 digit heksadesimal + tanda akhir teks (Lampiran A)
+static const char* alamatBroker = ALAMAT_BROKER;  // Modul 21: dipilih sekali di siapkanJaringan()
+static uint16_t portBroker = PORT_BROKER;
+static const char* pengguna = idPerangkat;  // Modul 21: nama pengguna broker = device_id (kontrak data bagian 1)
+static bool ditolakBroker = false;          // Modul 21: percobaan terakhir dijawab broker dengan kode 4 atau 5
 static char topikTelemetry[40] = "";
 static char topikStatus[40] = "";
 static char topikVitals[40] = "";
@@ -109,8 +115,8 @@ static const char* namaKeadaanMqtt(int kode) {
     case -2: return "gagal tersambung ke broker";
     case -1: return "belum tersambung";
     case 0: return "tersambung";
-    case 4: return "nama pengguna atau kata sandi ditolak";
-    case 5: return "tidak diizinkan broker";
+    case 4: return "nama pengguna atau kunci ditolak";
+    case 5: return "tidak diizinkan broker: kunci salah, kosong, atau dicabut";  // Modul 21: Mosquitto selalu menjawab 5
     default: return "ditolak broker";
   }
 }
@@ -343,11 +349,14 @@ void siapkanJaringan() {
   logInfo("device_id %s", idPerangkat);
 
   klienJaringan.setConnectionTimeout(1000);  // menyambung TCP ke broker paling lama 1 detik (bawaan: 3 detik)
-  if (PAKAI_WOKWI) {
-    mqtt.setServer(BROKER_WOKWI, PORT_BROKER);
-  } else {
-    mqtt.setServer(ALAMAT_BROKER, PORT_BROKER);  // alamat IP, bukan nama: tidak perlu mencari nama (DNS)
+  if (PAKAI_WOKWI && WOKWI_BERKUNCI) {  // Modul 21: latihan "diterima lawan ditolak" di broker publik berkunci
+    alamatBroker = BROKER_WOKWI_BERKUNCI;
+    portBroker = 1884;  // pintu MQTT test.mosquitto.org yang meminta nama pengguna dan kunci
+    pengguna = "rw";    // akun publik test.mosquitto.org; kuncinya: readwrite
+  } else if (PAKAI_WOKWI) {
+    alamatBroker = BROKER_WOKWI;
   }
+  mqtt.setServer(alamatBroker, portBroker);  // di rumah: alamat IP, bukan nama, jadi tidak perlu mencari nama (DNS)
   mqtt.setSocketTimeout(1);  // menunggu jawaban broker paling lama 1 detik (bawaan: 15 detik)
   if (!mqtt.setBufferSize(512)) {  // ruang pesan 512 byte (bawaan: 256)
     logError("Memori tidak cukup untuk ruang pesan MQTT 512 byte.");
@@ -355,7 +364,7 @@ void siapkanJaringan() {
   mqtt.setCallback(saatPesanMqtt);
 
   if (PAKAI_WOKWI) {
-    logInfo("Mode Wokwi: menyambung ke Wokwi-GUEST tanpa portal, broker publik %s.", BROKER_WOKWI);
+    logInfo("Mode Wokwi: menyambung ke Wokwi-GUEST tanpa portal, broker publik %s:%u.", alamatBroker, portBroker);
     WiFi.begin("Wokwi-GUEST", "", 6);  // 6 = kanal Wokwi-GUEST supaya lebih cepat
     punyaWiFi = true;
   } else {
@@ -451,34 +460,44 @@ static void cobaSambungkanBroker() {
     ujiOffline = false;
     logInfo("Uji offline selesai: Node 1 menyambung ke broker lagi.");
   }
-  if (sudahCobaMqtt && millis() - waktuCobaMqttTerakhir < JEDA_COBA_MQTT) {
+  // Modul 21: sesudah broker menolak kunci, coba lagi jauh lebih jarang supaya log broker tidak banjir.
+  unsigned long jeda = ditolakBroker ? JEDA_COBA_DITOLAK : JEDA_COBA_MQTT;
+  if (sudahCobaMqtt && millis() - waktuCobaMqttTerakhir < jeda) {
     return;
   }
   sudahCobaMqtt = true;
   waktuCobaMqttTerakhir = millis();
   unsigned long mulai = millis();
-  // Surat wasiat: topik status, QoS 1, retained, isi "offline" (Modul 11, Konsep 7).
-  if (mqtt.connect(idPerangkat, topikStatus, 1, true, "offline")) {
+  const char* kunci = kunciBroker();  // Modul 21: dari NVS; "" = belum ada
+  // Nama klien = device_id; nama pengguna = device_id (Wokwi berkunci: rw); kunci dari NVS (nullptr = tanpa kunci);
+  // lalu surat wasiat: topik status, QoS 1, retained, isi "offline" (Modul 11, Konsep 7).
+  if (mqtt.connect(idPerangkat, pengguna, kunci[0] != '\0' ? kunci : nullptr, topikStatus, 1, true, "offline")) {
     mqttTersambung = true;
+    ditolakBroker = false;
     kodeGagalTerakhir = 0;
     if (PAKAI_WOKWI) {
       // Modul 19: mencari alamat broker.emqx.io (DNS) sesudah lama putus bisa lebih dari 5 detik di Wokwi, dan watchdog
       // pun me-restart Node 1. Simpan alamat IP-nya: sambung ulang berikutnya tidak perlu DNS lagi.
-      mqtt.setServer(klienJaringan.remoteIP(), PORT_BROKER);
+      mqtt.setServer(klienJaringan.remoteIP(), portBroker);
     }
     mqtt.publish(topikStatus, "online", true);  // retained: pelanggan yang datang belakangan tetap melihatnya
     mqtt.subscribe(topikCmd, 1);                // langganan diulang setiap kali tersambung (clean session)
-    logInfo("MQTT tersambung ke broker %s:%u dalam %lu ms, sebagai %s", PAKAI_WOKWI ? BROKER_WOKWI : ALAMAT_BROKER,
-            PORT_BROKER, millis() - mulai, idPerangkat);
+    logInfo("MQTT tersambung ke broker %s:%u dalam %lu ms, sebagai %s", alamatBroker, portBroker, millis() - mulai,
+            pengguna);
     sudahKirimVitals = false;  // vitals pertama segera dikirim
     return;
   }
   int kode = mqtt.state();
-  if (kode != kodeGagalTerakhir) {  // kegagalan yang sama tidak dicatat setiap 5 detik
-    kodeGagalTerakhir = kode;
+  ditolakBroker = (kode == 4 || kode == 5);  // Modul 21: jawaban broker sendiri, bukan masalah jaringan
+  if (ditolakBroker) {  // dicatat setiap percobaan (paling sering 1 kali per menit)
+    logError("MQTT DITOLAK broker (kode %d): kunci %s. Dicoba lagi %lu detik lagi.", kode,
+             kunci[0] != '\0' ? "salah, belum didaftarkan, atau sudah dicabut" : "belum diisi", JEDA_COBA_DITOLAK / 1000);
+    logInfo("Kunci baru? Ketik di Serial Monitor: kunci <isi>, lalu Enter.");
+  } else if (kode != kodeGagalTerakhir) {  // kegagalan yang sama tidak dicatat setiap 5 detik
     logError("MQTT gagal tersambung ke broker setelah %lu ms: %s (kode %d). Broker di gateway menyala?",
              millis() - mulai, namaKeadaanMqtt(kode), kode);
   }
+  kodeGagalTerakhir = kode;
 }
 
 static void jagaMqtt() {
@@ -531,8 +550,8 @@ static void jagaModeOffline() {
     offline = true;
     waktuMasukOffline = sekarang;
     kipasLokal = 0;
-    logError("MODE OFFLINE: broker tak terjangkau %lu detik. Pengaman lokal bekerja: kipas menyala di atas %.1f C.",
-             BATAS_MODE_OFFLINE / 1000, ambangSuhuKipas());
+    logError("MODE OFFLINE: broker %s %lu detik. Pengaman lokal bekerja: kipas menyala di atas %.1f C.",
+             ditolakBroker ? "menolak kunci selama" : "tak terjangkau", BATAS_MODE_OFFLINE / 1000, ambangSuhuKipas());
   }
 }
 
@@ -725,6 +744,9 @@ const char* teksJaringan() {
   if (mqtt.connected()) {
     return "ok, MQTT ok";
   }
+  if (ditolakBroker) {
+    return "ok, MQTT DITOLAK";  // Modul 21: di layar "WiFi ok, MQTT DITOLAK" = tepat 21 huruf
+  }
   return "ok, MQTT putus";
 }
 
@@ -742,13 +764,14 @@ void cetakInfoJaringan() {
   Serial.printf("wifi: device_id %s, nama %s, jam %s\n", idPerangkat, NAMA_PERANGKAT, ts);
   Serial.printf("wifi: channel radio %ld, channel router %u (0 = belum pernah tersambung)\n", (long)WiFi.channel(),
                 kanalRouter);  // Modul 14
-  const char* broker = PAKAI_WOKWI ? BROKER_WOKWI : ALAMAT_BROKER;
   if (mqtt.connected()) {
-    Serial.printf("mqtt: tersambung ke %s:%u sebagai %s\n", broker, PORT_BROKER, idPerangkat);
+    Serial.printf("mqtt: tersambung ke %s:%u sebagai %s\n", alamatBroker, portBroker, pengguna);
   } else {
-    Serial.printf("mqtt: PUTUS dari %s:%u, %s (kode %d)\n", broker, PORT_BROKER, namaKeadaanMqtt(mqtt.state()),
+    Serial.printf("mqtt: PUTUS dari %s:%u, %s (kode %d)\n", alamatBroker, portBroker, namaKeadaanMqtt(mqtt.state()),
                   mqtt.state());
   }
+  Serial.printf("mqtt: nama pengguna %s, kunci %s\n", pengguna,  // Modul 21
+                kunciBroker()[0] != '\0' ? "tersimpan (rinciannya: ketik kunci)" : "BELUM ADA");
   Serial.printf("mqtt: telemetry setiap %lu detik dan segera saat ada kejadian penting, vitals setiap %lu menit, "
                 "%lu kali terbit\n", JEDA_KIRIM / 1000, JEDA_VITALS / 60000, jumlahTerbit);
   unsigned long sekarang = millis();  // Modul 19: mode offline
@@ -758,8 +781,9 @@ void cetakInfoJaringan() {
   } else if (mqttSiap()) {
     Serial.println("mode offline: tidak (broker terjangkau)");
   } else {
-    Serial.printf("mode offline: belum; broker tak terjangkau sejak %lu detik lalu (mode offline setelah %lu detik)\n",
-                  (sekarang - waktuTerakhirSiap) / 1000, BATAS_MODE_OFFLINE / 1000);
+    Serial.printf("mode offline: belum; broker %s sejak %lu detik lalu (mode offline setelah %lu detik)\n",
+                  ditolakBroker ? "menolak kunci" : "tak terjangkau", (sekarang - waktuTerakhirSiap) / 1000,
+                  BATAS_MODE_OFFLINE / 1000);  // Modul 21: penolakan kunci juga dihitung
   }
   if (ujiOffline && sekarang - waktuUjiOffline < LAMA_UJI_OFFLINE) {
     Serial.printf("mode offline: uji offline berjalan, Node 1 menyambung lagi %lu detik lagi\n",
@@ -807,4 +831,23 @@ void mulaiUjiOffline() {
   klienJaringan.stop();
   Serial.printf("uji offline: sambungan broker diputus; mode offline mulai %lu menit lagi, "
                 "sambung lagi %lu menit lagi.\n", BATAS_MODE_OFFLINE / 60000, LAMA_UJI_OFFLINE / 60000);
+}
+
+// ---------- Modul 21: akun broker ----------
+const char* penggunaBroker() {
+  return pengguna;
+}
+
+bool mqttDitolak() {
+  return ditolakBroker;
+}
+
+// Kunci baru (atau dihapus): coba sekarang, tanpa menunggu jeda. Sambungan lama ditutup TANPA pamit seperti "uji offline",
+// jadi broker menerbitkan wasiat "offline" dulu; begitu kunci baru diterima, status kembali "online".
+void gantiKunciBroker() {
+  ditolakBroker = false;
+  sudahCobaMqtt = false;
+  if (mqtt.connected()) {
+    klienJaringan.stop();
+  }
 }

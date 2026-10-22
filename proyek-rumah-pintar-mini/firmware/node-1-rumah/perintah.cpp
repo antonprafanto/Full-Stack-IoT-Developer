@@ -13,9 +13,10 @@
 #include "rs485.h"
 #include "perintah.h"
 
-const int PANJANG_BARIS_MAKS = 40;
+const int PANJANG_BARIS_MAKS = 80;  // Modul 21: dari 40, supaya "kunci " + kunci 43 huruf muat
 static char baris[PANJANG_BARIS_MAKS + 1];  // +1 untuk tanda akhir teks
 static int panjangBaris = 0;
+static bool barisTerpotong = false;  // Modul 21: baris lebih panjang dari wadahnya: jangan dipakai (kunci terpotong!)
 
 // Mengumpulkan huruf dari Serial Monitor TANPA menunggu.
 // Menjawab true sekali, saat satu baris sudah lengkap (diakhiri Enter); isinya ada di "baris".
@@ -25,11 +26,18 @@ static bool adaBarisBaru() {
     if (huruf == '\n') {
       baris[panjangBaris] = '\0';  // tanda akhir teks
       panjangBaris = 0;            // siap mengumpulkan baris berikutnya
+      if (barisTerpotong) {
+        barisTerpotong = false;
+        Serial.printf("Baris lebih dari %d huruf: diabaikan.\n", PANJANG_BARIS_MAKS);
+        return false;
+      }
       return true;
     }
     if (huruf != '\r' && panjangBaris < PANJANG_BARIS_MAKS) {
       baris[panjangBaris] = huruf;
       panjangBaris++;
+    } else if (huruf != '\r') {
+      barisTerpotong = true;
     }
   }
   return false;
@@ -64,6 +72,23 @@ static void cetakAmbang() {
                 ambangSuhuKipas() - SELISIH_KIPAS);
 }
 
+// Modul 21: keadaan kunci broker TANPA membuka isinya: hanya panjang dan 4 huruf terakhir (kalau kuncinya panjang).
+static void cetakKunci() {
+  const char* kunci = kunciBroker();
+  size_t panjang = strlen(kunci);
+  if (panjang == 0) {
+    Serial.printf("kunci: BELUM ADA. Node 1 masuk sebagai %s tanpa kunci; broker yang sudah dikunci akan menolaknya.\n",
+                  penggunaBroker());
+    Serial.println("kunci: ketik kunci <isi> (salin dari pendaftaran perangkat), lalu Enter.");
+    return;
+  }
+  if (panjang >= 16) {
+    Serial.printf("kunci: tersimpan di NVS, %u huruf, berakhiran ...%s\n", (unsigned)panjang, kunci + panjang - 4);
+  } else {
+    Serial.printf("kunci: tersimpan di NVS, %u huruf\n", (unsigned)panjang);  // kunci pendek: ujungnya pun dirahasiakan
+  }
+}
+
 // Menjawab true kalau teks BUKAN angka: toInt() memberi 0, padahal teksnya bukan "0" (cara Praktik 5 Modul 5).
 static bool bukanAngka(String teks) {
   return teks.toInt() == 0 && teks != "0";
@@ -75,6 +100,7 @@ void periksaPerintahSerial() {
   }
   String perintah = baris;  // perintah datang sesekali saja, jadi String aman dipakai di sini
   perintah.trim();
+  String asli = perintah;   // Modul 21: huruf besar-kecil kunci broker harus tetap utuh
   perintah.toLowerCase();
   if (perintah.length() == 0) {
     return;
@@ -164,6 +190,33 @@ void periksaPerintahSerial() {
   } else if (perintah == "uji offline") {
     mulaiUjiOffline();  // Modul 19: latihan broker hilang selama 3 menit
     return;
+  } else if (perintah == "kunci") {
+    cetakKunci();  // Modul 21: keadaan kunci broker, tanpa membuka isinya
+    Serial.printf("kunci: nama pengguna broker %s, WiFi %s\n", penggunaBroker(), teksJaringan());
+    return;
+  } else if (perintah == "kunci hapus") {
+    if (kunciBroker()[0] != '\0') {
+      hapusKunciBroker();  // Modul 21: mulai sekarang Node 1 masuk tanpa kunci (broker berkunci menolaknya)
+      gantiKunciBroker();
+    }
+    cetakKunci();
+    return;
+  } else if (perintah.startsWith("kunci ")) {
+    String isi = asli.substring(6);  // dari baris ASLI: huruf besar-kecil kunci tetap
+    isi.trim();
+    if (isi == kunciBroker() && mqttSiap()) {
+      Serial.println("kunci: sama dengan yang tersimpan dan sudah tersambung, tidak diubah.");
+      return;
+    }
+    if (!simpanKunciBroker(isi.c_str())) {  // kunci yang sama tidak ditulis ulang ke NVS
+      Serial.println("kunci: tidak disimpan. Hanya boleh huruf A-Z, a-z, angka 0-9, tanda - dan _, tanpa spasi, "
+                     "paling panjang 64 huruf.");
+      return;
+    }
+    gantiKunciBroker();  // Modul 21: langsung dicoba, tanpa menunggu jeda
+    cetakKunci();
+    Serial.printf("kunci: Node 1 mencoba masuk ke broker sebagai %s dengan kunci ini sekarang.\n", penggunaBroker());
+    return;
   } else if (perintah == "restart") {
     Serial.println("Restart sekarang...");
     Serial.flush();  // tunggu sampai pesan di atas benar-benar terkirim
@@ -171,7 +224,7 @@ void periksaPerintahSerial() {
   } else if (perintah != "status") {
     Serial.println("Perintah tidak dikenal. Contoh: lampu on, kipas off, pompa 3, tirai 90, bunyi, status,");
     Serial.println("info, ambang, ambang 35, ambang bawaan, log debug, log info, log error, wifi, wifi lupa,");
-    Serial.println("kirim, node2, node2 nol, rs485, rs485 on, rs485 off, uji offline, restart");
+    Serial.println("kirim, node2, node2 nol, rs485, rs485 on, rs485 off, uji offline, kunci, kunci hapus, restart");
     return;
   }
   cetakStatus();

@@ -6,14 +6,18 @@
 // laporan mode offline (offline_s dan kipas_lokal, selalu bersama); isi config diperiksa; perintah set yang tertempel
 // (retained) di broker ditandai GAGAL; pesan kosong di cmd = pesan retained baru saja dihapus.
 // Butuh library mqtt:  npm install mqtt@5.16.1
-// Jalankan:  node pemeriksa-kontrak.js                               (broker di laptop ini)
-//            node pemeriksa-kontrak.js 192.168.1.10                  (broker di komputer lain)
-//            node pemeriksa-kontrak.js broker.emqx.io 240ac45e114b   (broker publik: satu device_id saja)
+// Versi 1.4 (Modul 21): broker berkunci butuh akun "hanya membaca" di alat/.env (PENGGUNA_PEMERIKSA, KUNCI_PEMERIKSA), jadi
+// jalankan dengan node --env-file=.env (broker publik tanpa kunci: cukup seperti biasa); alamat boleh membawa port.
+// Jalankan:  node --env-file=.env pemeriksa-kontrak.js                (broker di laptop ini)
+//            node --env-file=.env pemeriksa-kontrak.js 192.168.1.10   (broker di komputer lain)
+//            node --env-file=.env pemeriksa-kontrak.js 127.0.0.1:1884 (broker di port lain, misalnya broker latihan)
+//            node pemeriksa-kontrak.js broker.emqx.io 240ac45e114b    (broker publik: satu device_id saja)
 // Berhenti: Ctrl + C
 
 import mqtt from "mqtt";
 
 const alamat = process.argv[2] || "127.0.0.1";
+const broker = alamat.includes(":") ? alamat : `${alamat}:1883`; // Modul 21: port boleh ditulis, bawaannya 1883
 const perangkat = process.argv[3]; // boleh dikosongkan: hanya pesan dari device_id ini yang diperiksa
 if (perangkat !== undefined && !/^[0-9a-f]{12}$/.test(perangkat)) {
   console.log(`device_id harus 12 digit heksadesimal huruf kecil, misalnya 240ac45e114b. Isinya: ${perangkat}`);
@@ -282,31 +286,39 @@ function periksa(topik, isiTeks, retained) {
   }
 }
 
-const klien = mqtt.connect(`mqtt://${alamat}:1883`, {
+const klien = mqtt.connect(`mqtt://${broker}`, {
   clientId: "pemeriksa-" + Math.random().toString(16).slice(2, 8), // nama unik, tidak bertabrakan
+  username: process.env.PENGGUNA_PEMERIKSA, // Modul 21: akun "hanya membaca" dari alat/.env (kosong = tanpa akun)
+  password: process.env.KUNCI_PEMERIKSA,
   connectTimeout: 5000,
   reconnectPeriod: 0, // tidak mencoba lagi sendiri: jalankan ulang setelah broker menyala
 });
 let pernahTersambung = false; // galat sesudah tersambung berarti sambungan putus di tengah jalan
 klien.on("error", (galat) => {
   const sebab = galat.code || galat.message;
-  if (pernahTersambung) {
-    console.log(`\nSambungan ke broker ${alamat}:1883 putus (${sebab}). Jalankan lagi pemeriksanya setelah broker menyala.`);
+  if ([4, 5, 134, 135].includes(galat.code)) { // Modul 21: broker berkunci menolak akun pemeriksa
+    console.log(`Broker ${broker} menolak akun pemeriksa (kode ${galat.code}). Isi PENGGUNA_PEMERIKSA dan ` +
+      "KUNCI_PEMERIKSA di alat/.env, lalu jalankan dengan: node --env-file=.env pemeriksa-kontrak.js …");
+  } else if (pernahTersambung) {
+    console.log(`\nSambungan ke broker ${broker} putus (${sebab}). Jalankan lagi pemeriksanya setelah broker menyala.`);
     cetakRingkasan();
   } else {
-    console.log(`Tidak bisa tersambung ke broker ${alamat}:1883 (${sebab}). Broker sudah menyala?`);
+    console.log(`Tidak bisa tersambung ke broker ${broker} (${sebab}). Broker sudah menyala?`);
   }
   process.exit(1);
 });
 klien.on("connect", () => {
   pernahTersambung = true;
-  console.log(`Pemeriksa kontrak siap di broker ${alamat}:1883 (langganan ${langganan}) — tekan Ctrl + C untuk berhenti.`);
+  console.log(`Pemeriksa kontrak siap di broker ${broker} (langganan ${langganan}) — tekan Ctrl + C untuk berhenti.`);
   klien.subscribe(langganan);
 });
 klien.on("message", (topik, isi, paket) => periksa(topik, isi.toString(), paket.retain));
 // Tanpa pendengar ini, alat diam saja kalau broker dimatikan di tengah jalan (reconnectPeriod: 0).
+// Modul 21: broker berkunci memakai nama akun sebagai nama klien, jadi pemeriksa kedua dengan akun yang sama menendang yang
+// pertama (satu akun = satu sambungan).
 klien.on("close", () => {
-  console.log(`\nSambungan ke broker ${alamat}:1883 putus. Jalankan lagi pemeriksanya setelah broker menyala.`);
+  console.log(`\nSambungan ke broker ${broker} putus: broker dimatikan, atau akun pemeriksa yang sama dipakai program lain ` +
+    "(satu akun = satu sambungan). Jalankan lagi pemeriksanya.");
   cetakRingkasan();
   process.exit(1);
 });

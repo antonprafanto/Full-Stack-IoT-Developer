@@ -4,11 +4,14 @@
 // config disimpan ke data/arsip-simulator.json (pengganti NVS); suhu bisa diatur dari terminal; mode offline setelah
 // broker tak terjangkau 2 menit, dengan kipas pengaman berhisteresis; laporan mode offline di vitals pertama setelah
 // tersambung lagi (ditunda 10 detik).
+// Modul 21: setiap perangkat palsu masuk ke broker dengan akunnya SENDIRI: nama pengguna = device_id, kuncinya dari file
+// alat/.env (satu baris per perangkat, misalnya KUNCI_F00D00000001=...). Perangkat tanpa kunci tidak dijalankan. Kalau
+// broker menolak kuncinya, perangkat itu mencoba lagi setiap 60 detik, seperti Node 1 v1.6.0.
 //
 // Cara pakai (dari terminal, di folder alat):
-//   node simulator-perangkat.js mqtt://192.168.1.37:1883            -> 10 perangkat palsu
-//   node simulator-perangkat.js mqtt://192.168.1.37:1883 1          -> 1 perangkat palsu (paling mudah diamati)
-//   node simulator-perangkat.js mqtt://192.168.1.37:1883 bersihkan  -> hapus status dan config retained perangkat palsu
+//   node --env-file=.env simulator-perangkat.js mqtt://192.168.1.37:1883            -> 10 perangkat palsu
+//   node --env-file=.env simulator-perangkat.js mqtt://192.168.1.37:1883 1          -> 1 perangkat palsu (paling mudah diamati)
+//   node --env-file=.env simulator-perangkat.js mqtt://192.168.1.37:1883 bersihkan  -> hapus status retained perangkat palsu
 // Selagi berjalan, ketik di terminal yang sama lalu tekan Enter (Modul 19):
 //   suhu 33    -> semua perangkat palsu membaca 33.0 °C, seperti menggeser DHT22 di Wokwi (pakai titik: suhu 29.5)
 //   suhu acak  -> kembali ke suhu acak 25,0-33,0 °C
@@ -29,6 +32,12 @@ const BERKAS_ARSIP = "data/arsip-simulator.json"; // Modul 19: pengganti NVS; fo
 function buatDeviceId(nomor) {
   return "f00d" + String(nomor).padStart(8, "0");
 }
+
+// Modul 21: kunci broker satu perangkat palsu dari alat/.env, misalnya KUNCI_F00D00000001. undefined = belum diisi.
+function kunciPerangkat(deviceId) {
+  return process.env[`KUNCI_${deviceId.toUpperCase()}`] || undefined;
+}
+const KODE_DITOLAK = [4, 5, 134, 135]; // Modul 21: jawaban broker "kunci salah / tidak diizinkan" (MQTT 3.1.1 dan 5)
 
 // waktu UTC tanpa milidetik, seperti ts di kontrak data: 2026-10-19T04:14:28Z
 function waktuSekarang() {
@@ -88,10 +97,24 @@ function jalankanPerangkat(deviceId) {
 
   const klien = mqtt.connect(ALAMAT_BROKER, {
     clientId: deviceId,
+    username: deviceId, // Modul 21: nama pengguna broker = device_id
+    password: kunciPerangkat(deviceId), // Modul 21: dari alat/.env
     clean: true,
     keepalive: 15,
     reconnectPeriod: 5000, // menyambung ulang paling sering setiap 5 detik (kontrak bagian 3)
+    reconnectOnConnackError: true, // Modul 21: tanpa ini, library berhenti mencoba begitu broker menolak kuncinya
     will: { topic: topik("status"), payload: "offline", qos: 1, retain: true },
+  });
+
+  // Modul 21: broker menolak kunci? Tulis jelas, lalu coba lagi 60 detik kemudian saja (seperti Node 1 v1.6.0).
+  klien.on("error", (galat) => {
+    if (KODE_DITOLAK.includes(galat.code)) {
+      klien.options.reconnectPeriod = 60000;
+      console.log(`${deviceId}: DITOLAK broker (kode ${galat.code}): kunci salah, belum didaftarkan, atau sudah dicabut. ` +
+        "Dicoba lagi 60 detik lagi.");
+    } else {
+      console.log(`${deviceId}: galat MQTT: ${galat.message}`);
+    }
   });
 
   // vitals: sekali setelah tersambung, lalu setiap 5 menit (kontrak bagian 2)
@@ -135,6 +158,7 @@ function jalankanPerangkat(deviceId) {
   }
 
   klien.on("connect", () => {
+    klien.options.reconnectPeriod = 5000; // Modul 21: kunci diterima lagi: kembali ke jeda biasa
     if (offline) { // Modul 19: tersambung lagi setelah mode offline
       offline = false;
       laporan = { offline_s: Math.round((Date.now() - mulaiOffline) / 1000), kipas_lokal: kipasLokal };
@@ -150,7 +174,9 @@ function jalankanPerangkat(deviceId) {
     else kirimVitals();
     console.log(`${deviceId}: online`);
   });
-  klien.on("offline", () => console.log(`${deviceId}: broker tak terjangkau, mencoba lagi setiap 5 detik`)); // Modul 19
+  klien.on("offline", () => { // Modul 19; Modul 21: tidak ditulis kalau penyebabnya kunci ditolak (pesannya sudah ada)
+    if (klien.options.reconnectPeriod === 5000) console.log(`${deviceId}: broker tak terjangkau, mencoba lagi setiap 5 detik`);
+  });
   setInterval(() => {
     if (klien.connected) kirimVitals();
   }, 5 * 60 * 1000);
@@ -238,28 +264,47 @@ function jalankanPerangkat(deviceId) {
   jadwalkan(Math.random() * 10000); // kiriman pertama pada detik acak supaya perangkat palsu tidak serentak
 }
 
-// bersihkan: terbitkan pesan kosong ber-retain ke topik status dan cmd setiap perangkat palsu, supaya broker melupakan
-// status "offline" dan config mereka (cara menghapus pesan retained, Modul 11), lalu selesai.
+// bersihkan: terbitkan pesan kosong ber-retain ke topik status setiap perangkat palsu, supaya broker melupakan status
+// "offline" mereka (cara menghapus pesan retained, Modul 11), lalu selesai. Modul 21: setiap perangkat masuk dengan akunnya
+// sendiri, dan daftar izin broker hanya membolehkan perangkat MENULIS topiknya sendiri (status, telemetry, vitals, ack),
+// bukan cmd-nya. config retained di cmd tidak lagi dihapus di sini: hanya akun backend dan nodered yang boleh menulis cmd,
+// dan config itu tidak berbahaya (hanya perangkat itu sendiri yang boleh membacanya).
 // Dulu menjalankan lebih dari 10 perangkat? Tambahkan jumlahnya: ... bersihkan 20
 async function bersihkan(jumlah) {
-  try {
-    const klien = await mqtt.connectAsync(ALAMAT_BROKER);
-    for (let i = 1; i <= jumlah; i++) {
-      await klien.publishAsync(`rpm/${buatDeviceId(i)}/status`, "", { qos: 1, retain: true });
-      await klien.publishAsync(`rpm/${buatDeviceId(i)}/cmd`, "", { qos: 1, retain: true }); // Modul 19: config
+  let adaKunci = 0;
+  for (let i = 1; i <= jumlah; i++) {
+    const deviceId = buatDeviceId(i);
+    if (!kunciPerangkat(deviceId)) continue; // tanpa kunci: tidak bisa masuk, lewati
+    adaKunci++;
+    try {
+      const klien = await mqtt.connectAsync(ALAMAT_BROKER, { clientId: deviceId, username: deviceId,
+        password: kunciPerangkat(deviceId), reconnectPeriod: 0 });
+      await klien.publishAsync(`rpm/${deviceId}/status`, "", { qos: 1, retain: true });
+      await klien.endAsync();
+      console.log(`${deviceId}: status retained dihapus dari broker.`);
+    } catch (galat) {
+      console.log(`${deviceId}: gagal menyambung ke ${ALAMAT_BROKER}: ${galat.message}`);
     }
-    await klien.endAsync();
-    console.log(`Status dan config ${jumlah} perangkat palsu sudah dihapus dari broker.`);
-  } catch (galat) {
-    console.log(`Gagal menyambung ke ${ALAMAT_BROKER}: ${galat.message}`);
   }
+  if (adaKunci === 0) console.log("Tidak ada perangkat palsu yang punya kunci di alat/.env: tidak ada yang dibersihkan.");
 }
 
 if (process.argv[3] === "bersihkan") {
   await bersihkan(Number(process.argv[4]) || 10);
 } else {
+  let adaKunci = 0; // Modul 21
   for (let i = 1; i <= JUMLAH; i++) {
-    jalankanPerangkat(buatDeviceId(i));
+    const deviceId = buatDeviceId(i);
+    if (!kunciPerangkat(deviceId)) {
+      console.log(`${deviceId}: kunci belum ada di alat/.env (KUNCI_${deviceId.toUpperCase()}=...), tidak dijalankan.`);
+      continue;
+    }
+    adaKunci++;
+    jalankanPerangkat(deviceId);
+  }
+  if (adaKunci === 0) {
+    console.log("Tidak ada perangkat palsu yang punya kunci. Isi alat/.env, lalu jalankan dengan: node --env-file=.env …");
+    process.exit(1);
   }
   // Modul 19: "suhu 33" / "suhu acak" diketik di terminal ini. Hanya di mode ini: di mode bersihkan, pendengar terminal
   // akan membuat program tidak selesai sendiri.
@@ -276,5 +321,5 @@ if (process.argv[3] === "bersihkan") {
     }
     console.log(suhuDiketik === null ? "Suhu: acak 25,0-33,0 °C" : `Suhu: ${suhuDiketik.toFixed(1)} °C`);
   });
-  console.log(`${JUMLAH} perangkat palsu menuju ${ALAMAT_BROKER}. Ketik "suhu 33" atau "suhu acak". Hentikan dengan Ctrl+C.`);
+  console.log(`${adaKunci} perangkat palsu menuju ${ALAMAT_BROKER}. Ketik "suhu 33" atau "suhu acak". Hentikan dengan Ctrl+C.`);
 }

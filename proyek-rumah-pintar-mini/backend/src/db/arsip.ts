@@ -6,16 +6,16 @@ import { pool } from "./pool.ts";
 import type { Ack, PerintahSet, Status, TelemetryNode1, TelemetryNode2, Vitals } from "../schemas/kontrak.ts";
 import type { Aturan } from "../schemas/aturan.ts";
 
-// Pastikan perangkat punya baris di tabel devices (dibuat kalau belum ada), lalu perbarui waktu terakhir terdengar.
-// Kolom yang tidak diberikan (null) tidak menimpa isi lama, berkat coalesce.
+// Perbarui jenis, status, dan waktu terakhir terdengar perangkat. Modul 21: baris devices TIDAK lagi dibuat otomatis; hanya
+// perangkat terdaftar (POST /devices) yang pesannya sampai ke sini (lapis kedua di mqtt.ts). Kolom yang tidak diberikan
+// (null) tidak menimpa isi lama, berkat coalesce.
 async function catatPerangkat(deviceId: string, jenis: "node1" | "node2" | null, status: Status | null): Promise<void> {
   await pool.query(
-    `INSERT INTO devices (device_id, jenis, status, terakhir_dilihat)
-     VALUES ($1, coalesce($2, 'belum-diketahui'), coalesce($3, 'belum-diketahui'), now())
-     ON CONFLICT (device_id) DO UPDATE SET
-       jenis = coalesce($2, devices.jenis),
-       status = coalesce($3, devices.status),
-       terakhir_dilihat = now()`,
+    `UPDATE devices SET
+       jenis = coalesce($2, jenis),
+       status = coalesce($3, status),
+       terakhir_dilihat = now()
+     WHERE device_id = $1`,
     [deviceId, jenis, status],
   );
 }

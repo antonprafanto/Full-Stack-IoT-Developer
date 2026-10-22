@@ -1,9 +1,14 @@
 // perangkat.ts - rute /devices: daftar perangkat, bacaan terbaru, riwayat dari database (mentah atau ringkasan),
-// perintah, dan keadaan aktuator (desired/reported, Modul 19).
+// perintah, dan keadaan aktuator (desired/reported, Modul 19). Modul 21: daftar resmi perangkat (registrasi, ganti kunci,
+// cabut kunci); GET /devices kini dibaca dari database.
 import { z } from "zod";
 import type { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
 import { Ack, DeviceId, Keadaan, PerintahSet, Status, TelemetryNode1, TelemetryNode2, Vitals } from "../schemas/kontrak.ts";
-import { cariPerangkat, semuaPerangkat } from "../services/gudang.ts";
+import { cariPerangkat } from "../services/gudang.ts";
+import { cabutPerangkat, daftarkanPerangkat, gantiKunciPerangkat, semuaPerangkatDb } from "../db/perangkat.ts";
+import type { BarisPerangkat } from "../db/perangkat.ts";
+import { buatKunci, hashKunci } from "../auth/kunci.ts";
+import { catatDicabut, catatTerdaftar, izinPerangkat } from "../services/daftar.ts";
 import { keadaanPerangkat, perintahkan } from "../services/perintah.ts";
 import { ambilRingkasan, ambilRiwayat, waktuKontrak } from "../db/arsip.ts";
 
@@ -64,27 +69,173 @@ const TitikRingkasan = z.object({
   cahaya_rata: angka, jumlah_bacaan: z.number(),
 });
 
+// Modul 21: satu baris daftar perangkat. kunci = keadaan kuncinya, bukan kuncinya (database tidak menyimpan kunci).
+const Perangkat = z.object({
+  device_id: z.string(),
+  nama: z.string().nullable(),
+  lokasi: z.string().nullable(),
+  jenis: Jenis,
+  status: z.string().describe("online, offline, offline-mode, atau belum-diketahui (status MQTT terakhir)"),
+  terakhir_dilihat: z.string().nullable().describe("waktu server saat pesan terakhir perangkat ini tiba"),
+  kunci: z.enum(["aktif", "dicabut", "tanpa-kunci", "belum-terdaftar"])
+    .describe("aktif = boleh mengirim data; tanpa-kunci = perangkat ESP-NOW lewat penghubung; belum-terdaftar = baris lama"),
+  terdaftar: z.string().nullable().describe("kapan didaftarkan admin"),
+  kunci_dibuat: z.string().nullable().describe("kapan kunci yang berlaku sekarang dibuat"),
+  dicabut: z.string().nullable().describe("kapan kuncinya dicabut"),
+  penghubung: z.string().nullable().describe("perangkat ESP-NOW: device_id yang menerbitkan datanya"),
+});
+const Registrasi = z.strictObject({
+  device_id: DeviceId.describe("device_id perangkat (12 digit heksadesimal huruf kecil dari alamat MAC), misalnya a4cf12e5b7c0"),
+  nama: z.string().min(1).max(60).optional().describe("nama yang mudah diingat, misalnya Node 1 ruang tamu"),
+  lokasi: z.string().min(1).max(60).optional().describe("misalnya ruang tamu"),
+  penghubung: DeviceId.optional()
+    .describe("hanya untuk perangkat ESP-NOW (Node 2): device_id Node 1 yang menerbitkan datanya; perangkat ini tidak diberi kunci"),
+});
+const KunciBaru = z.object({
+  device_id: z.string(),
+  kunci: z.string().nullable().describe("43 huruf; HANYA ditampilkan sekali ini. null untuk perangkat ESP-NOW"),
+  langkah: z.array(z.string()).describe("yang harus dilakukan berikutnya"),
+});
+const SALAH_DATABASE = "database sedang tidak bisa dihubungi, coba lagi sebentar lagi";
+
+const iso = (waktu: Date | null) => (waktu === null ? null : waktuKontrak(waktu));
+
+function tampilkan(b: BarisPerangkat) {
+  const kunci = b.terdaftar === null ? "belum-terdaftar" as const
+    : b.dicabut !== null ? "dicabut" as const
+      : b.penghubung !== null ? "tanpa-kunci" as const : "aktif" as const;
+  return {
+    device_id: b.device_id, nama: b.nama, lokasi: b.lokasi, jenis: b.jenis, status: b.status,
+    terakhir_dilihat: iso(b.terakhir_dilihat), kunci, terdaftar: iso(b.terdaftar), kunci_dibuat: iso(b.kunci_dibuat),
+    dicabut: iso(b.dicabut), penghubung: b.penghubung,
+  };
+}
+
+// petunjuk langkah berikutnya, supaya kunci langsung dipasang di perangkat dan di broker
+function langkahKunci(id: string): string[] {
+  return ["Simpan kunci ini sekarang: kunci hanya tampil sekali ini (database hanya menyimpan sidik jarinya).",
+    `Perangkat: ketik  kunci <kunci>  di Serial Monitor (simulator: KUNCI_${id.toUpperCase()}=<kunci> di alat/.env)`,
+    `Broker: mosquitto_passwd <berkas sandi broker> ${id} di mesin broker, tempel kunci dua kali, lalu muat ulang broker`];
+}
+
+function langkahTanpaKunci(id: string, penghubung: string): string[] {
+  return ["Perangkat ESP-NOW tanpa kunci. Pastikan tiga baris ini ada di berkas ACL broker, lalu restart broker:",
+    `user ${penghubung}`, `topic write rpm/${id}/telemetry`, `topic write rpm/${id}/status`];
+}
+
 export const rutePerangkat: FastifyPluginAsyncZod = async (app) => {
   app.get("/devices", {
     schema: {
       tags: ["perangkat"],
-      summary: "Daftar semua perangkat yang pernah terdengar",
+      summary: "Daftar perangkat di database: yang terdaftar, yang dicabut, dan baris lama yang belum terdaftar",
       response: {
-        200: z.array(z.object({
-          device_id: z.string(),
-          jenis: Jenis,
-          status: z.union([Status, z.literal("belum-diketahui")]),
-          terakhir_dilihat: z.string(),
-        })).describe("semua perangkat yang tercatat di memori"),
+        200: z.array(Perangkat).describe("urut device_id; kunci dan sidik jarinya tidak pernah ikut"),
+        503: Galat.describe("database sedang tidak bisa dihubungi"),
       },
     },
-  }, async () => {
-    return semuaPerangkat().map((p) => ({
-      device_id: p.device_id,
-      jenis: p.jenis,
-      status: p.status,
-      terakhir_dilihat: p.terakhir_dilihat,
-    }));
+  }, async (req, reply) => {
+    try {
+      return (await semuaPerangkatDb()).map(tampilkan);
+    } catch (galat) {
+      req.log.error(`daftar perangkat gagal dibaca: ${(galat as Error).message}`);
+      return reply.code(503).send({ pesan: SALAH_DATABASE });
+    }
+  });
+
+  // ---- Modul 21: registrasi perangkat, ganti kunci, cabut kunci (hanya admin: satpam menolak viewer untuk POST) ----
+
+  app.post("/devices", {
+    schema: {
+      tags: ["perangkat"],
+      summary: "Daftarkan perangkat; kuncinya hanya ditampilkan SEKALI di jawaban ini",
+      body: Registrasi,
+      response: {
+        201: KunciBaru.describe("perangkat terdaftar; simpan kuncinya sekarang"),
+        409: Galat.describe("sudah terdaftar (pakai ganti kunci), atau penghubung tidak sah"),
+        503: Galat.describe("database sedang tidak bisa dihubungi"),
+      },
+    },
+  }, async (req, reply) => {
+    const { device_id: id, nama, lokasi, penghubung } = req.body;
+    if (penghubung !== undefined) { // perangkat ESP-NOW: tanpa kunci, datanya diterbitkan penghubungnya
+      if (penghubung === id) return reply.code(409).send({ pesan: "penghubung tidak boleh perangkat itu sendiri" });
+      if (izinPerangkat(penghubung) !== "terdaftar") {
+        return reply.code(409).send({ pesan: `penghubung ${penghubung} belum terdaftar atau sudah dicabut; daftarkan Node 1 dulu` });
+      }
+    }
+    const kunci = penghubung === undefined ? buatKunci() : null;
+    try {
+      const baris = await daftarkanPerangkat(id, nama ?? null, lokasi ?? null, penghubung ?? null,
+        kunci === null ? null : hashKunci(kunci)); // database hanya menerima sidik jarinya
+      if (baris === undefined) {
+        return reply.code(409).send({ pesan: `${id} sudah terdaftar; untuk kunci baru pakai POST /devices/${id}/kunci` });
+      }
+      catatTerdaftar(id);
+      req.log.info(`perangkat ${id} didaftarkan oleh akun ${req.user.sub}${penghubung === undefined ? "" : ` (lewat ${penghubung})`}`);
+      const langkah = penghubung === undefined ? langkahKunci(id) : langkahTanpaKunci(id, penghubung);
+      return reply.code(201).send({ device_id: id, kunci, langkah });
+    } catch (galat) {
+      req.log.error(`registrasi ${id} gagal: ${(galat as Error).message}`);
+      return reply.code(503).send({ pesan: SALAH_DATABASE });
+    }
+  });
+
+  app.post("/devices/:id/kunci", {
+    schema: {
+      tags: ["perangkat"],
+      summary: "Buat kunci baru (kunci lama langsung tidak berlaku); juga menghidupkan lagi perangkat yang dicabut",
+      params: ParamId,
+      response: {
+        200: KunciBaru.describe("kunci baru; simpan sekarang"),
+        404: Galat.describe("perangkat belum terdaftar, atau perangkat ESP-NOW (tidak punya kunci)"),
+        503: Galat.describe("database sedang tidak bisa dihubungi"),
+      },
+    },
+  }, async (req, reply) => {
+    const id = req.params.id;
+    const kunci = buatKunci();
+    try {
+      const baris = await gantiKunciPerangkat(id, hashKunci(kunci));
+      if (baris === undefined) return reply.code(404).send({ pesan: `${id} belum terdaftar, atau perangkat tanpa kunci (ESP-NOW)` });
+      catatTerdaftar(id);
+      req.log.info(`kunci baru untuk ${id} dibuat oleh akun ${req.user.sub}`);
+      return { device_id: id, kunci, langkah: langkahKunci(id) };
+    } catch (galat) {
+      req.log.error(`ganti kunci ${id} gagal: ${(galat as Error).message}`);
+      return reply.code(503).send({ pesan: SALAH_DATABASE });
+    }
+  });
+
+  app.post("/devices/:id/cabut", {
+    schema: {
+      tags: ["perangkat"],
+      summary: "Cabut kunci perangkat (hilang atau dicuri): backend tidak melayaninya lagi",
+      params: ParamId,
+      response: {
+        200: z.object({ device_id: z.string(), dicabut: z.string(), langkah: z.array(z.string()) })
+          .describe("dicabut; hapus juga akunnya dari broker"),
+        404: Galat.describe("perangkat belum terdaftar atau sudah dicabut"),
+        503: Galat.describe("database sedang tidak bisa dihubungi"),
+      },
+    },
+  }, async (req, reply) => {
+    const id = req.params.id;
+    try {
+      const baris = await cabutPerangkat(id);
+      if (baris === undefined) return reply.code(404).send({ pesan: `${id} belum terdaftar atau sudah dicabut` });
+      catatDicabut(id);
+      req.log.warn(`kunci ${id} DICABUT oleh akun ${req.user.sub}`);
+      return {
+        device_id: id, dicabut: waktuKontrak(baris.dicabut ?? new Date()),
+        langkah: baris.penghubung === null
+          ? [`Hapus akunnya dari broker: mosquitto_passwd -D <berkas sandi broker> ${id}`,
+            "Muat ulang broker (Pi: sudo systemctl reload mosquitto; laptop: Ctrl + C lalu jalankan lagi)"]
+          : [`Hapus dua baris rpm/${id}/... dari blok user ${baris.penghubung} di berkas ACL broker, lalu restart broker`],
+      };
+    } catch (galat) {
+      req.log.error(`cabut ${id} gagal: ${(galat as Error).message}`);
+      return reply.code(503).send({ pesan: SALAH_DATABASE });
+    }
   });
 
   app.get("/devices/:id/latest", {
@@ -179,9 +330,9 @@ export const rutePerangkat: FastifyPluginAsyncZod = async (app) => {
       body: PerintahSet,
       response: {
         200: z.object({ id: z.string(), lama_ms: z.number(), ack: Ack }).describe("perangkat menjawab dengan ack"),
-        404: Galat.describe("perangkat belum pernah terdengar"),
-        409: Galat.describe("perangkat offline, Node 2, jenisnya belum diketahui, atau perintah sebelumnya untuk "
-          + "aktuator yang sama masih menunggu ack"),
+        404: Galat.describe("perangkat belum terdaftar (Modul 21) atau belum pernah terdengar"),
+        409: Galat.describe("kunci perangkat sudah dicabut (Modul 21), perangkat offline, Node 2, jenisnya belum diketahui, "
+          + "atau perintah sebelumnya untuk aktuator yang sama masih menunggu ack"),
         503: Galat.describe("backend tidak tersambung ke broker"),
         504: Galat.describe("tidak ada ack dalam 5 detik"),
       },

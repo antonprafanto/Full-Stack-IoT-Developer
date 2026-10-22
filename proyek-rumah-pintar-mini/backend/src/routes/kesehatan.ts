@@ -12,11 +12,13 @@ export const ruteKesehatan: FastifyPluginAsyncZod = async (app) => {
       security: [], // Modul 20: tetap terbuka tanpa login (pemantau dan Docker healthcheck tidak bisa login)
       summary: "Keadaan server: hidup, tersambung ke broker dan database, serta jumlah pesan",
       response: {
-        200: z.object({ ok: z.boolean(), broker: z.boolean(), database: z.boolean(), diterima: z.number(), ditolak: z.number() })
+        200: z.object({ ok: z.boolean(), broker: z.boolean(), database: z.boolean(), diterima: z.number(), ditolak: z.number(),
+          diabaikan: z.number().describe("Modul 21: pesan dari perangkat yang belum terdaftar atau sudah dicabut") })
           .describe("server hidup; broker dan database = bisa dihubungi atau tidak"),
       },
     },
   }, async () => {
-    return { ok: true, broker: brokerTersambung(), database: await databaseHidup(), diterima: hitungan.diterima, ditolak: hitungan.ditolak };
+    return { ok: true, broker: brokerTersambung(), database: await databaseHidup(), diterima: hitungan.diterima, ditolak: hitungan.ditolak,
+      diabaikan: hitungan.diabaikan };
   });
 };

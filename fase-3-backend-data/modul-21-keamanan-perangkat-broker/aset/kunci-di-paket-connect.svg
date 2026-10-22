@@ -1,0 +1,207 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1042" viewBox="0 0 1200 1042" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="1042" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" xml:space="preserve">Kunci perangkat di dalam paket CONNECT: terbaca polos</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" xml:space="preserve">Konsep 10 · MQTT di pintu 1883 belum dienkripsi · paket pertama Node 1 membawa nama pengguna dan kuncinya apa adanya</text>
+<rect x="30.0" y="104.0" width="290.0" height="104.0" rx="12" fill="#ffffff" stroke="#1e2a4a" stroke-width="1.6" />
+<rect x="51.0" y="136.0" width="30.0" height="40.0" rx="3" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<rect x="57.0" y="142.0" width="18.0" height="14.0" rx="2" fill="none" stroke="#1e2a4a" stroke-width="1.6" />
+<line x1="51.0" y1="146.0" x2="46.0" y2="146.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="81.0" y1="146.0" x2="86.0" y2="146.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="51.0" y1="154.0" x2="46.0" y2="154.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="81.0" y1="154.0" x2="86.0" y2="154.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="51.0" y1="162.0" x2="46.0" y2="162.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="81.0" y1="162.0" x2="86.0" y2="162.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="51.0" y1="170.0" x2="46.0" y2="170.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="81.0" y1="170.0" x2="86.0" y2="170.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<text x="98.0" y="144.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >Node 1</text>
+<text x="98.0" y="164.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">a4cf12e5b7c0</text>
+<text x="98.0" y="184.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >menyambung dengan kuncinya</text>
+<rect x="440.0" y="104.0" width="330.0" height="104.0" rx="12" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.6" />
+<rect x="457.0" y="142.0" width="38.0" height="28.0" rx="4" fill="none" stroke="#4a5568" stroke-width="2" />
+<path d="M464 150 L470 156 L464 162" fill="none" stroke="#4a5568" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="473.0" y1="162.0" x2="485.0" y2="162.0" stroke="#4a5568" stroke-width="1.8" stroke-linecap="round" />
+<text x="508.0" y="134.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >penyadap</text>
+<text x="508.0" y="154.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" >siapa pun di jalur yang sama</text>
+<text x="508.0" y="174.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">Praktik 8: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="700">alat/penyadap.js</tspan> di</text>
+<text x="508.0" y="192.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="700">127.0.0.1:1884</tspan> mencetak isi CONNECT</text>
+<rect x="890.0" y="104.0" width="280.0" height="104.0" rx="12" fill="#ffffff" stroke="#0f8b8d" stroke-width="1.6" />
+<path d="M902 154 L926 136 L950 154" fill="none" stroke="#0f8b8d" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="907.0" y="154.0" width="38.0" height="28.0" rx="2" fill="none" stroke="#0f8b8d" stroke-width="2.2" />
+<rect x="917.0" y="162.0" width="18.0" height="5.0" rx="1" fill="#0f8b8d" />
+<text x="960.0" y="144.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >Broker</text>
+<text x="960.0" y="164.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >Mosquitto, pintu 1883</text>
+<text x="960.0" y="184.0" font-size="12" font-weight="700" fill="#b45f17" text-anchor="start" >tanpa enkripsi</text>
+<line x1="324.0" y1="156.0" x2="434.0" y2="156.0" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" />
+<path d="M426.9 159.8 L434.0 156.0 L426.9 152.2" fill="none" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="380.0" y="148.0" font-size="11.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" >CONNECT</text>
+<text x="380.0" y="174.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="middle" xml:space="preserve"><tspan font-style="italic">byte</tspan> polos</text>
+<line x1="774.0" y1="156.0" x2="884.0" y2="156.0" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" />
+<path d="M876.9 159.8 L884.0 156.0 L876.9 152.2" fill="none" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="830.0" y="148.0" font-size="11.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" >CONNECT</text>
+<text x="830.0" y="174.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="middle" xml:space="preserve"><tspan font-style="italic">byte</tspan> polos</text>
+<rect x="30.0" y="228.0" width="1140.0" height="526.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="50.0" y="258.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Paket CONNECT Node 1 (MQTT 3.1.1), <tspan font-style="italic">byte</tspan> demi <tspan font-style="italic">byte</tspan></text>
+<text x="1150.0" y="258.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="end" xml:space="preserve">119 <tspan font-style="italic">byte</tspan> seluruhnya</text>
+<text x="50.0" y="286.0" font-size="11.5" font-weight="800" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-style="italic">byte</tspan> (heksadesimal)</text>
+<text x="440.0" y="286.0" font-size="11.5" font-weight="800" fill="#4a5568" text-anchor="start" >artinya</text>
+<rect x="50.0" y="298.0" width="28.0" height="26.0" rx="4" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.2" />
+<text x="64.0" y="315.5" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">10</text>
+<rect x="81.0" y="298.0" width="28.0" height="26.0" rx="4" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.2" />
+<text x="95.0" y="315.5" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">75</text>
+<text x="440.0" y="316.0" font-size="13" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">jenis paket CONNECT, lalu 117 <tspan font-style="italic">byte</tspan> lagi</text>
+<line x1="50.0" y1="328.5" x2="1150.0" y2="328.5" stroke="#e0dcd2" stroke-width="1" stroke-linecap="round" />
+<rect x="50.0" y="333.0" width="28.0" height="26.0" rx="4" fill="#eef1f5" />
+<text x="64.0" y="350.5" font-size="12" font-weight="800" fill="#4a5568" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">00</text>
+<rect x="81.0" y="333.0" width="28.0" height="26.0" rx="4" fill="#eef1f5" />
+<text x="95.0" y="350.5" font-size="12" font-weight="800" fill="#4a5568" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">04</text>
+<rect x="118.0" y="333.0" width="28.0" height="26.0" rx="4" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.2" />
+<text x="132.0" y="350.5" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">4d</text>
+<rect x="149.0" y="333.0" width="28.0" height="26.0" rx="4" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.2" />
+<text x="163.0" y="350.5" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">51</text>
+<rect x="180.0" y="333.0" width="28.0" height="26.0" rx="4" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.2" />
+<text x="194.0" y="350.5" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">54</text>
+<rect x="211.0" y="333.0" width="28.0" height="26.0" rx="4" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.2" />
+<text x="225.0" y="350.5" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">54</text>
+<text x="440.0" y="351.0" font-size="13" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">nama protokol: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12.5" fill="#1e2a4a" font-weight="800">MQTT</tspan></text>
+<line x1="50.0" y1="363.5" x2="1150.0" y2="363.5" stroke="#e0dcd2" stroke-width="1" stroke-linecap="round" />
+<rect x="50.0" y="368.0" width="28.0" height="26.0" rx="4" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.2" />
+<text x="64.0" y="385.5" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">04</text>
+<text x="440.0" y="386.0" font-size="13" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">versi protokol 4 = MQTT 3.1.1</text>
+<line x1="50.0" y1="398.5" x2="1150.0" y2="398.5" stroke="#e0dcd2" stroke-width="1" stroke-linecap="round" />
+<rect x="50.0" y="403.0" width="28.0" height="26.0" rx="4" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.2" />
+<text x="64.0" y="420.5" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">ee</text>
+<text x="440.0" y="421.0" font-size="13" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">bendera: ada nama pengguna, sandi, dan wasiat</text>
+<line x1="50.0" y1="433.5" x2="1150.0" y2="433.5" stroke="#e0dcd2" stroke-width="1" stroke-linecap="round" />
+<rect x="50.0" y="438.0" width="28.0" height="26.0" rx="4" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.2" />
+<text x="64.0" y="455.5" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">00</text>
+<rect x="81.0" y="438.0" width="28.0" height="26.0" rx="4" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.2" />
+<text x="95.0" y="455.5" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">0f</text>
+<text x="440.0" y="456.0" font-size="13" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-style="italic">keep-alive</tspan>: 15 detik</text>
+<line x1="50.0" y1="468.5" x2="1150.0" y2="468.5" stroke="#e0dcd2" stroke-width="1" stroke-linecap="round" />
+<rect x="50.0" y="473.0" width="28.0" height="26.0" rx="4" fill="#eef1f5" />
+<text x="64.0" y="490.5" font-size="12" font-weight="800" fill="#4a5568" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">00</text>
+<rect x="81.0" y="473.0" width="28.0" height="26.0" rx="4" fill="#eef1f5" />
+<text x="95.0" y="490.5" font-size="12" font-weight="800" fill="#4a5568" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">0c</text>
+<rect x="118.0" y="473.0" width="28.0" height="26.0" rx="4" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.2" />
+<text x="132.0" y="490.5" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">61</text>
+<rect x="149.0" y="473.0" width="28.0" height="26.0" rx="4" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.2" />
+<text x="163.0" y="490.5" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">34</text>
+<rect x="180.0" y="473.0" width="28.0" height="26.0" rx="4" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.2" />
+<text x="194.0" y="490.5" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">63</text>
+<rect x="211.0" y="473.0" width="28.0" height="26.0" rx="4" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.2" />
+<text x="225.0" y="490.5" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">66</text>
+<rect x="242.0" y="473.0" width="28.0" height="26.0" rx="4" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.2" />
+<text x="256.0" y="490.5" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">31</text>
+<rect x="273.0" y="473.0" width="28.0" height="26.0" rx="4" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.2" />
+<text x="287.0" y="490.5" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">32</text>
+<text x="310.0" y="491.0" font-size="14" font-weight="800" fill="#4a5568" text-anchor="start" >…</text>
+<text x="440.0" y="491.0" font-size="13" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">nama klien: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12.5" fill="#1e2a4a" font-weight="800">a4cf12e5b7c0</tspan></text>
+<line x1="50.0" y1="503.5" x2="1150.0" y2="503.5" stroke="#e0dcd2" stroke-width="1" stroke-linecap="round" />
+<rect x="50.0" y="508.0" width="28.0" height="26.0" rx="4" fill="#eef1f5" />
+<text x="64.0" y="525.5" font-size="12" font-weight="800" fill="#4a5568" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">00</text>
+<rect x="81.0" y="508.0" width="28.0" height="26.0" rx="4" fill="#eef1f5" />
+<text x="95.0" y="525.5" font-size="12" font-weight="800" fill="#4a5568" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">17</text>
+<rect x="118.0" y="508.0" width="28.0" height="26.0" rx="4" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.2" />
+<text x="132.0" y="525.5" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">72</text>
+<rect x="149.0" y="508.0" width="28.0" height="26.0" rx="4" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.2" />
+<text x="163.0" y="525.5" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">70</text>
+<rect x="180.0" y="508.0" width="28.0" height="26.0" rx="4" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.2" />
+<text x="194.0" y="525.5" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">6d</text>
+<rect x="211.0" y="508.0" width="28.0" height="26.0" rx="4" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.2" />
+<text x="225.0" y="525.5" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">2f</text>
+<rect x="242.0" y="508.0" width="28.0" height="26.0" rx="4" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.2" />
+<text x="256.0" y="525.5" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">61</text>
+<rect x="273.0" y="508.0" width="28.0" height="26.0" rx="4" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.2" />
+<text x="287.0" y="525.5" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">34</text>
+<text x="310.0" y="526.0" font-size="14" font-weight="800" fill="#4a5568" text-anchor="start" >…</text>
+<text x="440.0" y="526.0" font-size="13" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">topik wasiat: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12.5" fill="#1e2a4a" font-weight="800">rpm/a4cf12e5b7c0/status</tspan></text>
+<line x1="50.0" y1="538.5" x2="1150.0" y2="538.5" stroke="#e0dcd2" stroke-width="1" stroke-linecap="round" />
+<rect x="50.0" y="543.0" width="28.0" height="26.0" rx="4" fill="#eef1f5" />
+<text x="64.0" y="560.5" font-size="12" font-weight="800" fill="#4a5568" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">00</text>
+<rect x="81.0" y="543.0" width="28.0" height="26.0" rx="4" fill="#eef1f5" />
+<text x="95.0" y="560.5" font-size="12" font-weight="800" fill="#4a5568" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">07</text>
+<rect x="118.0" y="543.0" width="28.0" height="26.0" rx="4" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.2" />
+<text x="132.0" y="560.5" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">6f</text>
+<rect x="149.0" y="543.0" width="28.0" height="26.0" rx="4" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.2" />
+<text x="163.0" y="560.5" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">66</text>
+<rect x="180.0" y="543.0" width="28.0" height="26.0" rx="4" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.2" />
+<text x="194.0" y="560.5" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">66</text>
+<rect x="211.0" y="543.0" width="28.0" height="26.0" rx="4" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.2" />
+<text x="225.0" y="560.5" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">6c</text>
+<rect x="242.0" y="543.0" width="28.0" height="26.0" rx="4" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.2" />
+<text x="256.0" y="560.5" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">69</text>
+<rect x="273.0" y="543.0" width="28.0" height="26.0" rx="4" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.2" />
+<text x="287.0" y="560.5" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">6e</text>
+<rect x="304.0" y="543.0" width="28.0" height="26.0" rx="4" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.2" />
+<text x="318.0" y="560.5" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">65</text>
+<text x="440.0" y="561.0" font-size="13" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">isi wasiat: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12.5" fill="#1e2a4a" font-weight="800">offline</tspan></text>
+<line x1="50.0" y1="573.5" x2="1150.0" y2="573.5" stroke="#e0dcd2" stroke-width="1" stroke-linecap="round" />
+<rect x="50.0" y="578.0" width="28.0" height="26.0" rx="4" fill="#eef1f5" />
+<text x="64.0" y="595.5" font-size="12" font-weight="800" fill="#4a5568" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">00</text>
+<rect x="81.0" y="578.0" width="28.0" height="26.0" rx="4" fill="#eef1f5" />
+<text x="95.0" y="595.5" font-size="12" font-weight="800" fill="#4a5568" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">0c</text>
+<rect x="118.0" y="578.0" width="28.0" height="26.0" rx="4" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.2" />
+<text x="132.0" y="595.5" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">61</text>
+<rect x="149.0" y="578.0" width="28.0" height="26.0" rx="4" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.2" />
+<text x="163.0" y="595.5" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">34</text>
+<rect x="180.0" y="578.0" width="28.0" height="26.0" rx="4" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.2" />
+<text x="194.0" y="595.5" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">63</text>
+<rect x="211.0" y="578.0" width="28.0" height="26.0" rx="4" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.2" />
+<text x="225.0" y="595.5" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">66</text>
+<rect x="242.0" y="578.0" width="28.0" height="26.0" rx="4" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.2" />
+<text x="256.0" y="595.5" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">31</text>
+<rect x="273.0" y="578.0" width="28.0" height="26.0" rx="4" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.2" />
+<text x="287.0" y="595.5" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">32</text>
+<text x="310.0" y="596.0" font-size="14" font-weight="800" fill="#4a5568" text-anchor="start" >…</text>
+<text x="440.0" y="596.0" font-size="13" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">nama pengguna: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12.5" fill="#1e2a4a" font-weight="800">a4cf12e5b7c0</tspan></text>
+<rect x="42.0" y="609.0" width="1116.0" height="34.0" rx="8" fill="#fde6e8" />
+<rect x="50.0" y="613.0" width="28.0" height="26.0" rx="4" fill="#eef1f5" />
+<text x="64.0" y="630.5" font-size="12" font-weight="800" fill="#4a5568" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">00</text>
+<rect x="81.0" y="613.0" width="28.0" height="26.0" rx="4" fill="#eef1f5" />
+<text x="95.0" y="630.5" font-size="12" font-weight="800" fill="#4a5568" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">2b</text>
+<rect x="118.0" y="613.0" width="28.0" height="26.0" rx="4" fill="#fde6e8" stroke="#e63946" stroke-width="1.2" />
+<text x="132.0" y="630.5" font-size="12" font-weight="800" fill="#e63946" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">4a</text>
+<rect x="149.0" y="613.0" width="28.0" height="26.0" rx="4" fill="#fde6e8" stroke="#e63946" stroke-width="1.2" />
+<text x="163.0" y="630.5" font-size="12" font-weight="800" fill="#e63946" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">32</text>
+<rect x="180.0" y="613.0" width="28.0" height="26.0" rx="4" fill="#fde6e8" stroke="#e63946" stroke-width="1.2" />
+<text x="194.0" y="630.5" font-size="12" font-weight="800" fill="#e63946" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">42</text>
+<text x="217.0" y="631.0" font-size="14" font-weight="800" fill="#e63946" text-anchor="start" >…</text>
+<text x="440.0" y="631.0" font-size="13" font-weight="800" fill="#e63946" text-anchor="start" xml:space="preserve">kunci (43 huruf): <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12.5" fill="#e63946" font-weight="800">J2BPlozrp88Z-rmVr2EnhfJkgOxAY3xxGYzVSjQejOE</tspan></text>
+<text x="1146.0" y="631.0" font-size="13" font-weight="800" fill="#e63946" text-anchor="end" >terbaca polos</text>
+<line x1="50.0" y1="652.0" x2="1150.0" y2="652.0" stroke="#e0dcd2" stroke-width="1" stroke-linecap="round" />
+<rect x="50.0" y="666.0" width="28.0" height="20.0" rx="4" fill="#eef1f5" />
+<text x="88.0" y="681.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">abu-abu = dua <tspan font-style="italic">byte</tspan> panjang: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">00</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">0c</tspan> = 12, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">00</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">17</tspan> = 23, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">00</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">2b</tspan> = 43 (pemanasan langkah 5)</text>
+<rect x="50.0" y="694.0" width="28.0" height="20.0" rx="4" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.2" />
+<text x="88.0" y="709.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">putih = isinya: setiap huruf satu <tspan font-style="italic">byte</tspan>, misalnya <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">61</tspan> = <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">a</tspan> dan <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">34</tspan> = <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">4</tspan></text>
+<rect x="50.0" y="722.0" width="28.0" height="20.0" rx="4" fill="#fde6e8" stroke="#e63946" stroke-width="1.2" />
+<text x="88.0" y="737.0" font-size="12" font-weight="700" fill="#e63946" text-anchor="start" >merah = kunci perangkat: terbaca utuh, tanpa kunci apa pun untuk membukanya (kunci contoh modul ini)</text>
+<rect x="30.0" y="772.0" width="560.0" height="236.0" rx="12" fill="#fdeedd" stroke="#b45f17" stroke-width="1.4" />
+<text x="50.0" y="802.0" font-size="14.5" font-weight="800" fill="#b45f17" text-anchor="start" >Sekarang: pintu 1883, jaringan rumah</text>
+<text x="50.0" y="822.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" >masih bisa diterima untuk sementara, karena:</text>
+<text x="54.0" y="852.0" font-size="13" font-weight="800" fill="#b45f17" text-anchor="start" >•</text>
+<text x="68.0" y="852.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">WiFi rumahmu sudah dienkripsi antara perangkat</text>
+<text x="68.0" y="870.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">dan router (WPA2 atau WPA3)</text>
+<text x="54.0" y="900.0" font-size="13" font-weight="800" fill="#b45f17" text-anchor="start" >•</text>
+<text x="68.0" y="900.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">broker tidak bisa diketuk dari internet: tidak ada</text>
+<text x="68.0" y="918.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-style="italic">port forwarding</tspan> ke Pi atau laptopmu</text>
+<text x="54.0" y="948.0" font-size="13" font-weight="800" fill="#b45f17" text-anchor="start" >•</text>
+<text x="68.0" y="948.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">jadi penyadap harus <tspan font-weight="800" fill="#1e2a4a">sudah berada di dalam</tspan></text>
+<text x="68.0" y="966.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">jaringanmu</tspan>: risikonya nyata, tetapi kecil</text>
+<rect x="610.0" y="772.0" width="560.0" height="236.0" rx="12" fill="#e3f4ea" stroke="#2a9d5c" stroke-width="1.4" />
+<rect x="626.3" y="793.9" width="15.4" height="11.9" rx="2.0999999999999996" fill="none" stroke="#2a9d5c" stroke-width="1.7999999999999998" />
+<path d="M629.45 793.90 L629.45 790.40 A4.55 4.55 0 0 1 638.55 790.40 L638.55 793.90" fill="none" stroke="#2a9d5c" stroke-width="1.7999999999999998" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="634.0" cy="799.5" r="1.56" fill="#2a9d5c" />
+<text x="656.0" y="802.0" font-size="14.5" font-weight="800" fill="#2a9d5c" text-anchor="start" >Modul 27: TLS, pintu 8883</text>
+<text x="630.0" y="822.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" >wajib sebelum broker dibuka ke internet:</text>
+<text x="634.0" y="852.0" font-size="13" font-weight="800" fill="#2a9d5c" text-anchor="start" >•</text>
+<text x="648.0" y="852.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">seluruh isi sambungan terenkripsi, termasuk</text>
+<text x="648.0" y="870.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">paket CONNECT: kuncinya tidak terbaca lagi</text>
+<text x="634.0" y="900.0" font-size="13" font-weight="800" fill="#2a9d5c" text-anchor="start" >•</text>
+<text x="648.0" y="900.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">di internet, pesan melewati banyak jaringan milik</text>
+<text x="648.0" y="918.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">orang lain, dan broker yang terbuka diketuk</text>
+<text x="648.0" y="936.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">penebak sandi otomatis setiap hari</text>
+<text x="634.0" y="966.0" font-size="13" font-weight="800" fill="#2a9d5c" text-anchor="start" >•</text>
+<text x="648.0" y="966.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">cara yang lebih kuat lagi, sertifikat untuk</text>
+<text x="648.0" y="984.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">setiap perangkat (mTLS), dibahas di Bedah Teknis</text>
+<text x="1178.0" y="1028.0" font-size="11" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

@@ -15,7 +15,7 @@ export interface Perangkat {
 }
 
 const daftar = new Map<string, Perangkat>();
-export const hitungan = { diterima: 0, ditolak: 0 };
+export const hitungan = { diterima: 0, ditolak: 0, diabaikan: 0 }; // Modul 21: diabaikan = pengirim belum terdaftar/dicabut
 
 function ambilAtauBuat(deviceId: string): Perangkat {
   let p = daftar.get(deviceId);

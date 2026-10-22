@@ -11,19 +11,54 @@ import { catatLaporan, perangkatMenyalaUlang } from "./perintah.ts";
 import { kirimSemuaConfig, nilaiBacaan } from "./otomasi.ts";
 import { catatKejadian } from "./kejadian.ts";
 import { kabari, kabariStatus } from "./telegram.ts";
+import { catatAbaikan, izinPerangkat } from "./daftar.ts";
 
 let klien: mqtt.MqttClient | undefined;
 
-export function mulaiMqtt(url: string, log: FastifyBaseLogger): void {
-  const idKlien = "backend-" + Math.random().toString(16).slice(2, 8); // nama unik, bukan device_id
-  klien = mqtt.connect(url, { clientId: idKlien, reconnectPeriod: 5000 });
+const JEDA_BIASA_MS = 5000; // broker mati atau jaringan putus: coba lagi setiap 5 detik (seperti perangkat, kontrak bagian 3)
+const JEDA_DITOLAK_MS = 60_000; // Modul 21: broker MENOLAK akun backend: coba lagi pelan-pelan, supaya log broker tidak banjir
+
+// Modul 21: akun broker milik backend sendiri (bukan akun perangkat, bukan akun manusia), dari MQTT_USERNAME/MQTT_PASSWORD
+export interface AkunBroker {
+  username: string;
+  password: string;
+}
+
+export function mulaiMqtt(url: string, akun: AkunBroker | null, log: FastifyBaseLogger): void {
+  const idKlien = "backend-" + Math.random().toString(16).slice(2, 8); // nama unik; broker berkunci memakai nama akunnya
+  klien = mqtt.connect(url, {
+    clientId: idKlien,
+    reconnectPeriod: JEDA_BIASA_MS,
+    ...(akun === null ? {} : { username: akun.username, password: akun.password }),
+    reconnectOnConnackError: true, // Modul 21: tanpa ini, sekali ditolak broker = berhenti mencoba selamanya
+  });
+  let ditolak = false; // sedang ditolak broker? (supaya pesan panjangnya hanya ditulis sekali)
   klien.on("connect", () => {
-    log.info(`tersambung ke broker ${url}`);
+    if (klien !== undefined) klien.options.reconnectPeriod = JEDA_BIASA_MS;
+    ditolak = false;
+    log.info(`tersambung ke broker ${url}${akun === null ? " TANPA akun" : ` sebagai ${akun.username}`}`);
     klien?.subscribe("rpm/#", { qos: 1 });
     kirimSemuaConfig(); // Modul 19: broker tanpa persistence lupa config retained saat dimulai ulang (kontrak aturan 10)
   });
-  klien.on("reconnect", () => log.warn("broker belum terjangkau, mencoba lagi dalam 5 detik"));
-  klien.on("error", (galat) => log.error(`galat MQTT: ${galat.message}`));
+  klien.on("reconnect", () => {
+    if (!ditolak) log.warn(`broker belum terjangkau, mencoba lagi dalam ${JEDA_BIASA_MS / 1000} detik`);
+  });
+  klien.on("error", (galat) => {
+    const kode = (galat as Error & { code?: number }).code;
+    if (kode === 4 || kode === 5 || kode === 134 || kode === 135) { // CONNACK: akun ditolak (MQTT 3.1.1 dan MQTT 5)
+      if (klien !== undefined) klien.options.reconnectPeriod = JEDA_DITOLAK_MS;
+      if (!ditolak) {
+        log.error(`broker MENOLAK backend (${galat.message}, kode ${kode}): ` + (akun === null
+          ? "backend masuk tanpa akun, padahal broker sudah dikunci; isi MQTT_USERNAME dan MQTT_PASSWORD di .env"
+          : `periksa MQTT_USERNAME dan MQTT_PASSWORD di .env, akun "${akun.username}" di password file broker `
+            + "(mosquitto_passwd), lalu muat ulang broker")
+          + `. Dicoba lagi setiap ${JEDA_DITOLAK_MS / 1000} detik.`);
+      }
+      ditolak = true;
+      return;
+    }
+    log.error(`galat MQTT: ${galat.message}`);
+  });
   // paket.retain = true: pesan lama yang disimpan broker, dikirim ulang karena backend baru berlangganan (Modul 19)
   klien.on("message", (topik, isi, paket) => terima(topik, isi.toString(), paket.retain, log));
 }
@@ -58,6 +93,12 @@ function terima(topik: string, teks: string, retained: boolean, log: FastifyBase
   const [, deviceId, jenis] = bagian;
   if (!DeviceId.safeParse(deviceId).success) return tolak(topik, "device_id tidak sah", log);
   if (jenis === "cmd") return; // perintah (dari backend ini atau MQTTX), bukan data perangkat
+  // Modul 21, lapis kedua: hanya perangkat yang terdaftar dan kuncinya belum dicabut yang datanya diproses
+  const izin = izinPerangkat(deviceId);
+  if (izin !== "terdaftar") {
+    hitungan.diabaikan++;
+    return catatAbaikan(topik, deviceId, izin, log);
+  }
 
   if (jenis === "status") {
     if (teks === "") return; // pesan kosong = seseorang menghapus status retained (Modul 11), bukan status baru

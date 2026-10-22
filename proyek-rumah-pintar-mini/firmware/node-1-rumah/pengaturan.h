@@ -12,3 +12,6 @@ void simpanSensorRS485Dipakai(bool pakai);  // Modul 15: "rs485 on" / "rs485 off
 float ambangSuhuKipas();                    // Modul 19: kipas pengaman menyala di atas angka ini (°C)
 bool ambangSuhuKipasDariNvs();              // Modul 19: true kalau angka itu dari NVS (dikirim server lewat config)
 bool simpanAmbangSuhuKipas(float derajat);  // Modul 19: menjawab false kalau di luar SUHU_KIPAS_MIN-SUHU_KIPAS_MAKS
+const char* kunciBroker();                  // Modul 21: kunci broker dari NVS; "" kalau belum ada. JANGAN dicetak utuh
+bool simpanKunciBroker(const char* isi);    // Modul 21: false kalau bukan 1-64 huruf A-Z, a-z, 0-9, - atau _
+void hapusKunciBroker();                    // Modul 21: perintah "kunci hapus"
