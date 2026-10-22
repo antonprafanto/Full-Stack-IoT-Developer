@@ -1,0 +1,175 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="872" viewBox="0 0 1200 872" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="872" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" xml:space="preserve">Threat model: who might mess around and what happens then</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" xml:space="preserve">Concept 1 · every card: which door → what happens → this week's lock</text>
+<rect x="465.0" y="104.0" width="270.0" height="456.0" rx="14" fill="#dafbe1" stroke="#1a7f37" stroke-width="2.2" />
+<path d="M574 148 L600 126 L626 148" fill="none" stroke="#1a7f37" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M581 142 L581 171 L619 171 L619 142" fill="none" stroke="#1a7f37" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="594.0" y="156.0" width="12.0" height="15.0" rx="1.5" fill="none" stroke="#1a7f37" stroke-width="1.8" />
+<text x="600.0" y="204.0" font-size="17" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Mini Smart Home</text>
+<text x="600.0" y="226.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="middle" xml:space="preserve">backend <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12.5" fill="#1e2a4a" font-weight="700">127.0.0.1:8080</tspan></text>
+<line x1="485.0" y1="246.0" x2="715.0" y2="246.0" stroke="#1a7f37" stroke-width="1.2" stroke-linecap="round" />
+<text x="487.0" y="272.0" font-size="12.5" font-weight="800" fill="#1a7f37" text-anchor="start" >what's guarded</text>
+<circle cx="507.0" cy="312.0" r="21" fill="#ffffff" stroke="#1a7f37" stroke-width="1.4" />
+<g transform="translate(507 312) scale(0.62) translate(-507 -312)">
+<path d="M502.5 319 Q502.5 314 499 310 A9.5 9.5 0 1 1 515 310 Q511.5 314 511.5 319 Z" fill="none" stroke="#1a7f37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="503.0" y1="323.0" x2="511.0" y2="323.0" stroke="#1a7f37" stroke-width="1.8" stroke-linecap="round" />
+<line x1="504.0" y1="327.0" x2="510.0" y2="327.0" stroke="#1a7f37" stroke-width="1.8" stroke-linecap="round" />
+</g>
+<text x="541.0" y="309.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">actuators</text>
+<text x="541.0" y="328.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">lamp, fan, pump, curtain</text>
+<circle cx="507.0" cy="372.0" r="21" fill="#ffffff" stroke="#1a7f37" stroke-width="1.4" />
+<g transform="translate(507 372) scale(0.62) translate(-507 -372)">
+<path d="M507 357 L522 372 L507 387 L492 372 Z" fill="none" stroke="#1a7f37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="507.0" y="376.5" font-size="13" font-weight="800" fill="#1a7f37" text-anchor="middle" >?</text>
+</g>
+<text x="541.0" y="369.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">rules and schedules</text>
+<text x="541.0" y="388.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">auto fan, morning watering</text>
+<circle cx="507.0" cy="432.0" r="21" fill="#ffffff" stroke="#1a7f37" stroke-width="1.4" />
+<g transform="translate(507 432) scale(0.62) translate(-507 -432)">
+<rect x="488.0" y="418.0" width="38.0" height="28.0" rx="4" fill="none" stroke="#1a7f37" stroke-width="2" />
+<path d="M494 439 L502 431 L509 436 L520 424" fill="none" stroke="#1a7f37" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+</g>
+<text x="541.0" y="429.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan>live data</tspan> and history</text>
+<text x="541.0" y="448.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">temperature, humidity, motion</text>
+<circle cx="507.0" cy="492.0" r="21" fill="#ffffff" stroke="#1a7f37" stroke-width="1.4" />
+<g transform="translate(507 494) scale(0.62) translate(-507 -494)">
+<rect x="496.0" y="491.0" width="22.0" height="17.0" rx="3" fill="none" stroke="#1a7f37" stroke-width="2" />
+<path d="M500.5 491 L500.5 486 A6.5 6.5 0 0 1 513.5 486 L513.5 491" fill="none" stroke="#1a7f37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="507.0" cy="499.0" r="1.8" fill="#1a7f37" />
+</g>
+<text x="541.0" y="489.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">accounts and secrets</text>
+<text x="541.0" y="508.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">fingerprints, sessions, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="700">.env</tspan></text>
+<rect x="30.0" y="104.0" width="385.0" height="140.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<g transform="translate(62 136) scale(0.85) translate(-62 -136)">
+<circle cx="62.0" cy="128.0" r="6.5" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<path d="M50 151 L50 147 Q50 137 62 137 Q74 137 74 147 L74 151" fill="none" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+</g>
+<text x="92.0" y="134.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">A sibling or guest who messes around</text>
+<text x="92.0" y="152.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="start" >Concepts 2 and 6</text>
+<text x="48.0" y="178.0" font-size="11.5" font-weight="800" fill="#4a5568" text-anchor="start" >door</text>
+<text x="98.0" y="178.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">API: Bruno, or the dashboard (Module 22)</text>
+<text x="48.0" y="202.0" font-size="11.5" font-weight="800" fill="#4a5568" text-anchor="start" >result</text>
+<text x="98.0" y="202.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">lights out, fan threshold changed</text>
+<text x="48.0" y="226.0" font-size="11.5" font-weight="800" fill="#1a7f37" text-anchor="start" >lock</text>
+<text x="98.0" y="226.0" font-size="12.5" font-weight="700" fill="#1a7f37" text-anchor="start" xml:space="preserve"><tspan>login</tspan> (401) + role <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1a7f37" font-weight="800">viewer</tspan> (403)</text>
+<line x1="417.0" y1="174.0" x2="461.0" y2="174.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<path d="M453.9 177.8 L461.0 174.0 L453.9 170.2" fill="none" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="30.0" y="262.0" width="385.0" height="140.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<g transform="translate(62 294) scale(0.85) translate(-62 -294)">
+<rect x="42.0" y="284.0" width="40.0" height="20.0" rx="5" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<circle cx="50.0" cy="294.0" r="2" fill="#1e2a4a" />
+<circle cx="57.0" cy="294.0" r="2" fill="#1e2a4a" />
+<circle cx="64.0" cy="294.0" r="2" fill="#1e2a4a" />
+<circle cx="71.0" cy="294.0" r="2" fill="#1e2a4a" />
+<line x1="76.0" y1="289.0" x2="76.0" y2="299.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+</g>
+<text x="92.0" y="292.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Automatic password guesser (<tspan>bot</tspan>)</text>
+<text x="92.0" y="310.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="start" >Concepts 3 and 8</text>
+<text x="48.0" y="336.0" font-size="11.5" font-weight="800" fill="#4a5568" text-anchor="start" >door</text>
+<text x="98.0" y="336.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="700">POST</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="700">/auth/login</tspan>, especially in Phase 5</text>
+<text x="48.0" y="360.0" font-size="11.5" font-weight="800" fill="#4a5568" text-anchor="start" >result</text>
+<text x="98.0" y="360.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="700">admin</tspan> account taken over</text>
+<text x="48.0" y="384.0" font-size="11.5" font-weight="800" fill="#1a7f37" text-anchor="start" >lock</text>
+<text x="98.0" y="384.0" font-size="12.5" font-weight="700" fill="#1a7f37" text-anchor="start" xml:space="preserve">long passwords + bcrypt + 10 attempts per minute</text>
+<line x1="417.0" y1="332.0" x2="461.0" y2="332.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<path d="M453.9 335.8 L461.0 332.0 L453.9 328.2" fill="none" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="30.0" y="420.0" width="385.0" height="140.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<g transform="translate(62 452) scale(0.85) translate(-62 -452)">
+<rect x="43.0" y="438.0" width="38.0" height="28.0" rx="4" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<line x1="43.0" y1="446.0" x2="81.0" y2="446.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<circle cx="48.0" cy="442.0" r="1.1" fill="#1e2a4a" />
+<circle cx="52.5" cy="442.0" r="1.1" fill="#1e2a4a" />
+<circle cx="57.0" cy="442.0" r="1.1" fill="#1e2a4a" />
+</g>
+<text x="92.0" y="450.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Another web page in your browser</text>
+<text x="92.0" y="468.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="start" >Concepts 5 and 9</text>
+<text x="48.0" y="494.0" font-size="11.5" font-weight="800" fill="#4a5568" text-anchor="start" >door</text>
+<text x="98.0" y="494.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the browser, which sends your <tspan>cookie</tspan> by itself</text>
+<text x="48.0" y="518.0" font-size="11.5" font-weight="800" fill="#4a5568" text-anchor="start" >result</text>
+<text x="98.0" y="518.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">commands sent in your name</text>
+<text x="48.0" y="542.0" font-size="11.5" font-weight="800" fill="#1a7f37" text-anchor="start" >lock</text>
+<text x="98.0" y="542.0" font-size="12.5" font-weight="700" fill="#1a7f37" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1a7f37" font-weight="800">SameSite</tspan> + origin check + CORS</text>
+<line x1="417.0" y1="490.0" x2="461.0" y2="490.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<path d="M453.9 493.8 L461.0 490.0 L453.9 486.2" fill="none" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="785.0" y="104.0" width="385.0" height="140.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<g transform="translate(817 136) scale(0.85) translate(-817 -136)">
+<path d="M806 122 L821 122 L828 129 L828 150 L806 150 Z" fill="none" stroke="#1e2a4a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M821 122 L821 129 L828 129" fill="none" stroke="#1e2a4a" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="811.0" y1="134.0" x2="823.0" y2="134.0" stroke="#1e2a4a" stroke-width="1.3" stroke-linecap="round" />
+<line x1="811.0" y1="139.0" x2="823.0" y2="139.0" stroke="#1e2a4a" stroke-width="1.3" stroke-linecap="round" />
+<line x1="811.0" y1="144.0" x2="823.0" y2="144.0" stroke="#1e2a4a" stroke-width="1.3" stroke-linecap="round" />
+</g>
+<text x="847.0" y="134.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Someone with a database copy</text>
+<text x="847.0" y="152.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="start" >Concepts 3 and 7</text>
+<text x="803.0" y="178.0" font-size="11.5" font-weight="800" fill="#4a5568" text-anchor="start" >door</text>
+<text x="853.0" y="178.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="700">backup/</tspan> (Module 18), or a lost laptop</text>
+<text x="803.0" y="202.0" font-size="11.5" font-weight="800" fill="#4a5568" text-anchor="start" >result</text>
+<text x="853.0" y="202.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">all accounts and sessions leak too</text>
+<text x="803.0" y="226.0" font-size="11.5" font-weight="800" fill="#1a7f37" text-anchor="start" >lock</text>
+<text x="853.0" y="226.0" font-size="12.5" font-weight="700" fill="#1a7f37" text-anchor="start" xml:space="preserve">only fingerprints are stored</text>
+<line x1="783.0" y1="174.0" x2="739.0" y2="174.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<path d="M746.1 170.2 L739.0 174.0 L746.1 177.8" fill="none" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="785.0" y="262.0" width="385.0" height="140.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<g transform="translate(817 294) scale(0.85) translate(-817 -294)">
+<path d="M798 294 Q817 279 836 294 Q817 309 798 294 Z" fill="none" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="817.0" cy="294.0" r="5.2" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<circle cx="817.0" cy="294.0" r="1.8" fill="#1e2a4a" />
+</g>
+<text x="847.0" y="292.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Someone peeking at <tspan>live data</tspan></text>
+<text x="847.0" y="310.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="start" >Concept 10</text>
+<text x="803.0" y="336.0" font-size="11.5" font-weight="800" fill="#4a5568" text-anchor="start" >door</text>
+<text x="853.0" y="336.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Socket.IO</text>
+<text x="803.0" y="360.0" font-size="11.5" font-weight="800" fill="#4a5568" text-anchor="start" >result</text>
+<text x="853.0" y="360.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">household habits readable: when it's empty</text>
+<text x="803.0" y="384.0" font-size="11.5" font-weight="800" fill="#1a7f37" text-anchor="start" >lock</text>
+<text x="853.0" y="384.0" font-size="12.5" font-weight="700" fill="#1a7f37" text-anchor="start" xml:space="preserve">Socket.IO is locked too</text>
+<line x1="783.0" y1="332.0" x2="739.0" y2="332.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<path d="M746.1 328.2 L739.0 332.0 L746.1 335.8" fill="none" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="785.0" y="420.0" width="385.0" height="140.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<g transform="translate(817 452) scale(0.85) translate(-817 -452)">
+<rect x="798.0" y="438.0" width="38.0" height="28.0" rx="4" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<path d="M805 446 L811 452 L805 458" fill="none" stroke="#1e2a4a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="814.0" y1="458.0" x2="826.0" y2="458.0" stroke="#1e2a4a" stroke-width="1.8" stroke-linecap="round" />
+</g>
+<text x="847.0" y="450.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">You yourself, in a hurry</text>
+<text x="847.0" y="468.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="start" >Concept 11</text>
+<text x="803.0" y="494.0" font-size="11.5" font-weight="800" fill="#4a5568" text-anchor="start" >door</text>
+<text x="853.0" y="494.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="700">git</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="700">add</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="700">.</tspan>, then <tspan>push</tspan> to GitHub</text>
+<text x="803.0" y="518.0" font-size="11.5" font-weight="800" fill="#4a5568" text-anchor="start" >result</text>
+<text x="853.0" y="518.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">secrets on display on GitHub</text>
+<text x="803.0" y="542.0" font-size="11.5" font-weight="800" fill="#1a7f37" text-anchor="start" >lock</text>
+<text x="853.0" y="542.0" font-size="12.5" font-weight="700" fill="#1a7f37" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1a7f37" font-weight="800">.env</tspan> + <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1a7f37" font-weight="800">.gitignore</tspan> + <tspan>secret scanning</tspan></text>
+<line x1="783.0" y1="490.0" x2="739.0" y2="490.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<path d="M746.1 486.2 L739.0 490.0 L746.1 493.8" fill="none" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="30.0" y="584.0" width="1140.0" height="150.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="50.0" y="612.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Four principles that guide every lock this week</text>
+<circle cx="61.0" cy="640.0" r="11" fill="#1a7f37" stroke="#ffffff" stroke-width="2" />
+<text x="61.0" y="644.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >1</text>
+<text x="80.0" y="645.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Locked by default</text>
+<text x="80.0" y="664.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-style="italic">deny by default</tspan></text>
+<text x="80.0" y="688.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">every door is locked; only a</text>
+<text x="80.0" y="706.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">few are opened on purpose</text>
+<circle cx="343.0" cy="640.0" r="11" fill="#1a7f37" stroke="#ffffff" stroke-width="2" />
+<text x="343.0" y="644.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >2</text>
+<text x="362.0" y="645.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Least privilege</text>
+<text x="362.0" y="664.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-style="italic">as few rights as possible</tspan></text>
+<text x="362.0" y="688.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">whoever only needs to look gets a</text>
+<text x="362.0" y="706.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="700">viewer</tspan> account, the small terminal too</text>
+<circle cx="625.0" cy="640.0" r="11" fill="#1a7f37" stroke="#ffffff" stroke-width="2" />
+<text x="625.0" y="644.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >3</text>
+<text x="644.0" y="645.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Defense in depth</text>
+<text x="644.0" y="664.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-style="italic">locks in layers</tspan></text>
+<text x="644.0" y="688.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">one lock may fail; the next</text>
+<text x="644.0" y="706.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">lock still holds</text>
+<circle cx="907.0" cy="640.0" r="11" fill="#1a7f37" stroke="#ffffff" stroke-width="2" />
+<text x="907.0" y="644.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >4</text>
+<text x="926.0" y="645.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Secrets never live</text>
+<text x="926.0" y="664.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >in the code</text>
+<text x="926.0" y="688.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">every secret lives in <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="700">.env</tspan></text>
+<rect x="30.0" y="750.0" width="1140.0" height="92.0" rx="12" fill="#eef1f5" />
+<text x="50.0" y="776.0" font-size="13" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800">Honestly:</tspan> this week the backend only listens on <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" font-weight="700">127.0.0.1</tspan>, so phones or other laptops on your home Wi-Fi can't knock on it yet.</text>
+<text x="50.0" y="798.0" font-size="13" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Module 22 brings the dashboard to the browser, Phase 5 the backend to the internet. The locks go in now, while the house is quiet.</text>
+<text x="50.0" y="820.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">Not locked yet this week: the devices and the MQTT broker (Module 21), and HTTPS (Phase 5).</text>
+<text x="1178.0" y="858.0" font-size="11" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer curriculum · CC BY 4.0</text>
+</svg>

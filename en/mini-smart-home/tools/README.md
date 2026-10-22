@@ -2,7 +2,7 @@
 
 🌐 **English** · [Bahasa Indonesia](../../../proyek-rumah-pintar-mini/alat/README.md)
 
-This folder contains small Node.js programs that you create in [Module 4](../../phase-0-foundations/module-04-javascript-nodejs/README.md), [Module 11](../../phase-2-connectivity/module-11-mqtt-and-data-contract/README.md), [Module 16](../../phase-3-backend-data/module-16-backend-typescript-api-git/README.md), and [Module 19](../../phase-3-backend-data/module-19-realtime-rules-notifications/README.md), then use again and again in later modules. All of them have been tested with **Node.js 24.21.0**. The first three need no libraries from npm; `contract-checker.js` and `device-simulator.js` need the **mqtt** 5.16.1 library, and `live-terminal.js` needs **socket.io-client** 4.8.4 (see "How to use").
+This folder contains small Node.js programs that you create in [Module 4](../../phase-0-foundations/module-04-javascript-nodejs/README.md), [Module 11](../../phase-2-connectivity/module-11-mqtt-and-data-contract/README.md), [Module 16](../../phase-3-backend-data/module-16-backend-typescript-api-git/README.md), [Module 19](../../phase-3-backend-data/module-19-realtime-rules-notifications/README.md), and [Module 20](../../phase-3-backend-data/module-20-user-security/README.md), then use again and again in later modules. All of them have been tested with **Node.js 24.21.0**. The first three need no libraries from npm; `contract-checker.js` and `device-simulator.js` need the **mqtt** 5.16.1 library, and `live-terminal.js` needs **socket.io-client** 4.8.4 (see "How to use").
 
 | File | What it does | Used again in |
 | :--- | :--- | :--- |
@@ -11,7 +11,7 @@ This folder contains small Node.js programs that you create in [Module 4](../../
 | [`send-data.js`](send-data.js) | A test sender: it pretends to be an ESP32 and sends 3 readings to `http://localhost:3000/telemetry`. | Module 10, to test a receiver without a board |
 | [`contract-checker.js`](contract-checker.js) | The data contract's security guard: it subscribes to `msh/#` on the MQTT broker, then stamps every message **PASS** or **FAIL** according to [`DATA-CONTRACT.md`](../DATA-CONTRACT.md), with the reasons and how long each `ack` reply took. | Module 11 (a Node 1 v1.2 completion requirement), Module 14 (version 1.1: Node 2's `telemetry` is checked against its own fields), Module 15 (version 1.2: the three RS-485 sensor fields in Node 1's `telemetry`), Module 19 (version 1.3: `state` in `telemetry` and `ack`, the offline-mode report in `vitals`, the content of `config`, a retained `set`), then every time the firmware changes or a new device is added |
 | [`device-simulator.js`](device-simulator.js) | Ten fake devices (`f00d00000001` to `f00d00000010`) that speak MQTT exactly as the data contract says: the `online`/`offline` status (through the *Last Will*), `telemetry` every 10 seconds from `buildTelemetry()` (since Module 19 with `state` and an immediate send when an actuator changes), `vitals` on connecting and every 5 minutes, and an `ack` answer to every command, `config` included (stored in `data/simulator-store.json`). Since Module 19, the temperature can be set from the terminal (`temp 33`, `temp random`), and when the broker is unreachable for 2 minutes, the simulator enters offline mode, runs the safety fan, then reports through `vitals` about 10 seconds after it reconnects. The `clean` mode deletes their retained status and `config` from the broker. | Module 16 (testing the backend without a board), Module 19 (automation rules and the "broker off" test), then every module that needs many devices |
-| [`live-terminal.js`](live-terminal.js) | A "small terminal" that connects to the backend through Socket.IO, follows one device (`follow`), then shows each of its readings as soon as it arrives, the status changes of every device, and the event log. It reconnects by itself when the backend restarts. | Module 19, then Module 23 (the live dashboard uses the same events) |
+| [`live-terminal.js`](live-terminal.js) | A "small terminal" that connects to the backend through Socket.IO, follows one device (`follow`), then shows each of its readings as soon as it arrives, the status changes of every device, and the event log. It reconnects by itself when the backend restarts. Since Module 20, this terminal first logs in with the account from `tools/.env` (a `viewer` account is enough), then renews its wristband by itself (refresh) every time the server cuts it off because it expired. | Module 19, Module 20 (Socket.IO locked), then Module 23 (the live dashboard uses the same events) |
 
 ## How to use
 
@@ -65,16 +65,18 @@ While the simulator runs, type `temp 33` and then **Enter** in the same terminal
 npm install socket.io-client@4.8.4
 ```
 
+Since Module 20, the backend's Socket.IO is locked, so this terminal needs an account. Copy `.env.example` to `.env` in this `tools` folder, then fill in `TERMINAL_EMAIL` (for example `viewer@home.test`, an account with the `viewer` role) and `TERMINAL_PASSWORD` (that account's password). The `.env` file doesn't go into Git (see `.gitignore`). Run it with `--env-file=.env`:
+
 ```bash
-node live-terminal.js http://127.0.0.1:8080 f00d00000001
+node --env-file=.env live-terminal.js http://127.0.0.1:8080 f00d00000001
 ```
 
-The first value is the backend's address, the second the `device_id` of the device you want to follow. The explanation is in Module 19, Practice 1.
+The first value is the backend's address, the second the `device_id` of the device you want to follow. This terminal logs in by itself; when the server cuts it off because its wristband expired (every 15 minutes), it renews its wristband (refresh) and connects again. If the login is refused (for example because its password was changed), it stops with the message `login refused (401). Check TERMINAL_EMAIL and TERMINAL_PASSWORD in tools/.env.` The explanation is in Module 19, Practice 1, and in Module 20, Practice 7.
 
 ## Notes
 
 - The `package.json` in this folder contains `"type": "module"` so that `import`/`export` can be used. It was created with `npm init -y`, followed by `npm pkg set type=module`, just like in Module 4. Since Module 11, it also records the `mqtt` library under `dependencies`, and `package-lock.json` records the exact version of every helper library.
-- `.gitignore` tells Git to ignore `node_modules/` and `data/`: fake data doesn't need to be stored in the project repository.
+- `.gitignore` tells Git to ignore `node_modules/` and `data/`: fake data doesn't need to be stored in the project repository. Since Module 20, Git also ignores `.env` (the `live-terminal.js` account, which holds a password); its example is in `.env.example`.
 - **This receiver is deliberately bare-bones:** anyone who can reach your laptop can send it anything, without a password. Use it only on your home network. How to lock it down is covered in Modules 20, 21, and 27.
 
 ---

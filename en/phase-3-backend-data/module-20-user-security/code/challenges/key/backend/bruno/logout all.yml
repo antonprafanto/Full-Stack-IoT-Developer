@@ -1,0 +1,25 @@
+info:
+  name: logout all
+  type: http
+  seq: 19
+
+http:
+  method: POST
+  url: "{{baseUrl}}/auth/logout-all"
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "200"
+    - expression: res.body.message
+      operator: eq
+      value: all sessions of this account have been revoked
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: true

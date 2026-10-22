@@ -1,0 +1,328 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1480" viewBox="0 0 1200 1480" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="1480" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Mini Smart Home after Module 20</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" xml:space="preserve">The house is now locked for people: accounts, <tspan>login</tspan>, roles, and API protection · dashed line = optional, retired, or coming later</text>
+<rect x="30.0" y="112.0" width="196.0" height="178.0" rx="14" fill="#fdeedd" stroke="#b45f17" stroke-width="2" />
+<rect x="47.0" y="130.0" width="30.0" height="40.0" rx="3" fill="none" stroke="#b45f17" stroke-width="2" />
+<rect x="53.0" y="136.0" width="18.0" height="14.0" rx="2" fill="none" stroke="#b45f17" stroke-width="1.6" />
+<line x1="47.0" y1="140.0" x2="42.0" y2="140.0" stroke="#b45f17" stroke-width="1.6" stroke-linecap="round" />
+<line x1="77.0" y1="140.0" x2="82.0" y2="140.0" stroke="#b45f17" stroke-width="1.6" stroke-linecap="round" />
+<line x1="47.0" y1="148.0" x2="42.0" y2="148.0" stroke="#b45f17" stroke-width="1.6" stroke-linecap="round" />
+<line x1="77.0" y1="148.0" x2="82.0" y2="148.0" stroke="#b45f17" stroke-width="1.6" stroke-linecap="round" />
+<line x1="47.0" y1="156.0" x2="42.0" y2="156.0" stroke="#b45f17" stroke-width="1.6" stroke-linecap="round" />
+<line x1="77.0" y1="156.0" x2="82.0" y2="156.0" stroke="#b45f17" stroke-width="1.6" stroke-linecap="round" />
+<line x1="47.0" y1="164.0" x2="42.0" y2="164.0" stroke="#b45f17" stroke-width="1.6" stroke-linecap="round" />
+<line x1="77.0" y1="164.0" x2="82.0" y2="164.0" stroke="#b45f17" stroke-width="1.6" stroke-linecap="round" />
+<text x="90.0" y="146.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Node 2 "Garden"</text>
+<text x="90.0" y="166.0" font-size="12.5" font-weight="700" fill="#b45f17" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">v1.0.0</text>
+<rect x="40.0" y="203.0" width="40.0" height="18.0" rx="4" fill="none" stroke="#b45f17" stroke-width="2" />
+<rect x="80.0" y="208.0" width="5.0" height="8.0" rx="1" fill="#b45f17" />
+<rect x="44.0" y="207.0" width="14.0" height="10.0" rx="2" fill="#b45f17" />
+<text x="90.0" y="217.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" >18650 battery</text>
+<text x="48.0" y="266.0" font-size="12.5" font-weight="700" fill="#b45f17" text-anchor="start" >unchanged</text>
+<line x1="228.0" y1="200.0" x2="286.0" y2="200.0" stroke="#b45f17" stroke-width="2.6" stroke-linecap="round" />
+<path d="M278.1 204.2 L286.0 200.0 L278.1 195.8" fill="none" stroke="#b45f17" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="257.0" y="188.0" font-size="11" font-weight="800" fill="#b45f17" text-anchor="middle" >ESP-NOW</text>
+<rect x="290.0" y="112.0" width="210.0" height="178.0" rx="14" fill="#e2f3f1" stroke="#0f8b8d" stroke-width="2.2" />
+<rect x="307.0" y="130.0" width="30.0" height="40.0" rx="3" fill="none" stroke="#0f8b8d" stroke-width="2" />
+<rect x="313.0" y="136.0" width="18.0" height="14.0" rx="2" fill="none" stroke="#0f8b8d" stroke-width="1.6" />
+<line x1="307.0" y1="140.0" x2="302.0" y2="140.0" stroke="#0f8b8d" stroke-width="1.6" stroke-linecap="round" />
+<line x1="337.0" y1="140.0" x2="342.0" y2="140.0" stroke="#0f8b8d" stroke-width="1.6" stroke-linecap="round" />
+<line x1="307.0" y1="148.0" x2="302.0" y2="148.0" stroke="#0f8b8d" stroke-width="1.6" stroke-linecap="round" />
+<line x1="337.0" y1="148.0" x2="342.0" y2="148.0" stroke="#0f8b8d" stroke-width="1.6" stroke-linecap="round" />
+<line x1="307.0" y1="156.0" x2="302.0" y2="156.0" stroke="#0f8b8d" stroke-width="1.6" stroke-linecap="round" />
+<line x1="337.0" y1="156.0" x2="342.0" y2="156.0" stroke="#0f8b8d" stroke-width="1.6" stroke-linecap="round" />
+<line x1="307.0" y1="164.0" x2="302.0" y2="164.0" stroke="#0f8b8d" stroke-width="1.6" stroke-linecap="round" />
+<line x1="337.0" y1="164.0" x2="342.0" y2="164.0" stroke="#0f8b8d" stroke-width="1.6" stroke-linecap="round" />
+<text x="350.0" y="146.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Node 1 "Home"</text>
+<text x="350.0" y="166.0" font-size="12.5" font-weight="800" fill="#0f8b8d" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">v1.5.0</text>
+<text x="308.0" y="194.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">local fan safety,</text>
+<text x="308.0" y="212.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">offline mode, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="700">config</tspan></text>
+<text x="308.0" y="230.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">→ NVS (Module 19)</text>
+<text x="308.0" y="272.0" font-size="12.5" font-weight="700" fill="#0f8b8d" text-anchor="start" >unchanged this week</text>
+<line x1="502.0" y1="200.0" x2="556.0" y2="200.0" stroke="#2f6fd1" stroke-width="2.6" stroke-linecap="round" />
+<path d="M548.1 204.2 L556.0 200.0 L548.1 195.8" fill="none" stroke="#2f6fd1" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="529.0" y="188.0" font-size="11" font-weight="800" fill="#2f6fd1" text-anchor="middle" >MQTT</text>
+<rect x="560.0" y="112.0" width="300.0" height="276.0" rx="14" fill="#ffffff" stroke="#1e2a4a" stroke-width="2.2" />
+<rect x="572.0" y="131.0" width="48.0" height="34.0" rx="4" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<circle cx="579.0" cy="137.0" r="1.3" fill="#1e2a4a" />
+<circle cx="584.4" cy="137.0" r="1.3" fill="#1e2a4a" />
+<circle cx="589.8" cy="137.0" r="1.3" fill="#1e2a4a" />
+<circle cx="595.2" cy="137.0" r="1.3" fill="#1e2a4a" />
+<circle cx="600.6" cy="137.0" r="1.3" fill="#1e2a4a" />
+<circle cx="606.0" cy="137.0" r="1.3" fill="#1e2a4a" />
+<rect x="604.0" y="144.0" width="12.0" height="9.0" rx="1" fill="none" stroke="#1e2a4a" stroke-width="1.5" />
+<rect x="584.0" y="146.0" width="12.0" height="12.0" rx="1.5" fill="none" stroke="#1e2a4a" stroke-width="1.5" />
+<text x="630.0" y="144.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >Raspberry Pi gateway</text>
+<text x="630.0" y="164.0" font-size="12.5" font-weight="700" fill="#4a5568" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">192.168.1.37</text>
+<rect x="576.0" y="182.0" width="268.0" height="54.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.4" />
+<path d="M584 206 L608 188 L632 206" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="589.0" y="206.0" width="38.0" height="28.0" rx="2" fill="none" stroke="#1e2a4a" stroke-width="2.2" />
+<rect x="599.0" y="214.0" width="18.0" height="5.0" rx="1" fill="#1e2a4a" />
+<text x="640.0" y="205.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >Mosquitto</text>
+<text x="640.0" y="224.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >MQTT broker: not locked yet</text>
+<rect x="576.0" y="246.0" width="268.0" height="126.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.4" />
+<rect x="584.0" y="264.0" width="14.0" height="10.0" rx="2" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<rect x="618.0" y="264.0" width="14.0" height="10.0" rx="2" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<rect x="601.0" y="284.0" width="14.0" height="10.0" rx="2" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<path d="M598 269 C606 269 606 289 601 289" fill="none" stroke="#1e2a4a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M615 289 C622 289 612 269 618 269" fill="none" stroke="#1e2a4a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<text x="640.0" y="272.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >Node-RED</text>
+<text x="640.0" y="292.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >dashboard, Garden card,</text>
+<text x="640.0" y="310.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >RS-485 Sensor group</text>
+<rect x="592.0" y="318.0" width="236.0" height="44.0" rx="6" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.4" stroke-dasharray="5 4"/>
+<text x="606.0" y="336.0" font-size="12.5" font-weight="700" fill="#9aa3b0" text-anchor="start" text-decoration="line-through">fan automation</text>
+<text x="606.0" y="354.0" font-size="12" font-weight="700" fill="#9aa3b0" text-anchor="start" >still retired (since Module 16)</text>
+<rect x="900.0" y="112.0" width="270.0" height="72.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.5" />
+<rect x="925.0" y="129.0" width="22.0" height="38.0" rx="5" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<circle cx="936.0" cy="161.0" r="1.8" fill="#1e2a4a" />
+<text x="970.0" y="144.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Phone</text>
+<text x="970.0" y="164.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >Node-RED and Telegram</text>
+<line x1="862.0" y1="148.0" x2="896.0" y2="148.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<path d="M888.9 151.8 L896.0 148.0 L888.9 144.2" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="900.0" y="236.0" width="270.0" height="90.0" rx="12" fill="#ffffff" stroke="#1e2a4a" stroke-width="1.8" />
+<path d="M918 286 Q908 286 910 276 Q912 266 924 268 Q930 256 944 261 Q956 258 958 270 Q968 272 966 281 Q964 286 956 286 Z" fill="none" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="974.0" y="266.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >Telegram</text>
+<text x="974.0" y="286.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">alerts and <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="700">/status</tspan></text>
+<text x="974.0" y="306.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >unchanged</text>
+<line x1="1010.0" y1="234.0" x2="1010.0" y2="188.0" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" />
+<path d="M1013.3 194.2 L1010.0 188.0 L1006.7 194.2" fill="none" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="1060.0" y1="188.0" x2="1060.0" y2="232.0" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" />
+<path d="M1056.7 225.8 L1060.0 232.0 L1063.3 225.8" fill="none" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="1000.0" y="216.0" font-size="11" font-weight="800" fill="#1e2a4a" text-anchor="end" >alerts</text>
+<text x="1070.0" y="216.0" font-size="11" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">/status</text>
+<rect x="30.0" y="466.0" width="270.0" height="128.0" rx="12" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.6" stroke-dasharray="7 5"/>
+<text x="48.0" y="492.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >Module 19 simulator (optional)</text>
+<text x="48.0" y="512.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >stand-ins for real devices</text>
+<text x="48.0" y="536.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">f00d00000001 … f00d00000010</text>
+<text x="48.0" y="560.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >unchanged: devices and the</text>
+<text x="48.0" y="578.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >broker are locked in Module 21</text>
+<path d="M165 464 L165 330 Q165 318 177 318 L532 318 Q544 318 544 306 L544 238 Q544 226 556 226" fill="none" stroke="#9aa3b0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="7 5"/>
+<path d="M546 220 L556 226 L546 232" fill="none" stroke="#9aa3b0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="350.0" y="310.0" font-size="11" font-weight="800" fill="#9aa3b0" text-anchor="middle" >MQTT</text>
+<rect x="30.0" y="624.0" width="270.0" height="226.0" rx="12" fill="#eef1f5" />
+<text x="48.0" y="650.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Honest note:</text>
+<text x="48.0" y="676.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >•</text>
+<text x="60.0" y="676.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the backend is still only at</text>
+<text x="60.0" y="695.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" font-weight="700">127.0.0.1</tspan> (the laptop)</text>
+<text x="48.0" y="720.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >•</text>
+<text x="60.0" y="720.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">a wristband that was copied</text>
+<text x="60.0" y="739.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">stays valid, 15 minutes at most</text>
+<text x="48.0" y="764.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >•</text>
+<text x="60.0" y="764.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the hourglass count is in memory:</text>
+<text x="60.0" y="783.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">zero again on a backend <tspan>restart</tspan></text>
+<text x="48.0" y="808.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >•</text>
+<text x="60.0" y="808.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">MQTT and the broker aren't</text>
+<text x="60.0" y="827.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">locked yet (Module 21)</text>
+<rect x="330.0" y="410.0" width="840.0" height="686.0" rx="16" fill="#ffffff" stroke="#1a7f37" stroke-width="2.4" />
+<rect x="348.0" y="427.0" width="40.0" height="26.0" rx="3" fill="none" stroke="#1a7f37" stroke-width="2" />
+<path d="M342 457 L394 457" fill="none" stroke="#1a7f37" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="402.0" y="438.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Laptop</text>
+<text x="402.0" y="458.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >backend at 127.0.0.1:8080</text>
+<line x1="1035.0" y1="330.0" x2="1035.0" y2="498.0" stroke="#1a7f37" stroke-width="2.4" stroke-linecap="round" />
+<line x1="1035.0" y1="498.0" x2="888.0" y2="498.0" stroke="#1a7f37" stroke-width="2.4" stroke-linecap="round" />
+<path d="M891.1 494.2 L884.0 498.0 L891.1 501.8" fill="none" stroke="#1a7f37" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M1038.8 337.1 L1035.0 330.0 L1031.2 337.1" fill="none" stroke="#1a7f37" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="1047.0" y="353.0" font-size="11.5" font-weight="800" fill="#1a7f37" text-anchor="start" >internet:<tspan x="1047.0" dy="17">outgoing HTTPS</tspan></text>
+<text x="1047.0" y="387.0" font-size="11.5" font-weight="800" fill="#1a7f37" text-anchor="start" xml:space="preserve"><tspan>long polling</tspan></text>
+<rect x="346.0" y="470.0" width="534.0" height="396.0" rx="12" fill="#dafbe1" stroke="#1a7f37" stroke-width="1.8" />
+<text x="364.0" y="496.0" font-size="15.5" font-weight="800" fill="#1a7f37" text-anchor="start" >backend v0.5</text>
+<text x="364.0" y="516.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >locked for people</text>
+<text x="364.0" y="546.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Fastify + TypeScript, data contract 1.3</text>
+<text x="364.0" y="568.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">• accounts, <tspan>login</tspan>, bcrypt fingerprints <tspan font-weight="800" fill="#1a7f37">(new)</tspan></text>
+<text x="364.0" y="590.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">• JWT in an <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="800">httpOnly</tspan> cookie <tspan font-weight="800" fill="#1a7f37">(new)</tspan></text>
+<text x="364.0" y="612.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">• <tspan>refresh token</tspan> + table <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="800">sessions</tspan> <tspan font-weight="800" fill="#1a7f37">(new)</tspan></text>
+<text x="364.0" y="634.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">• guard: 401 and 403 <tspan font-weight="800" fill="#1a7f37">(new)</tspan></text>
+<text x="364.0" y="656.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">• roles <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="800">admin</tspan> and <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="800">viewer</tspan> <tspan font-weight="800" fill="#1a7f37">(new)</tspan></text>
+<text x="364.0" y="678.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">• <tspan>rate limit on</tspan> <tspan>login</tspan>: 10 per minute <tspan font-weight="800" fill="#1a7f37">(new)</tspan></text>
+<text x="364.0" y="700.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">• CORS + origin check <tspan font-weight="800" fill="#1a7f37">(new)</tspan></text>
+<text x="364.0" y="722.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">• Socket.IO locked too <tspan font-weight="800" fill="#1a7f37">(new)</tspan></text>
+<text x="364.0" y="744.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">• <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="800">.env</tspan> checked by Zod <tspan font-weight="800" fill="#1a7f37">(new)</tspan></text>
+<text x="364.0" y="766.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">• Vitest 18 tests, +7 security <tspan font-weight="800" fill="#1a7f37">(new)</tspan></text>
+<text x="364.0" y="788.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">• unchanged: realtime, rules, schedules,</text>
+<text x="364.0" y="810.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">   Telegram bot; 0.5.0 in <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="800">/docs</tspan></text>
+<text x="650.0" y="496.0" font-size="12.5" font-weight="800" fill="#4a5568" text-anchor="start" >API</text>
+<text x="650.0" y="518.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="start" xml:space="preserve">open without a <tspan>login</tspan>:</text>
+<text x="650.0" y="536.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">GET  /health</text>
+<text x="650.0" y="554.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">GET  /docs</text>
+<text x="650.0" y="572.0" font-size="11.5" font-weight="800" fill="#1a7f37" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">POST /auth/login</text>
+<text x="768.9" y="572.0" font-size="11.5" font-weight="800" fill="#1a7f37" text-anchor="start" >(new)</text>
+<text x="650.0" y="590.0" font-size="11.5" font-weight="800" fill="#1a7f37" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">POST /auth/refresh</text>
+<text x="782.7" y="590.0" font-size="11.5" font-weight="800" fill="#1a7f37" text-anchor="start" >(new)</text>
+<text x="650.0" y="608.0" font-size="11.5" font-weight="800" fill="#1a7f37" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">POST /auth/logout</text>
+<text x="775.8" y="608.0" font-size="11.5" font-weight="800" fill="#1a7f37" text-anchor="start" >(new)</text>
+<rect x="650.5" y="627.5" width="11.0" height="8.5" rx="1.5" fill="none" stroke="#1a7f37" stroke-width="1.4" />
+<path d="M652.75 627.50 L652.75 625.00 A3.25 3.25 0 0 1 659.25 625.00 L659.25 627.50" fill="none" stroke="#1a7f37" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="656.0" cy="631.5" r="1.2" fill="#1a7f37" />
+<text x="670.0" y="634.0" font-size="11.5" font-weight="800" fill="#1a7f37" text-anchor="start" xml:space="preserve">needs a <tspan>login</tspan> (all the rest):</text>
+<text x="650.0" y="652.0" font-size="11.5" font-weight="800" fill="#1a7f37" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">GET  /auth/me</text>
+<text x="748.1" y="652.0" font-size="11.5" font-weight="800" fill="#1a7f37" text-anchor="start" >(new)</text>
+<text x="650.0" y="670.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">GET  /devices</text>
+<text x="650.0" y="688.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">GET  /devices/:id/latest</text>
+<text x="650.0" y="706.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">GET  /devices/:id/vitals</text>
+<text x="650.0" y="724.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">GET  /devices/:id/readings</text>
+<text x="650.0" y="742.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">GET  /devices/:id/state</text>
+<text x="650.0" y="760.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">GET  /rules</text>
+<text x="650.0" y="778.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">POST /devices/:id/command</text>
+<text x="650.0" y="796.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">POST /rules</text>
+<text x="650.0" y="814.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">PUT  /rules/:id</text>
+<text x="650.0" y="832.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">POST /rules/:id/run</text>
+<text x="650.0" y="852.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">POST</tspan>/<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">PUT</tspan>: only <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">admin</tspan></text>
+<line x1="624.0" y1="872.0" x2="624.0" y2="896.0" stroke="#336791" stroke-width="2.6" stroke-linecap="round" />
+<path d="M620.2 891.9 L624.0 899.0 L627.8 891.9" fill="none" stroke="#336791" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M627.8 876.1 L624.0 869.0 L620.2 876.1" fill="none" stroke="#336791" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="638.0" y="890.0" font-size="12" font-weight="700" fill="#336791" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.0" font-weight="800">pg</tspan> (<tspan>pool</tspan>)</text>
+<rect x="346.0" y="904.0" width="534.0" height="178.0" rx="12" fill="#e6edf5" stroke="#336791" stroke-width="2" />
+<path d="M367 931 L367 953 A15 5 0 0 0 397 953 L397 931" fill="none" stroke="#336791" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<ellipse cx="382" cy="931" rx="15" ry="5" fill="none" stroke="#336791" stroke-width="2"/>
+<path d="M367 942 A15 5 0 0 0 397 942" fill="none" stroke="#336791" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="414.0" y="932.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Docker Desktop: container <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12.9" font-weight="800">smarthome-db</tspan></text>
+<text x="414.0" y="952.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >PostgreSQL 17 + TimescaleDB 2.30.2</text>
+<text x="414.0" y="972.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">volume <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="700">smarthome-data</tspan> · counter <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="700">127.0.0.1:5432</tspan></text>
+<text x="366.0" y="998.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">• new table <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="700">sessions</tspan>: SHA-256 of the season pass, 7 days <tspan font-weight="800" fill="#336791">(new)</tspan></text>
+<text x="366.0" y="1019.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">• <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="700">users</tspan> + <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="700">password_hash</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="700">password_changed_at</tspan> <tspan font-weight="800" fill="#336791">(new)</tspan></text>
+<text x="366.0" y="1040.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">• example accounts: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="700">admin@home.test</tspan> (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="700">admin</tspan>), <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="700">viewer@home.test</tspan> (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="700">viewer</tspan>)</text>
+<text x="366.0" y="1061.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">• unchanged: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="700">readings</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="700">events</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="700">commands</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="700">rules</tspan>, clerks</text>
+<rect x="912.0" y="520.0" width="248.0" height="84.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.4" />
+<rect x="921.0" y="548.0" width="38.0" height="28.0" rx="4" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<path d="M928 556 L934 562 L928 568" fill="none" stroke="#1e2a4a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="937.0" y1="568.0" x2="949.0" y2="568.0" stroke="#1e2a4a" stroke-width="1.8" stroke-linecap="round" />
+<text x="970.0" y="542.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >small terminal</text>
+<text x="970.0" y="561.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan>login</tspan> as <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="700">viewer</tspan> from</text>
+<text x="970.0" y="577.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="700">tools/.env</tspan>; the same <tspan>cookie</tspan></text>
+<text x="970.0" y="593.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">in the Socket.IO <tspan>handshake</tspan></text>
+<rect x="912.0" y="614.0" width="248.0" height="84.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.4" />
+<rect x="921.0" y="642.0" width="38.0" height="28.0" rx="4" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<line x1="921.0" y1="650.0" x2="959.0" y2="650.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<circle cx="926.0" cy="646.0" r="1.1" fill="#1e2a4a" />
+<circle cx="930.5" cy="646.0" r="1.1" fill="#1e2a4a" />
+<circle cx="935.0" cy="646.0" r="1.1" fill="#1e2a4a" />
+<text x="970.0" y="636.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >Bruno</text>
+<text x="970.0" y="655.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan>cookie</tspan> saved automatically;</text>
+<text x="970.0" y="671.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">+ 6 new requests; passwords in</text>
+<text x="970.0" y="687.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="700">bruno/.env</tspan> (not in Git)</text>
+<rect x="912.0" y="708.0" width="248.0" height="84.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.4" />
+<rect x="921.0" y="736.0" width="38.0" height="28.0" rx="4" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<line x1="921.0" y1="744.0" x2="959.0" y2="744.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<circle cx="926.0" cy="740.0" r="1.1" fill="#1e2a4a" />
+<circle cx="930.5" cy="740.0" r="1.1" fill="#1e2a4a" />
+<circle cx="935.0" cy="740.0" r="1.1" fill="#1e2a4a" />
+<text x="970.0" y="730.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >browser</text>
+<text x="970.0" y="749.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="700">/docs</tspan>: Try it out</text>
+<text x="970.0" y="765.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="700">POST</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="700">/auth/login</tspan> first;</text>
+<text x="970.0" y="781.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan>cookie</tspan> sent by the browser</text>
+<line x1="884.0" y1="562.0" x2="908.0" y2="562.0" stroke="#1a7f37" stroke-width="2.2" stroke-linecap="round" />
+<path d="M900.9 565.8 L908.0 562.0 L900.9 558.2" fill="none" stroke="#1a7f37" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="908.0" y1="656.0" x2="884.0" y2="656.0" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" />
+<path d="M891.1 652.2 L884.0 656.0 L891.1 659.8" fill="none" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="908.0" y1="750.0" x2="884.0" y2="750.0" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" />
+<path d="M891.1 746.2 L884.0 750.0 L891.1 753.8" fill="none" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="896.0" y="594.0" font-size="11" font-weight="800" fill="#1a7f37" text-anchor="middle" xml:space="preserve"><tspan>live</tspan></text>
+<text x="898.0" y="706.0" font-size="10.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" >HTTP</text>
+<text x="1036.0" y="824.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="middle" >all of them carry the</text>
+<text x="1036.0" y="840.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="middle" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1a7f37" font-weight="800">access</tspan> cookie (wristband)</text>
+<rect x="912.0" y="908.0" width="248.0" height="52.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.4" />
+<rect x="921.0" y="920.0" width="38.0" height="28.0" rx="4" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<line x1="921.0" y1="928.0" x2="959.0" y2="928.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<circle cx="926.0" cy="924.0" r="1.1" fill="#1e2a4a" />
+<circle cx="930.5" cy="924.0" r="1.1" fill="#1e2a4a" />
+<circle cx="935.0" cy="924.0" r="1.1" fill="#1e2a4a" />
+<text x="970.0" y="930.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >DBeaver</text>
+<text x="970.0" y="948.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">via counter 5432</text>
+<line x1="908.0" y1="934.0" x2="884.0" y2="934.0" stroke="#336791" stroke-width="2.2" stroke-linecap="round" />
+<path d="M891.1 930.2 L884.0 934.0 L891.1 937.8" fill="none" stroke="#336791" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="912.0" y="966.0" width="248.0" height="52.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.4" />
+<rect x="921.0" y="978.0" width="38.0" height="28.0" rx="4" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<path d="M928 986 L934 992 L928 998" fill="none" stroke="#1e2a4a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="937.0" y1="998.0" x2="949.0" y2="998.0" stroke="#1e2a4a" stroke-width="1.8" stroke-linecap="round" />
+<text x="970.0" y="988.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >psql</text>
+<text x="970.0" y="1006.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">via <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" font-weight="700">docker</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" font-weight="700">exec</tspan></text>
+<line x1="908.0" y1="992.0" x2="884.0" y2="992.0" stroke="#336791" stroke-width="2.2" stroke-linecap="round" />
+<path d="M891.1 988.2 L884.0 992.0 L891.1 995.8" fill="none" stroke="#336791" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="912.0" y="1024.0" width="248.0" height="52.0" rx="10" fill="#ffffff" stroke="#336791" stroke-width="1.4" />
+<path d="M923 1039 L934 1039 L938 1043 L957 1043 L957 1063 L923 1063 Z" fill="none" stroke="#336791" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="923.0" y1="1048.0" x2="957.0" y2="1048.0" stroke="#336791" stroke-width="1.4" stroke-linecap="round" />
+<text x="970.0" y="1046.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">backup/</text>
+<text x="970.0" y="1064.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >pg_dump files (Module 18)</text>
+<line x1="882.0" y1="1050.0" x2="908.0" y2="1050.0" stroke="#336791" stroke-width="2.2" stroke-linecap="round" />
+<path d="M900.9 1053.8 L908.0 1050.0 L900.9 1046.2" fill="none" stroke="#336791" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="690.0" y1="390.0" x2="690.0" y2="466.0" stroke="#1a7f37" stroke-width="2.6" stroke-linecap="round" />
+<path d="M685.8 458.1 L690.0 466.0 L694.2 458.1" fill="none" stroke="#1a7f37" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="730.0" y1="466.0" x2="730.0" y2="390.0" stroke="#1a7f37" stroke-width="2.6" stroke-linecap="round" />
+<path d="M734.2 397.9 L730.0 390.0 L725.8 397.9" fill="none" stroke="#1a7f37" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="682.0" y="434.0" font-size="12" font-weight="800" fill="#1a7f37" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">msh/#</text>
+<text x="738.0" y="428.0" font-size="12" font-weight="800" fill="#1a7f37" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">cmd</text>
+<text x="738.0" y="446.0" font-size="11" font-weight="700" fill="#1a7f37" text-anchor="start" >set, config</text>
+<rect x="30.0" y="1110.0" width="760.0" height="340.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<path d="M50 1152 Q40 1152 42 1142 Q44 1132 56 1134 Q62 1122 76 1127 Q88 1124 90 1136 Q100 1138 98 1147 Q96 1152 88 1152 Z" fill="none" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="108.0" y="1144.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >GitHub: mini-smart-home</text>
+<text x="770.0" y="1144.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="end" xml:space="preserve">branch <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="700">feature/user-security</tspan> → <tspan>pull request</tspan> to <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="700">main</tspan></text>
+<rect x="50.0" y="1160.0" width="13.0" height="13.0" rx="3" fill="#1a7f37" stroke="#1a7f37" stroke-width="1.4" />
+<path d="M53 1166.8 L55.6 1169.4 L60.2 1163.8" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<text x="72.0" y="1172.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan>pull request</tspan> "user security" reviewed with the <tspan font-weight="800" fill="#1a7f37">security checklist</tspan>, then <tspan>merged</tspan></text>
+<text x="50.0" y="1204.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">backend/package.json</text>
+<text x="198.6" y="1204.0" font-size="12" font-weight="700" fill="#1a7f37" text-anchor="start" xml:space="preserve">+5 packages, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="800">allowScripts</tspan> bcrypt, script <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="800">users</tspan>, 0.5.0</text>
+<text x="50.0" y="1225.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">backend/migrations/008_login_and_sessions.sql</text>
+<text x="371.8" y="1225.0" font-size="12" font-weight="700" fill="#1a7f37" text-anchor="start" xml:space="preserve">new</text>
+<text x="440.0" y="1225.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">backend/src/routes/auth.ts</text>
+<text x="630.2" y="1225.0" font-size="12" font-weight="700" fill="#1a7f37" text-anchor="start" xml:space="preserve">new</text>
+<text x="50.0" y="1246.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">backend/src/auth/</text>
+<text x="177.8" y="1246.0" font-size="12" font-weight="700" fill="#1a7f37" text-anchor="start" xml:space="preserve">new: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="800">password.ts</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="800">token.ts</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="800">security.ts</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="800">auth.test.ts</tspan></text>
+<text x="50.0" y="1267.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">backend/src/db/users.ts + manage-users.ts</text>
+<text x="344.2" y="1267.0" font-size="12" font-weight="700" fill="#1a7f37" text-anchor="start" xml:space="preserve">new</text>
+<text x="440.0" y="1267.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">backend/src/services/realtime.ts</text>
+<text x="671.8" y="1267.0" font-size="12" font-weight="700" fill="#1a7f37" text-anchor="start" xml:space="preserve">locked</text>
+<text x="50.0" y="1288.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">backend/src/config/env.ts + .env.example</text>
+<text x="337.2" y="1288.0" font-size="12" font-weight="700" fill="#1a7f37" text-anchor="start" xml:space="preserve">Zod; <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="800">JWT_SECRET</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="800">CORS_ORIGIN</tspan></text>
+<text x="50.0" y="1309.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">backend/src/routes/health.ts</text>
+<text x="254.0" y="1309.0" font-size="12" font-weight="700" fill="#1a7f37" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="800">/health</tspan> open</text>
+<text x="440.0" y="1309.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">backend/.gitignore</text>
+<text x="574.7" y="1309.0" font-size="12" font-weight="700" fill="#1a7f37" text-anchor="start" xml:space="preserve">+ <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="800">login*.json</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="800">cookies*.txt</tspan></text>
+<text x="50.0" y="1330.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">backend/src/server.ts</text>
+<text x="205.5" y="1330.0" font-size="12" font-weight="700" fill="#1a7f37" text-anchor="start" xml:space="preserve">security before routes, padlocks in <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="800">/docs</tspan>, 0.5.0</text>
+<text x="50.0" y="1351.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">backend/bruno/</text>
+<text x="157.0" y="1351.0" font-size="12" font-weight="700" fill="#1a7f37" text-anchor="start" xml:space="preserve">+ 6 requests</text>
+<text x="300.0" y="1351.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">backend/README.md</text>
+<text x="427.8" y="1351.0" font-size="12" font-weight="700" fill="#1a7f37" text-anchor="start" xml:space="preserve">v0.5</text>
+<text x="50.0" y="1372.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">tools/live-terminal.js</text>
+<text x="212.4" y="1372.0" font-size="12" font-weight="700" fill="#1a7f37" text-anchor="start" xml:space="preserve"><tspan>login</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="800">viewer</tspan></text>
+<text x="310.0" y="1372.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">tools/.env.example</text>
+<text x="444.7" y="1372.0" font-size="12" font-weight="700" fill="#1a7f37" text-anchor="start" xml:space="preserve">new</text>
+<text x="490.0" y="1372.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">tools/.gitignore</text>
+<text x="610.9" y="1372.0" font-size="12" font-weight="700" fill="#1a7f37" text-anchor="start" xml:space="preserve">+ <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="800">.env</tspan></text>
+<text x="50.0" y="1393.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">.github/pull_request_template.md</text>
+<text x="281.8" y="1393.0" font-size="12" font-weight="700" fill="#1a7f37" text-anchor="start" xml:space="preserve">+ Security checklist</text>
+<rect x="46.0" y="1406.0" width="728.0" height="30.0" rx="8" fill="#eef1f5" />
+<rect x="57.0" y="1418.3" width="12.1" height="9.4" rx="1.6500000000000001" fill="none" stroke="#1e2a4a" stroke-width="1.5" />
+<path d="M59.42 1418.35 L59.42 1415.60 A3.58 3.58 0 0 1 66.58 1415.60 L66.58 1418.35" fill="none" stroke="#1e2a4a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="63.0" cy="1422.8" r="1.29" fill="#1e2a4a" />
+<text x="80.0" y="1426.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve">never in Git: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="800">backend/.env</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="800">backend/bruno/.env</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="800">tools/.env</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="800">login*.json</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="800">cookies*.txt</tspan></text>
+<text x="810.0" y="1126.0" font-size="12.5" font-weight="800" fill="#4a5568" text-anchor="start" >coming next</text>
+<rect x="810.0" y="1138.0" width="360.0" height="70.0" rx="8" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.4" stroke-dasharray="7 5"/>
+<g transform="translate(832 1173.0) scale(0.55) translate(-832 -1173.0)">
+<rect x="821.0" y="1170.0" width="22.0" height="17.0" rx="3" fill="none" stroke="#4a5568" stroke-width="2" />
+<path d="M825.5 1170.0 L825.5 1165.0 A6.5 6.5 0 0 1 838.5 1165.0 L838.5 1170.0" fill="none" stroke="#4a5568" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="832.0" cy="1178.0" r="1.8" fill="#4a5568" />
+</g>
+<text x="856.0" y="1159.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Module 21</text>
+<text x="934.2" y="1159.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">device keys: <tspan>API keys</tspan>,</text>
+<text x="934.2" y="1177.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan>provisioning</tspan>, and broker access</text>
+<text x="934.2" y="1195.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">control (ACL)</text>
+<rect x="810.0" y="1218.0" width="360.0" height="70.0" rx="8" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.4" stroke-dasharray="7 5"/>
+<g transform="translate(832 1253.0) scale(0.55) translate(-832 -1253.0)">
+<rect x="813.0" y="1239.0" width="38.0" height="28.0" rx="4" fill="none" stroke="#4a5568" stroke-width="2" />
+<path d="M819 1260.0 L827 1252.0 L834 1257.0 L845 1245.0" fill="none" stroke="#4a5568" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+</g>
+<text x="856.0" y="1239.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Module 22</text>
+<text x="934.2" y="1239.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">React dashboard, starting</text>
+<text x="934.2" y="1257.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">with a minimal <tspan>login</tspan> form;</text>
+<text x="934.2" y="1275.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">Vite origin 5173 is in <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="700">CORS_ORIGIN</tspan></text>
+<rect x="810.0" y="1298.0" width="360.0" height="52.0" rx="8" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.4" stroke-dasharray="7 5"/>
+<g transform="translate(832 1324.0) scale(0.55) translate(-832 -1324.0)">
+<path d="M812 1334.0 Q802 1334.0 804 1324.0 Q806 1314.0 818 1316.0 Q824 1304.0 838 1309.0 Q850 1306.0 852 1318.0 Q862 1320.0 860 1329.0 Q858 1334.0 850 1334.0 Z" fill="none" stroke="#4a5568" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+</g>
+<text x="856.0" y="1319.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Phase 5</text>
+<text x="921.2" y="1319.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">HTTPS and <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="700">Secure</tspan> cookies when</text>
+<text x="921.2" y="1337.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">the backend is on the internet</text>
+<text x="1178.0" y="1466.0" font-size="11" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer curriculum · CC BY 4.0</text>
+</svg>

@@ -1,11 +1,13 @@
-// server.ts - the entry point of the Mini Smart Home backend v0.4 (Module 19: realtime data, a single door for commands,
-// automation rules, schedules, and Telegram notifications).
+// server.ts - the entry point of the Mini Smart Home backend v0.5 (Module 20: login, JWT in cookies, roles, and API protection,
+// on top of Module 19: realtime data, a single door for commands, automation rules, schedules, and Telegram notifications).
 // Run: npm run dev (automatically restarts when a file is saved) or npm start.
 import Fastify, { LogController } from "fastify";
 import swagger from "@fastify/swagger";
 import swaggerUi from "@fastify/swagger-ui";
 import { jsonSchemaTransform, serializerCompiler, validatorCompiler } from "fastify-type-provider-zod";
 import { env } from "./config/env.ts";
+import { setupSecurity } from "./auth/security.ts";
+import { authRoutes } from "./routes/auth.ts";
 import { healthRoutes } from "./routes/health.ts";
 import { deviceRoutes } from "./routes/devices.ts";
 import { ruleRoutes } from "./routes/rules.ts";
@@ -24,17 +26,34 @@ const app = Fastify({
 });
 useLog(app.log); // Module 19: other services (commands, rules, schedules, Telegram) write to the same log
 app.addHook("onResponse", async (req, reply) => {
-  // ...so it's replaced by one line per request (hook = Fastify's "middleware")
+  // ...so it's replaced by one line per request (hook = Fastify's "middleware"). Only the method, the address, and the status
+  // code: the request content (passwords!) and the cookies (tokens!) are never written to the log.
   req.log.info(`${req.method} ${req.url} -> ${reply.statusCode} (${Math.round(reply.elapsedTime)} ms)`);
 });
 app.setValidatorCompiler(validatorCompiler); // Zod schemas check the content of requests...
 app.setSerializerCompiler(serializerCompiler); // ...and the shape of replies
 
+await setupSecurity(app); // Module 20: CORS, cookies, JWT, rate limit, and the guard on every request (BEFORE the routes)
 await app.register(swagger, {
-  openapi: { info: { title: "Mini Smart Home API", description: "Backend v0.4 (Module 19)", version: "0.4.0" } },
+  openapi: {
+    info: {
+      title: "Mini Smart Home API",
+      description: "Backend v0.5 (Module 20). Every route needs a login, except the ones without a padlock. Log in first with "
+        + "POST /auth/login (Try it out): the browser keeps the access cookie and sends it by itself to the other routes. "
+        + "Viewer accounts can only look (GET); commands and changes are answered with 403.",
+      version: "0.5.0",
+    },
+    components: {
+      securitySchemes: { // Module 20: routes with a padlock need the access cookie from POST /auth/login
+        accessCookie: { type: "apiKey", in: "cookie", name: "access", description: "access JWT (httpOnly) from POST /auth/login" },
+      },
+    },
+    security: [{ accessCookie: [] }], // default: every route has a padlock; open routes write security: []
+  },
   transform: jsonSchemaTransform, // the same Zod schemas become the OpenAPI documentation
 });
 await app.register(swaggerUi, { routePrefix: "/docs" });
+await app.register(authRoutes); // Module 20
 await app.register(healthRoutes);
 await app.register(deviceRoutes);
 await app.register(ruleRoutes); // Module 19
@@ -46,7 +65,7 @@ try {
 } catch (error) {
   app.log.error(`automation rules couldn't be loaded yet: ${(error as Error).message}`);
 }
-startRealtime(app); // Module 19: Socket.IO at the address /socket.io/
+startRealtime(app); // Module 19: Socket.IO at the address /socket.io/ (Module 20: locked too)
 startMqtt(env.MQTT_URL, app.log);
 startTelegram(env.TELEGRAM_BOT_TOKEN, env.TELEGRAM_CHAT_ID, env.TELEGRAM_API_ROOT); // Module 19: not awaited
 await app.listen({ port: env.PORT, host: env.HOST });

@@ -4,7 +4,7 @@
 
 *Phase 3 · Week 19 · Hardware: **Kit A + B** (Node 1 and the Pi gateway from Modules 12–15) **or just a laptop** (a new version of the Module 16 simulator, and Wokwi) · Prerequisites: **Module 18** (backend v0.3 and the `smarthome` database with TimescaleDB) · Time: 9–11 hours, spread over the week*
 
-[⬅️ Module 18](../module-18-timescaledb/README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · [Module 20 ➡️ (coming soon — read the summary in the Syllabus)](../../SYLLABUS.md#module-20--user-security-login-jwt-in-cookies-roles--api-protection)
+[⬅️ Module 18](../module-18-timescaledb/README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · [Module 20 ➡️](../module-20-user-security/README.md)
 
 ---
 
@@ -5442,4 +5442,4 @@ The completion requirement from the Syllabus: **changing the temperature thresho
 
 ---
 
-[⬅️ Module 18](../module-18-timescaledb/README.md) · [Phase 3](../README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · **Next: Module 20 — User Security: Login, JWT in Cookies, Roles, & API Protection** (coming soon; [read the summary in the Syllabus](../../SYLLABUS.md#module-20--user-security-login-jwt-in-cookies-roles--api-protection))
+[⬅️ Module 18](../module-18-timescaledb/README.md) · [Phase 3](../README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · **Next: [Module 20 — User Security: Login, JWT in Cookies, Roles, & API Protection](../module-20-user-security/README.md) ➡️**

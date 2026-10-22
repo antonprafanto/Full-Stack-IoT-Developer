@@ -4,3 +4,6 @@ node_modules/
 .env
 # a photocopy of the database (pg_dump): large and holds personal data, keep it outside Git
 backup/
+# Module 20 curl test files: they hold passwords and cookies
+login*.json
+cookies*.txt
