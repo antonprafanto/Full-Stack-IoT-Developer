@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<!--
+  Latihan 3 — OTOT (JavaScript di browser). Pemanasan Modul 22.
+  Di Modul 4, JavaScript berjalan di Node.js (terminal). Di sini bahasanya sama, tetapi berjalan di browser
+  dan punya satu "mainan" baru: document, yaitu pohon elemen halaman (DOM) yang bisa dibaca dan diubah.
+  Buka DevTools (F12), tab Console, sebelum mencoba: semua pesan dan galat muncul di sana.
+-->
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Latihan 3 - Otot</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 0; padding: 16px; color: #1e293b; background: #f8fafc; }
+    section { margin-bottom: 20px; }
+    .tombol { padding: 10px 16px; font: inherit; border: 1px solid #94a3b8; border-radius: 8px; background: white; cursor: pointer; }
+    .tombol:disabled { opacity: 0.5; cursor: default; }
+    .lampu { display: inline-block; padding: 2px 10px; border-radius: 999px; background: #e2e8f0; }
+    .lampu.menyala { background: #fde68a; color: #78350f; }
+    .kartu { display: inline-block; margin: 4px; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 8px; background: white; }
+    .kartu.sorot { border-color: #0f766e; background: #ccfbf1; }
+    #catatan li { font-family: ui-monospace, monospace; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <h1>Latihan Otot</h1>
+
+  <section>
+    <h2>1. Tombol yang mengubah teks dan class</h2>
+    <p>Lampu: <span class="lampu" id="teks-lampu">PADAM</span></p>
+    <button type="button" class="tombol" id="tombol-lampu">Nyalakan lampu</button>
+    <p>Sudah diketuk <b id="jumlah">0</b> kali.</p>
+  </section>
+
+  <section>
+    <h2>2. Kejadian "input": ambang suhu kipas</h2>
+    <label for="ambang">Kipas menyala kalau suhu di atas <b id="teks-ambang">30</b> &deg;C</label><br>
+    <input type="range" id="ambang" min="25" max="40" value="30">
+  </section>
+
+  <section>
+    <h2>3. Memilih banyak elemen sekaligus</h2>
+    <div>
+      <span class="kartu">Suhu 28.4 &deg;C</span>
+      <span class="kartu">Kelembapan 71 %</span>
+      <span class="kartu">Air tandon 64 %</span>
+    </div>
+    <button type="button" class="tombol" id="tombol-sorot">Sorot semua kartu</button>
+  </section>
+
+  <section>
+    <h2>4. Membuat elemen baru</h2>
+    <button type="button" class="tombol" id="tombol-hapus">Hapus catatan</button>
+    <ul id="catatan"></ul>
+  </section>
+
+  <!-- <script> ditaruh di AKHIR <body>: saat kode ini berjalan, semua elemen di atas sudah ada.
+       Kalau ditaruh di <head> tanpa pengaturan tambahan, querySelector() akan menjawab null. -->
+  <script>
+    console.log("Halo dari browser! Pesan ini muncul di tab Console.");
+
+    // ---------- 1. querySelector + addEventListener + textContent + classList ----------
+    // querySelector() memakai selector CSS yang sama dengan Latihan 2: "#id", ".class", "tag".
+    const teksLampu = document.querySelector("#teks-lampu");
+    const tombolLampu = document.querySelector("#tombol-lampu");
+    const teksJumlah = document.querySelector("#jumlah");
+    let lampu = false;
+    let jumlah = 0;
+
+    // addEventListener("click", fungsi): "kalau tombol ini diklik, jalankan fungsi ini".
+    // Mirip server.on("/on", tanganiOn) di ESP32: mendaftarkan petugas untuk satu kejadian.
+    tombolLampu.addEventListener("click", () => {
+      lampu = !lampu;   // balik: false jadi true, true jadi false
+      jumlah = jumlah + 1;
+      teksLampu.textContent = lampu ? "MENYALA" : "PADAM";
+      teksLampu.classList.toggle("menyala", lampu);
+      tombolLampu.textContent = lampu ? "Matikan lampu" : "Nyalakan lampu";
+      teksJumlah.textContent = String(jumlah);
+      tambahCatatan(lampu ? "lampu dinyalakan" : "lampu dimatikan");
+    });
+    // COBA 1: ganti "#tombol-lampu" di atas menjadi "#tombol-lampuu" (salah ketik), simpan, muat ulang.
+    // Console menulis galat merah: Cannot read properties of null (reading 'addEventListener').
+    // Artinya querySelector() tidak menemukan elemennya dan menjawab null. Galat ini akan sering kamu temui.
+
+    // ---------- 2. Kejadian "input": berjalan setiap kali penggeser digeser ----------
+    const penggeser = document.querySelector("#ambang");
+    const teksAmbang = document.querySelector("#teks-ambang");
+    penggeser.addEventListener("input", () => {
+      teksAmbang.textContent = penggeser.value; // value selalu berupa teks, misalnya "33"
+    });
+
+    // ---------- 3. querySelectorAll: SEMUA elemen yang cocok ----------
+    document.querySelector("#tombol-sorot").addEventListener("click", () => {
+      const semuaKartu = document.querySelectorAll(".kartu");
+      semuaKartu.forEach((kartu) => kartu.classList.toggle("sorot"));
+      console.log("Jumlah kartu:", semuaKartu.length);
+    });
+
+    // ---------- 4. createElement + append: membuat elemen dari kode ----------
+    const daftarCatatan = document.querySelector("#catatan");
+    function tambahCatatan(teks) {
+      const butir = document.createElement("li");                              // buat <li> kosong
+      butir.textContent = new Date().toLocaleTimeString("id-ID") + "  " + teks; // isi teksnya
+      daftarCatatan.append(butir);                                              // tempel di akhir <ul>
+    }
+    document.querySelector("#tombol-hapus").addEventListener("click", () => {
+      daftarCatatan.replaceChildren(); // kosongkan isi <ul>
+    });
+    // COBA 2: ubah append(butir) menjadi prepend(butir). Catatan terbaru kini muncul paling atas.
+    // COBA 3: di tab Elements, lihat <ul id="catatan"> bertambah <li> setiap kali kamu mengetuk tombol lampu.
+  </script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<!--
+  kartu.html - Kemenangan Cepat Modul 22: kartu sensor pertamamu, ditulis dengan tangan.
+  Tanpa memasang apa pun: simpan berkas ini, lalu buka dengan klik dua kali.
+  Langkah 1 menulis KERANGKA (HTML), langkah 3 menambah KULIT (CSS di dalam <style>).
+-->
+<html lang="id">
+<head>
+  <meta charset="utf-8"> <!-- huruf disimpan sebagai UTF-8: tanda derajat tampil benar -->
+  <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- tampil pas di layar HP -->
+  <title>Kartu sensor</title> <!-- teks di tab browser -->
+
+  <!-- Langkah 3: KULIT. Setiap aturan berlaku untuk elemen dengan nama class yang sama.
+       Warna-warnanya hampir sama dengan warna Tailwind (slate dan teal) yang kita pakai di dashboard nanti. -->
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 24px;
+      background: #f1f5f9; /* slate-100 */
+    }
+    .kartu {
+      max-width: 220px;
+      padding: 16px;
+      background: white;
+      border: 1px solid #e2e8f0; /* slate-200 */
+      border-radius: 12px; /* sudut membulat */
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); /* bayangan tipis */
+    }
+    .label {
+      margin: 0;
+      font-size: 14px;
+      color: #64748b; /* slate-500 */
+    }
+    .nilai {
+      margin: 4px 0 0;
+      font-size: 32px;
+      font-weight: 600; /* setengah tebal */
+      color: #0d9488; /* teal-600 */
+    }
+    .satuan {
+      margin-left: 4px;
+      font-size: 16px;
+      font-weight: normal;
+      color: #94a3b8; /* slate-400 */
+    }
+    .keterangan {
+      margin: 8px 0 0;
+      font-size: 12px;
+      color: #94a3b8;
+    }
+  </style>
+</head>
+<body>
+  <!-- Langkah 1: KERANGKA. Satu kartu berisi label, angka, dan satuan. -->
+  <div class="kartu">
+    <p class="label">Suhu ruang tamu</p>
+    <p class="nilai">28.5<span class="satuan">°C</span></p>
+    <p class="keterangan">Node 1 · angka contoh, belum dari sensor</p>
+  </div>
+</body>
+</html>

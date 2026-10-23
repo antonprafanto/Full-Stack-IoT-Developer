@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<!--
+  Jembatan ke React — "komponen buatan tangan". Pemanasan Modul 22.
+  Halaman polos Node 1 hanya punya satu perangkat dan lima kartu. Bagaimana kalau perangkatnya dua,
+  masing-masing punya kartu berbeda, dan ada halaman "Daftar" dan "Detail"? Menyalin HTML kartu berkali-kali
+  cepat menjadi kacau. Halaman ini memakai cara yang lebih rapi dengan JavaScript biasa:
+    - data disimpan di SATU objek (keadaan),
+    - kartu dibuat oleh SATU fungsi (KartuSensor) yang menerima data,
+    - seluruh layar digambar ulang oleh SATU fungsi (render).
+  Itulah ide React. Bedanya, di sini semuanya kita kerjakan sendiri, dan di bagian bawah tercatat apa yang masih "sakit".
+  Angka-angkanya contoh. Tidak ada perangkat atau server yang dihubungi.
+-->
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Jembatan - Komponen Tangan</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: system-ui, sans-serif; margin: 0; padding: 16px; color: #1e293b; background: #f1f5f9; }
+    .halaman { max-width: 560px; margin: 0 auto; }
+    .tombol { padding: 10px 16px; font: inherit; border: 1px solid #94a3b8; border-radius: 8px; background: white; cursor: pointer; }
+    .perangkat { display: block; width: 100%; margin-bottom: 8px; text-align: left; }
+    .perangkat small { color: #64748b; font-family: ui-monospace, monospace; }
+    .cari { width: 100%; padding: 10px; margin-bottom: 12px; font: inherit; border: 1px solid #94a3b8; border-radius: 8px; }
+    .daftar-kartu { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+    .kartu { flex: 1 1 140px; padding: 12px; background: white; border: 1px solid #cbd5e1; border-radius: 10px; }
+    .kartu-label { display: block; font-size: 14px; color: #64748b; }
+    .kartu-nilai { font-size: 26px; font-weight: 600; }
+    .kartu-satuan { margin-left: 4px; color: #94a3b8; }
+  </style>
+</head>
+<body>
+  <main class="halaman">
+    <h1>Rumah Pintar Mini</h1>
+    <!-- Hanya satu wadah kosong. Seluruh isinya dibuat oleh render() di bawah. -->
+    <div id="akar"></div>
+  </main>
+
+  <script>
+    // ---------- Satu sumber kebenaran: semua data layar ada di sini ----------
+    const keadaan = {
+      halaman: "daftar", // "daftar" atau "detail"
+      dipilih: null,     // device_id yang sedang dilihat
+      cari: "",          // isi kotak pencarian
+      perangkat: [
+        { device_id: "a4cf12e5b7c0", nama: "Node 1 Ruang Tamu", jenis: "node1",
+          telemetry: { suhu: 28.5, kelembapan: 71, cahaya: 3094, tanah: 70, level_air: 52 } },
+        { device_id: "246f28b1c7d4", nama: "Node 2 Kebun", jenis: "node2",
+          telemetry: { suhu: 26.1, kelembapan: 80, tekanan: 1008.3, suhu_tanah: 23.0, tanah: 65, baterai: 3.9 } },
+      ],
+    };
+
+    // ---------- "Komponen" buatan tangan: terima data, kembalikan elemen ----------
+    // Bandingkan dengan KartuSensor.tsx di React: idenya sama, tulisannya jauh lebih panjang.
+    function KartuSensor({ label, nilai, satuan }) {
+      const kartu = document.createElement("div");
+      kartu.className = "kartu";
+      const teksLabel = document.createElement("span");
+      teksLabel.className = "kartu-label";
+      teksLabel.textContent = label;
+      const teksNilai = document.createElement("span");
+      teksNilai.className = "kartu-nilai";
+      teksNilai.textContent = nilai === null || nilai === undefined ? "—" : String(nilai);
+      kartu.append(teksLabel, teksNilai);
+      if (satuan) {
+        const teksSatuan = document.createElement("span");
+        teksSatuan.className = "kartu-satuan";
+        teksSatuan.textContent = satuan;
+        kartu.append(teksSatuan);
+      }
+      return kartu;
+    }
+
+    // Kartu apa saja yang muncul bergantung pada jenis perangkat (Lampiran A).
+    function daftarKartu(p) {
+      const t = p.telemetry;
+      if (p.jenis === "node2") {
+        return [
+          { label: "Suhu", nilai: t.suhu, satuan: "°C" },
+          { label: "Kelembapan", nilai: t.kelembapan, satuan: "%" },
+          { label: "Tekanan", nilai: t.tekanan, satuan: "hPa" },
+          { label: "Suhu tanah", nilai: t.suhu_tanah, satuan: "°C" },
+          { label: "Kelembapan tanah", nilai: t.tanah, satuan: "%" },
+          { label: "Baterai", nilai: t.baterai, satuan: "V" },
+        ];
+      }
+      return [
+        { label: "Suhu", nilai: t.suhu, satuan: "°C" },
+        { label: "Kelembapan", nilai: t.kelembapan, satuan: "%" },
+        { label: "Cahaya", nilai: t.cahaya, satuan: "/4095" },
+        { label: "Kelembapan tanah", nilai: t.tanah, satuan: "%" },
+        { label: "Air tandon", nilai: t.level_air, satuan: "%" },
+      ];
+    }
+
+    // ---------- "Halaman" Daftar Perangkat ----------
+    function DaftarPerangkat() {
+      const wadah = document.createElement("div");
+
+      const kotakCari = document.createElement("input");
+      kotakCari.className = "cari";
+      kotakCari.placeholder = "Cari nama perangkat…";
+      kotakCari.value = keadaan.cari;
+      kotakCari.addEventListener("input", () => {
+        keadaan.cari = kotakCari.value;
+        render(); // MASALAH 3: render() membuang kotak ini dan membuat yang baru. Kursor ketik hilang!
+      });
+      wadah.append(kotakCari);
+
+      const cocok = keadaan.perangkat.filter((p) => p.nama.toLowerCase().includes(keadaan.cari.toLowerCase()));
+      for (const p of cocok) {
+        const tombol = document.createElement("button");
+        tombol.type = "button";
+        tombol.className = "tombol perangkat";
+        tombol.textContent = p.nama + " ";
+        const id = document.createElement("small");
+        id.textContent = p.device_id;
+        tombol.append(id);
+        tombol.addEventListener("click", () => {
+          keadaan.halaman = "detail"; // "pindah halaman" cukup dengan mengubah data
+          keadaan.dipilih = p.device_id;
+          render();
+        });
+        wadah.append(tombol);
+      }
+      return wadah;
+    }
+
+    // ---------- "Halaman" Detail Perangkat ----------
+    function DetailPerangkat() {
+      const p = keadaan.perangkat.find((x) => x.device_id === keadaan.dipilih);
+      const wadah = document.createElement("div");
+
+      const kembali = document.createElement("button");
+      kembali.type = "button";
+      kembali.className = "tombol";
+      kembali.textContent = "← Kembali ke daftar";
+      kembali.addEventListener("click", () => {
+        keadaan.halaman = "daftar";
+        render();
+      });
+
+      const judul = document.createElement("h2");
+      judul.textContent = p.nama;
+
+      const segarkan = document.createElement("button");
+      segarkan.type = "button";
+      segarkan.className = "tombol";
+      segarkan.textContent = "Pura-pura bacaan baru";
+      segarkan.addEventListener("click", () => {
+        p.telemetry.suhu = Math.round((25 + Math.random() * 8) * 10) / 10; // suhu acak 25,0–33,0
+        console.log("Suhu di data sekarang:", p.telemetry.suhu);
+        render(); // MASALAH 2: hapus baris ini, dan angka di layar tidak ikut berubah walaupun datanya berubah.
+      });
+
+      const baris = document.createElement("div");
+      baris.className = "daftar-kartu";
+      for (const k of daftarKartu(p)) {
+        baris.append(KartuSensor(k)); // satu fungsi, dipakai ulang untuk setiap kartu
+      }
+
+      wadah.append(kembali, judul, segarkan, baris);
+      return wadah;
+    }
+
+    // ---------- Gambar ulang seluruh layar dari keadaan ----------
+    function render() {
+      const isi = keadaan.halaman === "daftar" ? DaftarPerangkat() : DetailPerangkat();
+      document.querySelector("#akar").replaceChildren(isi);
+    }
+
+    render();
+
+    /*
+      Apa yang masih "sakit" (dan bagaimana React menolongnya):
+      1. Panjang. Satu kartu butuh belasan baris createElement. React memakai JSX:
+         <KartuSensor label="Suhu" nilai="28.5" satuan="°C" />  — mirip HTML, satu baris.
+      2. Wajib ingat render(). Lupa sekali, layar "basi" (coba hapus render() di tombol "Pura-pura bacaan baru").
+         React: ubah data lewat setState dari useState, layar ikut diperbarui otomatis.
+      3. render() membangun ulang SEMUANYA, termasuk kotak pencarian, sehingga kursor ketik hilang setiap
+         kali satu huruf diketik (coba sendiri). React membandingkan dulu, lalu hanya mengubah bagian yang berbeda.
+      4. Tidak ada yang menegur salah ketik. Tulis t.kelembaban (huruf b) di daftarKartu(), dan kartu hanya
+         menampilkan "—" tanpa pesan apa pun. TypeScript dengan tipe dari Lampiran A langsung menandainya merah.
+      5. Data sungguhan datang dari server lewat fetch, lengkap dengan "memuat" dan "galat" untuk setiap halaman.
+         Di React, pekerjaan itu diatur dengan useEffect + useState.
+    */
+  </script>
+</body>
+</html>

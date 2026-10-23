@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<!--
+  formulir-webhook.html - Praktik 1 Modul 22, langkah 1.6: dua cara halaman mengirim data ke server.
+  Siapkan dulu penerima dari Modul 4. Di terminal, masuk ke folder alat (rumah-pintar-mini/alat), lalu jalankan:
+      node penerima-webhook.js
+  Sesudah muncul "Penerima siap di http://localhost:3000", buka berkas ini dengan klik dua kali.
+    A. Formulir biasa: browser PINDAH ke halaman jawaban server, dan penerima mencetak isi formulirnya.
+    B. fetch() dengan JSON: halaman tetap di tempat, tetapi browser bertanya dulu (preflight OPTIONS).
+       Penerima Modul 4 tidak mengirim kepala CORS, jadi browser memblokirnya. Lihat Console (F12).
+  Jangan mengetik sandi sungguhan di sini: penerima mencetak semua isi kiriman apa adanya.
+-->
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kirim ke penerima Modul 4</title>
+<style>
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    font-family: sans-serif;
+    font-size: 18px;
+    margin: 0;
+    padding: 16px;
+    color: #1e293b;
+    background: #f1f5f9;
+  }
+  .halaman {
+    max-width: 480px;
+    margin: 0 auto;
+  }
+  h1 {
+    font-size: 24px;
+    margin: 0 0 12px;
+  }
+  h2 {
+    font-size: 18px;
+    margin: 0 0 8px;
+  }
+  .kotak {
+    margin-bottom: 16px;
+    padding: 16px;
+    background: white;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+  }
+  label {
+    display: block;
+    margin-top: 8px;
+    font-size: 14px;
+    color: #475569;
+  }
+  input {
+    width: 100%;
+    min-height: 44px;
+    padding: 8px;
+    font: inherit;
+    border: 1px solid #94a3b8;
+    border-radius: 8px;
+  }
+  button {
+    width: 100%;
+    min-height: 44px;
+    margin-top: 12px;
+    font: inherit;
+    font-size: 16px;
+    border: 1px solid #94a3b8;
+    border-radius: 8px;
+    background: white;
+    cursor: pointer;
+  }
+  .catatan {
+    margin: 12px 0 0;
+    font-size: 14px;
+    color: #64748b;
+  }
+</style>
+</head>
+<body>
+<main class="halaman">
+  <h1>Kirim ke penerima Modul 4</h1>
+
+  <section class="kotak">
+    <h2>A. Formulir biasa</h2>
+    <!-- method="post": isi dikirim di badan surat HTTP. action: alamat penerima (port 3000; jalurnya bebas).
+         Atribut name pada setiap kotak isian menjadi nama kolom yang dikirim: email=...&sandi=... -->
+    <form method="post" action="http://localhost:3000/formulir">
+      <label for="email">Email</label>
+      <input id="email" name="email" type="email" value="viewer@rumah.test" required>
+      <label for="sandi">Sandi (pura-pura)</label>
+      <input id="sandi" name="sandi" type="password" value="bukan-sandi-sungguhan" required>
+      <button type="submit">Kirim formulir</button>
+    </form>
+    <p class="catatan">Sesudah dikirim, browser pindah ke halaman jawaban penerima. Tekan <b>Alt + ←</b> (macOS: <b>Cmd + [</b>) untuk kembali.</p>
+  </section>
+
+  <section class="kotak">
+    <h2>B. fetch() dengan JSON</h2>
+    <button type="button" id="tombol-fetch">Kirim lewat fetch()</button>
+    <p class="catatan" id="hasil-fetch">Belum dikirim.</p>
+  </section>
+</main>
+
+<script>
+  const hasil = document.querySelector("#hasil-fetch");
+
+  document.querySelector("#tombol-fetch").addEventListener("click", async () => {
+    hasil.textContent = "Mengirim…";
+    // isi kotak formulir di atas, dijadikan objek lalu teks JSON
+    const isi = {
+      email: document.querySelector("#email").value,
+      sandi: document.querySelector("#sandi").value,
+    };
+    try {
+      const jawaban = await fetch("http://localhost:3000/json", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" }, // kepala inilah yang membuat browser bertanya dulu (preflight)
+        body: JSON.stringify(isi),
+      });
+      hasil.textContent = "Berhasil, kode " + jawaban.status + "."; // tidak akan sampai di sini dengan penerima Modul 4
+    } catch (err) {
+      // Browser menolak: jawaban OPTIONS dari penerima tidak membawa kepala Access-Control-Allow-Origin,
+      // jadi POST-nya tidak pernah dikirim. (Kalau penerima mati, galatnya sama: Failed to fetch.)
+      hasil.textContent = "Gagal: " + err.message + ". Buka Console (F12) untuk membaca alasannya.";
+      console.log("Cari pesan merah berisi 'blocked by CORS policy' di atas baris ini.");
+    }
+  });
+</script>
+</body>
+</html>

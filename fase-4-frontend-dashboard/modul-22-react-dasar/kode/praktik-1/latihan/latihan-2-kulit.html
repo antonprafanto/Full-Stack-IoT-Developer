@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<!--
+  Latihan 2 — KULIT (CSS). Pemanasan Modul 22.
+  CSS bisa dipasang dengan tiga cara:
+    1. atribut style="..." di satu elemen (cara halaman Modul 10),
+    2. blok <style> di <head> (cara latihan ini),
+    3. berkas terpisah, misalnya <link rel="stylesheet" href="gaya.css"> (cara proyek sungguhan; Vite mengurusnya).
+  Bentuk satu aturan CSS:  selector { properti: nilai; }
+-->
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Latihan 2 - Kulit</title>
+  <style>
+    /* ---------- 1. Selector elemen: berlaku untuk SEMUA elemen bernama itu ---------- */
+    body {
+      font-family: system-ui, sans-serif;
+      margin: 0;
+      padding: 16px;
+      color: #1e293b;
+      background: #f8fafc;
+    }
+    h1 {
+      color: #0f766e;
+    }
+    p {
+      color: #475569;
+    }
+
+    /* ---------- 2. Selector class (.nama) dan id (#nama) ---------- */
+    .penting {
+      color: #b45309;    /* class lebih kuat daripada selector elemen p */
+      font-weight: bold;
+    }
+    #khusus {
+      color: #be123c;    /* id lebih kuat lagi daripada class */
+    }
+    /* COBA 1: pindahkan aturan p { ... } ke paling bawah. Warnanya tetap kalah dari .penting dan #khusus,
+       karena yang menang adalah selector yang lebih KHUSUS, bukan yang ditulis paling akhir. */
+
+    /* ---------- 3. Box model: isi, padding, border, margin ---------- */
+    .kotak {
+      width: 200px;              /* lebar ISI */
+      padding: 20px;             /* jarak isi ke garis tepi */
+      border: 5px solid #0f766e; /* garis tepi */
+      margin: 12px 0;            /* jarak ke tetangga di luar garis tepi */
+      background: #ccfbf1;
+    }
+    .kotak-pas {
+      box-sizing: border-box;    /* width sudah TERMASUK padding dan border */
+    }
+    /* Kotak A (bawaan, content-box): lebar total 200 + 2x20 + 2x5 = 250px.
+       Kotak B (border-box): lebar total tepat 200px; ruang isinya yang menyusut.
+       COBA 2: klik kanan kotak A, pilih Inspect, buka tab Computed. Gambar kotak berlapis di sana
+       adalah box model kotak itu. Ubah padding menjadi 40px dan lihat angkanya berubah. */
+
+    /* ---------- 4. Flexbox: menjajarkan anak-anak sebuah wadah ---------- */
+    .baris {
+      display: flex;             /* anak-anak .baris berjajar ke samping */
+      flex-wrap: wrap;           /* kalau tidak muat, turun ke baris berikutnya */
+      gap: 12px;                 /* jarak antaranak */
+      justify-content: flex-start; /* COBA 3: ganti dengan center, lalu space-between */
+      align-items: stretch;      /* COBA 4: ganti dengan flex-start; lihat tinggi kartu yang pendek */
+    }
+    .kartu {
+      flex: 1 1 140px;           /* lebar dasar 140px, boleh melebar mengisi sisa baris */
+      padding: 12px;
+      background: white;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;       /* sudut membulat */
+      box-sizing: border-box;
+    }
+    .kartu .label {              /* selector keturunan: .label yang ADA DI DALAM .kartu */
+      display: block;
+      font-size: 14px;
+      color: #64748b;
+    }
+    .kartu .nilai {
+      font-size: 28px;
+      font-weight: 600;
+      color: #1e293b;
+    }
+
+    /* ---------- 5. Keadaan elemen (pseudo-class) ---------- */
+    .tombol {
+      padding: 10px 16px;
+      font: inherit;
+      border: 1px solid #94a3b8;
+      border-radius: 8px;
+      background: white;
+      cursor: pointer;
+    }
+    .tombol:hover {              /* saat kursor di atasnya */
+      background: #e2e8f0;
+    }
+
+    /* ---------- 6. Responsif: aturan khusus layar sempit ---------- */
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 24px;         /* judul mengecil di layar HP */
+      }
+    }
+    /* COBA 5: tekan F12, lalu Ctrl+Shift+M (mode perangkat). Pilih ukuran HP dan lihat kartu turun ke bawah
+       sendiri berkat flex-wrap, serta judul yang mengecil berkat @media. */
+  </style>
+</head>
+<body>
+  <h1>Latihan Kulit</h1>
+
+  <h2>Selector</h2>
+  <p>Paragraf biasa: warnanya dari aturan p.</p>
+  <p class="penting">Paragraf ber-class "penting".</p>
+  <p class="penting" id="khusus">Paragraf ber-class "penting" sekaligus ber-id "khusus".</p>
+
+  <h2>Box model</h2>
+  <div class="kotak">Kotak A: width 200px, padding 20px, border 5px.</div>
+  <div class="kotak kotak-pas">Kotak B: sama, ditambah box-sizing: border-box.</div>
+
+  <h2>Flexbox</h2>
+  <div class="baris">
+    <div class="kartu"><span class="label">Suhu</span><span class="nilai">28.4</span> &deg;C</div>
+    <div class="kartu"><span class="label">Kelembapan</span><span class="nilai">71</span> %</div>
+    <div class="kartu"><span class="label">Air tandon</span><span class="nilai">64</span> %<br><small>sensor HC-SR04 di atas tandon</small></div>
+  </div>
+
+  <h2>Keadaan elemen</h2>
+  <button type="button" class="tombol">Arahkan kursor ke sini</button>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<!--
+  Latihan 4 — OTOT + DATA: fetch() di browser. Pemanasan Modul 22.
+  fetch() sudah kamu kenal dari Modul 4 (cuaca.js di Node.js). Di browser caranya sama persis;
+  bedanya, hasilnya kita tulis ke halaman, bukan ke terminal.
+  Bagian 1 butuh internet. Bagian 2 sengaja GAGAL, dan kegagalannya adalah pelajarannya.
+  Data cuaca: Open-Meteo.com, lisensi CC BY 4.0 — https://open-meteo.com/
+-->
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Latihan 4 - Fetch</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 0; padding: 16px; color: #1e293b; background: #f8fafc; }
+    section { margin-bottom: 24px; }
+    .tombol { padding: 10px 16px; font: inherit; border: 1px solid #94a3b8; border-radius: 8px; background: white; cursor: pointer; }
+    .tombol:disabled { opacity: 0.5; cursor: default; }
+    .baris { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+    .kartu { flex: 1 1 140px; padding: 12px; border: 1px solid #cbd5e1; border-radius: 10px; background: white; }
+    .kartu .label { display: block; font-size: 14px; color: #64748b; }
+    .kartu .nilai { font-size: 28px; font-weight: 600; }
+    .status { margin: 12px 0 0; color: #64748b; }
+    .status.galat { padding: 8px 12px; border-radius: 8px; background: #fee2e2; color: #991b1b; }
+    small { color: #64748b; }
+  </style>
+</head>
+<body>
+  <h1>Latihan Fetch</h1>
+
+  <section>
+    <h2>1. Cuaca Jakarta dari internet</h2>
+    <button type="button" class="tombol" id="tombol-cuaca">Ambil cuaca</button>
+    <p class="status" id="status-cuaca">Belum mengambil data.</p>
+    <div class="baris">
+      <div class="kartu"><span class="label">Suhu udara</span><span class="nilai" id="nilai-suhu">--</span> &deg;C</div>
+      <div class="kartu"><span class="label">Kelembapan</span><span class="nilai" id="nilai-lembap">--</span> %</div>
+    </div>
+    <p><small>Data cuaca: <a href="https://open-meteo.com/">Open-Meteo.com</a>, lisensi CC BY 4.0.</small></p>
+  </section>
+
+  <section>
+    <h2>2. Memanggil backend-mu dari berkas lokal</h2>
+    <p>Tombol ini meminta <code>GET http://localhost:8080/health</code>, pintu terbuka backend Modul 20&ndash;21.</p>
+    <button type="button" class="tombol" id="tombol-backend">Panggil backend</button>
+    <p class="status" id="status-backend">Belum dipanggil.</p>
+  </section>
+
+  <script>
+    // Alamat yang sama dengan Praktik 8 Modul 4: Jakarta, suhu dan kelembapan saat ini.
+    const ALAMAT_CUACA =
+      "https://api.open-meteo.com/v1/forecast" +
+      "?latitude=-6.2&longitude=106.85" +
+      "&current=temperature_2m,relative_humidity_2m,weather_code" +
+      "&timezone=auto";
+
+    const tombolCuaca = document.querySelector("#tombol-cuaca");
+    const statusCuaca = document.querySelector("#status-cuaca");
+
+    // Tiga keadaan yang SELALU ada saat mengambil data: memuat, galat, berhasil.
+    // Ketiganya muncul lagi di React sebagai "loading state" dan "error state".
+    async function ambilCuaca() {
+      tombolCuaca.disabled = true;                 // cegah ketukan ganda selama menunggu
+      statusCuaca.classList.remove("galat");
+      statusCuaca.textContent = "Memuat…";         // keadaan 1: memuat
+      try {
+        const jawaban = await fetch(ALAMAT_CUACA);
+        if (!jawaban.ok) {
+          throw new Error("server menjawab kode " + jawaban.status);
+        }
+        const data = await jawaban.json();         // teks JSON -> objek JavaScript
+        document.querySelector("#nilai-suhu").textContent = String(data.current.temperature_2m);
+        document.querySelector("#nilai-lembap").textContent = String(data.current.relative_humidity_2m);
+        statusCuaca.textContent = "Diperbarui: " + data.current.time + " (" + data.timezone + ")"; // keadaan 3: berhasil
+      } catch (galat) {
+        statusCuaca.classList.add("galat");        // keadaan 2: galat
+        statusCuaca.textContent = "Gagal mengambil cuaca: " + galat.message + ". Internetnya tersambung?";
+        console.error(galat);
+      } finally {
+        tombolCuaca.disabled = false;              // berhasil atau gagal, tombol hidup lagi
+      }
+    }
+    tombolCuaca.addEventListener("click", ambilCuaca);
+    // COBA 1: matikan WiFi laptop, lalu ketuk "Ambil cuaca". Keadaan galat muncul, halaman tidak rusak.
+    // COBA 2: buka tab Network di DevTools, ketuk lagi, lalu klik baris "forecast?..." untuk melihat surat
+    //         permintaan dan balasannya (status 200, isi JSON). Ini "surat HTTP" Modul 10, dilihat dari browser.
+
+    // ---------- Bagian 2: backend di laptop ----------
+    const tombolBackend = document.querySelector("#tombol-backend");
+    const statusBackend = document.querySelector("#status-backend");
+    tombolBackend.addEventListener("click", async () => {
+      statusBackend.classList.remove("galat");
+      statusBackend.textContent = "Memanggil…";
+      try {
+        const jawaban = await fetch("http://localhost:8080/health");
+        statusBackend.textContent = "Berhasil, kode " + jawaban.status + ".";
+      } catch (galat) {
+        statusBackend.classList.add("galat");
+        statusBackend.textContent =
+          "Gagal: " + galat.message + ". Wajar! Lihat pesan merah di Console untuk alasannya.";
+        console.error(galat);
+      }
+    });
+    // Mengapa gagal? Berkas yang dibuka dengan klik dua kali punya asal (origin) "null".
+    // Backend Modul 20-21 hanya mengizinkan asal http://localhost:5173 dan http://127.0.0.1:5173 (CORS_ORIGIN),
+    // jadi browser tidak mau menyerahkan balasannya ke halaman ini. Kalau backend sedang mati,
+    // pesannya sama-sama "Failed to fetch", tetapi Console menulis bahwa sambungannya ditolak.
+    // Itulah sebabnya di Modul 22 halaman kita dijalankan lewat Vite di http://localhost:5173.
+  </script>
+</body>
+</html>

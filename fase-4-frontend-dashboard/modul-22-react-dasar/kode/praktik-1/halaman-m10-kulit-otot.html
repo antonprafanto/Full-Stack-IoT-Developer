@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<!--
+  halaman-m10-kulit-otot.html - Praktik 1 Modul 22: halaman Node 1 Rumah dari Modul 10, sesudah diberi
+  KULIT (CSS, langkah 1.4) dan OTOT (JavaScript, langkah 1.5).
+  Aslinya ada di halaman-m10-asli.html: teks HALAMAN di jaringan.cpp Node 1 v1.1 seperti yang diterima browser HP,
+  yaitu sesudah ESP32 mengganti penanda %LAMPU%, %SUHU%, dan kawan-kawannya dengan angka contoh.
+  Versi ini berdiri sendiri: cukup klik dua kali berkasnya. Tanpa ESP32, tanpa internet.
+  Bagian yang berbeda dari aslinya ditandai BEDA-1 sampai BEDA-7, lengkap dengan alasannya.
+  Tombolnya hanya mengubah tampilan di layar ini. Tidak ada relay yang bergerak (kendali dari dashboard: Modul 24).
+-->
+<!-- BEDA-1: aslinya <html> saja. lang="id" memberi tahu browser dan pembaca layar bahwa isinya berbahasa Indonesia. -->
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Node 1 Rumah</title>
+
+<!-- ===================== KULIT (CSS), langkah 1.4 ===================== -->
+<!-- BEDA-2: aslinya hanya satu atribut style="..." di <body>. Di sini semua aturan tampilan dikumpulkan
+     di dalam <style>, lalu dipasang lewat nama class. Kerangkanya jadi bersih, dan satu aturan
+     (misalnya .kartu) berlaku untuk banyak elemen sekaligus. -->
+<style>
+  * {
+    box-sizing: border-box; /* lebar kotak sudah termasuk padding dan border (box model) */
+  }
+  body {
+    font-family: sans-serif; /* tiga baris ini persis isi style="..." aslinya */
+    font-size: 20px;
+    padding: 16px;
+    margin: 0;               /* mulai dari sini: tambahan versi polos */
+    color: #1e293b;
+    background: #f1f5f9;
+  }
+  .halaman {
+    max-width: 480px;        /* di laptop tidak melebar ke mana-mana */
+    margin: 0 auto;          /* auto kiri-kanan = di tengah */
+  }
+  h1 {
+    font-size: 28px;
+    margin: 0 0 12px;
+  }
+  .keadaan b {
+    padding: 2px 10px;
+    border-radius: 999px;    /* sudut sangat bulat = bentuk kapsul */
+    background: #e2e8f0;
+  }
+  .keadaan b.menyala {       /* class "menyala" dipasang JavaScript saat lampu menyala */
+    background: #fde68a;
+    color: #78350f;
+  }
+  .baris-tombol {
+    display: flex;           /* flexbox: anak-anaknya berjajar ke samping */
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .tombol {
+    flex: 1;                 /* dua tombol berbagi lebar sama rata */
+    min-height: 44px;        /* cukup besar untuk jempol */
+    font: inherit;
+    font-size: 16px;
+    color: inherit;          /* tombol tidak otomatis mewarisi warna teks halaman */
+    border: 1px solid #94a3b8;
+    border-radius: 8px;
+    background: white;
+    cursor: pointer;
+  }
+  .tombol:hover {
+    background: #e2e8f0;
+  }
+  .tombol:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+  .daftar-kartu {
+    display: flex;
+    flex-wrap: wrap;         /* kalau tidak muat, kartu turun ke baris berikutnya */
+    gap: 8px;
+  }
+  .kartu {
+    flex: 1 1 130px;         /* lebar dasar 130px, boleh melebar mengisi sisa baris */
+    padding: 12px;
+    background: white;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+  }
+  .kartu-label {
+    display: block;
+    font-size: 14px;
+    color: #64748b;
+  }
+  .kartu-nilai {
+    font-size: 26px;
+    font-weight: 600;
+  }
+  .kartu-satuan {
+    margin-left: 4px;
+    font-size: 16px;
+    color: #94a3b8;
+  }
+  .catatan {
+    color: #64748b;
+  }
+</style>
+</head>
+<body>
+
+<!-- ===================== KERANGKA (HTML), dari halaman aslinya ===================== -->
+<main class="halaman">
+  <!-- BEDA-3: aslinya <h2>. Judul utama sebuah halaman sebaiknya <h1>. -->
+  <h1>Node 1 Rumah</h1>
+
+  <!-- BEDA-4: di jaringan.cpp aslinya %LAMPU%, penanda yang diganti ESP32 sebelum halaman dikirim.
+       Di berkas lokal tidak ada ESP32, jadi teks awalnya ditulis langsung,
+       lalu JavaScript menggantinya lewat id="teks-lampu". -->
+  <p class="keadaan">Lampu: <b id="teks-lampu">PADAM</b></p>
+
+  <!-- BEDA-5: aslinya dua tautan, <a href="/on"> dan <a href="/off">. Tautan meminta HALAMAN BARU dari server.
+       Dari berkas lokal, browser malah mencari berkas bernama "on" di akar drive dan gagal.
+       Untuk AKSI (mengubah sesuatu), tombol <button> lebih tepat: ia tidak berpindah halaman,
+       jadi memuat ulang halaman tidak mengirim perintah sekali lagi (lihat 🔬 Modul 10). -->
+  <div class="baris-tombol">
+    <button type="button" class="tombol" id="tombol-on">Nyalakan lampu</button>
+    <button type="button" class="tombol" id="tombol-off">Matikan lampu</button>
+  </div>
+
+  <!-- BEDA-6: aslinya satu paragraf dengan <br>. Di sini setiap bacaan menjadi satu "kartu" berpola sama:
+       label, angka, satuan. Pola berulang inilah cikal bakal komponen KartuSensor di React. -->
+  <div class="daftar-kartu">
+    <div class="kartu">
+      <span class="kartu-label">Suhu</span>
+      <span class="kartu-nilai" id="nilai-suhu">--</span><span class="kartu-satuan">&deg;C</span>
+    </div>
+    <div class="kartu">
+      <span class="kartu-label">Kelembapan</span>
+      <span class="kartu-nilai" id="nilai-kelembapan">--</span><span class="kartu-satuan">%</span>
+    </div>
+    <div class="kartu">
+      <span class="kartu-label">Cahaya</span>
+      <span class="kartu-nilai" id="nilai-cahaya">--</span><span class="kartu-satuan">/4095</span>
+    </div>
+    <div class="kartu">
+      <span class="kartu-label">Tanah</span>
+      <span class="kartu-nilai" id="nilai-tanah">--</span><span class="kartu-satuan">%</span>
+    </div>
+    <div class="kartu">
+      <span class="kartu-label">Air tandon</span>
+      <span class="kartu-nilai" id="nilai-air">--</span><span class="kartu-satuan">%</span>
+    </div>
+  </div>
+
+  <p class="catatan"><small>Firmware <span id="teks-fw">--</span>, <span id="teks-jam">jam belum disetel</span></small></p>
+</main>
+
+<!-- ===================== OTOT (JavaScript), langkah 1.5 ===================== -->
+<!-- BEDA-7: aslinya TIDAK ADA JavaScript sama sekali. "Otot"-nya ada di ESP32: html.replace() mengisi penanda,
+     dan server.on() menangani /on dan /off. Di sini otot pindah ke browser: data disimpan di satu objek,
+     lalu fungsi tampilkan() menuliskannya ke layar setiap kali data berubah. -->
+<script>
+  // Data contoh, sama dengan angka di ilustrasi hp-node1.png Modul 10.
+  // Di versi asli, angka ini dibaca sensor dan disisipkan ESP32 ke halaman sebelum dikirim.
+  const keadaan = {
+    lampu: false,
+    suhu: 28.4,
+    kelembapan: 71,
+    cahaya: 2310,
+    tanah: 37,
+    level_air: 64,
+    fw: "1.1.0",
+    jam: "17-10-2026 08:32 WIB",
+  };
+
+  // Sama seperti angkaAtauStrip() di jaringan.cpp: bacaan yang gagal (null) ditulis "--".
+  function angkaAtauStrip(nilai) {
+    if (nilai === null) {
+      return "--";
+    }
+    return String(nilai);
+  }
+
+  // Tulis SELURUH keadaan ke layar. Dipanggil sekali di awal, lalu setiap kali keadaan berubah.
+  function tampilkan() {
+    const teksLampu = document.querySelector("#teks-lampu");
+    teksLampu.textContent = keadaan.lampu ? "MENYALA" : "PADAM";
+    teksLampu.classList.toggle("menyala", keadaan.lampu); // pasang class kalau menyala, lepas kalau padam
+
+    document.querySelector("#tombol-on").disabled = keadaan.lampu;   // tombol yang tidak berguna dibuat redup
+    document.querySelector("#tombol-off").disabled = !keadaan.lampu;
+
+    let teksSuhu = "--";
+    if (keadaan.suhu !== null) {
+      teksSuhu = keadaan.suhu.toFixed(1); // satu angka di belakang koma, seperti String(b.suhu, 1) di ESP32
+    }
+    document.querySelector("#nilai-suhu").textContent = teksSuhu;
+    document.querySelector("#nilai-kelembapan").textContent = angkaAtauStrip(keadaan.kelembapan);
+    document.querySelector("#nilai-cahaya").textContent = String(keadaan.cahaya);
+    document.querySelector("#nilai-tanah").textContent = String(keadaan.tanah);
+    document.querySelector("#nilai-air").textContent = angkaAtauStrip(keadaan.level_air);
+    document.querySelector("#teks-fw").textContent = keadaan.fw;
+    document.querySelector("#teks-jam").textContent = keadaan.jam;
+  }
+
+  // Versi asli: browser pindah ke /on, ESP32 menyalakan relay, lalu mengirim halaman baru yang utuh.
+  // Versi ini: cukup ubah data, lalu tampilkan ulang. Halamannya tidak dimuat ulang.
+  function aturLampu(nyala) {
+    keadaan.lampu = nyala;
+    if (nyala) {
+      console.log("Versi asli akan meminta GET /on ke ESP32");
+    } else {
+      console.log("Versi asli akan meminta GET /off ke ESP32");
+    }
+    tampilkan();
+  }
+
+  document.querySelector("#tombol-on").addEventListener("click", () => aturLampu(true));
+  document.querySelector("#tombol-off").addEventListener("click", () => aturLampu(false));
+
+  tampilkan(); // tampilan pertama
+</script>
+</body>
+</html>

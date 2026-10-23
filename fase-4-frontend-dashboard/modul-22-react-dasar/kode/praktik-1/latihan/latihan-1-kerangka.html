@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<!--
+  Latihan 1 — KERANGKA (HTML). Pemanasan Modul 22.
+  Cara memakai: buka berkas ini di VS Code DAN di browser (klik dua kali berkasnya).
+  Setiap kali selesai mengubah: simpan (Ctrl+S), lalu muat ulang browser (F5).
+  Tugas "COBA" ada di komentar seperti ini. Komentar dibaca manusia dan diabaikan browser.
+-->
+<html lang="id">
+<head>
+  <!-- <head> berisi keterangan TENTANG halaman. Isinya tidak tampil di dalam halaman. -->
+  <meta charset="utf-8">  <!-- huruf disimpan sebagai UTF-8: tanda derajat dan emoji tampil benar -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">  <!-- tampil pas di layar HP -->
+  <title>Latihan 1 - Kerangka</title>  <!-- teks di tab browser -->
+</head>
+<body>
+  <!-- <body> berisi semua yang tampil di layar. -->
+
+  <header>
+    <!-- COBA 1: ganti teks judul di bawah ini, simpan, lalu muat ulang browser. -->
+    <h1 id="judul">Rumah Pintar Mini</h1>
+    <p>Catatan kecil tentang <strong>Node 1</strong>, perangkat di ruang tamu.</p>
+    <!-- COBA 2: hapus tag penutup </strong> di atas, simpan, muat ulang. Apa yang ikut menjadi tebal?
+         Kembalikan lagi. Browser tidak pernah menampilkan pesan galat untuk HTML yang salah;
+         ia menebak sendiri, dan tebakannya sering bukan yang kamu mau. -->
+  </header>
+
+  <main>
+    <!-- Tautan ke bagian lain di halaman yang sama: href="#id-tujuan". -->
+    <p>Lompat ke: <a href="#sensor">Sensor</a> · <a href="#aktuator">Aktuator</a> · <a href="#bacaan">Bacaan contoh</a></p>
+
+    <section id="sensor">
+      <h2>Sensor di Node 1</h2>
+      <!-- <ul> = daftar tanpa nomor. Setiap butir dibungkus <li>. -->
+      <ul class="daftar">
+        <li>DHT22: suhu dan kelembapan udara</li>
+        <li>LDR: cahaya</li>
+        <li>Sensor tanah kapasitif: kelembapan tanah</li>
+        <li>PIR: gerakan</li>
+        <li>HC-SR04: tinggi air di tandon</li>
+      </ul>
+      <!-- COBA 3: tambahkan satu butir <li> baru, misalnya "Layar OLED (bukan sensor, tetapi tetap dicatat)". -->
+    </section>
+
+    <section id="aktuator">
+      <h2>Aktuator di Node 1</h2>
+      <!-- Atribut memberi keterangan tambahan pada elemen: nama="nilai".
+           class mengelompokkan, id menandai SATU elemen, title muncul saat kursor diam di atasnya,
+           dan data-... bebas kamu pakai sendiri (nanti dibaca JavaScript). -->
+      <ul class="daftar">
+        <li class="relay" data-pin="32" title="relay aktif LOW">Relay lampu</li>
+        <li class="relay" data-pin="33" title="relay aktif LOW">Relay kipas</li>
+        <li data-pin="25">Pompa (lewat MOSFET IRLZ44N)</li>
+        <li data-pin="26">Servo tirai SG90</li>
+        <li data-pin="27">Buzzer pasif</li>
+      </ul>
+      <!-- <ol> = daftar bernomor, cocok untuk urutan langkah. -->
+      <p>Urutan menyalakan meja kerja Node 1:</p>
+      <ol>
+        <li>Colokkan kabel USB ke papan ESP32.</li>
+        <li>Baru nyalakan MB102 (relay butuh 5 V dari MB102).</li>
+      </ol>
+    </section>
+
+    <section id="bacaan">
+      <h2>Bacaan contoh</h2>
+      <!-- Tabel: <table> berisi baris <tr>; sel judul <th>, sel isi <td>. -->
+      <table>
+        <thead>
+          <tr><th>Sensor</th><th>Nilai</th><th>Satuan</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Suhu</td><td>28.4</td><td>&deg;C</td></tr>
+          <tr><td>Kelembapan</td><td>71</td><td>%</td></tr>
+          <tr><td>Cahaya</td><td>2310</td><td>dari 4095</td></tr>
+        </tbody>
+      </table>
+      <!-- Karakter khusus ditulis dengan kode: &deg; = tanda derajat, &nbsp; = spasi yang tidak boleh dipisah baris,
+           &lt; dan &gt; = tanda kurung sudut. Contoh: tag judul ditulis &lt;h1&gt; supaya tampil sebagai teks. -->
+      <p>Tag judul utama ditulis <code>&lt;h1&gt;</code>. Suhu 28.4&nbsp;&deg;C.</p>
+    </section>
+
+    <section>
+      <h2>Tautan dan tombol</h2>
+      <!-- Tautan <a> = PINDAH ke alamat lain. Tombol <button> = melakukan AKSI di halaman ini. -->
+      <p><a href="https://developer.mozilla.org/en-US/docs/Web/HTML">Buka panduan HTML di MDN</a></p>
+      <button type="button">Tombol tanpa otot</button>
+      <!-- COBA 4: klik tombol di atas. Tidak terjadi apa-apa: tombol baru "hidup" setelah diberi JavaScript (Latihan 3). -->
+    </section>
+  </main>
+
+  <footer>
+    <p><small>Latihan 1 pemanasan Modul 22 · Kurikulum Fullstack IoT Developer</small></p>
+  </footer>
+
+  <!-- COBA 5: klik kanan judul "Rumah Pintar Mini" di browser, pilih Inspect (Periksa).
+       Tab Elements menampilkan POHON elemen yang dibangun browser dari berkas ini.
+       Pohon inilah yang nanti diubah JavaScript, dan yang diatur React untukmu. -->
+</body>
+</html>
