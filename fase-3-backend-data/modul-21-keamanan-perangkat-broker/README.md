@@ -4,7 +4,7 @@
 
 *Fase 3 · Minggu 21 · Perangkat keras (*hardware*): **Kit A + B** (Node 1, gateway Pi, dan papan Node 2 yang dipinjam sebentar sebagai "penyusup") **atau laptop saja** (simulator perangkat dan MQTTX) · Prasyarat: **Modul 20** (backend v0.5 dengan akun dan *login*) · Waktu: 9–11 jam, dicicil dalam satu minggu*
 
-[⬅️ Modul 20](../modul-20-keamanan-pengguna/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · [Modul 22 ➡️ (segera terbit — baca ringkasannya di Silabus)](../../SILABUS.md#modul-22--html-css--react-typescript-dari-nol-untuk-dashboard-iot)
+[⬅️ Modul 20](../modul-20-keamanan-pengguna/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · [Modul 22 ➡️](../../fase-4-frontend-dashboard/modul-22-react-dasar/README.md)
 
 ---
 
@@ -4353,4 +4353,4 @@ Syarat lulus dari Silabus: **MQTTX tanpa sandi ditolak broker, perangkat yang me
 
 ---
 
-[⬅️ Modul 20](../modul-20-keamanan-pengguna/README.md) · [Fase 3](../README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · **Berikutnya: Modul 22 — HTML, CSS, & React (TypeScript) dari Nol untuk Dashboard IoT** (segera terbit; [ringkasannya di Silabus](../../SILABUS.md#modul-22--html-css--react-typescript-dari-nol-untuk-dashboard-iot))
+[⬅️ Modul 20](../modul-20-keamanan-pengguna/README.md) · [Fase 3](../README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · **Berikutnya: [Modul 22 — HTML, CSS, & React (TypeScript) dari Nol untuk Dashboard IoT](../../fase-4-frontend-dashboard/modul-22-react-dasar/README.md) ➡️**

@@ -45,7 +45,7 @@ Centang `[x]` setiap kali Anda memenuhi kriteria **"Lulus jika"** di [SILABUS.md
 
 ## 🟪 Fase 4 — Frontend Dashboard (Modul 22–25)
 
-- [ ] **Modul 22** — HTML, CSS, & React (TypeScript) dari Nol untuk Dashboard IoT
+- [ ] **[Modul 22](fase-4-frontend-dashboard/modul-22-react-dasar/README.md)** — HTML, CSS, & React (TypeScript) dari Nol untuk Dashboard IoT
 - [ ] **Modul 23** — Dashboard Realtime: Grafik, Gauge, Riwayat, & Status
 - [ ] **Modul 24** — Kendali, Form Aturan, Peran, & Rute Terproteksi
 - [ ] **Modul 25** — Visualisasi Profesional: Grafana, Peta Perangkat, & Laporan

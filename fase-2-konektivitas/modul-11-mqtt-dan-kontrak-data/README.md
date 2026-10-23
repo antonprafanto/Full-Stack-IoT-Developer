@@ -552,7 +552,7 @@ Dua aturan tambahan menjaga cara ini tetap sopan:
 - **Paling sering setiap 2 detik.** PIR yang berkedip-kedip atau bayangan yang lewat di depan LDR bisa memicu perubahan berkali-kali dalam sedetik. Tanpa batas, Node 1 akan membanjiri broker. Kejadian yang datang terlalu rapat tidak dibuang: ia dikirim begitu jeda 2 detik terpenuhi, dengan bacaan terbaru.
 - **Jadwal dihitung ulang dari kiriman terakhir.** Kalau kiriman segera terjadi pada detik ke-7, kiriman terjadwal berikutnya jatuh 10 detik setelahnya, bukan pada detik ke-10. Dengan begitu, jarak antarkiriman tidak pernah lebih dari 10 detik dan tidak ada kiriman ganda yang mubazir.
 
-Hasilnya terasa di Modul 22: grafik di HP berubah sekitar 1–2 detik setelah kamu menutup LDR dengan tangan, bukan 10 detik kemudian.
+Hasilnya terasa di Modul 23: grafik di HP berubah sekitar 1–2 detik setelah kamu menutup LDR dengan tangan, bukan 10 detik kemudian.
 
 **Perintah → `ack`: setiap perintah dijawab.** Di Modul 10, membuka `/on` hanya menghasilkan halaman web; tidak ada catatan resmi bahwa perintahnya benar-benar dikerjakan. Pola MQTT kita lebih tertib, seperti **nomor antrean di bank**:
 
