@@ -1,5 +1,6 @@
-// server.ts - the entry point of the Mini Smart Home backend v0.5 (Module 20: login, JWT in cookies, roles, and API protection,
-// on top of Module 19: realtime data, a single door for commands, automation rules, schedules, and Telegram notifications).
+// server.ts - the entry point of the Mini Smart Home backend v1.0 (Module 21: the official device registry and its keys, the
+// backend's own broker account, messages from unregistered or revoked devices ignored; on top of Module 20: login, JWT in
+// cookies, roles, and API protection, and Module 19: realtime data, a single door for commands, automation rules, schedules, and Telegram notifications).
 // Run: npm run dev (automatically restarts when a file is saved) or npm start.
 import Fastify, { LogController } from "fastify";
 import swagger from "@fastify/swagger";
@@ -18,6 +19,8 @@ import { stopSchedules } from "./services/schedule.ts";
 import { stopTelegram, startTelegram } from "./services/telegram.ts";
 import { useLog } from "./services/log.ts";
 import { databaseAlive } from "./db/archive.ts";
+import { allDevicesDb } from "./db/devices.ts";
+import { loadRegistry } from "./services/registry.ts";
 import { pool } from "./db/pool.ts";
 
 const app = Fastify({
@@ -38,10 +41,11 @@ await app.register(swagger, {
   openapi: {
     info: {
       title: "Mini Smart Home API",
-      description: "Backend v0.5 (Module 20). Every route needs a login, except the ones without a padlock. Log in first with "
+      description: "Backend v1.0 (Module 21). Every route needs a login, except the ones without a padlock. Log in first with "
         + "POST /auth/login (Try it out): the browser keeps the access cookie and sends it by itself to the other routes. "
-        + "Viewer accounts can only look (GET); commands and changes are answered with 403.",
-      version: "0.5.0",
+        + "Viewer accounts can only look (GET); commands and changes are answered with 403. Devices are registered by an admin "
+        + "with POST /devices; a key is shown only once, and messages from unregistered or revoked devices are ignored.",
+      version: "1.0.0",
     },
     components: {
       securitySchemes: { // Module 20: routes with a padlock need the access cookie from POST /auth/login
@@ -66,7 +70,28 @@ try {
   app.log.error(`automation rules couldn't be loaded yet: ${(error as Error).message}`);
 }
 startRealtime(app); // Module 19: Socket.IO at the address /socket.io/ (Module 20: locked too)
-startMqtt(env.MQTT_URL, app.log);
+
+// Module 21: the registry of registered devices is loaded from the database BEFORE listening to the broker. If the database
+// can't be reached yet, it is retried every 10 seconds (logged at most once a minute); until then every device message is
+// ignored: it's better to lose data for a moment than to accept data from a device that isn't allowed.
+let registryAttempts = 0;
+async function loadDeviceRegistry(): Promise<void> {
+  try {
+    const count = loadRegistry(await allDevicesDb());
+    app.log.info(`device registry loaded: ${count} registered devices`);
+  } catch (error) {
+    if (registryAttempts % 6 === 0) {
+      app.log.error(`device registry couldn't be loaded yet (${(error as Error).message}); retrying every 10 seconds`);
+    }
+    registryAttempts++;
+    setTimeout(() => void loadDeviceRegistry(), 10_000);
+  }
+}
+await loadDeviceRegistry();
+if (env.MQTT_USERNAME === "") {
+  app.log.warn("MQTT_USERNAME empty: the backend connects to the broker WITHOUT an account (only works on a broker that isn't locked yet)");
+}
+startMqtt(env.MQTT_URL, env.MQTT_USERNAME === "" ? null : { username: env.MQTT_USERNAME, password: env.MQTT_PASSWORD }, app.log);
 startTelegram(env.TELEGRAM_BOT_TOKEN, env.TELEGRAM_CHAT_ID, env.TELEGRAM_API_ROOT); // Module 19: not awaited
 await app.listen({ port: env.PORT, host: env.HOST });
 app.log.info(`API docs: http://${env.HOST}:${env.PORT}/docs`);

@@ -2,7 +2,7 @@
 // The pins follow PIN-MAP.md. The calibration numbers are your own Module 6 results.
 #pragma once
 
-const char FIRMWARE_VERSION[] = "1.5.0";
+const char FIRMWARE_VERSION[] = "1.6.0";
 
 // ---------- Node 1 canonical pin map (copied from PIN-MAP.md) ----------
 const int PIN_STATUS_LED = 2;      // Module 2; moved from D4 to D2 in Module 15 (D4 is now the RS-485 DE/RE)
@@ -77,3 +77,7 @@ const float TEMP_FAN_MAX = 45.0;
 const float FAN_HYSTERESIS = 2.0;                   // the safety fan turns off below temp_fan_on - 2 °C (hysteresis)
 const unsigned long OFFLINE_MODE_TIMEOUT = 120000;  // broker unreachable for 2 minutes without a break = offline mode
 const unsigned long OFFLINE_TEST_TIME = 180000;     // "test offline" command: the broker counts as gone for 3 minutes
+
+// ---------- Module 21: the broker account ----------
+// The broker username = device_id. Its key is NOT written in the code: type "key <value>" in the Serial Monitor (stored in NVS).
+const bool WOKWI_LOCKED = false;  // Wokwi only: true = the LOCKED public broker test.mosquitto.org:1884, public account "rw"

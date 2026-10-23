@@ -15,7 +15,7 @@ export interface Device {
 }
 
 const devices = new Map<string, Device>();
-export const counts = { received: 0, rejected: 0 };
+export const counts = { received: 0, rejected: 0, ignored: 0 }; // Module 21: ignored = sender not registered/revoked
 
 function getOrCreate(deviceId: string): Device {
   let d = devices.get(deviceId);

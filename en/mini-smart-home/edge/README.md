@@ -22,8 +22,10 @@ The gateway is the Raspberry Pi that runs the Mini Smart Home MQTT broker 24 hou
 
 | File | Used on | Contents |
 | :--- | :--- | :--- |
-| [`mosquitto-lan.conf`](mosquitto-lan.conf) | the laptop ([Module 11](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-11-mqtt-and-data-contract/README.md)) | `mosquitto -v -c mosquitto-lan.conf` in a terminal |
-| [`gateway-pi.conf`](gateway-pi.conf) | the Pi gateway (Module 12) | on the Pi: `/etc/mosquitto/conf.d/gateway-pi.conf` |
+| [`mosquitto-lan.conf`](mosquitto-lan.conf) | the laptop ([Module 11](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-11-mqtt-and-data-contract/README.md); locked in Module 21) | `mosquitto -v -c mosquitto-lan.conf` in a terminal |
+| [`gateway-pi.conf`](gateway-pi.conf) | the Pi gateway (Module 12; locked in Module 21) | on the Pi: `/etc/mosquitto/conf.d/gateway-pi.conf` |
+| [`acl-broker`](acl-broker) | the Pi gateway and the laptop ([Module 21](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-3-backend-data/module-21-device-broker-security/README.md)) | the broker access list (ACL): a device only writes its own topics. On the Pi: `/etc/mosquitto/acl-broker` (OUTSIDE `conf.d`) |
+| `broker-passwd` | the Pi gateway and the laptop (Module 21) | **not in Git** (`.gitignore`): the broker accounts' password file, made **on the broker machine** with `mosquitto_passwd` |
 | [`node-red-flows.json`](node-red-flows.json) | the Pi gateway (Module 13) | all the Node-RED flows; restored through **Import** in the editor (step 11) |
 
 ## Rebuild recipe
@@ -67,6 +69,41 @@ The gateway is the Raspberry Pi that runs the Mini Smart Home MQTT broker 24 hou
 | `sudo apt update`, then `sudo apt full-upgrade` | updates installed; `sudo reboot` if there was a kernel update |
 
 Every time the settings on the Pi change, copy the file to this folder again (`scp budi@192.168.1.37:/etc/mosquitto/conf.d/gateway-pi.conf edge/`), then make a commit.
+
+## Locking the broker (Module 21)
+
+Up to Module 20, the broker let anyone in without a password (`allow_anonymous true`). [Module 21](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-3-backend-data/module-21-device-broker-security/README.md) locks it: every program (device, backend, Node-RED, monitor) connects with its own account, and the access list (ACL) limits the topics each account may write or read. `gateway-pi.conf` and `mosquitto-lan.conf` already contain `allow_anonymous false`, `password_file`, `acl_file`, and `use_username_as_clientid true`.
+
+- **The password file `broker-passwd`** holds a fingerprint (not the real password) of every account. It is made with `mosquitto_passwd` **on the machine where the broker runs** (on the Pi over SSH; a Mosquitto 2.1 password file on the laptop **can't** be used by the Pi's 2.0.21, and the other way around). The first account with `-c` (create the file), the rest without `-c`:
+
+  ```bash
+  sudo mosquitto_passwd -c /etc/mosquitto/broker-passwd backend
+  sudo mosquitto_passwd /etc/mosquitto/broker-passwd nodered
+  sudo mosquitto_passwd /etc/mosquitto/broker-passwd monitor
+  ```
+
+  Then one account for each device (username = `device_id`), paste the 43-character key from the `POST /devices` answer twice:
+
+  ```bash
+  sudo mosquitto_passwd /etc/mosquitto/broker-passwd a4cf12e5b7c0
+  ```
+
+  `mosquitto_passwd -b file name password` puts the password straight on the command line — avoid it, because the password stays in the terminal history. Revoking an account: `sudo mosquitto_passwd -D /etc/mosquitto/broker-passwd <device_id>`.
+
+- **File permissions (Pi).** Mosquitto 2.0 drops its privileges to the `mosquitto` user right after reading the configuration, so `broker-passwd` and `acl-broker` must be readable by it:
+
+  ```bash
+  sudo chown mosquitto:mosquitto /etc/mosquitto/broker-passwd /etc/mosquitto/acl-broker
+  sudo chmod 600 /etc/mosquitto/broker-passwd /etc/mosquitto/acl-broker
+  ```
+
+- **Copy the ACL** to the Pi (outside `conf.d` so it isn't read as a setting): `scp edge/acl-broker budi@192.168.1.37:` then `sudo cp ~/acl-broker /etc/mosquitto/`. `acl-broker` may go into Git (no secrets); `broker-passwd` never.
+
+- **Restart, not reload, every time the ACL changes** (`sudo systemctl restart mosquitto`): on Mosquitto 2.0.21, an ACL file with a typo that is then *reloaded* makes the broker run **with no ACL at all**, while a typo on *restart* makes the service fail to start — clearly visible in `systemctl status`. **Adding or removing an account only** (the password file) only needs `sudo systemctl reload mosquitto`; a client whose key was just revoked is disconnected at once. A safe order: make the `backend` and `nodered` accounts **before** locking, so neither is refused right away.
+
+- **The account for each program.** Backend: `backend` (`.env`, `MQTT_USERNAME`/`MQTT_PASSWORD`). Node-RED: `nodered`, filled in on the **Security** tab of the broker node (double-click the "Mosquitto on the gateway" node → **Security** → Username `nodered` + Password → **Done** → **Deploy**); those credentials are stored encrypted in `flows_cred.json`, **not** in `node-red-flows.json`, so exporting the flows stays safe. MQTTX for monitoring: the `monitor` account (may read `msh/#` and `$SYS/#`, may not write). The `contract-checker.js` tool: the `checker` account (reads `msh/#` only).
+
+Its traffic is still unencrypted: the key travels in the clear on the LAN (see `tools/sniffer.js`). That's fine for now on a closed home network, but TLS is a must before the broker is opened to the internet (Module 27) — don't set up port forwarding to the Pi.
 
 ## Node-RED and the dashboard (Module 13)
 

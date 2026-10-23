@@ -1,0 +1,124 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="796" viewBox="0 0 1200 796" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="796" fill="#fffdf7"/>
+<text x="600.0" y="40.0" font-size="26" font-weight="700" fill="#1e2a4a" text-anchor="middle" >Mini roadmap — you are here</text>
+<text x="600.0" y="66.0" font-size="15" font-weight="400" fill="#555" text-anchor="middle" >32 modules = 32 weeks · one running project "Mini Smart Home" that grows from a blinking LED to an online system</text>
+<rect x="60.0" y="100.0" width="140.0" height="56.0" rx="8" fill="#e0e0e0" />
+<text x="130.0" y="124.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="middle" >PHASE 0</text>
+<text x="130.0" y="144.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="middle" >Foundations · M1–4</text>
+<rect x="206.0" y="100.0" width="160.0" height="56.0" rx="8" fill="#e0e0e0" />
+<text x="286.0" y="124.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="middle" >PHASE 1</text>
+<text x="286.0" y="144.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="middle" >ESP32 · M5–9</text>
+<rect x="372.0" y="100.0" width="196.0" height="56.0" rx="8" fill="#e0e0e0" />
+<text x="470.0" y="124.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="middle" >PHASE 2</text>
+<text x="470.0" y="144.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="middle" >Connectivity · M10–15</text>
+<rect x="574.0" y="100.0" width="200.0" height="56.0" rx="8" fill="#dafbe1" stroke="#1a7f37" stroke-width="2.4" />
+<text x="674.0" y="124.0" font-size="14" font-weight="800" fill="#1a7f37" text-anchor="middle" >PHASE 3</text>
+<text x="674.0" y="144.0" font-size="14" font-weight="700" fill="#1a7f37" text-anchor="middle" >Backend &amp; data · M16–21</text>
+<rect x="780.0" y="100.0" width="160.0" height="56.0" rx="8" fill="#e6dcf5" />
+<text x="860.0" y="124.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="middle" >PHASE 4</text>
+<text x="860.0" y="144.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="middle" >Dashboard · M22–25</text>
+<rect x="946.0" y="100.0" width="194.0" height="56.0" rx="8" fill="#e0e0e0" />
+<text x="1043.0" y="124.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="middle" >PHASE 5</text>
+<text x="1043.0" y="144.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="middle" >Operations &amp; scale · M26–32</text>
+<rect x="60.0" y="170.0" width="30.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="75.0" y="188.0" font-size="13" font-weight="600" fill="#fff" text-anchor="middle" >M1</text>
+<rect x="96.0" y="170.0" width="30.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="111.0" y="188.0" font-size="13" font-weight="600" fill="#fff" text-anchor="middle" >M2</text>
+<rect x="132.0" y="170.0" width="30.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="147.0" y="188.0" font-size="13" font-weight="600" fill="#fff" text-anchor="middle" >M3</text>
+<rect x="168.0" y="170.0" width="30.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="183.0" y="188.0" font-size="13" font-weight="600" fill="#fff" text-anchor="middle" >M4</text>
+<rect x="206.0" y="170.0" width="28.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="220.0" y="188.0" font-size="13" font-weight="600" fill="#fff" text-anchor="middle" >M5</text>
+<rect x="238.0" y="170.0" width="28.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="252.0" y="188.0" font-size="13" font-weight="600" fill="#fff" text-anchor="middle" >M6</text>
+<rect x="270.0" y="170.0" width="28.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="284.0" y="188.0" font-size="13" font-weight="600" fill="#fff" text-anchor="middle" >M7</text>
+<rect x="302.0" y="170.0" width="28.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="316.0" y="188.0" font-size="13" font-weight="600" fill="#fff" text-anchor="middle" >M8</text>
+<rect x="334.0" y="170.0" width="28.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="348.0" y="188.0" font-size="13" font-weight="600" fill="#fff" text-anchor="middle" >M9</text>
+<rect x="374.0" y="170.0" width="30.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="389.0" y="188.0" font-size="12.5" font-weight="600" fill="#fff" text-anchor="middle" >M10</text>
+<rect x="406.0" y="170.0" width="30.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="421.0" y="188.0" font-size="12.5" font-weight="600" fill="#fff" text-anchor="middle" >M11</text>
+<rect x="438.0" y="170.0" width="30.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="453.0" y="188.0" font-size="12.5" font-weight="600" fill="#fff" text-anchor="middle" >M12</text>
+<rect x="470.0" y="170.0" width="30.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="485.0" y="188.0" font-size="12.5" font-weight="600" fill="#fff" text-anchor="middle" >M13</text>
+<rect x="502.0" y="170.0" width="30.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="517.0" y="188.0" font-size="12.5" font-weight="600" fill="#fff" text-anchor="middle" >M14</text>
+<rect x="534.0" y="170.0" width="30.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="549.0" y="188.0" font-size="12.5" font-weight="600" fill="#fff" text-anchor="middle" >M15</text>
+<rect x="576.0" y="170.0" width="30.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="591.0" y="188.0" font-size="12.5" font-weight="600" fill="#fff" text-anchor="middle" >M16</text>
+<rect x="608.0" y="170.0" width="30.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="623.0" y="188.0" font-size="12.5" font-weight="600" fill="#fff" text-anchor="middle" >M17</text>
+<rect x="640.0" y="170.0" width="30.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="655.0" y="188.0" font-size="12.5" font-weight="600" fill="#fff" text-anchor="middle" >M18</text>
+<rect x="672.0" y="170.0" width="30.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="687.0" y="188.0" font-size="12.5" font-weight="600" fill="#fff" text-anchor="middle" >M19</text>
+<rect x="704.0" y="170.0" width="30.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="719.0" y="188.0" font-size="12.5" font-weight="600" fill="#fff" text-anchor="middle" >M20</text>
+<rect x="736.0" y="170.0" width="30.0" height="26.0" rx="5" fill="#e63946" />
+<text x="751.0" y="188.0" font-size="12.5" font-weight="700" fill="#fff" text-anchor="middle" >M21</text>
+<text x="60.0" y="214.0" font-size="13" font-weight="700" fill="#2a9d5c" text-anchor="start" >done ✓ (M1–20)</text>
+<rect x="782.0" y="170.0" width="180.0" height="26.0" rx="13" fill="#dafbe1" stroke="#1a7f37" stroke-width="1.6" />
+<text x="872.0" y="188.0" font-size="13" font-weight="800" fill="#1a7f37" text-anchor="middle" >🎉 Phase 3 Checkpoint</text>
+<line x1="751.0" y1="202.0" x2="751.0" y2="228.0" stroke="#e63946" stroke-width="2.4" stroke-linecap="round" />
+<path d="M747.2 220.9 L751.0 228.0 L754.8 220.9" fill="none" stroke="#e63946" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="751.0" y="248.0" font-size="14" font-weight="800" fill="#e63946" text-anchor="middle" >YOU ARE HERE</text>
+<text x="813.0" y="248.0" font-size="14" font-weight="700" fill="#1a7f37" text-anchor="start" >← the house is locked for devices:</text>
+<text x="831.0" y="268.0" font-size="14" font-weight="700" fill="#1a7f37" text-anchor="start" >a key per device, broker accounts, an access list</text>
+<rect x="60.0" y="290.0" width="1080.0" height="464.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="80.0" y="322.0" font-size="17" font-weight="700" fill="#1e2a4a" text-anchor="start" >Module 21 this week (9–11 hours, spread out)</text>
+<text x="1120.0" y="322.0" font-size="14" font-weight="700" fill="#4a5568" text-anchor="end" >⭐ = required to pass</text>
+<text x="80.0" y="346.0" font-size="14" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">Kit A + B or just a laptop · a direct continuation of Module 20: backend v0.5 with accounts and <tspan font-style="italic">login</tspan></text>
+<rect x="80.0" y="371.0" width="50.0" height="22.0" rx="11" fill="#1a7f37" />
+<path d="M99.17 379.88 A6.2 6.2 0 0 1 110.37 378.90" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M107.42 377.20 L110.37 378.90 L110.37 375.50" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M110.83 384.12 A6.2 6.2 0 0 1 99.63 385.10" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M102.58 386.80 L99.63 385.10 L99.63 388.50" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<text x="142.0" y="387.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">JavaScript warm-up: random keys, a fingerprint and</text>
+<text x="142.0" y="408.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">a fair comparison, the topic pattern <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13.8" font-weight="700">%u</tspan>, a guest book <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13.8" font-weight="700">Map</tspan>,</text>
+<text x="142.0" y="429.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">a password in a packet is just <tspan font-style="italic">bytes</tspan></text>
+<rect x="80.0" y="447.0" width="50.0" height="22.0" rx="11.0" fill="#1a7f37" />
+<text x="105.0" y="462.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >QW</text>
+<text x="142.0" y="463.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Quick Win: a practice broker that rejects</text>
+<text x="142.0" y="484.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">guests without a password</text>
+<rect x="80.0" y="503.0" width="50.0" height="22.0" rx="11.0" fill="#1a7f37" />
+<text x="105.0" y="518.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P1</text>
+<text x="142.0" y="519.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the registry and device keys</text>
+<rect x="80.0" y="537.0" width="50.0" height="22.0" rx="11.0" fill="#1a7f37" />
+<text x="105.0" y="552.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P2</text>
+<text x="142.0" y="553.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the second layer and a broker account for the backend</text>
+<rect x="80.0" y="571.0" width="50.0" height="22.0" rx="11.0" fill="#1a7f37" />
+<text x="105.0" y="586.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P3</text>
+<text x="142.0" y="587.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Node 1 and the tools install their keys</text>
+<rect x="80.0" y="605.0" width="50.0" height="22.0" rx="11.0" fill="#1a7f37" />
+<text x="105.0" y="620.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P4</text>
+<text x="142.0" y="621.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">locking the broker's door ⭐</text>
+<text x="142.0" y="640.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="start" xml:space="preserve">pass requirement: MQTTX without a password is rejected by the broker</text>
+<rect x="580.0" y="371.0" width="50.0" height="22.0" rx="11.0" fill="#1a7f37" />
+<text x="605.0" y="386.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P5</text>
+<text x="642.0" y="387.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the access list: every device on its own topic</text>
+<rect x="580.0" y="405.0" width="50.0" height="22.0" rx="11.0" fill="#1a7f37" />
+<text x="605.0" y="420.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P6</text>
+<text x="642.0" y="421.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the intruder is rejected and logged ⭐</text>
+<text x="642.0" y="440.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="start" xml:space="preserve">pass requirement: a device that "impersonates" another's topic is rejected</text>
+<rect x="580.0" y="459.0" width="50.0" height="22.0" rx="11.0" fill="#1a7f37" />
+<text x="605.0" y="474.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P7</text>
+<text x="642.0" y="475.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">revoking a lost device's key ⭐</text>
+<text x="642.0" y="494.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="start" xml:space="preserve">pass requirement: a device whose key is revoked can no longer send data</text>
+<rect x="580.0" y="513.0" width="50.0" height="22.0" rx="11.0" fill="#1a7f37" />
+<text x="605.0" y="528.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P8</text>
+<text x="642.0" y="529.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">honest about encryption, and the pass tests ⭐</text>
+<rect x="580.0" y="547.0" width="50.0" height="22.0" rx="11.0" fill="#1e2a4a" />
+<text x="605.0" y="563.4" font-size="15" font-weight="700" fill="#ffffff" text-anchor="middle" >+</text>
+<text x="642.0" y="563.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Add-on: backend v1.0, data contract 1.4, and</text>
+<text x="642.0" y="584.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-style="italic">pull request</tspan> "device security" ⭐</text>
+<text x="80.0" y="678.0" font-size="14" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">The order matters:</tspan> install the keys first (Practices 1–3), then change the lock: the broker is locked in Practice 4.</text>
+<text x="80.0" y="706.0" font-size="14" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">Three paths:</tspan> the device (the Pi gateway, Node 1, and a Node 2 board borrowed as an intruder),</text>
+<text x="80.0" y="728.0" font-size="14" font-weight="600" fill="#4a5568" text-anchor="start" >the laptop (Mosquitto on the laptop, the simulator, and MQTTX as the intruder), or Wokwi (firmware v1.6.0 only).</text>
+<text x="1178.0" y="782.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer Curriculum · CC BY 4.0</text>
+</svg>

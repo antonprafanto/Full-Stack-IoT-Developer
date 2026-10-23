@@ -12,11 +12,13 @@ export const healthRoutes: FastifyPluginAsyncZod = async (app) => {
       security: [], // Module 20: stays open without a login (monitors and the Docker healthcheck can't log in)
       summary: "Server state: alive, connected to the broker and the database, and message counts",
       response: {
-        200: z.object({ ok: z.boolean(), broker: z.boolean(), database: z.boolean(), received: z.number(), rejected: z.number() })
+        200: z.object({ ok: z.boolean(), broker: z.boolean(), database: z.boolean(), received: z.number(), rejected: z.number(),
+          ignored: z.number().describe("Module 21: messages from a device that isn't registered or has been revoked") })
           .describe("server alive; broker and database = reachable or not"),
       },
     },
   }, async () => {
-    return { ok: true, broker: brokerConnected(), database: await databaseAlive(), received: counts.received, rejected: counts.rejected };
+    return { ok: true, broker: brokerConnected(), database: await databaseAlive(), received: counts.received, rejected: counts.rejected,
+      ignored: counts.ignored };
   });
 };

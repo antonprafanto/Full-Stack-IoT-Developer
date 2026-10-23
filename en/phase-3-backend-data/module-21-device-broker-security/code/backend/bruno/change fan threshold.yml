@@ -1,0 +1,43 @@
+info:
+  name: change fan threshold
+  type: http
+  seq: 10
+
+http:
+  method: PUT
+  url: "{{baseUrl}}/rules/1"
+  body:
+    type: json
+    data: |-
+      {
+        "name": "Automatic fan",
+        "active": true,
+        "condition": {
+          "kind": "threshold",
+          "device_id": "a4cf12e5b7c0",
+          "quantity": "temperature",
+          "on_above": 30,
+          "off_below": 28,
+          "for_seconds": 120
+        },
+        "action": {
+          "kind": "switch",
+          "device_id": "a4cf12e5b7c0",
+          "target": "fan",
+          "notify": true
+        }
+      }
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "200"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: true

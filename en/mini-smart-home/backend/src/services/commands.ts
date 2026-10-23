@@ -7,6 +7,7 @@ import { brokerConnected, makeCommandId, sendCommand } from "./mqtt.ts";
 import { archiveCommand } from "../db/archive.ts";
 import { recordEvent } from "./events.ts";
 import { log } from "./log.ts";
+import { devicePermission } from "./registry.ts";
 
 export type Source = "api" | "rule" | "schedule" | "telegram"; // who gave the order
 
@@ -37,6 +38,9 @@ const ackPending = new Set<string>(); // "<device_id>/<target>" whose command is
 
 export async function issueCommand(deviceId: string, command: SetCommand, source: Source,
   ruleId: number | null = null): Promise<CommandResult> {
+  const permission = devicePermission(deviceId); // Module 21: an unregistered or revoked device doesn't receive commands
+  if (permission === "revoked") return { status: "not-sent", code: 409, message: `device ${deviceId} key has been revoked` };
+  if (permission !== "registered") return { status: "not-sent", code: 404, message: `device ${deviceId} is not registered` };
   const d = findDevice(deviceId);
   if (d === undefined) return { status: "not-sent", code: 404, message: `device ${deviceId} has never been heard` };
   if (d.kind === "node2") return { status: "not-sent", code: 409, message: "Node 2 doesn't accept commands (contract section 2)" };

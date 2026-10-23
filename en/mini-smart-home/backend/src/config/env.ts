@@ -8,7 +8,15 @@ const empty = (value: unknown) => (value === "" ? undefined : value); // an empt
 const required = z.preprocess(empty, z.string({ error: "not filled in" }));
 
 const Settings = z.object({
-  MQTT_URL: required, // the broker's address, for example mqtt://192.168.1.37:1883
+  // the broker's address, for example mqtt://192.168.1.37:1883. Module 21: WITHOUT a username and password inside it (this
+  // address is written to the log when connecting); its account is in the next two settings
+  MQTT_URL: required.pipe(z.string()
+    .regex(/^mqtts?:\/\//, "must start with mqtt:// (or mqtts:// from Module 27 on), for example mqtt://192.168.1.37:1883")
+    .refine((url) => !url.includes("@"), "don't put a username or password in MQTT_URL; use MQTT_USERNAME and MQTT_PASSWORD")),
+  // Module 21: the backend's own broker account (made with mosquitto_passwd). Both empty = connect without an account (only
+  // works on a broker that is still open); if one is filled in, the other is required.
+  MQTT_USERNAME: z.string().default(""),
+  MQTT_PASSWORD: z.string().default(""),
   DATABASE_URL: required, // the database's address, for example postgres://postgres:<password>@127.0.0.1:5432/smarthome
   PORT: z.preprocess(empty, z.coerce.number().int().min(1).max(65535).default(8080)), // the server's counter (port) number
   HOST: z.preprocess(empty, z.string().default("127.0.0.1")), // 127.0.0.1 = only reachable from this laptop
@@ -23,6 +31,10 @@ const Settings = z.object({
   // Module 20: web page addresses (origins) that may call this API from a browser, comma-separated. Module 22: Vite, 5173.
   CORS_ORIGIN: z.preprocess(empty, z.string().default("http://localhost:5173,http://127.0.0.1:5173")
     .transform((text) => text.split(",").map((origin) => origin.trim()).filter((origin) => origin !== ""))),
+}).refine((s) => s.MQTT_USERNAME !== "" || s.MQTT_PASSWORD === "", { // Module 21: the broker account must be complete
+  message: "MQTT_PASSWORD is filled in but MQTT_USERNAME is empty", path: ["MQTT_USERNAME"],
+}).refine((s) => s.MQTT_PASSWORD !== "" || s.MQTT_USERNAME === "", {
+  message: "MQTT_USERNAME is filled in but MQTT_PASSWORD is empty (the backend account's password from mosquitto_passwd)", path: ["MQTT_PASSWORD"],
 });
 
 const result = Settings.safeParse(process.env);

@@ -1,6 +1,10 @@
-// Node 1 "Home" - firmware v1.5.0 (Module 19: local safety rule and offline mode)
+// Node 1 "Home" - firmware v1.6.0 (Module 21: connects to the broker with a username and key)
 // The running project: Mini Smart Home.
 //
+// New in v1.6.0: Node 1 connects to the broker with username = device_id and its own device key. The key is never
+// written in the code: type "key <value>" in the Serial Monitor once, and Node 1 saves it in NVS. If the broker
+// rejects it (key wrong, not set, or revoked), the Serial Monitor shows REJECTED and the display DENIED, and Node 1
+// retries only every 60 seconds so the broker log doesn't flood.
 // New in v1.5.0: Node 1 accepts the "config" command from the server (temp_fan_on and soil_watering thresholds, saved
 // in NVS). If the broker is unreachable for more than 2 minutes (offline mode), the local safety rule turns the fan on
 // by itself above temp_fan_on and off below temp_fan_on - 2 C; its report goes with the first vitals, 10 seconds after
@@ -18,7 +22,7 @@
 // From v1.0.0 (Module 8): no delay() in loop(), modular code, watchdog, NVS, leveled logging, status page.
 // Commands from the Serial Monitor: lamp on, fan off, pump 3, curtain 90, beep, status, info,
 // threshold, threshold 35, threshold default, log debug, log info, log error, wifi, wifi forget, send, node2,
-// node2 reset, rs485, rs485 on, rs485 off, test offline, restart.
+// node2 reset, rs485, rs485 on, rs485 off, test offline, key, key <value>, key clear, restart.
 //
 // Libraries: ESP32Servo version 3.2.1, DHT sensor library version 1.4.7
 // (installed with it: Adafruit Unified Sensor version 1.1.15), Adafruit SSD1306 version 2.5.17

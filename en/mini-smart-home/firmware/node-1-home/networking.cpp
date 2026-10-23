@@ -22,13 +22,19 @@
 
 const unsigned long NO_ATTEMPT_TIMEOUT = 60000;  // guard: 60 seconds without a connection attempt = tell it to try again
 const unsigned long MQTT_RETRY_INTERVAL = 5000;  // couldn't connect to the broker? try again 5 seconds later
+const unsigned long REJECTED_RETRY_INTERVAL = 60000;  // Module 21: the broker REJECTS the key? try again 60 seconds later
 const unsigned long MIN_IMMEDIATE_GAP = 2000;    // immediate sends at most every 2 seconds
 const unsigned long REPORT_DELAY = 10000;        // Module 19: offline-mode report sent 10 seconds after connecting
 const char WOKWI_BROKER[] = "broker.emqx.io";    // Wokwi can't reach your laptop: use a public broker
+const char WOKWI_BROKER_LOCKED[] = "test.mosquitto.org";  // Module 21: port 1884 is only for those with an account
 
 static WiFiClient netClient;          // TCP connection to the broker
 static PubSubClient mqtt(netClient);  // MQTT runs on top of that connection
 static char deviceId[13] = "";  // device_id: 12 hexadecimal digits + the end-of-text mark (Appendix A)
+static const char* brokerAddress = BROKER_ADDRESS;  // Module 21: chosen once in setupNetwork()
+static uint16_t brokerPort = BROKER_PORT;
+static const char* username = deviceId;  // Module 21: the broker username = device_id (data contract section 1)
+static bool brokerRejected = false;      // Module 21: the last attempt was answered by the broker with code 4 or 5
 static char telemetryTopic[40] = "";
 static char statusTopic[40] = "";
 static char vitalsTopic[40] = "";
@@ -109,8 +115,8 @@ static const char* mqttStateName(int code) {
     case -2: return "could not connect to the broker";
     case -1: return "not connected yet";
     case 0: return "connected";
-    case 4: return "username or password rejected";
-    case 5: return "not authorized by the broker";
+    case 4: return "username or key rejected";
+    case 5: return "not authorized by the broker: key wrong, empty, or revoked";  // Module 21: Mosquitto always answers 5
     default: return "rejected by the broker";
   }
 }
@@ -343,11 +349,14 @@ void setupNetwork() {
   logInfo("device_id %s", deviceId);
 
   netClient.setConnectionTimeout(1000);  // TCP connect to the broker takes at most 1 second (default: 3 seconds)
-  if (USE_WOKWI) {
-    mqtt.setServer(WOKWI_BROKER, BROKER_PORT);
-  } else {
-    mqtt.setServer(BROKER_ADDRESS, BROKER_PORT);  // an IP address, not a name: no name lookup (DNS) needed
+  if (USE_WOKWI && WOKWI_LOCKED) {  // Module 21: the "accepted vs rejected" practice on a locked public broker
+    brokerAddress = WOKWI_BROKER_LOCKED;
+    brokerPort = 1884;  // the MQTT port of test.mosquitto.org that asks for a username and key
+    username = "rw";    // the public test.mosquitto.org account; its key: readwrite
+  } else if (USE_WOKWI) {
+    brokerAddress = WOKWI_BROKER;
   }
+  mqtt.setServer(brokerAddress, brokerPort);  // at home: an IP address, not a name, so no name lookup (DNS) needed
   mqtt.setSocketTimeout(1);  // wait at most 1 second for the broker's answer (default: 15 seconds)
   if (!mqtt.setBufferSize(512)) {  // a 512-byte message container (default: 256)
     logError("Not enough memory for a 512-byte MQTT message container.");
@@ -355,7 +364,7 @@ void setupNetwork() {
   mqtt.setCallback(onMqttMessage);
 
   if (USE_WOKWI) {
-    logInfo("Wokwi mode: connecting to Wokwi-GUEST without the portal, public broker %s.", WOKWI_BROKER);
+    logInfo("Wokwi mode: connecting to Wokwi-GUEST without the portal, public broker %s:%u.", brokerAddress, brokerPort);
     WiFi.begin("Wokwi-GUEST", "", 6);  // 6 = the Wokwi-GUEST channel so that it connects faster
     hasWiFi = true;
   } else {
@@ -451,34 +460,44 @@ static void tryConnectBroker() {
     offlineTest = false;
     logInfo("Offline test finished: Node 1 reconnects to the broker.");
   }
-  if (hasTriedMqtt && millis() - lastMqttTryTime < MQTT_RETRY_INTERVAL) {
+  // Module 21: after the broker rejects the key, try again much less often so the broker log doesn't flood.
+  unsigned long interval = brokerRejected ? REJECTED_RETRY_INTERVAL : MQTT_RETRY_INTERVAL;
+  if (hasTriedMqtt && millis() - lastMqttTryTime < interval) {
     return;
   }
   hasTriedMqtt = true;
   lastMqttTryTime = millis();
   unsigned long start = millis();
-  // Last will: the status topic, QoS 1, retained, content "offline" (Module 11, Concept 7).
-  if (mqtt.connect(deviceId, statusTopic, 1, true, "offline")) {
+  const char* key = brokerKey();  // Module 21: from NVS; "" = none yet
+  // Client name = device_id; username = device_id (Wokwi locked: rw); key from NVS (nullptr = no key);
+  // then the last will: the status topic, QoS 1, retained, content "offline" (Module 11, Concept 7).
+  if (mqtt.connect(deviceId, username, key[0] != '\0' ? key : nullptr, statusTopic, 1, true, "offline")) {
     mqttConnected = true;
+    brokerRejected = false;
     lastFailCode = 0;
     if (USE_WOKWI) {
       // Module 19: in Wokwi, looking up the address of broker.emqx.io (DNS) after a long disconnect can take more than
       // 5 seconds, and the watchdog restarts Node 1. Keep its IP address: the next reconnect needs no DNS anymore.
-      mqtt.setServer(netClient.remoteIP(), BROKER_PORT);
+      mqtt.setServer(netClient.remoteIP(), brokerPort);
     }
     mqtt.publish(statusTopic, "online", true);  // retained: subscribers who come later still see it
     mqtt.subscribe(cmdTopic, 1);                // subscribe again after every connect (clean session)
-    logInfo("MQTT connected to broker %s:%u in %lu ms, as %s", USE_WOKWI ? WOKWI_BROKER : BROKER_ADDRESS,
-            BROKER_PORT, millis() - start, deviceId);
+    logInfo("MQTT connected to broker %s:%u in %lu ms, as %s", brokerAddress, brokerPort, millis() - start,
+            username);
     vitalsSent = false;  // the first vitals are sent right away
     return;
   }
   int code = mqtt.state();
-  if (code != lastFailCode) {  // the same failure isn't logged every 5 seconds
-    lastFailCode = code;
+  brokerRejected = (code == 4 || code == 5);  // Module 21: the broker's own answer, not a network problem
+  if (brokerRejected) {  // logged on every attempt (at most once a minute)
+    logError("MQTT REJECTED by broker (code %d): key %s. Retrying in %lu seconds.", code,
+             key[0] != '\0' ? "wrong, not registered, or revoked" : "not set yet", REJECTED_RETRY_INTERVAL / 1000);
+    logInfo("A new key? Type in the Serial Monitor: key <value>, then Enter.");
+  } else if (code != lastFailCode) {  // the same failure isn't logged every 5 seconds
     logError("MQTT failed to connect to the broker after %lu ms: %s (code %d). Is the broker on the gateway running?",
              millis() - start, mqttStateName(code), code);
   }
+  lastFailCode = code;
 }
 
 static void guardMqtt() {
@@ -531,8 +550,8 @@ static void guardOfflineMode() {
     offline = true;
     offlineStartTime = now;
     localFan = 0;
-    logError("OFFLINE MODE: broker unreachable for %lu seconds. Local safety active: fan turns on above %.1f C.",
-             OFFLINE_MODE_TIMEOUT / 1000, tempFanThreshold());
+    logError("OFFLINE MODE: broker %s %lu seconds. Local safety active: fan turns on above %.1f C.",
+             brokerRejected ? "rejecting the key for" : "unreachable for", OFFLINE_MODE_TIMEOUT / 1000, tempFanThreshold());
   }
 }
 
@@ -725,6 +744,9 @@ const char* networkText() {
   if (mqtt.connected()) {
     return "ok, MQTT ok";
   }
+  if (brokerRejected) {
+    return "ok, MQTT DENIED";  // Module 21: on the display "WiFi ok, MQTT DENIED" = 20 characters (fits the 21-char line)
+  }
   return "ok, MQTT down";
 }
 
@@ -742,13 +764,14 @@ void printNetworkInfo() {
   Serial.printf("wifi: device_id %s, name %s, time %s\n", deviceId, DEVICE_NAME, ts);
   Serial.printf("wifi: radio channel %ld, router channel %u (0 = never connected)\n", (long)WiFi.channel(),
                 routerChannel);  // Module 14
-  const char* broker = USE_WOKWI ? WOKWI_BROKER : BROKER_ADDRESS;
   if (mqtt.connected()) {
-    Serial.printf("mqtt: connected to %s:%u as %s\n", broker, BROKER_PORT, deviceId);
+    Serial.printf("mqtt: connected to %s:%u as %s\n", brokerAddress, brokerPort, username);
   } else {
-    Serial.printf("mqtt: DISCONNECTED from %s:%u, %s (code %d)\n", broker, BROKER_PORT, mqttStateName(mqtt.state()),
+    Serial.printf("mqtt: DISCONNECTED from %s:%u, %s (code %d)\n", brokerAddress, brokerPort, mqttStateName(mqtt.state()),
                   mqtt.state());
   }
+  Serial.printf("mqtt: username %s, key %s\n", username,  // Module 21
+                brokerKey()[0] != '\0' ? "stored (details: type key)" : "NONE YET");
   Serial.printf("mqtt: telemetry every %lu seconds and immediately when something important happens, vitals every %lu minutes, "
                 "published %lu times\n", SEND_INTERVAL / 1000, VITALS_INTERVAL / 60000, publishCount);
   unsigned long now = millis();  // Module 19: offline mode
@@ -758,8 +781,9 @@ void printNetworkInfo() {
   } else if (mqttReady()) {
     Serial.println("offline mode: no (broker reachable)");
   } else {
-    Serial.printf("offline mode: not yet; broker unreachable for %lu s (offline mode after %lu s)\n",
-                  (now - lastReadyTime) / 1000, OFFLINE_MODE_TIMEOUT / 1000);
+    Serial.printf("offline mode: not yet; broker %s for %lu s (offline mode after %lu s)\n",
+                  brokerRejected ? "rejecting the key" : "unreachable", (now - lastReadyTime) / 1000,
+                  OFFLINE_MODE_TIMEOUT / 1000);  // Module 21: a rejected key counts too
   }
   if (offlineTest && now - offlineTestTime < OFFLINE_TEST_TIME) {
     Serial.printf("offline mode: offline test running, Node 1 reconnects in %lu s\n",
@@ -807,4 +831,23 @@ void startOfflineTest() {
   netClient.stop();
   Serial.printf("test offline: broker connection cut; offline mode starts in %lu minutes, "
                 "reconnecting in %lu minutes.\n", OFFLINE_MODE_TIMEOUT / 60000, OFFLINE_TEST_TIME / 60000);
+}
+
+// ---------- Module 21: the broker account ----------
+const char* brokerUsername() {
+  return username;
+}
+
+bool mqttRejected() {
+  return brokerRejected;
+}
+
+// A new key (or a cleared one): try now, without waiting for the interval. The old connection is closed WITHOUT a goodbye,
+// like "test offline", so the broker publishes the "offline" last will first; once the new key is accepted, the status is "online" again.
+void changeBrokerKey() {
+  brokerRejected = false;
+  hasTriedMqtt = false;
+  if (mqtt.connected()) {
+    netClient.stop();
+  }
 }

@@ -4,7 +4,7 @@
 
 *Phase 3 · Week 20 · Hardware: **Kit A + B** (Node 1 and the Pi gateway from Modules 12–15) **or just a laptop** (the Module 19 device simulator) · Prerequisites: **Module 19** (backend v0.4, the `smarthome` database, and the small terminal) · Time: 9–11 hours, spread over the week*
 
-[⬅️ Module 19](../module-19-realtime-rules-notifications/README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · [Module 21 ➡️ (coming soon — read the summary in the Syllabus)](../../SYLLABUS.md#module-21--device-security-api-keys-simple-provisioning--broker-access-control-acl)
+[⬅️ Module 19](../module-19-realtime-rules-notifications/README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · [Module 21 ➡️](../module-21-device-broker-security/README.md)
 
 ---
 
@@ -4698,4 +4698,4 @@ The completion requirement from the Syllabus: **without a login every endpoint a
 
 ---
 
-[⬅️ Module 19](../module-19-realtime-rules-notifications/README.md) · [Phase 3](../README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · **Next: Module 21 — Device Security: API Keys, Simple Provisioning, & Broker Access Control (ACL)** (coming soon; [read the summary in the Syllabus](../../SYLLABUS.md#module-21--device-security-api-keys-simple-provisioning--broker-access-control-acl))
+[⬅️ Module 19](../module-19-realtime-rules-notifications/README.md) · [Phase 3](../README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · **Next: [Module 21 — Device Security: API Keys, Simple Provisioning, & Broker Access Control (ACL)](../module-21-device-broker-security/README.md) ➡️**

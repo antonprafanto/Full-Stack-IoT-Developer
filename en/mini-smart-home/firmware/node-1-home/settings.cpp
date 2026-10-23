@@ -10,6 +10,7 @@ static int threshold = DEFAULT_SOIL_WATERING_THRESHOLD;
 static unsigned long bootNumber = 0;
 static bool useRS485 = false;  // Module 15: not in use by default (no sensor connected yet)
 static float tempFanOn = DEFAULT_TEMP_FAN_ON;  // Module 19: the safety fan threshold, in °C
+static char key[65] = "";  // Module 21: the broker key, at most 64 characters + the end-of-text mark; "" = none yet
 
 void loadSettings() {
   archive.begin("node1", false);  // false = the folder is opened for reading AND writing
@@ -30,6 +31,10 @@ void loadSettings() {
     source = "from NVS";
   }
   logInfo("temp_fan_on threshold: %.1f C (%s)", tempFanOn, source);
+  if (archive.isKey("broker_key")) {  // Module 21; isKey first so a label that doesn't exist yet isn't treated as an error
+    archive.getString("broker_key", key, sizeof(key));
+  }
+  logInfo("Broker key: %s", key[0] != '\0' ? "stored in NVS" : "NONE YET (type: key <value>)");
 }
 
 int soilWateringThreshold() {
@@ -95,4 +100,42 @@ bool saveTempFanThreshold(float degrees) {
   tempFanOn = degrees;
   logInfo("temp_fan_on threshold saved to NVS: %.1f C", tempFanOn);
   return true;
+}
+
+// ---------- Module 21: the broker key ----------
+// Stored in NVS under the label "broker_key" (10 characters), never in the code or in Git, and never printed in full.
+const char* brokerKey() {
+  return key;
+}
+
+// The characters allowed in a key: A-Z, a-z, 0-9, - and _ (the characters of a backend-made key). A space, =, and
+// any other character is almost certainly a copy mistake.
+static bool isValidKeyChar(char c) {
+  return (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9') || c == '-' || c == '_';
+}
+
+bool saveBrokerKey(const char* value) {
+  size_t length = strlen(value);
+  if (length == 0 || length >= sizeof(key)) {  // 1-64 characters; not necessarily exactly 43 (Wokwi: readwrite)
+    return false;
+  }
+  for (size_t i = 0; i < length; i++) {
+    if (!isValidKeyChar(value[i])) {
+      return false;
+    }
+  }
+  if (strcmp(value, key) != 0) {  // same: no need to write it again (flash can only be written so many times)
+    archive.putString("broker_key", value);
+    snprintf(key, sizeof(key), "%s", value);
+    logInfo("Broker key saved to NVS (%u chars).", (unsigned)length);
+  }
+  return true;
+}
+
+void clearBrokerKey() {
+  if (archive.isKey("broker_key")) {
+    archive.remove("broker_key");
+    logInfo("Broker key deleted from NVS.");
+  }
+  key[0] = '\0';
 }

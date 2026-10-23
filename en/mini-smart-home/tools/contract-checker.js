@@ -6,14 +6,18 @@
 // the offline-mode report (offline_s and local_fan, always together); the content of config is checked; a set command
 // retained on the broker is marked FAIL; an empty message on cmd = a retained message was just cleared.
 // Needs the mqtt library:  npm install mqtt@5.16.1
-// Run:  node contract-checker.js                               (broker on this laptop)
-//       node contract-checker.js 192.168.1.10                  (broker on another computer)
-//       node contract-checker.js broker.emqx.io 240ac45e114b   (public broker: one device_id only)
+// Version 1.4 (Module 21): a locked broker needs a "read only" account in tools/.env (CHECKER_USERNAME, CHECKER_KEY), so
+// run it with node --env-file=.env (a public broker without a key: just as usual); the address may carry a port.
+// Run:  node --env-file=.env contract-checker.js                (broker on this laptop)
+//       node --env-file=.env contract-checker.js 192.168.1.10   (broker on another computer)
+//       node --env-file=.env contract-checker.js 127.0.0.1:1884 (broker on another port, for example the practice broker)
+//       node contract-checker.js broker.emqx.io 240ac45e114b    (public broker: one device_id only)
 // Stop: Ctrl + C
 
 import mqtt from "mqtt";
 
 const address = process.argv[2] || "127.0.0.1";
+const broker = address.includes(":") ? address : `${address}:1883`; // Module 21: a port may be written, default 1883
 const device = process.argv[3]; // may be left out: only messages from this device_id are checked
 if (device !== undefined && !/^[0-9a-f]{12}$/.test(device)) {
   console.log(`device_id must be 12 lowercase hexadecimal digits, for example 240ac45e114b. Got: ${device}`);
@@ -282,31 +286,39 @@ function check(topic, contentText, retained) {
   }
 }
 
-const client = mqtt.connect(`mqtt://${address}:1883`, {
+const client = mqtt.connect(`mqtt://${broker}`, {
   clientId: "checker-" + Math.random().toString(16).slice(2, 8), // a unique name, no clashes
+  username: process.env.CHECKER_USERNAME, // Module 21: the "read only" account from tools/.env (empty = no account)
+  password: process.env.CHECKER_KEY,
   connectTimeout: 5000,
   reconnectPeriod: 0, // doesn't retry by itself: run it again once the broker is running
 });
 let everConnected = false; // an error after connecting means the connection dropped midway
 client.on("error", (error) => {
   const cause = error.code || error.message;
-  if (everConnected) {
-    console.log(`\nConnection to broker ${address}:1883 lost (${cause}). Run the checker again once the broker is running.`);
+  if ([4, 5, 134, 135].includes(error.code)) { // Module 21: a locked broker rejects the checker account
+    console.log(`Broker ${broker} rejected the checker account (code ${error.code}). Fill in CHECKER_USERNAME and ` +
+      "CHECKER_KEY in tools/.env, then run with: node --env-file=.env contract-checker.js …");
+  } else if (everConnected) {
+    console.log(`\nConnection to broker ${broker} lost (${cause}). Run the checker again once the broker is running.`);
     printSummary();
   } else {
-    console.log(`Can't connect to broker ${address}:1883 (${cause}). Is the broker running?`);
+    console.log(`Can't connect to broker ${broker} (${cause}). Is the broker running?`);
   }
   process.exit(1);
 });
 client.on("connect", () => {
   everConnected = true;
-  console.log(`Contract checker ready on broker ${address}:1883 (subscribed to ${subscription}) — press Ctrl + C to stop.`);
+  console.log(`Contract checker ready on broker ${broker} (subscribed to ${subscription}) — press Ctrl + C to stop.`);
   client.subscribe(subscription);
 });
 client.on("message", (topic, content, packet) => check(topic, content.toString(), packet.retain));
 // Without this listener, the tool just goes quiet if the broker is stopped midway (reconnectPeriod: 0).
+// Module 21: a locked broker uses the account name as the client name, so a second checker with the same account kicks the
+// first one off (one account = one connection).
 client.on("close", () => {
-  console.log(`\nConnection to broker ${address}:1883 lost. Run the checker again once the broker is running.`);
+  console.log(`\nConnection to broker ${broker} lost: the broker was stopped, or the same checker account is used by another ` +
+    "program (one account = one connection). Run the checker again.");
   printSummary();
   process.exit(1);
 });

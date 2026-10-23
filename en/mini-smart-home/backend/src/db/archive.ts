@@ -6,16 +6,16 @@ import { pool } from "./pool.ts";
 import type { Ack, SetCommand, Status, TelemetryNode1, TelemetryNode2, Vitals } from "../schemas/contract.ts";
 import type { Rule } from "../schemas/rules.ts";
 
-// Make sure the device has a row in the devices table (created if it isn't there yet), then update when it was last heard.
-// Columns that aren't given (null) don't overwrite the old values, thanks to coalesce.
+// Update the device's kind, status, and when it was last heard. Module 21: a devices row is NO LONGER created automatically;
+// only a registered device (POST /devices) has its messages reach here (second layer in mqtt.ts). Columns that aren't given
+// (null) don't overwrite the old values, thanks to coalesce.
 async function recordDevice(deviceId: string, kind: "node1" | "node2" | null, status: Status | null): Promise<void> {
   await pool.query(
-    `INSERT INTO devices (device_id, kind, status, last_seen)
-     VALUES ($1, coalesce($2, 'unknown'), coalesce($3, 'unknown'), now())
-     ON CONFLICT (device_id) DO UPDATE SET
-       kind = coalesce($2, devices.kind),
-       status = coalesce($3, devices.status),
-       last_seen = now()`,
+    `UPDATE devices SET
+       kind = coalesce($2, kind),
+       status = coalesce($3, status),
+       last_seen = now()
+     WHERE device_id = $1`,
     [deviceId, kind, status],
   );
 }

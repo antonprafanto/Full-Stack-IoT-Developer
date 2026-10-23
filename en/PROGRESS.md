@@ -40,7 +40,7 @@ Tick `[x]` every time you meet the **"You pass when"** criteria in [SYLLABUS.md]
 - [ ] **[Module 18](phase-3-backend-data/module-18-timescaledb/README.md)** — TimescaleDB: Time-Series Data, Automatic Aggregation, Retention, & Backup
 - [ ] **[Module 19](phase-3-backend-data/module-19-realtime-rules-notifications/README.md)** — Realtime, Two-Way Control, Automation Rules (Cloud & Local), & Notifications
 - [ ] **[Module 20](phase-3-backend-data/module-20-user-security/README.md)** — User Security: Login, JWT in Cookies, Roles, & API Protection
-- [ ] **Module 21** — Device Security: API Keys, Simple Provisioning, & Broker Access Control (ACL)
+- [ ] **[Module 21](phase-3-backend-data/module-21-device-broker-security/README.md)** — Device Security: API Keys, Simple Provisioning, & Broker Access Control (ACL)
 - [ ] 🎯 Phase 3 checkpoint: backend v1.0 locked down (people & devices), automation rules (cloud + local safety) and Telegram working
 
 ## 🟪 Phase 4 — Frontend Dashboard (Modules 22–25)

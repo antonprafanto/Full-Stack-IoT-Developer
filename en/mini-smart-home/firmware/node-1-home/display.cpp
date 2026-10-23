@@ -7,7 +7,7 @@
 #include "logger.h"
 #include "system.h"
 #include "settings.h"
-#include "networking.h"  // Module 10: networkText(); Module 19: offlineMode()
+#include "networking.h"  // Module 10: networkText(); Module 19: offlineMode(); Module 21: mqttRejected()
 #include "display.h"
 
 const byte DISPLAY_ADDRESS = 0x3C;             // the OLED display's address on the I2C bus
@@ -189,8 +189,8 @@ static void drawStatusPage() {
   snprintf(text, sizeof(text), "Boot #%lu", bootCount());
   display.setCursor(0, 38);
   display.print(text);
-  if (offlineMode()) {
-    snprintf(text, sizeof(text), "OFFLINE MODE");  // Module 19: broker unreachable for more than 2 minutes
+  if (offlineMode()) {  // Module 19: broker unreachable for more than 2 minutes; Module 21: or the key is rejected
+    snprintf(text, sizeof(text), "%s", mqttRejected() ? "OFFLINE: MQTT DENIED" : "OFFLINE MODE");
   } else {
     snprintf(text, sizeof(text), "WiFi %s", networkText());  // Module 11: for example "WiFi ok, MQTT ok"
   }

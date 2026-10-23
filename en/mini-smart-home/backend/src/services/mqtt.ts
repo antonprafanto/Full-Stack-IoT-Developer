@@ -11,19 +11,54 @@ import { recordReport, deviceRestarted } from "./commands.ts";
 import { sendAllConfigs, evaluateReading } from "./automation.ts";
 import { recordEvent } from "./events.ts";
 import { notify, notifyStatus } from "./telegram.ts";
+import { recordIgnored, devicePermission } from "./registry.ts";
 
 let client: mqtt.MqttClient | undefined;
 
-export function startMqtt(url: string, log: FastifyBaseLogger): void {
-  const clientName = "backend-" + Math.random().toString(16).slice(2, 8); // a unique name, not a device_id
-  client = mqtt.connect(url, { clientId: clientName, reconnectPeriod: 5000 });
+const RETRY_NORMAL_MS = 5000; // broker down or network lost: retry every 5 seconds (like a device, contract section 3)
+const RETRY_REJECTED_MS = 60_000; // Module 21: the broker REJECTS the backend account: retry slowly, so the broker log doesn't flood
+
+// Module 21: the backend's own broker account (not a device account, not a human account), from MQTT_USERNAME/MQTT_PASSWORD
+export interface BrokerAccount {
+  username: string;
+  password: string;
+}
+
+export function startMqtt(url: string, account: BrokerAccount | null, log: FastifyBaseLogger): void {
+  const clientName = "backend-" + Math.random().toString(16).slice(2, 8); // a unique name; a locked broker uses its account name
+  client = mqtt.connect(url, {
+    clientId: clientName,
+    reconnectPeriod: RETRY_NORMAL_MS,
+    ...(account === null ? {} : { username: account.username, password: account.password }),
+    reconnectOnConnackError: true, // Module 21: without this, once rejected by the broker = stop trying forever
+  });
+  let rejected = false; // currently rejected by the broker? (so the long message is written only once)
   client.on("connect", () => {
-    log.info(`connected to broker ${url}`);
+    if (client !== undefined) client.options.reconnectPeriod = RETRY_NORMAL_MS;
+    rejected = false;
+    log.info(`connected to broker ${url}${account === null ? " WITHOUT an account" : ` as ${account.username}`}`);
     client?.subscribe("msh/#", { qos: 1 });
     sendAllConfigs(); // Module 19: a broker without persistence forgets the retained config when restarted (contract rule 10)
   });
-  client.on("reconnect", () => log.warn("broker not reachable yet, retrying in 5 seconds"));
-  client.on("error", (error) => log.error(`MQTT error: ${error.message}`));
+  client.on("reconnect", () => {
+    if (!rejected) log.warn(`broker not reachable yet, retrying in ${RETRY_NORMAL_MS / 1000} seconds`);
+  });
+  client.on("error", (error) => {
+    const code = (error as Error & { code?: number }).code;
+    if (code === 4 || code === 5 || code === 134 || code === 135) { // CONNACK: account rejected (MQTT 3.1.1 and MQTT 5)
+      if (client !== undefined) client.options.reconnectPeriod = RETRY_REJECTED_MS;
+      if (!rejected) {
+        log.error(`broker REJECTED the backend (${error.message}, code ${code}): ` + (account === null
+          ? "the backend connected without an account, but the broker is already locked; fill in MQTT_USERNAME and MQTT_PASSWORD in .env"
+          : `check MQTT_USERNAME and MQTT_PASSWORD in .env, the account "${account.username}" in the broker password file `
+            + "(mosquitto_passwd), then reload the broker")
+          + `. Retrying every ${RETRY_REJECTED_MS / 1000} seconds.`);
+      }
+      rejected = true;
+      return;
+    }
+    log.error(`MQTT error: ${error.message}`);
+  });
   // packet.retain = true: an old message the broker kept, sent again because the backend just subscribed (Module 19)
   client.on("message", (topic, content, packet) => receive(topic, content.toString(), packet.retain, log));
 }
@@ -58,6 +93,12 @@ function receive(topic: string, text: string, retained: boolean, log: FastifyBas
   const [, deviceId, kind] = parts;
   if (!DeviceId.safeParse(deviceId).success) return reject(topic, "invalid device_id", log);
   if (kind === "cmd") return; // a command (from this backend or MQTTX), not device data
+  // Module 21, second layer: only a device that is registered and whose key hasn't been revoked has its data processed
+  const permission = devicePermission(deviceId);
+  if (permission !== "registered") {
+    counts.ignored++;
+    return recordIgnored(topic, deviceId, permission, log);
+  }
 
   if (kind === "status") {
     if (text === "") return; // an empty message = someone deleting a retained status (Module 11), not a new status
