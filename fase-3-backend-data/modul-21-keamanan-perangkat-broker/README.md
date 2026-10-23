@@ -1168,8 +1168,9 @@ import { isiDaftar } from "./services/daftar.ts";
 Lalu cari baris `mulaiRealtime(app);` (yang berkomentar `Modul 19: Socket.IO …`). Tepat di bawahnya, sebelum `mulaiMqtt(…)`, tambahkan:
 
 ```ts
-// Modul 21: buku tamu perangkat terdaftar dimuat dari database. Kalau database belum bisa dihubungi, dicoba lagi setiap
-// 10 detik (dicatat paling sering semenit sekali).
+// Modul 21: buku tamu perangkat terdaftar dimuat dari database SEBELUM mendengar broker. Kalau database belum bisa
+// dihubungi, dicoba lagi setiap 10 detik (dicatat paling sering semenit sekali); selama itu semua pesan perangkat
+// diabaikan: lebih baik kehilangan data sebentar daripada menerima data dari perangkat yang tidak berhak.
 let percobaanDaftar = 0;
 async function muatDaftarPerangkat(): Promise<void> {
   try {
