@@ -1,1 +1,19 @@
 @import "tailwindcss";
+
+/* Modul 23: warna grafik yang ikut mode gelap. Recharts menggambar SVG dengan warnanya sendiri dan tidak mengenal
+   kelas dark: milik Tailwind. Jadi garis bantu, latar tooltip, dan lintasan gauge memakai variabel di bawah ini, yang
+   berganti nilai sendiri saat HP atau laptop memakai tema gelap. Nama warna Tailwind ditulis utuh
+   (var(--color-slate-200)), supaya Tailwind ikut menyertakan warnanya di CSS hasil build. */
+:root {
+  --warna-garis: var(--color-slate-200);
+  --warna-panel: var(--color-white);
+  --warna-lintasan: var(--color-slate-200);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --warna-garis: var(--color-slate-700);
+    --warna-panel: var(--color-slate-800);
+    --warna-lintasan: var(--color-slate-700);
+  }
+}

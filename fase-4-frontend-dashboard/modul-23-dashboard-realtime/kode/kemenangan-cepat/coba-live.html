@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Coba live</title>
+    <!-- coba-live.html - Kemenangan Cepat Modul 23: angka yang bergerak sendiri, tanpa tombol dan tanpa polling.
+         Taruh di frontend/public/, login dulu di dashboard (http://localhost:5173), lalu buka
+         http://localhost:5173/coba-live.html. Sesudah selesai, HAPUS berkas ini supaya tidak ikut ke dist/ dan Git
+         (semua isi public/ ikut disalin ke dist/ saat build). -->
+    <style>
+      body { font-family: system-ui, sans-serif; margin: 2rem; color: #1e293b; background: #f1f5f9; }
+      .kartu { max-width: 20rem; padding: 1.5rem; border-radius: 1rem; background: white; border: 1px solid #e2e8f0; }
+      .label { margin: 0; color: #64748b; font-size: 0.875rem; }
+      .nilai { margin: 0.25rem 0; font-size: 3rem; font-weight: 600; color: #0d9488; }
+      .satuan { font-size: 1.25rem; font-weight: 400; color: #94a3b8; }
+    </style>
+  </head>
+  <body>
+    <div class="kartu">
+      <p class="label">Suhu <span id="perangkat"></span></p>
+      <p class="nilai"><span id="suhu">—</span> <span class="satuan">°C</span></p>
+      <p class="label" id="keadaan">Menyambung…</p>
+      <p class="label" id="jam"></p>
+    </div>
+
+    <!-- pustaka Socket.IO untuk browser, disajikan backend sendiri (tidak perlu npm untuk percobaan ini) -->
+    <script src="http://localhost:8080/socket.io/socket.io.js"></script>
+    <script>
+      const ID = "f00d00000001"; // perangkat latihan Modul 21; Node 1 sungguhan: ganti dengan device_id-nya
+      document.getElementById("perangkat").textContent = ID;
+
+      // withCredentials: true = bawa cookie login (dari dashboard di localhost) ke port 8080. Tanpa ini: "belum login".
+      const socket = io("http://localhost:8080", { withCredentials: true });
+
+      function tampilkan(isi) {
+        document.getElementById("suhu").textContent = isi.suhu ?? "—";
+        const jam = new Date(isi.ts).toLocaleTimeString("id-ID", { timeZone: "Asia/Jakarta" });
+        document.getElementById("jam").textContent = "bacaan pukul " + jam + " WIB";
+      }
+
+      // "connect" terjadi setiap kali tersambung. "ikuti" WAJIB memakai fungsi jawaban (ack):
+      // tanpa itu server diam-diam tidak memasukkan kita ke room perangkat.
+      socket.on("connect", () => {
+        document.getElementById("keadaan").textContent = "Tersambung. Menunggu kiriman berikutnya…";
+        socket.emit("ikuti", ID, (jawaban) => {
+          if (!jawaban.ok) {
+            document.getElementById("keadaan").textContent = "Ditolak: " + jawaban.pesan;
+            return;
+          }
+          if (jawaban.terbaru) tampilkan(jawaban.terbaru); // bacaan terakhir yang diingat backend
+        });
+      });
+
+      // dikirim server setiap kali perangkat itu mengirim bacaan (sekitar tiap 10 detik)
+      socket.on("telemetry", (deviceId, isi) => {
+        document.getElementById("keadaan").textContent = "Live: angka ini berganti sendiri.";
+        tampilkan(isi);
+      });
+
+      socket.on("connect_error", (galat) => {
+        document.getElementById("keadaan").textContent = "Belum tersambung: " + galat.message;
+      });
+      socket.on("disconnect", (alasan) => {
+        document.getElementById("keadaan").textContent = "Terputus: " + alasan;
+      });
+    </script>
+  </body>
+</html>

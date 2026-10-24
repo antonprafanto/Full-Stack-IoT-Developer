@@ -1,0 +1,153 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="832" viewBox="0 0 1200 832" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="832" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" xml:space="preserve">Grafik <tspan font-style="italic">live</tspan>: jendela geser 5 menit</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" xml:space="preserve">Konsep 8 · isi awal dari API, titik baru dari soket, ujung lama dipotong · contoh <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5">f00d00000001</tspan>, angka hanya ilustrasi</text>
+<rect x="30.0" y="100.0" width="1140.0" height="380.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<rect x="150.0" y="156.0" width="160.0" height="246.0" rx="0" fill="#eef1f5" />
+<rect x="310.0" y="156.0" width="800.0" height="246.0" rx="0" fill="#f5f0fc" />
+<line x1="150.0" y1="390.0" x2="1110.0" y2="390.0" stroke="#d5dbe3" stroke-width="1" stroke-linecap="round" stroke-dasharray="3 3" />
+<text x="140.0" y="394.5" font-size="12" font-weight="600" fill="#4a5568" text-anchor="end" >28</text>
+<line x1="150.0" y1="335.0" x2="1110.0" y2="335.0" stroke="#d5dbe3" stroke-width="1" stroke-linecap="round" stroke-dasharray="3 3" />
+<text x="140.0" y="339.5" font-size="12" font-weight="600" fill="#4a5568" text-anchor="end" >29</text>
+<line x1="150.0" y1="280.0" x2="1110.0" y2="280.0" stroke="#d5dbe3" stroke-width="1" stroke-linecap="round" stroke-dasharray="3 3" />
+<text x="140.0" y="284.5" font-size="12" font-weight="600" fill="#4a5568" text-anchor="end" >30</text>
+<line x1="150.0" y1="225.0" x2="1110.0" y2="225.0" stroke="#d5dbe3" stroke-width="1" stroke-linecap="round" stroke-dasharray="3 3" />
+<text x="140.0" y="229.5" font-size="12" font-weight="600" fill="#4a5568" text-anchor="end" >31</text>
+<line x1="150.0" y1="170.0" x2="1110.0" y2="170.0" stroke="#d5dbe3" stroke-width="1" stroke-linecap="round" stroke-dasharray="3 3" />
+<text x="140.0" y="174.5" font-size="12" font-weight="600" fill="#4a5568" text-anchor="end" >32</text>
+<text x="46.0" y="152.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Suhu (°C)</text>
+<line x1="150.0" y1="402.0" x2="1110.0" y2="402.0" stroke="#9aa3b0" stroke-width="1.4" stroke-linecap="round" />
+<line x1="283.3" y1="402.0" x2="283.3" y2="408.0" stroke="#9aa3b0" stroke-width="1.4" stroke-linecap="round" />
+<text x="283.3" y="424.0" font-size="12" font-weight="700" fill="#9aa3b0" text-anchor="middle" >16.22</text>
+<line x1="443.3" y1="402.0" x2="443.3" y2="408.0" stroke="#9aa3b0" stroke-width="1.4" stroke-linecap="round" />
+<text x="443.3" y="424.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="middle" >16.23</text>
+<line x1="603.3" y1="402.0" x2="603.3" y2="408.0" stroke="#9aa3b0" stroke-width="1.4" stroke-linecap="round" />
+<text x="603.3" y="424.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="middle" >16.24</text>
+<line x1="763.3" y1="402.0" x2="763.3" y2="408.0" stroke="#9aa3b0" stroke-width="1.4" stroke-linecap="round" />
+<text x="763.3" y="424.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="middle" >16.25</text>
+<line x1="923.3" y1="402.0" x2="923.3" y2="408.0" stroke="#9aa3b0" stroke-width="1.4" stroke-linecap="round" />
+<text x="923.3" y="424.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="middle" >16.26</text>
+<line x1="1083.3" y1="402.0" x2="1083.3" y2="408.0" stroke="#9aa3b0" stroke-width="1.4" stroke-linecap="round" />
+<text x="1083.3" y="424.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="middle" >16.27</text>
+<line x1="870.0" y1="156.0" x2="870.0" y2="402.0" stroke="#9aa3b0" stroke-width="1.4" stroke-linecap="round" stroke-dasharray="4 4" />
+<text x="864.0" y="146.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="end" >layar dibuka 16.25.40</text>
+<line x1="1110.0" y1="156.0" x2="1110.0" y2="402.0" stroke="#6f42c1" stroke-width="2" stroke-linecap="round" />
+<text x="1110.0" y="146.0" font-size="12" font-weight="800" fill="#6f42c1" text-anchor="end" >sekarang 16.27.10 WIB</text>
+<line x1="158.0" y1="302.0" x2="184.7" y2="296.5" stroke="#9aa3b0" stroke-width="1.4" stroke-linecap="round" stroke-dasharray="4 3" />
+<line x1="184.7" y1="296.5" x2="211.3" y2="302.0" stroke="#9aa3b0" stroke-width="1.4" stroke-linecap="round" stroke-dasharray="4 3" />
+<line x1="211.3" y1="302.0" x2="238.0" y2="291.0" stroke="#9aa3b0" stroke-width="1.4" stroke-linecap="round" stroke-dasharray="4 3" />
+<line x1="238.0" y1="291.0" x2="264.7" y2="285.5" stroke="#9aa3b0" stroke-width="1.4" stroke-linecap="round" stroke-dasharray="4 3" />
+<line x1="264.7" y1="285.5" x2="291.3" y2="291.0" stroke="#9aa3b0" stroke-width="1.4" stroke-linecap="round" stroke-dasharray="4 3" />
+<line x1="291.3" y1="291.0" x2="318.0" y2="285.5" stroke="#9aa3b0" stroke-width="1.4" stroke-linecap="round" stroke-dasharray="4 3" />
+<line x1="318.0" y1="285.5" x2="344.7" y2="280.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<line x1="344.7" y1="280.0" x2="371.3" y2="274.5" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<line x1="371.3" y1="274.5" x2="398.0" y2="280.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<line x1="398.0" y1="280.0" x2="424.7" y2="269.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<line x1="424.7" y1="269.0" x2="451.3" y2="274.5" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<line x1="451.3" y1="274.5" x2="478.0" y2="269.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<line x1="478.0" y1="269.0" x2="504.7" y2="263.5" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<line x1="504.7" y1="263.5" x2="531.3" y2="269.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<line x1="531.3" y1="269.0" x2="558.0" y2="263.5" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<line x1="752.7" y1="285.5" x2="779.3" y2="280.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<line x1="779.3" y1="280.0" x2="806.0" y2="274.5" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<line x1="806.0" y1="274.5" x2="832.7" y2="280.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<line x1="832.7" y1="280.0" x2="859.3" y2="269.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<line x1="859.3" y1="269.0" x2="886.0" y2="263.5" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<line x1="886.0" y1="263.5" x2="912.7" y2="269.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<line x1="912.7" y1="269.0" x2="939.3" y2="258.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<line x1="939.3" y1="258.0" x2="966.0" y2="252.5" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<line x1="966.0" y1="252.5" x2="992.7" y2="258.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<line x1="992.7" y1="258.0" x2="1019.3" y2="252.5" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<line x1="1019.3" y1="252.5" x2="1035.3" y2="252.5" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<line x1="1035.3" y1="252.5" x2="1062.0" y2="247.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<line x1="1062.0" y1="247.0" x2="1088.7" y2="252.5" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<circle cx="158.0" cy="302.0" r="4" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.6" />
+<circle cx="184.7" cy="296.5" r="4" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.6" />
+<circle cx="211.3" cy="302.0" r="4" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.6" />
+<circle cx="238.0" cy="291.0" r="4" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.6" />
+<circle cx="264.7" cy="285.5" r="4" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.6" />
+<circle cx="291.3" cy="291.0" r="4" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.6" />
+<circle cx="318.0" cy="285.5" r="4" fill="#1e2a4a" stroke="#ffffff" stroke-width="1.4" />
+<circle cx="344.7" cy="280.0" r="4" fill="#1e2a4a" stroke="#ffffff" stroke-width="1.4" />
+<circle cx="371.3" cy="274.5" r="4" fill="#1e2a4a" stroke="#ffffff" stroke-width="1.4" />
+<circle cx="398.0" cy="280.0" r="4" fill="#1e2a4a" stroke="#ffffff" stroke-width="1.4" />
+<circle cx="424.7" cy="269.0" r="4" fill="#1e2a4a" stroke="#ffffff" stroke-width="1.4" />
+<circle cx="451.3" cy="274.5" r="4" fill="#1e2a4a" stroke="#ffffff" stroke-width="1.4" />
+<circle cx="478.0" cy="269.0" r="4" fill="#1e2a4a" stroke="#ffffff" stroke-width="1.4" />
+<circle cx="504.7" cy="263.5" r="4" fill="#1e2a4a" stroke="#ffffff" stroke-width="1.4" />
+<circle cx="531.3" cy="269.0" r="4" fill="#1e2a4a" stroke="#ffffff" stroke-width="1.4" />
+<circle cx="558.0" cy="263.5" r="4" fill="#1e2a4a" stroke="#ffffff" stroke-width="1.4" />
+<circle cx="752.7" cy="285.5" r="4" fill="#1e2a4a" stroke="#ffffff" stroke-width="1.4" />
+<circle cx="779.3" cy="280.0" r="4" fill="#1e2a4a" stroke="#ffffff" stroke-width="1.4" />
+<circle cx="806.0" cy="274.5" r="4" fill="#1e2a4a" stroke="#ffffff" stroke-width="1.4" />
+<circle cx="832.7" cy="280.0" r="4" fill="#1e2a4a" stroke="#ffffff" stroke-width="1.4" />
+<circle cx="859.3" cy="269.0" r="4" fill="#1e2a4a" stroke="#ffffff" stroke-width="1.4" />
+<circle cx="886.0" cy="263.5" r="4.5" fill="#6f42c1" stroke="#ffffff" stroke-width="1.4" />
+<circle cx="912.7" cy="269.0" r="4.5" fill="#6f42c1" stroke="#ffffff" stroke-width="1.4" />
+<circle cx="939.3" cy="258.0" r="4.5" fill="#6f42c1" stroke="#ffffff" stroke-width="1.4" />
+<circle cx="966.0" cy="252.5" r="4.5" fill="#6f42c1" stroke="#ffffff" stroke-width="1.4" />
+<circle cx="992.7" cy="258.0" r="4.5" fill="#6f42c1" stroke="#ffffff" stroke-width="1.4" />
+<circle cx="1019.3" cy="252.5" r="4.5" fill="#6f42c1" stroke="#ffffff" stroke-width="1.4" />
+<circle cx="1035.3" cy="252.5" r="4.5" fill="#6f42c1" stroke="#ffffff" stroke-width="1.4" />
+<circle cx="1062.0" cy="247.0" r="4.5" fill="#6f42c1" stroke="#ffffff" stroke-width="1.4" />
+<circle cx="1088.7" cy="252.5" r="4.5" fill="#6f42c1" stroke="#ffffff" stroke-width="1.4" />
+<text x="655.3" y="300.9" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="middle" xml:space="preserve">celah 73 detik (&gt; 25 detik):</text>
+<text x="655.3" y="317.9" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="middle" xml:space="preserve">garis tidak disambung</text>
+<text x="358.0" y="366.9" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">simulator mengacak suhu 25–33 °C di setiap kiriman,</text>
+<text x="358.0" y="383.9" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">jadi garis di layarmu akan lebih bergerigi</text>
+<text x="1021.3" y="194.7" font-size="12" font-weight="700" fill="#6f42c1" text-anchor="end" xml:space="preserve">kiriman segera</text>
+<text x="1021.3" y="210.7" font-size="12" font-weight="700" fill="#6f42c1" text-anchor="end" xml:space="preserve">(Bruno: lampu)</text>
+<line x1="1025.3" y1="214.0" x2="1033.3" y2="245.5" stroke="#6f42c1" stroke-width="1.4" stroke-linecap="round" />
+<circle cx="56.0" cy="452.0" r="4" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.6" />
+<text x="68.0" y="456.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" >dipotong: lebih tua dari 5 menit</text>
+<circle cx="330.0" cy="452.0" r="4" fill="#1e2a4a" stroke="#ffffff" stroke-width="1.4" />
+<text x="342.0" y="456.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" >isi awal dari API (database)</text>
+<circle cx="560.0" cy="452.0" r="4.5" fill="#6f42c1" stroke="#ffffff" stroke-width="1.4" />
+<text x="572.0" y="456.0" font-size="12" font-weight="700" fill="#6f42c1" text-anchor="start" xml:space="preserve">titik <tspan font-style="italic">live</tspan> dari acara <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="800">telemetry</tspan></text>
+<rect x="800.0" y="444.0" width="22.0" height="14.0" rx="3" fill="#f5f0fc" stroke="#6f42c1" stroke-width="1" />
+<text x="830.0" y="456.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" >jendela 5 menit (yang digambar)</text>
+<rect x="30.0" y="500.0" width="270.0" height="168.0" rx="12" fill="#ffffff" stroke="#6f42c1" stroke-width="1.4" />
+<circle cx="56.0" cy="526.0" r="12" fill="#6f42c1" stroke="#ffffff" stroke-width="2" />
+<text x="56.0" y="530.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >1</text>
+<text x="76.0" y="531.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Isi awal</text>
+<text x="48.0" y="562.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">layar dibuka, atau kembali <tspan font-weight="800" fill="#2a9d5c">Live</tspan>:</text>
+<text x="48.0" y="583.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">ambilBacaanSejak(id, 5)</tspan></text>
+<text x="48.0" y="604.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">GET …/readings?from=…Z</tspan></text>
+<text x="48.0" y="625.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">±30 bacaan → <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">isiJendela()</tspan></text>
+<text x="48.0" y="646.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">(+ angka kartu bila <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">terbaru</tspan> kosong)</text>
+<line x1="302.0" y1="584.0" x2="318.0" y2="584.0" stroke="#6f42c1" stroke-width="2" stroke-linecap="round" />
+<path d="M312.7 586.8 L318.0 584.0 L312.7 581.2" fill="none" stroke="#6f42c1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="320.0" y="500.0" width="270.0" height="168.0" rx="12" fill="#ffffff" stroke="#6f42c1" stroke-width="1.4" />
+<circle cx="346.0" cy="526.0" r="12" fill="#6f42c1" stroke="#ffffff" stroke-width="2" />
+<text x="346.0" y="530.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >2</text>
+<text x="366.0" y="531.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Titik baru</text>
+<text x="338.0" y="562.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">acara <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">telemetry</tspan> tiba</text>
+<text x="338.0" y="583.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">→ <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">terima()</tspan> menambah satu titik</text>
+<text x="338.0" y="604.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">tanpa bertanya ke server</text>
+<text x="338.0" y="625.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">(tanpa <tspan font-style="italic">polling</tspan>)</text>
+<line x1="592.0" y1="584.0" x2="608.0" y2="584.0" stroke="#6f42c1" stroke-width="2" stroke-linecap="round" />
+<path d="M602.7 586.8 L608.0 584.0 L602.7 581.2" fill="none" stroke="#6f42c1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="610.0" y="500.0" width="270.0" height="168.0" rx="12" fill="#ffffff" stroke="#6f42c1" stroke-width="1.4" />
+<circle cx="636.0" cy="526.0" r="12" fill="#6f42c1" stroke="#ffffff" stroke-width="2" />
+<text x="636.0" y="530.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >3</text>
+<text x="656.0" y="531.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Potong dan rapikan</text>
+<text x="628.0" y="562.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">gabung()</tspan>: salin, buang yang</text>
+<text x="628.0" y="583.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">lebih tua dari 5 menit, urutkan,</text>
+<text x="628.0" y="604.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">buang titik ganda (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">ts</tspan> sama)</text>
+<text x="628.0" y="625.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">hasilnya selalu larik <tspan font-weight="800" fill="#1e2a4a">baru</tspan></text>
+<line x1="882.0" y1="584.0" x2="898.0" y2="584.0" stroke="#6f42c1" stroke-width="2" stroke-linecap="round" />
+<path d="M892.7 586.8 L898.0 584.0 L892.7 581.2" fill="none" stroke="#6f42c1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="900.0" y="500.0" width="270.0" height="168.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.4" />
+<circle cx="926.0" cy="526.0" r="12" fill="#6f42c1" stroke="#ffffff" stroke-width="2" />
+<text x="926.0" y="530.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >4</text>
+<text x="946.0" y="531.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Gambar dengan jujur</text>
+<text x="918.0" y="562.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">sumbu X <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">type="number"</tspan>: jarak</text>
+<text x="918.0" y="583.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">waktu asli; <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">ticks</tspan> tiap menit;</text>
+<text x="918.0" y="604.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">celah &gt; 25 detik = titik <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">null</tspan>;</text>
+<text x="918.0" y="625.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">isAnimationActive={false}</tspan></text>
+<rect x="30.0" y="688.0" width="1140.0" height="104.0" rx="12" fill="#eef1f5" />
+<text x="50.0" y="714.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800">Dua jam berbeda:</tspan> titik memakai <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#6f42c1" font-weight="800">ts</tspan> dari jam perangkat, batas jendela memakai jam browser (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#6f42c1" font-weight="800">Date.now()</tspan>).</text>
+<text x="50.0" y="740.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800">Kiriman selama putus tidak dikirim ulang</tspan> oleh server: karena itu isi awal diulang setiap kali lencana kembali <tspan font-weight="800">Live</tspan>.</text>
+<text x="50.0" y="766.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800">Node 2</tspan> mengirim tiap 5 menit: grafik <tspan font-style="italic">live</tspan>-nya hampir selalu kosong, jadi tidak ditampilkan; grafiknya ada di <tspan font-weight="800">Riwayat</tspan>.</text>
+<text x="1178.0" y="818.0" font-size="11" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

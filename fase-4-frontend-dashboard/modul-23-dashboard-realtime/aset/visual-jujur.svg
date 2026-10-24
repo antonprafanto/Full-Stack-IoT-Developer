@@ -1,0 +1,162 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="936" viewBox="0 0 1200 936" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="936" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" xml:space="preserve">Visual yang jujur: empat pasang menipu dan jujur</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" xml:space="preserve">Konsep 9 · skala, celah, warna status, dan angka basi · angka di gambar ini hanya contoh</text>
+<rect x="30.0" y="100.0" width="560.0" height="350.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<circle cx="56.0" cy="128.0" r="12" fill="#6f42c1" stroke="#ffffff" stroke-width="2" />
+<text x="56.0" y="132.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >1</text>
+<text x="76.0" y="133.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-style="italic">Gauge</tspan>: skalanya harus ditulis</text>
+<rect x="46.0" y="152.0" width="256.0" height="222.0" rx="10" fill="#ffffff" stroke="#d5dbe3" stroke-width="1.4" />
+<rect x="58.0" y="164.0" width="82.0" height="24.0" rx="12.0" fill="#fde6e8" stroke="#e63946" stroke-width="1.4" />
+<text x="99.0" y="180.3" font-size="12" font-weight="800" fill="#e63946" text-anchor="middle" xml:space="preserve">menipu</text>
+<text x="174.0" y="212.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="middle" >Kelembapan tanah</text>
+<path d="M82.0 348.0 A92 92 0 0 1 266.0 348.0 L242.0 348.0 A68 68 0 0 0 106.0 348.0 Z" fill="#d5dbe3" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M82.0 348.0 A92 92 0 0 1 266.0 348.0 L242.0 348.0 A68 68 0 0 0 106.0 348.0 Z" fill="#6f42c1" stroke-linecap="round" stroke-linejoin="round" />
+<text x="174.0" y="344.0" font-size="24" font-weight="800" fill="#1e2a4a" text-anchor="middle" >14 %</text>
+<text x="50.0" y="398.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">tanpa skala, busur diukur terhadap</text>
+<text x="50.0" y="416.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">nilainya sendiri → selalu penuh</text>
+<rect x="318.0" y="152.0" width="256.0" height="222.0" rx="10" fill="#ffffff" stroke="#d5dbe3" stroke-width="1.4" />
+<rect x="330.0" y="164.0" width="74.0" height="24.0" rx="12.0" fill="#e3f4ea" stroke="#2a9d5c" stroke-width="1.4" />
+<text x="367.0" y="180.3" font-size="12" font-weight="800" fill="#2a9d5c" text-anchor="middle" xml:space="preserve">jujur</text>
+<text x="446.0" y="212.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="middle" >Kelembapan tanah</text>
+<path d="M354.0 348.0 A92 92 0 0 1 538.0 348.0 L514.0 348.0 A68 68 0 0 0 378.0 348.0 Z" fill="#d5dbe3" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M354.0 348.0 A92 92 0 0 1 362.8 308.8 L384.5 319.0 A68 68 0 0 0 378.0 348.0 Z" fill="#6f42c1" stroke-linecap="round" stroke-linejoin="round" />
+<text x="446.0" y="344.0" font-size="24" font-weight="800" fill="#1e2a4a" text-anchor="middle" >14 %</text>
+<text x="322.0" y="398.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#6f42c1" font-weight="800">&lt;PolarAngleAxis type="number"</tspan></text>
+<text x="322.0" y="416.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#6f42c1" font-weight="800">  domain={[0, 100]} tick={false} /&gt;</tspan></text>
+<rect x="610.0" y="100.0" width="560.0" height="350.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<circle cx="636.0" cy="128.0" r="12" fill="#6f42c1" stroke="#ffffff" stroke-width="2" />
+<text x="636.0" y="132.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >2</text>
+<text x="656.0" y="133.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Celah tidak disambung</text>
+<rect x="626.0" y="152.0" width="256.0" height="222.0" rx="10" fill="#ffffff" stroke="#d5dbe3" stroke-width="1.4" />
+<rect x="638.0" y="164.0" width="82.0" height="24.0" rx="12.0" fill="#fde6e8" stroke="#e63946" stroke-width="1.4" />
+<text x="679.0" y="180.3" font-size="12" font-weight="800" fill="#e63946" text-anchor="middle" xml:space="preserve">menipu</text>
+<line x1="644.0" y1="348.0" x2="868.0" y2="348.0" stroke="#9aa3b0" stroke-width="1.2" stroke-linecap="round" />
+<line x1="652.0" y1="296.0" x2="667.0" y2="280.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<line x1="667.0" y1="280.0" x2="682.0" y2="288.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<line x1="682.0" y1="288.0" x2="697.0" y2="264.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<line x1="697.0" y1="264.0" x2="712.0" y2="272.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<line x1="712.0" y1="272.0" x2="727.0" y2="256.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<line x1="727.0" y1="256.0" x2="792.0" y2="320.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<line x1="792.0" y1="320.0" x2="807.0" y2="312.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<line x1="807.0" y1="312.0" x2="822.0" y2="296.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<line x1="822.0" y1="296.0" x2="837.0" y2="304.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<line x1="837.0" y1="304.0" x2="852.0" y2="288.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<circle cx="652.0" cy="296.0" r="3.6" fill="#1e2a4a" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="667.0" cy="280.0" r="3.6" fill="#1e2a4a" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="682.0" cy="288.0" r="3.6" fill="#1e2a4a" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="697.0" cy="264.0" r="3.6" fill="#1e2a4a" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="712.0" cy="272.0" r="3.6" fill="#1e2a4a" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="727.0" cy="256.0" r="3.6" fill="#1e2a4a" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="792.0" cy="320.0" r="3.6" fill="#1e2a4a" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="807.0" cy="312.0" r="3.6" fill="#1e2a4a" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="822.0" cy="296.0" r="3.6" fill="#1e2a4a" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="837.0" cy="304.0" r="3.6" fill="#1e2a4a" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="852.0" cy="288.0" r="3.6" fill="#1e2a4a" stroke="#ffffff" stroke-width="1.2" />
+<text x="630.0" y="398.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">simulator mati 2 menit, tetapi garis</text>
+<text x="630.0" y="416.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">lurus membuatnya tampak ada data</text>
+<rect x="898.0" y="152.0" width="256.0" height="222.0" rx="10" fill="#ffffff" stroke="#d5dbe3" stroke-width="1.4" />
+<rect x="910.0" y="164.0" width="74.0" height="24.0" rx="12.0" fill="#e3f4ea" stroke="#2a9d5c" stroke-width="1.4" />
+<text x="947.0" y="180.3" font-size="12" font-weight="800" fill="#2a9d5c" text-anchor="middle" xml:space="preserve">jujur</text>
+<line x1="916.0" y1="348.0" x2="1140.0" y2="348.0" stroke="#9aa3b0" stroke-width="1.2" stroke-linecap="round" />
+<line x1="924.0" y1="296.0" x2="939.0" y2="280.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<line x1="939.0" y1="280.0" x2="954.0" y2="288.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<line x1="954.0" y1="288.0" x2="969.0" y2="264.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<line x1="969.0" y1="264.0" x2="984.0" y2="272.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<line x1="984.0" y1="272.0" x2="999.0" y2="256.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<line x1="1064.0" y1="320.0" x2="1079.0" y2="312.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<line x1="1079.0" y1="312.0" x2="1094.0" y2="296.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<line x1="1094.0" y1="296.0" x2="1109.0" y2="304.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<line x1="1109.0" y1="304.0" x2="1124.0" y2="288.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<circle cx="924.0" cy="296.0" r="3.6" fill="#1e2a4a" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="939.0" cy="280.0" r="3.6" fill="#1e2a4a" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="954.0" cy="288.0" r="3.6" fill="#1e2a4a" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="969.0" cy="264.0" r="3.6" fill="#1e2a4a" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="984.0" cy="272.0" r="3.6" fill="#1e2a4a" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="999.0" cy="256.0" r="3.6" fill="#1e2a4a" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="1064.0" cy="320.0" r="3.6" fill="#1e2a4a" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="1079.0" cy="312.0" r="3.6" fill="#1e2a4a" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="1094.0" cy="296.0" r="3.6" fill="#1e2a4a" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="1109.0" cy="304.0" r="3.6" fill="#1e2a4a" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="1124.0" cy="288.0" r="3.6" fill="#1e2a4a" stroke="#ffffff" stroke-width="1.2" />
+<text x="1031.0" y="292.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="middle" xml:space="preserve">tidak ada</text>
+<text x="1031.0" y="306.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="middle" xml:space="preserve">data</text>
+<text x="902.0" y="398.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">celah &gt; 25 detik (Riwayat 24 jam / 7 hari:</text>
+<text x="902.0" y="416.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">&gt; 1,5 × lebar ember) diisi titik <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#6f42c1" font-weight="800">null</tspan></text>
+<text x="902.0" y="434.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">→ garis putus (<tspan font-style="italic">live</tspan> dan Riwayat)</text>
+<rect x="30.0" y="470.0" width="560.0" height="350.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<circle cx="56.0" cy="498.0" r="12" fill="#6f42c1" stroke="#ffffff" stroke-width="2" />
+<text x="56.0" y="502.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >3</text>
+<text x="76.0" y="503.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Warna status selalu ditemani teks</text>
+<rect x="46.0" y="522.0" width="256.0" height="222.0" rx="10" fill="#ffffff" stroke="#d5dbe3" stroke-width="1.4" />
+<rect x="58.0" y="534.0" width="82.0" height="24.0" rx="12.0" fill="#fde6e8" stroke="#e63946" stroke-width="1.4" />
+<text x="99.0" y="550.3" font-size="12" font-weight="800" fill="#e63946" text-anchor="middle" xml:space="preserve">menipu</text>
+<rect x="60.0" y="572.0" width="228.0" height="56.0" rx="8" fill="#ffffff" stroke="#d5dbe3" stroke-width="1.2" />
+<rect x="60.0" y="572.0" width="5.0" height="56.0" rx="2" fill="#2a9d5c" />
+<text x="76.0" y="594.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Node 1 ruang tamu</text>
+<circle cx="84.0" cy="612.0" r="6" fill="#2a9d5c" />
+<rect x="60.0" y="638.0" width="228.0" height="56.0" rx="8" fill="#ffffff" stroke="#d5dbe3" stroke-width="1.2" />
+<rect x="60.0" y="638.0" width="5.0" height="56.0" rx="2" fill="#e63946" />
+<text x="76.0" y="660.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Latihan ruang tamu</text>
+<circle cx="84.0" cy="678.0" r="6" fill="#e63946" />
+<text x="50.0" y="768.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">merah dan hijau saja: sulit dibedakan</text>
+<text x="50.0" y="786.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">oleh orang yang buta warna</text>
+<rect x="318.0" y="522.0" width="256.0" height="222.0" rx="10" fill="#ffffff" stroke="#d5dbe3" stroke-width="1.4" />
+<rect x="330.0" y="534.0" width="74.0" height="24.0" rx="12.0" fill="#e3f4ea" stroke="#2a9d5c" stroke-width="1.4" />
+<text x="367.0" y="550.3" font-size="12" font-weight="800" fill="#2a9d5c" text-anchor="middle" xml:space="preserve">jujur</text>
+<rect x="332.0" y="572.0" width="228.0" height="74.0" rx="8" fill="#ffffff" stroke="#d5dbe3" stroke-width="1.2" />
+<rect x="332.0" y="572.0" width="5.0" height="74.0" rx="2" fill="#2a9d5c" />
+<text x="348.0" y="594.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Node 1 ruang tamu</text>
+<rect x="348.0" y="603.0" width="60.0" height="18.0" rx="9" fill="#e3f4ea" />
+<text x="378.0" y="616.0" font-size="11" font-weight="800" fill="#2a9d5c" text-anchor="middle" >Online</text>
+<text x="348.0" y="637.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="start" >terakhir dilihat baru saja</text>
+<rect x="332.0" y="656.0" width="228.0" height="74.0" rx="8" fill="#ffffff" stroke="#d5dbe3" stroke-width="1.2" />
+<rect x="332.0" y="656.0" width="5.0" height="74.0" rx="2" fill="#e63946" />
+<text x="348.0" y="678.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Latihan ruang tamu</text>
+<rect x="348.0" y="687.0" width="60.0" height="18.0" rx="9" fill="#fde6e8" />
+<text x="378.0" y="700.0" font-size="11" font-weight="800" fill="#e63946" text-anchor="middle" >Offline</text>
+<text x="348.0" y="721.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="start" >terakhir dilihat 20 detik yang lalu</text>
+<text x="322.0" y="768.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">warna selalu ditemani teks:</text>
+<text x="322.0" y="786.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">Online</tspan> / <tspan font-weight="800" fill="#1e2a4a">Offline</tspan> + terakhir dilihat</text>
+<rect x="610.0" y="470.0" width="560.0" height="350.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<circle cx="636.0" cy="498.0" r="12" fill="#6f42c1" stroke="#ffffff" stroke-width="2" />
+<text x="636.0" y="502.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >4</text>
+<text x="656.0" y="503.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Angka basi harus tampak basi</text>
+<rect x="626.0" y="522.0" width="256.0" height="222.0" rx="10" fill="#ffffff" stroke="#d5dbe3" stroke-width="1.4" />
+<rect x="638.0" y="534.0" width="82.0" height="24.0" rx="12.0" fill="#fde6e8" stroke="#e63946" stroke-width="1.4" />
+<text x="679.0" y="550.3" font-size="12" font-weight="800" fill="#e63946" text-anchor="middle" xml:space="preserve">menipu</text>
+<text x="642.0" y="586.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Latihan ruang tamu</text>
+<text x="642.0" y="608.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">diperbarui pukul 16.20.05 WIB</text>
+<rect x="642.0" y="622.0" width="108.0" height="58.0" rx="8" fill="#ffffff" stroke="#d5dbe3" stroke-width="1.2" />
+<text x="652.0" y="640.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="start" >Suhu</text>
+<text x="652" y="668" font-size="18" font-weight="700" fill="#1e2a4a">30.2<tspan font-size="11" font-weight="500" fill="#4a5568"> °C</tspan></text>
+<rect x="758.0" y="622.0" width="108.0" height="58.0" rx="8" fill="#ffffff" stroke="#d5dbe3" stroke-width="1.2" />
+<text x="768.0" y="640.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="start" >Kelembapan</text>
+<text x="768" y="668" font-size="18" font-weight="700" fill="#1e2a4a">71<tspan font-size="11" font-weight="500" fill="#4a5568"> %</tspan></text>
+<text x="630.0" y="768.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">sambungan putus, tetapi angka lama</text>
+<text x="630.0" y="786.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">tetap tampak segar</text>
+<rect x="898.0" y="522.0" width="256.0" height="222.0" rx="10" fill="#ffffff" stroke="#d5dbe3" stroke-width="1.4" />
+<rect x="910.0" y="534.0" width="74.0" height="24.0" rx="12.0" fill="#e3f4ea" stroke="#2a9d5c" stroke-width="1.4" />
+<text x="947.0" y="550.3" font-size="12" font-weight="800" fill="#2a9d5c" text-anchor="middle" xml:space="preserve">jujur</text>
+<rect x="996.0" y="534.0" width="146.0" height="24.0" rx="12.0" fill="#fdeedd" stroke="#b45f17" stroke-width="1.4" />
+<text x="1069.0" y="550.3" font-size="12" font-weight="800" fill="#b45f17" text-anchor="middle" xml:space="preserve">Menyambung ulang…</text>
+<text x="914.0" y="586.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Latihan ruang tamu</text>
+<g opacity="0.55">
+<text x="914.0" y="608.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">diperbarui pukul 16.20.05 WIB ·</text>
+<text x="914.0" y="624.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">sambungan live terputus, angka ini</text>
+<text x="914.0" y="640.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">mungkin sudah basi</text>
+<rect x="914.0" y="654.0" width="108.0" height="58.0" rx="8" fill="#ffffff" stroke="#d5dbe3" stroke-width="1.2" />
+<text x="924.0" y="672.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="start" >Suhu</text>
+<text x="924" y="700" font-size="18" font-weight="700" fill="#1e2a4a">30.2<tspan font-size="11" font-weight="500" fill="#4a5568"> °C</tspan></text>
+<rect x="1030.0" y="654.0" width="108.0" height="58.0" rx="8" fill="#ffffff" stroke="#d5dbe3" stroke-width="1.2" />
+<text x="1040.0" y="672.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="start" >Kelembapan</text>
+<text x="1040" y="700" font-size="18" font-weight="700" fill="#1e2a4a">71<tspan font-size="11" font-weight="500" fill="#4a5568"> %</tspan></text>
+</g>
+<text x="902.0" y="768.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">kartu dipudarkan dan diberi tulisan;</text>
+<text x="902.0" y="786.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">di Daftar dan Detail: <tspan font-weight="800" fill="#1e2a4a">· data basi</tspan></text>
+<text x="902.0" y="804.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">(&gt; 30 detik; Node 2: &gt; 16 menit)</text>
+<rect x="30.0" y="838.0" width="1140.0" height="72.0" rx="12" fill="#f5f0fc" />
+<text x="50.0" y="864.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#6f42c1">Juga jujur:</tspan> satuan di setiap angka (°C, %, cahaya 0–4095); <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#6f42c1" font-weight="800">null</tspan> ditulis —, bukan 0; sumbu suhu boleh tidak mulai dari 0 asal satuannya tertulis;</text>
+<text x="50.0" y="888.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">animasi grafik dimatikan (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#6f42c1" font-weight="800">isAnimationActive={false}</tspan>) supaya angka baru tidak "meluncur" dari nilai lama.</text>
+<text x="1178.0" y="922.0" font-size="11" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

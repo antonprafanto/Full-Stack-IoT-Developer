@@ -1,0 +1,130 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="926" viewBox="0 0 1200 926" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="926" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" xml:space="preserve">Satu toko untuk semua layar: Zustand dan selektor</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" xml:space="preserve">Konsep 4–5 · toko = papan pengumuman bersama · selektor = hanya membaca baris yang kamu perlukan</text>
+<rect x="30.0" y="100.0" width="1140.0" height="38.0" rx="8" fill="#eef1f5" />
+<text x="600.0" y="124.0" font-size="13.5" font-weight="600" fill="#1e2a4a" text-anchor="middle" xml:space="preserve">Contoh: layar <tspan font-weight="800">Daftar Perangkat</tspan> sedang terbuka, lalu acara <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12.5" font-weight="800">telemetry</tspan> dari <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12.5" font-weight="800">f00d00000001</tspan> tiba</text>
+<rect x="30.0" y="160.0" width="270.0" height="470.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="48.0" y="188.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >Yang mengisi toko</text>
+<text x="48.0" y="207.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >lewat soket dan API</text>
+<text x="48.0" y="238.0" font-size="12" font-weight="800" fill="#1a7f37" text-anchor="start" >acara dari backend</text>
+<rect x="46.0" y="248.0" width="238.0" height="87.8" rx="8" fill="#eef1f5" />
+<text x="58.0" y="269.8" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">telemetry(</text>
+<text x="58.0" y="287.6" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">  "f00d00000001",</text>
+<text x="58.0" y="305.4" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">  { suhu: 31.2, … }</text>
+<text x="58.0" y="323.2" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">)</text>
+<line x1="70.0" y1="343.8" x2="70.0" y2="363.8" stroke="#6f42c1" stroke-width="2" stroke-linecap="round" />
+<path d="M66.7 359.6 L70.0 365.8 L73.3 359.6" fill="none" stroke="#6f42c1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="88.0" y="357.8" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">soket.ts</tspan> meneruskan:</text>
+<text x="48.0" y="389.8" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#6f42c1" font-weight="800">useToko.getState()</tspan></text>
+<text x="48.0" y="407.8" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">  <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#6f42c1" font-weight="800">.terima(id, isi)</tspan></text>
+<line x1="46.0" y1="443.8" x2="284.0" y2="443.8" stroke="#e0dcd2" stroke-width="1" stroke-linecap="round" />
+<text x="48.0" y="467.8" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">acara <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">status</tspan> (Online/Offline)</text>
+<text x="48.0" y="486.8" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">→ <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">.setStatus(id,</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">status)</tspan></text>
+<line x1="46.0" y1="507.8" x2="284.0" y2="507.8" stroke="#e0dcd2" stroke-width="1" stroke-linecap="round" />
+<text x="48.0" y="531.8" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">GET</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">/devices</tspan> di <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">DaftarPerangkat</tspan></text>
+<text x="48.0" y="550.8" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">→ <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">setPerangkat(daftar)</tspan></text>
+<line x1="46.0" y1="571.8" x2="284.0" y2="571.8" stroke="#e0dcd2" stroke-width="1" stroke-linecap="round" />
+<text x="48.0" y="595.8" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">jawaban <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">ikuti</tspan> (angka awal)</text>
+<text x="48.0" y="614.8" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">→ <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">.isiTerbaru(id,</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">terbaru)</tspan></text>
+<line x1="302.0" y1="400.0" x2="326.0" y2="400.0" stroke="#6f42c1" stroke-width="2.4" stroke-linecap="round" />
+<path d="M318.9 403.8 L326.0 400.0 L318.9 396.2" fill="none" stroke="#6f42c1" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="330.0" y="160.0" width="414.0" height="470.0" rx="14" fill="#f5f0fc" stroke="#6f42c1" stroke-width="2" />
+<text x="348.0" y="188.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">toko <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14" fill="#6f42c1" font-weight="800">useToko</tspan> (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14" fill="#6f42c1" font-weight="800">src/toko.ts</tspan>)</text>
+<text x="348.0" y="207.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >papan pengumuman bersama untuk semua layar</text>
+<rect x="344.0" y="224.0" width="386.0" height="34.0" rx="6" fill="#ffffff" stroke="#d5dbe3" stroke-width="1.2" />
+<text x="358.0" y="246.0" font-size="11.5" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">koneksi</text>
+<text x="718.0" y="246.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">"live"</text>
+<rect x="344.0" y="264.0" width="386.0" height="34.0" rx="6" fill="#ffffff" stroke="#d5dbe3" stroke-width="1.2" />
+<text x="358.0" y="286.0" font-size="11.5" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">perangkat</text>
+<text x="718.0" y="286.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">[ 3 perangkat ]</text>
+<rect x="344.0" y="304.0" width="386.0" height="34.0" rx="6" fill="#ffffff" stroke="#d5dbe3" stroke-width="1.2" />
+<text x="358.0" y="326.0" font-size="11.5" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">status["f00d00000001"]</text>
+<text x="718.0" y="326.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">"online"</text>
+<rect x="344.0" y="344.0" width="386.0" height="34.0" rx="6" fill="#ffffff" stroke="#d5dbe3" stroke-width="1.2" />
+<text x="358.0" y="366.0" font-size="11.5" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">terbaru["246f28b1c7d4"]</text>
+<text x="718.0" y="366.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">{ suhu: 27.4, … }</text>
+<rect x="344.0" y="384.0" width="386.0" height="34.0" rx="6" fill="#ffffff" stroke="#d5dbe3" stroke-width="1.2" />
+<text x="358.0" y="406.0" font-size="11.5" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">terbaru["a4cf12e5b7c0"]</text>
+<text x="718.0" y="406.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">{ suhu: 28.5, … }</text>
+<rect x="344.0" y="424.0" width="386.0" height="34.0" rx="6" fill="#ffffff" stroke="#6f42c1" stroke-width="1.6" />
+<rect x="344.0" y="424.0" width="5.0" height="34.0" rx="2" fill="#6f42c1" />
+<text x="358.0" y="446.0" font-size="11.5" font-weight="800" fill="#6f42c1" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">terbaru["f00d00000001"]</text>
+<text x="718.0" y="446.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">{ suhu: 31.2, … }</text>
+<rect x="344.0" y="464.0" width="386.0" height="34.0" rx="6" fill="#ffffff" stroke="#6f42c1" stroke-width="1.6" />
+<rect x="344.0" y="464.0" width="5.0" height="34.0" rx="2" fill="#6f42c1" />
+<text x="358.0" y="486.0" font-size="11.5" font-weight="800" fill="#6f42c1" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">terakhirDilihat["f00d00000001"]</text>
+<text x="718.0" y="486.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">Date.now()</text>
+<rect x="344.0" y="504.0" width="386.0" height="34.0" rx="6" fill="#ffffff" stroke="#6f42c1" stroke-width="1.6" />
+<rect x="344.0" y="504.0" width="5.0" height="34.0" rx="2" fill="#6f42c1" />
+<text x="358.0" y="526.0" font-size="11.5" font-weight="800" fill="#6f42c1" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">jendela["f00d00000001"]</text>
+<text x="718.0" y="526.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">[ …, titik baru ]</text>
+<rect x="344.0" y="550.0" width="5.0" height="14.0" rx="2" fill="#6f42c1" />
+<text x="358.0" y="562.0" font-size="12" font-weight="700" fill="#6f42c1" text-anchor="start" >baris yang berubah karena kiriman ini</text>
+<text x="348.0" y="590.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">terima()</tspan> menyalin kamus lama lalu menambah yang baru:</text>
+<text x="348.0" y="609.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">{ ...s.terbaru, [id]: isi }</tspan></text>
+<text x="780.0" y="174.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Komponen di layar membaca lewat selektor</text>
+<rect x="780.0" y="190.0" width="390.0" height="56.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.4" />
+<text x="796.0" y="213.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12.5" fill="#1e2a4a" font-weight="800">LencanaKoneksi</tspan></text>
+<text x="909.4" y="213.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >kepala halaman</text>
+<rect x="1102.0" y="199.0" width="56.0" height="22.0" rx="11.0" fill="#eef1f5" stroke="#9aa3b0" stroke-width="1.4" />
+<text x="1130.0" y="214.1" font-size="11.5" font-weight="800" fill="#4a5568" text-anchor="middle" xml:space="preserve">tetap</text>
+<text x="796.0" y="233.0" font-size="11" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">(s) =&gt; s.koneksi</text>
+<rect x="780.0" y="256.0" width="390.0" height="56.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.4" />
+<text x="796.0" y="279.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12.5" fill="#1e2a4a" font-weight="800">DaftarPerangkat</tspan></text>
+<text x="916.9" y="279.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >induk kartu-kartu</text>
+<rect x="1102.0" y="265.0" width="56.0" height="22.0" rx="11.0" fill="#eef1f5" stroke="#9aa3b0" stroke-width="1.4" />
+<text x="1130.0" y="280.1" font-size="11.5" font-weight="800" fill="#4a5568" text-anchor="middle" xml:space="preserve">tetap</text>
+<text x="796.0" y="299.0" font-size="11" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">(s) =&gt; s.perangkat</text>
+<rect x="780.0" y="322.0" width="390.0" height="72.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.4" />
+<text x="796.0" y="345.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12.5" fill="#1e2a4a" font-weight="800">KartuPerangkat</tspan></text>
+<text x="909.4" y="345.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >Node 2 kebun</text>
+<rect x="1102.0" y="331.0" width="56.0" height="22.0" rx="11.0" fill="#eef1f5" stroke="#9aa3b0" stroke-width="1.4" />
+<text x="1130.0" y="346.1" font-size="11.5" font-weight="800" fill="#4a5568" text-anchor="middle" xml:space="preserve">tetap</text>
+<text x="796.0" y="365.0" font-size="11" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">(s) =&gt; s.terbaru["246f28b1c7d4"]?.suhu</text>
+<text x="796.0" y="383.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" >+ status dan terakhir dilihat perangkat itu</text>
+<rect x="780.0" y="404.0" width="390.0" height="72.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.4" />
+<text x="796.0" y="427.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12.5" fill="#1e2a4a" font-weight="800">KartuPerangkat</tspan></text>
+<text x="909.4" y="427.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >Node 1 ruang tamu</text>
+<rect x="1102.0" y="413.0" width="56.0" height="22.0" rx="11.0" fill="#eef1f5" stroke="#9aa3b0" stroke-width="1.4" />
+<text x="1130.0" y="428.1" font-size="11.5" font-weight="800" fill="#4a5568" text-anchor="middle" xml:space="preserve">tetap</text>
+<text x="796.0" y="447.0" font-size="11" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">(s) =&gt; s.terbaru["a4cf12e5b7c0"]?.suhu</text>
+<text x="796.0" y="465.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" >+ status dan terakhir dilihat perangkat itu</text>
+<rect x="780.0" y="486.0" width="390.0" height="72.0" rx="10" fill="#ffffff" stroke="#6f42c1" stroke-width="1.8" />
+<text x="796.0" y="509.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12.5" fill="#1e2a4a" font-weight="800">KartuPerangkat</tspan></text>
+<text x="909.4" y="509.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >Latihan ruang tamu</text>
+<rect x="1042.0" y="495.0" width="116.0" height="22.0" rx="11" fill="#6f42c1" />
+<text x="1100.0" y="510.5" font-size="11.5" font-weight="800" fill="#ffffff" text-anchor="middle" >digambar ulang</text>
+<text x="796.0" y="529.0" font-size="11" font-weight="700" fill="#6f42c1" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">(s) =&gt; s.terbaru["f00d00000001"]?.suhu</text>
+<text x="796.0" y="547.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" >+ status dan terakhir dilihat perangkat itu</text>
+<text x="780.0" y="582.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="700">TerakhirDilihat</tspan> di setiap kartu berdetak sendiri tiap</text>
+<text x="780.0" y="600.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">detik (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="700">useSekarang</tspan>): hanya tulisan kecil itu</text>
+<text x="780.0" y="618.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">yang digambar ulang tiap detik.</text>
+<rect x="30.0" y="654.0" width="366.0" height="164.0" rx="12" fill="#eef1f5" />
+<text x="50.0" y="684.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Papan tulis vs papan pengumuman</text>
+<text x="50.0" y="710.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" font-style="italic" fill="#1e2a4a">state</tspan> (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">useState</tspan>) = papan tulis kecil</text>
+<text x="50.0" y="732.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">milik <tspan font-weight="800" fill="#1e2a4a">satu</tspan> komponen (Modul 22).</text>
+<text x="50.0" y="754.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">toko</tspan> = papan pengumuman bersama:</text>
+<text x="50.0" y="776.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">layar mana pun boleh membacanya, dan</text>
+<text x="50.0" y="798.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">soket.ts</tspan> mengisinya dari luar React.</text>
+<rect x="417.0" y="654.0" width="366.0" height="164.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="437.0" y="684.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Selektor sempit, bukan seluruh toko</text>
+<path d="M439 705 L444 711 L454 699" fill="none" stroke="#2a9d5c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="463.0" y="710.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">useToko((s) =&gt; s.koneksi)</tspan></text>
+<text x="463.0" y="732.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">digambar ulang hanya kalau <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">koneksi</tspan> berubah</text>
+<line x1="441.0" y1="766.0" x2="451.0" y2="776.0" stroke="#e63946" stroke-width="2.2" stroke-linecap="round" />
+<line x1="441.0" y1="776.0" x2="451.0" y2="766.0" stroke="#e63946" stroke-width="2.2" stroke-linecap="round" />
+<text x="463.0" y="776.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">useToko()</tspan> tanpa selektor = seluruh toko</text>
+<text x="463.0" y="798.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">digambar ulang di <tspan font-weight="800" fill="#1e2a4a">setiap</tspan> kiriman (Praktik 6)</text>
+<rect x="804.0" y="654.0" width="366.0" height="164.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="824.0" y="684.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Dua jebakan</text>
+<text x="824.0" y="710.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">??</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">KOSONG</tspan>, bukan <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">??</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">[]</tspan>: larik baru di setiap</text>
+<text x="824.0" y="732.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">panggilan → layar putih</text>
+<text x="824.0" y="754.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">(<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">Maximum</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">update</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">depth</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">exceeded</tspan>)</text>
+<text x="824.0" y="776.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">salin, jangan ubah</tspan>: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">{</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">...lama,</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">[id]:</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">baru</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">}</tspan>,</text>
+<text x="824.0" y="798.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">supaya React tahu ada yang berubah</text>
+<rect x="30.0" y="838.0" width="1140.0" height="54.0" rx="10" fill="#f5f0fc" />
+<text x="50.0" y="860.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Di layar Detail: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">DetailPerangkat</tspan> memilih <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">terbaru[id]</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">status[id]</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">terakhirDilihat[id]</tspan>, dan <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">koneksi</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">===</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">"live"</tspan>;</text>
+<text x="50.0" y="880.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">GrafikLive</tspan> memilih <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">jendela[id]</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">??</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">KOSONG</tspan>. Kiriman dari perangkat lain tidak menyentuh layar itu.</text>
+<text x="1178.0" y="912.0" font-size="11" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

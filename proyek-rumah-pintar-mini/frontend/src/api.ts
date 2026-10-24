@@ -1,13 +1,15 @@
 // api.ts - satu pintu ke backend: semua permintaan ke API lewat fungsi minta() di berkas ini.
 // Login memakai cookie HttpOnly dari backend (Modul 20). JavaScript tidak bisa membacanya; browser yang menyimpan
 // dan mengirimkannya, asalkan setiap fetch membawa credentials: "include".
-import type { BacaanTerbaru, Pengguna, Perangkat } from "./types";
+import { subMinutes } from "date-fns";
+import type { Bacaan, DataRiwayat, JawabanBacaan, JawabanRingkasan, Pengguna, Perangkat, Rentang, TitikRingkasan } from "./types";
 
 // Alamat backend. Bawaan: nama host halaman ini + port 8080, jadi halaman http://localhost:5173 -> API http://localhost:8080.
 // Nama host yang sama itu penting: cookie SameSite=Strict hanya ikut kalau halaman dan API satu situs
 // (localhost dengan localhost, 127.0.0.1 dengan 127.0.0.1). Alamat lain bisa diatur lewat VITE_API_BASE di .env.local.
 // Garis miring di ujung dibuang: "//auth/login" dijawab backend sebagai rute yang tidak dikenal (401).
-const BASE: string = (import.meta.env.VITE_API_BASE || `${location.protocol}//${location.hostname}:8080`).replace(/\/+$/, "");
+// Modul 23: diekspor, karena soket.ts menyambung ke alamat yang SAMA (di HP: http://<IP-laptop>:8080).
+export const BASE: string = (import.meta.env.VITE_API_BASE || `${location.protocol}//${location.hostname}:8080`).replace(/\/+$/, "");
 
 // Tiga loket /auth ini tidak pernah di-refresh: 401 dari login berarti sandinya memang salah, 401 dari refresh berarti
 // kartu terusan sudah habis (refresh tidak boleh memanggil refresh lagi), dan logout memang terbuka tanpa gelang.
@@ -15,15 +17,21 @@ const TANPA_REFRESH = ["/auth/login", "/auth/refresh", "/auth/logout"];
 
 // Refresh yang sedang berjalan, dipakai bersama. Kalau beberapa permintaan kebetulan 401 bersamaan (misalnya efek
 // yang dijalankan dua kali oleh StrictMode), backend tetap hanya diketuk SATU kali.
-let refreshBerjalan: Promise<boolean> | null = null;
+let refreshBerjalan: Promise<boolean | null> | null = null;
 
 // Tukar "kartu terusan" (cookie sesi, 7 hari) dengan "gelang" baru (cookie akses, 15 menit). true = berhasil.
-function refreshSekali(): Promise<boolean> {
+// Modul 23: diekspor untuk soket.ts, dan kini membedakan dua kegagalan: false = DITOLAK backend (401: kartu terusan
+// habis atau sudah logout), null = backend sedang tidak bisa melayani (mati, tidak bisa dihubungi, atau gangguan lain).
+export function refreshSekali(): Promise<boolean | null> {
   if (refreshBerjalan === null) {
     // tanpa body, jadi juga TANPA Content-Type JSON (kalau diberi, backend menjawab 400)
     refreshBerjalan = fetch(BASE + "/auth/refresh", { method: "POST", credentials: "include" })
-      .then((res) => res.ok) // 200 = gelang baru sudah dipasang di browser
-      .catch(() => false) // backend mati = refresh gagal
+      .then((res) => {
+        if (res.ok) return true; // 200 = gelang baru sudah dipasang di browser
+        if (res.status === 401) return false; // ditolak: kartu terusan habis atau sudah logout
+        return null; // kode lain, misalnya 500 saat database mati: sesinya belum tentu habis
+      })
+      .catch(() => null) // fetch gagal total: backend mati atau tidak bisa dihubungi
       .finally(() => {
         refreshBerjalan = null; // selesai: lain kali boleh refresh lagi
       });
@@ -106,8 +114,37 @@ export function ambilPerangkat(): Promise<Perangkat[]> {
   return minta<Perangkat[]>("/devices");
 }
 
-// GET /devices/:id/latest: bacaan terbaru satu perangkat, dari memori backend
-// (404 kalau perangkat itu belum mengirim bacaan sejak backend dinyalakan)
-export function ambilTerbaru(deviceId: string): Promise<BacaanTerbaru> {
-  return minta<BacaanTerbaru>("/devices/" + deviceId + "/latest");
+// Modul 23: GET /devices/:id/readings?from=… = bacaan mentah sejak sekian menit lalu (isi awal grafik live).
+export function ambilBacaanSejak(deviceId: string, menit: number): Promise<JawabanBacaan> {
+  // toISOString() menulis waktu UTC berakhiran Z, misalnya 2026-10-24T03:10:00.000Z: aman ditaruh di alamat.
+  // (Waktu berzona +07:00 harus ditulis %2B07:00, karena tanda + di alamat dibaca sebagai spasi.)
+  const dari = subMinutes(new Date(), menit).toISOString();
+  return minta<JawabanBacaan>("/devices/" + deviceId + "/readings?from=" + dari);
+}
+
+// satu bacaan mentah diubah ke bentuk titik ringkasan, supaya grafik, tabel, dan CSV cukup mengenal SATU bentuk
+function keTitikRingkasan(b: Bacaan): TitikRingkasan {
+  return {
+    waktu: b.ts,
+    suhu_rata: b.suhu,
+    suhu_min: null, // satu bacaan tidak punya terendah dan tertinggi
+    suhu_maks: null,
+    kelembapan_rata: b.kelembapan,
+    tanah_rata: b.tanah,
+    cahaya_rata: b.cahaya,
+    jumlah_bacaan: 1,
+  };
+}
+
+// Modul 23: riwayat untuk layar Riwayat. Rentangnya memakai nilai bawaan API (tanpa from dan to):
+// 1 jam = bacaan mentah, 24 jam = rata-rata per 15 menit (bucket=15m), 7 hari = rata-rata per jam (bucket=1h).
+export async function ambilRiwayat(deviceId: string, rentang: Rentang): Promise<DataRiwayat> {
+  const jalur = "/devices/" + deviceId + "/readings";
+  if (rentang === "1jam") {
+    const jawaban = await minta<JawabanBacaan>(jalur);
+    return { dari: jawaban.dari, sampai: jawaban.sampai, titik: jawaban.bacaan.map(keTitikRingkasan) };
+  }
+  const bucket = rentang === "24jam" ? "15m" : "1h";
+  const jawaban = await minta<JawabanRingkasan>(jalur + "?bucket=" + bucket);
+  return { dari: jawaban.dari, sampai: jawaban.sampai, titik: jawaban.ringkasan };
 }

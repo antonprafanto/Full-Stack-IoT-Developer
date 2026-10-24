@@ -1,0 +1,219 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="948" viewBox="0 0 1200 948" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="948" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" xml:space="preserve">Riwayat dari ember: satu rentang, satu ukuran ember</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" xml:space="preserve">Konsep 11 · nilai bawaan API, tanpa <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5">from</tspan>/<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5">to</tspan> · semakin panjang rentangnya, semakin besar embernya</text>
+<rect x="30.0" y="100.0" width="366.0" height="330.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="50.0" y="136.0" font-size="22" font-weight="800" fill="#6f42c1" text-anchor="start" >1 jam</text>
+<text x="376.0" y="136.0" font-size="20" font-weight="800" fill="#1e2a4a" text-anchor="end" >±360 titik</text>
+<text x="50.0" y="164.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#6f42c1" font-weight="800">GET …/readings</tspan></text>
+<text x="50.0" y="188.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >bacaan mentah: satu tiap 10 detik</text>
+<circle cx="56.0" cy="240.0" r="2.4" fill="#1e2a4a" />
+<circle cx="64.0" cy="245.0" r="2.4" fill="#1e2a4a" />
+<circle cx="72.0" cy="242.0" r="2.4" fill="#1e2a4a" />
+<circle cx="80.0" cy="242.0" r="2.4" fill="#1e2a4a" />
+<circle cx="88.0" cy="245.0" r="2.4" fill="#1e2a4a" />
+<circle cx="96.0" cy="242.0" r="2.4" fill="#1e2a4a" />
+<circle cx="104.0" cy="242.0" r="2.4" fill="#1e2a4a" />
+<circle cx="112.0" cy="245.0" r="2.4" fill="#1e2a4a" />
+<circle cx="120.0" cy="240.0" r="2.4" fill="#1e2a4a" />
+<circle cx="128.0" cy="242.0" r="2.4" fill="#1e2a4a" />
+<circle cx="136.0" cy="245.0" r="2.4" fill="#1e2a4a" />
+<circle cx="144.0" cy="242.0" r="2.4" fill="#1e2a4a" />
+<circle cx="152.0" cy="240.0" r="2.4" fill="#1e2a4a" />
+<circle cx="160.0" cy="245.0" r="2.4" fill="#1e2a4a" />
+<circle cx="168.0" cy="242.0" r="2.4" fill="#1e2a4a" />
+<circle cx="176.0" cy="242.0" r="2.4" fill="#1e2a4a" />
+<circle cx="184.0" cy="245.0" r="2.4" fill="#1e2a4a" />
+<circle cx="192.0" cy="242.0" r="2.4" fill="#1e2a4a" />
+<circle cx="200.0" cy="242.0" r="2.4" fill="#1e2a4a" />
+<circle cx="208.0" cy="245.0" r="2.4" fill="#1e2a4a" />
+<circle cx="216.0" cy="240.0" r="2.4" fill="#1e2a4a" />
+<circle cx="224.0" cy="242.0" r="2.4" fill="#1e2a4a" />
+<circle cx="232.0" cy="245.0" r="2.4" fill="#1e2a4a" />
+<circle cx="240.0" cy="242.0" r="2.4" fill="#1e2a4a" />
+<circle cx="248.0" cy="240.0" r="2.4" fill="#1e2a4a" />
+<circle cx="256.0" cy="245.0" r="2.4" fill="#1e2a4a" />
+<circle cx="264.0" cy="242.0" r="2.4" fill="#1e2a4a" />
+<circle cx="272.0" cy="242.0" r="2.4" fill="#1e2a4a" />
+<circle cx="280.0" cy="245.0" r="2.4" fill="#1e2a4a" />
+<circle cx="288.0" cy="242.0" r="2.4" fill="#1e2a4a" />
+<circle cx="296.0" cy="242.0" r="2.4" fill="#1e2a4a" />
+<circle cx="304.0" cy="245.0" r="2.4" fill="#1e2a4a" />
+<circle cx="312.0" cy="240.0" r="2.4" fill="#1e2a4a" />
+<circle cx="320.0" cy="242.0" r="2.4" fill="#1e2a4a" />
+<circle cx="328.0" cy="245.0" r="2.4" fill="#1e2a4a" />
+<circle cx="336.0" cy="242.0" r="2.4" fill="#1e2a4a" />
+<circle cx="344.0" cy="240.0" r="2.4" fill="#1e2a4a" />
+<circle cx="352.0" cy="245.0" r="2.4" fill="#1e2a4a" />
+<circle cx="360.0" cy="242.0" r="2.4" fill="#1e2a4a" />
+<circle cx="368.0" cy="242.0" r="2.4" fill="#1e2a4a" />
+<text x="50.0" y="290.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" >1 titik = 1 bacaan</text>
+<text x="50.0" y="326.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">1 jam ÷ 10 detik = ±360 bacaan</text>
+<text x="50.0" y="344.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">diubah ke bentuk ringkasan di browser</text>
+<text x="50.0" y="362.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">(<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="700">keTitikRingkasan()</tspan>)</text>
+<text x="50.0" y="412.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve">sumber: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#336791" font-weight="800">readings</tspan> (bacaan mentah)</text>
+<line x1="213.0" y1="434.0" x2="213.0" y2="474.0" stroke="#336791" stroke-width="2.2" stroke-linecap="round" />
+<path d="M209.7 467.8 L213.0 474.0 L216.3 467.8" fill="none" stroke="#336791" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="417.0" y="100.0" width="366.0" height="330.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="437.0" y="136.0" font-size="22" font-weight="800" fill="#6f42c1" text-anchor="start" >24 jam</text>
+<text x="763.0" y="136.0" font-size="20" font-weight="800" fill="#1e2a4a" text-anchor="end" >97 titik</text>
+<text x="437.0" y="164.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#6f42c1" font-weight="800">GET …/readings?bucket=15m</tspan></text>
+<text x="437.0" y="188.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >ember 15 menit: rata, terendah, tertinggi</text>
+<circle cx="451.0" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="457.5" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="464.0" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="470.5" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="477.0" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="483.5" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="490.0" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="496.5" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="503.0" cy="220.0" r="1.9" fill="#9aa3b0" />
+<path d="M448.0 228 L448.0 234 L506.0 234 L506.0 228" fill="none" stroke="#9aa3b0" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="477.0" y1="234.0" x2="477.0" y2="242.0" stroke="#9aa3b0" stroke-width="1.4" stroke-linecap="round" />
+<circle cx="477.0" cy="256.0" r="6" fill="#6f42c1" stroke="#ffffff" stroke-width="1.4" />
+<text x="533.0" y="224.0" font-size="13" font-weight="700" fill="#9aa3b0" text-anchor="middle" >…</text>
+<circle cx="567.0" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="573.5" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="580.0" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="586.5" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="593.0" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="599.5" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="606.0" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="612.5" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="619.0" cy="220.0" r="1.9" fill="#9aa3b0" />
+<path d="M564.0 228 L564.0 234 L622.0 234 L622.0 228" fill="none" stroke="#9aa3b0" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="593.0" y1="234.0" x2="593.0" y2="242.0" stroke="#9aa3b0" stroke-width="1.4" stroke-linecap="round" />
+<circle cx="593.0" cy="256.0" r="6" fill="#6f42c1" stroke="#ffffff" stroke-width="1.4" />
+<text x="649.0" y="224.0" font-size="13" font-weight="700" fill="#9aa3b0" text-anchor="middle" >…</text>
+<circle cx="683.0" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="689.5" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="696.0" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="702.5" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="709.0" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="715.5" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="722.0" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="728.5" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="735.0" cy="220.0" r="1.9" fill="#9aa3b0" />
+<path d="M680.0 228 L680.0 234 L738.0 234 L738.0 228" fill="none" stroke="#9aa3b0" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="709.0" y1="234.0" x2="709.0" y2="242.0" stroke="#9aa3b0" stroke-width="1.4" stroke-linecap="round" />
+<circle cx="709.0" cy="256.0" r="6" fill="#6f42c1" stroke="#ffffff" stroke-width="1.4" />
+<text x="437.0" y="290.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" >±90 bacaan (tiap 10 detik) → 1 titik ringkasan</text>
+<text x="437.0" y="326.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">24 jam × 4 ember + 1 = 97: ember pertama</text>
+<text x="437.0" y="344.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">dibulatkan ke bawah, ember yang sedang</text>
+<text x="437.0" y="362.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">berjalan ikut dihitung</text>
+<text x="437.0" y="412.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve">sumber: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#336791" font-weight="800">readings</tspan>, dihitung saat diminta</text>
+<line x1="600.0" y1="434.0" x2="600.0" y2="474.0" stroke="#336791" stroke-width="2.2" stroke-linecap="round" />
+<path d="M596.7 467.8 L600.0 474.0 L603.3 467.8" fill="none" stroke="#336791" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="804.0" y="100.0" width="366.0" height="330.0" rx="14" fill="#ffffff" stroke="#6f42c1" stroke-width="1.8" />
+<text x="824.0" y="136.0" font-size="22" font-weight="800" fill="#6f42c1" text-anchor="start" >7 hari</text>
+<text x="1150.0" y="136.0" font-size="20" font-weight="800" fill="#1e2a4a" text-anchor="end" >169 titik</text>
+<text x="824.0" y="164.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#6f42c1" font-weight="800">GET …/readings?bucket=1h</tspan></text>
+<text x="824.0" y="188.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >ember 1 jam: rata, terendah, tertinggi</text>
+<circle cx="838.0" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="842.2" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="846.4" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="850.6" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="854.8" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="859.0" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="863.2" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="867.4" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="871.6" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="875.8" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="880.0" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="884.2" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="888.4" cy="220.0" r="1.9" fill="#9aa3b0" />
+<path d="M835.0 228 L835.0 234 L891.4 234 L891.4 228" fill="none" stroke="#9aa3b0" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="863.2" y1="234.0" x2="863.2" y2="242.0" stroke="#9aa3b0" stroke-width="1.4" stroke-linecap="round" />
+<circle cx="863.2" cy="256.0" r="6" fill="#6f42c1" stroke="#ffffff" stroke-width="1.4" />
+<text x="918.4" y="224.0" font-size="13" font-weight="700" fill="#9aa3b0" text-anchor="middle" >…</text>
+<circle cx="954.0" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="958.2" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="962.4" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="966.6" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="970.8" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="975.0" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="979.2" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="983.4" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="987.6" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="991.8" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="996.0" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="1000.2" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="1004.4" cy="220.0" r="1.9" fill="#9aa3b0" />
+<path d="M951.0 228 L951.0 234 L1007.4 234 L1007.4 228" fill="none" stroke="#9aa3b0" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="979.2" y1="234.0" x2="979.2" y2="242.0" stroke="#9aa3b0" stroke-width="1.4" stroke-linecap="round" />
+<circle cx="979.2" cy="256.0" r="6" fill="#6f42c1" stroke="#ffffff" stroke-width="1.4" />
+<text x="1034.4" y="224.0" font-size="13" font-weight="700" fill="#9aa3b0" text-anchor="middle" >…</text>
+<circle cx="1070.0" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="1074.2" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="1078.4" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="1082.6" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="1086.8" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="1091.0" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="1095.2" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="1099.4" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="1103.6" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="1107.8" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="1112.0" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="1116.2" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="1120.4" cy="220.0" r="1.9" fill="#9aa3b0" />
+<path d="M1067.0 228 L1067.0 234 L1123.4 234 L1123.4 228" fill="none" stroke="#9aa3b0" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="1095.2" y1="234.0" x2="1095.2" y2="242.0" stroke="#9aa3b0" stroke-width="1.4" stroke-linecap="round" />
+<circle cx="1095.2" cy="256.0" r="6" fill="#6f42c1" stroke="#ffffff" stroke-width="1.4" />
+<text x="824.0" y="290.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" >±360 bacaan (tiap 10 detik) → 1 titik ringkasan</text>
+<text x="824.0" y="326.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">7 hari × 24 ember + 1 = 169</text>
+<text x="824.0" y="344.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">syarat lulus: riwayat 7 hari termuat</text>
+<text x="824.0" y="362.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">&lt; 1 detik (diukur di Praktik 7)</text>
+<text x="824.0" y="412.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve">sumber: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#336791" font-weight="800">readings_per_jam</tspan> (buku ringkasan)</text>
+<line x1="987.0" y1="434.0" x2="987.0" y2="474.0" stroke="#336791" stroke-width="2.2" stroke-linecap="round" />
+<path d="M983.7 467.8 L987.0 474.0 L990.3 467.8" fill="none" stroke="#336791" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="30.0" y="478.0" width="720.0" height="250.0" rx="12" fill="#e6edf5" stroke="#336791" stroke-width="1.8" />
+<path d="M51 503 L51 525 A15 5 0 0 0 81 525 L81 503" fill="none" stroke="#336791" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<ellipse cx="66" cy="503" rx="15" ry="5" fill="none" stroke="#336791" stroke-width="2"/>
+<path d="M51 514 A15 5 0 0 0 81 514" fill="none" stroke="#336791" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="96.0" y="510.0" font-size="15" font-weight="800" fill="#336791" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">readings</text>
+<text x="96.0" y="530.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" >bacaan mentah, satu baris per kiriman (Modul 17)</text>
+<text x="50.0" y="564.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-style="italic">hypertable</tspan> TimescaleDB, dipotong per hari; bacaan mentah disimpan 90 hari (Modul 18)</text>
+<text x="50.0" y="588.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">1 jam: bacaan mentah apa adanya</text>
+<text x="50.0" y="612.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">24 jam: dikelompokkan saat diminta, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#336791" font-weight="800">time_bucket('15</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#336791" font-weight="800">minutes',</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#336791" font-weight="800">ts)</tspan></text>
+<text x="50.0" y="636.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">batas 1.000 bacaan atau ember per permintaan: ketiga rentang jauh di bawahnya</text>
+<text x="50.0" y="660.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">buku ringkasan di kanan dibuat dari tabel ini: setiap jam diringkas <tspan font-weight="800">sekali</tspan>, jadi</text>
+<text x="50.0" y="684.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">riwayat 7 hari cukup membaca 169 baris, bukan puluhan ribu bacaan mentah</text>
+<rect x="770.0" y="478.0" width="400.0" height="250.0" rx="12" fill="#e6edf5" stroke="#336791" stroke-width="1.8" />
+<path d="M791 503 L791 525 A15 5 0 0 0 821 525 L821 503" fill="none" stroke="#336791" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<ellipse cx="806" cy="503" rx="15" ry="5" fill="none" stroke="#336791" stroke-width="2"/>
+<path d="M791 514 A15 5 0 0 0 821 514" fill="none" stroke="#336791" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="836.0" y="510.0" font-size="15" font-weight="800" fill="#336791" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">readings_per_jam</text>
+<text x="836.0" y="530.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" >buku ringkasan per jam (Modul 18)</text>
+<text x="790.0" y="564.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">diisi petugas tiap 30 menit, hanya 3 hari terakhir;</text>
+<text x="790.0" y="584.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">data lama (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#336791" font-weight="800">npm</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#336791" font-weight="800">run</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#336791" font-weight="800">isi-riwayat</tspan>) <tspan font-weight="800">wajib</tspan>:</text>
+<text x="790.0" y="610.0" font-size="11" font-weight="800" fill="#336791" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">CALL refresh_continuous_aggregate(</text>
+<text x="790.0" y="627.0" font-size="11" font-weight="800" fill="#336791" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">  'readings_per_jam',</text>
+<text x="790.0" y="644.0" font-size="11" font-weight="800" fill="#336791" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">  now() - INTERVAL '8 days',</text>
+<text x="790.0" y="661.0" font-size="11" font-weight="800" fill="#336791" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">  now() - INTERVAL '1 hour');</text>
+<text x="790.0" y="682.0" font-size="12.5" font-weight="800" fill="#e63946" text-anchor="start" xml:space="preserve">tanpa itu: grafik 7 hari bisa hanya 2 titik,</text>
+<text x="790.0" y="700.0" font-size="12.5" font-weight="800" fill="#e63946" text-anchor="start" xml:space="preserve">lalu (sesudah petugas berjalan) hanya</text>
+<text x="790.0" y="718.0" font-size="12.5" font-weight="800" fill="#e63946" text-anchor="start" xml:space="preserve">3 hari terakhir yang terisi</text>
+<text x="30.0" y="766.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Isi satu titik ringkasan (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" fill="#6f42c1" font-weight="800">TitikRingkasan</tspan>), sama untuk ketiga rentang:</text>
+<rect x="30.0" y="780.0" width="48.6" height="26.0" rx="6" fill="#eef1f5" />
+<text x="37.0" y="797.5" font-size="11.5" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">waktu</text>
+<rect x="86.6" y="780.0" width="76.3" height="26.0" rx="6" fill="#e6dcf5" />
+<text x="93.6" y="797.5" font-size="11.5" font-weight="800" fill="#6f42c1" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">suhu_rata</text>
+<rect x="170.9" y="780.0" width="69.4" height="26.0" rx="6" fill="#e6dcf5" />
+<text x="177.9" y="797.5" font-size="11.5" font-weight="800" fill="#6f42c1" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">suhu_min</text>
+<rect x="248.3" y="780.0" width="76.3" height="26.0" rx="6" fill="#e6dcf5" />
+<text x="255.3" y="797.5" font-size="11.5" font-weight="800" fill="#6f42c1" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">suhu_maks</text>
+<rect x="332.6" y="780.0" width="117.8" height="26.0" rx="6" fill="#e6dcf5" />
+<text x="339.6" y="797.5" font-size="11.5" font-weight="800" fill="#6f42c1" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">kelembapan_rata</text>
+<rect x="458.5" y="780.0" width="83.2" height="26.0" rx="6" fill="#e6dcf5" />
+<text x="465.5" y="797.5" font-size="11.5" font-weight="800" fill="#6f42c1" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">tanah_rata</text>
+<rect x="549.7" y="780.0" width="90.2" height="26.0" rx="6" fill="#e6dcf5" />
+<text x="556.7" y="797.5" font-size="11.5" font-weight="800" fill="#6f42c1" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">cahaya_rata</text>
+<rect x="647.8" y="780.0" width="104.0" height="26.0" rx="6" fill="#eef1f5" />
+<text x="654.8" y="797.5" font-size="11.5" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">jumlah_bacaan</text>
+<text x="765.8" y="798.0" font-size="13" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">→ hanya <tspan font-weight="800" fill="#6f42c1">4 besaran</tspan></text>
+<text x="30.0" y="834.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >Suhu, kelembapan udara, kelembapan tanah, dan cahaya saja: tekanan, baterai, air tandon, dan gerakan tidak ada di riwayat ringkasan.</text>
+<rect x="30.0" y="854.0" width="1140.0" height="56.0" rx="10" fill="#eef1f5" />
+<text x="50.0" y="876.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Tabel dan CSV memakai jawaban yang sama: 7 hari = 169 baris → 24 baris per halaman, terbaru dulu (<tspan font-weight="800">Halaman 1 dari 8</tspan>).</text>
+<text x="50.0" y="896.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800">Unduh CSV</tspan> dibuat di browser: pemisah titik koma (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#6f42c1" font-weight="800">;</tspan>), koma desimal, BOM (cocok untuk Excel berbahasa Indonesia).</text>
+<text x="1178.0" y="934.0" font-size="11" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

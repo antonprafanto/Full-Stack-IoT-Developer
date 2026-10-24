@@ -1,0 +1,203 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1338" viewBox="0 0 1200 1338" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="1338" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" xml:space="preserve">Soket berkunci: putus, lalu siapa yang menyambung lagi?</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" xml:space="preserve">Konsep 1–2 · satu soket untuk seluruh dashboard: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5">io(BASE,</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5">{</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5">withCredentials:</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5">true,</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5">autoConnect:</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5">false</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5">})</tspan></text>
+<text x="30.0" y="120.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#6f42c1">Konsep 1:</tspan> dari mana angka baru datang?</text>
+<rect x="30.0" y="134.0" width="366.0" height="146.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.4" />
+<text x="46.0" y="160.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Bertanya sekali (v0.1)</text>
+<text x="46.0" y="196.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" >browser</text>
+<text x="46.0" y="240.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" >backend</text>
+<line x1="112.0" y1="192.0" x2="380.0" y2="192.0" stroke="#d5dbe3" stroke-width="2" stroke-linecap="round" />
+<line x1="112.0" y1="236.0" x2="380.0" y2="236.0" stroke="#d5dbe3" stroke-width="2" stroke-linecap="round" />
+<line x1="140.0" y1="196.0" x2="140.0" y2="232.0" stroke="#1e2a4a" stroke-width="1.8" stroke-linecap="round" />
+<path d="M137.2 226.7 L140.0 232.0 L142.8 226.7" fill="none" stroke="#1e2a4a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="150.0" y1="232.0" x2="150.0" y2="196.0" stroke="#1e2a4a" stroke-width="1.8" stroke-linecap="round" />
+<path d="M152.8 201.3 L150.0 196.0 L147.2 201.3" fill="none" stroke="#1e2a4a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<text x="162.0" y="218.0" font-size="11.5" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">GET</text>
+<text x="46.0" y="266.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >angka diam sampai layar dibuka lagi</text>
+<rect x="417.0" y="134.0" width="366.0" height="146.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.4" />
+<text x="433.0" y="160.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-style="italic">Polling</tspan> (tidak dipakai)</text>
+<text x="433.0" y="196.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" >browser</text>
+<text x="433.0" y="240.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" >backend</text>
+<line x1="499.0" y1="192.0" x2="767.0" y2="192.0" stroke="#d5dbe3" stroke-width="2" stroke-linecap="round" />
+<line x1="499.0" y1="236.0" x2="767.0" y2="236.0" stroke="#d5dbe3" stroke-width="2" stroke-linecap="round" />
+<line x1="517.0" y1="196.0" x2="517.0" y2="232.0" stroke="#9aa3b0" stroke-width="1.8" stroke-linecap="round" />
+<path d="M514.2 226.7 L517.0 232.0 L519.8 226.7" fill="none" stroke="#9aa3b0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="527.0" y1="232.0" x2="527.0" y2="196.0" stroke="#9aa3b0" stroke-width="1.8" stroke-linecap="round" />
+<path d="M529.8 201.3 L527.0 196.0 L524.2 201.3" fill="none" stroke="#9aa3b0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="567.0" y1="196.0" x2="567.0" y2="232.0" stroke="#9aa3b0" stroke-width="1.8" stroke-linecap="round" />
+<path d="M564.2 226.7 L567.0 232.0 L569.8 226.7" fill="none" stroke="#9aa3b0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="577.0" y1="232.0" x2="577.0" y2="196.0" stroke="#9aa3b0" stroke-width="1.8" stroke-linecap="round" />
+<path d="M579.8 201.3 L577.0 196.0 L574.2 201.3" fill="none" stroke="#9aa3b0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="617.0" y1="196.0" x2="617.0" y2="232.0" stroke="#9aa3b0" stroke-width="1.8" stroke-linecap="round" />
+<path d="M614.2 226.7 L617.0 232.0 L619.8 226.7" fill="none" stroke="#9aa3b0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="627.0" y1="232.0" x2="627.0" y2="196.0" stroke="#9aa3b0" stroke-width="1.8" stroke-linecap="round" />
+<path d="M629.8 201.3 L627.0 196.0 L624.2 201.3" fill="none" stroke="#9aa3b0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="667.0" y1="196.0" x2="667.0" y2="232.0" stroke="#9aa3b0" stroke-width="1.8" stroke-linecap="round" />
+<path d="M664.2 226.7 L667.0 232.0 L669.8 226.7" fill="none" stroke="#9aa3b0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="677.0" y1="232.0" x2="677.0" y2="196.0" stroke="#9aa3b0" stroke-width="1.8" stroke-linecap="round" />
+<path d="M679.8 201.3 L677.0 196.0 L674.2 201.3" fill="none" stroke="#9aa3b0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="717.0" y1="196.0" x2="717.0" y2="232.0" stroke="#9aa3b0" stroke-width="1.8" stroke-linecap="round" />
+<path d="M714.2 226.7 L717.0 232.0 L719.8 226.7" fill="none" stroke="#9aa3b0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="727.0" y1="232.0" x2="727.0" y2="196.0" stroke="#9aa3b0" stroke-width="1.8" stroke-linecap="round" />
+<path d="M729.8 201.3 L727.0 196.0 L724.2 201.3" fill="none" stroke="#9aa3b0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<text x="433.0" y="266.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >bertanya terus-menerus, sering sia-sia</text>
+<rect x="804.0" y="134.0" width="366.0" height="146.0" rx="12" fill="#f5f0fc" stroke="#6f42c1" stroke-width="1.6" />
+<text x="820.0" y="160.0" font-size="14" font-weight="800" fill="#6f42c1" text-anchor="start" xml:space="preserve">Didorong (v0.2)</text>
+<text x="820.0" y="196.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" >browser</text>
+<text x="820.0" y="240.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" >backend</text>
+<line x1="886.0" y1="192.0" x2="1154.0" y2="192.0" stroke="#d5dbe3" stroke-width="2" stroke-linecap="round" />
+<line x1="886.0" y1="236.0" x2="1154.0" y2="236.0" stroke="#d5dbe3" stroke-width="2" stroke-linecap="round" />
+<rect x="900.0" y="195.0" width="254.0" height="38.0" rx="4" fill="#e6dcf5" />
+<line x1="908.0" y1="196.0" x2="908.0" y2="232.0" stroke="#1e2a4a" stroke-width="1.8" stroke-linecap="round" />
+<path d="M905.2 226.7 L908.0 232.0 L910.8 226.7" fill="none" stroke="#1e2a4a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="969.0" y1="232.0" x2="969.0" y2="196.0" stroke="#6f42c1" stroke-width="2" stroke-linecap="round" />
+<path d="M971.8 201.3 L969.0 196.0 L966.2 201.3" fill="none" stroke="#6f42c1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="1066.0" y1="232.0" x2="1066.0" y2="196.0" stroke="#6f42c1" stroke-width="2" stroke-linecap="round" />
+<path d="M1068.8 201.3 L1066.0 196.0 L1063.2 201.3" fill="none" stroke="#6f42c1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="1086.0" y1="232.0" x2="1086.0" y2="196.0" stroke="#6f42c1" stroke-width="2" stroke-linecap="round" />
+<path d="M1088.8 201.3 L1086.0 196.0 L1083.2 201.3" fill="none" stroke="#6f42c1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="1134.0" y1="232.0" x2="1134.0" y2="196.0" stroke="#6f42c1" stroke-width="2" stroke-linecap="round" />
+<path d="M1136.8 201.3 L1134.0 196.0 L1131.2 201.3" fill="none" stroke="#6f42c1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="976.0" y="218.0" font-size="11.5" font-weight="800" fill="#6f42c1" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">telemetry</text>
+<text x="820.0" y="266.0" font-size="12.5" font-weight="600" fill="#6f42c1" text-anchor="start" >sekali sambung, lalu backend mendorong</text>
+<text x="30.0" y="312.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#6f42c1">Konsep 2:</tspan> lencana koneksi di kepala dashboard (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" font-weight="800">LencanaKoneksi</tspan>)</text>
+<text x="30.0" y="378.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" >login berhasil</text>
+<text x="30.0" y="396.0" font-size="11.5" font-weight="800" fill="#6f42c1" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">socket.connect()</text>
+<line x1="166.0" y1="381.0" x2="212.0" y2="381.0" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" />
+<path d="M205.8 384.3 L212.0 381.0 L205.8 377.7" fill="none" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="218.0" y="368.0" width="170.0" height="26.0" rx="13.0" fill="#fdeedd" stroke="#b45f17" stroke-width="1.4" />
+<text x="303.0" y="385.5" font-size="12.5" font-weight="800" fill="#b45f17" text-anchor="middle" xml:space="preserve">Menyambung ulang…</text>
+<line x1="392.0" y1="381.0" x2="594.0" y2="381.0" stroke="#2a9d5c" stroke-width="2.2" stroke-linecap="round" />
+<path d="M587.8 384.3 L594.0 381.0 L587.8 377.7" fill="none" stroke="#2a9d5c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="493.0" y="374.0" font-size="12" font-weight="800" fill="#2a9d5c" text-anchor="middle" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" font-weight="800">connect</tspan></text>
+<rect x="600.0" y="368.0" width="100.0" height="26.0" rx="13.0" fill="#e3f4ea" stroke="#2a9d5c" stroke-width="1.4" />
+<text x="650.0" y="385.5" font-size="12.5" font-weight="800" fill="#2a9d5c" text-anchor="middle" xml:space="preserve">Live</text>
+<line x1="704.0" y1="381.0" x2="914.0" y2="381.0" stroke="#e63946" stroke-width="2.2" stroke-linecap="round" />
+<path d="M907.8 384.3 L914.0 381.0 L907.8 377.7" fill="none" stroke="#e63946" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="809.0" y="374.0" font-size="12" font-weight="600" fill="#e63946" text-anchor="middle" xml:space="preserve"><tspan font-weight="800">Keluar</tspan> (sebab 2)</text>
+<rect x="920.0" y="368.0" width="120.0" height="26.0" rx="13.0" fill="#fde6e8" stroke="#e63946" stroke-width="1.4" />
+<text x="980.0" y="385.5" font-size="12.5" font-weight="800" fill="#e63946" text-anchor="middle" xml:space="preserve">Terputus</text>
+<path d="M650 395 L650 424 L303 424 L303 399" fill="none" stroke="#b45f17" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M306.3 403.2 L303.0 397.0 L299.7 403.2" fill="none" stroke="#b45f17" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="476.0" y="442.0" font-size="12" font-weight="700" fill="#b45f17" text-anchor="middle" xml:space="preserve">putus (sebab 1, 3, 4): mencoba lagi</text>
+<path d="M303 367 L303 336 L980 336 L980 363" fill="none" stroke="#e63946" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="6 4"/>
+<path d="M976.7 358.8 L980.0 365.0 L983.3 358.8" fill="none" stroke="#e63946" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="640.0" y="329.0" font-size="12" font-weight="700" fill="#e63946" text-anchor="middle" xml:space="preserve">ditolak penjaga pintu walau sudah 3 kali <tspan font-style="italic">refresh</tspan></text>
+<text x="218.0" y="472.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">menyambung, atau mencoba lagi;</text>
+<text x="218.0" y="489.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">angka di layar mungkin basi</text>
+<text x="600.0" y="472.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">tersambung: angka diperbarui</text>
+<text x="600.0" y="489.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">begitu ada kiriman</text>
+<text x="920.0" y="472.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">berhenti mencoba: sesudah</text>
+<text x="920.0" y="489.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">Keluar</tspan>, atau ditolak terus</text>
+<rect x="30.0" y="516.0" width="1140.0" height="548.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<path d="M30.8 552.8 L30.8 527.8 Q30.8 516.8 41.8 516.8 L1158.2 516.8 Q1169.2 516.8 1169.2 527.8 L1169.2 552.8 Z" fill="#eef1f5" stroke-linecap="round" stroke-linejoin="round" />
+<text x="50.0" y="540.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Sebab putus</text>
+<text x="330.0" y="540.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Alasan di <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" font-weight="800">disconnect</tspan></text>
+<text x="560.0" y="540.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Siapa menyambung lagi (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" font-weight="800">soket.ts</tspan>)</text>
+<text x="985.0" y="540.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Lencana</text>
+<circle cx="62.0" cy="578.0" r="12" fill="#6f42c1" stroke="#ffffff" stroke-width="2" />
+<text x="62.0" y="582.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >1</text>
+<text x="82.0" y="583.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Gelang 15 menit habis</text>
+<text x="82.0" y="604.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">server memutus tepat 900 detik</text>
+<text x="82.0" y="622.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">sesudah gelang dibuat (Modul 20)</text>
+<text x="330.0" y="583.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">io server disconnect</text>
+<text x="330.0" y="604.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">server <tspan font-weight="800" fill="#1e2a4a">sengaja</tspan> memutus;</text>
+<text x="330.0" y="622.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">Socket.IO tidak menyambung</text>
+<text x="330.0" y="640.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">sendiri</text>
+<text x="560.0" y="583.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#6f42c1">dashboard</tspan>: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">refreshSekali()</tspan> → <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">POST</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">/auth/refresh</tspan></text>
+<text x="560.0" y="602.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">→ <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">true</tspan> (gelang baru) → <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">socket.connect()</tspan></text>
+<text x="560.0" y="621.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">uji penulis: tepat satu <tspan font-style="italic">refresh</tspan>, tersambung di detik yang sama</text>
+<rect x="985.0" y="568.0" width="146.0" height="24.0" rx="12.0" fill="#fdeedd" stroke="#b45f17" stroke-width="1.4" />
+<text x="1058.0" y="584.3" font-size="12" font-weight="800" fill="#b45f17" text-anchor="middle" xml:space="preserve">Menyambung ulang…</text>
+<line x1="1015.0" y1="595.0" x2="1015.0" y2="606.0" stroke="#9aa3b0" stroke-width="1.8" stroke-linecap="round" />
+<path d="M1012.2 602.7 L1015.0 608.0 L1017.8 602.7" fill="none" stroke="#9aa3b0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="985.0" y="610.0" width="60.0" height="24.0" rx="12.0" fill="#e3f4ea" stroke="#2a9d5c" stroke-width="1.4" />
+<text x="1015.0" y="626.3" font-size="12" font-weight="800" fill="#2a9d5c" text-anchor="middle" xml:space="preserve">Live</text>
+<line x1="30.0" y1="662.0" x2="1170.0" y2="662.0" stroke="#e0dcd2" stroke-width="1.2" stroke-linecap="round" />
+<circle cx="62.0" cy="688.0" r="12" fill="#6f42c1" stroke="#ffffff" stroke-width="2" />
+<text x="62.0" y="692.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >2</text>
+<text x="82.0" y="693.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800">Keluar</tspan></text>
+<text x="82.0" y="714.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">tombol <tspan font-weight="800" fill="#1e2a4a">Keluar</tspan> di tab ini</text>
+<text x="330.0" y="693.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">io client disconnect</text>
+<text x="330.0" y="714.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">kita sendiri yang memutus</text>
+<text x="560.0" y="693.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">socket.disconnect()</tspan> <tspan font-weight="800" fill="#6f42c1">dulu</tspan>, baru <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">POST</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">/auth/logout</tspan></text>
+<text x="560.0" y="712.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">tidak ada yang menyambung lagi (memang sengaja)</text>
+<rect x="985.0" y="678.0" width="90.0" height="24.0" rx="12.0" fill="#fde6e8" stroke="#e63946" stroke-width="1.4" />
+<text x="1030.0" y="694.3" font-size="12" font-weight="800" fill="#e63946" text-anchor="middle" xml:space="preserve">Terputus</text>
+<text x="1081.0" y="694.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">lalu</text>
+<rect x="985.0" y="710.0" width="108.0" height="24.0" rx="12.0" fill="#eef1f5" stroke="#9aa3b0" stroke-width="1.4" />
+<text x="1039.0" y="726.3" font-size="12" font-weight="800" fill="#4a5568" text-anchor="middle" xml:space="preserve">layar <tspan font-style="italic">login</tspan></text>
+<line x1="50.0" y1="746.0" x2="1150.0" y2="746.0" stroke="#e0dcd2" stroke-width="1" stroke-linecap="round" stroke-dasharray="5 4" />
+<text x="82.0" y="769.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800">Keluar</tspan> di tab lain</text>
+<text x="82.0" y="790.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">sesinya sudah dihapus di database</text>
+<text x="330.0" y="769.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">io server disconnect</text>
+<text x="330.0" y="790.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">server memutus sesi itu</text>
+<text x="560.0" y="769.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#6f42c1">dashboard</tspan>: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">refreshSekali()</tspan> → <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">false</tspan> (ditolak)</text>
+<text x="560.0" y="788.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">→ layar <tspan font-style="italic">login</tspan>: Sesi sudah habis. Silakan masuk lagi.</text>
+<rect x="985.0" y="754.0" width="146.0" height="24.0" rx="12.0" fill="#fdeedd" stroke="#b45f17" stroke-width="1.4" />
+<text x="1058.0" y="770.3" font-size="12" font-weight="800" fill="#b45f17" text-anchor="middle" xml:space="preserve">Menyambung ulang…</text>
+<line x1="1015.0" y1="781.0" x2="1015.0" y2="792.0" stroke="#9aa3b0" stroke-width="1.8" stroke-linecap="round" />
+<path d="M1012.2 788.7 L1015.0 794.0 L1017.8 788.7" fill="none" stroke="#9aa3b0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="985.0" y="796.0" width="108.0" height="24.0" rx="12.0" fill="#eef1f5" stroke="#9aa3b0" stroke-width="1.4" />
+<text x="1039.0" y="812.3" font-size="12" font-weight="800" fill="#4a5568" text-anchor="middle" xml:space="preserve">layar <tspan font-style="italic">login</tspan></text>
+<line x1="30.0" y1="830.0" x2="1170.0" y2="830.0" stroke="#e0dcd2" stroke-width="1.2" stroke-linecap="round" />
+<circle cx="62.0" cy="856.0" r="12" fill="#6f42c1" stroke="#ffffff" stroke-width="2" />
+<text x="62.0" y="860.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >3</text>
+<text x="82.0" y="861.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Ctrl+C <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" font-weight="800">npm</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" font-weight="800">start</tspan></text>
+<text x="82.0" y="882.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">backend dimatikan dengan rapi</text>
+<text x="82.0" y="900.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">(Ctrl+C <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#1e2a4a" font-weight="700">npm</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#1e2a4a" font-weight="700">run</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#1e2a4a" font-weight="700">dev</tspan> di Windows:</text>
+<text x="82.0" y="918.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">kadang di sini, kadang no. 4)</text>
+<text x="330.0" y="861.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">io server disconnect</text>
+<text x="330.0" y="882.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">server memutus semua soket</text>
+<text x="330.0" y="900.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">sebelum berhenti</text>
+<text x="560.0" y="861.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#6f42c1">dashboard</tspan>: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">refreshSekali()</tspan> → <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">null</tspan></text>
+<text x="560.0" y="880.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">(backend belum bisa melayani) → <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">socket.connect()</tspan></text>
+<text x="560.0" y="899.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">Socket.IO lalu mencoba sendiri tiap 1–5 detik</text>
+<text x="560.0" y="917.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">sampai backend menyala lagi</text>
+<rect x="985.0" y="846.0" width="146.0" height="24.0" rx="12.0" fill="#fdeedd" stroke="#b45f17" stroke-width="1.4" />
+<text x="1058.0" y="862.3" font-size="12" font-weight="800" fill="#b45f17" text-anchor="middle" xml:space="preserve">Menyambung ulang…</text>
+<line x1="1015.0" y1="873.0" x2="1015.0" y2="884.0" stroke="#9aa3b0" stroke-width="1.8" stroke-linecap="round" />
+<path d="M1012.2 880.7 L1015.0 886.0 L1017.8 880.7" fill="none" stroke="#9aa3b0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="985.0" y="888.0" width="60.0" height="24.0" rx="12.0" fill="#e3f4ea" stroke="#2a9d5c" stroke-width="1.4" />
+<text x="1015.0" y="904.3" font-size="12" font-weight="800" fill="#2a9d5c" text-anchor="middle" xml:space="preserve">Live</text>
+<line x1="30.0" y1="940.0" x2="1170.0" y2="940.0" stroke="#e0dcd2" stroke-width="1.2" stroke-linecap="round" />
+<circle cx="62.0" cy="966.0" r="12" fill="#6f42c1" stroke="#ffffff" stroke-width="2" />
+<text x="62.0" y="970.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >4</text>
+<text x="82.0" y="971.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">WiFi putus</text>
+<text x="82.0" y="992.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">atau backend mati mendadak</text>
+<text x="82.0" y="1010.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">(Ctrl+C <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#1e2a4a" font-weight="700">npm</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#1e2a4a" font-weight="700">run</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#1e2a4a" font-weight="700">dev</tspan> di Windows:</text>
+<text x="82.0" y="1028.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">kadang di sini, kadang no. 3),</text>
+<text x="82.0" y="1046.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">atau dimulai ulang oleh <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#1e2a4a" font-weight="700">--watch</tspan></text>
+<text x="330.0" y="971.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">transport close</text>
+<text x="330.0" y="992.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">sambungan putus di tengah</text>
+<text x="330.0" y="1010.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">jalan</text>
+<text x="560.0" y="971.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#6f42c1">Socket.IO sendiri</tspan>: mencoba lagi berjeda ±1 detik,</text>
+<text x="560.0" y="990.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">lalu makin lama, paling lama 5 detik</text>
+<text x="560.0" y="1009.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">kode kita hanya mengganti lencana</text>
+<rect x="985.0" y="956.0" width="146.0" height="24.0" rx="12.0" fill="#fdeedd" stroke="#b45f17" stroke-width="1.4" />
+<text x="1058.0" y="972.3" font-size="12" font-weight="800" fill="#b45f17" text-anchor="middle" xml:space="preserve">Menyambung ulang…</text>
+<line x1="1015.0" y1="983.0" x2="1015.0" y2="994.0" stroke="#9aa3b0" stroke-width="1.8" stroke-linecap="round" />
+<path d="M1012.2 990.7 L1015.0 996.0 L1017.8 990.7" fill="none" stroke="#9aa3b0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="985.0" y="998.0" width="60.0" height="24.0" rx="12.0" fill="#e3f4ea" stroke="#2a9d5c" stroke-width="1.4" />
+<text x="1015.0" y="1014.3" font-size="12" font-weight="800" fill="#2a9d5c" text-anchor="middle" xml:space="preserve">Live</text>
+<rect x="30.0" y="1080.0" width="560.0" height="160.0" rx="12" fill="#f5f0fc" stroke="#6f42c1" stroke-width="1.4" />
+<text x="50.0" y="1108.0" font-size="14.5" font-weight="800" fill="#6f42c1" text-anchor="start" xml:space="preserve">Begitu tersambung lagi (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13.5" fill="#6f42c1" font-weight="800">connect</tspan>)</text>
+<text x="50.0" y="1134.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">• hitungan gagal beruntun kembali 0, lencana <tspan font-weight="800">Live</tspan></text>
+<text x="50.0" y="1152.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">• <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#6f42c1" font-weight="800">ikuti</tspan> ulang semua perangkat, dengan jawaban (<tspan font-style="italic">ack</tspan>):</text>
+<text x="50.0" y="1170.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">   <tspan font-style="italic">room</tspan> (saluran tiap perangkat) di backend hilang setiap kali putus</text>
+<text x="50.0" y="1188.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">• grafik 5 menit diisi ulang dari API: kiriman selama putus</text>
+<text x="50.0" y="1206.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">   tidak dikirim ulang</text>
+<rect x="610.0" y="1080.0" width="560.0" height="160.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="630.0" y="1108.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Ditolak penjaga pintu (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13.5" font-weight="800">connect_error</tspan>)</text>
+<text x="630.0" y="1132.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">belum</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">login</tspan>, atau</text>
+<text x="630.0" y="1150.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">sesi habis atau tidak sah: refresh atau login lagi</tspan></text>
+<text x="630.0" y="1168.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">→ <tspan font-style="italic">refresh</tspan>, lalu sambung lagi</text>
+<text x="630.0" y="1186.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">→ <tspan font-style="italic">refresh</tspan> ditolak (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">false</tspan>): layar <tspan font-style="italic">login</tspan></text>
+<text x="630.0" y="1204.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">→ ditolak lagi walau sudah 3 kali <tspan font-style="italic">refresh</tspan>: <tspan font-weight="800" fill="#e63946">Terputus</tspan></text>
+<text x="630.0" y="1222.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">   tanpa tombol; muat ulang halaman (F5)</text>
+<rect x="30.0" y="1256.0" width="1140.0" height="54.0" rx="10" fill="#eef1f5" />
+<text x="50.0" y="1278.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#6f42c1">Mengapa </tspan><tspan font-weight="800" font-style="italic" fill="#6f42c1">refresh</tspan><tspan font-weight="800" fill="#6f42c1"> dulu, baru sambung?</tspan> Penjaga pintu Socket.IO hanya melihat gelang 15 menit, dan tidak tahu kamu baru saja <tspan font-weight="800">Keluar</tspan> di tab lain.</text>
+<text x="50.0" y="1298.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#6f42c1" font-weight="800">/auth/refresh</tspan> memeriksa sesi di database, jadi tab yang sudah <tspan font-style="italic">logout</tspan> tidak ikut tersambung lagi.</text>
+<text x="1178.0" y="1324.0" font-size="11" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

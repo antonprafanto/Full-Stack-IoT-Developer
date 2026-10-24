@@ -7,11 +7,11 @@ type Props = {
   warna?: string; // kelas warna Tailwind untuk angkanya, misalnya "text-teal-600"
 };
 
-export default function KartuSensor({ label, nilai, satuan, warna = "text-slate-800" }: Props) {
+export default function KartuSensor({ label, nilai, satuan, warna = "text-slate-800 dark:text-slate-100" }: Props) {
   return (
     // min-w-0: kartu boleh menyempit mengikuti kolom kisi; label yang terlalu panjang dipotong "…" (truncate)
-    <div className="min-w-0 rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
-      <p className="truncate text-sm text-slate-500">{label}</p>
+    <div className="min-w-0 rounded-xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+      <p className="truncate text-sm text-slate-500 dark:text-slate-400">{label}</p>
       <p className="mt-1 text-2xl font-semibold">
         {/* ?? = kalau nilainya null, tulis "—" (bukan 0: angka 0 tetap bacaan yang sah) */}
         <span className={nilai === null ? "text-slate-400" : warna}>{nilai ?? "—"}</span>

@@ -66,18 +66,115 @@ export type TelemetryNode2 = {
 
 export type Telemetry = TelemetryNode1 | TelemetryNode2;
 
-// jawaban GET /devices/:id/latest
-export type BacaanTerbaru = {
-  device_id: string;
-  jenis: Jenis;
-  status: StatusPerangkat;
-  telemetry: Telemetry;
-};
-
 // jawaban POST /auth/login, POST /auth/refresh, dan GET /auth/me
 export type Pengguna = {
   id: number;
   email: string;
   nama: string;
   peran: "admin" | "viewer";
+};
+
+// ---- Modul 23: acara Socket.IO, disalin dari backend/src/services/realtime.ts ----
+
+// jawaban server untuk "ikuti" (ack Socket.IO): berhasil atau tidak, dan bacaan terakhir perangkat itu
+export type JawabanIkuti = {
+  ok: boolean;
+  pesan?: string;
+  terbaru?: Telemetry | null; // null = backend belum menerima bacaan dari perangkat itu sejak dinyalakan
+};
+
+// satu baris buku kejadian (tabel events, Modul 19)
+export type Kejadian = {
+  id: number;
+  waktu: string; // jam server, UTC
+  device_id: string | null;
+  jenis: "aturan" | "aturan-diubah" | "jadwal" | "status" | "mode-offline" | "perintah";
+  sumber: string; // api, aturan, jadwal, telegram, perangkat
+  aturan_id: number | null;
+  pesan: string; // kalimat untuk manusia
+  data?: unknown;
+};
+
+// acara dari server ke dashboard. Isinya berurutan, bukan satu objek: telemetry membawa DUA nilai (deviceId, isi).
+export type KeKlien = {
+  telemetry: (deviceId: string, isi: Telemetry) => void;
+  status: (deviceId: string, status: "online" | "offline" | "offline-mode") => void;
+  kejadian: (kejadian: Kejadian) => void;
+};
+
+// acara dari dashboard ke server; "balas" adalah ack Socket.IO (fungsi yang dipanggil server untuk menjawab)
+export type DariKlien = {
+  ikuti: (deviceId: string, balas: (jawaban: JawabanIkuti) => void) => void;
+  berhenti: (deviceId: string) => void;
+};
+
+// ---- Modul 23: grafik live dan riwayat ----
+
+// satu bacaan mentah dari GET /devices/:id/readings (tanpa bucket). Ketiga belas kolom selalu ada;
+// kolom yang tidak dimiliki perangkat (misalnya tekanan pada Node 1) berisi null.
+export type Bacaan = {
+  ts: string;
+  fw: string;
+  suhu: number | null;
+  kelembapan: number | null;
+  cahaya: number | null;
+  tanah: number | null;
+  gerak: boolean | null;
+  level_air: number | null;
+  tekanan: number | null;
+  suhu_tanah: number | null;
+  baterai: number | null;
+  tanah_rs485: number | null;
+  ec: number | null;
+};
+
+// jawaban GET /devices/:id/readings tanpa bucket: bacaan urut dari yang terlama, paling banyak 1.000
+export type JawabanBacaan = {
+  device_id: string;
+  dari: string;
+  sampai: string;
+  jumlah: number;
+  terpotong: boolean; // true = lebih dari 1.000 bacaan; yang dikirim hanya 1.000 yang TERLAMA
+  bacaan: Bacaan[];
+};
+
+// satu titik grafik live: t = waktu bacaan dalam milidetik (dari ts perangkat); null = tidak ada nilainya
+export type Titik = {
+  t: number;
+  suhu: number | null;
+  kelembapan: number | null;
+  cahaya: number | null;
+};
+
+// satu ember ringkasan (bucket=15m atau 1h): rata-rata semua bacaan dalam ember itu.
+// Hanya empat besaran ini yang diringkas backend; tekanan, baterai, dan air tandon tidak ada di riwayat ringkasan.
+export type TitikRingkasan = {
+  waktu: string; // awal ember, UTC
+  suhu_rata: number | null;
+  suhu_min: number | null;
+  suhu_maks: number | null;
+  kelembapan_rata: number | null;
+  tanah_rata: number | null;
+  cahaya_rata: number | null;
+  jumlah_bacaan: number;
+};
+
+// jawaban GET /devices/:id/readings?bucket=…  (ember tanpa bacaan tidak dikirim sama sekali)
+export type JawabanRingkasan = {
+  device_id: string;
+  dari: string;
+  sampai: string;
+  ember: "15m" | "1h" | "1d";
+  jumlah: number;
+  ringkasan: TitikRingkasan[];
+};
+
+// tiga pilihan rentang di layar Riwayat
+export type Rentang = "1jam" | "24jam" | "7hari";
+
+// riwayat yang sudah diseragamkan api.ts: bacaan mentah (1 jam) pun diubah ke bentuk TitikRingkasan
+export type DataRiwayat = {
+  dari: string;
+  sampai: string;
+  titik: TitikRingkasan[]; // urut dari yang terlama
 };
