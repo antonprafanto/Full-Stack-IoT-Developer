@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<!--
+  Bridge to React — "handmade components". Module 22 warm-up.
+  The plain Node 1 page only has one device and five cards. What if there are two devices,
+  each with different cards, and there is a "List" page and a "Details" page? Copying the card HTML again and again
+  quickly turns into a mess. This page uses a tidier way with plain JavaScript:
+    - the data is kept in ONE object (state),
+    - a card is made by ONE function (SensorCard) that receives data,
+    - the whole screen is redrawn by ONE function (render).
+  That is React's idea. The difference: here we do everything ourselves, and the bottom lists what still "hurts".
+  The numbers are examples. No device or server is contacted.
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bridge - Handmade Components</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: system-ui, sans-serif; margin: 0; padding: 16px; color: #1e293b; background: #f1f5f9; }
+    .page { max-width: 560px; margin: 0 auto; }
+    .button { padding: 10px 16px; font: inherit; border: 1px solid #94a3b8; border-radius: 8px; background: white; cursor: pointer; }
+    .device { display: block; width: 100%; margin-bottom: 8px; text-align: left; }
+    .device small { color: #64748b; font-family: ui-monospace, monospace; }
+    .search { width: 100%; padding: 10px; margin-bottom: 12px; font: inherit; border: 1px solid #94a3b8; border-radius: 8px; }
+    .card-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+    .card { flex: 1 1 140px; padding: 12px; background: white; border: 1px solid #cbd5e1; border-radius: 10px; }
+    .card-label { display: block; font-size: 14px; color: #64748b; }
+    .card-value { font-size: 26px; font-weight: 600; }
+    .card-unit { margin-left: 4px; color: #94a3b8; }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <h1>Mini Smart Home</h1>
+    <!-- Only one empty container. All of its content is made by render() below. -->
+    <div id="root"></div>
+  </main>
+
+  <script>
+    // ---------- One source of truth: all the screen's data is here ----------
+    const state = {
+      page: "list",      // "list" or "details"
+      selected: null,    // the device_id being viewed
+      search: "",        // what the search box holds
+      devices: [
+        { device_id: "a4cf12e5b7c0", name: "Node 1 Living Room", kind: "node1",
+          telemetry: { temperature: 28.5, humidity: 71, light: 3094, soil: 70, water_level: 52 } },
+        { device_id: "246f28b1c7d4", name: "Node 2 Garden", kind: "node2",
+          telemetry: { temperature: 26.1, humidity: 80, pressure: 1008.3, soil_temperature: 23.0, soil: 65, battery: 3.9 } },
+      ],
+    };
+
+    // ---------- A handmade "component": receive data, return an element ----------
+    // Compare it with SensorCard.tsx in React: the idea is the same, the writing is much longer.
+    function SensorCard({ label, value, unit }) {
+      const card = document.createElement("div");
+      card.className = "card";
+      const labelText = document.createElement("span");
+      labelText.className = "card-label";
+      labelText.textContent = label;
+      const valueText = document.createElement("span");
+      valueText.className = "card-value";
+      valueText.textContent = value === null || value === undefined ? "—" : String(value);
+      card.append(labelText, valueText);
+      if (unit) {
+        const unitText = document.createElement("span");
+        unitText.className = "card-unit";
+        unitText.textContent = unit;
+        card.append(unitText);
+      }
+      return card;
+    }
+
+    // Which cards appear depends on the device kind (Appendix A).
+    function cardsFor(p) {
+      const t = p.telemetry;
+      if (p.kind === "node2") {
+        return [
+          { label: "Temperature", value: t.temperature, unit: "°C" },
+          { label: "Humidity", value: t.humidity, unit: "%" },
+          { label: "Pressure", value: t.pressure, unit: "hPa" },
+          { label: "Soil temperature", value: t.soil_temperature, unit: "°C" },
+          { label: "Soil moisture", value: t.soil, unit: "%" },
+          { label: "Battery", value: t.battery, unit: "V" },
+        ];
+      }
+      return [
+        { label: "Temperature", value: t.temperature, unit: "°C" },
+        { label: "Humidity", value: t.humidity, unit: "%" },
+        { label: "Light", value: t.light, unit: "/4095" },
+        { label: "Soil moisture", value: t.soil, unit: "%" },
+        { label: "Water tank", value: t.water_level, unit: "%" },
+      ];
+    }
+
+    // ---------- The Device List "page" ----------
+    function DeviceList() {
+      const container = document.createElement("div");
+
+      const searchBox = document.createElement("input");
+      searchBox.className = "search";
+      searchBox.placeholder = "Search device names…";
+      searchBox.value = state.search;
+      searchBox.addEventListener("input", () => {
+        state.search = searchBox.value;
+        render(); // PROBLEM 3: render() throws this box away and makes a new one. The typing cursor is gone!
+      });
+      container.append(searchBox);
+
+      const matches = state.devices.filter((p) => p.name.toLowerCase().includes(state.search.toLowerCase()));
+      for (const p of matches) {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "button device";
+        button.textContent = p.name + " ";
+        const id = document.createElement("small");
+        id.textContent = p.device_id;
+        button.append(id);
+        button.addEventListener("click", () => {
+          state.page = "details"; // "moving to another page" is just a change of data
+          state.selected = p.device_id;
+          render();
+        });
+        container.append(button);
+      }
+      return container;
+    }
+
+    // ---------- The Device Details "page" ----------
+    function DeviceDetails() {
+      const p = state.devices.find((x) => x.device_id === state.selected);
+      const container = document.createElement("div");
+
+      const back = document.createElement("button");
+      back.type = "button";
+      back.className = "button";
+      back.textContent = "← Back to the list";
+      back.addEventListener("click", () => {
+        state.page = "list";
+        render();
+      });
+
+      const heading = document.createElement("h2");
+      heading.textContent = p.name;
+
+      const refresh = document.createElement("button");
+      refresh.type = "button";
+      refresh.className = "button";
+      refresh.textContent = "Pretend a new reading";
+      refresh.addEventListener("click", () => {
+        p.telemetry.temperature = Math.round((25 + Math.random() * 8) * 10) / 10; // a random temperature 25.0–33.0
+        console.log("Temperature in the data now:", p.telemetry.temperature);
+        render(); // PROBLEM 2: delete this line, and the number on the screen doesn't change even though the data does.
+      });
+
+      const row = document.createElement("div");
+      row.className = "card-list";
+      for (const k of cardsFor(p)) {
+        row.append(SensorCard(k)); // one function, reused for every card
+      }
+
+      container.append(back, heading, refresh, row);
+      return container;
+    }
+
+    // ---------- Redraw the whole screen from the state ----------
+    function render() {
+      const content = state.page === "list" ? DeviceList() : DeviceDetails();
+      document.querySelector("#root").replaceChildren(content);
+    }
+
+    render();
+
+    /*
+      What still "hurts" (and how React helps):
+      1. Long. One card needs a dozen lines of createElement. React uses JSX:
+         <SensorCard label="Temperature" value="28.5" unit="°C" />  — like HTML, one line.
+      2. You must remember render(). Forget it once, and the screen is "stale" (try deleting render() in the "Pretend a new reading" button).
+         React: change the data through the setState from useState, and the screen updates by itself.
+      3. render() rebuilds EVERYTHING, the search box included, so the typing cursor is lost every
+         time one letter is typed (try it yourself). React compares first, then only changes the parts that differ.
+      4. Nobody points out a typo. Write t.humidty (one letter missing) in cardsFor(), and the card only
+         shows "—" without any message. TypeScript with the types from Appendix A marks it red right away.
+      5. Real data comes from a server through fetch, complete with "loading" and "error" for every page.
+         In React, that work is handled with useEffect + useState.
+    */
+  </script>
+</body>
+</html>

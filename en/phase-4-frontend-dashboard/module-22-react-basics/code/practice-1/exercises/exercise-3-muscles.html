@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<!--
+  Exercise 3 — MUSCLES (JavaScript in the browser). Module 22 warm-up.
+  In Module 4, JavaScript ran in Node.js (the terminal). Here the language is the same, but it runs in the browser
+  and has one new "toy": document, the page's element tree (the DOM) that can be read and changed.
+  Open DevTools (F12), Console tab, before trying: every message and error appears there.
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Exercise 3 - Muscles</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 0; padding: 16px; color: #1e293b; background: #f8fafc; }
+    section { margin-bottom: 20px; }
+    .button { padding: 10px 16px; font: inherit; border: 1px solid #94a3b8; border-radius: 8px; background: white; cursor: pointer; }
+    .button:disabled { opacity: 0.5; cursor: default; }
+    .lamp { display: inline-block; padding: 2px 10px; border-radius: 999px; background: #e2e8f0; }
+    .lamp.on { background: #fde68a; color: #78350f; }
+    .card { display: inline-block; margin: 4px; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 8px; background: white; }
+    .card.highlight { border-color: #0f766e; background: #ccfbf1; }
+    #notes li { font-family: ui-monospace, monospace; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <h1>Muscles Exercise</h1>
+
+  <section>
+    <h2>1. A button that changes text and a class</h2>
+    <p>Lamp: <span class="lamp" id="lamp-text">OFF</span></p>
+    <button type="button" class="button" id="lamp-button">Turn the lamp on</button>
+    <p>Tapped <b id="count">0</b> times.</p>
+  </section>
+
+  <section>
+    <h2>2. The "input" event: the fan's temperature threshold</h2>
+    <label for="threshold">The fan turns on when the temperature is above <b id="threshold-text">30</b> &deg;C</label><br>
+    <input type="range" id="threshold" min="25" max="40" value="30">
+  </section>
+
+  <section>
+    <h2>3. Selecting many elements at once</h2>
+    <div>
+      <span class="card">Temperature 28.4 &deg;C</span>
+      <span class="card">Humidity 71 %</span>
+      <span class="card">Water tank 64 %</span>
+    </div>
+    <button type="button" class="button" id="highlight-button">Highlight all cards</button>
+  </section>
+
+  <section>
+    <h2>4. Making new elements</h2>
+    <button type="button" class="button" id="clear-button">Clear notes</button>
+    <ul id="notes"></ul>
+  </section>
+
+  <!-- <script> is placed at the END of <body>: when this code runs, every element above already exists.
+       If it were placed in <head> without extra settings, querySelector() would answer null. -->
+  <script>
+    console.log("Hello from the browser! This message appears in the Console tab.");
+
+    // ---------- 1. querySelector + addEventListener + textContent + classList ----------
+    // querySelector() uses the same CSS selectors as Exercise 2: "#id", ".class", "tag".
+    const lampText = document.querySelector("#lamp-text");
+    const lampButton = document.querySelector("#lamp-button");
+    const countText = document.querySelector("#count");
+    let lamp = false;
+    let count = 0;
+
+    // addEventListener("click", function): "when this button is clicked, run this function".
+    // Like server.on("/on", handleOn) on the ESP32: it registers a clerk for one event.
+    lampButton.addEventListener("click", () => {
+      lamp = !lamp;   // flip it: false becomes true, true becomes false
+      count = count + 1;
+      lampText.textContent = lamp ? "ON" : "OFF";
+      lampText.classList.toggle("on", lamp);
+      lampButton.textContent = lamp ? "Turn the lamp off" : "Turn the lamp on";
+      countText.textContent = String(count);
+      addNote(lamp ? "lamp turned on" : "lamp turned off");
+    });
+    // TRY 1: change "#lamp-button" above to "#lamp-buttonn" (a typo), save, reload.
+    // The Console writes a red error: Cannot read properties of null (reading 'addEventListener').
+    // It means querySelector() didn't find the element and answered null. You'll meet this error often.
+
+    // ---------- 2. The "input" event: runs every time the slider is moved ----------
+    const slider = document.querySelector("#threshold");
+    const thresholdText = document.querySelector("#threshold-text");
+    slider.addEventListener("input", () => {
+      thresholdText.textContent = slider.value; // value is always text, for example "33"
+    });
+
+    // ---------- 3. querySelectorAll: ALL the matching elements ----------
+    document.querySelector("#highlight-button").addEventListener("click", () => {
+      const allCards = document.querySelectorAll(".card");
+      allCards.forEach((card) => card.classList.toggle("highlight"));
+      console.log("Number of cards:", allCards.length);
+    });
+
+    // ---------- 4. createElement + append: making elements from code ----------
+    const noteList = document.querySelector("#notes");
+    function addNote(text) {
+      const item = document.createElement("li");                               // make an empty <li>
+      item.textContent = new Date().toLocaleTimeString("en-GB") + "  " + text; // fill in its text
+      noteList.append(item);                                                   // attach it at the end of the <ul>
+    }
+    document.querySelector("#clear-button").addEventListener("click", () => {
+      noteList.replaceChildren(); // empty the <ul>
+    });
+    // TRY 2: change append(item) to prepend(item). The newest note now appears at the very top.
+    // TRY 3: in the Elements tab, watch <ul id="notes"> get one more <li> every time you tap the lamp button.
+  </script>
+</body>
+</html>

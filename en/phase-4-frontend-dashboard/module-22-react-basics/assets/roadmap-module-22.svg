@@ -1,0 +1,137 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="856" viewBox="0 0 1200 856" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="856" fill="#fffdf7"/>
+<text x="600.0" y="40.0" font-size="26" font-weight="700" fill="#1e2a4a" text-anchor="middle" >Mini roadmap — you are here</text>
+<text x="600.0" y="66.0" font-size="15" font-weight="400" fill="#555" text-anchor="middle" >32 modules = 32 weeks · one running project "Mini Smart Home" that grows from a blinking LED to an online system</text>
+<rect x="60.0" y="100.0" width="160.0" height="56.0" rx="8" fill="#e0e0e0" />
+<text x="140.0" y="124.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="middle" >PHASE 0</text>
+<text x="140.0" y="144.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="middle" >Foundations · M1–4</text>
+<rect x="226.0" y="100.0" width="125.0" height="56.0" rx="8" fill="#e0e0e0" />
+<text x="288.5" y="124.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="middle" >PHASE 1</text>
+<text x="288.5" y="144.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="middle" >ESP32 · M5–9</text>
+<rect x="357.0" y="100.0" width="176.0" height="56.0" rx="8" fill="#e0e0e0" />
+<text x="445.0" y="124.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="middle" >PHASE 2</text>
+<text x="445.0" y="144.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="middle" >Connectivity · M10–15</text>
+<rect x="539.0" y="100.0" width="196.0" height="56.0" rx="8" fill="#e0e0e0" />
+<text x="637.0" y="124.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="middle" >PHASE 3</text>
+<text x="637.0" y="144.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="middle" >Backend &amp; data · M16–21</text>
+<rect x="741.0" y="100.0" width="170.0" height="56.0" rx="8" fill="#e6dcf5" stroke="#6f42c1" stroke-width="2.4" />
+<text x="826.0" y="124.0" font-size="14" font-weight="800" fill="#6f42c1" text-anchor="middle" >PHASE 4</text>
+<text x="826.0" y="144.0" font-size="14" font-weight="700" fill="#6f42c1" text-anchor="middle" >Dashboard · M22–25</text>
+<rect x="917.0" y="100.0" width="223.0" height="56.0" rx="8" fill="#e0e0e0" />
+<text x="1028.5" y="124.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="middle" >PHASE 5</text>
+<text x="1028.5" y="144.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="middle" >Operations &amp; scale · M26–32</text>
+<rect x="60.0" y="170.0" width="30.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="75.0" y="188.0" font-size="13" font-weight="600" fill="#fff" text-anchor="middle" >M1</text>
+<rect x="96.0" y="170.0" width="30.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="111.0" y="188.0" font-size="13" font-weight="600" fill="#fff" text-anchor="middle" >M2</text>
+<rect x="132.0" y="170.0" width="30.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="147.0" y="188.0" font-size="13" font-weight="600" fill="#fff" text-anchor="middle" >M3</text>
+<rect x="168.0" y="170.0" width="30.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="183.0" y="188.0" font-size="13" font-weight="600" fill="#fff" text-anchor="middle" >M4</text>
+<rect x="226.0" y="170.0" width="22.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="237.0" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M5</text>
+<rect x="251.8" y="170.0" width="22.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="262.8" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M6</text>
+<rect x="277.5" y="170.0" width="22.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="288.5" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M7</text>
+<rect x="303.2" y="170.0" width="22.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="314.2" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M8</text>
+<rect x="329.0" y="170.0" width="22.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="340.0" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M9</text>
+<rect x="357.0" y="170.0" width="27.5" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="370.8" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M10</text>
+<rect x="386.7" y="170.0" width="27.5" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="400.4" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M11</text>
+<rect x="416.4" y="170.0" width="27.5" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="430.1" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M12</text>
+<rect x="446.1" y="170.0" width="27.5" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="459.9" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M13</text>
+<rect x="475.8" y="170.0" width="27.5" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="489.6" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M14</text>
+<rect x="505.5" y="170.0" width="27.5" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="519.2" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M15</text>
+<rect x="539.0" y="170.0" width="30.8" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="554.4" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M16</text>
+<rect x="572.0" y="170.0" width="30.8" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="587.4" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M17</text>
+<rect x="605.1" y="170.0" width="30.8" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="620.5" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M18</text>
+<rect x="638.1" y="170.0" width="30.8" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="653.5" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M19</text>
+<rect x="671.2" y="170.0" width="30.8" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="686.6" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M20</text>
+<rect x="704.2" y="170.0" width="30.8" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="719.6" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M21</text>
+<rect x="741.0" y="170.0" width="30.8" height="26.0" rx="5" fill="#e63946" />
+<text x="756.4" y="187.2" font-size="11.5" font-weight="700" fill="#fff" text-anchor="middle" >M22</text>
+<rect x="774.0" y="170.0" width="30.8" height="26.0" rx="5" fill="#6f42c1" />
+<text x="789.4" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M23</text>
+<rect x="807.1" y="170.0" width="30.8" height="26.0" rx="5" fill="#6f42c1" />
+<text x="822.5" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M24</text>
+<rect x="840.1" y="170.0" width="30.8" height="26.0" rx="5" fill="#6f42c1" />
+<text x="855.5" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M25</text>
+<text x="60.0" y="214.0" font-size="13" font-weight="700" fill="#2a9d5c" text-anchor="start" >done ✓ (M1–21)</text>
+<rect x="880.0" y="170.0" width="222.0" height="26.0" rx="13" fill="#e6dcf5" stroke="#6f42c1" stroke-width="1.6" />
+<text x="991.0" y="188.0" font-size="13" font-weight="800" fill="#6f42c1" text-anchor="middle" >← Phase 4 begins (M22–M25)</text>
+<line x1="756.4" y1="202.0" x2="756.4" y2="228.0" stroke="#e63946" stroke-width="2.4" stroke-linecap="round" />
+<path d="M752.6 220.9 L756.4 228.0 L760.2 220.9" fill="none" stroke="#e63946" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="756.4" y="248.0" font-size="14" font-weight="800" fill="#e63946" text-anchor="middle" >YOU ARE HERE</text>
+<text x="694.4" y="248.0" font-size="14" font-weight="700" fill="#6f42c1" text-anchor="end" xml:space="preserve">the house gets a face: the first React dashboard in the browser →</text>
+<text x="676.4" y="268.0" font-size="14" font-weight="700" fill="#6f42c1" text-anchor="end" xml:space="preserve">with a login, the device list, and the latest readings of all the sensors</text>
+<text x="80.0" y="322.0" font-size="17" font-weight="700" fill="#1e2a4a" text-anchor="start" >Module 22 this week (9–11 hours, spread out)</text>
+<text x="1120.0" y="322.0" font-size="14" font-weight="700" fill="#4a5568" text-anchor="end" >⭐ = required to pass</text>
+<text x="80.0" y="346.0" font-size="14" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">hardware not required · a direct continuation of Module 21: the locked backend v1.0, the accounts <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" fill="#4a5568" font-weight="700">admin@home.test</tspan> and <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" fill="#4a5568" font-weight="700">viewer@home.test</tspan></text>
+<rect x="80.0" y="371.0" width="50.0" height="22.0" rx="11" fill="#6f42c1" />
+<path d="M99.17 379.88 A6.2 6.2 0 0 1 110.37 378.90" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M107.42 377.20 L110.37 378.90 L110.37 375.50" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M110.83 384.12 A6.2 6.2 0 0 1 99.63 385.10" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M102.58 386.80 L99.63 385.10 L99.63 388.50" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<text x="142.0" y="387.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">JavaScript warm-up: destructuring, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13.8" font-weight="700">map</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13.8" font-weight="700">?</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13.8" font-weight="700">:</tspan>,</text>
+<text x="142.0" y="408.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13.8" font-weight="700">&amp;&amp;</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13.8" font-weight="700">??</tspan>, <tspan font-style="italic">spread</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13.8" font-weight="700">...</tspan>, and <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13.8" font-weight="700">fetch</tspan> to <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13.8" font-weight="700">/health</tspan></text>
+<rect x="80.0" y="427.0" width="50.0" height="22.0" rx="11.0" fill="#6f42c1" />
+<text x="105.0" y="442.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >QW</text>
+<text x="142.0" y="443.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Quick Win: your first sensor card in the</text>
+<text x="142.0" y="464.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">browser, without installing anything</text>
+<rect x="80.0" y="483.0" width="50.0" height="22.0" rx="11.0" fill="#6f42c1" />
+<text x="105.0" y="498.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P1</text>
+<text x="142.0" y="499.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">HTML, CSS, and JavaScript by hand: taking</text>
+<text x="142.0" y="520.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">apart the Module 10 page</text>
+<rect x="80.0" y="539.0" width="50.0" height="22.0" rx="11.0" fill="#6f42c1" />
+<text x="105.0" y="554.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P2</text>
+<text x="142.0" y="555.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">your first Vite project: React, TypeScript, Tailwind v4</text>
+<rect x="80.0" y="573.0" width="50.0" height="22.0" rx="11.0" fill="#6f42c1" />
+<text x="105.0" y="588.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P3</text>
+<text x="142.0" y="589.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the first component: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13.8" font-weight="700">SensorCard</tspan> and types from</text>
+<text x="142.0" y="610.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the data contract</text>
+<rect x="80.0" y="629.0" width="50.0" height="22.0" rx="11.0" fill="#6f42c1" />
+<text x="105.0" y="644.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P4</text>
+<text x="142.0" y="645.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-style="italic">state</tspan> and the login form ⭐</text>
+<text x="142.0" y="664.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="start" xml:space="preserve">pass requirement: after logging in, …</text>
+<rect x="580.0" y="371.0" width="50.0" height="22.0" rx="11.0" fill="#6f42c1" />
+<text x="605.0" y="386.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P5</text>
+<text x="642.0" y="387.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13.8" font-weight="700">useEffect</tspan>: who am I, and the device list</text>
+<rect x="580.0" y="405.0" width="50.0" height="22.0" rx="11.0" fill="#6f42c1" />
+<text x="605.0" y="420.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P6</text>
+<text x="642.0" y="421.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">device details: the latest readings of all the sensors ⭐</text>
+<text x="642.0" y="440.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="start" xml:space="preserve">pass requirement: … the latest readings of all the sensors from the API, …</text>
+<rect x="580.0" y="459.0" width="50.0" height="22.0" rx="11.0" fill="#6f42c1" />
+<text x="605.0" y="474.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P7</text>
+<text x="642.0" y="475.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">neat on a phone screen ⭐</text>
+<text x="642.0" y="494.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="start" xml:space="preserve">pass requirement: … neat on a phone screen (DevTools device mode)</text>
+<rect x="580.0" y="513.0" width="50.0" height="22.0" rx="11.0" fill="#6f42c1" />
+<text x="605.0" y="528.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P8</text>
+<text x="642.0" y="529.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the pass tests: build, lint, and a dress rehearsal ⭐</text>
+<text x="642.0" y="548.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="start" xml:space="preserve">a dress rehearsal of the three pass requirements,</text>
+<text x="642.0" y="568.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="start" xml:space="preserve">after <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#4a5568" font-weight="800">npm</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#4a5568" font-weight="800">run</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#4a5568" font-weight="800">lint</tspan> and <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#4a5568" font-weight="800">npm</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#4a5568" font-weight="800">run</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#4a5568" font-weight="800">build</tspan></text>
+<rect x="580.0" y="587.0" width="50.0" height="22.0" rx="11.0" fill="#1e2a4a" />
+<text x="605.0" y="603.4" font-size="15" font-weight="700" fill="#ffffff" text-anchor="middle" >+</text>
+<text x="642.0" y="603.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Add-on: dashboard v0.1 and the pull request</text>
+<text x="642.0" y="624.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">"dashboard v0.1" ⭐</text>
+<line x1="80.0" y1="686.0" x2="1120.0" y2="686.0" stroke="#e0dcd2" stroke-width="1" stroke-linecap="round" />
+<text x="80.0" y="710.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#6f42c1">Pass requirement from the Syllabus:</tspan> after logging in, the dashboard shows the latest readings of all the sensors</text>
+<text x="80.0" y="730.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">from the API, laid out neatly on a phone screen.</text>
+<text x="80.0" y="758.0" font-size="14" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">Two data paths:</tspan> the devices (Node 1 and Node 2 via the Pi gateway) or the laptop (the Module 21 simulator, practice device <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" fill="#4a5568" font-weight="700">f00d00000001</tspan>).</text>
+<text x="80.0" y="780.0" font-size="14" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">No Wokwi needed. <tspan font-weight="800" fill="#1e2a4a">Always open</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" fill="#4a5568" font-weight="700">http://localhost:5173</tspan>, not <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" fill="#4a5568" font-weight="700">127.0.0.1</tspan>: the login cookies only come along if the page and API share a host name.</text>
+<rect x="60.0" y="290.0" width="1080.0" height="514.0" rx="14" fill="none" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="1178.0" y="842.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer Curriculum · CC BY 4.0</text>
+</svg>

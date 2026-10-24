@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<!--
+  page-m10-skin-muscles.html - Module 22 Practice 1: the Node 1 Home page from Module 10, after it was given
+  SKIN (CSS, step 1.4) and MUSCLES (JavaScript, step 1.5).
+  The original is in page-m10-original.html: the PAGE text in Node 1 v1.1's networking.cpp as the phone's browser gets it,
+  that is, after the ESP32 replaced the %LAMP%, %TEMPERATURE% placeholders and friends with example numbers.
+  This version stands on its own: just double-click the file. No ESP32, no internet.
+  The parts that differ from the original are marked DIFF-1 to DIFF-7, each with its reason.
+  The buttons only change what this screen shows. No relay moves (control from the dashboard: Module 24).
+-->
+<!-- DIFF-1: the original has just <html>. lang="en" tells the browser and screen readers that the content is in English. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Node 1 Home</title>
+
+<!-- ===================== SKIN (CSS), step 1.4 ===================== -->
+<!-- DIFF-2: the original has only one style="..." attribute on <body>. Here every display rule is gathered
+     inside <style>, then applied through class names. The skeleton becomes clean, and one rule
+     (for example .card) applies to many elements at once. -->
+<style>
+  * {
+    box-sizing: border-box; /* a box's width already includes padding and border (box model) */
+  }
+  body {
+    font-family: sans-serif; /* these three lines are exactly the original style="..." */
+    font-size: 20px;
+    padding: 16px;
+    margin: 0;               /* from here on: additions to the plain version */
+    color: #1e293b;
+    background: #f1f5f9;
+  }
+  .page {
+    max-width: 480px;        /* on a laptop it doesn't spread out all over */
+    margin: 0 auto;          /* auto left and right = centered */
+  }
+  h1 {
+    font-size: 28px;
+    margin: 0 0 12px;
+  }
+  .state b {
+    padding: 2px 10px;
+    border-radius: 999px;    /* very round corners = a capsule shape */
+    background: #e2e8f0;
+  }
+  .state b.on {              /* the "on" class is added by JavaScript when the lamp is on */
+    background: #fde68a;
+    color: #78350f;
+  }
+  .button-row {
+    display: flex;           /* flexbox: its children line up side by side */
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .button {
+    flex: 1;                 /* the two buttons share the width equally */
+    min-height: 44px;        /* big enough for a thumb */
+    font: inherit;
+    font-size: 16px;
+    color: inherit;          /* a button doesn't inherit the page's text color by itself */
+    border: 1px solid #94a3b8;
+    border-radius: 8px;
+    background: white;
+    cursor: pointer;
+  }
+  .button:hover {
+    background: #e2e8f0;
+  }
+  .button:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+  .card-list {
+    display: flex;
+    flex-wrap: wrap;         /* if they don't fit, cards move down to the next row */
+    gap: 8px;
+  }
+  .card {
+    flex: 1 1 130px;         /* a base width of 130px, may grow to fill the rest of the row */
+    padding: 12px;
+    background: white;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+  }
+  .card-label {
+    display: block;
+    font-size: 14px;
+    color: #64748b;
+  }
+  .card-value {
+    font-size: 26px;
+    font-weight: 600;
+  }
+  .card-unit {
+    margin-left: 4px;
+    font-size: 16px;
+    color: #94a3b8;
+  }
+  .note {
+    color: #64748b;
+  }
+</style>
+</head>
+<body>
+
+<!-- ===================== SKELETON (HTML), from the original page ===================== -->
+<main class="page">
+  <!-- DIFF-3: the original uses <h2>. A page's main heading should be <h1>. -->
+  <h1>Node 1 Home</h1>
+
+  <!-- DIFF-4: in the original networking.cpp this is %LAMP%, a placeholder the ESP32 replaces before sending the page.
+       A local file has no ESP32, so the starting text is written in directly,
+       then JavaScript replaces it through id="lamp-text". -->
+  <p class="state">Lamp: <b id="lamp-text">OFF</b></p>
+
+  <!-- DIFF-5: the original has two links, <a href="/on"> and <a href="/off">. A link asks the server for a NEW PAGE.
+       From a local file, the browser looks for a file named "on" at the root of the drive instead, and fails.
+       For an ACTION (changing something), a <button> fits better: it doesn't move to another page,
+       so reloading the page doesn't send the command once more (see the 🔬 in Module 10). -->
+  <div class="button-row">
+    <button type="button" class="button" id="button-on">Turn the lamp on</button>
+    <button type="button" class="button" id="button-off">Turn the lamp off</button>
+  </div>
+
+  <!-- DIFF-6: the original has one paragraph with <br>. Here every reading becomes a "card" with the same pattern:
+       label, number, unit. This repeating pattern is the seed of the SensorCard component in React. -->
+  <div class="card-list">
+    <div class="card">
+      <span class="card-label">Temperature</span>
+      <span class="card-value" id="value-temperature">--</span><span class="card-unit">&deg;C</span>
+    </div>
+    <div class="card">
+      <span class="card-label">Humidity</span>
+      <span class="card-value" id="value-humidity">--</span><span class="card-unit">%</span>
+    </div>
+    <div class="card">
+      <span class="card-label">Light</span>
+      <span class="card-value" id="value-light">--</span><span class="card-unit">/4095</span>
+    </div>
+    <div class="card">
+      <span class="card-label">Soil</span>
+      <span class="card-value" id="value-soil">--</span><span class="card-unit">%</span>
+    </div>
+    <div class="card">
+      <span class="card-label">Water tank</span>
+      <span class="card-value" id="value-water">--</span><span class="card-unit">%</span>
+    </div>
+  </div>
+
+  <p class="note"><small>Firmware <span id="fw-text">--</span>, <span id="time-text">clock not set yet</span></small></p>
+</main>
+
+<!-- ===================== MUSCLES (JavaScript), step 1.5 ===================== -->
+<!-- DIFF-7: the original has NO JavaScript at all. Its "muscles" are in the ESP32: html.replace() fills in the placeholders,
+     and server.on() handles /on and /off. Here the muscles move to the browser: the data is kept in one object,
+     then the show() function writes it to the screen every time the data changes. -->
+<script>
+  // Example data, the same as the numbers in Module 10's phone-node1.png illustration.
+  // In the original version, the sensors read these numbers and the ESP32 inserts them into the page before sending it.
+  const state = {
+    lamp: false,
+    temperature: 28.4,
+    humidity: 71,
+    light: 2310,
+    soil: 37,
+    water_level: 64,
+    fw: "1.1.0",
+    time: "17-10-2026 08:32 WIB",
+  };
+
+  // Just like numberOrDash() in networking.cpp: a failed reading (null) is written as "--".
+  function numberOrDash(value) {
+    if (value === null) {
+      return "--";
+    }
+    return String(value);
+  }
+
+  // Write the WHOLE state to the screen. Called once at the start, then every time the state changes.
+  function show() {
+    const lampText = document.querySelector("#lamp-text");
+    lampText.textContent = state.lamp ? "ON" : "OFF";
+    lampText.classList.toggle("on", state.lamp); // add the class when the lamp is on, remove it when it's off
+
+    document.querySelector("#button-on").disabled = state.lamp;   // the button that's no use right now is dimmed
+    document.querySelector("#button-off").disabled = !state.lamp;
+
+    let temperatureText = "--";
+    if (state.temperature !== null) {
+      temperatureText = state.temperature.toFixed(1); // one digit after the decimal point, like String(b.temperature, 1) on the ESP32
+    }
+    document.querySelector("#value-temperature").textContent = temperatureText;
+    document.querySelector("#value-humidity").textContent = numberOrDash(state.humidity);
+    document.querySelector("#value-light").textContent = String(state.light);
+    document.querySelector("#value-soil").textContent = String(state.soil);
+    document.querySelector("#value-water").textContent = numberOrDash(state.water_level);
+    document.querySelector("#fw-text").textContent = state.fw;
+    document.querySelector("#time-text").textContent = state.time;
+  }
+
+  // The original version: the browser moves to /on, the ESP32 turns the relay on, then sends a whole new page.
+  // This version: just change the data, then show it again. The page isn't reloaded.
+  function setLamp(isOn) {
+    state.lamp = isOn;
+    if (isOn) {
+      console.log("The original version would request GET /on from the ESP32");
+    } else {
+      console.log("The original version would request GET /off from the ESP32");
+    }
+    show();
+  }
+
+  document.querySelector("#button-on").addEventListener("click", () => setLamp(true));
+  document.querySelector("#button-off").addEventListener("click", () => setLamp(false));
+
+  show(); // the first display
+</script>
+</body>
+</html>

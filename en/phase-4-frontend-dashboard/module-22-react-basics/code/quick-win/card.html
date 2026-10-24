@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<!--
+  card.html - Module 22 Quick Win: your first sensor card, written by hand.
+  Nothing to install: save this file, then open it with a double-click.
+  Step 1 writes the SKELETON (HTML), step 3 adds the SKIN (CSS inside <style>).
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8"> <!-- characters are saved as UTF-8: the degree sign shows correctly -->
+  <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- fits a phone screen -->
+  <title>Sensor card</title> <!-- the text on the browser tab -->
+
+  <!-- Step 3: SKIN. Every rule applies to the elements with the same class name.
+       The colors are almost the same as the Tailwind colors (slate and teal) we use in the dashboard later. -->
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 24px;
+      background: #f1f5f9; /* slate-100 */
+    }
+    .card {
+      max-width: 220px;
+      padding: 16px;
+      background: white;
+      border: 1px solid #e2e8f0; /* slate-200 */
+      border-radius: 12px; /* rounded corners */
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); /* a thin shadow */
+    }
+    .label {
+      margin: 0;
+      font-size: 14px;
+      color: #64748b; /* slate-500 */
+    }
+    .value {
+      margin: 4px 0 0;
+      font-size: 32px;
+      font-weight: 600; /* semi-bold */
+      color: #0d9488; /* teal-600 */
+    }
+    .unit {
+      margin-left: 4px;
+      font-size: 16px;
+      font-weight: normal;
+      color: #94a3b8; /* slate-400 */
+    }
+    .caption {
+      margin: 8px 0 0;
+      font-size: 12px;
+      color: #94a3b8;
+    }
+  </style>
+</head>
+<body>
+  <!-- Step 1: SKELETON. One card holds a label, a number, and a unit. -->
+  <div class="card">
+    <p class="label">Living room temperature</p>
+    <p class="value">28.5<span class="unit">°C</span></p>
+    <p class="caption">Node 1 · an example number, not from a sensor yet</p>
+  </div>
+</body>
+</html>

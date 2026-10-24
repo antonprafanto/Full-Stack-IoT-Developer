@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<!--
+  Exercise 4 — MUSCLES + DATA: fetch() in the browser. Module 22 warm-up.
+  You already know fetch() from Module 4 (weather.js in Node.js). In the browser it works exactly the same;
+  the difference is that we write the result to the page, not to the terminal.
+  Part 1 needs the internet. Part 2 FAILS on purpose, and its failure is the lesson.
+  Weather data: Open-Meteo.com, CC BY 4.0 license — https://open-meteo.com/
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Exercise 4 - Fetch</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 0; padding: 16px; color: #1e293b; background: #f8fafc; }
+    section { margin-bottom: 24px; }
+    .button { padding: 10px 16px; font: inherit; border: 1px solid #94a3b8; border-radius: 8px; background: white; cursor: pointer; }
+    .button:disabled { opacity: 0.5; cursor: default; }
+    .row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+    .card { flex: 1 1 140px; padding: 12px; border: 1px solid #cbd5e1; border-radius: 10px; background: white; }
+    .card .label { display: block; font-size: 14px; color: #64748b; }
+    .card .value { font-size: 28px; font-weight: 600; }
+    .status { margin: 12px 0 0; color: #64748b; }
+    .status.error { padding: 8px 12px; border-radius: 8px; background: #fee2e2; color: #991b1b; }
+    small { color: #64748b; }
+  </style>
+</head>
+<body>
+  <h1>Fetch Exercise</h1>
+
+  <section>
+    <h2>1. Jakarta weather from the internet</h2>
+    <button type="button" class="button" id="weather-button">Get the weather</button>
+    <p class="status" id="weather-status">No data fetched yet.</p>
+    <div class="row">
+      <div class="card"><span class="label">Air temperature</span><span class="value" id="value-temperature">--</span> &deg;C</div>
+      <div class="card"><span class="label">Humidity</span><span class="value" id="value-humidity">--</span> %</div>
+    </div>
+    <p><small>Weather data: <a href="https://open-meteo.com/">Open-Meteo.com</a>, CC BY 4.0 license.</small></p>
+  </section>
+
+  <section>
+    <h2>2. Calling your backend from a local file</h2>
+    <p>This button requests <code>GET http://localhost:8080/health</code>, the open door of the Module 20&ndash;21 backend.</p>
+    <button type="button" class="button" id="backend-button">Call the backend</button>
+    <p class="status" id="backend-status">Not called yet.</p>
+  </section>
+
+  <script>
+    // The same address as Module 4's Practice 8: Jakarta, the current temperature and humidity.
+    const WEATHER_ADDRESS =
+      "https://api.open-meteo.com/v1/forecast" +
+      "?latitude=-6.2&longitude=106.85" +
+      "&current=temperature_2m,relative_humidity_2m,weather_code" +
+      "&timezone=auto";
+
+    const weatherButton = document.querySelector("#weather-button");
+    const weatherStatus = document.querySelector("#weather-status");
+
+    // The three states that are ALWAYS there when fetching data: loading, error, success.
+    // All three come back in React as the "loading state" and the "error state".
+    async function getWeather() {
+      weatherButton.disabled = true;                 // prevent a double tap while waiting
+      weatherStatus.classList.remove("error");
+      weatherStatus.textContent = "Loading…";        // state 1: loading
+      try {
+        const reply = await fetch(WEATHER_ADDRESS);
+        if (!reply.ok) {
+          throw new Error("the server answered with code " + reply.status);
+        }
+        const data = await reply.json();             // JSON text -> JavaScript object
+        document.querySelector("#value-temperature").textContent = String(data.current.temperature_2m);
+        document.querySelector("#value-humidity").textContent = String(data.current.relative_humidity_2m);
+        weatherStatus.textContent = "Updated: " + data.current.time + " (" + data.timezone + ")"; // state 3: success
+      } catch (error) {
+        weatherStatus.classList.add("error");        // state 2: error
+        weatherStatus.textContent = "Couldn't get the weather: " + error.message + ". Is the internet connected?";
+        console.error(error);
+      } finally {
+        weatherButton.disabled = false;              // success or failure, the button works again
+      }
+    }
+    weatherButton.addEventListener("click", getWeather);
+    // TRY 1: turn off the laptop's Wi-Fi, then tap "Get the weather". The error state appears, the page doesn't break.
+    // TRY 2: open the Network tab in DevTools, tap again, then click the "forecast?..." row to see the request
+    //         letter and its reply (status 200, JSON content). This is Module 10's "HTTP letter", seen from the browser.
+
+    // ---------- Part 2: the backend on the laptop ----------
+    const backendButton = document.querySelector("#backend-button");
+    const backendStatus = document.querySelector("#backend-status");
+    backendButton.addEventListener("click", async () => {
+      backendStatus.classList.remove("error");
+      backendStatus.textContent = "Calling…";
+      try {
+        const reply = await fetch("http://localhost:8080/health");
+        backendStatus.textContent = "Success, code " + reply.status + ".";
+      } catch (error) {
+        backendStatus.classList.add("error");
+        backendStatus.textContent =
+          "Failed: " + error.message + ". That's expected! Read the red message in the Console for the reason.";
+        console.error(error);
+      }
+    });
+    // Why does it fail? A file opened with a double-click has the origin "null".
+    // The Module 20-21 backend only allows the origins http://localhost:5173 and http://127.0.0.1:5173 (CORS_ORIGIN),
+    // so the browser won't hand its reply over to this page. If the backend is down,
+    // the message is "Failed to fetch" as well, but the Console writes that the connection was refused.
+    // That's why in Module 22 our pages run through Vite at http://localhost:5173.
+  </script>
+</body>
+</html>

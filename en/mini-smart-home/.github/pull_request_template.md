@@ -5,6 +5,7 @@
 ## Checklist before merging
 
 - [ ] `npm run check` passes, without type errors
+- [ ] **(Module 22)** If `frontend/` changed: in the `frontend` folder, `npm run build` and `npm run lint` pass with no errors and no warnings
 - [ ] The server starts with `npm run dev`, without errors in the terminal
 - [ ] The new route was tried in Bruno, its test passes, and its request is saved in `backend/bruno/`
 - [ ] The new route shows up in `/docs`, with its descriptions
@@ -25,4 +26,6 @@
 - [ ] **(Module 21)** Device keys are only stored as a SHA-256 fingerprint, shown once, and never in a log, in Git, or in the `GET /devices` answer; the backend's broker account is in `MQTT_USERNAME`/`MQTT_PASSWORD`, not inside `MQTT_URL`
 - [ ] **(Module 21)** The broker access list `edge/acl-broker` still restricts every account as tightly as possible (a device only its own topics, the `%u` pattern + `use_username_as_clientid`); a new device or topic is added with the smallest possible rights, and the broker is restarted (not reloaded) after the ACL changes
 - [ ] **(Module 21)** `edge/broker-passwd` doesn't go into Git, and no new behavior bypasses the second layer (messages from an unregistered/revoked device are still ignored, the backend doesn't create `devices` rows automatically)
+- [ ] **(Module 22)** No secrets in `VITE_…` variables (they all go to the browser), and `frontend/.env.local` doesn't go into Git; only `frontend/.env.example` without secret values may
+- [ ] **(Module 22)** The dashboard doesn't keep passwords or tokens in `localStorage` (login only through the backend's `HttpOnly` cookie, `fetch` with `credentials: "include"`), and API data is shown as JSX text, without `dangerouslySetInnerHTML`
 - [ ] `npm test` passes, new npm packages are installed with an exact version (`npm install name@version`) and recorded in `package-lock.json`, `npm audit` answers `found 0 vulnerabilities`, and `allowScripts` only grows for packages that really need an install script

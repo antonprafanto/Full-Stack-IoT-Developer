@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<!--
+  webhook-form.html - Module 22 Practice 1, step 1.6: two ways a page sends data to a server.
+  First get the Module 4 receiver ready. In a terminal, go to the tools folder (mini-smart-home/tools), then run:
+      node webhook-receiver.js
+  Once "Receiver ready at http://localhost:3000 — press Ctrl + C to stop." appears, open this file with a double-click.
+    A. A plain form: the browser MOVES to the server's answer page, and the receiver prints the form's content.
+    B. fetch() with JSON: the page stays where it is, but the browser asks first (preflight OPTIONS).
+       The Module 4 receiver doesn't send CORS headers, so the browser blocks it. Look at the Console (F12).
+  Don't type a real password here: the receiver prints everything it receives exactly as it is.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Send to the Module 4 receiver</title>
+<style>
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    font-family: sans-serif;
+    font-size: 18px;
+    margin: 0;
+    padding: 16px;
+    color: #1e293b;
+    background: #f1f5f9;
+  }
+  .page {
+    max-width: 480px;
+    margin: 0 auto;
+  }
+  h1 {
+    font-size: 24px;
+    margin: 0 0 12px;
+  }
+  h2 {
+    font-size: 18px;
+    margin: 0 0 8px;
+  }
+  .box {
+    margin-bottom: 16px;
+    padding: 16px;
+    background: white;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+  }
+  label {
+    display: block;
+    margin-top: 8px;
+    font-size: 14px;
+    color: #475569;
+  }
+  input {
+    width: 100%;
+    min-height: 44px;
+    padding: 8px;
+    font: inherit;
+    border: 1px solid #94a3b8;
+    border-radius: 8px;
+  }
+  button {
+    width: 100%;
+    min-height: 44px;
+    margin-top: 12px;
+    font: inherit;
+    font-size: 16px;
+    border: 1px solid #94a3b8;
+    border-radius: 8px;
+    background: white;
+    cursor: pointer;
+  }
+  .note {
+    margin: 12px 0 0;
+    font-size: 14px;
+    color: #64748b;
+  }
+</style>
+</head>
+<body>
+<main class="page">
+  <h1>Send to the Module 4 receiver</h1>
+
+  <section class="box">
+    <h2>A. A plain form</h2>
+    <!-- method="post": the content is sent in the body of the HTTP letter. action: the receiver's address (port 3000; any path).
+         The name attribute of every input box becomes the name of the field that is sent: email=...&password=... -->
+    <form method="post" action="http://localhost:3000/form">
+      <label for="email">Email</label>
+      <input id="email" name="email" type="email" value="viewer@home.test" required>
+      <label for="password">Password (pretend)</label>
+      <input id="password" name="password" type="password" value="not-a-real-password" required>
+      <button type="submit">Send the form</button>
+    </form>
+    <p class="note">After sending, the browser moves to the receiver's answer page. Press <b>Alt + ←</b> (macOS: <b>Cmd + [</b>) to go back.</p>
+  </section>
+
+  <section class="box">
+    <h2>B. fetch() with JSON</h2>
+    <button type="button" id="fetch-button">Send with fetch()</button>
+    <p class="note" id="fetch-result">Not sent yet.</p>
+  </section>
+</main>
+
+<script>
+  const result = document.querySelector("#fetch-result");
+
+  document.querySelector("#fetch-button").addEventListener("click", async () => {
+    result.textContent = "Sending…";
+    // the form boxes above, turned into an object, then into JSON text
+    const content = {
+      email: document.querySelector("#email").value,
+      password: document.querySelector("#password").value,
+    };
+    try {
+      const reply = await fetch("http://localhost:3000/json", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" }, // this header is what makes the browser ask first (preflight)
+        body: JSON.stringify(content),
+      });
+      result.textContent = "Success, code " + reply.status + "."; // never gets this far with the Module 4 receiver
+    } catch (err) {
+      // The browser refuses: the receiver's OPTIONS answer has no Access-Control-Allow-Origin header,
+      // so the POST is never sent. (If the receiver is down, the error is the same: Failed to fetch.)
+      result.textContent = "Failed: " + err.message + ". Open the Console (F12) to read why.";
+      console.log("Look for the red message containing 'blocked by CORS policy' above this line.");
+    }
+  });
+</script>
+</body>
+</html>

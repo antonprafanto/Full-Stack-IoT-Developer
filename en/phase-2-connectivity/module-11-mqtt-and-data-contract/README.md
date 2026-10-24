@@ -552,7 +552,7 @@ Two extra rules keep this approach polite:
 - **At most every 2 seconds.** A flickering PIR or a shadow passing in front of the LDR can trigger changes several times a second. Without a limit, Node 1 would flood the broker. Events that come too close together aren't thrown away: they're sent as soon as the 2-second gap has passed, with the latest readings.
 - **The schedule restarts from the last send.** If an immediate send happens at second 7, the next scheduled send falls 10 seconds after it, not at second 10. That way, the gap between sends is never more than 10 seconds, and there are no wasteful double sends.
 
-You'll feel the result in Module 22: the chart on your phone changes about 1–2 seconds after you cover the LDR with your hand, not 10 seconds later.
+You'll feel the result in Module 23: the chart on your phone changes about 1–2 seconds after you cover the LDR with your hand, not 10 seconds later.
 
 **Command → `ack`: every command gets an answer.** In Module 10, opening `/on` only produced a web page; there was no official record that the command was actually carried out. Our MQTT pattern is more orderly, like a **queue number at the bank**:
 

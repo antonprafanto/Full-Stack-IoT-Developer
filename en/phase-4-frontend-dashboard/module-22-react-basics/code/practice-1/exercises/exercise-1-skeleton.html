@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<!--
+  Exercise 1 — SKELETON (HTML). Module 22 warm-up.
+  How to use it: open this file in VS Code AND in the browser (double-click the file).
+  Every time you finish a change: save (Ctrl+S), then reload the browser (F5).
+  "TRY" tasks are in comments like this one. Comments are read by people and ignored by the browser.
+-->
+<html lang="en">
+<head>
+  <!-- <head> holds information ABOUT the page. What it holds isn't shown inside the page. -->
+  <meta charset="utf-8">  <!-- characters are saved as UTF-8: the degree sign and emoji show correctly -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">  <!-- fits a phone screen -->
+  <title>Exercise 1 - Skeleton</title>  <!-- the text on the browser tab -->
+</head>
+<body>
+  <!-- <body> holds everything shown on the screen. -->
+
+  <header>
+    <!-- TRY 1: change the heading text below, save, then reload the browser. -->
+    <h1 id="title">Mini Smart Home</h1>
+    <p>A small note about <strong>Node 1</strong>, the device in the living room.</p>
+    <!-- TRY 2: delete the closing tag </strong> above, save, reload. What else turns bold?
+         Put it back. The browser never shows an error message for wrong HTML;
+         it guesses by itself, and its guess often isn't what you want. -->
+  </header>
+
+  <main>
+    <!-- A link to another part of the same page: href="#target-id". -->
+    <p>Jump to: <a href="#sensors">Sensors</a> · <a href="#actuators">Actuators</a> · <a href="#readings">Example readings</a></p>
+
+    <section id="sensors">
+      <h2>Sensors on Node 1</h2>
+      <!-- <ul> = a list without numbers. Every item is wrapped in <li>. -->
+      <ul class="list">
+        <li>DHT22: air temperature and humidity</li>
+        <li>LDR: light</li>
+        <li>Capacitive soil sensor: soil moisture</li>
+        <li>PIR: motion</li>
+        <li>HC-SR04: the water height in the tank</li>
+      </ul>
+      <!-- TRY 3: add one new <li> item, for example "OLED display (not a sensor, but still listed)". -->
+    </section>
+
+    <section id="actuators">
+      <h2>Actuators on Node 1</h2>
+      <!-- Attributes give an element extra information: name="value".
+           class groups, id marks ONE element, title appears when the cursor rests on it,
+           and data-... is yours to use freely (read by JavaScript later). -->
+      <ul class="list">
+        <li class="relay" data-pin="32" title="relay active LOW">Lamp relay</li>
+        <li class="relay" data-pin="33" title="relay active LOW">Fan relay</li>
+        <li data-pin="25">Pump (through an IRLZ44N MOSFET)</li>
+        <li data-pin="26">SG90 curtain servo</li>
+        <li data-pin="27">Passive buzzer</li>
+      </ul>
+      <!-- <ol> = a numbered list, good for an order of steps. -->
+      <p>The order for powering up the Node 1 workbench:</p>
+      <ol>
+        <li>Plug the USB cable into the ESP32 board.</li>
+        <li>Only then turn on the MB102 (the relays need 5 V from the MB102).</li>
+      </ol>
+    </section>
+
+    <section id="readings">
+      <h2>Example readings</h2>
+      <!-- A table: <table> holds rows <tr>; header cells <th>, data cells <td>. -->
+      <table>
+        <thead>
+          <tr><th>Sensor</th><th>Value</th><th>Unit</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Temperature</td><td>28.4</td><td>&deg;C</td></tr>
+          <tr><td>Humidity</td><td>71</td><td>%</td></tr>
+          <tr><td>Light</td><td>2310</td><td>out of 4095</td></tr>
+        </tbody>
+      </table>
+      <!-- Special characters are written as codes: &deg; = the degree sign, &nbsp; = a space the line must not break at,
+           &lt; and &gt; = angle brackets. Example: the heading tag is written &lt;h1&gt; so it shows as text. -->
+      <p>The main heading tag is written <code>&lt;h1&gt;</code>. Temperature 28.4&nbsp;&deg;C.</p>
+    </section>
+
+    <section>
+      <h2>Links and buttons</h2>
+      <!-- A link <a> = MOVE to another address. A button <button> = do an ACTION on this page. -->
+      <p><a href="https://developer.mozilla.org/en-US/docs/Web/HTML">Open the HTML guide on MDN</a></p>
+      <button type="button">A button without muscles</button>
+      <!-- TRY 4: click the button above. Nothing happens: a button only comes "alive" once it gets JavaScript (Exercise 3). -->
+    </section>
+  </main>
+
+  <footer>
+    <p><small>Exercise 1 of the Module 22 warm-up · Fullstack IoT Developer Curriculum</small></p>
+  </footer>
+
+  <!-- TRY 5: right-click the "Mini Smart Home" heading in the browser, choose Inspect.
+       The Elements tab shows the TREE of elements the browser built from this file.
+       This tree is what JavaScript changes later, and what React manages for you. -->
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<!--
+  Exercise 2 — SKIN (CSS). Module 22 warm-up.
+  CSS can be applied in three ways:
+    1. a style="..." attribute on one element (the Module 10 page's way),
+    2. a <style> block in <head> (this exercise's way),
+    3. a separate file, for example <link rel="stylesheet" href="style.css"> (the way of real projects; Vite takes care of it).
+  The shape of one CSS rule:  selector { property: value; }
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Exercise 2 - Skin</title>
+  <style>
+    /* ---------- 1. Element selector: applies to ALL elements with that name ---------- */
+    body {
+      font-family: system-ui, sans-serif;
+      margin: 0;
+      padding: 16px;
+      color: #1e293b;
+      background: #f8fafc;
+    }
+    h1 {
+      color: #0f766e;
+    }
+    p {
+      color: #475569;
+    }
+
+    /* ---------- 2. Class selector (.name) and id selector (#name) ---------- */
+    .important {
+      color: #b45309;    /* a class is stronger than the p element selector */
+      font-weight: bold;
+    }
+    #special {
+      color: #be123c;    /* an id is even stronger than a class */
+    }
+    /* TRY 1: move the p { ... } rule to the very bottom. Its color still loses to .important and #special,
+       because the winner is the more SPECIFIC selector, not the one written last. */
+
+    /* ---------- 3. Box model: content, padding, border, margin ---------- */
+    .box {
+      width: 200px;              /* the width of the CONTENT */
+      padding: 20px;             /* the space from the content to the border line */
+      border: 5px solid #0f766e; /* the border line */
+      margin: 12px 0;            /* the space to the neighbors outside the border line */
+      background: #ccfbf1;
+    }
+    .box-fit {
+      box-sizing: border-box;    /* width already INCLUDES padding and border */
+    }
+    /* Box A (the default, content-box): total width 200 + 2x20 + 2x5 = 250px.
+       Box B (border-box): total width exactly 200px; its content space is what gets smaller.
+       TRY 2: right-click box A, choose Inspect, open the Computed tab. The layered box drawn there
+       is that box's box model. Change padding to 40px and watch the numbers change. */
+
+    /* ---------- 4. Flexbox: lining up the children of a container ---------- */
+    .row {
+      display: flex;             /* the children of .row line up side by side */
+      flex-wrap: wrap;           /* if they don't fit, they move down to the next row */
+      gap: 12px;                 /* the space between the children */
+      justify-content: flex-start; /* TRY 3: change it to center, then space-between */
+      align-items: stretch;      /* TRY 4: change it to flex-start; look at the height of the short cards */
+    }
+    .card {
+      flex: 1 1 140px;           /* a base width of 140px, may grow to fill the rest of the row */
+      padding: 12px;
+      background: white;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;       /* rounded corners */
+      box-sizing: border-box;
+    }
+    .card .label {               /* a descendant selector: a .label that is INSIDE a .card */
+      display: block;
+      font-size: 14px;
+      color: #64748b;
+    }
+    .card .value {
+      font-size: 28px;
+      font-weight: 600;
+      color: #1e293b;
+    }
+
+    /* ---------- 5. Element states (pseudo-classes) ---------- */
+    .button {
+      padding: 10px 16px;
+      font: inherit;
+      border: 1px solid #94a3b8;
+      border-radius: 8px;
+      background: white;
+      cursor: pointer;
+    }
+    .button:hover {              /* while the cursor is over it */
+      background: #e2e8f0;
+    }
+
+    /* ---------- 6. Responsive: special rules for a narrow screen ---------- */
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 24px;         /* the heading gets smaller on a phone screen */
+      }
+    }
+    /* TRY 5: press F12, then Ctrl+Shift+M (device mode). Pick a phone size and watch the cards move down
+       by themselves thanks to flex-wrap, and the heading get smaller thanks to @media. */
+  </style>
+</head>
+<body>
+  <h1>Skin Exercise</h1>
+
+  <h2>Selectors</h2>
+  <p>A plain paragraph: its color comes from the p rule.</p>
+  <p class="important">A paragraph with the class "important".</p>
+  <p class="important" id="special">A paragraph with the class "important" and the id "special" at the same time.</p>
+
+  <h2>Box model</h2>
+  <div class="box">Box A: width 200px, padding 20px, border 5px.</div>
+  <div class="box box-fit">Box B: the same, plus box-sizing: border-box.</div>
+
+  <h2>Flexbox</h2>
+  <div class="row">
+    <div class="card"><span class="label">Temperature</span><span class="value">28.4</span> &deg;C</div>
+    <div class="card"><span class="label">Humidity</span><span class="value">71</span> %</div>
+    <div class="card"><span class="label">Water tank</span><span class="value">64</span> %<br><small>HC-SR04 sensor above the tank</small></div>
+  </div>
+
+  <h2>Element states</h2>
+  <button type="button" class="button">Move the cursor here</button>
+</body>
+</html>

@@ -45,7 +45,7 @@ Tick `[x]` every time you meet the **"You pass when"** criteria in [SYLLABUS.md]
 
 ## 🟪 Phase 4 — Frontend Dashboard (Modules 22–25)
 
-- [ ] **Module 22** — HTML, CSS, & React (TypeScript) from Scratch for an IoT Dashboard
+- [ ] **[Module 22](phase-4-frontend-dashboard/module-22-react-basics/README.md)** — HTML, CSS, & React (TypeScript) from Scratch for an IoT Dashboard
 - [ ] **Module 23** — Realtime Dashboard: Charts, Gauges, History, & Status
 - [ ] **Module 24** — Controls, Rule Forms, Roles, & Protected Routes
 - [ ] **Module 25** — Professional Visualization: Grafana, Device Maps, & Reports

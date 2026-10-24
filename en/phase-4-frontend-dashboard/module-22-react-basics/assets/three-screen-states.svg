@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="944" viewBox="0 0 1200 944" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="944" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" xml:space="preserve">Loading, error, and empty: three states you always prepare for</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" xml:space="preserve">Concept 10 · like a station information board: there is always news on the screen · example: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5">DeviceList</tspan> and <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5">GET</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5">/devices</tspan></text>
+<rect x="30.0" y="100.0" width="1140.0" height="40.0" rx="8" fill="#eef1f5" />
+<text x="600.0" y="125.0" font-size="13" font-weight="600" fill="#1e2a4a" text-anchor="middle" xml:space="preserve"><tspan font-weight="800" fill="#6f42c1">1</tspan> the screen shows first  →  <tspan font-weight="800" fill="#6f42c1">2</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" font-weight="800">useEffect</tspan> calls <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" font-weight="800">GET</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" font-weight="800">/devices</tspan>  →  <tspan font-weight="800" fill="#6f42c1">3</tspan> the response arrives: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" font-weight="800">setDevices(…)</tspan> or <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" font-weight="800">setError(…)</tspan>  →  <tspan font-weight="800" fill="#6f42c1">4</tspan> React re-renders</text>
+<rect x="110.0" y="160.0" width="110.0" height="24.0" rx="12.0" fill="#eef1f5" stroke="#9aa3b0" stroke-width="1.4" />
+<text x="165.0" y="176.5" font-size="12.5" font-weight="800" fill="#4a5568" text-anchor="middle" xml:space="preserve">loading</text>
+<rect x="65.0" y="198.0" width="200.0" height="330.0" rx="22" fill="#ffffff" stroke="#1e2a4a" stroke-width="2" />
+<line x1="147.0" y1="210.0" x2="183.0" y2="210.0" stroke="#d5dbe3" stroke-width="3" stroke-linecap="round" />
+<rect x="75.0" y="222.0" width="180.0" height="30.0" rx="6" fill="#eef1f5" />
+<text x="85.0" y="242.0" font-size="11.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Mini Smart Home</text>
+<text x="79.0" y="278.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" >Device List</text>
+<text x="79.0" y="302.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >Loading devices…</text>
+<text x="165.0" y="562.0" font-size="12" font-weight="800" fill="#6f42c1" text-anchor="middle" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#6f42c1" font-weight="800">devices === null</tspan></text>
+<text x="165.0" y="586.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="middle" >the response hasn't arrived yet: say so,</text>
+<text x="165.0" y="604.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="middle" >don't leave the screen blank</text>
+<rect x="400.0" y="160.0" width="110.0" height="24.0" rx="12.0" fill="#fde6e8" stroke="#e63946" stroke-width="1.4" />
+<text x="455.0" y="176.5" font-size="12.5" font-weight="800" fill="#e63946" text-anchor="middle" xml:space="preserve">error</text>
+<rect x="355.0" y="198.0" width="200.0" height="330.0" rx="22" fill="#ffffff" stroke="#1e2a4a" stroke-width="2" />
+<line x1="437.0" y1="210.0" x2="473.0" y2="210.0" stroke="#d5dbe3" stroke-width="3" stroke-linecap="round" />
+<rect x="365.0" y="222.0" width="180.0" height="30.0" rx="6" fill="#eef1f5" />
+<text x="375.0" y="242.0" font-size="11.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Mini Smart Home</text>
+<text x="369.0" y="278.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" >Device List</text>
+<rect x="365.0" y="286.0" width="180.0" height="178.0" rx="8" fill="#fde6e8" />
+<text x="375.0" y="306.0" font-size="11.5" font-weight="600" fill="#e63946" text-anchor="start" >Can't reach the server at</text>
+<text x="375.0" y="324.0" font-size="11.5" font-weight="600" fill="#e63946" text-anchor="start" >http://localhost:8080.</text>
+<text x="375.0" y="342.0" font-size="11.5" font-weight="600" fill="#e63946" text-anchor="start" >Maybe the backend isn't</text>
+<text x="375.0" y="360.0" font-size="11.5" font-weight="600" fill="#e63946" text-anchor="start" >running yet, or this page</text>
+<text x="375.0" y="378.0" font-size="11.5" font-weight="600" fill="#e63946" text-anchor="start" >was opened from an</text>
+<text x="375.0" y="396.0" font-size="11.5" font-weight="600" fill="#e63946" text-anchor="start" >address the backend</text>
+<text x="375.0" y="414.0" font-size="11.5" font-weight="600" fill="#e63946" text-anchor="start" >doesn't allow (open</text>
+<text x="375.0" y="432.0" font-size="11.5" font-weight="600" fill="#e63946" text-anchor="start" >http://localhost:5173,</text>
+<text x="375.0" y="450.0" font-size="11.5" font-weight="600" fill="#e63946" text-anchor="start" >see CORS_ORIGIN).</text>
+<text x="455.0" y="562.0" font-size="12" font-weight="800" fill="#6f42c1" text-anchor="middle" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#6f42c1" font-weight="800">error !== null</tspan></text>
+<text x="455.0" y="586.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="middle" >backend down, wrong address, or</text>
+<text x="455.0" y="604.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="middle" >refused: a message the user</text>
+<text x="455.0" y="622.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="middle" >can act on</text>
+<rect x="690.0" y="160.0" width="110.0" height="24.0" rx="12.0" fill="#eef1f5" stroke="#9aa3b0" stroke-width="1.4" />
+<text x="745.0" y="176.5" font-size="12.5" font-weight="800" fill="#4a5568" text-anchor="middle" xml:space="preserve">empty</text>
+<rect x="645.0" y="198.0" width="200.0" height="330.0" rx="22" fill="#ffffff" stroke="#1e2a4a" stroke-width="2" />
+<line x1="727.0" y1="210.0" x2="763.0" y2="210.0" stroke="#d5dbe3" stroke-width="3" stroke-linecap="round" />
+<rect x="655.0" y="222.0" width="180.0" height="30.0" rx="6" fill="#eef1f5" />
+<text x="665.0" y="242.0" font-size="11.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Mini Smart Home</text>
+<text x="659.0" y="278.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" >Device List</text>
+<text x="659.0" y="302.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >No registered devices</text>
+<text x="659.0" y="320.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >yet (registering devices:</text>
+<text x="659.0" y="338.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >Module 21).</text>
+<text x="745.0" y="562.0" font-size="12" font-weight="800" fill="#6f42c1" text-anchor="middle" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#6f42c1" font-weight="800">devices.length === 0</tspan></text>
+<text x="745.0" y="586.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="middle" >it worked, but the list is</text>
+<text x="745.0" y="604.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="middle" >empty: no devices registered</text>
+<text x="745.0" y="622.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="middle" >yet (Module 21)</text>
+<rect x="980.0" y="160.0" width="110.0" height="24.0" rx="12.0" fill="#e3f4ea" stroke="#2a9d5c" stroke-width="1.4" />
+<text x="1035.0" y="176.5" font-size="12.5" font-weight="800" fill="#2a9d5c" text-anchor="middle" xml:space="preserve">success</text>
+<rect x="935.0" y="198.0" width="200.0" height="330.0" rx="22" fill="#ffffff" stroke="#1e2a4a" stroke-width="2" />
+<line x1="1017.0" y1="210.0" x2="1053.0" y2="210.0" stroke="#d5dbe3" stroke-width="3" stroke-linecap="round" />
+<rect x="945.0" y="222.0" width="180.0" height="30.0" rx="6" fill="#eef1f5" />
+<text x="955.0" y="242.0" font-size="11.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Mini Smart Home</text>
+<text x="949.0" y="278.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" >Device List</text>
+<rect x="945.0" y="286.0" width="180.0" height="62.0" rx="8" fill="#ffffff" stroke="#d5dbe3" stroke-width="1.2" />
+<text x="955.0" y="306.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="start" >Node 2 garden</text>
+<text x="955.0" y="322.0" font-size="10.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">garden · <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#4a5568" font-weight="700">246f28b1c7d4</tspan></text>
+<rect x="953.0" y="328.0" width="44.0" height="16.0" rx="8" fill="#e3f4ea" />
+<text x="975.0" y="339.6" font-size="10.5" font-weight="700" fill="#2a9d5c" text-anchor="middle" >online</text>
+<rect x="1001.0" y="328.0" width="112.8" height="16.0" rx="8" fill="#eef1f5" />
+<text x="1057.4" y="339.6" font-size="10.5" font-weight="700" fill="#4a5568" text-anchor="middle" >via linking device</text>
+<rect x="945.0" y="356.0" width="180.0" height="62.0" rx="8" fill="#ffffff" stroke="#d5dbe3" stroke-width="1.2" />
+<text x="955.0" y="376.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="start" >Node 1 living room</text>
+<text x="955.0" y="392.0" font-size="10.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">living room · <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#4a5568" font-weight="700">a4cf12e5b7c0</tspan></text>
+<rect x="953.0" y="398.0" width="44.0" height="16.0" rx="8" fill="#e3f4ea" />
+<text x="975.0" y="409.6" font-size="10.5" font-weight="700" fill="#2a9d5c" text-anchor="middle" >online</text>
+<rect x="1001.0" y="398.0" width="68.0" height="16.0" rx="8" fill="#eef1f5" />
+<text x="1035.0" y="409.6" font-size="10.5" font-weight="700" fill="#4a5568" text-anchor="middle" >key active</text>
+<rect x="945.0" y="426.0" width="180.0" height="62.0" rx="8" fill="#ffffff" stroke="#d5dbe3" stroke-width="1.2" />
+<text x="955.0" y="446.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="start" >Practice living room</text>
+<text x="955.0" y="462.0" font-size="10.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">living room · <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#4a5568" font-weight="700">f00d00000001</tspan></text>
+<rect x="953.0" y="468.0" width="44.0" height="16.0" rx="8" fill="#e3f4ea" />
+<text x="975.0" y="479.6" font-size="10.5" font-weight="700" fill="#2a9d5c" text-anchor="middle" >online</text>
+<rect x="1001.0" y="468.0" width="68.0" height="16.0" rx="8" fill="#eef1f5" />
+<text x="1035.0" y="479.6" font-size="10.5" font-weight="700" fill="#4a5568" text-anchor="middle" >key active</text>
+<text x="1035.0" y="562.0" font-size="12" font-weight="800" fill="#6f42c1" text-anchor="middle" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#6f42c1" font-weight="800">devices.map(…)</tspan></text>
+<text x="1035.0" y="586.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="middle" >one card per device;</text>
+<text x="1035.0" y="604.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="middle" >click → Device Details</text>
+<text x="1168.0" y="169.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="end" xml:space="preserve">names from</text>
+<text x="1168.0" y="182.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="end" xml:space="preserve">Module 21</text>
+<text x="600.0" y="660.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="middle" xml:space="preserve">The order of the checks in the code: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#6f42c1" font-weight="800">if</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#6f42c1" font-weight="800">(error</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#6f42c1" font-weight="800">!==</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#6f42c1" font-weight="800">null)</tspan> → <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#6f42c1" font-weight="800">if</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#6f42c1" font-weight="800">(devices</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#6f42c1" font-weight="800">===</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#6f42c1" font-weight="800">null)</tspan> → <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#6f42c1" font-weight="800">if</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#6f42c1" font-weight="800">(devices.length</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#6f42c1" font-weight="800">===</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#6f42c1" font-weight="800">0)</tspan> → the list</text>
+<rect x="30.0" y="690.0" width="366.0" height="214.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<rect x="50.0" y="708.0" width="56.0" height="24.0" rx="12.0" fill="#fde6e8" stroke="#e63946" stroke-width="1.4" />
+<text x="78.0" y="724.5" font-size="12.5" font-weight="800" fill="#e63946" text-anchor="middle" xml:space="preserve">401</text>
+<text x="118.0" y="725.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >session expired</text>
+<text x="50.0" y="760.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the wristband expired, and even the one</text>
+<text x="50.0" y="780.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">refresh failed (Concept 9)</text>
+<text x="50.0" y="800.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">→ <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#6f42c1" font-weight="800">onSessionExpired()</tspan> → <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#6f42c1" font-weight="800">App</tspan> shows the</text>
+<text x="50.0" y="820.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">login screen again, with the message</text>
+<text x="50.0" y="840.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">"Your session has expired. Please log in again."</text>
+<text x="50.0" y="860.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">not an error box on the list screen</text>
+<rect x="416.0" y="690.0" width="366.0" height="214.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<rect x="436.0" y="708.0" width="56.0" height="24.0" rx="12.0" fill="#eef1f5" stroke="#9aa3b0" stroke-width="1.4" />
+<text x="464.0" y="724.5" font-size="12.5" font-weight="800" fill="#4a5568" text-anchor="middle" xml:space="preserve">404</text>
+<text x="504.0" y="725.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">on <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13.5" font-weight="800">/devices/:id/latest</tspan></text>
+<rect x="436.0" y="742.0" width="326.0" height="67.0" rx="8" fill="#ffffff" stroke="#d5dbe3" stroke-width="1.2" />
+<text x="450.0" y="761.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >No reading from this device since the</text>
+<text x="450.0" y="778.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >backend started. Wait for its next</text>
+<text x="450.0" y="795.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >message, then open it again.</text>
+<text x="436.0" y="835.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the backend has just started and the device</text>
+<text x="436.0" y="855.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">hasn't sent a reading yet: a neutral note,</text>
+<text x="436.0" y="875.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">not an error.</text>
+<rect x="802.0" y="690.0" width="368.0" height="214.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<rect x="822.0" y="708.0" width="56.0" height="24.0" rx="12.0" fill="#eef1f5" stroke="#9aa3b0" stroke-width="1.4" />
+<text x="850.0" y="724.5" font-size="12.5" font-weight="800" fill="#4a5568" text-anchor="middle" xml:space="preserve">null</text>
+<text x="890.0" y="725.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >→  —</text>
+<rect x="822.0" y="746.0" width="150.0" height="64.0" rx="8" fill="#ffffff" stroke="#d5dbe3" stroke-width="1.2" />
+<text x="834.0" y="766.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="start" >Humidity</text>
+<text x="834.0" y="796.0" font-size="20" font-weight="700" fill="#1e2a4a" text-anchor="start" >—</text>
+<text x="988.0" y="766.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">the sensor failed</text>
+<text x="988.0" y="784.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">to read (rule 7 of</text>
+<text x="988.0" y="802.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">the data contract)</text>
+<text x="822.0" y="838.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the card shows —, not 0: zero is a</text>
+<text x="822.0" y="858.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">real reading, for example soil that</text>
+<text x="822.0" y="878.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">is truly bone dry</text>
+<text x="1178.0" y="930.0" font-size="11" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer Curriculum · CC BY 4.0</text>
+</svg>

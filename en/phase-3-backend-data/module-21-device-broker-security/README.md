@@ -4,7 +4,7 @@
 
 *Phase 3 · Week 21 · Hardware: **Kit A + B** (Node 1, the Pi gateway, and a Node 2 board borrowed for a moment as an "intruder") **or just a laptop** (the device simulator and MQTTX) · Prerequisites: **Module 20** (backend v0.5 with accounts and login) · Time: 9–11 hours, spread over the week*
 
-[⬅️ Module 20](../module-20-user-security/README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · [Module 22 ➡️ (coming soon — read the summary in the Syllabus)](../../SYLLABUS.md#module-22--html-css--react-typescript-from-scratch-for-an-iot-dashboard)
+[⬅️ Module 20](../module-20-user-security/README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · [Module 22 ➡️](../../phase-4-frontend-dashboard/module-22-react-basics/README.md)
 
 ---
 
@@ -4353,4 +4353,4 @@ The completion requirement from the Syllabus: **MQTTX without a password is refu
 
 ---
 
-[⬅️ Module 20](../module-20-user-security/README.md) · [Phase 3](../README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · **Next: Module 22 — HTML, CSS, & React (TypeScript) from Scratch for an IoT Dashboard** (coming soon; [read the summary in the Syllabus](../../SYLLABUS.md#module-22--html-css--react-typescript-from-scratch-for-an-iot-dashboard))
+[⬅️ Module 20](../module-20-user-security/README.md) · [Phase 3](../README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · **Next: [Module 22 — HTML, CSS, & React (TypeScript) from Scratch for an IoT Dashboard](../../phase-4-frontend-dashboard/module-22-react-basics/README.md) ➡️**

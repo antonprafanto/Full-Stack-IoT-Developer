@@ -1,5 +1,7 @@
 # Frontend Rumah Pintar Mini
 
+🌐 **Bahasa Indonesia** · [English](../../en/mini-smart-home/frontend/README.md)
+
 Dashboard v0.1 proyek Rumah Pintar Mini: halaman web React 19 + TypeScript dengan Tailwind CSS v4, dibuat dengan Vite 8 (templat `react-ts` dari create-vite 9.3.1). Dashboard *login* dengan akun Modul 20, lalu menampilkan daftar perangkat (dengan lencana `status` dan `kunci` Modul 21) dan bacaan terbaru semua sensor setiap perangkat dari backend v1.0, rapi di HP dan laptop. Data *live*, grafik, dan tombol kendali belum ada; semuanya menyusul di Modul 23–24.
 
 ## Menjalankan
