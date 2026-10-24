@@ -4,7 +4,7 @@
 
 *Fase 4 · Minggu 22 · Perangkat keras (*hardware*): **tidak wajib** — dashboard hanya membaca backend v1.0 di laptop; datanya dari Node 1 dan Node 2 (**Kit A + B**) **atau** simulator Modul 21 · Prasyarat: **Modul 21** (backend v1.0 berkunci) · Waktu: 9–11 jam, dicicil dalam satu minggu*
 
-[⬅️ Modul 21](../../fase-3-backend-data/modul-21-keamanan-perangkat-broker/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · [Modul 23 ➡️ (segera terbit — baca ringkasannya di Silabus)](../../SILABUS.md#modul-23--dashboard-realtime-grafik-gauge-riwayat--status)
+[⬅️ Modul 21](../../fase-3-backend-data/modul-21-keamanan-perangkat-broker/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · [Modul 23 ➡️](../modul-23-dashboard-realtime/README.md)
 
 ---
 
@@ -4830,4 +4830,4 @@ Yang **tidak** diuji: Firefox dan Safari, termasuk *cookie* dan CORS-nya; HP sun
 
 ---
 
-[⬅️ Modul 21](../../fase-3-backend-data/modul-21-keamanan-perangkat-broker/README.md) · [Fase 4](../README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · **Berikutnya: Modul 23 — Dashboard Realtime: Grafik, Gauge, Riwayat, & Status** (segera terbit; [ringkasannya di Silabus](../../SILABUS.md#modul-23--dashboard-realtime-grafik-gauge-riwayat--status))
+[⬅️ Modul 21](../../fase-3-backend-data/modul-21-keamanan-perangkat-broker/README.md) · [Fase 4](../README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · **Berikutnya: [Modul 23 — Dashboard Realtime: Grafik, Gauge, Riwayat, & Status](../modul-23-dashboard-realtime/README.md) ➡️**

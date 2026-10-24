@@ -5,7 +5,7 @@
 > **Kurikulum 32 modul — satu modul = satu minggu belajar santai (±8 bulan) — untuk orang awam total hingga mampu membangun sistem IoT lengkap dari sensor sampai dashboard di HP.**
 > Hardware: **ESP32 + Raspberry Pi** · Software: **JavaScript/TypeScript (Node.js + React) untuk server & tampilan, sedikit C++ untuk chip** · Bahasa pengantar: **Indonesia, ramah awam**.
 >
-> Status dokumen: **v1.0.24 — disetujui, penulisan materi berjalan; Modul 1–22 (seluruh Fase 0, Fase 1, Fase 2, dan Fase 3, serta Modul 22 dari Fase 4) tersedia dalam bahasa Indonesia, dan edisi bahasa Inggrisnya menyusul modul demi modul** (24 Oktober 2026). Keputusan yang mendasarinya ada di [§11](#11-keputusan-yang-sudah-disetujui); riwayat perubahan di [§13](#13-riwayat-revisi).
+> Status dokumen: **v1.0.25 — disetujui, penulisan materi berjalan; Modul 1–23 (seluruh Fase 0, Fase 1, Fase 2, dan Fase 3, serta Modul 22–23 dari Fase 4) tersedia dalam bahasa Indonesia, dan edisi bahasa Inggrisnya menyusul modul demi modul** (25 Oktober 2026). Keputusan yang mendasarinya ada di [§11](#11-keputusan-yang-sudah-disetujui); riwayat perubahan di [§13](#13-riwayat-revisi).
 
 ---
 
@@ -687,9 +687,11 @@ Format tiap modul:
 #### Modul 23 — Dashboard Realtime: Grafik, Gauge, Riwayat, & Status
 *Fase 4 · Minggu 23 · Hardware: Kit A + B (atau simulator) · Prasyarat: Modul 22, Modul 19*
 
+📖 **Materi sudah tersedia:** [buka artikel Modul 23](fase-4-frontend-dashboard/modul-23-dashboard-realtime/README.md)
+
 - **Setelah modul ini Anda bisa:** angka bergerak sendiri, grafik yang bisa dibaca, dan riwayat yang bisa dijelajahi.
 - **Konsep inti:** Socket.IO client (dengan cookie login) & `useEffect` untuk langganan/berhenti langganan; *state management* ringan agar data live tersedia di semua halaman; grafik garis realtime (jendela 5 menit), grafik riwayat, **gauge dengan `RadialBarChart`**; memilih visual yang jujur (skala, satuan, warna status); pemilih rentang waktu (1 jam / 24 jam / 7 hari) → API `bucket`; indikator online/offline & "terakhir dilihat"; tabel riwayat dengan *pagination*; performa: jangan *re-render* 10× per detik; dark mode.
-- **Alat yang dipakai:** socket.io-client, Zustand, Recharts, date-fns.
+- **Alat yang dipakai:** socket.io-client 4.8.4, Zustand 5.0.16, Recharts 3.10.1 (+ react-is 19.3.1), date-fns 4.4.0 (locale `id`), DevTools (Network → WS/Socket → Messages, Rendering → Emulate prefers-color-scheme, mode perangkat), dan React DevTools 8.0.0 (Profiler, Highlight updates).
 - **Opsional / bedah teknis:** *virtualized list*; *downsampling* di sisi server.
 - **Praktik & proyek mini:** grafik suhu live; halaman riwayat 7 hari dengan rata-rata per jam; kartu status perangkat merah/hijau; ekspor CSV.
 - **➕ Rumah Pintar Mini:** dashboard v0.2 (live).
@@ -975,6 +977,8 @@ Satu kalimat per istilah, bahasa manusia. Semua akan dibahas tuntas di modulnya.
 ---
 
 ## 13. Riwayat revisi
+
+**v1.0.25 (25 Okt 2026)** — Modul 23 terbit dalam bahasa Indonesia. Rumah Pintar Mini mendapat **dashboard v0.2 (*live*)** (`frontend/` 0.2.0): satu soket Socket.IO (`socket.io-client` 4.8.4, `withCredentials`, `autoConnect: false`) yang berlangganan perangkat lewat `ikuti` berjawaban dan pulih dengan pola "*refresh* dulu, lalu sambung" (gelang 15 menit, Keluar, backend dimulai ulang; lencana Live / Menyambung ulang… / Terputus); toko Zustand 5.0.16 dengan selektor sempit; kartu status merah/hijau + "terakhir dilihat" + tanda data basi; grafik garis 5 menit dan *gauge* `RadialBarChart` (Recharts 3.10.1) dengan skala tetap dan celah yang tidak disambung; layar Riwayat 1 jam/24 jam/7 hari (`bucket` 15m/1h, resep `refresh_continuous_aggregate` berbatas 8 hari), tabel berhalaman, dan ekspor CSV untuk Excel Indonesia (`;`, koma desimal, BOM); mode gelap ikut setelan sistem; mode HP lewat WiFi rumah (`HOST=0.0.0.0`, IP di `CORS_ORIGIN`, `npm run dev:hp`) dan kembali ke mode laptop. Backend v1.0, kontrak data 1.4, firmware, dan `alat/` tidak berubah. Templat *pull request* mendapat butir **(Modul 23)**.
 
 **v1.0.24 (24 Okt 2026)** — Modul 22 terbit dalam bahasa Indonesia dan membuka Fase 4 (halaman fase baru `fase-4-frontend-dashboard/`). Rumah Pintar Mini mendapat **dashboard v0.1** (`frontend/` 0.1.0, nama paket `rumah-pintar-mini-frontend`): Vite 8.3.5, React 19.3.1, dan TypeScript 6.0.3 dari templat create-vite 9.3.1 `react-ts`; Tailwind CSS 4.3.3 lewat `@tailwindcss/vite` (tanpa `tailwind.config.js`); oxlint 1.89.0; port 5173 dengan `strictPort`. Komponen `Login`, `DaftarPerangkat`, `DetailPerangkat`, `KartuSensor`, serta `LencanaStatus` dan `LencanaKunci`; `src/types.ts` dari kontrak data (union literal, tanpa `enum`); `src/api.ts` memakai `fetch` langsung dengan `credentials: "include"` ke port 8080 di nama host yang sama dengan halaman (bisa diganti lewat `VITE_API_BASE`), *refresh* sekali saat 401 (janji Modul 20 ditepati), dan pesan galat yang menyebut dua kemungkinan saat server tak terjangkau. Perangkat `dicabut` dan `belum-terdaftar` hanya berlencana *kunci*; jam ditulis WIB lewat `timeZone: "Asia/Jakarta"`; tampilan *mobile first* tanpa gulir mendatar di 375 px. Templat *pull request* mendapat butir **(Modul 22)**. Ralat: Modul 20 (dashboard tidak memakai proksi Vite, melainkan CORS langsung dengan nama host `localhost` di kedua sisi) dan Modul 11 (grafik di HP datang di Modul 23, bukan Modul 22); ringkasan Modul 22 di Silabus kini menyebut simulator perangkat versi berkunci Modul 21.
 
