@@ -66,18 +66,115 @@ export type TelemetryNode2 = {
 
 export type Telemetry = TelemetryNode1 | TelemetryNode2;
 
-// the GET /devices/:id/latest response
-export type LatestReading = {
-  device_id: string;
-  kind: Kind;
-  status: DeviceStatus;
-  telemetry: Telemetry;
-};
-
 // the response of POST /auth/login, POST /auth/refresh, and GET /auth/me
 export type User = {
   id: number;
   email: string;
   name: string;
   role: "admin" | "viewer";
+};
+
+// ---- Module 23: Socket.IO events, copied from backend/src/services/realtime.ts ----
+
+// the server's answer to "follow" (a Socket.IO ack): success or not, and that device's last reading
+export type FollowAnswer = {
+  ok: boolean;
+  message?: string;
+  latest?: Telemetry | null; // null = the backend hasn't received a reading from that device since it started
+};
+
+// one row of the event log (Module 19's events in the database)
+export type SavedEvent = {
+  id: number;
+  occurred_at: string; // server time, UTC
+  device_id: string | null;
+  kind: "rule" | "rule-changed" | "schedule" | "status" | "offline-report" | "command";
+  source: string; // api, rule, schedule, telegram, device
+  rule_id: number | null;
+  message: string; // a sentence for humans
+  data?: unknown;
+};
+
+// events from the server to the dashboard. The values come one after another, not as one object: telemetry carries TWO values (deviceId, content).
+export type ToClient = {
+  telemetry: (deviceId: string, content: Telemetry) => void;
+  status: (deviceId: string, status: "online" | "offline" | "offline-mode") => void;
+  event: (event: SavedEvent) => void;
+};
+
+// events from the dashboard to the server; "respond" is the Socket.IO ack (a function the server calls to answer)
+export type FromClient = {
+  follow: (deviceId: string, respond: (answer: FollowAnswer) => void) => void;
+  unfollow: (deviceId: string) => void;
+};
+
+// ---- Module 23: the live chart and the history ----
+
+// one raw reading from GET /devices/:id/readings (without bucket). All thirteen fields are always there;
+// a field the device doesn't have (for example pressure on Node 1) holds null.
+export type Reading = {
+  ts: string;
+  fw: string;
+  temperature: number | null;
+  humidity: number | null;
+  light: number | null;
+  soil: number | null;
+  motion: boolean | null;
+  water_level: number | null;
+  pressure: number | null;
+  soil_temperature: number | null;
+  battery: number | null;
+  soil_rs485: number | null;
+  ec: number | null;
+};
+
+// the GET /devices/:id/readings answer without bucket: readings oldest first, at most 1,000
+export type ReadingsAnswer = {
+  device_id: string;
+  from: string;
+  to: string;
+  count: number;
+  truncated: boolean; // true = more than 1,000 readings; only the OLDEST 1,000 are sent
+  readings: Reading[];
+};
+
+// one point of the live chart: t = the reading time in milliseconds (from the device's ts); null = no value
+export type Point = {
+  t: number;
+  temperature: number | null;
+  humidity: number | null;
+  light: number | null;
+};
+
+// one summary bucket (bucket=15m or 1h): the average of every reading in that bucket.
+// The backend only summarizes these four quantities; pressure, battery, and the water tank aren't in the summary history.
+export type SummaryPoint = {
+  time: string; // start of the bucket, UTC
+  avg_temp: number | null;
+  min_temp: number | null;
+  max_temp: number | null;
+  avg_humidity: number | null;
+  avg_soil: number | null;
+  avg_light: number | null;
+  reading_count: number;
+};
+
+// the GET /devices/:id/readings?bucket=… answer  (a bucket without readings isn't sent at all)
+export type SummaryAnswer = {
+  device_id: string;
+  from: string;
+  to: string;
+  bucket: "15m" | "1h" | "1d";
+  count: number;
+  summary: SummaryPoint[];
+};
+
+// the three range options on the History screen
+export type HistoryRange = "1hour" | "24hours" | "7days";
+
+// history already made uniform by api.ts: even raw readings (1 hour) are turned into the SummaryPoint shape
+export type HistoryData = {
+  from: string;
+  to: string;
+  points: SummaryPoint[]; // oldest first
 };

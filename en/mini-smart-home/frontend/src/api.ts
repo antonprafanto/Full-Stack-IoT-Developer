@@ -1,13 +1,15 @@
 // api.ts - one door to the backend: every request to the API goes through the request() function in this file.
 // Login uses the backend's HttpOnly cookies (Module 20). JavaScript can't read them; the browser stores them
 // and sends them, as long as every fetch carries credentials: "include".
-import type { Device, LatestReading, User } from "./types";
+import { subMinutes } from "date-fns";
+import type { Device, HistoryData, HistoryRange, Reading, ReadingsAnswer, SummaryAnswer, SummaryPoint, User } from "./types";
 
 // Backend address. Default: this page's host name + port 8080, so the page http://localhost:5173 -> API http://localhost:8080.
 // The same host name matters: a SameSite=Strict cookie only goes along when the page and the API are one site
 // (localhost with localhost, 127.0.0.1 with 127.0.0.1). Another address can be set with VITE_API_BASE in .env.local.
 // The trailing slash is removed: the backend answers "//auth/login" as an unknown route (401).
-const BASE: string = (import.meta.env.VITE_API_BASE || `${location.protocol}//${location.hostname}:8080`).replace(/\/+$/, "");
+// Module 23: exported, because socket.ts connects to the SAME address (on a phone: http://<laptop-IP>:8080).
+export const BASE: string = (import.meta.env.VITE_API_BASE || `${location.protocol}//${location.hostname}:8080`).replace(/\/+$/, "");
 
 // These three /auth ticket booths are never refreshed: a 401 from login means the password really is wrong, a 401 from
 // refresh means the season pass has run out (refresh must not call refresh again), and logout is open without a wristband.
@@ -15,15 +17,21 @@ const NO_REFRESH = ["/auth/login", "/auth/refresh", "/auth/logout"];
 
 // The refresh in progress, shared. If several requests happen to get a 401 at the same time (for example an effect
 // that StrictMode runs twice), the backend is still knocked on only ONCE.
-let refreshInFlight: Promise<boolean> | null = null;
+let refreshInFlight: Promise<boolean | null> | null = null;
 
 // Trade the "season pass" (session cookie, 7 days) for a new "wristband" (access cookie, 15 minutes). true = success.
-function refreshOnce(): Promise<boolean> {
+// Module 23: exported for socket.ts, and it now tells two failures apart: false = REFUSED by the backend (401: the season
+// pass has run out, or already logged out), null = the backend can't serve right now (down, unreachable, or another problem).
+export function refreshOnce(): Promise<boolean | null> {
   if (refreshInFlight === null) {
     // no body, so also NO JSON Content-Type (if one is given, the backend answers 400)
     refreshInFlight = fetch(BASE + "/auth/refresh", { method: "POST", credentials: "include" })
-      .then((res) => res.ok) // 200 = the new wristband is already on in the browser
-      .catch(() => false) // backend down = refresh failed
+      .then((res) => {
+        if (res.ok) return true; // 200 = the new wristband is already on in the browser
+        if (res.status === 401) return false; // refused: the season pass has run out, or already logged out
+        return null; // another code, for example 500 while the database is down: the session hasn't necessarily expired
+      })
+      .catch(() => null) // fetch failed completely: the backend is down or can't be reached
       .finally(() => {
         refreshInFlight = null; // done: next time a refresh is allowed again
       });
@@ -106,8 +114,37 @@ export function getDevices(): Promise<Device[]> {
   return request<Device[]>("/devices");
 }
 
-// GET /devices/:id/latest: one device's latest reading, from the backend's memory
-// (404 if that device hasn't sent a reading since the backend started)
-export function getLatest(deviceId: string): Promise<LatestReading> {
-  return request<LatestReading>("/devices/" + deviceId + "/latest");
+// Module 23: GET /devices/:id/readings?from=… = raw readings since some minutes ago (the live chart's first points).
+export function getReadingsSince(deviceId: string, minutes: number): Promise<ReadingsAnswer> {
+  // toISOString() writes UTC time ending in Z, for example 2026-10-24T03:10:00.000Z: safe to put in an address.
+  // (A time in the +07:00 zone must be written %2B07:00, because a + in an address is read as a space.)
+  const from = subMinutes(new Date(), minutes).toISOString();
+  return request<ReadingsAnswer>("/devices/" + deviceId + "/readings?from=" + from);
+}
+
+// one raw reading turned into the shape of a summary point, so the chart, the table, and the CSV only need to know ONE shape
+function toSummaryPoint(b: Reading): SummaryPoint {
+  return {
+    time: b.ts,
+    avg_temp: b.temperature,
+    min_temp: null, // one reading has no lowest and highest
+    max_temp: null,
+    avg_humidity: b.humidity,
+    avg_soil: b.soil,
+    avg_light: b.light,
+    reading_count: 1,
+  };
+}
+
+// Module 23: history for the History screen. The ranges use the API's defaults (no from and to):
+// 1 hour = raw readings, 24 hours = average per 15 minutes (bucket=15m), 7 days = average per hour (bucket=1h).
+export async function getHistory(deviceId: string, range: HistoryRange): Promise<HistoryData> {
+  const path = "/devices/" + deviceId + "/readings";
+  if (range === "1hour") {
+    const answer = await request<ReadingsAnswer>(path);
+    return { from: answer.from, to: answer.to, points: answer.readings.map(toSummaryPoint) };
+  }
+  const bucket = range === "24hours" ? "15m" : "1h";
+  const answer = await request<SummaryAnswer>(path + "?bucket=" + bucket);
+  return { from: answer.from, to: answer.to, points: answer.summary };
 }

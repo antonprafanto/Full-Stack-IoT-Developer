@@ -5,7 +5,7 @@
 > **A 32-module curriculum — one module = one week of relaxed study (about 8 months) — that takes complete beginners all the way to building a full IoT system, from sensors to a dashboard on your phone.**
 > Hardware: **ESP32 + Raspberry Pi** · Software: **JavaScript/TypeScript (Node.js + React) for the server & the interface, a little C++ for the chip** · Language of instruction: **English, beginner-friendly** (this English edition is a complete translation of the Indonesian original).
 >
-> Document status: **v1.0.24 — approved, writing of the material in progress; Modules 1–22 (all of Phase 0, Phase 1, Phase 2, and Phase 3, plus Module 22 of Phase 4) are available in English; new modules appear in Indonesian first, and their English edition follows module by module** (24 October 2026). The decisions behind it are in [§11](#11-approved-decisions); the change history is in [§13](#13-revision-history).
+> Document status: **v1.0.25 — approved, writing of the material in progress; Modules 1–23 (all of Phase 0, Phase 1, Phase 2, and Phase 3, plus Modules 22–23 of Phase 4) are available in English; new modules appear in Indonesian first, and their English edition follows module by module** (25 October 2026). The decisions behind it are in [§11](#11-approved-decisions); the change history is in [§13](#13-revision-history).
 
 ---
 
@@ -687,9 +687,11 @@ Format of each module:
 #### Module 23 — Realtime Dashboard: Charts, Gauges, History, & Status
 *Phase 4 · Week 23 · Hardware: Kit A + B (or the simulator) · Prerequisites: Module 22, Module 19*
 
+📖 **Available now:** [read Module 23](phase-4-frontend-dashboard/module-23-realtime-dashboard/README.md)
+
 - **After this module you can:** have numbers that move by themselves, charts that are easy to read, and history that can be explored.
 - **Core concepts:** the Socket.IO client (with the login cookie) & `useEffect` for subscribing/unsubscribing; lightweight *state management* so the live data is available on every page; a realtime line chart (5-minute window), a history chart, **a gauge with `RadialBarChart`**; choosing honest visuals (scale, units, status colors); a time range picker (1 hour / 24 hours / 7 days) → the API's `bucket`; an online/offline indicator & "last seen"; a history table with *pagination*; performance: don't *re-render* 10× per second; dark mode.
-- **Tools used:** socket.io-client, Zustand, Recharts, date-fns.
+- **Tools used:** socket.io-client 4.8.4, Zustand 5.0.16, Recharts 3.10.1 (+ react-is 19.3.1), date-fns 4.4.0, DevTools (Network → WS/Socket → Messages, Rendering → Emulate prefers-color-scheme, device mode), and React DevTools 8.0.0 (Profiler, Highlight updates).
 - **Optional / technical deep dive:** *virtualized lists*; server-side downsampling.
 - **Practice & mini projects:** a live temperature chart; a 7-day history page with hourly averages; red/green device status cards; CSV export.
 - **➕ Mini Smart Home:** dashboard v0.2 (live).
@@ -977,6 +979,8 @@ One sentence per term, in plain language. All of them are covered fully in their
 ---
 
 ## 13. Revision history
+
+**v1.0.25 (25 Oct 2026)** — Module 23 published in Indonesian and English. Mini Smart Home gets **dashboard v0.2 (*live*)** (`frontend/` 0.2.0): one Socket.IO connection (`socket.io-client` 4.8.4, `withCredentials`, `autoConnect: false`) that subscribes to devices through `follow` with an acknowledgement and recovers with the "*refresh* first, then reconnect" pattern (the 15-minute wristband, Log out, a backend restart; badges Live / Reconnecting… / Disconnected); a Zustand 5.0.16 store with narrow selectors; red/green status cards + "last seen" + a stale-data mark; a 5-minute line chart and a `RadialBarChart` *gauge* (Recharts 3.10.1) with fixed scales and gaps that aren't joined; a History screen for 1 hour/24 hours/7 days (`bucket` 15m/1h, a `refresh_continuous_aggregate` recipe limited to 8 days), a paged table, and CSV export (in the English edition for Excel with English regional settings: comma separator, decimal point, BOM; the Indonesian edition uses `;` and decimal commas); dark mode that follows the system setting; phone mode over the home Wi-Fi (`HOST=0.0.0.0`, the IP in `CORS_ORIGIN`, `npm run dev:phone`) and back to laptop mode. Backend v1.0, data contract 1.4, firmware, and `tools/` are unchanged. The *pull request* template gets **(Module 23)** items.
 
 **v1.0.24 (24 Oct 2026)** — Module 22 published in Indonesian and English, opening Phase 4 (new phase page `phase-4-frontend-dashboard/`). Mini Smart Home gets **dashboard v0.1** (`frontend/` 0.1.0, package name `mini-smart-home-frontend`): Vite 8.3.5, React 19.3.1, and TypeScript 6.0.3 from the create-vite 9.3.1 `react-ts` template; Tailwind CSS 4.3.3 through `@tailwindcss/vite` (no `tailwind.config.js`); oxlint 1.89.0; port 5173 with `strictPort`. Components `Login`, `DeviceList`, `DeviceDetails`, `SensorCard`, plus `StatusBadge` and `KeyBadge`; `src/types.ts` from the data contract (literal unions, no `enum`); `src/api.ts` uses `fetch` directly with `credentials: "include"` to port 8080 on the same host name as the page (can be changed through `VITE_API_BASE`), a *refresh* once on 401 (the Module 20 promise kept), and an error message that names both possibilities when the server can't be reached. `revoked` and `unregistered` devices carry only the *key* badge; times are written in WIB through `timeZone: "Asia/Jakarta"`; a *mobile first* layout with no sideways scrolling at 375 px. The *pull request* template gets **(Module 22)** items. Errata: Module 20 (the dashboard doesn't use a Vite proxy, but direct CORS with the host name `localhost` on both sides) and Module 11 (the chart on the phone comes in Module 23, not Module 22); the Module 22 summary in the Syllabus now names the keyed device simulator from Module 21.
 

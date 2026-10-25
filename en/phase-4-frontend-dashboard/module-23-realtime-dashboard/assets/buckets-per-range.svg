@@ -1,0 +1,219 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="948" viewBox="0 0 1200 948" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="948" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" xml:space="preserve">History from buckets: one range, one bucket size</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" xml:space="preserve">Concept 11 · the API's defaults, without <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5">from</tspan>/<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5">to</tspan> · the longer the range, the bigger the bucket</text>
+<rect x="30.0" y="100.0" width="366.0" height="330.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="50.0" y="136.0" font-size="22" font-weight="800" fill="#6f42c1" text-anchor="start" >1 hour</text>
+<text x="376.0" y="136.0" font-size="20" font-weight="800" fill="#1e2a4a" text-anchor="end" >±360 points</text>
+<text x="50.0" y="164.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#6f42c1" font-weight="800">GET …/readings</tspan></text>
+<text x="50.0" y="188.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >raw readings: one every 10 seconds</text>
+<circle cx="56.0" cy="240.0" r="2.4" fill="#1e2a4a" />
+<circle cx="64.0" cy="245.0" r="2.4" fill="#1e2a4a" />
+<circle cx="72.0" cy="242.0" r="2.4" fill="#1e2a4a" />
+<circle cx="80.0" cy="242.0" r="2.4" fill="#1e2a4a" />
+<circle cx="88.0" cy="245.0" r="2.4" fill="#1e2a4a" />
+<circle cx="96.0" cy="242.0" r="2.4" fill="#1e2a4a" />
+<circle cx="104.0" cy="242.0" r="2.4" fill="#1e2a4a" />
+<circle cx="112.0" cy="245.0" r="2.4" fill="#1e2a4a" />
+<circle cx="120.0" cy="240.0" r="2.4" fill="#1e2a4a" />
+<circle cx="128.0" cy="242.0" r="2.4" fill="#1e2a4a" />
+<circle cx="136.0" cy="245.0" r="2.4" fill="#1e2a4a" />
+<circle cx="144.0" cy="242.0" r="2.4" fill="#1e2a4a" />
+<circle cx="152.0" cy="240.0" r="2.4" fill="#1e2a4a" />
+<circle cx="160.0" cy="245.0" r="2.4" fill="#1e2a4a" />
+<circle cx="168.0" cy="242.0" r="2.4" fill="#1e2a4a" />
+<circle cx="176.0" cy="242.0" r="2.4" fill="#1e2a4a" />
+<circle cx="184.0" cy="245.0" r="2.4" fill="#1e2a4a" />
+<circle cx="192.0" cy="242.0" r="2.4" fill="#1e2a4a" />
+<circle cx="200.0" cy="242.0" r="2.4" fill="#1e2a4a" />
+<circle cx="208.0" cy="245.0" r="2.4" fill="#1e2a4a" />
+<circle cx="216.0" cy="240.0" r="2.4" fill="#1e2a4a" />
+<circle cx="224.0" cy="242.0" r="2.4" fill="#1e2a4a" />
+<circle cx="232.0" cy="245.0" r="2.4" fill="#1e2a4a" />
+<circle cx="240.0" cy="242.0" r="2.4" fill="#1e2a4a" />
+<circle cx="248.0" cy="240.0" r="2.4" fill="#1e2a4a" />
+<circle cx="256.0" cy="245.0" r="2.4" fill="#1e2a4a" />
+<circle cx="264.0" cy="242.0" r="2.4" fill="#1e2a4a" />
+<circle cx="272.0" cy="242.0" r="2.4" fill="#1e2a4a" />
+<circle cx="280.0" cy="245.0" r="2.4" fill="#1e2a4a" />
+<circle cx="288.0" cy="242.0" r="2.4" fill="#1e2a4a" />
+<circle cx="296.0" cy="242.0" r="2.4" fill="#1e2a4a" />
+<circle cx="304.0" cy="245.0" r="2.4" fill="#1e2a4a" />
+<circle cx="312.0" cy="240.0" r="2.4" fill="#1e2a4a" />
+<circle cx="320.0" cy="242.0" r="2.4" fill="#1e2a4a" />
+<circle cx="328.0" cy="245.0" r="2.4" fill="#1e2a4a" />
+<circle cx="336.0" cy="242.0" r="2.4" fill="#1e2a4a" />
+<circle cx="344.0" cy="240.0" r="2.4" fill="#1e2a4a" />
+<circle cx="352.0" cy="245.0" r="2.4" fill="#1e2a4a" />
+<circle cx="360.0" cy="242.0" r="2.4" fill="#1e2a4a" />
+<circle cx="368.0" cy="242.0" r="2.4" fill="#1e2a4a" />
+<text x="50.0" y="290.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" >1 point = 1 reading</text>
+<text x="50.0" y="326.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">1 hour ÷ 10 seconds = ±360 readings</text>
+<text x="50.0" y="344.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">turned into the summary shape in the browser</text>
+<text x="50.0" y="362.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">(<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="700">toSummaryPoint()</tspan>)</text>
+<text x="50.0" y="412.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve">source: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#336791" font-weight="800">readings</tspan> (raw readings)</text>
+<line x1="213.0" y1="434.0" x2="213.0" y2="474.0" stroke="#336791" stroke-width="2.2" stroke-linecap="round" />
+<path d="M209.7 467.8 L213.0 474.0 L216.3 467.8" fill="none" stroke="#336791" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="417.0" y="100.0" width="366.0" height="330.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="437.0" y="136.0" font-size="22" font-weight="800" fill="#6f42c1" text-anchor="start" >24 hours</text>
+<text x="763.0" y="136.0" font-size="20" font-weight="800" fill="#1e2a4a" text-anchor="end" >97 points</text>
+<text x="437.0" y="164.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#6f42c1" font-weight="800">GET …/readings?bucket=15m</tspan></text>
+<text x="437.0" y="188.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >15-minute buckets: average, lowest, highest</text>
+<circle cx="451.0" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="457.5" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="464.0" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="470.5" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="477.0" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="483.5" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="490.0" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="496.5" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="503.0" cy="220.0" r="1.9" fill="#9aa3b0" />
+<path d="M448.0 228 L448.0 234 L506.0 234 L506.0 228" fill="none" stroke="#9aa3b0" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="477.0" y1="234.0" x2="477.0" y2="242.0" stroke="#9aa3b0" stroke-width="1.4" stroke-linecap="round" />
+<circle cx="477.0" cy="256.0" r="6" fill="#6f42c1" stroke="#ffffff" stroke-width="1.4" />
+<text x="533.0" y="224.0" font-size="13" font-weight="700" fill="#9aa3b0" text-anchor="middle" >…</text>
+<circle cx="567.0" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="573.5" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="580.0" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="586.5" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="593.0" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="599.5" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="606.0" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="612.5" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="619.0" cy="220.0" r="1.9" fill="#9aa3b0" />
+<path d="M564.0 228 L564.0 234 L622.0 234 L622.0 228" fill="none" stroke="#9aa3b0" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="593.0" y1="234.0" x2="593.0" y2="242.0" stroke="#9aa3b0" stroke-width="1.4" stroke-linecap="round" />
+<circle cx="593.0" cy="256.0" r="6" fill="#6f42c1" stroke="#ffffff" stroke-width="1.4" />
+<text x="649.0" y="224.0" font-size="13" font-weight="700" fill="#9aa3b0" text-anchor="middle" >…</text>
+<circle cx="683.0" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="689.5" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="696.0" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="702.5" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="709.0" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="715.5" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="722.0" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="728.5" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="735.0" cy="220.0" r="1.9" fill="#9aa3b0" />
+<path d="M680.0 228 L680.0 234 L738.0 234 L738.0 228" fill="none" stroke="#9aa3b0" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="709.0" y1="234.0" x2="709.0" y2="242.0" stroke="#9aa3b0" stroke-width="1.4" stroke-linecap="round" />
+<circle cx="709.0" cy="256.0" r="6" fill="#6f42c1" stroke="#ffffff" stroke-width="1.4" />
+<text x="437.0" y="290.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" >±90 readings (every 10 seconds) → 1 summary point</text>
+<text x="437.0" y="326.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">24 hours × 4 buckets + 1 = 97: the first bucket</text>
+<text x="437.0" y="344.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">is rounded down, and the bucket that is still</text>
+<text x="437.0" y="362.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">running counts too</text>
+<text x="437.0" y="412.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve">source: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#336791" font-weight="800">readings</tspan>, computed when asked</text>
+<line x1="600.0" y1="434.0" x2="600.0" y2="474.0" stroke="#336791" stroke-width="2.2" stroke-linecap="round" />
+<path d="M596.7 467.8 L600.0 474.0 L603.3 467.8" fill="none" stroke="#336791" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="804.0" y="100.0" width="366.0" height="330.0" rx="14" fill="#ffffff" stroke="#6f42c1" stroke-width="1.8" />
+<text x="824.0" y="136.0" font-size="22" font-weight="800" fill="#6f42c1" text-anchor="start" >7 days</text>
+<text x="1150.0" y="136.0" font-size="20" font-weight="800" fill="#1e2a4a" text-anchor="end" >169 points</text>
+<text x="824.0" y="164.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#6f42c1" font-weight="800">GET …/readings?bucket=1h</tspan></text>
+<text x="824.0" y="188.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >1-hour buckets: average, lowest, highest</text>
+<circle cx="838.0" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="842.2" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="846.4" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="850.6" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="854.8" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="859.0" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="863.2" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="867.4" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="871.6" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="875.8" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="880.0" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="884.2" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="888.4" cy="220.0" r="1.9" fill="#9aa3b0" />
+<path d="M835.0 228 L835.0 234 L891.4 234 L891.4 228" fill="none" stroke="#9aa3b0" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="863.2" y1="234.0" x2="863.2" y2="242.0" stroke="#9aa3b0" stroke-width="1.4" stroke-linecap="round" />
+<circle cx="863.2" cy="256.0" r="6" fill="#6f42c1" stroke="#ffffff" stroke-width="1.4" />
+<text x="918.4" y="224.0" font-size="13" font-weight="700" fill="#9aa3b0" text-anchor="middle" >…</text>
+<circle cx="954.0" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="958.2" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="962.4" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="966.6" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="970.8" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="975.0" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="979.2" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="983.4" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="987.6" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="991.8" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="996.0" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="1000.2" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="1004.4" cy="220.0" r="1.9" fill="#9aa3b0" />
+<path d="M951.0 228 L951.0 234 L1007.4 234 L1007.4 228" fill="none" stroke="#9aa3b0" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="979.2" y1="234.0" x2="979.2" y2="242.0" stroke="#9aa3b0" stroke-width="1.4" stroke-linecap="round" />
+<circle cx="979.2" cy="256.0" r="6" fill="#6f42c1" stroke="#ffffff" stroke-width="1.4" />
+<text x="1034.4" y="224.0" font-size="13" font-weight="700" fill="#9aa3b0" text-anchor="middle" >…</text>
+<circle cx="1070.0" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="1074.2" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="1078.4" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="1082.6" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="1086.8" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="1091.0" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="1095.2" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="1099.4" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="1103.6" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="1107.8" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="1112.0" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="1116.2" cy="220.0" r="1.9" fill="#9aa3b0" />
+<circle cx="1120.4" cy="220.0" r="1.9" fill="#9aa3b0" />
+<path d="M1067.0 228 L1067.0 234 L1123.4 234 L1123.4 228" fill="none" stroke="#9aa3b0" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="1095.2" y1="234.0" x2="1095.2" y2="242.0" stroke="#9aa3b0" stroke-width="1.4" stroke-linecap="round" />
+<circle cx="1095.2" cy="256.0" r="6" fill="#6f42c1" stroke="#ffffff" stroke-width="1.4" />
+<text x="824.0" y="290.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" >±360 readings (every 10 seconds) → 1 summary point</text>
+<text x="824.0" y="326.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">7 days × 24 buckets + 1 = 169</text>
+<text x="824.0" y="344.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">pass requirement: the 7-day history loads</text>
+<text x="824.0" y="362.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">in &lt; 1 second (measured in Practice 7)</text>
+<text x="824.0" y="412.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve">source: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#336791" font-weight="800">readings_hourly</tspan> (summary book)</text>
+<line x1="987.0" y1="434.0" x2="987.0" y2="474.0" stroke="#336791" stroke-width="2.2" stroke-linecap="round" />
+<path d="M983.7 467.8 L987.0 474.0 L990.3 467.8" fill="none" stroke="#336791" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="30.0" y="478.0" width="720.0" height="250.0" rx="12" fill="#e6edf5" stroke="#336791" stroke-width="1.8" />
+<path d="M51 503 L51 525 A15 5 0 0 0 81 525 L81 503" fill="none" stroke="#336791" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<ellipse cx="66" cy="503" rx="15" ry="5" fill="none" stroke="#336791" stroke-width="2"/>
+<path d="M51 514 A15 5 0 0 0 81 514" fill="none" stroke="#336791" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="96.0" y="510.0" font-size="15" font-weight="800" fill="#336791" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">readings</text>
+<text x="96.0" y="530.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" >raw readings, one row per message (Module 17)</text>
+<text x="50.0" y="564.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">a TimescaleDB <tspan font-style="italic">hypertable</tspan>, split per day; raw readings are kept for 90 days (Module 18)</text>
+<text x="50.0" y="588.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">1 hour: the raw readings as they are</text>
+<text x="50.0" y="612.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">24 hours: grouped when asked, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#336791" font-weight="800">time_bucket('15</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#336791" font-weight="800">minutes',</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#336791" font-weight="800">ts)</tspan></text>
+<text x="50.0" y="636.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">a limit of 1,000 readings or buckets per request: all three ranges are far below it</text>
+<text x="50.0" y="660.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the summary book on the right is made from this table: every hour is summarized <tspan font-weight="800">once</tspan>, so</text>
+<text x="50.0" y="684.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the 7-day history only reads 169 rows, not tens of thousands of raw readings</text>
+<rect x="770.0" y="478.0" width="400.0" height="250.0" rx="12" fill="#e6edf5" stroke="#336791" stroke-width="1.8" />
+<path d="M791 503 L791 525 A15 5 0 0 0 821 525 L821 503" fill="none" stroke="#336791" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<ellipse cx="806" cy="503" rx="15" ry="5" fill="none" stroke="#336791" stroke-width="2"/>
+<path d="M791 514 A15 5 0 0 0 821 514" fill="none" stroke="#336791" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="836.0" y="510.0" font-size="15" font-weight="800" fill="#336791" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">readings_hourly</text>
+<text x="836.0" y="530.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" >the summary book per hour (Module 18)</text>
+<text x="790.0" y="564.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">filled by the clerk every 30 minutes, last 3 days only;</text>
+<text x="790.0" y="584.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">old data (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#336791" font-weight="800">npm</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#336791" font-weight="800">run</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#336791" font-weight="800">seed-history</tspan>) <tspan font-weight="800">needs</tspan>:</text>
+<text x="790.0" y="610.0" font-size="11" font-weight="800" fill="#336791" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">CALL refresh_continuous_aggregate(</text>
+<text x="790.0" y="627.0" font-size="11" font-weight="800" fill="#336791" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">  'readings_hourly',</text>
+<text x="790.0" y="644.0" font-size="11" font-weight="800" fill="#336791" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">  now() - INTERVAL '8 days',</text>
+<text x="790.0" y="661.0" font-size="11" font-weight="800" fill="#336791" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">  now() - INTERVAL '1 hour');</text>
+<text x="790.0" y="682.0" font-size="12.5" font-weight="800" fill="#e63946" text-anchor="start" xml:space="preserve">without it the 7-day chart can have only</text>
+<text x="790.0" y="700.0" font-size="12.5" font-weight="800" fill="#e63946" text-anchor="start" xml:space="preserve">2 points, then (after the clerk has run)</text>
+<text x="790.0" y="718.0" font-size="12.5" font-weight="800" fill="#e63946" text-anchor="start" xml:space="preserve">only the last 3 days filled in</text>
+<text x="30.0" y="766.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">What one summary point (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" fill="#6f42c1" font-weight="800">SummaryPoint</tspan>) holds, the same for all three ranges:</text>
+<rect x="30.0" y="780.0" width="41.7" height="26.0" rx="6" fill="#eef1f5" />
+<text x="37.0" y="797.5" font-size="11.5" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">time</text>
+<rect x="79.7" y="780.0" width="69.4" height="26.0" rx="6" fill="#e6dcf5" />
+<text x="86.7" y="797.5" font-size="11.5" font-weight="800" fill="#6f42c1" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">avg_temp</text>
+<rect x="157.1" y="780.0" width="69.4" height="26.0" rx="6" fill="#e6dcf5" />
+<text x="164.1" y="797.5" font-size="11.5" font-weight="800" fill="#6f42c1" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">min_temp</text>
+<rect x="234.5" y="780.0" width="69.4" height="26.0" rx="6" fill="#e6dcf5" />
+<text x="241.5" y="797.5" font-size="11.5" font-weight="800" fill="#6f42c1" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">max_temp</text>
+<rect x="311.8" y="780.0" width="97.1" height="26.0" rx="6" fill="#e6dcf5" />
+<text x="318.8" y="797.5" font-size="11.5" font-weight="800" fill="#6f42c1" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">avg_humidity</text>
+<rect x="416.9" y="780.0" width="69.4" height="26.0" rx="6" fill="#e6dcf5" />
+<text x="423.9" y="797.5" font-size="11.5" font-weight="800" fill="#6f42c1" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">avg_soil</text>
+<rect x="494.3" y="780.0" width="76.3" height="26.0" rx="6" fill="#e6dcf5" />
+<text x="501.3" y="797.5" font-size="11.5" font-weight="800" fill="#6f42c1" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">avg_light</text>
+<rect x="578.6" y="780.0" width="104.0" height="26.0" rx="6" fill="#eef1f5" />
+<text x="585.6" y="797.5" font-size="11.5" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">reading_count</text>
+<text x="696.6" y="798.0" font-size="13" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">→ only <tspan font-weight="800" fill="#6f42c1">4 quantities</tspan></text>
+<text x="30.0" y="834.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >Temperature, air humidity, soil moisture, and light only: pressure, battery, water tank, and motion aren't in the summary history.</text>
+<rect x="30.0" y="854.0" width="1140.0" height="56.0" rx="10" fill="#eef1f5" />
+<text x="50.0" y="876.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">The table and the CSV use the same answer: 7 days = 169 rows → 24 rows per page, newest first (<tspan font-weight="800">Page 1 of 8</tspan>).</text>
+<text x="50.0" y="896.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800">Download CSV</tspan> is made in the browser with a comma separator, a decimal point, and a BOM, for Excel with English settings.</text>
+<text x="1178.0" y="934.0" font-size="11" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer Curriculum · CC BY 4.0</text>
+</svg>

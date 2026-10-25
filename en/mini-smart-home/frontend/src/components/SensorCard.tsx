@@ -7,11 +7,11 @@ type Props = {
   color?: string; // the Tailwind color class for the number, for example "text-teal-600"
 };
 
-export default function SensorCard({ label, value, unit, color = "text-slate-800" }: Props) {
+export default function SensorCard({ label, value, unit, color = "text-slate-800 dark:text-slate-100" }: Props) {
   return (
     // min-w-0: the card may get narrower to fit its grid column; a label that is too long is cut off with "…" (truncate)
-    <div className="min-w-0 rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
-      <p className="truncate text-sm text-slate-500">{label}</p>
+    <div className="min-w-0 rounded-xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+      <p className="truncate text-sm text-slate-500 dark:text-slate-400">{label}</p>
       <p className="mt-1 text-2xl font-semibold">
         {/* ?? = if the value is null, write "—" (not 0: the number 0 is still a valid reading) */}
         <span className={value === null ? "text-slate-400" : color}>{value ?? "—"}</span>

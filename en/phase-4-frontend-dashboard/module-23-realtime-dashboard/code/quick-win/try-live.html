@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Try live</title>
+    <!-- try-live.html - Module 23 Quick Win: a number that moves by itself, with no button and no polling.
+         Put it in frontend/public/, log in to the dashboard first (http://localhost:5173), then open
+         http://localhost:5173/try-live.html. When you're done, DELETE this file so it doesn't go into dist/ and Git
+         (everything in public/ is copied to dist/ by the build). -->
+    <style>
+      body { font-family: system-ui, sans-serif; margin: 2rem; color: #1e293b; background: #f1f5f9; }
+      .card { max-width: 20rem; padding: 1.5rem; border-radius: 1rem; background: white; border: 1px solid #e2e8f0; }
+      .label { margin: 0; color: #64748b; font-size: 0.875rem; }
+      .value { margin: 0.25rem 0; font-size: 3rem; font-weight: 600; color: #0d9488; }
+      .unit { font-size: 1.25rem; font-weight: 400; color: #94a3b8; }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <p class="label">Temperature <span id="device"></span></p>
+      <p class="value"><span id="temperature">—</span> <span class="unit">°C</span></p>
+      <p class="label" id="state">Connecting…</p>
+      <p class="label" id="time"></p>
+    </div>
+
+    <!-- the Socket.IO library for the browser, served by the backend itself (no npm needed for this experiment) -->
+    <script src="http://localhost:8080/socket.io/socket.io.js"></script>
+    <script>
+      const ID = "f00d00000001"; // Module 21's practice device; a real Node 1: replace it with its device_id
+      document.getElementById("device").textContent = ID;
+
+      // withCredentials: true = bring the login cookies (from the dashboard on localhost) to port 8080. Without it: "not logged in".
+      const socket = io("http://localhost:8080", { withCredentials: true });
+
+      function show(content) {
+        document.getElementById("temperature").textContent = content.temperature ?? "—";
+        const time = new Date(content.ts).toLocaleTimeString("en-GB", { timeZone: "Asia/Jakarta" });
+        document.getElementById("time").textContent = "reading at " + time + " WIB";
+      }
+
+      // "connect" happens every time it connects. "follow" MUST use an answer function (ack):
+      // without it, the server quietly doesn't put us in the device's room.
+      socket.on("connect", () => {
+        document.getElementById("state").textContent = "Connected. Waiting for the next message…";
+        socket.emit("follow", ID, (answer) => {
+          if (!answer.ok) {
+            document.getElementById("state").textContent = "Refused: " + answer.message;
+            return;
+          }
+          if (answer.latest) show(answer.latest); // the last reading the backend remembers
+        });
+      });
+
+      // sent by the server every time that device sends a reading (about every 10 seconds)
+      socket.on("telemetry", (deviceId, content) => {
+        document.getElementById("state").textContent = "Live: this number changes by itself.";
+        show(content);
+      });
+
+      socket.on("connect_error", (error) => {
+        document.getElementById("state").textContent = "Not connected yet: " + error.message;
+      });
+      socket.on("disconnect", (reason) => {
+        document.getElementById("state").textContent = "Disconnected: " + reason;
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+/* Module 23: chart colors that follow dark mode. Recharts draws SVG with its own colors and doesn't know Tailwind's
+   dark: classes. So the grid lines, the tooltip background, and the gauge track use the variables below, which
+   change value by themselves when the phone or laptop uses a dark theme. The Tailwind color names are written out in
+   full (var(--color-slate-200)), so Tailwind includes those colors in the built CSS. */
+:root {
+  --grid-color: var(--color-slate-200);
+  --panel-color: var(--color-white);
+  --track-color: var(--color-slate-200);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --grid-color: var(--color-slate-700);
+    --panel-color: var(--color-slate-800);
+    --track-color: var(--color-slate-700);
+  }
+}

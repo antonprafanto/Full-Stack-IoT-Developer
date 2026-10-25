@@ -1,5 +1,7 @@
 # Frontend Rumah Pintar Mini
 
+🌐 **Bahasa Indonesia** · [English](../../../../en/phase-4-frontend-dashboard/module-23-realtime-dashboard/code/frontend/README.md)
+
 Dashboard v0.2 proyek Rumah Pintar Mini: halaman web React 19 + TypeScript dengan Tailwind CSS v4, dibuat dengan Vite 8 (templat `react-ts` dari create-vite 9.3.1). Dashboard *login* dengan akun Modul 20, lalu menampilkan data *live* dari backend v1.0 lewat Socket.IO: daftar perangkat dengan status merah/hijau dan "terakhir dilihat", detail perangkat dengan angka yang berubah sendiri, grafik 5 menit terakhir, dan gauge. Layar riwayat menampilkan 1 jam, 24 jam, atau 7 hari terakhir sebagai grafik dan tabel berhalaman, dan bisa diunduh sebagai CSV. Tampilannya dirancang rapi di HP dan laptop dan mengikuti mode gelap sistem; dashboard juga bisa dibuka dari HP di WiFi rumah (lihat "Batasan v0.2"). Tombol kendali menyusul di Modul 24.
 
 ## Menjalankan

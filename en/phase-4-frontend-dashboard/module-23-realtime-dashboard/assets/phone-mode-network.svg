@@ -1,0 +1,118 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="968" viewBox="0 0 1200 968" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="968" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" xml:space="preserve">A phone over home Wi-Fi: phone mode and laptop mode</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" xml:space="preserve">Concept 12 · example laptop IP <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5">192.168.1.10</tspan> (yours will differ) · still <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5">http://</tspan>, only on the home network</text>
+<rect x="30.0" y="160.0" width="220.0" height="254.0" rx="14" fill="#ffffff" stroke="#1e2a4a" stroke-width="1.8" />
+<rect x="53.0" y="179.0" width="22.0" height="38.0" rx="5" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<circle cx="64.0" cy="211.0" r="1.8" fill="#1e2a4a" />
+<text x="90.0" y="194.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Phone</text>
+<text x="90.0" y="213.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >Chrome or Safari</text>
+<text x="46.0" y="252.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">opens:</text>
+<text x="46.0" y="271.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">http://192.168.1.10:5173</tspan></text>
+<text x="46.0" y="309.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">logs in with the <tspan font-weight="800">viewer</tspan> account:</text>
+<text x="46.0" y="328.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">cookies belong to a host name,</text>
+<text x="46.0" y="347.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">so log in again on the phone</text>
+<text x="46.0" y="385.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">check first: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">…:8080/health</tspan></text>
+<rect x="350.0" y="298.0" width="44.0" height="16.0" rx="4" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<line x1="360.0" y1="298.0" x2="356.0" y2="282.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<line x1="384.0" y1="298.0" x2="388.0" y2="282.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<circle cx="362.0" cy="306.0" r="1.6" fill="#1e2a4a" />
+<circle cx="369.0" cy="306.0" r="1.6" fill="#1e2a4a" />
+<circle cx="376.0" cy="306.0" r="1.6" fill="#1e2a4a" />
+<text x="372.0" y="340.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" >home Wi-Fi</text>
+<text x="372.0" y="358.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="middle" >not guest Wi-Fi</text>
+<rect x="470.0" y="104.0" width="700.0" height="414.0" rx="16" fill="#ffffff" stroke="#1e2a4a" stroke-width="2.2" />
+<rect x="488.0" y="121.0" width="40.0" height="26.0" rx="3" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<path d="M482 151 L534 151" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="540.0" y="134.0" font-size="15.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Laptop</text>
+<text x="540.0" y="153.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">Wi-Fi IP <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">192.168.1.10</tspan> (example; find it with <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">ipconfig</tspan>)</text>
+<rect x="498.0" y="176.0" width="326.0" height="116.0" rx="12" fill="#f5f0fc" stroke="#6f42c1" stroke-width="1.6" />
+<text x="516.0" y="202.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Vite: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" fill="#6f42c1" font-weight="800">npm</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" fill="#6f42c1" font-weight="800">run</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" fill="#6f42c1" font-weight="800">dev:phone</tspan></text>
+<text x="516.0" y="222.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">= <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">vite</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">--host</tspan>: listens on every address</text>
+<text x="516.0" y="248.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >the line you use from its output:</text>
+<text x="516.0" y="270.0" font-size="11" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">Network: http://192.168.1.10:5173/  Wi-Fi</text>
+<rect x="498.0" y="316.0" width="326.0" height="186.0" rx="12" fill="#dafbe1" stroke="#1a7f37" stroke-width="1.6" />
+<text x="516.0" y="342.0" font-size="14" font-weight="800" fill="#1a7f37" text-anchor="start" >backend v1.0 · port 8080</text>
+<text x="516.0" y="362.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1a7f37" font-weight="800">backend/.env</tspan> in phone mode:</text>
+<text x="516.0" y="384.0" font-size="11" font-weight="800" fill="#1a7f37" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">HOST=0.0.0.0</text>
+<text x="516.0" y="401.0" font-size="11" font-weight="800" fill="#1a7f37" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">CORS_ORIGIN=http://localhost:5173,</text>
+<text x="516.0" y="418.0" font-size="11" font-weight="800" fill="#1a7f37" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">  http://127.0.0.1:5173,</text>
+<text x="516.0" y="435.0" font-size="11" font-weight="800" fill="#1a7f37" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">  http://192.168.1.10:5173</text>
+<text x="516.0" y="470.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">one <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1a7f37" font-weight="800">CORS_ORIGIN</tspan> line serves <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1a7f37" font-weight="800">fetch</tspan> <tspan font-weight="800">and</tspan></text>
+<text x="516.0" y="486.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Socket.IO; this file stays out of Git</text>
+<rect x="852.0" y="176.0" width="298.0" height="116.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.4" />
+<rect x="865.0" y="196.0" width="38.0" height="28.0" rx="4" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<line x1="865.0" y1="204.0" x2="903.0" y2="204.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<circle cx="870.0" cy="200.0" r="1.1" fill="#1e2a4a" />
+<circle cx="874.5" cy="200.0" r="1.1" fill="#1e2a4a" />
+<circle cx="879.0" cy="200.0" r="1.1" fill="#1e2a4a" />
+<text x="914.0" y="206.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >laptop browser</text>
+<text x="914.0" y="225.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">still <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">http://localhost:5173</tspan></text>
+<text x="870.0" y="262.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">localhost</tspan> cookies don't work on the</text>
+<text x="870.0" y="279.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" >IP address, and the other way round</text>
+<rect x="852.0" y="316.0" width="298.0" height="120.0" rx="12" fill="#e6edf5" stroke="#336791" stroke-width="1.6" />
+<path d="M869 341 L869 363 A15 5 0 0 0 899 363 L899 341" fill="none" stroke="#336791" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<ellipse cx="884" cy="341" rx="15" ry="5" fill="none" stroke="#336791" stroke-width="2"/>
+<path d="M869 352 A15 5 0 0 0 899 352" fill="none" stroke="#336791" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="914.0" y="346.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >database (Docker)</text>
+<text x="914.0" y="365.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">still <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#336791" font-weight="800">127.0.0.1:5432</tspan></text>
+<text x="870.0" y="398.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >only the backend uses it;</text>
+<text x="870.0" y="416.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >the phone can't reach it</text>
+<line x1="826.0" y1="409.0" x2="848.0" y2="409.0" stroke="#336791" stroke-width="2" stroke-linecap="round" />
+<path d="M842.7 411.8 L848.0 409.0 L842.7 406.2" fill="none" stroke="#336791" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="252.0" y1="236.0" x2="494.0" y2="236.0" stroke="#6f42c1" stroke-width="2.4" stroke-linecap="round" />
+<path d="M486.9 239.8 L494.0 236.0 L486.9 232.2" fill="none" stroke="#6f42c1" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="360.0" y="229.0" font-size="12" font-weight="700" fill="#6f42c1" text-anchor="middle" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" font-weight="800">:5173</tspan> page</text>
+<line x1="252.0" y1="392.0" x2="494.0" y2="392.0" stroke="#6f42c1" stroke-width="2.4" stroke-linecap="round" />
+<path d="M486.9 395.8 L494.0 392.0 L486.9 388.2" fill="none" stroke="#6f42c1" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="360.0" y="385.0" font-size="12" font-weight="700" fill="#6f42c1" text-anchor="middle" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" font-weight="800">:8080</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" font-weight="800">fetch</tspan> + Socket.IO</text>
+<rect x="852.0" y="452.0" width="298.0" height="50.0" rx="10" fill="#eef1f5" />
+<rect x="865.4" y="472.2" width="13.2" height="10.2" rx="1.7999999999999998" fill="none" stroke="#1e2a4a" stroke-width="1.6" />
+<path d="M868.10 472.20 L868.10 469.20 A3.90 3.90 0 0 1 875.90 469.20 L875.90 472.20" fill="none" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="872.0" cy="477.0" r="1.3800000000000001" fill="#1e2a4a" />
+<text x="890.0" y="472.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Windows firewall: allow Node.js</text>
+<text x="890.0" y="489.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">JavaScript Runtime, <tspan font-weight="800">Private</tspan> only</text>
+<rect x="30.0" y="540.0" width="1140.0" height="266.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<path d="M30.8 578.8 L30.8 551.8 Q30.8 540.8 41.8 540.8 L1158.2 540.8 Q1169.2 540.8 1169.2 551.8 L1169.2 578.8 Z" fill="#eef1f5" stroke-linecap="round" stroke-linejoin="round" />
+<text x="50.0" y="565.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" >Setting</text>
+<text x="270.0" y="565.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" >Laptop mode (default, safest)</text>
+<text x="690.0" y="565.0" font-size="13" font-weight="800" fill="#6f42c1" text-anchor="start" >Phone mode (only during that session)</text>
+<text x="50.0" y="602.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve">backend <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">HOST</tspan></text>
+<text x="270.0" y="602.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">127.0.0.1</tspan></text>
+<text x="690.0" y="602.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">0.0.0.0</tspan> (every address of the laptop)</text>
+<line x1="46.0" y1="615.0" x2="1154.0" y2="615.0" stroke="#e0dcd2" stroke-width="1" stroke-linecap="round" />
+<text x="50.0" y="639.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve">backend <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">CORS_ORIGIN</tspan></text>
+<text x="270.0" y="639.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">http://localhost:5173,http://127.0.0.1:5173</tspan></text>
+<text x="690.0" y="639.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the same + <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">,http://192.168.1.10:5173</tspan></text>
+<line x1="46.0" y1="652.0" x2="1154.0" y2="652.0" stroke="#e0dcd2" stroke-width="1" stroke-linecap="round" />
+<text x="50.0" y="676.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Vite</text>
+<text x="270.0" y="676.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">npm run dev</tspan></text>
+<text x="690.0" y="676.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">npm</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">run</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">dev:phone</tspan> (= <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">vite</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">--host</tspan>)</text>
+<line x1="46.0" y1="689.0" x2="1154.0" y2="689.0" stroke="#e0dcd2" stroke-width="1" stroke-linecap="round" />
+<text x="50.0" y="713.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Windows firewall</text>
+<text x="270.0" y="713.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">not needed</text>
+<text x="690.0" y="713.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">allow Node.js, <tspan font-weight="800" fill="#6f42c1">Private</tspan> networks only</text>
+<line x1="46.0" y1="726.0" x2="1154.0" y2="726.0" stroke="#e0dcd2" stroke-width="1" stroke-linecap="round" />
+<text x="50.0" y="750.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve">opened from</text>
+<text x="270.0" y="750.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">http://localhost:5173</tspan></text>
+<text x="690.0" y="750.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">phone: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">http://192.168.1.10:5173</tspan> (the laptop stays on <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">localhost</tspan>)</text>
+<line x1="46.0" y1="763.0" x2="1154.0" y2="763.0" stroke="#e0dcd2" stroke-width="1" stroke-linecap="round" />
+<text x="50.0" y="787.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve">database</text>
+<text x="270.0" y="787.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">127.0.0.1</tspan></text>
+<text x="690.0" y="787.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">127.0.0.1</tspan> (unchanged, not opened to the Wi-Fi)</text>
+<rect x="30.0" y="824.0" width="366.0" height="112.0" rx="12" fill="#fde6e8" stroke="#e63946" stroke-width="1.4" />
+<text x="48.0" y="852.0" font-size="14" font-weight="800" fill="#e63946" text-anchor="start" xml:space="preserve">Don't use <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" fill="#e63946" font-weight="800">HOST=192.168.1.10</tspan></text>
+<text x="48.0" y="878.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the backend stops listening on <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">127.0.0.1</tspan>,</text>
+<text x="48.0" y="897.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">so the dashboard on the laptop can't</text>
+<text x="48.0" y="916.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">reach it.</text>
+<rect x="417.0" y="824.0" width="366.0" height="112.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.4" />
+<text x="435.0" y="852.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">The phone doesn't know <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" fill="#1e2a4a" font-weight="800">localhost</tspan></text>
+<text x="435.0" y="878.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">to the phone, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">localhost</tspan> = the phone itself:</text>
+<text x="435.0" y="897.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">always write the laptop's IP, and that IP</text>
+<text x="435.0" y="916.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">must be in <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">CORS_ORIGIN</tspan>.</text>
+<rect x="804.0" y="824.0" width="366.0" height="112.0" rx="12" fill="#f5f0fc" stroke="#6f42c1" stroke-width="1.4" />
+<text x="822.0" y="852.0" font-size="14" font-weight="800" fill="#6f42c1" text-anchor="start" xml:space="preserve">End the session: back to laptop mode</text>
+<text x="822.0" y="878.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">before the laptop goes to another network.</text>
+<text x="822.0" y="897.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Internet + HTTPS wait for Module 27.</text>
+<text x="1178.0" y="954.0" font-size="11" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer Curriculum · CC BY 4.0</text>
+</svg>

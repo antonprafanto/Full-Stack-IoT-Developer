@@ -4,7 +4,7 @@
 
 *Phase 4 · Week 22 · Hardware: **not required** — the dashboard only reads backend v1.0 on the laptop; its data comes from Node 1 and Node 2 (**Kit A + B**) **or** the Module 21 simulator · Prerequisites: **Module 21** (the locked backend v1.0) · Time: 9–11 hours, spread over the week*
 
-[⬅️ Module 21](../../phase-3-backend-data/module-21-device-broker-security/README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · [Module 23 ➡️ (coming soon — read the summary in the Syllabus)](../../SYLLABUS.md#module-23--realtime-dashboard-charts-gauges-history--status)
+[⬅️ Module 21](../../phase-3-backend-data/module-21-device-broker-security/README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · [Module 23 ➡️](../module-23-realtime-dashboard/README.md)
 
 ---
 
@@ -4830,4 +4830,4 @@ The dashboard (Practices 4–8) and all the screenshots were recorded in Microso
 
 ---
 
-[⬅️ Module 21](../../phase-3-backend-data/module-21-device-broker-security/README.md) · [Phase 4](../README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · **Next: Module 23 — Realtime Dashboard: Charts, Gauges, History, & Status** (coming soon; [read the summary in the Syllabus](../../SYLLABUS.md#module-23--realtime-dashboard-charts-gauges-history--status))
+[⬅️ Module 21](../../phase-3-backend-data/module-21-device-broker-security/README.md) · [Phase 4](../README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · **Next: [Module 23 — Realtime Dashboard: Charts, Gauges, History, & Status](../module-23-realtime-dashboard/README.md) ➡️**

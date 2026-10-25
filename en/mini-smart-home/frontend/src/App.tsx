@@ -1,14 +1,18 @@
-// App.tsx - the dashboard v0.1 frame. When it opens, App asks the backend "who am I?" (GET /auth/me),
-// then picks one of three screens with plain state (React Router only comes in Module 24): login, list, or details.
-import { useEffect, useState } from "react";
+// App.tsx - the dashboard frame. When it opens, App asks the backend "who am I?" (GET /auth/me),
+// then picks a screen with plain state (React Router only comes in Module 24): login, list, details, or history.
+// Module 23: while logged in, App keeps ONE live connection (Socket.IO) through useRealtime().
+import { useCallback, useEffect, useState } from "react";
 import { ApiError, logout, whoAmI } from "./api";
 import DeviceList from "./components/DeviceList";
 import DeviceDetails from "./components/DeviceDetails";
+import ConnectionBadge from "./components/ConnectionBadge";
 import Login from "./components/Login";
+import DeviceHistory from "./components/DeviceHistory";
+import { socket, useRealtime } from "./socket";
 import type { Device, User } from "./types";
 
-// the screen shown after login: the list, or one device's details (with its data from the list)
-type View = { name: "list" } | { name: "details"; device: Device };
+// the screen shown after login: the list, one device's details, or one device's history
+type View = { name: "list" } | { name: "details"; device: Device } | { name: "history"; device: Device };
 
 export default function App() {
   // "loading" = asking the backend; null = not logged in; an object = logged in
@@ -42,13 +46,18 @@ export default function App() {
     setView({ name: "list" }); // always start from the device list
   }
 
-  function handleSessionExpired() {
+  // Module 23: useCallback = the SAME function on every App render. Without it, every time App re-renders (for example
+  // on a screen change), the effect that depends on handleSessionExpired runs again: the live connection is cut and made again.
+  const handleSessionExpired = useCallback(() => {
     setInitialError("Your session has expired. Please log in again.");
     setUser(null);
-  }
+  }, []);
 
   // A minimal Log out button (improved in Module 24): delete the session in the backend, then go back to the form.
   async function handleLogout() {
+    // Module 23: cut the live connection FIRST (reason "io client disconnect": no reconnect), then delete the session.
+    // The other way round, the server cuts us ("io server disconnect"), and then the socket tries to connect again.
+    socket.disconnect();
     try {
       await logout();
     } catch {
@@ -57,29 +66,68 @@ export default function App() {
     setUser(null);
   }
 
+  // Module 23: the live connection (Socket.IO) lives while logged in. A hook is called before any "return".
+  const loggedIn = user !== null && user !== "loading";
+  useRealtime(loggedIn, handleSessionExpired);
+
   if (user === "loading") {
-    return <div className="flex min-h-screen items-center justify-center bg-slate-100 text-slate-500">Loading…</div>;
+    return <div className="flex min-h-screen items-center justify-center bg-slate-100 text-slate-500 dark:bg-slate-900">Loading…</div>;
   }
   if (user === null) {
     return <Login initialError={initialError} onLogin={handleLogin} />;
   }
 
+  // Pick ONE screen for the main part
+  let currentScreen;
+  if (view.name === "list") {
+    currentScreen = (
+      <>
+        <h2 className="mb-4 text-lg font-semibold text-slate-800 dark:text-slate-100">Device List</h2>
+        <DeviceList onSelect={(device) => setView({ name: "details", device })} onSessionExpired={handleSessionExpired} />
+      </>
+    );
+  } else if (view.name === "details") {
+    const device = view.device;
+    currentScreen = (
+      // key = device_id: another device means a new DeviceDetails with fresh state,
+      // not the leftover reading of the previous device (React's official "resetting state with a key" pattern)
+      <DeviceDetails
+        key={device.device_id}
+        device={device}
+        onBack={() => setView({ name: "list" })}
+        onHistory={() => setView({ name: "history", device })}
+      />
+    );
+  } else {
+    const device = view.device;
+    currentScreen = (
+      <DeviceHistory
+        device={device}
+        onBack={() => setView({ name: "details", device })}
+        onSessionExpired={handleSessionExpired}
+      />
+    );
+  }
+
   return (
-    <div className="min-h-screen bg-slate-100">
-      <header className="border-b border-slate-200 bg-white">
+    <div className="min-h-screen bg-slate-100 dark:bg-slate-900">
+      <header className="border-b border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-800">
         {/* flex-wrap: on a narrow screen, the name + Log out button move down to a second row, not squeezed next to the heading */}
         <div className="mx-auto flex max-w-3xl flex-wrap items-center justify-between gap-x-4 gap-y-1 px-4 py-2">
-          <h1 className="text-lg font-bold text-slate-800">Mini Smart Home</h1>
+          <div className="flex items-center gap-2">
+            <h1 className="text-lg font-bold text-slate-800 dark:text-slate-100">Mini Smart Home</h1>
+            <ConnectionBadge />
+          </div>
           {/* min-w-0 + truncate: a long name is cut off with "…", it doesn't push the Log out button off the screen */}
           <div className="flex min-w-0 items-center gap-3 text-sm">
-            <span className="truncate text-slate-600">
+            <span className="truncate text-slate-600 dark:text-slate-300">
               {user.name} <span className="text-slate-400">({user.role})</span>
             </span>
             {/* min-h-11 = a minimum height of 44 px: big enough to tap with a thumb */}
             <button
               type="button"
               onClick={handleLogout}
-              className="min-h-11 shrink-0 rounded-lg border border-slate-300 px-4 hover:bg-slate-50"
+              className="min-h-11 shrink-0 rounded-lg border border-slate-300 px-4 hover:bg-slate-50 dark:border-slate-600 dark:text-slate-200 dark:hover:bg-slate-700"
             >
               Log out
             </button>
@@ -87,26 +135,7 @@ export default function App() {
         </div>
       </header>
 
-      <main className="mx-auto max-w-3xl px-4 py-6">
-        {view.name === "list" ? (
-          <>
-            <h2 className="mb-4 text-lg font-semibold text-slate-800">Device List</h2>
-            <DeviceList
-              onSelect={(device) => setView({ name: "details", device })}
-              onSessionExpired={handleSessionExpired}
-            />
-          </>
-        ) : (
-          // key = device_id: another device means a new DeviceDetails with fresh state,
-          // not the leftover reading of the previous device (React's official "resetting state with a key" pattern)
-          <DeviceDetails
-            key={view.device.device_id}
-            device={view.device}
-            onBack={() => setView({ name: "list" })}
-            onSessionExpired={handleSessionExpired}
-          />
-        )}
-      </main>
+      <main className="mx-auto max-w-3xl px-4 py-6">{currentScreen}</main>
     </div>
   );
 }

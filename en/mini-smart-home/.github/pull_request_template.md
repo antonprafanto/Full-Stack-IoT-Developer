@@ -6,6 +6,7 @@
 
 - [ ] `npm run check` passes, without type errors
 - [ ] **(Module 22)** If `frontend/` changed: in the `frontend` folder, `npm run build` and `npm run lint` pass with no errors and no warnings
+- [ ] **(Module 23)** The only warning allowed in `npm run build` is the size warning `Some chunks are larger than 500 kB` (Recharts, explained in Module 23); `npm run lint` still has no warnings
 - [ ] The server starts with `npm run dev`, without errors in the terminal
 - [ ] The new route was tried in Bruno, its test passes, and its request is saved in `backend/bruno/`
 - [ ] The new route shows up in `/docs`, with its descriptions
@@ -28,4 +29,8 @@
 - [ ] **(Module 21)** `edge/broker-passwd` doesn't go into Git, and no new behavior bypasses the second layer (messages from an unregistered/revoked device are still ignored, the backend doesn't create `devices` rows automatically)
 - [ ] **(Module 22)** No secrets in `VITE_…` variables (they all go to the browser), and `frontend/.env.local` doesn't go into Git; only `frontend/.env.example` without secret values may
 - [ ] **(Module 22)** The dashboard doesn't keep passwords or tokens in `localStorage` (login only through the backend's `HttpOnly` cookie, `fetch` with `credentials: "include"`), and API data is shown as JSX text, without `dangerouslySetInnerHTML`
+- [ ] **(Module 23)** No polling: new data only comes through Socket.IO, and `git grep -n setInterval frontend/src` only finds the clock in `frontend/src/time.ts`
+- [ ] **(Module 23)** Every `socket.on(…)` has a `socket.off(…)` with the same function in its effect's cleanup, and the socket is still created once in `frontend/src/socket.ts` (not inside a component)
+- [ ] **(Module 23)** Phone mode has been switched back to laptop mode (`HOST=127.0.0.1`, the IP address removed from `CORS_ORIGIN`, Vite without `--host`), and the `backend/.env` that holds the laptop's IP doesn't go into Git
+- [ ] **(Module 23)** No experiment files in the **Files changed** tab: `frontend/public/try-live.html` (Quick Win) and the `frontend/src/loadtest/` folder (Practice 6)
 - [ ] `npm test` passes, new npm packages are installed with an exact version (`npm install name@version`) and recorded in `package-lock.json`, `npm audit` answers `found 0 vulnerabilities`, and `allowScripts` only grows for packages that really need an install script

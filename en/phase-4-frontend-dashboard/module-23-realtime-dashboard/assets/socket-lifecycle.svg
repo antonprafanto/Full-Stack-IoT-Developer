@@ -1,0 +1,206 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1338" viewBox="0 0 1200 1338" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="1338" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" xml:space="preserve">A locked socket: it drops, then who reconnects?</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" xml:space="preserve">Concepts 1–2 · one socket for the whole dashboard: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5">io(BASE,</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5">{</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5">withCredentials:</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5">true,</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5">autoConnect:</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5">false</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5">})</tspan></text>
+<text x="30.0" y="120.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#6f42c1">Concept 1:</tspan> where do new numbers come from?</text>
+<rect x="30.0" y="134.0" width="366.0" height="146.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.4" />
+<text x="46.0" y="160.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Asking once (v0.1)</text>
+<text x="46.0" y="196.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" >browser</text>
+<text x="46.0" y="240.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" >backend</text>
+<line x1="112.0" y1="192.0" x2="380.0" y2="192.0" stroke="#d5dbe3" stroke-width="2" stroke-linecap="round" />
+<line x1="112.0" y1="236.0" x2="380.0" y2="236.0" stroke="#d5dbe3" stroke-width="2" stroke-linecap="round" />
+<line x1="140.0" y1="196.0" x2="140.0" y2="232.0" stroke="#1e2a4a" stroke-width="1.8" stroke-linecap="round" />
+<path d="M137.2 226.7 L140.0 232.0 L142.8 226.7" fill="none" stroke="#1e2a4a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="150.0" y1="232.0" x2="150.0" y2="196.0" stroke="#1e2a4a" stroke-width="1.8" stroke-linecap="round" />
+<path d="M152.8 201.3 L150.0 196.0 L147.2 201.3" fill="none" stroke="#1e2a4a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<text x="162.0" y="218.0" font-size="11.5" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">GET</text>
+<text x="46.0" y="266.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >the numbers stay still until the screen reopens</text>
+<rect x="417.0" y="134.0" width="366.0" height="146.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.4" />
+<text x="433.0" y="160.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Polling (not used)</text>
+<text x="433.0" y="196.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" >browser</text>
+<text x="433.0" y="240.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" >backend</text>
+<line x1="499.0" y1="192.0" x2="767.0" y2="192.0" stroke="#d5dbe3" stroke-width="2" stroke-linecap="round" />
+<line x1="499.0" y1="236.0" x2="767.0" y2="236.0" stroke="#d5dbe3" stroke-width="2" stroke-linecap="round" />
+<line x1="517.0" y1="196.0" x2="517.0" y2="232.0" stroke="#9aa3b0" stroke-width="1.8" stroke-linecap="round" />
+<path d="M514.2 226.7 L517.0 232.0 L519.8 226.7" fill="none" stroke="#9aa3b0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="527.0" y1="232.0" x2="527.0" y2="196.0" stroke="#9aa3b0" stroke-width="1.8" stroke-linecap="round" />
+<path d="M529.8 201.3 L527.0 196.0 L524.2 201.3" fill="none" stroke="#9aa3b0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="567.0" y1="196.0" x2="567.0" y2="232.0" stroke="#9aa3b0" stroke-width="1.8" stroke-linecap="round" />
+<path d="M564.2 226.7 L567.0 232.0 L569.8 226.7" fill="none" stroke="#9aa3b0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="577.0" y1="232.0" x2="577.0" y2="196.0" stroke="#9aa3b0" stroke-width="1.8" stroke-linecap="round" />
+<path d="M579.8 201.3 L577.0 196.0 L574.2 201.3" fill="none" stroke="#9aa3b0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="617.0" y1="196.0" x2="617.0" y2="232.0" stroke="#9aa3b0" stroke-width="1.8" stroke-linecap="round" />
+<path d="M614.2 226.7 L617.0 232.0 L619.8 226.7" fill="none" stroke="#9aa3b0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="627.0" y1="232.0" x2="627.0" y2="196.0" stroke="#9aa3b0" stroke-width="1.8" stroke-linecap="round" />
+<path d="M629.8 201.3 L627.0 196.0 L624.2 201.3" fill="none" stroke="#9aa3b0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="667.0" y1="196.0" x2="667.0" y2="232.0" stroke="#9aa3b0" stroke-width="1.8" stroke-linecap="round" />
+<path d="M664.2 226.7 L667.0 232.0 L669.8 226.7" fill="none" stroke="#9aa3b0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="677.0" y1="232.0" x2="677.0" y2="196.0" stroke="#9aa3b0" stroke-width="1.8" stroke-linecap="round" />
+<path d="M679.8 201.3 L677.0 196.0 L674.2 201.3" fill="none" stroke="#9aa3b0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="717.0" y1="196.0" x2="717.0" y2="232.0" stroke="#9aa3b0" stroke-width="1.8" stroke-linecap="round" />
+<path d="M714.2 226.7 L717.0 232.0 L719.8 226.7" fill="none" stroke="#9aa3b0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="727.0" y1="232.0" x2="727.0" y2="196.0" stroke="#9aa3b0" stroke-width="1.8" stroke-linecap="round" />
+<path d="M729.8 201.3 L727.0 196.0 L724.2 201.3" fill="none" stroke="#9aa3b0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<text x="433.0" y="266.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >asking again and again, often for nothing</text>
+<rect x="804.0" y="134.0" width="366.0" height="146.0" rx="12" fill="#f5f0fc" stroke="#6f42c1" stroke-width="1.6" />
+<text x="820.0" y="160.0" font-size="14" font-weight="800" fill="#6f42c1" text-anchor="start" xml:space="preserve">Pushed (v0.2)</text>
+<text x="820.0" y="196.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" >browser</text>
+<text x="820.0" y="240.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" >backend</text>
+<line x1="886.0" y1="192.0" x2="1154.0" y2="192.0" stroke="#d5dbe3" stroke-width="2" stroke-linecap="round" />
+<line x1="886.0" y1="236.0" x2="1154.0" y2="236.0" stroke="#d5dbe3" stroke-width="2" stroke-linecap="round" />
+<rect x="900.0" y="195.0" width="254.0" height="38.0" rx="4" fill="#e6dcf5" />
+<line x1="908.0" y1="196.0" x2="908.0" y2="232.0" stroke="#1e2a4a" stroke-width="1.8" stroke-linecap="round" />
+<path d="M905.2 226.7 L908.0 232.0 L910.8 226.7" fill="none" stroke="#1e2a4a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="969.0" y1="232.0" x2="969.0" y2="196.0" stroke="#6f42c1" stroke-width="2" stroke-linecap="round" />
+<path d="M971.8 201.3 L969.0 196.0 L966.2 201.3" fill="none" stroke="#6f42c1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="1066.0" y1="232.0" x2="1066.0" y2="196.0" stroke="#6f42c1" stroke-width="2" stroke-linecap="round" />
+<path d="M1068.8 201.3 L1066.0 196.0 L1063.2 201.3" fill="none" stroke="#6f42c1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="1086.0" y1="232.0" x2="1086.0" y2="196.0" stroke="#6f42c1" stroke-width="2" stroke-linecap="round" />
+<path d="M1088.8 201.3 L1086.0 196.0 L1083.2 201.3" fill="none" stroke="#6f42c1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="1134.0" y1="232.0" x2="1134.0" y2="196.0" stroke="#6f42c1" stroke-width="2" stroke-linecap="round" />
+<path d="M1136.8 201.3 L1134.0 196.0 L1131.2 201.3" fill="none" stroke="#6f42c1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="976.0" y="218.0" font-size="11.5" font-weight="800" fill="#6f42c1" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">telemetry</text>
+<text x="820.0" y="266.0" font-size="12.5" font-weight="600" fill="#6f42c1" text-anchor="start" >connect once, then the backend pushes</text>
+<text x="30.0" y="312.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#6f42c1">Concept 2:</tspan> the connection badge in the dashboard header (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" font-weight="800">ConnectionBadge</tspan>)</text>
+<text x="30.0" y="378.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" >logged in</text>
+<text x="30.0" y="396.0" font-size="11.5" font-weight="800" fill="#6f42c1" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">socket.connect()</text>
+<line x1="166.0" y1="381.0" x2="212.0" y2="381.0" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" />
+<path d="M205.8 384.3 L212.0 381.0 L205.8 377.7" fill="none" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="218.0" y="368.0" width="170.0" height="26.0" rx="13.0" fill="#fdeedd" stroke="#b45f17" stroke-width="1.4" />
+<text x="303.0" y="385.5" font-size="12.5" font-weight="800" fill="#b45f17" text-anchor="middle" xml:space="preserve">Reconnecting…</text>
+<line x1="392.0" y1="381.0" x2="594.0" y2="381.0" stroke="#2a9d5c" stroke-width="2.2" stroke-linecap="round" />
+<path d="M587.8 384.3 L594.0 381.0 L587.8 377.7" fill="none" stroke="#2a9d5c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="493.0" y="374.0" font-size="12" font-weight="800" fill="#2a9d5c" text-anchor="middle" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" font-weight="800">connect</tspan></text>
+<rect x="600.0" y="368.0" width="100.0" height="26.0" rx="13.0" fill="#e3f4ea" stroke="#2a9d5c" stroke-width="1.4" />
+<text x="650.0" y="385.5" font-size="12.5" font-weight="800" fill="#2a9d5c" text-anchor="middle" xml:space="preserve">Live</text>
+<line x1="704.0" y1="381.0" x2="914.0" y2="381.0" stroke="#e63946" stroke-width="2.2" stroke-linecap="round" />
+<path d="M907.8 384.3 L914.0 381.0 L907.8 377.7" fill="none" stroke="#e63946" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="809.0" y="374.0" font-size="12" font-weight="600" fill="#e63946" text-anchor="middle" xml:space="preserve"><tspan font-weight="800">Log out</tspan> (cause 2)</text>
+<rect x="920.0" y="368.0" width="128.0" height="26.0" rx="13.0" fill="#fde6e8" stroke="#e63946" stroke-width="1.4" />
+<text x="984.0" y="385.5" font-size="12.5" font-weight="800" fill="#e63946" text-anchor="middle" xml:space="preserve">Disconnected</text>
+<path d="M650 395 L650 424 L303 424 L303 399" fill="none" stroke="#b45f17" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M306.3 403.2 L303.0 397.0 L299.7 403.2" fill="none" stroke="#b45f17" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="476.0" y="442.0" font-size="12" font-weight="700" fill="#b45f17" text-anchor="middle" xml:space="preserve">dropped (causes 1, 3, 4): trying again</text>
+<path d="M303 367 L303 336 L984 336 L984 363" fill="none" stroke="#e63946" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="6 4"/>
+<path d="M980.7 358.8 L984.0 365.0 L987.3 358.8" fill="none" stroke="#e63946" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="640.0" y="329.0" font-size="12" font-weight="700" fill="#e63946" text-anchor="middle" xml:space="preserve">refused by the door guard even after 3 refreshes</text>
+<text x="218.0" y="472.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">connecting, or trying again;</text>
+<text x="218.0" y="489.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">the numbers on screen may be stale</text>
+<text x="600.0" y="472.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">connected: the numbers update</text>
+<text x="600.0" y="489.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">as soon as a message arrives</text>
+<text x="920.0" y="472.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">stopped trying: after</text>
+<text x="920.0" y="489.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">Log out</tspan>, or refused every time</text>
+<rect x="30.0" y="516.0" width="1140.0" height="548.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<path d="M30.8 552.8 L30.8 527.8 Q30.8 516.8 41.8 516.8 L1158.2 516.8 Q1169.2 516.8 1169.2 527.8 L1169.2 552.8 Z" fill="#eef1f5" stroke-linecap="round" stroke-linejoin="round" />
+<text x="50.0" y="540.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Cause of the drop</text>
+<text x="330.0" y="540.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Reason in <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" font-weight="800">disconnect</tspan></text>
+<text x="560.0" y="540.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Who reconnects (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" font-weight="800">socket.ts</tspan>)</text>
+<text x="985.0" y="540.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Badge</text>
+<circle cx="62.0" cy="578.0" r="12" fill="#6f42c1" stroke="#ffffff" stroke-width="2" />
+<text x="62.0" y="582.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >1</text>
+<text x="82.0" y="583.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">The 15-minute wristband ends</text>
+<text x="82.0" y="604.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">the server disconnects exactly</text>
+<text x="82.0" y="622.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">900 seconds after the wristband</text>
+<text x="82.0" y="640.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">was made (Module 20)</text>
+<text x="330.0" y="583.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">io server disconnect</text>
+<text x="330.0" y="604.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">the server disconnects</text>
+<text x="330.0" y="622.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">on purpose</tspan>; Socket.IO doesn't</text>
+<text x="330.0" y="640.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">reconnect by itself</text>
+<text x="560.0" y="583.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#6f42c1">dashboard</tspan>: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">refreshOnce()</tspan> → <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">POST</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">/auth/refresh</tspan></text>
+<text x="560.0" y="602.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">→ <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">true</tspan> (new wristband) → <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">socket.connect()</tspan></text>
+<text x="560.0" y="621.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">author's test: one refresh, connected in the same second</text>
+<rect x="985.0" y="568.0" width="128.0" height="24.0" rx="12.0" fill="#fdeedd" stroke="#b45f17" stroke-width="1.4" />
+<text x="1049.0" y="584.3" font-size="12" font-weight="800" fill="#b45f17" text-anchor="middle" xml:space="preserve">Reconnecting…</text>
+<line x1="1015.0" y1="595.0" x2="1015.0" y2="606.0" stroke="#9aa3b0" stroke-width="1.8" stroke-linecap="round" />
+<path d="M1012.2 602.7 L1015.0 608.0 L1017.8 602.7" fill="none" stroke="#9aa3b0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="985.0" y="610.0" width="60.0" height="24.0" rx="12.0" fill="#e3f4ea" stroke="#2a9d5c" stroke-width="1.4" />
+<text x="1015.0" y="626.3" font-size="12" font-weight="800" fill="#2a9d5c" text-anchor="middle" xml:space="preserve">Live</text>
+<line x1="30.0" y1="662.0" x2="1170.0" y2="662.0" stroke="#e0dcd2" stroke-width="1.2" stroke-linecap="round" />
+<circle cx="62.0" cy="688.0" r="12" fill="#6f42c1" stroke="#ffffff" stroke-width="2" />
+<text x="62.0" y="692.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >2</text>
+<text x="82.0" y="693.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800">Log out</tspan></text>
+<text x="82.0" y="714.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">the <tspan font-weight="800" fill="#1e2a4a">Log out</tspan> button in this tab</text>
+<text x="330.0" y="693.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">io client disconnect</text>
+<text x="330.0" y="714.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">we disconnected ourselves</text>
+<text x="560.0" y="693.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">socket.disconnect()</tspan> <tspan font-weight="800" fill="#6f42c1">first</tspan>, then <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">POST</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">/auth/logout</tspan></text>
+<text x="560.0" y="712.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">nobody reconnects (on purpose)</text>
+<rect x="985.0" y="678.0" width="109.3" height="24.0" rx="12.0" fill="#fde6e8" stroke="#e63946" stroke-width="1.4" />
+<text x="1039.6" y="694.3" font-size="12" font-weight="800" fill="#e63946" text-anchor="middle" xml:space="preserve">Disconnected</text>
+<text x="1100.3" y="694.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">then</text>
+<rect x="985.0" y="710.0" width="112.0" height="24.0" rx="12.0" fill="#eef1f5" stroke="#9aa3b0" stroke-width="1.4" />
+<text x="1041.0" y="726.3" font-size="12" font-weight="800" fill="#4a5568" text-anchor="middle" xml:space="preserve">login screen</text>
+<line x1="50.0" y1="746.0" x2="1150.0" y2="746.0" stroke="#e0dcd2" stroke-width="1" stroke-linecap="round" stroke-dasharray="5 4" />
+<text x="82.0" y="769.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800">Log out</tspan> in another tab</text>
+<text x="82.0" y="790.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">its session is already deleted</text>
+<text x="82.0" y="808.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">in the database</text>
+<text x="330.0" y="769.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">io server disconnect</text>
+<text x="330.0" y="790.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">the server ends that session</text>
+<text x="560.0" y="769.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#6f42c1">dashboard</tspan>: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">refreshOnce()</tspan> → <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">false</tspan> (refused)</text>
+<text x="560.0" y="788.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">→ login screen:</text>
+<text x="560.0" y="807.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Your session has expired. Please log in again.</text>
+<rect x="985.0" y="754.0" width="128.0" height="24.0" rx="12.0" fill="#fdeedd" stroke="#b45f17" stroke-width="1.4" />
+<text x="1049.0" y="770.3" font-size="12" font-weight="800" fill="#b45f17" text-anchor="middle" xml:space="preserve">Reconnecting…</text>
+<line x1="1015.0" y1="781.0" x2="1015.0" y2="792.0" stroke="#9aa3b0" stroke-width="1.8" stroke-linecap="round" />
+<path d="M1012.2 788.7 L1015.0 794.0 L1017.8 788.7" fill="none" stroke="#9aa3b0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="985.0" y="796.0" width="112.0" height="24.0" rx="12.0" fill="#eef1f5" stroke="#9aa3b0" stroke-width="1.4" />
+<text x="1041.0" y="812.3" font-size="12" font-weight="800" fill="#4a5568" text-anchor="middle" xml:space="preserve">login screen</text>
+<line x1="30.0" y1="830.0" x2="1170.0" y2="830.0" stroke="#e0dcd2" stroke-width="1.2" stroke-linecap="round" />
+<circle cx="62.0" cy="856.0" r="12" fill="#6f42c1" stroke="#ffffff" stroke-width="2" />
+<text x="62.0" y="860.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >3</text>
+<text x="82.0" y="861.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Ctrl+C <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" font-weight="800">npm</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" font-weight="800">start</tspan></text>
+<text x="82.0" y="882.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">the backend stops gracefully</text>
+<text x="82.0" y="900.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">(Ctrl+C <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#1e2a4a" font-weight="700">npm</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#1e2a4a" font-weight="700">run</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#1e2a4a" font-weight="700">dev</tspan> on Windows:</text>
+<text x="82.0" y="918.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">sometimes here, sometimes no. 4)</text>
+<text x="330.0" y="861.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">io server disconnect</text>
+<text x="330.0" y="882.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">the server disconnects every</text>
+<text x="330.0" y="900.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">socket before it stops</text>
+<text x="560.0" y="861.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#6f42c1">dashboard</tspan>: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">refreshOnce()</tspan> → <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">null</tspan></text>
+<text x="560.0" y="880.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">(the backend can't answer yet) → <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">socket.connect()</tspan></text>
+<text x="560.0" y="899.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">Socket.IO then retries by itself every 1–5 seconds</text>
+<text x="560.0" y="917.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">until the backend is running again</text>
+<rect x="985.0" y="846.0" width="128.0" height="24.0" rx="12.0" fill="#fdeedd" stroke="#b45f17" stroke-width="1.4" />
+<text x="1049.0" y="862.3" font-size="12" font-weight="800" fill="#b45f17" text-anchor="middle" xml:space="preserve">Reconnecting…</text>
+<line x1="1015.0" y1="873.0" x2="1015.0" y2="884.0" stroke="#9aa3b0" stroke-width="1.8" stroke-linecap="round" />
+<path d="M1012.2 880.7 L1015.0 886.0 L1017.8 880.7" fill="none" stroke="#9aa3b0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="985.0" y="888.0" width="60.0" height="24.0" rx="12.0" fill="#e3f4ea" stroke="#2a9d5c" stroke-width="1.4" />
+<text x="1015.0" y="904.3" font-size="12" font-weight="800" fill="#2a9d5c" text-anchor="middle" xml:space="preserve">Live</text>
+<line x1="30.0" y1="940.0" x2="1170.0" y2="940.0" stroke="#e0dcd2" stroke-width="1.2" stroke-linecap="round" />
+<circle cx="62.0" cy="966.0" r="12" fill="#6f42c1" stroke="#ffffff" stroke-width="2" />
+<text x="62.0" y="970.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >4</text>
+<text x="82.0" y="971.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Wi-Fi drops</text>
+<text x="82.0" y="992.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">or the backend dies suddenly</text>
+<text x="82.0" y="1010.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">(Ctrl+C <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#1e2a4a" font-weight="700">npm</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#1e2a4a" font-weight="700">run</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#1e2a4a" font-weight="700">dev</tspan> on Windows:</text>
+<text x="82.0" y="1028.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">sometimes here, sometimes no. 3),</text>
+<text x="82.0" y="1046.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">or <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#1e2a4a" font-weight="700">--watch</tspan> restarts it</text>
+<text x="330.0" y="971.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">transport close</text>
+<text x="330.0" y="992.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">the connection broke</text>
+<text x="330.0" y="1010.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">midway</text>
+<text x="560.0" y="971.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#6f42c1">Socket.IO itself</tspan>: retries after about 1 second,</text>
+<text x="560.0" y="990.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">then longer and longer, at most 5 seconds</text>
+<text x="560.0" y="1009.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">our code only changes the badge</text>
+<rect x="985.0" y="956.0" width="128.0" height="24.0" rx="12.0" fill="#fdeedd" stroke="#b45f17" stroke-width="1.4" />
+<text x="1049.0" y="972.3" font-size="12" font-weight="800" fill="#b45f17" text-anchor="middle" xml:space="preserve">Reconnecting…</text>
+<line x1="1015.0" y1="983.0" x2="1015.0" y2="994.0" stroke="#9aa3b0" stroke-width="1.8" stroke-linecap="round" />
+<path d="M1012.2 990.7 L1015.0 996.0 L1017.8 990.7" fill="none" stroke="#9aa3b0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="985.0" y="998.0" width="60.0" height="24.0" rx="12.0" fill="#e3f4ea" stroke="#2a9d5c" stroke-width="1.4" />
+<text x="1015.0" y="1014.3" font-size="12" font-weight="800" fill="#2a9d5c" text-anchor="middle" xml:space="preserve">Live</text>
+<rect x="30.0" y="1080.0" width="560.0" height="160.0" rx="12" fill="#f5f0fc" stroke="#6f42c1" stroke-width="1.4" />
+<text x="50.0" y="1108.0" font-size="14.5" font-weight="800" fill="#6f42c1" text-anchor="start" xml:space="preserve">Once connected again (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13.5" fill="#6f42c1" font-weight="800">connect</tspan>)</text>
+<text x="50.0" y="1134.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">• the failures-in-a-row count goes back to 0, badge <tspan font-weight="800">Live</tspan></text>
+<text x="50.0" y="1152.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">• <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#6f42c1" font-weight="800">follow</tspan> every device again, with an answer (ack):</text>
+<text x="50.0" y="1170.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">   the backend loses the rooms (one channel per device) at every drop</text>
+<text x="50.0" y="1188.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">• the 5-minute chart is refilled from the API: messages sent</text>
+<text x="50.0" y="1206.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">   while disconnected aren't sent again</text>
+<rect x="610.0" y="1080.0" width="560.0" height="160.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="630.0" y="1108.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Refused by the door guard (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13.5" font-weight="800">connect_error</tspan>)</text>
+<text x="630.0" y="1132.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">not</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">logged</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">in</tspan>, or</text>
+<text x="630.0" y="1150.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">session expired or invalid: refresh or log in again</tspan></text>
+<text x="630.0" y="1168.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">→ refresh, then connect again</text>
+<text x="630.0" y="1186.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">→ refresh refused (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">false</tspan>): login screen</text>
+<text x="630.0" y="1204.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">→ refused again even after 3 refreshes: <tspan font-weight="800" fill="#e63946">Disconnected</tspan></text>
+<text x="630.0" y="1222.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">   no button; reload the page (F5)</text>
+<rect x="30.0" y="1256.0" width="1140.0" height="54.0" rx="10" fill="#eef1f5" />
+<text x="50.0" y="1278.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#6f42c1">Why refresh first, then connect?</tspan> The Socket.IO door guard only looks at the 15-minute wristband, and doesn't know you just clicked <tspan font-weight="800">Log out</tspan> in another tab.</text>
+<text x="50.0" y="1298.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#6f42c1" font-weight="800">/auth/refresh</tspan> checks the session in the database, so a tab that has logged out doesn't connect again.</text>
+<text x="1178.0" y="1324.0" font-size="11" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer Curriculum · CC BY 4.0</text>
+</svg>
