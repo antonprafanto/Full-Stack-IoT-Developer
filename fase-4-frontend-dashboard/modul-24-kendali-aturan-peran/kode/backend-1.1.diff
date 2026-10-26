@@ -1,0 +1,1284 @@
+diff --git a/backend/README.md b/backend/README.md
+index 3dcc110..fd32457 100644
+--- a/backend/README.md
++++ b/backend/README.md
+@@ -2,7 +2,9 @@
+ 
+ 🌐 **Bahasa Indonesia** · [English](../../en/mini-smart-home/backend/README.md)
+ 
+-Backend v1.0 proyek Rumah Pintar Mini: server Node.js 24 dengan TypeScript ringan yang mendengarkan semua pesan MQTT `rpm/#`, memeriksa setiap pesan dengan kontrak data 1.4 (skema Zod), menyimpan keadaan terakhir setiap perangkat di memori, mengarsipkan semua pesan ke database PostgreSQL dengan tambahan TimescaleDB (lewat Docker), dan menyediakan API berdokumentasi. Riwayat bacaan bisa diminta mentah atau sudah diringkas per 15 menit, per jam, atau per hari. Sejak Modul 19, bacaan juga mengalir *live* lewat Socket.IO, semua perintah lewat satu pintu (dengan keadaan yang diinginkan dan yang dilaporkan), aturan otomatis dan jadwal disimpan di database dan bisa diubah lewat API tanpa memulai ulang server, setiap kejadian penting dicatat, dan peringatan dikirim lewat Telegram. Sejak Modul 20, API dan Socket.IO **berkunci untuk manusia**: tamu harus *login* dulu, akun `viewer` hanya boleh melihat, percobaan *login* dibatasi, dan halaman web lain tidak bisa menyuruh server atas nama pengguna. Sejak Modul 21, backend juga **berkunci untuk perangkat**: hanya perangkat yang didaftarkan admin (dengan kunci per perangkat) yang datanya diproses, pesan dari perangkat yang belum terdaftar atau kuncinya dicabut diabaikan, dan backend sendiri masuk ke broker dengan akunnya sendiri. 🎉 **Checkpoint Fase 3: rumah berkunci untuk manusia dan perangkat.**
++Backend v1.1 proyek Rumah Pintar Mini: server Node.js 24 dengan TypeScript ringan yang mendengarkan semua pesan MQTT `rpm/#`, memeriksa setiap pesan dengan kontrak data 1.4 (skema Zod), menyimpan keadaan terakhir setiap perangkat di memori, mengarsipkan semua pesan ke database PostgreSQL dengan tambahan TimescaleDB (lewat Docker), dan menyediakan API berdokumentasi. Riwayat bacaan bisa diminta mentah atau sudah diringkas per 15 menit, per jam, atau per hari. Sejak Modul 19, bacaan juga mengalir *live* lewat Socket.IO, semua perintah lewat satu pintu (dengan keadaan yang diinginkan dan yang dilaporkan), aturan otomatis dan jadwal disimpan di database dan bisa diubah lewat API tanpa memulai ulang server, setiap kejadian penting dicatat, dan peringatan dikirim lewat Telegram. Sejak Modul 20, API dan Socket.IO **berkunci untuk manusia**: tamu harus *login* dulu, akun `viewer` hanya boleh melihat, percobaan *login* dibatasi, dan halaman web lain tidak bisa menyuruh server atas nama pengguna. Sejak Modul 21, backend juga **berkunci untuk perangkat**: hanya perangkat yang didaftarkan admin (dengan kunci per perangkat) yang datanya diproses, pesan dari perangkat yang belum terdaftar atau kuncinya dicabut diabaikan, dan backend sendiri masuk ke broker dengan akunnya sendiri. 🎉 **Checkpoint Fase 3: rumah berkunci untuk manusia dan perangkat.**
++
++**v1.1 (Modul 24)** menambah tiga hal kecil yang dibutuhkan dashboard v1.0: aturan **di bawah ambang** (misalnya siram kalau tanah di bawah 30 %), aturan ambang yang **mengirim perintah sekali** (misalnya pompa 5 detik), dan **hapus aturan** (`DELETE /rules/:id`). Tanpa migrasi database dan tanpa perubahan kontrak data (tetap 1.4); rinciannya di [Catatan versi 1.1](#catatan-versi-11).
+ 
+ ## Menjalankan
+ 
+@@ -44,7 +46,7 @@ Backend v1.0 proyek Rumah Pintar Mini: server Node.js 24 dengan TypeScript ringa
+ | `npm run dev` | menjalankan server dan memulainya ulang setiap kali kode atau `.env` disimpan |
+ | `npm start` | menjalankan server tanpa mulai ulang otomatis; **Ctrl + C** menghentikannya dengan rapi (di Windows, `npm run dev` + **Ctrl + C** mematikan server seketika) |
+ | `npm run cek` | memeriksa tipe TypeScript, termasuk file uji (jalankan sebelum setiap *commit*) |
+-| `npm test` | menjalankan *unit test* dengan Vitest: *rules engine* (`src/aturan/*.test.ts`), *login* (`src/auth/auth.test.ts`), kunci perangkat (`src/auth/kunci.test.ts`, Modul 21), buku tamu dan lapis kedua (`src/services/daftar.test.ts`), dan rute registrasi (`src/routes/perangkat.test.ts`) |
++| `npm test` | menjalankan *unit test* dengan Vitest: *rules engine* dan skema aturan (`src/aturan/*.test.ts`; sejak Modul 24 juga aturan di bawah ambang), *login* (`src/auth/auth.test.ts`), kunci perangkat (`src/auth/kunci.test.ts`, Modul 21), buku tamu dan lapis kedua (`src/services/daftar.test.ts`), rute registrasi (`src/routes/perangkat.test.ts`), rute hapus aturan beserta satpamnya: tamu 401, *viewer* 403, *preflight* `DELETE` (`src/routes/aturan.test.ts`, Modul 24), dan aturan siram yang berjalan: pompa dikirim sekali, padam tanpa perintah, perintah yang ditolak ditandai `ok: false`, aturan yang dihapus atau dinonaktifkan tidak bertindak lagi (`src/services/otomasi.test.ts`, Modul 24) |
+ | `npm run migrasi` | menjalankan file SQL baru di folder `migrasi/` (aman diulang) |
+ | `npm run isi-riwayat` | mengisi data latihan 7 hari untuk perangkat latihan `f00d00000001` dan `f00d00000002` |
+ | `npm run pengguna -- tambah <email> "<nama>" <admin\|viewer>` | membuat akun; sandi ditanyakan dan hanya tampil sebagai `*` (minimal 15 karakter, maksimal 72 *byte*) |
+@@ -69,7 +71,7 @@ docker exec rumahpintar-db psql -U postgres -d rumahpintar -f /tmp/beban-1-juta.
+ - **Peran**: `admin` boleh semua; `viewer` hanya `GET`/`HEAD` (selain itu `403`).
+ - ***Rate limit***: paling banyak 10 percobaan `POST /auth/login` per menit dari alamat IP yang sama; percobaan ke-11 dijawab `429` dengan kepala `retry-after`. Hitungannya di memori: server dimulai ulang = mulai dari nol.
+ - **CORS dan asal halaman**: halaman web di `CORS_ORIGIN` (`.env`, bawaan `http://localhost:5173,http://127.0.0.1:5173` untuk Modul 22) boleh memanggil API dari browser dengan *cookie*. Permintaan selain `GET`/`HEAD` yang membawa kepala `Origin` dari halaman lain ditolak `403`; curl, Bruno, dan Node tidak mengirim `Origin`, jadi tidak terganggu.
+-- **Bruno**: koleksi `bruno/` punya permintaan `login admin`, `login viewer`, `login salah`, `siapa saya`, `refresh`, dan `logout`, serta (Modul 21) `daftarkan Node 1`, `daftarkan Node 2 lewat Node 1`, `daftarkan perangkat latihan`, `ganti kunci perangkat latihan`, dan `cabut kunci perangkat latihan`. Sandinya dibaca dari `bruno/.env` (tidak ikut Git) berisi `SANDI_ADMIN=…` dan `SANDI_VIEWER=…`. Kirim `login admin` atau `login viewer` dulu; *cookie*-nya dipakai otomatis oleh permintaan lain.
++- **Bruno**: koleksi `bruno/` punya permintaan `login admin`, `login viewer`, `login salah`, `siapa saya`, `refresh`, dan `logout`, serta (Modul 21) `daftarkan Node 1`, `daftarkan Node 2 lewat Node 1`, `daftarkan perangkat latihan`, `ganti kunci perangkat latihan`, dan `cabut kunci perangkat latihan`, dan (Modul 24) `buat aturan siram tanah` dan `hapus aturan` (ganti angka di alamat `hapus aturan` dengan `id` dari jawaban `buat aturan siram tanah`; bawaannya `4`, nomor aturan pertama sesudah tiga aturan Modul 19). Sandinya dibaca dari `bruno/.env` (tidak ikut Git) berisi `SANDI_ADMIN=…` dan `SANDI_VIEWER=…`. Kirim `login admin` atau `login viewer` dulu; *cookie*-nya dipakai otomatis oleh permintaan lain.
+ 
+ ## API
+ 
+@@ -91,8 +93,9 @@ docker exec rumahpintar-db psql -U postgres -d rumahpintar -f /tmp/beban-1-juta.
+ | `POST /devices/:id/command` | admin | kirim perintah `set` ke Node 1, tunggu `ack`-nya paling lama 5 detik, lalu catat di tabel `commands` (dengan `sumber` `api`); perangkat yang belum terdaftar dijawab 404, yang kuncinya dicabut 409 |
+ | `GET /devices/:id/state` | login | keadaan aktuator: yang diinginkan server (`desired`), yang terakhir dilaporkan perangkat (`reported`, dari `telemetry.state` atau `ack.state`), kapan laporan itu tiba, dan aktuator yang belum cocok (`selisih`) |
+ | `GET /rules` | login | semua aturan otomatis yang sedang dipakai server; aturan jadwal ditambah `berikutnya` (UTC) |
+-| `POST /rules` | admin | buat aturan baru: ambang (`kondisi.jenis` `ambang` + `aksi.jenis` `sakelar`) atau jadwal (`jadwal` + `perintah`); langsung berlaku |
++| `POST /rules` | admin | buat aturan baru: ambang naik (`kondisi.jenis` `ambang`) atau, sejak Modul 24, ambang turun (`ambang-bawah`) dengan aksi `sakelar` atau `perintah` (dikirim sekali), atau jadwal (`jadwal` + `perintah`); langsung berlaku |
+ | `PUT /rules/:id` | admin | ganti seluruh isi satu aturan; langsung berlaku tanpa memulai ulang server, dan ambang aturan kipas dikirim ke perangkat sebagai `config` *retained* |
++| `DELETE /rules/:id` | admin | hapus satu aturan (Modul 24); langsung tidak berlaku, jawabannya `{ id, nama, pesan }`. Keadaan yang diinginkannya ikut dilupakan, jadi perangkat yang menyala ulang tidak menerima lagi perintah aturan itu; aktuator yang sedang dinyalakannya dibiarkan apa adanya. Riwayat perintah dan kejadiannya tetap ada (kolom `aturan_id`-nya menjadi kosong). Untuk menyimpan aturan tanpa menjalankannya, pakai `PUT` dengan `"aktif": false` |
+ | `POST /rules/:id/jalankan` | admin | jalankan aksi satu aturan jadwal sekarang juga (untuk menguji, tanpa menunggu jamnya) |
+ 
+ "login" = akun apa pun yang sudah *login* (`admin` atau `viewer`). Data *live* tersedia lewat **Socket.IO** di alamat yang sama (`/socket.io/`), juga dengan *cookie* `akses`: kirim `ikuti` dengan `device_id` (jawabannya membawa bacaan terakhir) untuk menerima acara `telemetry` perangkat itu; acara `status` dan `kejadian` dikirim ke semua klien. Tanpa *cookie*, sambungan ditolak (`connect_error` `belum login`); saat gelang kedaluwarsa, server memutus sambungan dan klien harus *refresh* lalu menyambung lagi. Contoh klien: `alat/terminal-live.js` (akun dibaca dari `alat/.env`).
+@@ -105,6 +108,18 @@ Aturan otomatis disimpan di tabel `rules` sebagai data JSON yang diperiksa Zod.
+  "aksi":{"jenis":"sakelar","device_id":"a4cf12e5b7c0","target":"kipas","kabari":true}}
+ ```
+ 
++Sejak Modul 24 (v1.1), aturan ambang juga bisa berarah **turun** (`ambang-bawah`): menyala kalau besarannya **di bawah** `nyala_di_bawah` terus-menerus selama `selama_detik` detik, lalu padam (siap lagi) **di atas** `padam_di_atas`, yang harus lebih besar daripada `nyala_di_bawah` (histeresis). Kedua arah ambang boleh memakai aksi `sakelar` (kipas atau lampu menyala selama aturan menyala) atau aksi `perintah`, yang dikirim **sekali** saat aturan menyala; saat aturan padam tidak ada perintah yang dikirim. Jadwal tetap hanya boleh memakai aksi `perintah`. Contoh "siram jika tanah < 30 %":
++
++```json
++{"nama":"Siram jika tanah < 30 %","aktif":true,
++ "kondisi":{"jenis":"ambang-bawah","device_id":"a4cf12e5b7c0","besaran":"tanah","nyala_di_bawah":30,"padam_di_atas":35,"selama_detik":10},
++ "aksi":{"jenis":"perintah","device_id":"a4cf12e5b7c0","perintah":{"target":"pompa","nilai":5},"kabari":true}}
++```
++
++Saat tanah bertahan di bawah 30 % selama 10 detik, pompa menyiram 5 detik dan kejadian `🌱 Tanah 25 % — pompa menyiram 5 detik otomatis` tercatat. Pompa tidak menyiram lagi selama tanah belum sempat naik di atas 35 % (`✅ Tanah naik ke 36 % — aturan siap lagi`); keputusan hanya diambil saat aturan berganti keadaan. Kalau perangkat menolak perintahnya (misalnya `pompa ditolak: air tandon kurang`) atau tidak menjawab dalam 5 detik, kejadiannya berbunyi `⚠️ Tanah 25 % — perintah pompa ditolak perangkat: pompa ditolak: air tandon kurang` (atau `… pompa TIDAK menjawab perintah (tidak dikirim ulang)`), dan aturan itu baru menyiram lagi pada kekeringan berikutnya atau setelah aturannya disimpan ulang (misalnya dinonaktifkan lalu diaktifkan lagi); tanpa jeda ini, tandon yang kosong akan memicu kejadian yang sama setiap beberapa detik.
++
++Bentuk aturan ditulis di `src/schemas/aturan-dasar.ts` (tanpa node-cron, sehingga salinan identiknya bisa dipakai dashboard di browser, Modul 24); `src/schemas/aturan.ts` memakai semua isinya lalu menambah satu pemeriksaan yang hanya bisa di server: isi ekspresi cron (`ekspresi cron tidak sah`).
++
+ Dengan `bucket`, jawabannya berbentuk `{ device_id, dari, sampai, ember, jumlah, ringkasan: [ { waktu, suhu_rata, suhu_min, suhu_maks, kelembapan_rata, tanah_rata, cahaya_rata, jumlah_bacaan } ] }`. `waktu` adalah awal ember (UTC), dan `dari` dibulatkan ke bawah ke awal ember. Ringkasan per 15 menit dihitung langsung dari bacaan mentah, ringkasan per jam dibaca dari `readings_per_jam`, dan ringkasan per hari menggabungkan ringkasan per jam menjadi hari WIB. Rata-rata hariannya tepat sama dengan hitungan dari bacaan mentah karena setiap jam menyimpan rata-rata dan banyaknya nilai (`suhu_rata` dan `suhu_n`, dan seterusnya).
+ 
+ Koleksi Bruno untuk semua rute ada di folder `bruno/` (pilih *environment* `lokal`).
+@@ -184,7 +199,22 @@ SELECT (SELECT count(*) FROM readings) AS bacaan,
+ 
+ Setelah terbukti, hapus salinannya dengan `docker exec rumahpintar-db dropdb -U postgres rumahpintar_pulih`.
+ 
+-## Batasan v1.0
++## Catatan versi 1.1
++
++Backend 1.1.0 dibuat di Modul 24 supaya dashboard v1.0 bisa membuat aturan "siram jika tanah < 30 %" dan menghapus aturan.
++
++- **Kondisi `ambang-bawah`** (`nyala_di_bawah`, `padam_di_atas`, `selama_detik`), dinilai otak yang sama dengan kondisi `ambang` (`nilaiAmbangBawah` di `src/aturan/mesin.ts`).
++- **Aksi `perintah` untuk kondisi ambang** (naik atau turun): dikirim sekali saat aturan menyala. Pasangan yang ditolak tinggal jadwal + sakelar, dengan pesan `400` baru `kondisi jadwal berpasangan dengan aksi perintah; aksi sakelar hanya untuk kondisi ambang atau ambang-bawah` (v1.0: `kondisi ambang berpasangan dengan aksi sakelar; kondisi jadwal dengan aksi perintah`, dan ambang + perintah masih ditolak).
++- **`DELETE /rules/:id`** (admin), dan `DELETE` ditambahkan ke `methods` CORS di `src/auth/keamanan.ts` supaya browser lolos *preflight*. Kejadian `aturan-diubah` untuk aturan yang dihapus ditulis dengan `aturan_id` kosong (nomornya ada di `data.id`), karena barisnya sudah tidak ada. Perintah dan kejadian aturan yang dihapus saat perintahnya masih menunggu *ack* juga tetap tercatat, dengan `aturan_id` kosong.
++- **Aturan yang dihapus atau dinonaktifkan tidak bertindak lagi**, juga lewat rekonsiliasi: keadaan yang diinginkannya dilupakan (`lupakanKeinginanAturan()` di `src/services/perintah.ts`). Di v1.0, lampu yang dinyalakan aturan yang sudah dinonaktifkan dinyalakan lagi saat perangkatnya menyala ulang.
++- **`data.ok` di kejadian `aturan` dan `jadwal`**: `true` kalau perangkat menjawab ok, `false` kalau perintahnya ditolak, tidak dijawab, tidak terkirim, atau jadwalnya terlewat, `null` kalau tidak ada perintah yang dikirim (aturan siap lagi). Dashboard v1.0 memakainya untuk warna kabar, tanpa menebak dari kalimat.
++- **Pengingat Telegram** aturan `perintah` berbunyi `… — aturan "Siram jika tanah < 30 %" belum siap lagi (menunggu tanah di atas 35) (pengingat)`, bukan "masih menyala": pompanya sudah lama padam.
++- **Skema dipecah dua**: `src/schemas/aturan-dasar.ts` (semua bentuk aturan, hanya butuh `zod` dan `kontrak.ts`, disalin identik ke `frontend/src/skema/`) dan `src/schemas/aturan.ts` (menambah pemeriksaan cron dengan node-cron, hanya di server). Berkas lain di backend tetap mengimpor dari `aturan.ts`.
++- **Tanpa migrasi database**: kondisi dan aksi disimpan sebagai JSON (`jsonb`), dan `commands.aturan_id` serta `events.aturan_id` sudah `ON DELETE SET NULL` sejak migrasi `007`. Kontrak data tetap **1.4**; firmware tidak berubah.
++- **Turun versi**: backend v1.0 yang membaca aturan berbentuk baru tidak mogok; aturan itu dilewati dengan peringatan `aturan N dilewati: …` (lihat `muatAturan()`), aturan lainnya tetap berjalan. Aturan yang dilewati juga TIDAK tampil di `GET /rules` v1.0 (dashboard seolah kehilangan aturan itu); datanya utuh di database dan tampil lagi begitu naik ke 1.1. Jangan menyimpan aturan bernomor itu lewat `PUT` v1.0: isinya akan ditimpa bentuk v1.0.
++- Versi `1.1.0` di `package.json` dan di `/docs`.
++
++## Batasan v1.1
+ 
+ - `GET /devices/:id/latest`, `vitals`, dan `state` masih dibaca dari memori, jadi kosong lagi setiap server dimulai ulang. Keadaan yang diinginkan (`desired`) dan hitungan "selama" setiap aturan juga hilang saat server dimulai ulang; riwayat bacaan, perintah, aturan, kejadian, akun, dan sesi tersimpan permanen di database.
+ - Bacaan yang datang saat database tidak bisa dihubungi tidak tersimpan.
+@@ -192,6 +222,10 @@ Setelah terbukti, hapus salinannya dengan `docker exec rumahpintar-db dropdb -U
+ - Hari pada ringkasan `1d` adalah hari WIB (`Asia/Jakarta`), juga bagi perangkat di WITA atau WIT. Jadwal aturan juga dihitung dalam WIB.
+ - Aturan dan jadwal hanya berjalan selama backend menyala. Jadwal yang terlambat lebih dari 15 menit (misalnya laptop tidur pukul 06.00) tidak dijalankan belakangan, hanya dicatat; kalau backend mati pada jam itu, tidak ada yang dicatat. Saat broker tak terjangkau, Node 1 menjalankan pengaman kipasnya sendiri dengan ambang dari `config`.
+ - Perubahan aturan langsung di database (misalnya lewat DBeaver) baru terbaca saat server dimulai ulang atau saat aturan lain diubah lewat API; pakai API `/rules`.
++- Aturan dengan aksi `perintah` (misalnya pompa sekali) hanya bertindak saat aturannya berganti keadaan. Karena hitungannya hilang saat server dimulai ulang atau aturannya diubah, perintahnya dikirim sekali lagi kalau kondisinya masih terpenuhi sesudah itu.
++- Menonaktifkan atau menghapus aturan kipas **tidak** mencabut `config` *retained* `suhu_kipas_on` yang sudah terkirim: Node 1 tetap memakai angka terakhir itu sebagai pengaman lokal saat broker tak terjangkau.
++- Menghapus atau menonaktifkan aturan `sakelar` yang sedang menyala **tidak** memadamkan aktuatornya: kipas atau lampu dibiarkan dalam keadaan terakhir (server tidak mengirim perintah apa pun). Padamkan lewat tombol dashboard atau `POST /devices/:id/command`.
++- Backend hanya mengirim `suhu_kipas_on`, tidak pernah `tanah_siram`. Node 1 v1.6.0 tetap menyiram sendiri (3 detik, lalu jeda 30 detik) kalau tanah di bawah ambang lokalnya, bawaan 30 %, juga saat backend menyala. Supaya aturan siram di server yang bertindak lebih dulu, turunkan ambang lokal di bawah ambang aturan server lewat Serial Monitor (`ambang 20`); siram lokal lalu baru bertindak kalau tanah tetap mengering sampai di bawah 20 %, misalnya saat backend mati atau WiFi putus. Pengaman tandon firmware (`pompa ditolak: air tandon kurang` di bawah 20 %) tetap menjaga keduanya.
+ - Gelang (JWT akses) yang sudah dibagikan tetap berlaku sampai kedaluwarsa (paling lama 15 menit), juga sesudah *logout*, ganti peran, ganti sandi, atau hapus akun; sambungan Socket.IO yang sedang berjalan pun baru diputus saat gelangnya habis (kecuali *logout* dari sesi itu sendiri, atau kartu terusan lama yang dipakai lagi 30 detik atau lebih sesudah diganti, yang langsung memutusnya).
+ - Hitungan *rate limit* disimpan di memori satu server: dimulai ulang = nol, dan tidak cocok untuk beberapa server sekaligus.
+ - *Cookie* belum `Secure` karena server masih `http://`; HTTPS menyusul di Fase 5. Server masih hanya menerima tamu dari laptop ini (`HOST=127.0.0.1`).
+diff --git a/backend/bruno/buat aturan siram tanah.yml b/backend/bruno/buat aturan siram tanah.yml
+new file mode 100644
+index 0000000..1986c58
+--- /dev/null
++++ b/backend/bruno/buat aturan siram tanah.yml	
+@@ -0,0 +1,46 @@
++info:
++  name: buat aturan siram tanah
++  type: http
++  seq: 24
++
++http:
++  method: POST
++  url: "{{baseUrl}}/rules"
++  body:
++    type: json
++    data: |-
++      {
++        "nama": "Siram jika tanah < 30 %",
++        "aktif": true,
++        "kondisi": {
++          "jenis": "ambang-bawah",
++          "device_id": "a4cf12e5b7c0",
++          "besaran": "tanah",
++          "nyala_di_bawah": 30,
++          "padam_di_atas": 35,
++          "selama_detik": 10
++        },
++        "aksi": {
++          "jenis": "perintah",
++          "device_id": "a4cf12e5b7c0",
++          "perintah": {
++            "target": "pompa",
++            "nilai": 5
++          },
++          "kabari": true
++        }
++      }
++  auth: inherit
++
++runtime:
++  assertions:
++    - expression: res.status
++      operator: eq
++      value: "201"
++
++settings:
++  encodeUrl: true
++  timeout: 0
++  followRedirects: true
++  maxRedirects: 5
++  forwardAuthorizationHeader: true
+diff --git a/backend/bruno/hapus aturan.yml b/backend/bruno/hapus aturan.yml
+new file mode 100644
+index 0000000..8cea69b
+--- /dev/null
++++ b/backend/bruno/hapus aturan.yml	
+@@ -0,0 +1,22 @@
++info:
++  name: hapus aturan
++  type: http
++  seq: 25
++
++http:
++  method: DELETE
++  url: "{{baseUrl}}/rules/4"
++  auth: inherit
++
++runtime:
++  assertions:
++    - expression: res.status
++      operator: eq
++      value: "200"
++
++settings:
++  encodeUrl: true
++  timeout: 0
++  followRedirects: true
++  maxRedirects: 5
++  forwardAuthorizationHeader: true
+diff --git a/backend/package-lock.json b/backend/package-lock.json
+index cc61003..e8f97e4 100644
+--- a/backend/package-lock.json
++++ b/backend/package-lock.json
+@@ -1,12 +1,12 @@
+ {
+   "name": "rumah-pintar-mini-backend",
+-  "version": "1.0.0",
++  "version": "1.1.0",
+   "lockfileVersion": 3,
+   "requires": true,
+   "packages": {
+     "": {
+       "name": "rumah-pintar-mini-backend",
+-      "version": "1.0.0",
++      "version": "1.1.0",
+       "dependencies": {
+         "@fastify/cookie": "^11.1.3",
+         "@fastify/cors": "^11.3.1",
+@@ -1236,9 +1236,9 @@
+       }
+     },
+     "node_modules/ajv/node_modules/fast-uri": {
+-      "version": "3.1.8",
+-      "resolved": "https://registry.npmjs.org/fast-uri/-/fast-uri-3.1.8.tgz",
+-      "integrity": "sha512-GZMtZUTNRpOVIECoXwLNZS5xUGE+mVNbTB8h/7Rwh2TFWcBQiPzTgyZi05BF9UMZKkLJv8XBRJTlU7zg8+ZfMg==",
++      "version": "3.1.9",
++      "resolved": "https://registry.npmjs.org/fast-uri/-/fast-uri-3.1.9.tgz",
++      "integrity": "sha512-hS/0Wt3Ya043oKXs0sIxrMpKQITXhMLIrVAKKXi4gozGC9v7YRWVnXIZzjNPTO02M9BdxLCWqK1yRXgNziVyJQ==",
+       "funding": [
+         {
+           "type": "github",
+@@ -1785,9 +1785,9 @@
+       }
+     },
+     "node_modules/fast-uri": {
+-      "version": "4.2.2",
+-      "resolved": "https://registry.npmjs.org/fast-uri/-/fast-uri-4.2.2.tgz",
+-      "integrity": "sha512-EwVpUMzLVNOmcWW0zi5G3JJwkopB6XXjnVvNBGfqrMMsVew2hkQWl5e/pe/CfYUeS6jt4cIO2MnamEW7v/7wPw==",
++      "version": "4.2.3",
++      "resolved": "https://registry.npmjs.org/fast-uri/-/fast-uri-4.2.3.tgz",
++      "integrity": "sha512-I1PXwP5eAhlNlcdpjt9CgB59op2ZvZfxw+BkqGFVIUOgNpCVTcTqp3HhTX7brxj5vsip+nSY4nTvff+eIA76hg==",
+       "funding": [
+         {
+           "type": "github",
+@@ -2101,9 +2101,9 @@
+       }
+     },
+     "node_modules/json-schema-resolver/node_modules/fast-uri": {
+-      "version": "3.1.8",
+-      "resolved": "https://registry.npmjs.org/fast-uri/-/fast-uri-3.1.8.tgz",
+-      "integrity": "sha512-GZMtZUTNRpOVIECoXwLNZS5xUGE+mVNbTB8h/7Rwh2TFWcBQiPzTgyZi05BF9UMZKkLJv8XBRJTlU7zg8+ZfMg==",
++      "version": "3.1.9",
++      "resolved": "https://registry.npmjs.org/fast-uri/-/fast-uri-3.1.9.tgz",
++      "integrity": "sha512-hS/0Wt3Ya043oKXs0sIxrMpKQITXhMLIrVAKKXi4gozGC9v7YRWVnXIZzjNPTO02M9BdxLCWqK1yRXgNziVyJQ==",
+       "funding": [
+         {
+           "type": "github",
+diff --git a/backend/package.json b/backend/package.json
+index 0b11983..5f79b83 100644
+--- a/backend/package.json
++++ b/backend/package.json
+@@ -1,6 +1,6 @@
+ {
+   "name": "rumah-pintar-mini-backend",
+-  "version": "1.0.0",
++  "version": "1.1.0",
+   "description": "Backend Rumah Pintar Mini (Modul 16-21): mendengar MQTT, memeriksa kontrak data, menyimpan semua pesan ke database deret waktu, menyediakan API riwayat, data realtime, perintah, aturan otomatis, jadwal, dan notifikasi Telegram, login dengan peran admin dan viewer, serta daftar resmi perangkat dengan kunci per perangkat dan akun broker tersendiri",
+   "private": true,
+   "type": "module",
+diff --git a/backend/src/aturan/mesin.test.ts b/backend/src/aturan/mesin.test.ts
+index 275c306..33c8139 100644
+--- a/backend/src/aturan/mesin.test.ts
++++ b/backend/src/aturan/mesin.test.ts
+@@ -1,10 +1,11 @@
+ // mesin.test.ts - unit test pertama proyek (Modul 19): menguji otak aturan tanpa MQTT, database, atau jam sungguhan.
+-// Jalankan: npm test
++// Modul 24: ditambah aturan "di bawah ambang" (siram kalau tanah kering) dan skema aturan 1.1. Jalankan: npm test
+ import { describe, expect, it } from "vitest";
+-import { CATATAN_AWAL, INGATAN_AWAL, PENGINGAT_MS, nilaiAmbang, perluKabari } from "./mesin.ts";
++import { CATATAN_AWAL, INGATAN_AWAL, PENGINGAT_MS, nilaiAmbang, nilaiAmbangBawah, perluKabari } from "./mesin.ts";
+ import type { Ingatan, Keputusan } from "./mesin.ts";
+ import { Aturan } from "../schemas/aturan.ts";
+-import type { KondisiAmbang } from "../schemas/aturan.ts";
++import type { KondisiAmbang, KondisiAmbangBawah } from "../schemas/aturan.ts";
++import { Aturan as AturanDasar } from "../schemas/aturan-dasar.ts"; // Modul 24: versi tanpa node-cron (salinannya di frontend)
+ 
+ // aturan kipas contoh: menyala di atas 30 °C selama 2 menit, padam di bawah 28 °C
+ const KIPAS: KondisiAmbang = {
+@@ -116,3 +117,106 @@ describe("skema aturan (Zod)", () => {
+     expect(Aturan.safeParse({ ...siram, kondisi: { jenis: "jadwal", cron: "61 * * * *" } }).success).toBe(false);
+   });
+ });
++
++// ---------- Modul 24: kondisi di bawah ambang ----------
++
++// aturan siram contoh: tanah di bawah 30 % selama 20 detik -> pompa sekali; siap lagi setelah tanah naik di atas 35 %
++const SIRAM: KondisiAmbangBawah = {
++  jenis: "ambang-bawah", device_id: "f00d00000001", besaran: "tanah", nyala_di_bawah: 30, padam_di_atas: 35, selama_detik: 20,
++};
++
++// sama dengan jalankan() di atas, tetapi untuk aturan siram
++function jalankanSiram(bacaan: [number, number | null][], awal: Ingatan = INGATAN_AWAL) {
++  let ingatan = awal;
++  const keputusan: Keputusan[] = [];
++  for (const [detik, nilai] of bacaan) {
++    const hasil = nilaiAmbangBawah(SIRAM, ingatan, nilai, T0 + detik * 1000);
++    ingatan = hasil.ingatan;
++    keputusan.push(hasil.keputusan);
++  }
++  return { ingatan, keputusan };
++}
++
++describe("aturan siram, tanah di bawah ambang (nilaiAmbangBawah)", () => {
++  it("tanah tepat 30 %: tidak menyiram (harus DI BAWAH 30)", () => {
++    const { ingatan, keputusan } = jalankanSiram(setiap10Detik(0, 120, 30));
++    expect(keputusan.every((k) => k === null)).toBe(true);
++    expect(ingatan.aktif).toBe(false);
++  });
++
++  it("tanah 25 % baru 10 detik: masih menunggu", () => {
++    const { ingatan, keputusan } = jalankanSiram(setiap10Detik(0, 10, 25));
++    expect(keputusan.at(-1)).toBeNull();
++    expect(ingatan.sejak).toBe(T0); // hitungan dimulai dari bacaan kering pertama
++  });
++
++  it("tanah 25 % selama 20 detik: menyala (pompa dikirim) sekali saja, walaupun tanah tetap 25 %", () => {
++    const { keputusan } = jalankanSiram(setiap10Detik(0, 120, 25));
++    expect(keputusan[2]).toBe("nyalakan"); // bacaan ke-3, detik ke-20
++    expect(keputusan.filter((k) => k === "nyalakan")).toHaveLength(1); // keputusan hanya di tepi
++  });
++
++  it("tanah naik ke 31 % di tengah hitungan: hitungan diulang", () => {
++    const { ingatan, keputusan } = jalankanSiram([[0, 25], [10, 31], [20, 25], [30, 25]]);
++    expect(keputusan).not.toContain("nyalakan"); // detik 20 sampai 30 baru 10 detik
++    expect(ingatan.sejak).toBe(T0 + 20_000);
++  });
++
++  it("sudah menyala: 33 % dan tepat 35 % tetap menyala (celah histeresis), 36 %: padam, siap menyiram lagi", () => {
++    const { ingatan, keputusan } = jalankanSiram([[10, 33], [20, 35], [30, 36]], MENYALA);
++    expect(keputusan).toEqual([null, null, "padamkan"]);
++    expect(ingatan.aktif).toBe(false);
++  });
++
++  it("bacaan null (sensor gagal): tidak memutuskan, hitungan diulang", () => {
++    const { ingatan, keputusan } = jalankanSiram([[0, 25], [10, null], [20, 25]]);
++    expect(keputusan).not.toContain("nyalakan");
++    expect(ingatan.sejak).toBe(T0 + 20_000);
++  });
++});
++
++describe("skema aturan 1.1 (Zod)", () => {
++  const siramTanah = {
++    nama: "Siram jika tanah < 30 %", aktif: true, kondisi: SIRAM,
++    aksi: { jenis: "perintah", device_id: "f00d00000001", perintah: { target: "pompa", nilai: 5 }, kabari: false },
++  };
++
++  it("\"siram jika tanah < 30 %\" diterima, dan aturan kipas v1.0 tetap diterima", () => {
++    expect(Aturan.safeParse(siramTanah).success).toBe(true);
++    expect(Aturan.safeParse({ nama: "Kipas otomatis", aktif: true, kondisi: KIPAS,
++      aksi: { jenis: "sakelar", device_id: "f00d00000001", target: "kipas", kabari: true } }).success).toBe(true);
++  });
++
++  it("padam_di_atas yang tidak lebih besar daripada nyala_di_bawah ditolak, galatnya di kolom padam_di_atas", () => {
++    const hasil = Aturan.safeParse({ ...siramTanah, kondisi: { ...SIRAM, padam_di_atas: 30 } });
++    expect(hasil.success).toBe(false);
++    expect(hasil.error?.issues[0]).toMatchObject({
++      path: ["kondisi", "padam_di_atas"], message: "padam_di_atas harus lebih besar daripada nyala_di_bawah (histeresis)",
++    });
++  });
++
++  it("aturan ambang naik boleh mengirim perintah sekali (misalnya tirai ditutup kalau terlalu terang)", () => {
++    const tirai = { ...siramTanah, nama: "Tutup tirai kalau silau",
++      kondisi: { jenis: "ambang", device_id: "f00d00000001", besaran: "cahaya", nyala_di_atas: 3500, padam_di_bawah: 3000,
++        selama_detik: 60 },
++      aksi: { jenis: "perintah", device_id: "f00d00000001", perintah: { target: "tirai", nilai: 0 }, kabari: false } };
++    expect(Aturan.safeParse(tirai).success).toBe(true);
++  });
++
++  it("jadwal dengan aksi sakelar tetap ditolak: jadwal tidak punya saat padam", () => {
++    const hasil = Aturan.safeParse({ ...siramTanah, kondisi: { jenis: "jadwal", cron: "0 6 * * *" },
++      aksi: { jenis: "sakelar", device_id: "f00d00000001", target: "lampu", kabari: false } });
++    expect(hasil.success).toBe(false);
++    expect(hasil.error?.issues.map((i) => i.message)).toContain(
++      "kondisi jadwal berpasangan dengan aksi perintah; aksi sakelar hanya untuk kondisi ambang atau ambang-bawah");
++  });
++
++  it("aturan-dasar.ts (juga dipakai dashboard) hanya memeriksa 5 bidang cron; aturan.ts (server) memeriksa isinya", () => {
++    const menit61 = { ...siramTanah, kondisi: { jenis: "jadwal", cron: "61 * * * *" } };
++    expect(AturanDasar.safeParse(menit61).success).toBe(true);
++    const hasil = Aturan.safeParse(menit61);
++    expect(hasil.success).toBe(false);
++    expect(hasil.error?.issues[0]).toMatchObject({ path: ["kondisi", "cron"], message: "ekspresi cron tidak sah" });
++    expect(AturanDasar.safeParse({ ...siramTanah, kondisi: { jenis: "jadwal", cron: "0 6 * *" } }).success).toBe(false);
++  });
++});
+diff --git a/backend/src/aturan/mesin.ts b/backend/src/aturan/mesin.ts
+index 7425d72..67cf953 100644
+--- a/backend/src/aturan/mesin.ts
++++ b/backend/src/aturan/mesin.ts
+@@ -1,11 +1,11 @@
+ // mesin.ts - "otak" aturan otomatis (Modul 19), berupa fungsi MURNI: tidak membaca jam, database, atau MQTT sendiri.
+ // Semua yang dibutuhkan datang lewat argumen, jadi masukan yang sama selalu memberi hasil yang sama (mudah diuji).
+-import type { KondisiAmbang } from "../schemas/aturan.ts";
++import type { KondisiAmbang, KondisiAmbangBawah } from "../schemas/aturan.ts";
+ 
+ // Ingatan satu aturan ambang dari bacaan ke bacaan.
+ export interface Ingatan {
+   aktif: boolean; // aturan sedang "menyala" (misalnya kipas seharusnya menyala)?
+-  sejak: number | null; // kapan bacaan mulai berada di atas ambang nyala (milidetik); null = tidak sedang menunggu
++  sejak: number | null; // kapan bacaan mulai melewati ambang nyala (milidetik); null = tidak sedang menunggu
+   terakhir: number | null; // kapan bacaan terakhir dinilai (milidetik)
+ }
+ 
+@@ -35,6 +35,20 @@ export function nilaiAmbang(k: KondisiAmbang, ingatan: Ingatan, nilai: number |
+   return { ingatan: dasar, keputusan: null }; // masih di atas ambang padam (di dalam celah histeresis): tetap menyala
+ }
+ 
++// Modul 24: kondisi "di bawah" (misalnya siram kalau tanah di bawah 30 %) dinilai dengan otak yang SAMA, cukup dengan membalik
++// tanda semua angkanya, seperti melihat bayangan di cermin: "tanah 25 di bawah 30" sama artinya dengan "-25 di atas -30", dan
++// "tanah 36 di atas 35" (padam) sama dengan "-36 di bawah -35". Jadi aturan "selama", histeresis, jeda bacaan, dan sensor gagal
++// berlaku persis sama tanpa ditulis ulang; tes di mesin.test.ts memastikan cerminnya benar.
++export function nilaiAmbangBawah(k: KondisiAmbangBawah, ingatan: Ingatan, nilai: number | null, sekarang: number):
++  { ingatan: Ingatan; keputusan: Keputusan } {
++  const cermin: KondisiAmbang = {
++    jenis: "ambang", device_id: k.device_id, besaran: k.besaran, selama_detik: k.selama_detik,
++    nyala_di_atas: -k.nyala_di_bawah, // di bawah 30  ->  di atas -30
++    padam_di_bawah: -k.padam_di_atas, // di atas 35   ->  di bawah -35
++  };
++  return nilaiAmbang(cermin, ingatan, nilai === null ? null : -nilai, sekarang);
++}
++
+ // Debouncing notifikasi: kabari saat situasi berubah, dan selama masih bahaya ingatkan paling sering 30 menit sekali.
+ export type Situasi = "aman" | "bahaya";
+ 
+diff --git a/backend/src/auth/keamanan.ts b/backend/src/auth/keamanan.ts
+index 126b101..d8a87bf 100644
+--- a/backend/src/auth/keamanan.ts
++++ b/backend/src/auth/keamanan.ts
+@@ -49,7 +49,9 @@ export async function pasangKeamanan(app: FastifyInstance): Promise<void> {
+   await app.register(cors, {
+     origin: env.CORS_ORIGIN, // daftar persis, bukan "*": dengan credentials, "*" ditolak browser
+     credentials: true, // izinkan browser mengirim cookie dari halaman di origin itu
+-    methods: ["GET", "HEAD", "POST", "PUT"], // PUT /rules/:id; bawaan plugin hanya GET, HEAD, POST
++    // bawaan plugin hanya GET, HEAD, POST. PUT /rules/:id (Modul 19) dan DELETE /rules/:id (Modul 24) harus ditulis di sini:
++    // tanpa itu browser sudah menolak di tahap preflight, walaupun rutenya ada (curl dan Bruno tidak terpengaruh)
++    methods: ["GET", "HEAD", "POST", "PUT", "DELETE"],
+   });
+   await app.register(cookie); // tanpa secret: JWT sudah bertanda tangan, refresh token dicek ke database
+   await app.register(jwt, {
+diff --git a/backend/src/db/arsip.ts b/backend/src/db/arsip.ts
+index c164541..50ff843 100644
+--- a/backend/src/db/arsip.ts
++++ b/backend/src/db/arsip.ts
+@@ -1,6 +1,6 @@
+ // arsip.ts - menulis pesan yang sudah lolos pemeriksaan kontrak ke database, dan membacanya lagi untuk API riwayat
+ // (bacaan mentah, atau ringkasannya per 15 menit, per jam, dan per hari). Modul 19: aturan otomatis (tabel rules) dan
+-// buku kejadian (tabel events).
++// buku kejadian (tabel events). Modul 24: aturan juga bisa dihapus.
+ // Gudang di memori (gudang.ts) tetap menjadi "papan pengumuman" keadaan terbaru; database adalah buku arsipnya.
+ import { pool } from "./pool.ts";
+ import type { Ack, PerintahSet, Status, TelemetryNode1, TelemetryNode2, Vitals } from "../schemas/kontrak.ts";
+@@ -52,11 +52,13 @@ export async function arsipkanVitals(deviceId: string, isi: Vitals): Promise<voi
+ 
+ // Satu perintah beserta hasilnya: ack (ok atau ditolak) atau null kalau tidak ada ack dalam 5 detik. Modul 19: juga
+ // siapa yang menyuruh (sumber), aturan mana (kalau dari aturan atau jadwal), dan keadaan aktuator menurut ack-nya.
++// Modul 24: aturan_id diambil lewat (SELECT id FROM rules …): aturan yang dihapus SAAT perintahnya menunggu ack membuat
++// aturan_id NULL (sama dengan ON DELETE SET NULL), bukan galat "violates foreign key constraint" yang membuang catatannya.
+ export async function arsipkanPerintah(idPerintah: string, deviceId: string, perintah: PerintahSet, dikirim: Date,
+   ack: Ack | null, lamaMs: number, sumber: string, aturanId: number | null): Promise<void> {
+   await pool.query(
+     `INSERT INTO commands (id, device_id, dikirim, target, nilai, ack_ok, ack_pesan, lama_ms, sumber, aturan_id, state)
+-     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
++     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, (SELECT id FROM rules WHERE id = $10), $11)`,
+     [idPerintah, deviceId, dikirim, perintah.target, JSON.stringify(perintah.nilai), ack?.ok ?? null,
+       ack?.pesan ?? null, lamaMs, sumber, aturanId, ack === null ? null : JSON.stringify(ack.state)],
+   );
+@@ -97,6 +99,13 @@ export async function ubahAturan(id: number, a: Aturan): Promise<BarisAturan | u
+   return hasil.rows[0];
+ }
+ 
++// Modul 24: hapus satu aturan. Hasilnya nomor dan nama aturan yang terhapus, atau undefined kalau aturan bernomor itu tidak
++// ada. Riwayat perintah dan kejadiannya TIDAK ikut terhapus: kolom aturan_id-nya menjadi NULL (ON DELETE SET NULL, migrasi 007).
++export async function hapusAturanDb(id: number): Promise<{ id: number; nama: string } | undefined> {
++  const hasil = await pool.query<{ id: number; nama: string }>("DELETE FROM rules WHERE id = $1 RETURNING id, nama", [id]);
++  return hasil.rows[0];
++}
++
+ // Modul 19: buku kejadian (tabel events, migrasi 007).
+ export type JenisKejadian = "aturan" | "aturan-diubah" | "jadwal" | "status" | "mode-offline" | "perintah";
+ 
+@@ -115,14 +124,17 @@ export interface Kejadian extends KejadianBaru {
+   waktu: string;
+ }
+ 
++// Modul 24: aturan_id lewat (SELECT id FROM rules …), sama alasannya dengan arsipkanPerintah: kejadian dari aturan yang
++// baru saja dihapus tetap tercatat (aturan_id NULL), dan nilai yang tersimpan itulah yang disiarkan.
+ export async function simpanKejadian(k: KejadianBaru): Promise<Kejadian> {
+-  const hasil = await pool.query<{ id: string; waktu: Date }>(
+-    `INSERT INTO events (device_id, jenis, sumber, aturan_id, pesan, data) VALUES ($1, $2, $3, $4, $5, $6)
+-     RETURNING id, waktu`,
++  const hasil = await pool.query<{ id: string; waktu: Date; aturan_id: number | null }>(
++    `INSERT INTO events (device_id, jenis, sumber, aturan_id, pesan, data)
++     VALUES ($1, $2, $3, (SELECT id FROM rules WHERE id = $4), $5, $6)
++     RETURNING id, waktu, aturan_id`,
+     [k.device_id, k.jenis, k.sumber, k.aturan_id, k.pesan, k.data === undefined ? null : JSON.stringify(k.data)],
+   );
+-  const { id, waktu } = hasil.rows[0];
+-  return { id: Number(id), waktu: waktuKontrak(waktu), ...k }; // bigint datang dari pg sebagai teks
++  const { id, waktu, aturan_id } = hasil.rows[0];
++  return { id: Number(id), waktu: waktuKontrak(waktu), ...k, aturan_id }; // bigint datang dari pg sebagai teks
+ }
+ 
+ // Waktu berformat kontrak data (UTC, tanpa milidetik), misalnya 2026-10-20T03:10:00Z
+diff --git a/backend/src/routes/aturan.test.ts b/backend/src/routes/aturan.test.ts
+new file mode 100644
+index 0000000..f2a0cd2
+--- /dev/null
++++ b/backend/src/routes/aturan.test.ts
+@@ -0,0 +1,96 @@
++// aturan.test.ts - uji rute DELETE /rules/:id (Modul 24) TANPA database, MQTT, atau jadwal: otomasi.ts dan jadwal.ts diganti
++// tiruan (vi.mock), server Fastify dijalankan tanpa jaringan (app.inject). Berbeda dengan perangkat.test.ts, di sini satpam
++// SUNGGUHAN (keamanan.ts) ikut dipasang, supaya terbukti bahwa rute baru otomatis ikut dijaga: tamu 401, viewer 403, halaman
++// asing 403, dan browser dari halaman di CORS_ORIGIN boleh mengirim DELETE (preflight). Jalankan: npm test
++import { afterAll, describe, expect, it, vi } from "vitest";
++
++vi.hoisted(() => { // env.ts memeriksa .env saat diimpor: beri setelan palsu yang sah (tidak ada yang benar-benar dihubungi)
++  process.env.MQTT_URL = "mqtt://127.0.0.1:1";
++  process.env.DATABASE_URL = "postgres://tiruan:tiruan@127.0.0.1:1/tiruan";
++  process.env.JWT_SECRET = "rahasia-uji-yang-cukup-panjang-untuk-zod-0123456789";
++  process.env.CORS_ORIGIN = "http://localhost:5173"; // halaman dashboard (Vite) yang boleh memanggil API dari browser
++});
++
++// tabel rules tiruan: nomor -> nama aturan
++const tabel = vi.hoisted(() => new Map<number, string>([[1, "Siram jika tanah < 30 %"], [2, "Kipas otomatis"]]));
++vi.mock("../services/otomasi.ts", () => ({
++  semuaAturan: () => [],
++  cariAturan: () => undefined,
++  buatAturan: async () => { throw new Error("tidak dipakai di tes ini"); },
++  gantiAturan: async () => undefined,
++  hapusAturan: async (id: number) => { // seperti hapusAturanDb: nomor dan nama yang terhapus, atau undefined
++    const nama = tabel.get(id);
++    if (nama === undefined) return undefined;
++    tabel.delete(id);
++    return { id, nama };
++  },
++}));
++vi.mock("../services/jadwal.ts", () => ({
++  jadwalBerikutnya: () => null,
++  jalankanJadwal: async () => { throw new Error("tidak dipakai di tes ini"); },
++}));
++
++import Fastify from "fastify";
++import { serializerCompiler, validatorCompiler } from "fastify-type-provider-zod";
++import { pasangKeamanan } from "../auth/keamanan.ts";
++import { ruteAturan } from "./aturan.ts";
++
++const app = Fastify();
++app.setValidatorCompiler(validatorCompiler);
++app.setSerializerCompiler(serializerCompiler);
++await pasangKeamanan(app); // CORS, cookie, JWT, dan satpam yang sama dengan server.ts
++await app.register(ruteAturan);
++await app.ready();
++afterAll(() => app.close());
++
++// "gelang" (JWT akses) yang sah karena ditandatangani dengan JWT_SECRET tes di atas, dikirim sebagai cookie akses
++const gelang = (peran: "admin" | "viewer") => ({ akses: app.jwt.sign({ sub: peran === "admin" ? "1" : "2", peran, sid: 1 }) });
++const DASHBOARD = "http://localhost:5173";
++
++describe("DELETE /rules/:id", () => {
++  it("tamu (belum login): 401, aturannya tetap ada", async () => {
++    const jawab = await app.inject({ method: "DELETE", url: "/rules/1" });
++    expect(jawab.statusCode).toBe(401);
++    expect(tabel.has(1)).toBe(true);
++  });
++
++  it("viewer: boleh melihat daftar aturan (200), tetapi menghapus dijawab 403 dan aturannya tetap ada", async () => {
++    expect((await app.inject({ method: "GET", url: "/rules", cookies: gelang("viewer") })).statusCode).toBe(200);
++    const jawab = await app.inject({ method: "DELETE", url: "/rules/1", cookies: gelang("viewer") });
++    expect(jawab.statusCode).toBe(403);
++    expect(jawab.json()).toEqual({ pesan: "akun viewer hanya boleh melihat; perintah dan perubahan khusus admin" });
++    expect(tabel.has(1)).toBe(true);
++  });
++
++  it("admin: 200 dengan nomor, nama, dan pesan; dihapus sekali lagi: 404", async () => {
++    const jawab = await app.inject({ method: "DELETE", url: "/rules/1", cookies: gelang("admin") });
++    expect(jawab.statusCode).toBe(200);
++    expect(jawab.json()).toEqual({ id: 1, nama: "Siram jika tanah < 30 %", pesan: "aturan 1 (Siram jika tanah < 30 %) dihapus" });
++    const lagi = await app.inject({ method: "DELETE", url: "/rules/1", cookies: gelang("admin") });
++    expect(lagi.statusCode).toBe(404);
++    expect(lagi.json()).toEqual({ pesan: "aturan 1 tidak ada" });
++  });
++
++  it("nomor aturan bukan angka: 400", async () => {
++    expect((await app.inject({ method: "DELETE", url: "/rules/abc", cookies: gelang("admin") })).statusCode).toBe(400);
++  });
++
++  it("browser dari halaman asing: 403 walaupun admin, aturannya tetap ada", async () => {
++    const jawab = await app.inject({ method: "DELETE", url: "/rules/2", cookies: gelang("admin"),
++      headers: { origin: "http://contoh-asing.test" } });
++    expect(jawab.statusCode).toBe(403);
++    expect(jawab.json()).toEqual({ pesan: "permintaan dari halaman http://contoh-asing.test ditolak" });
++    expect(tabel.has(2)).toBe(true);
++  });
++
++  it("browser dari dashboard (CORS_ORIGIN): preflight mengizinkan DELETE, lalu permintaannya diterima", async () => {
++    const preflight = await app.inject({ method: "OPTIONS", url: "/rules/2",
++      headers: { origin: DASHBOARD, "access-control-request-method": "DELETE" } });
++    expect(preflight.statusCode).toBe(204);
++    expect(preflight.headers["access-control-allow-methods"]).toBe("GET, HEAD, POST, PUT, DELETE");
++    const jawab = await app.inject({ method: "DELETE", url: "/rules/2", cookies: gelang("admin"), headers: { origin: DASHBOARD } });
++    expect(jawab.statusCode).toBe(200);
++    expect(jawab.headers["access-control-allow-origin"]).toBe(DASHBOARD);
++    expect(tabel.has(2)).toBe(false);
++  });
++});
+diff --git a/backend/src/routes/aturan.ts b/backend/src/routes/aturan.ts
+index 279069f..aa14526 100644
+--- a/backend/src/routes/aturan.ts
++++ b/backend/src/routes/aturan.ts
+@@ -1,11 +1,11 @@
+ // aturan.ts - rute /rules (Modul 19): melihat, membuat, dan mengubah aturan otomatis tanpa mengubah kode dan tanpa
+-// memulai ulang server, serta menjalankan aturan jadwal sekarang juga untuk mengujinya.
++// memulai ulang server, serta menjalankan aturan jadwal sekarang juga untuk mengujinya. Modul 24: juga menghapusnya.
+ import { z } from "zod";
+ import type { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
+ import { Ack } from "../schemas/kontrak.ts";
+ import { Aturan, IsiAturan } from "../schemas/aturan.ts";
+ import type { AturanTersimpan } from "../schemas/aturan.ts";
+-import { buatAturan, cariAturan, gantiAturan, semuaAturan } from "../services/otomasi.ts";
++import { buatAturan, cariAturan, gantiAturan, hapusAturan, semuaAturan } from "../services/otomasi.ts";
+ import { jadwalBerikutnya, jalankanJadwal } from "../services/jadwal.ts";
+ import { waktuKontrak } from "../db/arsip.ts";
+ 
+@@ -76,6 +76,31 @@ export const ruteAturan: FastifyPluginAsyncZod = async (app) => {
+     }
+   });
+ 
++  // Modul 24: "D" pada CRUD. Menonaktifkan (PUT dengan "aktif": false) menyimpan aturannya untuk dipakai lagi; menghapus
++  // membuangnya. Riwayat perintah dan kejadian lamanya tetap ada. Seperti rute lain yang mengubah sesuatu, akun viewer
++  // dijawab 403 oleh satpam (keamanan.ts) sebelum sampai ke sini.
++  app.delete("/rules/:id", {
++    schema: {
++      tags: ["aturan"],
++      summary: "Hapus satu aturan; langsung tidak berlaku. Riwayat perintah dan kejadiannya tetap ada",
++      params: ParamId,
++      response: {
++        200: z.object({ id: z.number(), nama: z.string(), pesan: z.string() }).describe("aturan sudah dihapus"),
++        404: Galat.describe("aturan bernomor itu tidak ada"),
++        503: Galat.describe("database sedang tidak bisa dihubungi"),
++      },
++    },
++  }, async (req, reply) => {
++    try {
++      const hasil = await hapusAturan(req.params.id);
++      if (hasil === undefined) return reply.code(404).send({ pesan: `aturan ${req.params.id} tidak ada` });
++      return { ...hasil, pesan: `aturan ${hasil.id} (${hasil.nama}) dihapus` };
++    } catch (galat) {
++      req.log.error(`aturan ${req.params.id} gagal dihapus: ${(galat as Error).message}`);
++      return reply.code(503).send({ pesan: "database sedang tidak bisa dihubungi, coba lagi sebentar lagi" });
++    }
++  });
++
+   app.post("/rules/:id/jalankan", {
+     schema: {
+       tags: ["aturan"],
+diff --git a/backend/src/schemas/aturan-dasar.ts b/backend/src/schemas/aturan-dasar.ts
+new file mode 100644
+index 0000000..536ebf1
+--- /dev/null
++++ b/backend/src/schemas/aturan-dasar.ts
+@@ -0,0 +1,102 @@
++// aturan-dasar.ts - bentuk aturan otomatis (Modul 19) sebagai skema Zod, TANPA node-cron (dipisah di Modul 24). Aturan adalah
++// DATA, bukan kode: hanya bentuk yang dikenal di sini yang boleh masuk, baik lewat API maupun dari database.
++// Modul 24: berkas ini dipakai di DUA tempat. Backend memakainya lewat aturan.ts (ditambah pemeriksaan cron yang butuh
++// node-cron), dan dashboard memakai SALINAN IDENTIK-nya di frontend/src/skema/, supaya form aturan memeriksa isian dengan aturan
++// yang persis sama dengan server. Karena itu berkas ini hanya boleh mengimpor zod dan kontrak.ts (keduanya juga jalan di
++// browser). Ubah selalu di backend dulu, salin ulang ke frontend, lalu jalankan npm run cek-skema di folder frontend.
++import { z } from "zod";
++import { DeviceId, PerintahSet } from "./kontrak.ts";
++
++// besaran telemetry yang boleh dipakai aturan ambang
++export const Besaran = z.enum(["suhu", "kelembapan", "cahaya", "tanah", "level_air", "tanah_rs485", "suhu_tanah"]);
++
++// "Kalau <besaran> perangkat itu di atas <nyala_di_atas> terus-menerus selama <selama_detik> detik, aturan menyala;
++// aturan padam lagi kalau <besaran> di bawah <padam_di_bawah>." Misalnya kipas menyala kalau suhu di atas 30 °C.
++export const KondisiAmbang = z.strictObject({
++  jenis: z.literal("ambang"),
++  device_id: DeviceId,
++  besaran: Besaran,
++  nyala_di_atas: z.number(),
++  padam_di_bawah: z.number(),
++  selama_detik: z.number().int().min(0).max(3600),
++}).refine((k) => k.padam_di_bawah < k.nyala_di_atas, {
++  message: "padam_di_bawah harus lebih kecil daripada nyala_di_atas (histeresis)",
++  path: ["padam_di_bawah"],
++});
++
++// Modul 24: arah sebaliknya. "Kalau <besaran> di BAWAH <nyala_di_bawah> terus-menerus selama <selama_detik> detik, aturan
++// menyala; aturan padam lagi kalau <besaran> di atas <padam_di_atas>." Misalnya siram kalau tanah di bawah 30 %, dan baru boleh
++// menyiram lagi setelah tanah sempat naik di atas 35 %. Celah 30-35 itu histeresis, sama seperti pada kondisi ambang.
++export const KondisiAmbangBawah = z.strictObject({
++  jenis: z.literal("ambang-bawah"),
++  device_id: DeviceId,
++  besaran: Besaran,
++  nyala_di_bawah: z.number(),
++  padam_di_atas: z.number(),
++  selama_detik: z.number().int().min(0).max(3600),
++}).refine((k) => k.padam_di_atas > k.nyala_di_bawah, {
++  message: "padam_di_atas harus lebih besar daripada nyala_di_bawah (histeresis)",
++  path: ["padam_di_atas"],
++});
++
++// "Setiap <cron> (jam WIB) ..." — ekspresi cron 5 bidang: menit jam tanggal bulan hari, misalnya "0 6 * * *".
++// Di sini hanya banyaknya bidang yang diperiksa. Apakah isi setiap bidang masuk akal (misalnya menit 61) diperiksa node-cron di
++// server (aturan.ts), karena node-cron tidak bisa jalan di browser.
++export const KondisiJadwal = z.strictObject({
++  jenis: z.literal("jadwal"),
++  cron: z.string()
++    .refine((teks) => teks.trim().split(/\s+/).length === 5, "jadwal memakai 5 bidang: menit jam tanggal bulan hari"),
++});
++
++// "... maka nyalakan <target> perangkat itu selama aturan menyala, dan padamkan lagi saat aturan padam."
++export const AksiSakelar = z.strictObject({
++  jenis: z.literal("sakelar"),
++  device_id: DeviceId,
++  target: z.enum(["kipas", "lampu"]),
++  kabari: z.boolean(), // kirim pesan Telegram saat aturan ini bertindak?
++});
++
++// "... maka kirim satu perintah set", misalnya pompa 5 detik. Memakai skema perintah yang sama dengan API.
++// Modul 24: juga boleh untuk kondisi ambang dan ambang-bawah. Perintahnya dikirim SEKALI saat aturan menyala; saat aturan
++// padam tidak ada yang dikirim (pompa padam sendiri setelah detiknya habis).
++export const AksiPerintah = z.strictObject({
++  jenis: z.literal("perintah"),
++  device_id: DeviceId,
++  perintah: PerintahSet,
++  kabari: z.boolean(),
++});
++
++// Kolom-kolom satu aturan (nama, aktif, kondisi, aksi), tanpa pemeriksaan gabungan.
++export const IsiAturan = z.strictObject({
++  nama: z.string().min(1).max(60),
++  aktif: z.boolean(),
++  kondisi: z.discriminatedUnion("jenis", [KondisiAmbang, KondisiAmbangBawah, KondisiJadwal]),
++  aksi: z.discriminatedUnion("jenis", [AksiSakelar, AksiPerintah]),
++});
++
++// Isi POST /rules dan PUT /rules/:id, dengan pemeriksaan gabungan. Server menambah satu pemeriksaan lagi di aturan.ts.
++export const Aturan = IsiAturan
++  // Aksi sakelar artinya "menyala selama aturan menyala". Jadwal hanya punya saat mulai, tanpa saat padam, jadi jadwal hanya
++  // boleh mengirim perintah. Pasangan lainnya boleh semua (Modul 24).
++  .refine((a) => a.kondisi.jenis !== "jadwal" || a.aksi.jenis === "perintah", {
++    message: "kondisi jadwal berpasangan dengan aksi perintah; aksi sakelar hanya untuk kondisi ambang atau ambang-bawah",
++    path: ["aksi", "jenis"],
++  })
++  // Ambang aturan kipas juga dikirim ke perangkat sebagai suhu_kipas_on (config, kontrak 1.3), jadi rentangnya harus sama
++  // dengan yang diterima perangkat: 15-45 °C.
++  .refine((a) => a.kondisi.jenis !== "ambang" || a.aksi.jenis !== "sakelar" || a.kondisi.besaran !== "suhu"
++    || a.aksi.target !== "kipas" || (a.kondisi.nyala_di_atas >= 15 && a.kondisi.nyala_di_atas <= 45), {
++    message: "untuk aturan kipas, nyala_di_atas harus 15-45 °C (ikut dikirim ke perangkat sebagai suhu_kipas_on)",
++    path: ["kondisi", "nyala_di_atas"],
++  });
++
++export type Besaran = z.infer<typeof Besaran>;
++export type KondisiAmbang = z.infer<typeof KondisiAmbang>;
++export type KondisiAmbangBawah = z.infer<typeof KondisiAmbangBawah>;
++export type KondisiJadwal = z.infer<typeof KondisiJadwal>;
++export type AksiSakelar = z.infer<typeof AksiSakelar>;
++export type AksiPerintah = z.infer<typeof AksiPerintah>;
++export type Aturan = z.infer<typeof Aturan>;
++
++// aturan yang sudah tersimpan di database: ditambah nomor dan waktunya
++export type AturanTersimpan = Aturan & { id: number; dibuat: string; diubah: string };
+diff --git a/backend/src/schemas/aturan.ts b/backend/src/schemas/aturan.ts
+index 9c19a6c..3f90815 100644
+--- a/backend/src/schemas/aturan.ts
++++ b/backend/src/schemas/aturan.ts
+@@ -1,75 +1,19 @@
+-// aturan.ts - bentuk aturan otomatis (Modul 19) sebagai skema Zod. Aturan adalah DATA, bukan kode: hanya bentuk yang
+-// dikenal di sini yang boleh masuk, baik lewat API maupun dari database.
+-import { z } from "zod";
++// aturan.ts - skema aturan otomatis untuk SERVER (Modul 19). Modul 24: semua bentuk aturan pindah ke aturan-dasar.ts, yang
++// tanpa node-cron sehingga dashboard bisa memakai salinannya di browser. Di sini hanya ditambah satu pemeriksaan yang butuh
++// node-cron: apakah ekspresi cron aturan jadwal benar-benar bisa dijalankan.
++import type { z } from "zod";
+ import cron from "node-cron";
+-import { DeviceId, PerintahSet } from "./kontrak.ts";
++import { Aturan as AturanDasar } from "./aturan-dasar.ts";
+ 
+-// besaran telemetry yang boleh dipakai aturan ambang
+-const Besaran = z.enum(["suhu", "kelembapan", "cahaya", "tanah", "level_air", "tanah_rs485", "suhu_tanah"]);
++// Semua yang ada di aturan-dasar.ts ikut tersedia dari berkas ini (KondisiAmbang, KondisiAmbangBawah, AksiSakelar, IsiAturan,
++// tipe-tipenya, dan seterusnya), jadi berkas lain di backend cukup mengimpor dari aturan.ts seperti sejak Modul 19.
++// Aturan di bawah ini menggantikan Aturan milik aturan-dasar.ts: nama yang ditulis di berkas ini sendiri selalu menang.
++export * from "./aturan-dasar.ts";
+ 
+-// "Kalau <besaran> perangkat itu di atas <nyala_di_atas> terus-menerus selama <selama_detik> detik, aturan menyala;
+-// aturan padam lagi kalau <besaran> di bawah <padam_di_bawah>."
+-export const KondisiAmbang = z.strictObject({
+-  jenis: z.literal("ambang"),
+-  device_id: DeviceId,
+-  besaran: Besaran,
+-  nyala_di_atas: z.number(),
+-  padam_di_bawah: z.number(),
+-  selama_detik: z.number().int().min(0).max(3600),
+-}).refine((k) => k.padam_di_bawah < k.nyala_di_atas, {
+-  message: "padam_di_bawah harus lebih kecil daripada nyala_di_atas (histeresis)",
+-  path: ["padam_di_bawah"],
++// Isi POST /rules dan PUT /rules/:id di server: bentuk dasar + ekspresi cron yang benar-benar bisa dijalankan node-cron.
++export const Aturan = AturanDasar.refine((a) => a.kondisi.jenis !== "jadwal" || cron.validate(a.kondisi.cron), {
++  message: "ekspresi cron tidak sah",
++  path: ["kondisi", "cron"],
+ });
+ 
+-// "Setiap <cron> (jam WIB) ..." — ekspresi cron 5 bidang: menit jam tanggal bulan hari, misalnya "0 6 * * *"
+-export const KondisiJadwal = z.strictObject({
+-  jenis: z.literal("jadwal"),
+-  cron: z.string()
+-    .refine((teks) => teks.trim().split(/\s+/).length === 5, "jadwal memakai 5 bidang: menit jam tanggal bulan hari")
+-    .refine((teks) => cron.validate(teks), "ekspresi cron tidak sah"),
+-});
+-
+-// "... maka nyalakan <target> perangkat itu, dan padamkan lagi saat aturan padam."
+-export const AksiSakelar = z.strictObject({
+-  jenis: z.literal("sakelar"),
+-  device_id: DeviceId,
+-  target: z.enum(["kipas", "lampu"]),
+-  kabari: z.boolean(), // kirim pesan Telegram saat aturan ini bertindak?
+-});
+-
+-// "... maka kirim satu perintah set", misalnya pompa 10 detik. Memakai skema perintah yang sama dengan API.
+-export const AksiPerintah = z.strictObject({
+-  jenis: z.literal("perintah"),
+-  device_id: DeviceId,
+-  perintah: PerintahSet,
+-  kabari: z.boolean(),
+-});
+-
+-// Kolom-kolom satu aturan (nama, aktif, kondisi, aksi), tanpa pemeriksaan gabungan.
+-export const IsiAturan = z.strictObject({
+-  nama: z.string().min(1).max(60),
+-  aktif: z.boolean(),
+-  kondisi: z.discriminatedUnion("jenis", [KondisiAmbang, KondisiJadwal]),
+-  aksi: z.discriminatedUnion("jenis", [AksiSakelar, AksiPerintah]),
+-});
+-
+-// Isi POST /rules dan PUT /rules/:id.
+-export const Aturan = IsiAturan
+-  .refine((a) => (a.kondisi.jenis === "ambang") === (a.aksi.jenis === "sakelar"), {
+-    message: "kondisi ambang berpasangan dengan aksi sakelar; kondisi jadwal dengan aksi perintah",
+-    path: ["aksi", "jenis"],
+-  })
+-  // Ambang aturan kipas juga dikirim ke perangkat sebagai suhu_kipas_on (config, kontrak 1.3), jadi rentangnya harus sama
+-  // dengan yang diterima perangkat: 15-45 °C.
+-  .refine((a) => a.kondisi.jenis !== "ambang" || a.aksi.jenis !== "sakelar" || a.kondisi.besaran !== "suhu"
+-    || a.aksi.target !== "kipas" || (a.kondisi.nyala_di_atas >= 15 && a.kondisi.nyala_di_atas <= 45), {
+-    message: "untuk aturan kipas, nyala_di_atas harus 15-45 °C (ikut dikirim ke perangkat sebagai suhu_kipas_on)",
+-    path: ["kondisi", "nyala_di_atas"],
+-  });
+-
+-export type KondisiAmbang = z.infer<typeof KondisiAmbang>;
+-export type AksiSakelar = z.infer<typeof AksiSakelar>;
+-export type Aturan = z.infer<typeof Aturan>;
+-
+-// aturan yang sudah tersimpan di database: ditambah nomor dan waktunya
+-export type AturanTersimpan = Aturan & { id: number; dibuat: string; diubah: string };
++export type Aturan = z.infer<typeof Aturan>; // nama yang sama untuk nilai dan tipenya, seperti di aturan-dasar.ts
+diff --git a/backend/src/server.ts b/backend/src/server.ts
+index 995b98d..235c343 100644
+--- a/backend/src/server.ts
++++ b/backend/src/server.ts
+@@ -1,6 +1,7 @@
+-// server.ts - pintu masuk backend Rumah Pintar Mini v1.0 (Modul 21: daftar resmi perangkat dan kuncinya, akun broker sendiri,
+-// pesan dari perangkat tak terdaftar/dicabut diabaikan; di atas Modul 20: login, JWT di cookie, peran, dan pengaman API, dan
+-// Modul 19: data realtime, perintah satu pintu, aturan otomatis, jadwal, dan notifikasi Telegram).
++// server.ts - pintu masuk backend Rumah Pintar Mini v1.1 (Modul 24: aturan "di bawah ambang" seperti siram kalau tanah kering,
++// aturan ambang boleh mengirim perintah sekali, dan aturan bisa dihapus; di atas v1.0 Modul 21: daftar resmi perangkat dan
++// kuncinya, akun broker sendiri, pesan dari perangkat tak terdaftar/dicabut diabaikan; Modul 20: login, JWT di cookie, peran,
++// dan pengaman API; dan Modul 19: data realtime, perintah satu pintu, aturan otomatis, jadwal, dan notifikasi Telegram).
+ // Jalankan: npm run dev (otomatis mulai ulang saat file disimpan) atau npm start.
+ import Fastify, { LogController } from "fastify";
+ import swagger from "@fastify/swagger";
+@@ -41,11 +42,13 @@ await app.register(swagger, {
+   openapi: {
+     info: {
+       title: "Rumah Pintar Mini API",
+-      description: "Backend v1.0 (Modul 21). Semua rute butuh login, kecuali yang tidak bergembok. Login dulu lewat "
++      description: "Backend v1.1 (Modul 24). Semua rute butuh login, kecuali yang tidak bergembok. Login dulu lewat "
+         + "POST /auth/login (Try it out): browser menyimpan cookie akses dan mengirimnya sendiri ke rute lain. "
+         + "Akun viewer hanya boleh melihat (GET); perintah dan perubahan dijawab 403. Perangkat didaftarkan admin lewat "
+-        + "POST /devices; kuncinya hanya tampil sekali, dan pesan dari perangkat tak terdaftar atau dicabut diabaikan.",
+-      version: "1.0.0",
++        + "POST /devices; kuncinya hanya tampil sekali, dan pesan dari perangkat tak terdaftar atau dicabut diabaikan. "
++        + "Sejak v1.1, aturan ambang bisa berarah turun (ambang-bawah, misalnya siram kalau tanah di bawah 30 %), boleh "
++        + "mengirim satu perintah saat menyala, dan aturan bisa dihapus (DELETE /rules/:id).",
++      version: "1.1.0",
+     },
+     components: {
+       securitySchemes: { // Modul 20: rute bergembok butuh cookie akses dari POST /auth/login
+diff --git a/backend/src/services/jadwal.ts b/backend/src/services/jadwal.ts
+index 17eddd4..f8bb63b 100644
+--- a/backend/src/services/jadwal.ts
++++ b/backend/src/services/jadwal.ts
+@@ -59,8 +59,9 @@ export async function jalankanJadwal(a: AturanTersimpan): Promise<HasilPerintah>
+     pesan = `⚠️ ${a.nama}: perintah ${perintah.target} tidak dikirim (${hasil.pesan})`;
+   }
+   log.info(`jadwal aturan ${a.id}: ${pesan}`);
++  // Modul 24: ok = perintahnya terlaksana (dijawab ok); dashboard memakainya untuk warna kabar
+   catatKejadian({ device_id: deviceId, jenis: "jadwal", sumber: "jadwal", aturan_id: a.id, pesan,
+-    data: { perintah, hasil: hasil.status } });
++    data: { perintah, hasil: hasil.status, ok: hasil.status === "dijawab" && hasil.ack.ok } });
+   if (a.aksi.kabari) void kabari(pesan);
+   return hasil;
+ }
+@@ -69,7 +70,7 @@ export async function jalankanJadwal(a: AturanTersimpan): Promise<HasilPerintah>
+ function jadwalTerlewat(a: AturanTersimpan, waktu: Date): void {
+   const pesan = `⏰ Jadwal ${a.nama} pada ${jamWib(waktu)} terlewat (laptop tidur atau backend sibuk?)`;
+   log.warn(pesan);
+-  catatKejadian({ device_id: null, jenis: "jadwal", sumber: "jadwal", aturan_id: a.id, pesan, data: { terlewat: waktu } });
++  catatKejadian({ device_id: null, jenis: "jadwal", sumber: "jadwal", aturan_id: a.id, pesan, data: { terlewat: waktu, ok: false } });
+   if (a.aksi.kabari) void kabari(pesan);
+ }
+ 
+diff --git a/backend/src/services/otomasi.test.ts b/backend/src/services/otomasi.test.ts
+new file mode 100644
+index 0000000..ceb7abe
+--- /dev/null
++++ b/backend/src/services/otomasi.test.ts
+@@ -0,0 +1,116 @@
++// otomasi.test.ts - uji otomasi.ts (Modul 24) TANPA database, MQTT, atau Telegram: semua tetangganya diganti tiruan
++// (vi.mock). Yang dicatat hanya perintah apa yang "dikirim" ke perangkat dan kejadian apa yang ditulis. Yang diuji: aturan
++// siram (ambang-bawah + perintah) menyiram SEKALI, padam tanpa perintah lalu siap lagi, perintah yang ditolak perangkat
++// ditandai ok: false, dan aturan yang dihapus atau dinonaktifkan tidak bertindak lagi. Jalankan: npm test
++import { beforeEach, describe, expect, it, vi } from "vitest";
++
++const tabel = vi.hoisted(() => ({ aturan: [] as Record<string, unknown>[] })); // tabel rules tiruan
++const kirim = vi.hoisted(() => [] as { target: string; nilai: unknown }[]); // perintah yang "dikirim" ke perangkat
++const kejadian = vi.hoisted(() => [] as { aturan_id: number | null; pesan: string; data?: unknown }[]);
++const jawaban = vi.hoisted(() => ({ ok: true, pesan: undefined as string | undefined })); // ack perangkat tiruan
++const lupakan = vi.hoisted(() => [] as number[]); // nomor aturan yang keinginannya dilupakan perintah.ts
++
++vi.mock("../db/arsip.ts", () => ({
++  ambilSemuaAturan: async () => tabel.aturan,
++  tambahAturan: async () => { throw new Error("tidak dipakai"); },
++  ubahAturan: async (id: number, isi: Record<string, unknown>) => {
++    const lama = tabel.aturan.find((b) => b.id === id);
++    if (lama === undefined) return undefined;
++    const baru = { ...lama, ...isi };
++    tabel.aturan = tabel.aturan.map((b) => (b.id === id ? baru : b));
++    return baru;
++  },
++  hapusAturanDb: async (id: number) => {
++    const baris = tabel.aturan.find((b) => b.id === id);
++    if (baris === undefined) return undefined;
++    tabel.aturan = tabel.aturan.filter((b) => b.id !== id);
++    return { id, nama: baris.nama };
++  },
++  waktuKontrak: (w: Date) => w.toISOString().slice(0, 19) + "Z",
++}));
++vi.mock("./perintah.ts", () => ({
++  perintahkan: async (_device: string, perintah: { target: string; nilai: unknown }) => {
++    kirim.push(perintah);
++    return { status: "dijawab", id: `c-${kirim.length}`, lama_ms: 5,
++      ack: { id: `c-${kirim.length}`, ts: null, ok: jawaban.ok, pesan: jawaban.pesan, state: {} } };
++  },
++  lupakanKeinginanAturan: (aturanId: number) => { lupakan.push(aturanId); },
++}));
++vi.mock("./kejadian.ts", () => ({ catatKejadian: (k: { aturan_id: number | null; pesan: string }) => { kejadian.push(k); } }));
++vi.mock("./gudang.ts", () => ({ cariPerangkat: () => undefined, tungguAck: async () => null }));
++vi.mock("./mqtt.ts", () => ({ buatIdPerintah: () => "c-config", kirimConfig: () => {}, ringkas: () => "" }));
++vi.mock("./jadwal.ts", () => ({ pasangJadwal: () => {} }));
++vi.mock("./telegram.ts", () => ({ kabariKalauPerlu: async () => {} }));
++
++import { gantiAturan, hapusAturan, muatAturan, nilaiBacaan } from "./otomasi.ts";
++import type { Aturan } from "../schemas/aturan.ts";
++import type { TelemetryNode1 } from "../schemas/kontrak.ts";
++
++const ID = "f00d00000001";
++const SIRAM: Aturan = { nama: "Siram jika tanah < 30 %", aktif: true,
++  kondisi: { jenis: "ambang-bawah", device_id: ID, besaran: "tanah", nyala_di_bawah: 30, padam_di_atas: 35, selama_detik: 0 },
++  aksi: { jenis: "perintah", device_id: ID, perintah: { target: "pompa", nilai: 5 }, kabari: false } };
++const tunggu = () => new Promise((r) => setTimeout(r, 0)); // beri kesempatan bertindak() (async) selesai
++async function bacaan(tanah: number) {
++  nilaiBacaan(ID, { ts: new Date().toISOString().slice(0, 19) + "Z", tanah } as unknown as TelemetryNode1);
++  await tunggu();
++}
++
++let nomor = 0; // setiap tes memakai nomor aturan baru: ingatan aturan di otomasi.ts bertahan antar-tes
++
++describe("otomasi: aturan siram (ambang-bawah + perintah)", () => {
++  beforeEach(async () => {
++    tabel.aturan = [{ ...structuredClone(SIRAM), id: ++nomor, dibuat: new Date(), diubah: new Date() }];
++    kirim.length = 0;
++    kejadian.length = 0;
++    lupakan.length = 0;
++    jawaban.ok = true;
++    jawaban.pesan = undefined;
++    await muatAturan();
++  });
++
++  it("tanah 25: pompa 5 detik dikirim SEKALI, walaupun tanah tetap 25", async () => {
++    await bacaan(25);
++    await bacaan(25);
++    await bacaan(26);
++    expect(kirim).toEqual([{ target: "pompa", nilai: 5 }]);
++    expect(kejadian).toHaveLength(1);
++    expect(kejadian[0]).toMatchObject({ aturan_id: nomor, pesan: "🌱 Tanah 25 % — pompa menyiram 5 detik otomatis",
++      data: { hasil: "dijawab", ok: true } });
++  });
++
++  it("tanah naik ke 36: aturan padam TANPA perintah (ok null), lalu siap menyiram lagi", async () => {
++    await bacaan(25);
++    await bacaan(36);
++    expect(kirim).toHaveLength(1); // padam tidak mengirim apa-apa
++    expect(kejadian.at(-1)).toMatchObject({ aturan_id: nomor, pesan: "✅ Tanah naik ke 36 % — aturan siap lagi",
++      data: { perintah: null, hasil: "tanpa-perintah", ok: null } });
++    await bacaan(25);
++    expect(kirim).toHaveLength(2); // kekeringan berikutnya: menyiram lagi
++  });
++
++  it("perangkat menolak (tandon kurang): kejadian ⚠️ dengan ok: false, dan tidak dicoba lagi selama tanah tetap kering", async () => {
++    jawaban.ok = false;
++    jawaban.pesan = "pompa ditolak: air tandon kurang";
++    await bacaan(25);
++    await bacaan(25);
++    expect(kirim).toHaveLength(1);
++    expect(kejadian[0]).toMatchObject({ pesan: "⚠️ Tanah 25 % — perintah pompa ditolak perangkat: pompa ditolak: air tandon kurang",
++      data: { hasil: "dijawab", ok: false } });
++  });
++
++  it("dihapus: kejadiannya ber-aturan_id null, keinginannya dilupakan, dan bacaan kering sesudahnya tidak menyiram", async () => {
++    expect(await hapusAturan(nomor)).toEqual({ id: nomor, nama: "Siram jika tanah < 30 %" });
++    expect(kejadian.at(-1)).toMatchObject({ aturan_id: null, data: { id: nomor, dihapus: true } });
++    expect(lupakan).toEqual([nomor]);
++    await bacaan(25);
++    expect(kirim).toHaveLength(0);
++  });
++
++  it("dinonaktifkan: keinginannya dilupakan dan aturan tidak menyiram lagi", async () => {
++    await gantiAturan(nomor, { ...structuredClone(SIRAM), aktif: false });
++    expect(lupakan).toEqual([nomor]);
++    await bacaan(25);
++    expect(kirim).toHaveLength(0);
++  });
++});
+diff --git a/backend/src/services/otomasi.ts b/backend/src/services/otomasi.ts
+index 71f1885..e604570 100644
+--- a/backend/src/services/otomasi.ts
++++ b/backend/src/services/otomasi.ts
+@@ -1,22 +1,27 @@
+ // otomasi.ts - menjalankan aturan otomatis dari tabel rules (Modul 19): memuat aturan ke memori, menilai setiap bacaan
+ // dengan otak murni (aturan/mesin.ts), bertindak lewat perintahkan(), mengirim ambang kipas ke perangkat (config),
+ // memasang aturan jadwal (jadwal.ts), dan mencatat setiap tindakan di buku kejadian.
++// Modul 24: aturan ambang kini dua arah (ambang = naik di atas, ambang-bawah = turun di bawah), aksinya boleh sakelar atau
++// perintah yang dikirim sekali (misalnya pompa 5 detik), dan aturan bisa dihapus (hapusAturan).
+ import { Aturan } from "../schemas/aturan.ts";
+-import type { AksiSakelar, AturanTersimpan, KondisiAmbang } from "../schemas/aturan.ts";
+-import type { TelemetryNode1, TelemetryNode2 } from "../schemas/kontrak.ts";
+-import { INGATAN_AWAL, nilaiAmbang } from "../aturan/mesin.ts";
++import type { AksiPerintah, AksiSakelar, AturanTersimpan, KondisiAmbang, KondisiAmbangBawah } from "../schemas/aturan.ts";
++import type { PerintahSet, TelemetryNode1, TelemetryNode2 } from "../schemas/kontrak.ts";
++import { INGATAN_AWAL, nilaiAmbang, nilaiAmbangBawah } from "../aturan/mesin.ts";
+ import type { Ingatan } from "../aturan/mesin.ts";
+-import { ambilSemuaAturan, tambahAturan, ubahAturan, waktuKontrak } from "../db/arsip.ts";
++import { ambilSemuaAturan, hapusAturanDb, tambahAturan, ubahAturan, waktuKontrak } from "../db/arsip.ts";
+ import type { BarisAturan } from "../db/arsip.ts";
+ import { cariPerangkat, tungguAck } from "./gudang.ts";
+ import { buatIdPerintah, kirimConfig, ringkas } from "./mqtt.ts";
+-import { perintahkan } from "./perintah.ts";
++import { lupakanKeinginanAturan, perintahkan } from "./perintah.ts";
+ import type { HasilPerintah } from "./perintah.ts";
+ import { pasangJadwal } from "./jadwal.ts";
+ import { catatKejadian } from "./kejadian.ts";
+ import { kabariKalauPerlu } from "./telegram.ts";
+ import { log } from "./log.ts";
+ 
++type KondisiBacaan = KondisiAmbang | KondisiAmbangBawah; // Modul 24: kondisi yang dinilai dari bacaan sensor, dua arah
++type AksiAturan = AksiSakelar | AksiPerintah; // Modul 24: aturan ambang boleh memakai keduanya
++
+ const BACAAN_BASI_MS = 60_000; // bacaan yang ts-nya lebih tua daripada 60 detik (data susulan) tidak dinilai
+ let daftar: AturanTersimpan[] = []; // semua aturan yang sah, urut nomor
+ const ingatan = new Map<number, Ingatan>(); // nomor aturan -> ingatan nilaiAmbang
+@@ -56,11 +61,30 @@ export async function gantiAturan(id: number, isi: Aturan): Promise<AturanTersim
+   return baris === undefined ? undefined : setelahBerubah(baris, "diubah");
+ }
+ 
++// Modul 24, DELETE /rules/:id: hasilnya undefined kalau aturan bernomor itu tidak ada. Aturan langsung berhenti berlaku.
++// Riwayat perintah dan kejadiannya tetap ada di database (aturan_id-nya menjadi NULL, migrasi 007). Kejadian "dihapus" ini
++// juga ditulis dengan aturan_id null: barisnya sudah tidak ada, jadi database menolak nomor itu. Nomornya ikut di data.
++export async function hapusAturan(id: number): Promise<{ id: number; nama: string } | undefined> {
++  const baris = await hapusAturanDb(id);
++  if (baris === undefined) return undefined;
++  daftar = daftar.filter((a) => a.id !== baris.id); // berhenti dinilai SEKARANG, sebelum database dibaca lagi
++  ingatan.delete(baris.id);
++  lupakanKeinginanAturan(baris.id); // perangkat yang menyala ulang tidak menerima lagi perintah aturan ini
++  await muatAturan(); // daftar di memori dan tugas jadwal ikut diperbarui
++  const pesan = `Aturan ${baris.id} (${baris.nama}) dihapus lewat API`;
++  log.info(pesan);
++  catatKejadian({ device_id: null, jenis: "aturan-diubah", sumber: "api", aturan_id: null, pesan,
++    data: { id: baris.id, nama: baris.nama, dihapus: true } });
++  kirimSemuaConfig();
++  return baris;
++}
++
+ async function setelahBerubah(baris: BarisAturan, kata: string): Promise<AturanTersimpan> {
+   ingatan.delete(baris.id); // ambang baru = hitungan "selama" baru
+   await muatAturan();
+   const a = cariAturan(baris.id);
+   if (a === undefined) throw new Error(`aturan ${baris.id} tidak sah setelah disimpan`);
++  if (!a.aktif) lupakanKeinginanAturan(a.id); // Modul 24: aturan nonaktif tidak bertindak lagi, juga lewat rekonsiliasi
+   const pesan = `Aturan ${a.id} (${a.nama}) ${kata} lewat API: ${uraikan(a)}`;
+   log.info(pesan);
+   catatKejadian({ device_id: null, jenis: "aturan-diubah", sumber: "api", aturan_id: a.id, pesan,
+@@ -69,22 +93,54 @@ async function setelahBerubah(baris: BarisAturan, kata: string): Promise<AturanT
+   return a;
+ }
+ 
++// Modul 24: kata-kata untuk dua arah ambang. nyala/padam = syaratnya, misalnya "di atas 30"/"di bawah 28" (naik) atau
++// "di bawah 30"/"di atas 35" (turun); pulih = ke mana bacaan bergerak saat aturan padam lagi.
++function arah(k: KondisiBacaan): { nyala: string; padam: string; pulih: string } {
++  return k.jenis === "ambang"
++    ? { nyala: `di atas ${k.nyala_di_atas}`, padam: `di bawah ${k.padam_di_bawah}`, pulih: "turun" }
++    : { nyala: `di bawah ${k.nyala_di_bawah}`, padam: `di atas ${k.padam_di_atas}`, pulih: "naik" };
++}
++
++// Modul 24: perintah yang dikirim aturan saat MENYALA. Aksi sakelar menyalakan targetnya; aksi perintah mengirim
++// perintahnya apa adanya (misalnya pompa 5 detik).
++function perintahSaatNyala(aksi: AksiAturan): PerintahSet {
++  return aksi.jenis === "sakelar" ? { target: aksi.target, nilai: true } : aksi.perintah;
++}
++
++// ...dan saat PADAM: aksi sakelar memadamkan targetnya lagi; aksi perintah tidak mengirim apa-apa (null), karena perintahnya
++// sudah selesai sendiri (pompa padam setelah detiknya habis). Aturannya hanya "siap lagi" untuk kekeringan berikutnya.
++function perintahSaatPadam(aksi: AksiAturan): PerintahSet | null {
++  return aksi.jenis === "sakelar" ? { target: aksi.target, nilai: false } : null;
++}
++
++// Modul 24: satu perintah dalam kata-kata, misalnya "pompa menyiram 5 detik", "lampu dinyalakan", "tirai diatur ke 0°"
++function kataPerintah(p: PerintahSet): string {
++  if (p.target === "pompa") return `pompa menyiram ${p.nilai} detik`;
++  if (p.target === "tirai") return `tirai diatur ke ${p.nilai}°`;
++  return `${p.target} di${p.nilai ? "nyala" : "padam"}kan`;
++}
++
+ // kalimat pendek untuk log dan buku kejadian
+ function uraikan(a: AturanTersimpan): string {
+   const { kondisi: k, aksi } = a;
+   const mati = a.aktif ? "" : " (tidak aktif)";
+-  if (k.jenis === "jadwal" && aksi.jenis === "perintah") {
++  if (k.jenis === "jadwal") {
++    if (aksi.jenis !== "perintah") return "bentuk aturan tidak dikenal"; // sudah dicegah skema; hanya berjaga-jaga
+     return `${aksi.perintah.target} ${aksi.device_id} = ${aksi.perintah.nilai} setiap "${k.cron}" WIB${mati}`;
+   }
+-  if (k.jenis === "ambang" && aksi.jenis === "sakelar") {
+-    return `${aksi.target} ${aksi.device_id} menyala kalau ${k.besaran} ${k.device_id} di atas ${k.nyala_di_atas} `
+-      + `selama ${k.selama_detik} detik, padam di bawah ${k.padam_di_bawah}${mati}`;
++  const { nyala, padam } = arah(k);
++  if (aksi.jenis === "sakelar") {
++    return `${aksi.target} ${aksi.device_id} menyala kalau ${k.besaran} ${k.device_id} ${nyala} `
++      + `selama ${k.selama_detik} detik, padam ${padam}${mati}`;
+   }
+-  return "bentuk aturan tidak dikenal";
++  return `${aksi.perintah.target} ${aksi.device_id} = ${aksi.perintah.nilai} sekali kalau ${k.besaran} ${k.device_id} `
++    + `${nyala} selama ${k.selama_detik} detik, siap lagi ${padam}${mati}`; // Modul 24
+ }
+ 
+ // Kirim ambang pengaman ke setiap perangkat yang punya aturan kipas berdasarkan suhu: suhu_kipas_on = nyala_di_atas
+ // (kontrak 1.3, config retained). Dipanggil setiap kali backend tersambung ke broker dan setiap kali aturan berubah.
++// Catatan: aturan kipas yang dinonaktifkan atau dihapus TIDAK mencabut config lama. Perangkat tetap memakai suhu_kipas_on
++// terakhir sebagai pengaman lokalnya (yang hanya bekerja saat broker tak terjangkau).
+ export function kirimSemuaConfig(): void {
+   const sudah = new Set<string>(); // satu perangkat, satu ambang: aturan kipas aktif bernomor terkecil
+   for (const a of daftar) {
+@@ -116,22 +172,28 @@ export function nilaiBacaan(deviceId: string, isi: TelemetryNode1 | TelemetryNod
+   const bacaan: Record<string, unknown> = isi;
+   for (const a of daftar) {
+     const { kondisi, aksi } = a;
+-    if (!a.aktif || kondisi.jenis !== "ambang" || aksi.jenis !== "sakelar" || kondisi.device_id !== deviceId) continue;
++    // aturan jadwal tidak dinilai dari bacaan: jamnya dijaga node-cron (jadwal.ts)
++    if (!a.aktif || kondisi.jenis === "jadwal" || kondisi.device_id !== deviceId) continue;
+     const mentah = bacaan[kondisi.besaran];
+     const nilai = typeof mentah === "number" ? mentah : null; // null: sensor gagal, atau kolom tidak dimiliki perangkat
+     const lama = ingatan.get(a.id) ?? ingatanAwal(aksi);
+-    const { ingatan: baru, keputusan } = nilaiAmbang(kondisi, lama, nilai, sekarang);
++    const { ingatan: baru, keputusan } = kondisi.jenis === "ambang"
++      ? nilaiAmbang(kondisi, lama, nilai, sekarang) // naik: "di atas"
++      : nilaiAmbangBawah(kondisi, lama, nilai, sekarang); // Modul 24, turun: "di bawah"
+     ingatan.set(a.id, baru);
+     if (keputusan !== null) {
+       void bertindak(a, kondisi, aksi, keputusan, nilai, isi.ts, lama);
+     } else if (baru.aktif && aksi.kabari) { // masih menyala: pengingat paling sering 30 menit sekali (perluKabari)
+       const [emoji, nama, satuan] = LABEL[kondisi.besaran];
++      // Modul 24: aturan perintah (misalnya pompa) sudah selesai bertindak; yang ditunggu adalah syarat "siap lagi"-nya
++      const keadaan = aksi.jenis === "sakelar" ? `${aksi.target} tetap menyala`
++        : `aturan "${a.nama}" belum siap lagi (menunggu ${kondisi.besaran} ${arah(kondisi).padam})`;
+       void kabariKalauPerlu(`aturan:${a.id}`, "bahaya",
+-        `${emoji} ${nama} masih ${nilai === null ? "-" : angka.format(nilai)}${satuan} — ${aksi.target} tetap menyala (pengingat)`,
++        `${emoji} ${nama} masih ${nilai === null ? "-" : angka.format(nilai)}${satuan} — ${keadaan} (pengingat)`,
+         isi.ts, true);
+     } else if (lama.sejak === null && baru.sejak !== null) {
+-      log.info(`aturan ${a.id} (${a.nama}): ${kondisi.besaran} ${nilai} di atas ${kondisi.nyala_di_atas}; `
+-        + `${aksi.target} dinyalakan kalau bertahan ${kondisi.selama_detik} detik`);
++      log.info(`aturan ${a.id} (${a.nama}): ${kondisi.besaran} ${nilai} ${arah(kondisi).nyala}; `
++        + `${kataPerintah(perintahSaatNyala(aksi))} kalau bertahan ${kondisi.selama_detik} detik`);
+     } else if (lama.sejak !== null && baru.sejak === null) {
+       log.info(`aturan ${a.id} (${a.nama}): hitungan diulang (${kondisi.besaran} ${nilai ?? "tidak terbaca"})`);
+     }
+@@ -139,24 +201,33 @@ export function nilaiBacaan(deviceId: string, isi: TelemetryNode1 | TelemetryNod
+ }
+ 
+ // Setelah backend dimulai ulang atau aturannya diubah: kalau perangkat melaporkan aktuatornya sedang menyala, anggap
+-// aturan sedang menyala supaya nanti dipadamkan pada waktunya.
+-function ingatanAwal(aksi: AksiSakelar): Ingatan {
++// aturan sakelar sedang menyala supaya nanti dipadamkan pada waktunya. Modul 24: aturan perintah (misalnya pompa sekali)
++// selalu mulai dari padam, jadi kalau kondisinya masih terpenuhi, perintahnya dikirim sekali lagi.
++function ingatanAwal(aksi: AksiAturan): Ingatan {
++  if (aksi.jenis === "perintah") return INGATAN_AWAL;
+   return { ...INGATAN_AWAL, aktif: cariPerangkat(aksi.device_id)?.reported?.[aksi.target] === true };
+ }
+ 
+-async function bertindak(a: AturanTersimpan, kondisi: KondisiAmbang, aksi: AksiSakelar, keputusan: "nyalakan" | "padamkan",
++async function bertindak(a: AturanTersimpan, kondisi: KondisiBacaan, aksi: AksiAturan, keputusan: "nyalakan" | "padamkan",
+   nilai: number | null, tsBacaan: string, lama: Ingatan): Promise<void> {
+   const nyala = keputusan === "nyalakan";
+-  const hasil = await perintahkan(aksi.device_id, { target: aksi.target, nilai: nyala }, "aturan", a.id);
+-  if (hasil.status === "tidak-dikirim") {
+-    ingatan.set(a.id, lama); // keputusan belum terlaksana: bacaan berikutnya memutuskan lagi
+-    log.warn(`aturan ${a.id} (${a.nama}): ${aksi.target} tidak bisa di${nyala ? "nyala" : "padam"}kan: ${hasil.pesan}`);
+-    return;
++  const perintah = nyala ? perintahSaatNyala(aksi) : perintahSaatPadam(aksi);
++  let hasil: HasilPerintah | null = null; // tetap null kalau tidak ada yang dikirim (aturan perintah yang padam)
++  if (perintah !== null) {
++    hasil = await perintahkan(aksi.device_id, perintah, "aturan", a.id);
++    if (hasil.status === "tidak-dikirim") {
++      ingatan.set(a.id, lama); // keputusan belum terlaksana: bacaan berikutnya memutuskan lagi
++      log.warn(`aturan ${a.id} (${a.nama}): ${perintah.target} tidak bisa di${nyala ? "nyala" : "padam"}kan: ${hasil.pesan}`);
++      return;
++    }
+   }
+   const pesan = kalimat(kondisi, aksi, nyala, nilai, hasil);
+   log.info(`aturan ${a.id} (${a.nama}): ${pesan}`);
++  // Modul 24: ok = apakah tindakannya terlaksana (true = perangkat menjawab ok; false = ditolak atau tidak menjawab;
++  // null = tidak ada perintah yang dikirim). Dashboard memakainya untuk warna kabar, tanpa menebak dari kalimat.
++  const ok = hasil === null ? null : hasil.status === "dijawab" && hasil.ack.ok;
+   catatKejadian({ device_id: aksi.device_id, jenis: "aturan", sumber: "aturan", aturan_id: a.id, pesan,
+-    data: { keputusan, nilai, ts_bacaan: tsBacaan, perintah: hasil.id, hasil: hasil.status } });
++    data: { keputusan, nilai, ts_bacaan: tsBacaan, perintah: hasil?.id ?? null, hasil: hasil?.status ?? "tanpa-perintah", ok } });
+   // Telegram SESUDAH hasil ack diketahui supaya isi pesannya jujur; jedanya diukur dari bacaan pemicu (tsBacaan)
+   if (aksi.kabari) void kabariKalauPerlu(`aturan:${a.id}`, nyala ? "bahaya" : "aman", pesan, tsBacaan);
+ }
+@@ -168,15 +239,24 @@ const LABEL: Record<string, [string, string, string]> = { // besaran -> [emoji,
+ };
+ const angka = new Intl.NumberFormat("id-ID", { maximumFractionDigits: 1 }); // 33 -> "33", 27.8 -> "27,8"
+ 
+-// Kalimat untuk manusia, misalnya "🌡️ Suhu 33 °C — kipas dinyalakan otomatis" (sama dengan pesan Telegram-nya).
+-function kalimat(kondisi: KondisiAmbang, aksi: AksiSakelar, nyala: boolean, nilai: number | null,
+-  hasil: HasilPerintah): string {
++// Kalimat untuk manusia (sama dengan pesan Telegram-nya), misalnya "🌡️ Suhu 33 °C — kipas dinyalakan otomatis". Modul 24:
++// juga "🌱 Tanah 25 % — pompa menyiram 5 detik otomatis" dan, saat tanah sudah basah lagi, "✅ Tanah naik ke 36 % — aturan
++// siap lagi". hasil = null kalau tidak ada perintah yang dikirim.
++function kalimat(kondisi: KondisiBacaan, aksi: AksiAturan, nyala: boolean, nilai: number | null,
++  hasil: HasilPerintah | null): string {
+   const [emoji, nama, satuan] = LABEL[kondisi.besaran];
+   const teks = nilai === null ? "-" : angka.format(nilai);
+-  if (hasil.status === "tanpa-ack") return `⚠️ ${nama} ${teks}${satuan} — ${aksi.target} TIDAK menjawab perintah (dicoba lagi)`;
+-  if (hasil.status === "dijawab" && !hasil.ack.ok) {
+-    return `⚠️ ${nama} ${teks}${satuan} — perintah ${aksi.target} ditolak perangkat: ${hasil.ack.pesan}`;
++  const target = aksi.jenis === "sakelar" ? aksi.target : aksi.perintah.target;
++  if (hasil?.status === "tanpa-ack") {
++    // perintah.ts hanya mengirim ulang kipas, lampu, dan tirai (rekonsiliasi); pompa tidak, jadi jangan menjanjikannya
++    const lanjut = target === "pompa" ? "tidak dikirim ulang" : "dicoba lagi";
++    return `⚠️ ${nama} ${teks}${satuan} — ${target} TIDAK menjawab perintah (${lanjut})`;
++  }
++  if (hasil?.status === "dijawab" && !hasil.ack.ok) {
++    return `⚠️ ${nama} ${teks}${satuan} — perintah ${target} ditolak perangkat: ${hasil.ack.pesan}`;
+   }
+-  return nyala ? `${emoji} ${nama} ${teks}${satuan} — ${aksi.target} dinyalakan otomatis`
+-    : `✅ ${nama} turun ke ${teks}${satuan} — ${aksi.target} dipadamkan`;
++  if (nyala) return `${emoji} ${nama} ${teks}${satuan} — ${kataPerintah(perintahSaatNyala(aksi))} otomatis`;
++  const { pulih } = arah(kondisi);
++  return aksi.jenis === "sakelar" ? `✅ ${nama} ${pulih} ke ${teks}${satuan} — ${aksi.target} dipadamkan`
++    : `✅ ${nama} ${pulih} ke ${teks}${satuan} — aturan siap lagi`;
+ }
+diff --git a/backend/src/services/perintah.ts b/backend/src/services/perintah.ts
+index 9c5d8fb..7e6bcda 100644
+--- a/backend/src/services/perintah.ts
++++ b/backend/src/services/perintah.ts
+@@ -112,6 +112,17 @@ function cocokkan(deviceId: string): void {
+   }
+ }
+ 
++// Modul 24: dipanggil otomasi.ts saat aturan dihapus atau dinonaktifkan. Keinginan yang tercatat atas nama aturan itu
++// dilupakan, supaya rekonsiliasi (juga sesudah perangkat menyala ulang) tidak menjalankan lagi perintah aturan yang sudah
++// tidak berlaku. Keadaan aktuatornya dibiarkan apa adanya: lampu yang sedang menyala tetap menyala sampai dimatikan.
++export function lupakanKeinginanAturan(aturanId: number): void {
++  for (const milikPerangkat of keinginan.values()) {
++    for (const [target, k] of milikPerangkat) {
++      if (k.aturanId === aturanId) milikPerangkat.delete(target);
++    }
++  }
++}
++
+ // Dipanggil mqtt.ts kalau vitals membawa uptime_s kecil: perangkat baru menyala (lagi), dan semua relay-nya padam saat
+ // menyala. Keinginan yang sudah terpenuhi pun dicocokkan lagi.
+ export function perangkatMenyalaUlang(deviceId: string, uptime: number): void {

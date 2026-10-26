@@ -2,6 +2,10 @@
 // Login memakai cookie HttpOnly dari backend (Modul 20). JavaScript tidak bisa membacanya; browser yang menyimpan
 // dan mengirimkannya, asalkan setiap fetch membawa credentials: "include".
 import { subMinutes } from "date-fns";
+import { AturanLengkap } from "./aturan";
+import type { Aturan } from "./skema/aturan-dasar";
+import { Ack } from "./skema/kontrak";
+import type { PerintahSet } from "./skema/kontrak";
 import type { Bacaan, DataRiwayat, JawabanBacaan, JawabanRingkasan, Pengguna, Perangkat, Rentang, TitikRingkasan } from "./types";
 
 // Alamat backend. Bawaan: nama host halaman ini + port 8080, jadi halaman http://localhost:5173 -> API http://localhost:8080.
@@ -85,7 +89,8 @@ async function minta<T>(jalur: string, opsi: RequestInit = {}, bolehUlang = true
     throw new GalatApi(res.status, pesan);
   }
   // as T = "percayalah, isinya berbentuk T". TypeScript tidak memeriksa isi JSON saat halaman berjalan;
-  // kita mengandalkan kontrak API backend (pemeriksaan sungguhan dengan Zod baru di Modul 24).
+  // kita mengandalkan kontrak API backend. Modul 24: jawaban yang menentukan tombol kendali (ack) dan daftar aturan
+  // diperiksa sungguhan dengan Zod (kirimPerintah, ambilAturan); jawaban lain tetap dipercaya lewat tipe.
   return (await res.json()) as T;
 }
 
@@ -112,6 +117,56 @@ export function keluar(): Promise<unknown> {
 // GET /devices: daftar perangkat dari database backend
 export function ambilPerangkat(): Promise<Perangkat[]> {
   return minta<Perangkat[]>("/devices");
+}
+
+// Modul 24: POST /devices/:id/command - kirim SATU perintah (khusus admin), lalu tunggu jawaban perangkat (ack) yang
+// diteruskan backend, paling lama 5 detik. Jawaban 200 belum tentu berhasil: ack.ok bisa false (perangkat menolak,
+// misalnya "pompa ditolak: air tandon kurang"). Galat lain datang sebagai GalatApi: 409 (offline, perintah sebelumnya
+// masih menunggu, ...), 404, 503, 504 (tidak ada ack dalam 5 detik), 403 (akun viewer).
+export async function kirimPerintah(deviceId: string, perintah: PerintahSet): Promise<Ack> {
+  const jawaban = await minta<{ ack?: unknown }>("/devices/" + deviceId + "/command", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(perintah),
+  });
+  // Isi ack diperiksa dengan skema Ack yang SAMA dengan backend (salinan di skema/kontrak.ts), bukan sekadar dipercaya.
+  // safeParse tidak melempar galat: hasilnya { success: true, data } atau { success: false, error }.
+  const hasil = Ack.safeParse(jawaban.ack);
+  if (!hasil.success) throw new GalatApi(200, "Jawaban server tidak dikenal.");
+  return hasil.data;
+}
+
+// Modul 24: GET /rules - semua aturan otomatis (admin dan viewer boleh membaca). Jawabannya diperiksa Zod, karena layar
+// Aturan dan formulir ubah memakainya langsung.
+export async function ambilAturan(): Promise<AturanLengkap[]> {
+  const jawaban = await minta<unknown>("/rules");
+  const hasil = AturanLengkap.array().safeParse(jawaban); // .array() = larik yang setiap isinya AturanLengkap
+  if (!hasil.success) throw new GalatApi(200, "Jawaban server tidak dikenal (daftar aturan).");
+  return hasil.data;
+}
+
+// Modul 24: POST /rules (buat) dan PUT /rules/:id (ubah) - khusus admin. Isinya sudah lolos skema Aturan di browser,
+// tetapi backend tetap memeriksa ulang; galat 400 dibaca formulir aturan untuk ditaruh di kolomnya.
+export function buatAturan(isi: Aturan): Promise<AturanLengkap> {
+  return minta<AturanLengkap>("/rules", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(isi),
+  });
+}
+
+export function ubahAturan(id: number, isi: Aturan): Promise<AturanLengkap> {
+  return minta<AturanLengkap>("/rules/" + id, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(isi),
+  });
+}
+
+// Modul 24: DELETE /rules/:id (backend 1.1) - khusus admin. Tanpa body, jadi juga TANPA Content-Type JSON: DELETE yang
+// mengaku membawa JSON tetapi badannya kosong ditolak backend (400), sama seperti logout.
+export function hapusAturan(id: number): Promise<{ id: number; nama: string; pesan: string }> {
+  return minta<{ id: number; nama: string; pesan: string }>("/rules/" + id, { method: "DELETE" });
 }
 
 // Modul 23: GET /devices/:id/readings?from=… = bacaan mentah sejak sekian menit lalu (isi awal grafik live).

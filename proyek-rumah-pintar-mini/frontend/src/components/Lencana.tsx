@@ -9,7 +9,7 @@ const LENCANA_STATUS: Record<StatusPerangkat, { teks: string; warna: string }> =
   online: { teks: "Online", warna: "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100" },
   offline: { teks: "Offline", warna: "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-100" },
   "offline-mode": { teks: "mode offline", warna: "bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-200" },
-  "belum-diketahui": { teks: "belum diketahui", warna: "bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400" },
+  "belum-diketahui": { teks: "belum diketahui", warna: "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400" },
 };
 
 // Teks dan warna untuk setiap nilai kolom kunci (Modul 21).

@@ -7,9 +7,11 @@
 - [ ] `npm run cek` lolos, tanpa galat tipe
 - [ ] **(Modul 22)** Kalau `frontend/` berubah: di folder `frontend`, `npm run build` dan `npm run lint` lulus tanpa galat dan tanpa peringatan
 - [ ] **(Modul 23)** Satu-satunya peringatan yang boleh muncul di `npm run build` adalah peringatan ukuran `Some chunks are larger than 500 kB` (Recharts, sudah dijelaskan di Modul 23); `npm run lint` tetap tanpa peringatan
+- [ ] **(Modul 24)** Kalau `backend/src/schemas/kontrak.ts` atau `aturan-dasar.ts` berubah: salinannya di `frontend/src/skema/` ikut diperbarui, dan `npm run cek-skema` di folder `frontend` mencetak dua baris `SAMA`
 - [ ] Server menyala dengan `npm run dev`, tanpa galat di terminal
 - [ ] Rute baru sudah dicoba di Bruno, tesnya lulus, dan permintaannya ikut tersimpan di `backend/bruno/`
 - [ ] Rute baru muncul di `/docs`, lengkap dengan keterangannya
+- [ ] **(Modul 24)** Metode HTTP baru yang dipanggil dashboard (misalnya `DELETE`) ada di `methods` CORS backend (`src/auth/keamanan.ts`), dan sudah dicoba dari browser, bukan hanya dari Bruno (Bruno tidak mengirim *preflight*)
 - [ ] Tidak ada `.env` atau kata sandi di tab **Files changed**
 - [ ] `KONTRAK-DATA.md` ikut diperbarui kalau bentuk pesan MQTT berubah
 
@@ -33,4 +35,9 @@
 - [ ] **(Modul 23)** Setiap `socket.on(…)` punya `socket.off(…)` dengan fungsi yang sama di *cleanup* efeknya, dan soket tetap dibuat sekali di `frontend/src/soket.ts` (bukan di dalam komponen)
 - [ ] **(Modul 23)** Mode HP sudah dikembalikan ke mode laptop (`HOST=127.0.0.1`, alamat IP dihapus dari `CORS_ORIGIN`, Vite tanpa `--host`), dan `backend/.env` yang berisi IP laptop tidak ikut Git
 - [ ] **(Modul 23)** Tidak ada berkas percobaan di tab **Files changed**: `frontend/public/coba-live.html` (Kemenangan Cepat) dan folder `frontend/src/uji/` (Praktik 6)
+- [ ] **(Modul 24)** Tombol kendali dan menu admin hanya digambar kalau peran admin sudah pasti (`useAdmin()`), DAN backend tetap menolaknya: dicek di Bruno dengan `login viewer` lalu `nyalakan lampu` (dan setiap rute baru yang mengubah sesuatu) → 403. Menyembunyikan tombol bukan pengaman
+- [ ] **(Modul 24)** **Keluar** dan sesi habis mengosongkan SEMUA toko (`kosongkanSemua()`): sesudah admin keluar, akun viewer yang masuk di tab yang sama tidak melihat sisa data, *toast*, atau tombol admin
+- [ ] **(Modul 24)** Peran dan token tetap tidak pernah disimpan di `localStorage`; peran dibaca dari `GET /auth/me` / jawaban login
+- [ ] **(Modul 24)** Tidak ada berkas percobaan `frontend/src/components/TombolPertama.tsx` (Kemenangan Cepat) di tab **Files changed**; akun penguji uji pengguna sudah dihapus (`npm run pengguna -- hapus …`) dan mode HP sudah dikembalikan
 - [ ] `npm test` lulus, paket npm baru dipasang dengan versi persis (`npm install nama@versi`) dan tercatat di `package-lock.json`, `npm audit` menjawab `found 0 vulnerabilities`, dan `allowScripts` hanya bertambah untuk paket yang memang butuh skrip pemasangan
+- [ ] **(Modul 24)** Tidak ada perintah pasang tanpa versi di naskah, README, atau catatan, dan tidak ada `--legacy-peer-deps`/`overrides` untuk "memaksa" pemasangan (contoh: `@hookform/resolvers@5.9.2`, bukan versi terbaru yang gagal ERESOLVE)

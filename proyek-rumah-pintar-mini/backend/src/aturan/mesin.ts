@@ -1,11 +1,11 @@
 // mesin.ts - "otak" aturan otomatis (Modul 19), berupa fungsi MURNI: tidak membaca jam, database, atau MQTT sendiri.
 // Semua yang dibutuhkan datang lewat argumen, jadi masukan yang sama selalu memberi hasil yang sama (mudah diuji).
-import type { KondisiAmbang } from "../schemas/aturan.ts";
+import type { KondisiAmbang, KondisiAmbangBawah } from "../schemas/aturan.ts";
 
 // Ingatan satu aturan ambang dari bacaan ke bacaan.
 export interface Ingatan {
   aktif: boolean; // aturan sedang "menyala" (misalnya kipas seharusnya menyala)?
-  sejak: number | null; // kapan bacaan mulai berada di atas ambang nyala (milidetik); null = tidak sedang menunggu
+  sejak: number | null; // kapan bacaan mulai melewati ambang nyala (milidetik); null = tidak sedang menunggu
   terakhir: number | null; // kapan bacaan terakhir dinilai (milidetik)
 }
 
@@ -33,6 +33,20 @@ export function nilaiAmbang(k: KondisiAmbang, ingatan: Ingatan, nilai: number | 
   }
   if (nilai < k.padam_di_bawah) return { ingatan: { ...dasar, aktif: false, sejak: null }, keputusan: "padamkan" };
   return { ingatan: dasar, keputusan: null }; // masih di atas ambang padam (di dalam celah histeresis): tetap menyala
+}
+
+// Modul 24: kondisi "di bawah" (misalnya siram kalau tanah di bawah 30 %) dinilai dengan otak yang SAMA, cukup dengan membalik
+// tanda semua angkanya, seperti melihat bayangan di cermin: "tanah 25 di bawah 30" sama artinya dengan "-25 di atas -30", dan
+// "tanah 36 di atas 35" (padam) sama dengan "-36 di bawah -35". Jadi aturan "selama", histeresis, jeda bacaan, dan sensor gagal
+// berlaku persis sama tanpa ditulis ulang; tes di mesin.test.ts memastikan cerminnya benar.
+export function nilaiAmbangBawah(k: KondisiAmbangBawah, ingatan: Ingatan, nilai: number | null, sekarang: number):
+  { ingatan: Ingatan; keputusan: Keputusan } {
+  const cermin: KondisiAmbang = {
+    jenis: "ambang", device_id: k.device_id, besaran: k.besaran, selama_detik: k.selama_detik,
+    nyala_di_atas: -k.nyala_di_bawah, // di bawah 30  ->  di atas -30
+    padam_di_bawah: -k.padam_di_atas, // di atas 35   ->  di bawah -35
+  };
+  return nilaiAmbang(cermin, ingatan, nilai === null ? null : -nilai, sekarang);
 }
 
 // Debouncing notifikasi: kabari saat situasi berubah, dan selama masih bahaya ingatkan paling sering 30 menit sekali.

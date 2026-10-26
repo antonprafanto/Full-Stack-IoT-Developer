@@ -20,7 +20,7 @@ export default function Pemilih<T extends string>({ label, pilihan, dipilih, onP
           className={
             "min-h-11 rounded-lg border px-3 text-sm font-medium " +
             (p.nilai === dipilih
-              ? "border-teal-600 bg-teal-600 text-white"
+              ? "border-teal-700 bg-teal-700 text-white"
               : "border-slate-300 bg-white text-slate-700 hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700")
           }
         >

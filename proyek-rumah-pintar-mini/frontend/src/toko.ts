@@ -1,8 +1,11 @@
 // toko.ts - "toko" data live bersama untuk seluruh dashboard (Zustand). Komponen mana pun membaca isinya lewat
 // selektor, dan soket.ts mengisinya dari luar React (useToko.getState()). Isinya hanya ada di memori tab ini:
 // tidak ada yang disimpan di localStorage, dan semuanya hilang saat halaman dimuat ulang.
+// Modul 24: toko juga mencatat SIAPA yang sedang masuk (irisan sesi), supaya penjaga rute, kepala, dan tombol-tombol
+// bisa membacanya tanpa dititipkan lewat props dari App. Peran tetap hanya di memori: tidak pernah di localStorage.
 import { create } from "zustand";
-import type { Bacaan, Perangkat, StatusPerangkat, Telemetry, TelemetryNode1, Titik } from "./types";
+import { useToast } from "./toast";
+import type { Bacaan, Keadaan, Pengguna, Perangkat, StatusPerangkat, Telemetry, TelemetryNode1, Titik } from "./types";
 
 // keadaan sambungan Socket.IO yang ditampilkan lencana di kepala
 export type Koneksi = "menyambung" | "live" | "terputus";
@@ -55,8 +58,17 @@ function gabung(lama: Titik[], baru: Titik[]): Titik[] {
 }
 
 type Toko = {
+  // Modul 24, irisan sesi: "memuat" = GET /auth/me belum dijawab; null = belum masuk; objek = sudah masuk (dengan peran)
+  pengguna: Pengguna | null | "memuat";
+  pesanMasuk: string | null; // kalimat di atas formulir Masuk, misalnya "Sesi sudah habis. Silakan masuk lagi."
+  // true sesudah tombol Keluar: penjaga rute lalu TIDAK menitipkan alamat terakhir ke layar Masuk, jadi orang
+  // berikutnya di tab ini mulai dari daftar perangkat, bukan dari layar terakhir orang sebelumnya
+  keluarSengaja: boolean;
+  setPengguna: (pengguna: Pengguna) => void;
+  belumMasuk: (pesan: string | null) => void;
   koneksi: Koneksi;
   perangkat: Perangkat[] | null; // jawaban GET /devices; null = belum dimuat
+  galatPerangkat: string | null; // Modul 24: GET /devices gagal (dibaca layar Daftar dan Detail)
   // Partial<Record<string, …>> = "kamus" ber-kunci device_id. Partial: isinya boleh belum ada (undefined).
   status: Partial<Record<string, StatusPerangkat>>;
   terbaru: Partial<Record<string, Telemetry>>; // bacaan terakhir tiap perangkat
@@ -64,18 +76,31 @@ type Toko = {
   jendela: Partial<Record<string, Titik[]>>; // titik grafik 5 menit terakhir tiap perangkat
   setKoneksi: (koneksi: Koneksi) => void;
   setPerangkat: (daftar: Perangkat[]) => void;
+  setGalatPerangkat: (pesan: string) => void;
   setStatus: (deviceId: string, status: StatusPerangkat) => void;
   isiTerbaru: (deviceId: string, isi: Telemetry) => void;
   terima: (deviceId: string, isi: Telemetry) => void;
   isiJendela: (deviceId: string, bacaan: Bacaan[]) => void;
+  terapkanKeadaan: (deviceId: string, state: Keadaan) => void;
+  // Modul 24: naik 1 setiap kali ada kejadian "aturan-diubah" (dari dashboard mana pun). Layar Aturan yang sedang terbuka
+  // memakainya sebagai dependensi efek, jadi daftar aturannya diambil ulang sendiri.
+  versiAturan: number;
+  aturanBerubah: () => void;
 };
 
 // create<Toko>()(…): tanda kurung ganda memang cara menulisnya di TypeScript (Zustand 5).
 // set() menggabung isi baru dengan isi lama, tetapi hanya SATU tingkat: kamus di dalamnya (status, terbaru, …)
 // harus kita salin sendiri dengan { ...lama, [kunci]: nilai }, jangan diubah langsung.
 export const useToko = create<Toko>()((set) => ({
+  pengguna: "memuat",
+  pesanMasuk: null,
+  setPengguna: (pengguna) => set({ pengguna, pesanMasuk: null }),
+  belumMasuk: (pesan) => set({ pengguna: null, pesanMasuk: pesan }),
+  keluarSengaja: false,
+
   koneksi: "terputus",
   perangkat: null,
+  galatPerangkat: null,
   status: {},
   terbaru: {},
   terakhirDilihat: {},
@@ -95,8 +120,10 @@ export const useToko = create<Toko>()((set) => ({
           terakhirDilihat[p.device_id] = Math.max(terakhirDilihat[p.device_id] ?? 0, Date.parse(p.terakhir_dilihat));
         }
       }
-      return { perangkat: daftar, status, terakhirDilihat };
+      return { perangkat: daftar, galatPerangkat: null, status, terakhirDilihat };
     }),
+
+  setGalatPerangkat: (pesan) => set({ galatPerangkat: pesan }),
 
   // acara "status": dikirim server hanya saat status perangkat berubah
   setStatus: (deviceId, status) => set((s) => ({ status: { ...s.status, [deviceId]: status } })),
@@ -124,4 +151,40 @@ export const useToko = create<Toko>()((set) => ({
       if (s.terbaru[deviceId] !== undefined || awal === null) return { jendela };
       return { jendela, terbaru: { ...s.terbaru, [deviceId]: awal } };
     }),
+
+  // Modul 24: keadaan aktuator dari ack (jawaban perangkat atas perintah kita). Ditulis ke bacaan terbaru supaya kartu dan
+  // tombol langsung benar, tanpa menunggu telemetry berikutnya (yang membawa keadaan yang sama ±1-2 detik kemudian).
+  terapkanKeadaan: (deviceId, state) =>
+    set((s) => {
+      const lama = s.terbaru[deviceId];
+      // belum ada bacaan, atau Node 2 (punya tekanan, tanpa aktuator): tidak ada yang diubah
+      if (lama === undefined || "tekanan" in lama) return s;
+      return { terbaru: { ...s.terbaru, [deviceId]: { ...lama, state } } };
+    }),
+
+  versiAturan: 0,
+  aturanBerubah: () => set((s) => ({ versiAturan: s.versiAturan + 1 })),
 }));
+
+// Modul 24: true HANYA kalau peran admin sudah pasti. Selama GET /auth/me belum dijawab ("memuat") hasilnya false, jadi
+// tombol admin tidak sempat berkedip muncul di layar viewer. Ini hanya kenyamanan layar: yang benar-benar menjaga tetap
+// satpam backend (403 untuk semua perubahan dari akun viewer).
+export function useAdmin(): boolean {
+  return useToko((s) => s.pengguna !== null && s.pengguna !== "memuat" && s.pengguna.peran === "admin");
+}
+
+// Modul 24: kosongkan SEMUA isi toko sekaligus (sesi, daftar perangkat, bacaan, grafik), lalu tulis pesan untuk layar
+// Masuk. Dipakai saat Keluar dan saat sesi habis, supaya orang berikutnya di tab yang sama tidak melihat sisa data.
+// getInitialState() = isi toko saat pertama dibuat; true = GANTI seluruh isinya (bukan digabung seperti set biasa).
+// keluarSengaja = true hanya dari tombol Keluar (TataLetak).
+export function kosongkanSemua(pesanMasuk: string | null, keluarSengaja = false) {
+  useToko.setState({ ...useToko.getInitialState(), pengguna: null, pesanMasuk, keluarSengaja }, true);
+  useToast.setState(useToast.getInitialState(), true); // toast milik akun sebelumnya ikut dibuang
+}
+
+// Modul 24: dipanggil kalau backend menjawab 401 dan refresh pun gagal (sesi sudah habis, atau logout di tab lain).
+// Penjaga rute (JagaMasuk) lalu memindahkan layar ke /masuk. Fungsi biasa di luar komponen = fungsi yang SAMA selamanya,
+// jadi aman dipakai sebagai dependensi efek (useRealtime tidak memutus-sambung soket karenanya).
+export function sesiHabis() {
+  kosongkanSemua("Sesi sudah habis. Silakan masuk lagi.");
+}

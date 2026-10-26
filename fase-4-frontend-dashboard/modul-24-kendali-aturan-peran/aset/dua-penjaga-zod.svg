@@ -1,0 +1,134 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1084" viewBox="0 0 1200 1084" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="1084" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" xml:space="preserve">Satu aturan, dua penjaga: skema Zod yang sama di browser dan backend</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" xml:space="preserve">Konsep 8 · browser memeriksa demi kenyamanan (cepat, per kolom) · backend memeriksa ulang demi keamanan</text>
+<text x="30.0" y="122.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >Satu sumber, satu salinan, satu pemeriksa</text>
+<rect x="30.0" y="136.0" width="360.0" height="150.0" rx="12" fill="#dafbe1" stroke="#1a7f37" stroke-width="1.6" />
+<text x="48.0" y="162.0" font-size="13" font-weight="800" fill="#1a7f37" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">backend/src/schemas/</text>
+<text x="48.0" y="188.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1a7f37" font-weight="800">aturan-dasar.ts</tspan>  bentuk aturan; hanya</text>
+<text x="48.0" y="206.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">   mengimpor <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1a7f37" font-weight="800">zod</tspan> dan <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1a7f37" font-weight="800">kontrak.ts</tspan></text>
+<text x="48.0" y="224.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1a7f37" font-weight="800">kontrak.ts</tspan>  perintah, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1a7f37" font-weight="800">ack</tspan></text>
+<text x="48.0" y="242.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1a7f37" font-weight="800">aturan.ts</tspan>  = <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1a7f37" font-weight="800">export</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1a7f37" font-weight="800">*</tspan> + cek cron</text>
+<text x="48.0" y="260.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">   (node-cron, khusus server)</text>
+<line x1="394.0" y1="211.0" x2="428.0" y2="211.0" stroke="#6f42c1" stroke-width="2.2" stroke-linecap="round" />
+<path d="M421.8 214.3 L428.0 211.0 L421.8 207.7" fill="none" stroke="#6f42c1" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="411.0" y="204.0" font-size="11.5" font-weight="800" fill="#6f42c1" text-anchor="middle" xml:space="preserve">salin</text>
+<rect x="432.0" y="136.0" width="340.0" height="150.0" rx="12" fill="#f5f0fc" stroke="#6f42c1" stroke-width="1.6" />
+<text x="450.0" y="162.0" font-size="13" font-weight="800" fill="#6f42c1" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">frontend/src/skema/</text>
+<text x="450.0" y="188.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">aturan-dasar.ts</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">kontrak.ts</tspan>: <tspan font-weight="800">SALINAN</tspan></text>
+<text x="450.0" y="206.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">identik; jangan diubah di sini (ubah di</text>
+<text x="450.0" y="224.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">backend dulu, lalu salin ulang)</text>
+<text x="450.0" y="242.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">masuk.ts</tspan>: bukan salinan, skema form Masuk</text>
+<line x1="776.0" y1="211.0" x2="810.0" y2="211.0" stroke="#6f42c1" stroke-width="2.2" stroke-linecap="round" />
+<path d="M803.8 214.3 L810.0 211.0 L803.8 207.7" fill="none" stroke="#6f42c1" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="814.0" y="136.0" width="356.0" height="150.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<rect x="825.0" y="148.0" width="38.0" height="28.0" rx="4" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<path d="M832 156 L838 162 L832 168" fill="none" stroke="#1e2a4a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="841.0" y1="168.0" x2="853.0" y2="168.0" stroke="#1e2a4a" stroke-width="1.8" stroke-linecap="round" />
+<text x="872.0" y="167.0" font-size="13" font-weight="800" fill="#6f42c1" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">npm run cek-skema</text>
+<rect x="832.0" y="184.0" width="320.0" height="50.9" rx="8" fill="#eef1f5" />
+<text x="844.0" y="205.3" font-size="11" font-weight="700" fill="#2a9d5c" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">SAMA  src/skema/kontrak.ts</text>
+<text x="844.0" y="222.4" font-size="11" font-weight="700" fill="#2a9d5c" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">SAMA  src/skema/aturan-dasar.ts</text>
+<text x="832.0" y="254.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">CRLF (Windows) dianggap sama dengan LF; beda</text>
+<text x="832.0" y="271.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">satu karakter → <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">BEDA</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">…</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">mulai</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">baris</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">N</tspan>, keluar 1</text>
+<text x="30.0" y="322.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >Perjalanan satu isian formulir</text>
+<rect x="30.0" y="336.0" width="530.0" height="370.0" rx="14" fill="#f5f0fc" stroke="#6f42c1" stroke-width="1.8" />
+<text x="50.0" y="366.0" font-size="15" font-weight="800" fill="#6f42c1" text-anchor="start" >Penjaga 1 · browser: cepat, per kolom</text>
+<text x="50.0" y="388.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">react-hook-form + <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">zodResolver(Aturan,</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">{</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">error:</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">pesanRamah</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">})</tspan></text>
+<text x="50.0" y="406.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">skema dari salinan <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">aturan-dasar.ts</tspan>; pesan bawaan Zod diganti yang ramah</text>
+<rect x="46.0" y="422.0" width="498.0" height="226.0" rx="10" fill="#ffffff" stroke="#d5dbe3" stroke-width="1.4" />
+<text x="62.0" y="444.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >Nama aturan</text>
+<rect x="62.0" y="452.0" width="466.0" height="28.0" rx="6" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.2" />
+<text x="72.0" y="470.5" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" >Siram jika tanah &lt; 30 %</text>
+<text x="62.0" y="500.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >Menyala kalau di bawah (%)</text>
+<text x="62.0" y="514.0" font-size="9.5" font-weight="600" fill="#4a5568" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">nyala_di_bawah</text>
+<rect x="62.0" y="520.0" width="150.0" height="28.0" rx="6" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.2" />
+<text x="72.0" y="538.5" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" >30</text>
+<text x="300.0" y="500.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >Selesai kalau naik di atas (%)</text>
+<text x="300.0" y="514.0" font-size="9.5" font-weight="600" fill="#4a5568" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">padam_di_atas</text>
+<rect x="300.0" y="520.0" width="150.0" height="28.0" rx="6" fill="#ffffff" stroke="#e63946" stroke-width="1.6" />
+<text x="310.0" y="538.5" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" >25</text>
+<text x="62.0" y="567.0" font-size="12" font-weight="700" fill="#e63946" text-anchor="start" >padam_di_atas harus lebih besar daripada nyala_di_bawah (histeresis)</text>
+<text x="62.0" y="592.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >Harus bertahan selama (detik, 0 = langsung)</text>
+<text x="62.0" y="606.0" font-size="9.5" font-weight="600" fill="#4a5568" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">selama_detik</text>
+<rect x="62.0" y="612.0" width="150.0" height="26.0" rx="6" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.2" />
+<text x="72.0" y="629.5" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" >10</text>
+<rect x="380.0" y="604.0" width="148.0" height="34.0" rx="8" fill="#1e2a4a" />
+<text x="454.0" y="626.0" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >Simpan aturan</text>
+<text x="50.0" y="670.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">isian salah → <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">POST</tspan> tidak dikirim sama sekali (lab: 0 permintaan);</text>
+<text x="50.0" y="688.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">fokus ke kolom yang salah; pesan histeresis ini = teks <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">400</tspan> backend</text>
+<line x1="564.0" y1="486.0" x2="636.0" y2="486.0" stroke="#6f42c1" stroke-width="2.4" stroke-linecap="round" />
+<path d="M628.9 489.8 L636.0 486.0 L628.9 482.2" fill="none" stroke="#6f42c1" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="600.0" y="479.0" font-size="12" font-weight="800" fill="#6f42c1" text-anchor="middle" xml:space="preserve">lolos</text>
+<text x="568.0" y="508.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">POST</tspan></text>
+<text x="568.0" y="524.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">/rules</tspan></text>
+<text x="568.0" y="556.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">PUT</tspan></text>
+<text x="568.0" y="572.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">/rules/:id</tspan></text>
+<rect x="640.0" y="336.0" width="530.0" height="370.0" rx="14" fill="#ffffff" stroke="#1a7f37" stroke-width="1.8" />
+<text x="660.0" y="366.0" font-size="15" font-weight="800" fill="#1a7f37" text-anchor="start" >Penjaga 2 · backend: memeriksa ulang</text>
+<circle cx="672.0" cy="394.0" r="11" fill="#1a7f37" stroke="#ffffff" stroke-width="2" />
+<text x="672.0" y="398.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >1</text>
+<text x="692.0" y="398.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">satpam: hanya admin, dari halaman yang dikenal</text>
+<text x="692.0" y="416.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">(selain itu <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1a7f37" font-weight="800">403</tspan>)</text>
+<circle cx="672.0" cy="448.0" r="11" fill="#1a7f37" stroke="#ffffff" stroke-width="2" />
+<text x="672.0" y="452.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >2</text>
+<text x="692.0" y="452.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1a7f37" font-weight="800">aturan.ts</tspan>: skema yang SAMA (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1a7f37" font-weight="800">aturan-dasar.ts</tspan>)</text>
+<text x="692.0" y="470.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">+ cek cron dengan node-cron (tidak bisa di browser)</text>
+<circle cx="672.0" cy="502.0" r="11" fill="#1a7f37" stroke="#ffffff" stroke-width="2" />
+<text x="672.0" y="506.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >3</text>
+<text x="692.0" y="506.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">lolos → disimpan di tabel <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1a7f37" font-weight="800">rules</tspan> → <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1a7f37" font-weight="800">201</tspan> (buat) atau</text>
+<text x="692.0" y="524.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1a7f37" font-weight="800">200</tspan> (ubah); kejadian <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1a7f37" font-weight="800">aturan-diubah</tspan> ke semua dashboard</text>
+<circle cx="672.0" cy="556.0" r="11" fill="#1a7f37" stroke="#ffffff" stroke-width="2" />
+<text x="672.0" y="560.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >4</text>
+<text x="692.0" y="560.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">tidak lolos → <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1a7f37" font-weight="800">400</tspan>, satu pesan per kolom:</text>
+<rect x="692.0" y="584.0" width="450.0" height="33.9" rx="8" fill="#eef1f5" />
+<text x="704.0" y="605.4" font-size="11" font-weight="700" fill="#e63946" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">body/kondisi/cron ekspresi cron tidak sah</text>
+<text x="660.0" y="654.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">aturan yang dibaca dari database juga diperiksa skema</text>
+<text x="660.0" y="671.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">ini; bentuk yang tidak dikenal dilewati dengan WARN</text>
+<rect x="30.0" y="722.0" width="1140.0" height="96.0" rx="12" fill="#eef1f5" />
+<text x="50.0" y="746.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" >Jawaban kembali ke browser</text>
+<rect x="260.0" y="732.0" width="50.0" height="22.0" rx="11.0" fill="#e3f4ea" stroke="#2a9d5c" stroke-width="1.4" />
+<text x="285.0" y="747.1" font-size="11.5" font-weight="800" fill="#2a9d5c" text-anchor="middle" xml:space="preserve">201</text>
+<text x="322.0" y="748.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">kembali ke <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">/aturan</tspan> dengan toast <tspan font-weight="800">Aturan "Siram jika tanah &lt; 30 %" disimpan.</tspan></text>
+<rect x="260.0" y="766.0" width="50.0" height="22.0" rx="11.0" fill="#fde6e8" stroke="#e63946" stroke-width="1.4" />
+<text x="285.0" y="781.1" font-size="11.5" font-weight="800" fill="#e63946" text-anchor="middle" xml:space="preserve">400</text>
+<text x="322.0" y="782.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">pesan dipecah per kolom → <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">setError</tspan>: "ekspresi cron tidak sah" tampil di bawah kolom cron;</text>
+<text x="322.0" y="801.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">galat untuk kolom tanpa tempat pesan: "Ditolak server: …" di atas tombol <tspan font-weight="800">Simpan aturan</tspan></text>
+<rect x="30.0" y="836.0" width="700.0" height="216.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<path d="M30.8 870.8 L30.8 847.8 Q30.8 836.8 41.8 836.8 L718.1999999999999 836.8 Q729.1999999999999 836.8 729.1999999999999 847.8 L729.1999999999999 870.8 Z" fill="#eef1f5" stroke-linecap="round" stroke-linejoin="round" />
+<text x="48.0" y="859.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Isian</text>
+<text x="246.0" y="859.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Di browser (sebelum dikirim)</text>
+<text x="500.0" y="859.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Di backend (kalau tetap dikirim)</text>
+<text x="48.0" y="889.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve">nama kosong</text>
+<text x="246.0" y="889.0" font-size="12" font-weight="700" fill="#e63946" text-anchor="start" xml:space="preserve">Wajib diisi</text>
+<text x="500.0" y="889.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#e63946" font-weight="800">400</tspan> Terlalu kecil: diharapkan</text>
+<text x="500.0" y="906.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">string memiliki &gt;=1 karakter</text>
+<line x1="46.0" y1="915.0" x2="714.0" y2="915.0" stroke="#e0dcd2" stroke-width="1" stroke-linecap="round" />
+<text x="48.0" y="934.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">padam_di_atas</tspan> 25, di bawah 30</text>
+<text x="246.0" y="934.0" font-size="12" font-weight="700" fill="#e63946" text-anchor="start" xml:space="preserve">padam_di_atas harus lebih besar</text>
+<text x="246.0" y="951.0" font-size="12" font-weight="700" fill="#e63946" text-anchor="start" xml:space="preserve">daripada nyala_di_bawah (histeresis)</text>
+<text x="500.0" y="934.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">sama persis: pesan dari</text>
+<text x="500.0" y="951.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">skema yang sama</text>
+<line x1="46.0" y1="960.0" x2="714.0" y2="960.0" stroke="#e0dcd2" stroke-width="1" stroke-linecap="round" />
+<text x="48.0" y="979.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">selama_detik</tspan> 2,5</text>
+<text x="246.0" y="979.0" font-size="12" font-weight="700" fill="#e63946" text-anchor="start" xml:space="preserve">Isi dengan bilangan bulat</text>
+<text x="246.0" y="996.0" font-size="12" font-weight="700" fill="#e63946" text-anchor="start" xml:space="preserve">(tanpa koma)</text>
+<text x="500.0" y="979.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#e63946" font-weight="800">400</tspan> juga (bukan bilangan bulat)</text>
+<line x1="46.0" y1="1005.0" x2="714.0" y2="1005.0" stroke="#e0dcd2" stroke-width="1" stroke-linecap="round" />
+<text x="48.0" y="1024.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve">cron <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">61</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">*</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">*</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">*</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">*</tspan></text>
+<text x="246.0" y="1024.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" xml:space="preserve">lolos: browser hanya memeriksa</text>
+<text x="246.0" y="1041.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" xml:space="preserve">5 bidang</text>
+<text x="500.0" y="1024.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#e63946" font-weight="800">400</tspan> ekspresi cron tidak sah</text>
+<text x="500.0" y="1041.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">→ ditaruh di kolom cron</text>
+<rect x="750.0" y="836.0" width="420.0" height="216.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="770.0" y="864.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Mengapa disalin, bukan diimpor?</text>
+<text x="770.0" y="890.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">• <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">aturan.ts</tspan> backend mengimpor node-cron, yang</text>
+<text x="770.0" y="909.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">   butuh modul Node (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">child_process</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">node:crypto</tspan>):</text>
+<text x="770.0" y="928.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">   di browser <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">fileURLToPath</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">is</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">not</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">a</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">function</tspan>,</text>
+<text x="770.0" y="947.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">   halaman tidak pernah jalan (layar putih)</text>
+<text x="770.0" y="966.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">• frontend harus bisa di-<tspan font-style="italic">build</tspan> sendirian, tanpa</text>
+<text x="770.0" y="985.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">   folder <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">backend/</tspan> (Docker, Modul 26)</text>
+<text x="770.0" y="1004.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">• harga salinan: ada di dua tempat → obatnya</text>
+<text x="770.0" y="1023.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">   <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">npm</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">run</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">cek-skema</tspan> + butir templat PR</text>
+<text x="1178.0" y="1070.0" font-size="11" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

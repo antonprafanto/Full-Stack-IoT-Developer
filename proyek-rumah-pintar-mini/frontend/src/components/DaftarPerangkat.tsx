@@ -1,18 +1,14 @@
-// DaftarPerangkat.tsx - mengambil GET /devices, lalu menampilkannya sebagai kartu-kartu perangkat yang bisa diketuk.
+// DaftarPerangkat.tsx - menampilkan daftar perangkat (GET /devices) sebagai kartu-kartu yang bisa diketuk.
 // Tiga keadaan selalu disiapkan: memuat, galat, dan kosong (pola yang dipakai setiap layar yang mengambil data).
 // Modul 23: daftarnya disimpan di toko (supaya soket.ts tahu perangkat mana yang diikuti), dan setiap kartu hidup:
 // warna status, suhu terbaru, dan "terakhir dilihat" berubah sendiri tanpa memuat ulang halaman.
-import { useEffect, useState } from "react";
-import { ambilPerangkat, GalatApi } from "../api";
+// Modul 24: daftarnya diambil SEKALI sesudah login (bukan lagi di layar ini); layar ini cukup membacanya dari toko.
+// Kartu menjadi tautan ke alamat detailnya (/perangkat/<device_id>).
+import { Link } from "react-router";
 import { useToko } from "../toko";
 import type { Perangkat, StatusPerangkat } from "../types";
 import { LencanaKunci, LencanaStatus } from "./Lencana";
 import TerakhirDilihat from "./TerakhirDilihat";
-
-type Props = {
-  onPilih: (perangkat: Perangkat) => void; // dipanggil saat satu perangkat diketuk
-  onSesiHabis: () => void; // dipanggil kalau backend menjawab 401 (sesudah refresh pun gagal)
-};
 
 // Kartu status merah/hijau: garis tebal di tepi kiri kartu mengikuti status (warna + teks di lencananya)
 const TEPI: Record<StatusPerangkat, string> = {
@@ -24,7 +20,7 @@ const TEPI: Record<StatusPerangkat, string> = {
 
 // Satu kartu perangkat. Dibuat komponen sendiri supaya setiap kartu memilih datanya SENDIRI dari toko:
 // telemetry perangkat A hanya menggambar ulang kartu A, bukan seluruh daftar.
-function KartuPerangkat({ p, onPilih }: { p: Perangkat; onPilih: (perangkat: Perangkat) => void }) {
+function KartuPerangkat({ p }: { p: Perangkat }) {
   const status = useToko((s) => s.status[p.device_id]) ?? p.status;
   const suhu = useToko((s) => s.terbaru[p.device_id]?.suhu); // undefined = belum ada bacaan; null = sensor gagal
   const terakhir = useToko((s) => s.terakhirDilihat[p.device_id]);
@@ -33,12 +29,12 @@ function KartuPerangkat({ p, onPilih }: { p: Perangkat; onPilih: (perangkat: Per
   const kirimanDiabaikan = p.kunci === "dicabut" || p.kunci === "belum-terdaftar";
 
   return (
-    // seluruh kartu adalah tombol; objek perangkat utuh dititipkan ke App lewat onPilih
-    <button
-      type="button"
-      onClick={() => onPilih(p)}
+    // Modul 24: seluruh kartu adalah tautan ke alamat detailnya. Tautan sungguhan (bukan tombol) bisa dibuka di tab
+    // baru, disalin alamatnya, dan dikenali pembaca layar sebagai "tautan".
+    <Link
+      to={"/perangkat/" + p.device_id}
       className={
-        "w-full cursor-pointer rounded-xl border border-l-4 border-slate-200 bg-white p-4 text-left shadow-sm hover:border-teal-400 hover:shadow-md dark:border-slate-700 dark:bg-slate-800 " +
+        "block w-full rounded-xl border border-l-4 border-slate-200 bg-white p-4 shadow-sm hover:border-teal-400 hover:shadow-md dark:border-slate-700 dark:bg-slate-800 " +
         (kirimanDiabaikan ? "border-l-slate-300 dark:border-l-slate-600" : TEPI[status])
       }
     >
@@ -64,37 +60,16 @@ function KartuPerangkat({ p, onPilih }: { p: Perangkat; onPilih: (perangkat: Per
         )}
         <TerakhirDilihat t={terakhir} jenis={p.jenis} periksaBasi={!kirimanDiabaikan} />
       </span>
-    </button>
+    </Link>
   );
 }
 
-export default function DaftarPerangkat({ onPilih, onSesiHabis }: Props) {
+export default function DaftarPerangkat() {
   const perangkat = useToko((s) => s.perangkat); // null = masih memuat
-  const setPerangkat = useToko((s) => s.setPerangkat);
-  const [galat, setGalat] = useState<string | null>(null);
-
-  // Ambil data SESUDAH layar tampil. Di mode pengembangan, StrictMode menjalankan efek ini dua kali (normal).
-  // [onSesiHabis, setPerangkat] di akhir efek: efek ini memakai keduanya, jadi wajib ditulis (npm run lint
-  // memperingatkan kalau terlupa). Keduanya tidak pernah berubah (sesiHabis memakai useCallback di App, setPerangkat
-  // milik toko), jadi daftar hanya diambil sekali setiap kali layar ini dibuka.
-  useEffect(() => {
-    let ignore = false; // menjadi true saat efek dibereskan: jawaban yang datang terlambat diabaikan
-    ambilPerangkat()
-      .then((daftar) => {
-        if (!ignore) setPerangkat(daftar);
-      })
-      .catch((err) => {
-        if (ignore) return;
-        if (err instanceof GalatApi && err.kode === 401) return onSesiHabis();
-        setGalat(err instanceof GalatApi ? err.message : "Gagal memuat perangkat.");
-      });
-    return () => {
-      ignore = true; // cleanup: dijalankan React sebelum efek diulang atau saat komponen ini hilang dari layar
-    };
-  }, [onSesiHabis, setPerangkat]);
+  const galat = useToko((s) => s.galatPerangkat);
 
   if (galat !== null) return <p className="rounded-lg bg-red-50 p-3 text-red-700 dark:bg-red-950 dark:text-red-200">{galat}</p>;
-  if (perangkat === null) return <p className="text-slate-500 dark:text-slate-400">Memuat perangkat…</p>;
+  if (perangkat === null) return <p className="text-slate-600 dark:text-slate-400">Memuat perangkat…</p>;
   if (perangkat.length === 0) {
     return <p className="rounded-lg bg-white p-3 text-slate-600 dark:bg-slate-800 dark:text-slate-300">Belum ada perangkat terdaftar (pendaftaran perangkat: Modul 21).</p>;
   }
@@ -105,7 +80,7 @@ export default function DaftarPerangkat({ onPilih, onSesiHabis }: Props) {
       {perangkat.map((p) => (
         // key = tanda pengenal tiap butir daftar; device_id pasti unik
         <li key={p.device_id} className="min-w-0">
-          <KartuPerangkat p={p} onPilih={onPilih} />
+          <KartuPerangkat p={p} />
         </li>
       ))}
     </ul>

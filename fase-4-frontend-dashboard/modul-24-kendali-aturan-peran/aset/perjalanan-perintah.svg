@@ -1,0 +1,176 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1204" viewBox="0 0 1200 1204" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="1204" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" xml:space="preserve">Satu ketukan tombol Lampu: tampil dulu, lalu menunggu jawaban</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" xml:space="preserve">Konsep 1–2 · <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5">POST</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5">/devices/:id/command</tspan> menunggu <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5">ack</tspan> paling lama 5 detik · contoh <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5">f00d00000001</tspan>, lampu sedang Mati</text>
+<text x="30.0" y="122.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >Jalan yang ditempuh satu ketukan</text>
+<rect x="30.0" y="136.0" width="244.0" height="196.0" rx="12" fill="#f5f0fc" stroke="#6f42c1" stroke-width="1.6" />
+<circle cx="54.0" cy="162.0" r="12" fill="#6f42c1" stroke="#ffffff" stroke-width="2" />
+<text x="54.0" y="166.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >1</text>
+<text x="74.0" y="167.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Ketuk</text>
+<line x1="277.0" y1="234.0" x2="291.0" y2="234.0" stroke="#6f42c1" stroke-width="2" stroke-linecap="round" />
+<path d="M285.7 236.8 L291.0 234.0 L285.7 231.2" fill="none" stroke="#6f42c1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="294.0" y="136.0" width="204.0" height="196.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.4" />
+<circle cx="318.0" cy="162.0" r="12" fill="#6f42c1" stroke="#ffffff" stroke-width="2" />
+<text x="318.0" y="166.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >2</text>
+<text x="338.0" y="167.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Kirim</text>
+<line x1="501.0" y1="234.0" x2="515.0" y2="234.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<path d="M509.7 236.8 L515.0 234.0 L509.7 231.2" fill="none" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="518.0" y="136.0" width="204.0" height="196.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.4" />
+<circle cx="542.0" cy="162.0" r="12" fill="#6f42c1" stroke="#ffffff" stroke-width="2" />
+<text x="542.0" y="166.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >3</text>
+<text x="562.0" y="167.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Ke perangkat</text>
+<line x1="725.0" y1="234.0" x2="739.0" y2="234.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<path d="M733.7 236.8 L739.0 234.0 L733.7 231.2" fill="none" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="742.0" y="136.0" width="204.0" height="196.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.4" />
+<circle cx="766.0" cy="162.0" r="12" fill="#6f42c1" stroke="#ffffff" stroke-width="2" />
+<text x="766.0" y="166.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >4</text>
+<text x="786.0" y="167.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Jawaban perangkat</text>
+<line x1="949.0" y1="234.0" x2="963.0" y2="234.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<path d="M957.7 236.8 L963.0 234.0 L957.7 231.2" fill="none" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="966.0" y="136.0" width="204.0" height="196.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.4" />
+<circle cx="990.0" cy="162.0" r="12" fill="#6f42c1" stroke="#ffffff" stroke-width="2" />
+<text x="990.0" y="166.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >5</text>
+<text x="1010.0" y="167.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Jawaban HTTP</text>
+<rect x="46.0" y="186.0" width="190.0" height="32.0" rx="7" fill="#1e2a4a" stroke="#1e2a4a" stroke-width="1.4" />
+<text x="58.0" y="206.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="start" >Lampu</text>
+<text x="224.0" y="206.5" font-size="11.5" font-weight="600" fill="#ffffff" text-anchor="end" >Nyala</text>
+<text x="48.0" y="234.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" >Menunggu konfirmasi perangkat…</text>
+<text x="46.0" y="268.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">tampil optimis seketika:</text>
+<text x="46.0" y="286.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">useOptimistic</tspan> + <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">useTransition</tspan></text>
+<text x="310.0" y="196.0" font-size="11" font-weight="800" fill="#6f42c1" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">POST /devices/:id/command</text>
+<rect x="310.0" y="208.0" width="172.0" height="50.9" rx="8" fill="#eef1f5" />
+<text x="322.0" y="229.3" font-size="11" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">{ "target": "lampu",</text>
+<text x="322.0" y="246.4" font-size="11" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">  "nilai": true }</text>
+<text x="310.0" y="284.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">satpam: hanya admin</text>
+<text x="310.0" y="302.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">(viewer: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#e63946" font-weight="800">403</tspan>)</text>
+<text x="534.0" y="196.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">backend 1.1 menerbitkan</text>
+<text x="534.0" y="214.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">perintah lewat broker MQTT:</text>
+<text x="534.0" y="240.0" font-size="12" font-weight="800" fill="#0f8b8d" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">rpm/&lt;id&gt;/cmd</text>
+<text x="628.7" y="240.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >(QoS 1)</text>
+<text x="534.0" y="270.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">lalu menunggu; permintaan</text>
+<text x="534.0" y="288.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">HTTP-nya belum dijawab</text>
+<text x="758.0" y="196.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">perangkat menjawab di</text>
+<text x="758.0" y="218.0" font-size="12" font-weight="800" fill="#0f8b8d" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">rpm/&lt;id&gt;/ack</text>
+<text x="758.0" y="240.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">isinya <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">ok</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">state</tspan> (+ <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">pesan</tspan>)</text>
+<text x="758.0" y="258.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800">paling lama 5 detik</tspan></text>
+<text x="758.0" y="276.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">lab (perangkat tiruan di</text>
+<text x="758.0" y="294.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">laptop): 6–8 ms; tiruan</text>
+<text x="758.0" y="312.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">lambat 2,5 detik</text>
+<text x="982.0" y="196.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">backend meneruskan hasil:</text>
+<text x="982.0" y="214.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">200</tspan> berisi <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">ack</tspan>, atau kode</text>
+<text x="982.0" y="232.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">galat (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">409</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">504</tspan>, …)</text>
+<text x="982.0" y="268.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">tombol selesai menunggu;</text>
+<text x="982.0" y="286.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">lima kemungkinan di bawah</text>
+<path d="M152.0 346 L152.0 354 L1068.0 354 L1068.0 346" fill="none" stroke="#6f42c1" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="600.0" y="374.0" font-size="12.5" font-weight="700" fill="#6f42c1" text-anchor="middle" xml:space="preserve">selama menunggu, tombol tidak bisa diketuk lagi (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#6f42c1" font-weight="800">aria-disabled</tspan>): tidak ada <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#6f42c1" font-weight="800">409</tspan> karena klik ganda</text>
+<text x="30.0" y="406.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >Lima kemungkinan jawaban dan yang terlihat sesudahnya</text>
+<rect x="30.0" y="420.0" width="1140.0" height="574.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<path d="M30.8 456.8 L30.8 431.8 Q30.8 420.8 41.8 420.8 L1158.2 420.8 Q1169.2 420.8 1169.2 431.8 L1169.2 456.8 Z" fill="#eef1f5" stroke-linecap="round" stroke-linejoin="round" />
+<text x="50.0" y="444.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" >Jawaban</text>
+<text x="236.0" y="444.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" >Tombol sesudahnya</text>
+<text x="414.0" y="444.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" >Toast di layar (teks persis)</text>
+<text x="806.0" y="444.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" >Artinya</text>
+<rect x="50.0" y="474.0" width="166.0" height="24.0" rx="12.0" fill="#e3f4ea" stroke="#2a9d5c" stroke-width="1.4" />
+<text x="133.0" y="490.3" font-size="12" font-weight="800" fill="#2a9d5c" text-anchor="middle" xml:space="preserve">200 · ack.ok: true</text>
+<rect x="236.0" y="470.0" width="140.0" height="30.0" rx="7" fill="#1e2a4a" stroke="#1e2a4a" stroke-width="1.4" />
+<text x="248.0" y="489.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="start" >Lampu</text>
+<text x="364.0" y="489.5" font-size="11.5" font-weight="600" fill="#ffffff" text-anchor="end" >Nyala</text>
+<text x="236.0" y="518.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" >keadaan dari perangkat</text>
+<text x="414.0" y="490.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-style="italic">tanpa toast</tspan></text>
+<text x="806.0" y="488.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">perangkat menjalankan perintahnya; keadaan diambil</text>
+<text x="806.0" y="507.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">dari <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">ack.state</tspan> (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">terapkanKeadaan</tspan>), bukan tebakan layar</text>
+<line x1="30.0" y1="536.0" x2="1170.0" y2="536.0" stroke="#e0dcd2" stroke-width="1.2" stroke-linecap="round" />
+<rect x="50.0" y="552.0" width="166.0" height="24.0" rx="12.0" fill="#fde6e8" stroke="#e63946" stroke-width="1.4" />
+<text x="133.0" y="568.3" font-size="12" font-weight="800" fill="#e63946" text-anchor="middle" xml:space="preserve">200 · ack.ok: false</text>
+<rect x="236.0" y="548.0" width="140.0" height="30.0" rx="7" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.4" />
+<text x="248.0" y="567.5" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >Lampu</text>
+<text x="364.0" y="567.5" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="end" >Mati</text>
+<text x="236.0" y="596.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" >mundur sendiri (rollback)</text>
+<rect x="414.0" y="548.0" width="360.0" height="30.0" rx="7" fill="#ffffff" stroke="#d5dbe3" stroke-width="1.2" />
+<rect x="414.0" y="548.0" width="5.0" height="30.0" rx="2" fill="#e63946" />
+<circle cx="434.0" cy="563.0" r="8" fill="#e63946" />
+<text x="434.0" y="567.2" font-size="11.5" font-weight="800" fill="#ffffff" text-anchor="middle" >!</text>
+<text x="450.0" y="567.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Lampu: perangkat menolak (…)</text>
+<text x="806.0" y="566.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">200 belum tentu berhasil: perangkat menolak. Contoh</text>
+<text x="806.0" y="585.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">nyata pada pompa: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#e63946" font-weight="800">pompa</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#e63946" font-weight="800">ditolak:</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#e63946" font-weight="800">air</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#e63946" font-weight="800">tandon</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#e63946" font-weight="800">kurang</tspan>.</text>
+<text x="806.0" y="604.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Server melupakan keinginan itu: tidak dikirim ulang.</text>
+<line x1="30.0" y1="634.0" x2="1170.0" y2="634.0" stroke="#e0dcd2" stroke-width="1.2" stroke-linecap="round" />
+<rect x="50.0" y="650.0" width="60.0" height="24.0" rx="12.0" fill="#fde6e8" stroke="#e63946" stroke-width="1.4" />
+<text x="80.0" y="666.3" font-size="12" font-weight="800" fill="#e63946" text-anchor="middle" xml:space="preserve">409</text>
+<rect x="236.0" y="646.0" width="140.0" height="30.0" rx="7" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.4" />
+<text x="248.0" y="665.5" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >Lampu</text>
+<text x="364.0" y="665.5" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="end" >Mati</text>
+<text x="236.0" y="694.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" >mundur sendiri (rollback)</text>
+<rect x="414.0" y="646.0" width="360.0" height="46.0" rx="7" fill="#ffffff" stroke="#d5dbe3" stroke-width="1.2" />
+<rect x="414.0" y="646.0" width="5.0" height="46.0" rx="2" fill="#e63946" />
+<circle cx="434.0" cy="661.0" r="8" fill="#e63946" />
+<text x="434.0" y="665.2" font-size="11.5" font-weight="800" fill="#ffffff" text-anchor="middle" >!</text>
+<text x="450.0" y="665.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Lampu: perangkat sedang offline, perintah</text>
+<text x="450.0" y="681.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">tidak dikirim</text>
+<text x="806.0" y="664.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">perintah tidak dikirim: perangkat baru saja offline,</text>
+<text x="806.0" y="683.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">kunci dicabut, Node 2, atau perintah lain masih</text>
+<text x="806.0" y="702.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">menunggu (tab/HP lain). Biasanya tombol sudah</text>
+<text x="806.0" y="721.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">nonaktif lebih dulu. <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">403</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">404</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">503</tspan>: sama, toast</text>
+<text x="806.0" y="740.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">berisi pesan server.</text>
+<line x1="30.0" y1="752.0" x2="1170.0" y2="752.0" stroke="#e0dcd2" stroke-width="1.2" stroke-linecap="round" />
+<rect x="50.0" y="768.0" width="60.0" height="24.0" rx="12.0" fill="#fdeedd" stroke="#b45f17" stroke-width="1.4" />
+<text x="80.0" y="784.3" font-size="12" font-weight="800" fill="#b45f17" text-anchor="middle" xml:space="preserve">504</text>
+<rect x="236.0" y="764.0" width="140.0" height="30.0" rx="7" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.4" />
+<text x="248.0" y="783.5" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >Lampu</text>
+<text x="364.0" y="783.5" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="end" >Mati</text>
+<text x="236.0" y="812.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" >keadaan terlapor</text>
+<line x1="266.0" y1="822.0" x2="266.0" y2="848.0" stroke="#b45f17" stroke-width="1.8" stroke-linecap="round" />
+<path d="M263.2 844.7 L266.0 850.0 L268.8 844.7" fill="none" stroke="#b45f17" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<text x="278.0" y="841.0" font-size="11.5" font-weight="700" fill="#b45f17" text-anchor="start" >≥ 30 detik kemudian</text>
+<rect x="236.0" y="856.0" width="140.0" height="30.0" rx="7" fill="#1e2a4a" stroke="#1e2a4a" stroke-width="1.4" />
+<text x="248.0" y="875.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="start" >Lampu</text>
+<text x="364.0" y="875.5" font-size="11.5" font-weight="600" fill="#ffffff" text-anchor="end" >Nyala</text>
+<text x="236.0" y="904.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" >menyala sendiri</text>
+<rect x="414.0" y="764.0" width="360.0" height="46.0" rx="7" fill="#ffffff" stroke="#d5dbe3" stroke-width="1.2" />
+<rect x="414.0" y="764.0" width="5.0" height="46.0" rx="2" fill="#e63946" />
+<circle cx="434.0" cy="779.0" r="8" fill="#e63946" />
+<text x="434.0" y="783.2" font-size="11.5" font-weight="800" fill="#ffffff" text-anchor="middle" >!</text>
+<text x="450.0" y="783.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Lampu: belum dikonfirmasi perangkat; server</text>
+<text x="450.0" y="799.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">akan mencoba lagi saat perangkat terdengar.</text>
+<rect x="414.0" y="850.0" width="360.0" height="46.0" rx="7" fill="#ffffff" stroke="#d5dbe3" stroke-width="1.2" />
+<rect x="414.0" y="850.0" width="5.0" height="46.0" rx="2" fill="#4a5568" />
+<circle cx="434.0" cy="865.0" r="8" fill="#4a5568" />
+<text x="434.0" y="869.2" font-size="11.5" font-weight="800" fill="#ffffff" text-anchor="middle" >i</text>
+<text x="450.0" y="869.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">lampu f00d00000001 dilaporkan false, padahal</text>
+<text x="450.0" y="885.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">diinginkan true (api); perintah dikirim lagi</text>
+<text x="806.0" y="782.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#b45f17">BUKAN dibatalkan.</tspan> Perangkat belum menjawab dalam</text>
+<text x="806.0" y="801.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">5 detik, tetapi server mengingat keinginan "Nyala".</text>
+<text x="806.0" y="820.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Begitu perangkat itu terdengar lagi (≥ 30 detik sesudah</text>
+<text x="806.0" y="839.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">percobaan terakhir), server mengirim ulang sendiri:</text>
+<text x="806.0" y="858.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">lampu menyala tanpa ada yang mengetuk.</text>
+<text x="806.0" y="877.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">lab: tiruan bisu dibuat patuh lagi → +31,5 detik</text>
+<line x1="30.0" y1="916.0" x2="1170.0" y2="916.0" stroke="#e0dcd2" stroke-width="1.2" stroke-linecap="round" />
+<rect x="50.0" y="932.0" width="126.0" height="24.0" rx="12.0" fill="#eef1f5" stroke="#9aa3b0" stroke-width="1.4" />
+<text x="113.0" y="948.3" font-size="12" font-weight="800" fill="#4a5568" text-anchor="middle" xml:space="preserve">galat jaringan</text>
+<rect x="236.0" y="928.0" width="140.0" height="30.0" rx="7" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.4" />
+<text x="248.0" y="947.5" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >Lampu</text>
+<text x="364.0" y="947.5" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="end" >Mati</text>
+<text x="236.0" y="976.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" >mundur sendiri (rollback)</text>
+<rect x="414.0" y="928.0" width="360.0" height="30.0" rx="7" fill="#ffffff" stroke="#d5dbe3" stroke-width="1.2" />
+<rect x="414.0" y="928.0" width="5.0" height="30.0" rx="2" fill="#e63946" />
+<circle cx="434.0" cy="943.0" r="8" fill="#e63946" />
+<text x="434.0" y="947.2" font-size="11.5" font-weight="800" fill="#ffffff" text-anchor="middle" >!</text>
+<text x="450.0" y="947.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Lampu: server tidak menjawab.</text>
+<text x="806.0" y="946.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">backend mati atau WiFi putus. Dicoba di lab dengan</text>
+<text x="806.0" y="965.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">DevTools <tspan font-weight="800">Request conditions</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">*/command</tspan></text>
+<rect x="30.0" y="1016.0" width="560.0" height="158.0" rx="12" fill="#f5f0fc" stroke="#6f42c1" stroke-width="1.4" />
+<text x="50.0" y="1044.0" font-size="14.5" font-weight="800" fill="#6f42c1" text-anchor="start" xml:space="preserve">Tab atau HP lain tahu lewat <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13.5" fill="#6f42c1" font-weight="800">telemetry</tspan></text>
+<text x="50.0" y="1070.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">tidak ada acara Socket.IO <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">ack</tspan>: dari server ke dashboard hanya</text>
+<text x="50.0" y="1089.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">telemetry</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">status</tspan>, dan <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">kejadian</tspan></text>
+<text x="50.0" y="1108.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">perangkat segera mengirim bacaan baru saat keadaannya berubah;</text>
+<text x="50.0" y="1127.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">state.lampu</tspan> di dalamnya mengganti tombol di layar lain paling lambat</text>
+<text x="50.0" y="1146.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">±2 detik kemudian (lab: browser lain berganti &lt; ½ detik sesudah klik)</text>
+<rect x="610.0" y="1016.0" width="560.0" height="158.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="630.0" y="1044.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Pompa sengaja TIDAK optimis</text>
+<text x="630.0" y="1070.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">"siram 5 detik" yang diulang = menyiram dua kali; air yang sudah</text>
+<text x="630.0" y="1089.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">keluar tidak bisa ditarik kembali</text>
+<text x="630.0" y="1108.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">judulnya tetap <tspan font-weight="800">Diam</tspan> + "Menunggu konfirmasi perangkat…", baru</text>
+<text x="630.0" y="1127.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800">Menyiram</tspan> sesudah <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">ack.ok:</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">true</tspan>; tombol nonaktif selama menyiram</text>
+<text x="630.0" y="1146.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">tanpa <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">ack</tspan> (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">504</tspan>): perintah pompa tidak dikirim ulang server</text>
+<text x="1178.0" y="1190.0" font-size="11" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

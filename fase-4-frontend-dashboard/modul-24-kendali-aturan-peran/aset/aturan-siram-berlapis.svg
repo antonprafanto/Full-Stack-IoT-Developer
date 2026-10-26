@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1010" viewBox="0 0 1200 1010" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="1010" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" xml:space="preserve">Aturan siram berlapis: server memutuskan, Node 1 berjaga</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" xml:space="preserve">Konsep 9 · backend 1.1: kondisi <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5">ambang-bawah</tspan> + pompa SEKALI · grafik ilustrasi, tanpa skala waktu · angka tanah contoh</text>
+<rect x="30.0" y="100.0" width="1140.0" height="580.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="50.0" y="126.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Kelembapan tanah dan siapa yang menyiram</text>
+<rect x="96.0" y="280.0" width="506.2" height="38.0" rx="0" fill="#dafbe1" />
+<line x1="96.0" y1="470.0" x2="1000.0" y2="470.0" stroke="#d5dbe3" stroke-width="1" stroke-linecap="round" stroke-dasharray="3 3" />
+<text x="86.0" y="474.5" font-size="12" font-weight="600" fill="#4a5568" text-anchor="end" >10</text>
+<line x1="96.0" y1="394.0" x2="1000.0" y2="394.0" stroke="#d5dbe3" stroke-width="1" stroke-linecap="round" stroke-dasharray="3 3" />
+<text x="86.0" y="398.5" font-size="12" font-weight="600" fill="#4a5568" text-anchor="end" >20</text>
+<line x1="96.0" y1="318.0" x2="1000.0" y2="318.0" stroke="#d5dbe3" stroke-width="1" stroke-linecap="round" stroke-dasharray="3 3" />
+<text x="86.0" y="322.5" font-size="12" font-weight="600" fill="#4a5568" text-anchor="end" >30</text>
+<line x1="96.0" y1="242.0" x2="1000.0" y2="242.0" stroke="#d5dbe3" stroke-width="1" stroke-linecap="round" stroke-dasharray="3 3" />
+<text x="86.0" y="246.5" font-size="12" font-weight="600" fill="#4a5568" text-anchor="end" >40</text>
+<line x1="96.0" y1="166.0" x2="1000.0" y2="166.0" stroke="#d5dbe3" stroke-width="1" stroke-linecap="round" stroke-dasharray="3 3" />
+<text x="86.0" y="170.5" font-size="12" font-weight="600" fill="#4a5568" text-anchor="end" >50</text>
+<text x="66.0" y="150.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="end" >%</text>
+<line x1="96.0" y1="280.0" x2="1000.0" y2="280.0" stroke="#1a7f37" stroke-width="1.6" stroke-linecap="round" stroke-dasharray="7 5" />
+<line x1="96.0" y1="318.0" x2="1000.0" y2="318.0" stroke="#1a7f37" stroke-width="2" stroke-linecap="round" />
+<rect x="602.2" y="140.0" width="397.8" height="330.0" rx="0" fill="#eef1f5" fill-opacity="0.8"/>
+<line x1="96.0" y1="394.0" x2="1000.0" y2="394.0" stroke="#0f8b8d" stroke-width="2" stroke-linecap="round" />
+<line x1="602.2" y1="140.0" x2="602.2" y2="470.0" stroke="#9aa3b0" stroke-width="1.4" stroke-linecap="round" stroke-dasharray="4 4" />
+<text x="349.1" y="155.0" font-size="12.5" font-weight="800" fill="#1a7f37" text-anchor="middle" >server online (backend 1.1 berjalan)</text>
+<text x="801.1" y="155.0" font-size="12.5" font-weight="800" fill="#4a5568" text-anchor="middle" >server diam: backend mati atau WiFi putus</text>
+<text x="105.0" y="303.5" font-size="12" font-weight="700" fill="#1a7f37" text-anchor="start" >histeresis 30–35 %</text>
+<text x="1012.0" y="284.5" font-size="12" font-weight="800" fill="#1a7f37" text-anchor="start" >35 % siap lagi</text>
+<text x="1012.0" y="322.5" font-size="12" font-weight="800" fill="#1a7f37" text-anchor="start" >30 % server menyiram</text>
+<text x="1012.0" y="398.5" font-size="12" font-weight="800" fill="#0f8b8d" text-anchor="start" >20 % Node 1 menyiram</text>
+<text x="1012.0" y="415.0" font-size="11" font-weight="800" fill="#0f8b8d" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">(ambang 20)</text>
+<path d="M96.0 211.6 L141.2 226.8 L186.4 249.6 L231.6 276.2 L276.8 299.0 L313.0 313.4 L331.0 324.1 L349.1 337.0 L367.2 348.4 L385.3 356.0 L403.4 356.0 L421.4 325.6 L439.5 295.2 L457.6 272.4 L484.7 253.4 L520.9 257.2 L557.0 272.4 L593.2 291.4 L629.4 310.4 L656.5 325.6 L692.6 344.6 L728.8 363.6 L765.0 378.8 L801.1 390.2 L819.2 398.6 L837.3 398.6 L855.4 371.2 L882.5 352.2 L918.6 356.0 L954.8 367.4 L1000.0 378.8" fill="none" stroke="#1e2a4a" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M321.1 369.0 L321.1 375.0 L403.4 375.0 L403.4 369.0" fill="none" stroke="#1a7f37" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="313.1" y="379.0" font-size="12" font-weight="700" fill="#1a7f37" text-anchor="end" >selama 10 detik</text>
+<line x1="403.4" y1="350.0" x2="403.4" y2="315.0" stroke="#9aa3b0" stroke-width="1.2" stroke-linecap="round" />
+<circle cx="403.4" cy="356.0" r="4" fill="#ffffff" stroke="#1e2a4a" stroke-width="2" />
+<circle cx="403.4" cy="304.0" r="11" fill="#1e2a4a" stroke="#ffffff" stroke-width="2" />
+<text x="403.4" y="308.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >1</text>
+<line x1="457.6" y1="266.4" x2="457.6" y2="249.4" stroke="#9aa3b0" stroke-width="1.2" stroke-linecap="round" />
+<circle cx="457.6" cy="272.4" r="4" fill="#ffffff" stroke="#1e2a4a" stroke-width="2" />
+<circle cx="457.6" cy="238.4" r="11" fill="#1e2a4a" stroke="#ffffff" stroke-width="2" />
+<text x="457.6" y="242.7" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >2</text>
+<line x1="656.5" y1="319.6" x2="656.5" y2="302.6" stroke="#9aa3b0" stroke-width="1.2" stroke-linecap="round" />
+<circle cx="656.5" cy="325.6" r="4" fill="#ffffff" stroke="#1e2a4a" stroke-width="2" />
+<circle cx="656.5" cy="291.6" r="11" fill="#1e2a4a" stroke="#ffffff" stroke-width="2" />
+<text x="656.5" y="295.9" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >3</text>
+<line x1="819.2" y1="404.6" x2="819.2" y2="423.6" stroke="#9aa3b0" stroke-width="1.2" stroke-linecap="round" />
+<circle cx="819.2" cy="398.6" r="4" fill="#ffffff" stroke="#1e2a4a" stroke-width="2" />
+<circle cx="819.2" cy="434.6" r="11" fill="#1e2a4a" stroke="#ffffff" stroke-width="2" />
+<text x="819.2" y="438.9" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >4</text>
+<line x1="96.0" y1="470.0" x2="1000.0" y2="470.0" stroke="#9aa3b0" stroke-width="1.4" stroke-linecap="round" />
+<text x="1000.0" y="488.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="end" >waktu →</text>
+<text x="50.0" y="509.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >pompa</text>
+<rect x="397.4" y="494.0" width="12.0" height="20.0" rx="3" fill="#1a7f37" />
+<text x="415.4" y="509.0" font-size="12" font-weight="700" fill="#1a7f37" text-anchor="start" >5 detik (server, sekali)</text>
+<rect x="818.7" y="494.0" width="10.0" height="20.0" rx="3" fill="#0f8b8d" />
+<text x="834.7" y="509.0" font-size="12" font-weight="700" fill="#0f8b8d" text-anchor="start" >3 detik (Node 1)</text>
+<line x1="50.0" y1="528.0" x2="1150.0" y2="528.0" stroke="#e0dcd2" stroke-width="1" stroke-linecap="round" />
+<circle cx="61.0" cy="547.0" r="11" fill="#1e2a4a" stroke="#ffffff" stroke-width="2" />
+<text x="61.0" y="551.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >1</text>
+<text x="80.0" y="552.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">server: di bawah 30 % selama 10 detik → pompa 5 detik, SEKALI</text>
+<rect x="80.0" y="562.0" width="390.0" height="30.0" rx="7" fill="#ffffff" stroke="#d5dbe3" stroke-width="1.2" />
+<rect x="80.0" y="562.0" width="5.0" height="30.0" rx="2" fill="#4a5568" />
+<circle cx="100.0" cy="577.0" r="8" fill="#4a5568" />
+<text x="100.0" y="581.2" font-size="11.5" font-weight="800" fill="#ffffff" text-anchor="middle" >i</text>
+<text x="116.0" y="581.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">🌱 Tanah 25 % — pompa menyiram 5 detik otomatis</text>
+<circle cx="61.0" cy="609.0" r="11" fill="#1e2a4a" stroke="#ffffff" stroke-width="2" />
+<text x="61.0" y="613.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >2</text>
+<text x="80.0" y="614.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">tanah naik di atas 35 % → aturan siap lagi untuk kering berikutnya</text>
+<rect x="80.0" y="624.0" width="390.0" height="30.0" rx="7" fill="#ffffff" stroke="#d5dbe3" stroke-width="1.2" />
+<rect x="80.0" y="624.0" width="5.0" height="30.0" rx="2" fill="#4a5568" />
+<circle cx="100.0" cy="639.0" r="8" fill="#4a5568" />
+<text x="100.0" y="643.2" font-size="11.5" font-weight="800" fill="#ffffff" text-anchor="middle" >i</text>
+<text x="116.0" y="643.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">✅ Tanah naik ke 36 % — aturan siap lagi</text>
+<circle cx="621.0" cy="547.0" r="11" fill="#1e2a4a" stroke="#ffffff" stroke-width="2" />
+<text x="621.0" y="551.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >3</text>
+<text x="640.0" y="552.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">tanah di bawah 30 %, tetapi server diam: belum ada yang</text>
+<text x="640.0" y="570.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">menyiram (tidak ada kejadian, tidak ada toast)</text>
+<circle cx="621.0" cy="609.0" r="11" fill="#1e2a4a" stroke="#ffffff" stroke-width="2" />
+<text x="621.0" y="613.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >4</text>
+<text x="640.0" y="614.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">di bawah 20 % → Node 1 menyiram sendiri 3 detik, istirahat</text>
+<text x="640.0" y="632.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">30 detik, diulang selama masih kering (tercatat di Serial)</text>
+<rect x="30.0" y="698.0" width="366.0" height="196.0" rx="12" fill="#dafbe1" stroke="#1a7f37" stroke-width="1.6" />
+<text x="48.0" y="726.0" font-size="14" font-weight="800" fill="#1a7f37" text-anchor="start" >Server · backend 1.1 (saat online)</text>
+<text x="48.0" y="752.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">ambang-bawah</tspan>: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">nyala_di_bawah</tspan> 30,</text>
+<text x="48.0" y="771.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">padam_di_atas</tspan> 35, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">selama_detik</tspan> 10</text>
+<text x="48.0" y="790.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">aksi <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">perintah</tspan>: pompa 5 detik, dikirim</text>
+<text x="48.0" y="809.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">SEKALI saat aturan menyala</text>
+<text x="48.0" y="828.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">ditolak atau tanpa jawaban: tidak dicoba</text>
+<text x="48.0" y="847.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">lagi sampai tanah di atas 35 % atau</text>
+<text x="48.0" y="866.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">aturannya disimpan ulang</text>
+<rect x="417.0" y="698.0" width="366.0" height="196.0" rx="12" fill="#e2f3f1" stroke="#0f8b8d" stroke-width="1.6" />
+<text x="435.0" y="726.0" font-size="14" font-weight="800" fill="#0f8b8d" text-anchor="start" >Node 1 · pengaman lokal (server diam)</text>
+<text x="435.0" y="752.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">firmware v1.6.0 tidak berubah: selalu</text>
+<text x="435.0" y="771.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">menyiram sendiri di bawah ambang lokal,</text>
+<text x="435.0" y="790.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">3 detik, lalu istirahat 30 detik</text>
+<text x="435.0" y="809.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">bawaan 30 % → ketik <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">ambang</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">20</tspan> di Serial</text>
+<text x="435.0" y="828.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Monitor (tersimpan di NVS)</text>
+<text x="435.0" y="847.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">lupa? siram ganda di 30 %: lokal 3 detik</text>
+<text x="435.0" y="866.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">berulang + server 5 detik</text>
+<rect x="804.0" y="698.0" width="366.0" height="196.0" rx="12" fill="#eef1f5" stroke="#9aa3b0" stroke-width="1.6" />
+<text x="822.0" y="726.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >Tandon menjaga keduanya</text>
+<text x="822.0" y="752.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">air tandon di bawah 20 % → Node 1 menolak</text>
+<text x="822.0" y="771.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">pompa, dari server maupun lokal:</text>
+<text x="822.0" y="790.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">pompa ditolak: air tandon kurang</tspan></text>
+<text x="822.0" y="809.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">jalur laptop: simulator <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">tandon</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">15</tspan>;</text>
+<text x="822.0" y="828.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">simulator tidak menyiram lokal dan</text>
+<text x="822.0" y="847.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">tanahnya tidak basah sendiri: ketik</text>
+<text x="822.0" y="866.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">tanah</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">25</tspan>, lalu <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">tanah</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">40</tspan></text>
+<rect x="30.0" y="912.0" width="1140.0" height="64.0" rx="12" fill="#f5f0fc" />
+<text x="50.0" y="937.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#6f42c1">Revisi keputusan Modul 19.</tspan> Dulu pompa sengaja tanpa aturan ambang di server: "dua otak untuk satu pompa bisa menyiram dua kali".</text>
+<text x="50.0" y="959.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Modul 24 menjadikannya berlapis: <tspan font-weight="800" fill="#1e2a4a">satu otak saat online</tspan> (server, 30 %), <tspan font-weight="800" fill="#1e2a4a">pengaman lokal saat server diam</tspan> (Node 1, 20 %), seperti kipas pengaman Modul 19.</text>
+<text x="1178.0" y="996.0" font-size="11" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

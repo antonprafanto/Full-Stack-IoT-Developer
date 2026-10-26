@@ -1,6 +1,6 @@
 // arsip.ts - menulis pesan yang sudah lolos pemeriksaan kontrak ke database, dan membacanya lagi untuk API riwayat
 // (bacaan mentah, atau ringkasannya per 15 menit, per jam, dan per hari). Modul 19: aturan otomatis (tabel rules) dan
-// buku kejadian (tabel events).
+// buku kejadian (tabel events). Modul 24: aturan juga bisa dihapus.
 // Gudang di memori (gudang.ts) tetap menjadi "papan pengumuman" keadaan terbaru; database adalah buku arsipnya.
 import { pool } from "./pool.ts";
 import type { Ack, PerintahSet, Status, TelemetryNode1, TelemetryNode2, Vitals } from "../schemas/kontrak.ts";
@@ -52,11 +52,13 @@ export async function arsipkanVitals(deviceId: string, isi: Vitals): Promise<voi
 
 // Satu perintah beserta hasilnya: ack (ok atau ditolak) atau null kalau tidak ada ack dalam 5 detik. Modul 19: juga
 // siapa yang menyuruh (sumber), aturan mana (kalau dari aturan atau jadwal), dan keadaan aktuator menurut ack-nya.
+// Modul 24: aturan_id diambil lewat (SELECT id FROM rules …): aturan yang dihapus SAAT perintahnya menunggu ack membuat
+// aturan_id NULL (sama dengan ON DELETE SET NULL), bukan galat "violates foreign key constraint" yang membuang catatannya.
 export async function arsipkanPerintah(idPerintah: string, deviceId: string, perintah: PerintahSet, dikirim: Date,
   ack: Ack | null, lamaMs: number, sumber: string, aturanId: number | null): Promise<void> {
   await pool.query(
     `INSERT INTO commands (id, device_id, dikirim, target, nilai, ack_ok, ack_pesan, lama_ms, sumber, aturan_id, state)
-     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, (SELECT id FROM rules WHERE id = $10), $11)`,
     [idPerintah, deviceId, dikirim, perintah.target, JSON.stringify(perintah.nilai), ack?.ok ?? null,
       ack?.pesan ?? null, lamaMs, sumber, aturanId, ack === null ? null : JSON.stringify(ack.state)],
   );
@@ -97,6 +99,13 @@ export async function ubahAturan(id: number, a: Aturan): Promise<BarisAturan | u
   return hasil.rows[0];
 }
 
+// Modul 24: hapus satu aturan. Hasilnya nomor dan nama aturan yang terhapus, atau undefined kalau aturan bernomor itu tidak
+// ada. Riwayat perintah dan kejadiannya TIDAK ikut terhapus: kolom aturan_id-nya menjadi NULL (ON DELETE SET NULL, migrasi 007).
+export async function hapusAturanDb(id: number): Promise<{ id: number; nama: string } | undefined> {
+  const hasil = await pool.query<{ id: number; nama: string }>("DELETE FROM rules WHERE id = $1 RETURNING id, nama", [id]);
+  return hasil.rows[0];
+}
+
 // Modul 19: buku kejadian (tabel events, migrasi 007).
 export type JenisKejadian = "aturan" | "aturan-diubah" | "jadwal" | "status" | "mode-offline" | "perintah";
 
@@ -115,14 +124,17 @@ export interface Kejadian extends KejadianBaru {
   waktu: string;
 }
 
+// Modul 24: aturan_id lewat (SELECT id FROM rules …), sama alasannya dengan arsipkanPerintah: kejadian dari aturan yang
+// baru saja dihapus tetap tercatat (aturan_id NULL), dan nilai yang tersimpan itulah yang disiarkan.
 export async function simpanKejadian(k: KejadianBaru): Promise<Kejadian> {
-  const hasil = await pool.query<{ id: string; waktu: Date }>(
-    `INSERT INTO events (device_id, jenis, sumber, aturan_id, pesan, data) VALUES ($1, $2, $3, $4, $5, $6)
-     RETURNING id, waktu`,
+  const hasil = await pool.query<{ id: string; waktu: Date; aturan_id: number | null }>(
+    `INSERT INTO events (device_id, jenis, sumber, aturan_id, pesan, data)
+     VALUES ($1, $2, $3, (SELECT id FROM rules WHERE id = $4), $5, $6)
+     RETURNING id, waktu, aturan_id`,
     [k.device_id, k.jenis, k.sumber, k.aturan_id, k.pesan, k.data === undefined ? null : JSON.stringify(k.data)],
   );
-  const { id, waktu } = hasil.rows[0];
-  return { id: Number(id), waktu: waktuKontrak(waktu), ...k }; // bigint datang dari pg sebagai teks
+  const { id, waktu, aturan_id } = hasil.rows[0];
+  return { id: Number(id), waktu: waktuKontrak(waktu), ...k, aturan_id }; // bigint datang dari pg sebagai teks
 }
 
 // Waktu berformat kontrak data (UTC, tanpa milidetik), misalnya 2026-10-20T03:10:00Z

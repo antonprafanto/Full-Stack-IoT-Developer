@@ -39,7 +39,7 @@ export default function Gauge({ label, nilai, ambangRendah }: Props) {
         {/* angka + satuan di tengah lengkungan */}
         <p className="absolute inset-x-0 bottom-0 text-center text-2xl font-semibold text-slate-800 dark:text-slate-100">
           {nilai ?? "—"}
-          {nilai !== null ? <span className="ml-0.5 text-base font-normal text-slate-400">%</span> : null}
+          {nilai !== null ? <span className="ml-0.5 text-base font-normal text-slate-500 dark:text-slate-400">%</span> : null}
         </p>
       </div>
       {/* warna tidak pernah sendirian: keadaan "rendah" juga ditulis */}

@@ -1,6 +1,7 @@
-// server.ts - pintu masuk backend Rumah Pintar Mini v1.0 (Modul 21: daftar resmi perangkat dan kuncinya, akun broker sendiri,
-// pesan dari perangkat tak terdaftar/dicabut diabaikan; di atas Modul 20: login, JWT di cookie, peran, dan pengaman API, dan
-// Modul 19: data realtime, perintah satu pintu, aturan otomatis, jadwal, dan notifikasi Telegram).
+// server.ts - pintu masuk backend Rumah Pintar Mini v1.1 (Modul 24: aturan "di bawah ambang" seperti siram kalau tanah kering,
+// aturan ambang boleh mengirim perintah sekali, dan aturan bisa dihapus; di atas v1.0 Modul 21: daftar resmi perangkat dan
+// kuncinya, akun broker sendiri, pesan dari perangkat tak terdaftar/dicabut diabaikan; Modul 20: login, JWT di cookie, peran,
+// dan pengaman API; dan Modul 19: data realtime, perintah satu pintu, aturan otomatis, jadwal, dan notifikasi Telegram).
 // Jalankan: npm run dev (otomatis mulai ulang saat file disimpan) atau npm start.
 import Fastify, { LogController } from "fastify";
 import swagger from "@fastify/swagger";
@@ -41,11 +42,13 @@ await app.register(swagger, {
   openapi: {
     info: {
       title: "Rumah Pintar Mini API",
-      description: "Backend v1.0 (Modul 21). Semua rute butuh login, kecuali yang tidak bergembok. Login dulu lewat "
+      description: "Backend v1.1 (Modul 24). Semua rute butuh login, kecuali yang tidak bergembok. Login dulu lewat "
         + "POST /auth/login (Try it out): browser menyimpan cookie akses dan mengirimnya sendiri ke rute lain. "
         + "Akun viewer hanya boleh melihat (GET); perintah dan perubahan dijawab 403. Perangkat didaftarkan admin lewat "
-        + "POST /devices; kuncinya hanya tampil sekali, dan pesan dari perangkat tak terdaftar atau dicabut diabaikan.",
-      version: "1.0.0",
+        + "POST /devices; kuncinya hanya tampil sekali, dan pesan dari perangkat tak terdaftar atau dicabut diabaikan. "
+        + "Sejak v1.1, aturan ambang bisa berarah turun (ambang-bawah, misalnya siram kalau tanah di bawah 30 %), boleh "
+        + "mengirim satu perintah saat menyala, dan aturan bisa dihapus (DELETE /rules/:id).",
+      version: "1.1.0",
     },
     components: {
       securitySchemes: { // Modul 20: rute bergembok butuh cookie akses dari POST /auth/login

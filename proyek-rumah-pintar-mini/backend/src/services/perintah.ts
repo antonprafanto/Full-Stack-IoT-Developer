@@ -112,6 +112,17 @@ function cocokkan(deviceId: string): void {
   }
 }
 
+// Modul 24: dipanggil otomasi.ts saat aturan dihapus atau dinonaktifkan. Keinginan yang tercatat atas nama aturan itu
+// dilupakan, supaya rekonsiliasi (juga sesudah perangkat menyala ulang) tidak menjalankan lagi perintah aturan yang sudah
+// tidak berlaku. Keadaan aktuatornya dibiarkan apa adanya: lampu yang sedang menyala tetap menyala sampai dimatikan.
+export function lupakanKeinginanAturan(aturanId: number): void {
+  for (const milikPerangkat of keinginan.values()) {
+    for (const [target, k] of milikPerangkat) {
+      if (k.aturanId === aturanId) milikPerangkat.delete(target);
+    }
+  }
+}
+
 // Dipanggil mqtt.ts kalau vitals membawa uptime_s kecil: perangkat baru menyala (lagi), dan semua relay-nya padam saat
 // menyala. Keinginan yang sudah terpenuhi pun dicocokkan lagi.
 export function perangkatMenyalaUlang(deviceId: string, uptime: number): void {

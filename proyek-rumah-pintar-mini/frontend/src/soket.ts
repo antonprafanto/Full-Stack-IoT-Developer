@@ -3,9 +3,12 @@
 import { useEffect } from "react";
 import { io } from "socket.io-client";
 import type { Socket } from "socket.io-client";
-import { BASE, refreshSekali } from "./api";
+import { z } from "zod";
+import { ambilPerangkat, BASE, refreshSekali } from "./api";
+import { toast } from "./toast";
+import type { JenisToast } from "./toast";
 import { useToko } from "./toko";
-import type { DariKlien, KeKlien, Perangkat, StatusPerangkat, Telemetry } from "./types";
+import type { DariKlien, Kejadian, KeKlien, Perangkat, StatusPerangkat, Telemetry } from "./types";
 
 // Alamatnya SAMA dengan api.ts (BASE): halaman http://<IP-laptop>:5173 di HP otomatis menyambung ke http://<IP-laptop>:8080.
 // withCredentials: true = bawa cookie login ke port lain (padanan credentials: "include" pada fetch). Tanpa ini,
@@ -36,8 +39,29 @@ function ikutiSemua() {
   }
 }
 
+// Modul 24: bagian "data" kejadian aturan dan jadwal yang menentukan warna toast. hasil = nasib perintahnya (sejak
+// Modul 19: "dijawab", "tanpa-ack", "tidak-dikirim", "tanpa-perintah"); ok = backend 1.1 (Praktik 6): false kalau
+// tindakannya tidak terlaksana, termasuk perintah yang dijawab tetapi DITOLAK perangkat (tidak terbaca dari hasil saja).
+// data bertipe unknown, jadi diperiksa Zod dulu, bukan dipercaya begitu saja.
+const DataTindakan = z.object({ hasil: z.string().optional(), ok: z.boolean().nullable().optional() });
+
+// Modul 24: warna toast untuk satu kejadian, dari data terstruktur (jenis, status, ok), BUKAN dari kalimatnya: kalimat
+// buatan backend bisa berubah kata-katanya tanpa mengubah artinya.
+function jenisToast(k: Kejadian): JenisToast {
+  // perangkat tersambung lagi atau terputus: acara "status" perangkat yang sama dikirim server ke SEMUA dashboard LEBIH
+  // DULU (sebelum kejadiannya dicatat), jadi status terbarunya sudah ada di toko
+  if (k.jenis === "status") return useToko.getState().status[k.device_id ?? ""] === "online" ? "info" : "galat";
+  if (k.jenis === "aturan" || k.jenis === "jadwal") {
+    const data = DataTindakan.safeParse(k.data);
+    if (data.success && (data.data.ok === false || data.data.hasil === "tanpa-ack" || data.data.hasil === "tidak-dikirim")) {
+      return "galat";
+    }
+  }
+  return "info"; // aturan bertindak, aturan siap lagi, kembali dari mode offline, perintah dikirim lagi
+}
+
 // useRealtime - dipanggil SEKALI di App. Selama sudah login: menyambung, memulihkan sambungan, dan meneruskan setiap
-// acara dari server ke toko. Saat keluar: semuanya dilepas. onSesiHabis = fungsi App yang kembali ke formulir login.
+// acara dari server ke toko. Saat keluar: semuanya dilepas. onSesiHabis = sesiHabis() dari toko.ts (Modul 24).
 export function useRealtime(sudahLogin: boolean, onSesiHabis: () => void) {
   // Efek 1: sambungan selama login. Pendengarnya fungsi bernama, supaya cleanup melepas PERSIS fungsi yang sama
   // (socket.off(nama) tanpa fungsi akan melepas SEMUA pendengar acara itu, termasuk milik bagian lain).
@@ -45,6 +69,7 @@ export function useRealtime(sudahLogin: boolean, onSesiHabis: () => void) {
     if (!sudahLogin) return;
     let ignore = false; // menjadi true saat efek dibereskan: hasil refresh yang datang terlambat diabaikan
     let gagalBeruntun = 0; // ditolak berapa kali berturut-turut walau sudah refresh
+    let pernahTersambung = false; // Modul 24: membedakan sambungan pertama dari sambungan yang PULIH
 
     // Perbarui gelang (POST /auth/refresh) dulu, baru sambung lagi: pola yang sama dengan alat/terminal-live.js.
     async function perbaruiLaluSambung() {
@@ -54,10 +79,25 @@ export function useRealtime(sudahLogin: boolean, onSesiHabis: () => void) {
       else socket.connect(); // true = gelang baru terpasang; null = backend belum bisa melayani (kalau mati: Socket.IO mencoba terus)
     }
 
+    // Modul 24: ambil ulang daftar perangkat (GET /devices). Server hanya mengirim acara "status" saat status BERUBAH,
+    // dan tidak mengulangnya untuk sambungan baru; perubahan selama sambungan putus hanya bisa dibaca dari database.
+    async function sinkronPerangkat() {
+      try {
+        const daftar = await ambilPerangkat();
+        if (!ignore) useToko.getState().setPerangkat(daftar); // sudah Keluar sementara itu? abaikan
+      } catch {
+        // gagal (misalnya backend baru saja mati lagi): biarkan; sambungan yang pulih berikutnya mencoba lagi
+      }
+    }
+
     function onConnect() {
       gagalBeruntun = 0;
       useToko.getState().setKoneksi("live");
       ikutiSemua();
+      // Sambungan PULIH, bukan yang pertama: sinkronkan status. Yang pertama tidak perlu, karena TataLetak baru saja
+      // mengambil daftar perangkat sesudah masuk.
+      if (pernahTersambung) void sinkronPerangkat();
+      pernahTersambung = true;
     }
     function onDisconnect(alasan: string) {
       if (alasan === "io client disconnect") {
@@ -88,12 +128,23 @@ export function useRealtime(sudahLogin: boolean, onSesiHabis: () => void) {
     function onStatus(deviceId: string, status: StatusPerangkat) {
       useToko.getState().setStatus(deviceId, status);
     }
+    // Modul 24: kejadian dari buku kejadian backend (aturan bertindak, jadwal, perangkat terputus, ...) menjadi toast.
+    // aturan-diubah tidak: yang menyimpan aturan sudah mendapat toast dari jawaban HTTP-nya sendiri. Kejadian itu cukup
+    // menaikkan versiAturan, supaya layar Aturan yang sedang terbuka (di dashboard mana pun) mengambil ulang daftarnya.
+    function onKejadian(k: Kejadian) {
+      if (k.jenis === "aturan-diubah") {
+        useToko.getState().aturanBerubah();
+        return;
+      }
+      toast(k.pesan, jenisToast(k));
+    }
 
     socket.on("connect", onConnect);
     socket.on("disconnect", onDisconnect);
     socket.on("connect_error", onConnectError);
     socket.on("telemetry", onTelemetry);
     socket.on("status", onStatus);
+    socket.on("kejadian", onKejadian);
     useToko.getState().setKoneksi("menyambung");
     socket.connect();
     // StrictMode di mode dev: sambung, putus, sambung lagi. Tetap hanya SATU sambungan yang hidup.
@@ -104,6 +155,7 @@ export function useRealtime(sudahLogin: boolean, onSesiHabis: () => void) {
       socket.off("connect_error", onConnectError);
       socket.off("telemetry", onTelemetry);
       socket.off("status", onStatus);
+      socket.off("kejadian", onKejadian);
       socket.disconnect();
     };
   }, [sudahLogin, onSesiHabis]);

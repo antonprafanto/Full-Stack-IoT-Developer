@@ -1,6 +1,7 @@
 // Riwayat.tsx - layar riwayat satu perangkat: pilih rentang (1 jam / 24 jam / 7 hari), lalu lihat grafik, tabel
 // berhalaman, dan unduh CSV. Satu rentang = SATU permintaan ke API; sisanya (celah, halaman, CSV) dikerjakan browser.
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router";
 import { ambilRiwayat, GalatApi } from "../api";
 import { keCsv, unduhCsv, waktuCsv } from "../csv";
 import type { DataRiwayat, Perangkat, Rentang } from "../types";
@@ -23,11 +24,10 @@ const KETERANGAN: Record<Rentang, string> = {
 
 type Props = {
   perangkat: Perangkat;
-  onKembali: () => void;
   onSesiHabis: () => void; // dipanggil kalau backend menjawab 401 (sesudah refresh pun gagal)
 };
 
-export default function Riwayat({ perangkat, onKembali, onSesiHabis }: Props) {
+export default function Riwayat({ perangkat, onSesiHabis }: Props) {
   const id = perangkat.device_id;
   const [rentang, setRentang] = useState<Rentang>("7hari");
   const [data, setData] = useState<DataRiwayat | null>(null); // null = masih memuat
@@ -100,11 +100,11 @@ export default function Riwayat({ perangkat, onKembali, onSesiHabis }: Props) {
   if (galat !== null) {
     isi = <p className="mt-4 rounded-lg bg-red-50 p-3 text-red-700 dark:bg-red-950 dark:text-red-200">{galat}</p>;
   } else if (data === null) {
-    isi = <p className="mt-4 text-slate-500 dark:text-slate-400">Memuat riwayat…</p>;
+    isi = <p className="mt-4 text-slate-600 dark:text-slate-400">Memuat riwayat…</p>;
   } else {
     isi = (
       <>
-        <p className="mt-3 text-sm text-slate-500 dark:text-slate-400">
+        <p className="mt-3 text-sm text-slate-600 dark:text-slate-400">
           {KETERANGAN[rentang]} · {data.titik.length} titik
           {/* waktu dari permintaan dikirim sampai grafik selesai digambar React; bisa dibaca di HP tanpa DevTools */}
           {durasiMs !== null ? " · dimuat dalam " + durasiMs + " ms" : null}
@@ -122,13 +122,13 @@ export default function Riwayat({ perangkat, onKembali, onSesiHabis }: Props) {
             <button
               type="button"
               onClick={unduh}
-              className="mt-4 min-h-11 rounded-lg bg-teal-600 px-4 font-medium text-white hover:bg-teal-700"
+              className="mt-4 min-h-11 rounded-lg bg-teal-700 px-4 font-medium text-white hover:bg-teal-800"
             >
               Unduh CSV
             </button>
           </>
         )}
-        <p className="mt-3 text-xs text-slate-500 dark:text-slate-400">
+        <p className="mt-3 text-xs text-slate-600 dark:text-slate-400">
           Riwayat ringkasan hanya menyimpan suhu, kelembapan, kelembapan tanah, dan cahaya.
         </p>
       </>
@@ -137,17 +137,17 @@ export default function Riwayat({ perangkat, onKembali, onSesiHabis }: Props) {
 
   return (
     <div>
-      <button
-        type="button"
-        onClick={onKembali}
+      {/* Modul 24: tautan ke alamat detail perangkat ini (bukan lagi tombol yang mengganti state di App) */}
+      <Link
+        to={"/perangkat/" + id}
         className="inline-flex min-h-11 items-center text-sm font-medium text-teal-700 hover:underline dark:text-teal-300"
       >
         ← Kembali ke detail
-      </button>
+      </Link>
       <h2 className="min-w-0 text-xl font-semibold break-words text-slate-800 dark:text-slate-100">
         Riwayat {perangkat.nama ?? id}
       </h2>
-      <p className="mb-3 text-sm text-slate-500 dark:text-slate-400">
+      <p className="mb-3 text-sm text-slate-600 dark:text-slate-400">
         {perangkat.lokasi ?? "lokasi belum diisi"} · <span className="font-mono text-xs">{id}</span>
       </p>
       <Pemilih label="Rentang waktu" pilihan={PILIHAN} dipilih={rentang} onPilih={pilihRentang} />

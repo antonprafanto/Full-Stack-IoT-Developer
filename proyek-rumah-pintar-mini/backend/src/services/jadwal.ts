@@ -59,8 +59,9 @@ export async function jalankanJadwal(a: AturanTersimpan): Promise<HasilPerintah>
     pesan = `⚠️ ${a.nama}: perintah ${perintah.target} tidak dikirim (${hasil.pesan})`;
   }
   log.info(`jadwal aturan ${a.id}: ${pesan}`);
+  // Modul 24: ok = perintahnya terlaksana (dijawab ok); dashboard memakainya untuk warna kabar
   catatKejadian({ device_id: deviceId, jenis: "jadwal", sumber: "jadwal", aturan_id: a.id, pesan,
-    data: { perintah, hasil: hasil.status } });
+    data: { perintah, hasil: hasil.status, ok: hasil.status === "dijawab" && hasil.ack.ok } });
   if (a.aksi.kabari) void kabari(pesan);
   return hasil;
 }
@@ -69,7 +70,7 @@ export async function jalankanJadwal(a: AturanTersimpan): Promise<HasilPerintah>
 function jadwalTerlewat(a: AturanTersimpan, waktu: Date): void {
   const pesan = `⏰ Jadwal ${a.nama} pada ${jamWib(waktu)} terlewat (laptop tidur atau backend sibuk?)`;
   log.warn(pesan);
-  catatKejadian({ device_id: null, jenis: "jadwal", sumber: "jadwal", aturan_id: a.id, pesan, data: { terlewat: waktu } });
+  catatKejadian({ device_id: null, jenis: "jadwal", sumber: "jadwal", aturan_id: a.id, pesan, data: { terlewat: waktu, ok: false } });
   if (a.aksi.kabari) void kabari(pesan);
 }
 

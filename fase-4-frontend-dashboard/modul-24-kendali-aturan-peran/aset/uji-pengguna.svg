@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="886" viewBox="0 0 1200 886" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="886" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" xml:space="preserve">Uji pengguna: orang lain, HP-nya sendiri, tanpa bantuan</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" xml:space="preserve">Konsep 11 · Praktik 10 · lembar tugas dan lembar catatan di <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5">kode/uji-pengguna/</tspan> · syarat lulus L1–L4</text>
+<rect x="30.0" y="100.0" width="1140.0" height="172.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<circle cx="52.0" cy="125.0" r="12" fill="#6f42c1" stroke="#ffffff" stroke-width="2" />
+<text x="52.0" y="129.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >1</text>
+<text x="72.0" y="130.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Persiapan (pelajar, sebelum penguji datang)</text>
+<text x="50.0" y="160.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" >Akun penguji sementara (admin)</text>
+<rect x="50.0" y="168.0" width="330.0" height="50.9" rx="8" fill="#eef1f5" />
+<text x="62.0" y="189.3" font-size="11" font-weight="700" fill="#6f42c1" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">npm run pengguna -- tambah</text>
+<text x="62.0" y="206.4" font-size="11" font-weight="700" fill="#6f42c1" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">  penguji@rumah.test "Penguji" admin</text>
+<text x="50.0" y="236.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">PowerShell atau Terminal macOS, bukan Git Bash;</text>
+<text x="50.0" y="253.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">sandi ≥ 15 karakter, hanya di kartu kertas</text>
+<text x="430.0" y="160.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" >Kondisi awal</text>
+<text x="430.0" y="184.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">• lampu padam</text>
+<text x="430.0" y="204.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">• belum ada aturan siram (hapus sisa latihan)</text>
+<text x="430.0" y="224.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">• simulator: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">tandon</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">acak</tspan> dan <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">tanah</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">acak</tspan></text>
+<text x="430.0" y="244.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">• akun viewer Modul 20 siap untuk L4</text>
+<text x="810.0" y="160.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" >Mode HP (Modul 23)</text>
+<text x="810.0" y="184.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">HOST=0.0.0.0</tspan>, IP laptop di <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">CORS_ORIGIN</tspan></text>
+<text x="810.0" y="204.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">npm</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">run</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">dev:hp</tspan> di folder <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">frontend</tspan></text>
+<text x="810.0" y="224.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">HP penguji membuka dulu:</text>
+<text x="810.0" y="244.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">http://&lt;IP-laptop&gt;:8080/health</tspan> harus menjawab</text>
+<line x1="210.0" y1="274.0" x2="210.0" y2="292.0" stroke="#6f42c1" stroke-width="2.2" stroke-linecap="round" />
+<path d="M206.7 285.8 L210.0 292.0 L213.3 285.8" fill="none" stroke="#6f42c1" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="30.0" y="296.0" width="360.0" height="230.0" rx="12" fill="#f5f0fc" stroke="#6f42c1" stroke-width="1.8" />
+<circle cx="52.0" cy="321.0" r="12" fill="#6f42c1" stroke="#ffffff" stroke-width="2" />
+<text x="52.0" y="325.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >2</text>
+<text x="72.0" y="326.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Empat tugas di HP penguji</text>
+<text x="50.0" y="358.0" font-size="12.5" font-weight="800" fill="#6f42c1" text-anchor="start" >1</text>
+<text x="66.0" y="358.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">buka <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#6f42c1" font-weight="800">http://&lt;IP-laptop&gt;:5173</tspan>, masuk dengan</text>
+<text x="66.0" y="376.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">email dan sandi di kartu</text>
+<text x="372.0" y="358.0" font-size="12" font-weight="800" fill="#6f42c1" text-anchor="end" >L1</text>
+<text x="50.0" y="404.0" font-size="12.5" font-weight="800" fill="#6f42c1" text-anchor="start" >2</text>
+<text x="66.0" y="404.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">nyalakan lampu di rumah ini</text>
+<text x="372.0" y="404.0" font-size="12" font-weight="800" fill="#6f42c1" text-anchor="end" >L2</text>
+<text x="50.0" y="432.0" font-size="12.5" font-weight="800" fill="#6f42c1" text-anchor="start" >3</text>
+<text x="66.0" y="432.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">atur supaya tanaman disiram otomatis</text>
+<text x="66.0" y="450.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">kalau tanahnya lebih kering dari 30 %</text>
+<text x="372.0" y="432.0" font-size="12" font-weight="800" fill="#6f42c1" text-anchor="end" >L3</text>
+<text x="50.0" y="478.0" font-size="12.5" font-weight="800" fill="#6f42c1" text-anchor="start" >4</text>
+<text x="66.0" y="478.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">keluar dari dashboard</text>
+<text x="50.0" y="512.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">penguji bercerita sambil mengerjakan (<tspan font-style="italic">think-aloud</tspan>)</text>
+<line x1="392.0" y1="406.0" x2="418.0" y2="406.0" stroke="#6f42c1" stroke-width="2.2" stroke-linecap="round" />
+<path d="M411.8 409.3 L418.0 406.0 L411.8 402.7" fill="none" stroke="#6f42c1" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="420.0" y="296.0" width="360.0" height="230.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<circle cx="442.0" cy="321.0" r="12" fill="#6f42c1" stroke="#ffffff" stroke-width="2" />
+<text x="442.0" y="325.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >3</text>
+<text x="462.0" y="326.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Aturan "tanpa bantuan"</text>
+<text x="440.0" y="358.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">pelajar hanya boleh membacakan ulang kalimat</text>
+<text x="440.0" y="376.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">tugasnya: tidak menunjuk layar, tidak</text>
+<text x="440.0" y="394.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">memberi petunjuk</text>
+<rect x="440.0" y="438.0" width="140.0" height="18.0" rx="4" fill="#e3f4ea" stroke="#2a9d5c" stroke-width="1.2" />
+<rect x="580.0" y="438.0" width="180.0" height="18.0" rx="4" fill="#fdeedd" stroke="#b45f17" stroke-width="1.2" />
+<text x="510.0" y="430.0" font-size="12" font-weight="800" fill="#2a9d5c" text-anchor="middle" >berhasil</text>
+<text x="670.0" y="430.0" font-size="12" font-weight="800" fill="#b45f17" text-anchor="middle" >macet = dibantu</text>
+<text x="440.0" y="472.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="start" >0</text>
+<text x="580.0" y="472.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="middle" >2 menit</text>
+<text x="440.0" y="496.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">hanya <tspan font-weight="800" fill="#1e2a4a">berhasil</tspan> yang dihitung lulus; penguji</text>
+<text x="440.0" y="514.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">menyerah atau bertanya = <tspan font-weight="800" fill="#1e2a4a">dibantu</tspan></text>
+<line x1="782.0" y1="406.0" x2="808.0" y2="406.0" stroke="#9aa3b0" stroke-width="2.2" stroke-linecap="round" />
+<path d="M801.8 409.3 L808.0 406.0 L801.8 402.7" fill="none" stroke="#9aa3b0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="810.0" y="296.0" width="360.0" height="230.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<circle cx="832.0" cy="321.0" r="12" fill="#6f42c1" stroke="#ffffff" stroke-width="2" />
+<text x="832.0" y="325.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >4</text>
+<text x="852.0" y="326.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Catat setiap tugas</text>
+<text x="830.0" y="358.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">berhasil / dibantu / gagal, lama (mm:ss),</text>
+<text x="830.0" y="376.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">kutipan penguji tanpa nama</text>
+<text x="830.0" y="394.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">bukti dari log backend:</text>
+<text x="830.0" y="428.0" font-size="11" font-weight="800" fill="#1a7f37" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">login: akun N (admin), sesi N, IP 192.168.…</text>
+<text x="830.0" y="447.0" font-size="11" font-weight="800" fill="#1a7f37" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">… lampu = true, ack ok=true dalam N ms</text>
+<text x="830.0" y="466.0" font-size="11" font-weight="800" fill="#1a7f37" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">Aturan N (…) dibuat lewat API: …</text>
+<text x="830.0" y="485.0" font-size="11" font-weight="800" fill="#1a7f37" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">logout: sesi N</text>
+<path d="M900 528 L900 554 L600 554 L600 580" fill="none" stroke="#b45f17" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M596.7 575.8 L600.0 582.0 L603.3 575.8" fill="none" stroke="#b45f17" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="750.0" y="547.0" font-size="12" font-weight="800" fill="#b45f17" text-anchor="middle" >ada tugas yang dibantu</text>
+<line x1="1080.0" y1="528.0" x2="1080.0" y2="582.0" stroke="#2a9d5c" stroke-width="2.2" stroke-linecap="round" />
+<path d="M1076.7 575.8 L1080.0 582.0 L1083.3 575.8" fill="none" stroke="#2a9d5c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="1070.0" y="547.0" font-size="12" font-weight="800" fill="#2a9d5c" text-anchor="end" >semua berhasil</text>
+<rect x="420.0" y="584.0" width="360.0" height="188.0" rx="12" fill="#ffffff" stroke="#b45f17" stroke-width="1.6" />
+<circle cx="442.0" cy="609.0" r="12" fill="#b45f17" stroke="#ffffff" stroke-width="2" />
+<text x="442.0" y="613.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >5</text>
+<text x="462.0" y="614.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Perbaiki yang membingungkan</text>
+<text x="440.0" y="646.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">label, letak, atau pesan yang membuat</text>
+<text x="440.0" y="665.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">penguji ragu → ubah kodenya, lalu catat</text>
+<text x="440.0" y="684.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">di lembar catatan: berkas dan perubahannya</text>
+<line x1="418.0" y1="684.0" x2="392.0" y2="684.0" stroke="#b45f17" stroke-width="2.2" stroke-linecap="round" />
+<path d="M398.2 680.7 L392.0 684.0 L398.2 687.3" fill="none" stroke="#b45f17" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="30.0" y="584.0" width="360.0" height="188.0" rx="12" fill="#ffffff" stroke="#b45f17" stroke-width="1.6" />
+<circle cx="52.0" cy="609.0" r="12" fill="#b45f17" stroke="#ffffff" stroke-width="2" />
+<text x="52.0" y="613.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >6</text>
+<text x="72.0" y="614.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Ulangi tugas yang dibantu</text>
+<text x="50.0" y="646.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">penguji yang sama sesudah jeda, atau</text>
+<text x="50.0" y="665.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">penguji lain; tugas lulus hanya bila</text>
+<text x="50.0" y="684.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">berhasil tanpa bantuan</text>
+<text x="50.0" y="722.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">putaran ini boleh diulang beberapa kali</text>
+<line x1="210.0" y1="582.0" x2="210.0" y2="530.0" stroke="#b45f17" stroke-width="2.2" stroke-linecap="round" />
+<path d="M213.3 536.2 L210.0 530.0 L206.7 536.2" fill="none" stroke="#b45f17" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="222.0" y="560.0" font-size="12" font-weight="800" fill="#b45f17" text-anchor="start" >kembali ke tugas</text>
+<rect x="810.0" y="584.0" width="360.0" height="188.0" rx="12" fill="#f5f0fc" stroke="#6f42c1" stroke-width="1.8" />
+<circle cx="832.0" cy="609.0" r="12" fill="#6f42c1" stroke="#ffffff" stroke-width="2" />
+<text x="832.0" y="613.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >7</text>
+<text x="852.0" y="614.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">L4, lalu bereskan</text>
+<text x="830.0" y="646.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">L4 (pelajar): masuk sebagai <tspan font-weight="800">viewer</tspan> di HP</text>
+<text x="830.0" y="664.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">yang sama: tanpa tombol kendali, tanpa</text>
+<text x="830.0" y="682.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800">+ Aturan baru</tspan>, tanpa <tspan font-weight="800">Ubah</tspan></text>
+<text x="830.0" y="712.0" font-size="11" font-weight="800" fill="#6f42c1" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">npm run pengguna -- hapus penguji@rumah.test</text>
+<text x="830.0" y="736.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">sobek atau simpan kartu sandi; kembali ke</text>
+<text x="830.0" y="754.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">mode laptop; HP penguji tidak bisa membuka lagi</text>
+<rect x="30.0" y="790.0" width="1140.0" height="66.0" rx="12" fill="#eef1f5" />
+<text x="50.0" y="815.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Lembar terisi disimpan di <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">belajar-iot/modul-24/</tspan>: tanpa sandi, tanpa nama lengkap, tanpa foto wajah. Izin rekam layar atau suara boleh ditolak.</text>
+<text x="50.0" y="837.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Uji ini hanya bisa dikerjakan manusia: bila belum sempat ada penguji, tulis jujur di catatan; <tspan font-weight="800" fill="#1e2a4a">jangan mengarang hasil</tspan>.</text>
+<text x="1178.0" y="872.0" font-size="11" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

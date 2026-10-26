@@ -1,8 +1,14 @@
 <!doctype html>
-<html lang="id" class="scheme-light dark:scheme-dark">
+<html lang="id" class="scheme-light dark:scheme-dark scroll-pb-64 xl:scroll-pb-0">
   <head>
     <meta charset="UTF-8" />
+    <!-- Modul 24: scroll-pb-64 = saat browser menggulir SENDIRI ke tombol atau kolom (tombol Tab, kolom yang salah isi), ia
+         menyisakan 16rem di bawah, tempat toast di HP dan tablet. Mulai 1280 px toast ada di samping isi: xl:scroll-pb-0. -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <!-- Modul 24: ikon (180 x 180 px) dan nama pendek untuk pintasan "Tambahkan ke Layar Utama" di iPhone. Hanya pintasan,
+         bukan aplikasi terpasang (PWA butuh HTTPS: Modul 27). -->
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="Rumah Pintar" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Rumah Pintar Mini</title>
   </head>

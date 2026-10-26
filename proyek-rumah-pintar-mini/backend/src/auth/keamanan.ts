@@ -49,7 +49,9 @@ export async function pasangKeamanan(app: FastifyInstance): Promise<void> {
   await app.register(cors, {
     origin: env.CORS_ORIGIN, // daftar persis, bukan "*": dengan credentials, "*" ditolak browser
     credentials: true, // izinkan browser mengirim cookie dari halaman di origin itu
-    methods: ["GET", "HEAD", "POST", "PUT"], // PUT /rules/:id; bawaan plugin hanya GET, HEAD, POST
+    // bawaan plugin hanya GET, HEAD, POST. PUT /rules/:id (Modul 19) dan DELETE /rules/:id (Modul 24) harus ditulis di sini:
+    // tanpa itu browser sudah menolak di tahap preflight, walaupun rutenya ada (curl dan Bruno tidak terpengaruh)
+    methods: ["GET", "HEAD", "POST", "PUT", "DELETE"],
   });
   await app.register(cookie); // tanpa secret: JWT sudah bertanda tangan, refresh token dicek ke database
   await app.register(jwt, {

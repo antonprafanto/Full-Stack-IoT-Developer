@@ -14,9 +14,9 @@ export default function KartuSensor({ label, nilai, satuan, warna = "text-slate-
       <p className="truncate text-sm text-slate-500 dark:text-slate-400">{label}</p>
       <p className="mt-1 text-2xl font-semibold">
         {/* ?? = kalau nilainya null, tulis "—" (bukan 0: angka 0 tetap bacaan yang sah) */}
-        <span className={nilai === null ? "text-slate-400" : warna}>{nilai ?? "—"}</span>
+        <span className={nilai === null ? "text-slate-500 dark:text-slate-400" : warna}>{nilai ?? "—"}</span>
         {/* satuan hanya ditulis kalau ada angkanya */}
-        {satuan && nilai !== null ? <span className="ml-1 text-base font-normal text-slate-400">{satuan}</span> : null}
+        {satuan && nilai !== null ? <span className="ml-1 text-base font-normal text-slate-500 dark:text-slate-400">{satuan}</span> : null}
       </p>
     </div>
   );

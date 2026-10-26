@@ -7,6 +7,8 @@
 // Modul 21: setiap perangkat palsu masuk ke broker dengan akunnya SENDIRI: nama pengguna = device_id, kuncinya dari file
 // alat/.env (satu baris per perangkat, misalnya KUNCI_F00D00000001=...). Perangkat tanpa kunci tidak dijalankan. Kalau
 // broker menolak kuncinya, perangkat itu mencoba lagi setiap 60 detik, seperti Node 1 v1.6.0.
+// Modul 24: kelembapan tanah dan isi tandon juga bisa diatur dari terminal, dan perintah pompa ditolak kalau isi tandon di
+// bawah 20 % dengan alasan yang sama persis dengan firmware Node 1 ("pompa ditolak: air tandon kurang").
 //
 // Cara pakai (dari terminal, di folder alat):
 //   node --env-file=.env simulator-perangkat.js mqtt://192.168.1.37:1883            -> 10 perangkat palsu
@@ -15,6 +17,11 @@
 // Selagi berjalan, ketik di terminal yang sama lalu tekan Enter (Modul 19):
 //   suhu 33    -> semua perangkat palsu membaca 33.0 °C, seperti menggeser DHT22 di Wokwi (pakai titik: suhu 29.5)
 //   suhu acak  -> kembali ke suhu acak 25,0-33,0 °C
+//   tanah 25   -> Modul 24: semua perangkat palsu membaca tanah 25 % (bilangan bulat 0-100), misalnya untuk menguji aturan
+//                 "siram jika tanah < 30 %". Simulator tidak membasahi tanah sesudah pompa menyala: ketik tanah 40 sendiri.
+//   tanah acak -> kembali ke tanah acak 20-60 %
+//   tandon 15  -> Modul 24: isi tandon 15 % (bilangan bulat 0-100); di bawah 20 %, perintah pompa ditolak seperti Node 1
+//   tandon acak -> kembali ke isi tandon acak 30-90 %
 // Hentikan dengan Ctrl+C: broker lalu menerbitkan wasiat "offline" setiap perangkat palsu.
 
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
@@ -27,6 +34,7 @@ const JUMLAH = Number(process.argv[3]) || 10;
 const BATAS_MODE_OFFLINE = 2 * 60 * 1000; // Modul 19: broker tak terjangkau 2 menit = mode offline (kontrak aturan 5)
 const SELISIH_KIPAS = 2; // Modul 19: kipas pengaman padam di bawah suhu_kipas_on - 2 (histeresis Modul 13)
 const BERKAS_ARSIP = "data/arsip-simulator.json"; // Modul 19: pengganti NVS; folder data/ diabaikan Git (.gitignore)
+const LEVEL_AIR_MINIMUM = 20; // Modul 24: sama dengan konfigurasi.h Node 1: pompa ditolak kalau isi tandon di bawah 20 %
 
 // device_id palsu: 12 digit heksadesimal huruf kecil, diawali f00d supaya mudah dikenali
 function buatDeviceId(nomor) {
@@ -58,6 +66,8 @@ function simpanArsip() {
 }
 
 let suhuDiketik = null; // Modul 19: null = suhu acak; angka = diketik di terminal ("suhu 33")
+let tanahDiketik = null; // Modul 24: null = tanah acak 20-60 %; angka = diketik di terminal ("tanah 25")
+let tandonDiketik = null; // Modul 24: null = isi tandon acak 30-90 %; angka = diketik di terminal ("tandon 15")
 
 // Modul 19: sama dengan pemeriksaan config di firmware v1.5.0. Jawabannya "" kalau sah, atau alasan penolakannya.
 function periksaAmbang(ambang) {
@@ -140,6 +150,8 @@ function jalankanPerangkat(deviceId) {
     if (klien.connected) {
       const bacaan = buatTelemetri();
       bacaan.suhu = Math.round(suhu * 10) / 10; // Modul 19: suhu yang sama dengan yang dipakai pengaman
+      if (tanahDiketik !== null) bacaan.tanah = tanahDiketik; // Modul 24: "tanah 25" diketik di terminal
+      if (tandonDiketik !== null) bacaan.level_air = tandonDiketik; // Modul 24: "tandon 15" diketik di terminal
       bacaan.state = { ...keadaan };
       klien.publish(topik("telemetry"), JSON.stringify(bacaan));
       terakhirKirim = Date.now();
@@ -216,13 +228,20 @@ function jalankanPerangkat(deviceId) {
         if (cmd.target === "kipas") kipasMilikPengaman = false; // Modul 19: kipas pindah tangan ke pengirim perintah
       } else pesan = `nilai ${cmd.target} harus true atau false`;
     } else if (cmd.target === "pompa") {
-      if (Number.isInteger(cmd.nilai) && cmd.nilai >= 1 && cmd.nilai <= 10) {
+      if (!Number.isInteger(cmd.nilai) || cmd.nilai < 1 || cmd.nilai > 10) {
+        pesan = "nilai pompa harus 1-10 detik";
+      } else if (tandonDiketik !== null && tandonDiketik < LEVEL_AIR_MINIMUM) {
+        // Modul 24: pengaman tandon, dengan urutan pemeriksaan dan teks yang sama dengan firmware Node 1 (jaringan.cpp).
+        // Isi tandon acak (30-90 %) selalu cukup, jadi penolakan ini hanya muncul sesudah "tandon <di bawah 20>" diketik.
+        pesan = "pompa ditolak: air tandon kurang";
+        console.log(`${deviceId}: pompa DITOLAK: air tandon tinggal ${tandonDiketik} %`);
+      } else {
         keadaan.pompa = true;
         setTimeout(() => {
           keadaan.pompa = false;
           kirimSegera(); // Modul 19: pompa padam sendiri = keadaan aktuator berubah
         }, cmd.nilai * 1000);
-      } else pesan = "nilai pompa harus 1-10 detik";
+      }
     } else if (cmd.target === "tirai") {
       if (Number.isInteger(cmd.nilai) && cmd.nilai >= 0 && cmd.nilai <= 180) keadaan.tirai = cmd.nilai;
       else pesan = "nilai tirai harus 0-180 derajat";
@@ -306,20 +325,33 @@ if (process.argv[3] === "bersihkan") {
     console.log("Tidak ada perangkat palsu yang punya kunci. Isi alat/.env, lalu jalankan dengan: node --env-file=.env …");
     process.exit(1);
   }
-  // Modul 19: "suhu 33" / "suhu acak" diketik di terminal ini. Hanya di mode ini: di mode bersihkan, pendengar terminal
-  // akan membuat program tidak selesai sendiri.
+  // Modul 19: "suhu 33" / "suhu acak" diketik di terminal ini. Modul 24: juga "tanah 25" / "tanah acak" dan "tandon 15" /
+  // "tandon acak". Hanya di mode ini: di mode bersihkan, pendengar terminal akan membuat program tidak selesai sendiri.
   createInterface({ input: process.stdin }).on("line", (baris) => {
     const [kata, isian] = baris.trim().toLowerCase().split(/\s+/);
     const angka = Number(isian);
+    const persen = Number.isInteger(angka) && angka >= 0 && angka <= 100; // Modul 24: tanah dan tandon, bulat 0-100
     if (kata === "suhu" && isian === "acak") {
       suhuDiketik = null;
     } else if (kata === "suhu" && isian !== undefined && Number.isFinite(angka)) {
       suhuDiketik = angka;
+    } else if (kata === "tanah" && (isian === "acak" || persen)) { // Modul 24
+      tanahDiketik = isian === "acak" ? null : angka;
+    } else if (kata === "tandon" && (isian === "acak" || persen)) { // Modul 24
+      tandonDiketik = isian === "acak" ? null : angka;
     } else {
-      console.log("Ketik misalnya: suhu 33  atau  suhu acak");
+      console.log("Ketik misalnya: suhu 33, suhu acak, tanah 25, tanah acak, tandon 15, atau tandon acak " +
+        "(tanah dan tandon: bilangan bulat 0-100)");
       return;
     }
-    console.log(suhuDiketik === null ? "Suhu: acak 25,0-33,0 °C" : `Suhu: ${suhuDiketik.toFixed(1)} °C`);
+    if (kata === "suhu") console.log(suhuDiketik === null ? "Suhu: acak 25,0-33,0 °C" : `Suhu: ${suhuDiketik.toFixed(1)} °C`);
+    if (kata === "tanah") console.log(tanahDiketik === null ? "Tanah: acak 20-60 %" : `Tanah: ${tanahDiketik} %`);
+    if (kata === "tandon") {
+      const kurang = tandonDiketik !== null && tandonDiketik < LEVEL_AIR_MINIMUM;
+      console.log((tandonDiketik === null ? "Tandon: acak 30-90 %" : `Tandon: ${tandonDiketik} %`) +
+        (kurang ? ` (di bawah ${LEVEL_AIR_MINIMUM} %: perintah pompa akan ditolak)` : ""));
+    }
   });
-  console.log(`${adaKunci} perangkat palsu menuju ${ALAMAT_BROKER}. Ketik "suhu 33" atau "suhu acak". Hentikan dengan Ctrl+C.`);
+  console.log(`${adaKunci} perangkat palsu menuju ${ALAMAT_BROKER}. Ketik misalnya "suhu 33", "tanah 25", "tandon 15", ` +
+    `atau "tanah acak". Hentikan dengan Ctrl+C.`);
 }
