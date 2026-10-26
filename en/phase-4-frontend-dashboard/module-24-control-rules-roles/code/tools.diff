@@ -1,0 +1,151 @@
+diff --git a/tools/README.md b/tools/README.md
+index ee1098d..f47ef56 100644
+--- a/tools/README.md
++++ b/tools/README.md
+@@ -2,7 +2,7 @@
+ 
+ 🌐 **English** · [Bahasa Indonesia](../../../proyek-rumah-pintar-mini/alat/README.md)
+ 
+-This folder contains small Node.js programs that you create in [Module 4](../../phase-0-foundations/module-04-javascript-nodejs/README.md), [Module 11](../../phase-2-connectivity/module-11-mqtt-and-data-contract/README.md), [Module 16](../../phase-3-backend-data/module-16-backend-typescript-api-git/README.md), [Module 19](../../phase-3-backend-data/module-19-realtime-rules-notifications/README.md), [Module 20](../../phase-3-backend-data/module-20-user-security/README.md), and [Module 21](../../phase-3-backend-data/module-21-device-broker-security/README.md), then use again and again in later modules. All of them have been tested with **Node.js 24.21.0**. The first three need no libraries from npm; `contract-checker.js` and `device-simulator.js` need the **mqtt** 5.16.1 library, and `live-terminal.js` needs **socket.io-client** 4.8.4 (see "How to use").
++This folder contains small Node.js programs that you create in [Module 4](../../phase-0-foundations/module-04-javascript-nodejs/README.md), [Module 11](../../phase-2-connectivity/module-11-mqtt-and-data-contract/README.md), [Module 16](../../phase-3-backend-data/module-16-backend-typescript-api-git/README.md), [Module 19](../../phase-3-backend-data/module-19-realtime-rules-notifications/README.md), [Module 20](../../phase-3-backend-data/module-20-user-security/README.md), and [Module 21](../../phase-3-backend-data/module-21-device-broker-security/README.md) (the simulator is updated again in [Module 24](../../phase-4-frontend-dashboard/module-24-control-rules-roles/README.md)), then use again and again in later modules. All of them have been tested with **Node.js 24.21.0**. The first three need no libraries from npm; `contract-checker.js` and `device-simulator.js` need the **mqtt** 5.16.1 library, and `live-terminal.js` needs **socket.io-client** 4.8.4 (see "How to use").
+ 
+ | File | What it does | Used again in |
+ | :--- | :--- | :--- |
+@@ -10,7 +10,7 @@ This folder contains small Node.js programs that you create in [Module 4](../../
+ | [`webhook-receiver.js`](webhook-receiver.js) | A mini server on port 3000 that prints everything it receives and replies with `{"ok":true}`. | Module 10 (the ESP32 sends its first reading over Wi-Fi to your laptop), then Module 22 as a test receiver |
+ | [`send-data.js`](send-data.js) | A test sender: it pretends to be an ESP32 and sends 3 readings to `http://localhost:3000/telemetry`. | Module 10, to test a receiver without a board |
+ | [`contract-checker.js`](contract-checker.js) | The data contract's security guard: it subscribes to `msh/#` on the MQTT broker, then stamps every message **PASS** or **FAIL** according to [`DATA-CONTRACT.md`](../DATA-CONTRACT.md), with the reasons and how long each `ack` reply took. | Module 11 (a Node 1 v1.2 completion requirement), Module 14 (version 1.1: Node 2's `telemetry` is checked against its own fields), Module 15 (version 1.2: the three RS-485 sensor fields in Node 1's `telemetry`), Module 19 (version 1.3: `state` in `telemetry` and `ack`, the offline-mode report in `vitals`, the content of `config`, a retained `set`), Module 21 (version 1.4: it connects to a locked broker with the `checker` account from `tools/.env`; the address may carry a port), then every time the firmware changes or a new device is added |
+-| [`device-simulator.js`](device-simulator.js) | Ten fake devices (`f00d00000001` to `f00d00000010`) that speak MQTT exactly as the data contract says: the `online`/`offline` status (through the *Last Will*), `telemetry` every 10 seconds from `buildTelemetry()` (since Module 19 with `state` and an immediate send when an actuator changes), `vitals` on connecting and every 5 minutes, and an `ack` answer to every command, `config` included (stored in `data/simulator-store.json`). Since Module 19, the temperature can be set from the terminal (`temp 33`, `temp random`), and when the broker is unreachable for 2 minutes, the simulator enters offline mode, runs the safety fan, then reports through `vitals` about 10 seconds after it reconnects. Since Module 21, each fake device connects to the broker with its own account (username = `device_id`, the key from `tools/.env`); a device with no key is not started, and a key the broker rejects is retried 60 seconds later. The `clean` mode deletes their retained status from the broker. | Module 16 (testing the backend without a board), Module 19 (automation rules and the "broker off" test), then every module that needs many devices |
++| [`device-simulator.js`](device-simulator.js) | Ten fake devices (`f00d00000001` to `f00d00000010`) that speak MQTT exactly as the data contract says: the `online`/`offline` status (through the *Last Will*), `telemetry` every 10 seconds from `buildTelemetry()` (since Module 19 with `state` and an immediate send when an actuator changes), `vitals` on connecting and every 5 minutes, and an `ack` answer to every command, `config` included (stored in `data/simulator-store.json`). Since Module 19, the temperature can be set from the terminal (`temp 33`, `temp random`), and when the broker is unreachable for 2 minutes, the simulator enters offline mode, runs the safety fan, then reports through `vitals` about 10 seconds after it reconnects. Since Module 21, each fake device connects to the broker with its own account (username = `device_id`, the key from `tools/.env`); a device with no key is not started, and a key the broker rejects is retried 60 seconds later. Since Module 24, the soil moisture and the tank level can be set from the terminal too (`soil 25`, `tank 15`), and a pump command is refused like on Node 1 (`pump refused: tank water too low`) when the tank is below 20 %. The `clean` mode deletes their retained status from the broker. | Module 16 (testing the backend without a board), Module 19 (automation rules and the "broker off" test), Module 24 (the "water if soil < 30 %" rule and a refused pump button, without Kit A), then every module that needs many devices |
+ | [`live-terminal.js`](live-terminal.js) | A "small terminal" that connects to the backend through Socket.IO, follows one device (`follow`), then shows each of its readings as soon as it arrives, the status changes of every device, and the event log. It reconnects by itself when the backend restarts. Since Module 20, this terminal first logs in with the account from `tools/.env` (a `viewer` account is enough), then renews its wristband by itself (refresh) every time the server cuts it off because it expired. | Module 19, Module 20 (Socket.IO locked), then Module 23 (the live dashboard uses the same events) |
+ 
+ ## How to use
+@@ -63,6 +63,15 @@ node --env-file=.env device-simulator.js mqtt://192.168.1.37:1883 clean
+ 
+ While the simulator runs, type `temp 33` and then **Enter** in the same terminal so that every fake device reads 33.0 °C (use a point for decimals, for example `temp 29.5`); `temp random` brings back a random temperature of 25.0–33.0 °C. The simulator is explained in Module 16, Practice 7, and in Module 19.
+ 
++Since Module 24, two more values can be set the same way, as whole numbers 0–100:
++
++| Type | What happens |
++| :--- | :--- |
++| `soil 25` | every fake device reads a soil moisture of 25 % (to test the "water if soil < 30 %" rule); `soil random` brings back a random soil reading of 20–60 %. The simulator does **not** wet the soil after the pump runs: type `soil 40` yourself for "the soil is wet again" |
++| `tank 15` | the tank level (`water_level`) is 15 %. While it is below 20 %, every pump command gets an `ack` with `"ok": false` and `"message": "pump refused: tank water too low"`, exactly like Node 1, and the simulator's terminal writes `f00d00000001: pump REFUSED: tank water only 15 %`. `tank random` brings back a random tank level of 30–90 % (always enough) |
++
++A typed number goes out with the next `telemetry` (at most 10 seconds later), while a pump refusal applies at once.
++
+ `live-terminal.js` needs a running backend and its library (just once, in this `tools` folder):
+ 
+ ```bash
+diff --git a/tools/device-simulator.js b/tools/device-simulator.js
+index bbbf477..981705b 100644
+--- a/tools/device-simulator.js
++++ b/tools/device-simulator.js
+@@ -7,6 +7,8 @@
+ // Module 21: each fake device connects to the broker with its OWN account: username = device_id, its key from the file
+ // tools/.env (one line per device, for example KEY_F00D00000001=...). A device with no key is not started. If the broker
+ // rejects its key, that device retries every 60 seconds, like Node 1 v1.6.0.
++// Module 24: the soil moisture and the tank level can be set from the terminal too, and a pump command is refused if the tank
++// is below 20 % with exactly the same reason as the Node 1 firmware ("pump refused: tank water too low").
+ //
+ // How to use (from a terminal, in the tools folder):
+ //   node --env-file=.env device-simulator.js mqtt://192.168.1.37:1883            -> 10 fake devices
+@@ -15,6 +17,11 @@
+ // While it runs, type in the same terminal, then press Enter (Module 19):
+ //   temp 33      -> every fake device reads 33.0 °C, like moving the DHT22 slider in Wokwi (use a point: temp 29.5)
+ //   temp random  -> back to a random temperature of 25.0-33.0 °C
++//   soil 25      -> Module 24: every fake device reads soil 25 % (a whole number 0-100), for example to test the rule
++//                   "water if soil < 30 %". The simulator doesn't wet the soil after the pump runs: type soil 40 yourself.
++//   soil random  -> back to a random soil reading of 20-60 %
++//   tank 15      -> Module 24: the tank is 15 % full (a whole number 0-100); below 20 %, pump commands are refused like Node 1
++//   tank random  -> back to a random tank level of 30-90 %
+ // Stop with Ctrl+C: the broker then publishes the "offline" last will of every fake device.
+ 
+ import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+@@ -27,6 +34,7 @@ const COUNT = Number(process.argv[3]) || 10;
+ const OFFLINE_MODE_TIMEOUT = 2 * 60 * 1000; // Module 19: broker unreachable for 2 minutes = offline mode (contract rule 5)
+ const FAN_HYSTERESIS = 2; // Module 19: the safety fan turns off below temp_fan_on - 2 (hysteresis, Module 13)
+ const STORE_FILE = "data/simulator-store.json"; // Module 19: the NVS stand-in; Git ignores the data/ folder (.gitignore)
++const MIN_WATER_LEVEL = 20; // Module 24: the same as Node 1's config.h: the pump is refused if the tank is below 20 %
+ 
+ // a fake device_id: 12 lowercase hexadecimal digits, starting with f00d so it's easy to recognize
+ function makeDeviceId(number) {
+@@ -58,6 +66,8 @@ function saveStore() {
+ }
+ 
+ let typedTemp = null; // Module 19: null = a random temperature; a number = typed in the terminal ("temp 33")
++let typedSoil = null; // Module 24: null = a random soil reading of 20-60 %; a number = typed in the terminal ("soil 25")
++let typedTank = null; // Module 24: null = a random tank level of 30-90 %; a number = typed in the terminal ("tank 15")
+ 
+ // Module 19: the same as the config check in firmware v1.5.0. The answer is "" if it is valid, or the reason for refusing it.
+ function checkThresholds(thresholds) {
+@@ -140,6 +150,8 @@ function runDevice(deviceId) {
+     if (client.connected) {
+       const reading = buildTelemetry();
+       reading.temperature = Math.round(temperature * 10) / 10; // Module 19: the same temperature the safety uses
++      if (typedSoil !== null) reading.soil = typedSoil; // Module 24: "soil 25" typed in the terminal
++      if (typedTank !== null) reading.water_level = typedTank; // Module 24: "tank 15" typed in the terminal
+       reading.state = { ...state };
+       client.publish(topic("telemetry"), JSON.stringify(reading));
+       lastPublished = Date.now();
+@@ -216,13 +228,20 @@ function runDevice(deviceId) {
+         if (cmd.target === "fan") fanOwnedBySafety = false; // Module 19: the fan passes to whoever sent the command
+       } else message = `${cmd.target} value must be true or false`;
+     } else if (cmd.target === "pump") {
+-      if (Number.isInteger(cmd.value) && cmd.value >= 1 && cmd.value <= 10) {
++      if (!Number.isInteger(cmd.value) || cmd.value < 1 || cmd.value > 10) {
++        message = "pump value must be 1-10 seconds";
++      } else if (typedTank !== null && typedTank < MIN_WATER_LEVEL) {
++        // Module 24: the tank safety check, with the same check order and text as the Node 1 firmware (networking.cpp).
++        // A random tank level (30-90 %) is always enough, so this refusal only appears after "tank <below 20>" is typed.
++        message = "pump refused: tank water too low";
++        console.log(`${deviceId}: pump REFUSED: tank water only ${typedTank} %`);
++      } else {
+         state.pump = true;
+         setTimeout(() => {
+           state.pump = false;
+           sendSoon(); // Module 19: the pump turning off by itself = an actuator state change
+         }, cmd.value * 1000);
+-      } else message = "pump value must be 1-10 seconds";
++      }
+     } else if (cmd.target === "curtain") {
+       if (Number.isInteger(cmd.value) && cmd.value >= 0 && cmd.value <= 180) state.curtain = cmd.value;
+       else message = "curtain value must be 0-180 degrees";
+@@ -306,20 +325,33 @@ if (process.argv[3] === "clean") {
+     console.log("No fake device has a key. Fill in tools/.env, then run with: node --env-file=.env …");
+     process.exit(1);
+   }
+-  // Module 19: "temp 33" / "temp random" are typed in this terminal. Only in this mode: in clean mode, a terminal listener
+-  // would keep the program from finishing by itself.
++  // Module 19: "temp 33" / "temp random" are typed in this terminal. Module 24: also "soil 25" / "soil random" and "tank 15" /
++  // "tank random". Only in this mode: in clean mode, a terminal listener would keep the program from finishing by itself.
+   createInterface({ input: process.stdin }).on("line", (line) => {
+     const [word, arg] = line.trim().toLowerCase().split(/\s+/);
+     const num = Number(arg);
++    const percent = Number.isInteger(num) && num >= 0 && num <= 100; // Module 24: soil and tank, whole numbers 0-100
+     if (word === "temp" && arg === "random") {
+       typedTemp = null;
+     } else if (word === "temp" && arg !== undefined && Number.isFinite(num)) {
+       typedTemp = num;
++    } else if (word === "soil" && (arg === "random" || percent)) { // Module 24
++      typedSoil = arg === "random" ? null : num;
++    } else if (word === "tank" && (arg === "random" || percent)) { // Module 24
++      typedTank = arg === "random" ? null : num;
+     } else {
+-      console.log("Type for example: temp 33  or  temp random");
++      console.log("Type for example: temp 33, temp random, soil 25, soil random, tank 15, or tank random " +
++        "(soil and tank: whole numbers 0-100)");
+       return;
+     }
+-    console.log(typedTemp === null ? "Temperature: random 25.0-33.0 °C" : `Temperature: ${typedTemp.toFixed(1)} °C`);
++    if (word === "temp") console.log(typedTemp === null ? "Temperature: random 25.0-33.0 °C" : `Temperature: ${typedTemp.toFixed(1)} °C`);
++    if (word === "soil") console.log(typedSoil === null ? "Soil: random 20-60 %" : `Soil: ${typedSoil} %`);
++    if (word === "tank") {
++      const low = typedTank !== null && typedTank < MIN_WATER_LEVEL;
++      console.log((typedTank === null ? "Tank: random 30-90 %" : `Tank: ${typedTank} %`) +
++        (low ? ` (below ${MIN_WATER_LEVEL} %: pump commands will be refused)` : ""));
++    }
+   });
+-  console.log(`${withKeys} fake device(s) heading to ${BROKER_URL}. Type "temp 33" or "temp random". Stop with Ctrl+C.`);
++  console.log(`${withKeys} fake device(s) heading to ${BROKER_URL}. Type for example "temp 33", "soil 25", "tank 15", ` +
++    `or "soil random". Stop with Ctrl+C.`);
+ }

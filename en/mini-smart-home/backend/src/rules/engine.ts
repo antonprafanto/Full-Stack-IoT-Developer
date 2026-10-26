@@ -1,11 +1,11 @@
 // engine.ts - the "brain" of the automation rules (Module 19) as PURE functions: it reads no clock, database, or MQTT.
 // Everything it needs comes in through the arguments, so the same input always gives the same result (easy to test).
-import type { ThresholdCondition } from "../schemas/rules.ts";
+import type { BelowThresholdCondition, ThresholdCondition } from "../schemas/rules.ts";
 
 // The memory of one threshold rule from reading to reading.
 export interface Memory {
   active: boolean; // is the rule "on" right now (for example, the fan should be on)?
-  since: number | null; // when the readings started to be above the on threshold (milliseconds); null = not waiting
+  since: number | null; // when the readings started to cross the on threshold (milliseconds); null = not waiting
   last: number | null; // when the last reading was evaluated (milliseconds)
 }
 
@@ -33,6 +33,20 @@ export function evaluateThreshold(c: ThresholdCondition, memory: Memory, value: 
   }
   if (value < c.off_below) return { memory: { ...base, active: false, since: null }, decision: "turn-off" };
   return { memory: base, decision: null }; // still above the off threshold (inside the hysteresis gap): stays on
+}
+
+// Module 24: a "below" condition (for example water when the soil is below 30 %) is evaluated by the SAME brain, simply by
+// flipping the sign of every number, like looking in a mirror: "soil 25 below 30" means the same as "-25 above -30", and
+// "soil 36 above 35" (off) the same as "-36 below -35". So the "for" rule, hysteresis, reading gaps, and failed sensors
+// work exactly the same without being written again; the tests in engine.test.ts make sure the mirror is right.
+export function evaluateBelowThreshold(c: BelowThresholdCondition, memory: Memory, value: number | null, now: number):
+  { memory: Memory; decision: Decision } {
+  const mirror: ThresholdCondition = {
+    kind: "threshold", device_id: c.device_id, quantity: c.quantity, for_seconds: c.for_seconds,
+    on_above: -c.on_below, // below 30  ->  above -30
+    off_below: -c.off_above, // above 35   ->  below -35
+  };
+  return evaluateThreshold(mirror, memory, value === null ? null : -value, now);
 }
 
 // Notification debouncing: notify when the situation changes; while still in danger, remind at most every 30 minutes.

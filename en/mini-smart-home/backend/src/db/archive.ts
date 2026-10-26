@@ -1,6 +1,6 @@
 // archive.ts - writes the messages that passed the contract checks to the database, and reads them back for the history API
 // (raw readings, or their summary per 15 minutes, per hour, and per day). Module 19: automation rules (the rules table) and
-// the event log (the events table).
+// the event log (the events table). Module 24: rules can be deleted too.
 // The in-memory store (store.ts) remains the "notice board" for the latest state; the database is its archive book.
 import { pool } from "./pool.ts";
 import type { Ack, SetCommand, Status, TelemetryNode1, TelemetryNode2, Vitals } from "../schemas/contract.ts";
@@ -52,11 +52,13 @@ export async function archiveVitals(deviceId: string, content: Vitals): Promise<
 
 // One command with its result: the ack (ok or refused), or null if no ack came within 5 seconds. Module 19: also
 // who ordered it (source), which rule (if it came from a rule or a schedule), and the actuator state according to its ack.
+// Module 24: rule_id is taken through (SELECT id FROM rules …): a rule deleted WHILE its command waits for an ack makes
+// rule_id NULL (the same as ON DELETE SET NULL), not a "violates foreign key constraint" error that throws the record away.
 export async function archiveCommand(commandId: string, deviceId: string, command: SetCommand, sentAt: Date,
   ack: Ack | null, waitMs: number, source: string, ruleId: number | null): Promise<void> {
   await pool.query(
     `INSERT INTO commands (id, device_id, sent_at, target, value, ack_ok, ack_message, wait_ms, source, rule_id, state)
-     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, (SELECT id FROM rules WHERE id = $10), $11)`,
     [commandId, deviceId, sentAt, command.target, JSON.stringify(command.value), ack?.ok ?? null,
       ack?.message ?? null, waitMs, source, ruleId, ack === null ? null : JSON.stringify(ack.state)],
   );
@@ -97,6 +99,13 @@ export async function updateRule(id: number, a: Rule): Promise<RuleRow | undefin
   return result.rows[0];
 }
 
+// Module 24: delete one rule. The result is the number and name of the deleted rule, or undefined if no rule has that
+// number. Its command and event history is NOT deleted with it: its rule_id column becomes NULL (ON DELETE SET NULL, migration 007).
+export async function deleteRuleDb(id: number): Promise<{ id: number; name: string } | undefined> {
+  const result = await pool.query<{ id: number; name: string }>("DELETE FROM rules WHERE id = $1 RETURNING id, name", [id]);
+  return result.rows[0];
+}
+
 // Module 19: the event log (the events table, migration 007).
 export type EventKind = "rule" | "rule-changed" | "schedule" | "status" | "offline-report" | "command";
 
@@ -115,14 +124,17 @@ export interface SavedEvent extends NewEvent {
   occurred_at: string;
 }
 
+// Module 24: rule_id through (SELECT id FROM rules …), for the same reason as archiveCommand: an event from a rule that
+// was just deleted is still recorded (rule_id NULL), and the stored value is the one that is broadcast.
 export async function saveEvent(e: NewEvent): Promise<SavedEvent> {
-  const result = await pool.query<{ id: string; occurred_at: Date }>(
-    `INSERT INTO events (device_id, kind, source, rule_id, message, data) VALUES ($1, $2, $3, $4, $5, $6)
-     RETURNING id, occurred_at`,
+  const result = await pool.query<{ id: string; occurred_at: Date; rule_id: number | null }>(
+    `INSERT INTO events (device_id, kind, source, rule_id, message, data)
+     VALUES ($1, $2, $3, (SELECT id FROM rules WHERE id = $4), $5, $6)
+     RETURNING id, occurred_at, rule_id`,
     [e.device_id, e.kind, e.source, e.rule_id, e.message, e.data === undefined ? null : JSON.stringify(e.data)],
   );
-  const { id, occurred_at } = result.rows[0];
-  return { id: Number(id), occurred_at: contractTime(occurred_at), ...e }; // a bigint comes from pg as text
+  const { id, occurred_at, rule_id } = result.rows[0];
+  return { id: Number(id), occurred_at: contractTime(occurred_at), ...e, rule_id }; // a bigint comes from pg as text
 }
 
 // A time in the data contract format (UTC, without milliseconds), for example 2026-10-20T03:10:00Z

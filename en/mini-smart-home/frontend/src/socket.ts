@@ -3,9 +3,12 @@
 import { useEffect } from "react";
 import { io } from "socket.io-client";
 import type { Socket } from "socket.io-client";
-import { BASE, refreshOnce } from "./api";
+import { z } from "zod";
+import { BASE, getDevices, refreshOnce } from "./api";
+import { toast } from "./toast";
+import type { ToastKind } from "./toast";
 import { useLiveStore } from "./store";
-import type { Device, DeviceStatus, FromClient, Telemetry, ToClient } from "./types";
+import type { Device, DeviceStatus, FromClient, SavedEvent, Telemetry, ToClient } from "./types";
 
 // The address is the SAME as in api.ts (BASE): the page http://<laptop-IP>:5173 on a phone connects to http://<laptop-IP>:8080 by itself.
 // withCredentials: true = bring the login cookies to another port (the twin of credentials: "include" in fetch). Without it,
@@ -36,8 +39,29 @@ function followAll() {
   }
 }
 
+// Module 24: the part of a rule or schedule event's "data" that decides the toast color. result = what became of its command
+// (since Module 19: "answered", "no-ack", "not-sent", "no-command"); ok = backend 1.1 (Practice 6): false if the action
+// wasn't carried out, including a command that was answered but REFUSED by the device (not readable from result alone).
+// data has the type unknown, so Zod checks it first instead of trusting it as it is.
+const ActionData = z.object({ result: z.string().optional(), ok: z.boolean().nullable().optional() });
+
+// Module 24: the toast color for one event, from structured data (kind, status, ok), NOT from its sentence: a sentence
+// made by the backend can change its words without changing its meaning.
+function toastKind(ev: SavedEvent): ToastKind {
+  // a device connected again or disconnected: the server sends the same device's "status" event to EVERY dashboard
+  // FIRST (before the event is recorded), so its newest status is already in the store
+  if (ev.kind === "status") return useLiveStore.getState().status[ev.device_id ?? ""] === "online" ? "info" : "error";
+  if (ev.kind === "rule" || ev.kind === "schedule") {
+    const data = ActionData.safeParse(ev.data);
+    if (data.success && (data.data.ok === false || data.data.result === "no-ack" || data.data.result === "not-sent")) {
+      return "error";
+    }
+  }
+  return "info"; // a rule acted, a rule is ready again, back from offline mode, a command sent again
+}
+
 // useRealtime - called ONCE in App. While logged in: connects, restores the connection, and passes every event from the
-// server on to the store. On logout: everything is removed. onSessionExpired = App's function that goes back to the login form.
+// server on to the store. On logout: everything is removed. onSessionExpired = handleSessionExpired() from store.ts (Module 24).
 export function useRealtime(loggedIn: boolean, onSessionExpired: () => void) {
   // Effect 1: the connection while logged in. The listeners are named functions, so the cleanup removes EXACTLY the same
   // function (socket.off(name) without a function would remove EVERY listener of that event, other parts' listeners too).
@@ -45,6 +69,7 @@ export function useRealtime(loggedIn: boolean, onSessionExpired: () => void) {
     if (!loggedIn) return;
     let ignore = false; // becomes true when the effect is cleaned up: a refresh result that arrives late is ignored
     let failStreak = 0; // how many times in a row we were refused even after a refresh
+    let everConnected = false; // Module 24: tells the first connection apart from a RESTORED one
 
     // Renew the wristband (POST /auth/refresh) first, then connect again: the same pattern as tools/live-terminal.js.
     async function refreshThenConnect() {
@@ -54,10 +79,25 @@ export function useRealtime(loggedIn: boolean, onSessionExpired: () => void) {
       else socket.connect(); // true = a new wristband is on; null = the backend can't serve yet (if it's down: Socket.IO keeps trying)
     }
 
+    // Module 24: fetch the device list again (GET /devices). The server only sends a "status" event when a status CHANGES,
+    // and doesn't repeat it for a new connection; changes while the connection was down can only be read from the database.
+    async function syncDevices() {
+      try {
+        const list = await getDevices();
+        if (!ignore) useLiveStore.getState().setDevices(list); // logged out in the meantime? ignore it
+      } catch {
+        // failed (for example the backend has just gone down again): leave it; the next restored connection tries again
+      }
+    }
+
     function onConnect() {
       failStreak = 0;
       useLiveStore.getState().setConnection("live");
       followAll();
+      // A RESTORED connection, not the first one: sync the status. The first doesn't need it, because Layout has just
+      // fetched the device list after logging in.
+      if (everConnected) void syncDevices();
+      everConnected = true;
     }
     function onDisconnect(reason: string) {
       if (reason === "io client disconnect") {
@@ -88,12 +128,23 @@ export function useRealtime(loggedIn: boolean, onSessionExpired: () => void) {
     function onStatus(deviceId: string, status: DeviceStatus) {
       useLiveStore.getState().setStatus(deviceId, status);
     }
+    // Module 24: events from the backend's event log (a rule acting, a schedule, a device disconnecting, ...) become toasts.
+    // rule-changed doesn't: whoever saved the rule already got a toast from their own HTTP answer. That event only
+    // bumps rulesVersion, so an open Rules screen (on any dashboard) fetches its list again.
+    function onEvent(ev: SavedEvent) {
+      if (ev.kind === "rule-changed") {
+        useLiveStore.getState().rulesChanged();
+        return;
+      }
+      toast(ev.message, toastKind(ev));
+    }
 
     socket.on("connect", onConnect);
     socket.on("disconnect", onDisconnect);
     socket.on("connect_error", onConnectError);
     socket.on("telemetry", onTelemetry);
     socket.on("status", onStatus);
+    socket.on("event", onEvent);
     useLiveStore.getState().setConnection("connecting");
     socket.connect();
     // StrictMode in dev mode: connect, disconnect, connect again. Still only ONE connection stays alive.
@@ -104,6 +155,7 @@ export function useRealtime(loggedIn: boolean, onSessionExpired: () => void) {
       socket.off("connect_error", onConnectError);
       socket.off("telemetry", onTelemetry);
       socket.off("status", onStatus);
+      socket.off("event", onEvent);
       socket.disconnect();
     };
   }, [loggedIn, onSessionExpired]);

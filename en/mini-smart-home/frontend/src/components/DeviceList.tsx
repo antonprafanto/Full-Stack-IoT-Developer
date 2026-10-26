@@ -1,18 +1,14 @@
-// DeviceList.tsx - fetches GET /devices, then shows the answer as device cards that can be tapped.
+// DeviceList.tsx - shows the device list (GET /devices) as device cards that can be tapped.
 // Three states are always prepared: loading, error, and empty (the pattern every screen that fetches data uses).
 // Module 23: the list is kept in the store (so socket.ts knows which devices to follow), and every card is live:
 // the status color, the latest temperature, and "last seen" change by themselves without reloading the page.
-import { useEffect, useState } from "react";
-import { ApiError, getDevices } from "../api";
+// Module 24: the list is fetched ONCE after login (no longer on this screen); this screen only reads it from the store.
+// A card becomes a link to its details address (/devices/<device_id>).
+import { Link } from "react-router";
 import { useLiveStore } from "../store";
 import type { Device, DeviceStatus } from "../types";
 import { KeyBadge, StatusBadge } from "./Badge";
 import LastSeen from "./LastSeen";
-
-type Props = {
-  onSelect: (device: Device) => void; // called when a device is tapped
-  onSessionExpired: () => void; // called if the backend answers 401 (after the refresh failed as well)
-};
 
 // Red/green status cards: the thick line on the card's left edge follows the status (color + text in its badge)
 const LEFT_EDGE: Record<DeviceStatus, string> = {
@@ -24,7 +20,7 @@ const LEFT_EDGE: Record<DeviceStatus, string> = {
 
 // One device card. Made its own component so every card picks its OWN data from the store:
 // device A's telemetry only re-renders card A, not the whole list.
-function DeviceCard({ p, onSelect }: { p: Device; onSelect: (device: Device) => void }) {
+function DeviceCard({ p }: { p: Device }) {
   const status = useLiveStore((s) => s.status[p.device_id]) ?? p.status;
   const temperature = useLiveStore((s) => s.latest[p.device_id]?.temperature); // undefined = no reading yet; null = sensor failed
   const last = useLiveStore((s) => s.lastSeen[p.device_id]);
@@ -33,12 +29,12 @@ function DeviceCard({ p, onSelect }: { p: Device; onSelect: (device: Device) => 
   const messagesIgnored = p.key === "revoked" || p.key === "unregistered";
 
   return (
-    // the whole card is a button; the complete device object is handed to App through onSelect
-    <button
-      type="button"
-      onClick={() => onSelect(p)}
+    // Module 24: the whole card is a link to its details address. A real link (not a button) can be opened in a new tab,
+    // its address copied, and screen readers know it as a "link".
+    <Link
+      to={"/devices/" + p.device_id}
       className={
-        "w-full cursor-pointer rounded-xl border border-l-4 border-slate-200 bg-white p-4 text-left shadow-sm hover:border-teal-400 hover:shadow-md dark:border-slate-700 dark:bg-slate-800 " +
+        "block w-full rounded-xl border border-l-4 border-slate-200 bg-white p-4 shadow-sm hover:border-teal-400 hover:shadow-md dark:border-slate-700 dark:bg-slate-800 " +
         (messagesIgnored ? "border-l-slate-300 dark:border-l-slate-600" : LEFT_EDGE[status])
       }
     >
@@ -64,37 +60,16 @@ function DeviceCard({ p, onSelect }: { p: Device; onSelect: (device: Device) => 
         )}
         <LastSeen t={last} kind={p.kind} checkStale={!messagesIgnored} />
       </span>
-    </button>
+    </Link>
   );
 }
 
-export default function DeviceList({ onSelect, onSessionExpired }: Props) {
+export default function DeviceList() {
   const devices = useLiveStore((s) => s.devices); // null = still loading
-  const setDevices = useLiveStore((s) => s.setDevices);
-  const [error, setError] = useState<string | null>(null);
-
-  // Fetch the data AFTER the screen appears. In development mode, StrictMode runs this effect twice (normal).
-  // [onSessionExpired, setDevices] at the end of the effect: the effect uses both, so they must be listed (npm run lint
-  // warns if one is forgotten). Neither ever changes (handleSessionExpired uses useCallback in App, setDevices belongs
-  // to the store), so the list is fetched only once each time this screen opens.
-  useEffect(() => {
-    let ignore = false; // becomes true when the effect is cleaned up: an answer that arrives late is ignored
-    getDevices()
-      .then((list) => {
-        if (!ignore) setDevices(list);
-      })
-      .catch((err) => {
-        if (ignore) return;
-        if (err instanceof ApiError && err.code === 401) return onSessionExpired();
-        setError(err instanceof ApiError ? err.message : "Couldn't load the devices.");
-      });
-    return () => {
-      ignore = true; // cleanup: React runs it before the effect repeats or when this component leaves the screen
-    };
-  }, [onSessionExpired, setDevices]);
+  const error = useLiveStore((s) => s.devicesError);
 
   if (error !== null) return <p className="rounded-lg bg-red-50 p-3 text-red-700 dark:bg-red-950 dark:text-red-200">{error}</p>;
-  if (devices === null) return <p className="text-slate-500 dark:text-slate-400">Loading devices…</p>;
+  if (devices === null) return <p className="text-slate-600 dark:text-slate-400">Loading devices…</p>;
   if (devices.length === 0) {
     return <p className="rounded-lg bg-white p-3 text-slate-600 dark:bg-slate-800 dark:text-slate-300">No registered devices yet (registering devices: Module 21).</p>;
   }
@@ -105,7 +80,7 @@ export default function DeviceList({ onSelect, onSessionExpired }: Props) {
       {devices.map((p) => (
         // key = the name tag of each list item; device_id is always unique
         <li key={p.device_id} className="min-w-0">
-          <DeviceCard p={p} onSelect={onSelect} />
+          <DeviceCard p={p} />
         </li>
       ))}
     </ul>

@@ -7,9 +7,11 @@
 - [ ] `npm run check` passes, without type errors
 - [ ] **(Module 22)** If `frontend/` changed: in the `frontend` folder, `npm run build` and `npm run lint` pass with no errors and no warnings
 - [ ] **(Module 23)** The only warning allowed in `npm run build` is the size warning `Some chunks are larger than 500 kB` (Recharts, explained in Module 23); `npm run lint` still has no warnings
+- [ ] **(Module 24)** If `backend/src/schemas/contract.ts` or `rule-basics.ts` changed: their copies in `frontend/src/schemas/` are updated too, and `npm run check-schema` in the `frontend` folder prints two `SAME` lines
 - [ ] The server starts with `npm run dev`, without errors in the terminal
 - [ ] The new route was tried in Bruno, its test passes, and its request is saved in `backend/bruno/`
 - [ ] The new route shows up in `/docs`, with its descriptions
+- [ ] **(Module 24)** Every new HTTP method the dashboard calls (for example `DELETE`) is in the backend's CORS `methods` (`src/auth/security.ts`), and it was tried from the browser, not only from Bruno (Bruno doesn't send a preflight)
 - [ ] No `.env` file or password in the **Files changed** tab
 - [ ] `DATA-CONTRACT.md` is updated too if the shape of an MQTT message changed
 
@@ -33,4 +35,9 @@
 - [ ] **(Module 23)** Every `socket.on(…)` has a `socket.off(…)` with the same function in its effect's cleanup, and the socket is still created once in `frontend/src/socket.ts` (not inside a component)
 - [ ] **(Module 23)** Phone mode has been switched back to laptop mode (`HOST=127.0.0.1`, the IP address removed from `CORS_ORIGIN`, Vite without `--host`), and the `backend/.env` that holds the laptop's IP doesn't go into Git
 - [ ] **(Module 23)** No experiment files in the **Files changed** tab: `frontend/public/try-live.html` (Quick Win) and the `frontend/src/loadtest/` folder (Practice 6)
+- [ ] **(Module 24)** Control buttons and admin menus are only drawn when the admin role is certain (`useAdmin()`), AND the backend still refuses them: checked in Bruno with `login viewer` then `lamp on` (and every new route that changes something) → 403. Hiding a button is not protection
+- [ ] **(Module 24)** **Log out** and an expired session clear the WHOLE store (`clearAll()`): after the admin logs out, a viewer account that logs in in the same tab sees no leftover data, toasts, or admin buttons
+- [ ] **(Module 24)** Roles and tokens are still never stored in `localStorage`; the role is read from `GET /auth/me` / the login answer
+- [ ] **(Module 24)** No experiment file `frontend/src/components/FirstButton.tsx` (Quick Win) in the **Files changed** tab; the user-test tester account has been deleted (`npm run users -- delete …`) and phone mode has been switched back
 - [ ] `npm test` passes, new npm packages are installed with an exact version (`npm install name@version`) and recorded in `package-lock.json`, `npm audit` answers `found 0 vulnerabilities`, and `allowScripts` only grows for packages that really need an install script
+- [ ] **(Module 24)** No install command without a version in the text, README, or notes, and no `--legacy-peer-deps`/`overrides` to "force" an install (example: `@hookform/resolvers@5.9.2`, not the latest version that fails with ERESOLVE)

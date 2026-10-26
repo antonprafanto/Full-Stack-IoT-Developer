@@ -112,6 +112,17 @@ function reconcile(deviceId: string): void {
   }
 }
 
+// Module 24: called by automation.ts when a rule is deleted or deactivated. The wishes recorded in that rule's name are
+// forgotten, so reconciliation (also after a device restarts) doesn't run the command of a rule that no longer applies
+// again. The actuator state is left as it is: a lamp that is on stays on until it is turned off.
+export function forgetRuleWishes(ruleId: number): void {
+  for (const deviceWishes of wishes.values()) {
+    for (const [target, w] of deviceWishes) {
+      if (w.ruleId === ruleId) deviceWishes.delete(target);
+    }
+  }
+}
+
 // Called by mqtt.ts when vitals carries a small uptime_s: the device has just started (again), and all its relays are off
 // at startup. Even the wishes that were already fulfilled are reconciled again.
 export function deviceRestarted(deviceId: string, uptime: number): void {

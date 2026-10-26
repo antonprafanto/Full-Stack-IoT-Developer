@@ -2,6 +2,10 @@
 // Login uses the backend's HttpOnly cookies (Module 20). JavaScript can't read them; the browser stores them
 // and sends them, as long as every fetch carries credentials: "include".
 import { subMinutes } from "date-fns";
+import { FullRule } from "./rules";
+import type { Rule } from "./schemas/rule-basics";
+import { Ack } from "./schemas/contract";
+import type { SetCommand } from "./schemas/contract";
 import type { Device, HistoryData, HistoryRange, Reading, ReadingsAnswer, SummaryAnswer, SummaryPoint, User } from "./types";
 
 // Backend address. Default: this page's host name + port 8080, so the page http://localhost:5173 -> API http://localhost:8080.
@@ -85,7 +89,8 @@ async function request<T>(path: string, options: RequestInit = {}, mayRetry = tr
     throw new ApiError(res.status, message);
   }
   // as T = "trust me, the content has the shape T". TypeScript doesn't check JSON content while the page runs;
-  // we rely on the backend's API contract (a real check with Zod only comes in Module 24).
+  // we rely on the backend's API contract. Module 24: the answers that decide the control buttons (ack) and the rule list
+  // are really checked with Zod (sendCommand, getRules); other answers are still trusted through their type.
   return (await res.json()) as T;
 }
 
@@ -112,6 +117,56 @@ export function logout(): Promise<unknown> {
 // GET /devices: the device list from the backend's database
 export function getDevices(): Promise<Device[]> {
   return request<Device[]>("/devices");
+}
+
+// Module 24: POST /devices/:id/command - send ONE command (admin-only), then wait for the device's answer (ack) that the
+// backend passes on, at most 5 seconds. A 200 answer doesn't always mean success: ack.ok can be false (the device refuses,
+// for example "pump refused: tank water too low"). Other errors come as ApiError: 409 (offline, the previous command is
+// still waiting, ...), 404, 503, 504 (no ack within 5 seconds), 403 (a viewer account).
+export async function sendCommand(deviceId: string, command: SetCommand): Promise<Ack> {
+  const answer = await request<{ ack?: unknown }>("/devices/" + deviceId + "/command", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(command),
+  });
+  // The ack's content is checked with the SAME Ack schema as the backend (the copy in schemas/contract.ts), not just trusted.
+  // safeParse doesn't throw an error: its result is { success: true, data } or { success: false, error }.
+  const result = Ack.safeParse(answer.ack);
+  if (!result.success) throw new ApiError(200, "Unknown answer from the server.");
+  return result.data;
+}
+
+// Module 24: GET /rules - every automation rule (admin and viewer may read it). Its answer is checked with Zod, because the
+// Rules screen and the edit form use it directly.
+export async function getRules(): Promise<FullRule[]> {
+  const answer = await request<unknown>("/rules");
+  const result = FullRule.array().safeParse(answer); // .array() = an array whose every item is a FullRule
+  if (!result.success) throw new ApiError(200, "Unknown answer from the server (rule list).");
+  return result.data;
+}
+
+// Module 24: POST /rules (create) and PUT /rules/:id (change) - admin-only. The content has passed the Rule schema in the
+// browser, but the backend checks it again; a 400 error is read by the rule form to put it in its field.
+export function createRule(content: Rule): Promise<FullRule> {
+  return request<FullRule>("/rules", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(content),
+  });
+}
+
+export function updateRule(id: number, content: Rule): Promise<FullRule> {
+  return request<FullRule>("/rules/" + id, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(content),
+  });
+}
+
+// Module 24: DELETE /rules/:id (backend 1.1) - admin-only. No body, so also NO JSON Content-Type: a DELETE that claims
+// to carry JSON but has an empty body is refused by the backend (400), just like logout.
+export function deleteRule(id: number): Promise<{ id: number; name: string; message: string }> {
+  return request<{ id: number; name: string; message: string }>("/rules/" + id, { method: "DELETE" });
 }
 
 // Module 23: GET /devices/:id/readings?from=… = raw readings since some minutes ago (the live chart's first points).

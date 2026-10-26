@@ -1,141 +1,81 @@
-// App.tsx - the dashboard frame. When it opens, App asks the backend "who am I?" (GET /auth/me),
-// then picks a screen with plain state (React Router only comes in Module 24): login, list, details, or history.
-// Module 23: while logged in, App keeps ONE live connection (Socket.IO) through useRealtime().
-import { useCallback, useEffect, useState } from "react";
-import { ApiError, logout, whoAmI } from "./api";
-import DeviceList from "./components/DeviceList";
-import DeviceDetails from "./components/DeviceDetails";
-import ConnectionBadge from "./components/ConnectionBadge";
-import Login from "./components/Login";
-import DeviceHistory from "./components/DeviceHistory";
-import { socket, useRealtime } from "./socket";
-import type { Device, User } from "./types";
-
-// the screen shown after login: the list, one device's details, or one device's history
-type View = { name: "list" } | { name: "details"; device: Device } | { name: "history"; device: Device };
+// App.tsx - the root of the dashboard. Its three jobs, each done ONCE for the whole dashboard:
+// 1. asking the backend "who am I?" (GET /auth/me) when the page opens;
+// 2. keeping the live connection (Socket.IO) while logged in (Module 23);
+// 3. holding the route map (Module 24): which address shows which screen, and which screens are guarded.
+import { useEffect } from "react";
+import { Navigate, Route, Routes } from "react-router";
+import { ApiError, whoAmI } from "./api";
+import RequireLogin from "./components/RequireLogin";
+import AdminOnly from "./components/AdminOnly";
+import Layout from "./components/Layout";
+import RulesPage from "./pages/Rules";
+import DevicesPage from "./pages/Devices";
+import DetailsPage from "./pages/Details";
+import RuleFormPage from "./pages/RuleForm";
+import LoginPage from "./pages/Login";
+import HistoryPage from "./pages/History";
+import NotFound from "./pages/NotFound";
+import { useRealtime } from "./socket";
+import { handleSessionExpired, useLiveStore } from "./store";
 
 export default function App() {
-  // "loading" = asking the backend; null = not logged in; an object = logged in
-  const [user, setUser] = useState<User | null | "loading">("loading");
-  const [initialError, setInitialError] = useState<string | null>(null); // a problem other than 401, written above the form
-  const [view, setView] = useState<View>({ name: "list" });
-
   // Once when App appears ([] = no dependencies): check whether the login cookie from an earlier visit is still valid.
+  // Its result is written to the store, where the route guard (RequireLogin) and the Log in screen read it.
   useEffect(() => {
     let ignore = false;
     whoAmI()
       .then((p) => {
-        if (!ignore) setUser(p);
+        if (!ignore) useLiveStore.getState().setUser(p);
       })
       .catch((err) => {
         if (ignore) return;
         // 401 = simply not logged in: just show the form. Anything else (backend or database down): say so.
-        if (!(err instanceof ApiError && err.code === 401)) {
-          setInitialError(err instanceof ApiError ? err.message : "Couldn't check the login.");
-        }
-        setUser(null);
+        const notLoggedIn = err instanceof ApiError && err.code === 401;
+        useLiveStore.getState().setNotLoggedIn(notLoggedIn ? null : err instanceof ApiError ? err.message : "Couldn't check the login.");
       });
     return () => {
       ignore = true;
     };
   }, []);
 
-  function handleLogin(p: User) {
-    setInitialError(null);
-    setUser(p);
-    setView({ name: "list" }); // always start from the device list
-  }
-
-  // Module 23: useCallback = the SAME function on every App render. Without it, every time App re-renders (for example
-  // on a screen change), the effect that depends on handleSessionExpired runs again: the live connection is cut and made again.
-  const handleSessionExpired = useCallback(() => {
-    setInitialError("Your session has expired. Please log in again.");
-    setUser(null);
+  // Module 24: the Back button sometimes restores an OLD page whole from the browser's "back/forward cache" (bfcache), with
+  // the store content of an account that has logged out (it happens when its address was typed straight into the address
+  // bar). A page restored like that is reloaded, so App asks "who am I?" again and the route guard works from the start.
+  useEffect(() => {
+    function onPageShow(e: PageTransitionEvent) {
+      if (e.persisted) location.reload(); // persisted = restored from the bfcache, not freshly loaded
+    }
+    window.addEventListener("pageshow", onPageShow);
+    return () => window.removeEventListener("pageshow", onPageShow);
   }, []);
 
-  // A minimal Log out button (improved in Module 24): delete the session in the backend, then go back to the form.
-  async function handleLogout() {
-    // Module 23: cut the live connection FIRST (reason "io client disconnect": no reconnect), then delete the session.
-    // The other way round, the server cuts us ("io server disconnect"), and then the socket tries to connect again.
-    socket.disconnect();
-    try {
-      await logout();
-    } catch {
-      // the backend doesn't answer: the screen still goes back to the login form
-    }
-    setUser(null);
-  }
-
-  // Module 23: the live connection (Socket.IO) lives while logged in. A hook is called before any "return".
-  const loggedIn = user !== null && user !== "loading";
+  // Module 23: the live connection (Socket.IO) lives while logged in. Module 24: this hook stays here, ABOVE <Routes>,
+  // so switching screens doesn't cut the live connection.
+  const loggedIn = useLiveStore((s) => s.user !== null && s.user !== "loading");
   useRealtime(loggedIn, handleSessionExpired);
 
-  if (user === "loading") {
-    return <div className="flex min-h-screen items-center justify-center bg-slate-100 text-slate-500 dark:bg-slate-900">Loading…</div>;
-  }
-  if (user === null) {
-    return <Login initialError={initialError} onLogin={handleLogin} />;
-  }
-
-  // Pick ONE screen for the main part
-  let currentScreen;
-  if (view.name === "list") {
-    currentScreen = (
-      <>
-        <h2 className="mb-4 text-lg font-semibold text-slate-800 dark:text-slate-100">Device List</h2>
-        <DeviceList onSelect={(device) => setView({ name: "details", device })} onSessionExpired={handleSessionExpired} />
-      </>
-    );
-  } else if (view.name === "details") {
-    const device = view.device;
-    currentScreen = (
-      // key = device_id: another device means a new DeviceDetails with fresh state,
-      // not the leftover reading of the previous device (React's official "resetting state with a key" pattern)
-      <DeviceDetails
-        key={device.device_id}
-        device={device}
-        onBack={() => setView({ name: "list" })}
-        onHistory={() => setView({ name: "history", device })}
-      />
-    );
-  } else {
-    const device = view.device;
-    currentScreen = (
-      <DeviceHistory
-        device={device}
-        onBack={() => setView({ name: "details", device })}
-        onSessionExpired={handleSessionExpired}
-      />
-    );
-  }
-
+  // The route map: every <Route> pairs one address pattern with one screen. :id = the part of the address that changes,
+  // read by its screen with useParams(). A Route without a path (RequireLogin, Layout) = a "layout route": it draws
+  // itself, then puts the matching child screen where its <Outlet /> is.
   return (
-    <div className="min-h-screen bg-slate-100 dark:bg-slate-900">
-      <header className="border-b border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-800">
-        {/* flex-wrap: on a narrow screen, the name + Log out button move down to a second row, not squeezed next to the heading */}
-        <div className="mx-auto flex max-w-3xl flex-wrap items-center justify-between gap-x-4 gap-y-1 px-4 py-2">
-          <div className="flex items-center gap-2">
-            <h1 className="text-lg font-bold text-slate-800 dark:text-slate-100">Mini Smart Home</h1>
-            <ConnectionBadge />
-          </div>
-          {/* min-w-0 + truncate: a long name is cut off with "…", it doesn't push the Log out button off the screen */}
-          <div className="flex min-w-0 items-center gap-3 text-sm">
-            <span className="truncate text-slate-600 dark:text-slate-300">
-              {user.name} <span className="text-slate-400">({user.role})</span>
-            </span>
-            {/* min-h-11 = a minimum height of 44 px: big enough to tap with a thumb */}
-            <button
-              type="button"
-              onClick={handleLogout}
-              className="min-h-11 shrink-0 rounded-lg border border-slate-300 px-4 hover:bg-slate-50 dark:border-slate-600 dark:text-slate-200 dark:hover:bg-slate-700"
-            >
-              Log out
-            </button>
-          </div>
-        </div>
-      </header>
-
-      <main className="mx-auto max-w-3xl px-4 py-6">{currentScreen}</main>
-    </div>
+    <Routes>
+      <Route path="/login" element={<LoginPage />} />
+      <Route element={<RequireLogin />}>
+        <Route element={<Layout />}>
+          <Route path="/" element={<Navigate to="/devices" replace />} />
+          <Route path="/devices" element={<DevicesPage />} />
+          <Route path="/devices/:id" element={<DetailsPage />} />
+          <Route path="/devices/:id/history" element={<HistoryPage />} />
+          <Route path="/rules" element={<RulesPage />} />
+          {/* the second guard: screens that change something are for admins only */}
+          <Route element={<AdminOnly />}>
+            <Route path="/rules/new" element={<RuleFormPage />} />
+            <Route path="/rules/:id" element={<RuleFormPage />} />
+          </Route>
+        </Route>
+      </Route>
+      {/* any other address that matches no pattern, logged in or not */}
+      <Route path="*" element={<NotFound />} />
+    </Routes>
   );
 }

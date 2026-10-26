@@ -8,7 +8,7 @@ export default defineConfig({
   // Module 22: always on port 5173 (the address the backend's CORS_ORIGIN allows).
   // If that port is in use, stop with an error, don't quietly move to 5174.
   server: { port: 5173, strictPort: true },
-  // npm run preview (Practice 8) is on 5173 too: its default port (4173) isn't in CORS_ORIGIN, so login would be refused.
+  // npm run preview (Module 23 Practice 8) is on 5173 too: its default port (4173) isn't in CORS_ORIGIN, so login would be refused.
   // Stop npm run dev first before running preview.
   preview: { port: 5173, strictPort: true },
 })

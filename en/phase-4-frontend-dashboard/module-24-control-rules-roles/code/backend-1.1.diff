@@ -1,0 +1,1284 @@
+diff --git a/backend/README.md b/backend/README.md
+index 93e9002..f467914 100644
+--- a/backend/README.md
++++ b/backend/README.md
+@@ -2,7 +2,9 @@
+ 
+ 🌐 **English** · [Bahasa Indonesia](../../../proyek-rumah-pintar-mini/backend/README.md)
+ 
+-Backend v1.0 of the Mini Smart Home project: a Node.js 24 server in light TypeScript that listens to every `msh/#` MQTT message, checks every message against data contract 1.4 (Zod schemas), keeps the last state of every device in memory, archives every message in a PostgreSQL database with the TimescaleDB add-on (through Docker), and provides a documented API. The reading history can be requested raw or already summarized per 15 minutes, per hour, or per day. Since Module 19, readings also flow live through Socket.IO, every command goes through one door (with the desired and the reported state), automation rules and schedules are stored in the database and can be changed through the API without restarting the server, every important event is recorded, and alerts are sent through Telegram. Since Module 20, the API and Socket.IO are **locked for people**: guests must log in first, `viewer` accounts can only look, login attempts are limited, and other web pages can't make the server act on a user's behalf. Since Module 21, the backend is also **locked for devices**: only devices an admin has registered (with a per-device key) have their data processed, messages from unregistered or revoked devices are ignored, and the backend itself connects to the broker with its own account. 🎉 **Phase 3 checkpoint: the house is locked for people and for devices.**
++Backend v1.1 of the Mini Smart Home project: a Node.js 24 server in light TypeScript that listens to every `msh/#` MQTT message, checks every message against data contract 1.4 (Zod schemas), keeps the last state of every device in memory, archives every message in a PostgreSQL database with the TimescaleDB add-on (through Docker), and provides a documented API. The reading history can be requested raw or already summarized per 15 minutes, per hour, or per day. Since Module 19, readings also flow live through Socket.IO, every command goes through one door (with the desired and the reported state), automation rules and schedules are stored in the database and can be changed through the API without restarting the server, every important event is recorded, and alerts are sent through Telegram. Since Module 20, the API and Socket.IO are **locked for people**: guests must log in first, `viewer` accounts can only look, login attempts are limited, and other web pages can't make the server act on a user's behalf. Since Module 21, the backend is also **locked for devices**: only devices an admin has registered (with a per-device key) have their data processed, messages from unregistered or revoked devices are ignored, and the backend itself connects to the broker with its own account. 🎉 **Phase 3 checkpoint: the house is locked for people and for devices.**
++
++**v1.1 (Module 24)** adds three small things dashboard v1.0 needs: **below-threshold** rules (for example water when the soil is below 30 %), threshold rules that **send a command once** (for example the pump for 5 seconds), and **deleting rules** (`DELETE /rules/:id`). No database migration and no data-contract change (still 1.4); details in [Version 1.1 notes](#version-11-notes).
+ 
+ ## How to run it
+ 
+@@ -44,7 +46,7 @@ Backend v1.0 of the Mini Smart Home project: a Node.js 24 server in light TypeSc
+ | `npm run dev` | runs the server and restarts it every time the code or `.env` is saved |
+ | `npm start` | runs the server without automatic restarts; **Ctrl + C** stops it gracefully (on Windows, `npm run dev` + **Ctrl + C** kills the server at once) |
+ | `npm run check` | checks the TypeScript types, test files included (run it before every commit) |
+-| `npm test` | runs the unit tests with Vitest: the rules engine (`src/rules/*.test.ts`), login (`src/auth/auth.test.ts`), device keys (`src/auth/key.test.ts`, Module 21), the guest book and second layer (`src/services/registry.test.ts`), and the registration routes (`src/routes/devices.test.ts`) |
++| `npm test` | runs the unit tests with Vitest: the rules engine and the rule schema (`src/rules/*.test.ts`; since Module 24 also below-threshold rules), login (`src/auth/auth.test.ts`), device keys (`src/auth/key.test.ts`, Module 21), the guest book and second layer (`src/services/registry.test.ts`), the registration routes (`src/routes/devices.test.ts`), the delete-rule route with its guard: guest 401, viewer 403, the `DELETE` preflight (`src/routes/rules.test.ts`, Module 24), and a running watering rule: the pump sent once, turning off without a command, a refused command marked `ok: false`, a deleted or deactivated rule no longer acting (`src/services/automation.test.ts`, Module 24) |
+ | `npm run migrate` | runs the new SQL files in the `migrations/` folder (safe to repeat) |
+ | `npm run seed-history` | fills in 7 days of practice data for the practice devices `f00d00000001` and `f00d00000002` |
+ | `npm run users -- add <email> "<name>" <admin\|viewer>` | creates an account; the password is asked for and only shows up as `*` (at least 15 characters, at most 72 bytes) |
+@@ -69,7 +71,7 @@ docker exec smarthome-db psql -U postgres -d smarthome -f /tmp/load-1-million.sq
+ - **Roles**: `admin` may do everything; `viewer` only `GET`/`HEAD` (anything else gets `403`).
+ - **Rate limit**: at most 10 `POST /auth/login` attempts per minute from the same IP address; the 11th attempt gets `429` with a `retry-after` header. The counts live in memory: a server restart = starting from zero.
+ - **CORS and the page's origin**: web pages in `CORS_ORIGIN` (`.env`, default `http://localhost:5173,http://127.0.0.1:5173` for Module 22) may call the API from a browser with cookies. Requests other than `GET`/`HEAD` that carry an `Origin` header from another page are refused with `403`; curl, Bruno, and Node don't send `Origin`, so they aren't affected.
+-- **Bruno**: the `bruno/` collection has the requests `login admin`, `login viewer`, `wrong login`, `who am i`, `refresh`, and `logout`, plus (Module 21) `register Node 1`, `register Node 2 via Node 1`, `register practice device`, `rotate practice device key`, and `revoke practice device key`. Their passwords are read from `bruno/.env` (not in Git) holding `ADMIN_PASSWORD=…` and `VIEWER_PASSWORD=…`. Send `login admin` or `login viewer` first; the other requests use its cookie automatically.
++- **Bruno**: the `bruno/` collection has the requests `login admin`, `login viewer`, `wrong login`, `who am i`, `refresh`, and `logout`, plus (Module 21) `register Node 1`, `register Node 2 via Node 1`, `register practice device`, `rotate practice device key`, and `revoke practice device key`, and (Module 24) `create soil watering rule` and `delete rule` (replace the number in the `delete rule` address with the `id` from the `create soil watering rule` answer; it defaults to `4`, the first rule number after the three Module 19 rules). Their passwords are read from `bruno/.env` (not in Git) holding `ADMIN_PASSWORD=…` and `VIEWER_PASSWORD=…`. Send `login admin` or `login viewer` first; the other requests use its cookie automatically.
+ 
+ ## API
+ 
+@@ -91,8 +93,9 @@ docker exec smarthome-db psql -U postgres -d smarthome -f /tmp/load-1-million.sq
+ | `POST /devices/:id/command` | admin | sends a `set` command to Node 1, waits at most 5 seconds for its `ack`, then records it in the `commands` table (with `source` `api`); an unregistered device is answered 404, one whose key has been revoked 409 |
+ | `GET /devices/:id/state` | login | the actuator state: what the server wants (`desired`), what the device reported last (`reported`, from `telemetry.state` or `ack.state`), when that report arrived, and the actuators that don't match yet (`diff`) |
+ | `GET /rules` | login | every automation rule the server is using right now; schedule rules also carry `next_run` (UTC) |
+-| `POST /rules` | admin | creates a new rule: a threshold rule (`condition.kind` `threshold` + `action.kind` `switch`) or a schedule rule (`schedule` + `command`); it applies right away |
++| `POST /rules` | admin | creates a new rule: a rising threshold (`condition.kind` `threshold`) or, since Module 24, a falling one (`below-threshold`) with a `switch` or a `command` action (sent once), or a schedule (`schedule` + `command`); it applies right away |
+ | `PUT /rules/:id` | admin | replaces the whole content of one rule; it applies right away without restarting the server, and the threshold of a fan rule is sent to the device as a retained `config` |
++| `DELETE /rules/:id` | admin | deletes one rule (Module 24); it stops applying right away, and the answer is `{ id, name, message }`. Its desired state is forgotten too, so a device that restarts doesn't receive that rule's command again; an actuator it turned on is left as it is. Its command and event history stays (its `rule_id` column becomes empty). To keep a rule without running it, use `PUT` with `"active": false` |
+ | `POST /rules/:id/run` | admin | runs the action of one schedule rule right now (to test it, without waiting for its time) |
+ 
+ "login" = any account that is logged in (`admin` or `viewer`). Live data is available through **Socket.IO** at the same address (`/socket.io/`), also with the `access` cookie: send `follow` with a `device_id` (its answer carries the last reading) to receive that device's `telemetry` events; the `status` and `event` events go to every client. Without the cookie, the connection is refused (`connect_error` `not logged in`); when the wristband expires, the server cuts the connection and the client must refresh, then connect again. An example client: `tools/live-terminal.js` (its account is read from `tools/.env`).
+@@ -105,6 +108,18 @@ Automation rules are stored in the `rules` table as JSON data checked by Zod. A
+  "action":{"kind":"switch","device_id":"a4cf12e5b7c0","target":"fan","notify":true}}
+ ```
+ 
++Since Module 24 (v1.1), a threshold rule can also point **downwards** (`below-threshold`): it turns on when its quantity stays **below** `on_below` continuously for `for_seconds` seconds, then turns off (ready again) **above** `off_above`, which must be greater than `on_below` (hysteresis). Both threshold directions may use a `switch` action (the fan or lamp is on while the rule is on) or a `command` action, which is sent **once** when the rule turns on; nothing is sent when the rule turns off. A schedule may still only use a `command` action. An example, "water if soil < 30 %":
++
++```json
++{"name":"Water if soil < 30 %","active":true,
++  "condition":{"kind":"below-threshold","device_id":"a4cf12e5b7c0","quantity":"soil","on_below":30,"off_above":35,"for_seconds":10},
++  "action":{"kind":"command","device_id":"a4cf12e5b7c0","command":{"target":"pump","value":5},"notify":true}}
++```
++
++When the soil stays below 30 % for 10 seconds, the pump waters for 5 seconds and the event `🌱 Soil 25 % — pump watering for 5 seconds automatically` is recorded. The pump doesn't water again until the soil has risen above 35 % (`✅ Soil up to 36 % — rule ready again`); a decision is only made when the rule changes state. If the device refuses the command (for example `pump refused: tank water too low`) or doesn't answer within 5 seconds, the event reads `⚠️ Soil 25 % — pump command refused by the device: pump refused: tank water too low` (or `… pump did NOT answer the command (not sent again)`), and the rule only waters again at the next dry spell or after the rule is saved again (for example deactivated, then activated again); without this pause, an empty tank would trigger the same event every few seconds.
++
++The rule shapes are written in `src/schemas/rule-basics.ts` (without node-cron, so the dashboard can use an identical copy in the browser, Module 24); `src/schemas/rules.ts` uses all of it, then adds one check that only works on the server: the content of the cron expression (`invalid cron expression`).
++
+ With `bucket`, the answer has the shape `{ device_id, from, to, bucket, count, summary: [ { time, avg_temp, min_temp, max_temp, avg_humidity, avg_soil, avg_light, reading_count } ] }`. `time` is the start of the bucket (UTC), and `from` is rounded down to the start of a bucket. The 15-minute summary is computed directly from the raw readings, the hourly summary is read from `readings_hourly`, and the daily summary combines the hourly summaries into WIB days. Its daily averages are exactly the same as a calculation from the raw readings, because every hour stores an average and the number of values (`avg_temp` and `temp_n`, and so on).
+ 
+ The Bruno collection for every route is in the `bruno/` folder (choose the `local` environment).
+@@ -184,7 +199,22 @@ SELECT (SELECT count(*) FROM readings) AS readings,
+ 
+ Once it is proven, delete the copy with `docker exec smarthome-db dropdb -U postgres smarthome_restored`.
+ 
+-## Limits of v1.0
++## Version 1.1 notes
++
++Backend 1.1.0 was made in Module 24 so that dashboard v1.0 can create the rule "water if soil < 30 %" and delete rules.
++
++- **The `below-threshold` condition** (`on_below`, `off_above`, `for_seconds`), evaluated by the same brain as the `threshold` condition (`evaluateBelowThreshold` in `src/rules/engine.ts`).
++- **A `command` action for threshold conditions** (rising or falling): sent once when the rule turns on. The only refused pair left is schedule + switch, with the new `400` message `a schedule condition goes with a command action; a switch action only goes with a threshold or below-threshold condition` (v1.0: `a threshold condition goes with a switch action; a schedule condition with a command action`, and threshold + command was still refused).
++- **`DELETE /rules/:id`** (admin), and `DELETE` added to the CORS `methods` in `src/auth/security.ts` so that the browser passes the preflight. The `rule-changed` event of a deleted rule is written with an empty `rule_id` (its number is in `data.id`), because its row no longer exists. Commands and events of a rule deleted while its command is still waiting for an ack are recorded too, with an empty `rule_id`.
++- **A deleted or deactivated rule doesn't act anymore**, also not through reconciliation: its desired state is forgotten (`forgetRuleWishes()` in `src/services/commands.ts`). In v1.0, a lamp turned on by a rule that was later deactivated was turned on again when its device restarted.
++- **`data.ok` in `rule` and `schedule` events**: `true` if the device answered ok, `false` if the command was refused, not answered, not sent, or the schedule was missed, `null` if no command was sent (the rule is ready again). Dashboard v1.0 uses it for the color of the notice, without guessing from the sentence.
++- **The Telegram reminder** of a `command` rule reads `… — rule "Water if soil < 30 %" not ready again yet (waiting for soil above 35) (reminder)`, not "still on": the pump turned off long ago.
++- **The schema is split in two**: `src/schemas/rule-basics.ts` (every rule shape, needs only `zod` and `contract.ts`, copied identically to `frontend/src/schemas/`) and `src/schemas/rules.ts` (adds the cron check with node-cron, only on the server). The other backend files still import from `rules.ts`.
++- **No database migration**: conditions and actions are stored as JSON (`jsonb`), and `commands.rule_id` and `events.rule_id` have been `ON DELETE SET NULL` since migration `007`. The data contract stays **1.4**; the firmware doesn't change.
++- **Downgrading**: a v1.0 backend that reads a rule of the new shape doesn't crash; that rule is skipped with the warning `rule N skipped: …` (see `loadRules()`), and the other rules keep running. A skipped rule is NOT shown by `GET /rules` in v1.0 either (the dashboard seems to lose it); its data stays whole in the database and shows again once you move up to 1.1. Don't save that rule number through a v1.0 `PUT`: its content would be overwritten with a v1.0 shape.
++- Version `1.1.0` in `package.json` and in `/docs`.
++
++## Limits of v1.1
+ 
+ - `GET /devices/:id/latest`, `vitals`, and `state` are still read from memory, so they are empty again after every server restart. The desired state (`desired`) and the "for" count of every rule are also lost when the server restarts; the reading history, the commands, the rules, the events, the accounts, and the sessions are stored permanently in the database.
+ - Readings that arrive while the database can't be reached aren't stored.
+@@ -192,6 +222,10 @@ Once it is proven, delete the copy with `docker exec smarthome-db dropdb -U post
+ - The days of the `1d` summary are WIB days (`Asia/Jakarta`), also for devices in WITA or WIT. Rule schedules are counted in WIB too.
+ - Rules and schedules only run while the backend is running. A schedule that is more than 15 minutes late (for example a laptop asleep at 06:00) isn't run afterwards, only recorded; if the backend is off at that time, nothing is recorded. When the broker can't be reached, Node 1 runs its own fan safety with the threshold from `config`.
+ - Changes made to the rules directly in the database (for example through DBeaver) are only read when the server restarts or when another rule is changed through the API; use the `/rules` API.
++- A rule with a `command` action (for example the pump, once) only acts when the rule changes state. Because its count is lost when the server restarts or the rule is changed, its command is sent once more if its condition still holds after that.
++- Deactivating or deleting a fan rule does **not** withdraw the retained `temp_fan_on` `config` already sent: Node 1 keeps using that last number as its local safety rule while the broker can't be reached.
++- Deleting or deactivating a `switch` rule that is on does **not** turn its actuator off: the fan or lamp is left in its last state (the server sends no command at all). Turn it off with the dashboard button or `POST /devices/:id/command`.
++- The backend only sends `temp_fan_on`, never `soil_watering`. Node 1 v1.6.0 still waters by itself (3 seconds, then a 30-second pause) when the soil is below its local threshold, 30 % by default, even while the backend is running. To let the server's watering rule act first, lower the local threshold below the server rule's threshold in the Serial Monitor (`threshold 20`); local watering then only acts if the soil keeps drying to below 20 %, for example when the backend is off or the Wi-Fi drops. The firmware's tank safety check (`pump refused: tank water too low` below 20 %) still protects both.
+ - A wristband (access JWT) that was handed out stays valid until it expires (15 minutes at most), also after a logout, a role change, a password change, or a deleted account; a Socket.IO connection that is running is only cut when its wristband runs out too (except a logout of that very session, or an old season pass used again 30 seconds or more after it was replaced, which cut it right away).
+ - The rate-limit counts are kept in the memory of one server: a restart = zero, and they don't fit several servers at once.
+ - The cookies aren't `Secure` yet because the server is still `http://`; HTTPS comes in Phase 5. The server still only accepts guests from this laptop (`HOST=127.0.0.1`).
+diff --git a/backend/bruno/create soil watering rule.yml b/backend/bruno/create soil watering rule.yml
+new file mode 100644
+index 0000000..3a66dbd
+--- /dev/null
++++ b/backend/bruno/create soil watering rule.yml	
+@@ -0,0 +1,46 @@
++info:
++  name: create soil watering rule
++  type: http
++  seq: 24
++
++http:
++  method: POST
++  url: "{{baseUrl}}/rules"
++  body:
++    type: json
++    data: |-
++      {
++        "name": "Water if soil < 30 %",
++        "active": true,
++        "condition": {
++          "kind": "below-threshold",
++          "device_id": "a4cf12e5b7c0",
++          "quantity": "soil",
++          "on_below": 30,
++          "off_above": 35,
++          "for_seconds": 10
++        },
++        "action": {
++          "kind": "command",
++          "device_id": "a4cf12e5b7c0",
++          "command": {
++            "target": "pump",
++            "value": 5
++          },
++          "notify": true
++        }
++      }
++  auth: inherit
++
++runtime:
++  assertions:
++    - expression: res.status
++      operator: eq
++      value: "201"
++
++settings:
++  encodeUrl: true
++  timeout: 0
++  followRedirects: true
++  maxRedirects: 5
++  forwardAuthorizationHeader: true
+diff --git a/backend/bruno/delete rule.yml b/backend/bruno/delete rule.yml
+new file mode 100644
+index 0000000..621964f
+--- /dev/null
++++ b/backend/bruno/delete rule.yml	
+@@ -0,0 +1,22 @@
++info:
++  name: delete rule
++  type: http
++  seq: 25
++
++http:
++  method: DELETE
++  url: "{{baseUrl}}/rules/4"
++  auth: inherit
++
++runtime:
++  assertions:
++    - expression: res.status
++      operator: eq
++      value: "200"
++
++settings:
++  encodeUrl: true
++  timeout: 0
++  followRedirects: true
++  maxRedirects: 5
++  forwardAuthorizationHeader: true
+diff --git a/backend/package-lock.json b/backend/package-lock.json
+index 46a5984..dd2cffc 100644
+--- a/backend/package-lock.json
++++ b/backend/package-lock.json
+@@ -1,12 +1,12 @@
+ {
+   "name": "mini-smart-home-backend",
+-  "version": "1.0.0",
++  "version": "1.1.0",
+   "lockfileVersion": 3,
+   "requires": true,
+   "packages": {
+     "": {
+       "name": "mini-smart-home-backend",
+-      "version": "1.0.0",
++      "version": "1.1.0",
+       "dependencies": {
+         "@fastify/cookie": "^11.1.3",
+         "@fastify/cors": "^11.3.1",
+@@ -1236,9 +1236,9 @@
+       }
+     },
+     "node_modules/ajv/node_modules/fast-uri": {
+-      "version": "3.1.8",
+-      "resolved": "https://registry.npmjs.org/fast-uri/-/fast-uri-3.1.8.tgz",
+-      "integrity": "sha512-GZMtZUTNRpOVIECoXwLNZS5xUGE+mVNbTB8h/7Rwh2TFWcBQiPzTgyZi05BF9UMZKkLJv8XBRJTlU7zg8+ZfMg==",
++      "version": "3.1.9",
++      "resolved": "https://registry.npmjs.org/fast-uri/-/fast-uri-3.1.9.tgz",
++      "integrity": "sha512-hS/0Wt3Ya043oKXs0sIxrMpKQITXhMLIrVAKKXi4gozGC9v7YRWVnXIZzjNPTO02M9BdxLCWqK1yRXgNziVyJQ==",
+       "funding": [
+         {
+           "type": "github",
+@@ -1785,9 +1785,9 @@
+       }
+     },
+     "node_modules/fast-uri": {
+-      "version": "4.2.2",
+-      "resolved": "https://registry.npmjs.org/fast-uri/-/fast-uri-4.2.2.tgz",
+-      "integrity": "sha512-EwVpUMzLVNOmcWW0zi5G3JJwkopB6XXjnVvNBGfqrMMsVew2hkQWl5e/pe/CfYUeS6jt4cIO2MnamEW7v/7wPw==",
++      "version": "4.2.3",
++      "resolved": "https://registry.npmjs.org/fast-uri/-/fast-uri-4.2.3.tgz",
++      "integrity": "sha512-I1PXwP5eAhlNlcdpjt9CgB59op2ZvZfxw+BkqGFVIUOgNpCVTcTqp3HhTX7brxj5vsip+nSY4nTvff+eIA76hg==",
+       "funding": [
+         {
+           "type": "github",
+@@ -2101,9 +2101,9 @@
+       }
+     },
+     "node_modules/json-schema-resolver/node_modules/fast-uri": {
+-      "version": "3.1.8",
+-      "resolved": "https://registry.npmjs.org/fast-uri/-/fast-uri-3.1.8.tgz",
+-      "integrity": "sha512-GZMtZUTNRpOVIECoXwLNZS5xUGE+mVNbTB8h/7Rwh2TFWcBQiPzTgyZi05BF9UMZKkLJv8XBRJTlU7zg8+ZfMg==",
++      "version": "3.1.9",
++      "resolved": "https://registry.npmjs.org/fast-uri/-/fast-uri-3.1.9.tgz",
++      "integrity": "sha512-hS/0Wt3Ya043oKXs0sIxrMpKQITXhMLIrVAKKXi4gozGC9v7YRWVnXIZzjNPTO02M9BdxLCWqK1yRXgNziVyJQ==",
+       "funding": [
+         {
+           "type": "github",
+diff --git a/backend/package.json b/backend/package.json
+index 56d1602..a074b79 100644
+--- a/backend/package.json
++++ b/backend/package.json
+@@ -1,6 +1,6 @@
+ {
+   "name": "mini-smart-home-backend",
+-  "version": "1.0.0",
++  "version": "1.1.0",
+   "description": "Mini Smart Home backend (Modules 16-21): listens to MQTT, checks the data contract, stores every message in a time-series database, and provides a history API, realtime data, commands, automation rules, schedules, and Telegram notifications, login with admin and viewer roles, plus an official device registry with a per-device key and the backend's own broker account",
+   "private": true,
+   "type": "module",
+diff --git a/backend/src/auth/security.ts b/backend/src/auth/security.ts
+index 1f2ca75..bdfc071 100644
+--- a/backend/src/auth/security.ts
++++ b/backend/src/auth/security.ts
+@@ -49,7 +49,9 @@ export async function setupSecurity(app: FastifyInstance): Promise<void> {
+   await app.register(cors, {
+     origin: env.CORS_ORIGIN, // an exact list, not "*": with credentials, browsers refuse "*"
+     credentials: true, // let the browser send cookies from pages at those origins
+-    methods: ["GET", "HEAD", "POST", "PUT"], // PUT /rules/:id; the plugin's default is only GET, HEAD, POST
++    // the plugin's default is only GET, HEAD, POST. PUT /rules/:id (Module 19) and DELETE /rules/:id (Module 24) must be listed
++    // here: without them the browser already refuses at the preflight, even though the route exists (curl and Bruno unaffected)
++    methods: ["GET", "HEAD", "POST", "PUT", "DELETE"],
+   });
+   await app.register(cookie); // no secret: the JWT is already signed, and refresh tokens are checked in the database
+   await app.register(jwt, {
+diff --git a/backend/src/db/archive.ts b/backend/src/db/archive.ts
+index 5de2354..9c2eb84 100644
+--- a/backend/src/db/archive.ts
++++ b/backend/src/db/archive.ts
+@@ -1,6 +1,6 @@
+ // archive.ts - writes the messages that passed the contract checks to the database, and reads them back for the history API
+ // (raw readings, or their summary per 15 minutes, per hour, and per day). Module 19: automation rules (the rules table) and
+-// the event log (the events table).
++// the event log (the events table). Module 24: rules can be deleted too.
+ // The in-memory store (store.ts) remains the "notice board" for the latest state; the database is its archive book.
+ import { pool } from "./pool.ts";
+ import type { Ack, SetCommand, Status, TelemetryNode1, TelemetryNode2, Vitals } from "../schemas/contract.ts";
+@@ -52,11 +52,13 @@ export async function archiveVitals(deviceId: string, content: Vitals): Promise<
+ 
+ // One command with its result: the ack (ok or refused), or null if no ack came within 5 seconds. Module 19: also
+ // who ordered it (source), which rule (if it came from a rule or a schedule), and the actuator state according to its ack.
++// Module 24: rule_id is taken through (SELECT id FROM rules …): a rule deleted WHILE its command waits for an ack makes
++// rule_id NULL (the same as ON DELETE SET NULL), not a "violates foreign key constraint" error that throws the record away.
+ export async function archiveCommand(commandId: string, deviceId: string, command: SetCommand, sentAt: Date,
+   ack: Ack | null, waitMs: number, source: string, ruleId: number | null): Promise<void> {
+   await pool.query(
+     `INSERT INTO commands (id, device_id, sent_at, target, value, ack_ok, ack_message, wait_ms, source, rule_id, state)
+-     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
++     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, (SELECT id FROM rules WHERE id = $10), $11)`,
+     [commandId, deviceId, sentAt, command.target, JSON.stringify(command.value), ack?.ok ?? null,
+       ack?.message ?? null, waitMs, source, ruleId, ack === null ? null : JSON.stringify(ack.state)],
+   );
+@@ -97,6 +99,13 @@ export async function updateRule(id: number, a: Rule): Promise<RuleRow | undefin
+   return result.rows[0];
+ }
+ 
++// Module 24: delete one rule. The result is the number and name of the deleted rule, or undefined if no rule has that
++// number. Its command and event history is NOT deleted with it: its rule_id column becomes NULL (ON DELETE SET NULL, migration 007).
++export async function deleteRuleDb(id: number): Promise<{ id: number; name: string } | undefined> {
++  const result = await pool.query<{ id: number; name: string }>("DELETE FROM rules WHERE id = $1 RETURNING id, name", [id]);
++  return result.rows[0];
++}
++
+ // Module 19: the event log (the events table, migration 007).
+ export type EventKind = "rule" | "rule-changed" | "schedule" | "status" | "offline-report" | "command";
+ 
+@@ -115,14 +124,17 @@ export interface SavedEvent extends NewEvent {
+   occurred_at: string;
+ }
+ 
++// Module 24: rule_id through (SELECT id FROM rules …), for the same reason as archiveCommand: an event from a rule that
++// was just deleted is still recorded (rule_id NULL), and the stored value is the one that is broadcast.
+ export async function saveEvent(e: NewEvent): Promise<SavedEvent> {
+-  const result = await pool.query<{ id: string; occurred_at: Date }>(
+-    `INSERT INTO events (device_id, kind, source, rule_id, message, data) VALUES ($1, $2, $3, $4, $5, $6)
+-     RETURNING id, occurred_at`,
++  const result = await pool.query<{ id: string; occurred_at: Date; rule_id: number | null }>(
++    `INSERT INTO events (device_id, kind, source, rule_id, message, data)
++     VALUES ($1, $2, $3, (SELECT id FROM rules WHERE id = $4), $5, $6)
++     RETURNING id, occurred_at, rule_id`,
+     [e.device_id, e.kind, e.source, e.rule_id, e.message, e.data === undefined ? null : JSON.stringify(e.data)],
+   );
+-  const { id, occurred_at } = result.rows[0];
+-  return { id: Number(id), occurred_at: contractTime(occurred_at), ...e }; // a bigint comes from pg as text
++  const { id, occurred_at, rule_id } = result.rows[0];
++  return { id: Number(id), occurred_at: contractTime(occurred_at), ...e, rule_id }; // a bigint comes from pg as text
+ }
+ 
+ // A time in the data contract format (UTC, without milliseconds), for example 2026-10-20T03:10:00Z
+diff --git a/backend/src/routes/rules.test.ts b/backend/src/routes/rules.test.ts
+new file mode 100644
+index 0000000..5cbb89e
+--- /dev/null
++++ b/backend/src/routes/rules.test.ts
+@@ -0,0 +1,96 @@
++// rules.test.ts - tests for the DELETE /rules/:id route (Module 24) WITHOUT a database, MQTT, or schedules: automation.ts and
++// schedule.ts are replaced by fakes (vi.mock), the Fastify server runs without a network (app.inject). Unlike devices.test.ts,
++// the REAL guard (security.ts) is mounted here, to prove that a new route is guarded automatically: guests 401, viewer 403,
++// a foreign page 403, and a browser on a page in CORS_ORIGIN may send DELETE (preflight). Run: npm test
++import { afterAll, describe, expect, it, vi } from "vitest";
++
++vi.hoisted(() => { // env.ts checks .env when imported: give it valid fake settings (nothing is really contacted)
++  process.env.MQTT_URL = "mqtt://127.0.0.1:1";
++  process.env.DATABASE_URL = "postgres://fake:fake@127.0.0.1:1/fake";
++  process.env.JWT_SECRET = "test-secret-long-enough-for-zod-0123456789";
++  process.env.CORS_ORIGIN = "http://localhost:5173"; // the dashboard page (Vite) that may call the API from a browser
++});
++
++// the fake rules table: number -> rule name
++const table = vi.hoisted(() => new Map<number, string>([[1, "Water if soil < 30 %"], [2, "Automatic fan"]]));
++vi.mock("../services/automation.ts", () => ({
++  allRules: () => [],
++  findRule: () => undefined,
++  createRule: async () => { throw new Error("not used in this test"); },
++  replaceRule: async () => undefined,
++  deleteRule: async (id: number) => { // like deleteRuleDb: the number and name that were deleted, or undefined
++    const name = table.get(id);
++    if (name === undefined) return undefined;
++    table.delete(id);
++    return { id, name };
++  },
++}));
++vi.mock("../services/schedule.ts", () => ({
++  nextRun: () => null,
++  runSchedule: async () => { throw new Error("not used in this test"); },
++}));
++
++import Fastify from "fastify";
++import { serializerCompiler, validatorCompiler } from "fastify-type-provider-zod";
++import { setupSecurity } from "../auth/security.ts";
++import { ruleRoutes } from "./rules.ts";
++
++const app = Fastify();
++app.setValidatorCompiler(validatorCompiler);
++app.setSerializerCompiler(serializerCompiler);
++await setupSecurity(app); // CORS, cookies, JWT, and the same guard as server.ts
++await app.register(ruleRoutes);
++await app.ready();
++afterAll(() => app.close());
++
++// a "wristband" (access JWT) that is valid because it is signed with the test JWT_SECRET above, sent as the access cookie
++const wristband = (role: "admin" | "viewer") => ({ access: app.jwt.sign({ sub: role === "admin" ? "1" : "2", role, sid: 1 }) });
++const DASHBOARD = "http://localhost:5173";
++
++describe("DELETE /rules/:id", () => {
++  it("guest (not logged in): 401, the rule is still there", async () => {
++    const answer = await app.inject({ method: "DELETE", url: "/rules/1" });
++    expect(answer.statusCode).toBe(401);
++    expect(table.has(1)).toBe(true);
++  });
++
++  it("viewer: may see the rule list (200), but deleting is answered 403 and the rule is still there", async () => {
++    expect((await app.inject({ method: "GET", url: "/rules", cookies: wristband("viewer") })).statusCode).toBe(200);
++    const answer = await app.inject({ method: "DELETE", url: "/rules/1", cookies: wristband("viewer") });
++    expect(answer.statusCode).toBe(403);
++    expect(answer.json()).toEqual({ message: "viewer accounts can only look; commands and changes are admin-only" });
++    expect(table.has(1)).toBe(true);
++  });
++
++  it("admin: 200 with the number, name, and message; deleted once more: 404", async () => {
++    const answer = await app.inject({ method: "DELETE", url: "/rules/1", cookies: wristband("admin") });
++    expect(answer.statusCode).toBe(200);
++    expect(answer.json()).toEqual({ id: 1, name: "Water if soil < 30 %", message: "rule 1 (Water if soil < 30 %) deleted" });
++    const again = await app.inject({ method: "DELETE", url: "/rules/1", cookies: wristband("admin") });
++    expect(again.statusCode).toBe(404);
++    expect(again.json()).toEqual({ message: "rule 1 doesn't exist" });
++  });
++
++  it("a rule number that isn't a number: 400", async () => {
++    expect((await app.inject({ method: "DELETE", url: "/rules/abc", cookies: wristband("admin") })).statusCode).toBe(400);
++  });
++
++  it("a browser on a foreign page: 403 even for an admin, the rule is still there", async () => {
++    const answer = await app.inject({ method: "DELETE", url: "/rules/2", cookies: wristband("admin"),
++      headers: { origin: "http://foreign-example.test" } });
++    expect(answer.statusCode).toBe(403);
++    expect(answer.json()).toEqual({ message: "request from the page http://foreign-example.test refused" });
++    expect(table.has(2)).toBe(true);
++  });
++
++  it("a browser on the dashboard (CORS_ORIGIN): the preflight allows DELETE, then the request is accepted", async () => {
++    const preflight = await app.inject({ method: "OPTIONS", url: "/rules/2",
++      headers: { origin: DASHBOARD, "access-control-request-method": "DELETE" } });
++    expect(preflight.statusCode).toBe(204);
++    expect(preflight.headers["access-control-allow-methods"]).toBe("GET, HEAD, POST, PUT, DELETE");
++    const answer = await app.inject({ method: "DELETE", url: "/rules/2", cookies: wristband("admin"), headers: { origin: DASHBOARD } });
++    expect(answer.statusCode).toBe(200);
++    expect(answer.headers["access-control-allow-origin"]).toBe(DASHBOARD);
++    expect(table.has(2)).toBe(false);
++  });
++});
+diff --git a/backend/src/routes/rules.ts b/backend/src/routes/rules.ts
+index 711974b..36a2c7a 100644
+--- a/backend/src/routes/rules.ts
++++ b/backend/src/routes/rules.ts
+@@ -1,11 +1,11 @@
+ // rules.ts - the /rules routes (Module 19): view, create, and change automation rules without changing code and without
+-// restarting the server, and run a schedule rule right now to test it.
++// restarting the server, and run a schedule rule right now to test it. Module 24: delete them too.
+ import { z } from "zod";
+ import type { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
+ import { Ack } from "../schemas/contract.ts";
+ import { Rule, RuleFields } from "../schemas/rules.ts";
+ import type { StoredRule } from "../schemas/rules.ts";
+-import { createRule, findRule, replaceRule, allRules } from "../services/automation.ts";
++import { createRule, findRule, replaceRule, deleteRule, allRules } from "../services/automation.ts";
+ import { nextRun, runSchedule } from "../services/schedule.ts";
+ import { contractTime } from "../db/archive.ts";
+ 
+@@ -76,6 +76,31 @@ export const ruleRoutes: FastifyPluginAsyncZod = async (app) => {
+     }
+   });
+ 
++  // Module 24: the "D" of CRUD. Deactivating (PUT with "active": false) keeps the rule to use again; deleting throws it
++  // away. Its old command and event history stays. Like the other routes that change something, viewer accounts are
++  // answered 403 by the guard (security.ts) before they get here.
++  app.delete("/rules/:id", {
++    schema: {
++      tags: ["rules"],
++      summary: "Delete one rule; it stops applying right away. Its command and event history stays",
++      params: IdParam,
++      response: {
++        200: z.object({ id: z.number(), name: z.string(), message: z.string() }).describe("the rule is deleted"),
++        404: ErrorBody.describe("no rule has that number"),
++        503: ErrorBody.describe("the database can't be reached right now"),
++      },
++    },
++  }, async (req, reply) => {
++    try {
++      const result = await deleteRule(req.params.id);
++      if (result === undefined) return reply.code(404).send({ message: `rule ${req.params.id} doesn't exist` });
++      return { ...result, message: `rule ${result.id} (${result.name}) deleted` };
++    } catch (error) {
++      req.log.error(`rule ${req.params.id} couldn't be deleted: ${(error as Error).message}`);
++      return reply.code(503).send({ message: "the database can't be reached right now, try again shortly" });
++    }
++  });
++
+   app.post("/rules/:id/run", {
+     schema: {
+       tags: ["rules"],
+diff --git a/backend/src/rules/engine.test.ts b/backend/src/rules/engine.test.ts
+index 532b198..3e1454e 100644
+--- a/backend/src/rules/engine.test.ts
++++ b/backend/src/rules/engine.test.ts
+@@ -1,10 +1,11 @@
+ // engine.test.ts - the project's first unit tests (Module 19): the rules brain without MQTT, a database, or a real clock.
+-// Run: npm test
++// Module 24: plus the "below threshold" rule (water when the soil is dry) and rule schema 1.1. Run: npm test
+ import { describe, expect, it } from "vitest";
+-import { INITIAL_RECORD, INITIAL_MEMORY, REMINDER_MS, evaluateThreshold, shouldNotify } from "./engine.ts";
++import { INITIAL_RECORD, INITIAL_MEMORY, REMINDER_MS, evaluateThreshold, evaluateBelowThreshold, shouldNotify } from "./engine.ts";
+ import type { Memory, Decision } from "./engine.ts";
+ import { Rule } from "../schemas/rules.ts";
+-import type { ThresholdCondition } from "../schemas/rules.ts";
++import type { BelowThresholdCondition, ThresholdCondition } from "../schemas/rules.ts";
++import { Rule as BaseRule } from "../schemas/rule-basics.ts"; // Module 24: the version without node-cron (copied in the frontend)
+ 
+ // an example fan rule: on above 30 °C for 2 minutes, off below 28 °C
+ const FAN: ThresholdCondition = {
+@@ -116,3 +117,106 @@ describe("rule schema (Zod)", () => {
+     expect(Rule.safeParse({ ...watering, condition: { kind: "schedule", cron: "61 * * * *" } }).success).toBe(false);
+   });
+ });
++
++// ---------- Module 24: the below-threshold condition ----------
++
++// an example watering rule: soil below 30 % for 20 seconds -> the pump once; ready again after the soil rises above 35 %
++const WATERING: BelowThresholdCondition = {
++  kind: "below-threshold", device_id: "f00d00000001", quantity: "soil", on_below: 30, off_above: 35, for_seconds: 20,
++};
++
++// the same as run() above, but for the watering rule
++function runWatering(readings: [number, number | null][], initial: Memory = INITIAL_MEMORY) {
++  let memory = initial;
++  const decisions: Decision[] = [];
++  for (const [second, value] of readings) {
++    const result = evaluateBelowThreshold(WATERING, memory, value, T0 + second * 1000);
++    memory = result.memory;
++    decisions.push(result.decision);
++  }
++  return { memory, decisions };
++}
++
++describe("watering rule, soil below the threshold (evaluateBelowThreshold)", () => {
++  it("soil exactly 30 %: no watering (it must be BELOW 30)", () => {
++    const { memory, decisions } = runWatering(every10Seconds(0, 120, 30));
++    expect(decisions.every((k) => k === null)).toBe(true);
++    expect(memory.active).toBe(false);
++  });
++
++  it("soil 25 % for only 10 seconds: still waiting", () => {
++    const { memory, decisions } = runWatering(every10Seconds(0, 10, 25));
++    expect(decisions.at(-1)).toBeNull();
++    expect(memory.since).toBe(T0); // the count starts from the first dry reading
++  });
++
++  it("soil 25 % for 20 seconds: turns on (the pump is sent) only once, even though the soil stays at 25 %", () => {
++    const { decisions } = runWatering(every10Seconds(0, 120, 25));
++    expect(decisions[2]).toBe("turn-on"); // the 3rd reading, second 20
++    expect(decisions.filter((k) => k === "turn-on")).toHaveLength(1); // a decision only at the edge
++  });
++
++  it("soil rises to 31 % in the middle of the count: the count starts again", () => {
++    const { memory, decisions } = runWatering([[0, 25], [10, 31], [20, 25], [30, 25]]);
++    expect(decisions).not.toContain("turn-on"); // seconds 20 to 30 are only 10 seconds
++    expect(memory.since).toBe(T0 + 20_000);
++  });
++
++  it("already on: 33 % and exactly 35 % stay on (hysteresis gap), 36 %: off, ready to water again", () => {
++    const { memory, decisions } = runWatering([[10, 33], [20, 35], [30, 36]], ON);
++    expect(decisions).toEqual([null, null, "turn-off"]);
++    expect(memory.active).toBe(false);
++  });
++
++  it("a null reading (failed sensor): no decision, the count starts again", () => {
++    const { memory, decisions } = runWatering([[0, 25], [10, null], [20, 25]]);
++    expect(decisions).not.toContain("turn-on");
++    expect(memory.since).toBe(T0 + 20_000);
++  });
++});
++
++describe("rule schema 1.1 (Zod)", () => {
++  const soilWatering = {
++    name: "Water if soil < 30 %", active: true, condition: WATERING,
++    action: { kind: "command", device_id: "f00d00000001", command: { target: "pump", value: 5 }, notify: false },
++  };
++
++  it("\"water if soil < 30 %\" accepted, and the v1.0 fan rule is still accepted", () => {
++    expect(Rule.safeParse(soilWatering).success).toBe(true);
++    expect(Rule.safeParse({ name: "Automatic fan", active: true, condition: FAN,
++      action: { kind: "switch", device_id: "f00d00000001", target: "fan", notify: true } }).success).toBe(true);
++  });
++
++  it("an off_above that isn't greater than on_below is refused, its error in the off_above field", () => {
++    const result = Rule.safeParse({ ...soilWatering, condition: { ...WATERING, off_above: 30 } });
++    expect(result.success).toBe(false);
++    expect(result.error?.issues[0]).toMatchObject({
++      path: ["condition", "off_above"], message: "off_above must be greater than on_below (hysteresis)",
++    });
++  });
++
++  it("a rising threshold rule may send a command once (for example close the curtain when it is too bright)", () => {
++    const curtain = { ...soilWatering, name: "Close curtain on glare",
++      condition: { kind: "threshold", device_id: "f00d00000001", quantity: "light", on_above: 3500, off_below: 3000,
++        for_seconds: 60 },
++      action: { kind: "command", device_id: "f00d00000001", command: { target: "curtain", value: 0 }, notify: false } };
++    expect(Rule.safeParse(curtain).success).toBe(true);
++  });
++
++  it("a schedule with a switch action is still refused: a schedule has no time to turn off", () => {
++    const result = Rule.safeParse({ ...soilWatering, condition: { kind: "schedule", cron: "0 6 * * *" },
++      action: { kind: "switch", device_id: "f00d00000001", target: "lamp", notify: false } });
++    expect(result.success).toBe(false);
++    expect(result.error?.issues.map((i) => i.message)).toContain(
++      "a schedule condition goes with a command action; a switch action only goes with a threshold or below-threshold condition");
++  });
++
++  it("rule-basics.ts (also used by the dashboard) only checks the 5 cron fields; rules.ts (server) checks their content", () => {
++    const minute61 = { ...soilWatering, condition: { kind: "schedule", cron: "61 * * * *" } };
++    expect(BaseRule.safeParse(minute61).success).toBe(true);
++    const result = Rule.safeParse(minute61);
++    expect(result.success).toBe(false);
++    expect(result.error?.issues[0]).toMatchObject({ path: ["condition", "cron"], message: "invalid cron expression" });
++    expect(BaseRule.safeParse({ ...soilWatering, condition: { kind: "schedule", cron: "0 6 * *" } }).success).toBe(false);
++  });
++});
+diff --git a/backend/src/rules/engine.ts b/backend/src/rules/engine.ts
+index 6f2f6b5..a039342 100644
+--- a/backend/src/rules/engine.ts
++++ b/backend/src/rules/engine.ts
+@@ -1,11 +1,11 @@
+ // engine.ts - the "brain" of the automation rules (Module 19) as PURE functions: it reads no clock, database, or MQTT.
+ // Everything it needs comes in through the arguments, so the same input always gives the same result (easy to test).
+-import type { ThresholdCondition } from "../schemas/rules.ts";
++import type { BelowThresholdCondition, ThresholdCondition } from "../schemas/rules.ts";
+ 
+ // The memory of one threshold rule from reading to reading.
+ export interface Memory {
+   active: boolean; // is the rule "on" right now (for example, the fan should be on)?
+-  since: number | null; // when the readings started to be above the on threshold (milliseconds); null = not waiting
++  since: number | null; // when the readings started to cross the on threshold (milliseconds); null = not waiting
+   last: number | null; // when the last reading was evaluated (milliseconds)
+ }
+ 
+@@ -35,6 +35,20 @@ export function evaluateThreshold(c: ThresholdCondition, memory: Memory, value:
+   return { memory: base, decision: null }; // still above the off threshold (inside the hysteresis gap): stays on
+ }
+ 
++// Module 24: a "below" condition (for example water when the soil is below 30 %) is evaluated by the SAME brain, simply by
++// flipping the sign of every number, like looking in a mirror: "soil 25 below 30" means the same as "-25 above -30", and
++// "soil 36 above 35" (off) the same as "-36 below -35". So the "for" rule, hysteresis, reading gaps, and failed sensors
++// work exactly the same without being written again; the tests in engine.test.ts make sure the mirror is right.
++export function evaluateBelowThreshold(c: BelowThresholdCondition, memory: Memory, value: number | null, now: number):
++  { memory: Memory; decision: Decision } {
++  const mirror: ThresholdCondition = {
++    kind: "threshold", device_id: c.device_id, quantity: c.quantity, for_seconds: c.for_seconds,
++    on_above: -c.on_below, // below 30  ->  above -30
++    off_below: -c.off_above, // above 35   ->  below -35
++  };
++  return evaluateThreshold(mirror, memory, value === null ? null : -value, now);
++}
++
+ // Notification debouncing: notify when the situation changes; while still in danger, remind at most every 30 minutes.
+ export type Situation = "safe" | "danger";
+ 
+diff --git a/backend/src/schemas/rule-basics.ts b/backend/src/schemas/rule-basics.ts
+new file mode 100644
+index 0000000..0fc6ae4
+--- /dev/null
++++ b/backend/src/schemas/rule-basics.ts
+@@ -0,0 +1,102 @@
++// rule-basics.ts - the shape of an automation rule (Module 19) as a Zod schema, WITHOUT node-cron (split off in Module 24). A rule
++// is DATA, not code: only the shapes known here may come in, both through the API and from the database.
++// Module 24: this file is used in TWO places. The backend uses it through rules.ts (plus the cron check that needs
++// node-cron), and the dashboard uses an IDENTICAL COPY of it in frontend/src/schemas/, so the rule form checks the input with
++// exactly the same rules as the server. That is why this file may only import zod and contract.ts (both also run in the
++// browser). Always change it in the backend first, copy it to the frontend again, then run npm run check-schema in frontend.
++import { z } from "zod";
++import { DeviceId, SetCommand } from "./contract.ts";
++
++// the telemetry quantities a threshold rule may use
++export const Quantity = z.enum(["temperature", "humidity", "light", "soil", "water_level", "soil_rs485", "soil_temperature"]);
++
++// "If <quantity> of that device stays above <on_above> continuously for <for_seconds> seconds, the rule turns on;
++// the rule turns off again when <quantity> is below <off_below>." For example, the fan turns on above 30 °C.
++export const ThresholdCondition = z.strictObject({
++  kind: z.literal("threshold"),
++  device_id: DeviceId,
++  quantity: Quantity,
++  on_above: z.number(),
++  off_below: z.number(),
++  for_seconds: z.number().int().min(0).max(3600),
++}).refine((c) => c.off_below < c.on_above, {
++  message: "off_below must be smaller than on_above (hysteresis)",
++  path: ["off_below"],
++});
++
++// Module 24: the opposite direction. "If <quantity> stays BELOW <on_below> continuously for <for_seconds> seconds, the rule
++// turns on; the rule turns off again when <quantity> is above <off_above>." For example water when the soil is below 30 %, and
++// only water again after the soil has risen above 35 %. That 30-35 gap is hysteresis, the same as in the threshold condition.
++export const BelowThresholdCondition = z.strictObject({
++  kind: z.literal("below-threshold"),
++  device_id: DeviceId,
++  quantity: Quantity,
++  on_below: z.number(),
++  off_above: z.number(),
++  for_seconds: z.number().int().min(0).max(3600),
++}).refine((c) => c.off_above > c.on_below, {
++  message: "off_above must be greater than on_below (hysteresis)",
++  path: ["off_above"],
++});
++
++// "Every <cron> (WIB time) ..." — a 5-field cron expression: minute hour day month weekday, for example "0 6 * * *".
++// Only the number of fields is checked here. Whether each field makes sense (for example minute 61) is checked by node-cron
++// on the server (rules.ts), because node-cron can't run in a browser.
++export const ScheduleCondition = z.strictObject({
++  kind: z.literal("schedule"),
++  cron: z.string()
++    .refine((text) => text.trim().split(/\s+/).length === 5, "a schedule uses 5 fields: minute hour day month weekday"),
++});
++
++// "... then turn on <target> of that device while the rule is on, and turn it off again when the rule turns off."
++export const SwitchAction = z.strictObject({
++  kind: z.literal("switch"),
++  device_id: DeviceId,
++  target: z.enum(["fan", "lamp"]),
++  notify: z.boolean(), // send a Telegram message when this rule acts?
++});
++
++// "... then send one set command", for example the pump for 5 seconds. Uses the same command schema as the API.
++// Module 24: also allowed for threshold and below-threshold conditions. The command is sent ONCE when the rule turns on;
++// nothing is sent when the rule turns off (the pump turns itself off when its seconds are up).
++export const CommandAction = z.strictObject({
++  kind: z.literal("command"),
++  device_id: DeviceId,
++  command: SetCommand,
++  notify: z.boolean(),
++});
++
++// The fields of one rule (name, active, condition, action), without the combined checks.
++export const RuleFields = z.strictObject({
++  name: z.string().min(1).max(60),
++  active: z.boolean(),
++  condition: z.discriminatedUnion("kind", [ThresholdCondition, BelowThresholdCondition, ScheduleCondition]),
++  action: z.discriminatedUnion("kind", [SwitchAction, CommandAction]),
++});
++
++// The body of POST /rules and PUT /rules/:id, with the combined checks. The server adds one more check in rules.ts.
++export const Rule = RuleFields
++  // A switch action means "on while the rule is on". A schedule only has a start, no end, so a schedule may only send
++  // a command. Every other pair is allowed (Module 24).
++  .refine((a) => a.condition.kind !== "schedule" || a.action.kind === "command", {
++    message: "a schedule condition goes with a command action; a switch action only goes with a threshold or below-threshold condition",
++    path: ["action", "kind"],
++  })
++  // The threshold of a fan rule is also sent to the device as temp_fan_on (config, contract 1.3), so its range must be the
++  // same as what the device accepts: 15-45 °C.
++  .refine((a) => a.condition.kind !== "threshold" || a.action.kind !== "switch" || a.condition.quantity !== "temperature"
++    || a.action.target !== "fan" || (a.condition.on_above >= 15 && a.condition.on_above <= 45), {
++    message: "for a fan rule, on_above must be 15-45 °C (it is also sent to the device as temp_fan_on)",
++    path: ["condition", "on_above"],
++  });
++
++export type Quantity = z.infer<typeof Quantity>;
++export type ThresholdCondition = z.infer<typeof ThresholdCondition>;
++export type BelowThresholdCondition = z.infer<typeof BelowThresholdCondition>;
++export type ScheduleCondition = z.infer<typeof ScheduleCondition>;
++export type SwitchAction = z.infer<typeof SwitchAction>;
++export type CommandAction = z.infer<typeof CommandAction>;
++export type Rule = z.infer<typeof Rule>;
++
++// a rule already stored in the database: plus its number and its times
++export type StoredRule = Rule & { id: number; created_at: string; updated_at: string };
+diff --git a/backend/src/schemas/rules.ts b/backend/src/schemas/rules.ts
+index 227ca75..86dc576 100644
+--- a/backend/src/schemas/rules.ts
++++ b/backend/src/schemas/rules.ts
+@@ -1,75 +1,19 @@
+-// rules.ts - the shape of an automation rule (Module 19) as a Zod schema. A rule is DATA, not code: only the shapes
+-// known here may come in, both through the API and from the database.
+-import { z } from "zod";
++// rules.ts - the automation rule schema for the SERVER (Module 19). Module 24: every rule shape moved to rule-basics.ts, which
++// has no node-cron, so the dashboard can use a copy of it in the browser. Only one check that needs node-cron is added here:
++// can the cron expression of a schedule rule really be run?
++import type { z } from "zod";
+ import cron from "node-cron";
+-import { DeviceId, SetCommand } from "./contract.ts";
++import { Rule as BaseRule } from "./rule-basics.ts";
+ 
+-// the telemetry quantities a threshold rule may use
+-const Quantity = z.enum(["temperature", "humidity", "light", "soil", "water_level", "soil_rs485", "soil_temperature"]);
++// Everything in rule-basics.ts is available from this file too (ThresholdCondition, BelowThresholdCondition, SwitchAction,
++// RuleFields, their types, and so on), so the other backend files keep importing from rules.ts as they have since Module 19.
++// The Rule below replaces the Rule of rule-basics.ts: a name written in this file itself always wins.
++export * from "./rule-basics.ts";
+ 
+-// "If <quantity> of that device stays above <on_above> continuously for <for_seconds> seconds, the rule turns on;
+-// the rule turns off again when <quantity> is below <off_below>."
+-export const ThresholdCondition = z.strictObject({
+-  kind: z.literal("threshold"),
+-  device_id: DeviceId,
+-  quantity: Quantity,
+-  on_above: z.number(),
+-  off_below: z.number(),
+-  for_seconds: z.number().int().min(0).max(3600),
+-}).refine((c) => c.off_below < c.on_above, {
+-  message: "off_below must be smaller than on_above (hysteresis)",
+-  path: ["off_below"],
++// The body of POST /rules and PUT /rules/:id on the server: the basic shape + a cron expression node-cron can really run.
++export const Rule = BaseRule.refine((a) => a.condition.kind !== "schedule" || cron.validate(a.condition.cron), {
++  message: "invalid cron expression",
++  path: ["condition", "cron"],
+ });
+ 
+-// "Every <cron> (WIB time) ..." — a 5-field cron expression: minute hour day month weekday, for example "0 6 * * *"
+-export const ScheduleCondition = z.strictObject({
+-  kind: z.literal("schedule"),
+-  cron: z.string()
+-    .refine((text) => text.trim().split(/\s+/).length === 5, "a schedule uses 5 fields: minute hour day month weekday")
+-    .refine((text) => cron.validate(text), "invalid cron expression"),
+-});
+-
+-// "... then turn on <target> of that device, and turn it off again when the rule turns off."
+-export const SwitchAction = z.strictObject({
+-  kind: z.literal("switch"),
+-  device_id: DeviceId,
+-  target: z.enum(["fan", "lamp"]),
+-  notify: z.boolean(), // send a Telegram message when this rule acts?
+-});
+-
+-// "... then send one set command", for example the pump for 10 seconds. Uses the same command schema as the API.
+-export const CommandAction = z.strictObject({
+-  kind: z.literal("command"),
+-  device_id: DeviceId,
+-  command: SetCommand,
+-  notify: z.boolean(),
+-});
+-
+-// The fields of one rule (name, active, condition, action), without the combined checks.
+-export const RuleFields = z.strictObject({
+-  name: z.string().min(1).max(60),
+-  active: z.boolean(),
+-  condition: z.discriminatedUnion("kind", [ThresholdCondition, ScheduleCondition]),
+-  action: z.discriminatedUnion("kind", [SwitchAction, CommandAction]),
+-});
+-
+-// The body of POST /rules and PUT /rules/:id.
+-export const Rule = RuleFields
+-  .refine((a) => (a.condition.kind === "threshold") === (a.action.kind === "switch"), {
+-    message: "a threshold condition goes with a switch action; a schedule condition with a command action",
+-    path: ["action", "kind"],
+-  })
+-  // The threshold of a fan rule is also sent to the device as temp_fan_on (config, contract 1.3), so its range must be the
+-  // same as what the device accepts: 15-45 °C.
+-  .refine((a) => a.condition.kind !== "threshold" || a.action.kind !== "switch" || a.condition.quantity !== "temperature"
+-    || a.action.target !== "fan" || (a.condition.on_above >= 15 && a.condition.on_above <= 45), {
+-    message: "for a fan rule, on_above must be 15-45 °C (it is also sent to the device as temp_fan_on)",
+-    path: ["condition", "on_above"],
+-  });
+-
+-export type ThresholdCondition = z.infer<typeof ThresholdCondition>;
+-export type SwitchAction = z.infer<typeof SwitchAction>;
+-export type Rule = z.infer<typeof Rule>;
+-
+-// a rule already stored in the database: plus its number and its times
+-export type StoredRule = Rule & { id: number; created_at: string; updated_at: string };
++export type Rule = z.infer<typeof Rule>; // the same name for the value and its type, as in rule-basics.ts
+diff --git a/backend/src/server.ts b/backend/src/server.ts
+index 944de81..5ae957d 100644
+--- a/backend/src/server.ts
++++ b/backend/src/server.ts
+@@ -1,6 +1,7 @@
+-// server.ts - the entry point of the Mini Smart Home backend v1.0 (Module 21: the official device registry and its keys, the
+-// backend's own broker account, messages from unregistered or revoked devices ignored; on top of Module 20: login, JWT in
+-// cookies, roles, and API protection, and Module 19: realtime data, a single door for commands, automation rules, schedules, and Telegram notifications).
++// server.ts - the entry point of the Mini Smart Home backend v1.1 (Module 24: "below-threshold" rules such as watering when the
++// soil is dry, threshold rules may send one command, and rules can be deleted; on top of v1.0, Module 21: the device registry
++// and its keys, the backend's own broker account, unregistered/revoked devices ignored; Module 20: login, JWT in cookies, roles,
++// and API protection; and Module 19: realtime data, one door for commands, automation rules, schedules, and Telegram notifications).
+ // Run: npm run dev (automatically restarts when a file is saved) or npm start.
+ import Fastify, { LogController } from "fastify";
+ import swagger from "@fastify/swagger";
+@@ -41,11 +42,13 @@ await app.register(swagger, {
+   openapi: {
+     info: {
+       title: "Mini Smart Home API",
+-      description: "Backend v1.0 (Module 21). Every route needs a login, except the ones without a padlock. Log in first with "
++      description: "Backend v1.1 (Module 24). Every route needs a login, except the ones without a padlock. Log in first with "
+         + "POST /auth/login (Try it out): the browser keeps the access cookie and sends it by itself to the other routes. "
+         + "Viewer accounts can only look (GET); commands and changes are answered with 403. Devices are registered by an admin "
+-        + "with POST /devices; a key is shown only once, and messages from unregistered or revoked devices are ignored.",
+-      version: "1.0.0",
++        + "with POST /devices; a key is shown only once, and messages from unregistered or revoked devices are ignored. "
++        + "Since v1.1, a threshold rule can point downwards (below-threshold, for example water when the soil is below 30 %), can "
++        + "send one command when it turns on, and rules can be deleted (DELETE /rules/:id).",
++      version: "1.1.0",
+     },
+     components: {
+       securitySchemes: { // Module 20: routes with a padlock need the access cookie from POST /auth/login
+diff --git a/backend/src/services/automation.test.ts b/backend/src/services/automation.test.ts
+new file mode 100644
+index 0000000..95f81c3
+--- /dev/null
++++ b/backend/src/services/automation.test.ts
+@@ -0,0 +1,116 @@
++// automation.test.ts - tests for automation.ts (Module 24) WITHOUT a database, MQTT, or Telegram: all its neighbours are
++// replaced by fakes (vi.mock). Only which commands are "sent" to the device and which events are written are recorded. Tested:
++// a watering rule (below-threshold + command) waters ONCE, turns off without a command and is then ready again, a command the
++// device refuses is marked ok: false, and a rule that is deleted or deactivated doesn't act anymore. Run: npm test
++import { beforeEach, describe, expect, it, vi } from "vitest";
++
++const table = vi.hoisted(() => ({ rules: [] as Record<string, unknown>[] })); // the fake rules table
++const sent = vi.hoisted(() => [] as { target: string; value: unknown }[]); // the commands "sent" to the device
++const events = vi.hoisted(() => [] as { rule_id: number | null; message: string; data?: unknown }[]);
++const answer = vi.hoisted(() => ({ ok: true, message: undefined as string | undefined })); // the fake device's ack
++const forgotten = vi.hoisted(() => [] as number[]); // rule numbers whose wishes commands.ts forgot
++
++vi.mock("../db/archive.ts", () => ({
++  getAllRules: async () => table.rules,
++  insertRule: async () => { throw new Error("not used"); },
++  updateRule: async (id: number, content: Record<string, unknown>) => {
++    const old = table.rules.find((b) => b.id === id);
++    if (old === undefined) return undefined;
++    const fresh = { ...old, ...content };
++    table.rules = table.rules.map((b) => (b.id === id ? fresh : b));
++    return fresh;
++  },
++  deleteRuleDb: async (id: number) => {
++    const row = table.rules.find((b) => b.id === id);
++    if (row === undefined) return undefined;
++    table.rules = table.rules.filter((b) => b.id !== id);
++    return { id, name: row.name };
++  },
++  contractTime: (w: Date) => w.toISOString().slice(0, 19) + "Z",
++}));
++vi.mock("./commands.ts", () => ({
++  issueCommand: async (_device: string, command: { target: string; value: unknown }) => {
++    sent.push(command);
++    return { status: "answered", id: `c-${sent.length}`, wait_ms: 5,
++      ack: { id: `c-${sent.length}`, ts: null, ok: answer.ok, message: answer.message, state: {} } };
++  },
++  forgetRuleWishes: (ruleId: number) => { forgotten.push(ruleId); },
++}));
++vi.mock("./events.ts", () => ({ recordEvent: (e: { rule_id: number | null; message: string }) => { events.push(e); } }));
++vi.mock("./store.ts", () => ({ findDevice: () => undefined, waitForAck: async () => null }));
++vi.mock("./mqtt.ts", () => ({ makeCommandId: () => "c-config", sendConfig: () => {}, summarize: () => "" }));
++vi.mock("./schedule.ts", () => ({ installSchedules: () => {} }));
++vi.mock("./telegram.ts", () => ({ notifyIfNeeded: async () => {} }));
++
++import { deleteRule, evaluateReading, loadRules, replaceRule } from "./automation.ts";
++import type { Rule } from "../schemas/rules.ts";
++import type { TelemetryNode1 } from "../schemas/contract.ts";
++
++const ID = "f00d00000001";
++const WATERING: Rule = { name: "Water if soil < 30 %", active: true,
++  condition: { kind: "below-threshold", device_id: ID, quantity: "soil", on_below: 30, off_above: 35, for_seconds: 0 },
++  action: { kind: "command", device_id: ID, command: { target: "pump", value: 5 }, notify: false } };
++const wait = () => new Promise((r) => setTimeout(r, 0)); // give act() (async) a chance to finish
++async function reading(soil: number) {
++  evaluateReading(ID, { ts: new Date().toISOString().slice(0, 19) + "Z", soil } as unknown as TelemetryNode1);
++  await wait();
++}
++
++let ruleNo = 0; // every test uses a new rule number: a rule's memory in automation.ts lasts between tests
++
++describe("automation: the watering rule (below-threshold + command)", () => {
++  beforeEach(async () => {
++    table.rules = [{ ...structuredClone(WATERING), id: ++ruleNo, created_at: new Date(), updated_at: new Date() }];
++    sent.length = 0;
++    events.length = 0;
++    forgotten.length = 0;
++    answer.ok = true;
++    answer.message = undefined;
++    await loadRules();
++  });
++
++  it("soil 25: the pump for 5 seconds is sent ONCE, even though the soil stays at 25", async () => {
++    await reading(25);
++    await reading(25);
++    await reading(26);
++    expect(sent).toEqual([{ target: "pump", value: 5 }]);
++    expect(events).toHaveLength(1);
++    expect(events[0]).toMatchObject({ rule_id: ruleNo, message: "🌱 Soil 25 % — pump watering for 5 seconds automatically",
++      data: { result: "answered", ok: true } });
++  });
++
++  it("soil rises to 36: the rule turns off WITHOUT a command (ok null), then it is ready to water again", async () => {
++    await reading(25);
++    await reading(36);
++    expect(sent).toHaveLength(1); // turning off sends nothing
++    expect(events.at(-1)).toMatchObject({ rule_id: ruleNo, message: "✅ Soil up to 36 % — rule ready again",
++      data: { command: null, result: "no-command", ok: null } });
++    await reading(25);
++    expect(sent).toHaveLength(2); // the next dry spell: it waters again
++  });
++
++  it("the device refuses (tank too low): a ⚠️ event with ok: false, and no retry while the soil stays dry", async () => {
++    answer.ok = false;
++    answer.message = "pump refused: tank water too low";
++    await reading(25);
++    await reading(25);
++    expect(sent).toHaveLength(1);
++    expect(events[0]).toMatchObject({ message: "⚠️ Soil 25 % — pump command refused by the device: pump refused: tank water too low",
++      data: { result: "answered", ok: false } });
++  });
++
++  it("deleted: its event has rule_id null, its wishes are forgotten, and a dry reading afterwards doesn't water", async () => {
++    expect(await deleteRule(ruleNo)).toEqual({ id: ruleNo, name: "Water if soil < 30 %" });
++    expect(events.at(-1)).toMatchObject({ rule_id: null, data: { id: ruleNo, deleted: true } });
++    expect(forgotten).toEqual([ruleNo]);
++    await reading(25);
++    expect(sent).toHaveLength(0);
++  });
++
++  it("deactivated: its wishes are forgotten and the rule doesn't water anymore", async () => {
++    await replaceRule(ruleNo, { ...structuredClone(WATERING), active: false });
++    expect(forgotten).toEqual([ruleNo]);
++    await reading(25);
++    expect(sent).toHaveLength(0);
++  });
++});
+diff --git a/backend/src/services/automation.ts b/backend/src/services/automation.ts
+index d7c420b..281ccc5 100644
+--- a/backend/src/services/automation.ts
++++ b/backend/src/services/automation.ts
+@@ -1,22 +1,27 @@
+ // automation.ts - runs the automation rules from the rules table (Module 19): loads the rules into memory, evaluates every
+ // reading with the pure brain (rules/engine.ts), acts through issueCommand(), sends the fan threshold to the device (config),
+ // installs the schedule rules (schedule.ts), and records every action in the event log.
++// Module 24: threshold rules now work both ways (threshold = rises above, below-threshold = falls below), their action may be
++// a switch or a command sent once (for example the pump for 5 seconds), and rules can be deleted (deleteRule).
+ import { Rule } from "../schemas/rules.ts";
+-import type { SwitchAction, StoredRule, ThresholdCondition } from "../schemas/rules.ts";
+-import type { TelemetryNode1, TelemetryNode2 } from "../schemas/contract.ts";
+-import { INITIAL_MEMORY, evaluateThreshold } from "../rules/engine.ts";
++import type { CommandAction, SwitchAction, StoredRule, ThresholdCondition, BelowThresholdCondition } from "../schemas/rules.ts";
++import type { SetCommand, TelemetryNode1, TelemetryNode2 } from "../schemas/contract.ts";
++import { INITIAL_MEMORY, evaluateThreshold, evaluateBelowThreshold } from "../rules/engine.ts";
+ import type { Memory } from "../rules/engine.ts";
+-import { getAllRules, insertRule, updateRule, contractTime } from "../db/archive.ts";
++import { getAllRules, deleteRuleDb, insertRule, updateRule, contractTime } from "../db/archive.ts";
+ import type { RuleRow } from "../db/archive.ts";
+ import { findDevice, waitForAck } from "./store.ts";
+ import { makeCommandId, sendConfig, summarize } from "./mqtt.ts";
+-import { issueCommand } from "./commands.ts";
++import { forgetRuleWishes, issueCommand } from "./commands.ts";
+ import type { CommandResult } from "./commands.ts";
+ import { installSchedules } from "./schedule.ts";
+ import { recordEvent } from "./events.ts";
+ import { notifyIfNeeded } from "./telegram.ts";
+ import { log } from "./log.ts";
+ 
++type ReadingCondition = ThresholdCondition | BelowThresholdCondition; // Module 24: conditions judged from sensor readings, both ways
++type RuleAction = SwitchAction | CommandAction; // Module 24: threshold rules may use both
++
+ const STALE_READING_MS = 60_000; // a reading whose ts is older than 60 seconds (late data) is not evaluated
+ let rules: StoredRule[] = []; // every valid rule, by number
+ const memory = new Map<number, Memory>(); // rule number -> evaluateThreshold memory
+@@ -56,11 +61,30 @@ export async function replaceRule(id: number, content: Rule): Promise<StoredRule
+   return row === undefined ? undefined : afterChange(row, "changed");
+ }
+ 
++// Module 24, DELETE /rules/:id: the result is undefined if no rule has that number. The rule stops applying right away.
++// Its command and event history stays in the database (its rule_id becomes NULL, migration 007). This "deleted" event is
++// also written with rule_id null: the row no longer exists, so the database refuses that number. The number goes in data.
++export async function deleteRule(id: number): Promise<{ id: number; name: string } | undefined> {
++  const row = await deleteRuleDb(id);
++  if (row === undefined) return undefined;
++  rules = rules.filter((a) => a.id !== row.id); // stops being evaluated NOW, before the database is read again
++  memory.delete(row.id);
++  forgetRuleWishes(row.id); // a device that restarts doesn't receive this rule's command again
++  await loadRules(); // the list in memory and the schedule tasks are updated too
++  const message = `Rule ${row.id} (${row.name}) deleted through the API`;
++  log.info(message);
++  recordEvent({ device_id: null, kind: "rule-changed", source: "api", rule_id: null, message,
++    data: { id: row.id, name: row.name, deleted: true } });
++  sendAllConfigs();
++  return row;
++}
++
+ async function afterChange(row: RuleRow, word: string): Promise<StoredRule> {
+   memory.delete(row.id); // a new threshold = a new "for" count
+   await loadRules();
+   const a = findRule(row.id);
+   if (a === undefined) throw new Error(`rule ${row.id} is invalid after saving`);
++  if (!a.active) forgetRuleWishes(a.id); // Module 24: an inactive rule doesn't act anymore, also not through reconciliation
+   const message = `Rule ${a.id} (${a.name}) ${word} through the API: ${describeRule(a)}`;
+   log.info(message);
+   recordEvent({ device_id: null, kind: "rule-changed", source: "api", rule_id: a.id, message,
+@@ -69,22 +93,54 @@ async function afterChange(row: RuleRow, word: string): Promise<StoredRule> {
+   return a;
+ }
+ 
++// Module 24: the words for the two threshold directions. on/off = the conditions, for example "above 30"/"below 28" (rising)
++// or "below 30"/"above 35" (falling); back = which way the reading moves when the rule turns off again.
++function direction(c: ReadingCondition): { on: string; off: string; back: string } {
++  return c.kind === "threshold"
++    ? { on: `above ${c.on_above}`, off: `below ${c.off_below}`, back: "down" }
++    : { on: `below ${c.on_below}`, off: `above ${c.off_above}`, back: "up" };
++}
++
++// Module 24: the command a rule sends when it TURNS ON. A switch action turns its target on; a command action sends its
++// command as it is (for example the pump for 5 seconds).
++function commandOnTurnOn(action: RuleAction): SetCommand {
++  return action.kind === "switch" ? { target: action.target, value: true } : action.command;
++}
++
++// ...and when it TURNS OFF: a switch action turns its target off again; a command action sends nothing (null), because its
++// command has already finished by itself (the pump stops when its seconds are up). The rule is only "ready again" for the next dry spell.
++function commandOnTurnOff(action: RuleAction): SetCommand | null {
++  return action.kind === "switch" ? { target: action.target, value: false } : null;
++}
++
++// Module 24: one command in words, for example "pump watering for 5 seconds", "lamp turned on", "curtain set to 0°"
++function commandWords(p: SetCommand): string {
++  if (p.target === "pump") return `pump watering for ${p.value} seconds`;
++  if (p.target === "curtain") return `curtain set to ${p.value}°`;
++  return `${p.target} turned ${p.value ? "on" : "off"}`;
++}
++
+ // a short sentence for the log and the event log
+ function describeRule(a: StoredRule): string {
+   const { condition: c, action } = a;
+   const inactive = a.active ? "" : " (inactive)";
+-  if (c.kind === "schedule" && action.kind === "command") {
++  if (c.kind === "schedule") {
++    if (action.kind !== "command") return "unknown rule shape"; // already prevented by the schema; only just in case
+     return `${action.command.target} ${action.device_id} = ${action.command.value} every "${c.cron}" WIB${inactive}`;
+   }
+-  if (c.kind === "threshold" && action.kind === "switch") {
+-    return `${action.target} ${action.device_id} on when ${c.quantity} ${c.device_id} is above ${c.on_above} `
+-      + `for ${c.for_seconds} seconds, off below ${c.off_below}${inactive}`;
++  const { on, off } = direction(c);
++  if (action.kind === "switch") {
++    return `${action.target} ${action.device_id} on when ${c.quantity} ${c.device_id} is ${on} `
++      + `for ${c.for_seconds} seconds, off ${off}${inactive}`;
+   }
+-  return "unknown rule shape";
++  return `${action.command.target} ${action.device_id} = ${action.command.value} once when ${c.quantity} ${c.device_id} `
++    + `is ${on} for ${c.for_seconds} seconds, ready again ${off}${inactive}`; // Module 24
+ }
+ 
+ // Send the safety threshold to every device that has a fan rule based on temperature: temp_fan_on = on_above
+ // (contract 1.3, retained config). Called every time the backend connects to the broker and every time a rule changes.
++// Note: a fan rule that is deactivated or deleted does NOT withdraw the old config. The device keeps using the last
++// temp_fan_on as its local safety rule (which only works while the broker can't be reached).
+ export function sendAllConfigs(): void {
+   const done = new Set<string>(); // one device, one threshold: the active fan rule with the lowest number
+   for (const a of rules) {
+@@ -116,22 +172,28 @@ export function evaluateReading(deviceId: string, content: TelemetryNode1 | Tele
+   const reading: Record<string, unknown> = content;
+   for (const a of rules) {
+     const { condition, action } = a;
+-    if (!a.active || condition.kind !== "threshold" || action.kind !== "switch" || condition.device_id !== deviceId) continue;
++    // schedule rules aren't evaluated from readings: node-cron keeps their time (schedule.ts)
++    if (!a.active || condition.kind === "schedule" || condition.device_id !== deviceId) continue;
+     const raw = reading[condition.quantity];
+     const value = typeof raw === "number" ? raw : null; // null: a failed sensor, or a field the device doesn't have
+     const previous = memory.get(a.id) ?? initialMemory(action);
+-    const { memory: updated, decision } = evaluateThreshold(condition, previous, value, now);
++    const { memory: updated, decision } = condition.kind === "threshold"
++      ? evaluateThreshold(condition, previous, value, now) // rising: "above"
++      : evaluateBelowThreshold(condition, previous, value, now); // Module 24, falling: "below"
+     memory.set(a.id, updated);
+     if (decision !== null) {
+       void act(a, condition, action, decision, value, content.ts, previous);
+     } else if (updated.active && action.notify) { // still on: a reminder at most once every 30 minutes (shouldNotify)
+       const [emoji, name, unit] = LABEL[condition.quantity];
++      // Module 24: a command rule (for example the pump) has already acted; what it waits for is its "ready again" condition
++      const state = action.kind === "switch" ? `${action.target} stays on`
++        : `rule "${a.name}" not ready again yet (waiting for ${condition.quantity} ${direction(condition).off})`;
+       void notifyIfNeeded(`rule:${a.id}`, "danger",
+-        `${emoji} ${name} still ${value === null ? "-" : num.format(value)}${unit} — ${action.target} stays on (reminder)`,
++        `${emoji} ${name} still ${value === null ? "-" : num.format(value)}${unit} — ${state} (reminder)`,
+         content.ts, true);
+     } else if (previous.since === null && updated.since !== null) {
+-      log.info(`rule ${a.id} (${a.name}): ${condition.quantity} ${value} above ${condition.on_above}; `
+-        + `${action.target} turned on if it lasts ${condition.for_seconds} seconds`);
++      log.info(`rule ${a.id} (${a.name}): ${condition.quantity} ${value} ${direction(condition).on}; `
++        + `${commandWords(commandOnTurnOn(action))} if it lasts ${condition.for_seconds} seconds`);
+     } else if (previous.since !== null && updated.since === null) {
+       log.info(`rule ${a.id} (${a.name}): count restarted (${condition.quantity} ${value ?? "unreadable"})`);
+     }
+@@ -139,24 +201,33 @@ export function evaluateReading(deviceId: string, content: TelemetryNode1 | Tele
+ }
+ 
+ // After the backend restarts or the rule is changed: if the device reports that its actuator is on, treat the rule
+-// as on so that it gets turned off when the time comes.
+-function initialMemory(action: SwitchAction): Memory {
++// as on so that it gets turned off when the time comes. Module 24: a command rule (for example the pump, once)
++// always starts as off, so if its condition still holds, its command is sent once more.
++function initialMemory(action: RuleAction): Memory {
++  if (action.kind === "command") return INITIAL_MEMORY;
+   return { ...INITIAL_MEMORY, active: findDevice(action.device_id)?.reported?.[action.target] === true };
+ }
+ 
+-async function act(a: StoredRule, condition: ThresholdCondition, action: SwitchAction, decision: "turn-on" | "turn-off",
++async function act(a: StoredRule, condition: ReadingCondition, action: RuleAction, decision: "turn-on" | "turn-off",
+   value: number | null, readingTs: string, previous: Memory): Promise<void> {
+   const turnOn = decision === "turn-on";
+-  const result = await issueCommand(action.device_id, { target: action.target, value: turnOn }, "rule", a.id);
+-  if (result.status === "not-sent") {
+-    memory.set(a.id, previous); // the decision hasn't been carried out: the next reading decides again
+-    log.warn(`rule ${a.id} (${a.name}): ${action.target} can't be turned ${turnOn ? "on" : "off"}: ${result.message}`);
+-    return;
++  const command = turnOn ? commandOnTurnOn(action) : commandOnTurnOff(action);
++  let result: CommandResult | null = null; // stays null if nothing is sent (a command rule turning off)
++  if (command !== null) {
++    result = await issueCommand(action.device_id, command, "rule", a.id);
++    if (result.status === "not-sent") {
++      memory.set(a.id, previous); // the decision hasn't been carried out: the next reading decides again
++      log.warn(`rule ${a.id} (${a.name}): ${command.target} can't be turned ${turnOn ? "on" : "off"}: ${result.message}`);
++      return;
++    }
+   }
+   const message = sentence(condition, action, turnOn, value, result);
+   log.info(`rule ${a.id} (${a.name}): ${message}`);
++  // Module 24: ok = whether the action was carried out (true = the device answered ok; false = refused or no answer;
++  // null = no command was sent). The dashboard uses it for the color of the notice, without guessing from the sentence.
++  const ok = result === null ? null : result.status === "answered" && result.ack.ok;
+   recordEvent({ device_id: action.device_id, kind: "rule", source: "rule", rule_id: a.id, message,
+-    data: { decision, value, reading_ts: readingTs, command: result.id, result: result.status } });
++    data: { decision, value, reading_ts: readingTs, command: result?.id ?? null, result: result?.status ?? "no-command", ok } });
+   // Telegram AFTER the ack result is known so that its message is honest; the delay is measured from the trigger reading
+   if (action.notify) void notifyIfNeeded(`rule:${a.id}`, turnOn ? "danger" : "safe", message, readingTs);
+ }
+@@ -168,15 +239,24 @@ const LABEL: Record<string, [string, string, string]> = { // quantity -> [emoji,
+ };
+ const num = new Intl.NumberFormat("en-US", { maximumFractionDigits: 1 }); // 33 -> "33", 27.8 -> "27.8"
+ 
+-// A sentence for humans, for example "🌡️ Temperature 33 °C — fan turned on automatically" (the same as its Telegram message).
+-function sentence(condition: ThresholdCondition, action: SwitchAction, turnOn: boolean, value: number | null,
+-  result: CommandResult): string {
++// A sentence for humans (the same as its Telegram message), for example "🌡️ Temperature 33 °C — fan turned on automatically".
++// Module 24: also "🌱 Soil 25 % — pump watering for 5 seconds automatically" and, when the soil is wet again, "✅ Soil up
++// to 36 % — rule ready again". result = null if no command was sent.
++function sentence(condition: ReadingCondition, action: RuleAction, turnOn: boolean, value: number | null,
++  result: CommandResult | null): string {
+   const [emoji, name, unit] = LABEL[condition.quantity];
+   const text = value === null ? "-" : num.format(value);
+-  if (result.status === "no-ack") return `⚠️ ${name} ${text}${unit} — ${action.target} did NOT answer the command (will retry)`;
+-  if (result.status === "answered" && !result.ack.ok) {
+-    return `⚠️ ${name} ${text}${unit} — ${action.target} command refused by the device: ${result.ack.message}`;
++  const target = action.kind === "switch" ? action.target : action.command.target;
++  if (result?.status === "no-ack") {
++    // commands.ts only sends the fan, lamp, and curtain again (reconciliation); not the pump, so don't promise it
++    const next = target === "pump" ? "not sent again" : "will retry";
++    return `⚠️ ${name} ${text}${unit} — ${target} did NOT answer the command (${next})`;
++  }
++  if (result?.status === "answered" && !result.ack.ok) {
++    return `⚠️ ${name} ${text}${unit} — ${target} command refused by the device: ${result.ack.message}`;
+   }
+-  return turnOn ? `${emoji} ${name} ${text}${unit} — ${action.target} turned on automatically`
+-    : `✅ ${name} down to ${text}${unit} — ${action.target} turned off`;
++  if (turnOn) return `${emoji} ${name} ${text}${unit} — ${commandWords(commandOnTurnOn(action))} automatically`;
++  const { back } = direction(condition);
++  return action.kind === "switch" ? `✅ ${name} ${back} to ${text}${unit} — ${action.target} turned off`
++    : `✅ ${name} ${back} to ${text}${unit} — rule ready again`;
+ }
+diff --git a/backend/src/services/commands.ts b/backend/src/services/commands.ts
+index b00366d..2866e74 100644
+--- a/backend/src/services/commands.ts
++++ b/backend/src/services/commands.ts
+@@ -112,6 +112,17 @@ function reconcile(deviceId: string): void {
+   }
+ }
+ 
++// Module 24: called by automation.ts when a rule is deleted or deactivated. The wishes recorded in that rule's name are
++// forgotten, so reconciliation (also after a device restarts) doesn't run the command of a rule that no longer applies
++// again. The actuator state is left as it is: a lamp that is on stays on until it is turned off.
++export function forgetRuleWishes(ruleId: number): void {
++  for (const deviceWishes of wishes.values()) {
++    for (const [target, w] of deviceWishes) {
++      if (w.ruleId === ruleId) deviceWishes.delete(target);
++    }
++  }
++}
++
+ // Called by mqtt.ts when vitals carries a small uptime_s: the device has just started (again), and all its relays are off
+ // at startup. Even the wishes that were already fulfilled are reconciled again.
+ export function deviceRestarted(deviceId: string, uptime: number): void {
+diff --git a/backend/src/services/schedule.ts b/backend/src/services/schedule.ts
+index d9a7f31..172b13b 100644
+--- a/backend/src/services/schedule.ts
++++ b/backend/src/services/schedule.ts
+@@ -59,8 +59,9 @@ export async function runSchedule(a: StoredRule): Promise<CommandResult> {
+     message = `⚠️ ${a.name}: ${command.target} command not sent (${result.message})`;
+   }
+   log.info(`schedule of rule ${a.id}: ${message}`);
++  // Module 24: ok = the command was carried out (answered with ok); the dashboard uses it for the color of the notice
+   recordEvent({ device_id: deviceId, kind: "schedule", source: "schedule", rule_id: a.id, message,
+-    data: { command, result: result.status } });
++    data: { command, result: result.status, ok: result.status === "answered" && result.ack.ok } });
+   if (a.action.notify) void notify(message);
+   return result;
+ }
+@@ -69,7 +70,7 @@ export async function runSchedule(a: StoredRule): Promise<CommandResult> {
+ function scheduleMissed(a: StoredRule, time: Date): void {
+   const message = `⏰ Schedule ${a.name} at ${wibTime(time)} missed (laptop asleep or backend busy?)`;
+   log.warn(message);
+-  recordEvent({ device_id: null, kind: "schedule", source: "schedule", rule_id: a.id, message, data: { missed: time } });
++  recordEvent({ device_id: null, kind: "schedule", source: "schedule", rule_id: a.id, message, data: { missed: time, ok: false } });
+   if (a.action.notify) void notify(message);
+ }
+ 

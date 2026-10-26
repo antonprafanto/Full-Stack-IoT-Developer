@@ -1,75 +1,19 @@
-// rules.ts - the shape of an automation rule (Module 19) as a Zod schema. A rule is DATA, not code: only the shapes
-// known here may come in, both through the API and from the database.
-import { z } from "zod";
+// rules.ts - the automation rule schema for the SERVER (Module 19). Module 24: every rule shape moved to rule-basics.ts, which
+// has no node-cron, so the dashboard can use a copy of it in the browser. Only one check that needs node-cron is added here:
+// can the cron expression of a schedule rule really be run?
+import type { z } from "zod";
 import cron from "node-cron";
-import { DeviceId, SetCommand } from "./contract.ts";
+import { Rule as BaseRule } from "./rule-basics.ts";
 
-// the telemetry quantities a threshold rule may use
-const Quantity = z.enum(["temperature", "humidity", "light", "soil", "water_level", "soil_rs485", "soil_temperature"]);
+// Everything in rule-basics.ts is available from this file too (ThresholdCondition, BelowThresholdCondition, SwitchAction,
+// RuleFields, their types, and so on), so the other backend files keep importing from rules.ts as they have since Module 19.
+// The Rule below replaces the Rule of rule-basics.ts: a name written in this file itself always wins.
+export * from "./rule-basics.ts";
 
-// "If <quantity> of that device stays above <on_above> continuously for <for_seconds> seconds, the rule turns on;
-// the rule turns off again when <quantity> is below <off_below>."
-export const ThresholdCondition = z.strictObject({
-  kind: z.literal("threshold"),
-  device_id: DeviceId,
-  quantity: Quantity,
-  on_above: z.number(),
-  off_below: z.number(),
-  for_seconds: z.number().int().min(0).max(3600),
-}).refine((c) => c.off_below < c.on_above, {
-  message: "off_below must be smaller than on_above (hysteresis)",
-  path: ["off_below"],
+// The body of POST /rules and PUT /rules/:id on the server: the basic shape + a cron expression node-cron can really run.
+export const Rule = BaseRule.refine((a) => a.condition.kind !== "schedule" || cron.validate(a.condition.cron), {
+  message: "invalid cron expression",
+  path: ["condition", "cron"],
 });
 
-// "Every <cron> (WIB time) ..." — a 5-field cron expression: minute hour day month weekday, for example "0 6 * * *"
-export const ScheduleCondition = z.strictObject({
-  kind: z.literal("schedule"),
-  cron: z.string()
-    .refine((text) => text.trim().split(/\s+/).length === 5, "a schedule uses 5 fields: minute hour day month weekday")
-    .refine((text) => cron.validate(text), "invalid cron expression"),
-});
-
-// "... then turn on <target> of that device, and turn it off again when the rule turns off."
-export const SwitchAction = z.strictObject({
-  kind: z.literal("switch"),
-  device_id: DeviceId,
-  target: z.enum(["fan", "lamp"]),
-  notify: z.boolean(), // send a Telegram message when this rule acts?
-});
-
-// "... then send one set command", for example the pump for 10 seconds. Uses the same command schema as the API.
-export const CommandAction = z.strictObject({
-  kind: z.literal("command"),
-  device_id: DeviceId,
-  command: SetCommand,
-  notify: z.boolean(),
-});
-
-// The fields of one rule (name, active, condition, action), without the combined checks.
-export const RuleFields = z.strictObject({
-  name: z.string().min(1).max(60),
-  active: z.boolean(),
-  condition: z.discriminatedUnion("kind", [ThresholdCondition, ScheduleCondition]),
-  action: z.discriminatedUnion("kind", [SwitchAction, CommandAction]),
-});
-
-// The body of POST /rules and PUT /rules/:id.
-export const Rule = RuleFields
-  .refine((a) => (a.condition.kind === "threshold") === (a.action.kind === "switch"), {
-    message: "a threshold condition goes with a switch action; a schedule condition with a command action",
-    path: ["action", "kind"],
-  })
-  // The threshold of a fan rule is also sent to the device as temp_fan_on (config, contract 1.3), so its range must be the
-  // same as what the device accepts: 15-45 °C.
-  .refine((a) => a.condition.kind !== "threshold" || a.action.kind !== "switch" || a.condition.quantity !== "temperature"
-    || a.action.target !== "fan" || (a.condition.on_above >= 15 && a.condition.on_above <= 45), {
-    message: "for a fan rule, on_above must be 15-45 °C (it is also sent to the device as temp_fan_on)",
-    path: ["condition", "on_above"],
-  });
-
-export type ThresholdCondition = z.infer<typeof ThresholdCondition>;
-export type SwitchAction = z.infer<typeof SwitchAction>;
-export type Rule = z.infer<typeof Rule>;
-
-// a rule already stored in the database: plus its number and its times
-export type StoredRule = Rule & { id: number; created_at: string; updated_at: string };
+export type Rule = z.infer<typeof Rule>; // the same name for the value and its type, as in rule-basics.ts

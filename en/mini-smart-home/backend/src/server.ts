@@ -1,6 +1,7 @@
-// server.ts - the entry point of the Mini Smart Home backend v1.0 (Module 21: the official device registry and its keys, the
-// backend's own broker account, messages from unregistered or revoked devices ignored; on top of Module 20: login, JWT in
-// cookies, roles, and API protection, and Module 19: realtime data, a single door for commands, automation rules, schedules, and Telegram notifications).
+// server.ts - the entry point of the Mini Smart Home backend v1.1 (Module 24: "below-threshold" rules such as watering when the
+// soil is dry, threshold rules may send one command, and rules can be deleted; on top of v1.0, Module 21: the device registry
+// and its keys, the backend's own broker account, unregistered/revoked devices ignored; Module 20: login, JWT in cookies, roles,
+// and API protection; and Module 19: realtime data, one door for commands, automation rules, schedules, and Telegram notifications).
 // Run: npm run dev (automatically restarts when a file is saved) or npm start.
 import Fastify, { LogController } from "fastify";
 import swagger from "@fastify/swagger";
@@ -41,11 +42,13 @@ await app.register(swagger, {
   openapi: {
     info: {
       title: "Mini Smart Home API",
-      description: "Backend v1.0 (Module 21). Every route needs a login, except the ones without a padlock. Log in first with "
+      description: "Backend v1.1 (Module 24). Every route needs a login, except the ones without a padlock. Log in first with "
         + "POST /auth/login (Try it out): the browser keeps the access cookie and sends it by itself to the other routes. "
         + "Viewer accounts can only look (GET); commands and changes are answered with 403. Devices are registered by an admin "
-        + "with POST /devices; a key is shown only once, and messages from unregistered or revoked devices are ignored.",
-      version: "1.0.0",
+        + "with POST /devices; a key is shown only once, and messages from unregistered or revoked devices are ignored. "
+        + "Since v1.1, a threshold rule can point downwards (below-threshold, for example water when the soil is below 30 %), can "
+        + "send one command when it turns on, and rules can be deleted (DELETE /rules/:id).",
+      version: "1.1.0",
     },
     components: {
       securitySchemes: { // Module 20: routes with a padlock need the access cookie from POST /auth/login

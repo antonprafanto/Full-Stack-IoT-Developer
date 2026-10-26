@@ -1,11 +1,11 @@
 // rules.ts - the /rules routes (Module 19): view, create, and change automation rules without changing code and without
-// restarting the server, and run a schedule rule right now to test it.
+// restarting the server, and run a schedule rule right now to test it. Module 24: delete them too.
 import { z } from "zod";
 import type { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
 import { Ack } from "../schemas/contract.ts";
 import { Rule, RuleFields } from "../schemas/rules.ts";
 import type { StoredRule } from "../schemas/rules.ts";
-import { createRule, findRule, replaceRule, allRules } from "../services/automation.ts";
+import { createRule, findRule, replaceRule, deleteRule, allRules } from "../services/automation.ts";
 import { nextRun, runSchedule } from "../services/schedule.ts";
 import { contractTime } from "../db/archive.ts";
 
@@ -72,6 +72,31 @@ export const ruleRoutes: FastifyPluginAsyncZod = async (app) => {
       return withNextRun(rule);
     } catch (error) {
       req.log.error(`rule ${req.params.id} couldn't be saved: ${(error as Error).message}`);
+      return reply.code(503).send({ message: "the database can't be reached right now, try again shortly" });
+    }
+  });
+
+  // Module 24: the "D" of CRUD. Deactivating (PUT with "active": false) keeps the rule to use again; deleting throws it
+  // away. Its old command and event history stays. Like the other routes that change something, viewer accounts are
+  // answered 403 by the guard (security.ts) before they get here.
+  app.delete("/rules/:id", {
+    schema: {
+      tags: ["rules"],
+      summary: "Delete one rule; it stops applying right away. Its command and event history stays",
+      params: IdParam,
+      response: {
+        200: z.object({ id: z.number(), name: z.string(), message: z.string() }).describe("the rule is deleted"),
+        404: ErrorBody.describe("no rule has that number"),
+        503: ErrorBody.describe("the database can't be reached right now"),
+      },
+    },
+  }, async (req, reply) => {
+    try {
+      const result = await deleteRule(req.params.id);
+      if (result === undefined) return reply.code(404).send({ message: `rule ${req.params.id} doesn't exist` });
+      return { ...result, message: `rule ${result.id} (${result.name}) deleted` };
+    } catch (error) {
+      req.log.error(`rule ${req.params.id} couldn't be deleted: ${(error as Error).message}`);
       return reply.code(503).send({ message: "the database can't be reached right now, try again shortly" });
     }
   });

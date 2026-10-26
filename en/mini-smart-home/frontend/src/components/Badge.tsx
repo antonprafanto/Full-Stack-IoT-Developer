@@ -9,7 +9,7 @@ const STATUS_BADGES: Record<DeviceStatus, { text: string; color: string }> = {
   online: { text: "Online", color: "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100" },
   offline: { text: "Offline", color: "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-100" },
   "offline-mode": { text: "offline mode", color: "bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-200" },
-  unknown: { text: "unknown", color: "bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400" },
+  unknown: { text: "unknown", color: "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400" },
 };
 
 // The text and color for every value of the key field (Module 21).

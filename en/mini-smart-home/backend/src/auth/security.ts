@@ -49,7 +49,9 @@ export async function setupSecurity(app: FastifyInstance): Promise<void> {
   await app.register(cors, {
     origin: env.CORS_ORIGIN, // an exact list, not "*": with credentials, browsers refuse "*"
     credentials: true, // let the browser send cookies from pages at those origins
-    methods: ["GET", "HEAD", "POST", "PUT"], // PUT /rules/:id; the plugin's default is only GET, HEAD, POST
+    // the plugin's default is only GET, HEAD, POST. PUT /rules/:id (Module 19) and DELETE /rules/:id (Module 24) must be listed
+    // here: without them the browser already refuses at the preflight, even though the route exists (curl and Bruno unaffected)
+    methods: ["GET", "HEAD", "POST", "PUT", "DELETE"],
   });
   await app.register(cookie); // no secret: the JWT is already signed, and refresh tokens are checked in the database
   await app.register(jwt, {

@@ -39,7 +39,7 @@ export default function Gauge({ label, value, lowThreshold }: Props) {
         {/* the number + unit in the middle of the arc */}
         <p className="absolute inset-x-0 bottom-0 text-center text-2xl font-semibold text-slate-800 dark:text-slate-100">
           {value ?? "—"}
-          {value !== null ? <span className="ml-0.5 text-base font-normal text-slate-400">%</span> : null}
+          {value !== null ? <span className="ml-0.5 text-base font-normal text-slate-500 dark:text-slate-400">%</span> : null}
         </p>
       </div>
       {/* color is never alone: the "low" state is written too */}

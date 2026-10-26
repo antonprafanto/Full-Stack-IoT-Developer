@@ -14,9 +14,9 @@ export default function SensorCard({ label, value, unit, color = "text-slate-800
       <p className="truncate text-sm text-slate-500 dark:text-slate-400">{label}</p>
       <p className="mt-1 text-2xl font-semibold">
         {/* ?? = if the value is null, write "—" (not 0: the number 0 is still a valid reading) */}
-        <span className={value === null ? "text-slate-400" : color}>{value ?? "—"}</span>
+        <span className={value === null ? "text-slate-500 dark:text-slate-400" : color}>{value ?? "—"}</span>
         {/* the unit is only written when there is a number */}
-        {unit && value !== null ? <span className="ml-1 text-base font-normal text-slate-400">{unit}</span> : null}
+        {unit && value !== null ? <span className="ml-1 text-base font-normal text-slate-500 dark:text-slate-400">{unit}</span> : null}
       </p>
     </div>
   );

@@ -1,0 +1,46 @@
+info:
+  name: create soil watering rule
+  type: http
+  seq: 24
+
+http:
+  method: POST
+  url: "{{baseUrl}}/rules"
+  body:
+    type: json
+    data: |-
+      {
+        "name": "Water if soil < 30 %",
+        "active": true,
+        "condition": {
+          "kind": "below-threshold",
+          "device_id": "a4cf12e5b7c0",
+          "quantity": "soil",
+          "on_below": 30,
+          "off_above": 35,
+          "for_seconds": 10
+        },
+        "action": {
+          "kind": "command",
+          "device_id": "a4cf12e5b7c0",
+          "command": {
+            "target": "pump",
+            "value": 5
+          },
+          "notify": true
+        }
+      }
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "201"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: true

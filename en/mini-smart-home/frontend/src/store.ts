@@ -1,8 +1,11 @@
 // store.ts - the shared "store" of live data for the whole dashboard (Zustand). Any component reads it through a
 // selector, and socket.ts fills it from outside React (useLiveStore.getState()). It only lives in this tab's memory:
 // nothing is saved in localStorage, and everything is gone when the page is reloaded.
+// Module 24: the store also records WHO is logged in (the session slice), so the route guards, the header, and the buttons
+// can read it without it being handed down through props from App. The role still lives only in memory: never in localStorage.
 import { create } from "zustand";
-import type { Device, DeviceStatus, Point, Reading, Telemetry, TelemetryNode1 } from "./types";
+import { useToast } from "./toast";
+import type { Device, DeviceStatus, Point, Reading, State, Telemetry, TelemetryNode1, User } from "./types";
 
 // the Socket.IO connection state that the badge in the header shows
 export type Connection = "connecting" | "live" | "disconnected";
@@ -55,8 +58,17 @@ function merge(old: Point[], incoming: Point[]): Point[] {
 }
 
 type LiveStore = {
+  // Module 24, the session slice: "loading" = GET /auth/me not answered yet; null = not logged in; object = logged in (with a role)
+  user: User | null | "loading";
+  loginMessage: string | null; // the sentence above the Log in form, for example "Your session has expired. Please log in again."
+  // true after the Log out button: the route guard then does NOT hand the last address to the Log in screen, so the next
+  // person in this tab starts from the device list, not from the previous person's last screen
+  loggedOutOnPurpose: boolean;
+  setUser: (user: User) => void;
+  setNotLoggedIn: (message: string | null) => void;
   connection: Connection;
   devices: Device[] | null; // the GET /devices answer; null = not loaded yet
+  devicesError: string | null; // Module 24: GET /devices failed (read by the Devices and Details screens)
   // Partial<Record<string, …>> = a "dictionary" keyed by device_id. Partial: an entry may not be there yet (undefined).
   status: Partial<Record<string, DeviceStatus>>;
   latest: Partial<Record<string, Telemetry>>; // each device's last reading
@@ -64,18 +76,31 @@ type LiveStore = {
   windows: Partial<Record<string, Point[]>>; // each device's chart points of the last 5 minutes
   setConnection: (connection: Connection) => void;
   setDevices: (list: Device[]) => void;
+  setDevicesError: (message: string) => void;
   setStatus: (deviceId: string, status: DeviceStatus) => void;
   fillLatest: (deviceId: string, content: Telemetry) => void;
   receive: (deviceId: string, content: Telemetry) => void;
   fillWindow: (deviceId: string, readings: Reading[]) => void;
+  applyState: (deviceId: string, state: State) => void;
+  // Module 24: goes up by 1 on every "rule-changed" event (from any dashboard). An open Rules screen uses it as an
+  // effect dependency, so its rule list is fetched again by itself.
+  rulesVersion: number;
+  rulesChanged: () => void;
 };
 
 // create<LiveStore>()(…): the double parentheses really are how it's written in TypeScript (Zustand 5).
 // set() merges the new values with the old ones, but only ONE level deep: the dictionaries inside (status, latest, …)
 // must be copied by us with { ...old, [key]: value }, never changed directly.
 export const useLiveStore = create<LiveStore>()((set) => ({
+  user: "loading",
+  loginMessage: null,
+  setUser: (user) => set({ user, loginMessage: null }),
+  setNotLoggedIn: (message) => set({ user: null, loginMessage: message }),
+  loggedOutOnPurpose: false,
+
   connection: "disconnected",
   devices: null,
+  devicesError: null,
   status: {},
   latest: {},
   lastSeen: {},
@@ -95,8 +120,10 @@ export const useLiveStore = create<LiveStore>()((set) => ({
           lastSeen[p.device_id] = Math.max(lastSeen[p.device_id] ?? 0, Date.parse(p.last_seen));
         }
       }
-      return { devices: list, status, lastSeen };
+      return { devices: list, devicesError: null, status, lastSeen };
     }),
+
+  setDevicesError: (message) => set({ devicesError: message }),
 
   // the "status" event: the server only sends it when a device's status changes
   setStatus: (deviceId, status) => set((s) => ({ status: { ...s.status, [deviceId]: status } })),
@@ -124,4 +151,40 @@ export const useLiveStore = create<LiveStore>()((set) => ({
       if (s.latest[deviceId] !== undefined || initial === null) return { windows };
       return { windows, latest: { ...s.latest, [deviceId]: initial } };
     }),
+
+  // Module 24: the actuator state from an ack (the device's answer to our command). Written into the latest reading so the cards
+  // and buttons are right at once, without waiting for the next telemetry (which brings the same state ±1-2 seconds later).
+  applyState: (deviceId, state) =>
+    set((s) => {
+      const old = s.latest[deviceId];
+      // no reading yet, or Node 2 (it has pressure, no actuators): nothing to change
+      if (old === undefined || "pressure" in old) return s;
+      return { latest: { ...s.latest, [deviceId]: { ...old, state } } };
+    }),
+
+  rulesVersion: 0,
+  rulesChanged: () => set((s) => ({ rulesVersion: s.rulesVersion + 1 })),
 }));
+
+// Module 24: true ONLY when the admin role is certain. While GET /auth/me isn't answered yet ("loading") the result is false,
+// so admin buttons don't flash up on a viewer's screen. This is only screen convenience: what really guards is still
+// the backend's guard (403 for every change from a viewer account).
+export function useAdmin(): boolean {
+  return useLiveStore((s) => s.user !== null && s.user !== "loading" && s.user.role === "admin");
+}
+
+// Module 24: clear EVERYTHING in the store at once (session, device list, readings, charts), then write a message for the
+// Log in screen. Used on Log out and when the session expires, so the next person in the same tab sees no leftover data.
+// getInitialState() = the store's content when it was first created; true = REPLACE all of it (not merged like a normal set).
+// loggedOutOnPurpose = true only from the Log out button (Layout).
+export function clearAll(loginMessage: string | null, loggedOutOnPurpose = false) {
+  useLiveStore.setState({ ...useLiveStore.getInitialState(), user: null, loginMessage, loggedOutOnPurpose }, true);
+  useToast.setState(useToast.getInitialState(), true); // the previous account's toasts are thrown away too
+}
+
+// Module 24: called when the backend answers 401 and the refresh fails too (the session has expired, or logout in another tab).
+// The route guard (RequireLogin) then moves the screen to /login. A plain function outside a component = the SAME function
+// forever, so it is safe as an effect dependency (useRealtime doesn't disconnect and reconnect the socket because of it).
+export function handleSessionExpired() {
+  clearAll("Your session has expired. Please log in again.");
+}

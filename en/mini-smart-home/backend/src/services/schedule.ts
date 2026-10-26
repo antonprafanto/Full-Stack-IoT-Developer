@@ -59,8 +59,9 @@ export async function runSchedule(a: StoredRule): Promise<CommandResult> {
     message = `⚠️ ${a.name}: ${command.target} command not sent (${result.message})`;
   }
   log.info(`schedule of rule ${a.id}: ${message}`);
+  // Module 24: ok = the command was carried out (answered with ok); the dashboard uses it for the color of the notice
   recordEvent({ device_id: deviceId, kind: "schedule", source: "schedule", rule_id: a.id, message,
-    data: { command, result: result.status } });
+    data: { command, result: result.status, ok: result.status === "answered" && result.ack.ok } });
   if (a.action.notify) void notify(message);
   return result;
 }
@@ -69,7 +70,7 @@ export async function runSchedule(a: StoredRule): Promise<CommandResult> {
 function scheduleMissed(a: StoredRule, time: Date): void {
   const message = `⏰ Schedule ${a.name} at ${wibTime(time)} missed (laptop asleep or backend busy?)`;
   log.warn(message);
-  recordEvent({ device_id: null, kind: "schedule", source: "schedule", rule_id: a.id, message, data: { missed: time } });
+  recordEvent({ device_id: null, kind: "schedule", source: "schedule", rule_id: a.id, message, data: { missed: time, ok: false } });
   if (a.action.notify) void notify(message);
 }
 

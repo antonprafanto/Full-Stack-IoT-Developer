@@ -47,7 +47,7 @@ Tick `[x]` every time you meet the **"You pass when"** criteria in [SYLLABUS.md]
 
 - [ ] **[Module 22](phase-4-frontend-dashboard/module-22-react-basics/README.md)** — HTML, CSS, & React (TypeScript) from Scratch for an IoT Dashboard
 - [ ] **[Module 23](phase-4-frontend-dashboard/module-23-realtime-dashboard/README.md)** — Realtime Dashboard: Charts, Gauges, History, & Status
-- [ ] **Module 24** — Controls, Rule Forms, Roles, & Protected Routes
+- [ ] **[Module 24](phase-4-frontend-dashboard/module-24-control-rules-roles/README.md)** — Controls, Rule Forms, Roles, & Protected Routes
 - [ ] **Module 25** — Professional Visualization: Grafana, Device Maps, & Reports
 - [ ] 🎯 Phase 4 checkpoint: someone else can use the dashboard from a phone without help
 

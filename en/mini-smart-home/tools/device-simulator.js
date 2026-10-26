@@ -7,6 +7,8 @@
 // Module 21: each fake device connects to the broker with its OWN account: username = device_id, its key from the file
 // tools/.env (one line per device, for example KEY_F00D00000001=...). A device with no key is not started. If the broker
 // rejects its key, that device retries every 60 seconds, like Node 1 v1.6.0.
+// Module 24: the soil moisture and the tank level can be set from the terminal too, and a pump command is refused if the tank
+// is below 20 % with exactly the same reason as the Node 1 firmware ("pump refused: tank water too low").
 //
 // How to use (from a terminal, in the tools folder):
 //   node --env-file=.env device-simulator.js mqtt://192.168.1.37:1883            -> 10 fake devices
@@ -15,6 +17,11 @@
 // While it runs, type in the same terminal, then press Enter (Module 19):
 //   temp 33      -> every fake device reads 33.0 °C, like moving the DHT22 slider in Wokwi (use a point: temp 29.5)
 //   temp random  -> back to a random temperature of 25.0-33.0 °C
+//   soil 25      -> Module 24: every fake device reads soil 25 % (a whole number 0-100), for example to test the rule
+//                   "water if soil < 30 %". The simulator doesn't wet the soil after the pump runs: type soil 40 yourself.
+//   soil random  -> back to a random soil reading of 20-60 %
+//   tank 15      -> Module 24: the tank is 15 % full (a whole number 0-100); below 20 %, pump commands are refused like Node 1
+//   tank random  -> back to a random tank level of 30-90 %
 // Stop with Ctrl+C: the broker then publishes the "offline" last will of every fake device.
 
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
@@ -27,6 +34,7 @@ const COUNT = Number(process.argv[3]) || 10;
 const OFFLINE_MODE_TIMEOUT = 2 * 60 * 1000; // Module 19: broker unreachable for 2 minutes = offline mode (contract rule 5)
 const FAN_HYSTERESIS = 2; // Module 19: the safety fan turns off below temp_fan_on - 2 (hysteresis, Module 13)
 const STORE_FILE = "data/simulator-store.json"; // Module 19: the NVS stand-in; Git ignores the data/ folder (.gitignore)
+const MIN_WATER_LEVEL = 20; // Module 24: the same as Node 1's config.h: the pump is refused if the tank is below 20 %
 
 // a fake device_id: 12 lowercase hexadecimal digits, starting with f00d so it's easy to recognize
 function makeDeviceId(number) {
@@ -58,6 +66,8 @@ function saveStore() {
 }
 
 let typedTemp = null; // Module 19: null = a random temperature; a number = typed in the terminal ("temp 33")
+let typedSoil = null; // Module 24: null = a random soil reading of 20-60 %; a number = typed in the terminal ("soil 25")
+let typedTank = null; // Module 24: null = a random tank level of 30-90 %; a number = typed in the terminal ("tank 15")
 
 // Module 19: the same as the config check in firmware v1.5.0. The answer is "" if it is valid, or the reason for refusing it.
 function checkThresholds(thresholds) {
@@ -140,6 +150,8 @@ function runDevice(deviceId) {
     if (client.connected) {
       const reading = buildTelemetry();
       reading.temperature = Math.round(temperature * 10) / 10; // Module 19: the same temperature the safety uses
+      if (typedSoil !== null) reading.soil = typedSoil; // Module 24: "soil 25" typed in the terminal
+      if (typedTank !== null) reading.water_level = typedTank; // Module 24: "tank 15" typed in the terminal
       reading.state = { ...state };
       client.publish(topic("telemetry"), JSON.stringify(reading));
       lastPublished = Date.now();
@@ -216,13 +228,20 @@ function runDevice(deviceId) {
         if (cmd.target === "fan") fanOwnedBySafety = false; // Module 19: the fan passes to whoever sent the command
       } else message = `${cmd.target} value must be true or false`;
     } else if (cmd.target === "pump") {
-      if (Number.isInteger(cmd.value) && cmd.value >= 1 && cmd.value <= 10) {
+      if (!Number.isInteger(cmd.value) || cmd.value < 1 || cmd.value > 10) {
+        message = "pump value must be 1-10 seconds";
+      } else if (typedTank !== null && typedTank < MIN_WATER_LEVEL) {
+        // Module 24: the tank safety check, with the same check order and text as the Node 1 firmware (networking.cpp).
+        // A random tank level (30-90 %) is always enough, so this refusal only appears after "tank <below 20>" is typed.
+        message = "pump refused: tank water too low";
+        console.log(`${deviceId}: pump REFUSED: tank water only ${typedTank} %`);
+      } else {
         state.pump = true;
         setTimeout(() => {
           state.pump = false;
           sendSoon(); // Module 19: the pump turning off by itself = an actuator state change
         }, cmd.value * 1000);
-      } else message = "pump value must be 1-10 seconds";
+      }
     } else if (cmd.target === "curtain") {
       if (Number.isInteger(cmd.value) && cmd.value >= 0 && cmd.value <= 180) state.curtain = cmd.value;
       else message = "curtain value must be 0-180 degrees";
@@ -306,20 +325,33 @@ if (process.argv[3] === "clean") {
     console.log("No fake device has a key. Fill in tools/.env, then run with: node --env-file=.env …");
     process.exit(1);
   }
-  // Module 19: "temp 33" / "temp random" are typed in this terminal. Only in this mode: in clean mode, a terminal listener
-  // would keep the program from finishing by itself.
+  // Module 19: "temp 33" / "temp random" are typed in this terminal. Module 24: also "soil 25" / "soil random" and "tank 15" /
+  // "tank random". Only in this mode: in clean mode, a terminal listener would keep the program from finishing by itself.
   createInterface({ input: process.stdin }).on("line", (line) => {
     const [word, arg] = line.trim().toLowerCase().split(/\s+/);
     const num = Number(arg);
+    const percent = Number.isInteger(num) && num >= 0 && num <= 100; // Module 24: soil and tank, whole numbers 0-100
     if (word === "temp" && arg === "random") {
       typedTemp = null;
     } else if (word === "temp" && arg !== undefined && Number.isFinite(num)) {
       typedTemp = num;
+    } else if (word === "soil" && (arg === "random" || percent)) { // Module 24
+      typedSoil = arg === "random" ? null : num;
+    } else if (word === "tank" && (arg === "random" || percent)) { // Module 24
+      typedTank = arg === "random" ? null : num;
     } else {
-      console.log("Type for example: temp 33  or  temp random");
+      console.log("Type for example: temp 33, temp random, soil 25, soil random, tank 15, or tank random " +
+        "(soil and tank: whole numbers 0-100)");
       return;
     }
-    console.log(typedTemp === null ? "Temperature: random 25.0-33.0 °C" : `Temperature: ${typedTemp.toFixed(1)} °C`);
+    if (word === "temp") console.log(typedTemp === null ? "Temperature: random 25.0-33.0 °C" : `Temperature: ${typedTemp.toFixed(1)} °C`);
+    if (word === "soil") console.log(typedSoil === null ? "Soil: random 20-60 %" : `Soil: ${typedSoil} %`);
+    if (word === "tank") {
+      const low = typedTank !== null && typedTank < MIN_WATER_LEVEL;
+      console.log((typedTank === null ? "Tank: random 30-90 %" : `Tank: ${typedTank} %`) +
+        (low ? ` (below ${MIN_WATER_LEVEL} %: pump commands will be refused)` : ""));
+    }
   });
-  console.log(`${withKeys} fake device(s) heading to ${BROKER_URL}. Type "temp 33" or "temp random". Stop with Ctrl+C.`);
+  console.log(`${withKeys} fake device(s) heading to ${BROKER_URL}. Type for example "temp 33", "soil 25", "tank 15", ` +
+    `or "soil random". Stop with Ctrl+C.`);
 }

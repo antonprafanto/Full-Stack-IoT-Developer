@@ -4,7 +4,7 @@
 
 *Phase 4 · Week 23 · Hardware: **Kit A + B** or the Module 21 simulator (`f00d00000001`), plus a **phone** (Android/iPhone) on the same home Wi-Fi · Prerequisites: **Module 22** (dashboard v0.1 on `main`), **Module 19** · Time: 10–12 hours, spread over the week*
 
-[⬅️ Module 22](../module-22-react-basics/README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · [Module 24 ➡️ (coming soon — read the summary in the Syllabus)](../../SYLLABUS.md#module-24--controls-rule-forms-roles--protected-routes)
+[⬅️ Module 22](../module-22-react-basics/README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · [Module 24 ➡️](../module-24-control-rules-roles/README.md)
 
 ---
 
@@ -4419,4 +4419,4 @@ The author's laptop is in the UTC+8 zone; the backend ran with `TZ=Asia/Jakarta`
 
 ---
 
-[⬅️ Module 22](../module-22-react-basics/README.md) · [Phase 4](../README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · **Next: Module 24 — Controls, Rule Forms, Roles, & Protected Routes** (coming soon; [read the summary in the Syllabus](../../SYLLABUS.md#module-24--controls-rule-forms-roles--protected-routes))
+[⬅️ Module 22](../module-22-react-basics/README.md) · [Phase 4](../README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · **Next: [Module 24 — Controls, Rule Forms, Roles, & Protected Routes](../module-24-control-rules-roles/README.md) ➡️**

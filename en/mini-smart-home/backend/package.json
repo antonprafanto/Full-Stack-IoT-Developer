@@ -1,6 +1,6 @@
 {
   "name": "mini-smart-home-backend",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Mini Smart Home backend (Modules 16-21): listens to MQTT, checks the data contract, stores every message in a time-series database, and provides a history API, realtime data, commands, automation rules, schedules, and Telegram notifications, login with admin and viewer roles, plus an official device registry with a per-device key and the backend's own broker account",
   "private": true,
   "type": "module",

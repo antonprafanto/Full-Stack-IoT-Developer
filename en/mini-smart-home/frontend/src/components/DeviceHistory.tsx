@@ -1,6 +1,7 @@
 // DeviceHistory.tsx - one device's history screen: pick a range (1 hour / 24 hours / 7 days), then see the chart, the paged
 // table, and download a CSV. One range = ONE request to the API; the rest (gaps, pages, CSV) is done by the browser.
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router";
 import { ApiError, getHistory } from "../api";
 import { csvTime, downloadCsv, toCsv } from "../csv";
 import type { Device, HistoryData, HistoryRange } from "../types";
@@ -23,11 +24,10 @@ const CAPTIONS: Record<HistoryRange, string> = {
 
 type Props = {
   device: Device;
-  onBack: () => void;
   onSessionExpired: () => void; // called if the backend answers 401 (after the refresh failed as well)
 };
 
-export default function DeviceHistory({ device, onBack, onSessionExpired }: Props) {
+export default function DeviceHistory({ device, onSessionExpired }: Props) {
   const id = device.device_id;
   const [range, setRange] = useState<HistoryRange>("7days");
   const [data, setData] = useState<HistoryData | null>(null); // null = still loading
@@ -100,11 +100,11 @@ export default function DeviceHistory({ device, onBack, onSessionExpired }: Prop
   if (error !== null) {
     content = <p className="mt-4 rounded-lg bg-red-50 p-3 text-red-700 dark:bg-red-950 dark:text-red-200">{error}</p>;
   } else if (data === null) {
-    content = <p className="mt-4 text-slate-500 dark:text-slate-400">Loading the history…</p>;
+    content = <p className="mt-4 text-slate-600 dark:text-slate-400">Loading the history…</p>;
   } else {
     content = (
       <>
-        <p className="mt-3 text-sm text-slate-500 dark:text-slate-400">
+        <p className="mt-3 text-sm text-slate-600 dark:text-slate-400">
           {CAPTIONS[range]} · {data.points.length} points
           {/* time from sending the request until React has finished drawing the chart; readable on a phone without DevTools */}
           {durationMs !== null ? " · loaded in " + durationMs + " ms" : null}
@@ -122,13 +122,13 @@ export default function DeviceHistory({ device, onBack, onSessionExpired }: Prop
             <button
               type="button"
               onClick={download}
-              className="mt-4 min-h-11 rounded-lg bg-teal-600 px-4 font-medium text-white hover:bg-teal-700"
+              className="mt-4 min-h-11 rounded-lg bg-teal-700 px-4 font-medium text-white hover:bg-teal-800"
             >
               Download CSV
             </button>
           </>
         )}
-        <p className="mt-3 text-xs text-slate-500 dark:text-slate-400">
+        <p className="mt-3 text-xs text-slate-600 dark:text-slate-400">
           The summary history only keeps temperature, humidity, soil moisture, and light.
         </p>
       </>
@@ -137,17 +137,17 @@ export default function DeviceHistory({ device, onBack, onSessionExpired }: Prop
 
   return (
     <div>
-      <button
-        type="button"
-        onClick={onBack}
+      {/* Module 24: a link to this device's details address (no longer a button that changes state in App) */}
+      <Link
+        to={"/devices/" + id}
         className="inline-flex min-h-11 items-center text-sm font-medium text-teal-700 hover:underline dark:text-teal-300"
       >
         ← Back to the details
-      </button>
+      </Link>
       <h2 className="min-w-0 text-xl font-semibold break-words text-slate-800 dark:text-slate-100">
         History: {device.name ?? id}
       </h2>
-      <p className="mb-3 text-sm text-slate-500 dark:text-slate-400">
+      <p className="mb-3 text-sm text-slate-600 dark:text-slate-400">
         {device.location ?? "no location yet"} · <span className="font-mono text-xs">{id}</span>
       </p>
       <Picker label="Time range" options={OPTIONS} selected={range} onSelect={selectRange} />
