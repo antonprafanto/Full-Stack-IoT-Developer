@@ -26,7 +26,7 @@ The gateway is the Raspberry Pi that runs the Mini Smart Home MQTT broker 24 hou
 | [`gateway-pi.conf`](gateway-pi.conf) | the Pi gateway (Module 12; locked in Module 21) | on the Pi: `/etc/mosquitto/conf.d/gateway-pi.conf` |
 | [`acl-broker`](acl-broker) | the Pi gateway and the laptop ([Module 21](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-3-backend-data/module-21-device-broker-security/README.md)) | the broker access list (ACL): a device only writes its own topics. On the Pi: `/etc/mosquitto/acl-broker` (OUTSIDE `conf.d`) |
 | `broker-passwd` | the Pi gateway and the laptop (Module 21) | **not in Git** (`.gitignore`): the broker accounts' password file, made **on the broker machine** with `mosquitto_passwd` |
-| [`node-red-flows.json`](node-red-flows.json) | the Pi gateway (Module 13) | all the Node-RED flows; restored through **Import** in the editor (step 11) |
+| [`node-red-flows.json`](../../../../mini-smart-home/edge/node-red-flows.json) | the Pi gateway (Module 13) | all the Node-RED flows; restored through **Import** in the editor (step 11) |
 
 ## Rebuild recipe
 
@@ -107,7 +107,7 @@ Its traffic is still unencrypted: the key travels in the clear on the LAN (see `
 
 ## Node-RED and the dashboard (Module 13)
 
-Node-RED runs on this same gateway, as the systemd service `nodered` ([Module 13](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-13-node-red-dashboard/README.md)). All its flows, that is, dashboard v0 (with the Garden card since Module 14 and the RS-485 Sensor group since Module 15) and the fan automation (switched off since Module 16, because Mini Smart Home's brain has moved to the backend), are saved in [`node-red-flows.json`](node-red-flows.json). The editor password and the passphrase are never exported; never write them down here.
+Node-RED runs on this same gateway, as the systemd service `nodered` ([Module 13](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-13-node-red-dashboard/README.md)). All its flows, that is, dashboard v0 (with the Garden card since Module 14 and the RS-485 Sensor group since Module 15) and the fan automation (switched off since Module 16, because Mini Smart Home's brain has moved to the backend), are saved in [`node-red-flows.json`](../../../../mini-smart-home/edge/node-red-flows.json). The editor password and the passphrase are never exported; never write them down here.
 
 | Part | This gateway |
 | :--- | :--- |

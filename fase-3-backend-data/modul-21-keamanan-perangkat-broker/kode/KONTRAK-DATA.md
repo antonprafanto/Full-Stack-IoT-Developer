@@ -252,4 +252,4 @@ Isi tabel ini di salinan milikmu sendiri (repositori `rumah-pintar-mini`).
 
 ---
 
-[⬅️ Kembali ke proyek](README.md) · [Modul 11](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-2-konektivitas/modul-11-mqtt-dan-kontrak-data/README.md) · [Silabus](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/SILABUS.md)
+[⬅️ Kembali ke proyek](../../../proyek-rumah-pintar-mini/README.md) · [Modul 11](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-2-konektivitas/modul-11-mqtt-dan-kontrak-data/README.md) · [Silabus](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/SILABUS.md)

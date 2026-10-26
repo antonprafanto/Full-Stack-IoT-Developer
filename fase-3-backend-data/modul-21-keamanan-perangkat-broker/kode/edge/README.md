@@ -26,7 +26,7 @@ Gateway adalah Raspberry Pi yang menjalankan broker MQTT Rumah Pintar Mini 24 ja
 | [`gateway-pi.conf`](gateway-pi.conf) | gateway Pi (Modul 12; dikunci Modul 21) | di Pi: `/etc/mosquitto/conf.d/gateway-pi.conf` |
 | [`acl-broker`](acl-broker) | gateway Pi dan laptop ([Modul 21](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-3-backend-data/modul-21-keamanan-perangkat-broker/README.md)) | daftar izin broker (ACL): perangkat hanya menulis topiknya sendiri. Di Pi: `/etc/mosquitto/acl-broker` (DI LUAR `conf.d`) |
 | `sandi-broker` | gateway Pi dan laptop (Modul 21) | **tidak ikut Git** (`.gitignore`): berkas sandi akun broker, dibuat **di mesin broker** dengan `mosquitto_passwd` |
-| [`node-red-flows.json`](node-red-flows.json) | gateway Pi (Modul 13) | semua flow Node-RED; dipulihkan lewat **Import** di editor (langkah 11) |
+| [`node-red-flows.json`](../../../../proyek-rumah-pintar-mini/edge/node-red-flows.json) | gateway Pi (Modul 13) | semua flow Node-RED; dipulihkan lewat **Import** di editor (langkah 11) |
 
 ## Resep membangun ulang
 
@@ -107,7 +107,7 @@ Lalu lintasnya masih tanpa enkripsi: kunci terkirim polos di LAN (lihat `alat/pe
 
 ## Node-RED dan dashboard (Modul 13)
 
-Node-RED berjalan di gateway yang sama sebagai layanan systemd `nodered` ([Modul 13](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-2-konektivitas/modul-13-node-red-dashboard/README.md)). Semua flow-nya, yaitu dashboard v0 (dengan kartu Kebun sejak Modul 14 dan grup Sensor RS-485 sejak Modul 15) dan otomasi kipas (dimatikan sejak Modul 16 karena otak Rumah Pintar Mini pindah ke backend), tersimpan di [`node-red-flows.json`](node-red-flows.json). Kata sandi editor dan *passphrase* tidak pernah ikut terekspor; jangan pernah mencatatnya di sini.
+Node-RED berjalan di gateway yang sama sebagai layanan systemd `nodered` ([Modul 13](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-2-konektivitas/modul-13-node-red-dashboard/README.md)). Semua flow-nya, yaitu dashboard v0 (dengan kartu Kebun sejak Modul 14 dan grup Sensor RS-485 sejak Modul 15) dan otomasi kipas (dimatikan sejak Modul 16 karena otak Rumah Pintar Mini pindah ke backend), tersimpan di [`node-red-flows.json`](../../../../proyek-rumah-pintar-mini/edge/node-red-flows.json). Kata sandi editor dan *passphrase* tidak pernah ikut terekspor; jangan pernah mencatatnya di sini.
 
 | Bagian | Gateway ini |
 | :--- | :--- |
