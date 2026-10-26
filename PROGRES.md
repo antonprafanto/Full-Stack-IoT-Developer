@@ -47,7 +47,7 @@ Centang `[x]` setiap kali Anda memenuhi kriteria **"Lulus jika"** di [SILABUS.md
 
 - [ ] **[Modul 22](fase-4-frontend-dashboard/modul-22-react-dasar/README.md)** — HTML, CSS, & React (TypeScript) dari Nol untuk Dashboard IoT
 - [ ] **[Modul 23](fase-4-frontend-dashboard/modul-23-dashboard-realtime/README.md)** — Dashboard Realtime: Grafik, Gauge, Riwayat, & Status
-- [ ] **Modul 24** — Kendali, Form Aturan, Peran, & Rute Terproteksi
+- [ ] **[Modul 24](fase-4-frontend-dashboard/modul-24-kendali-aturan-peran/README.md)** — Kendali, Form Aturan, Peran, & Rute Terproteksi
 - [ ] **Modul 25** — Visualisasi Profesional: Grafana, Peta Perangkat, & Laporan
 - [ ] 🎯 Checkpoint Fase 4: orang lain bisa memakai dashboard dari HP tanpa dibantu
 

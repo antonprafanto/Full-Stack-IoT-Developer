@@ -4,7 +4,7 @@
 
 *Fase 4 · Minggu 23 · Perangkat keras: **Kit A + B** atau simulator Modul 21 (`f00d00000001`), ditambah **HP** (Android/iPhone) di WiFi rumah yang sama · Prasyarat: **Modul 22** (dashboard v0.1 di `main`), **Modul 19** · Waktu: 10–12 jam, dicicil dalam satu minggu*
 
-[⬅️ Modul 22](../modul-22-react-dasar/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · [Modul 24 ➡️ (segera terbit — baca ringkasannya di Silabus)](../../SILABUS.md#modul-24--kendali-form-aturan-peran--rute-terproteksi)
+[⬅️ Modul 22](../modul-22-react-dasar/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · [Modul 24 ➡️](../modul-24-kendali-aturan-peran/README.md)
 
 ---
 
@@ -4418,4 +4418,4 @@ Yang **tidak** diuji: HP Android dan iPhone sungguhan (Praktik 9 dibuktikan dari
 
 ---
 
-[⬅️ Modul 22](../modul-22-react-dasar/README.md) · [Fase 4](../README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · **Berikutnya: Modul 24 — Kendali, Form Aturan, Peran, & Rute Terproteksi** (segera terbit; [ringkasannya di Silabus](../../SILABUS.md#modul-24--kendali-form-aturan-peran--rute-terproteksi))
+[⬅️ Modul 22](../modul-22-react-dasar/README.md) · [Fase 4](../README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · **Berikutnya: [Modul 24 — Kendali, Form Aturan, Peran, & Rute Terproteksi](../modul-24-kendali-aturan-peran/README.md) ➡️**
