@@ -1,5 +1,6 @@
 // types.ts - bentuk data dari kontrak data (Lampiran A Silabus, KONTRAK-DATA.md 1.4) dan dari jawaban API backend v1.0.
 // Nama kolomnya sama persis dengan yang dikirim backend, jadi data dari server langsung "pas".
+// Modul 25: backend 1.2 menambah titik peta (lat, lng) di jawaban GET /devices.
 // Isinya hanya tipe (label untuk TypeScript): saat halaman berjalan di browser, semua baris ini sudah dihapus Vite.
 // Pilihan nilai ditulis sebagai gabungan teks ("a" | "b"), bukan enum: templat kita melarang enum (erasableSyntaxOnly).
 
@@ -17,6 +18,10 @@ export type Perangkat = {
   device_id: string; // 12 digit heksadesimal huruf kecil, misalnya "a4cf12e5b7c0"
   nama: string | null; // null = belum diberi nama oleh admin
   lokasi: string | null;
+  // Modul 25: titik perangkat di peta, dalam derajat desimal (lintang -90 sampai 90, bujur -180 sampai 180).
+  // null = titiknya belum diisi admin. Backend selalu mengisi keduanya berpasangan (dua-duanya angka atau dua-duanya null).
+  lat: number | null; // lintang (latitude), misalnya -6.1754
+  lng: number | null; // bujur (longitude), misalnya 106.8272
   jenis: Jenis;
   status: StatusPerangkat;
   terakhir_dilihat: string | null; // waktu UTC, misalnya "2026-10-23T09:41:30Z"

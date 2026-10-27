@@ -17,3 +17,31 @@
     --warna-lintasan: var(--color-slate-700);
   }
 }
+
+/* Modul 25: kotak popup di peta (PetaPerangkat) ikut mode gelap seperti bagian dashboard lain. Ubin peta sendiri TETAP
+   terang: itu gambar dari server OpenStreetMap, dan kita tidak mengubah warnanya. CSS Leaflet dimuat SESUDAH berkas ini,
+   jadi pemilihnya dibuat lebih spesifik (.leaflet-container ...) supaya tetap menang. Tautan di popup memakai teal
+   dashboard (bawaan Leaflet biru #0078A8, kurang kontras di atas latar gelap). */
+.leaflet-container .leaflet-popup-content a {
+  color: var(--color-teal-700);
+}
+
+@media (prefers-color-scheme: dark) {
+  .leaflet-container .leaflet-popup-content-wrapper,
+  .leaflet-container .leaflet-popup-tip {
+    background: var(--color-slate-800);
+    color: var(--color-slate-100);
+  }
+  .leaflet-container .leaflet-popup-content a {
+    color: var(--color-teal-300);
+  }
+  /* tombol ✕: aturan Leaflet untuknya SAMA kuat dengan .leaflet-container a.leaflet-popup-close-button dan datang belakangan,
+     jadi pemilih di sini ditambah .leaflet-popup (lebih kuat), termasuk saat disorot (hover) dan dipilih keyboard (focus) */
+  .leaflet-container .leaflet-popup a.leaflet-popup-close-button {
+    color: var(--color-slate-300);
+  }
+  .leaflet-container .leaflet-popup a.leaflet-popup-close-button:hover,
+  .leaflet-container .leaflet-popup a.leaflet-popup-close-button:focus {
+    color: var(--color-slate-100);
+  }
+}

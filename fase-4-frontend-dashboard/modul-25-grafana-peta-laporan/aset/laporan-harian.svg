@@ -1,0 +1,161 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1066" viewBox="0 0 1200 1066" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="1066" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" xml:space="preserve">Laporan harian: datang sendiri setiap pagi, selama backend menyala</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" xml:space="preserve">Konsep 10 · backend 1.2 <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5">services/laporan.ts</tspan> · <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5">LAPORAN_JADWAL</tspan> bawaan <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5">0</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5">7</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5">*</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5">*</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5">*</tspan> (WIB) · CSV resep Modul 23</text>
+<rect x="30.0" y="104.0" width="361.3" height="196.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<circle cx="52.0" cy="129.0" r="12" fill="#1a7f37" stroke="#ffffff" stroke-width="2" />
+<text x="52.0" y="133.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >1</text>
+<text x="72.0" y="134.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Jadwal 07.00 WIB</text>
+<text x="50.0" y="166.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">node-cron di backend (sejak Modul 19);</text>
+<text x="50.0" y="186.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1a7f37" font-weight="800">timezone:</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1a7f37" font-weight="800">"Asia/Jakarta"</tspan>: laptop WITA</text>
+<text x="50.0" y="206.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">pun tetap 07.00 WIB</text>
+<text x="50.0" y="226.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">cron 5 bidang <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1a7f37" font-weight="800">0</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1a7f37" font-weight="800">7</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1a7f37" font-weight="800">*</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1a7f37" font-weight="800">*</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1a7f37" font-weight="800">*</tspan> (6 bidang ditolak)</text>
+<text x="50.0" y="246.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">log: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1a7f37" font-weight="800">laporan</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1a7f37" font-weight="800">harian</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1a7f37" font-weight="800">berjalan</tspan></text>
+<text x="50.0" y="266.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1a7f37" font-weight="800">sesuai jadwal</tspan></text>
+<line x1="395.3" y1="202.0" x2="415.3" y2="202.0" stroke="#9aa3b0" stroke-width="2.2" stroke-linecap="round" />
+<path d="M409.2 205.3 L415.3 202.0 L409.2 198.7" fill="none" stroke="#9aa3b0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="419.3" y="104.0" width="361.3" height="196.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<circle cx="441.3" cy="129.0" r="12" fill="#1a7f37" stroke="#ffffff" stroke-width="2" />
+<text x="441.3" y="133.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >2</text>
+<text x="461.3" y="134.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Rentang: kemarin, dalam WIB</text>
+<text x="439.3" y="166.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">00.00–24.00 WIB hari sebelumnya,</text>
+<text x="439.3" y="186.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">apa pun zona waktu laptopnya:</text>
+<text x="439.3" y="206.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1a7f37" font-weight="800">dari   2026-10-25T17:00:00Z</tspan></text>
+<text x="439.3" y="226.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1a7f37" font-weight="800">sampai 2026-10-26T17:00:00Z</tspan></text>
+<text x="439.3" y="246.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">= isi tanggal 26 Okt, dikirim pagi</text>
+<text x="439.3" y="266.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">tanggal 27 Okt</text>
+<line x1="784.7" y1="202.0" x2="804.7" y2="202.0" stroke="#9aa3b0" stroke-width="2.2" stroke-linecap="round" />
+<path d="M798.5 205.3 L804.7 202.0 L798.5 198.7" fill="none" stroke="#9aa3b0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="808.7" y="104.0" width="361.3" height="196.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<circle cx="830.7" cy="129.0" r="12" fill="#1a7f37" stroke="#ffffff" stroke-width="2" />
+<text x="830.7" y="133.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >3</text>
+<text x="850.7" y="134.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Satu kueri, semua perangkat</text>
+<text x="828.7" y="166.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1a7f37" font-weight="800">readings_per_jam</tspan> (Modul 18): jumlah</text>
+<text x="828.7" y="186.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">bacaan, suhu, kelembapan, tanah</text>
+<text x="828.7" y="206.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1a7f37" font-weight="800">device_health</tspan> (Modul 19): RSSI, heap,</text>
+<text x="828.7" y="226.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">berapa kali menyala ulang</text>
+<text x="828.7" y="246.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1a7f37" font-weight="800">events</tspan>: berapa kali terputus</text>
+<text x="828.7" y="266.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">hanya perangkat terdaftar, belum dicabut</text>
+<g transform="translate(361.3333333333333 134) scale(0.9) translate(-361.3333333333333 -134)">
+<circle cx="361.3" cy="134.0" r="13" fill="none" stroke="#1a7f37" stroke-width="2" />
+<line x1="361.3" y1="124.5" x2="361.3" y2="122.5" stroke="#1a7f37" stroke-width="1.4" stroke-linecap="round" />
+<line x1="370.8" y1="134.0" x2="372.8" y2="134.0" stroke="#1a7f37" stroke-width="1.4" stroke-linecap="round" />
+<line x1="361.3" y1="143.5" x2="361.3" y2="145.5" stroke="#1a7f37" stroke-width="1.4" stroke-linecap="round" />
+<line x1="351.8" y1="134.0" x2="349.8" y2="134.0" stroke="#1a7f37" stroke-width="1.4" stroke-linecap="round" />
+<line x1="361.3" y1="134.0" x2="361.3" y2="126.0" stroke="#1a7f37" stroke-width="1.9" stroke-linecap="round" />
+<line x1="361.3" y1="134.0" x2="368.3" y2="136.0" stroke="#1a7f37" stroke-width="1.9" stroke-linecap="round" />
+<circle cx="361.3" cy="134.0" r="1.6" fill="#1a7f37" />
+</g>
+<path d="M989.3 302 L989.3 324 L170 324 L170 346" fill="none" stroke="#9aa3b0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M166.7 341.8 L170.0 348.0 L173.3 341.8" fill="none" stroke="#9aa3b0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="30.0" y="352.0" width="540.0" height="210.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<circle cx="52.0" cy="377.0" r="12" fill="#1a7f37" stroke="#ffffff" stroke-width="2" />
+<text x="52.0" y="381.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >4</text>
+<text x="72.0" y="382.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">CSV resep Modul 23, dibuat di server</text>
+<rect x="46.0" y="398.0" width="508.0" height="63.9" rx="8" fill="#eef1f5" />
+<text x="56.0" y="417.4" font-size="11" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">device_id;nama;jenis;jumlah_bacaan;suhu_rata;suhu_min;suhu_maks;…</text>
+<text x="56.0" y="434.4" font-size="11" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">f00d00000001;Latihan ruang tamu;node1;363;27,9;21,6;33;…</text>
+<text x="56.0" y="451.4" font-size="11" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">f00d000000b2;Kebun (tiruan);node2;3;28;26,5;29,6;…;;;;;0</text>
+<text x="50.0" y="492.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">BOM <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1a7f37" font-weight="800">EF</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1a7f37" font-weight="800">BB</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1a7f37" font-weight="800">BF</tspan> · pemisah <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1a7f37" font-weight="800">;</tspan> · koma desimal · baris CRLF</text>
+<text x="50.0" y="512.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">15 kolom; vitals Node 2 kosong (Node 2 memang tanpa vitals)</text>
+<text x="50.0" y="532.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">nama berkas = tanggal isinya: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1a7f37" font-weight="800">laporan-2026-10-26.csv</tspan></text>
+<line x1="574.0" y1="457.0" x2="594.0" y2="457.0" stroke="#9aa3b0" stroke-width="2.2" stroke-linecap="round" />
+<path d="M587.8 460.3 L594.0 457.0 L587.8 453.7" fill="none" stroke="#9aa3b0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="598.0" y="352.0" width="250.0" height="210.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<circle cx="620.0" cy="377.0" r="12" fill="#1a7f37" stroke="#ffffff" stroke-width="2" />
+<text x="620.0" y="381.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >5</text>
+<text x="640.0" y="382.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Kirim sebagai berkas</text>
+<text x="616.0" y="414.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1a7f37" font-weight="800">kirimBerkas()</tspan> di <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1a7f37" font-weight="800">telegram.ts</tspan>:</text>
+<text x="616.0" y="432.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1a7f37" font-weight="800">sendDocument</tspan> +</text>
+<text x="616.0" y="450.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1a7f37" font-weight="800">InputFile(Buffer, nama)</tspan></text>
+<text x="616.0" y="468.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">bot yang sama (<tspan font-style="italic">long polling</tspan></text>
+<text x="616.0" y="486.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">tetap jalan)</text>
+<text x="616.0" y="522.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#e63946">jebakan:</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1a7f37" font-weight="800">InputFile("teks")</tspan></text>
+<text x="616.0" y="540.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">dianggap jalur berkas di disk</text>
+<line x1="852.0" y1="457.0" x2="872.0" y2="457.0" stroke="#9aa3b0" stroke-width="2.2" stroke-linecap="round" />
+<path d="M865.8 460.3 L872.0 457.0 L865.8 453.7" fill="none" stroke="#9aa3b0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="876.0" y="352.0" width="294.0" height="210.0" rx="12" fill="#f5f0fc" stroke="#6f42c1" stroke-width="1.8" />
+<path d="M892 390 Q882 390 884 380 Q886 370 898 372 Q904 360 918 365 Q930 362 932 374 Q942 376 940 385 Q938 390 930 390 Z" fill="none" stroke="#6f42c1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="946.0" y="385.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Telegram (chat pribadi)</text>
+<rect x="894.0" y="404.0" width="258.0" height="54.0" rx="8" fill="#ffffff" stroke="#d5dbe3" stroke-width="1.2" />
+<path d="M905 417 L920 417 L927 424 L927 445 L905 445 Z" fill="none" stroke="#6f42c1" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M920 417 L920 424 L927 424" fill="none" stroke="#6f42c1" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="910.0" y1="429.0" x2="922.0" y2="429.0" stroke="#6f42c1" stroke-width="1.3" stroke-linecap="round" />
+<line x1="910.0" y1="434.0" x2="922.0" y2="434.0" stroke="#6f42c1" stroke-width="1.3" stroke-linecap="round" />
+<line x1="910.0" y1="439.0" x2="922.0" y2="439.0" stroke="#6f42c1" stroke-width="1.3" stroke-linecap="round" />
+<text x="936.0" y="427.0" font-size="11.5" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">laporan-2026-10-26.csv</text>
+<text x="936.0" y="446.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" >326 byte</text>
+<text x="894.0" y="480.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve">📊 Laporan harian Rumah Pintar Mini</text>
+<text x="894.0" y="498.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve">26 Okt 2026: 2 perangkat</text>
+<text x="894.0" y="526.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">teks persis yang diterima Telegram</text>
+<text x="894.0" y="543.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">tiruan lab (gladi 00.04.00 WIB)</text>
+<text x="30.0" y="594.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >Kalau tidak berjalan seperti biasa</text>
+<rect x="30.0" y="608.0" width="369.3" height="226.0" rx="12" fill="#ffffff" stroke="#b45f17" stroke-width="1.6" />
+<text x="48.0" y="636.0" font-size="13.5" font-weight="800" fill="#b45f17" text-anchor="start" >Laptop tidur saat 07.00</text>
+<text x="48.0" y="662.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">terlambat ≤ 15 menit (baru bangun): tetap jalan;</text>
+<text x="48.0" y="680.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">lebih lama: log + pesan ⏰ ke Telegram, laporan</text>
+<text x="48.0" y="698.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#b45f17">TIDAK</tspan> dikirim belakangan:</text>
+<rect x="44.0" y="712.0" width="341.3" height="75.9" rx="8" fill="#eef1f5" />
+<text x="53.0" y="730.4" font-size="11" font-weight="700" fill="#b45f17" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">⏰ Laporan harian pada 27 Okt 2026,</text>
+<text x="53.0" y="746.4" font-size="11" font-weight="700" fill="#b45f17" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">07.00 WIB terlewat (laptop tidur atau</text>
+<text x="53.0" y="762.4" font-size="11" font-weight="700" fill="#b45f17" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">backend sibuk?). Kirim sekarang lewat</text>
+<text x="53.0" y="778.4" font-size="11" font-weight="700" fill="#b45f17" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">POST /laporan/kirim</text>
+<text x="48.0" y="820.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="start" >backend mati sama sekali: tanpa catatan apa pun</text>
+<rect x="415.3" y="608.0" width="369.3" height="226.0" rx="12" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.6" />
+<text x="433.3" y="636.0" font-size="13.5" font-weight="800" fill="#4a5568" text-anchor="start" >Telegram mati (token kosong)</text>
+<text x="433.3" y="662.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">jadwal tetap berjalan, tetapi laporannya</text>
+<text x="433.3" y="680.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">dilewati; log backend:</text>
+<rect x="429.3" y="694.0" width="341.3" height="59.9" rx="8" fill="#eef1f5" />
+<text x="438.3" y="712.4" font-size="11" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">WARN: laporan harian dilewati:</text>
+<text x="438.3" y="728.4" font-size="11" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">Telegram mati (TELEGRAM_BOT_TOKEN</text>
+<text x="438.3" y="744.4" font-size="11" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">belum diisi)</text>
+<text x="433.3" y="778.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">tombol uji menjawab <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#e63946" font-weight="800">409</tspan>:</text>
+<text x="433.3" y="799.0" font-size="11" font-weight="800" fill="#e63946" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">laporan tidak dikirim: Telegram mati</text>
+<text x="433.3" y="816.0" font-size="11" font-weight="800" fill="#e63946" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">(TELEGRAM_BOT_TOKEN belum diisi)</text>
+<rect x="800.7" y="608.0" width="369.3" height="226.0" rx="12" fill="#f5f0fc" stroke="#6f42c1" stroke-width="1.6" />
+<text x="818.7" y="636.0" font-size="13.5" font-weight="800" fill="#6f42c1" text-anchor="start" xml:space="preserve">Tombol uji: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12.5" fill="#6f42c1" font-weight="800">POST</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12.5" fill="#6f42c1" font-weight="800">/laporan/kirim</tspan></text>
+<text x="818.7" y="662.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">admin saja (viewer <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#6f42c1" font-weight="800">403</tspan>); di Bruno:</text>
+<text x="818.7" y="681.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#6f42c1" font-weight="800">kirim laporan sekarang</tspan></text>
+<text x="818.7" y="700.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">laporan kemarin seketika; <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#6f42c1" font-weight="800">?hari=ini</tspan> →</text>
+<text x="818.7" y="719.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#6f42c1" font-weight="800">laporan-2026-10-27-sementara.csv</tspan></text>
+<text x="818.7" y="738.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">(00.00 WIB sampai sekarang)</text>
+<text x="818.7" y="776.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#6f42c1">alat uji isi, BUKAN bukti otomatis</tspan></text>
+<text x="30.0" y="866.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >Bukti G3: gladi otomatis, tangan lepas (lab penulis, jam WIB)</text>
+<rect x="30.0" y="880.0" width="1140.0" height="144.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<circle cx="58.0" cy="908.0" r="11" fill="#1a7f37" stroke="#ffffff" stroke-width="2" />
+<text x="58.0" y="912.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >1</text>
+<text x="46.0" y="942.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">simpan <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1a7f37" font-weight="800">.env</tspan>:</text>
+<text x="46.0" y="961.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1a7f37" font-weight="800">LAPORAN_JADWAL=4 0 * * *</tspan></text>
+<text x="46.0" y="980.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">(±3 menit ke depan)</text>
+<line x1="220.0" y1="908.0" x2="240.0" y2="908.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<path d="M234.7 910.8 L240.0 908.0 L234.7 905.2" fill="none" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="270.0" cy="908.0" r="11" fill="#1a7f37" stroke="#ffffff" stroke-width="2" />
+<text x="270.0" y="912.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >2</text>
+<text x="258.0" y="942.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1a7f37" font-weight="800">node</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1a7f37" font-weight="800">--watch</tspan> memulai</text>
+<text x="258.0" y="961.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">ulang backend sendiri:</text>
+<text x="258.0" y="980.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1a7f37" font-weight="800">berikutnya 27 Okt 2026,</tspan></text>
+<text x="258.0" y="999.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1a7f37" font-weight="800">00.04 WIB</tspan></text>
+<line x1="432.0" y1="908.0" x2="452.0" y2="908.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<path d="M446.7 910.8 L452.0 908.0 L446.7 905.2" fill="none" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="482.0" cy="908.0" r="11" fill="#1a7f37" stroke="#ffffff" stroke-width="2" />
+<text x="482.0" y="912.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >3</text>
+<text x="470.0" y="942.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">tangan lepas: tidak</text>
+<text x="470.0" y="961.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">mengetik, tidak</text>
+<text x="470.0" y="980.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">menekan apa pun</text>
+<line x1="616.0" y1="908.0" x2="636.0" y2="908.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<path d="M630.7 910.8 L636.0 908.0 L630.7 905.2" fill="none" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="666.0" cy="908.0" r="11" fill="#1a7f37" stroke="#ffffff" stroke-width="2" />
+<text x="666.0" y="912.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >4</text>
+<text x="654.0" y="942.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">00.04.00</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1a7f37" font-weight="800">laporan</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1a7f37" font-weight="800">harian</tspan></text>
+<text x="654.0" y="961.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1a7f37" font-weight="800">berjalan</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1a7f37" font-weight="800">sesuai</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1a7f37" font-weight="800">jadwal</tspan> →</text>
+<text x="654.0" y="980.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1a7f37" font-weight="800">Telegram terkirim: berkas</tspan></text>
+<text x="654.0" y="999.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1a7f37" font-weight="800">laporan-2026-10-26.csv (326 byte)</tspan></text>
+<line x1="894.0" y1="908.0" x2="914.0" y2="908.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<path d="M908.7 910.8 L914.0 908.0 L908.7 905.2" fill="none" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="944.0" cy="908.0" r="11" fill="#1a7f37" stroke="#ffffff" stroke-width="2" />
+<text x="944.0" y="912.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >5</text>
+<text x="932.0" y="942.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">kembalikan</text>
+<text x="932.0" y="961.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1a7f37" font-weight="800">LAPORAN_JADWAL=0 7 * * *</tspan></text>
+<text x="932.0" y="980.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">lalu simpan lagi</text>
+<text x="1178.0" y="1052.0" font-size="11" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

@@ -1,0 +1,30 @@
+info:
+  name: daftarkan Node 1
+  type: http
+  seq: 19
+
+http:
+  method: POST
+  url: "{{baseUrl}}/devices"
+  body:
+    type: json
+    data: |-
+      {
+        "device_id": "a4cf12e5b7c0",
+        "nama": "Node 1 ruang tamu",
+        "lokasi": "ruang tamu"
+      }
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "201"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: true

@@ -1,11 +1,12 @@
 // perangkat.ts - rute /devices: daftar perangkat, bacaan terbaru, riwayat dari database (mentah atau ringkasan),
 // perintah, dan keadaan aktuator (desired/reported, Modul 19). Modul 21: daftar resmi perangkat (registrasi, ganti kunci,
-// cabut kunci); GET /devices kini dibaca dari database.
+// cabut kunci); GET /devices kini dibaca dari database. Modul 25: GET /devices membawa titik peta (lat, lng), dan admin
+// memindahkan titik itu lewat PUT /devices/:id/lokasi.
 import { z } from "zod";
 import type { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
 import { Ack, DeviceId, Keadaan, PerintahSet, Status, TelemetryNode1, TelemetryNode2, Vitals } from "../schemas/kontrak.ts";
 import { cariPerangkat } from "../services/gudang.ts";
-import { cabutPerangkat, daftarkanPerangkat, gantiKunciPerangkat, semuaPerangkatDb } from "../db/perangkat.ts";
+import { cabutPerangkat, daftarkanPerangkat, gantiKunciPerangkat, semuaPerangkatDb, ubahLokasi } from "../db/perangkat.ts";
 import type { BarisPerangkat } from "../db/perangkat.ts";
 import { buatKunci, hashKunci } from "../auth/kunci.ts";
 import { catatDicabut, catatTerdaftar, izinPerangkat } from "../services/daftar.ts";
@@ -74,6 +75,8 @@ const Perangkat = z.object({
   device_id: z.string(),
   nama: z.string().nullable(),
   lokasi: z.string().nullable(),
+  lat: z.number().nullable().describe("Modul 25: lintang titik perangkat di peta (derajat desimal); null = belum diisi"),
+  lng: z.number().nullable().describe("Modul 25: bujur titik perangkat di peta (derajat desimal); null = belum diisi"),
   jenis: Jenis,
   status: z.string().describe("online, offline, offline-mode, atau belum-diketahui (status MQTT terakhir)"),
   terakhir_dilihat: z.string().nullable().describe("waktu server saat pesan terakhir perangkat ini tiba"),
@@ -91,6 +94,22 @@ const Registrasi = z.strictObject({
   penghubung: DeviceId.optional()
     .describe("hanya untuk perangkat ESP-NOW (Node 2): device_id Node 1 yang menerbitkan datanya; perangkat ini tidak diberi kunci"),
 });
+// Modul 25: isi PUT /devices/:id/lokasi. Angka dengan TITIK desimal (JSON tidak mengenal koma desimal): "-6,2" adalah teks,
+// jadi ditolak 400. Rentangnya sama dengan CHECK di migrasi 001. z.number() Zod 4 juga menolak NaN dan Infinity.
+// strictObject: kolom lain (misalnya teks "lokasi") ditolak 400; rute ini HANYA memindahkan titik di peta.
+const angkaDesimal = (contoh: string) => z.number({ // pesan galat: kolom tidak ada, NaN/Infinity, atau teks
+  error: (isu) => isu.input === undefined ? "wajib diisi: angka, atau null untuk menghapus titik"
+    : typeof isu.input === "number" ? "harus angka berhingga (bukan NaN atau Infinity)"
+      : `harus angka dengan titik desimal, misalnya ${contoh} (bukan teks "${contoh.replace(".", ",")}")`,
+});
+export const Lokasi = z.strictObject({
+  lat: angkaDesimal("-6.1754").min(-90, "lintang paling kecil -90").max(90, "lintang paling besar 90").nullable()
+    .describe("lintang (latitude) dalam derajat desimal, -90 sampai 90; Jakarta sekitar -6.2. null = hapus titik"),
+  lng: angkaDesimal("106.8272").min(-180, "bujur paling kecil -180").max(180, "bujur paling besar 180").nullable()
+    .describe("bujur (longitude) dalam derajat desimal, -180 sampai 180; Jakarta sekitar 106.8. null = hapus titik"),
+}).refine((l) => (l.lat === null) === (l.lng === null), { // setengah titik tidak bisa digambar di peta
+  message: "lat dan lng diisi berpasangan: keduanya angka, atau keduanya null untuk menghapus titik", path: ["lng"],
+});
 const KunciBaru = z.object({
   device_id: z.string(),
   kunci: z.string().nullable().describe("43 huruf; HANYA ditampilkan sekali ini. null untuk perangkat ESP-NOW"),
@@ -105,7 +124,7 @@ function tampilkan(b: BarisPerangkat) {
     : b.dicabut !== null ? "dicabut" as const
       : b.penghubung !== null ? "tanpa-kunci" as const : "aktif" as const;
   return {
-    device_id: b.device_id, nama: b.nama, lokasi: b.lokasi, jenis: b.jenis, status: b.status,
+    device_id: b.device_id, nama: b.nama, lokasi: b.lokasi, lat: b.lat, lng: b.lng, jenis: b.jenis, status: b.status,
     terakhir_dilihat: iso(b.terakhir_dilihat), kunci, terdaftar: iso(b.terdaftar), kunci_dibuat: iso(b.kunci_dibuat),
     dicabut: iso(b.dicabut), penghubung: b.penghubung,
   };
@@ -234,6 +253,35 @@ export const rutePerangkat: FastifyPluginAsyncZod = async (app) => {
       };
     } catch (galat) {
       req.log.error(`cabut ${id} gagal: ${(galat as Error).message}`);
+      return reply.code(503).send({ pesan: SALAH_DATABASE });
+    }
+  });
+
+  // ---- Modul 25: titik perangkat di peta (hanya admin: satpam menolak viewer untuk PUT, seperti POST di atas) ----
+
+  app.put("/devices/:id/lokasi", {
+    schema: {
+      tags: ["perangkat"],
+      summary: "Atur titik perangkat di peta: { lat, lng } dengan titik desimal; { lat: null, lng: null } menghapus titiknya",
+      params: ParamId,
+      body: Lokasi,
+      response: {
+        200: Perangkat.describe("perangkat dengan titik barunya (bentuknya sama dengan satu baris GET /devices)"),
+        404: Galat.describe("device_id itu tidak ada di daftar perangkat"),
+        503: Galat.describe("database sedang tidak bisa dihubungi"),
+      },
+    },
+  }, async (req, reply) => {
+    const id = req.params.id;
+    const { lat, lng } = req.body;
+    try {
+      const baris = await ubahLokasi(id, lat, lng);
+      if (baris === undefined) return reply.code(404).send({ pesan: `${id} tidak ada di daftar perangkat` });
+      // koordinatnya sengaja TIDAK ditulis ke log: titik rumah termasuk data pribadi
+      req.log.info(`titik ${id} di peta ${lat === null ? "dihapus" : "diatur"} oleh akun ${req.user.sub}`);
+      return tampilkan(baris);
+    } catch (galat) {
+      req.log.error(`lokasi ${id} gagal disimpan: ${(galat as Error).message}`);
       return reply.code(503).send({ pesan: SALAH_DATABASE });
     }
   });

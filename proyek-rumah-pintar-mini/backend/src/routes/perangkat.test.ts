@@ -14,8 +14,8 @@ vi.hoisted(() => { // env.ts memeriksa .env saat diimpor: beri setelan palsu yan
 // tabel devices tiruan: device_id -> baris (termasuk kunci_hash, yang di database sungguhan juga ada)
 const tabel = vi.hoisted(() => new Map<string, Record<string, unknown>>());
 vi.mock("../db/perangkat.ts", () => {
-  const KOSONG = { jenis: "belum-diketahui", nama: null, lokasi: null, status: "belum-diketahui", terakhir_dilihat: null,
-    terdaftar: null, kunci_hash: null, kunci_dibuat: null, dicabut: null, penghubung: null };
+  const KOSONG = { jenis: "belum-diketahui", nama: null, lokasi: null, lat: null, lng: null, status: "belum-diketahui",
+    terakhir_dilihat: null, terdaftar: null, kunci_hash: null, kunci_dibuat: null, dicabut: null, penghubung: null };
   const tanpaHash = (b: Record<string, unknown>) => { const { kunci_hash: _, ...sisa } = b; return sisa; };
   return {
     semuaPerangkatDb: async () => [...tabel.values()].map(tanpaHash),
@@ -65,8 +65,9 @@ const post = (url: string, body?: object): Promise<LightMyRequestResponse> =>
 
 beforeAll(() => {
   // satu baris lama dari Modul 17-20 (dibuat otomatis, belum terdaftar), lalu daftar di memori dimuat seperti saat server mulai
-  tabel.set("a4cf12e5b7c0", { device_id: "a4cf12e5b7c0", jenis: "node1", nama: null, lokasi: null, status: "online",
-    terakhir_dilihat: new Date(), terdaftar: null, kunci_hash: null, kunci_dibuat: null, dicabut: null, penghubung: null });
+  tabel.set("a4cf12e5b7c0", { device_id: "a4cf12e5b7c0", jenis: "node1", nama: null, lokasi: null, lat: null, lng: null,
+    status: "online", terakhir_dilihat: new Date(), terdaftar: null, kunci_hash: null, kunci_dibuat: null, dicabut: null,
+    penghubung: null });
   isiDaftar([...tabel.values()] as never);
 });
 afterAll(() => app.close());
@@ -78,7 +79,9 @@ describe("daftar resmi perangkat", () => {
     expect(izinPerangkat("a4cf12e5b7c0")).toBe("belum-terdaftar");
     const jawab = await app.inject({ method: "GET", url: "/devices" });
     expect(jawab.statusCode).toBe(200);
-    expect(jawab.json()[0]).toMatchObject({ device_id: "a4cf12e5b7c0", kunci: "belum-terdaftar", terdaftar: null });
+    // Modul 25: titik peta ikut tampil; null = belum diisi
+    expect(jawab.json()[0]).toMatchObject({ device_id: "a4cf12e5b7c0", kunci: "belum-terdaftar", terdaftar: null, lat: null,
+      lng: null });
   });
 
   it("POST /devices: 201, kunci 43 huruf tampil SEKALI, database hanya menyimpan SHA-256-nya", async () => {

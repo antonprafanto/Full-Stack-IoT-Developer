@@ -115,6 +115,10 @@ function terima(topik: string, teks: string, retained: boolean, log: FastifyBase
         arsip.then(() => catatKejadian({ device_id: deviceId, jenis: "status", sumber: "perangkat", aturan_id: null, pesan }))
           .catch(() => {}); // gagal menyimpan status sudah dicatat gagalArsip
         kabariStatus(deviceId, hasil.data); // Telegram: offline baru dikabarkan kalau bertahan 60 detik
+      } else if (hasil.data === "online") {
+        // Modul 25: "online" retained tetap membatalkan 📴 yang sedang menunggu. Sesudah broker dimulai ulang, perangkat bisa
+        // tersambung LEBIH DULU dari backend, jadi kabar online-nya tiba sebagai pesan retained (tanpa ini: 📴 palsu)
+        kabariStatus(deviceId, "online");
       }
     }
     hitungan.diterima++;

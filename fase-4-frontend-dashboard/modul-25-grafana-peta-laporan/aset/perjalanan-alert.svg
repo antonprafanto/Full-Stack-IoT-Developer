@@ -1,0 +1,197 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1380" viewBox="0 0 1200 1380" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="1380" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" xml:space="preserve">Perjalanan satu alert: dari kueri tiap menit sampai Telegram</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" xml:space="preserve">Konsep 7 · aturan <tspan font-weight="800">Node diam</tspan> (grup <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5">kesehatan-node</tspan>) · angka = rekaman lab penulis, Kebun tiruan, Telegram tiruan</text>
+<text x="30.0" y="122.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >Yang dikerjakan Grafana untuk aturan Node diam</text>
+<rect x="30.0" y="136.0" width="212.0" height="214.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.4" />
+<circle cx="52.0" cy="161.0" r="12" fill="#6f42c1" stroke="#ffffff" stroke-width="2" />
+<text x="52.0" y="165.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >1</text>
+<text x="72.0" y="166.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >Kueri tiap menit</text>
+<line x1="245.0" y1="243.0" x2="259.0" y2="243.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<path d="M253.7 245.8 L259.0 243.0 L253.7 240.2" fill="none" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="262.0" y="136.0" width="212.0" height="214.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.4" />
+<circle cx="284.0" cy="161.0" r="12" fill="#6f42c1" stroke="#ffffff" stroke-width="2" />
+<text x="284.0" y="165.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >2</text>
+<text x="304.0" y="166.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >Kondisi</text>
+<line x1="477.0" y1="243.0" x2="491.0" y2="243.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<path d="M485.7 245.8 L491.0 243.0 L485.7 240.2" fill="none" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="494.0" y="136.0" width="212.0" height="214.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.4" />
+<circle cx="516.0" cy="161.0" r="12" fill="#6f42c1" stroke="#ffffff" stroke-width="2" />
+<text x="516.0" y="165.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >3</text>
+<text x="536.0" y="166.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >Keadaan per node</text>
+<line x1="709.0" y1="243.0" x2="723.0" y2="243.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<path d="M717.7 245.8 L723.0 243.0 L717.7 240.2" fill="none" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="726.0" y="136.0" width="212.0" height="214.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.4" />
+<circle cx="748.0" cy="161.0" r="12" fill="#6f42c1" stroke="#ffffff" stroke-width="2" />
+<text x="748.0" y="165.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >4</text>
+<text x="768.0" y="166.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >Kelompok &amp; jeda</text>
+<line x1="941.0" y1="243.0" x2="955.0" y2="243.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<path d="M949.7 245.8 L955.0 243.0 L949.7 240.2" fill="none" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="958.0" y="136.0" width="212.0" height="214.0" rx="12" fill="#f5f0fc" stroke="#6f42c1" stroke-width="1.6" />
+<circle cx="980.0" cy="161.0" r="12" fill="#6f42c1" stroke="#ffffff" stroke-width="2" />
+<text x="980.0" y="165.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >5</text>
+<text x="1000.0" y="166.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >Contact point</text>
+<text x="46.0" y="196.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">grup <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#6f42c1" font-weight="800">kesehatan-node</tspan>, tiap <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#6f42c1" font-weight="800">1m</tspan></text>
+<text x="46.0" y="215.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">SQL: menit sejak bacaan</text>
+<text x="46.0" y="234.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">terakhir (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#6f42c1" font-weight="800">readings.diterima</tspan>)</text>
+<text x="46.0" y="253.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Node 2 dikurangi 5 menit</text>
+<text x="46.0" y="272.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">jadwal bangunnya</text>
+<text x="46.0" y="291.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">Format: Table</tspan> = satu baris</text>
+<text x="46.0" y="310.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">per node</text>
+<text x="278.0" y="196.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">di layar: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">WHEN</tspan> <tspan font-weight="800" fill="#1e2a4a">Last</tspan></text>
+<text x="278.0" y="215.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">OF</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">QUERY</tspan> <tspan font-weight="800" fill="#1e2a4a">IS ABOVE</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">5</tspan></text>
+<text x="278.0" y="234.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">(YAML, History: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">A</tspan> SQL →</text>
+<text x="278.0" y="253.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">B</tspan> Reduce → <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">C</tspan> Threshold)</text>
+<text x="278.0" y="291.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">Pending period:</tspan> None</text>
+<text x="278.0" y="310.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">No data:</tspan> Normal</text>
+<text x="278.0" y="329.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">Error:</tspan> Error</text>
+<rect x="510.0" y="186.0" width="70.0" height="22.0" rx="11.0" fill="#e3f4ea" stroke="#2a9d5c" stroke-width="1.4" />
+<text x="545.0" y="201.1" font-size="11.5" font-weight="800" fill="#2a9d5c" text-anchor="middle" xml:space="preserve">Normal</text>
+<text x="590.0" y="202.0" font-size="13" font-weight="800" fill="#4a5568" text-anchor="start" >→</text>
+<rect x="608.0" y="186.0" width="70.0" height="22.0" rx="11.0" fill="#fde6e8" stroke="#e63946" stroke-width="1.4" />
+<text x="643.0" y="201.1" font-size="11.5" font-weight="800" fill="#e63946" text-anchor="middle" xml:space="preserve">Firing</text>
+<text x="510.0" y="236.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">label <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#6f42c1" font-weight="800">device_id</tspan> + <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#6f42c1" font-weight="800">node</tspan>:</text>
+<text x="510.0" y="255.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">satu instans per node;</text>
+<text x="510.0" y="274.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">node baru ikut otomatis</text>
+<text x="510.0" y="312.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Pending dilewati karena</text>
+<text x="510.0" y="331.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">Pending period</tspan> None</text>
+<text x="742.0" y="196.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">Override grouping:</tspan></text>
+<text x="742.0" y="215.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">device_id</tspan></text>
+<text x="742.0" y="234.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">Group wait</tspan> 30s</text>
+<text x="742.0" y="253.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">Group interval</tspan> 5m</text>
+<text x="742.0" y="272.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">Repeat interval</tspan> 4h</text>
+<text x="742.0" y="291.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">(bawaan, cukup dibaca)</text>
+<text x="974.0" y="196.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#6f42c1" font-weight="800">Telegram Rumah Pintar</tspan></text>
+<text x="974.0" y="215.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">bot Modul 19 (token +</text>
+<text x="974.0" y="234.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">chat_id), <tspan font-weight="800" fill="#1e2a4a">Parse Mode</tspan> None,</text>
+<text x="974.0" y="253.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">templat sendiri</text>
+<text x="974.0" y="291.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">HTTPS ke <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#6f42c1" font-weight="800">api.telegram.org</tspan></text>
+<text x="30.0" y="384.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >Yang tiba di Telegram saat Kebun dicabut lalu dipasang (satu larian; teks persis yang diterima Telegram tiruan)</text>
+<rect x="30.0" y="396.0" width="1140.0" height="32.0" rx="7" fill="#ffffff" stroke="#e63946" stroke-width="1.2" />
+<text x="42.0" y="416.3" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">🔴 Kebun (tiruan) (f00d000000b2) tidak mengirim data, terlambat 5.5 menit dari jadwalnya</text>
+<text x="1160.0" y="416.2" font-size="11" font-weight="700" fill="#4a5568" text-anchor="end" >Grafana, 10 min 52 s sesudah dicabut</text>
+<rect x="30.0" y="434.0" width="1140.0" height="32.0" rx="7" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.2" />
+<text x="42.0" y="454.3" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">📴 f00d000000b2 offline sejak 00.17 WIB</text>
+<text x="1160.0" y="454.2" font-size="11" font-weight="700" fill="#4a5568" text-anchor="end" >backend, 17 menit sesudah paket terakhir</text>
+<rect x="30.0" y="472.0" width="1140.0" height="32.0" rx="7" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.2" />
+<text x="42.0" y="492.3" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">✅ f00d000000b2 online lagi (offline 1 menit)</text>
+<text x="1160.0" y="492.2" font-size="11" font-weight="700" fill="#4a5568" text-anchor="end" >backend, seketika sesudah dipasang</text>
+<rect x="30.0" y="510.0" width="1140.0" height="32.0" rx="7" fill="#ffffff" stroke="#2a9d5c" stroke-width="1.2" />
+<text x="42.0" y="530.3" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">✅ Kebun (tiruan) kembali mengirim data.</text>
+<text x="1160.0" y="530.2" font-size="11" font-weight="700" fill="#4a5568" text-anchor="end" >Grafana, 3 min 49 s sesudah dipasang</text>
+<text x="30.0" y="582.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >Garis waktu Kebun (Node 2): kenapa 🔴 tiba 5,5–11,5 menit sesudah dicabut</text>
+<rect x="30.0" y="594.0" width="1140.0" height="282.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<line x1="92.0" y1="680.0" x2="1118.0" y2="680.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<line x1="92.0" y1="676.0" x2="92.0" y2="684.0" stroke="#1e2a4a" stroke-width="1.2" stroke-linecap="round" />
+<text x="92.0" y="700.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="middle" >0</text>
+<line x1="149.0" y1="676.0" x2="149.0" y2="684.0" stroke="#1e2a4a" stroke-width="1.2" stroke-linecap="round" />
+<line x1="206.0" y1="676.0" x2="206.0" y2="684.0" stroke="#1e2a4a" stroke-width="1.2" stroke-linecap="round" />
+<text x="206.0" y="700.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="middle" >2</text>
+<line x1="263.0" y1="676.0" x2="263.0" y2="684.0" stroke="#1e2a4a" stroke-width="1.2" stroke-linecap="round" />
+<line x1="320.0" y1="676.0" x2="320.0" y2="684.0" stroke="#1e2a4a" stroke-width="1.2" stroke-linecap="round" />
+<text x="320.0" y="700.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="middle" >4</text>
+<line x1="377.0" y1="676.0" x2="377.0" y2="684.0" stroke="#1e2a4a" stroke-width="1.2" stroke-linecap="round" />
+<text x="377.0" y="700.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="middle" >5</text>
+<line x1="434.0" y1="676.0" x2="434.0" y2="684.0" stroke="#1e2a4a" stroke-width="1.2" stroke-linecap="round" />
+<text x="434.0" y="700.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="middle" >6</text>
+<line x1="491.0" y1="676.0" x2="491.0" y2="684.0" stroke="#1e2a4a" stroke-width="1.2" stroke-linecap="round" />
+<line x1="548.0" y1="676.0" x2="548.0" y2="684.0" stroke="#1e2a4a" stroke-width="1.2" stroke-linecap="round" />
+<text x="548.0" y="700.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="middle" >8</text>
+<line x1="605.0" y1="676.0" x2="605.0" y2="684.0" stroke="#1e2a4a" stroke-width="1.2" stroke-linecap="round" />
+<line x1="662.0" y1="676.0" x2="662.0" y2="684.0" stroke="#1e2a4a" stroke-width="1.2" stroke-linecap="round" />
+<text x="662.0" y="700.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="middle" >10</text>
+<line x1="719.0" y1="676.0" x2="719.0" y2="684.0" stroke="#1e2a4a" stroke-width="1.2" stroke-linecap="round" />
+<line x1="776.0" y1="676.0" x2="776.0" y2="684.0" stroke="#1e2a4a" stroke-width="1.2" stroke-linecap="round" />
+<text x="776.0" y="700.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="middle" >12</text>
+<line x1="833.0" y1="676.0" x2="833.0" y2="684.0" stroke="#1e2a4a" stroke-width="1.2" stroke-linecap="round" />
+<line x1="890.0" y1="676.0" x2="890.0" y2="684.0" stroke="#1e2a4a" stroke-width="1.2" stroke-linecap="round" />
+<text x="890.0" y="700.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="middle" >14</text>
+<line x1="947.0" y1="676.0" x2="947.0" y2="684.0" stroke="#1e2a4a" stroke-width="1.2" stroke-linecap="round" />
+<text x="947.0" y="700.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="middle" >15</text>
+<line x1="1004.0" y1="676.0" x2="1004.0" y2="684.0" stroke="#1e2a4a" stroke-width="1.2" stroke-linecap="round" />
+<text x="1004.0" y="700.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="middle" >16</text>
+<line x1="1061.0" y1="676.0" x2="1061.0" y2="684.0" stroke="#1e2a4a" stroke-width="1.2" stroke-linecap="round" />
+<text x="1061.0" y="700.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="middle" >17</text>
+<line x1="1118.0" y1="676.0" x2="1118.0" y2="684.0" stroke="#1e2a4a" stroke-width="1.2" stroke-linecap="round" />
+<text x="1118.0" y="700.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="middle" >18</text>
+<text x="1128.0" y="684.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="start" >menit</text>
+<text x="84.0" y="716.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="start" >sesudah paket terakhir</text>
+<circle cx="92.0" cy="654.0" r="7" fill="#1e2a4a" />
+<text x="104.0" y="638.0" font-size="11.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >paket terakhir</text>
+<circle cx="377.0" cy="654.0" r="6" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.6" stroke-dasharray="3 2"/>
+<circle cx="662.0" cy="654.0" r="6" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.6" stroke-dasharray="3 2"/>
+<circle cx="947.0" cy="654.0" r="6" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.6" stroke-dasharray="3 2"/>
+<text x="389.0" y="638.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="start" >paket tiap 300 s tidak datang lagi</text>
+<line x1="662.0" y1="620.0" x2="662.0" y2="688.0" stroke="#6f42c1" stroke-width="1.4" stroke-linecap="round" stroke-dasharray="4 3" />
+<text x="656.0" y="616.0" font-size="11" font-weight="700" fill="#6f42c1" text-anchor="end" >terlambat 5 menit dari jadwal</text>
+<rect x="690.5" y="624.0" width="57.0" height="48.0" rx="4" fill="#fde6e8" stroke="#e63946" stroke-width="1.2" />
+<text x="719.0" y="616.0" font-size="11.5" font-weight="800" fill="#e63946" text-anchor="middle" >🔴 tiba di sini</text>
+<line x1="1004.0" y1="624.0" x2="1004.0" y2="688.0" stroke="#4a5568" stroke-width="1.4" stroke-linecap="round" stroke-dasharray="4 3" />
+<text x="998.0" y="616.0" font-size="11" font-weight="800" fill="#4a5568" text-anchor="end" >status offline</text>
+<text x="998.0" y="632.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="end" >960 s, oleh Node 1</text>
+<line x1="1061.0" y1="624.0" x2="1061.0" y2="688.0" stroke="#4a5568" stroke-width="1.4" stroke-linecap="round" stroke-dasharray="4 3" />
+<text x="1067.0" y="616.0" font-size="11" font-weight="800" fill="#4a5568" text-anchor="start" >📴 backend</text>
+<text x="1067.0" y="632.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="start" >+60 s</text>
+<line x1="98.3" y1="746.0" x2="717.9" y2="746.0" stroke="#b45f17" stroke-width="2.6" stroke-linecap="round" />
+<circle cx="98.3" cy="746.0" r="5" fill="#b45f17" />
+<circle cx="717.9" cy="746.0" r="5" fill="#e63946" />
+<text x="108.3" y="737.0" font-size="11.5" font-weight="800" fill="#b45f17" text-anchor="start" >fase A: dicabut 6,8–8,9 s sesudah paket</text>
+<text x="729.9" y="750.0" font-size="11.5" font-weight="800" fill="#e63946" text-anchor="start" >🔴 10 min 52 s – 11 min 10 s sesudah dicabut</text>
+<line x1="370.7" y1="790.0" x2="708.7" y2="790.0" stroke="#b45f17" stroke-width="2.6" stroke-linecap="round" />
+<circle cx="370.7" cy="790.0" r="5" fill="#b45f17" />
+<circle cx="708.7" cy="790.0" r="5" fill="#e63946" />
+<text x="380.7" y="781.0" font-size="11.5" font-weight="800" fill="#b45f17" text-anchor="start" >fase B: dicabut 6,3–6,7 s sebelum paket berikutnya</text>
+<text x="720.7" y="794.0" font-size="11.5" font-weight="800" fill="#e63946" text-anchor="start" >🔴 5 min 55 s – 6 min 20 s sesudah dicabut</text>
+<text x="50.0" y="840.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">rumus:</tspan> paket terakhir + 10 menit (jadwal 5 + ambang 5) + 0–60 s evaluasi + 30 s <tspan font-style="italic">group wait</tspan> = 10,5–11,5 menit sesudah paket terakhir</text>
+<text x="50.0" y="860.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">baterai dicabut 0–5 menit sesudah paket terakhir → 🔴 tiba 10,5 − 5 = <tspan font-weight="800" fill="#1e2a4a">5,5</tspan> sampai 11,5 − 0 = <tspan font-weight="800" fill="#1e2a4a">11,5 menit sesudah dicabut</tspan></text>
+<text x="30.0" y="910.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >Siapa mengabari apa (dua larian lab penulis, ditulis sebagai rentang)</text>
+<rect x="30.0" y="922.0" width="1140.0" height="152.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<path d="M30.8 956.8 L30.8 933.8 Q30.8 922.8 41.8 922.8 L1158.2 922.8 Q1169.2 922.8 1169.2 933.8 L1169.2 956.8 Z" fill="#eef1f5" stroke-linecap="round" stroke-linejoin="round" />
+<text x="50.0" y="945.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >kejadian</text>
+<text x="300.0" y="945.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Grafana 🔴 "data berhenti datang"</text>
+<text x="610.0" y="945.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >backend 📴 "sambungan putus"</text>
+<text x="880.0" y="945.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >pulih ✅</text>
+<text x="50.0" y="982.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">Node 1</tspan>: simulator <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">f00d00000001</tspan></text>
+<text x="50.0" y="1000.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">dimatikan (Ctrl+C)</text>
+<text x="300.0" y="982.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#e63946">5 min 46 s – 5 min 58 s</tspan></text>
+<text x="300.0" y="1000.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">sesudah Ctrl+C</text>
+<text x="610.0" y="982.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">±1 menit: wasiat seketika, lalu</text>
+<text x="610.0" y="1000.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">aturan Modul 19 menunggu 60 s</text>
+<text x="880.0" y="982.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">backend seketika · Grafana</text>
+<text x="880.0" y="1000.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">+3 min 22 s – 4 min 26 s</text>
+<line x1="30.0" y1="1016.0" x2="1170.0" y2="1016.0" stroke="#e0dcd2" stroke-width="1" stroke-linecap="round" />
+<text x="50.0" y="1040.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">Node 2</tspan>: Kebun tiruan</text>
+<text x="50.0" y="1058.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">dicabut (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">kebun</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">cabut</tspan>)</text>
+<text x="300.0" y="1040.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#e63946">5 min 55 s – 11 min 10 s</tspan></text>
+<text x="300.0" y="1058.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">sesudah dicabut</text>
+<text x="610.0" y="1040.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">±17 menit sesudah paket terakhir</text>
+<text x="610.0" y="1058.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">(status 960 s + 60 s)</text>
+<text x="880.0" y="1040.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">backend seketika · Grafana</text>
+<text x="880.0" y="1058.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">+3 min 38 s – 4 min 14 s</text>
+<text x="30.0" y="1096.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">✅ Grafana menunggu detak <tspan font-style="italic">group interval</tspan> berikutnya (paling lama ±5 menit). Dua pesan untuk satu kejadian itu disengaja: peran pengirimnya berbeda.</text>
+<rect x="30.0" y="1120.0" width="369.3" height="218.0" rx="12" fill="#ffffff" stroke="#b45f17" stroke-width="1.6" />
+<text x="48.0" y="1148.0" font-size="13.5" font-weight="800" fill="#b45f17" text-anchor="start" >Database mati: pesan tanpa nama node</text>
+<text x="48.0" y="1174.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Grafana gagal membaca → aturan <tspan font-weight="800" fill="#1e2a4a">Error</tspan></text>
+<text x="48.0" y="1192.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">(<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">DatasourceError</tspan>), pesan tanpa nama node:</text>
+<rect x="42.0" y="1200.0" width="345.3" height="24.0" rx="6" fill="#eef1f5" />
+<text x="48.0" y="1216.0" font-size="11" font-weight="800" fill="#e63946" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">🔴 [no value] ([no value]) tidak mengirim…</text>
+<text x="48.0" y="1240.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">lalu <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#2a9d5c" font-weight="800">✅</tspan>  <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#2a9d5c" font-weight="800">kembali</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#2a9d5c" font-weight="800">mengirim</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#2a9d5c" font-weight="800">data.</tspan> (tanpa nama)</text>
+<text x="48.0" y="1258.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">lab (grup 1m): DB mati 76–80 s → node yang</text>
+<text x="48.0" y="1276.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">sedang Firing <tspan font-weight="800" fill="#1e2a4a">TETAP Firing</tspan>, tanpa ✅ palsu</text>
+<text x="48.0" y="1294.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">✅ palsu hanya teramati di riset (evaluasi</text>
+<text x="48.0" y="1312.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">tiap 10 s); DB mati ≥ 2 menit: belum diuji</text>
+<rect x="415.3" y="1120.0" width="369.3" height="218.0" rx="12" fill="#ffffff" stroke="#b45f17" stroke-width="1.6" />
+<text x="433.3" y="1148.0" font-size="13.5" font-weight="800" fill="#b45f17" text-anchor="start" >Backend mati: semua node diam</text>
+<text x="433.3" y="1174.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">tidak ada bacaan baru yang disimpan,</text>
+<text x="433.3" y="1192.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">jadi SEMUA node 🔴 sekaligus; yang</text>
+<text x="433.3" y="1210.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">sebenarnya mati adalah backend</text>
+<text x="433.3" y="1228.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">(pengawas backend: Modul 30)</text>
+<rect x="800.7" y="1120.0" width="369.3" height="218.0" rx="12" fill="#ffffff" stroke="#6f42c1" stroke-width="1.6" />
+<text x="818.7" y="1148.0" font-size="13.5" font-weight="800" fill="#6f42c1" text-anchor="start" >Diam ≠ status offline</text>
+<text x="818.7" y="1174.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">saat status offline Kebun terbit, kueri</text>
+<text x="818.7" y="1192.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-style="italic">alert</tspan>: terlambat <tspan font-weight="800" fill="#1e2a4a">11 menit</tspan>, padahal</text>
+<text x="818.7" y="1210.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">terakhir_dilihat</tspan> = 0 menit lalu (pesan</text>
+<text x="818.7" y="1228.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">status ikut memajukannya); karena itu</text>
+<text x="818.7" y="1246.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-style="italic">alert</tspan> memakai <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">readings.diterima</tspan></text>
+<text x="1178.0" y="1366.0" font-size="11" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

@@ -1,5 +1,6 @@
 // perangkat.ts - daftar resmi perangkat di tabel devices (Modul 21, migrasi 010): registrasi oleh admin, ganti kunci, cabut.
 // Sidik jari kunci (kunci_hash) hanya DITULIS dari file ini; daftar perangkat tidak pernah membacanya.
+// Modul 25: daftar perangkat juga membawa titik peta (lat, lng), dan admin bisa memindahkan titik itu (ubahLokasi).
 import { pool } from "./pool.ts";
 
 // satu baris daftar perangkat seperti yang ditampilkan GET /devices (tanpa sidik jari kunci)
@@ -8,6 +9,8 @@ export interface BarisPerangkat {
   jenis: "node1" | "node2" | "belum-diketahui";
   nama: string | null;
   lokasi: string | null;
+  lat: number | null; // Modul 25: lintang (latitude) titik di peta, derajat desimal; null = belum diisi
+  lng: number | null; // Modul 25: bujur (longitude); kolomnya sudah ada sejak migrasi 001, tetapi baru dibaca sekarang
   status: string;
   terakhir_dilihat: Date | null;
   terdaftar: Date | null;
@@ -16,7 +19,7 @@ export interface BarisPerangkat {
   penghubung: string | null;
 }
 
-const KOLOM = "device_id, jenis, nama, lokasi, status, terakhir_dilihat, terdaftar, kunci_dibuat, dicabut, penghubung";
+const KOLOM = "device_id, jenis, nama, lokasi, lat, lng, status, terakhir_dilihat, terdaftar, kunci_dibuat, dicabut, penghubung";
 
 export async function semuaPerangkatDb(): Promise<BarisPerangkat[]> {
   const hasil = await pool.query<BarisPerangkat>(`SELECT ${KOLOM} FROM devices ORDER BY device_id`);
@@ -61,6 +64,16 @@ export async function cabutPerangkat(deviceId: string): Promise<BarisPerangkat |
      WHERE device_id = $1 AND terdaftar IS NOT NULL AND dicabut IS NULL
      RETURNING ${KOLOM}`,
     [deviceId],
+  );
+  return hasil.rows[0];
+}
+
+// Modul 25: pindahkan titik perangkat di peta. lat dan lng selalu ditulis berpasangan; null dan null = titiknya dihapus.
+// Teks lokasi ("ruang tamu") tidak ikut diubah. Hasilnya undefined kalau device_id itu tidak ada di tabel devices.
+export async function ubahLokasi(deviceId: string, lat: number | null, lng: number | null): Promise<BarisPerangkat | undefined> {
+  const hasil = await pool.query<BarisPerangkat>(
+    `UPDATE devices SET lat = $2, lng = $3 WHERE device_id = $1 RETURNING ${KOLOM}`,
+    [deviceId, lat, lng],
   );
   return hasil.rows[0];
 }

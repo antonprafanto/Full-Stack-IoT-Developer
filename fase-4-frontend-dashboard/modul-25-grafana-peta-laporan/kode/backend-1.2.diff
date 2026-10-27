@@ -1,0 +1,1530 @@
+diff --git a/backend/.env.example b/backend/.env.example
+index 0a8407f..5918fec 100644
+--- a/backend/.env.example
++++ b/backend/.env.example
+@@ -11,6 +11,10 @@ DATABASE_URL=postgres://postgres:ganti-sandi-ini@127.0.0.1:5432/rumahpintar
+ # Telegram (Modul 19, tidak wajib): token dari @BotFather dan chat_id-mu (balasan /start). Kosong = notifikasi mati.
+ TELEGRAM_BOT_TOKEN=
+ TELEGRAM_CHAT_ID=
++# Alamat server Bot API (Modul 19). Biarkan berkomentar = server Telegram sungguhan; hanya diisi untuk server tiruan di lab.
++# TELEGRAM_API_ROOT=
++# Modul 25: jam laporan harian CSV ke Telegram, cron 5 bidang (menit jam tanggal bulan hari) dalam WIB: 0 7 * * * = 07.00 WIB
++LAPORAN_JADWAL=0 7 * * *
+ # Modul 20: kunci tanda tangan JWT, minimal 32 karakter acak. Buat sendiri dengan perintah ini, lalu tempel hasilnya:
+ #   node -e "console.log(require('node:crypto').randomBytes(32).toString('base64url'))"
+ JWT_SECRET=ganti-dengan-hasil-perintah-di-atas
+diff --git a/backend/README.md b/backend/README.md
+index fd32457..5863f39 100644
+--- a/backend/README.md
++++ b/backend/README.md
+@@ -2,10 +2,12 @@
+ 
+ 🌐 **Bahasa Indonesia** · [English](../../en/mini-smart-home/backend/README.md)
+ 
+-Backend v1.1 proyek Rumah Pintar Mini: server Node.js 24 dengan TypeScript ringan yang mendengarkan semua pesan MQTT `rpm/#`, memeriksa setiap pesan dengan kontrak data 1.4 (skema Zod), menyimpan keadaan terakhir setiap perangkat di memori, mengarsipkan semua pesan ke database PostgreSQL dengan tambahan TimescaleDB (lewat Docker), dan menyediakan API berdokumentasi. Riwayat bacaan bisa diminta mentah atau sudah diringkas per 15 menit, per jam, atau per hari. Sejak Modul 19, bacaan juga mengalir *live* lewat Socket.IO, semua perintah lewat satu pintu (dengan keadaan yang diinginkan dan yang dilaporkan), aturan otomatis dan jadwal disimpan di database dan bisa diubah lewat API tanpa memulai ulang server, setiap kejadian penting dicatat, dan peringatan dikirim lewat Telegram. Sejak Modul 20, API dan Socket.IO **berkunci untuk manusia**: tamu harus *login* dulu, akun `viewer` hanya boleh melihat, percobaan *login* dibatasi, dan halaman web lain tidak bisa menyuruh server atas nama pengguna. Sejak Modul 21, backend juga **berkunci untuk perangkat**: hanya perangkat yang didaftarkan admin (dengan kunci per perangkat) yang datanya diproses, pesan dari perangkat yang belum terdaftar atau kuncinya dicabut diabaikan, dan backend sendiri masuk ke broker dengan akunnya sendiri. 🎉 **Checkpoint Fase 3: rumah berkunci untuk manusia dan perangkat.**
++Backend v1.2 proyek Rumah Pintar Mini: server Node.js 24 dengan TypeScript ringan yang mendengarkan semua pesan MQTT `rpm/#`, memeriksa setiap pesan dengan kontrak data 1.4 (skema Zod), menyimpan keadaan terakhir setiap perangkat di memori, mengarsipkan semua pesan ke database PostgreSQL dengan tambahan TimescaleDB (lewat Docker), dan menyediakan API berdokumentasi. Riwayat bacaan bisa diminta mentah atau sudah diringkas per 15 menit, per jam, atau per hari. Sejak Modul 19, bacaan juga mengalir *live* lewat Socket.IO, semua perintah lewat satu pintu (dengan keadaan yang diinginkan dan yang dilaporkan), aturan otomatis dan jadwal disimpan di database dan bisa diubah lewat API tanpa memulai ulang server, setiap kejadian penting dicatat, dan peringatan dikirim lewat Telegram. Sejak Modul 20, API dan Socket.IO **berkunci untuk manusia**: tamu harus *login* dulu, akun `viewer` hanya boleh melihat, percobaan *login* dibatasi, dan halaman web lain tidak bisa menyuruh server atas nama pengguna. Sejak Modul 21, backend juga **berkunci untuk perangkat**: hanya perangkat yang didaftarkan admin (dengan kunci per perangkat) yang datanya diproses, pesan dari perangkat yang belum terdaftar atau kuncinya dicabut diabaikan, dan backend sendiri masuk ke broker dengan akunnya sendiri. 🎉 **Checkpoint Fase 3: rumah berkunci untuk manusia dan perangkat.**
+ 
+ **v1.1 (Modul 24)** menambah tiga hal kecil yang dibutuhkan dashboard v1.0: aturan **di bawah ambang** (misalnya siram kalau tanah di bawah 30 %), aturan ambang yang **mengirim perintah sekali** (misalnya pompa 5 detik), dan **hapus aturan** (`DELETE /rules/:id`). Tanpa migrasi database dan tanpa perubahan kontrak data (tetap 1.4); rinciannya di [Catatan versi 1.1](#catatan-versi-11).
+ 
++**v1.2 (Modul 25)** menambah dua hal untuk peta perangkat dan laporan harian: `GET /devices` kini membawa **titik peta** setiap perangkat (`lat`, `lng`), dan admin memindahkannya lewat `PUT /devices/:id/lokasi`; backend juga mengirim **laporan harian CSV** lewat bot Telegram setiap pagi (bawaan 07.00 WIB, setelan `LAPORAN_JADWAL`), dan `POST /laporan/kirim` mengirimnya sekarang juga. Tanpa migrasi database, tanpa paket npm baru, kontrak data tetap 1.4; rinciannya di [Peta dan laporan harian](#peta-dan-laporan-harian-modul-25) dan [Catatan versi 1.2](#catatan-versi-12).
++
+ ## Menjalankan
+ 
+ 1. Pasang Node.js 24 LTS dan Docker Desktop.
+@@ -38,7 +40,7 @@ Backend v1.1 proyek Rumah Pintar Mini: server Node.js 24 dengan TypeScript ringa
+    npm run pengguna -- tambah viewer@rumah.test "Tamu Rumah" viewer
+    ```
+ 
+-9. (Tidak wajib) Untuk peringatan Telegram, isi `TELEGRAM_BOT_TOKEN` (token dari @BotFather) dan `TELEGRAM_CHAT_ID` (angka yang dibalas bot saat kamu mengirim `/start`) di `.env`. Kosong = notifikasi Telegram mati. Token itu rahasia, seperti kata sandi.
++9. (Tidak wajib) Untuk peringatan Telegram, isi `TELEGRAM_BOT_TOKEN` (token dari @BotFather) dan `TELEGRAM_CHAT_ID` (angka yang dibalas bot saat kamu mengirim `/start`) di `.env`. Kosong = notifikasi Telegram mati. Token itu rahasia, seperti kata sandi. Sejak Modul 25, bot yang sama juga mengirim laporan harian CSV setiap pagi; jamnya diatur `LAPORAN_JADWAL` di `.env` (cron 5 bidang dalam WIB, bawaan `0 7 * * *` = 07.00 WIB). Baris `# TELEGRAM_API_ROOT=` di `.env.example` biarkan tetap berkomentar: baris itu hanya dipakai untuk server Bot API tiruan di lab.
+ 10. Jalankan `npm run dev`, lalu buka dokumentasinya di `http://127.0.0.1:8080/docs`. Untuk mencoba rute bergembok di sana, *login* dulu lewat **Try it out** di `POST /auth/login`; browser menyimpan *cookie*-nya dan mengirimnya sendiri ke rute lain (tombol **Authorize** tidak dipakai).
+ 
+ | Perintah | Gunanya |
+@@ -46,7 +48,7 @@ Backend v1.1 proyek Rumah Pintar Mini: server Node.js 24 dengan TypeScript ringa
+ | `npm run dev` | menjalankan server dan memulainya ulang setiap kali kode atau `.env` disimpan |
+ | `npm start` | menjalankan server tanpa mulai ulang otomatis; **Ctrl + C** menghentikannya dengan rapi (di Windows, `npm run dev` + **Ctrl + C** mematikan server seketika) |
+ | `npm run cek` | memeriksa tipe TypeScript, termasuk file uji (jalankan sebelum setiap *commit*) |
+-| `npm test` | menjalankan *unit test* dengan Vitest: *rules engine* dan skema aturan (`src/aturan/*.test.ts`; sejak Modul 24 juga aturan di bawah ambang), *login* (`src/auth/auth.test.ts`), kunci perangkat (`src/auth/kunci.test.ts`, Modul 21), buku tamu dan lapis kedua (`src/services/daftar.test.ts`), rute registrasi (`src/routes/perangkat.test.ts`), rute hapus aturan beserta satpamnya: tamu 401, *viewer* 403, *preflight* `DELETE` (`src/routes/aturan.test.ts`, Modul 24), dan aturan siram yang berjalan: pompa dikirim sekali, padam tanpa perintah, perintah yang ditolak ditandai `ok: false`, aturan yang dihapus atau dinonaktifkan tidak bertindak lagi (`src/services/otomasi.test.ts`, Modul 24) |
++| `npm test` | menjalankan *unit test* dengan Vitest: *rules engine* dan skema aturan (`src/aturan/*.test.ts`; sejak Modul 24 juga aturan di bawah ambang), *login* (`src/auth/auth.test.ts`), kunci perangkat (`src/auth/kunci.test.ts`, Modul 21), buku tamu dan lapis kedua (`src/services/daftar.test.ts`), rute registrasi (`src/routes/perangkat.test.ts`), rute hapus aturan beserta satpamnya: tamu 401, *viewer* 403, *preflight* `DELETE` (`src/routes/aturan.test.ts`, Modul 24), dan aturan siram yang berjalan: pompa dikirim sekali, padam tanpa perintah, perintah yang ditolak ditandai `ok: false`, aturan yang dihapus atau dinonaktifkan tidak bertindak lagi (`src/services/otomasi.test.ts`, Modul 24), lalu (Modul 25) titik peta: skema lokasi dan rute `PUT /devices/:id/lokasi` beserta satpamnya (`src/routes/lokasi.test.ts`), pembuat CSV (`src/services/csv.test.ts`), laporan harian: rentang kemarin WIB, isi CSV, Telegram mati atau menolak, jadwal WIB yang terlambat tetap melaporkan hari yang benar, jadwal terlewat hanya dikabarkan (`src/services/laporan.test.ts`), rute `POST /laporan/kirim` (`src/routes/laporan.test.ts`), berkas laporan terkirim dengan namanya dan kabar 📴/✅ setelah 60 detik (`src/services/telegram.test.ts`), status `online` *retained* sesudah broker dimulai ulang (`src/services/mqtt.test.ts`), dan setelan `LAPORAN_JADWAL` (`src/config/env.test.ts`) |
+ | `npm run migrasi` | menjalankan file SQL baru di folder `migrasi/` (aman diulang) |
+ | `npm run isi-riwayat` | mengisi data latihan 7 hari untuk perangkat latihan `f00d00000001` dan `f00d00000002` |
+ | `npm run pengguna -- tambah <email> "<nama>" <admin\|viewer>` | membuat akun; sandi ditanyakan dan hanya tampil sebagai `*` (minimal 15 karakter, maksimal 72 *byte*) |
+@@ -71,7 +73,7 @@ docker exec rumahpintar-db psql -U postgres -d rumahpintar -f /tmp/beban-1-juta.
+ - **Peran**: `admin` boleh semua; `viewer` hanya `GET`/`HEAD` (selain itu `403`).
+ - ***Rate limit***: paling banyak 10 percobaan `POST /auth/login` per menit dari alamat IP yang sama; percobaan ke-11 dijawab `429` dengan kepala `retry-after`. Hitungannya di memori: server dimulai ulang = mulai dari nol.
+ - **CORS dan asal halaman**: halaman web di `CORS_ORIGIN` (`.env`, bawaan `http://localhost:5173,http://127.0.0.1:5173` untuk Modul 22) boleh memanggil API dari browser dengan *cookie*. Permintaan selain `GET`/`HEAD` yang membawa kepala `Origin` dari halaman lain ditolak `403`; curl, Bruno, dan Node tidak mengirim `Origin`, jadi tidak terganggu.
+-- **Bruno**: koleksi `bruno/` punya permintaan `login admin`, `login viewer`, `login salah`, `siapa saya`, `refresh`, dan `logout`, serta (Modul 21) `daftarkan Node 1`, `daftarkan Node 2 lewat Node 1`, `daftarkan perangkat latihan`, `ganti kunci perangkat latihan`, dan `cabut kunci perangkat latihan`, dan (Modul 24) `buat aturan siram tanah` dan `hapus aturan` (ganti angka di alamat `hapus aturan` dengan `id` dari jawaban `buat aturan siram tanah`; bawaannya `4`, nomor aturan pertama sesudah tiga aturan Modul 19). Sandinya dibaca dari `bruno/.env` (tidak ikut Git) berisi `SANDI_ADMIN=…` dan `SANDI_VIEWER=…`. Kirim `login admin` atau `login viewer` dulu; *cookie*-nya dipakai otomatis oleh permintaan lain.
++- **Bruno**: koleksi `bruno/` punya permintaan `login admin`, `login viewer`, `login salah`, `siapa saya`, `refresh`, dan `logout`, serta (Modul 21) `daftarkan Node 1`, `daftarkan Node 2 lewat Node 1`, `daftarkan perangkat latihan`, `ganti kunci perangkat latihan`, dan `cabut kunci perangkat latihan`, dan (Modul 24) `buat aturan siram tanah` dan `hapus aturan` (ganti angka di alamat `hapus aturan` dengan `id` dari jawaban `buat aturan siram tanah`; bawaannya `4`, nomor aturan pertama sesudah tiga aturan Modul 19), serta (Modul 25) `daftarkan Kebun tiruan` (Node 2 palsu `f00d000000b2` lewat `f00d00000001`, untuk jalur tanpa Node 2; lihat `alat/README.md`), `atur lokasi perangkat`, dan `kirim laporan sekarang` (`?hari=ini`). Sandinya dibaca dari `bruno/.env` (tidak ikut Git) berisi `SANDI_ADMIN=…` dan `SANDI_VIEWER=…`. Kirim `login admin` atau `login viewer` dulu; *cookie*-nya dipakai otomatis oleh permintaan lain.
+ 
+ ## API
+ 
+@@ -82,10 +84,11 @@ docker exec rumahpintar-db psql -U postgres -d rumahpintar -f /tmp/beban-1-juta.
+ | `POST /auth/logout` | terbuka | menghapus sesi dan kedua *cookie*; selalu `{"pesan":"sudah logout"}` |
+ | `GET /auth/me` | login | akun yang sedang *login* (dibaca dari database) |
+ | `GET /health` | terbuka | server hidup? tersambung ke broker dan database? berapa pesan `diterima`, `ditolak` (gagal kontrak), dan `diabaikan` (dari perangkat tak terdaftar/dicabut, Modul 21)? |
+-| `GET /devices` | login | daftar perangkat dari database: yang terdaftar, yang dicabut, dan baris lama yang belum terdaftar; kolom `kunci` menandai `aktif`/`dicabut`/`tanpa-kunci`/`belum-terdaftar` (sidik jari kunci tidak pernah ikut) |
++| `GET /devices` | login | daftar perangkat dari database: yang terdaftar, yang dicabut, dan baris lama yang belum terdaftar; kolom `kunci` menandai `aktif`/`dicabut`/`tanpa-kunci`/`belum-terdaftar` (sidik jari kunci tidak pernah ikut); sejak Modul 25 juga titik peta `lat`/`lng` (`null` = belum diisi) |
+ | `POST /devices` | admin | daftarkan perangkat (Modul 21): jawabannya memuat `kunci` 43 huruf **yang hanya tampil sekali ini** dan `langkah` berikutnya; `penghubung` untuk perangkat ESP-NOW (Node 2) yang datanya diterbitkan Node 1 (tanpa kunci) |
+ | `POST /devices/:id/kunci` | admin | buat kunci baru (kunci lama langsung tidak berlaku); juga menghidupkan lagi perangkat yang dicabut |
+ | `POST /devices/:id/cabut` | admin | cabut kunci perangkat yang hilang atau dicuri: backend langsung mengabaikan datanya, perintah kepadanya dijawab 409 |
++| `PUT /devices/:id/lokasi` | admin | atur titik perangkat di peta (Modul 25): `{ "lat": -6.1754, "lng": 106.8272 }` dengan **titik** desimal; `{ "lat": null, "lng": null }` menghapus titiknya. Jawabannya satu baris perangkat seperti di `GET /devices`; teks `lokasi` tidak ikut berubah |
+ | `GET /devices/:id/latest` | login | bacaan `telemetry` terbaru satu perangkat |
+ | `GET /devices/:id/vitals` | login | kesehatan terakhir satu perangkat |
+ | `GET /devices/:id/readings?from=…&to=…` | login | riwayat bacaan mentah dari database (bawaan: satu jam terakhir; paling banyak 1.000 bacaan) |
+@@ -97,6 +100,7 @@ docker exec rumahpintar-db psql -U postgres -d rumahpintar -f /tmp/beban-1-juta.
+ | `PUT /rules/:id` | admin | ganti seluruh isi satu aturan; langsung berlaku tanpa memulai ulang server, dan ambang aturan kipas dikirim ke perangkat sebagai `config` *retained* |
+ | `DELETE /rules/:id` | admin | hapus satu aturan (Modul 24); langsung tidak berlaku, jawabannya `{ id, nama, pesan }`. Keadaan yang diinginkannya ikut dilupakan, jadi perangkat yang menyala ulang tidak menerima lagi perintah aturan itu; aktuator yang sedang dinyalakannya dibiarkan apa adanya. Riwayat perintah dan kejadiannya tetap ada (kolom `aturan_id`-nya menjadi kosong). Untuk menyimpan aturan tanpa menjalankannya, pakai `PUT` dengan `"aktif": false` |
+ | `POST /rules/:id/jalankan` | admin | jalankan aksi satu aturan jadwal sekarang juga (untuk menguji, tanpa menunggu jamnya) |
++| `POST /laporan/kirim` | admin | kirim laporan harian CSV ke Telegram sekarang juga (Modul 25), isinya sama dengan laporan terjadwal (kemarin 00.00–24.00 WIB); `?hari=ini` = laporan sementara hari ini sejak 00.00 WIB. Jawabannya `{ berkas, dari, sampai, perangkat, ukuran_byte, keterangan }` |
+ 
+ "login" = akun apa pun yang sudah *login* (`admin` atau `viewer`). Data *live* tersedia lewat **Socket.IO** di alamat yang sama (`/socket.io/`), juga dengan *cookie* `akses`: kirim `ikuti` dengan `device_id` (jawabannya membawa bacaan terakhir) untuk menerima acara `telemetry` perangkat itu; acara `status` dan `kejadian` dikirim ke semua klien. Tanpa *cookie*, sambungan ditolak (`connect_error` `belum login`); saat gelang kedaluwarsa, server memutus sambungan dan klien harus *refresh* lalu menyambung lagi. Contoh klien: `alat/terminal-live.js` (akun dibaca dari `alat/.env`).
+ 
+@@ -124,6 +128,47 @@ Dengan `bucket`, jawabannya berbentuk `{ device_id, dari, sampai, ember, jumlah,
+ 
+ Koleksi Bruno untuk semua rute ada di folder `bruno/` (pilih *environment* `lokal`).
+ 
++## Peta dan laporan harian (Modul 25)
++
++**Titik peta.** Kolom `lat` (lintang) dan `lng` (bujur) sudah ada di tabel `devices` sejak migrasi `001`; sejak v1.2 keduanya ikut `GET /devices`, sehingga halaman Peta di dashboard bisa menggambar setiap perangkat. Titiknya diatur admin lewat `PUT /devices/:id/lokasi` (Bruno: `atur lokasi perangkat`):
++
++```json
++{ "lat": -6.1754, "lng": 106.8272 }
++```
++
++Angkanya derajat desimal dengan **titik**, karena JSON tidak mengenal koma desimal. `lat` −90 sampai 90 (Jakarta sekitar −6,2) dan `lng` −180 sampai 180 (Jakarta sekitar 106,8), keduanya diisi berpasangan; `{ "lat": null, "lng": null }` menghapus titiknya. Kolom lain ditolak, jadi teks `lokasi` ("ruang tamu") tidak ikut berubah. Jawaban yang mungkin:
++
++| Kode | Contoh `pesan` / `message` |
++| :--- | :--- |
++| `200` | satu baris perangkat, sama dengan `GET /devices`, dengan titik barunya |
++| `400` | `body/lat harus angka dengan titik desimal, misalnya -6.1754 (bukan teks "-6,1754")`, `body/lat lintang paling besar 90`, `body/lng lat dan lng diisi berpasangan: keduanya angka, atau keduanya null untuk menghapus titik`; `{"lat": -6,2}` tanpa tanda petik bahkan bukan JSON: `Body is not valid JSON but content-type is set to 'application/json'` |
++| `403` | akun `viewer` (satpam Modul 20) |
++| `404` | `f00d0000ffff tidak ada di daftar perangkat` |
++
++Titik rumah adalah data pribadi: log backend hanya mencatat `titik <device_id> di peta diatur oleh akun 1`, tanpa angkanya. Untuk contoh dan tangkapan layar, pakai titik fiktif di tempat umum (contoh di atas: sekitar Monas, Jakarta).
++
++**Laporan harian CSV.** Setiap hari pada jam `LAPORAN_JADWAL` (bawaan `0 7 * * *` = 07.00 WIB; cron **5** bidang, selalu dihitung dalam WIB apa pun zona waktu laptopnya), backend meringkas data **kemarin 00.00–24.00 WIB** untuk setiap perangkat terdaftar yang kuncinya belum dicabut, lalu bot Telegram Modul 19 mengirimnya ke chat pemilik sebagai berkas `laporan-YYYY-MM-DD.csv` (tanggal = hari yang dilaporkan) dengan keterangan `📊 Laporan harian Rumah Pintar Mini 26 Okt 2026: 3 perangkat`. Semua dihitung dalam satu kueri SQL (`src/services/laporan.ts`):
++
++| Kolom | Isinya | Sumber |
++| :--- | :--- | :--- |
++| `device_id`, `nama`, `jenis` | perangkatnya (`nama` kosong → `device_id`) | `devices` |
++| `jumlah_bacaan` | banyaknya `telemetry` hari itu (Node 1 sekitar 8.640, Node 2 sekitar 288; 0 = diam seharian) | `readings_per_jam` |
++| `suhu_rata`, `suhu_min`, `suhu_maks`, `kelembapan_rata`, `tanah_rata`, `tanah_min` | ringkasan harian (rata-rata tepat dari rata-rata per jam × banyaknya nilai, seperti `bucket=1d`) | `readings_per_jam` |
++| `rssi_rata`, `rssi_terburuk`, `heap_terendah`, `menyala_ulang` | kesehatan dari `vitals`; `menyala_ulang` = berapa kali `uptime_s` turun. Kosong untuk Node 2 (tidak mengirim `vitals`) | `device_health` |
++| `kali_terputus` | berapa kali statusnya menjadi `offline`/`offline-mode` | `events` |
++
++Formatnya sama dengan unduhan CSV dashboard Modul 23 (`src/services/csv.ts`): pemisah titik koma, koma desimal, BOM di awal berkas, CRLF di akhir setiap baris; formatnya disiapkan untuk Excel atau LibreOffice Calc dengan setelan regional Indonesia. Berkasnya dikirim sebagai `Buffer` (`new InputFile(Buffer.from(isi, "utf8"), nama)`): `new InputFile("teks…")` dianggap jalur berkas oleh grammY dan gagal (`ENOENT`).
++
++Untuk menguji tanpa menunggu jamnya, kirim `POST /laporan/kirim` (Bruno: `kirim laporan sekarang`). Tanpa pilihan, isinya laporan kemarin yang sama; `?hari=ini` mengirim laporan sementara hari ini sejak 00.00 WIB (berkas `laporan-YYYY-MM-DD-sementara.csv`), berguna kalau sistemmu baru menyala hari ini. Kalau `TELEGRAM_BOT_TOKEN` atau `TELEGRAM_CHAT_ID` kosong, rute ini menjawab `409 {"pesan":"laporan tidak dikirim: Telegram mati (TELEGRAM_BOT_TOKEN belum diisi)"}` dan laporan terjadwal hanya mencatat `laporan harian dilewati: Telegram mati (…)` di log; Telegram yang menolak atau tak terjangkau = `502`, database mati = `503`.
++
++Contoh log backend saat laporan terjadwal berjalan (jadwal uji `20 21 * * *`, lalu dikembalikan ke `0 7 * * *`):
++
++```text
++INFO: laporan harian dijadwalkan: "20 21 * * *" Asia/Jakarta, berikutnya 26 Okt 2026, 21.20 WIB
++INFO: laporan harian berjalan sesuai jadwal
++INFO: Telegram terkirim: berkas laporan-2026-10-25.csv (380 byte), 📊 Laporan harian Rumah Pintar Mini 25 Okt 2026: 3 perangkat
++```
++
+ ## Keamanan perangkat dan broker (Modul 21)
+ 
+ Sampai Modul 20, backend membuat baris `devices` otomatis untuk perangkat **apa pun** yang mengirim pesan, dan siapa pun yang bisa menghubungi broker boleh menerbitkan ke topik mana pun. Modul 21 menutup keduanya.
+@@ -199,6 +244,20 @@ SELECT (SELECT count(*) FROM readings) AS bacaan,
+ 
+ Setelah terbukti, hapus salinannya dengan `docker exec rumahpintar-db dropdb -U postgres rumahpintar_pulih`.
+ 
++## Catatan versi 1.2
++
++Backend 1.2.0 dibuat di Modul 25 supaya dashboard 1.1 bisa menggambar peta perangkat dan supaya laporan harian datang sendiri lewat Telegram.
++
++- **`lat` dan `lng` di `GET /devices`** (`BarisPerangkat` dan `KOLOM` di `src/db/perangkat.ts`, skema `Perangkat` dan `tampilkan()` di `src/routes/perangkat.ts`). Bentuk jawaban lain tidak berubah; klien lama cukup mengabaikan dua kolom baru ini.
++- **`PUT /devices/:id/lokasi`** (admin): skema `Lokasi` (Zod: `lat` −90..90, `lng` −180..180, angka berhingga, berpasangan; `null` + `null` menghapus titik; kolom lain ditolak) dan `ubahLokasi()` di `src/db/perangkat.ts`. `PUT` sudah ada di `methods` CORS sejak Modul 19, jadi dashboard bisa memanggilnya dari browser tanpa perubahan `src/auth/keamanan.ts`.
++- **Laporan harian**: `src/services/csv.ts` (resep CSV Modul 23 di server), `src/services/laporan.ts` (rentang kemarin WIB, kueri ringkasan, `buatLaporanCsv()`, jadwal node-cron `timezone: "Asia/Jakarta"` dengan `noOverlap` dan pencatat jadwal terlewat seperti `src/services/jadwal.ts`), `kirimBerkas()` dan `alasanTelegramMati()` di `src/services/telegram.ts` (bot yang sama, `sendDocument`), `LAPORAN_JADWAL` di `src/config/env.ts` (cron 5 bidang; 6 bidang ditolak karena artinya lain), dan rute `POST /laporan/kirim` (`src/routes/laporan.ts`). Jadwal laporan ikut berhenti rapi lewat `hentikanJadwal()` (`cron.shutdown()`).
++- **`.env.example`**: `LAPORAN_JADWAL=0 7 * * *` dan baris berkomentar `# TELEGRAM_API_ROOT=` (setelan yang sudah ada sejak Modul 19 tetapi belum pernah tertulis).
++- **Tanpa migrasi database dan tanpa paket npm baru**: `lat`/`lng` sudah ada sejak migrasi `001`, node-cron 4.6.0 dan grammY 1.46.0 sudah dipakai sejak Modul 19. Kontrak data tetap **1.4**; firmware tidak berubah.
++- **Turun versi**: backend 1.1 yang menerima database yang sama tetap jalan (titik peta tersimpan di kolom yang memang sudah ada); hanya laporan dan rute barunya yang hilang.
++- **Perbaikan: 📴 palsu sesudah broker dimulai ulang** (`src/services/mqtt.ts`). Saat broker berhenti, wasiat `offline` setiap perangkat terbit dan backend mulai menunggu 60 detik sebelum mengirim 📴. Kalau perangkat tersambung lagi LEBIH DULU dari backend, kabar `online`-nya tiba sebagai pesan *retained*, dan v1.1 mengabaikan pesan *retained* untuk Telegram: 📴 palsu terkirim semenit kemudian, lalu 📴 berikutnya untuk perangkat itu tidak pernah datang sampai backend dimulai ulang. Sejak v1.2, `online` *retained* juga membatalkan 📴 yang sedang menunggu (dua baris, diuji `src/services/mqtt.test.ts`).
++- **Jadwal laporan memakai jam jadwalnya**: jadwal yang baru berjalan beberapa menit kemudian (misalnya `LAPORAN_JADWAL=50 23 * * *` dan laptop baru bangun pukul 00.01) tetap melaporkan hari sebelum jam jadwal itu, bukan hari yang baru saja berakhir.
++- Versi `1.2.0` di `package.json` dan di `/docs`.
++
+ ## Catatan versi 1.1
+ 
+ Backend 1.1.0 dibuat di Modul 24 supaya dashboard v1.0 bisa membuat aturan "siram jika tanah < 30 %" dan menghapus aturan.
+@@ -214,13 +273,15 @@ Backend 1.1.0 dibuat di Modul 24 supaya dashboard v1.0 bisa membuat aturan "sira
+ - **Turun versi**: backend v1.0 yang membaca aturan berbentuk baru tidak mogok; aturan itu dilewati dengan peringatan `aturan N dilewati: …` (lihat `muatAturan()`), aturan lainnya tetap berjalan. Aturan yang dilewati juga TIDAK tampil di `GET /rules` v1.0 (dashboard seolah kehilangan aturan itu); datanya utuh di database dan tampil lagi begitu naik ke 1.1. Jangan menyimpan aturan bernomor itu lewat `PUT` v1.0: isinya akan ditimpa bentuk v1.0.
+ - Versi `1.1.0` di `package.json` dan di `/docs`.
+ 
+-## Batasan v1.1
++## Batasan v1.2
+ 
+ - `GET /devices/:id/latest`, `vitals`, dan `state` masih dibaca dari memori, jadi kosong lagi setiap server dimulai ulang. Keadaan yang diinginkan (`desired`) dan hitungan "selama" setiap aturan juga hilang saat server dimulai ulang; riwayat bacaan, perintah, aturan, kejadian, akun, dan sesi tersimpan permanen di database.
+ - Bacaan yang datang saat database tidak bisa dihubungi tidak tersimpan.
+ - Bacaan mentah hanya disimpan 90 hari; yang lebih tua tinggal ringkasan per jamnya.
+ - Hari pada ringkasan `1d` adalah hari WIB (`Asia/Jakarta`), juga bagi perangkat di WITA atau WIT. Jadwal aturan juga dihitung dalam WIB.
+ - Aturan dan jadwal hanya berjalan selama backend menyala. Jadwal yang terlambat lebih dari 15 menit (misalnya laptop tidur pukul 06.00) tidak dijalankan belakangan, hanya dicatat; kalau backend mati pada jam itu, tidak ada yang dicatat. Saat broker tak terjangkau, Node 1 menjalankan pengaman kipasnya sendiri dengan ambang dari `config`.
++- **Laporan harian juga hanya terkirim selama backend menyala** (Modul 25). Laptop yang tidur lebih dari 15 menit melewati `LAPORAN_JADWAL` tidak mengirimnya belakangan: log dan Telegram hanya mencatat `⏰ Laporan harian pada … terlewat`; kirim manual dengan `POST /laporan/kirim`. Kalau backend mati pada jam itu, tidak ada catatan sama sekali. Server yang menyala terus menyusul di Modul 26–27. Laporan hanya dikirim ke satu chat (`TELEGRAM_CHAT_ID`), dan laporan hari pertama (kemarin belum ada data) memang kosong: pakai `?hari=ini`. Broker yang dimulai ulang terhitung satu kali putus (`kali_terputus`) untuk setiap Node 1 yang tersambung saat itu: wasiat `offline`-nya memang terbit.
++- **`devices.terakhir_dilihat` bukan "data terakhir"**: kolom ini dimajukan oleh SETIAP pesan perangkat terdaftar, termasuk pesan `status` (wasiat `offline` dari broker, status Node 2 yang diterbitkan Node 1, dan status *retained* yang dikirim ulang broker saat backend menyala). Untuk "kapan perangkat terakhir mengirim data" (misalnya *alert* "node diam" di Grafana, Modul 25), pakai `readings.diterima` bacaan terbarunya. Perilaku kolom ini sengaja tidak diubah di v1.2.
+ - Perubahan aturan langsung di database (misalnya lewat DBeaver) baru terbaca saat server dimulai ulang atau saat aturan lain diubah lewat API; pakai API `/rules`.
+ - Aturan dengan aksi `perintah` (misalnya pompa sekali) hanya bertindak saat aturannya berganti keadaan. Karena hitungannya hilang saat server dimulai ulang atau aturannya diubah, perintahnya dikirim sekali lagi kalau kondisinya masih terpenuhi sesudah itu.
+ - Menonaktifkan atau menghapus aturan kipas **tidak** mencabut `config` *retained* `suhu_kipas_on` yang sudah terkirim: Node 1 tetap memakai angka terakhir itu sebagai pengaman lokal saat broker tak terjangkau.
+diff --git b/backend/bruno/atur lokasi perangkat.yml b/backend/bruno/atur lokasi perangkat.yml
+new file mode 100644
+index 0000000..b4bbcdc
+--- /dev/null
++++ b/backend/bruno/atur lokasi perangkat.yml	
+@@ -0,0 +1,29 @@
++info:
++  name: atur lokasi perangkat
++  type: http
++  seq: 27
++
++http:
++  method: PUT
++  url: "{{baseUrl}}/devices/a4cf12e5b7c0/lokasi"
++  body:
++    type: json
++    data: |-
++      {
++        "lat": -6.1754,
++        "lng": 106.8272
++      }
++  auth: inherit
++
++runtime:
++  assertions:
++    - expression: res.status
++      operator: eq
++      value: "200"
++
++settings:
++  encodeUrl: true
++  timeout: 0
++  followRedirects: true
++  maxRedirects: 5
++  forwardAuthorizationHeader: true
+diff --git b/backend/bruno/daftarkan Kebun tiruan.yml b/backend/bruno/daftarkan Kebun tiruan.yml
+new file mode 100644
+index 0000000..eee8928
+--- /dev/null
++++ b/backend/bruno/daftarkan Kebun tiruan.yml	
+@@ -0,0 +1,31 @@
++info:
++  name: daftarkan Kebun tiruan
++  type: http
++  seq: 26
++
++http:
++  method: POST
++  url: "{{baseUrl}}/devices"
++  body:
++    type: json
++    data: |-
++      {
++        "device_id": "f00d000000b2",
++        "nama": "Kebun (tiruan)",
++        "lokasi": "kebun",
++        "penghubung": "f00d00000001"
++      }
++  auth: inherit
++
++runtime:
++  assertions:
++    - expression: res.status
++      operator: eq
++      value: "201"
++
++settings:
++  encodeUrl: true
++  timeout: 0
++  followRedirects: true
++  maxRedirects: 5
++  forwardAuthorizationHeader: true
+diff --git b/backend/bruno/kirim laporan sekarang.yml b/backend/bruno/kirim laporan sekarang.yml
+new file mode 100644
+index 0000000..0f992a1
+--- /dev/null
++++ b/backend/bruno/kirim laporan sekarang.yml	
+@@ -0,0 +1,26 @@
++info:
++  name: kirim laporan sekarang
++  type: http
++  seq: 28
++
++http:
++  method: POST
++  url: "{{baseUrl}}/laporan/kirim?hari=ini"
++  params:
++    - name: hari
++      value: ini
++      type: query
++  auth: inherit
++
++runtime:
++  assertions:
++    - expression: res.status
++      operator: eq
++      value: "200"
++
++settings:
++  encodeUrl: true
++  timeout: 0
++  followRedirects: true
++  maxRedirects: 5
++  forwardAuthorizationHeader: true
+diff --git a/backend/package-lock.json b/backend/package-lock.json
+index e8f97e4..4f57e76 100644
+--- a/backend/package-lock.json
++++ b/backend/package-lock.json
+@@ -1,12 +1,12 @@
+ {
+   "name": "rumah-pintar-mini-backend",
+-  "version": "1.1.0",
++  "version": "1.2.0",
+   "lockfileVersion": 3,
+   "requires": true,
+   "packages": {
+     "": {
+       "name": "rumah-pintar-mini-backend",
+-      "version": "1.1.0",
++      "version": "1.2.0",
+       "dependencies": {
+         "@fastify/cookie": "^11.1.3",
+         "@fastify/cors": "^11.3.1",
+diff --git a/backend/package.json b/backend/package.json
+index 5f79b83..fbbc8c8 100644
+--- a/backend/package.json
++++ b/backend/package.json
+@@ -1,6 +1,6 @@
+ {
+   "name": "rumah-pintar-mini-backend",
+-  "version": "1.1.0",
++  "version": "1.2.0",
+   "description": "Backend Rumah Pintar Mini (Modul 16-21): mendengar MQTT, memeriksa kontrak data, menyimpan semua pesan ke database deret waktu, menyediakan API riwayat, data realtime, perintah, aturan otomatis, jadwal, dan notifikasi Telegram, login dengan peran admin dan viewer, serta daftar resmi perangkat dengan kunci per perangkat dan akun broker tersendiri",
+   "private": true,
+   "type": "module",
+diff --git b/backend/src/config/env.test.ts b/backend/src/config/env.test.ts
+new file mode 100644
+index 0000000..7a9032f
+--- /dev/null
++++ b/backend/src/config/env.test.ts
+@@ -0,0 +1,35 @@
++// env.test.ts - uji setelan LAPORAN_JADWAL (Modul 25) di env.ts. env.ts memeriksa process.env SEKALI saat diimpor, jadi
++// setiap tes mengimpornya ulang (vi.resetModules) dengan isi .env tiruan yang berbeda. Jalankan: npm test
++import { afterEach, describe, expect, it, vi } from "vitest";
++
++const SAH = { // setelan wajib yang sah (tidak ada yang benar-benar dihubungi)
++  MQTT_URL: "mqtt://127.0.0.1:1",
++  DATABASE_URL: "postgres://tiruan:tiruan@127.0.0.1:1/tiruan",
++  JWT_SECRET: "rahasia-uji-yang-cukup-panjang-untuk-zod-0123456789",
++};
++
++async function bacaSetelan(jadwal: string) {
++  vi.resetModules();
++  for (const [nama, nilai] of Object.entries({ ...SAH, LAPORAN_JADWAL: jadwal })) vi.stubEnv(nama, nilai);
++  return (await import("./env.ts")).env;
++}
++
++afterEach(() => {
++  vi.unstubAllEnvs();
++  vi.restoreAllMocks();
++});
++
++describe("LAPORAN_JADWAL di .env", () => {
++  it("kosong = bawaan 0 7 * * * (setiap hari 07.00 WIB); cron 5 bidang lain diterima apa adanya", async () => {
++    expect((await bacaSetelan("")).LAPORAN_JADWAL).toBe("0 7 * * *");
++    expect((await bacaSetelan("30 6 * * 1-5")).LAPORAN_JADWAL).toBe("30 6 * * 1-5");
++  });
++
++  it("cron 6 bidang (0 7 * * * *) ditolak dengan alasannya, dan server berhenti", async () => {
++    const layar = vi.spyOn(console, "error").mockImplementation(() => {});
++    vi.spyOn(process, "exit").mockImplementation(() => { throw new Error("process.exit"); });
++    await expect(bacaSetelan("0 7 * * * *")).rejects.toThrow("process.exit");
++    expect(layar).toHaveBeenCalledWith(
++      "Setelan LAPORAN_JADWAL di .env: harus 5 bidang: menit jam tanggal bulan hari, misalnya 0 7 * * *");
++  });
++});
+diff --git a/backend/src/config/env.ts b/backend/src/config/env.ts
+index 7ddb581..05ceb5b 100644
+--- a/backend/src/config/env.ts
++++ b/backend/src/config/env.ts
+@@ -1,6 +1,7 @@
+ // env.ts - setelan server dari file .env (dibaca Node.js lewat --env-file), diperiksa skema Zod sekali saat server mulai.
+ // Modul 20: .env kini juga berisi rahasia (JWT_SECRET), jadi isinya diperiksa seketat pesan dari perangkat.
+ import { z } from "zod";
++import cron from "node-cron";
+ 
+ z.config(z.locales.id()); // pesan galat Zod dalam bahasa Indonesia (file ini dibaca paling awal, sebelum kontrak.ts)
+ 
+@@ -24,6 +25,12 @@ const Setelan = z.object({
+   TELEGRAM_BOT_TOKEN: z.string().default(""), // token dari @BotFather: rahasia, seperti kata sandi
+   TELEGRAM_CHAT_ID: z.string().default(""), // chat_id pemilik (balasan /start)
+   TELEGRAM_API_ROOT: z.string().default(""), // kosong = server Telegram sungguhan (lab: server Bot API tiruan)
++  // Modul 25: kapan laporan harian CSV dikirim ke Telegram, cron 5 bidang (menit jam tanggal bulan hari) dalam WIB.
++  // Bawaan "0 7 * * *" = setiap hari pukul 07.00 WIB. Cron 6 bidang ("0 7 * * * *") juga sah bagi node-cron, tetapi
++  // artinya lain (detik 0, menit 7, SETIAP jam), jadi ditolak di sini.
++  LAPORAN_JADWAL: z.preprocess(kosong, z.string().default("0 7 * * *")
++    .refine((teks) => teks.trim().split(/\s+/).length === 5, "harus 5 bidang: menit jam tanggal bulan hari, misalnya 0 7 * * *")
++    .refine((teks) => cron.validate(teks), "ekspresi cron tidak sah, misalnya 0 7 * * * (setiap hari 07.00 WIB)")),
+   // Modul 20: kunci untuk menandatangani JWT. Siapa pun yang tahu kunci ini bisa membuat "gelang" palsu.
+   JWT_SECRET: z.preprocess(kosong, z.string({ error: "belum diisi" })
+     .min(32, "terlalu pendek (minimal 32 karakter); buat yang baru dengan perintah di .env.example")
+diff --git a/backend/src/db/perangkat.ts b/backend/src/db/perangkat.ts
+index aab8747..d0a82da 100644
+--- a/backend/src/db/perangkat.ts
++++ b/backend/src/db/perangkat.ts
+@@ -1,5 +1,6 @@
+ // perangkat.ts - daftar resmi perangkat di tabel devices (Modul 21, migrasi 010): registrasi oleh admin, ganti kunci, cabut.
+ // Sidik jari kunci (kunci_hash) hanya DITULIS dari file ini; daftar perangkat tidak pernah membacanya.
++// Modul 25: daftar perangkat juga membawa titik peta (lat, lng), dan admin bisa memindahkan titik itu (ubahLokasi).
+ import { pool } from "./pool.ts";
+ 
+ // satu baris daftar perangkat seperti yang ditampilkan GET /devices (tanpa sidik jari kunci)
+@@ -8,6 +9,8 @@ export interface BarisPerangkat {
+   jenis: "node1" | "node2" | "belum-diketahui";
+   nama: string | null;
+   lokasi: string | null;
++  lat: number | null; // Modul 25: lintang (latitude) titik di peta, derajat desimal; null = belum diisi
++  lng: number | null; // Modul 25: bujur (longitude); kolomnya sudah ada sejak migrasi 001, tetapi baru dibaca sekarang
+   status: string;
+   terakhir_dilihat: Date | null;
+   terdaftar: Date | null;
+@@ -16,7 +19,7 @@ export interface BarisPerangkat {
+   penghubung: string | null;
+ }
+ 
+-const KOLOM = "device_id, jenis, nama, lokasi, status, terakhir_dilihat, terdaftar, kunci_dibuat, dicabut, penghubung";
++const KOLOM = "device_id, jenis, nama, lokasi, lat, lng, status, terakhir_dilihat, terdaftar, kunci_dibuat, dicabut, penghubung";
+ 
+ export async function semuaPerangkatDb(): Promise<BarisPerangkat[]> {
+   const hasil = await pool.query<BarisPerangkat>(`SELECT ${KOLOM} FROM devices ORDER BY device_id`);
+@@ -64,3 +67,13 @@ export async function cabutPerangkat(deviceId: string): Promise<BarisPerangkat |
+   );
+   return hasil.rows[0];
+ }
++
++// Modul 25: pindahkan titik perangkat di peta. lat dan lng selalu ditulis berpasangan; null dan null = titiknya dihapus.
++// Teks lokasi ("ruang tamu") tidak ikut diubah. Hasilnya undefined kalau device_id itu tidak ada di tabel devices.
++export async function ubahLokasi(deviceId: string, lat: number | null, lng: number | null): Promise<BarisPerangkat | undefined> {
++  const hasil = await pool.query<BarisPerangkat>(
++    `UPDATE devices SET lat = $2, lng = $3 WHERE device_id = $1 RETURNING ${KOLOM}`,
++    [deviceId, lat, lng],
++  );
++  return hasil.rows[0];
++}
+diff --git b/backend/src/routes/laporan.test.ts b/backend/src/routes/laporan.test.ts
+new file mode 100644
+index 0000000..50d3a03
+--- /dev/null
++++ b/backend/src/routes/laporan.test.ts
+@@ -0,0 +1,97 @@
++// laporan.test.ts - uji rute POST /laporan/kirim (Modul 25) TANPA database dan TANPA Telegram: layanan laporan diganti tiruan
++// (vi.mock), server Fastify dijalankan tanpa jaringan (app.inject), satpam SUNGGUHAN (keamanan.ts) ikut dipasang seperti di
++// aturan.test.ts: tamu 401, viewer 403, admin 200. Juga kode jawaban saat Telegram mati (409), menolak (502), dan saat
++// database tidak bisa dibaca (503). Jalankan: npm test
++import { afterAll, beforeEach, describe, expect, it, vi } from "vitest";
++
++vi.hoisted(() => { // env.ts memeriksa .env saat diimpor: beri setelan palsu yang sah (tidak ada yang benar-benar dihubungi)
++  process.env.MQTT_URL = "mqtt://127.0.0.1:1";
++  process.env.DATABASE_URL = "postgres://tiruan:tiruan@127.0.0.1:1/tiruan";
++  process.env.JWT_SECRET = "rahasia-uji-yang-cukup-panjang-untuk-zod-0123456789";
++});
++
++// layanan laporan tiruan: mengingat apa yang diminta, menjawab sesuai "keadaan" yang diatur tiap tes
++const tiruan = vi.hoisted(() => ({
++  keadaan: "terkirim" as "terkirim" | "mati" | "ditolak" | "database-mati",
++  diminta: [] as boolean[], // nilai hariIni setiap panggilan
++}));
++vi.mock("../services/laporan.ts", () => ({
++  kirimLaporan: async (hariIni: boolean) => {
++    tiruan.diminta.push(hariIni);
++    if (tiruan.keadaan === "database-mati") throw new Error("connect ECONNREFUSED 127.0.0.1:5432");
++    if (tiruan.keadaan === "mati") return { status: "dilewati", pesan: "Telegram mati (TELEGRAM_BOT_TOKEN belum diisi)" };
++    if (tiruan.keadaan === "ditolak") {
++      return { status: "gagal", pesan: "Telegram tidak menerima laporan-2026-10-26.csv; lihat log backend" };
++    }
++    return hariIni
++      ? { status: "terkirim", berkas: "laporan-2026-10-27-sementara.csv", perangkat: 2, ukuran_byte: 260, keterangan: "📊 …",
++        rentang: { dari: new Date("2026-10-26T17:00:00Z"), sampai: new Date("2026-10-27T03:15:42.123Z"), tanggal: "2026-10-27",
++          hariIni } }
++      : { status: "terkirim", berkas: "laporan-2026-10-26.csv", perangkat: 3, ukuran_byte: 398, keterangan: "📊 …",
++        rentang: { dari: new Date("2026-10-25T17:00:00Z"), sampai: new Date("2026-10-26T17:00:00Z"), tanggal: "2026-10-26",
++          hariIni } };
++  },
++}));
++
++import Fastify from "fastify";
++import { serializerCompiler, validatorCompiler } from "fastify-type-provider-zod";
++import { pasangKeamanan } from "../auth/keamanan.ts";
++import { ruteLaporan } from "./laporan.ts";
++
++const app = Fastify();
++app.setValidatorCompiler(validatorCompiler);
++app.setSerializerCompiler(serializerCompiler);
++await pasangKeamanan(app); // CORS, cookie, JWT, dan satpam yang sama dengan server.ts
++await app.register(ruteLaporan);
++await app.ready();
++afterAll(() => app.close());
++
++// "gelang" (JWT akses) yang sah karena ditandatangani dengan JWT_SECRET tes di atas, dikirim sebagai cookie akses
++const gelang = (peran: "admin" | "viewer") => ({ akses: app.jwt.sign({ sub: peran === "admin" ? "1" : "2", peran, sid: 1 }) });
++const kirim = (url: string, peran?: "admin" | "viewer") =>
++  app.inject({ method: "POST", url, ...(peran === undefined ? {} : { cookies: gelang(peran) }) });
++
++beforeEach(() => {
++  tiruan.keadaan = "terkirim";
++  tiruan.diminta = [];
++});
++
++describe("POST /laporan/kirim", () => {
++  it("tamu 401 dan viewer 403: laporan tidak dibuat sama sekali", async () => {
++    expect((await kirim("/laporan/kirim")).statusCode).toBe(401);
++    const jawab = await kirim("/laporan/kirim", "viewer");
++    expect(jawab.statusCode).toBe(403);
++    expect(jawab.json()).toEqual({ pesan: "akun viewer hanya boleh melihat; perintah dan perubahan khusus admin" });
++    expect(tiruan.diminta).toEqual([]);
++  });
++
++  it("admin tanpa pilihan: laporan kemarin (sama dengan laporan terjadwal), waktu dalam UTC", async () => {
++    const jawab = await kirim("/laporan/kirim", "admin");
++    expect(jawab.statusCode).toBe(200);
++    expect(jawab.json()).toEqual({ berkas: "laporan-2026-10-26.csv", dari: "2026-10-25T17:00:00Z",
++      sampai: "2026-10-26T17:00:00Z", perangkat: 3, ukuran_byte: 398, keterangan: "📊 …" });
++    expect(tiruan.diminta).toEqual([false]);
++  });
++
++  it("?hari=ini: laporan sementara hari ini; ?hari=kemarin sama dengan tanpa pilihan; ?hari=besok 400", async () => {
++    const ini = await kirim("/laporan/kirim?hari=ini", "admin");
++    expect(ini.statusCode).toBe(200);
++    expect(ini.json()).toMatchObject({ berkas: "laporan-2026-10-27-sementara.csv", sampai: "2026-10-27T03:15:42Z" });
++    expect((await kirim("/laporan/kirim?hari=kemarin", "admin")).statusCode).toBe(200);
++    expect((await kirim("/laporan/kirim?hari=besok", "admin")).statusCode).toBe(400);
++    expect(tiruan.diminta).toEqual([true, false]);
++  });
++
++  it("Telegram mati 409, Telegram menolak 502, database mati 503: semuanya dengan pesan untuk manusia", async () => {
++    tiruan.keadaan = "mati";
++    const mati = await kirim("/laporan/kirim", "admin");
++    expect(mati.statusCode).toBe(409);
++    expect(mati.json()).toEqual({ pesan: "laporan tidak dikirim: Telegram mati (TELEGRAM_BOT_TOKEN belum diisi)" });
++    tiruan.keadaan = "ditolak";
++    expect((await kirim("/laporan/kirim", "admin")).statusCode).toBe(502);
++    tiruan.keadaan = "database-mati";
++    const db = await kirim("/laporan/kirim", "admin");
++    expect(db.statusCode).toBe(503);
++    expect(db.json()).toEqual({ pesan: "database sedang tidak bisa dihubungi, coba lagi sebentar lagi" });
++  });
++});
+diff --git b/backend/src/routes/laporan.ts b/backend/src/routes/laporan.ts
+new file mode 100644
+index 0000000..481203c
+--- /dev/null
++++ b/backend/src/routes/laporan.ts
+@@ -0,0 +1,48 @@
++// laporan.ts - rute /laporan (Modul 25): kirim laporan harian CSV ke Telegram SEKARANG, tanpa menunggu jadwalnya
++// (LAPORAN_JADWAL). Isinya sama persis dengan laporan terjadwal; ?hari=ini mengirim laporan sementara hari ini.
++// Hanya admin: satpam (keamanan.ts) menolak viewer untuk POST sebelum sampai ke sini.
++import { z } from "zod";
++import type { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
++import { kirimLaporan } from "../services/laporan.ts";
++import { waktuKontrak } from "../db/arsip.ts";
++
++const Galat = z.object({ pesan: z.string() });
++const Pilihan = z.object({
++  hari: z.enum(["kemarin", "ini"]).default("kemarin")
++    .describe("kemarin = 00.00-24.00 WIB kemarin, sama dengan laporan terjadwal (bawaan); ini = hari ini 00.00 WIB sampai sekarang"),
++});
++
++export const ruteLaporan: FastifyPluginAsyncZod = async (app) => {
++  app.post("/laporan/kirim", {
++    schema: {
++      tags: ["laporan"],
++      summary: "Kirim laporan harian CSV ke Telegram sekarang juga (untuk menguji, tanpa menunggu jadwalnya)",
++      querystring: Pilihan,
++      response: {
++        200: z.object({
++          berkas: z.string().describe("nama berkas di Telegram, misalnya laporan-2026-10-26.csv"),
++          dari: z.string().describe("awal rentang (UTC): 00.00 WIB = 17.00 UTC hari sebelumnya"),
++          sampai: z.string().describe("akhir rentang (UTC), tidak ikut dihitung"),
++          perangkat: z.number().describe("banyaknya baris: perangkat terdaftar yang kuncinya belum dicabut"),
++          ukuran_byte: z.number().describe("ukuran berkas CSV, termasuk BOM 3 byte"),
++          keterangan: z.string().describe("keterangan (caption) di bawah berkas"),
++        }).describe("laporan sudah diterima Telegram"),
++        409: Galat.describe("Telegram mati: TELEGRAM_BOT_TOKEN atau TELEGRAM_CHAT_ID di .env belum diisi"),
++        502: Galat.describe("Telegram menolak berkasnya atau tidak terjangkau (lihat log backend)"),
++        503: Galat.describe("database sedang tidak bisa dihubungi"),
++      },
++    },
++  }, async (req, reply) => {
++    try {
++      const hasil = await kirimLaporan(req.query.hari === "ini");
++      if (hasil.status === "dilewati") return reply.code(409).send({ pesan: `laporan tidak dikirim: ${hasil.pesan}` });
++      if (hasil.status === "gagal") return reply.code(502).send({ pesan: hasil.pesan });
++      req.log.info(`laporan ${hasil.berkas} dikirim sekarang atas perintah akun ${req.user.sub}`);
++      const { berkas, rentang, perangkat, ukuran_byte, keterangan } = hasil;
++      return { berkas, dari: waktuKontrak(rentang.dari), sampai: waktuKontrak(rentang.sampai), perangkat, ukuran_byte, keterangan };
++    } catch (galat) {
++      req.log.error(`laporan gagal dibaca dari database: ${(galat as Error).message}`);
++      return reply.code(503).send({ pesan: "database sedang tidak bisa dihubungi, coba lagi sebentar lagi" });
++    }
++  });
++};
+diff --git b/backend/src/routes/lokasi.test.ts b/backend/src/routes/lokasi.test.ts
+new file mode 100644
+index 0000000..46966c3
+--- /dev/null
++++ b/backend/src/routes/lokasi.test.ts
+@@ -0,0 +1,144 @@
++// lokasi.test.ts - uji titik perangkat di peta (Modul 25) TANPA database: tabel devices diganti tiruan di memori (vi.mock),
++// server Fastify dijalankan tanpa jaringan (app.inject). Bagian pertama menguji skema Lokasi saja (batas, NaN, koma desimal);
++// bagian kedua menguji rute PUT /devices/:id/lokasi bersama satpam SUNGGUHAN (keamanan.ts), seperti aturan.test.ts:
++// tamu 401, viewer 403, admin 200, device_id yang tidak ada 404. Jalankan: npm test
++import { afterAll, describe, expect, it, vi } from "vitest";
++
++vi.hoisted(() => { // env.ts memeriksa .env saat diimpor: beri setelan palsu yang sah (tidak ada yang benar-benar dihubungi)
++  process.env.MQTT_URL = "mqtt://127.0.0.1:1";
++  process.env.DATABASE_URL = "postgres://tiruan:tiruan@127.0.0.1:1/tiruan";
++  process.env.JWT_SECRET = "rahasia-uji-yang-cukup-panjang-untuk-zod-0123456789";
++  process.env.CORS_ORIGIN = "http://localhost:5173"; // halaman dashboard (Vite) yang boleh memanggil API dari browser
++});
++
++// tabel devices tiruan: satu perangkat terdaftar tanpa titik peta
++const tabel = vi.hoisted(() => new Map<string, Record<string, unknown>>([["a4cf12e5b7c0", {
++  device_id: "a4cf12e5b7c0", jenis: "node1", nama: "Node 1 ruang tamu", lokasi: "ruang tamu", lat: null, lng: null,
++  status: "online", terakhir_dilihat: new Date(), terdaftar: new Date(), kunci_dibuat: new Date(), dicabut: null,
++  penghubung: null,
++}]]));
++vi.mock("../db/perangkat.ts", () => ({
++  semuaPerangkatDb: async () => [...tabel.values()],
++  ubahLokasi: async (id: string, lat: number | null, lng: number | null) => { // seperti UPDATE ... RETURNING
++    const b = tabel.get(id);
++    if (b === undefined) return undefined;
++    Object.assign(b, { lat, lng });
++    return b;
++  },
++  daftarkanPerangkat: async () => { throw new Error("tidak dipakai di tes ini"); },
++  gantiKunciPerangkat: async () => { throw new Error("tidak dipakai di tes ini"); },
++  cabutPerangkat: async () => { throw new Error("tidak dipakai di tes ini"); },
++}));
++
++import Fastify from "fastify";
++import { serializerCompiler, validatorCompiler } from "fastify-type-provider-zod";
++import { pasangKeamanan } from "../auth/keamanan.ts";
++import { Lokasi, rutePerangkat } from "./perangkat.ts";
++
++const app = Fastify();
++app.setValidatorCompiler(validatorCompiler);
++app.setSerializerCompiler(serializerCompiler);
++await pasangKeamanan(app); // CORS, cookie, JWT, dan satpam yang sama dengan server.ts
++await app.register(rutePerangkat);
++await app.ready();
++afterAll(() => app.close());
++
++// "gelang" (JWT akses) yang sah karena ditandatangani dengan JWT_SECRET tes di atas, dikirim sebagai cookie akses
++const gelang = (peran: "admin" | "viewer") => ({ akses: app.jwt.sign({ sub: peran === "admin" ? "1" : "2", peran, sid: 1 }) });
++const put = (id: string, isi: unknown, peran?: "admin" | "viewer") => app.inject({ method: "PUT", url: `/devices/${id}/lokasi`,
++  ...(typeof isi === "string" ? { payload: isi, headers: { "content-type": "application/json" } } : { payload: isi as object }),
++  ...(peran === undefined ? {} : { cookies: gelang(peran) }) });
++// contoh titik FIKTIF di tempat umum (sekitar Monas, Jakarta), bukan rumah siapa pun
++const MONAS = { lat: -6.1754, lng: 106.8272 };
++
++describe("skema Lokasi", () => {
++  it("batas rentang ikut diterima: -90, 90, -180, 180; juga null + null (hapus titik)", () => {
++    for (const isi of [{ lat: -90, lng: -180 }, { lat: 90, lng: 180 }, MONAS, { lat: null, lng: null }]) {
++      expect(Lokasi.safeParse(isi).success).toBe(true);
++    }
++  });
++
++  it("di luar rentang ditolak dengan pesan yang menyebut batasnya", () => {
++    const lintang = Lokasi.safeParse({ lat: 90.0001, lng: 0 });
++    expect(lintang.success).toBe(false);
++    expect(lintang.error?.issues[0]).toMatchObject({ path: ["lat"], message: "lintang paling besar 90" });
++    const bujur = Lokasi.safeParse({ lat: 0, lng: -180.5 });
++    expect(bujur.error?.issues[0]).toMatchObject({ path: ["lng"], message: "bujur paling kecil -180" });
++  });
++
++  it("NaN dan Infinity bukan angka berhingga: ditolak", () => {
++    const pesan = "harus angka berhingga (bukan NaN atau Infinity)";
++    expect(Lokasi.safeParse({ lat: Number.NaN, lng: 106.8 }).error?.issues[0]).toMatchObject({ path: ["lat"], message: pesan });
++    expect(Lokasi.safeParse({ lat: -6.2, lng: Number.POSITIVE_INFINITY }).error?.issues[0])
++      .toMatchObject({ path: ["lng"], message: pesan });
++  });
++
++  it("koma desimal \"-6,2\" adalah teks, bukan angka: ditolak dengan petunjuk titik desimal", () => {
++    const hasil = Lokasi.safeParse({ lat: "-6,2", lng: 106.8 });
++    expect(hasil.error?.issues[0]).toMatchObject({
++      path: ["lat"], message: "harus angka dengan titik desimal, misalnya -6.1754 (bukan teks \"-6,1754\")",
++    });
++  });
++
++  it("setengah titik, kolom yang hilang, dan kolom asing (teks lokasi) ditolak", () => {
++    expect(Lokasi.safeParse({ lat: -6.2, lng: null }).error?.issues[0]).toMatchObject({ path: ["lng"],
++      message: "lat dan lng diisi berpasangan: keduanya angka, atau keduanya null untuk menghapus titik" });
++    expect(Lokasi.safeParse({ lat: -6.2 }).error?.issues[0]).toMatchObject({ path: ["lng"],
++      message: "wajib diisi: angka, atau null untuk menghapus titik" });
++    expect(Lokasi.safeParse({ ...MONAS, lokasi: "taman" }).success).toBe(false);
++  });
++});
++
++describe("PUT /devices/:id/lokasi", () => {
++  it("tamu (belum login): 401, titiknya tidak berubah", async () => {
++    expect((await put("a4cf12e5b7c0", MONAS)).statusCode).toBe(401);
++    expect(tabel.get("a4cf12e5b7c0")?.lat).toBeNull();
++  });
++
++  it("viewer: boleh melihat GET /devices (200), tetapi memindahkan titik dijawab 403", async () => {
++    expect((await app.inject({ method: "GET", url: "/devices", cookies: gelang("viewer") })).statusCode).toBe(200);
++    const jawab = await put("a4cf12e5b7c0", MONAS, "viewer");
++    expect(jawab.statusCode).toBe(403);
++    expect(jawab.json()).toEqual({ pesan: "akun viewer hanya boleh melihat; perintah dan perubahan khusus admin" });
++    expect(tabel.get("a4cf12e5b7c0")?.lat).toBeNull();
++  });
++
++  it("admin: 200 dengan baris perangkat lengkap, dan GET /devices langsung membawa titik barunya", async () => {
++    const jawab = await put("a4cf12e5b7c0", MONAS, "admin");
++    expect(jawab.statusCode).toBe(200);
++    expect(jawab.json()).toMatchObject({ device_id: "a4cf12e5b7c0", lokasi: "ruang tamu", ...MONAS, kunci: "aktif" });
++    const daftar = (await app.inject({ method: "GET", url: "/devices", cookies: gelang("viewer") })).json();
++    expect(daftar[0]).toMatchObject(MONAS);
++  });
++
++  it("admin: { lat: null, lng: null } menghapus titiknya", async () => {
++    const jawab = await put("a4cf12e5b7c0", { lat: null, lng: null }, "admin");
++    expect(jawab.statusCode).toBe(200);
++    expect(jawab.json()).toMatchObject({ lat: null, lng: null });
++  });
++
++  it("admin: koma desimal, di luar rentang, dan 1e999 (Infinity sesudah JSON.parse) dijawab 400", async () => {
++    const koma = await put("a4cf12e5b7c0", { lat: "-6,2", lng: 106.8 }, "admin");
++    expect(koma.statusCode).toBe(400);
++    expect(koma.json().message).toContain("harus angka dengan titik desimal");
++    expect((await put("a4cf12e5b7c0", { lat: -91, lng: 106.8 }, "admin")).statusCode).toBe(400);
++    const takHingga = await put("a4cf12e5b7c0", "{\"lat\": 1e999, \"lng\": 106.8}", "admin");
++    expect(takHingga.statusCode).toBe(400);
++    expect(takHingga.json().message).toBe("body/lat harus angka berhingga (bukan NaN atau Infinity)");
++    expect(tabel.get("a4cf12e5b7c0")?.lat).toBeNull(); // tidak ada yang tersimpan
++  });
++
++  it("device_id yang tidak ada di daftar: 404 dengan pesan persis; device_id tidak sah: 400", async () => {
++    const jawab = await put("f00d000000ff", MONAS, "admin");
++    expect(jawab.statusCode).toBe(404);
++    expect(jawab.json()).toEqual({ pesan: "f00d000000ff tidak ada di daftar perangkat" });
++    expect((await put("BUKAN-ID", MONAS, "admin")).statusCode).toBe(400);
++  });
++
++  it("browser dari dashboard (CORS_ORIGIN): preflight mengizinkan PUT", async () => {
++    const preflight = await app.inject({ method: "OPTIONS", url: "/devices/a4cf12e5b7c0/lokasi",
++      headers: { origin: "http://localhost:5173", "access-control-request-method": "PUT" } });
++    expect(preflight.statusCode).toBe(204);
++    expect(preflight.headers["access-control-allow-methods"]).toContain("PUT");
++  });
++});
+diff --git a/backend/src/routes/perangkat.test.ts b/backend/src/routes/perangkat.test.ts
+index 58f3565..e148b23 100644
+--- a/backend/src/routes/perangkat.test.ts
++++ b/backend/src/routes/perangkat.test.ts
+@@ -14,8 +14,8 @@ vi.hoisted(() => { // env.ts memeriksa .env saat diimpor: beri setelan palsu yan
+ // tabel devices tiruan: device_id -> baris (termasuk kunci_hash, yang di database sungguhan juga ada)
+ const tabel = vi.hoisted(() => new Map<string, Record<string, unknown>>());
+ vi.mock("../db/perangkat.ts", () => {
+-  const KOSONG = { jenis: "belum-diketahui", nama: null, lokasi: null, status: "belum-diketahui", terakhir_dilihat: null,
+-    terdaftar: null, kunci_hash: null, kunci_dibuat: null, dicabut: null, penghubung: null };
++  const KOSONG = { jenis: "belum-diketahui", nama: null, lokasi: null, lat: null, lng: null, status: "belum-diketahui",
++    terakhir_dilihat: null, terdaftar: null, kunci_hash: null, kunci_dibuat: null, dicabut: null, penghubung: null };
+   const tanpaHash = (b: Record<string, unknown>) => { const { kunci_hash: _, ...sisa } = b; return sisa; };
+   return {
+     semuaPerangkatDb: async () => [...tabel.values()].map(tanpaHash),
+@@ -65,8 +65,9 @@ const post = (url: string, body?: object): Promise<LightMyRequestResponse> =>
+ 
+ beforeAll(() => {
+   // satu baris lama dari Modul 17-20 (dibuat otomatis, belum terdaftar), lalu daftar di memori dimuat seperti saat server mulai
+-  tabel.set("a4cf12e5b7c0", { device_id: "a4cf12e5b7c0", jenis: "node1", nama: null, lokasi: null, status: "online",
+-    terakhir_dilihat: new Date(), terdaftar: null, kunci_hash: null, kunci_dibuat: null, dicabut: null, penghubung: null });
++  tabel.set("a4cf12e5b7c0", { device_id: "a4cf12e5b7c0", jenis: "node1", nama: null, lokasi: null, lat: null, lng: null,
++    status: "online", terakhir_dilihat: new Date(), terdaftar: null, kunci_hash: null, kunci_dibuat: null, dicabut: null,
++    penghubung: null });
+   isiDaftar([...tabel.values()] as never);
+ });
+ afterAll(() => app.close());
+@@ -78,7 +79,9 @@ describe("daftar resmi perangkat", () => {
+     expect(izinPerangkat("a4cf12e5b7c0")).toBe("belum-terdaftar");
+     const jawab = await app.inject({ method: "GET", url: "/devices" });
+     expect(jawab.statusCode).toBe(200);
+-    expect(jawab.json()[0]).toMatchObject({ device_id: "a4cf12e5b7c0", kunci: "belum-terdaftar", terdaftar: null });
++    // Modul 25: titik peta ikut tampil; null = belum diisi
++    expect(jawab.json()[0]).toMatchObject({ device_id: "a4cf12e5b7c0", kunci: "belum-terdaftar", terdaftar: null, lat: null,
++      lng: null });
+   });
+ 
+   it("POST /devices: 201, kunci 43 huruf tampil SEKALI, database hanya menyimpan SHA-256-nya", async () => {
+diff --git a/backend/src/routes/perangkat.ts b/backend/src/routes/perangkat.ts
+index ce408ee..8376c7b 100644
+--- a/backend/src/routes/perangkat.ts
++++ b/backend/src/routes/perangkat.ts
+@@ -1,11 +1,12 @@
+ // perangkat.ts - rute /devices: daftar perangkat, bacaan terbaru, riwayat dari database (mentah atau ringkasan),
+ // perintah, dan keadaan aktuator (desired/reported, Modul 19). Modul 21: daftar resmi perangkat (registrasi, ganti kunci,
+-// cabut kunci); GET /devices kini dibaca dari database.
++// cabut kunci); GET /devices kini dibaca dari database. Modul 25: GET /devices membawa titik peta (lat, lng), dan admin
++// memindahkan titik itu lewat PUT /devices/:id/lokasi.
+ import { z } from "zod";
+ import type { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
+ import { Ack, DeviceId, Keadaan, PerintahSet, Status, TelemetryNode1, TelemetryNode2, Vitals } from "../schemas/kontrak.ts";
+ import { cariPerangkat } from "../services/gudang.ts";
+-import { cabutPerangkat, daftarkanPerangkat, gantiKunciPerangkat, semuaPerangkatDb } from "../db/perangkat.ts";
++import { cabutPerangkat, daftarkanPerangkat, gantiKunciPerangkat, semuaPerangkatDb, ubahLokasi } from "../db/perangkat.ts";
+ import type { BarisPerangkat } from "../db/perangkat.ts";
+ import { buatKunci, hashKunci } from "../auth/kunci.ts";
+ import { catatDicabut, catatTerdaftar, izinPerangkat } from "../services/daftar.ts";
+@@ -74,6 +75,8 @@ const Perangkat = z.object({
+   device_id: z.string(),
+   nama: z.string().nullable(),
+   lokasi: z.string().nullable(),
++  lat: z.number().nullable().describe("Modul 25: lintang titik perangkat di peta (derajat desimal); null = belum diisi"),
++  lng: z.number().nullable().describe("Modul 25: bujur titik perangkat di peta (derajat desimal); null = belum diisi"),
+   jenis: Jenis,
+   status: z.string().describe("online, offline, offline-mode, atau belum-diketahui (status MQTT terakhir)"),
+   terakhir_dilihat: z.string().nullable().describe("waktu server saat pesan terakhir perangkat ini tiba"),
+@@ -91,6 +94,22 @@ const Registrasi = z.strictObject({
+   penghubung: DeviceId.optional()
+     .describe("hanya untuk perangkat ESP-NOW (Node 2): device_id Node 1 yang menerbitkan datanya; perangkat ini tidak diberi kunci"),
+ });
++// Modul 25: isi PUT /devices/:id/lokasi. Angka dengan TITIK desimal (JSON tidak mengenal koma desimal): "-6,2" adalah teks,
++// jadi ditolak 400. Rentangnya sama dengan CHECK di migrasi 001. z.number() Zod 4 juga menolak NaN dan Infinity.
++// strictObject: kolom lain (misalnya teks "lokasi") ditolak 400; rute ini HANYA memindahkan titik di peta.
++const angkaDesimal = (contoh: string) => z.number({ // pesan galat: kolom tidak ada, NaN/Infinity, atau teks
++  error: (isu) => isu.input === undefined ? "wajib diisi: angka, atau null untuk menghapus titik"
++    : typeof isu.input === "number" ? "harus angka berhingga (bukan NaN atau Infinity)"
++      : `harus angka dengan titik desimal, misalnya ${contoh} (bukan teks "${contoh.replace(".", ",")}")`,
++});
++export const Lokasi = z.strictObject({
++  lat: angkaDesimal("-6.1754").min(-90, "lintang paling kecil -90").max(90, "lintang paling besar 90").nullable()
++    .describe("lintang (latitude) dalam derajat desimal, -90 sampai 90; Jakarta sekitar -6.2. null = hapus titik"),
++  lng: angkaDesimal("106.8272").min(-180, "bujur paling kecil -180").max(180, "bujur paling besar 180").nullable()
++    .describe("bujur (longitude) dalam derajat desimal, -180 sampai 180; Jakarta sekitar 106.8. null = hapus titik"),
++}).refine((l) => (l.lat === null) === (l.lng === null), { // setengah titik tidak bisa digambar di peta
++  message: "lat dan lng diisi berpasangan: keduanya angka, atau keduanya null untuk menghapus titik", path: ["lng"],
++});
+ const KunciBaru = z.object({
+   device_id: z.string(),
+   kunci: z.string().nullable().describe("43 huruf; HANYA ditampilkan sekali ini. null untuk perangkat ESP-NOW"),
+@@ -105,7 +124,7 @@ function tampilkan(b: BarisPerangkat) {
+     : b.dicabut !== null ? "dicabut" as const
+       : b.penghubung !== null ? "tanpa-kunci" as const : "aktif" as const;
+   return {
+-    device_id: b.device_id, nama: b.nama, lokasi: b.lokasi, jenis: b.jenis, status: b.status,
++    device_id: b.device_id, nama: b.nama, lokasi: b.lokasi, lat: b.lat, lng: b.lng, jenis: b.jenis, status: b.status,
+     terakhir_dilihat: iso(b.terakhir_dilihat), kunci, terdaftar: iso(b.terdaftar), kunci_dibuat: iso(b.kunci_dibuat),
+     dicabut: iso(b.dicabut), penghubung: b.penghubung,
+   };
+@@ -238,6 +257,35 @@ export const rutePerangkat: FastifyPluginAsyncZod = async (app) => {
+     }
+   });
+ 
++  // ---- Modul 25: titik perangkat di peta (hanya admin: satpam menolak viewer untuk PUT, seperti POST di atas) ----
++
++  app.put("/devices/:id/lokasi", {
++    schema: {
++      tags: ["perangkat"],
++      summary: "Atur titik perangkat di peta: { lat, lng } dengan titik desimal; { lat: null, lng: null } menghapus titiknya",
++      params: ParamId,
++      body: Lokasi,
++      response: {
++        200: Perangkat.describe("perangkat dengan titik barunya (bentuknya sama dengan satu baris GET /devices)"),
++        404: Galat.describe("device_id itu tidak ada di daftar perangkat"),
++        503: Galat.describe("database sedang tidak bisa dihubungi"),
++      },
++    },
++  }, async (req, reply) => {
++    const id = req.params.id;
++    const { lat, lng } = req.body;
++    try {
++      const baris = await ubahLokasi(id, lat, lng);
++      if (baris === undefined) return reply.code(404).send({ pesan: `${id} tidak ada di daftar perangkat` });
++      // koordinatnya sengaja TIDAK ditulis ke log: titik rumah termasuk data pribadi
++      req.log.info(`titik ${id} di peta ${lat === null ? "dihapus" : "diatur"} oleh akun ${req.user.sub}`);
++      return tampilkan(baris);
++    } catch (galat) {
++      req.log.error(`lokasi ${id} gagal disimpan: ${(galat as Error).message}`);
++      return reply.code(503).send({ pesan: SALAH_DATABASE });
++    }
++  });
++
+   app.get("/devices/:id/latest", {
+     schema: {
+       tags: ["perangkat"],
+diff --git a/backend/src/server.ts b/backend/src/server.ts
+index 235c343..c960431 100644
+--- a/backend/src/server.ts
++++ b/backend/src/server.ts
+@@ -1,7 +1,8 @@
+-// server.ts - pintu masuk backend Rumah Pintar Mini v1.1 (Modul 24: aturan "di bawah ambang" seperti siram kalau tanah kering,
+-// aturan ambang boleh mengirim perintah sekali, dan aturan bisa dihapus; di atas v1.0 Modul 21: daftar resmi perangkat dan
+-// kuncinya, akun broker sendiri, pesan dari perangkat tak terdaftar/dicabut diabaikan; Modul 20: login, JWT di cookie, peran,
+-// dan pengaman API; dan Modul 19: data realtime, perintah satu pintu, aturan otomatis, jadwal, dan notifikasi Telegram).
++// server.ts - pintu masuk backend Rumah Pintar Mini v1.2 (Modul 25: titik perangkat di peta dan laporan harian CSV lewat
++// Telegram; di atas v1.1 Modul 24: aturan "di bawah ambang" seperti siram kalau tanah kering, aturan ambang boleh mengirim
++// perintah sekali, dan aturan bisa dihapus; di atas v1.0 Modul 21: daftar resmi perangkat dan kuncinya, akun broker sendiri,
++// pesan dari perangkat tak terdaftar/dicabut diabaikan; Modul 20: login, JWT di cookie, peran, dan pengaman API; dan
++// Modul 19: data realtime, perintah satu pintu, aturan otomatis, jadwal, dan notifikasi Telegram).
+ // Jalankan: npm run dev (otomatis mulai ulang saat file disimpan) atau npm start.
+ import Fastify, { LogController } from "fastify";
+ import swagger from "@fastify/swagger";
+@@ -13,11 +14,13 @@ import { ruteAuth } from "./routes/auth.ts";
+ import { ruteKesehatan } from "./routes/kesehatan.ts";
+ import { rutePerangkat } from "./routes/perangkat.ts";
+ import { ruteAturan } from "./routes/aturan.ts";
++import { ruteLaporan } from "./routes/laporan.ts";
+ import { hentikanMqtt, mulaiMqtt } from "./services/mqtt.ts";
+ import { mulaiRealtime } from "./services/realtime.ts";
+ import { muatAturan } from "./services/otomasi.ts";
+ import { hentikanJadwal } from "./services/jadwal.ts";
+ import { hentikanTelegram, mulaiTelegram } from "./services/telegram.ts";
++import { mulaiLaporan } from "./services/laporan.ts";
+ import { pakaiLog } from "./services/log.ts";
+ import { databaseHidup } from "./db/arsip.ts";
+ import { semuaPerangkatDb } from "./db/perangkat.ts";
+@@ -42,13 +45,16 @@ await app.register(swagger, {
+   openapi: {
+     info: {
+       title: "Rumah Pintar Mini API",
+-      description: "Backend v1.1 (Modul 24). Semua rute butuh login, kecuali yang tidak bergembok. Login dulu lewat "
++      description: "Backend v1.2 (Modul 25). Semua rute butuh login, kecuali yang tidak bergembok. Login dulu lewat "
+         + "POST /auth/login (Try it out): browser menyimpan cookie akses dan mengirimnya sendiri ke rute lain. "
+         + "Akun viewer hanya boleh melihat (GET); perintah dan perubahan dijawab 403. Perangkat didaftarkan admin lewat "
+         + "POST /devices; kuncinya hanya tampil sekali, dan pesan dari perangkat tak terdaftar atau dicabut diabaikan. "
+         + "Sejak v1.1, aturan ambang bisa berarah turun (ambang-bawah, misalnya siram kalau tanah di bawah 30 %), boleh "
+-        + "mengirim satu perintah saat menyala, dan aturan bisa dihapus (DELETE /rules/:id).",
+-      version: "1.1.0",
++        + "mengirim satu perintah saat menyala, dan aturan bisa dihapus (DELETE /rules/:id). Sejak v1.2, GET /devices "
++        + "membawa titik peta setiap perangkat (lat, lng), dan admin memindahkannya lewat PUT /devices/:id/lokasi. "
++        + "Laporan harian CSV dikirim ke Telegram sesuai LAPORAN_JADWAL (bawaan 07.00 WIB); POST /laporan/kirim "
++        + "mengirimnya sekarang juga.",
++      version: "1.2.0",
+     },
+     components: {
+       securitySchemes: { // Modul 20: rute bergembok butuh cookie akses dari POST /auth/login
+@@ -64,6 +70,7 @@ await app.register(ruteAuth); // Modul 20
+ await app.register(ruteKesehatan);
+ await app.register(rutePerangkat);
+ await app.register(ruteAturan); // Modul 19
++await app.register(ruteLaporan); // Modul 25
+ 
+ if (await databaseHidup()) app.log.info("database siap");
+ else app.log.warn("database belum bisa dihubungi: periksa kontainer database dan DATABASE_URL di .env");
+@@ -96,6 +103,7 @@ if (env.MQTT_USERNAME === "") {
+ }
+ mulaiMqtt(env.MQTT_URL, env.MQTT_USERNAME === "" ? null : { username: env.MQTT_USERNAME, password: env.MQTT_PASSWORD }, app.log);
+ mulaiTelegram(env.TELEGRAM_BOT_TOKEN, env.TELEGRAM_CHAT_ID, env.TELEGRAM_API_ROOT); // Modul 19: tidak ditunggu
++mulaiLaporan(env.LAPORAN_JADWAL); // Modul 25: laporan harian CSV ke Telegram (node-cron, WIB)
+ await app.listen({ port: env.PORT, host: env.HOST });
+ app.log.info(`dokumentasi API: http://${env.HOST}:${env.PORT}/docs`);
+ 
+@@ -105,7 +113,7 @@ async function berhenti(sinyal: string): Promise<void> {
+   app.log.info(`${sinyal} diterima: backend berhenti dengan rapi`);
+   try {
+     await hentikanTelegram(); // konfirmasi update terakhir ke Telegram
+-    await hentikanJadwal(); // node-cron: tunggu tugas yang sedang berjalan
++    await hentikanJadwal(); // node-cron: tunggu tugas yang sedang berjalan (jadwal aturan dan, sejak Modul 25, laporan harian)
+     await app.close(); // preClose memutus klien Socket.IO, lalu server HTTP ditutup
+     await hentikanMqtt(); // DISCONNECT ke broker
+     await pool.end(); // tutup kolam sambungan database
+diff --git b/backend/src/services/csv.test.ts b/backend/src/services/csv.test.ts
+new file mode 100644
+index 0000000..96cde4c
+--- /dev/null
++++ b/backend/src/services/csv.test.ts
+@@ -0,0 +1,28 @@
++// csv.test.ts - uji pembuat CSV (Modul 25, resep Modul 23 di server): BOM, pemisah titik koma, koma desimal, CRLF, tanda
++// petik, dan sel kosong. Fungsi murni: tanpa database, tanpa jaringan. Jalankan: npm test
++import { describe, expect, it } from "vitest";
++import { keCsv, kutip } from "./csv.ts";
++
++describe("pembuat CSV", () => {
++  it("diawali BOM (3 byte EF BB BF), dipisah titik koma, setiap baris diakhiri CRLF", () => {
++    const teks = keCsv([["device_id", "jumlah_bacaan"], ["f00d00000001", 8640]]);
++    expect(teks).toBe("\uFEFFdevice_id;jumlah_bacaan\r\nf00d00000001;8640\r\n");
++    expect([...Buffer.from(teks, "utf8").subarray(0, 3)]).toEqual([0xef, 0xbb, 0xbf]);
++  });
++
++  it("angka desimal memakai koma, angka negatif dan bulat tetap utuh", () => {
++    expect(keCsv([[28.8, -69, 0, 184562]])).toBe("\uFEFF28,8;-69;0;184562\r\n");
++  });
++
++  it("null menjadi sel kosong (misalnya vitals Node 2 yang memang tidak ada)", () => {
++    expect(keCsv([["f00d000000b2", null, null, 3]])).toBe("\uFEFFf00d000000b2;;;3\r\n");
++  });
++
++  it("teks yang memuat ; \" atau baris baru dibungkus petik, petik di dalamnya digandakan", () => {
++    expect(kutip("Node 1; ruang tamu")).toBe("\"Node 1; ruang tamu\"");
++    expect(kutip("Kebun \"belakang\"")).toBe("\"Kebun \"\"belakang\"\"\"");
++    expect(kutip("dua\r\nbaris")).toBe("\"dua\r\nbaris\"");
++    expect(kutip("Kebun (tiruan)")).toBe("Kebun (tiruan)"); // tanpa tanda istimewa: apa adanya
++    expect(keCsv([["a;b", "c"]])).toBe("\uFEFF\"a;b\";c\r\n");
++  });
++});
+diff --git b/backend/src/services/csv.ts b/backend/src/services/csv.ts
+new file mode 100644
+index 0000000..e81cb0e
+--- /dev/null
++++ b/backend/src/services/csv.ts
+@@ -0,0 +1,26 @@
++// csv.ts - menyusun teks CSV di server (Modul 25, untuk laporan harian). Resepnya SAMA dengan frontend/src/csv.ts Modul 23,
++// supaya berkas dari dashboard dan dari laporan Telegram terbuka sama rapi di Excel atau LibreOffice dengan setelan regional
++// Indonesia: pemisah titik koma (;), desimal koma (28,5), BOM di awal berkas, dan setiap baris diakhiri CRLF.
++// Semua fungsi di sini "murni": hanya mengolah masukan menjadi teks, tanpa database dan tanpa jaringan, jadi mudah diuji.
++
++export type Sel = string | number | null; // isi satu sel: teks, angka, atau kosong
++
++// kutip - nilai yang memuat ; " atau baris baru dibungkus tanda petik, dan petik di dalamnya digandakan.
++// Contoh: Node 1; ruang tamu  ->  "Node 1; ruang tamu"
++export function kutip(teks: string): string {
++  return /[";\r\n]/.test(teks) ? '"' + teks.replaceAll('"', '""') + '"' : teks;
++}
++
++// satu sel: angka memakai koma desimal, null (sensor gagal, kolom tidak ada, atau tidak ada data) menjadi sel kosong
++function sel(nilai: Sel): string {
++  if (nilai === null) return "";
++  if (typeof nilai === "number") return String(nilai).replace(".", ",");
++  return kutip(nilai);
++}
++
++// keCsv - baris-baris (larik berisi larik) menjadi satu teks CSV
++export function keCsv(baris: Sel[][]): string {
++  // "\uFEFF" = BOM: tanda tak terlihat bahwa isinya UTF-8, supaya huruf istimewa di nama perangkat (misalnya ° atau é) utuh di
++  // Excel. Di berkas, BOM ini menjadi 3 byte: EF BB BF.
++  return "\uFEFF" + baris.map((b) => b.map(sel).join(";")).join("\r\n") + "\r\n";
++}
+diff --git b/backend/src/services/laporan.test.ts b/backend/src/services/laporan.test.ts
+new file mode 100644
+index 0000000..65878dc
+--- /dev/null
++++ b/backend/src/services/laporan.test.ts
+@@ -0,0 +1,159 @@
++// laporan.test.ts - uji laporan harian (Modul 25) TANPA database dan TANPA Telegram: kolam database (pool.ts) dan bot
++// (telegram.ts) diganti tiruan (vi.mock). Yang diuji: rentang "kemarin" 00.00-24.00 WIB (juga di laptop berzona lain), nama
++// berkas, keterangan, isi CSV, apa yang terjadi saat Telegram mati, menolak, atau database tidak bisa dibaca, dan pilihan
++// jadwal node-cron (node-cron juga diganti tiruan: tes tidak menunggu jam 07.00). Jalankan: npm test
++import { beforeEach, describe, expect, it, vi } from "vitest";
++
++vi.hoisted(() => { // env.ts memeriksa .env saat diimpor: beri setelan palsu yang sah (tidak ada yang benar-benar dihubungi)
++  process.env.MQTT_URL = "mqtt://127.0.0.1:1";
++  process.env.DATABASE_URL = "postgres://tiruan:tiruan@127.0.0.1:1/tiruan";
++  process.env.JWT_SECRET = "rahasia-uji-yang-cukup-panjang-untuk-zod-0123456789";
++  // laptop "tes" ini sengaja di zona yang sangat jauh dari WIB (UTC-4), supaya ketahuan kalau kode diam-diam memakai jam laptop
++  process.env.TZ = "America/New_York";
++});
++
++const tiruan = vi.hoisted(() => ({
++  query: vi.fn(),
++  alasanTelegramMati: vi.fn((): string | null => null),
++  kirimBerkas: vi.fn(async (_nama: string, _isi: string, _keterangan: string) => true),
++  kabari: vi.fn(async (_teks: string) => true),
++  // node-cron tiruan: mencatat cron.schedule(ekspresi, tugas, pilihan) dan pendengar acara tugasnya
++  jadwal: [] as [string, (konteks: { date: Date }) => Promise<void>, Record<string, unknown>][],
++  acara: new Map<string, (konteks: { date: Date }) => void>(),
++}));
++vi.mock("../db/pool.ts", () => ({ pool: { query: tiruan.query } }));
++vi.mock("./telegram.ts", () => ({
++  alasanTelegramMati: tiruan.alasanTelegramMati,
++  kirimBerkas: tiruan.kirimBerkas,
++  kabari: tiruan.kabari,
++}));
++vi.mock("node-cron", () => ({
++  default: {
++    schedule: (ekspresi: string, tugas: (konteks: { date: Date }) => Promise<void>, pilihan: Record<string, unknown>) => {
++      tiruan.jadwal.push([ekspresi, tugas, pilihan]);
++      return { on: (nama: string, fn: (konteks: { date: Date }) => void) => tiruan.acara.set(nama, fn), getNextRun: () => null };
++    },
++  },
++}));
++
++import { buatLaporanCsv, keteranganLaporan, kirimLaporan, mulaiLaporan, namaLaporan, rentangLaporan } from "./laporan.ts";
++import type { BarisLaporan } from "./laporan.ts";
++
++// dua perangkat contoh: Node 1 lengkap, Node 2 (Kebun) tanpa vitals
++const NODE1: BarisLaporan = { device_id: "f00d00000001", nama: "Node 1 lab", jenis: "node1", jumlah_bacaan: 8640,
++  suhu_rata: 28.8, suhu_min: 25.1, suhu_maks: 33, kelembapan_rata: 67.6, tanah_rata: 39.6, tanah_min: 20, rssi_rata: -69,
++  rssi_terburuk: -79, heap_terendah: 184562, menyala_ulang: 0, kali_terputus: 1 };
++const KEBUN: BarisLaporan = { device_id: "f00d000000b2", nama: "Kebun; belakang", jenis: "node2", jumlah_bacaan: 288,
++  suhu_rata: 28, suhu_min: 27.6, suhu_maks: 28.2, kelembapan_rata: 69.3, tanah_rata: 40.3, tanah_min: 38, rssi_rata: null,
++  rssi_terburuk: null, heap_terendah: null, menyala_ulang: null, kali_terputus: 0 };
++const KEPALA = "device_id;nama;jenis;jumlah_bacaan;suhu_rata;suhu_min;suhu_maks;kelembapan_rata;tanah_rata;tanah_min;"
++  + "rssi_rata;rssi_terburuk;heap_terendah;menyala_ulang;kali_terputus";
++
++beforeEach(() => {
++  tiruan.query.mockReset();
++  tiruan.alasanTelegramMati.mockReturnValue(null);
++  tiruan.kirimBerkas.mockClear();
++  tiruan.kirimBerkas.mockResolvedValue(true);
++  tiruan.kabari.mockClear();
++  tiruan.jadwal.length = 0;
++});
++
++describe("rentang laporan (WIB)", () => {
++  it("dikirim 27 Okt 07.00 WIB: isinya 26 Okt 00.00-24.00 WIB = 25 Okt 17.00 UTC sampai 26 Okt 17.00 UTC", () => {
++    const r = rentangLaporan(new Date("2026-10-27T00:00:00Z")); // 07.00 WIB
++    expect(r.dari.toISOString()).toBe("2026-10-25T17:00:00.000Z");
++    expect(r.sampai.toISOString()).toBe("2026-10-26T17:00:00.000Z");
++    expect(r.tanggal).toBe("2026-10-26");
++    expect(namaLaporan(r)).toBe("laporan-2026-10-26.csv");
++  });
++
++  it("batas tengah malam mengikuti WIB, bukan zona laptop (laptop tes ini di UTC-4)", () => {
++    expect(rentangLaporan(new Date("2026-10-26T16:59:59Z")).tanggal).toBe("2026-10-25"); // 26 Okt 23.59.59 WIB
++    expect(rentangLaporan(new Date("2026-10-26T17:00:00Z")).tanggal).toBe("2026-10-26"); // 27 Okt 00.00.00 WIB
++    expect(new Date("2026-10-26T17:00:00Z").getDate()).toBe(26); // di jam laptop (UTC-4) masih 26 Okt 13.00
++  });
++
++  it("?hari=ini: 00.00 WIB hari ini sampai sekarang, nama berkas berakhiran -sementara", () => {
++    const sekarang = new Date("2026-10-27T03:15:00Z"); // 27 Okt 10.15 WIB
++    const r = rentangLaporan(sekarang, true);
++    expect(r.dari.toISOString()).toBe("2026-10-26T17:00:00.000Z");
++    expect(r.sampai).toBe(sekarang);
++    expect(namaLaporan(r)).toBe("laporan-2026-10-27-sementara.csv");
++    expect(keteranganLaporan(r, 2)).toBe("📊 Laporan sementara Rumah Pintar Mini 27 Okt 2026 (00.00–10.15 WIB): 2 perangkat");
++  });
++
++  it("keterangan laporan harian menyebut tanggal isinya (WIB)", () => {
++    expect(keteranganLaporan(rentangLaporan(new Date("2026-10-27T00:00:00Z")), 3))
++      .toBe("📊 Laporan harian Rumah Pintar Mini 26 Okt 2026: 3 perangkat");
++  });
++});
++
++describe("isi CSV laporan", () => {
++  it("kepala tabel + satu baris per perangkat; vitals Node 2 kosong; nama ber-; dibungkus petik", () => {
++    expect(buatLaporanCsv([NODE1, KEBUN])).toBe("\uFEFF" + KEPALA + "\r\n"
++      + "f00d00000001;Node 1 lab;node1;8640;28,8;25,1;33;67,6;39,6;20;-69;-79;184562;0;1\r\n"
++      + "f00d000000b2;\"Kebun; belakang\";node2;288;28;27,6;28,2;69,3;40,3;38;;;;;0\r\n");
++  });
++
++  it("belum ada perangkat terdaftar: hanya kepala tabel", () => {
++    expect(buatLaporanCsv([])).toBe("\uFEFF" + KEPALA + "\r\n");
++  });
++});
++
++describe("kirimLaporan", () => {
++  it("Telegram mati: dilewati, database bahkan tidak dibaca", async () => {
++    tiruan.alasanTelegramMati.mockReturnValue("TELEGRAM_BOT_TOKEN belum diisi");
++    expect(await kirimLaporan()).toEqual({ status: "dilewati", pesan: "Telegram mati (TELEGRAM_BOT_TOKEN belum diisi)" });
++    expect(tiruan.query).not.toHaveBeenCalled();
++    expect(tiruan.kirimBerkas).not.toHaveBeenCalled();
++  });
++
++  it("terkirim: kueri memakai rentang kemarin WIB, berkas CSV ber-BOM dikirim dengan nama dan keterangannya", async () => {
++    tiruan.query.mockResolvedValue({ rows: [NODE1, KEBUN] });
++    const hasil = await kirimLaporan(false, new Date("2026-10-27T00:00:00Z"));
++    const [, parameter] = tiruan.query.mock.calls[0] as [string, Date[]];
++    expect(parameter.map((w) => w.toISOString())).toEqual(["2026-10-25T17:00:00.000Z", "2026-10-26T17:00:00.000Z"]);
++    const [nama, isi, keterangan] = tiruan.kirimBerkas.mock.calls[0];
++    expect(nama).toBe("laporan-2026-10-26.csv");
++    expect(isi).toBe(buatLaporanCsv([NODE1, KEBUN]));
++    expect(keterangan).toBe("📊 Laporan harian Rumah Pintar Mini 26 Okt 2026: 2 perangkat");
++    expect(hasil).toMatchObject({ status: "terkirim", berkas: "laporan-2026-10-26.csv", perangkat: 2,
++      ukuran_byte: Buffer.byteLength(isi, "utf8") });
++  });
++
++  it("Telegram menolak atau tak terjangkau: gagal, dengan nama berkasnya", async () => {
++    tiruan.query.mockResolvedValue({ rows: [NODE1] });
++    tiruan.kirimBerkas.mockResolvedValue(false);
++    expect(await kirimLaporan(false, new Date("2026-10-27T00:00:00Z")))
++      .toEqual({ status: "gagal", pesan: "Telegram tidak menerima laporan-2026-10-26.csv; lihat log backend" });
++  });
++
++  it("database tidak bisa dibaca: galatnya diteruskan ke pemanggil (rute menjawab 503, jadwal mencatat di log)", async () => {
++    tiruan.query.mockRejectedValue(new Error("connect ECONNREFUSED 127.0.0.1:5432"));
++    await expect(kirimLaporan()).rejects.toThrow("ECONNREFUSED");
++    expect(tiruan.kirimBerkas).not.toHaveBeenCalled();
++  });
++});
++
++describe("jadwal laporan harian (node-cron tiruan)", () => {
++  it("WIB, tidak tumpang tindih, terlambat sampai 15 menit tetap jalan; isinya dihitung dari jam JADWAL", async () => {
++    mulaiLaporan("50 23 * * *");
++    const [ekspresi, tugas, pilihan] = tiruan.jadwal[0];
++    expect(ekspresi).toBe("50 23 * * *");
++    expect(pilihan).toMatchObject({ timezone: "Asia/Jakarta", noOverlap: true, missedExecutionTolerance: 15 * 60_000 });
++    // laptop tidur 23.49 WIB dan bangun 00.01 WIB: node-cron baru menjalankan jadwal 27 Okt 23.50 WIB pada 28 Okt 00.01.30 WIB
++    vi.useFakeTimers({ now: new Date("2026-10-27T17:01:30Z"), toFake: ["Date"] }); // jam "sekarang" = 28 Okt 00.01.30 WIB
++    tiruan.query.mockResolvedValue({ rows: [NODE1] });
++    await tugas({ date: new Date("2026-10-27T16:50:00Z") }); // konteks.date = jam jadwal (27 Okt 23.50 WIB)
++    vi.useRealTimers();
++    expect(tiruan.kirimBerkas.mock.calls[0][0]).toBe("laporan-2026-10-26.csv"); // bukan laporan-2026-10-27.csv
++  });
++
++  it("jadwal yang terlewat hanya dikabarkan (⏰): laporannya TIDAK dikirim belakangan", () => {
++    mulaiLaporan("0 7 * * *");
++    tiruan.acara.get("execution:missed")?.({ date: new Date("2026-10-27T00:00:00Z") });
++    expect(tiruan.kabari).toHaveBeenCalledWith("⏰ Laporan harian pada 27 Okt 2026, 07.00 WIB terlewat (laptop tidur atau "
++      + "backend sibuk?). Kirim sekarang lewat POST /laporan/kirim");
++    expect(tiruan.kirimBerkas).not.toHaveBeenCalled();
++  });
++});
+diff --git b/backend/src/services/laporan.ts b/backend/src/services/laporan.ts
+new file mode 100644
+index 0000000..144516c
+--- /dev/null
++++ b/backend/src/services/laporan.ts
+@@ -0,0 +1,186 @@
++// laporan.ts - laporan harian CSV lewat Telegram (Modul 25). Setiap pagi (bawaan 07.00 WIB, setelan LAPORAN_JADWAL di .env)
++// backend meringkas data KEMARIN, 00.00-24.00 WIB, per perangkat dengan satu kueri SQL, menyusunnya menjadi CSV resep
++// Modul 23 (csv.ts), lalu mengirimnya sebagai berkas lewat bot Telegram yang sudah ada (kirimBerkas di telegram.ts).
++// POST /laporan/kirim memakai fungsi yang sama, untuk menguji tanpa menunggu jamnya.
++// Laporan hanya terkirim selama backend menyala: jadwal yang terlewat (misalnya laptop tidur) tidak dikirim belakangan.
++import cron from "node-cron";
++import { pool } from "../db/pool.ts";
++import { keCsv } from "./csv.ts";
++import { alasanTelegramMati, kabari, kirimBerkas } from "./telegram.ts";
++import { log } from "./log.ts";
++
++const ZONA = "Asia/Jakarta"; // WIB, sama dengan jadwal aturan (jadwal.ts): apa pun zona waktu laptopnya
++const HARI_MS = 24 * 60 * 60 * 1000;
++// "sv-SE" (bahasa Swedia) dipakai karena formatnya kebetulan tahun-bulan-tanggal: 2026-10-26 (resep csv.ts Modul 23)
++const tanggalIso = new Intl.DateTimeFormat("sv-SE", { timeZone: ZONA, dateStyle: "short" });
++const tanggalManusia = new Intl.DateTimeFormat("id-ID", { timeZone: ZONA, dateStyle: "medium" }); // 26 Okt 2026
++const jamManusia = new Intl.DateTimeFormat("id-ID", { timeZone: ZONA, hour: "2-digit", minute: "2-digit" }); // 07.00
++const waktuManusia = (waktu: Date) => `${tanggalManusia.format(waktu)}, ${jamManusia.format(waktu)} WIB`;
++
++// Rentang satu laporan: [dari, sampai), "sampai" tidak ikut dihitung. tanggal = hari WIB yang dilaporkan.
++export interface Rentang {
++  dari: Date;
++  sampai: Date;
++  tanggal: string; // misalnya 2026-10-26
++  hariIni: boolean; // true = laporan sementara hari ini (POST /laporan/kirim?hari=ini)
++}
++
++// Kemarin = 00.00-24.00 WIB hari sebelumnya; hari ini = 00.00 WIB sampai sekarang. WIB = UTC + 7 jam tanpa jam musim
++// panas, jadi 00.00 WIB selalu 17.00 UTC hari sebelumnya. Fungsi murni: "sekarang" diberikan dari luar supaya bisa diuji.
++export function rentangLaporan(sekarang: Date, hariIni = false): Rentang {
++  const tanggalHariIni = tanggalIso.format(sekarang); // tanggal di WIB, bukan tanggal di zona waktu laptop
++  const awalHariIni = new Date(`${tanggalHariIni}T00:00:00+07:00`);
++  if (hariIni) return { dari: awalHariIni, sampai: sekarang, tanggal: tanggalHariIni, hariIni };
++  const awalKemarin = new Date(awalHariIni.getTime() - HARI_MS);
++  return { dari: awalKemarin, sampai: awalHariIni, tanggal: tanggalIso.format(awalKemarin), hariIni };
++}
++
++// laporan-2026-10-26.csv = isi tanggal 26 (dikirim pagi tanggal 27). Laporan sementara diberi akhiran supaya tidak tertukar
++// dengan laporan lengkap hari yang sama, yang baru dikirim besok pagi.
++export function namaLaporan(r: Rentang): string {
++  return `laporan-${r.tanggal}${r.hariIni ? "-sementara" : ""}.csv`;
++}
++
++// keterangan (caption) di bawah berkas di Telegram
++export function keteranganLaporan(r: Rentang, jumlahPerangkat: number): string {
++  return r.hariIni
++    ? `📊 Laporan sementara Rumah Pintar Mini ${tanggalManusia.format(r.dari)} (00.00–${jamManusia.format(r.sampai)} WIB): `
++      + `${jumlahPerangkat} perangkat`
++    : `📊 Laporan harian Rumah Pintar Mini ${tanggalManusia.format(r.dari)}: ${jumlahPerangkat} perangkat`;
++}
++
++// Satu baris laporan = satu perangkat terdaftar yang belum dicabut. null = tidak ada datanya (misalnya Node 2 tidak punya
++// vitals, jadi kolom rssi, heap, dan menyala_ulang-nya selalu kosong).
++export interface BarisLaporan {
++  device_id: string;
++  nama: string;
++  jenis: string;
++  jumlah_bacaan: number; // 0 = perangkat diam seharian
++  suhu_rata: number | null;
++  suhu_min: number | null;
++  suhu_maks: number | null;
++  kelembapan_rata: number | null;
++  tanah_rata: number | null;
++  tanah_min: number | null;
++  rssi_rata: number | null;
++  rssi_terburuk: number | null; // paling negatif = sinyal paling lemah
++  heap_terendah: number | null;
++  menyala_ulang: number | null; // berapa kali uptime turun (perangkat menyala ulang)
++  kali_terputus: number; // berapa kali status berganti menjadi offline/offline-mode
++}
++
++// Urutan kolom CSV. Kepala tabel = nama kolom ini, sama dengan nama kolom hasil kueri di bawah.
++export const KOLOM_LAPORAN: (keyof BarisLaporan)[] = ["device_id", "nama", "jenis", "jumlah_bacaan", "suhu_rata", "suhu_min",
++  "suhu_maks", "kelembapan_rata", "tanah_rata", "tanah_min", "rssi_rata", "rssi_terburuk", "heap_terendah", "menyala_ulang",
++  "kali_terputus"];
++
++// Satu kueri untuk semua perangkat, $1 = dari, $2 = sampai. Empat bagian (WITH ... AS):
++// - ringkas: bacaan per jam dari buku ringkasan readings_per_jam (Modul 18), digabung menjadi satu hari. Rata-rata harian =
++//   jumlah (rata x banyaknya nilai) semua jam dibagi jumlah banyaknya nilai, seperti ringkasan 1d di db/arsip.ts.
++// - vital + sehat: vitals dari device_health (Modul 19). lag() mengambil uptime vitals SEBELUMNYA milik perangkat yang sama;
++//   uptime yang turun berarti perangkat menyala ulang.
++// - putus: kejadian status dari buku kejadian (events); kalimatnya "<device_id> terputus (offline)" (services/mqtt.ts).
++// Angka di-cast ke float8 dan int supaya pg mengirimnya sebagai number, bukan teks.
++const KUERI_LAPORAN = `
++WITH ringkas AS (
++  SELECT device_id,
++         sum(jumlah_bacaan)::int                                                               AS jumlah_bacaan,
++         round((sum(suhu_rata * suhu_n) / nullif(sum(suhu_n), 0))::numeric, 1)::float8          AS suhu_rata,
++         min(suhu_min)                                                                         AS suhu_min,
++         max(suhu_maks)                                                                        AS suhu_maks,
++         round(sum(kelembapan_rata * kelembapan_n) / nullif(sum(kelembapan_n), 0), 1)::float8 AS kelembapan_rata,
++         round(sum(tanah_rata * tanah_n) / nullif(sum(tanah_n), 0), 1)::float8                AS tanah_rata,
++         min(tanah_min)                                                                        AS tanah_min
++  FROM readings_per_jam
++  WHERE jam >= $1 AND jam < $2
++  GROUP BY device_id),
++vital AS (
++  SELECT device_id, rssi, heap_free, uptime_s,
++         lag(uptime_s) OVER (PARTITION BY device_id ORDER BY ts) AS uptime_sebelum
++  FROM device_health
++  WHERE ts >= $1 AND ts < $2),
++sehat AS (
++  SELECT device_id, round(avg(rssi))::int AS rssi_rata, min(rssi) AS rssi_terburuk, min(heap_free) AS heap_terendah,
++         (count(*) FILTER (WHERE uptime_s < uptime_sebelum))::int AS menyala_ulang
++  FROM vital
++  GROUP BY device_id),
++putus AS (
++  SELECT device_id, count(*)::int AS kali_terputus
++  FROM events
++  WHERE jenis = 'status' AND pesan LIKE '%terputus%' AND waktu >= $1 AND waktu < $2
++  GROUP BY device_id)
++SELECT d.device_id, coalesce(d.nama, d.device_id) AS nama, d.jenis,
++       coalesce(r.jumlah_bacaan, 0) AS jumlah_bacaan, r.suhu_rata, r.suhu_min, r.suhu_maks, r.kelembapan_rata,
++       r.tanah_rata, r.tanah_min, s.rssi_rata, s.rssi_terburuk, s.heap_terendah, s.menyala_ulang,
++       coalesce(p.kali_terputus, 0) AS kali_terputus
++FROM devices d
++LEFT JOIN ringkas r ON r.device_id = d.device_id
++LEFT JOIN sehat s ON s.device_id = d.device_id
++LEFT JOIN putus p ON p.device_id = d.device_id
++WHERE d.terdaftar IS NOT NULL AND d.dicabut IS NULL
++ORDER BY d.device_id`;
++
++// baris-baris laporan menjadi teks CSV: kepala tabel, lalu satu baris per perangkat (fungsi murni)
++export function buatLaporanCsv(baris: BarisLaporan[]): string {
++  return keCsv([KOLOM_LAPORAN, ...baris.map((b) => KOLOM_LAPORAN.map((kolom) => b[kolom]))]);
++}
++
++// Hasil satu kali kirim. "dilewati" = Telegram mati (token/chat_id kosong); "gagal" = Telegram menolak atau tak terjangkau.
++export type HasilLaporan =
++  | { status: "terkirim"; berkas: string; rentang: Rentang; perangkat: number; ukuran_byte: number; keterangan: string }
++  | { status: "dilewati"; pesan: string }
++  | { status: "gagal"; pesan: string };
++
++// Susun dan kirim satu laporan. Galat database TIDAK ditangkap di sini: pemanggilnya yang memutuskan (rute: 503, jadwal: log).
++export async function kirimLaporan(hariIni = false, sekarang = new Date()): Promise<HasilLaporan> {
++  const mati = alasanTelegramMati();
++  if (mati !== null) return { status: "dilewati", pesan: `Telegram mati (${mati})` }; // tidak perlu membaca database
++  const rentang = rentangLaporan(sekarang, hariIni);
++  const hasil = await pool.query<BarisLaporan>(KUERI_LAPORAN, [rentang.dari, rentang.sampai]);
++  const isi = buatLaporanCsv(hasil.rows);
++  const berkas = namaLaporan(rentang);
++  const keterangan = keteranganLaporan(rentang, hasil.rows.length);
++  if (!(await kirimBerkas(berkas, isi, keterangan))) {
++    return { status: "gagal", pesan: `Telegram tidak menerima ${berkas}; lihat log backend` };
++  }
++  return { status: "terkirim", berkas, rentang, perangkat: hasil.rows.length, ukuran_byte: Buffer.byteLength(isi, "utf8"),
++    keterangan };
++}
++
++// Dipanggil node-cron pada jamnya. Tidak ada yang menunggu jawabannya, jadi semua hasil (juga galat) dicatat di log.
++// waktuJadwal = jam yang TERTULIS di jadwal, bukan jam saat fungsi ini berjalan: jadwal 23.50 yang baru berjalan 00.01
++// (laptop baru bangun) tetap melaporkan "kemarin" dari 23.50 itu, bukan hari yang baru saja berakhir.
++async function laporanTerjadwal(waktuJadwal: Date): Promise<void> {
++  log.info("laporan harian berjalan sesuai jadwal");
++  try {
++    const hasil = await kirimLaporan(false, waktuJadwal);
++    if (hasil.status === "dilewati") log.warn(`laporan harian dilewati: ${hasil.pesan}`);
++    else if (hasil.status === "gagal") log.error(`laporan harian gagal: ${hasil.pesan}`);
++    // terkirim: kirimBerkas() sudah menulis "Telegram terkirim: berkas laporan-…" ke log
++  } catch (galat) {
++    log.error(`laporan harian gagal: database tidak bisa dibaca (${(galat as Error).message})`);
++  }
++}
++
++// node-cron 4 TIDAK memutar ulang jadwal yang terlewat (misalnya laptop tidur pukul 07.00): kita hanya bisa mencatatnya.
++function laporanTerlewat(waktu: Date): void {
++  const pesan = `⏰ Laporan harian pada ${waktuManusia(waktu)} terlewat (laptop tidur atau backend sibuk?). `
++    + "Kirim sekarang lewat POST /laporan/kirim";
++  log.warn(pesan);
++  void kabari(pesan);
++}
++
++// Pasang jadwal laporan harian (dipanggil server.ts sekali saat mulai). Berhentinya ikut hentikanJadwal() di jadwal.ts:
++// cron.shutdown() menghentikan SEMUA tugas node-cron, termasuk yang ini.
++export function mulaiLaporan(jadwal: string): void {
++  // konteks.date = jam jadwal tugas ini (misalnya 07.00 WIB), juga kalau baru berjalan beberapa menit kemudian
++  const tugas = cron.schedule(jadwal, (konteks) => laporanTerjadwal(konteks.date), {
++    name: "laporan-harian",
++    timezone: ZONA, // tanpa ini, "0 7 * * *" berarti 07.00 menurut zona waktu laptop (laptop WITA: 06.00 WIB)
++    noOverlap: true, // kalau laporan sebelumnya belum selesai, jangan jalankan dua kali bersamaan
++    missedExecutionTolerance: 15 * 60_000, // terlambat sampai 15 menit (misalnya laptop baru bangun) tetap dijalankan
++  });
++  tugas.on("execution:missed", (konteks) => laporanTerlewat(konteks.date));
++  const berikutnya = tugas.getNextRun();
++  log.info(`laporan harian dijadwalkan: "${jadwal}" ${ZONA}, berikutnya ${berikutnya === null ? "-" : waktuManusia(berikutnya)}`);
++}
+diff --git b/backend/src/services/mqtt.test.ts b/backend/src/services/mqtt.test.ts
+new file mode 100644
+index 0000000..88f2138
+--- /dev/null
++++ b/backend/src/services/mqtt.test.ts
+@@ -0,0 +1,50 @@
++// mqtt.test.ts - uji pesan STATUS dari broker (Modul 25) TANPA broker, database, dan Telegram: pustaka mqtt dan tetangga
++// mqtt.ts diganti tiruan (vi.mock); gudang memori (gudang.ts) tetap yang asli. Yang diuji: kabar status mana yang diteruskan
++// ke Telegram (kabariStatus), termasuk "online" yang tiba sebagai pesan RETAINED sesudah broker dimulai ulang.
++// Jalankan: npm test
++import { beforeEach, describe, expect, it, vi } from "vitest";
++import type { FastifyBaseLogger } from "fastify";
++
++const tiruan = vi.hoisted(() => ({
++  pendengar: new Map<string, (...isi: unknown[]) => void>(), // acara klien MQTT tiruan ("message", "connect", ...)
++  kabariStatus: vi.fn(),
++}));
++vi.mock("mqtt", () => ({
++  default: { connect: () => ({ options: {}, on: (acara: string, fn: (...isi: unknown[]) => void) => tiruan.pendengar.set(acara, fn) }) },
++}));
++vi.mock("../db/arsip.ts", () => ({ arsipkanStatus: async () => {}, arsipkanTelemetry: async () => true, arsipkanVitals: async () => {} }));
++vi.mock("./realtime.ts", () => ({ siarkanStatus: () => {}, siarkanTelemetry: () => {} }));
++vi.mock("./perintah.ts", () => ({ catatLaporan: () => {}, perangkatMenyalaUlang: () => {} }));
++vi.mock("./otomasi.ts", () => ({ kirimSemuaConfig: () => {}, nilaiBacaan: () => {} }));
++vi.mock("./kejadian.ts", () => ({ catatKejadian: async () => {} }));
++vi.mock("./telegram.ts", () => ({ kabari: async () => true, kabariStatus: tiruan.kabariStatus }));
++vi.mock("./daftar.ts", () => ({ izinPerangkat: () => "terdaftar", catatAbaikan: () => {} })); // semua perangkat terdaftar
++
++import { mulaiMqtt } from "./mqtt.ts";
++
++const log = { info: () => {}, warn: () => {}, error: () => {} } as unknown as FastifyBaseLogger;
++mulaiMqtt("mqtt://127.0.0.1:1", null, log);
++
++// satu pesan status dari broker, persis seperti yang diterima backend (retained = pesan simpanan broker)
++function statusTiba(deviceId: string, status: string, retained: boolean): void {
++  tiruan.pendengar.get("message")?.(`rpm/${deviceId}/status`, Buffer.from(status), { retain: retained });
++}
++
++beforeEach(() => tiruan.kabariStatus.mockClear());
++
++describe("status perangkat ke Telegram (kabariStatus)", () => {
++  it("broker dimulai ulang: wasiat offline, lalu online RETAINED (perangkat tersambung lebih dulu) tetap diteruskan", () => {
++    statusTiba("f00d00000001", "online", false);
++    tiruan.kabariStatus.mockClear();
++    statusTiba("f00d00000001", "offline", false); // broker berhenti: wasiat perangkat terbit (📴 menunggu 60 detik)
++    statusTiba("f00d00000001", "online", true); // broker menyala lagi, perangkat lebih dulu: kabarnya pesan retained
++    // tanpa online yang kedua, 📴 palsu terkirim 60 detik kemudian dan 📴 berikutnya untuk perangkat ini tidak pernah datang
++    expect(tiruan.kabariStatus.mock.calls).toEqual([["f00d00000001", "offline"], ["f00d00000001", "online"]]);
++  });
++
++  it("offline RETAINED saat backend menyala = keadaan lama: tidak dikabarkan; status yang tidak berubah juga tidak", () => {
++    statusTiba("f00d00000002", "offline", true);
++    statusTiba("f00d00000002", "offline", false);
++    expect(tiruan.kabariStatus).not.toHaveBeenCalled();
++  });
++});
+diff --git a/backend/src/services/mqtt.ts b/backend/src/services/mqtt.ts
+index 4919247..33f94e1 100644
+--- a/backend/src/services/mqtt.ts
++++ b/backend/src/services/mqtt.ts
+@@ -115,6 +115,10 @@ function terima(topik: string, teks: string, retained: boolean, log: FastifyBase
+         arsip.then(() => catatKejadian({ device_id: deviceId, jenis: "status", sumber: "perangkat", aturan_id: null, pesan }))
+           .catch(() => {}); // gagal menyimpan status sudah dicatat gagalArsip
+         kabariStatus(deviceId, hasil.data); // Telegram: offline baru dikabarkan kalau bertahan 60 detik
++      } else if (hasil.data === "online") {
++        // Modul 25: "online" retained tetap membatalkan 📴 yang sedang menunggu. Sesudah broker dimulai ulang, perangkat bisa
++        // tersambung LEBIH DULU dari backend, jadi kabar online-nya tiba sebagai pesan retained (tanpa ini: 📴 palsu)
++        kabariStatus(deviceId, "online");
+       }
+     }
+     hitungan.diterima++;
+diff --git b/backend/src/services/telegram.test.ts b/backend/src/services/telegram.test.ts
+new file mode 100644
+index 0000000..de05ae4
+--- /dev/null
++++ b/backend/src/services/telegram.test.ts
+@@ -0,0 +1,57 @@
++// telegram.test.ts - uji telegram.ts (Modul 25) TANPA server Telegram: kelas Bot dari grammY diganti bot tiruan yang hanya
++// mencatat panggilan sendMessage/sendDocument; InputFile tetap yang asli. Yang diuji: berkas laporan dikirim dengan NAMA
++// berkasnya (bukan nama acak), dan kabar status 📴/✅ dengan penundaan 60 detik. Jalankan: npm test
++import { afterEach, describe, expect, it, vi } from "vitest";
++import { InputFile } from "grammy";
++
++const bot = vi.hoisted(() => ({
++  sendMessage: vi.fn(async (_chat: number, _teks: string) => ({})),
++  sendDocument: vi.fn(async (_chat: number, _berkas: unknown, _pilihan: unknown) => ({})),
++}));
++vi.mock("grammy", async (asli) => ({
++  ...(await asli<typeof import("grammy")>()), // InputFile, GrammyError, HttpError asli
++  Bot: class {
++    api = { sendMessage: bot.sendMessage, sendDocument: bot.sendDocument };
++    command() {}
++    catch() {}
++    start() { return new Promise(() => {}); } // long polling tiruan: tidak pernah selesai, tidak menghubungi siapa pun
++    isRunning() { return false; }
++  },
++}));
++
++import { kabariStatus, kirimBerkas, mulaiTelegram } from "./telegram.ts";
++
++afterEach(() => vi.useRealTimers());
++
++describe("telegram.ts dengan bot tiruan", () => {
++  it("Telegram mati (token kosong): berkas tidak dikirim", async () => {
++    expect(await kirimBerkas("laporan-2026-10-26.csv", "\uFEFFa;b\r\n", "keterangan")).toBe(false);
++    expect(bot.sendDocument).not.toHaveBeenCalled();
++  });
++
++  it("kirimBerkas: sendDocument dengan InputFile BERNAMA laporan-….csv dan keterangannya", async () => {
++    mulaiTelegram("123456:token-tiruan", "777000111", "");
++    expect(await kirimBerkas("laporan-2026-10-26.csv", "\uFEFFa;b\r\n", "📊 keterangan")).toBe(true);
++    const [chat, berkas, pilihan] = bot.sendDocument.mock.calls[0];
++    expect(chat).toBe(777000111);
++    expect(berkas).toBeInstanceOf(InputFile);
++    expect((berkas as InputFile).filename).toBe("laporan-2026-10-26.csv"); // tanpa nama: Telegram menampilkan nama acak
++    expect(pilihan).toEqual({ caption: "📊 keterangan" });
++  });
++
++  it("kabariStatus: kembali sebelum 60 detik = tanpa pesan; offline 60 detik = 📴; lalu online = ✅", async () => {
++    mulaiTelegram("123456:token-tiruan", "777000111", "");
++    vi.useFakeTimers({ now: new Date("2026-10-27T00:00:00Z") }); // 07.00 WIB
++    kabariStatus("f00d00000001", "offline");
++    vi.advanceTimersByTime(30_000);
++    kabariStatus("f00d00000001", "online"); // WiFi berkedip 30 detik: dibatalkan
++    vi.advanceTimersByTime(60_000);
++    expect(bot.sendMessage).not.toHaveBeenCalled();
++    kabariStatus("f00d00000001", "offline");
++    vi.advanceTimersByTime(60_000);
++    expect(bot.sendMessage).toHaveBeenLastCalledWith(777000111, "📴 f00d00000001 offline sejak 07.01 WIB");
++    vi.advanceTimersByTime(4 * 60_000);
++    kabariStatus("f00d00000001", "online");
++    expect(bot.sendMessage).toHaveBeenLastCalledWith(777000111, "✅ f00d00000001 online lagi (offline 5 menit)");
++  });
++});
+diff --git a/backend/src/services/telegram.ts b/backend/src/services/telegram.ts
+index 7c110f8..f974fe1 100644
+--- a/backend/src/services/telegram.ts
++++ b/backend/src/services/telegram.ts
+@@ -1,6 +1,7 @@
+ // telegram.ts - bot Telegram (Modul 19, grammY 1.46.0): peringatan dari aturan otomatis, /start untuk mengetahui
+ // chat_id, dan /status khusus pemilik. Kosongkan TELEGRAM_BOT_TOKEN di .env untuk mematikannya.
+-import { Bot, GrammyError, HttpError } from "grammy";
++// Modul 25: bot yang sama juga mengirim BERKAS (laporan harian CSV) lewat kirimBerkas().
++import { Bot, GrammyError, HttpError, InputFile } from "grammy";
+ import { CATATAN_AWAL, perluKabari } from "../aturan/mesin.ts";
+ import type { CatatanKabar, Situasi } from "../aturan/mesin.ts";
+ import { semuaPerangkat } from "./gudang.ts";
+@@ -51,6 +52,31 @@ export async function kabari(teks: string, tsBacaan?: string): Promise<boolean>
+   }
+ }
+ 
++// Modul 25: kenapa Telegram tidak bisa dipakai sekarang? null = siap mengirim.
++export function alasanTelegramMati(): string | null {
++  if (bot === undefined) return "TELEGRAM_BOT_TOKEN belum diisi";
++  if (chatPemilik === undefined) return "TELEGRAM_CHAT_ID belum diisi";
++  return null;
++}
++
++// Modul 25: kirim satu berkas ke pemilik, dengan keterangan (caption) di bawahnya. Isinya teks (misalnya CSV) yang
++// dibungkus Buffer: new InputFile("teks...") TIDAK bisa dipakai, karena grammY menganggap teks sebagai JALUR berkas di disk
++// (galat ENOENT). Nama berkas wajib ditulis, supaya Telegram menampilkannya sebagai laporan-2026-10-26.csv.
++export async function kirimBerkas(nama: string, isi: string, keterangan: string): Promise<boolean> {
++  if (bot === undefined || chatPemilik === undefined) return false;
++  try {
++    const berkas = new InputFile(Buffer.from(isi, "utf8"), nama); // teks -> byte UTF-8 (BOM ikut, 3 byte)
++    await bot.api.sendDocument(chatPemilik, berkas, { caption: keterangan }); // berkas sampai 50 MB, keterangan 1024 huruf
++    log.info(`Telegram terkirim: berkas ${nama} (${Buffer.byteLength(isi, "utf8")} byte), ${keterangan}`);
++    return true;
++  } catch (galat) { // sama dengan kabari(): ditolak Bot API, server tak terjangkau, atau galat lain
++    if (galat instanceof GrammyError) log.error(`Telegram menolak berkas ${nama}: ${galat.description}`);
++    else if (galat instanceof HttpError) log.error(`server Telegram tidak terjangkau: ${galat.message}`);
++    else log.error(`Telegram gagal mengirim berkas ${nama}: ${(galat as Error).message}`);
++    return false;
++  }
++}
++
+ // Debouncing: kabari hanya saat situasi berubah, dan selama masih bahaya paling sering 30 menit sekali (perluKabari).
+ // kunci = "aturan:<nomor>". pengingat = true untuk bacaan biasa selama bahaya (bukan perubahan).
+ const catatan = new Map<string, CatatanKabar>();

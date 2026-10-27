@@ -1,0 +1,30 @@
+info:
+  name: daftarkan perangkat latihan
+  type: http
+  seq: 21
+
+http:
+  method: POST
+  url: "{{baseUrl}}/devices"
+  body:
+    type: json
+    data: |-
+      {
+        "device_id": "f00d00000001",
+        "nama": "Latihan ruang tamu",
+        "lokasi": "ruang tamu"
+      }
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "201"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: true

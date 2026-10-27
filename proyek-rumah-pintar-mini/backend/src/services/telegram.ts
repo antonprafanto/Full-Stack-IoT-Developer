@@ -1,6 +1,7 @@
 // telegram.ts - bot Telegram (Modul 19, grammY 1.46.0): peringatan dari aturan otomatis, /start untuk mengetahui
 // chat_id, dan /status khusus pemilik. Kosongkan TELEGRAM_BOT_TOKEN di .env untuk mematikannya.
-import { Bot, GrammyError, HttpError } from "grammy";
+// Modul 25: bot yang sama juga mengirim BERKAS (laporan harian CSV) lewat kirimBerkas().
+import { Bot, GrammyError, HttpError, InputFile } from "grammy";
 import { CATATAN_AWAL, perluKabari } from "../aturan/mesin.ts";
 import type { CatatanKabar, Situasi } from "../aturan/mesin.ts";
 import { semuaPerangkat } from "./gudang.ts";
@@ -47,6 +48,31 @@ export async function kabari(teks: string, tsBacaan?: string): Promise<boolean> 
     if (galat instanceof GrammyError) log.error(`Telegram menolak pesan: ${galat.description}`); // Bot API menjawab ok:false
     else if (galat instanceof HttpError) log.error(`server Telegram tidak terjangkau: ${galat.message}`);
     else log.error(`Telegram gagal: ${(galat as Error).message}`);
+    return false;
+  }
+}
+
+// Modul 25: kenapa Telegram tidak bisa dipakai sekarang? null = siap mengirim.
+export function alasanTelegramMati(): string | null {
+  if (bot === undefined) return "TELEGRAM_BOT_TOKEN belum diisi";
+  if (chatPemilik === undefined) return "TELEGRAM_CHAT_ID belum diisi";
+  return null;
+}
+
+// Modul 25: kirim satu berkas ke pemilik, dengan keterangan (caption) di bawahnya. Isinya teks (misalnya CSV) yang
+// dibungkus Buffer: new InputFile("teks...") TIDAK bisa dipakai, karena grammY menganggap teks sebagai JALUR berkas di disk
+// (galat ENOENT). Nama berkas wajib ditulis, supaya Telegram menampilkannya sebagai laporan-2026-10-26.csv.
+export async function kirimBerkas(nama: string, isi: string, keterangan: string): Promise<boolean> {
+  if (bot === undefined || chatPemilik === undefined) return false;
+  try {
+    const berkas = new InputFile(Buffer.from(isi, "utf8"), nama); // teks -> byte UTF-8 (BOM ikut, 3 byte)
+    await bot.api.sendDocument(chatPemilik, berkas, { caption: keterangan }); // berkas sampai 50 MB, keterangan 1024 huruf
+    log.info(`Telegram terkirim: berkas ${nama} (${Buffer.byteLength(isi, "utf8")} byte), ${keterangan}`);
+    return true;
+  } catch (galat) { // sama dengan kabari(): ditolak Bot API, server tak terjangkau, atau galat lain
+    if (galat instanceof GrammyError) log.error(`Telegram menolak berkas ${nama}: ${galat.description}`);
+    else if (galat instanceof HttpError) log.error(`server Telegram tidak terjangkau: ${galat.message}`);
+    else log.error(`Telegram gagal mengirim berkas ${nama}: ${(galat as Error).message}`);
     return false;
   }
 }

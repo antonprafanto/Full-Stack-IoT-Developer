@@ -17,6 +17,13 @@ user a4cf12e5b7c0
 topic write rpm/246f28b1c7d4/telemetry
 topic write rpm/246f28b1c7d4/status
 
+# 2b) Jalur laptop (Modul 25): "Kebun tiruan" f00d000000b2 diterbitkan perangkat palsu pertama f00d00000001 (simulator di
+#     alat/), persis seperti butir 2. Hanya untuk pembaca TANPA Node 2 sungguhan: hapus "# " (pagar dan spasinya) di depan
+#     tiga baris berikut, simpan, lalu RESTART broker. Pembaca dengan Kit A + B tidak perlu blok ini.
+# user f00d00000001
+# topic write rpm/f00d000000b2/telemetry
+# topic write rpm/f00d000000b2/status
+
 # 3) Backend: membaca semua pesan perangkat, mengirim perintah (set dan config) ke cmd.
 user backend
 topic read rpm/#

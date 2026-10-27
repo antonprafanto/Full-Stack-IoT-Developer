@@ -1,6 +1,7 @@
 // env.ts - setelan server dari file .env (dibaca Node.js lewat --env-file), diperiksa skema Zod sekali saat server mulai.
 // Modul 20: .env kini juga berisi rahasia (JWT_SECRET), jadi isinya diperiksa seketat pesan dari perangkat.
 import { z } from "zod";
+import cron from "node-cron";
 
 z.config(z.locales.id()); // pesan galat Zod dalam bahasa Indonesia (file ini dibaca paling awal, sebelum kontrak.ts)
 
@@ -24,6 +25,12 @@ const Setelan = z.object({
   TELEGRAM_BOT_TOKEN: z.string().default(""), // token dari @BotFather: rahasia, seperti kata sandi
   TELEGRAM_CHAT_ID: z.string().default(""), // chat_id pemilik (balasan /start)
   TELEGRAM_API_ROOT: z.string().default(""), // kosong = server Telegram sungguhan (lab: server Bot API tiruan)
+  // Modul 25: kapan laporan harian CSV dikirim ke Telegram, cron 5 bidang (menit jam tanggal bulan hari) dalam WIB.
+  // Bawaan "0 7 * * *" = setiap hari pukul 07.00 WIB. Cron 6 bidang ("0 7 * * * *") juga sah bagi node-cron, tetapi
+  // artinya lain (detik 0, menit 7, SETIAP jam), jadi ditolak di sini.
+  LAPORAN_JADWAL: z.preprocess(kosong, z.string().default("0 7 * * *")
+    .refine((teks) => teks.trim().split(/\s+/).length === 5, "harus 5 bidang: menit jam tanggal bulan hari, misalnya 0 7 * * *")
+    .refine((teks) => cron.validate(teks), "ekspresi cron tidak sah, misalnya 0 7 * * * (setiap hari 07.00 WIB)")),
   // Modul 20: kunci untuk menandatangani JWT. Siapa pun yang tahu kunci ini bisa membuat "gelang" palsu.
   JWT_SECRET: z.preprocess(kosong, z.string({ error: "belum diisi" })
     .min(32, "terlalu pendek (minimal 32 karakter); buat yang baru dengan perintah di .env.example")

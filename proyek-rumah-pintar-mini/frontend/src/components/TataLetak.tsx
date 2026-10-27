@@ -1,5 +1,5 @@
 // TataLetak.tsx - bingkai semua layar sesudah masuk: kepala (judul, lencana Live, menu, nama, tombol Keluar) dan
-// <Outlet />, tempat React Router menaruh layar yang cocok dengan alamatnya (Daftar, Detail, Riwayat, Aturan).
+// <Outlet />, tempat React Router menaruh layar yang cocok dengan alamatnya (Daftar, Detail, Riwayat, Peta, Aturan).
 import { useEffect } from "react";
 import { NavLink, Outlet } from "react-router";
 import { ambilPerangkat, GalatApi, keluar } from "../api";
@@ -77,6 +77,10 @@ export default function TataLetak() {
           <nav aria-label="Menu utama" className="flex gap-1 text-sm font-medium">
             <NavLink to="/perangkat" className={kelasMenu}>
               Perangkat
+            </NavLink>
+            {/* Modul 25: peta perangkat, untuk admin dan viewer */}
+            <NavLink to="/peta" className={kelasMenu}>
+              Peta
             </NavLink>
             {/* tanpa prop end juga: tetap aktif di /aturan/baru dan /aturan/<nomor> */}
             <NavLink to="/aturan" className={kelasMenu}>

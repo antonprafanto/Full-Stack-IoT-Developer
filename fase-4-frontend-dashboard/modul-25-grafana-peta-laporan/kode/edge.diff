@@ -1,0 +1,31 @@
+diff --git a/edge/README.md b/edge/README.md
+index c9d7848..c12ebd8 100644
+--- a/edge/README.md
++++ b/edge/README.md
+@@ -103,6 +103,8 @@ Sampai Modul 20, broker menerima siapa saja tanpa kata sandi (`allow_anonymous t
+ 
+ - **Akun tiap program.** Backend: `backend` (`.env`, `MQTT_USERNAME`/`MQTT_PASSWORD`). Node-RED: `nodered`, diisi di tab **Security** node broker (klik dua kali node "Mosquitto di gateway" → **Security** → Username `nodered` + Password → **Done** → **Deploy**); kredensial itu disimpan terenkripsi di `flows_cred.json`, **tidak** ikut `node-red-flows.json`, jadi ekspor flow tetap aman. MQTTX untuk memantau: akun `pemantau` (boleh membaca `rpm/#` dan `$SYS/#`, tidak boleh menulis). Alat `pemeriksa-kontrak.js`: akun `pemeriksa` (hanya membaca `rpm/#`).
+ 
++- **Kebun tiruan, jalur tanpa Node 2 ([Modul 25](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-4-frontend-dashboard/modul-25-grafana-peta-laporan/README.md)).** Simulator `alat/simulator-perangkat.js` bisa menjalankan Node 2 palsu `f00d000000b2` yang datanya diterbitkan perangkat palsu `f00d00000001`. Supaya broker mengizinkannya, buka blok `2b) Jalur laptop (Modul 25)` di `acl-broker`: hapus `# ` (pagar dan spasinya) di depan tiga baris `user f00d00000001`, `topic write rpm/f00d000000b2/telemetry`, dan `topic write rpm/f00d000000b2/status`, simpan, lalu **restart** broker. Broker laptop (`mosquitto -v -c mosquitto-lan.conf`): **Ctrl + C**, lalu jalankan lagi perintah yang sama. Broker di Pi: salin `acl-broker` ke Pi seperti di atas, `sudo cp ~/acl-broker /etc/mosquitto/`, lalu `sudo systemctl restart mosquitto`. Pembaca dengan Node 2 sungguhan tidak perlu blok ini (biarkan tetap berkomentar). Cara memakai Kebun tiruan ada di `alat/README.md`.
++
+ Lalu lintasnya masih tanpa enkripsi: kunci terkirim polos di LAN (lihat `alat/penyadap.js`). Itu belum masalah di jaringan rumah tertutup, tetapi wajib TLS sebelum broker dibuka ke internet (Modul 27) — jangan membuat *port forwarding* ke Pi.
+ 
+ ## Node-RED dan dashboard (Modul 13)
+diff --git a/edge/acl-broker b/edge/acl-broker
+index c1c282c..92cfc23 100644
+--- a/edge/acl-broker
++++ b/edge/acl-broker
+@@ -17,6 +17,13 @@ user a4cf12e5b7c0
+ topic write rpm/246f28b1c7d4/telemetry
+ topic write rpm/246f28b1c7d4/status
+ 
++# 2b) Jalur laptop (Modul 25): "Kebun tiruan" f00d000000b2 diterbitkan perangkat palsu pertama f00d00000001 (simulator di
++#     alat/), persis seperti butir 2. Hanya untuk pembaca TANPA Node 2 sungguhan: hapus "# " (pagar dan spasinya) di depan
++#     tiga baris berikut, simpan, lalu RESTART broker. Pembaca dengan Kit A + B tidak perlu blok ini.
++# user f00d00000001
++# topic write rpm/f00d000000b2/telemetry
++# topic write rpm/f00d000000b2/status
++
+ # 3) Backend: membaca semua pesan perangkat, mengirim perintah (set dan config) ke cmd.
+ user backend
+ topic read rpm/#

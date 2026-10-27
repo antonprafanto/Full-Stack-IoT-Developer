@@ -1,0 +1,205 @@
+# sinyal-lemah.yaml - KUNCI Tantangan 1 Modul 25: aturan alert "Sinyal WiFi lemah" (rata-rata RSSI 15 menit di bawah -75 dBm),
+# DIBUAT LEWAT LAYAR Grafana 13.2.4 lab penulis di grup kesehatan-node (folder Rumah Pintar Mini), lalu diekspor lewat layar
+# (Alert rules -> grup kesehatan-node -> More -> Export rules group -> YAML -> Download); isi di bawah baris komentar ini apa adanya.
+# Grafana 13.2.4 hanya mengekspor SATU GRUP UTUH: aturan pertama = Node diam (isinya sama dengan grafana/alerting/node-diam.yaml,
+# hanya uid yang lain), aturan kedua = kunci tantangan ini. datasourceUid cg2f66p1ioq2ob = data source lab penulis (di Grafana-mu
+# lain). Tidak ada token, sandi, atau chat_id di sini: contact point hanya disebut namanya (receiver), isinya tidak pernah diekspor.
+apiVersion: 1
+groups:
+    - orgId: 1
+      name: kesehatan-node
+      folder: Rumah Pintar Mini
+      interval: 1m
+      rules:
+        - uid: ag2f6jzixhf5sa
+          title: Node diam
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 600
+                to: 0
+              datasourceUid: cg2f66p1ioq2ob
+              model:
+                dataset: rumahpintar
+                editorMode: code
+                format: table
+                intervalMs: 1000
+                maxDataPoints: 43200
+                rawQuery: true
+                rawSql: |-
+                    SELECT d.device_id, coalesce(d.nama, d.device_id) AS node,
+                           round((EXTRACT(EPOCH FROM now() - coalesce(r.diterima, d.terdaftar)) / 60
+                                  - CASE WHEN d.jenis = 'node2' THEN 5 ELSE 0 END)::numeric, 1)::float8 AS menit_terlambat
+                    FROM devices d
+                    LEFT JOIN LATERAL (SELECT diterima FROM readings WHERE device_id = d.device_id ORDER BY ts DESC LIMIT 1) r ON true
+                    WHERE d.terdaftar IS NOT NULL AND d.dicabut IS NULL
+                refId: A
+                sql:
+                    columns:
+                        - parameters: []
+                          type: function
+                    groupBy:
+                        - property:
+                            type: string
+                          type: groupBy
+                    limit: 50
+            - refId: B
+              queryType: expression
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params: []
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params: []
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                reducer: last
+                refId: B
+                type: reduce
+            - refId: C
+              queryType: expression
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 5
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: B
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          noDataState: OK
+          execErrState: Error
+          annotations:
+            summary: '{{ $labels.node }} ({{ $labels.device_id }}) tidak mengirim data, terlambat {{ with $values.A }}{{ .Value }}{{ end }} menit dari jadwalnya'
+          isPaused: false
+          notification_settings:
+            receiver: Telegram Rumah Pintar
+            group_by:
+                - grafana_folder
+                - alertname
+                - device_id
+        - uid: eg2f6vlfgxk3kc
+          title: Sinyal WiFi lemah
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 600
+                to: 0
+              datasourceUid: cg2f66p1ioq2ob
+              model:
+                dataset: rumahpintar
+                editorMode: code
+                format: table
+                intervalMs: 1000
+                maxDataPoints: 43200
+                rawQuery: true
+                rawSql: |-
+                    SELECT h.device_id,
+                           coalesce(d.nama, h.device_id) AS node,
+                           round(avg(h.rssi))::float8 AS rssi_rata
+                    FROM device_health h
+                    JOIN devices d ON d.device_id = h.device_id
+                    WHERE h.ts > now() - INTERVAL '15 minutes'
+                      AND d.terdaftar IS NOT NULL AND d.dicabut IS NULL
+                    GROUP BY h.device_id, d.nama
+                refId: A
+                sql:
+                    columns:
+                        - parameters: []
+                          type: function
+                    groupBy:
+                        - property:
+                            type: string
+                          type: groupBy
+                    limit: 50
+            - refId: B
+              queryType: expression
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params: []
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params: []
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                reducer: last
+                refId: B
+                type: reduce
+            - refId: C
+              queryType: expression
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - -75
+                        type: lt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: B
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          noDataState: OK
+          execErrState: Error
+          annotations:
+            summary: '{{ $labels.node }} ({{ $labels.device_id }}): sinyal WiFi lemah, rata-rata {{ with $values.A }}{{ .Value }}{{ end }} dBm dalam 15 menit terakhir'
+          isPaused: false
+          notification_settings:
+            receiver: Telegram Rumah Pintar
+            group_by:
+                - grafana_folder
+                - alertname
+                - device_id

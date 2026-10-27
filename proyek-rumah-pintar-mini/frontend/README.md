@@ -2,12 +2,12 @@
 
 🌐 **Bahasa Indonesia** · [English](../../en/mini-smart-home/frontend/README.md)
 
-Dashboard v1.0 proyek Rumah Pintar Mini: halaman web React 19 + TypeScript dengan Tailwind CSS v4, dibuat dengan Vite 8 (templat `react-ts` dari create-vite 9.3.1). Setiap layar punya alamat sendiri (React Router v8, mode deklaratif), dan layar di balik *login* dijaga rute terproteksi. Dashboard menampilkan data *live* dari backend lewat Socket.IO (daftar perangkat, detail dengan grafik 5 menit dan gauge, riwayat 1 jam / 24 jam / 7 hari dengan tabel dan CSV), dan sejak Modul 24 juga **mengendalikan** perangkat: akun admin menyalakan lampu dan kipas dengan status "Menunggu konfirmasi perangkat…", menyiram dengan pompa, serta membuat, mengubah, menonaktifkan, dan menghapus aturan otomatis lewat formulir yang diperiksa skema Zod yang sama dengan backend. Akun viewer melihat semua data tanpa tombol kendali. Kejadian penting (aturan bertindak, perangkat terputus) muncul sebagai *toast*. Tampilannya dirancang rapi di HP dan laptop, mengikuti mode gelap sistem, dan bisa dibuka dari HP di WiFi rumah (lihat "Batasan v1.0").
+Dashboard v1.1 proyek Rumah Pintar Mini: halaman web React 19 + TypeScript dengan Tailwind CSS v4, dibuat dengan Vite 8 (templat `react-ts` dari create-vite 9.3.1). Setiap layar punya alamat sendiri (React Router v8, mode deklaratif), dan layar di balik *login* dijaga rute terproteksi. Dashboard menampilkan data *live* dari backend lewat Socket.IO (daftar perangkat, detail dengan grafik 5 menit dan gauge, riwayat 1 jam / 24 jam / 7 hari dengan tabel dan CSV), dan sejak Modul 24 juga **mengendalikan** perangkat: akun admin menyalakan lampu dan kipas dengan status "Menunggu konfirmasi perangkat…", menyiram dengan pompa, serta membuat, mengubah, menonaktifkan, dan menghapus aturan otomatis lewat formulir yang diperiksa skema Zod yang sama dengan backend. Akun viewer melihat semua data tanpa tombol kendali. Kejadian penting (aturan bertindak, perangkat terputus) muncul sebagai *toast*. Sejak Modul 25 (v1.1) ada layar **Peta**: setiap perangkat yang punya titik (`lat`, `lng` dari backend 1.2) tampil sebagai lingkaran hijau/abu-abu di atas peta OpenStreetMap, berwarna menurut status *live*-nya. Tampilannya dirancang rapi di HP dan laptop, mengikuti mode gelap sistem, dan bisa dibuka dari HP di WiFi rumah (lihat "Batasan v1.1"). Dengan v1.1, dashboard Fase 4 lengkap: data *live* (Modul 23), kendali dan peran (Modul 24), dan peta perangkat (Modul 25, 🎉 Checkpoint Fase 4). Dashboard teknis Grafana BUKAN bagian folder ini: ia tinggal di kontainernya sendiri, dengan berkasnya di folder `grafana/` proyek.
 
 ## Menjalankan
 
 1. Pasang Node.js 24 LTS (Vite 8 butuh minimal Node.js 20.19 atau 22.12; React Router 8 butuh Node.js 22.22 atau lebih baru).
-2. Nyalakan **backend v1.1** seperti di `backend/README.md` (kontainer database `rumahpintar-db` di Docker Desktop dan broker MQTT sudah menyala, lalu `npm run dev` di folder `backend`) beserta sumber datanya: Node 1 dan Node 2 (Kit A + B), atau simulator perangkat di folder `alat` dengan perangkat latihan `f00d00000001` yang sudah terdaftar. Dashboard v1.0 butuh backend 1.1: aturan "turun di bawah" (misalnya siram jika tanah < 30 %) dan tombol **Hapus aturan** tidak ada di backend v1.0. `CORS_ORIGIN` di `backend/.env` harus memuat `http://localhost:5173` (nilai bawaannya sudah memuatnya).
+2. Nyalakan **backend v1.2** seperti di `backend/README.md` (kontainer database `rumahpintar-db` di Docker Desktop dan broker MQTT sudah menyala, lalu `npm run dev` di folder `backend`) beserta sumber datanya: Node 1 dan Node 2 (Kit A + B), atau simulator perangkat di folder `alat` dengan perangkat latihan `f00d00000001` yang sudah terdaftar. Dashboard v1.1 butuh backend 1.2 untuk layar **Peta** (backend 1.1 tidak mengirim `lat`/`lng`; layar Peta lalu menulis "Backend belum mengirim titik peta (lat, lng). Halaman Peta butuh backend 1.2 (Modul 25)."), dan minimal backend 1.1 untuk layar lain: aturan "turun di bawah" (misalnya siram jika tanah < 30 %) dan tombol **Hapus aturan** tidak ada di backend v1.0. `CORS_ORIGIN` di `backend/.env` harus memuat `http://localhost:5173` (nilai bawaannya sudah memuatnya).
 3. Di folder ini, jalankan `npm install`.
 4. Jalankan `npm run dev`, lalu buka **`http://localhost:5173`** di Chrome atau Edge. Pakai `localhost`, bukan `127.0.0.1`: di Windows, Vite hanya mendengar di `localhost`, dan nama host halaman harus sama dengan nama host API supaya *cookie* login ikut terkirim.
 5. Masuk dengan akun yang dibuat di Modul 20: `admin@rumah.test` (melihat dan mengendalikan) atau `viewer@rumah.test` (hanya melihat). Sandinya milikmu sendiri; dashboard tidak pernah menyimpannya.
@@ -22,12 +22,14 @@ docker exec rumahpintar-db psql -U postgres -d rumahpintar -c "CALL refresh_cont
 | :--- | :--- |
 | `npm run dev` | *dev server* di `http://localhost:5173` yang memperbarui halaman setiap kali kode disimpan (HMR). Portnya dikunci (`strictPort`): kalau 5173 sedang terpakai, Vite berhenti dengan galat, tidak pindah diam-diam ke 5174 |
 | `npm run dev:hp` | sama dengan `npm run dev`, tetapi juga bisa dibuka perangkat lain di WiFi rumah (`vite --host`). Hanya untuk "mode HP", lihat di bawah |
-| `npm run build` | memeriksa tipe TypeScript (`tsc -b`), lalu membuat versi siap pakai di folder `dist/`. Satu peringatan kuning `Some chunks are larger than 500 kB after minification` itu normal sejak Modul 23 (pustaka grafik Recharts membuat berkas JavaScript-nya besar); build tetap berhasil |
+| `npm run build` | memeriksa tipe TypeScript (`tsc -b`), lalu membuat versi siap pakai di folder `dist/`. Satu peringatan kuning `Some chunks are larger than 500 kB after minification` itu normal sejak Modul 23 (pustaka grafik Recharts membuat berkas JavaScript-nya besar; sejak Modul 25 Leaflet menambah sekitar 157 kB, atau 46 kB sesudah dikompres gzip); build tetap berhasil |
 | `npm run preview` | menyajikan isi `dist/` di `http://localhost:5173` untuk dicoba (hentikan `npm run dev` dulu). Untuk HP: `npm run preview -- --host` |
 | `npm run lint` | memeriksa kode dengan oxlint; bersih = tidak ada peringatan atau galat yang dicetak |
 | `npm run cek-skema` | memeriksa bahwa salinan skema di `src/skema/` sama persis dengan aslinya di `../backend/src/schemas/` (lihat "Salinan skema"). Hasil yang benar: dua baris `SAMA` |
 
 Paket yang ditambahkan di Modul 24 dipasang dengan versi tertulis: `npm install react-router@8.5.0 react-hook-form@7.91.0 @hookform/resolvers@5.9.2 zod@4.6.7`. Perintah tanpa versi bisa gagal (`npm error code ERESOLVE`, karena `@hookform/resolvers` 6.0.0); jangan memakai `--legacy-peer-deps`.
+
+Paket peta (Modul 25) juga dipasang dengan versi tertulis: `npm install leaflet@1.9.4 react-leaflet@5.0.0`, lalu `npm install -D @types/leaflet@1.9.22`. Jangan menyalin perintah dari halaman pemasangan react-leaflet (`react@rc`, `react-leaflet@next`): per Oktober 2026 perintah itu memasang versi uji lama (React 19.0.0-rc.1, react-leaflet 5.0.0-rc.2).
 
 ## Peta rute
 
@@ -40,11 +42,26 @@ Semua alamat ada di satu tempat: `<Routes>` di `src/App.tsx`. Alamat halaman sen
 | `/perangkat` | daftar perangkat *live* | admin & viewer |
 | `/perangkat/:id` | detail, grafik 5 menit, gauge; bagian **Kendali** hanya untuk admin | admin & viewer |
 | `/perangkat/:id/riwayat` | riwayat, tabel, **Unduh CSV** | admin & viewer |
+| `/peta` | peta perangkat (Modul 25): lingkaran hijau/abu-abu menurut status *live*, popup + tautan ke detail | admin & viewer |
 | `/aturan` | daftar aturan otomatis dalam kalimat biasa; tombol **+ Aturan baru** dan **Ubah** hanya untuk admin | admin & viewer |
 | `/aturan/baru`, `/aturan/:id` | formulir aturan (buat, ubah, nonaktifkan, hapus) | admin; viewer melihat layar "Khusus admin" |
 | alamat lain | "Halaman tidak ditemukan" + tautan ke daftar perangkat | semua |
 
 Layar yang dibuka tanpa *login* (misalnya tautan `/perangkat/f00d00000001/riwayat` di jendela privat) dipindah ke `/masuk`; sesudah masuk, dashboard kembali ke layar tadi. Sesudah tombol **Keluar**, orang berikutnya selalu mulai dari `/perangkat`.
+
+## Peta perangkat (Modul 25)
+
+- **Sumber titiknya** kolom `lat` (lintang) dan `lng` (bujur) di tabel `devices`, yang dikirim backend 1.2 di `GET /devices`. Titik diatur **admin** lewat API, bukan ditulis di kode frontend: Bruno `atur lokasi perangkat` (`PUT /devices/:id/lokasi` dengan `{ "lat": -6.1754, "lng": 106.8272 }`; angka bertitik desimal, `null` + `null` menghapus titik). Akun viewer dijawab 403.
+- **Kapan titik baru tampil?** Layar Peta mengambil ulang `GET /devices` setiap kali dibuka. Titik yang diubah lewat Bruno tampil sesudah kamu membuka menu **Peta** lagi (dari layar lain), tanpa F5. Selama layar Peta terbuka, titik tidak bergerak sendiri: perubahan titik tidak dikirim lewat Socket.IO. Kalau pengambilan ulang itu gagal (misalnya database mati sesaat), peta tetap memakai daftar yang sudah ada dan *toast* menulis "Daftar perangkat gagal dimuat ulang: titik di peta mungkin belum yang terbaru."; layar lain tidak ikut terganggu.
+- **Warna** ikut status *live* di toko (acara Socket.IO, tanpa *polling*): hijau = `online`; abu-abu = offline, mode offline, belum diketahui, atau kunci dicabut / belum terdaftar (kirimannya diabaikan backend). Warna selalu ditemani kata: keterangan di bawah peta dan lencana status di popup. Ingat, "online" adalah status MQTT terakhir: Node 2 (Kebun) yang diam tetap hijau sampai statusnya `offline` terbit (16 menit sesudah paket terakhirnya), dan tetap hijau selama Node 1 penghubungnya ikut mati (status Node 2 diterbitkan oleh Node 1). Jadi "terakhir dilihat" di popup tetap perlu dibaca, dan untuk "data berhenti datang" andalkan *alert* "node diam" di Grafana.
+- **Popup** (ketuk lingkaran): nama, lokasi, `device_id`, status, "terakhir dilihat", dan tautan **Buka detail →** ke `/perangkat/<id>`.
+- Peta **dipaskan** ke semua titik (`fitBounds`, paling dekat zoom 18) saat dibuka dan saat ada titik yang berpindah, bukan saat status berubah, jadi peta yang sedang kamu geser tidak melompat sendiri. Perangkat tanpa titik ditulis di bawah peta ("Belum punya titik: …"). Kalau belum ada satu pun titik, layar menulis "Belum ada perangkat dengan koordinat. Isi lewat Bruno `atur lokasi perangkat`."
+- **Penanda = `CircleMarker`** (lingkaran SVG), bukan `Marker` berikon bawaan Leaflet: ikon bawaan memakai berkas gambar yang hilang sesudah `npm run build` (penanda lenyap di `npm run preview`, padahal di `npm run dev` tampil). Lingkaran tidak butuh berkas gambar.
+- **Kotak peta wajib punya tinggi** (`h-96` = 384 px di `PetaPerangkat.tsx`; tanpa tinggi, peta setinggi 0 px dan tidak terlihat), dan CSS Leaflet wajib dimuat (`import "leaflet/dist/leaflet.css"`; tanpa itu ubin berserakan). Kelas `isolate` menjaga lapisan-lapisan Leaflet (z-index 400–1000) tetap di dalam kotak peta, supaya *toast* (z-50) tetap tampil di atasnya.
+- **Ubin peta** datang langsung dari server OpenStreetMap (`https://tile.openstreetmap.org/{z}/{x}/{y}.png`, satu konstanta di `src/peta.ts`, sesuai kebijakan ubin OSM "jangan tanam alamat ubin di banyak tempat"). Syaratnya: atribusi "© OpenStreetMap contributors" selalu terlihat di pojok peta (jangan disembunyikan), browser mengirim *Referer* (bawaan browser sudah), dan **tidak boleh** mengunduh ubin secara massal atau menyimpannya untuk dipakai tanpa internet. Layanan ubin ini gratis tanpa jaminan (tanpa SLA) dan bisa diblokir bila dipakai berlebihan; beberapa titik untuk satu rumah jauh di bawah batas itu.
+- **Mode gelap:** bingkai halaman, keterangan, dan kotak popup beserta tombol ✕-nya ikut gelap (aturan di `index.css`); **ubin peta tetap terang**, karena itu gambar dari OpenStreetMap yang tidak kita ubah warnanya.
+- **Privasi:** koordinat rumah adalah data pribadi (alamat rumahmu). Contoh di modul memakai titik fiktif di tempat umum (sekitar Monas, Jakarta). Sebelum membagikan tangkapan layar peta, pakai titik contoh atau samarkan lokasinya.
+- **Lisensi pustaka peta:** Leaflet 1.9.4 berlisensi BSD-2-Clause. react-leaflet 5.0.0 (beserta `@react-leaflet/core`) berlisensi **Hippocratic License 2.1**: gratis dipakai dan diubah, dengan syarat pemakaiannya sejalan dengan prinsip hak asasi manusia (Deklarasi Universal Hak Asasi Manusia PBB, disebut di teks lisensinya). Syarat tambahan itu membuatnya **tidak** termasuk lisensi sumber terbuka yang diakui OSI (GitHub menampilkannya sebagai `NOASSERTION`). Untuk proyek belajar ini tidak menjadi masalah; untuk produk yang dijual, baca dulu teks lengkapnya (`node_modules/react-leaflet/LICENSE.md`), atau pakai Leaflet langsung tanpa react-leaflet (dibahas di Bedah Teknis Modul 25).
 
 ## Peran: admin dan viewer
 
@@ -120,18 +137,20 @@ HP dan laptop harus tersambung ke WiFi rumah yang sama (bukan WiFi tamu). Nyalak
 | `waktu.ts` | jam WIB, "… detik yang lalu" (date-fns), batas data basi, label sumbu waktu, dan detak satu detik (`useSekarang`) |
 | `csv.ts` | menyusun dan mengunduh CSV di browser (titik koma, desimal koma, BOM) |
 | `types.ts` | tipe data dari kontrak data 1.4 (Lampiran A), jawaban API, dan acara Socket.IO |
-| `halaman/` | satu berkas pembungkus tipis per layar: `Masuk`, `Daftar`, `Detail`, `Riwayat`, `Aturan`, `FormAturan`, `TidakDitemukan`. Layar yang memakai `:id` mencari datanya sendiri dari alamat |
+| `peta.ts` | setelan peta dalam satu konstanta `PETA` (Modul 25): alamat ubin OSM, atribusi, zoom, warna penanda |
+| `halaman/` | satu berkas pembungkus tipis per layar: `Masuk`, `Daftar`, `Detail`, `Riwayat`, `Peta`, `Aturan`, `FormAturan`, `TidakDitemukan`. Layar yang memakai `:id` mencari datanya sendiri dari alamat |
 | `components/JagaMasuk.tsx` | penjaga rute: "Memeriksa sesi…", pindah ke `/masuk` (membawa alamat tujuan), atau `<Outlet />` |
 | `components/KhususAdmin.tsx` | penjaga kedua: layar "Khusus admin" untuk akun *viewer*, atau `<Outlet />` untuk admin |
-| `components/TataLetak.tsx` | bingkai sesudah masuk: kepala (lencana sambungan, menu **Perangkat** / **Aturan**, nama + peran, **Keluar**), wadah *toast* (dan ruang kosong di bawah isi untuknya), mengambil daftar perangkat sekali, `<Outlet />` |
+| `components/TataLetak.tsx` | bingkai sesudah masuk: kepala (lencana sambungan, menu **Perangkat** / **Peta** / **Aturan**, nama + peran, **Keluar**), wadah *toast* (dan ruang kosong di bawah isi untuknya), mengambil daftar perangkat sekali, `<Outlet />` |
 | `components/TombolSakelar.tsx`, `components/TombolPompa.tsx` | tombol kendali (lihat "Tombol kendali") |
 | `components/WadahToast.tsx` | tempat *toast* tampil: di bawah layar HP dan tablet, di pojok kanan atas layar 1280 px ke atas |
 | `components/DaftarAturan.tsx`, `components/FormAturan.tsx` | daftar aturan dalam kalimat dan formulir aturan (isian, simpan, hapus, pratinjau) |
 | `components/BagianKapan.tsx`, `components/BagianLalu.tsx`, `components/KonfirmasiHapus.tsx` | bagian formulir aturan: **Kapan?**, **Lalu?** (+ Telegram dan **Aktif**), dan tombol **Hapus aturan** dengan kotak "yakin?"-nya |
 | `components/DaftarPerangkat.tsx` | kartu perangkat merah/hijau dengan suhu terbaru dan "terakhir dilihat"; setiap kartu tautan ke `/perangkat/<id>` |
 | `components/DetailPerangkat.tsx` | semua sensor satu perangkat (Node 1 atau Node 2), bagian **Kendali** (admin), grafik 5 menit, dan gauge |
+| `components/PetaPerangkat.tsx` | peta perangkat (Modul 25): `MapContainer` bertinggi tetap, ubin OSM + atribusi, `CircleMarker` berwarna status *live*, popup + tautan detail, `fitBounds`, pesan kosong; mengambil ulang `GET /devices` setiap kali dibuka |
 | `components/GrafikLive.tsx`, `Gauge.tsx`, `Riwayat.tsx`, `GrafikRiwayat.tsx`, `TabelRiwayat.tsx`, `KartuSensor.tsx`, `Lencana.tsx`, `LencanaKoneksi.tsx`, `TerakhirDilihat.tsx`, `Pemilih.tsx` | komponen Modul 22–23 (grafik, gauge, riwayat, kartu, lencana) |
-| `index.css` | `@import "tailwindcss";` (Tailwind CSS v4, tanpa `tailwind.config.js`) + warna grafik yang ikut mode gelap |
+| `index.css` | `@import "tailwindcss";` (Tailwind CSS v4, tanpa `tailwind.config.js`) + warna grafik yang ikut mode gelap + kotak popup peta yang ikut mode gelap (Modul 25) |
 
 ## *Login* dan keamanan
 
@@ -142,7 +161,7 @@ HP dan laptop harus tersambung ke WiFi rumah yang sama (bukan WiFi tamu). Nyalak
 - Data baru hanya datang lewat Socket.IO: tidak ada *polling*. `setInterval` hanya dipakai di `waktu.ts` untuk jam di layar.
 - Nama perangkat, nama aturan, dan kalimat kejadian ditampilkan sebagai teks JSX yang otomatis diloloskan React; dashboard tidak memakai `dangerouslySetInnerHTML`.
 
-## Batasan v1.0
+## Batasan v1.1
 
 - **Hanya jaringan rumah, dan masih `http://` polos.** Mode HP di atas membuka dashboard dari perangkat lain di WiFi rumah; sandi (juga sandi admin) lewat tanpa enkripsi. Akses dari internet dengan HTTPS, dan aplikasi terpasang (PWA), menyusul di Modul 27.
 - **Menyembunyikan tombol bukan pengaman.** Peran di layar hanya kenyamanan; satpam backend (403) yang menjaga. Peran yang diubah baru terlihat sesudah muat ulang atau ≤ 15 menit.
@@ -152,5 +171,9 @@ HP dan laptop harus tersambung ke WiFi rumah yang sama (bukan WiFi tamu). Nyalak
 - **Riwayat ringkasan hanya empat besaran**: suhu (rata-rata, terendah, tertinggi), kelembapan udara, kelembapan tanah, dan cahaya. Tekanan udara, baterai, dan air tandon hanya tampil di kartu *live*. Rentangnya mengikuti nilai bawaan API: 1 jam (bacaan mentah), 24 jam (per 15 menit), dan 7 hari (per jam).
 - **Grafik 5 menit hanya untuk perangkat yang mengirim tiap 10 detik** (Node 1 dan simulator). Node 2 mengirim tiap 5 menit, jadi grafiknya dilihat di layar riwayat.
 - **Kiriman yang lewat selama sambungan putus tidak dikirim ulang server.** Begitu tersambung lagi, grafik 5 menit diisi ulang dari database, daftar perangkat (dan statusnya) diambil ulang, dan kartu diisi bacaan terakhir yang diingat backend. Sesudah backend dinyalakan ulang, keadaan lampu, kipas, pompa, dan tirai baru muncul di kiriman berikutnya karena tidak disimpan di database; sampai saat itu tombol kendali belum tampil.
+- **Peta butuh internet.** Ubin datang dari server OpenStreetMap (gratis, tanpa jaminan, bisa diblokir bila dipakai berlebihan). Tanpa internet, kotak peta abu-abu polos; lingkaran penanda tetap digambar. Ubin tidak boleh diunduh massal atau disimpan untuk luring.
+- **Titik peta tidak bergerak *live*.** Titik yang diubah admin tampil sesudah menu **Peta** dibuka lagi; yang *live* hanya warna status.
+- **Penanda tidak bisa dipilih dengan tombol Tab.** Kotak peta sendiri bisa difokus dengan Tab lalu digeser dengan tombol panah (bawaan Leaflet), tetapi lingkaran penanda dan popup-nya hanya bisa dibuka dengan klik atau ketuk. Isi yang sama (nama, status, terakhir dilihat, tautan detail) ada di layar **Perangkat**.
+- **Ubin peta tetap terang di mode gelap**, dan untuk satu rumah titik-titiknya berdekatan (beberapa meter, zoom 18): peta paling berguna saat perangkat tersebar (kebun, rumah lain).
 - **Mode gelap mengikuti setelan sistem** HP atau laptop; belum ada tombol terang/gelap.
 - "Rapi di HP" diperiksa dengan mode perangkat DevTools (lebar 375 px, HP tegak), dan mode HP dicoba dengan membuka alamat IP WiFi laptop dari laptop itu sendiri; pemakaian oleh orang lain dari HP sungguhan dan pintasan layar utama belum dicoba penulis. Tailwind CSS v4 butuh browser yang cukup baru (Chrome 111+, Safari 16.4+, Firefox 128+).

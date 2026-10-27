@@ -1,0 +1,106 @@
+# node-diam.yaml - aturan alert "Node diam" Modul 25 (grup kesehatan-node, folder Rumah Pintar Mini), DIBUAT LEWAT LAYAR lalu
+# diekspor dari Grafana 13.2.4 lab penulis (Alert rules -> grup kesehatan-node -> More -> Export rules group -> YAML -> Download);
+# isi di bawah baris komentar ini apa adanya. datasourceUid eg2epmia7sd1cc = data source lab penulis (di Grafana-mu lain).
+# Tidak ada token, sandi, atau chat_id di sini: contact point hanya disebut namanya (receiver), isinya tidak pernah diekspor.
+apiVersion: 1
+groups:
+    - orgId: 1
+      name: kesehatan-node
+      folder: Rumah Pintar Mini
+      interval: 1m
+      rules:
+        - uid: fg2eqdrb2of0ga
+          title: Node diam
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 600
+                to: 0
+              datasourceUid: eg2epmia7sd1cc
+              model:
+                dataset: rumahpintar
+                editorMode: code
+                format: table
+                intervalMs: 1000
+                maxDataPoints: 43200
+                rawQuery: true
+                rawSql: |-
+                    SELECT d.device_id, coalesce(d.nama, d.device_id) AS node,
+                           round((EXTRACT(EPOCH FROM now() - coalesce(r.diterima, d.terdaftar)) / 60
+                                  - CASE WHEN d.jenis = 'node2' THEN 5 ELSE 0 END)::numeric, 1)::float8 AS menit_terlambat
+                    FROM devices d
+                    LEFT JOIN LATERAL (SELECT diterima FROM readings WHERE device_id = d.device_id ORDER BY ts DESC LIMIT 1) r ON true
+                    WHERE d.terdaftar IS NOT NULL AND d.dicabut IS NULL
+                refId: A
+                sql:
+                    columns:
+                        - parameters: []
+                          type: function
+                    groupBy:
+                        - property:
+                            type: string
+                          type: groupBy
+                    limit: 50
+            - refId: B
+              queryType: expression
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params: []
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params: []
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                reducer: last
+                refId: B
+                type: reduce
+            - refId: C
+              queryType: expression
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 5
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: B
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          noDataState: OK
+          execErrState: Error
+          annotations:
+            summary: '{{ $labels.node }} ({{ $labels.device_id }}) tidak mengirim data, terlambat {{ with $values.A }}{{ .Value }}{{ end }} menit dari jadwalnya'
+          isPaused: false
+          notification_settings:
+            receiver: Telegram Rumah Pintar
+            group_by:
+                - grafana_folder
+                - alertname
+                - device_id

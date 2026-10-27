@@ -9,6 +9,9 @@
 // broker menolak kuncinya, perangkat itu mencoba lagi setiap 60 detik, seperti Node 1 v1.6.0.
 // Modul 24: kelembapan tanah dan isi tandon juga bisa diatur dari terminal, dan perintah pompa ditolak kalau isi tandon di
 // bawah 20 % dengan alasan yang sama persis dengan firmware Node 1 ("pompa ditolak: air tandon kurang").
+// Modul 25: "Kebun tiruan" f00d000000b2, Node 2 palsu yang datanya diterbitkan perangkat palsu pertama (f00d00000001),
+// persis Node 2 asli lewat Node 1: bangun setiap 300 detik, status online saat paket pertama, offline sesudah 960 detik tanpa
+// paket. Butuh blok ACL "jalur laptop (Modul 25)" di edge/acl-broker (lalu restart broker) dan registrasi dengan penghubung.
 //
 // Cara pakai (dari terminal, di folder alat):
 //   node --env-file=.env simulator-perangkat.js mqtt://192.168.1.37:1883            -> 10 perangkat palsu
@@ -22,7 +25,11 @@
 //   tanah acak -> kembali ke tanah acak 20-60 %
 //   tandon 15  -> Modul 24: isi tandon 15 % (bilangan bulat 0-100); di bawah 20 %, perintah pompa ditolak seperti Node 1
 //   tandon acak -> kembali ke isi tandon acak 30-90 %
-// Hentikan dengan Ctrl+C: broker lalu menerbitkan wasiat "offline" setiap perangkat palsu.
+//   kebun mulai  -> Modul 25: Kebun tiruan menyala (satu paket sekarang, lalu setiap 300 detik; tidak bisa dipercepat)
+//   kebun cabut  -> "mencabut baterai" Kebun: paketnya berhenti, status offline baru terbit 960 detik sesudah paket terakhir
+//   kebun pasang -> "memasang baterai" lagi: Kebun langsung bangun dan mengirim paket, lalu setiap 300 detik
+// Hentikan dengan Ctrl+C: broker lalu menerbitkan wasiat "offline" setiap perangkat palsu. Kebun tiruan ikut diam, tetapi
+// statusnya tetap "online" (Node 2 tidak punya wasiat; persis Node 2 asli saat Node 1 mati).
 
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { createInterface } from "node:readline";
@@ -35,6 +42,13 @@ const BATAS_MODE_OFFLINE = 2 * 60 * 1000; // Modul 19: broker tak terjangkau 2 m
 const SELISIH_KIPAS = 2; // Modul 19: kipas pengaman padam di bawah suhu_kipas_on - 2 (histeresis Modul 13)
 const BERKAS_ARSIP = "data/arsip-simulator.json"; // Modul 19: pengganti NVS; folder data/ diabaikan Git (.gitignore)
 const LEVEL_AIR_MINIMUM = 20; // Modul 24: sama dengan konfigurasi.h Node 1: pompa ditolak kalau isi tandon di bawah 20 %
+// Modul 25: Kebun tiruan
+const ID_KEBUN = "f00d000000b2"; // device_id Node 2 palsu ("b2" = Node 2), didaftarkan dengan penghubung f00d00000001
+const ID_PENGHUBUNG = "f00d00000001"; // perangkat palsu pertama berperan sebagai Node 1 yang menerbitkan data Kebun
+// Node 2 bangun setiap 300 detik (JEDA_DETIK di firmware Node 2). JANGAN diperpendek: alert "node diam" di Grafana
+// (Modul 25) menghitung keterlambatan dari jadwal 5 menit ini.
+const JEDA_KEBUN = 300 * 1000;
+const BATAS_OFFLINE_KEBUN = 3 * JEDA_KEBUN + 60 * 1000; // 960 detik = 3 x jeda + 1 menit, sama dengan jembatan Node 1
 
 // device_id palsu: 12 digit heksadesimal huruf kecil, diawali f00d supaya mudah dikenali
 function buatDeviceId(nomor) {
@@ -115,6 +129,7 @@ function jalankanPerangkat(deviceId) {
     reconnectOnConnackError: true, // Modul 21: tanpa ini, library berhenti mencoba begitu broker menolak kuncinya
     will: { topic: topik("status"), payload: "offline", qos: 1, retain: true },
   });
+  if (deviceId === ID_PENGHUBUNG) pasangPenghubungKebun(klien); // Modul 25: Kebun tiruan menumpang perangkat ini
 
   // Modul 21: broker menolak kunci? Tulis jelas, lalu coba lagi 60 detik kemudian saja (seperti Node 1 v1.6.0).
   klien.on("error", (galat) => {
@@ -283,6 +298,106 @@ function jalankanPerangkat(deviceId) {
   jadwalkan(Math.random() * 10000); // kiriman pertama pada detik acak supaya perangkat palsu tidak serentak
 }
 
+// ---- Modul 25: Kebun tiruan (Node 2 palsu yang diterbitkan perangkat palsu pertama) ----
+let penghubung = null; // klien MQTT f00d00000001: hanya akun ini yang boleh menulis topik Kebun (blok ACL Modul 25)
+let kebunAda = false; // true sesudah "kebun mulai"
+let bateraiKebun = false; // true = Kebun bangun setiap 300 detik; false = baterainya "dicabut"
+let pengaturKebun = null; // jadwal bangun berikutnya (seperti deep sleep 300 detik)
+let paketKebunTerakhir = 0; // kapan paket terakhir Kebun diterbitkan (Date.now()); 0 = belum pernah
+let statusKebun = null; // status Kebun yang terakhir diterbitkan penghubung: "online", "offline", atau null (belum pernah)
+const jamWib = new Intl.DateTimeFormat("id-ID", { timeZone: "Asia/Jakarta", hour: "2-digit", minute: "2-digit",
+  second: "2-digit" });
+const pukul = (waktu) => `${jamWib.format(waktu)} WIB`; // misalnya 21.03.02 WIB, sama dengan jam di pesan Telegram backend
+const acakBulat = (min, maks) => min + Math.floor(Math.random() * (maks - min + 1));
+const acakSatuDesimal = (min, maks) => Math.round((min + Math.random() * (maks - min)) * 10) / 10;
+
+// Dipanggil jalankanPerangkat() untuk f00d00000001. Seperti Node 1 asli, setiap kali tersambung (lagi) ke broker,
+// penghubung menerbitkan ulang status Kebun yang terakhir diketahuinya.
+function pasangPenghubungKebun(klien) {
+  penghubung = klien;
+  klien.on("connect", () => {
+    if (statusKebun !== null) klien.publish(`rpm/${ID_KEBUN}/status`, statusKebun, { qos: 1, retain: true });
+  });
+}
+
+function terbitkanStatusKebun(status) {
+  statusKebun = status;
+  // retained, seperti Node 1 asli. Belum tersambung? Diterbitkan saat penghubung tersambung lagi (lihat di atas).
+  if (penghubung.connected) penghubung.publish(`rpm/${ID_KEBUN}/status`, status, { qos: 1, retain: true });
+}
+
+// Kebun bangun: satu paket telemetry Node 2 (kontrak 1.1), lalu "tidur" 300 detik. ts dibuat penghubung saat itu juga,
+// karena Node 2 tidak punya jam yang bisa dipercaya (kontrak aturan 1). Tanpa vitals: Node 2 tidak mengirimnya.
+function bangunKebun() {
+  pengaturKebun = setTimeout(bangunKebun, JEDA_KEBUN);
+  if (!penghubung.connected) {
+    // Node 1 asli menyimpan paket di rak sampai broker terjangkau lagi; simulator ini cukup melewatkannya
+    console.log(`${ID_KEBUN}: Kebun bangun, tetapi ${ID_PENGHUBUNG} tidak tersambung ke broker: paketnya hilang`);
+    return;
+  }
+  const paket = {
+    ts: waktuSekarang(),
+    fw: "1.0.0", // versi firmware NODE 2 (dibawa paketnya), bukan versi Node 1
+    suhu: acakSatuDesimal(26, 30),
+    kelembapan: acakBulat(60, 79),
+    tekanan: acakSatuDesimal(1008, 1012), // hPa; kolom khas Node 2: backend mengenali telemetry Node 2 dari kolom ini
+    suhu_tanah: acakSatuDesimal(25, 27),
+    tanah: acakBulat(35, 44),
+    // tanpa kolom baterai: kolom pilihan, Node 2 bawaan tidak mengukurnya (ADA_PEMBAGI_BATERAI = false)
+  };
+  penghubung.publish(`rpm/${ID_KEBUN}/telemetry`, JSON.stringify(paket));
+  paketKebunTerakhir = Date.now();
+  console.log(`${ID_KEBUN}: Kebun bangun pukul ${pukul(paketKebunTerakhir)}, paketnya diterbitkan ${ID_PENGHUBUNG}`);
+  if (statusKebun !== "online") terbitkanStatusKebun("online"); // paket pertama (atau pertama sesudah offline): online
+}
+
+// Jembatan Node 1: tidak ada paket Kebun selama 960 detik -> status offline. Diperiksa setiap detik.
+function periksaKebun() {
+  if (statusKebun === "online" && Date.now() - paketKebunTerakhir >= BATAS_OFFLINE_KEBUN) {
+    terbitkanStatusKebun("offline");
+    console.log(`${ID_KEBUN}: tidak ada paket Kebun selama ${BATAS_OFFLINE_KEBUN / 1000} detik: ${ID_PENGHUBUNG} ` +
+      `menerbitkan status offline pukul ${pukul(Date.now())}`);
+  }
+}
+
+// ketikan "kebun mulai", "kebun cabut", dan "kebun pasang"
+function ketikKebun(perintah) {
+  if (penghubung === null) {
+    console.log(`Kebun tiruan butuh perangkat palsu ${ID_PENGHUBUNG} sebagai penghubungnya: ` +
+      `isi KUNCI_${ID_PENGHUBUNG.toUpperCase()} di alat/.env, lalu jalankan simulator lagi`);
+  } else if (perintah === "mulai") {
+    if (kebunAda) {
+      console.log("Kebun tiruan sudah berjalan. Ketik \"kebun cabut\" atau \"kebun pasang\".");
+      return;
+    }
+    kebunAda = true;
+    bateraiKebun = true;
+    setInterval(periksaKebun, 1000);
+    console.log(`Kebun tiruan ${ID_KEBUN} menyala lewat ${ID_PENGHUBUNG}: satu paket sekarang, lalu setiap 300 detik.`);
+    bangunKebun();
+  } else if (!kebunAda) {
+    console.log("Kebun tiruan belum berjalan: ketik \"kebun mulai\" dulu.");
+  } else if (perintah === "cabut") {
+    if (!bateraiKebun) {
+      console.log("Baterai Kebun sudah dicabut. Ketik \"kebun pasang\" untuk memasangnya lagi.");
+      return;
+    }
+    bateraiKebun = false;
+    clearTimeout(pengaturKebun);
+    console.log(`Baterai Kebun DICABUT pukul ${pukul(Date.now())}.` + (paketKebunTerakhir === 0 ? "" : ` Paket terakhirnya ` +
+      `pukul ${pukul(paketKebunTerakhir)}; status offline baru terbit sekitar pukul ` +
+      `${pukul(paketKebunTerakhir + BATAS_OFFLINE_KEBUN)} (960 detik sesudah paket terakhir).`));
+  } else if (perintah === "pasang") {
+    if (bateraiKebun) {
+      console.log("Baterai Kebun masih terpasang.");
+      return;
+    }
+    bateraiKebun = true;
+    console.log(`Baterai Kebun dipasang lagi pukul ${pukul(Date.now())}: Kebun langsung bangun, lalu setiap 300 detik.`);
+    bangunKebun();
+  }
+}
+
 // bersihkan: terbitkan pesan kosong ber-retain ke topik status setiap perangkat palsu, supaya broker melupakan status
 // "offline" mereka (cara menghapus pesan retained, Modul 11), lalu selesai. Modul 21: setiap perangkat masuk dengan akunnya
 // sendiri, dan daftar izin broker hanya membolehkan perangkat MENULIS topiknya sendiri (status, telemetry, vitals, ack),
@@ -299,6 +414,10 @@ async function bersihkan(jumlah) {
       const klien = await mqtt.connectAsync(ALAMAT_BROKER, { clientId: deviceId, username: deviceId,
         password: kunciPerangkat(deviceId), reconnectPeriod: 0 });
       await klien.publishAsync(`rpm/${deviceId}/status`, "", { qos: 1, retain: true });
+      if (deviceId === ID_PENGHUBUNG) { // Modul 25: status Kebun tiruan, lewat penghubungnya
+        await klien.publishAsync(`rpm/${ID_KEBUN}/status`, "", { qos: 1, retain: true });
+        console.log(`${ID_KEBUN}: status retained Kebun tiruan juga dihapus (hanya berlaku kalau blok ACL Modul 25 terpasang).`);
+      }
       await klien.endAsync();
       console.log(`${deviceId}: status retained dihapus dari broker.`);
     } catch (galat) {
@@ -326,7 +445,8 @@ if (process.argv[3] === "bersihkan") {
     process.exit(1);
   }
   // Modul 19: "suhu 33" / "suhu acak" diketik di terminal ini. Modul 24: juga "tanah 25" / "tanah acak" dan "tandon 15" /
-  // "tandon acak". Hanya di mode ini: di mode bersihkan, pendengar terminal akan membuat program tidak selesai sendiri.
+  // "tandon acak". Modul 25: "kebun mulai" / "kebun cabut" / "kebun pasang". Hanya di mode ini: di mode bersihkan,
+  // pendengar terminal akan membuat program tidak selesai sendiri.
   createInterface({ input: process.stdin }).on("line", (baris) => {
     const [kata, isian] = baris.trim().toLowerCase().split(/\s+/);
     const angka = Number(isian);
@@ -339,9 +459,12 @@ if (process.argv[3] === "bersihkan") {
       tanahDiketik = isian === "acak" ? null : angka;
     } else if (kata === "tandon" && (isian === "acak" || persen)) { // Modul 24
       tandonDiketik = isian === "acak" ? null : angka;
+    } else if (kata === "kebun" && ["mulai", "cabut", "pasang"].includes(isian)) { // Modul 25
+      ketikKebun(isian);
+      return;
     } else {
-      console.log("Ketik misalnya: suhu 33, suhu acak, tanah 25, tanah acak, tandon 15, atau tandon acak " +
-        "(tanah dan tandon: bilangan bulat 0-100)");
+      console.log("Ketik misalnya: suhu 33, suhu acak, tanah 25, tanah acak, tandon 15, tandon acak, kebun mulai, " +
+        "kebun cabut, atau kebun pasang (tanah dan tandon: bilangan bulat 0-100)");
       return;
     }
     if (kata === "suhu") console.log(suhuDiketik === null ? "Suhu: acak 25,0-33,0 °C" : `Suhu: ${suhuDiketik.toFixed(1)} °C`);
@@ -353,5 +476,5 @@ if (process.argv[3] === "bersihkan") {
     }
   });
   console.log(`${adaKunci} perangkat palsu menuju ${ALAMAT_BROKER}. Ketik misalnya "suhu 33", "tanah 25", "tandon 15", ` +
-    `atau "tanah acak". Hentikan dengan Ctrl+C.`);
+    `"tanah acak", atau "kebun mulai". Hentikan dengan Ctrl+C.`);
 }
