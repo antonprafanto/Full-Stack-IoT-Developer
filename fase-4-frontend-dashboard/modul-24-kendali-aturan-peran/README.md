@@ -4,7 +4,7 @@
 
 *Fase 4 · Minggu 24 · Perangkat keras: **Kit A + B** atau simulator Modul 21 (`f00d00000001`), ditambah **HP** di WiFi rumah yang sama dan **satu orang penguji** · Prasyarat: **Modul 23** (dashboard v0.2 di `main`), **Modul 20** · Waktu: 11–13 jam, dicicil dalam satu minggu*
 
-[⬅️ Modul 23](../modul-23-dashboard-realtime/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · [Modul 25 ➡️ (segera terbit — baca ringkasannya di Silabus)](../../SILABUS.md#modul-25--visualisasi-profesional-grafana-peta-perangkat--laporan)
+[⬅️ Modul 23](../modul-23-dashboard-realtime/README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · [Modul 25 ➡️](../modul-25-grafana-peta-laporan/README.md)
 
 ---
 
@@ -4012,7 +4012,7 @@ Syarat lulus dari Silabus: **orang lain (bukan Anda) bisa *login* dari HP-nya le
 
 🎉 **Dashboard-mu kini memerintah, bukan hanya melihat.** Setiap layar punya alamat yang tahan **Back** dan **F5**, penjaga di pintunya, dan **Keluar** yang tuntas. Admin menyalakan lampu dengan tombol yang jujur menunggu perangkat, membuat aturan siram dari formulir yang diperiksa skema yang sama dengan backend, dan mendapat kabar di layar; viewer melihat semuanya tanpa satu tombol kendali pun, dan satpam backend tetap berjaga. Dashboard v1.0 ini masih tinggal di WiFi rumah lewat `http://` polos; HTTPS dan akses dari internet menunggu Modul 27. Satu modul lagi menuju Checkpoint Fase 4.
 
-> ➡️ **Modul berikutnya:** Modul 25 — Visualisasi Profesional: Grafana, Peta Perangkat, & Laporan (segera terbit; [ringkasannya di Silabus](../../SILABUS.md#modul-25--visualisasi-profesional-grafana-peta-perangkat--laporan)). Dashboard buatanmu tetap untuk penghuni rumah; untuk tim teknis datang Grafana yang membaca TimescaleDB dan mengirim *alert* Telegram saat node diam lebih dari 5 menit, ditambah peta perangkat dan laporan harian CSV otomatis.
+> ➡️ **Modul berikutnya:** [Modul 25 — Visualisasi Profesional: Grafana, Peta Perangkat, & Laporan](../modul-25-grafana-peta-laporan/README.md). Dashboard buatanmu tetap untuk penghuni rumah; untuk tim teknis datang Grafana yang membaca TimescaleDB dan mengirim *alert* Telegram saat node diam lebih dari 5 menit, ditambah peta perangkat dan laporan harian CSV otomatis.
 
 ## 📚 Sumber & atribusi gambar
 
@@ -4042,4 +4042,4 @@ Yang **tidak** diuji: HP Android dan iPhone sungguhan, termasuk pintasan layar u
 
 ---
 
-[⬅️ Modul 23](../modul-23-dashboard-realtime/README.md) · [Fase 4](../README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · **Berikutnya: Modul 25 — Visualisasi Profesional: Grafana, Peta Perangkat, & Laporan** (segera terbit; [ringkasannya di Silabus](../../SILABUS.md#modul-25--visualisasi-profesional-grafana-peta-perangkat--laporan))
+[⬅️ Modul 23](../modul-23-dashboard-realtime/README.md) · [Fase 4](../README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · **Berikutnya: [Modul 25 — Visualisasi Profesional: Grafana, Peta Perangkat, & Laporan](../modul-25-grafana-peta-laporan/README.md) ➡️**
