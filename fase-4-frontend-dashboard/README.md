@@ -39,4 +39,4 @@ Modul 25 menutup fase ini: Rumah Pintar Mini kini **diawasi dan melapor sendiri*
 
 ---
 
-[⬅️ Fase 3 — Backend & Data](../fase-3-backend-data/README.md) · [Halaman depan](../README.md) · [Silabus](../SILABUS.md) · [Pelacak progres](../PROGRES.md) · **Mulai: [Modul 22](modul-22-react-dasar/README.md) ➡️**
+[⬅️ Fase 3 — Backend & Data](../fase-3-backend-data/README.md) · [Halaman depan](../README.md) · [Silabus](../SILABUS.md) · [Pelacak progres](../PROGRES.md) · **Mulai: [Modul 22](modul-22-react-dasar/README.md) ➡️** · [Fase 5 ➡️](../fase-5-operasi-skala/README.md)

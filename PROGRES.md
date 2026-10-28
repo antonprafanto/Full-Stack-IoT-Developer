@@ -53,7 +53,7 @@ Centang `[x]` setiap kali Anda memenuhi kriteria **"Lulus jika"** di [SILABUS.md
 
 ## ⬛ Fase 5 — Operasi & Skala (Modul 26–32)
 
-- [ ] **Modul 26** — Docker & Docker Compose: Satu Perintah untuk Semua Layanan
+- [ ] **[Modul 26](fase-5-operasi-skala/modul-26-docker-compose/README.md)** — Docker & Docker Compose: Satu Perintah untuk Semua Layanan
 - [ ] **Modul 27** — Ke Internet: VPS, Domain, HTTPS, TLS MQTT, Bridge Pi → VPS, & Aplikasi di HP (PWA)
 - [ ] **Modul 28** — OTA Update, Provisioning, Fleet, & Dari Breadboard ke Kotak
 - [ ] **Modul 29** — Testing & CI/CD: Setiap Perubahan Diuji dan Dipasang Otomatis

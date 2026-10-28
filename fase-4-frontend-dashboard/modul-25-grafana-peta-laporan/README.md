@@ -4,7 +4,7 @@
 
 *Fase 4 · Minggu 25 · Perangkat keras: **Kit A + B** (Node 2 dengan baterai) atau simulator Modul 21 + **Kebun tiruan** · **akun Telegram + bot Modul 19** · Prasyarat: **Modul 24** (dashboard v1.0 + backend 1.1 di `main`), Modul 18, Modul 19 (vitals & bot), Modul 23 · Waktu: 11–13 jam, dicicil dalam satu minggu*
 
-[⬅️ Modul 24](../modul-24-kendali-aturan-peran/README.md) · [Fase 4](../README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · [Modul 26 ➡️ (segera terbit — baca ringkasannya di Silabus)](../../SILABUS.md#modul-26--docker--docker-compose-satu-perintah-untuk-semua-layanan)
+[⬅️ Modul 24](../modul-24-kendali-aturan-peran/README.md) · [Fase 4](../README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · [Modul 26 ➡️](../../fase-5-operasi-skala/modul-26-docker-compose/README.md)
 
 ---
 
@@ -3710,7 +3710,7 @@ Syarat lulus dari Silabus: **Grafana mengirim alert Telegram saat Anda mencabut 
 
 **Fase 4 tuntas: dua layar untuk dua penonton.** Penghuni melihat, memerintah sesuai perannya, dan menemukan perangkatnya di **Peta**; tim teknis membaca riwayat dan kesehatan perangkat di Grafana, dibangunkan *alert* saat node diam, dan menerima laporan kemarin setiap pagi. Batasnya: otaknya masih di laptop, jadi *alert* dan laporan ikut tidur saat laptop tidur.
 
-> ➡️ **Modul berikutnya:** Modul 26 — Docker & Docker Compose: Satu Perintah untuk Semua Layanan (segera terbit; [ringkasannya di Silabus](../../SILABUS.md#modul-26--docker--docker-compose-satu-perintah-untuk-semua-layanan)). Grafana pindah ke Docker Compose dengan lemari `rumahpintar-grafana-data` yang sama: dashboard, aturan, dan *contact point*-mu ikut serta.
+> ➡️ **Modul berikutnya:** [Modul 26 — Docker & Docker Compose: Satu Perintah untuk Semua Layanan](../../fase-5-operasi-skala/modul-26-docker-compose/README.md). Grafana pindah ke Docker Compose dengan lemari `rumahpintar-grafana-data` yang sama: dashboard, aturan, dan *contact point*-mu ikut serta.
 
 ## 📚 Sumber & atribusi gambar
 
@@ -3745,4 +3745,4 @@ Yang **belum terbukti** saat terbit: database mati lebih dari ±80 detik (dua ev
 
 ---
 
-[⬅️ Modul 24](../modul-24-kendali-aturan-peran/README.md) · [Fase 4](../README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · **Berikutnya: Modul 26 — Docker & Docker Compose: Satu Perintah untuk Semua Layanan** (segera terbit; [ringkasannya di Silabus](../../SILABUS.md#modul-26--docker--docker-compose-satu-perintah-untuk-semua-layanan))
+[⬅️ Modul 24](../modul-24-kendali-aturan-peran/README.md) · [Fase 4](../README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · **Berikutnya: [Modul 26 — Docker & Docker Compose: Satu Perintah untuk Semua Layanan](../../fase-5-operasi-skala/modul-26-docker-compose/README.md) ➡️**
