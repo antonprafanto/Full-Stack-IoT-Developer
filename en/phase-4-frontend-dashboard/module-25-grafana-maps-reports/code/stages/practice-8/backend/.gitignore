@@ -1,0 +1,9 @@
+# libraries from npm: big, and npm install can rebuild them
+node_modules/
+# this laptop's secret settings; the example is in .env.example
+.env
+# a photocopy of the database (pg_dump): large and holds personal data, keep it outside Git
+backup/
+# Module 20 curl test files: they hold passwords and cookies
+login*.json
+cookies*.txt

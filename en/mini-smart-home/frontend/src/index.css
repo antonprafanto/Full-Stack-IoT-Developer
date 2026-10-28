@@ -17,3 +17,31 @@
     --track-color: var(--color-slate-700);
   }
 }
+
+/* Module 25: the popup box on the map (DeviceMap) follows dark mode like the rest of the dashboard. The map tiles themselves STAY
+      light: they are pictures from the OpenStreetMap server, and we don't change their colors. Leaflet's CSS is loaded AFTER this file,
+      so the selectors are made more specific (.leaflet-container ...) to still win. Links in the popup use the dashboard's
+      teal (Leaflet's default blue #0078A8 has too little contrast on a dark background). */
+.leaflet-container .leaflet-popup-content a {
+  color: var(--color-teal-700);
+}
+
+@media (prefers-color-scheme: dark) {
+  .leaflet-container .leaflet-popup-content-wrapper,
+  .leaflet-container .leaflet-popup-tip {
+    background: var(--color-slate-800);
+    color: var(--color-slate-100);
+  }
+  .leaflet-container .leaflet-popup-content a {
+    color: var(--color-teal-300);
+  }
+  /* the ✕ button: Leaflet's rule for it is JUST as strong as .leaflet-container a.leaflet-popup-close-button and comes later,
+        so the selector here adds .leaflet-popup (stronger), also when it is hovered (hover) and chosen by keyboard (focus) */
+  .leaflet-container .leaflet-popup a.leaflet-popup-close-button {
+    color: var(--color-slate-300);
+  }
+  .leaflet-container .leaflet-popup a.leaflet-popup-close-button:hover,
+  .leaflet-container .leaflet-popup a.leaflet-popup-close-button:focus {
+    color: var(--color-slate-100);
+  }
+}

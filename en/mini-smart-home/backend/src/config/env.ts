@@ -1,6 +1,7 @@
 // env.ts - the server settings from .env (read by Node.js through --env-file), checked once by a Zod schema at startup.
 // Module 20: .env now also holds a secret (JWT_SECRET), so it is checked as strictly as the messages from devices.
 import { z } from "zod";
+import cron from "node-cron";
 
 z.config(z.locales.en()); // Zod error messages in English (this file is read first, before contract.ts)
 
@@ -24,6 +25,12 @@ const Settings = z.object({
   TELEGRAM_BOT_TOKEN: z.string().default(""), // the token from @BotFather: a secret, like a password
   TELEGRAM_CHAT_ID: z.string().default(""), // the owner's chat_id (the answer to /start)
   TELEGRAM_API_ROOT: z.string().default(""), // empty = the real Telegram server (lab: a mock Bot API server)
+  // Module 25: when the daily CSV report is sent to Telegram, a 5-field cron (minute hour day month weekday) in WIB.
+  // The default "0 7 * * *" = every day at 07:00 WIB. A 6-field cron ("0 7 * * * *") is also valid for node-cron, but it
+  // means something else (second 0, minute 7, EVERY hour), so it is refused here.
+  REPORT_SCHEDULE: z.preprocess(empty, z.string().default("0 7 * * *")
+    .refine((text) => text.trim().split(/\s+/).length === 5, "must have 5 fields: minute hour day month weekday, for example 0 7 * * *")
+    .refine((text) => cron.validate(text), "not a valid cron expression, for example 0 7 * * * (every day at 07:00 WIB)")),
   // Module 20: the key that signs the JWTs. Anyone who knows this key can make fake "wristbands".
   JWT_SECRET: z.preprocess(empty, z.string({ error: "not filled in" })
     .min(32, "too short (at least 32 characters); make a new one with the command in .env.example")

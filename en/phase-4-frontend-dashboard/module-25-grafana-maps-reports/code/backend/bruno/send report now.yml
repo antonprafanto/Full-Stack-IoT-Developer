@@ -1,0 +1,26 @@
+info:
+  name: send report now
+  type: http
+  seq: 28
+
+http:
+  method: POST
+  url: "{{baseUrl}}/reports/send?day=today"
+  params:
+    - name: day
+      value: today
+      type: query
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "200"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: true

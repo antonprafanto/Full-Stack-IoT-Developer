@@ -14,8 +14,8 @@ vi.hoisted(() => { // env.ts checks .env when imported: give it valid fake setti
 // the fake devices table: device_id -> row (including key_hash, which the real database also has)
 const table = vi.hoisted(() => new Map<string, Record<string, unknown>>());
 vi.mock("../db/devices.ts", () => {
-  const EMPTY = { kind: "unknown", name: null, location: null, status: "unknown", last_seen: null,
-    registered_at: null, key_hash: null, key_created_at: null, revoked_at: null, linked_via: null };
+  const EMPTY = { kind: "unknown", name: null, location: null, lat: null, lng: null, status: "unknown",
+    last_seen: null, registered_at: null, key_hash: null, key_created_at: null, revoked_at: null, linked_via: null };
   const withoutHash = (r: Record<string, unknown>) => { const { key_hash: _, ...rest } = r; return rest; };
   return {
     allDevicesDb: async () => [...table.values()].map(withoutHash),
@@ -65,8 +65,9 @@ const post = (url: string, body?: object): Promise<LightMyRequestResponse> =>
 
 beforeAll(() => {
   // one old row from Modules 17-20 (auto-created, not registered), then the in-memory registry is loaded as when the server starts
-  table.set("a4cf12e5b7c0", { device_id: "a4cf12e5b7c0", kind: "node1", name: null, location: null, status: "online",
-    last_seen: new Date(), registered_at: null, key_hash: null, key_created_at: null, revoked_at: null, linked_via: null });
+  table.set("a4cf12e5b7c0", { device_id: "a4cf12e5b7c0", kind: "node1", name: null, location: null, lat: null, lng: null,
+    status: "online", last_seen: new Date(), registered_at: null, key_hash: null, key_created_at: null, revoked_at: null,
+    linked_via: null });
   loadRegistry([...table.values()] as never);
 });
 afterAll(() => app.close());
@@ -78,7 +79,9 @@ describe("official device registry", () => {
     expect(devicePermission("a4cf12e5b7c0")).toBe("unregistered");
     const answer = await app.inject({ method: "GET", url: "/devices" });
     expect(answer.statusCode).toBe(200);
-    expect(answer.json()[0]).toMatchObject({ device_id: "a4cf12e5b7c0", key: "unregistered", registered_at: null });
+    // Module 25: the map point shows too; null = not set yet
+    expect(answer.json()[0]).toMatchObject({ device_id: "a4cf12e5b7c0", key: "unregistered", registered_at: null, lat: null,
+      lng: null });
   });
 
   it("POST /devices: 201, the 43-character key is shown ONCE, the database stores only its SHA-256", async () => {

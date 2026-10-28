@@ -1,5 +1,5 @@
 // Layout.tsx - the frame of every screen after logging in: the header (title, Live badge, menu, name, Log out button) and
-// <Outlet />, where React Router puts the screen that matches the address (Devices, Details, History, Rules).
+// <Outlet />, where React Router puts the screen that matches the address (Devices, Details, History, Map, Rules).
 import { useEffect } from "react";
 import { NavLink, Outlet } from "react-router";
 import { ApiError, getDevices, logout } from "../api";
@@ -77,6 +77,10 @@ export default function Layout() {
           <nav aria-label="Main menu" className="flex gap-1 text-sm font-medium">
             <NavLink to="/devices" className={menuClass}>
               Devices
+            </NavLink>
+            {/* Module 25: the device map, for admins and viewers */}
+            <NavLink to="/map" className={menuClass}>
+              Map
             </NavLink>
             {/* no end prop either: still active on /rules/new and /rules/<number> */}
             <NavLink to="/rules" className={menuClass}>

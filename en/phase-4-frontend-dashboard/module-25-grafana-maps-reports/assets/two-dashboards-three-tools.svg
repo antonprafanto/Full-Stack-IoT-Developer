@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="830" viewBox="0 0 1200 830" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="830" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" xml:space="preserve">Two dashboards, two audiences, three tools you already have</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" xml:space="preserve">Concept 1 · the residents use your dashboard; the technical team uses Grafana · Node-RED stays a helper tool</text>
+<rect x="30.0" y="102.0" width="560.0" height="112.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<circle cx="66.0" cy="134.0" r="6.5" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<path d="M54 157 L54 153 Q54 143 66 143 Q78 143 78 153 L78 157" fill="none" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="96.0" y="136.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >The residents</text>
+<text x="96.0" y="160.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">want to know and command <tspan font-weight="800">now</tspan>: room temperature, the lamp,</text>
+<text x="96.0" y="179.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">watering the plants, from a phone on the home Wi-Fi</text>
+<text x="96.0" y="200.0" font-size="12.5" font-weight="700" fill="#4a5568" text-anchor="start" xml:space="preserve">→ <tspan font-weight="800" fill="#1e2a4a">your dashboard</tspan> (React, Modules 22–24)</text>
+<rect x="610.0" y="102.0" width="560.0" height="112.0" rx="12" fill="#f5f0fc" stroke="#6f42c1" stroke-width="1.8" />
+<g transform="translate(646 142) scale(0.9) translate(-646 -142)">
+<rect x="627.0" y="128.0" width="38.0" height="28.0" rx="4" fill="none" stroke="#6f42c1" stroke-width="2" />
+<path d="M633 149 L641 141 L648 146 L659 134" fill="none" stroke="#6f42c1" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+</g>
+<text x="676.0" y="136.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >The technical team (you, looking after the system)</text>
+<text x="676.0" y="160.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">want to know <tspan font-weight="800">whether the devices are healthy</tspan>: signal, memory,</text>
+<text x="676.0" y="179.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">data that stopped arriving; told without opening a screen</text>
+<text x="676.0" y="200.0" font-size="12.5" font-weight="700" fill="#6f42c1" text-anchor="start" xml:space="preserve">→ <tspan font-weight="800" fill="#6f42c1">Grafana</tspan> (Module 25), next to the database</text>
+<rect x="30.0" y="238.0" width="1140.0" height="430.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<path d="M30.8 296.0 L30.8 249.8 Q30.8 238.8 41.8 238.8 L1158.2 238.8 Q1169.2 238.8 1169.2 249.8 L1169.2 296.0 Z" fill="#eef1f5" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M846.0 238.8 L1158.0 238.8 Q1169.2 238.8 1169.2 250.8 L1169.2 655.2 Q1169.2 667.2 1158.0 667.2 L846.0 667.2 Z" fill="#f5f0fc" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="30.0" y="238.0" width="1140.0" height="430.0" rx="12" fill="none" stroke="#e0dcd2" stroke-width="1.6" />
+<g transform="translate(228.0 267) scale(0.62) translate(-228.0 -267)">
+<rect x="204.0" y="253.0" width="14.0" height="10.0" rx="2" fill="none" stroke="#4a5568" stroke-width="2" />
+<rect x="238.0" y="253.0" width="14.0" height="10.0" rx="2" fill="none" stroke="#4a5568" stroke-width="2" />
+<rect x="221.0" y="273.0" width="14.0" height="10.0" rx="2" fill="none" stroke="#4a5568" stroke-width="2" />
+<path d="M218.0 258 C226.0 258 226.0 278 221.0 278" fill="none" stroke="#4a5568" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M235.0 278 C242.0 278 232.0 258 238.0 258" fill="none" stroke="#4a5568" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+</g>
+<text x="256.0" y="263.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >Node-RED Dashboard 2</text>
+<text x="256.0" y="282.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >on the Pi · Module 13</text>
+<g transform="translate(552.0 267) scale(0.62) translate(-552.0 -267)">
+<rect x="533.0" y="253.0" width="38.0" height="28.0" rx="4" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<line x1="533.0" y1="261.0" x2="571.0" y2="261.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<circle cx="538.0" cy="257.0" r="1.1" fill="#1e2a4a" />
+<circle cx="542.5" cy="257.0" r="1.1" fill="#1e2a4a" />
+<circle cx="547.0" cy="257.0" r="1.1" fill="#1e2a4a" />
+</g>
+<text x="580.0" y="263.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >your dashboard (React)</text>
+<text x="580.0" y="282.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >on the laptop · Modules 22–24</text>
+<g transform="translate(876.0 267) scale(0.62) translate(-876.0 -267)">
+<rect x="857.0" y="253.0" width="38.0" height="28.0" rx="4" fill="none" stroke="#6f42c1" stroke-width="2" />
+<path d="M863.0 274 L871.0 266 L878.0 271 L889.0 259" fill="none" stroke="#6f42c1" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+</g>
+<text x="904.0" y="263.0" font-size="14" font-weight="800" fill="#6f42c1" text-anchor="start" >Grafana</text>
+<text x="904.0" y="282.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >on the laptop · Module 25</text>
+<line x1="30.0" y1="296.0" x2="1170.0" y2="296.0" stroke="#e0dcd2" stroke-width="1.2" stroke-linecap="round" />
+<text x="48.0" y="322.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >For whom</text>
+<text x="216.0" y="322.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">you yourself, while building and</text>
+<text x="216.0" y="341.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">trying ideas</text>
+<text x="540.0" y="322.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">the residents</tspan>: admin and</text>
+<text x="540.0" y="341.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">viewer, on the laptop or a phone</text>
+<text x="864.0" y="322.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#6f42c1">the technical team</tspan>: you, while</text>
+<text x="864.0" y="341.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">looking after the system</text>
+<line x1="30.0" y1="358.0" x2="1170.0" y2="358.0" stroke="#e0dcd2" stroke-width="1.2" stroke-linecap="round" />
+<text x="48.0" y="384.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Made with</text>
+<text x="216.0" y="384.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">drag-and-connect <tspan font-style="italic">nodes</tspan>, without</text>
+<text x="216.0" y="403.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">writing code</text>
+<text x="540.0" y="384.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">React + TypeScript code, versioned</text>
+<text x="540.0" y="403.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">and checked (lint, build) in Git</text>
+<text x="864.0" y="384.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">clicks on the screen + SQL queries;</text>
+<text x="864.0" y="403.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">saved as JSON in the <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">grafana/</tspan> folder</text>
+<line x1="30.0" y1="420.0" x2="1170.0" y2="420.0" stroke="#e0dcd2" stroke-width="1.2" stroke-linecap="round" />
+<text x="48.0" y="446.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Its data comes from</text>
+<text x="216.0" y="446.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">MQTT messages directly; a 1-hour</text>
+<text x="216.0" y="465.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">chart in Node-RED's memory</text>
+<text x="540.0" y="446.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">backend API + Socket.IO (<tspan font-style="italic">live</tspan>);</text>
+<text x="540.0" y="465.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">history of 1 hour, 24 hours, 7 days</text>
+<text x="864.0" y="446.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">TimescaleDB directly, account</text>
+<text x="864.0" y="465.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">grafana_reader</tspan>; history as long as the data</text>
+<line x1="30.0" y1="482.0" x2="1170.0" y2="482.0" stroke="#e0dcd2" stroke-width="1.2" stroke-linecap="round" />
+<text x="48.0" y="508.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Strong at</text>
+<text x="216.0" y="508.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">peeking at MQTT traffic,</text>
+<text x="216.0" y="527.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">trying ideas quickly</text>
+<text x="540.0" y="508.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">controlling the lamp and pump, rules,</text>
+<text x="540.0" y="527.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">roles, the map, from a phone</text>
+<text x="864.0" y="508.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">long trends, device signal and</text>
+<text x="864.0" y="527.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">memory, <tspan font-style="italic">alerts</tspan> to Telegram</text>
+<line x1="30.0" y1="544.0" x2="1170.0" y2="544.0" stroke="#e0dcd2" stroke-width="1.2" stroke-linecap="round" />
+<text x="48.0" y="570.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Honest weakness</text>
+<text x="216.0" y="570.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">charts are lost when Node-RED</text>
+<text x="216.0" y="589.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">restarts; automation retired since M16</text>
+<text x="540.0" y="570.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">every new chart = new code;</text>
+<text x="540.0" y="589.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">pressure, battery, tank without history</text>
+<text x="864.0" y="570.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">its own accounts (not Module 20's),</text>
+<text x="864.0" y="589.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">needs SQL, RAM ±200–470 MiB</text>
+<line x1="30.0" y1="606.0" x2="1170.0" y2="606.0" stroke="#e0dcd2" stroke-width="1.2" stroke-linecap="round" />
+<text x="48.0" y="632.0" font-size="12.5" font-weight="800" fill="#e63946" text-anchor="start" >When NOT to use it</text>
+<text x="216.0" y="632.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">for the residents, or for data</text>
+<text x="216.0" y="651.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">over years</text>
+<text x="540.0" y="632.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">investigating 30 days of RSSI,</text>
+<text x="540.0" y="651.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">or a one-off panel</text>
+<text x="864.0" y="632.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">turning on the lamp: Grafana only</text>
+<text x="864.0" y="651.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">reads; the family's screen is the phone</text>
+<line x1="522.0" y1="246.0" x2="522.0" y2="660.0" stroke="#e0dcd2" stroke-width="1.2" stroke-linecap="round" />
+<line x1="846.0" y1="246.0" x2="846.0" y2="660.0" stroke="#e0dcd2" stroke-width="1.2" stroke-linecap="round" />
+<line x1="198.0" y1="246.0" x2="198.0" y2="660.0" stroke="#e0dcd2" stroke-width="1.2" stroke-linecap="round" />
+<rect x="30.0" y="690.0" width="1140.0" height="100.0" rx="12" fill="#eef1f5" />
+<text x="50.0" y="718.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >Examples from your own project</text>
+<text x="50.0" y="744.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">Air pressure, battery, and tank water</tspan> only show on your dashboard's <tspan font-style="italic">live</tspan> cards (the frontend's Limits): in Grafana, one SQL panel is enough.</text>
+<text x="50.0" y="765.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">The lamp button</tspan> doesn't fit in Grafana: it reads the database with a read-only account. Node-RED may stay as a backup display.</text>
+<text x="1178.0" y="816.0" font-size="11" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer Curriculum · CC BY 4.0</text>
+</svg>

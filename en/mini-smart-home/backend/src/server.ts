@@ -1,7 +1,8 @@
-// server.ts - the entry point of the Mini Smart Home backend v1.1 (Module 24: "below-threshold" rules such as watering when the
-// soil is dry, threshold rules may send one command, and rules can be deleted; on top of v1.0, Module 21: the device registry
-// and its keys, the backend's own broker account, unregistered/revoked devices ignored; Module 20: login, JWT in cookies, roles,
-// and API protection; and Module 19: realtime data, one door for commands, automation rules, schedules, and Telegram notifications).
+// server.ts - the entry point of the Mini Smart Home backend v1.2 (Module 25: the device's point on the map and the daily CSV
+// report through Telegram; on top of v1.1, Module 24: "below-threshold" rules such as watering when the soil is dry, threshold
+// rules may send one command, and rules can be deleted; on top of v1.0, Module 21: the device registry and its keys, the
+// backend's own broker account, unregistered/revoked devices ignored; Module 20: login, JWT in cookies, roles, and API protection;
+// and Module 19: realtime data, one door for commands, automation rules, schedules, and Telegram notifications).
 // Run: npm run dev (automatically restarts when a file is saved) or npm start.
 import Fastify, { LogController } from "fastify";
 import swagger from "@fastify/swagger";
@@ -13,11 +14,13 @@ import { authRoutes } from "./routes/auth.ts";
 import { healthRoutes } from "./routes/health.ts";
 import { deviceRoutes } from "./routes/devices.ts";
 import { ruleRoutes } from "./routes/rules.ts";
+import { reportRoutes } from "./routes/reports.ts";
 import { stopMqtt, startMqtt } from "./services/mqtt.ts";
 import { startRealtime } from "./services/realtime.ts";
 import { loadRules } from "./services/automation.ts";
 import { stopSchedules } from "./services/schedule.ts";
 import { stopTelegram, startTelegram } from "./services/telegram.ts";
+import { startReports } from "./services/reports.ts";
 import { useLog } from "./services/log.ts";
 import { databaseAlive } from "./db/archive.ts";
 import { allDevicesDb } from "./db/devices.ts";
@@ -42,13 +45,16 @@ await app.register(swagger, {
   openapi: {
     info: {
       title: "Mini Smart Home API",
-      description: "Backend v1.1 (Module 24). Every route needs a login, except the ones without a padlock. Log in first with "
+      description: "Backend v1.2 (Module 25). Every route needs a login, except the ones without a padlock. Log in first with "
         + "POST /auth/login (Try it out): the browser keeps the access cookie and sends it by itself to the other routes. "
         + "Viewer accounts can only look (GET); commands and changes are answered with 403. Devices are registered by an admin "
         + "with POST /devices; a key is shown only once, and messages from unregistered or revoked devices are ignored. "
         + "Since v1.1, a threshold rule can point downwards (below-threshold, for example water when the soil is below 30 %), can "
-        + "send one command when it turns on, and rules can be deleted (DELETE /rules/:id).",
-      version: "1.1.0",
+        + "send one command when it turns on, and rules can be deleted (DELETE /rules/:id). Since v1.2, GET /devices carries "
+        + "each device's map point (lat, lng), and the admin moves it with PUT /devices/:id/location. "
+        + "The daily CSV report is sent to Telegram at REPORT_SCHEDULE (default 07:00 WIB); POST /reports/send "
+        + "sends it right now.",
+      version: "1.2.0",
     },
     components: {
       securitySchemes: { // Module 20: routes with a padlock need the access cookie from POST /auth/login
@@ -64,6 +70,7 @@ await app.register(authRoutes); // Module 20
 await app.register(healthRoutes);
 await app.register(deviceRoutes);
 await app.register(ruleRoutes); // Module 19
+await app.register(reportRoutes); // Module 25
 
 if (await databaseAlive()) app.log.info("database ready");
 else app.log.warn("database not reachable yet: check the database container and DATABASE_URL in .env");
@@ -96,6 +103,7 @@ if (env.MQTT_USERNAME === "") {
 }
 startMqtt(env.MQTT_URL, env.MQTT_USERNAME === "" ? null : { username: env.MQTT_USERNAME, password: env.MQTT_PASSWORD }, app.log);
 startTelegram(env.TELEGRAM_BOT_TOKEN, env.TELEGRAM_CHAT_ID, env.TELEGRAM_API_ROOT); // Module 19: not awaited
+startReports(env.REPORT_SCHEDULE); // Module 25: the daily CSV report to Telegram (node-cron, WIB)
 await app.listen({ port: env.PORT, host: env.HOST });
 app.log.info(`API docs: http://${env.HOST}:${env.PORT}/docs`);
 
@@ -105,7 +113,7 @@ async function stopGracefully(signal: string): Promise<void> {
   app.log.info(`${signal} received: the backend is stopping gracefully`);
   try {
     await stopTelegram(); // confirm the last update to Telegram
-    await stopSchedules(); // node-cron: wait for the tasks that are running
+    await stopSchedules(); // node-cron: wait for the tasks that are running (the rule schedules and, since Module 25, the daily report)
     await app.close(); // preClose disconnects the Socket.IO clients, then the HTTP server closes
     await stopMqtt(); // DISCONNECT to the broker
     await pool.end(); // close the database connection pool

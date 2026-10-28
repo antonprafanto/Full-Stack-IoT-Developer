@@ -1,11 +1,12 @@
 // devices.ts - the /devices routes: the device list, the latest reading, the history from the database (raw or summarized),
 // commands, and the actuator state (desired/reported, Module 19). Module 21: the official device registry (registration, key
-// rotation, revoke); GET /devices is now read from the database.
+// rotation, revoke); GET /devices is now read from the database. Module 25: GET /devices carries the map point (lat, lng), and
+// the admin moves that point with PUT /devices/:id/location.
 import { z } from "zod";
 import type { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
 import { Ack, DeviceId, State, SetCommand, Status, TelemetryNode1, TelemetryNode2, Vitals } from "../schemas/contract.ts";
 import { findDevice } from "../services/store.ts";
-import { revokeDevice, registerDevice, rotateDeviceKey, allDevicesDb } from "../db/devices.ts";
+import { revokeDevice, registerDevice, rotateDeviceKey, allDevicesDb, setDeviceLocation } from "../db/devices.ts";
 import type { DeviceRow } from "../db/devices.ts";
 import { makeKey, hashKey } from "../auth/key.ts";
 import { recordRevoked, recordRegistered, devicePermission } from "../services/registry.ts";
@@ -74,6 +75,8 @@ const Device = z.object({
   device_id: z.string(),
   name: z.string().nullable(),
   location: z.string().nullable(),
+  lat: z.number().nullable().describe("Module 25: latitude of the device's point on the map (decimal degrees); null = not set yet"),
+  lng: z.number().nullable().describe("Module 25: longitude of the device's point on the map (decimal degrees); null = not set yet"),
   kind: Kind,
   status: z.string().describe("online, offline, offline-mode, or unknown (the last MQTT status)"),
   last_seen: z.string().nullable().describe("server time when this device's last message arrived"),
@@ -91,6 +94,22 @@ const Registration = z.strictObject({
   linked_via: DeviceId.optional()
     .describe("only for an ESP-NOW device (Node 2): the device_id of the Node 1 that publishes its data; this device gets no key"),
 });
+// Module 25: the body of PUT /devices/:id/location. Numbers with a decimal POINT (JSON has no decimal comma): "-6,2" is text,
+// so it is refused with 400. The range is the same as the CHECK in migration 001. Zod 4's z.number() also refuses NaN and Infinity.
+// strictObject: other fields (for example the "location" text) are refused with 400; this route ONLY moves the point on the map.
+const decimalNumber = (example: string) => z.number({ // error message: field missing, NaN/Infinity, or text
+  error: (issue) => issue.input === undefined ? "required: a number, or null to remove the point"
+    : typeof issue.input === "number" ? "must be a finite number (not NaN or Infinity)"
+      : `must be a number with a decimal point, for example ${example} (not the text "${example.replace(".", ",")}")`,
+});
+export const LocationBody = z.strictObject({
+  lat: decimalNumber("-6.1754").min(-90, "latitude at least -90").max(90, "latitude at most 90").nullable()
+    .describe("latitude in decimal degrees, -90 to 90; Jakarta is about -6.2. null = remove the point"),
+  lng: decimalNumber("106.8272").min(-180, "longitude at least -180").max(180, "longitude at most 180").nullable()
+    .describe("longitude in decimal degrees, -180 to 180; Jakarta is about 106.8. null = remove the point"),
+}).refine((l) => (l.lat === null) === (l.lng === null), { // half a point can't be drawn on the map
+  message: "lat and lng go in pairs: both numbers, or both null to remove the point", path: ["lng"],
+});
 const NewKey = z.object({
   device_id: z.string(),
   key: z.string().nullable().describe("43 characters; shown ONLY this once. null for an ESP-NOW device"),
@@ -105,7 +124,7 @@ function present(r: DeviceRow) {
     : r.revoked_at !== null ? "revoked" as const
       : r.linked_via !== null ? "no-key" as const : "active" as const;
   return {
-    device_id: r.device_id, name: r.name, location: r.location, kind: r.kind, status: r.status,
+    device_id: r.device_id, name: r.name, location: r.location, lat: r.lat, lng: r.lng, kind: r.kind, status: r.status,
     last_seen: iso(r.last_seen), key, registered_at: iso(r.registered_at), key_created_at: iso(r.key_created_at),
     revoked_at: iso(r.revoked_at), linked_via: r.linked_via,
   };
@@ -234,6 +253,35 @@ export const deviceRoutes: FastifyPluginAsyncZod = async (app) => {
       };
     } catch (error) {
       req.log.error(`revoke of ${id} failed: ${(error as Error).message}`);
+      return reply.code(503).send({ message: DATABASE_DOWN });
+    }
+  });
+
+  // ---- Module 25: the device's point on the map (admin only: the guard refuses viewers for PUT, like POST above) ----
+
+  app.put("/devices/:id/location", {
+    schema: {
+      tags: ["devices"],
+      summary: "Set the device's point on the map: { lat, lng } with a decimal point; { lat: null, lng: null } removes the point",
+      params: IdParam,
+      body: LocationBody,
+      response: {
+        200: Device.describe("the device with its new point (the same shape as one row of GET /devices)"),
+        404: ErrorBody.describe("that device_id isn't in the device list"),
+        503: ErrorBody.describe("the database can't be reached right now"),
+      },
+    },
+  }, async (req, reply) => {
+    const id = req.params.id;
+    const { lat, lng } = req.body;
+    try {
+      const row = await setDeviceLocation(id, lat, lng);
+      if (row === undefined) return reply.code(404).send({ message: `${id} isn't in the device list` });
+      // the coordinates are deliberately NOT written to the log: a home's point is personal data
+      req.log.info(`map point of ${id} ${lat === null ? "removed" : "set"} by account ${req.user.sub}`);
+      return present(row);
+    } catch (error) {
+      req.log.error(`location of ${id} couldn't be saved: ${(error as Error).message}`);
       return reply.code(503).send({ message: DATABASE_DOWN });
     }
   });

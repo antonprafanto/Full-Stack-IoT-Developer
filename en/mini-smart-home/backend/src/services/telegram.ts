@@ -1,6 +1,7 @@
 // telegram.ts - the Telegram bot (Module 19, grammY 1.46.0): alerts from the automation rules, /start to find out the
 // chat_id, and /status for the owner only. Leave TELEGRAM_BOT_TOKEN empty in .env to turn it off.
-import { Bot, GrammyError, HttpError } from "grammy";
+// Module 25: the same bot also sends FILES (the daily CSV report) through sendFile().
+import { Bot, GrammyError, HttpError, InputFile } from "grammy";
 import { INITIAL_RECORD, shouldNotify } from "../rules/engine.ts";
 import type { NotifyRecord, Situation } from "../rules/engine.ts";
 import { allDevices } from "./store.ts";
@@ -47,6 +48,31 @@ export async function notify(text: string, readingTs?: string): Promise<boolean>
     if (error instanceof GrammyError) log.error(`Telegram refused the message: ${error.description}`); // the Bot API answered ok:false
     else if (error instanceof HttpError) log.error(`Telegram server unreachable: ${error.message}`);
     else log.error(`Telegram failed: ${(error as Error).message}`);
+    return false;
+  }
+}
+
+// Module 25: why can't Telegram be used right now? null = ready to send.
+export function telegramOffReason(): string | null {
+  if (bot === undefined) return "TELEGRAM_BOT_TOKEN is empty";
+  if (ownerChat === undefined) return "TELEGRAM_CHAT_ID is empty";
+  return null;
+}
+
+// Module 25: send one file to the owner, with a caption under it. Its content is text (for example CSV) wrapped in a
+// Buffer: new InputFile("text...") can NOT be used, because grammY takes text as a file PATH on the disk
+// (error ENOENT). The file name must be given, so that Telegram shows it as report-2026-10-26.csv.
+export async function sendFile(name: string, content: string, caption: string): Promise<boolean> {
+  if (bot === undefined || ownerChat === undefined) return false;
+  try {
+    const file = new InputFile(Buffer.from(content, "utf8"), name); // text -> UTF-8 bytes (the BOM included, 3 bytes)
+    await bot.api.sendDocument(ownerChat, file, { caption }); // files up to 50 MB, a caption up to 1024 characters
+    log.info(`Telegram sent: file ${name} (${Buffer.byteLength(content, "utf8")} bytes), ${caption}`);
+    return true;
+  } catch (error) { // the same as notify(): refused by the Bot API, server unreachable, or another error
+    if (error instanceof GrammyError) log.error(`Telegram refused the file ${name}: ${error.description}`);
+    else if (error instanceof HttpError) log.error(`Telegram server unreachable: ${error.message}`);
+    else log.error(`Telegram couldn't send the file ${name}: ${(error as Error).message}`);
     return false;
   }
 }

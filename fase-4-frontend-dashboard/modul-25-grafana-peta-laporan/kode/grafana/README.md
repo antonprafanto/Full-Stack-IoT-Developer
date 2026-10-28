@@ -1,6 +1,6 @@
 # Grafana Rumah Pintar Mini
 
-🌐 **Bahasa Indonesia** · [English](../../en/mini-smart-home/grafana/README.md)
+🌐 **Bahasa Indonesia** · [English](../../../../en/phase-4-frontend-dashboard/module-25-grafana-maps-reports/code/grafana/README.md)
 
 Grafana adalah dashboard **tim teknis** Rumah Pintar Mini ([Modul 25](../../README.md)): panel kesehatan perangkat (RSSI, *uptime*, *heap* Node 1; paket per jam Node 2) dan *alert* "node diam" ke Telegram, dibaca langsung dari database TimescaleDB (Modul 17–18). Dashboard untuk penghuni rumah tetap `frontend/` (Modul 22–24). Grafana berjalan di laptop sebagai kontainer Docker, di samping kontainer database `rumahpintar-db`.
 

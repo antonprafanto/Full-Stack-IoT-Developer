@@ -1,0 +1,1530 @@
+diff --git a/backend/.env.example b/backend/.env.example
+index 77ba8ef..f64b07f 100644
+--- a/backend/.env.example
++++ b/backend/.env.example
+@@ -11,6 +11,10 @@ DATABASE_URL=postgres://postgres:change-this-password@127.0.0.1:5432/smarthome
+ # Telegram (Module 19, optional): the token from @BotFather and your chat_id (the answer to /start). Empty = notifications off.
+ TELEGRAM_BOT_TOKEN=
+ TELEGRAM_CHAT_ID=
++# Address of the Bot API server (Module 19). Leave it commented out = the real Telegram server; only filled in for a mock server in the lab.
++# TELEGRAM_API_ROOT=
++# Module 25: the time of the daily CSV report to Telegram, a 5-field cron (minute hour day month weekday) in WIB: 0 7 * * * = 07:00 WIB
++REPORT_SCHEDULE=0 7 * * *
+ # Module 20: the JWT signing key, at least 32 random characters. Make your own with this command, then paste the result:
+ #   node -e "console.log(require('node:crypto').randomBytes(32).toString('base64url'))"
+ JWT_SECRET=change-this-to-the-output-of-the-command-above
+diff --git a/backend/README.md b/backend/README.md
+index 4163f52..c5b8089 100644
+--- a/backend/README.md
++++ b/backend/README.md
+@@ -2,10 +2,12 @@
+ 
+ 🌐 **English** · [Bahasa Indonesia](../../../proyek-rumah-pintar-mini/backend/README.md)
+ 
+-Backend v1.1 of the Mini Smart Home project: a Node.js 24 server in light TypeScript that listens to every `msh/#` MQTT message, checks every message against data contract 1.4 (Zod schemas), keeps the last state of every device in memory, archives every message in a PostgreSQL database with the TimescaleDB add-on (through Docker), and provides a documented API. The reading history can be requested raw or already summarized per 15 minutes, per hour, or per day. Since Module 19, readings also flow live through Socket.IO, every command goes through one door (with the desired and the reported state), automation rules and schedules are stored in the database and can be changed through the API without restarting the server, every important event is recorded, and alerts are sent through Telegram. Since Module 20, the API and Socket.IO are **locked for people**: guests must log in first, `viewer` accounts can only look, login attempts are limited, and other web pages can't make the server act on a user's behalf. Since Module 21, the backend is also **locked for devices**: only devices an admin has registered (with a per-device key) have their data processed, messages from unregistered or revoked devices are ignored, and the backend itself connects to the broker with its own account. 🎉 **Phase 3 checkpoint: the house is locked for people and for devices.**
++Backend v1.2 of the Mini Smart Home project: a Node.js 24 server in light TypeScript that listens to every `msh/#` MQTT message, checks every message against data contract 1.4 (Zod schemas), keeps the last state of every device in memory, archives every message in a PostgreSQL database with the TimescaleDB add-on (through Docker), and provides a documented API. The reading history can be requested raw or already summarized per 15 minutes, per hour, or per day. Since Module 19, readings also flow live through Socket.IO, every command goes through one door (with the desired and the reported state), automation rules and schedules are stored in the database and can be changed through the API without restarting the server, every important event is recorded, and alerts are sent through Telegram. Since Module 20, the API and Socket.IO are **locked for people**: guests must log in first, `viewer` accounts can only look, login attempts are limited, and other web pages can't make the server act on a user's behalf. Since Module 21, the backend is also **locked for devices**: only devices an admin has registered (with a per-device key) have their data processed, messages from unregistered or revoked devices are ignored, and the backend itself connects to the broker with its own account. 🎉 **Phase 3 checkpoint: the house is locked for people and for devices.**
+ 
+ **v1.1 (Module 24)** adds three small things dashboard v1.0 needs: **below-threshold** rules (for example water when the soil is below 30%), threshold rules that **send a command once** (for example the pump for 5 seconds), and **deleting rules** (`DELETE /rules/:id`). No database migration and no data-contract change (still 1.4); details in [Version 1.1 notes](#version-11-notes).
+ 
++**v1.2 (Module 25)** adds two things for the device map and the daily report: `GET /devices` now carries each device's **map point** (`lat`, `lng`), and the admin moves it with `PUT /devices/:id/location`; the backend also sends a **daily CSV report** through the Telegram bot every morning (default 07:00 WIB, setting `REPORT_SCHEDULE`), and `POST /reports/send` sends it right now. No database migration, no new npm package, the data contract stays 1.4; details in [Map and daily report](#map-and-daily-report-module-25) and [Version 1.2 notes](#version-12-notes).
++
+ ## How to run it
+ 
+ 1. Install Node.js 24 LTS and Docker Desktop.
+@@ -38,7 +40,7 @@ Backend v1.1 of the Mini Smart Home project: a Node.js 24 server in light TypeSc
+    npm run users -- add viewer@home.test "Home Guest" viewer
+    ```
+ 
+-9. (Optional) For Telegram alerts, fill in `TELEGRAM_BOT_TOKEN` (the token from @BotFather) and `TELEGRAM_CHAT_ID` (the number the bot answers when you send `/start`) in `.env`. Empty = Telegram notifications off. That token is a secret, like a password.
++9. (Optional) For Telegram alerts, fill in `TELEGRAM_BOT_TOKEN` (the token from @BotFather) and `TELEGRAM_CHAT_ID` (the number the bot answers when you send `/start`) in `.env`. Empty = Telegram notifications off. That token is a secret, like a password. Since Module 25, the same bot also sends the daily CSV report every morning; its time is set by `REPORT_SCHEDULE` in `.env` (a 5-field cron in WIB, default `0 7 * * *` = 07:00 WIB). Leave the line `# TELEGRAM_API_ROOT=` in `.env.example` commented out: it is only used for a mock Bot API server in the lab.
+ 10. Run `npm run dev`, then open the documentation at `http://127.0.0.1:8080/docs`. To try the routes with a padlock there, log in first with **Try it out** on `POST /auth/login`; the browser keeps the cookie and sends it by itself to the other routes (the **Authorize** button isn't used).
+ 
+ | Command | What it does |
+@@ -46,7 +48,7 @@ Backend v1.1 of the Mini Smart Home project: a Node.js 24 server in light TypeSc
+ | `npm run dev` | runs the server and restarts it every time the code or `.env` is saved |
+ | `npm start` | runs the server without automatic restarts; **Ctrl + C** stops it gracefully (on Windows, `npm run dev` + **Ctrl + C** kills the server at once) |
+ | `npm run check` | checks the TypeScript types, test files included (run it before every commit) |
+-| `npm test` | runs the unit tests with Vitest: the rules engine and the rule schema (`src/rules/*.test.ts`; since Module 24 also below-threshold rules), login (`src/auth/auth.test.ts`), device keys (`src/auth/key.test.ts`, Module 21), the guest book and second layer (`src/services/registry.test.ts`), the registration routes (`src/routes/devices.test.ts`), the delete-rule route with its guard: guest 401, viewer 403, the `DELETE` preflight (`src/routes/rules.test.ts`, Module 24), and a running watering rule: the pump sent once, turning off without a command, a refused command marked `ok: false`, a deleted or deactivated rule no longer acting (`src/services/automation.test.ts`, Module 24) |
++| `npm test` | runs the unit tests with Vitest: the rules engine and the rule schema (`src/rules/*.test.ts`; since Module 24 also below-threshold rules), login (`src/auth/auth.test.ts`), device keys (`src/auth/key.test.ts`, Module 21), the guest book and second layer (`src/services/registry.test.ts`), the registration routes (`src/routes/devices.test.ts`), the delete-rule route with its guard: guest 401, viewer 403, the `DELETE` preflight (`src/routes/rules.test.ts`, Module 24), and a running watering rule: the pump sent once, turning off without a command, a refused command marked `ok: false`, a deleted or deactivated rule no longer acting (`src/services/automation.test.ts`, Module 24), then (Module 25) the map point: the location schema and the `PUT /devices/:id/location` route with its guard (`src/routes/location.test.ts`), the CSV maker (`src/services/csv.test.ts`), the daily report: yesterday's WIB range, the CSV content, Telegram off or refusing, a late WIB schedule still reporting the right day, a missed schedule only reported (`src/services/reports.test.ts`), the `POST /reports/send` route (`src/routes/reports.test.ts`), a report file sent with its name and the 📴/✅ messages after 60 seconds (`src/services/telegram.test.ts`), a retained `online` status after a broker restart (`src/services/mqtt.test.ts`), and the `REPORT_SCHEDULE` setting (`src/config/env.test.ts`) |
+ | `npm run migrate` | runs the new SQL files in the `migrations/` folder (safe to repeat) |
+ | `npm run seed-history` | fills in 7 days of practice data for the practice devices `f00d00000001` and `f00d00000002` |
+ | `npm run users -- add <email> "<name>" <admin\|viewer>` | creates an account; the password is asked for and only shows up as `*` (at least 15 characters, at most 72 bytes) |
+@@ -71,7 +73,7 @@ docker exec smarthome-db psql -U postgres -d smarthome -f /tmp/load-1-million.sq
+ - **Roles**: `admin` may do everything; `viewer` only `GET`/`HEAD` (anything else gets `403`).
+ - **Rate limit**: at most 10 `POST /auth/login` attempts per minute from the same IP address; the 11th attempt gets `429` with a `retry-after` header. The counts live in memory: a server restart = starting from zero.
+ - **CORS and the page's origin**: web pages in `CORS_ORIGIN` (`.env`, default `http://localhost:5173,http://127.0.0.1:5173` for Module 22) may call the API from a browser with cookies. Requests other than `GET`/`HEAD` that carry an `Origin` header from another page are refused with `403`; curl, Bruno, and Node don't send `Origin`, so they aren't affected.
+-- **Bruno**: the `bruno/` collection has the requests `login admin`, `login viewer`, `wrong login`, `who am i`, `refresh`, and `logout`, plus (Module 21) `register Node 1`, `register Node 2 via Node 1`, `register practice device`, `rotate practice device key`, and `revoke practice device key`, and (Module 24) `create soil watering rule` and `delete rule` (replace the number in the `delete rule` address with the `id` from the `create soil watering rule` answer; it defaults to `4`, the first rule number after the three Module 19 rules). Their passwords are read from `bruno/.env` (not in Git) holding `ADMIN_PASSWORD=…` and `VIEWER_PASSWORD=…`. Send `login admin` or `login viewer` first; the other requests use its cookie automatically.
++- **Bruno**: the `bruno/` collection has the requests `login admin`, `login viewer`, `wrong login`, `who am i`, `refresh`, and `logout`, plus (Module 21) `register Node 1`, `register Node 2 via Node 1`, `register practice device`, `rotate practice device key`, and `revoke practice device key`, and (Module 24) `create soil watering rule` and `delete rule` (replace the number in the `delete rule` address with the `id` from the `create soil watering rule` answer; it defaults to `4`, the first rule number after the three Module 19 rules), plus (Module 25) `register mock Garden` (fake Node 2 `f00d000000b2` via `f00d00000001`, for the path without a Node 2; see `tools/README.md`), `set device location`, and `send report now` (`?day=today`). Their passwords are read from `bruno/.env` (not in Git) holding `ADMIN_PASSWORD=…` and `VIEWER_PASSWORD=…`. Send `login admin` or `login viewer` first; the other requests use its cookie automatically.
+ 
+ ## API
+ 
+@@ -82,10 +84,11 @@ docker exec smarthome-db psql -U postgres -d smarthome -f /tmp/load-1-million.sq
+ | `POST /auth/logout` | open | deletes the session and both cookies; always `{"message":"logged out"}` |
+ | `GET /auth/me` | login | the account that is logged in (read from the database) |
+ | `GET /health` | open | is the server alive? connected to the broker and the database? how many messages were `received`, `rejected` (failed the contract), and `ignored` (from unregistered/revoked devices, Module 21)? |
+-| `GET /devices` | login | the devices from the database: the registered ones, the revoked ones, and old rows that aren't registered; the `key` column marks `active`/`revoked`/`no-key`/`unregistered` (the key fingerprint is never included) |
++| `GET /devices` | login | the devices from the database: the registered ones, the revoked ones, and old rows that aren't registered; the `key` column marks `active`/`revoked`/`no-key`/`unregistered` (the key fingerprint is never included); since Module 25 also the map point `lat`/`lng` (`null` = not set yet) |
+ | `POST /devices` | admin | register a device (Module 21): the answer carries the 43-character `key` **shown only this once** and the next `steps`; `linked_via` for an ESP-NOW device (Node 2) whose data Node 1 publishes (no key) |
+ | `POST /devices/:id/key` | admin | make a new key (the old key stops working at once); also brings a revoked device back to life |
+ | `POST /devices/:id/revoke` | admin | revoke the key of a lost or stolen device: the backend ignores its data at once, commands to it are answered 409 |
++| `PUT /devices/:id/location` | admin | sets the device's point on the map (Module 25): `{ "lat": -6.1754, "lng": 106.8272 }` with a decimal **point**; `{ "lat": null, "lng": null }` removes the point. The answer is one device row as in `GET /devices`; the `location` text doesn't change |
+ | `GET /devices/:id/latest` | login | the latest `telemetry` reading of one device |
+ | `GET /devices/:id/vitals` | login | the last health report of one device |
+ | `GET /devices/:id/readings?from=…&to=…` | login | the raw reading history from the database (default: the last hour; at most 1,000 readings) |
+@@ -97,6 +100,7 @@ docker exec smarthome-db psql -U postgres -d smarthome -f /tmp/load-1-million.sq
+ | `PUT /rules/:id` | admin | replaces the whole content of one rule; it applies right away without restarting the server, and the threshold of a fan rule is sent to the device as a retained `config` |
+ | `DELETE /rules/:id` | admin | deletes one rule (Module 24); it stops applying right away, and the answer is `{ id, name, message }`. Its desired state is forgotten too, so a device that restarts doesn't receive that rule's command again; an actuator it turned on is left as it is. Its command and event history stays (its `rule_id` column becomes empty). To keep a rule without running it, use `PUT` with `"active": false` |
+ | `POST /rules/:id/run` | admin | runs the action of one schedule rule right now (to test it, without waiting for its time) |
++| `POST /reports/send` | admin | sends the daily CSV report to Telegram right now (Module 25), with the same content as the scheduled report (yesterday 00:00–24:00 WIB); `?day=today` = today's partial report since 00:00 WIB. The answer is `{ file, from, to, devices, size_bytes, caption }` |
+ 
+ "login" = any account that is logged in (`admin` or `viewer`). Live data is available through **Socket.IO** at the same address (`/socket.io/`), also with the `access` cookie: send `follow` with a `device_id` (its answer carries the last reading) to receive that device's `telemetry` events; the `status` and `event` events go to every client. Without the cookie, the connection is refused (`connect_error` `not logged in`); when the wristband expires, the server cuts the connection and the client must refresh, then connect again. An example client: `tools/live-terminal.js` (its account is read from `tools/.env`).
+ 
+@@ -124,6 +128,47 @@ With `bucket`, the answer has the shape `{ device_id, from, to, bucket, count, s
+ 
+ The Bruno collection for every route is in the `bruno/` folder (choose the `local` environment).
+ 
++## Map and daily report (Module 25)
++
++**Map point.** The `lat` (latitude) and `lng` (longitude) columns have been in the `devices` table since migration `001`; since v1.2 both come with `GET /devices`, so the dashboard's Map page can draw every device. The point is set by the admin with `PUT /devices/:id/location` (Bruno: `set device location`):
++
++```json
++{ "lat": -6.1754, "lng": 106.8272 }
++```
++
++The numbers are decimal degrees with a **point**, because JSON has no decimal comma. `lat` −90 to 90 (Jakarta about −6.2) and `lng` −180 to 180 (Jakarta about 106.8), both filled in as a pair; `{ "lat": null, "lng": null }` removes the point. Other fields are refused, so the `location` text ("living room") doesn't change. The possible answers:
++
++| Code | Example `message` |
++| :--- | :--- |
++| `200` | one device row, the same as `GET /devices`, with its new point |
++| `400` | `body/lat must be a number with a decimal point, for example -6.1754 (not the text "-6,1754")`, `body/lat latitude at most 90`, `body/lng lat and lng go in pairs: both numbers, or both null to remove the point`; `{"lat": -6,2}` without quotes isn't even JSON: `Body is not valid JSON but content-type is set to 'application/json'` |
++| `403` | a `viewer` account (the Module 20 guard) |
++| `404` | `f00d0000ffff isn't in the device list` |
++
++A home's point is personal data: the backend log only records `map point of <device_id> set by account 1`, without the numbers. For examples and screenshots, use a fictional point in a public place (the example above: around Monas, Jakarta).
++
++**Daily CSV report.** Every day at `REPORT_SCHEDULE` (default `0 7 * * *` = 07:00 WIB; a **5**-field cron, always counted in WIB whatever the laptop's time zone), the backend summarizes **yesterday 00:00–24:00 WIB** for every registered device whose key isn't revoked, then the Module 19 Telegram bot sends it to the owner's chat as the file `report-YYYY-MM-DD.csv` (date = the day reported) with the caption `📊 Mini Smart Home daily report 26 Oct 2026: 3 device(s)`. Everything is counted in one SQL query (`src/services/reports.ts`):
++
++| Column | What it holds | Source |
++| :--- | :--- | :--- |
++| `device_id`, `name`, `kind` | the device (`name` empty → `device_id`) | `devices` |
++| `reading_count` | the number of `telemetry` messages that day (Node 1 about 8,640, Node 2 about 288; 0 = silent all day) | `readings_hourly` |
++| `avg_temp`, `min_temp`, `max_temp`, `avg_humidity`, `avg_soil`, `min_soil` | the daily summary (an exact average from the hourly averages × the number of values, like `bucket=1d`) | `readings_hourly` |
++| `avg_rssi`, `worst_rssi`, `min_heap`, `restarts` | health from `vitals`; `restarts` = how many times `uptime_s` dropped. Empty for Node 2 (it doesn't send `vitals`) | `device_health` |
++| `disconnects` | how many times its status became `offline`/`offline-mode` | `events` |
++
++The format is the same as the dashboard's Module 23 CSV download (`src/services/csv.ts`): a comma separator, a decimal point, a BOM at the start of the file, CRLF at the end of every line; it's set up for Excel or LibreOffice Calc with English regional settings. The file is sent as a `Buffer` (`new InputFile(Buffer.from(content, "utf8"), name)`): `new InputFile("text…")` is taken as a file path by grammY and fails (`ENOENT`).
++
++To test it without waiting for its time, send `POST /reports/send` (Bruno: `send report now`). Without a choice, its content is the same yesterday's report; `?day=today` sends today's partial report since 00:00 WIB (the file `report-YYYY-MM-DD-partial.csv`), useful when your system has only been on since today. If `TELEGRAM_BOT_TOKEN` or `TELEGRAM_CHAT_ID` is empty, this route answers `409 {"message":"report not sent: Telegram off (TELEGRAM_BOT_TOKEN is empty)"}` and the scheduled report only writes `daily report skipped: Telegram off (…)` to the log; Telegram refusing or unreachable = `502`, the database down = `503`.
++
++An example of the backend log when the scheduled report runs (test schedule `20 21 * * *`, then set back to `0 7 * * *`):
++
++```text
++INFO: daily report scheduled: "20 21 * * *" Asia/Jakarta, next 26 Oct 2026, 21:20 WIB
++INFO: daily report running on schedule
++INFO: Telegram sent: file report-2026-10-25.csv (357 bytes), 📊 Mini Smart Home daily report 25 Oct 2026: 3 device(s)
++```
++
+ ## Device and broker security (Module 21)
+ 
+ Up to Module 20, the backend created a `devices` row automatically for **any** device that sent a message, and anyone who could reach the broker could publish to any topic. Module 21 closes both.
+@@ -199,6 +244,20 @@ SELECT (SELECT count(*) FROM readings) AS readings,
+ 
+ Once it is proven, delete the copy with `docker exec smarthome-db dropdb -U postgres smarthome_restored`.
+ 
++## Version 1.2 notes
++
++Backend 1.2.0 was made in Module 25 so that dashboard 1.1 can draw the device map and so that the daily report arrives by itself through Telegram.
++
++- **`lat` and `lng` in `GET /devices`** (`DeviceRow` and `COLUMNS` in `src/db/devices.ts`, the `Device` schema and `present()` in `src/routes/devices.ts`). The other answer shapes don't change; an old client simply ignores these two new fields.
++- **`PUT /devices/:id/location`** (admin): the `LocationBody` schema (Zod: `lat` −90..90, `lng` −180..180, finite numbers, in pairs; `null` + `null` removes the point; other fields refused) and `setDeviceLocation()` in `src/db/devices.ts`. `PUT` has been in the CORS `methods` since Module 19, so the dashboard can call it from a browser without a change to `src/auth/security.ts`.
++- **Daily report**: `src/services/csv.ts` (Module 23's CSV recipe on the server), `src/services/reports.ts` (yesterday's WIB range, the summary query, `makeReportCsv()`, the node-cron schedule `timezone: "Asia/Jakarta"` with `noOverlap` and a missed-schedule recorder like `src/services/schedule.ts`), `sendFile()` and `telegramOffReason()` in `src/services/telegram.ts` (the same bot, `sendDocument`), `REPORT_SCHEDULE` in `src/config/env.ts` (a 5-field cron; 6 fields are refused because they mean something else), and the `POST /reports/send` route (`src/routes/reports.ts`). The report schedule stops neatly too through `stopSchedules()` (`cron.shutdown()`).
++- **`.env.example`**: `REPORT_SCHEDULE=0 7 * * *` and the commented-out line `# TELEGRAM_API_ROOT=` (a setting that has existed since Module 19 but was never written down).
++- **No database migration and no new npm package**: `lat`/`lng` have existed since migration `001`, node-cron 4.6.0 and grammY 1.46.0 have been used since Module 19. The data contract stays **1.4**; the firmware doesn't change.
++- **Downgrading**: a 1.1 backend that receives the same database keeps running (the map points are stored in columns that already existed); only the report and its new routes are gone.
++- **Fix: a false 📴 after a broker restart** (`src/services/mqtt.ts`). When the broker stops, every device's `offline` will is published and the backend starts waiting 60 seconds before sending 📴. If the device connects again BEFORE the backend, its `online` message arrives as a retained message, and v1.1 ignored retained messages for Telegram: a false 📴 was sent a minute later, and the next 📴 for that device never came until the backend restarted. Since v1.2, a retained `online` also cancels a 📴 that is waiting (two lines, tested by `src/services/mqtt.test.ts`).
++- **The report schedule uses its scheduled time**: a schedule that only runs a few minutes later (for example `REPORT_SCHEDULE=50 23 * * *` and a laptop that only wakes up at 00:01) still reports the day before that scheduled time, not the day that has just ended.
++- Version `1.2.0` in `package.json` and in `/docs`.
++
+ ## Version 1.1 notes
+ 
+ Backend 1.1.0 was made in Module 24 so that dashboard v1.0 can create the rule "water if soil < 30%" and delete rules.
+@@ -214,13 +273,15 @@ Backend 1.1.0 was made in Module 24 so that dashboard v1.0 can create the rule "
+ - **Downgrading**: a v1.0 backend that reads a rule of the new shape doesn't crash; that rule is skipped with the warning `rule N skipped: …` (see `loadRules()`), and the other rules keep running. A skipped rule is NOT shown by `GET /rules` in v1.0 either (the dashboard seems to lose it); its data stays whole in the database and shows again once you move up to 1.1. Don't save that rule number through a v1.0 `PUT`: its content would be overwritten with a v1.0 shape.
+ - Version `1.1.0` in `package.json` and in `/docs`.
+ 
+-## Limits of v1.1
++## Limits of v1.2
+ 
+ - `GET /devices/:id/latest`, `vitals`, and `state` are still read from memory, so they are empty again after every server restart. The desired state (`desired`) and the "for" count of every rule are also lost when the server restarts; the reading history, the commands, the rules, the events, the accounts, and the sessions are stored permanently in the database.
+ - Readings that arrive while the database can't be reached aren't stored.
+ - Raw readings are only kept for 90 days; for older times, only their hourly summaries remain.
+ - The days of the `1d` summary are WIB days (`Asia/Jakarta`), also for devices in WITA or WIT. Rule schedules are counted in WIB too.
+ - Rules and schedules only run while the backend is running. A schedule that is more than 15 minutes late (for example a laptop asleep at 06:00) isn't run afterwards, only recorded; if the backend is off at that time, nothing is recorded. When the broker can't be reached, Node 1 runs its own fan safety with the threshold from `config`.
++- **The daily report is also only sent while the backend is on** (Module 25). A laptop that sleeps more than 15 minutes past `REPORT_SCHEDULE` doesn't send it afterwards: the log and Telegram only record `⏰ The daily report of … was missed`; send it by hand with `POST /reports/send`. If the backend is off at that time, nothing is recorded at all. A server that is always on follows in Modules 26–27. The report is only sent to one chat (`TELEGRAM_CHAT_ID`), and the first day's report (no data yesterday yet) is really empty: use `?day=today`. A broker restart counts as one disconnect (`disconnects`) for every Node 1 connected at that moment: its `offline` will really is published.
++- **`devices.last_seen` isn't "the last data"**: this column is moved forward by EVERY message of a registered device, `status` messages included (the broker's `offline` will, Node 2's status published by Node 1, and retained statuses the broker sends again when the backend starts). For "when did the device last send data" (for example the "silent node" alert in Grafana, Module 25), use `readings.received_at` of its latest reading. This column's behavior is deliberately not changed in v1.2.
+ - Changes made to the rules directly in the database (for example through DBeaver) are only read when the server restarts or when another rule is changed through the API; use the `/rules` API.
+ - A rule with a `command` action (for example the pump, once) only acts when the rule changes state. Because its count is lost when the server restarts or the rule is changed, its command is sent once more if its condition still holds after that.
+ - Deactivating or deleting a fan rule does **not** withdraw the retained `temp_fan_on` `config` already sent: Node 1 keeps using that last number as its local safety rule while the broker can't be reached.
+diff --git b/backend/bruno/register mock Garden.yml b/backend/bruno/register mock Garden.yml
+new file mode 100644
+index 0000000..aca8a17
+--- /dev/null
++++ b/backend/bruno/register mock Garden.yml	
+@@ -0,0 +1,31 @@
++info:
++  name: register mock Garden
++  type: http
++  seq: 26
++
++http:
++  method: POST
++  url: "{{baseUrl}}/devices"
++  body:
++    type: json
++    data: |-
++      {
++        "device_id": "f00d000000b2",
++        "name": "Garden (mock)",
++        "location": "garden",
++        "linked_via": "f00d00000001"
++      }
++  auth: inherit
++
++runtime:
++  assertions:
++    - expression: res.status
++      operator: eq
++      value: "201"
++
++settings:
++  encodeUrl: true
++  timeout: 0
++  followRedirects: true
++  maxRedirects: 5
++  forwardAuthorizationHeader: true
+diff --git b/backend/bruno/send report now.yml b/backend/bruno/send report now.yml
+new file mode 100644
+index 0000000..00fd282
+--- /dev/null
++++ b/backend/bruno/send report now.yml	
+@@ -0,0 +1,26 @@
++info:
++  name: send report now
++  type: http
++  seq: 28
++
++http:
++  method: POST
++  url: "{{baseUrl}}/reports/send?day=today"
++  params:
++    - name: day
++      value: today
++      type: query
++  auth: inherit
++
++runtime:
++  assertions:
++    - expression: res.status
++      operator: eq
++      value: "200"
++
++settings:
++  encodeUrl: true
++  timeout: 0
++  followRedirects: true
++  maxRedirects: 5
++  forwardAuthorizationHeader: true
+diff --git b/backend/bruno/set device location.yml b/backend/bruno/set device location.yml
+new file mode 100644
+index 0000000..be3d98a
+--- /dev/null
++++ b/backend/bruno/set device location.yml	
+@@ -0,0 +1,29 @@
++info:
++  name: set device location
++  type: http
++  seq: 27
++
++http:
++  method: PUT
++  url: "{{baseUrl}}/devices/a4cf12e5b7c0/location"
++  body:
++    type: json
++    data: |-
++      {
++        "lat": -6.1754,
++        "lng": 106.8272
++      }
++  auth: inherit
++
++runtime:
++  assertions:
++    - expression: res.status
++      operator: eq
++      value: "200"
++
++settings:
++  encodeUrl: true
++  timeout: 0
++  followRedirects: true
++  maxRedirects: 5
++  forwardAuthorizationHeader: true
+diff --git a/backend/package-lock.json b/backend/package-lock.json
+index dd2cffc..624d648 100644
+--- a/backend/package-lock.json
++++ b/backend/package-lock.json
+@@ -1,12 +1,12 @@
+ {
+   "name": "mini-smart-home-backend",
+-  "version": "1.1.0",
++  "version": "1.2.0",
+   "lockfileVersion": 3,
+   "requires": true,
+   "packages": {
+     "": {
+       "name": "mini-smart-home-backend",
+-      "version": "1.1.0",
++      "version": "1.2.0",
+       "dependencies": {
+         "@fastify/cookie": "^11.1.3",
+         "@fastify/cors": "^11.3.1",
+diff --git a/backend/package.json b/backend/package.json
+index a074b79..f597926 100644
+--- a/backend/package.json
++++ b/backend/package.json
+@@ -1,6 +1,6 @@
+ {
+   "name": "mini-smart-home-backend",
+-  "version": "1.1.0",
++  "version": "1.2.0",
+   "description": "Mini Smart Home backend (Modules 16-21): listens to MQTT, checks the data contract, stores every message in a time-series database, and provides a history API, realtime data, commands, automation rules, schedules, and Telegram notifications, login with admin and viewer roles, plus an official device registry with a per-device key and the backend's own broker account",
+   "private": true,
+   "type": "module",
+diff --git b/backend/src/config/env.test.ts b/backend/src/config/env.test.ts
+new file mode 100644
+index 0000000..c660e19
+--- /dev/null
++++ b/backend/src/config/env.test.ts
+@@ -0,0 +1,35 @@
++// env.test.ts - tests for the REPORT_SCHEDULE setting (Module 25) in env.ts. env.ts checks process.env ONCE when it is imported, so
++// every test imports it again (vi.resetModules) with different fake .env contents. Run: npm test
++import { afterEach, describe, expect, it, vi } from "vitest";
++
++const VALID = { // valid required settings (nothing is really contacted)
++  MQTT_URL: "mqtt://127.0.0.1:1",
++  DATABASE_URL: "postgres://fake:fake@127.0.0.1:1/fake",
++  JWT_SECRET: "test-secret-long-enough-for-zod-0123456789",
++};
++
++async function readSettings(schedule: string) {
++  vi.resetModules();
++  for (const [name, value] of Object.entries({ ...VALID, REPORT_SCHEDULE: schedule })) vi.stubEnv(name, value);
++  return (await import("./env.ts")).env;
++}
++
++afterEach(() => {
++  vi.unstubAllEnvs();
++  vi.restoreAllMocks();
++});
++
++describe("REPORT_SCHEDULE in .env", () => {
++  it("empty = the default 0 7 * * * (every day 07:00 WIB); any other 5-field cron is taken as it is", async () => {
++    expect((await readSettings("")).REPORT_SCHEDULE).toBe("0 7 * * *");
++    expect((await readSettings("30 6 * * 1-5")).REPORT_SCHEDULE).toBe("30 6 * * 1-5");
++  });
++
++  it("a 6-field cron (0 7 * * * *) is refused with its reason, and the server stops", async () => {
++    const consoleError = vi.spyOn(console, "error").mockImplementation(() => {});
++    vi.spyOn(process, "exit").mockImplementation(() => { throw new Error("process.exit"); });
++    await expect(readSettings("0 7 * * * *")).rejects.toThrow("process.exit");
++    expect(consoleError).toHaveBeenCalledWith(
++      "Setting REPORT_SCHEDULE in .env: must have 5 fields: minute hour day month weekday, for example 0 7 * * *");
++  });
++});
+diff --git a/backend/src/config/env.ts b/backend/src/config/env.ts
+index cefa01e..680c2be 100644
+--- a/backend/src/config/env.ts
++++ b/backend/src/config/env.ts
+@@ -1,6 +1,7 @@
+ // env.ts - the server settings from .env (read by Node.js through --env-file), checked once by a Zod schema at startup.
+ // Module 20: .env now also holds a secret (JWT_SECRET), so it is checked as strictly as the messages from devices.
+ import { z } from "zod";
++import cron from "node-cron";
+ 
+ z.config(z.locales.en()); // Zod error messages in English (this file is read first, before contract.ts)
+ 
+@@ -24,6 +25,12 @@ const Settings = z.object({
+   TELEGRAM_BOT_TOKEN: z.string().default(""), // the token from @BotFather: a secret, like a password
+   TELEGRAM_CHAT_ID: z.string().default(""), // the owner's chat_id (the answer to /start)
+   TELEGRAM_API_ROOT: z.string().default(""), // empty = the real Telegram server (lab: a mock Bot API server)
++  // Module 25: when the daily CSV report is sent to Telegram, a 5-field cron (minute hour day month weekday) in WIB.
++  // The default "0 7 * * *" = every day at 07:00 WIB. A 6-field cron ("0 7 * * * *") is also valid for node-cron, but it
++  // means something else (second 0, minute 7, EVERY hour), so it is refused here.
++  REPORT_SCHEDULE: z.preprocess(empty, z.string().default("0 7 * * *")
++    .refine((text) => text.trim().split(/\s+/).length === 5, "must have 5 fields: minute hour day month weekday, for example 0 7 * * *")
++    .refine((text) => cron.validate(text), "not a valid cron expression, for example 0 7 * * * (every day at 07:00 WIB)")),
+   // Module 20: the key that signs the JWTs. Anyone who knows this key can make fake "wristbands".
+   JWT_SECRET: z.preprocess(empty, z.string({ error: "not filled in" })
+     .min(32, "too short (at least 32 characters); make a new one with the command in .env.example")
+diff --git a/backend/src/db/devices.ts b/backend/src/db/devices.ts
+index 4fbf862..a25254a 100644
+--- a/backend/src/db/devices.ts
++++ b/backend/src/db/devices.ts
+@@ -1,5 +1,6 @@
+ // devices.ts - the official device registry in the devices table (Module 21, migration 010): registration by an admin, key
+ // rotation, revocation. The key fingerprint (key_hash) is ONLY WRITTEN from this file; the device list never reads it.
++// Module 25: the device list also carries the map point (lat, lng), and an admin can move that point (setDeviceLocation).
+ import { pool } from "./pool.ts";
+ 
+ // one row of the device registry as GET /devices shows it (without the key fingerprint)
+@@ -8,6 +9,8 @@ export interface DeviceRow {
+   kind: "node1" | "node2" | "unknown";
+   name: string | null;
+   location: string | null;
++  lat: number | null; // Module 25: latitude of the point on the map, decimal degrees; null = not set yet
++  lng: number | null; // Module 25: longitude; the column has existed since migration 001, but it's only read from now on
+   status: string;
+   last_seen: Date | null;
+   registered_at: Date | null;
+@@ -16,7 +19,7 @@ export interface DeviceRow {
+   linked_via: string | null;
+ }
+ 
+-const COLUMNS = "device_id, kind, name, location, status, last_seen, registered_at, key_created_at, revoked_at, linked_via";
++const COLUMNS = "device_id, kind, name, location, lat, lng, status, last_seen, registered_at, key_created_at, revoked_at, linked_via";
+ 
+ export async function allDevicesDb(): Promise<DeviceRow[]> {
+   const result = await pool.query<DeviceRow>(`SELECT ${COLUMNS} FROM devices ORDER BY device_id`);
+@@ -64,3 +67,13 @@ export async function revokeDevice(deviceId: string): Promise<DeviceRow | undefi
+   );
+   return result.rows[0];
+ }
++
++// Module 25: move a device's point on the map. lat and lng are always written as a pair; null and null = the point is removed.
++// The location text ("living room") is not changed. The result is undefined if that device_id isn't in the devices table.
++export async function setDeviceLocation(deviceId: string, lat: number | null, lng: number | null): Promise<DeviceRow | undefined> {
++  const result = await pool.query<DeviceRow>(
++    `UPDATE devices SET lat = $2, lng = $3 WHERE device_id = $1 RETURNING ${COLUMNS}`,
++    [deviceId, lat, lng],
++  );
++  return result.rows[0];
++}
+diff --git a/backend/src/routes/devices.test.ts b/backend/src/routes/devices.test.ts
+index 92ae6ac..e88ee9a 100644
+--- a/backend/src/routes/devices.test.ts
++++ b/backend/src/routes/devices.test.ts
+@@ -14,8 +14,8 @@ vi.hoisted(() => { // env.ts checks .env when imported: give it valid fake setti
+ // the fake devices table: device_id -> row (including key_hash, which the real database also has)
+ const table = vi.hoisted(() => new Map<string, Record<string, unknown>>());
+ vi.mock("../db/devices.ts", () => {
+-  const EMPTY = { kind: "unknown", name: null, location: null, status: "unknown", last_seen: null,
+-    registered_at: null, key_hash: null, key_created_at: null, revoked_at: null, linked_via: null };
++  const EMPTY = { kind: "unknown", name: null, location: null, lat: null, lng: null, status: "unknown",
++    last_seen: null, registered_at: null, key_hash: null, key_created_at: null, revoked_at: null, linked_via: null };
+   const withoutHash = (r: Record<string, unknown>) => { const { key_hash: _, ...rest } = r; return rest; };
+   return {
+     allDevicesDb: async () => [...table.values()].map(withoutHash),
+@@ -65,8 +65,9 @@ const post = (url: string, body?: object): Promise<LightMyRequestResponse> =>
+ 
+ beforeAll(() => {
+   // one old row from Modules 17-20 (auto-created, not registered), then the in-memory registry is loaded as when the server starts
+-  table.set("a4cf12e5b7c0", { device_id: "a4cf12e5b7c0", kind: "node1", name: null, location: null, status: "online",
+-    last_seen: new Date(), registered_at: null, key_hash: null, key_created_at: null, revoked_at: null, linked_via: null });
++  table.set("a4cf12e5b7c0", { device_id: "a4cf12e5b7c0", kind: "node1", name: null, location: null, lat: null, lng: null,
++    status: "online", last_seen: new Date(), registered_at: null, key_hash: null, key_created_at: null, revoked_at: null,
++    linked_via: null });
+   loadRegistry([...table.values()] as never);
+ });
+ afterAll(() => app.close());
+@@ -78,7 +79,9 @@ describe("official device registry", () => {
+     expect(devicePermission("a4cf12e5b7c0")).toBe("unregistered");
+     const answer = await app.inject({ method: "GET", url: "/devices" });
+     expect(answer.statusCode).toBe(200);
+-    expect(answer.json()[0]).toMatchObject({ device_id: "a4cf12e5b7c0", key: "unregistered", registered_at: null });
++    // Module 25: the map point shows too; null = not set yet
++    expect(answer.json()[0]).toMatchObject({ device_id: "a4cf12e5b7c0", key: "unregistered", registered_at: null, lat: null,
++      lng: null });
+   });
+ 
+   it("POST /devices: 201, the 43-character key is shown ONCE, the database stores only its SHA-256", async () => {
+diff --git a/backend/src/routes/devices.ts b/backend/src/routes/devices.ts
+index 302bc3b..28620c0 100644
+--- a/backend/src/routes/devices.ts
++++ b/backend/src/routes/devices.ts
+@@ -1,11 +1,12 @@
+ // devices.ts - the /devices routes: the device list, the latest reading, the history from the database (raw or summarized),
+ // commands, and the actuator state (desired/reported, Module 19). Module 21: the official device registry (registration, key
+-// rotation, revoke); GET /devices is now read from the database.
++// rotation, revoke); GET /devices is now read from the database. Module 25: GET /devices carries the map point (lat, lng), and
++// the admin moves that point with PUT /devices/:id/location.
+ import { z } from "zod";
+ import type { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
+ import { Ack, DeviceId, State, SetCommand, Status, TelemetryNode1, TelemetryNode2, Vitals } from "../schemas/contract.ts";
+ import { findDevice } from "../services/store.ts";
+-import { revokeDevice, registerDevice, rotateDeviceKey, allDevicesDb } from "../db/devices.ts";
++import { revokeDevice, registerDevice, rotateDeviceKey, allDevicesDb, setDeviceLocation } from "../db/devices.ts";
+ import type { DeviceRow } from "../db/devices.ts";
+ import { makeKey, hashKey } from "../auth/key.ts";
+ import { recordRevoked, recordRegistered, devicePermission } from "../services/registry.ts";
+@@ -74,6 +75,8 @@ const Device = z.object({
+   device_id: z.string(),
+   name: z.string().nullable(),
+   location: z.string().nullable(),
++  lat: z.number().nullable().describe("Module 25: latitude of the device's point on the map (decimal degrees); null = not set yet"),
++  lng: z.number().nullable().describe("Module 25: longitude of the device's point on the map (decimal degrees); null = not set yet"),
+   kind: Kind,
+   status: z.string().describe("online, offline, offline-mode, or unknown (the last MQTT status)"),
+   last_seen: z.string().nullable().describe("server time when this device's last message arrived"),
+@@ -91,6 +94,22 @@ const Registration = z.strictObject({
+   linked_via: DeviceId.optional()
+     .describe("only for an ESP-NOW device (Node 2): the device_id of the Node 1 that publishes its data; this device gets no key"),
+ });
++// Module 25: the body of PUT /devices/:id/location. Numbers with a decimal POINT (JSON has no decimal comma): "-6,2" is text,
++// so it is refused with 400. The range is the same as the CHECK in migration 001. Zod 4's z.number() also refuses NaN and Infinity.
++// strictObject: other fields (for example the "location" text) are refused with 400; this route ONLY moves the point on the map.
++const decimalNumber = (example: string) => z.number({ // error message: field missing, NaN/Infinity, or text
++  error: (issue) => issue.input === undefined ? "required: a number, or null to remove the point"
++    : typeof issue.input === "number" ? "must be a finite number (not NaN or Infinity)"
++      : `must be a number with a decimal point, for example ${example} (not the text "${example.replace(".", ",")}")`,
++});
++export const LocationBody = z.strictObject({
++  lat: decimalNumber("-6.1754").min(-90, "latitude at least -90").max(90, "latitude at most 90").nullable()
++    .describe("latitude in decimal degrees, -90 to 90; Jakarta is about -6.2. null = remove the point"),
++  lng: decimalNumber("106.8272").min(-180, "longitude at least -180").max(180, "longitude at most 180").nullable()
++    .describe("longitude in decimal degrees, -180 to 180; Jakarta is about 106.8. null = remove the point"),
++}).refine((l) => (l.lat === null) === (l.lng === null), { // half a point can't be drawn on the map
++  message: "lat and lng go in pairs: both numbers, or both null to remove the point", path: ["lng"],
++});
+ const NewKey = z.object({
+   device_id: z.string(),
+   key: z.string().nullable().describe("43 characters; shown ONLY this once. null for an ESP-NOW device"),
+@@ -105,7 +124,7 @@ function present(r: DeviceRow) {
+     : r.revoked_at !== null ? "revoked" as const
+       : r.linked_via !== null ? "no-key" as const : "active" as const;
+   return {
+-    device_id: r.device_id, name: r.name, location: r.location, kind: r.kind, status: r.status,
++    device_id: r.device_id, name: r.name, location: r.location, lat: r.lat, lng: r.lng, kind: r.kind, status: r.status,
+     last_seen: iso(r.last_seen), key, registered_at: iso(r.registered_at), key_created_at: iso(r.key_created_at),
+     revoked_at: iso(r.revoked_at), linked_via: r.linked_via,
+   };
+@@ -238,6 +257,35 @@ export const deviceRoutes: FastifyPluginAsyncZod = async (app) => {
+     }
+   });
+ 
++  // ---- Module 25: the device's point on the map (admin only: the guard refuses viewers for PUT, like POST above) ----
++
++  app.put("/devices/:id/location", {
++    schema: {
++      tags: ["devices"],
++      summary: "Set the device's point on the map: { lat, lng } with a decimal point; { lat: null, lng: null } removes the point",
++      params: IdParam,
++      body: LocationBody,
++      response: {
++        200: Device.describe("the device with its new point (the same shape as one row of GET /devices)"),
++        404: ErrorBody.describe("that device_id isn't in the device list"),
++        503: ErrorBody.describe("the database can't be reached right now"),
++      },
++    },
++  }, async (req, reply) => {
++    const id = req.params.id;
++    const { lat, lng } = req.body;
++    try {
++      const row = await setDeviceLocation(id, lat, lng);
++      if (row === undefined) return reply.code(404).send({ message: `${id} isn't in the device list` });
++      // the coordinates are deliberately NOT written to the log: a home's point is personal data
++      req.log.info(`map point of ${id} ${lat === null ? "removed" : "set"} by account ${req.user.sub}`);
++      return present(row);
++    } catch (error) {
++      req.log.error(`location of ${id} couldn't be saved: ${(error as Error).message}`);
++      return reply.code(503).send({ message: DATABASE_DOWN });
++    }
++  });
++
+   app.get("/devices/:id/latest", {
+     schema: {
+       tags: ["devices"],
+diff --git b/backend/src/routes/location.test.ts b/backend/src/routes/location.test.ts
+new file mode 100644
+index 0000000..a832ddb
+--- /dev/null
++++ b/backend/src/routes/location.test.ts
+@@ -0,0 +1,144 @@
++// location.test.ts - tests for the device's point on the map (Module 25) WITHOUT a database: the devices table is replaced by an
++// in-memory fake (vi.mock), the Fastify server runs without a network (app.inject). The first part tests only the LocationBody
++// schema (limits, NaN, decimal comma); the second part tests the PUT /devices/:id/location route with the REAL guard (security.ts),
++// like rules.test.ts: guest 401, viewer 403, admin 200, a device_id that doesn't exist 404. Run: npm test
++import { afterAll, describe, expect, it, vi } from "vitest";
++
++vi.hoisted(() => { // env.ts checks .env when imported: give it valid fake settings (nothing is really contacted)
++  process.env.MQTT_URL = "mqtt://127.0.0.1:1";
++  process.env.DATABASE_URL = "postgres://fake:fake@127.0.0.1:1/fake";
++  process.env.JWT_SECRET = "test-secret-long-enough-for-zod-0123456789";
++  process.env.CORS_ORIGIN = "http://localhost:5173"; // the dashboard page (Vite) that may call the API from a browser
++});
++
++// the fake devices table: one registered device without a map point
++const table = vi.hoisted(() => new Map<string, Record<string, unknown>>([["a4cf12e5b7c0", {
++  device_id: "a4cf12e5b7c0", kind: "node1", name: "Node 1 living room", location: "living room", lat: null, lng: null,
++  status: "online", last_seen: new Date(), registered_at: new Date(), key_created_at: new Date(), revoked_at: null,
++  linked_via: null,
++}]]));
++vi.mock("../db/devices.ts", () => ({
++  allDevicesDb: async () => [...table.values()],
++  setDeviceLocation: async (id: string, lat: number | null, lng: number | null) => { // like UPDATE ... RETURNING
++    const r = table.get(id);
++    if (r === undefined) return undefined;
++    Object.assign(r, { lat, lng });
++    return r;
++  },
++  registerDevice: async () => { throw new Error("not used in this test"); },
++  rotateDeviceKey: async () => { throw new Error("not used in this test"); },
++  revokeDevice: async () => { throw new Error("not used in this test"); },
++}));
++
++import Fastify from "fastify";
++import { serializerCompiler, validatorCompiler } from "fastify-type-provider-zod";
++import { setupSecurity } from "../auth/security.ts";
++import { LocationBody, deviceRoutes } from "./devices.ts";
++
++const app = Fastify();
++app.setValidatorCompiler(validatorCompiler);
++app.setSerializerCompiler(serializerCompiler);
++await setupSecurity(app); // CORS, cookies, JWT, and the same guard as server.ts
++await app.register(deviceRoutes);
++await app.ready();
++afterAll(() => app.close());
++
++// a "wristband" (access JWT) that is valid because it is signed with the test JWT_SECRET above, sent as the access cookie
++const wristband = (role: "admin" | "viewer") => ({ access: app.jwt.sign({ sub: role === "admin" ? "1" : "2", role, sid: 1 }) });
++const put = (id: string, body: unknown, role?: "admin" | "viewer") => app.inject({ method: "PUT", url: `/devices/${id}/location`,
++  ...(typeof body === "string" ? { payload: body, headers: { "content-type": "application/json" } } : { payload: body as object }),
++  ...(role === undefined ? {} : { cookies: wristband(role) }) });
++// a FICTIONAL point in a public place (around Monas, Jakarta), nobody's home
++const MONAS = { lat: -6.1754, lng: 106.8272 };
++
++describe("the LocationBody schema", () => {
++  it("the range limits are accepted: -90, 90, -180, 180; also null + null (remove the point)", () => {
++    for (const body of [{ lat: -90, lng: -180 }, { lat: 90, lng: 180 }, MONAS, { lat: null, lng: null }]) {
++      expect(LocationBody.safeParse(body).success).toBe(true);
++    }
++  });
++
++  it("outside the range is refused with a message that names the limit", () => {
++    const latitude = LocationBody.safeParse({ lat: 90.0001, lng: 0 });
++    expect(latitude.success).toBe(false);
++    expect(latitude.error?.issues[0]).toMatchObject({ path: ["lat"], message: "latitude at most 90" });
++    const longitude = LocationBody.safeParse({ lat: 0, lng: -180.5 });
++    expect(longitude.error?.issues[0]).toMatchObject({ path: ["lng"], message: "longitude at least -180" });
++  });
++
++  it("NaN and Infinity aren't finite numbers: refused", () => {
++    const message = "must be a finite number (not NaN or Infinity)";
++    expect(LocationBody.safeParse({ lat: Number.NaN, lng: 106.8 }).error?.issues[0]).toMatchObject({ path: ["lat"], message });
++    expect(LocationBody.safeParse({ lat: -6.2, lng: Number.POSITIVE_INFINITY }).error?.issues[0])
++      .toMatchObject({ path: ["lng"], message });
++  });
++
++  it("the decimal comma \"-6,2\" is text, not a number: refused with a decimal-point hint", () => {
++    const result = LocationBody.safeParse({ lat: "-6,2", lng: 106.8 });
++    expect(result.error?.issues[0]).toMatchObject({
++      path: ["lat"], message: "must be a number with a decimal point, for example -6.1754 (not the text \"-6,1754\")",
++    });
++  });
++
++  it("half a point, a missing field, and a foreign field (the location text) are refused", () => {
++    expect(LocationBody.safeParse({ lat: -6.2, lng: null }).error?.issues[0]).toMatchObject({ path: ["lng"],
++      message: "lat and lng go in pairs: both numbers, or both null to remove the point" });
++    expect(LocationBody.safeParse({ lat: -6.2 }).error?.issues[0]).toMatchObject({ path: ["lng"],
++      message: "required: a number, or null to remove the point" });
++    expect(LocationBody.safeParse({ ...MONAS, location: "park" }).success).toBe(false);
++  });
++});
++
++describe("PUT /devices/:id/location", () => {
++  it("guest (not logged in): 401, the point doesn't change", async () => {
++    expect((await put("a4cf12e5b7c0", MONAS)).statusCode).toBe(401);
++    expect(table.get("a4cf12e5b7c0")?.lat).toBeNull();
++  });
++
++  it("viewer: may look at GET /devices (200), but moving the point is answered 403", async () => {
++    expect((await app.inject({ method: "GET", url: "/devices", cookies: wristband("viewer") })).statusCode).toBe(200);
++    const answer = await put("a4cf12e5b7c0", MONAS, "viewer");
++    expect(answer.statusCode).toBe(403);
++    expect(answer.json()).toEqual({ message: "viewer accounts can only look; commands and changes are admin-only" });
++    expect(table.get("a4cf12e5b7c0")?.lat).toBeNull();
++  });
++
++  it("admin: 200 with the whole device row, and GET /devices carries the new point at once", async () => {
++    const answer = await put("a4cf12e5b7c0", MONAS, "admin");
++    expect(answer.statusCode).toBe(200);
++    expect(answer.json()).toMatchObject({ device_id: "a4cf12e5b7c0", location: "living room", ...MONAS, key: "active" });
++    const list = (await app.inject({ method: "GET", url: "/devices", cookies: wristband("viewer") })).json();
++    expect(list[0]).toMatchObject(MONAS);
++  });
++
++  it("admin: { lat: null, lng: null } removes the point", async () => {
++    const answer = await put("a4cf12e5b7c0", { lat: null, lng: null }, "admin");
++    expect(answer.statusCode).toBe(200);
++    expect(answer.json()).toMatchObject({ lat: null, lng: null });
++  });
++
++  it("admin: a decimal comma, out of range, and 1e999 (Infinity after JSON.parse) are answered 400", async () => {
++    const comma = await put("a4cf12e5b7c0", { lat: "-6,2", lng: 106.8 }, "admin");
++    expect(comma.statusCode).toBe(400);
++    expect(comma.json().message).toContain("must be a number with a decimal point");
++    expect((await put("a4cf12e5b7c0", { lat: -91, lng: 106.8 }, "admin")).statusCode).toBe(400);
++    const infinite = await put("a4cf12e5b7c0", "{\"lat\": 1e999, \"lng\": 106.8}", "admin");
++    expect(infinite.statusCode).toBe(400);
++    expect(infinite.json().message).toBe("body/lat must be a finite number (not NaN or Infinity)");
++    expect(table.get("a4cf12e5b7c0")?.lat).toBeNull(); // nothing was saved
++  });
++
++  it("a device_id that isn't in the list: 404 with the exact message; an invalid device_id: 400", async () => {
++    const answer = await put("f00d000000ff", MONAS, "admin");
++    expect(answer.statusCode).toBe(404);
++    expect(answer.json()).toEqual({ message: "f00d000000ff isn't in the device list" });
++    expect((await put("NOT-AN-ID", MONAS, "admin")).statusCode).toBe(400);
++  });
++
++  it("a browser on the dashboard (CORS_ORIGIN): the preflight allows PUT", async () => {
++    const preflight = await app.inject({ method: "OPTIONS", url: "/devices/a4cf12e5b7c0/location",
++      headers: { origin: "http://localhost:5173", "access-control-request-method": "PUT" } });
++    expect(preflight.statusCode).toBe(204);
++    expect(preflight.headers["access-control-allow-methods"]).toContain("PUT");
++  });
++});
+diff --git b/backend/src/routes/reports.test.ts b/backend/src/routes/reports.test.ts
+new file mode 100644
+index 0000000..eafc7e8
+--- /dev/null
++++ b/backend/src/routes/reports.test.ts
+@@ -0,0 +1,97 @@
++// reports.test.ts - tests for the POST /reports/send route (Module 25) WITHOUT a database and WITHOUT Telegram: the report service
++// is replaced by a fake (vi.mock), the Fastify server runs without a network (app.inject), and the REAL guard (security.ts) is
++// mounted as in rules.test.ts: guest 401, viewer 403, admin 200. Also the answer codes when Telegram is off (409), refuses (502),
++// and when the database can't be read (503). Run: npm test
++import { afterAll, beforeEach, describe, expect, it, vi } from "vitest";
++
++vi.hoisted(() => { // env.ts checks .env when imported: give it valid fake settings (nothing is really contacted)
++  process.env.MQTT_URL = "mqtt://127.0.0.1:1";
++  process.env.DATABASE_URL = "postgres://fake:fake@127.0.0.1:1/fake";
++  process.env.JWT_SECRET = "test-secret-long-enough-for-zod-0123456789";
++});
++
++// the fake report service: remembers what was asked for, answers according to the "state" each test sets
++const mock = vi.hoisted(() => ({
++  state: "sent" as "sent" | "off" | "refused" | "database-down",
++  requested: [] as boolean[], // the today value of every call
++}));
++vi.mock("../services/reports.ts", () => ({
++  sendReport: async (today: boolean) => {
++    mock.requested.push(today);
++    if (mock.state === "database-down") throw new Error("connect ECONNREFUSED 127.0.0.1:5432");
++    if (mock.state === "off") return { status: "skipped", message: "Telegram off (TELEGRAM_BOT_TOKEN is empty)" };
++    if (mock.state === "refused") {
++      return { status: "failed", message: "Telegram didn't accept report-2026-10-26.csv; see the backend log" };
++    }
++    return today
++      ? { status: "sent", file: "report-2026-10-27-partial.csv", devices: 2, size_bytes: 260, caption: "📊 …",
++        range: { from: new Date("2026-10-26T17:00:00Z"), to: new Date("2026-10-27T03:15:42.123Z"), date: "2026-10-27",
++          today } }
++      : { status: "sent", file: "report-2026-10-26.csv", devices: 3, size_bytes: 398, caption: "📊 …",
++        range: { from: new Date("2026-10-25T17:00:00Z"), to: new Date("2026-10-26T17:00:00Z"), date: "2026-10-26",
++          today } };
++  },
++}));
++
++import Fastify from "fastify";
++import { serializerCompiler, validatorCompiler } from "fastify-type-provider-zod";
++import { setupSecurity } from "../auth/security.ts";
++import { reportRoutes } from "./reports.ts";
++
++const app = Fastify();
++app.setValidatorCompiler(validatorCompiler);
++app.setSerializerCompiler(serializerCompiler);
++await setupSecurity(app); // CORS, cookies, JWT, and the same guard as server.ts
++await app.register(reportRoutes);
++await app.ready();
++afterAll(() => app.close());
++
++// a "wristband" (access JWT) that is valid because it is signed with the test JWT_SECRET above, sent as the access cookie
++const wristband = (role: "admin" | "viewer") => ({ access: app.jwt.sign({ sub: role === "admin" ? "1" : "2", role, sid: 1 }) });
++const send = (url: string, role?: "admin" | "viewer") =>
++  app.inject({ method: "POST", url, ...(role === undefined ? {} : { cookies: wristband(role) }) });
++
++beforeEach(() => {
++  mock.state = "sent";
++  mock.requested = [];
++});
++
++describe("POST /reports/send", () => {
++  it("guest 401 and viewer 403: no report is made at all", async () => {
++    expect((await send("/reports/send")).statusCode).toBe(401);
++    const answer = await send("/reports/send", "viewer");
++    expect(answer.statusCode).toBe(403);
++    expect(answer.json()).toEqual({ message: "viewer accounts can only look; commands and changes are admin-only" });
++    expect(mock.requested).toEqual([]);
++  });
++
++  it("admin without a choice: yesterday's report (the same as the scheduled report), times in UTC", async () => {
++    const answer = await send("/reports/send", "admin");
++    expect(answer.statusCode).toBe(200);
++    expect(answer.json()).toEqual({ file: "report-2026-10-26.csv", from: "2026-10-25T17:00:00Z",
++      to: "2026-10-26T17:00:00Z", devices: 3, size_bytes: 398, caption: "📊 …" });
++    expect(mock.requested).toEqual([false]);
++  });
++
++  it("?day=today: today's partial report; ?day=yesterday is the same as no choice; ?day=tomorrow 400", async () => {
++    const today = await send("/reports/send?day=today", "admin");
++    expect(today.statusCode).toBe(200);
++    expect(today.json()).toMatchObject({ file: "report-2026-10-27-partial.csv", to: "2026-10-27T03:15:42Z" });
++    expect((await send("/reports/send?day=yesterday", "admin")).statusCode).toBe(200);
++    expect((await send("/reports/send?day=tomorrow", "admin")).statusCode).toBe(400);
++    expect(mock.requested).toEqual([true, false]);
++  });
++
++  it("Telegram off 409, Telegram refuses 502, database down 503: all with a message for humans", async () => {
++    mock.state = "off";
++    const off = await send("/reports/send", "admin");
++    expect(off.statusCode).toBe(409);
++    expect(off.json()).toEqual({ message: "report not sent: Telegram off (TELEGRAM_BOT_TOKEN is empty)" });
++    mock.state = "refused";
++    expect((await send("/reports/send", "admin")).statusCode).toBe(502);
++    mock.state = "database-down";
++    const db = await send("/reports/send", "admin");
++    expect(db.statusCode).toBe(503);
++    expect(db.json()).toEqual({ message: "the database can't be reached right now, try again shortly" });
++  });
++});
+diff --git b/backend/src/routes/reports.ts b/backend/src/routes/reports.ts
+new file mode 100644
+index 0000000..e18b641
+--- /dev/null
++++ b/backend/src/routes/reports.ts
+@@ -0,0 +1,48 @@
++// reports.ts - the /reports routes (Module 25): send the daily CSV report to Telegram NOW, without waiting for its schedule
++// (REPORT_SCHEDULE). Its content is exactly the same as the scheduled report; ?day=today sends today's partial report.
++// Admins only: the guard (security.ts) refuses viewers for POST before they get here.
++import { z } from "zod";
++import type { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
++import { sendReport } from "../services/reports.ts";
++import { contractTime } from "../db/archive.ts";
++
++const ErrorBody = z.object({ message: z.string() });
++const ReportQuery = z.object({
++  day: z.enum(["yesterday", "today"]).default("yesterday")
++    .describe("yesterday = 00:00-24:00 WIB yesterday, the same as the scheduled report (default); today = today from 00:00 WIB until now"),
++});
++
++export const reportRoutes: FastifyPluginAsyncZod = async (app) => {
++  app.post("/reports/send", {
++    schema: {
++      tags: ["reports"],
++      summary: "Send the daily CSV report to Telegram right now (to test it without waiting for its schedule)",
++      querystring: ReportQuery,
++      response: {
++        200: z.object({
++          file: z.string().describe("the file name in Telegram, for example report-2026-10-26.csv"),
++          from: z.string().describe("start of the range (UTC): 00:00 WIB = 17:00 UTC the day before"),
++          to: z.string().describe("end of the range (UTC), not counted"),
++          devices: z.number().describe("number of rows: registered devices whose key isn't revoked"),
++          size_bytes: z.number().describe("size of the CSV file, including the 3-byte BOM"),
++          caption: z.string().describe("the caption under the file"),
++        }).describe("the report was accepted by Telegram"),
++        409: ErrorBody.describe("Telegram off: TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID in .env is empty"),
++        502: ErrorBody.describe("Telegram refused the file or can't be reached (see the backend log)"),
++        503: ErrorBody.describe("the database can't be reached right now"),
++      },
++    },
++  }, async (req, reply) => {
++    try {
++      const result = await sendReport(req.query.day === "today");
++      if (result.status === "skipped") return reply.code(409).send({ message: `report not sent: ${result.message}` });
++      if (result.status === "failed") return reply.code(502).send({ message: result.message });
++      req.log.info(`report ${result.file} sent now at the request of account ${req.user.sub}`);
++      const { file, range, devices, size_bytes, caption } = result;
++      return { file, from: contractTime(range.from), to: contractTime(range.to), devices, size_bytes, caption };
++    } catch (error) {
++      req.log.error(`report couldn't be read from the database: ${(error as Error).message}`);
++      return reply.code(503).send({ message: "the database can't be reached right now, try again shortly" });
++    }
++  });
++};
+diff --git a/backend/src/server.ts b/backend/src/server.ts
+index 5ae957d..a4f1f3c 100644
+--- a/backend/src/server.ts
++++ b/backend/src/server.ts
+@@ -1,7 +1,8 @@
+-// server.ts - the entry point of the Mini Smart Home backend v1.1 (Module 24: "below-threshold" rules such as watering when the
+-// soil is dry, threshold rules may send one command, and rules can be deleted; on top of v1.0, Module 21: the device registry
+-// and its keys, the backend's own broker account, unregistered/revoked devices ignored; Module 20: login, JWT in cookies, roles,
+-// and API protection; and Module 19: realtime data, one door for commands, automation rules, schedules, and Telegram notifications).
++// server.ts - the entry point of the Mini Smart Home backend v1.2 (Module 25: the device's point on the map and the daily CSV
++// report through Telegram; on top of v1.1, Module 24: "below-threshold" rules such as watering when the soil is dry, threshold
++// rules may send one command, and rules can be deleted; on top of v1.0, Module 21: the device registry and its keys, the
++// backend's own broker account, unregistered/revoked devices ignored; Module 20: login, JWT in cookies, roles, and API protection;
++// and Module 19: realtime data, one door for commands, automation rules, schedules, and Telegram notifications).
+ // Run: npm run dev (automatically restarts when a file is saved) or npm start.
+ import Fastify, { LogController } from "fastify";
+ import swagger from "@fastify/swagger";
+@@ -13,11 +14,13 @@ import { authRoutes } from "./routes/auth.ts";
+ import { healthRoutes } from "./routes/health.ts";
+ import { deviceRoutes } from "./routes/devices.ts";
+ import { ruleRoutes } from "./routes/rules.ts";
++import { reportRoutes } from "./routes/reports.ts";
+ import { stopMqtt, startMqtt } from "./services/mqtt.ts";
+ import { startRealtime } from "./services/realtime.ts";
+ import { loadRules } from "./services/automation.ts";
+ import { stopSchedules } from "./services/schedule.ts";
+ import { stopTelegram, startTelegram } from "./services/telegram.ts";
++import { startReports } from "./services/reports.ts";
+ import { useLog } from "./services/log.ts";
+ import { databaseAlive } from "./db/archive.ts";
+ import { allDevicesDb } from "./db/devices.ts";
+@@ -42,13 +45,16 @@ await app.register(swagger, {
+   openapi: {
+     info: {
+       title: "Mini Smart Home API",
+-      description: "Backend v1.1 (Module 24). Every route needs a login, except the ones without a padlock. Log in first with "
++      description: "Backend v1.2 (Module 25). Every route needs a login, except the ones without a padlock. Log in first with "
+         + "POST /auth/login (Try it out): the browser keeps the access cookie and sends it by itself to the other routes. "
+         + "Viewer accounts can only look (GET); commands and changes are answered with 403. Devices are registered by an admin "
+         + "with POST /devices; a key is shown only once, and messages from unregistered or revoked devices are ignored. "
+         + "Since v1.1, a threshold rule can point downwards (below-threshold, for example water when the soil is below 30 %), can "
+-        + "send one command when it turns on, and rules can be deleted (DELETE /rules/:id).",
+-      version: "1.1.0",
++        + "send one command when it turns on, and rules can be deleted (DELETE /rules/:id). Since v1.2, GET /devices carries "
++        + "each device's map point (lat, lng), and the admin moves it with PUT /devices/:id/location. "
++        + "The daily CSV report is sent to Telegram at REPORT_SCHEDULE (default 07:00 WIB); POST /reports/send "
++        + "sends it right now.",
++      version: "1.2.0",
+     },
+     components: {
+       securitySchemes: { // Module 20: routes with a padlock need the access cookie from POST /auth/login
+@@ -64,6 +70,7 @@ await app.register(authRoutes); // Module 20
+ await app.register(healthRoutes);
+ await app.register(deviceRoutes);
+ await app.register(ruleRoutes); // Module 19
++await app.register(reportRoutes); // Module 25
+ 
+ if (await databaseAlive()) app.log.info("database ready");
+ else app.log.warn("database not reachable yet: check the database container and DATABASE_URL in .env");
+@@ -96,6 +103,7 @@ if (env.MQTT_USERNAME === "") {
+ }
+ startMqtt(env.MQTT_URL, env.MQTT_USERNAME === "" ? null : { username: env.MQTT_USERNAME, password: env.MQTT_PASSWORD }, app.log);
+ startTelegram(env.TELEGRAM_BOT_TOKEN, env.TELEGRAM_CHAT_ID, env.TELEGRAM_API_ROOT); // Module 19: not awaited
++startReports(env.REPORT_SCHEDULE); // Module 25: the daily CSV report to Telegram (node-cron, WIB)
+ await app.listen({ port: env.PORT, host: env.HOST });
+ app.log.info(`API docs: http://${env.HOST}:${env.PORT}/docs`);
+ 
+@@ -105,7 +113,7 @@ async function stopGracefully(signal: string): Promise<void> {
+   app.log.info(`${signal} received: the backend is stopping gracefully`);
+   try {
+     await stopTelegram(); // confirm the last update to Telegram
+-    await stopSchedules(); // node-cron: wait for the tasks that are running
++    await stopSchedules(); // node-cron: wait for the tasks that are running (the rule schedules and, since Module 25, the daily report)
+     await app.close(); // preClose disconnects the Socket.IO clients, then the HTTP server closes
+     await stopMqtt(); // DISCONNECT to the broker
+     await pool.end(); // close the database connection pool
+diff --git b/backend/src/services/csv.test.ts b/backend/src/services/csv.test.ts
+new file mode 100644
+index 0000000..1268809
+--- /dev/null
++++ b/backend/src/services/csv.test.ts
+@@ -0,0 +1,28 @@
++// csv.test.ts - tests for the CSV maker (Module 25, Module 23's recipe on the server): BOM, comma separator, decimal point, CRLF,
++// double quotes, and empty cells. Pure functions: no database, no network. Run: npm test
++import { describe, expect, it } from "vitest";
++import { toCsv, quote } from "./csv.ts";
++
++describe("the CSV maker", () => {
++  it("starts with a BOM (3 bytes EF BB BF), separated by commas, every line ends with CRLF", () => {
++    const text = toCsv([["device_id", "reading_count"], ["f00d00000001", 8640]]);
++    expect(text).toBe("\uFEFFdevice_id,reading_count\r\nf00d00000001,8640\r\n");
++    expect([...Buffer.from(text, "utf8").subarray(0, 3)]).toEqual([0xef, 0xbb, 0xbf]);
++  });
++
++  it("decimal numbers keep their point; negative and whole numbers stay whole", () => {
++    expect(toCsv([[28.8, -69, 0, 184562]])).toBe("\uFEFF28.8,-69,0,184562\r\n");
++  });
++
++  it("null becomes an empty cell (for example Node 2's vitals, which really don't exist)", () => {
++    expect(toCsv([["f00d000000b2", null, null, 3]])).toBe("\uFEFFf00d000000b2,,,3\r\n");
++  });
++
++  it("text containing , \" or a line break is wrapped in quotes, quotes inside are doubled", () => {
++    expect(quote("Node 1, living room")).toBe("\"Node 1, living room\"");
++    expect(quote("Garden \"back\"")).toBe("\"Garden \"\"back\"\"\"");
++    expect(quote("two\r\nlines")).toBe("\"two\r\nlines\"");
++    expect(quote("Garden (mock)")).toBe("Garden (mock)"); // no special characters: as it is
++    expect(toCsv([["a,b", "c"]])).toBe("\uFEFF\"a,b\",c\r\n");
++  });
++});
+diff --git b/backend/src/services/csv.ts b/backend/src/services/csv.ts
+new file mode 100644
+index 0000000..00117ad
+--- /dev/null
++++ b/backend/src/services/csv.ts
+@@ -0,0 +1,26 @@
++// csv.ts - builds CSV text on the server (Module 25, for the daily report). Its recipe is the SAME as Module 23's frontend/src/csv.ts,
++// so that the file from the dashboard and the one from the Telegram report open just as neatly in Excel or LibreOffice with English
++// (US/UK) regional settings: a comma separator (,), a decimal point (28.5), a BOM at the start of the file, and CRLF at the end of every line.
++// Every function here is "pure": it only turns its input into text, with no database and no network, so it is easy to test.
++
++export type Cell = string | number | null; // the content of one cell: text, a number, or empty
++
++// quote - a value containing , " or a line break is wrapped in double quotes, and the quotes inside are doubled.
++// Example: Node 1, living room  ->  "Node 1, living room"
++export function quote(text: string): string {
++  return /[",\r\n]/.test(text) ? '"' + text.replaceAll('"', '""') + '"' : text;
++}
++
++// one cell: a number keeps its decimal point (28.5), null (failed sensor, missing column, or no data) becomes an empty cell
++function cell(value: Cell): string {
++  if (value === null) return "";
++  if (typeof value === "number") return String(value);
++  return quote(value);
++}
++
++// toCsv - rows (an array of arrays) become one CSV text
++export function toCsv(rows: Cell[][]): string {
++  // "\uFEFF" = BOM: an unseen mark saying the content is UTF-8, so special letters in device names (for example ° or é) stay whole
++  // in Excel. In the file, this BOM becomes 3 bytes: EF BB BF.
++  return "\uFEFF" + rows.map((r) => r.map(cell).join(",")).join("\r\n") + "\r\n";
++}
+diff --git b/backend/src/services/mqtt.test.ts b/backend/src/services/mqtt.test.ts
+new file mode 100644
+index 0000000..7495448
+--- /dev/null
++++ b/backend/src/services/mqtt.test.ts
+@@ -0,0 +1,50 @@
++// mqtt.test.ts - tests for STATUS messages from the broker (Module 25) WITHOUT a broker, a database, or Telegram: the mqtt
++// library and mqtt.ts's neighbours are replaced by fakes (vi.mock); the in-memory store (store.ts) stays the real one. What is
++// tested: which status messages are passed on to Telegram (notifyStatus), including an "online" that arrives as a RETAINED
++// message after a broker restart. Run: npm test
++import { beforeEach, describe, expect, it, vi } from "vitest";
++import type { FastifyBaseLogger } from "fastify";
++
++const mock = vi.hoisted(() => ({
++  listeners: new Map<string, (...args: unknown[]) => void>(), // the fake MQTT client's events ("message", "connect", ...)
++  notifyStatus: vi.fn(),
++}));
++vi.mock("mqtt", () => ({
++  default: { connect: () => ({ options: {}, on: (event: string, fn: (...args: unknown[]) => void) => mock.listeners.set(event, fn) }) },
++}));
++vi.mock("../db/archive.ts", () => ({ archiveStatus: async () => {}, archiveTelemetry: async () => true, archiveVitals: async () => {} }));
++vi.mock("./realtime.ts", () => ({ broadcastStatus: () => {}, broadcastTelemetry: () => {} }));
++vi.mock("./commands.ts", () => ({ recordReport: () => {}, deviceRestarted: () => {} }));
++vi.mock("./automation.ts", () => ({ sendAllConfigs: () => {}, evaluateReading: () => {} }));
++vi.mock("./events.ts", () => ({ recordEvent: async () => {} }));
++vi.mock("./telegram.ts", () => ({ notify: async () => true, notifyStatus: mock.notifyStatus }));
++vi.mock("./registry.ts", () => ({ devicePermission: () => "registered", recordIgnored: () => {} })); // every device is registered
++
++import { startMqtt } from "./mqtt.ts";
++
++const log = { info: () => {}, warn: () => {}, error: () => {} } as unknown as FastifyBaseLogger;
++startMqtt("mqtt://127.0.0.1:1", null, log);
++
++// one status message from the broker, exactly as the backend receives it (retained = a message the broker keeps)
++function statusArrives(deviceId: string, status: string, retained: boolean): void {
++  mock.listeners.get("message")?.(`msh/${deviceId}/status`, Buffer.from(status), { retain: retained });
++}
++
++beforeEach(() => mock.notifyStatus.mockClear());
++
++describe("device status to Telegram (notifyStatus)", () => {
++  it("broker restart: the offline will, then a RETAINED online (the device connected first) is still passed on", () => {
++    statusArrives("f00d00000001", "online", false);
++    mock.notifyStatus.mockClear();
++    statusArrives("f00d00000001", "offline", false); // the broker stops: the device's will is published (📴 waits 60 seconds)
++    statusArrives("f00d00000001", "online", true); // the broker is back, the device first: its message is a retained one
++    // without the second online, a false 📴 is sent 60 seconds later and the next 📴 for this device never comes
++    expect(mock.notifyStatus.mock.calls).toEqual([["f00d00000001", "offline"], ["f00d00000001", "online"]]);
++  });
++
++  it("a RETAINED offline when the backend starts = an old state: not reported; an unchanged status isn't either", () => {
++    statusArrives("f00d00000002", "offline", true);
++    statusArrives("f00d00000002", "offline", false);
++    expect(mock.notifyStatus).not.toHaveBeenCalled();
++  });
++});
+diff --git a/backend/src/services/mqtt.ts b/backend/src/services/mqtt.ts
+index 493efa8..02ee351 100644
+--- a/backend/src/services/mqtt.ts
++++ b/backend/src/services/mqtt.ts
+@@ -115,6 +115,10 @@ function receive(topic: string, text: string, retained: boolean, log: FastifyBas
+         archiving.then(() => recordEvent({ device_id: deviceId, kind: "status", source: "device", rule_id: null, message }))
+           .catch(() => {}); // a failure to save the status is already logged by archiveFailed
+         notifyStatus(deviceId, result.data); // Telegram: offline is only reported once it lasts 60 seconds
++      } else if (result.data === "online") {
++        // Module 25: a retained "online" still cancels a 📴 that is waiting. After a broker restart, a device can connect
++        // BEFORE the backend, so its online message arrives as a retained message (without this: a false 📴)
++        notifyStatus(deviceId, "online");
+       }
+     }
+     counts.received++;
+diff --git b/backend/src/services/reports.test.ts b/backend/src/services/reports.test.ts
+new file mode 100644
+index 0000000..7b58272
+--- /dev/null
++++ b/backend/src/services/reports.test.ts
+@@ -0,0 +1,159 @@
++// reports.test.ts - tests for the daily report (Module 25) WITHOUT a database and WITHOUT Telegram: the database pool (pool.ts) and
++// the bot (telegram.ts) are replaced by fakes (vi.mock). What is tested: the "yesterday" range 00:00-24:00 WIB (also on a laptop in
++// another time zone), the file name, the caption, the CSV content, what happens when Telegram is off, refuses, or the database
++// can't be read, and the node-cron schedule options (node-cron is a fake too: the tests don't wait for 07:00). Run: npm test
++import { beforeEach, describe, expect, it, vi } from "vitest";
++
++vi.hoisted(() => { // env.ts checks .env when imported: give it valid fake settings (nothing is really contacted)
++  process.env.MQTT_URL = "mqtt://127.0.0.1:1";
++  process.env.DATABASE_URL = "postgres://fake:fake@127.0.0.1:1/fake";
++  process.env.JWT_SECRET = "test-secret-long-enough-for-zod-0123456789";
++  // this "test laptop" is deliberately in a time zone very far from WIB (UTC-4), to catch code that secretly uses the laptop's clock
++  process.env.TZ = "America/New_York";
++});
++
++const mock = vi.hoisted(() => ({
++  query: vi.fn(),
++  telegramOffReason: vi.fn((): string | null => null),
++  sendFile: vi.fn(async (_name: string, _content: string, _caption: string) => true),
++  notify: vi.fn(async (_text: string) => true),
++  // mock node-cron: records cron.schedule(expression, task, options) and its task's event listeners
++  schedules: [] as [string, (context: { date: Date }) => Promise<void>, Record<string, unknown>][],
++  events: new Map<string, (context: { date: Date }) => void>(),
++}));
++vi.mock("../db/pool.ts", () => ({ pool: { query: mock.query } }));
++vi.mock("./telegram.ts", () => ({
++  telegramOffReason: mock.telegramOffReason,
++  sendFile: mock.sendFile,
++  notify: mock.notify,
++}));
++vi.mock("node-cron", () => ({
++  default: {
++    schedule: (expression: string, task: (context: { date: Date }) => Promise<void>, options: Record<string, unknown>) => {
++      mock.schedules.push([expression, task, options]);
++      return { on: (name: string, fn: (context: { date: Date }) => void) => mock.events.set(name, fn), getNextRun: () => null };
++    },
++  },
++}));
++
++import { makeReportCsv, reportCaption, sendReport, startReports, reportFileName, reportRange } from "./reports.ts";
++import type { ReportRow } from "./reports.ts";
++
++// two example devices: Node 1 complete, Node 2 (the Garden) without vitals
++const NODE1: ReportRow = { device_id: "f00d00000001", name: "Node 1 lab", kind: "node1", reading_count: 8640,
++  avg_temp: 28.8, min_temp: 25.1, max_temp: 33, avg_humidity: 67.6, avg_soil: 39.6, min_soil: 20, avg_rssi: -69,
++  worst_rssi: -79, min_heap: 184562, restarts: 0, disconnects: 1 };
++const GARDEN: ReportRow = { device_id: "f00d000000b2", name: "Garden, back", kind: "node2", reading_count: 288,
++  avg_temp: 28, min_temp: 27.6, max_temp: 28.2, avg_humidity: 69.3, avg_soil: 40.3, min_soil: 38, avg_rssi: null,
++  worst_rssi: null, min_heap: null, restarts: null, disconnects: 0 };
++const HEADER = "device_id,name,kind,reading_count,avg_temp,min_temp,max_temp,avg_humidity,avg_soil,min_soil,"
++  + "avg_rssi,worst_rssi,min_heap,restarts,disconnects";
++
++beforeEach(() => {
++  mock.query.mockReset();
++  mock.telegramOffReason.mockReturnValue(null);
++  mock.sendFile.mockClear();
++  mock.sendFile.mockResolvedValue(true);
++  mock.notify.mockClear();
++  mock.schedules.length = 0;
++});
++
++describe("report range (WIB)", () => {
++  it("sent 27 Oct 07:00 WIB: it covers 26 Oct 00:00-24:00 WIB = 25 Oct 17:00 UTC to 26 Oct 17:00 UTC", () => {
++    const r = reportRange(new Date("2026-10-27T00:00:00Z")); // 07:00 WIB
++    expect(r.from.toISOString()).toBe("2026-10-25T17:00:00.000Z");
++    expect(r.to.toISOString()).toBe("2026-10-26T17:00:00.000Z");
++    expect(r.date).toBe("2026-10-26");
++    expect(reportFileName(r)).toBe("report-2026-10-26.csv");
++  });
++
++  it("the midnight boundary follows WIB, not the laptop's time zone (this test laptop is at UTC-4)", () => {
++    expect(reportRange(new Date("2026-10-26T16:59:59Z")).date).toBe("2026-10-25"); // 26 Oct 23:59:59 WIB
++    expect(reportRange(new Date("2026-10-26T17:00:00Z")).date).toBe("2026-10-26"); // 27 Oct 00:00:00 WIB
++    expect(new Date("2026-10-26T17:00:00Z").getDate()).toBe(26); // on the laptop clock (UTC-4) it's still 26 Oct 13:00
++  });
++
++  it("?day=today: 00:00 WIB today until now, the file name ends in -partial", () => {
++    const now = new Date("2026-10-27T03:15:00Z"); // 27 Oct 10:15 WIB
++    const r = reportRange(now, true);
++    expect(r.from.toISOString()).toBe("2026-10-26T17:00:00.000Z");
++    expect(r.to).toBe(now);
++    expect(reportFileName(r)).toBe("report-2026-10-27-partial.csv");
++    expect(reportCaption(r, 2)).toBe("📊 Mini Smart Home partial report 27 Oct 2026 (00:00–10:15 WIB): 2 device(s)");
++  });
++
++  it("the daily report caption names the date it covers (WIB)", () => {
++    expect(reportCaption(reportRange(new Date("2026-10-27T00:00:00Z")), 3))
++      .toBe("📊 Mini Smart Home daily report 26 Oct 2026: 3 device(s)");
++  });
++});
++
++describe("CSV content of the report", () => {
++  it("table header + one row per device; Node 2's vitals empty; a name with a comma is wrapped in quotes", () => {
++    expect(makeReportCsv([NODE1, GARDEN])).toBe("\uFEFF" + HEADER + "\r\n"
++      + "f00d00000001,Node 1 lab,node1,8640,28.8,25.1,33,67.6,39.6,20,-69,-79,184562,0,1\r\n"
++      + "f00d000000b2,\"Garden, back\",node2,288,28,27.6,28.2,69.3,40.3,38,,,,,0\r\n");
++  });
++
++  it("no registered device yet: only the table header", () => {
++    expect(makeReportCsv([])).toBe("\uFEFF" + HEADER + "\r\n");
++  });
++});
++
++describe("sendReport", () => {
++  it("Telegram off: skipped, the database isn't even read", async () => {
++    mock.telegramOffReason.mockReturnValue("TELEGRAM_BOT_TOKEN is empty");
++    expect(await sendReport()).toEqual({ status: "skipped", message: "Telegram off (TELEGRAM_BOT_TOKEN is empty)" });
++    expect(mock.query).not.toHaveBeenCalled();
++    expect(mock.sendFile).not.toHaveBeenCalled();
++  });
++
++  it("sent: the query uses yesterday's WIB range, the CSV file with a BOM is sent with its name and caption", async () => {
++    mock.query.mockResolvedValue({ rows: [NODE1, GARDEN] });
++    const result = await sendReport(false, new Date("2026-10-27T00:00:00Z"));
++    const [, params] = mock.query.mock.calls[0] as [string, Date[]];
++    expect(params.map((w) => w.toISOString())).toEqual(["2026-10-25T17:00:00.000Z", "2026-10-26T17:00:00.000Z"]);
++    const [name, content, caption] = mock.sendFile.mock.calls[0];
++    expect(name).toBe("report-2026-10-26.csv");
++    expect(content).toBe(makeReportCsv([NODE1, GARDEN]));
++    expect(caption).toBe("📊 Mini Smart Home daily report 26 Oct 2026: 2 device(s)");
++    expect(result).toMatchObject({ status: "sent", file: "report-2026-10-26.csv", devices: 2,
++      size_bytes: Buffer.byteLength(content, "utf8") });
++  });
++
++  it("Telegram refuses or can't be reached: failed, with its file name", async () => {
++    mock.query.mockResolvedValue({ rows: [NODE1] });
++    mock.sendFile.mockResolvedValue(false);
++    expect(await sendReport(false, new Date("2026-10-27T00:00:00Z")))
++      .toEqual({ status: "failed", message: "Telegram didn't accept report-2026-10-26.csv; see the backend log" });
++  });
++
++  it("the database can't be read: its error goes to the caller (the route answers 503, the schedule writes to the log)", async () => {
++    mock.query.mockRejectedValue(new Error("connect ECONNREFUSED 127.0.0.1:5432"));
++    await expect(sendReport()).rejects.toThrow("ECONNREFUSED");
++    expect(mock.sendFile).not.toHaveBeenCalled();
++  });
++});
++
++describe("daily report schedule (mock node-cron)", () => {
++  it("WIB, no overlap, up to 15 minutes late still runs; its content is counted from the SCHEDULED time", async () => {
++    startReports("50 23 * * *");
++    const [expression, task, options] = mock.schedules[0];
++    expect(expression).toBe("50 23 * * *");
++    expect(options).toMatchObject({ timezone: "Asia/Jakarta", noOverlap: true, missedExecutionTolerance: 15 * 60_000 });
++    // the laptop sleeps at 23:49 WIB and wakes at 00:01 WIB: node-cron only runs the 27 Oct 23:50 WIB schedule on 28 Oct 00:01:30 WIB
++    vi.useFakeTimers({ now: new Date("2026-10-27T17:01:30Z"), toFake: ["Date"] }); // "now" = 28 Oct 00:01:30 WIB
++    mock.query.mockResolvedValue({ rows: [NODE1] });
++    await task({ date: new Date("2026-10-27T16:50:00Z") }); // context.date = the scheduled time (27 Oct 23:50 WIB)
++    vi.useRealTimers();
++    expect(mock.sendFile.mock.calls[0][0]).toBe("report-2026-10-26.csv"); // not report-2026-10-27.csv
++  });
++
++  it("a missed schedule is only reported (⏰): the report is NOT sent afterwards", () => {
++    startReports("0 7 * * *");
++    mock.events.get("execution:missed")?.({ date: new Date("2026-10-27T00:00:00Z") });
++    expect(mock.notify).toHaveBeenCalledWith("⏰ The daily report of 27 Oct 2026, 07:00 WIB was missed (laptop asleep or "
++      + "backend busy?). Send it now with POST /reports/send");
++    expect(mock.sendFile).not.toHaveBeenCalled();
++  });
++});
+diff --git b/backend/src/services/reports.ts b/backend/src/services/reports.ts
+new file mode 100644
+index 0000000..c7d4171
+--- /dev/null
++++ b/backend/src/services/reports.ts
+@@ -0,0 +1,186 @@
++// reports.ts - the daily CSV report through Telegram (Module 25). Every morning (default 07:00 WIB, setting REPORT_SCHEDULE in .env)
++// the backend summarizes YESTERDAY's data, 00:00-24:00 WIB, per device with one SQL query, turns it into a CSV with the Module 23
++// recipe (csv.ts), then sends it as a file through the Telegram bot that already exists (sendFile in telegram.ts).
++// POST /reports/send uses the same function, to test it without waiting for its time.
++// A report is only sent while the backend is on: a missed schedule (for example a sleeping laptop) is not sent afterwards.
++import cron from "node-cron";
++import { pool } from "../db/pool.ts";
++import { toCsv } from "./csv.ts";
++import { telegramOffReason, notify, sendFile } from "./telegram.ts";
++import { log } from "./log.ts";
++
++const ZONE = "Asia/Jakarta"; // WIB, the same as the rule schedules (schedule.ts): whatever the laptop's time zone is
++const DAY_MS = 24 * 60 * 60 * 1000;
++// "sv-SE" (Swedish) is used because its format happens to be year-month-day: 2026-10-26 (Module 23's csv.ts recipe)
++const isoDate = new Intl.DateTimeFormat("sv-SE", { timeZone: ZONE, dateStyle: "short" });
++const humanDate = new Intl.DateTimeFormat("en-GB", { timeZone: ZONE, dateStyle: "medium" }); // 26 Oct 2026
++const humanTime = new Intl.DateTimeFormat("en-GB", { timeZone: ZONE, hour: "2-digit", minute: "2-digit" }); // 07:00
++const humanDateTime = (time: Date) => `${humanDate.format(time)}, ${humanTime.format(time)} WIB`;
++
++// The range of one report: [from, to), "to" is not counted. date = the WIB day being reported.
++export interface ReportRange {
++  from: Date;
++  to: Date;
++  date: string; // for example 2026-10-26
++  today: boolean; // true = today's partial report (POST /reports/send?day=today)
++}
++
++// Yesterday = 00:00-24:00 WIB of the day before; today = 00:00 WIB until now. WIB = UTC + 7 hours without daylight saving
++// time, so 00:00 WIB is always 17:00 UTC the day before. A pure function: "now" is given from outside so it can be tested.
++export function reportRange(now: Date, today = false): ReportRange {
++  const todayDate = isoDate.format(now); // the date in WIB, not the date in the laptop's time zone
++  const startOfToday = new Date(`${todayDate}T00:00:00+07:00`);
++  if (today) return { from: startOfToday, to: now, date: todayDate, today };
++  const startOfYesterday = new Date(startOfToday.getTime() - DAY_MS);
++  return { from: startOfYesterday, to: startOfToday, date: isoDate.format(startOfYesterday), today };
++}
++
++// report-2026-10-26.csv = the data of the 26th (sent on the morning of the 27th). A partial report gets a suffix so that it isn't
++// mixed up with the full report of the same day, which is only sent the next morning.
++export function reportFileName(r: ReportRange): string {
++  return `report-${r.date}${r.today ? "-partial" : ""}.csv`;
++}
++
++// the caption under the file in Telegram
++export function reportCaption(r: ReportRange, deviceCount: number): string {
++  return r.today
++    ? `📊 Mini Smart Home partial report ${humanDate.format(r.from)} (00:00–${humanTime.format(r.to)} WIB): `
++      + `${deviceCount} device(s)`
++    : `📊 Mini Smart Home daily report ${humanDate.format(r.from)}: ${deviceCount} device(s)`;
++}
++
++// One report row = one registered device whose key isn't revoked. null = there is no data (for example Node 2 has no
++// vitals, so its rssi, heap, and restarts columns are always empty).
++export interface ReportRow {
++  device_id: string;
++  name: string;
++  kind: string;
++  reading_count: number; // 0 = the device was silent all day
++  avg_temp: number | null;
++  min_temp: number | null;
++  max_temp: number | null;
++  avg_humidity: number | null;
++  avg_soil: number | null;
++  min_soil: number | null;
++  avg_rssi: number | null;
++  worst_rssi: number | null; // the most negative = the weakest signal
++  min_heap: number | null;
++  restarts: number | null; // how many times the uptime dropped (the device restarted)
++  disconnects: number; // how many times the status changed to offline/offline-mode
++}
++
++// The order of the CSV columns. The table header = these column names, the same as the column names of the query below.
++export const REPORT_COLUMNS: (keyof ReportRow)[] = ["device_id", "name", "kind", "reading_count", "avg_temp", "min_temp",
++  "max_temp", "avg_humidity", "avg_soil", "min_soil", "avg_rssi", "worst_rssi", "min_heap", "restarts",
++  "disconnects"];
++
++// One query for all devices, $1 = from, $2 = to. Four parts (WITH ... AS):
++// - summary: hourly readings from the summary book readings_hourly (Module 18), combined into one day. The daily average =
++//   the sum of (average x number of values) of all hours divided by the total number of values, like the 1d summary in db/archive.ts.
++// - vitals + health: vitals from device_health (Module 19). lag() takes the PREVIOUS vitals uptime of the same device;
++//   an uptime that drops means the device restarted.
++// - drops: status events from the event log (events); their sentence is "<device_id> disconnected (offline)" (services/mqtt.ts).
++// Numbers are cast to float8 and int so that pg sends them as a number, not as text.
++const REPORT_QUERY = `
++WITH summary AS (
++  SELECT device_id,
++         sum(reading_count)::int                                                           AS reading_count,
++         round((sum(avg_temp * temp_n) / nullif(sum(temp_n), 0))::numeric, 1)::float8     AS avg_temp,
++         min(min_temp)                                                                     AS min_temp,
++         max(max_temp)                                                                     AS max_temp,
++         round(sum(avg_humidity * humidity_n) / nullif(sum(humidity_n), 0), 1)::float8   AS avg_humidity,
++         round(sum(avg_soil * soil_n) / nullif(sum(soil_n), 0), 1)::float8                 AS avg_soil,
++         min(min_soil)                                                                     AS min_soil
++  FROM readings_hourly
++  WHERE hour >= $1 AND hour < $2
++  GROUP BY device_id),
++vitals AS (
++  SELECT device_id, rssi, heap_free, uptime_s,
++         lag(uptime_s) OVER (PARTITION BY device_id ORDER BY ts) AS prev_uptime
++  FROM device_health
++  WHERE ts >= $1 AND ts < $2),
++health AS (
++  SELECT device_id, round(avg(rssi))::int AS avg_rssi, min(rssi) AS worst_rssi, min(heap_free) AS min_heap,
++         (count(*) FILTER (WHERE uptime_s < prev_uptime))::int AS restarts
++  FROM vitals
++  GROUP BY device_id),
++drops AS (
++  SELECT device_id, count(*)::int AS disconnects
++  FROM events
++  WHERE kind = 'status' AND message LIKE '%disconnected%' AND occurred_at >= $1 AND occurred_at < $2
++  GROUP BY device_id)
++SELECT d.device_id, coalesce(d.name, d.device_id) AS name, d.kind,
++       coalesce(r.reading_count, 0) AS reading_count, r.avg_temp, r.min_temp, r.max_temp, r.avg_humidity,
++       r.avg_soil, r.min_soil, s.avg_rssi, s.worst_rssi, s.min_heap, s.restarts,
++       coalesce(p.disconnects, 0) AS disconnects
++FROM devices d
++LEFT JOIN summary r ON r.device_id = d.device_id
++LEFT JOIN health s ON s.device_id = d.device_id
++LEFT JOIN drops p ON p.device_id = d.device_id
++WHERE d.registered_at IS NOT NULL AND d.revoked_at IS NULL
++ORDER BY d.device_id`;
++
++// the report rows become CSV text: the table header, then one row per device (a pure function)
++export function makeReportCsv(rows: ReportRow[]): string {
++  return toCsv([REPORT_COLUMNS, ...rows.map((r) => REPORT_COLUMNS.map((column) => r[column]))]);
++}
++
++// The result of one send. "skipped" = Telegram off (token/chat_id empty); "failed" = Telegram refused it or can't be reached.
++export type ReportResult =
++  | { status: "sent"; file: string; range: ReportRange; devices: number; size_bytes: number; caption: string }
++  | { status: "skipped"; message: string }
++  | { status: "failed"; message: string };
++
++// Build and send one report. Database errors are NOT caught here: the caller decides (route: 503, schedule: log).
++export async function sendReport(today = false, now = new Date()): Promise<ReportResult> {
++  const off = telegramOffReason();
++  if (off !== null) return { status: "skipped", message: `Telegram off (${off})` }; // no need to read the database
++  const range = reportRange(now, today);
++  const result = await pool.query<ReportRow>(REPORT_QUERY, [range.from, range.to]);
++  const content = makeReportCsv(result.rows);
++  const file = reportFileName(range);
++  const caption = reportCaption(range, result.rows.length);
++  if (!(await sendFile(file, content, caption))) {
++    return { status: "failed", message: `Telegram didn't accept ${file}; see the backend log` };
++  }
++  return { status: "sent", file, range, devices: result.rows.length, size_bytes: Buffer.byteLength(content, "utf8"),
++    caption };
++}
++
++// Called by node-cron at its time. Nobody waits for its answer, so every result (errors too) is written to the log.
++// scheduledTime = the time WRITTEN in the schedule, not the time this function runs: a 23:50 schedule that only runs at 00:01
++// (the laptop has just woken up) still reports "yesterday" as seen from that 23:50, not the day that has just ended.
++async function scheduledReport(scheduledTime: Date): Promise<void> {
++  log.info("daily report running on schedule");
++  try {
++    const result = await sendReport(false, scheduledTime);
++    if (result.status === "skipped") log.warn(`daily report skipped: ${result.message}`);
++    else if (result.status === "failed") log.error(`daily report failed: ${result.message}`);
++    // sent: sendFile() has already written "Telegram sent: file report-…" to the log
++  } catch (error) {
++    log.error(`daily report failed: the database can't be read (${(error as Error).message})`);
++  }
++}
++
++// node-cron 4 does NOT replay a missed schedule (for example a laptop asleep at 07:00): we can only record it.
++function missedReport(time: Date): void {
++  const message = `⏰ The daily report of ${humanDateTime(time)} was missed (laptop asleep or backend busy?). `
++    + "Send it now with POST /reports/send";
++  log.warn(message);
++  void notify(message);
++}
++
++// Set up the daily report schedule (called once by server.ts at startup). It stops with stopSchedules() in schedule.ts:
++// cron.shutdown() stops ALL node-cron tasks, this one included.
++export function startReports(schedule: string): void {
++  // context.date = this task's scheduled time (for example 07:00 WIB), also when it only runs a few minutes later
++  const task = cron.schedule(schedule, (context) => scheduledReport(context.date), {
++    name: "daily-report",
++    timezone: ZONE, // without this, "0 7 * * *" means 07:00 in the laptop's time zone (a WITA laptop: 06:00 WIB)
++    noOverlap: true, // if the previous report isn't finished yet, don't run two at the same time
++    missedExecutionTolerance: 15 * 60_000, // up to 15 minutes late (for example a laptop that has just woken up) still runs
++  });
++  task.on("execution:missed", (context) => missedReport(context.date));
++  const next = task.getNextRun();
++  log.info(`daily report scheduled: "${schedule}" ${ZONE}, next ${next === null ? "-" : humanDateTime(next)}`);
++}
+diff --git b/backend/src/services/telegram.test.ts b/backend/src/services/telegram.test.ts
+new file mode 100644
+index 0000000..5ff5876
+--- /dev/null
++++ b/backend/src/services/telegram.test.ts
+@@ -0,0 +1,57 @@
++// telegram.test.ts - tests for telegram.ts (Module 25) WITHOUT a Telegram server: grammY's Bot class is replaced by a mock bot that
++// only records the sendMessage/sendDocument calls; InputFile stays the real one. What is tested: the report file is sent with its
++// file NAME (not a random name), and the 📴/✅ status messages with their 60-second delay. Run: npm test
++import { afterEach, describe, expect, it, vi } from "vitest";
++import { InputFile } from "grammy";
++
++const bot = vi.hoisted(() => ({
++  sendMessage: vi.fn(async (_chat: number, _text: string) => ({})),
++  sendDocument: vi.fn(async (_chat: number, _file: unknown, _options: unknown) => ({})),
++}));
++vi.mock("grammy", async (original) => ({
++  ...(await original<typeof import("grammy")>()), // the real InputFile, GrammyError, HttpError
++  Bot: class {
++    api = { sendMessage: bot.sendMessage, sendDocument: bot.sendDocument };
++    command() {}
++    catch() {}
++    start() { return new Promise(() => {}); } // mock long polling: never finishes, contacts nobody
++    isRunning() { return false; }
++  },
++}));
++
++import { notifyStatus, sendFile, startTelegram } from "./telegram.ts";
++
++afterEach(() => vi.useRealTimers());
++
++describe("telegram.ts with a mock bot", () => {
++  it("Telegram off (empty token): the file isn't sent", async () => {
++    expect(await sendFile("report-2026-10-26.csv", "\uFEFFa,b\r\n", "caption")).toBe(false);
++    expect(bot.sendDocument).not.toHaveBeenCalled();
++  });
++
++  it("sendFile: sendDocument with an InputFile NAMED report-….csv and its caption", async () => {
++    startTelegram("123456:fake-token", "777000111", "");
++    expect(await sendFile("report-2026-10-26.csv", "\uFEFFa,b\r\n", "📊 caption")).toBe(true);
++    const [chat, file, options] = bot.sendDocument.mock.calls[0];
++    expect(chat).toBe(777000111);
++    expect(file).toBeInstanceOf(InputFile);
++    expect((file as InputFile).filename).toBe("report-2026-10-26.csv"); // without a name: Telegram shows a random name
++    expect(options).toEqual({ caption: "📊 caption" });
++  });
++
++  it("notifyStatus: back before 60 seconds = no message; offline for 60 seconds = 📴; then online = ✅", async () => {
++    startTelegram("123456:fake-token", "777000111", "");
++    vi.useFakeTimers({ now: new Date("2026-10-27T00:00:00Z") }); // 07:00 WIB
++    notifyStatus("f00d00000001", "offline");
++    vi.advanceTimersByTime(30_000);
++    notifyStatus("f00d00000001", "online"); // Wi-Fi flickers for 30 seconds: cancelled
++    vi.advanceTimersByTime(60_000);
++    expect(bot.sendMessage).not.toHaveBeenCalled();
++    notifyStatus("f00d00000001", "offline");
++    vi.advanceTimersByTime(60_000);
++    expect(bot.sendMessage).toHaveBeenLastCalledWith(777000111, "📴 f00d00000001 offline since 07:01 WIB");
++    vi.advanceTimersByTime(4 * 60_000);
++    notifyStatus("f00d00000001", "online");
++    expect(bot.sendMessage).toHaveBeenLastCalledWith(777000111, "✅ f00d00000001 back online (offline 5 min)");
++  });
++});
+diff --git a/backend/src/services/telegram.ts b/backend/src/services/telegram.ts
+index fdabedb..8de41d6 100644
+--- a/backend/src/services/telegram.ts
++++ b/backend/src/services/telegram.ts
+@@ -1,6 +1,7 @@
+ // telegram.ts - the Telegram bot (Module 19, grammY 1.46.0): alerts from the automation rules, /start to find out the
+ // chat_id, and /status for the owner only. Leave TELEGRAM_BOT_TOKEN empty in .env to turn it off.
+-import { Bot, GrammyError, HttpError } from "grammy";
++// Module 25: the same bot also sends FILES (the daily CSV report) through sendFile().
++import { Bot, GrammyError, HttpError, InputFile } from "grammy";
+ import { INITIAL_RECORD, shouldNotify } from "../rules/engine.ts";
+ import type { NotifyRecord, Situation } from "../rules/engine.ts";
+ import { allDevices } from "./store.ts";
+@@ -51,6 +52,31 @@ export async function notify(text: string, readingTs?: string): Promise<boolean>
+   }
+ }
+ 
++// Module 25: why can't Telegram be used right now? null = ready to send.
++export function telegramOffReason(): string | null {
++  if (bot === undefined) return "TELEGRAM_BOT_TOKEN is empty";
++  if (ownerChat === undefined) return "TELEGRAM_CHAT_ID is empty";
++  return null;
++}
++
++// Module 25: send one file to the owner, with a caption under it. Its content is text (for example CSV) wrapped in a
++// Buffer: new InputFile("text...") can NOT be used, because grammY takes text as a file PATH on the disk
++// (error ENOENT). The file name must be given, so that Telegram shows it as report-2026-10-26.csv.
++export async function sendFile(name: string, content: string, caption: string): Promise<boolean> {
++  if (bot === undefined || ownerChat === undefined) return false;
++  try {
++    const file = new InputFile(Buffer.from(content, "utf8"), name); // text -> UTF-8 bytes (the BOM included, 3 bytes)
++    await bot.api.sendDocument(ownerChat, file, { caption }); // files up to 50 MB, a caption up to 1024 characters
++    log.info(`Telegram sent: file ${name} (${Buffer.byteLength(content, "utf8")} bytes), ${caption}`);
++    return true;
++  } catch (error) { // the same as notify(): refused by the Bot API, server unreachable, or another error
++    if (error instanceof GrammyError) log.error(`Telegram refused the file ${name}: ${error.description}`);
++    else if (error instanceof HttpError) log.error(`Telegram server unreachable: ${error.message}`);
++    else log.error(`Telegram couldn't send the file ${name}: ${(error as Error).message}`);
++    return false;
++  }
++}
++
+ // Debouncing: notify only when the situation changes, and while it is still dangerous at most once every 30 minutes
+ // (shouldNotify). key = "rule:<number>". reminder = true for an ordinary reading during danger (not a change).
+ const records = new Map<string, NotifyRecord>();

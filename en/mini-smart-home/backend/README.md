@@ -2,9 +2,11 @@
 
 🌐 **English** · [Bahasa Indonesia](../../../proyek-rumah-pintar-mini/backend/README.md)
 
-Backend v1.1 of the Mini Smart Home project: a Node.js 24 server in light TypeScript that listens to every `msh/#` MQTT message, checks every message against data contract 1.4 (Zod schemas), keeps the last state of every device in memory, archives every message in a PostgreSQL database with the TimescaleDB add-on (through Docker), and provides a documented API. The reading history can be requested raw or already summarized per 15 minutes, per hour, or per day. Since Module 19, readings also flow live through Socket.IO, every command goes through one door (with the desired and the reported state), automation rules and schedules are stored in the database and can be changed through the API without restarting the server, every important event is recorded, and alerts are sent through Telegram. Since Module 20, the API and Socket.IO are **locked for people**: guests must log in first, `viewer` accounts can only look, login attempts are limited, and other web pages can't make the server act on a user's behalf. Since Module 21, the backend is also **locked for devices**: only devices an admin has registered (with a per-device key) have their data processed, messages from unregistered or revoked devices are ignored, and the backend itself connects to the broker with its own account. 🎉 **Phase 3 checkpoint: the house is locked for people and for devices.**
+Backend v1.2 of the Mini Smart Home project: a Node.js 24 server in light TypeScript that listens to every `msh/#` MQTT message, checks every message against data contract 1.4 (Zod schemas), keeps the last state of every device in memory, archives every message in a PostgreSQL database with the TimescaleDB add-on (through Docker), and provides a documented API. The reading history can be requested raw or already summarized per 15 minutes, per hour, or per day. Since Module 19, readings also flow live through Socket.IO, every command goes through one door (with the desired and the reported state), automation rules and schedules are stored in the database and can be changed through the API without restarting the server, every important event is recorded, and alerts are sent through Telegram. Since Module 20, the API and Socket.IO are **locked for people**: guests must log in first, `viewer` accounts can only look, login attempts are limited, and other web pages can't make the server act on a user's behalf. Since Module 21, the backend is also **locked for devices**: only devices an admin has registered (with a per-device key) have their data processed, messages from unregistered or revoked devices are ignored, and the backend itself connects to the broker with its own account. 🎉 **Phase 3 checkpoint: the house is locked for people and for devices.**
 
 **v1.1 (Module 24)** adds three small things dashboard v1.0 needs: **below-threshold** rules (for example water when the soil is below 30%), threshold rules that **send a command once** (for example the pump for 5 seconds), and **deleting rules** (`DELETE /rules/:id`). No database migration and no data-contract change (still 1.4); details in [Version 1.1 notes](#version-11-notes).
+
+**v1.2 (Module 25)** adds two things for the device map and the daily report: `GET /devices` now carries each device's **map point** (`lat`, `lng`), and the admin moves it with `PUT /devices/:id/location`; the backend also sends a **daily CSV report** through the Telegram bot every morning (default 07:00 WIB, setting `REPORT_SCHEDULE`), and `POST /reports/send` sends it right now. No database migration, no new npm package, the data contract stays 1.4; details in [Map and daily report](#map-and-daily-report-module-25) and [Version 1.2 notes](#version-12-notes).
 
 ## How to run it
 
@@ -38,7 +40,7 @@ Backend v1.1 of the Mini Smart Home project: a Node.js 24 server in light TypeSc
    npm run users -- add viewer@home.test "Home Guest" viewer
    ```
 
-9. (Optional) For Telegram alerts, fill in `TELEGRAM_BOT_TOKEN` (the token from @BotFather) and `TELEGRAM_CHAT_ID` (the number the bot answers when you send `/start`) in `.env`. Empty = Telegram notifications off. That token is a secret, like a password.
+9. (Optional) For Telegram alerts, fill in `TELEGRAM_BOT_TOKEN` (the token from @BotFather) and `TELEGRAM_CHAT_ID` (the number the bot answers when you send `/start`) in `.env`. Empty = Telegram notifications off. That token is a secret, like a password. Since Module 25, the same bot also sends the daily CSV report every morning; its time is set by `REPORT_SCHEDULE` in `.env` (a 5-field cron in WIB, default `0 7 * * *` = 07:00 WIB). Leave the line `# TELEGRAM_API_ROOT=` in `.env.example` commented out: it is only used for a mock Bot API server in the lab.
 10. Run `npm run dev`, then open the documentation at `http://127.0.0.1:8080/docs`. To try the routes with a padlock there, log in first with **Try it out** on `POST /auth/login`; the browser keeps the cookie and sends it by itself to the other routes (the **Authorize** button isn't used).
 
 | Command | What it does |
@@ -46,7 +48,7 @@ Backend v1.1 of the Mini Smart Home project: a Node.js 24 server in light TypeSc
 | `npm run dev` | runs the server and restarts it every time the code or `.env` is saved |
 | `npm start` | runs the server without automatic restarts; **Ctrl + C** stops it gracefully (on Windows, `npm run dev` + **Ctrl + C** kills the server at once) |
 | `npm run check` | checks the TypeScript types, test files included (run it before every commit) |
-| `npm test` | runs the unit tests with Vitest: the rules engine and the rule schema (`src/rules/*.test.ts`; since Module 24 also below-threshold rules), login (`src/auth/auth.test.ts`), device keys (`src/auth/key.test.ts`, Module 21), the guest book and second layer (`src/services/registry.test.ts`), the registration routes (`src/routes/devices.test.ts`), the delete-rule route with its guard: guest 401, viewer 403, the `DELETE` preflight (`src/routes/rules.test.ts`, Module 24), and a running watering rule: the pump sent once, turning off without a command, a refused command marked `ok: false`, a deleted or deactivated rule no longer acting (`src/services/automation.test.ts`, Module 24) |
+| `npm test` | runs the unit tests with Vitest: the rules engine and the rule schema (`src/rules/*.test.ts`; since Module 24 also below-threshold rules), login (`src/auth/auth.test.ts`), device keys (`src/auth/key.test.ts`, Module 21), the guest book and second layer (`src/services/registry.test.ts`), the registration routes (`src/routes/devices.test.ts`), the delete-rule route with its guard: guest 401, viewer 403, the `DELETE` preflight (`src/routes/rules.test.ts`, Module 24), and a running watering rule: the pump sent once, turning off without a command, a refused command marked `ok: false`, a deleted or deactivated rule no longer acting (`src/services/automation.test.ts`, Module 24), then (Module 25) the map point: the location schema and the `PUT /devices/:id/location` route with its guard (`src/routes/location.test.ts`), the CSV maker (`src/services/csv.test.ts`), the daily report: yesterday's WIB range, the CSV content, Telegram off or refusing, a late WIB schedule still reporting the right day, a missed schedule only reported (`src/services/reports.test.ts`), the `POST /reports/send` route (`src/routes/reports.test.ts`), a report file sent with its name and the 📴/✅ messages after 60 seconds (`src/services/telegram.test.ts`), a retained `online` status after a broker restart (`src/services/mqtt.test.ts`), and the `REPORT_SCHEDULE` setting (`src/config/env.test.ts`) |
 | `npm run migrate` | runs the new SQL files in the `migrations/` folder (safe to repeat) |
 | `npm run seed-history` | fills in 7 days of practice data for the practice devices `f00d00000001` and `f00d00000002` |
 | `npm run users -- add <email> "<name>" <admin\|viewer>` | creates an account; the password is asked for and only shows up as `*` (at least 15 characters, at most 72 bytes) |
@@ -71,7 +73,7 @@ docker exec smarthome-db psql -U postgres -d smarthome -f /tmp/load-1-million.sq
 - **Roles**: `admin` may do everything; `viewer` only `GET`/`HEAD` (anything else gets `403`).
 - **Rate limit**: at most 10 `POST /auth/login` attempts per minute from the same IP address; the 11th attempt gets `429` with a `retry-after` header. The counts live in memory: a server restart = starting from zero.
 - **CORS and the page's origin**: web pages in `CORS_ORIGIN` (`.env`, default `http://localhost:5173,http://127.0.0.1:5173` for Module 22) may call the API from a browser with cookies. Requests other than `GET`/`HEAD` that carry an `Origin` header from another page are refused with `403`; curl, Bruno, and Node don't send `Origin`, so they aren't affected.
-- **Bruno**: the `bruno/` collection has the requests `login admin`, `login viewer`, `wrong login`, `who am i`, `refresh`, and `logout`, plus (Module 21) `register Node 1`, `register Node 2 via Node 1`, `register practice device`, `rotate practice device key`, and `revoke practice device key`, and (Module 24) `create soil watering rule` and `delete rule` (replace the number in the `delete rule` address with the `id` from the `create soil watering rule` answer; it defaults to `4`, the first rule number after the three Module 19 rules). Their passwords are read from `bruno/.env` (not in Git) holding `ADMIN_PASSWORD=…` and `VIEWER_PASSWORD=…`. Send `login admin` or `login viewer` first; the other requests use its cookie automatically.
+- **Bruno**: the `bruno/` collection has the requests `login admin`, `login viewer`, `wrong login`, `who am i`, `refresh`, and `logout`, plus (Module 21) `register Node 1`, `register Node 2 via Node 1`, `register practice device`, `rotate practice device key`, and `revoke practice device key`, and (Module 24) `create soil watering rule` and `delete rule` (replace the number in the `delete rule` address with the `id` from the `create soil watering rule` answer; it defaults to `4`, the first rule number after the three Module 19 rules), plus (Module 25) `register mock Garden` (fake Node 2 `f00d000000b2` via `f00d00000001`, for the path without a Node 2; see `tools/README.md`), `set device location`, and `send report now` (`?day=today`). Their passwords are read from `bruno/.env` (not in Git) holding `ADMIN_PASSWORD=…` and `VIEWER_PASSWORD=…`. Send `login admin` or `login viewer` first; the other requests use its cookie automatically.
 
 ## API
 
@@ -82,10 +84,11 @@ docker exec smarthome-db psql -U postgres -d smarthome -f /tmp/load-1-million.sq
 | `POST /auth/logout` | open | deletes the session and both cookies; always `{"message":"logged out"}` |
 | `GET /auth/me` | login | the account that is logged in (read from the database) |
 | `GET /health` | open | is the server alive? connected to the broker and the database? how many messages were `received`, `rejected` (failed the contract), and `ignored` (from unregistered/revoked devices, Module 21)? |
-| `GET /devices` | login | the devices from the database: the registered ones, the revoked ones, and old rows that aren't registered; the `key` column marks `active`/`revoked`/`no-key`/`unregistered` (the key fingerprint is never included) |
+| `GET /devices` | login | the devices from the database: the registered ones, the revoked ones, and old rows that aren't registered; the `key` column marks `active`/`revoked`/`no-key`/`unregistered` (the key fingerprint is never included); since Module 25 also the map point `lat`/`lng` (`null` = not set yet) |
 | `POST /devices` | admin | register a device (Module 21): the answer carries the 43-character `key` **shown only this once** and the next `steps`; `linked_via` for an ESP-NOW device (Node 2) whose data Node 1 publishes (no key) |
 | `POST /devices/:id/key` | admin | make a new key (the old key stops working at once); also brings a revoked device back to life |
 | `POST /devices/:id/revoke` | admin | revoke the key of a lost or stolen device: the backend ignores its data at once, commands to it are answered 409 |
+| `PUT /devices/:id/location` | admin | sets the device's point on the map (Module 25): `{ "lat": -6.1754, "lng": 106.8272 }` with a decimal **point**; `{ "lat": null, "lng": null }` removes the point. The answer is one device row as in `GET /devices`; the `location` text doesn't change |
 | `GET /devices/:id/latest` | login | the latest `telemetry` reading of one device |
 | `GET /devices/:id/vitals` | login | the last health report of one device |
 | `GET /devices/:id/readings?from=…&to=…` | login | the raw reading history from the database (default: the last hour; at most 1,000 readings) |
@@ -97,6 +100,7 @@ docker exec smarthome-db psql -U postgres -d smarthome -f /tmp/load-1-million.sq
 | `PUT /rules/:id` | admin | replaces the whole content of one rule; it applies right away without restarting the server, and the threshold of a fan rule is sent to the device as a retained `config` |
 | `DELETE /rules/:id` | admin | deletes one rule (Module 24); it stops applying right away, and the answer is `{ id, name, message }`. Its desired state is forgotten too, so a device that restarts doesn't receive that rule's command again; an actuator it turned on is left as it is. Its command and event history stays (its `rule_id` column becomes empty). To keep a rule without running it, use `PUT` with `"active": false` |
 | `POST /rules/:id/run` | admin | runs the action of one schedule rule right now (to test it, without waiting for its time) |
+| `POST /reports/send` | admin | sends the daily CSV report to Telegram right now (Module 25), with the same content as the scheduled report (yesterday 00:00–24:00 WIB); `?day=today` = today's partial report since 00:00 WIB. The answer is `{ file, from, to, devices, size_bytes, caption }` |
 
 "login" = any account that is logged in (`admin` or `viewer`). Live data is available through **Socket.IO** at the same address (`/socket.io/`), also with the `access` cookie: send `follow` with a `device_id` (its answer carries the last reading) to receive that device's `telemetry` events; the `status` and `event` events go to every client. Without the cookie, the connection is refused (`connect_error` `not logged in`); when the wristband expires, the server cuts the connection and the client must refresh, then connect again. An example client: `tools/live-terminal.js` (its account is read from `tools/.env`).
 
@@ -123,6 +127,47 @@ The rule shapes are written in `src/schemas/rule-basics.ts` (without node-cron, 
 With `bucket`, the answer has the shape `{ device_id, from, to, bucket, count, summary: [ { time, avg_temp, min_temp, max_temp, avg_humidity, avg_soil, avg_light, reading_count } ] }`. `time` is the start of the bucket (UTC), and `from` is rounded down to the start of a bucket. The 15-minute summary is computed directly from the raw readings, the hourly summary is read from `readings_hourly`, and the daily summary combines the hourly summaries into WIB days. Its daily averages are exactly the same as a calculation from the raw readings, because every hour stores an average and the number of values (`avg_temp` and `temp_n`, and so on).
 
 The Bruno collection for every route is in the `bruno/` folder (choose the `local` environment).
+
+## Map and daily report (Module 25)
+
+**Map point.** The `lat` (latitude) and `lng` (longitude) columns have been in the `devices` table since migration `001`; since v1.2 both come with `GET /devices`, so the dashboard's Map page can draw every device. The point is set by the admin with `PUT /devices/:id/location` (Bruno: `set device location`):
+
+```json
+{ "lat": -6.1754, "lng": 106.8272 }
+```
+
+The numbers are decimal degrees with a **point**, because JSON has no decimal comma. `lat` −90 to 90 (Jakarta about −6.2) and `lng` −180 to 180 (Jakarta about 106.8), both filled in as a pair; `{ "lat": null, "lng": null }` removes the point. Other fields are refused, so the `location` text ("living room") doesn't change. The possible answers:
+
+| Code | Example `message` |
+| :--- | :--- |
+| `200` | one device row, the same as `GET /devices`, with its new point |
+| `400` | `body/lat must be a number with a decimal point, for example -6.1754 (not the text "-6,1754")`, `body/lat latitude at most 90`, `body/lng lat and lng go in pairs: both numbers, or both null to remove the point`; `{"lat": -6,2}` without quotes isn't even JSON: `Body is not valid JSON but content-type is set to 'application/json'` |
+| `403` | a `viewer` account (the Module 20 guard) |
+| `404` | `f00d0000ffff isn't in the device list` |
+
+A home's point is personal data: the backend log only records `map point of <device_id> set by account 1`, without the numbers. For examples and screenshots, use a fictional point in a public place (the example above: around Monas, Jakarta).
+
+**Daily CSV report.** Every day at `REPORT_SCHEDULE` (default `0 7 * * *` = 07:00 WIB; a **5**-field cron, always counted in WIB whatever the laptop's time zone), the backend summarizes **yesterday 00:00–24:00 WIB** for every registered device whose key isn't revoked, then the Module 19 Telegram bot sends it to the owner's chat as the file `report-YYYY-MM-DD.csv` (date = the day reported) with the caption `📊 Mini Smart Home daily report 26 Oct 2026: 3 device(s)`. Everything is counted in one SQL query (`src/services/reports.ts`):
+
+| Column | What it holds | Source |
+| :--- | :--- | :--- |
+| `device_id`, `name`, `kind` | the device (`name` empty → `device_id`) | `devices` |
+| `reading_count` | the number of `telemetry` messages that day (Node 1 about 8,640, Node 2 about 288; 0 = silent all day) | `readings_hourly` |
+| `avg_temp`, `min_temp`, `max_temp`, `avg_humidity`, `avg_soil`, `min_soil` | the daily summary (an exact average from the hourly averages × the number of values, like `bucket=1d`) | `readings_hourly` |
+| `avg_rssi`, `worst_rssi`, `min_heap`, `restarts` | health from `vitals`; `restarts` = how many times `uptime_s` dropped. Empty for Node 2 (it doesn't send `vitals`) | `device_health` |
+| `disconnects` | how many times its status became `offline`/`offline-mode` | `events` |
+
+The format is the same as the dashboard's Module 23 CSV download (`src/services/csv.ts`): a comma separator, a decimal point, a BOM at the start of the file, CRLF at the end of every line; it's set up for Excel or LibreOffice Calc with English regional settings. The file is sent as a `Buffer` (`new InputFile(Buffer.from(content, "utf8"), name)`): `new InputFile("text…")` is taken as a file path by grammY and fails (`ENOENT`).
+
+To test it without waiting for its time, send `POST /reports/send` (Bruno: `send report now`). Without a choice, its content is the same yesterday's report; `?day=today` sends today's partial report since 00:00 WIB (the file `report-YYYY-MM-DD-partial.csv`), useful when your system has only been on since today. If `TELEGRAM_BOT_TOKEN` or `TELEGRAM_CHAT_ID` is empty, this route answers `409 {"message":"report not sent: Telegram off (TELEGRAM_BOT_TOKEN is empty)"}` and the scheduled report only writes `daily report skipped: Telegram off (…)` to the log; Telegram refusing or unreachable = `502`, the database down = `503`.
+
+An example of the backend log when the scheduled report runs (test schedule `20 21 * * *`, then set back to `0 7 * * *`):
+
+```text
+INFO: daily report scheduled: "20 21 * * *" Asia/Jakarta, next 26 Oct 2026, 21:20 WIB
+INFO: daily report running on schedule
+INFO: Telegram sent: file report-2026-10-25.csv (357 bytes), 📊 Mini Smart Home daily report 25 Oct 2026: 3 device(s)
+```
 
 ## Device and broker security (Module 21)
 
@@ -199,6 +244,20 @@ SELECT (SELECT count(*) FROM readings) AS readings,
 
 Once it is proven, delete the copy with `docker exec smarthome-db dropdb -U postgres smarthome_restored`.
 
+## Version 1.2 notes
+
+Backend 1.2.0 was made in Module 25 so that dashboard 1.1 can draw the device map and so that the daily report arrives by itself through Telegram.
+
+- **`lat` and `lng` in `GET /devices`** (`DeviceRow` and `COLUMNS` in `src/db/devices.ts`, the `Device` schema and `present()` in `src/routes/devices.ts`). The other answer shapes don't change; an old client simply ignores these two new fields.
+- **`PUT /devices/:id/location`** (admin): the `LocationBody` schema (Zod: `lat` −90..90, `lng` −180..180, finite numbers, in pairs; `null` + `null` removes the point; other fields refused) and `setDeviceLocation()` in `src/db/devices.ts`. `PUT` has been in the CORS `methods` since Module 19, so the dashboard can call it from a browser without a change to `src/auth/security.ts`.
+- **Daily report**: `src/services/csv.ts` (Module 23's CSV recipe on the server), `src/services/reports.ts` (yesterday's WIB range, the summary query, `makeReportCsv()`, the node-cron schedule `timezone: "Asia/Jakarta"` with `noOverlap` and a missed-schedule recorder like `src/services/schedule.ts`), `sendFile()` and `telegramOffReason()` in `src/services/telegram.ts` (the same bot, `sendDocument`), `REPORT_SCHEDULE` in `src/config/env.ts` (a 5-field cron; 6 fields are refused because they mean something else), and the `POST /reports/send` route (`src/routes/reports.ts`). The report schedule stops neatly too through `stopSchedules()` (`cron.shutdown()`).
+- **`.env.example`**: `REPORT_SCHEDULE=0 7 * * *` and the commented-out line `# TELEGRAM_API_ROOT=` (a setting that has existed since Module 19 but was never written down).
+- **No database migration and no new npm package**: `lat`/`lng` have existed since migration `001`, node-cron 4.6.0 and grammY 1.46.0 have been used since Module 19. The data contract stays **1.4**; the firmware doesn't change.
+- **Downgrading**: a 1.1 backend that receives the same database keeps running (the map points are stored in columns that already existed); only the report and its new routes are gone.
+- **Fix: a false 📴 after a broker restart** (`src/services/mqtt.ts`). When the broker stops, every device's `offline` will is published and the backend starts waiting 60 seconds before sending 📴. If the device connects again BEFORE the backend, its `online` message arrives as a retained message, and v1.1 ignored retained messages for Telegram: a false 📴 was sent a minute later, and the next 📴 for that device never came until the backend restarted. Since v1.2, a retained `online` also cancels a 📴 that is waiting (two lines, tested by `src/services/mqtt.test.ts`).
+- **The report schedule uses its scheduled time**: a schedule that only runs a few minutes later (for example `REPORT_SCHEDULE=50 23 * * *` and a laptop that only wakes up at 00:01) still reports the day before that scheduled time, not the day that has just ended.
+- Version `1.2.0` in `package.json` and in `/docs`.
+
 ## Version 1.1 notes
 
 Backend 1.1.0 was made in Module 24 so that dashboard v1.0 can create the rule "water if soil < 30%" and delete rules.
@@ -214,13 +273,15 @@ Backend 1.1.0 was made in Module 24 so that dashboard v1.0 can create the rule "
 - **Downgrading**: a v1.0 backend that reads a rule of the new shape doesn't crash; that rule is skipped with the warning `rule N skipped: …` (see `loadRules()`), and the other rules keep running. A skipped rule is NOT shown by `GET /rules` in v1.0 either (the dashboard seems to lose it); its data stays whole in the database and shows again once you move up to 1.1. Don't save that rule number through a v1.0 `PUT`: its content would be overwritten with a v1.0 shape.
 - Version `1.1.0` in `package.json` and in `/docs`.
 
-## Limits of v1.1
+## Limits of v1.2
 
 - `GET /devices/:id/latest`, `vitals`, and `state` are still read from memory, so they are empty again after every server restart. The desired state (`desired`) and the "for" count of every rule are also lost when the server restarts; the reading history, the commands, the rules, the events, the accounts, and the sessions are stored permanently in the database.
 - Readings that arrive while the database can't be reached aren't stored.
 - Raw readings are only kept for 90 days; for older times, only their hourly summaries remain.
 - The days of the `1d` summary are WIB days (`Asia/Jakarta`), also for devices in WITA or WIT. Rule schedules are counted in WIB too.
 - Rules and schedules only run while the backend is running. A schedule that is more than 15 minutes late (for example a laptop asleep at 06:00) isn't run afterwards, only recorded; if the backend is off at that time, nothing is recorded. When the broker can't be reached, Node 1 runs its own fan safety with the threshold from `config`.
+- **The daily report is also only sent while the backend is on** (Module 25). A laptop that sleeps more than 15 minutes past `REPORT_SCHEDULE` doesn't send it afterwards: the log and Telegram only record `⏰ The daily report of … was missed`; send it by hand with `POST /reports/send`. If the backend is off at that time, nothing is recorded at all. A server that is always on follows in Modules 26–27. The report is only sent to one chat (`TELEGRAM_CHAT_ID`), and the first day's report (no data yesterday yet) is really empty: use `?day=today`. A broker restart counts as one disconnect (`disconnects`) for every Node 1 connected at that moment: its `offline` will really is published.
+- **`devices.last_seen` isn't "the last data"**: this column is moved forward by EVERY message of a registered device, `status` messages included (the broker's `offline` will, Node 2's status published by Node 1, and retained statuses the broker sends again when the backend starts). For "when did the device last send data" (for example the "silent node" alert in Grafana, Module 25), use `readings.received_at` of its latest reading. This column's behavior is deliberately not changed in v1.2.
 - Changes made to the rules directly in the database (for example through DBeaver) are only read when the server restarts or when another rule is changed through the API; use the `/rules` API.
 - A rule with a `command` action (for example the pump, once) only acts when the rule changes state. Because its count is lost when the server restarts or the rule is changed, its command is sent once more if its condition still holds after that.
 - Deactivating or deleting a fan rule does **not** withdraw the retained `temp_fan_on` `config` already sent: Node 1 keeps using that last number as its local safety rule while the broker can't be reached.

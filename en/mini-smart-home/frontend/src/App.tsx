@@ -2,6 +2,7 @@
 // 1. asking the backend "who am I?" (GET /auth/me) when the page opens;
 // 2. keeping the live connection (Socket.IO) while logged in (Module 23);
 // 3. holding the route map (Module 24): which address shows which screen, and which screens are guarded.
+//    Module 25: plus the /map screen (the device map).
 import { useEffect } from "react";
 import { Navigate, Route, Routes } from "react-router";
 import { ApiError, whoAmI } from "./api";
@@ -13,6 +14,7 @@ import DevicesPage from "./pages/Devices";
 import DetailsPage from "./pages/Details";
 import RuleFormPage from "./pages/RuleForm";
 import LoginPage from "./pages/Login";
+import MapPage from "./pages/Map";
 import HistoryPage from "./pages/History";
 import NotFound from "./pages/NotFound";
 import { useRealtime } from "./socket";
@@ -66,6 +68,8 @@ export default function App() {
           <Route path="/devices" element={<DevicesPage />} />
           <Route path="/devices/:id" element={<DetailsPage />} />
           <Route path="/devices/:id/history" element={<HistoryPage />} />
+          {/* Module 25: the device map, for admins and viewers (outside the AdminOnly guard) */}
+          <Route path="/map" element={<MapPage />} />
           <Route path="/rules" element={<RulesPage />} />
           {/* the second guard: screens that change something are for admins only */}
           <Route element={<AdminOnly />}>

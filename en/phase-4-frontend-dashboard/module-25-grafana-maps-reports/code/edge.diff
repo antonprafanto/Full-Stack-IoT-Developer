@@ -1,0 +1,31 @@
+diff --git a/edge/README.md b/edge/README.md
+index a518ff7..41b989b 100644
+--- a/edge/README.md
++++ b/edge/README.md
+@@ -103,6 +103,8 @@ Up to Module 20, the broker let anyone in without a password (`allow_anonymous t
+ 
+ - **The account for each program.** Backend: `backend` (`.env`, `MQTT_USERNAME`/`MQTT_PASSWORD`). Node-RED: `nodered`, filled in on the **Security** tab of the broker node (double-click the "Mosquitto on the gateway" node → **Security** → Username `nodered` + Password → **Done** → **Deploy**); those credentials are stored encrypted in `flows_cred.json`, **not** in `node-red-flows.json`, so exporting the flows stays safe. MQTTX for monitoring: the `monitor` account (may read `msh/#` and `$SYS/#`, may not write). The `contract-checker.js` tool: the `checker` account (reads `msh/#` only).
+ 
++- **The mock Garden, the path without a Node 2 ([Module 25](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-4-frontend-dashboard/module-25-grafana-maps-reports/README.md)).** The simulator `tools/device-simulator.js` can run a fake Node 2 `f00d000000b2` whose data is published by the fake device `f00d00000001`. For the broker to allow it, open the block `2b) Laptop path (Module 25)` in `acl-broker`: delete `# ` (the hash and its space) in front of the three lines `user f00d00000001`, `topic write msh/f00d000000b2/telemetry`, and `topic write msh/f00d000000b2/status`, save, then **restart** the broker. Laptop broker (`mosquitto -v -c mosquitto-lan.conf`): **Ctrl + C**, then run the same command again. Broker on the Pi: copy `acl-broker` to the Pi as above, `sudo cp ~/acl-broker /etc/mosquitto/`, then `sudo systemctl restart mosquitto`. Readers with a real Node 2 don't need this block (leave it commented out). How to use the mock Garden is in `tools/README.md`.
++
+ Its traffic is still unencrypted: the key travels in the clear on the LAN (see `tools/sniffer.js`). That's fine for now on a closed home network, but TLS is a must before the broker is opened to the internet (Module 27) — don't set up port forwarding to the Pi.
+ 
+ ## Node-RED and the dashboard (Module 13)
+diff --git a/edge/acl-broker b/edge/acl-broker
+index 419ef69..3fc78fe 100644
+--- a/edge/acl-broker
++++ b/edge/acl-broker
+@@ -17,6 +17,13 @@ user a4cf12e5b7c0
+ topic write msh/246f28b1c7d4/telemetry
+ topic write msh/246f28b1c7d4/status
+ 
++# 2b) Laptop path (Module 25): the "mock Garden" f00d000000b2 is published by the first fake device f00d00000001 (simulator in
++#     tools/), exactly like item 2. Only for readers WITHOUT a real Node 2: delete "# " (the hash and its space) in front of
++#     the three lines below, save, then RESTART the broker. Readers with Kit A + B don't need this block.
++# user f00d00000001
++# topic write msh/f00d000000b2/telemetry
++# topic write msh/f00d000000b2/status
++
+ # 3) Backend: reads all device messages, sends commands (set and config) to cmd.
+ user backend
+ topic read msh/#

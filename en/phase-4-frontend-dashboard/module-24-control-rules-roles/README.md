@@ -4,7 +4,7 @@
 
 *Phase 4 · Week 24 · Hardware: **Kit A + B** or the Module 21 simulator (`f00d00000001`), plus a **phone** on the same home Wi-Fi and **one tester** · Prerequisites: **Module 23** (dashboard v0.2 on `main`), **Module 20** · Time: 11–13 hours, spread over the week*
 
-[⬅️ Module 23](../module-23-realtime-dashboard/README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · [Module 25 ➡️ (coming soon — read the summary in the Syllabus)](../../SYLLABUS.md#module-25--professional-visualization-grafana-device-maps--reports)
+[⬅️ Module 23](../module-23-realtime-dashboard/README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · [Module 25 ➡️](../module-25-grafana-maps-reports/README.md)
 
 ---
 
@@ -4012,7 +4012,7 @@ The pass requirement from the Syllabus: **someone else (not you) can log in from
 
 🎉 **Your dashboard now commands, not just watches.** Every screen has an address that survives **Back** and **F5**, a guard at its door, and a complete logout. The admin turns on the lamp with a button that honestly waits for the device, creates a watering rule from a form checked by the same schema as the backend, and gets on-screen notices; the viewer sees everything without a single control button, and the backend's guard still keeps watch. This dashboard v1.0 still lives on the home Wi-Fi over plain `http://`; HTTPS and access from the internet wait for Module 27. One more module to the Phase 4 Checkpoint.
 
-> ➡️ **Next module:** Module 25 — Professional Visualization: Grafana, Device Maps, & Reports (coming soon; [read the summary in the Syllabus](../../SYLLABUS.md#module-25--professional-visualization-grafana-device-maps--reports)). The dashboard you built stays for the people of the house; for the technical team comes Grafana, which reads TimescaleDB and sends a Telegram alert when a node has been silent for more than 5 minutes, plus a device map and automatic daily CSV reports.
+> ➡️ **Next module:** [Module 25 — Professional Visualization: Grafana, Device Maps, & Reports](../module-25-grafana-maps-reports/README.md). The dashboard you built stays for the people of the house; for the technical team comes Grafana, which reads TimescaleDB and sends a Telegram alert when a node has been silent for more than 5 minutes, plus a device map and automatic daily CSV reports.
 
 ## 📚 Sources & Image Credits
 
@@ -4042,4 +4042,4 @@ The Pi's clock is in the UTC+8 zone; the backend used `TZ=Asia/Jakarta`, so the 
 
 ---
 
-[⬅️ Module 23](../module-23-realtime-dashboard/README.md) · [Phase 4](../README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · **Next: Module 25 — Professional Visualization: Grafana, Device Maps, & Reports** (coming soon; [read the summary in the Syllabus](../../SYLLABUS.md#module-25--professional-visualization-grafana-device-maps--reports))
+[⬅️ Module 23](../module-23-realtime-dashboard/README.md) · [Phase 4](../README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · **Next: [Module 25 — Professional Visualization: Grafana, Device Maps, & Reports](../module-25-grafana-maps-reports/README.md) ➡️**

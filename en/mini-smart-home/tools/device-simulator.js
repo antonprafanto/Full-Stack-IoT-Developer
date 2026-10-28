@@ -9,6 +9,9 @@
 // rejects its key, that device retries every 60 seconds, like Node 1 v1.6.0.
 // Module 24: the soil moisture and the tank level can be set from the terminal too, and a pump command is refused if the tank
 // is below 20 % with exactly the same reason as the Node 1 firmware ("pump refused: tank water too low").
+// Module 25: the "mock Garden" f00d000000b2, a fake Node 2 whose data is published by the first fake device (f00d00000001),
+// exactly like a real Node 2 via Node 1: wakes every 300 seconds, online with its first packet, offline after 960 seconds without
+// a packet. Needs the ACL block "Laptop path (Module 25)" in edge/acl-broker (then restart the broker) and a registration with linked_via.
 //
 // How to use (from a terminal, in the tools folder):
 //   node --env-file=.env device-simulator.js mqtt://192.168.1.37:1883            -> 10 fake devices
@@ -22,7 +25,11 @@
 //   soil random  -> back to a random soil reading of 20-60 %
 //   tank 15      -> Module 24: the tank is 15 % full (a whole number 0-100); below 20 %, pump commands are refused like Node 1
 //   tank random  -> back to a random tank level of 30-90 %
-// Stop with Ctrl+C: the broker then publishes the "offline" last will of every fake device.
+//   garden start  -> Module 25: the mock Garden starts (one packet now, then every 300 seconds; can't be sped up)
+//   garden pull   -> "pulls out the Garden's battery": its packets stop, the offline status only comes 960 seconds after the last packet
+//   garden insert -> "puts the battery back": the Garden wakes up at once and sends a packet, then every 300 seconds
+// Stop with Ctrl+C: the broker then publishes the "offline" last will of every fake device. The mock Garden goes silent too, but
+// its status stays "online" (Node 2 has no last will; exactly like a real Node 2 when Node 1 is off).
 
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { createInterface } from "node:readline";
@@ -35,6 +42,13 @@ const OFFLINE_MODE_TIMEOUT = 2 * 60 * 1000; // Module 19: broker unreachable for
 const FAN_HYSTERESIS = 2; // Module 19: the safety fan turns off below temp_fan_on - 2 (hysteresis, Module 13)
 const STORE_FILE = "data/simulator-store.json"; // Module 19: the NVS stand-in; Git ignores the data/ folder (.gitignore)
 const MIN_WATER_LEVEL = 20; // Module 24: the same as Node 1's config.h: the pump is refused if the tank is below 20 %
+// Module 25: the mock Garden
+const GARDEN_ID = "f00d000000b2"; // the device_id of the fake Node 2 ("b2" = Node 2), registered with the linking device f00d00000001
+const LINKING_ID = "f00d00000001"; // the first fake device plays the Node 1 that publishes the Garden's data
+// Node 2 wakes up every 300 seconds (INTERVAL_SECONDS in the Node 2 firmware). DON'T shorten it: the Grafana "silent node" alert
+// (Module 25) counts the delay from this 5-minute schedule.
+const GARDEN_INTERVAL = 300 * 1000;
+const GARDEN_OFFLINE_AFTER = 3 * GARDEN_INTERVAL + 60 * 1000; // 960 seconds = 3 x the interval + 1 minute, the same as the Node 1 bridge
 
 // a fake device_id: 12 lowercase hexadecimal digits, starting with f00d so it's easy to recognize
 function makeDeviceId(number) {
@@ -115,6 +129,7 @@ function runDevice(deviceId) {
     reconnectOnConnackError: true, // Module 21: without this, the library stops trying as soon as the broker rejects its key
     will: { topic: topic("status"), payload: "offline", qos: 1, retain: true },
   });
+  if (deviceId === LINKING_ID) attachGardenLinking(client); // Module 25: the mock Garden rides on this device
 
   // Module 21: broker rejects the key? Write it clearly, then retry only 60 seconds later (like Node 1 v1.6.0).
   client.on("error", (error) => {
@@ -283,6 +298,106 @@ function runDevice(deviceId) {
   scheduleNext(Math.random() * 10000); // the first send at a random second so that the fake devices don't all send at once
 }
 
+// ---- Module 25: the mock Garden (a fake Node 2 published by the first fake device) ----
+let linking = null; // the MQTT client of f00d00000001: only this account may write the Garden's topics (the Module 25 ACL block)
+let gardenStarted = false; // true after "garden start"
+let gardenBattery = false; // true = the Garden wakes every 300 seconds; false = its battery is "pulled out"
+let gardenTimer = null; // the next wake-up (like a 300-second deep sleep)
+let lastGardenPacket = 0; // when the Garden's last packet was published (Date.now()); 0 = never
+let gardenStatus = null; // the Garden status the linking device published last: "online", "offline", or null (never)
+const wibTime = new Intl.DateTimeFormat("en-GB", { timeZone: "Asia/Jakarta", hour: "2-digit", minute: "2-digit",
+  second: "2-digit" });
+const at = (time) => `${wibTime.format(time)} WIB`; // for example 21:03:02 WIB, the same as the time in the backend's Telegram messages
+const randomInt = (min, max) => min + Math.floor(Math.random() * (max - min + 1));
+const randomOneDecimal = (min, max) => Math.round((min + Math.random() * (max - min)) * 10) / 10;
+
+// Called by runDevice() for f00d00000001. Like a real Node 1, every time it connects (again) to the broker, the
+// linking device publishes again the last Garden status it knows.
+function attachGardenLinking(client) {
+  linking = client;
+  client.on("connect", () => {
+    if (gardenStatus !== null) client.publish(`msh/${GARDEN_ID}/status`, gardenStatus, { qos: 1, retain: true });
+  });
+}
+
+function publishGardenStatus(status) {
+  gardenStatus = status;
+  // retained, like a real Node 1. Not connected yet? It is published when the linking device connects again (see above).
+  if (linking.connected) linking.publish(`msh/${GARDEN_ID}/status`, status, { qos: 1, retain: true });
+}
+
+// The Garden wakes up: one Node 2 telemetry packet (contract 1.1), then it "sleeps" 300 seconds. ts is made by the linking device
+// right then, because Node 2 has no clock it can trust (contract rule 1). No vitals: Node 2 doesn't send them.
+function wakeGarden() {
+  gardenTimer = setTimeout(wakeGarden, GARDEN_INTERVAL);
+  if (!linking.connected) {
+    // a real Node 1 keeps the packet on its shelf until the broker is reachable again; this simulator just skips it
+    console.log(`${GARDEN_ID}: the Garden woke up, but ${LINKING_ID} isn't connected to the broker: the packet is lost`);
+    return;
+  }
+  const packet = {
+    ts: timeNow(),
+    fw: "1.0.0", // the NODE 2 firmware version (carried by its packet), not the Node 1 version
+    temperature: randomOneDecimal(26, 30),
+    humidity: randomInt(60, 79),
+    pressure: randomOneDecimal(1008, 1012), // hPa; a Node 2-only field: the backend recognizes Node 2 telemetry by this field
+    soil_temperature: randomOneDecimal(25, 27),
+    soil: randomInt(35, 44),
+    // without a battery field: an optional field, the default Node 2 doesn't measure it (HAS_BATTERY_DIVIDER = false)
+  };
+  linking.publish(`msh/${GARDEN_ID}/telemetry`, JSON.stringify(packet));
+  lastGardenPacket = Date.now();
+  console.log(`${GARDEN_ID}: the Garden woke up at ${at(lastGardenPacket)}, its packet published by ${LINKING_ID}`);
+  if (gardenStatus !== "online") publishGardenStatus("online"); // the first packet (or the first after offline): online
+}
+
+// The Node 1 bridge: no Garden packet for 960 seconds -> offline status. Checked every second.
+function checkGarden() {
+  if (gardenStatus === "online" && Date.now() - lastGardenPacket >= GARDEN_OFFLINE_AFTER) {
+    publishGardenStatus("offline");
+    console.log(`${GARDEN_ID}: no Garden packet for ${GARDEN_OFFLINE_AFTER / 1000} seconds: ${LINKING_ID} ` +
+      `publishes the offline status at ${at(Date.now())}`);
+  }
+}
+
+// typing "garden start", "garden pull", and "garden insert"
+function gardenCommand(command) {
+  if (linking === null) {
+    console.log(`The mock Garden needs the fake device ${LINKING_ID} as its linking device: ` +
+      `set KEY_${LINKING_ID.toUpperCase()} in tools/.env, then run the simulator again`);
+  } else if (command === "start") {
+    if (gardenStarted) {
+      console.log("The mock Garden is already running. Type \"garden pull\" or \"garden insert\".");
+      return;
+    }
+    gardenStarted = true;
+    gardenBattery = true;
+    setInterval(checkGarden, 1000);
+    console.log(`Mock Garden ${GARDEN_ID} started via ${LINKING_ID}: one packet now, then every 300 seconds.`);
+    wakeGarden();
+  } else if (!gardenStarted) {
+    console.log("The mock Garden isn't running yet: type \"garden start\" first.");
+  } else if (command === "pull") {
+    if (!gardenBattery) {
+      console.log("The Garden's battery is already out. Type \"garden insert\" to put it back.");
+      return;
+    }
+    gardenBattery = false;
+    clearTimeout(gardenTimer);
+    console.log(`Garden battery PULLED at ${at(Date.now())}.` + (lastGardenPacket === 0 ? "" : ` Its last packet was ` +
+      `at ${at(lastGardenPacket)}; the offline status only comes around ` +
+      `${at(lastGardenPacket + GARDEN_OFFLINE_AFTER)} (960 seconds after the last packet).`));
+  } else if (command === "insert") {
+    if (gardenBattery) {
+      console.log("The Garden's battery is still in.");
+      return;
+    }
+    gardenBattery = true;
+    console.log(`Garden battery back in at ${at(Date.now())}: the Garden wakes up at once, then every 300 seconds.`);
+    wakeGarden();
+  }
+}
+
 // clean: publish an empty retained message to the status topic of every fake device, so that the broker forgets their
 // "offline" status (the way to delete a retained message, Module 11), then finish. Module 21: each device connects with its
 // own account, and the broker ACL only lets a device WRITE its own topics (status, telemetry, vitals, ack), not its cmd. The
@@ -299,6 +414,10 @@ async function clean(count) {
       const client = await mqtt.connectAsync(BROKER_URL, { clientId: deviceId, username: deviceId,
         password: deviceKey(deviceId), reconnectPeriod: 0 });
       await client.publishAsync(`msh/${deviceId}/status`, "", { qos: 1, retain: true });
+      if (deviceId === LINKING_ID) { // Module 25: the mock Garden's status, through its linking device
+        await client.publishAsync(`msh/${GARDEN_ID}/status`, "", { qos: 1, retain: true });
+        console.log(`${GARDEN_ID}: the mock Garden's retained status was deleted too (only works if the Module 25 ACL block is in place).`);
+      }
       await client.endAsync();
       console.log(`${deviceId}: retained status cleared from the broker.`);
     } catch (error) {
@@ -326,7 +445,8 @@ if (process.argv[3] === "clean") {
     process.exit(1);
   }
   // Module 19: "temp 33" / "temp random" are typed in this terminal. Module 24: also "soil 25" / "soil random" and "tank 15" /
-  // "tank random". Only in this mode: in clean mode, a terminal listener would keep the program from finishing by itself.
+  // "tank random". Module 25: "garden start" / "garden pull" / "garden insert". Only in this mode: in clean mode,
+  // a terminal listener would keep the program from finishing by itself.
   createInterface({ input: process.stdin }).on("line", (line) => {
     const [word, arg] = line.trim().toLowerCase().split(/\s+/);
     const num = Number(arg);
@@ -339,9 +459,12 @@ if (process.argv[3] === "clean") {
       typedSoil = arg === "random" ? null : num;
     } else if (word === "tank" && (arg === "random" || percent)) { // Module 24
       typedTank = arg === "random" ? null : num;
+    } else if (word === "garden" && ["start", "pull", "insert"].includes(arg)) { // Module 25
+      gardenCommand(arg);
+      return;
     } else {
-      console.log("Type for example: temp 33, temp random, soil 25, soil random, tank 15, or tank random " +
-        "(soil and tank: whole numbers 0-100)");
+      console.log("Type for example: temp 33, temp random, soil 25, soil random, tank 15, tank random, garden start, " +
+        "garden pull, or garden insert (soil and tank: whole numbers 0-100)");
       return;
     }
     if (word === "temp") console.log(typedTemp === null ? "Temperature: random 25.0-33.0 °C" : `Temperature: ${typedTemp.toFixed(1)} °C`);
@@ -353,5 +476,5 @@ if (process.argv[3] === "clean") {
     }
   });
   console.log(`${withKeys} fake device(s) heading to ${BROKER_URL}. Type for example "temp 33", "soil 25", "tank 15", ` +
-    `or "soil random". Stop with Ctrl+C.`);
+    `"soil random", or "garden start". Stop with Ctrl+C.`);
 }

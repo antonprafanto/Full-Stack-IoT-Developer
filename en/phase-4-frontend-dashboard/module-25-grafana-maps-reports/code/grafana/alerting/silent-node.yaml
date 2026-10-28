@@ -1,0 +1,106 @@
+# silent-node.yaml - the Module 25 "Silent node" alert rule (group node-health, folder Mini Smart Home), MADE ON THE SCREEN then
+# exported from the author's lab Grafana 13.2.4 (Alert rules -> group node-health -> More -> Export rules group -> YAML -> Download);
+# the content below this comment line as it is. datasourceUid cg2hjf4u3bfuoa = the author's lab data source (different in your Grafana).
+# No token, password, or chat_id here: the contact point is only named (receiver), its content is never exported.
+apiVersion: 1
+groups:
+    - orgId: 1
+      name: node-health
+      folder: Mini Smart Home
+      interval: 1m
+      rules:
+        - uid: dg2hm8ytskzcwd
+          title: Silent node
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 600
+                to: 0
+              datasourceUid: cg2hjf4u3bfuoa
+              model:
+                dataset: smarthome
+                editorMode: code
+                format: table
+                intervalMs: 1000
+                maxDataPoints: 43200
+                rawQuery: true
+                rawSql: |-
+                    SELECT d.device_id, coalesce(d.name, d.device_id) AS node,
+                           round((EXTRACT(EPOCH FROM now() - coalesce(r.received_at, d.registered_at)) / 60
+                                  - CASE WHEN d.kind = 'node2' THEN 5 ELSE 0 END)::numeric, 1)::float8 AS minutes_late
+                    FROM devices d
+                    LEFT JOIN LATERAL (SELECT received_at FROM readings WHERE device_id = d.device_id ORDER BY ts DESC LIMIT 1) r ON true
+                    WHERE d.registered_at IS NOT NULL AND d.revoked_at IS NULL
+                refId: A
+                sql:
+                    columns:
+                        - parameters: []
+                          type: function
+                    groupBy:
+                        - property:
+                            type: string
+                          type: groupBy
+                    limit: 50
+            - refId: B
+              queryType: expression
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params: []
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params: []
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                reducer: last
+                refId: B
+                type: reduce
+            - refId: C
+              queryType: expression
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 5
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: B
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          noDataState: OK
+          execErrState: Error
+          annotations:
+            summary: '{{ $labels.node }} ({{ $labels.device_id }}) is not sending data, {{ with $values.A }}{{ .Value }}{{ end }} minutes behind schedule'
+          isPaused: false
+          notification_settings:
+            receiver: Telegram Smart Home
+            group_by:
+                - grafana_folder
+                - alertname
+                - device_id

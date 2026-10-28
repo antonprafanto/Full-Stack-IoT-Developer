@@ -17,6 +17,13 @@ user a4cf12e5b7c0
 topic write msh/246f28b1c7d4/telemetry
 topic write msh/246f28b1c7d4/status
 
+# 2b) Laptop path (Module 25): the "mock Garden" f00d000000b2 is published by the first fake device f00d00000001 (simulator in
+#     tools/), exactly like item 2. Only for readers WITHOUT a real Node 2: delete "# " (the hash and its space) in front of
+#     the three lines below, save, then RESTART the broker. Readers with Kit A + B don't need this block.
+# user f00d00000001
+# topic write msh/f00d000000b2/telemetry
+# topic write msh/f00d000000b2/status
+
 # 3) Backend: reads all device messages, sends commands (set and config) to cmd.
 user backend
 topic read msh/#

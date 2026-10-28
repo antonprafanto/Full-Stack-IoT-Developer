@@ -1,5 +1,6 @@
 // devices.ts - the official device registry in the devices table (Module 21, migration 010): registration by an admin, key
 // rotation, revocation. The key fingerprint (key_hash) is ONLY WRITTEN from this file; the device list never reads it.
+// Module 25: the device list also carries the map point (lat, lng), and an admin can move that point (setDeviceLocation).
 import { pool } from "./pool.ts";
 
 // one row of the device registry as GET /devices shows it (without the key fingerprint)
@@ -8,6 +9,8 @@ export interface DeviceRow {
   kind: "node1" | "node2" | "unknown";
   name: string | null;
   location: string | null;
+  lat: number | null; // Module 25: latitude of the point on the map, decimal degrees; null = not set yet
+  lng: number | null; // Module 25: longitude; the column has existed since migration 001, but it's only read from now on
   status: string;
   last_seen: Date | null;
   registered_at: Date | null;
@@ -16,7 +19,7 @@ export interface DeviceRow {
   linked_via: string | null;
 }
 
-const COLUMNS = "device_id, kind, name, location, status, last_seen, registered_at, key_created_at, revoked_at, linked_via";
+const COLUMNS = "device_id, kind, name, location, lat, lng, status, last_seen, registered_at, key_created_at, revoked_at, linked_via";
 
 export async function allDevicesDb(): Promise<DeviceRow[]> {
   const result = await pool.query<DeviceRow>(`SELECT ${COLUMNS} FROM devices ORDER BY device_id`);
@@ -61,6 +64,16 @@ export async function revokeDevice(deviceId: string): Promise<DeviceRow | undefi
      WHERE device_id = $1 AND registered_at IS NOT NULL AND revoked_at IS NULL
      RETURNING ${COLUMNS}`,
     [deviceId],
+  );
+  return result.rows[0];
+}
+
+// Module 25: move a device's point on the map. lat and lng are always written as a pair; null and null = the point is removed.
+// The location text ("living room") is not changed. The result is undefined if that device_id isn't in the devices table.
+export async function setDeviceLocation(deviceId: string, lat: number | null, lng: number | null): Promise<DeviceRow | undefined> {
+  const result = await pool.query<DeviceRow>(
+    `UPDATE devices SET lat = $2, lng = $3 WHERE device_id = $1 RETURNING ${COLUMNS}`,
+    [deviceId, lat, lng],
   );
   return result.rows[0];
 }

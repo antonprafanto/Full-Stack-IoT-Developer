@@ -1,5 +1,6 @@
 // types.ts - data shapes from the data contract (Syllabus Appendix A, DATA-CONTRACT.md 1.4) and from the backend v1.0 API responses.
 // The field names are exactly the ones the backend sends, so data from the server "fits" right away.
+// Module 25: backend 1.2 adds the map point (lat, lng) to the GET /devices answer.
 // This file only holds types (labels for TypeScript): when the page runs in the browser, Vite has already removed all these lines.
 // Value choices are written as unions of text ("a" | "b"), not enums: our template forbids enums (erasableSyntaxOnly).
 
@@ -17,6 +18,10 @@ export type Device = {
   device_id: string; // 12 hexadecimal digits in lower case, for example "a4cf12e5b7c0"
   name: string | null; // null = the admin hasn't named it yet
   location: string | null;
+  // Module 25: the device's point on the map, in decimal degrees (latitude -90 to 90, longitude -180 to 180).
+  // null = the admin hasn't set the point yet. The backend always fills both as a pair (both numbers or both null).
+  lat: number | null; // latitude, for example -6.1754
+  lng: number | null; // longitude, for example 106.8272
   kind: Kind;
   status: DeviceStatus;
   last_seen: string | null; // UTC time, for example "2026-10-23T09:41:30Z"

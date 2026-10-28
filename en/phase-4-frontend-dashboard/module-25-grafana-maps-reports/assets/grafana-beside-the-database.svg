@@ -1,0 +1,170 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1162" viewBox="0 0 1200 1162" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="1162" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" xml:space="preserve">Grafana lives next to the database, on the laptop</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" xml:space="preserve">Concept 2 · one Module 17-style <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5">docker</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5">run</tspan> · two containers meet in the <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5">smarthome</tspan> hallway (<tspan font-style="italic">network</tspan>)</text>
+<rect x="30.0" y="100.0" width="410.0" height="104.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<path d="M50 144 Q40 144 42 134 Q44 124 56 126 Q62 114 76 119 Q88 116 90 128 Q100 130 98 139 Q96 144 88 144 Z" fill="none" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="106.0" y="130.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Docker Hub</text>
+<text x="106.0" y="148.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >image store on the internet</text>
+<text x="50.0" y="176.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the mold <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#6f42c1" font-weight="800">grafana/grafana:13.2.4</tspan> (OSS, AGPLv3)</text>
+<text x="50.0" y="195.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">downloaded once, ±445 MB (arm64); write the exact tag</text>
+<rect x="460.0" y="100.0" width="340.0" height="104.0" rx="12" fill="#ffffff" stroke="#1e2a4a" stroke-width="1.6" />
+<path d="M480 144 Q470 144 472 134 Q474 124 486 126 Q492 114 506 119 Q518 116 520 128 Q530 130 528 139 Q526 144 518 144 Z" fill="none" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="536.0" y="130.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Telegram</text>
+<text x="536.0" y="148.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >the Module 19 bot, over the internet</text>
+<text x="480.0" y="176.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Grafana: 🔴/✅ <tspan font-style="italic">alerts</tspan> · backend: 📴/✅,</text>
+<text x="480.0" y="195.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">📊 CSV report, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">/status</tspan></text>
+<rect x="820.0" y="100.0" width="350.0" height="104.0" rx="12" fill="#ffffff" stroke="#0f8b8d" stroke-width="1.6" />
+<rect x="832.0" y="117.0" width="48.0" height="34.0" rx="4" fill="none" stroke="#0f8b8d" stroke-width="2" />
+<circle cx="839.0" cy="123.0" r="1.3" fill="#0f8b8d" />
+<circle cx="844.4" cy="123.0" r="1.3" fill="#0f8b8d" />
+<circle cx="849.8" cy="123.0" r="1.3" fill="#0f8b8d" />
+<circle cx="855.2" cy="123.0" r="1.3" fill="#0f8b8d" />
+<circle cx="860.6" cy="123.0" r="1.3" fill="#0f8b8d" />
+<circle cx="866.0" cy="123.0" r="1.3" fill="#0f8b8d" />
+<rect x="864.0" y="130.0" width="12.0" height="9.0" rx="1" fill="none" stroke="#0f8b8d" stroke-width="1.5" />
+<rect x="844.0" y="132.0" width="12.0" height="12.0" rx="1.5" fill="none" stroke="#0f8b8d" stroke-width="1.5" />
+<text x="892.0" y="130.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Raspberry Pi</text>
+<text x="892.0" y="148.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">192.168.1.37</text>
+<text x="840.0" y="176.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">locked Mosquitto (Module 21):</text>
+<text x="840.0" y="195.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">stays on the Pi; <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#0f8b8d" font-weight="800">acl-broker</tspan> + laptop-path block</text>
+<rect x="30.0" y="262.0" width="1140.0" height="652.0" rx="16" fill="#ffffff" stroke="#1e2a4a" stroke-width="2.2" />
+<rect x="48.0" y="279.0" width="40.0" height="26.0" rx="3" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<path d="M42 309 L94 309" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="102.0" y="290.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >Laptop</text>
+<text x="102.0" y="309.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >Windows, macOS, or Linux</text>
+<rect x="50.0" y="328.0" width="330.0" height="104.0" rx="12" fill="#ffffff" stroke="#6f42c1" stroke-width="1.6" />
+<rect x="61.0" y="342.0" width="38.0" height="28.0" rx="4" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<line x1="61.0" y1="350.0" x2="99.0" y2="350.0" stroke="#1e2a4a" stroke-width="1.6" stroke-linecap="round" />
+<circle cx="66.0" cy="346.0" r="1.1" fill="#1e2a4a" />
+<circle cx="70.5" cy="346.0" r="1.1" fill="#1e2a4a" />
+<circle cx="75.0" cy="346.0" r="1.1" fill="#1e2a4a" />
+<text x="110.0" y="360.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >browser on the laptop</text>
+<text x="68.0" y="390.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">http://localhost:3000</tspan> → Grafana</text>
+<text x="68.0" y="409.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">http://localhost:5173</tspan> → Vite (your dashboard)</text>
+<rect x="760.0" y="328.0" width="390.0" height="104.0" rx="12" fill="#dafbe1" stroke="#1a7f37" stroke-width="1.6" />
+<g transform="translate(790 356) scale(0.75) translate(-790 -356)">
+<rect x="772.0" y="336.0" width="36.0" height="11.0" rx="2" fill="none" stroke="#1a7f37" stroke-width="1.8" />
+<circle cx="779.0" cy="341.5" r="1.6" fill="#1a7f37" />
+<rect x="772.0" y="350.0" width="36.0" height="11.0" rx="2" fill="none" stroke="#1a7f37" stroke-width="1.8" />
+<circle cx="779.0" cy="355.5" r="1.6" fill="#1a7f37" />
+<rect x="772.0" y="364.0" width="36.0" height="11.0" rx="2" fill="none" stroke="#1a7f37" stroke-width="1.8" />
+<circle cx="779.0" cy="369.5" r="1.6" fill="#1a7f37" />
+</g>
+<text x="818.0" y="360.0" font-size="14" font-weight="800" fill="#1a7f37" text-anchor="start" >backend 1.2</text>
+<text x="912.0" y="360.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >a normal program, not a container</text>
+<text x="778.0" y="390.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1a7f37" font-weight="800">DATABASE_URL</tspan> through the counter <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1a7f37" font-weight="800">127.0.0.1:5432</tspan></text>
+<text x="778.0" y="409.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1a7f37" font-weight="800">postgres</tspan> account (Module 17), not Grafana's</text>
+<rect x="50.0" y="482.0" width="1100.0" height="412.0" rx="14" fill="#eef1f5" />
+<text x="70.0" y="878.0" font-size="12.5" font-weight="800" fill="#4a5568" text-anchor="start" >Docker Desktop (Windows, macOS) or Docker Engine (Linux): a container = a small Linux inside the laptop</text>
+<rect x="110.0" y="460.0" width="210.0" height="48.0" rx="8" fill="#ffffff" stroke="#1e2a4a" stroke-width="1.6" />
+<text x="215.0" y="480.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" xml:space="preserve">counter <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#1e2a4a" font-weight="800">127.0.0.1:3000</tspan></text>
+<text x="215.0" y="498.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="middle" >programs on this laptop only</text>
+<line x1="215.0" y1="434.0" x2="215.0" y2="456.0" stroke="#6f42c1" stroke-width="2.2" stroke-linecap="round" />
+<path d="M211.7 449.8 L215.0 456.0 L218.3 449.8" fill="none" stroke="#6f42c1" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="935.0" y="460.0" width="210.0" height="48.0" rx="8" fill="#ffffff" stroke="#1e2a4a" stroke-width="1.6" />
+<text x="1040.0" y="480.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" xml:space="preserve">counter <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#1e2a4a" font-weight="800">127.0.0.1:5432</tspan></text>
+<text x="1040.0" y="498.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="middle" >programs on this laptop only</text>
+<line x1="1040.0" y1="434.0" x2="1040.0" y2="456.0" stroke="#1a7f37" stroke-width="2.2" stroke-linecap="round" />
+<path d="M1036.7 449.8 L1040.0 456.0 L1043.3 449.8" fill="none" stroke="#1a7f37" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="70.0" y="528.0" width="1060.0" height="196.0" rx="14" fill="#f5f0fc" stroke="#6f42c1" stroke-width="1.8" stroke-dasharray="7 5"/>
+<text x="560.0" y="554.0" font-size="13" font-weight="800" fill="#6f42c1" text-anchor="start" xml:space="preserve">the <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12.5" fill="#6f42c1" font-weight="800">smarthome</tspan> hallway (a <tspan font-style="italic">network</tspan> you create)</text>
+<rect x="92.0" y="570.0" width="430.0" height="136.0" rx="12" fill="#ffffff" stroke="#6f42c1" stroke-width="2" />
+<g transform="translate(122 600) scale(0.8) translate(-122 -600)">
+<rect x="103.0" y="586.0" width="38.0" height="28.0" rx="4" fill="none" stroke="#6f42c1" stroke-width="2" />
+<path d="M109 607 L117 599 L124 604 L135 592" fill="none" stroke="#6f42c1" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+</g>
+<text x="150.0" y="596.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" >Container</text>
+<text x="218.0" y="596.0" font-size="13" font-weight="800" fill="#6f42c1" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">smarthome-grafana</text>
+<text x="150.0" y="616.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >Grafana OSS 13.2.4 · RAM ±200–470 MiB</text>
+<text x="112.0" y="646.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">reads the database as <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#6f42c1" font-weight="800">grafana_reader</tspan> (Concept 3)</text>
+<text x="112.0" y="665.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">no plugin download: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#6f42c1" font-weight="800">GF_PLUGINS_PREINSTALL_DISABLED</tspan></text>
+<text x="112.0" y="684.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">statistics, external <tspan font-style="italic">snapshots</tspan>, public dashboards: off</text>
+<rect x="678.0" y="570.0" width="430.0" height="136.0" rx="12" fill="#ffffff" stroke="#336791" stroke-width="2" />
+<path d="M693 591 L693 613 A15 5 0 0 0 723 613 L723 591" fill="none" stroke="#336791" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<ellipse cx="708" cy="591" rx="15" ry="5" fill="none" stroke="#336791" stroke-width="2"/>
+<path d="M693 602 A15 5 0 0 0 723 602" fill="none" stroke="#336791" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="736.0" y="596.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" >Container</text>
+<text x="804.0" y="596.0" font-size="13" font-weight="800" fill="#336791" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">smarthome-db</text>
+<text x="736.0" y="616.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >PostgreSQL 17 + TimescaleDB 2.30.2</text>
+<text x="698.0" y="646.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">from Module 17, unchanged</text>
+<text x="698.0" y="665.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">now in the <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#336791" font-weight="800">smarthome</tspan> hallway too</text>
+<text x="698.0" y="684.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">inside the hallway, its port is always 5432</text>
+<line x1="526.0" y1="636.0" x2="672.0" y2="636.0" stroke="#6f42c1" stroke-width="2.4" stroke-linecap="round" />
+<path d="M664.9 639.8 L672.0 636.0 L664.9 632.2" fill="none" stroke="#6f42c1" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="600.0" y="626.0" font-size="11.5" font-weight="800" fill="#6f42c1" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">smarthome-db:5432</text>
+<text x="600.0" y="658.0" font-size="11.5" font-weight="700" fill="#6f42c1" text-anchor="middle" >the name = the address</text>
+<line x1="215.0" y1="510.0" x2="215.0" y2="566.0" stroke="#6f42c1" stroke-width="2.2" stroke-linecap="round" />
+<path d="M211.7 559.8 L215.0 566.0 L218.3 559.8" fill="none" stroke="#6f42c1" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="1040.0" y1="510.0" x2="1040.0" y2="566.0" stroke="#1a7f37" stroke-width="2.2" stroke-linecap="round" />
+<path d="M1036.7 559.8 L1040.0 566.0 L1043.3 559.8" fill="none" stroke="#1a7f37" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="92.0" y="748.0" width="430.0" height="92.0" rx="12" fill="#ffffff" stroke="#6f42c1" stroke-width="1.6" />
+<rect x="107.0" y="763.0" width="30.0" height="38.0" rx="3" fill="none" stroke="#6f42c1" stroke-width="2" />
+<line x1="118.0" y1="769.3" x2="126.0" y2="769.3" stroke="#6f42c1" stroke-width="1.8" stroke-linecap="round" />
+<line x1="107.0" y1="775.7" x2="137.0" y2="775.7" stroke="#6f42c1" stroke-width="1.6" stroke-linecap="round" />
+<line x1="118.0" y1="782.0" x2="126.0" y2="782.0" stroke="#6f42c1" stroke-width="1.8" stroke-linecap="round" />
+<line x1="107.0" y1="788.3" x2="137.0" y2="788.3" stroke="#6f42c1" stroke-width="1.6" stroke-linecap="round" />
+<line x1="118.0" y1="794.6" x2="126.0" y2="794.6" stroke="#6f42c1" stroke-width="1.8" stroke-linecap="round" />
+<text x="150.0" y="774.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" >Cupboard (volume)</text>
+<text x="274.0" y="774.0" font-size="12.5" font-weight="800" fill="#6f42c1" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">smarthome-grafana-data</text>
+<text x="150.0" y="798.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">dashboards, <tspan font-style="italic">alerts</tspan>, Grafana accounts; they stay</text>
+<text x="150.0" y="816.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">even if the container is made again</text>
+<line x1="392.0" y1="747.0" x2="392.0" y2="707.0" stroke="#6f42c1" stroke-width="2" stroke-linecap="round" />
+<circle cx="392.0" cy="747.0" r="3.4" fill="#6f42c1" />
+<circle cx="392.0" cy="707.0" r="3.4" fill="#6f42c1" />
+<text x="402.0" y="740.0" font-size="11.5" font-weight="800" fill="#6f42c1" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">-v</text>
+<rect x="678.0" y="748.0" width="430.0" height="92.0" rx="12" fill="#ffffff" stroke="#336791" stroke-width="1.6" />
+<rect x="693.0" y="763.0" width="30.0" height="38.0" rx="3" fill="none" stroke="#336791" stroke-width="2" />
+<line x1="704.0" y1="769.3" x2="712.0" y2="769.3" stroke="#336791" stroke-width="1.8" stroke-linecap="round" />
+<line x1="693.0" y1="775.7" x2="723.0" y2="775.7" stroke="#336791" stroke-width="1.6" stroke-linecap="round" />
+<line x1="704.0" y1="782.0" x2="712.0" y2="782.0" stroke="#336791" stroke-width="1.8" stroke-linecap="round" />
+<line x1="693.0" y1="788.3" x2="723.0" y2="788.3" stroke="#336791" stroke-width="1.6" stroke-linecap="round" />
+<line x1="704.0" y1="794.6" x2="712.0" y2="794.6" stroke="#336791" stroke-width="1.8" stroke-linecap="round" />
+<text x="736.0" y="774.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" >Cupboard (volume)</text>
+<text x="860.0" y="774.0" font-size="12.5" font-weight="800" fill="#336791" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">smarthome-data</text>
+<text x="736.0" y="798.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">every table and row (Module 17)</text>
+<text x="736.0" y="816.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">unchanged</text>
+<line x1="978.0" y1="747.0" x2="978.0" y2="707.0" stroke="#336791" stroke-width="2" stroke-linecap="round" />
+<circle cx="978.0" cy="747.0" r="3.4" fill="#336791" />
+<circle cx="978.0" cy="707.0" r="3.4" fill="#336791" />
+<text x="988.0" y="740.0" font-size="11.5" font-weight="800" fill="#336791" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">-v</text>
+<line x1="420.0" y1="206.0" x2="420.0" y2="566.0" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" />
+<path d="M416.7 559.8 L420.0 566.0 L423.3 559.8" fill="none" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="410.0" y="230.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="end" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#1e2a4a" font-weight="800">docker</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#1e2a4a" font-weight="800">run</tspan> (one line)</text>
+<text x="410.0" y="248.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="end" >download first: docker pull</text>
+<line x1="480.0" y1="566.0" x2="480.0" y2="208.0" stroke="#6f42c1" stroke-width="2.2" stroke-linecap="round" />
+<path d="M483.3 214.2 L480.0 208.0 L476.7 214.2" fill="none" stroke="#6f42c1" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="490.0" y="230.0" font-size="11.5" font-weight="800" fill="#6f42c1" text-anchor="start" >outgoing HTTPS:</text>
+<text x="490.0" y="248.0" font-size="11.5" font-weight="800" fill="#6f42c1" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#6f42c1" font-weight="800">sendMessage</tspan> (<tspan font-style="italic">alerts</tspan>)</text>
+<line x1="780.0" y1="326.0" x2="780.0" y2="208.0" stroke="#1a7f37" stroke-width="2.2" stroke-linecap="round" />
+<path d="M783.3 214.2 L780.0 208.0 L776.7 214.2" fill="none" stroke="#1a7f37" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="790.0" y="230.0" font-size="11.5" font-weight="800" fill="#1a7f37" text-anchor="start" xml:space="preserve">outgoing HTTPS: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1a7f37" font-weight="800">sendMessage</tspan>,</text>
+<text x="790.0" y="248.0" font-size="11.5" font-weight="800" fill="#1a7f37" text-anchor="start" xml:space="preserve"><tspan font-style="italic">long polling</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1a7f37" font-weight="800">sendDocument</tspan></text>
+<line x1="1030.0" y1="326.0" x2="1030.0" y2="208.0" stroke="#0f8b8d" stroke-width="2.2" stroke-linecap="round" />
+<path d="M1033.3 214.2 L1030.0 208.0 L1026.7 214.2" fill="none" stroke="#0f8b8d" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="1070.0" y1="208.0" x2="1070.0" y2="326.0" stroke="#0f8b8d" stroke-width="2.2" stroke-linecap="round" />
+<path d="M1066.7 319.8 L1070.0 326.0 L1073.3 319.8" fill="none" stroke="#0f8b8d" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="1082.0" y="230.0" font-size="11.5" font-weight="800" fill="#0f8b8d" text-anchor="start" >MQTT</text>
+<text x="1082.0" y="248.0" font-size="11.5" font-weight="700" fill="#0f8b8d" text-anchor="start" >logged in</text>
+<rect x="30.0" y="936.0" width="560.0" height="118.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="50.0" y="964.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >Why a hallway?</text>
+<text x="50.0" y="990.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">inside the Grafana container, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">localhost:5432</tspan> = Grafana itself,</text>
+<text x="50.0" y="1009.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">not the database; <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">host.docker.internal</tspan> doesn't reach the</text>
+<text x="50.0" y="1028.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">127.0.0.1</tspan> counter (proven on Docker Engine Linux)</text>
+<rect x="610.0" y="936.0" width="560.0" height="118.0" rx="12" fill="#ffffff" stroke="#6f42c1" stroke-width="1.6" />
+<text x="630.0" y="964.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >Just once (Quick Win)</text>
+<text x="630.0" y="990.0" font-size="11.5" font-weight="800" fill="#6f42c1" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">docker network create smarthome</text>
+<text x="630.0" y="1010.0" font-size="11.5" font-weight="800" fill="#6f42c1" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">docker network connect smarthome smarthome-db</text>
+<text x="630.0" y="1036.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">kept in the container (lab: still there after <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568" font-weight="800">docker</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568" font-weight="800">restart</tspan>)</text>
+<rect x="30.0" y="1074.0" width="1140.0" height="46.0" rx="10" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.4" stroke-dasharray="7 5"/>
+<g transform="translate(58 1097) scale(0.55) translate(-58 -1097)">
+<rect x="40.0" y="1077.0" width="36.0" height="11.0" rx="2" fill="none" stroke="#4a5568" stroke-width="1.8" />
+<circle cx="47.0" cy="1082.5" r="1.6" fill="#4a5568" />
+<rect x="40.0" y="1091.0" width="36.0" height="11.0" rx="2" fill="none" stroke="#4a5568" stroke-width="1.8" />
+<circle cx="47.0" cy="1096.5" r="1.6" fill="#4a5568" />
+<rect x="40.0" y="1105.0" width="36.0" height="11.0" rx="2" fill="none" stroke="#4a5568" stroke-width="1.8" />
+<circle cx="47.0" cy="1110.5" r="1.6" fill="#4a5568" />
+</g>
+<text x="84.0" y="1102.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">Module 26 (Docker Compose):</tspan> both containers, the hallway, and the cupboards are written in one file; the same cupboards are used again, so nothing in them is lost.</text>
+<text x="1178.0" y="1148.0" font-size="11" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer Curriculum · CC BY 4.0</text>
+</svg>

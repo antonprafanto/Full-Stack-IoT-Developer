@@ -1,0 +1,154 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1066" viewBox="0 0 1200 1066" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="1066" fill="#fffdf7"/>
+<text x="600.0" y="40.0" font-size="26" font-weight="700" fill="#1e2a4a" text-anchor="middle" >Mini roadmap — you are here</text>
+<text x="600.0" y="66.0" font-size="15" font-weight="400" fill="#555" text-anchor="middle" >32 modules = 32 weeks · one running project "Mini Smart Home" that grows from a blinking LED to an online system</text>
+<rect x="60.0" y="100.0" width="160.0" height="56.0" rx="8" fill="#e0e0e0" />
+<text x="140.0" y="124.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="middle" >PHASE 0</text>
+<text x="140.0" y="144.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="middle" >Foundations · M1–4</text>
+<rect x="226.0" y="100.0" width="125.0" height="56.0" rx="8" fill="#e0e0e0" />
+<text x="288.5" y="124.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="middle" >PHASE 1</text>
+<text x="288.5" y="144.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="middle" >ESP32 · M5–9</text>
+<rect x="357.0" y="100.0" width="176.0" height="56.0" rx="8" fill="#e0e0e0" />
+<text x="445.0" y="124.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="middle" >PHASE 2</text>
+<text x="445.0" y="144.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="middle" >Connectivity · M10–15</text>
+<rect x="539.0" y="100.0" width="196.0" height="56.0" rx="8" fill="#e0e0e0" />
+<text x="637.0" y="124.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="middle" >PHASE 3</text>
+<text x="637.0" y="144.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="middle" >Backend &amp; data · M16–21</text>
+<rect x="741.0" y="100.0" width="170.0" height="56.0" rx="8" fill="#e6dcf5" stroke="#6f42c1" stroke-width="2.4" />
+<text x="826.0" y="124.0" font-size="14" font-weight="800" fill="#6f42c1" text-anchor="middle" >PHASE 4</text>
+<text x="826.0" y="144.0" font-size="14" font-weight="700" fill="#6f42c1" text-anchor="middle" >Dashboard · M22–25</text>
+<rect x="917.0" y="100.0" width="223.0" height="56.0" rx="8" fill="#e0e0e0" />
+<text x="1028.5" y="124.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="middle" >PHASE 5</text>
+<text x="1028.5" y="144.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="middle" >Operations &amp; scale · M26–32</text>
+<rect x="60.0" y="170.0" width="30.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="75.0" y="188.0" font-size="13" font-weight="600" fill="#fff" text-anchor="middle" >M1</text>
+<rect x="96.0" y="170.0" width="30.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="111.0" y="188.0" font-size="13" font-weight="600" fill="#fff" text-anchor="middle" >M2</text>
+<rect x="132.0" y="170.0" width="30.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="147.0" y="188.0" font-size="13" font-weight="600" fill="#fff" text-anchor="middle" >M3</text>
+<rect x="168.0" y="170.0" width="30.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="183.0" y="188.0" font-size="13" font-weight="600" fill="#fff" text-anchor="middle" >M4</text>
+<rect x="226.0" y="170.0" width="22.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="237.0" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M5</text>
+<rect x="251.8" y="170.0" width="22.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="262.8" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M6</text>
+<rect x="277.5" y="170.0" width="22.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="288.5" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M7</text>
+<rect x="303.2" y="170.0" width="22.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="314.2" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M8</text>
+<rect x="329.0" y="170.0" width="22.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="340.0" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M9</text>
+<rect x="357.0" y="170.0" width="27.5" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="370.8" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M10</text>
+<rect x="386.7" y="170.0" width="27.5" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="400.4" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M11</text>
+<rect x="416.4" y="170.0" width="27.5" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="430.1" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M12</text>
+<rect x="446.1" y="170.0" width="27.5" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="459.9" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M13</text>
+<rect x="475.8" y="170.0" width="27.5" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="489.6" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M14</text>
+<rect x="505.5" y="170.0" width="27.5" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="519.2" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M15</text>
+<rect x="539.0" y="170.0" width="30.8" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="554.4" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M16</text>
+<rect x="572.0" y="170.0" width="30.8" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="587.4" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M17</text>
+<rect x="605.1" y="170.0" width="30.8" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="620.5" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M18</text>
+<rect x="638.1" y="170.0" width="30.8" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="653.5" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M19</text>
+<rect x="671.2" y="170.0" width="30.8" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="686.6" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M20</text>
+<rect x="704.2" y="170.0" width="30.8" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="719.6" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M21</text>
+<rect x="741.0" y="170.0" width="30.8" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="756.4" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M22</text>
+<rect x="774.0" y="170.0" width="30.8" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="789.4" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M23</text>
+<rect x="807.1" y="170.0" width="30.8" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="822.5" y="187.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M24</text>
+<rect x="840.1" y="170.0" width="30.8" height="26.0" rx="5" fill="#e63946" />
+<text x="855.5" y="187.2" font-size="11.5" font-weight="700" fill="#fff" text-anchor="middle" >M25</text>
+<text x="60.0" y="214.0" font-size="13" font-weight="700" fill="#2a9d5c" text-anchor="start" >done ✓ (M1–24)</text>
+<line x1="855.5" y1="202.0" x2="855.5" y2="228.0" stroke="#e63946" stroke-width="2.4" stroke-linecap="round" />
+<path d="M851.8 220.9 L855.5 228.0 L859.3 220.9" fill="none" stroke="#e63946" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="855.5" y="248.0" font-size="14" font-weight="800" fill="#e63946" text-anchor="middle" >YOU ARE HERE</text>
+<line x1="889.0" y1="168.0" x2="889.0" y2="210.0" stroke="#6f42c1" stroke-width="2.2" stroke-linecap="round" />
+<path d="M889 168 L915 175 L889 182 Z" fill="#6f42c1" stroke="#6f42c1" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="923.0" y="182.0" font-size="14" font-weight="800" fill="#6f42c1" text-anchor="start" >🎉 Phase 4 checkpoint</text>
+<text x="923.0" y="201.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" >at the end of this module (Practice 10)</text>
+<text x="793.5" y="248.0" font-size="14" font-weight="700" fill="#6f42c1" text-anchor="end" xml:space="preserve">two dashboards: yours for the residents, Grafana for the technical team →</text>
+<text x="780.5" y="268.0" font-size="14" font-weight="700" fill="#6f42c1" text-anchor="end" xml:space="preserve">a "silent node" <tspan font-style="italic">alert</tspan> to Telegram, a device map, a daily CSV report</text>
+<text x="80.0" y="322.0" font-size="17" font-weight="700" fill="#1e2a4a" text-anchor="start" >Module 25 this week (11–13 hours, spread out)</text>
+<text x="1120.0" y="322.0" font-size="14" font-weight="700" fill="#4a5568" text-anchor="end" >⭐ = required to pass</text>
+<text x="80.0" y="346.0" font-size="14" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">Kit A + B (Node 2 on a battery) or the Module 21 simulator + the mock Garden · the Module 19 Telegram bot · Module 24's dashboard v1.0 + backend 1.1</text>
+<rect x="80.0" y="371.0" width="50.0" height="22.0" rx="11" fill="#6f42c1" />
+<path d="M99.17 379.88 A6.2 6.2 0 0 1 110.37 378.90" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M107.42 377.20 L110.37 378.90 L110.37 375.50" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M110.83 384.12 A6.2 6.2 0 0 1 99.63 385.10" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M102.58 386.80 L99.63 385.10 L99.63 388.50" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<text x="142.0" y="387.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">SQL &amp; JavaScript warm-up: the last reading,</text>
+<text x="142.0" y="408.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">"how many minutes ago?", yesterday in WIB,</text>
+<text x="142.0" y="429.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">one CSV row, text becomes a file</text>
+<rect x="80.0" y="447.0" width="50.0" height="22.0" rx="11.0" fill="#6f42c1" />
+<text x="105.0" y="462.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >QW</text>
+<text x="142.0" y="463.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Quick Win: the first panel,</text>
+<text x="142.0" y="484.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">your home's temperature in Grafana</text>
+<rect x="80.0" y="503.0" width="50.0" height="22.0" rx="11.0" fill="#6f42c1" />
+<text x="105.0" y="518.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P1</text>
+<text x="142.0" y="519.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">a tidy and safe Grafana ⭐</text>
+<text x="142.0" y="538.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="start" xml:space="preserve">read-only account <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#4a5568" font-weight="800">grafana_reader</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#4a5568" font-weight="800">127.0.0.1:3000</tspan></text>
+<rect x="80.0" y="557.0" width="50.0" height="22.0" rx="11.0" fill="#6f42c1" />
+<text x="105.0" y="572.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P2</text>
+<text x="142.0" y="573.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the "System Health" dashboard ⭐</text>
+<text x="142.0" y="592.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="start" xml:space="preserve">RSSI, <tspan font-style="italic">uptime</tspan>, <tspan font-style="italic">heap</tspan> of Node 1 + the <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#4a5568" font-weight="800">$node</tspan> variable</text>
+<rect x="80.0" y="611.0" width="50.0" height="22.0" rx="11.0" fill="#6f42c1" />
+<text x="105.0" y="626.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P3</text>
+<text x="142.0" y="627.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the Garden on the technical dashboard ⭐</text>
+<text x="142.0" y="646.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="start" xml:space="preserve">Node 2 packets per hour (reference 12), minutes late</text>
+<rect x="80.0" y="665.0" width="50.0" height="22.0" rx="11.0" fill="#6f42c1" />
+<text x="105.0" y="680.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P4</text>
+<text x="142.0" y="681.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the "Silent node" <tspan font-style="italic">alert</tspan> and a Telegram <tspan font-style="italic">contact point</tspan> ⭐</text>
+<text x="142.0" y="700.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="start" xml:space="preserve">pass requirement G1: the Test button's message arrives</text>
+<rect x="80.0" y="719.0" width="50.0" height="22.0" rx="11.0" fill="#6f42c1" />
+<text x="105.0" y="734.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P5</text>
+<text x="142.0" y="735.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">pull the Garden's battery: <tspan font-style="italic">alert</tspan> and recovery ⭐</text>
+<text x="142.0" y="754.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="start" xml:space="preserve">pass requirement G2: 🔴 after 5.5–11.5 minutes, then ✅</text>
+<rect x="580.0" y="371.0" width="50.0" height="22.0" rx="11.0" fill="#6f42c1" />
+<text x="605.0" y="386.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P6</text>
+<text x="642.0" y="387.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">backend 1.2: device locations through the API ⭐</text>
+<text x="642.0" y="406.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#4a5568" font-weight="800">lat</tspan>/<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#4a5568" font-weight="800">lng</tspan> in <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#4a5568" font-weight="800">GET</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#4a5568" font-weight="800">/devices</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#4a5568" font-weight="800">PUT</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#4a5568" font-weight="800">/devices/:id/location</tspan></text>
+<rect x="580.0" y="425.0" width="50.0" height="22.0" rx="11.0" fill="#6f42c1" />
+<text x="605.0" y="440.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P7</text>
+<text x="642.0" y="441.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the Map page with react-leaflet ⭐</text>
+<text x="642.0" y="460.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="start" xml:space="preserve">OpenStreetMap tiles, colors follow the <tspan font-style="italic">live</tspan> status</text>
+<rect x="580.0" y="479.0" width="50.0" height="22.0" rx="11.0" fill="#6f42c1" />
+<text x="605.0" y="494.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P8</text>
+<text x="642.0" y="495.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">backend 1.2: a daily CSV report to Telegram ⭐</text>
+<rect x="580.0" y="513.0" width="50.0" height="22.0" rx="11.0" fill="#6f42c1" />
+<text x="605.0" y="528.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P9</text>
+<text x="642.0" y="529.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">a report that arrives by itself, Grafana as files ⭐</text>
+<text x="642.0" y="548.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="start" xml:space="preserve">pass requirement G3: a schedule ±3 minutes ahead, hands off</text>
+<rect x="580.0" y="567.0" width="50.0" height="22.0" rx="11.0" fill="#6f42c1" />
+<text x="605.0" y="582.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P10</text>
+<text x="642.0" y="583.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">🎉 the Phase 4 checkpoint: collect the evidence ⭐</text>
+<text x="642.0" y="602.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="start" xml:space="preserve">quizzes, the Module 24 user test, phone demo video, Grafana JSON</text>
+<rect x="580.0" y="621.0" width="50.0" height="22.0" rx="11.0" fill="#1e2a4a" />
+<text x="605.0" y="637.4" font-size="15" font-weight="700" fill="#ffffff" text-anchor="middle" >+</text>
+<text x="642.0" y="637.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Add-on: technical dashboard + report, <tspan font-style="italic">pull request</tspan></text>
+<text x="642.0" y="658.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">"Technical dashboard + map + daily report (Phase 4 checkpoint)" ⭐</text>
+<line x1="80.0" y1="776.0" x2="1120.0" y2="776.0" stroke="#e0dcd2" stroke-width="1" stroke-linecap="round" />
+<text x="80.0" y="800.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#6f42c1">Pass requirement (split of the Syllabus ✅): </tspan><tspan font-weight="800" font-size="11.5" fill="#6f42c1">G1 </tspan>the Grafana Telegram <tspan font-style="italic">contact point</tspan>'s test message arrives (the Test button)</text>
+<text x="80.0" y="820.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" font-size="11.5" fill="#6f42c1">G2 </tspan>Node 2's battery pulled out (laptop path: the mock Garden, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" font-weight="700" fill="#4a5568">garden</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" font-weight="700" fill="#4a5568">pull</tspan>) → Grafana reports 🔴, put back → ✅</text>
+<text x="80.0" y="840.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" font-size="11.5" fill="#6f42c1">G3 </tspan>the daily CSV report arrives on schedule without being touched.</text>
+<text x="80.0" y="862.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">from the Syllabus ✅ sentence (unchanged in v1.0.27): "Grafana sends a Telegram alert when you pull out Node 2's battery, and the daily report arrives automatically."</text>
+<text x="80.0" y="888.0" font-size="14" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">Proven in:</tspan> G1 Practice 4 · G2 Practice 5 · G3 Practice 9; all three ticked again in Practice 10 (🎉 Phase 4 checkpoint).</text>
+<text x="80.0" y="912.0" font-size="14" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">New practice wording (Syllabus v1.0.27):</tspan> System Health = RSSI, <tspan font-style="italic">uptime</tspan>, <tspan font-style="italic">heap</tspan> of <tspan font-weight="800" fill="#1e2a4a">Node 1</tspan> + packets per hour of <tspan font-weight="800" fill="#1e2a4a">Node 2</tspan> (reference 12);</text>
+<text x="80.0" y="932.0" font-size="14" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">the "silent node" <tspan font-style="italic">alert</tspan> = Node 1 more than 5 minutes without data, Node 2 more than 5 minutes past its wake-up schedule (every 300 seconds).</text>
+<text x="80.0" y="956.0" font-size="14" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">Two data paths:</tspan> the devices (Kit A + B, Node 2's 18650 battery) or the laptop (simulator <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" fill="#4a5568" font-weight="700">f00d00000001</tspan> + mock Garden <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" fill="#4a5568" font-weight="700">f00d000000b2</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" fill="#4a5568" font-weight="700">garden</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" fill="#4a5568" font-weight="700">pull</tspan>).</text>
+<text x="80.0" y="980.0" font-size="14" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">Changed:</tspan> backend 1.2.0, frontend 1.1.0, new <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" fill="#4a5568" font-weight="700">grafana/</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" fill="#4a5568" font-weight="700">tools/</tspan> (mock Garden), <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" fill="#4a5568" font-weight="700">edge/acl-broker</tspan>. <tspan font-weight="800" fill="#1e2a4a">Unchanged:</tspan> data contract 1.4, firmware, DB tables.</text>
+<text x="80.0" y="1004.0" font-size="14" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">Grafana always on the laptop:</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" fill="#4a5568" font-weight="700">http://localhost:3000</tspan> (by default this laptop only); your dashboard stays at <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" fill="#4a5568" font-weight="700">http://localhost:5173</tspan>.</text>
+<rect x="60.0" y="290.0" width="1080.0" height="736.0" rx="14" fill="none" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="1178.0" y="1052.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer Curriculum · CC BY 4.0</text>
+</svg>

@@ -115,6 +115,10 @@ function receive(topic: string, text: string, retained: boolean, log: FastifyBas
         archiving.then(() => recordEvent({ device_id: deviceId, kind: "status", source: "device", rule_id: null, message }))
           .catch(() => {}); // a failure to save the status is already logged by archiveFailed
         notifyStatus(deviceId, result.data); // Telegram: offline is only reported once it lasts 60 seconds
+      } else if (result.data === "online") {
+        // Module 25: a retained "online" still cancels a 📴 that is waiting. After a broker restart, a device can connect
+        // BEFORE the backend, so its online message arrives as a retained message (without this: a false 📴)
+        notifyStatus(deviceId, "online");
       }
     }
     counts.received++;
