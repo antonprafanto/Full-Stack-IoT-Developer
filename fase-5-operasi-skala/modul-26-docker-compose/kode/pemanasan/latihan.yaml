@@ -1,0 +1,46 @@
+# latihan.yaml - Pemanasan Modul 26, langkah 3-4: YAML dan variabel lingkungan dalam satu berkas Compose kecil.
+# Berkas ini TIDAK untuk dinyalakan. Cukup minta Compose MEMBACANYA dengan "config": Compose mencetak ulang isinya seperti yang
+# ia pahami (nilai variabel sudah diisi, angka sudah diubah menjadi teks), tanpa menyalakan apa pun. Dari folder ini:
+#   docker compose -f latihan.yaml config                          -> galat: PEMILIK belum diisi (lihat ${PEMILIK:?...})
+#   docker compose -f latihan.yaml --env-file latihan.env config   -> berhasil, dengan nilai dari latihan.env
+#
+# Aturan YAML yang dipakai di sini:
+# - "kunci: nilai" = peta (pasangan nama dan isi). Isi yang menjorok ke kanan di bawah sebuah kunci adalah milik kunci itu.
+# - Menjorok dengan SPASI (di berkas ini 2 spasi per tingkat), JANGAN Tab: Tab membuat Compose berhenti dengan galat
+#   "found character that cannot start any token".
+# - Baris yang diawali "- " = satu butir daftar.
+# - Tanda # = komentar sampai akhir baris; Compose mengabaikannya.
+name: latihan-yaml
+
+services:
+  sapa:
+    # teks biasa boleh tanpa tanda kutip
+    image: eclipse-mosquitto:2.1.2-alpine
+    # daftar boleh ditulis menurun (dengan "- ") atau sebaris dalam [ ]. $$ = tanda $ untuk sh, bukan untuk Compose.
+    command: ["sh", "-c", "echo $$SAPAAN, $$PEMILIK"]
+    environment:
+      # Tiga bentuk variabel. Nilainya dicari di lingkungan terminal, lalu di .env folder ini (atau --env-file):
+      #   ${NAMA:-bawaan}  bawaan dipakai bila NAMA kosong atau tidak ada
+      #   ${NAMA:?pesan}   Compose BERHENTI dengan pesan itu bila NAMA kosong atau tidak ada (untuk rahasia wajib)
+      #   ${NAMA}          bila tidak ada: peringatan "variable is not set", lalu diisi teks kosong
+      SAPAAN: ${SAPAAN:-halo}
+      PEMILIK: ${PEMILIK:?isi PEMILIK di latihan.env}
+      KOTA: ${KOTA}
+      # Angka tanpa kutip dibaca sebagai ANGKA dulu, baru diubah menjadi teks: nol di depan dan nol di belakang hilang.
+      KODE_TANPA_KUTIP: 007       # menjadi "7"
+      KODE: "007"                 # tetap "007"
+      VERSI_TANPA_KUTIP: 1.10     # menjadi "1.1"
+      VERSI: "1.10"               # tetap "1.10"
+      # Compose 2.40.3 membaca off tanpa kutip pun sebagai teks "off", tetapi pembaca YAML lama membacanya "false".
+      # Tanda kutip membuatnya pasti teks di mana pun (proyek kita menulis TIMESCALEDB_TELEMETRY: "off").
+      TELEMETRI: "off"
+    ports:
+      # "loket-laptop:port-kontainer". Selalu dikutip: isinya berisi titik dua dan bukan sekadar kata.
+      - "127.0.0.1:1885:1883"
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        # tanda kutip: setelan log Docker hanya menerima teks; Compose 2.40.3 mengubah 3 menjadi "3" sendiri, tetapi kutip
+        # membuat maksudnya jelas
+        max-file: "3"

@@ -1,0 +1,7 @@
+# .dockerignore - kunci Tantangan 3 Modul 26 (taruh di alat/.dockerignore). Yang TIDAK ikut ke docker build:
+# library hasil npm install di laptop (dibuat ulang di image), kunci perangkat dan akun di .env, dan arsip simulator lama.
+node_modules
+.env
+.env.*
+!.env.example
+data

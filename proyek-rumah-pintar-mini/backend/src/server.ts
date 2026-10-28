@@ -1,9 +1,11 @@
-// server.ts - pintu masuk backend Rumah Pintar Mini v1.2 (Modul 25: titik perangkat di peta dan laporan harian CSV lewat
-// Telegram; di atas v1.1 Modul 24: aturan "di bawah ambang" seperti siram kalau tanah kering, aturan ambang boleh mengirim
-// perintah sekali, dan aturan bisa dihapus; di atas v1.0 Modul 21: daftar resmi perangkat dan kuncinya, akun broker sendiri,
-// pesan dari perangkat tak terdaftar/dicabut diabaikan; Modul 20: login, JWT di cookie, peran, dan pengaman API; dan
-// Modul 19: data realtime, perintah satu pintu, aturan otomatis, jadwal, dan notifikasi Telegram).
-// Jalankan: npm run dev (otomatis mulai ulang saat file disimpan) atau npm start.
+// server.ts - pintu masuk backend Rumah Pintar Mini v1.3 (Modul 26: bisa berjalan sebagai kontainer Docker di compose.cloud.yml;
+// di atas v1.2 Modul 25: titik perangkat di peta dan laporan harian CSV lewat Telegram; v1.1 Modul 24: aturan "di bawah ambang"
+// seperti siram kalau tanah kering, aturan ambang boleh mengirim perintah sekali, dan aturan bisa dihapus; v1.0 Modul 21: daftar
+// resmi perangkat dan kuncinya, akun broker sendiri, pesan dari perangkat tak terdaftar/dicabut diabaikan; Modul 20: login, JWT
+// di cookie, peran, dan pengaman API; dan Modul 19: data realtime, perintah satu pintu, aturan otomatis, jadwal, dan notifikasi
+// Telegram).
+// Jalankan: npm run dev (otomatis mulai ulang saat file disimpan) atau npm start. Di kontainer (Modul 26): node src/server.ts,
+// setelannya datang dari Docker Compose, bukan dari berkas .env (lihat Dockerfile).
 import Fastify, { LogController } from "fastify";
 import swagger from "@fastify/swagger";
 import swaggerUi from "@fastify/swagger-ui";
@@ -21,7 +23,7 @@ import { muatAturan } from "./services/otomasi.ts";
 import { hentikanJadwal } from "./services/jadwal.ts";
 import { hentikanTelegram, mulaiTelegram } from "./services/telegram.ts";
 import { mulaiLaporan } from "./services/laporan.ts";
-import { pakaiLog } from "./services/log.ts";
+import { pakaiLog, perluDicatat } from "./services/log.ts";
 import { databaseHidup } from "./db/arsip.ts";
 import { semuaPerangkatDb } from "./db/perangkat.ts";
 import { isiDaftar } from "./services/daftar.ts";
@@ -34,7 +36,9 @@ const app = Fastify({
 pakaiLog(app.log); // Modul 19: layanan lain (perintah, aturan, jadwal, Telegram) menulis ke log yang sama
 app.addHook("onResponse", async (req, reply) => {
   // ...jadi diganti satu baris per permintaan (hook = "middleware" Fastify). Hanya metode, alamat, dan kode jawaban:
-  // isi permintaan (sandi!) dan cookie (token!) tidak pernah ditulis ke log.
+  // isi permintaan (sandi!) dan cookie (token!) tidak pernah ditulis ke log. Modul 26: ketukan /health yang berhasil
+  // (healthcheck Docker setiap 15 detik) tidak dicatat, supaya log tidak penuh baris yang sama.
+  if (!perluDicatat(req.method, req.url, reply.statusCode)) return;
   req.log.info(`${req.method} ${req.url} -> ${reply.statusCode} (${Math.round(reply.elapsedTime)} ms)`);
 });
 app.setValidatorCompiler(validatorCompiler); // skema Zod memeriksa isi permintaan...
@@ -45,7 +49,7 @@ await app.register(swagger, {
   openapi: {
     info: {
       title: "Rumah Pintar Mini API",
-      description: "Backend v1.2 (Modul 25). Semua rute butuh login, kecuali yang tidak bergembok. Login dulu lewat "
+      description: "Backend v1.3 (Modul 26). Semua rute butuh login, kecuali yang tidak bergembok. Login dulu lewat "
         + "POST /auth/login (Try it out): browser menyimpan cookie akses dan mengirimnya sendiri ke rute lain. "
         + "Akun viewer hanya boleh melihat (GET); perintah dan perubahan dijawab 403. Perangkat didaftarkan admin lewat "
         + "POST /devices; kuncinya hanya tampil sekali, dan pesan dari perangkat tak terdaftar atau dicabut diabaikan. "
@@ -53,8 +57,10 @@ await app.register(swagger, {
         + "mengirim satu perintah saat menyala, dan aturan bisa dihapus (DELETE /rules/:id). Sejak v1.2, GET /devices "
         + "membawa titik peta setiap perangkat (lat, lng), dan admin memindahkannya lewat PUT /devices/:id/lokasi. "
         + "Laporan harian CSV dikirim ke Telegram sesuai LAPORAN_JADWAL (bawaan 07.00 WIB); POST /laporan/kirim "
-        + "mengirimnya sekarang juga.",
-      version: "1.2.0",
+        + "mengirimnya sekarang juga. Sejak v1.3 (Modul 26), backend juga berjalan sebagai kontainer di Docker Compose: "
+        + "dashboard memanggilnya lewat penyaji web Caddy dengan awalan /api, sedangkan halaman ini dibuka di "
+        + "http://localhost:8080/docs (di kontainer, login dari http://127.0.0.1:8080/docs ditolak 403).",
+      version: "1.3.0",
     },
     components: {
       securitySchemes: { // Modul 20: rute bergembok butuh cookie akses dari POST /auth/login

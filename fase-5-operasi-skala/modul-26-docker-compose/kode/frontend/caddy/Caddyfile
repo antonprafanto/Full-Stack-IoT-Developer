@@ -1,0 +1,46 @@
+# Caddyfile - pintu depan dashboard Rumah Pintar Mini (Modul 26): menyajikan isi dist/ dan meneruskan /api/... ke backend.
+# Salinan berkas ini ikut di dalam image web. Docker Compose memasang FOLDER frontend/caddy/ di atasnya (bukan berkas
+# tunggal), jadi berkas di repo inilah yang dipakai. Sesudah mengubahnya: docker compose restart web
+{
+	# Caddy biasanya membuka "loket admin" (2019) untuk mengubah setelan sambil jalan. Tidak kita pakai: setelan hanya
+	# dibaca dari berkas ini saat Caddy menyala.
+	admin off
+}
+
+# ":80" = HTTP biasa di port 80 kontainer, untuk alamat mana pun yang diketik di browser (localhost, IP laptop).
+# Modul 27 mengganti ":80" dengan nama domain, lalu Caddy memasang HTTPS sendiri. ("auto_https off" TIDAK membuat Caddy
+# melayani HTTP; alamat ":80" inilah yang membuatnya.)
+:80 {
+	# jawaban dikompres sebelum dikirim: JavaScript dashboard ±1 MB tiba di browser sekitar 300 kB
+	encode zstd gzip
+
+	# /api/devices -> backend:8080/devices (awalan /api dibuang dulu). Sambungan live ikut: /api/socket.io/ -> backend:8080/socket.io/
+	# "backend" = nama layanan di compose.cloud.yml (lorong Compose), bukan localhost.
+	handle_path /api/* {
+		reverse_proxy backend:8080 {
+			# Backend memasang cookie "sesi" (kartu terusan 7 hari) berjalur /auth, padahal browser memanggilnya lewat
+			# /api/auth. Tanpa baris ini browser tidak mengirim cookie itu ke /api/auth/refresh, dan kamu terlempar ke
+			# layar Masuk setiap 15 menit. Baris ini mengganti jalurnya di jawaban backend: Path=/auth -> Path=/api/auth.
+			header_down Set-Cookie "Path=/auth" "Path=/api/auth"
+		}
+	}
+
+	# /assets/...: JavaScript dan CSS hasil build. Namanya bersidik (misalnya index-DcefnpS2.js) dan berganti setiap
+	# build, jadi browser boleh menyimpannya lama. Berkas yang tidak ada dijawab 404 (bukan index.html): galatnya jujur.
+	handle /assets/* {
+		root * /srv
+		file_server
+	}
+
+	# Selain /api dan /assets: berkas dashboard di /srv (isi dist/). Alamat layar seperti /peta atau /perangkat/f00d00000001
+	# bukan berkas, jadi dijawab index.html, lalu React Router memilih layarnya ("SPA fallback", janji Modul 24). Tanpa ini,
+	# F5 di layar mana pun selain / menjawab 404.
+	handle {
+		root * /srv
+		# no-cache = browser wajib bertanya dulu ke Caddy sebelum memakai index.html simpanannya (Caddy menjawab 304 bila
+		# belum berubah). Tanpa ini, sesudah image web dibangun ulang browser bisa tetap menampilkan dashboard LAMA sampai F5.
+		header Cache-Control "no-cache"
+		try_files {path} /index.html
+		file_server
+	}
+}

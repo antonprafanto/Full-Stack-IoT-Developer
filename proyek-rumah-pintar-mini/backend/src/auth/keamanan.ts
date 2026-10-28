@@ -38,7 +38,7 @@ export const OPSI_SESI = { ...DASAR, path: "/auth", maxAge: UMUR_SESI_DETIK }; /
 // Rute yang boleh diketuk TANPA login. Semua rute lain wajib login, termasuk rute baru yang kelak ditambahkan.
 export const RUTE_TERBUKA = new Set([
   "POST /auth/login", "POST /auth/refresh", "POST /auth/logout",
-  "GET /health", "HEAD /health", // HEAD: pemeriksa kesehatan seperti wget --spider (Docker, Fase 5)
+  "GET /health", "HEAD /health", // HEAD: healthcheck Docker Compose (Modul 26) mengetuk HEAD /health
 ]);
 const MEMBACA = new Set(["GET", "HEAD"]); // satu-satunya metode yang boleh dipakai akun viewer
 // Halaman web (origin) yang boleh MENGUBAH sesuatu lewat browser: daftar CORS + server ini sendiri (Swagger UI di /docs).

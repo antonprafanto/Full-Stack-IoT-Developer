@@ -1,0 +1,18 @@
+# env-mode-hp.contoh - kunci Tantangan 1 Modul 26: baris .env akar yang diubah untuk "mode HP" (dashboard dari HP di WiFi rumah).
+# Bukan berkas .env utuh: salin hanya baris-baris ini ke .env-mu, ganti 192.168.1.20 dengan IP WiFi laptopmu, lalu dari akar
+# proyek: docker compose up -d. Kembalikan ke nilai mode laptop sesudah mencoba (lihat README.md di folder ini).
+
+# Mode HP dengan loket web bawaan 80. HP membuka http://192.168.1.20
+ALAMAT_WEB=0.0.0.0
+CORS_ORIGIN=http://localhost,http://127.0.0.1,http://192.168.1.20
+
+# Mode HP dengan loket web 8081 (port 80 di laptop sudah terpakai). HP membuka http://192.168.1.20:8081
+# Port WAJIB ikut ditulis di setiap alamat CORS_ORIGIN, termasuk localhost dan 127.0.0.1.
+# ALAMAT_WEB=0.0.0.0
+# PORT_WEB=8081
+# CORS_ORIGIN=http://localhost:8081,http://127.0.0.1:8081,http://192.168.1.20:8081
+
+# Mode laptop (bawaan .env.example), untuk mengembalikan:
+# ALAMAT_WEB=127.0.0.1
+# PORT_WEB=80
+# CORS_ORIGIN=http://localhost,http://127.0.0.1

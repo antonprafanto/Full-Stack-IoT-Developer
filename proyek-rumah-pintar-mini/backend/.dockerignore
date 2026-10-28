@@ -1,0 +1,17 @@
+# .dockerignore - berkas yang TIDAK ikut dikirim ke docker build (Modul 26). Image yang dibagikan (GHCR publik) bisa dibongkar
+# siapa pun, lapis demi lapis: rahasia tidak boleh masuk, bahkan ke tahap yang nanti dibuang.
+# Library hasil npm install di laptop: tidak pernah disalin ke image (Dockerfile memasang sendiri: npm ci --omit=dev);
+# dikecualikan supaya konteks build tetap kecil.
+node_modules
+# Rahasia mode kembang (.env) dan salinannya; hanya contohnya (.env.example) yang boleh.
+.env
+.env.*
+!.env.example
+# Fotokopi database, koleksi Bruno, uji beban, dan berkas uji curl Modul 20 (berisi sandi dan cookie).
+backup
+bruno
+uji
+login*.json
+kue*.txt
+# Berkas uji Vitest tidak dipakai server yang berjalan.
+src/**/*.test.ts

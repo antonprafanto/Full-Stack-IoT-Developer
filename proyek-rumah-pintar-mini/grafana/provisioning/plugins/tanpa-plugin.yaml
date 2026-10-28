@@ -1,0 +1,5 @@
+# tanpa-plugin.yaml - Grafana membaca folder provisioning/plugins setiap kali menyala; kalau folder ini tidak ada, lognya
+# menulis level=error "Failed to read plugin provisioning files" (tidak berbahaya, tetapi membingungkan). Rumah Pintar Mini
+# tidak memasang plugin tambahan (Modul 25: GF_PLUGINS_PREINSTALL_DISABLED), jadi daftarnya sengaja kosong.
+apiVersion: 1
+apps: []

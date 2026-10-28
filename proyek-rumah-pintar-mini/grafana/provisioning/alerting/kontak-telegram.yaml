@@ -1,0 +1,18 @@
+# kontak-telegram.yaml - contact point "Telegram Rumah Pintar" sebagai berkas provisioning (Modul 26). Isiannya sama dengan
+# layar Modul 25 Praktik 4.1: integrasi Telegram, Parse mode None, templat pesan 🔴/✅, pesan "pulih" tetap dikirim.
+# Token bot dan chat_id TIDAK ditulis di sini: Grafana mengambilnya dari variabel TELEGRAM_BOT_TOKEN dan TELEGRAM_CHAT_ID
+# (dari .env lewat compose.cloud.yml). Kosong di .env = compose.cloud.yml memberi "belum-diisi" dan 0, karena contact point
+# Telegram tanpa token membuat Grafana gagal menyala.
+apiVersion: 1
+contactPoints:
+  - orgId: 1
+    name: Telegram Rumah Pintar
+    receivers:
+      - uid: telegram-rumah-pintar
+        type: telegram
+        settings:
+          bottoken: $TELEGRAM_BOT_TOKEN
+          chatid: "$TELEGRAM_CHAT_ID"
+          parse_mode: None
+          message: '{{ range .Alerts.Firing }}🔴 {{ .Annotations.summary }}{{ "\n" }}{{ end }}{{ range .Alerts.Resolved }}✅ {{ .Labels.node }} kembali mengirim data.{{ "\n" }}{{ end }}'
+        disableResolveMessage: false

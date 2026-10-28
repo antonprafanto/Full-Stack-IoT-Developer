@@ -39,18 +39,18 @@ Untuk `pemeriksa-kontrak.js`, pasang dulu library-nya sekali saja (di folder `al
 npm install mqtt@5.16.1
 ```
 
-Sejak Modul 21, broker di rumah berkunci, jadi pemeriksa dan simulator butuh akun broker. Salin `.env.example` menjadi `.env` di folder `alat` ini (kalau belum), lalu isi `KUNCI_PEMERIKSA` dengan sandi akun `pemeriksa` (akun yang hanya boleh membaca `rpm/#`, dibuat di broker dengan `mosquitto_passwd`) dan `KUNCI_F00D00000001` dengan kunci perangkat latihan dari jawaban `POST /devices` di backend. File `.env` tidak ikut Git. Jalankan keduanya dengan `--env-file=.env`:
+Sejak Modul 21, broker di rumah berkunci, jadi pemeriksa dan simulator butuh akun broker. Sejak Modul 26, broker di laptop adalah **broker pusat** Docker Compose (layanan `mosquitto` di `compose.cloud.yml`; dari laptop ini alamatnya `127.0.0.1:1883`): akunnya dibuat di dalam kontainer, dari akar proyek, dengan `docker compose exec -u mosquitto mosquitto mosquitto_passwd /mosquitto/data/sandi-broker pemeriksa` (lalu akun perangkat latihan, misalnya `f00d00000001`, dengan kuncinya), kemudian `docker compose restart mosquitto`. Data dari broker gerbang Pi juga sampai ke broker pusat lewat jembatan, jadi pemeriksa yang tersambung ke broker pusat melihat pesan perangkat sungguhan juga. Salin `.env.example` menjadi `.env` di folder `alat` ini (kalau belum), lalu isi `KUNCI_PEMERIKSA` dengan sandi akun `pemeriksa` (akun yang hanya boleh membaca `rpm/#`, dibuat di broker dengan `mosquitto_passwd`) dan `KUNCI_F00D00000001` dengan kunci perangkat latihan dari jawaban `POST /devices` di backend. File `.env` tidak ikut Git. Jalankan keduanya dengan `--env-file=.env`:
 
 ```bash
 node --env-file=.env pemeriksa-kontrak.js
 ```
 
-Tanpa tambahan apa pun, pemeriksa menyambung ke broker di laptop yang sama (`127.0.0.1`) dan memeriksa semua topik `rpm/#`; untuk broker di komputer lain, tulis alamatnya di belakang, misalnya `node --env-file=.env pemeriksa-kontrak.js 192.168.1.10`, dan untuk port selain 1883 tulis juga port-nya, misalnya `127.0.0.1:1884`. Kalau broker menolak akunnya, pemeriksa berhenti dengan pesan `Broker 127.0.0.1:1883 menolak akun pemeriksa (kode 5). …`. Di broker publik (jalur Wokwi), tulis juga `device_id` perangkatmu supaya hanya pesannya yang diperiksa, misalnya `node pemeriksa-kontrak.js broker.emqx.io 240ac45e114b` (tanpa `--env-file`: broker publik itu tidak berkunci). Berhenti dengan **Ctrl + C**; sebelum berhenti, ia mencetak ringkasan LULUS/GAGAL. Penjelasannya ada di Modul 11 Praktik 8 dan Modul 21.
+Tanpa tambahan apa pun, pemeriksa menyambung ke broker di laptop yang sama (`127.0.0.1`; sejak Modul 26 = broker pusat Compose) dan memeriksa semua topik `rpm/#`; untuk broker di komputer lain, tulis alamatnya di belakang, misalnya `node --env-file=.env pemeriksa-kontrak.js 192.168.1.10`, dan untuk port selain 1883 tulis juga port-nya, misalnya `127.0.0.1:1884`. Kalau broker menolak akunnya, pemeriksa berhenti dengan pesan `Broker 127.0.0.1:1883 menolak akun pemeriksa (kode 5). …`. Di broker publik (jalur Wokwi), tulis juga `device_id` perangkatmu supaya hanya pesannya yang diperiksa, misalnya `node pemeriksa-kontrak.js broker.emqx.io 240ac45e114b` (tanpa `--env-file`: broker publik itu tidak berkunci). Berhenti dengan **Ctrl + C**; sebelum berhenti, ia mencetak ringkasan LULUS/GAGAL. Penjelasannya ada di Modul 11 Praktik 8 dan Modul 21.
 
-Simulator memakai library yang sama. Tulis alamat broker lengkap (diawali `mqtt://`) di belakang nama filenya. Isian kedua (pilihan) adalah jumlah perangkat palsunya, misalnya `1`. Hanya perangkat yang kuncinya ada di `alat/.env` (`KUNCI_F00D00000001=…`, `KUNCI_F00D00000002=…`, dan seterusnya) yang dijalankan; yang lain dilewati dengan pesan `kunci belum ada di alat/.env`. Jalankan seperti ini, lalu hentikan dengan **Ctrl + C** kalau sudah selesai:
+Simulator memakai library yang sama. Tulis alamat broker lengkap (diawali `mqtt://`) di belakang nama filenya: sejak Modul 26 biasanya broker pusat di laptop ini, `mqtt://127.0.0.1:1883` (sebelumnya broker Pi, misalnya `mqtt://192.168.1.37:1883`, yang tetap boleh dipakai: datanya sampai ke pusat lewat jembatan). Isian kedua (pilihan) adalah jumlah perangkat palsunya, misalnya `1`. Hanya perangkat yang kuncinya ada di `alat/.env` (`KUNCI_F00D00000001=…`, `KUNCI_F00D00000002=…`, dan seterusnya) yang dijalankan; yang lain dilewati dengan pesan `kunci belum ada di alat/.env`. Jalankan seperti ini, lalu hentikan dengan **Ctrl + C** kalau sudah selesai:
 
 ```bash
-node --env-file=.env simulator-perangkat.js mqtt://192.168.1.37:1883 1
+node --env-file=.env simulator-perangkat.js mqtt://127.0.0.1:1883 1
 ```
 
 Kalau broker menolak kunci sebuah perangkat palsu (kunci salah, belum dipasang di broker, atau sudah dicabut), simulator menulis `f00d00000001: DITOLAK broker (kode 5): kunci salah, belum didaftarkan, atau sudah dicabut. Dicoba lagi 60 detik lagi.` dan mencoba lagi setiap 60 detik.
@@ -58,7 +58,7 @@ Kalau broker menolak kunci sebuah perangkat palsu (kunci salah, belum dipasang d
 Kata `bersihkan` di tempat isian kedua menghapus status *retained* perangkat palsu dari broker (setiap perangkat masuk dengan akunnya sendiri), lalu programnya selesai sendiri. Sejak Modul 25, status Kebun tiruan ikut dihapus lewat `f00d00000001` (hanya berlaku kalau blok ACL Kebun sudah dibuka). `config` *retained* di topik `cmd` tidak ikut dihapus: hanya akun `backend` dan `nodered` yang boleh menulis `cmd`, dan config itu hanya bisa dibaca perangkat itu sendiri.
 
 ```bash
-node --env-file=.env simulator-perangkat.js mqtt://192.168.1.37:1883 bersihkan
+node --env-file=.env simulator-perangkat.js mqtt://127.0.0.1:1883 bersihkan
 ```
 
 Selagi simulator berjalan, ketik `suhu 33` lalu **Enter** di terminal yang sama supaya semua perangkat palsu membaca 33,0 °C (pakai titik untuk desimal, misalnya `suhu 29.5`); `suhu acak` mengembalikan suhu acak 25,0–33,0 °C. Penjelasan simulator ada di Modul 16 Praktik 7 dan Modul 19.
@@ -76,7 +76,7 @@ Angka yang diketik ikut terkirim bersama `telemetry` berikutnya (paling lama 10 
 
 Untuk pembaca **tanpa Node 2 sungguhan**: perangkat palsu pertama `f00d00000001` berperan sebagai Node 1 yang menerbitkan data Node 2 palsu `f00d000000b2` ("Kebun tiruan"), persis seperti Node 1 asli menerbitkan data Node 2 ([`KONTRAK-DATA.md`](../KONTRAK-DATA.md) bagian 1 dan 5). Siapkan sekali saja:
 
-1. **Izin broker.** Di `edge/acl-broker`, hapus `# ` (pagar dan spasinya) di depan tiga baris blok `2b) Jalur laptop (Modul 25)`: `user f00d00000001`, `topic write rpm/f00d000000b2/telemetry`, dan `topic write rpm/f00d000000b2/status`. Simpan, lalu **restart** broker (bukan *reload*; lihat `edge/README.md`). Tanpa langkah ini broker membuang data Kebun diam-diam, tanpa pesan galat di simulator.
+1. **Izin broker.** Di `edge/acl-broker`, hapus `# ` (pagar dan spasinya) di depan tiga baris blok `2b) Jalur laptop (Modul 25)`: `user f00d00000001`, `topic write rpm/f00d000000b2/telemetry`, dan `topic write rpm/f00d000000b2/status`. Simpan, lalu **restart** broker (bukan *reload*; lihat `edge/README.md`): broker pusat Compose (Modul 26) dengan `docker compose restart mosquitto` dari akar proyek. Tanpa langkah ini broker membuang data Kebun diam-diam, tanpa pesan galat di simulator.
 2. **Daftarkan Kebun** di backend sebagai perangkat ESP-NOW dengan penghubung `f00d00000001`: Bruno `daftarkan Kebun tiruan` (`POST /devices` dengan `"device_id": "f00d000000b2"` dan `"penghubung": "f00d00000001"`). Kebun tidak punya kunci, jadi `alat/.env` tidak berubah; yang wajib ada tetap `KUNCI_F00D00000001`.
 3. Jalankan simulator seperti biasa (cukup satu perangkat palsu: isian kedua `1`), lalu ketik di terminal yang sama:
 

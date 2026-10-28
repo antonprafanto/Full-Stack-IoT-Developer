@@ -1,0 +1,32 @@
+info:
+  name: login salah
+  type: http
+  seq: 15
+
+http:
+  method: POST
+  url: "{{baseUrl}}/auth/login"
+  body:
+    type: json
+    data: |-
+      {
+        "email": "admin@rumah.test",
+        "sandi": "bukan sandi yang benar"
+      }
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "401"
+    - expression: res.body.pesan
+      operator: eq
+      value: email atau sandi salah
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: true

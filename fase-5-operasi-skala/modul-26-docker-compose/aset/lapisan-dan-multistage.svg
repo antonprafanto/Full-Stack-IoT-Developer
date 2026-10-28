@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1102" viewBox="0 0 1200 1102" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="1102" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" xml:space="preserve">Cetakan berlapis: dapur dan meja saji</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" xml:space="preserve">Konsep 2–4 · <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5">Dockerfile</tspan> dua tahap (<tspan font-style="italic">multi-stage</tspan>) · angka dari build penulis di Raspberry Pi 5 (arm64)</text>
+<text x="30.0" y="122.0" font-size="16" font-weight="600" fill="#1a7f37" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1a7f37">Backend 1.3.0</tspan> · <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14" fill="#1e2a4a" font-weight="800">backend/Dockerfile</tspan></text>
+<text x="590.0" y="122.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="end" >baris dipersingkat: salin dari berkasnya</text>
+<rect x="30.0" y="136.0" width="560.0" height="182.0" rx="10" fill="#eef1f5" stroke="#9aa3b0" stroke-width="1.4" stroke-dasharray="7 5"/>
+<text x="46.0" y="162.0" font-size="13.5" font-weight="800" fill="#4a5568" text-anchor="start" xml:space="preserve">Tahap <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" fill="#4a5568" font-weight="800">paket</tspan></text>
+<text x="574.0" y="162.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="end" >dapur: dibuang sesudah build</text>
+<text x="46.0" y="190.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">FROM node:24.22.1-alpine3.24 AS paket</text>
+<text x="46.0" y="213.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">COPY package.json package-lock.json ./</text>
+<text x="46.0" y="236.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">RUN npm ci --omit=dev</text>
+<text x="574.0" y="236.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="end" xml:space="preserve">186 paket, tanpa alat pengembang</text>
+<line x1="100.0" y1="322.0" x2="100.0" y2="354.0" stroke="#a13a6b" stroke-width="2.4" stroke-linecap="round" />
+<path d="M96.2 346.9 L100.0 354.0 L103.8 346.9" fill="none" stroke="#a13a6b" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="116.0" y="343.0" font-size="12.5" font-weight="800" fill="#a13a6b" text-anchor="start" xml:space="preserve">hanya <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#a13a6b" font-weight="800">node_modules</tspan> yang dibawa</text>
+<rect x="30.0" y="360.0" width="560.0" height="182.0" rx="10" fill="#ffffff" stroke="#a13a6b" stroke-width="2" />
+<text x="46.0" y="386.0" font-size="13.5" font-weight="800" fill="#a13a6b" text-anchor="start" >Tahap akhir</text>
+<text x="574.0" y="386.0" font-size="12" font-weight="700" fill="#a13a6b" text-anchor="end" >meja saji = isi image</text>
+<text x="46.0" y="414.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">FROM node:24.22.1-alpine3.24</text>
+<text x="46.0" y="438.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">ENV NODE_ENV=production</text>
+<text x="46.0" y="462.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">COPY --from=paket /app/node_modules ./node_modules</text>
+<text x="46.0" y="486.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">COPY src ./src</text>
+<text x="574.0" y="486.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="end" xml:space="preserve">kode (juga <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#4a5568" font-weight="800">package.json</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#4a5568" font-weight="800">migrasi</tspan>)</text>
+<text x="46.0" y="510.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">USER node</text>
+<text x="574.0" y="510.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="end" xml:space="preserve">bukan root (uid 1000)</text>
+<text x="46.0" y="534.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">CMD ["node", "src/server.ts"]</text>
+<text x="574.0" y="534.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="end" xml:space="preserve">tanpa npm start</text>
+<rect x="30.0" y="554.0" width="560.0" height="40.0" rx="8" fill="#fcf2f6" />
+<text x="46.0" y="579.0" font-size="13" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#a13a6b">313 MB</tspan> di disk · <tspan font-weight="800" fill="#a13a6b">71,9 MB</tspan> unduhan (terkompres) · Node.js 24 + library + kode</text>
+<text x="610.0" y="122.0" font-size="16" font-weight="600" fill="#6f42c1" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#6f42c1">Web 1.2.0</tspan> · <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14" fill="#1e2a4a" font-weight="800">frontend/Dockerfile</tspan></text>
+<text x="1170.0" y="122.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="end" >baris dipersingkat: salin dari berkasnya</text>
+<rect x="610.0" y="136.0" width="560.0" height="182.0" rx="10" fill="#eef1f5" stroke="#9aa3b0" stroke-width="1.4" stroke-dasharray="7 5"/>
+<text x="626.0" y="162.0" font-size="13.5" font-weight="800" fill="#4a5568" text-anchor="start" xml:space="preserve">Tahap <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" fill="#4a5568" font-weight="800">bangun</tspan></text>
+<text x="1154.0" y="162.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="end" >dapur Node.js: dibuang sesudah build</text>
+<text x="626.0" y="190.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">FROM node:24.22.1-alpine3.24 AS bangun</text>
+<text x="626.0" y="213.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">COPY package.json package-lock.json ./</text>
+<text x="626.0" y="236.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">RUN npm ci</text>
+<text x="1154.0" y="236.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="end" xml:space="preserve">110 paket, + TypeScript, Vite</text>
+<text x="626.0" y="259.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">COPY . .</text>
+<text x="626.0" y="282.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">ARG VITE_API_BASE=/api</text>
+<text x="1154.0" y="282.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="end" xml:space="preserve">dibakar ke JavaScript</text>
+<text x="626.0" y="305.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">RUN npm run build</text>
+<text x="1154.0" y="305.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="end" xml:space="preserve">→ <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#4a5568" font-weight="800">dist/</tspan> ±1,1 MB</text>
+<line x1="680.0" y1="322.0" x2="680.0" y2="354.0" stroke="#a13a6b" stroke-width="2.4" stroke-linecap="round" />
+<path d="M676.2 346.9 L680.0 354.0 L683.8 346.9" fill="none" stroke="#a13a6b" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="696.0" y="343.0" font-size="12.5" font-weight="800" fill="#a13a6b" text-anchor="start" xml:space="preserve">hanya <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#a13a6b" font-weight="800">dist/</tspan> yang dibawa</text>
+<rect x="610.0" y="360.0" width="560.0" height="182.0" rx="10" fill="#ffffff" stroke="#a13a6b" stroke-width="2" />
+<text x="626.0" y="386.0" font-size="13.5" font-weight="800" fill="#a13a6b" text-anchor="start" >Tahap akhir</text>
+<text x="1154.0" y="386.0" font-size="12" font-weight="700" fill="#a13a6b" text-anchor="end" >meja saji = isi image</text>
+<text x="626.0" y="414.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">FROM caddy:2.11.7-alpine</text>
+<text x="1154.0" y="414.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="end" xml:space="preserve">meja saji: Caddy</text>
+<text x="626.0" y="438.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">COPY caddy/Caddyfile /etc/caddy/Caddyfile</text>
+<text x="626.0" y="462.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">COPY --from=bangun /app/dist /srv</text>
+<text x="1154.0" y="462.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="end" xml:space="preserve">halaman siap saji</text>
+<text x="626.0" y="510.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve"># tanpa CMD: image Caddy sudah membawanya</text>
+<text x="626.0" y="534.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve"># Compose memasang folder frontend/caddy/ di atasnya</text>
+<rect x="610.0" y="554.0" width="560.0" height="40.0" rx="8" fill="#fcf2f6" />
+<text x="626.0" y="579.0" font-size="13" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#a13a6b">90,4 MB</tspan> di disk · <tspan font-weight="800" fill="#a13a6b">24 MB</tspan> unduhan (terkompres) · Caddy + <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#1e2a4a" font-weight="800">dist/</tspan>, tanpa Node.js</text>
+<rect x="30.0" y="616.0" width="560.0" height="274.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="50.0" y="646.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >Lapisan dan cache</text>
+<text x="194.0" y="646.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >urutan baris = urutan lapisan (disederhanakan, contoh backend)</text>
+<rect x="50.0" y="664.0" width="320.0" height="34.0" rx="6" fill="#fcf2f6" stroke="#a13a6b" stroke-width="1.6" />
+<text x="62.0" y="686.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">COPY src</tspan></text>
+<text x="364.0" y="686.0" font-size="11" font-weight="800" fill="#a13a6b" text-anchor="end" >dibangun ulang</text>
+<text x="382.0" y="686.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" >kode: paling sering berubah</text>
+<rect x="50.0" y="704.0" width="320.0" height="34.0" rx="6" fill="#eef1f5" stroke="#9aa3b0" stroke-width="1.2" />
+<text x="62.0" y="726.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">RUN npm ci --omit=dev</tspan></text>
+<text x="364.0" y="726.0" font-size="11" font-weight="800" fill="#4a5568" text-anchor="end" >CACHED</text>
+<text x="382.0" y="726.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" >lama (24,6 s)</text>
+<rect x="50.0" y="744.0" width="320.0" height="34.0" rx="6" fill="#eef1f5" stroke="#9aa3b0" stroke-width="1.2" />
+<text x="62.0" y="766.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">COPY package.json package-lock.json</tspan></text>
+<text x="364.0" y="766.0" font-size="11" font-weight="800" fill="#4a5568" text-anchor="end" >CACHED</text>
+<text x="382.0" y="766.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" >daftar library</text>
+<rect x="50.0" y="784.0" width="320.0" height="34.0" rx="6" fill="#eef1f5" stroke="#9aa3b0" stroke-width="1.2" />
+<text x="62.0" y="806.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve">basis <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">node:24.22.1-alpine3.24</tspan></text>
+<text x="364.0" y="806.0" font-size="11" font-weight="800" fill="#4a5568" text-anchor="end" >CACHED</text>
+<text x="382.0" y="806.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" >diunduh sekali</text>
+<text x="50.0" y="836.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">ubah satu berkas <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#1e2a4a" font-weight="800">src/</tspan>: hanya <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#1e2a4a" font-weight="800">COPY</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#1e2a4a" font-weight="800">src</tspan> dibangun ulang, sisanya <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#1e2a4a" font-weight="800">CACHED</tspan></text>
+<text x="50.0" y="856.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">build kedua tanpa perubahan: <tspan font-weight="800" fill="#a13a6b">1,9 s</tspan> · tanpa cache lapisan (basis ada): <tspan font-weight="800" fill="#a13a6b">45,8 s</tspan></text>
+<text x="50.0" y="875.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">web: pertama 103 s (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568" font-weight="800">npm</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568" font-weight="800">ci</tspan> 49,5 s + <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568" font-weight="800">npm</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568" font-weight="800">run</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568" font-weight="800">build</tspan> 49,3 s), ubah kode ±50 s</text>
+<rect x="610.0" y="616.0" width="560.0" height="274.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="630.0" y="646.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >Kenapa dua tahap: image kecil</text>
+<text x="630.0" y="666.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >panjang batang = ukuran di disk; angka kedua = unduhan</text>
+<text x="630.0" y="692.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve">backend, dua tahap (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#1e2a4a" font-weight="800">--omit=dev</tspan>)</text>
+<text x="1150.0" y="692.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="end" >image Modul 26</text>
+<rect x="630.0" y="702.0" width="232.4" height="20.0" rx="4" fill="#a13a6b" />
+<text x="870.4" y="717.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">313 MB</tspan> / 71,9 MB</text>
+<text x="630.0" y="748.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve">backend, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#1e2a4a" font-weight="800">npm</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#1e2a4a" font-weight="800">ci</tspan> penuh (alat pengembang ikut)</text>
+<text x="1150.0" y="748.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="end" >uji riset, basis 24.21.0</text>
+<rect x="630.0" y="758.0" width="300.0" height="20.0" rx="4" fill="#9aa3b0" />
+<text x="938.0" y="773.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">404 MB</tspan> / 94,8 MB</text>
+<text x="630.0" y="804.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve">web: Caddy + <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#1e2a4a" font-weight="800">dist/</tspan></text>
+<text x="1150.0" y="804.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="end" >tanpa Node.js</text>
+<rect x="630.0" y="814.0" width="67.1" height="20.0" rx="4" fill="#a13a6b" />
+<text x="705.1" y="829.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">90,4 MB</tspan> / 24 MB</text>
+<text x="630.0" y="874.0" font-size="12" font-weight="700" fill="#a13a6b" text-anchor="start" >dua tahap: alat pengembang (TypeScript, Vitest, Vite) tidak ikut tersaji</text>
+<rect x="30.0" y="910.0" width="370.0" height="150.0" rx="12" fill="#ffffff" stroke="#e63946" stroke-width="1.6" />
+<text x="48.0" y="938.0" font-size="13.5" font-weight="800" fill="#e63946" text-anchor="start" xml:space="preserve">Jebakan <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" fill="#e63946" font-weight="800">--omit=dev</tspan></text>
+<text x="48.0" y="962.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">library yang dipakai saat server JALAN harus di</text>
+<text x="48.0" y="981.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">dependencies</tspan>. Cetakan 1.2 mogok:</text>
+<text x="48.0" y="1000.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">unable to determine transport target</tspan></text>
+<text x="48.0" y="1019.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">for "pino-pretty"</tspan></text>
+<text x="48.0" y="1038.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">→ backend 1.3.0 memindahkan <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">pino-pretty</tspan></text>
+<rect x="415.0" y="910.0" width="370.0" height="150.0" rx="12" fill="#ffffff" stroke="#a13a6b" stroke-width="1.6" />
+<text x="433.0" y="938.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Tag dan digest</text>
+<text x="433.0" y="962.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">tag = label, bisa dipindah ke isi lain:</text>
+<text x="433.0" y="981.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">node:24.22.1-alpine3.24</tspan></text>
+<text x="433.0" y="1000.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">digest = sidik isi, tidak pernah berubah:</text>
+<text x="433.0" y="1019.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">sha256:06d7adf3…8b53</tspan></text>
+<text x="433.0" y="1038.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Compose cukup tag persis; digest = 🔬</text>
+<rect x="800.0" y="910.0" width="370.0" height="150.0" rx="12" fill="#ffffff" stroke="#a13a6b" stroke-width="1.6" />
+<text x="818.0" y="938.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" fill="#a13a6b" font-weight="800">.dockerignore</tspan> dan <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" fill="#a13a6b" font-weight="800">latest</tspan></text>
+<text x="818.0" y="962.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">.env</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">node_modules</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">backup</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">bruno</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">uji</tspan></text>
+<text x="818.0" y="981.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">tidak ikut dikirim ke build;</text>
+<text x="818.0" y="1000.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">latest</tspan> bisa berganti diam-diam:</text>
+<text x="818.0" y="1019.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Mosquitto <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">latest</tspan> = 2.1, Uptime Kuma</text>
+<text x="818.0" y="1038.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">latest</tspan> = seri 1 → tulis tag persis</text>
+<text x="1178.0" y="1088.0" font-size="11" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

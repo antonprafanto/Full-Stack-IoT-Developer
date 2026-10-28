@@ -13,3 +13,13 @@ export const log = {
   warn: (pesan: string) => pencatat?.warn(pesan),
   error: (pesan: string) => pencatat?.error(pesan),
 };
+
+// Modul 26: apakah satu permintaan HTTP perlu ditulis ke log (dipakai hook onResponse di server.ts)? Healthcheck Docker
+// mengetuk HEAD /health setiap 15 detik; tanpa saringan ini, log berisi ribuan baris yang sama setiap hari dan baris
+// penting tenggelam. Hanya ketukan /health yang BERHASIL (GET atau HEAD, kode di bawah 400) yang tidak dicatat: /health
+// yang gagal dan semua alamat lain tetap dicatat seperti biasa.
+export function perluDicatat(metode: string, alamat: string, kode: number): boolean {
+  const jalur = alamat.split("?")[0]; // tanpa ?… di belakangnya
+  const ketukanKesehatan = (metode === "GET" || metode === "HEAD") && jalur === "/health";
+  return !(ketukanKesehatan && kode < 400);
+}

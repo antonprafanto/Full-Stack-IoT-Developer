@@ -1,0 +1,317 @@
+diff --git a/frontend/.dockerignore b/frontend/.dockerignore
+new file mode 100644
+index 0000000..478a2e0
+--- /dev/null
++++ b/frontend/.dockerignore
+@@ -0,0 +1,12 @@
++# .dockerignore - berkas yang TIDAK ikut dikirim ke docker build (Modul 26). Image yang dibagikan (GHCR publik) bisa dibongkar
++# siapa pun: berkas setelan pribadi tidak boleh masuk, bahkan ke tahap bangun yang nanti dibuang.
++# Library hasil npm install di laptop: tahap bangun memasang sendiri (npm ci); COPY . . tidak boleh mencampurnya
++# dengan milik laptop (versinya bisa lain; kode mesin Windows/macOS tidak jalan di Linux).
++node_modules
++# Hasil build lama di laptop: image membangunnya sendiri.
++dist
++# Setelan lokal mode kembang (.env.local berisi VITE_API_BASE milik laptopmu). Hanya contohnya (.env.example) yang boleh.
++.env
++.env.*
++!.env.example
++*.local
+diff --git a/frontend/.env.example b/frontend/.env.example
+index 9e549a8..2aa2947 100644
+--- a/frontend/.env.example
++++ b/frontend/.env.example
+@@ -6,4 +6,6 @@
+ # Ingat: semua VITE_... ikut tertanam di JavaScript yang dikirim ke browser. Isi alamat saja, JANGAN rahasia.
+ # Modul 23: membuka dashboard dari HP (npm run dev:hp)? Biarkan baris di bawah tetap diberi #: halaman
+ # http://<IP-laptop>:5173 di HP otomatis memanggil API http://<IP-laptop>:8080, dan sambungan live ikut alamat itu.
++# Modul 26: berkas ini hanya untuk mode kembang (npm run dev). Image web Docker TIDAK membacanya (.dockerignore menahan
++# .env.local): alamat API-nya /api, dibakar saat build lewat ARG VITE_API_BASE di Dockerfile (args di compose.cloud.yml).
+ # VITE_API_BASE=http://localhost:8080
+diff --git a/frontend/Dockerfile b/frontend/Dockerfile
+new file mode 100644
+index 0000000..94b7a66
+--- /dev/null
++++ b/frontend/Dockerfile
+@@ -0,0 +1,35 @@
++# Dockerfile - cetakan (image) web Rumah Pintar Mini 1.2.0 (Modul 26). Dua tahap ("multi-stage"):
++#   tahap "bangun": Node.js mengubah kode React + TypeScript menjadi berkas siap saji (npm run build -> folder dist/)
++#   tahap akhir   : hanya Caddy + isi dist/. Node.js, node_modules, dan kode sumber tertinggal di tahap bangun.
++# Dibangun dari folder proyek dengan: docker compose build web   (atau dari folder ini saja, tanpa folder backend:
++# docker build -t rumah-pintar-mini-web:1.2.0 .)
++
++# Tag persis (sama dengan cetakan backend), bukan "latest": cetakan yang sama hari ini dan bulan depan.
++FROM node:24.22.1-alpine3.24 AS bangun
++WORKDIR /app
++# package*.json disalin LEBIH DULU daripada kode: selama daftar library tidak berubah, lapisan "npm ci" diambil dari cache
++# dan build ulang sesudah mengubah kode jauh lebih cepat. Semua library ikut (termasuk alat pengembang TypeScript dan Vite),
++# karena tahap ini memang membangun; tidak satu pun ikut ke image akhir.
++COPY package.json package-lock.json ./
++RUN npm ci
++COPY . .
++# Alamat API DIBAKAR ke JavaScript saat build: Vite mengganti import.meta.env.VITE_API_BASE dengan teks ini. "/api" =
++# jalur di alamat halaman yang sama, diteruskan Caddy ke backend (caddy/Caddyfile). Mengubahnya = build ulang image.
++# Isinya alamat, BUKAN rahasia: semua VITE_... ikut terkirim ke browser siapa pun.
++ARG VITE_API_BASE=/api
++RUN npm run build
++
++# Tahap akhir: Caddy (tanpa Node.js). Tag persis.
++FROM caddy:2.11.7-alpine
++# Menautkan image di GHCR ke repositori GitHub-mu (Modul 26 Praktik 10). Ganti <akun> dengan nama akun GitHub-mu (huruf
++# kecil) dan rumah-pintar-mini dengan nama repositorimu bila berbeda. Keterangan (description) menggantikan keterangan
++# bawaan image Caddy, supaya halaman paketmu di GHCR tidak menulis bahwa isinya "web server Caddy" saja.
++LABEL org.opencontainers.image.source="https://github.com/<akun>/rumah-pintar-mini" \
++      org.opencontainers.image.description="Dashboard Rumah Pintar Mini (React) disajikan Caddy"
++# Caddyfile bawaan di dalam image, supaya image ini bisa dicoba sendirian (docker run). Docker Compose memasang folder
++# caddy/ dari repo di atasnya.
++COPY caddy/Caddyfile /etc/caddy/Caddyfile
++# Hanya hasil build yang dibawa dari tahap bangun: berkas HTML, CSS, JavaScript, dan ikon (sekitar 1 MB).
++COPY --from=bangun /app/dist /srv
++# Tanpa CMD dan EXPOSE: image Caddy sudah membawanya ("caddy run --config /etc/caddy/Caddyfile --adapter caddyfile",
++# port 80 di dalam kontainer). Loket di laptop diatur compose.cloud.yml (ports).
+diff --git a/frontend/README.md b/frontend/README.md
+index fd07445..19cf8d1 100644
+--- a/frontend/README.md
++++ b/frontend/README.md
+@@ -2,20 +2,55 @@
+ 
+ 🌐 **Bahasa Indonesia** · [English](../../en/mini-smart-home/frontend/README.md)
+ 
+-Dashboard v1.1 proyek Rumah Pintar Mini: halaman web React 19 + TypeScript dengan Tailwind CSS v4, dibuat dengan Vite 8 (templat `react-ts` dari create-vite 9.3.1). Setiap layar punya alamat sendiri (React Router v8, mode deklaratif), dan layar di balik *login* dijaga rute terproteksi. Dashboard menampilkan data *live* dari backend lewat Socket.IO (daftar perangkat, detail dengan grafik 5 menit dan gauge, riwayat 1 jam / 24 jam / 7 hari dengan tabel dan CSV), dan sejak Modul 24 juga **mengendalikan** perangkat: akun admin menyalakan lampu dan kipas dengan status "Menunggu konfirmasi perangkat…", menyiram dengan pompa, serta membuat, mengubah, menonaktifkan, dan menghapus aturan otomatis lewat formulir yang diperiksa skema Zod yang sama dengan backend. Akun viewer melihat semua data tanpa tombol kendali. Kejadian penting (aturan bertindak, perangkat terputus) muncul sebagai *toast*. Sejak Modul 25 (v1.1) ada layar **Peta**: setiap perangkat yang punya titik (`lat`, `lng` dari backend 1.2) tampil sebagai lingkaran hijau/abu-abu di atas peta OpenStreetMap, berwarna menurut status *live*-nya. Tampilannya dirancang rapi di HP dan laptop, mengikuti mode gelap sistem, dan bisa dibuka dari HP di WiFi rumah (lihat "Batasan v1.1"). Dengan v1.1, dashboard Fase 4 lengkap: data *live* (Modul 23), kendali dan peran (Modul 24), dan peta perangkat (Modul 25, 🎉 Checkpoint Fase 4). Dashboard teknis Grafana BUKAN bagian folder ini: ia tinggal di kontainernya sendiri, dengan berkasnya di folder `grafana/` proyek.
++Dashboard v1.2 proyek Rumah Pintar Mini: halaman web React 19 + TypeScript dengan Tailwind CSS v4, dibuat dengan Vite 8 (templat `react-ts` dari create-vite 9.3.1). Setiap layar punya alamat sendiri (React Router v8, mode deklaratif), dan layar di balik *login* dijaga rute terproteksi. Dashboard menampilkan data *live* dari backend lewat Socket.IO (daftar perangkat, detail dengan grafik 5 menit dan gauge, riwayat 1 jam / 24 jam / 7 hari dengan tabel dan CSV), dan sejak Modul 24 juga **mengendalikan** perangkat: akun admin menyalakan lampu dan kipas dengan status "Menunggu konfirmasi perangkat…", menyiram dengan pompa, serta membuat, mengubah, menonaktifkan, dan menghapus aturan otomatis lewat formulir yang diperiksa skema Zod yang sama dengan backend. Akun viewer melihat semua data tanpa tombol kendali. Kejadian penting (aturan bertindak, perangkat terputus) muncul sebagai *toast*. Sejak Modul 25 (v1.1) ada layar **Peta**: setiap perangkat yang punya titik (`lat`, `lng` dari backend 1.2) tampil sebagai lingkaran hijau/abu-abu di atas peta OpenStreetMap, berwarna menurut status *live*-nya. Tampilannya dirancang rapi di HP dan laptop, mengikuti mode gelap sistem, dan bisa dibuka dari HP di WiFi rumah (lihat "Batasan v1.2"). Dengan v1.1, dashboard Fase 4 lengkap: data *live* (Modul 23), kendali dan peran (Modul 24), dan peta perangkat (Modul 25, 🎉 Checkpoint Fase 4). Dashboard teknis Grafana BUKAN bagian folder ini: ia tinggal di kontainernya sendiri, dengan berkasnya di folder `grafana/` proyek.
+ 
+-## Menjalankan
++**v1.2 (Modul 26)** mengemas dashboard sebagai **image Docker** (layanan `web` di `compose.cloud.yml`, akar proyek): Node.js hanya dipakai saat membangun, lalu **Caddy** menyajikan isi `dist/` di `http://localhost` dan meneruskan setiap alamat `/api/…` ke backend, jadi halaman dan API berada di satu alamat. Kode dashboard hanya berubah tiga baris di `src/soket.ts` (sambungan *live* lewat jalur `/api/socket.io/`), dan `npm run dev` tetap jalan seperti sebelumnya. Rinciannya di [Menjalankan dengan Docker Compose](#menjalankan-dengan-docker-compose-modul-26) dan [Catatan versi 1.2](#catatan-versi-12).
++
++## Menjalankan dengan Docker Compose (Modul 26)
++
++Cara sehari-hari ("mode rumah"): dashboard menyala bersama seluruh rumah, tanpa Node.js dan tanpa `npm install` di laptop. Semua perintah diketik dari **akar proyek** (folder yang berisi `compose.cloud.yml`). Langkah lengkapnya ada di [Modul 26](../../fase-5-operasi-skala/modul-26-docker-compose/README.md).
++
++1. Nyalakan seluruh rumah seperti di `backend/README.md` bagian "Menjalankan dengan Docker Compose" (`.env` akar, lalu `docker compose up -d`). Layanan `web` baru dinyalakan sesudah backend `(healthy)`.
++2. Buka **`http://localhost`** di Chrome atau Edge (tanpa nomor port: loket 80). Kalau port 80 di laptopmu sudah dipakai program lain, ganti `PORT_WEB` di `.env` akar (misalnya `8081`), tulis alamat yang sama di `CORS_ORIGIN` di `.env` itu (`http://localhost:8081,http://127.0.0.1:8081`), jalankan `docker compose up -d` lagi, lalu buka `http://localhost:8081`. Tanpa `CORS_ORIGIN` yang cocok, tombol **Masuk** dijawab `403 permintaan dari halaman http://localhost:8081 ditolak`.
++3. Masuk dengan akunmu. Akun Modul 20 ada di lemari database, jadi tetap berlaku; di laptop baru, buat akun pertama dengan `docker compose exec backend …` (lihat `backend/README.md`).
++
++| Perintah (dari akar proyek) | Gunanya |
++| :--- | :--- |
++| `docker compose ps` | `web` harus `Up`. Kolom PORTS juga menulis `443/tcp, 2019/tcp, 443/udp`: itu hanya catatan bawaan image Caddy; yang benar-benar dibuka ke laptop hanya `127.0.0.1:80->80/tcp` |
++| `docker compose logs web` | log Caddy (format JSON). Empat baris `"level":"warn"` saat menyala itu wajar di Modul 26: `admin endpoint disabled`, `server is listening only on the HTTP port, so no automatic HTTPS will be applied to this server`, `HTTP/2 skipped because it requires TLS`, dan `HTTP/3 skipped because it requires TLS` (HTTPS menyusul di Modul 27) |
++| `docker compose build web` lalu `docker compose up -d web` | membangun ulang image sesudah kode dashboard berubah (tag = `version` di `package.json`). Di Raspberry Pi 5 penulis: ±103 detik dari awal (`npm ci` 49,5 detik + `npm run build` 49,3 detik), ±50 detik bila daftar library tidak berubah (hanya `npm run build` yang diulang), dan 2,3 detik bila tidak ada yang berubah |
++| `docker compose restart web` | membaca ulang `caddy/Caddyfile` sesudah kamu mengubahnya (±1 detik) |
++
++**Cara kerjanya.**
++
++- **Dua tahap** ([`Dockerfile`](Dockerfile)). Tahap `bangun` (`node:24.22.1-alpine3.24`) menjalankan `npm ci` lalu `npm run build`. Tahap akhir (`caddy:2.11.7-alpine`) hanya membawa isi `dist/` (di `/srv`) dan `Caddyfile`: tanpa Node.js, tanpa `node_modules`, tanpa kode sumber. Image buatan penulis (Raspberry Pi 5, arm64) berukuran **90,4 MB** di disk dan **24 MB** terkompres (yang diunduh dari toko image). [`.dockerignore`](.dockerignore) menahan `node_modules`, `dist`, dan `.env.local` milik laptopmu.
++- **Alamat API dibakar saat build.** Baris `ARG VITE_API_BASE=/api` di `Dockerfile` (diisi `args` di `compose.cloud.yml`) membuat Vite menulis teks `/api` langsung ke JavaScript, menggantikan alamat bawaan "nama host halaman + `:8080`". Mengubahnya berarti membangun ulang image; `.env.local` tidak pernah dibaca image.
++- **Satu alamat untuk halaman dan API.** Caddy ([`caddy/Caddyfile`](caddy/Caddyfile)) meneruskan setiap alamat berawalan `/api` ke backend dan membuang awalannya: `http://localhost/api/devices` → `backend:8080/devices`. `backend` adalah nama layanan di lorong Compose. Karena halaman dan API sama-sama `http://localhost`, browser tidak perlu izin CORS lintas port, dan *cookie* `SameSite=Strict` ikut terkirim.
++- **Sambungan *live*.** Socket.IO membaca `io("/api")` sebagai *namespace* (nama ruang di dalam server), bukan jalur, sehingga lencana tidak pernah **Live** (`connect_error: server error`). Karena itu `src/soket.ts` sejak v1.2: kalau `BASE` diawali `/` (atau kosong), jalurnya diberikan lewat opsi `path` (`/api/socket.io`). Di mode kembang `BASE` berisi alamat lengkap (`http://localhost:8080`), jadi cara lama tetap dipakai.
++- **Jalur *cookie* `sesi`.** Backend memasang *cookie* `sesi` (kartu terusan 7 hari) berjalur `/auth`, padahal dari browser alamatnya `/api/auth`. Baris `header_down Set-Cookie "Path=/auth" "Path=/api/auth"` di Caddyfile mengganti jalurnya; tanpa itu kamu terlempar ke layar **Masuk** setiap 15 menit (*refresh* dijawab `401 belum login: cookie sesi tidak ada`). Backend sendiri tidak berubah.
++- **Semua alamat layar dijawab `index.html`** (*SPA fallback*, janji Modul 24): `try_files {path} /index.html`. F5 di `/peta` atau `/perangkat/f00d00000001` tetap membuka layarnya. Berkas JavaScript dan CSS di `/assets/…` tidak ikut aturan itu: berkas yang tidak ada (misalnya `/assets/lama.js`) dijawab `404`, bukan halaman `index.html`.
++- **Dashboard baru langsung terpakai.** Halaman `index.html` dikirim dengan `Cache-Control: no-cache`: browser selalu bertanya dulu ke Caddy sebelum memakai salinan simpanannya (Caddy menjawab `304` bila belum berubah). Tanpa itu, sesudah image web dibangun ulang, Chrome bisa tetap menampilkan dashboard lama sampai F5. Berkas `/assets/…` boleh disimpan lama oleh browser, karena namanya bersidik dan berganti setiap *build*.
++- **Caddyfile dari repo.** Compose memasang folder `frontend/caddy/` ke `/etc/caddy` (hanya-baca); salinan di dalam image hanya dipakai kalau image dijalankan sendirian. Caddy membaca berkas itu saat menyala saja (`admin off`), jadi sesudah mengubahnya: `docker compose restart web`.
++- **HTTP saja.** Alamat situs `:80` = HTTP biasa untuk nama apa pun yang diketik di browser. Modul 27 menggantinya dengan nama domain, lalu Caddy memasang HTTPS sendiri.
++- **Backend mati?** Halaman tetap terbuka (Caddy yang menyajikannya), tetapi setiap permintaan `/api` dijawab `502` tanpa isi: layar **Masuk** menulis `Terjadi gangguan (502).`, dan dashboard yang sudah terbuka menampilkan lencana **Menyambung ulang…** sampai backend kembali. `docker compose logs web` menulis sebabnya, misalnya `dial tcp: lookup backend on 127.0.0.11:53: server misbehaving` (layanan `backend` dihentikan) atau `connect: connection refused` (backend sedang menyala). Periksa `docker compose ps` dan `docker compose logs backend`.
++- **Dokumentasi API** tetap di loket backend, `http://localhost:8080/docs` (lihat `backend/README.md`). `http://localhost/api/docs` tidak bisa dipakai di balik Caddy: aset halamannya salah alamat, dan tombol **Try it out** memanggil API tanpa awalan `/api`.
++
++**Mencoba image ini sendirian** (tanpa Compose, dari folder `frontend`, tanpa folder `backend`): `docker build -t rumah-pintar-mini-web:1.2.0 .`, lalu `docker run -d --rm --name coba-web -p 127.0.0.1:8088:80 rumah-pintar-mini-web:1.2.0`. `http://localhost:8088/` dan `http://localhost:8088/peta` menjawab halaman dashboard (200), sedangkan `http://localhost:8088/api/health` menjawab `502`, karena di luar Compose tidak ada layanan bernama `backend`. Hentikan dengan `docker stop coba-web`.
++
++## Mode kembang (Vite, `npm run dev`)
++
++Untuk mengubah kode dashboard: Vite memperbarui halaman setiap kali berkas disimpan (HMR), tanpa membangun image. Dashboard di mode ini memanggil backend **mode kembang** (`npm run dev` di folder `backend`; lihat `backend/README.md` bagian "Mode kembang"), karena `CORS_ORIGIN` backend kontainer hanya mengizinkan `http://localhost`. Hanya satu backend yang boleh menyala: dari akar proyek, `docker compose stop backend web` dulu; selesai mengembangkan, **Ctrl + C** di kedua terminal `npm run dev`, lalu `docker compose start backend web`.
+ 
+ 1. Pasang Node.js 24 LTS (Vite 8 butuh minimal Node.js 20.19 atau 22.12; React Router 8 butuh Node.js 22.22 atau lebih baru).
+-2. Nyalakan **backend v1.2** seperti di `backend/README.md` (kontainer database `rumahpintar-db` di Docker Desktop dan broker MQTT sudah menyala, lalu `npm run dev` di folder `backend`) beserta sumber datanya: Node 1 dan Node 2 (Kit A + B), atau simulator perangkat di folder `alat` dengan perangkat latihan `f00d00000001` yang sudah terdaftar. Dashboard v1.1 butuh backend 1.2 untuk layar **Peta** (backend 1.1 tidak mengirim `lat`/`lng`; layar Peta lalu menulis "Backend belum mengirim titik peta (lat, lng). Halaman Peta butuh backend 1.2 (Modul 25)."), dan minimal backend 1.1 untuk layar lain: aturan "turun di bawah" (misalnya siram jika tanah < 30 %) dan tombol **Hapus aturan** tidak ada di backend v1.0. `CORS_ORIGIN` di `backend/.env` harus memuat `http://localhost:5173` (nilai bawaannya sudah memuatnya).
++2. Nyalakan **backend** mode kembang seperti di `backend/README.md` (database `db` dan broker pusat `mosquitto` dari Compose tetap menyala, lalu `npm run dev` di folder `backend`; sebelum Modul 26: kontainer `rumahpintar-db` di Docker Desktop dan broker MQTT) beserta sumber datanya: Node 1 dan Node 2 (Kit A + B), atau simulator perangkat di folder `alat` dengan perangkat latihan `f00d00000001` yang sudah terdaftar. Layar **Peta** butuh backend 1.2 atau lebih baru (backend 1.1 tidak mengirim `lat`/`lng`; layar Peta lalu menulis "Backend belum mengirim titik peta (lat, lng). Halaman Peta butuh backend 1.2 (Modul 25)."), dan minimal backend 1.1 untuk layar lain: aturan "turun di bawah" (misalnya siram jika tanah < 30 %) dan tombol **Hapus aturan** tidak ada di backend v1.0. `CORS_ORIGIN` di `backend/.env` harus memuat `http://localhost:5173` (nilai bawaannya sudah memuatnya).
+ 3. Di folder ini, jalankan `npm install`.
+ 4. Jalankan `npm run dev`, lalu buka **`http://localhost:5173`** di Chrome atau Edge. Pakai `localhost`, bukan `127.0.0.1`: di Windows, Vite hanya mendengar di `localhost`, dan nama host halaman harus sama dengan nama host API supaya *cookie* login ikut terkirim.
+ 5. Masuk dengan akun yang dibuat di Modul 20: `admin@rumah.test` (melihat dan mengendalikan) atau `viewer@rumah.test` (hanya melihat). Sandinya milikmu sendiri; dashboard tidak pernah menyimpannya.
+ 
+-Riwayat 7 hari butuh data 7 hari. Kalau grafik "7 hari" hanya berisi beberapa titik, isi data latihan di folder `backend` dengan `npm run isi-riwayat`, lalu ringkas ulang buku ringkasan per jam:
++Riwayat 7 hari butuh data 7 hari. Kalau grafik "7 hari" hanya berisi beberapa titik, isi data latihan di folder `backend` dengan `npm run isi-riwayat`, lalu ringkas ulang buku ringkasan per jam (dari akar proyek; sebelum Modul 26 perintahnya `docker exec rumahpintar-db psql …`):
+ 
+ ```
+-docker exec rumahpintar-db psql -U postgres -d rumahpintar -c "CALL refresh_continuous_aggregate('readings_per_jam', now() - INTERVAL '8 days', now() - INTERVAL '1 hour');"
++docker compose exec db psql -U postgres -d rumahpintar -c "CALL refresh_continuous_aggregate('readings_per_jam', now() - INTERVAL '8 days', now() - INTERVAL '1 hour');"
+ ```
+ 
+ | Perintah | Gunanya |
+@@ -23,7 +58,7 @@ docker exec rumahpintar-db psql -U postgres -d rumahpintar -c "CALL refresh_cont
+ | `npm run dev` | *dev server* di `http://localhost:5173` yang memperbarui halaman setiap kali kode disimpan (HMR). Portnya dikunci (`strictPort`): kalau 5173 sedang terpakai, Vite berhenti dengan galat, tidak pindah diam-diam ke 5174 |
+ | `npm run dev:hp` | sama dengan `npm run dev`, tetapi juga bisa dibuka perangkat lain di WiFi rumah (`vite --host`). Hanya untuk "mode HP", lihat di bawah |
+ | `npm run build` | memeriksa tipe TypeScript (`tsc -b`), lalu membuat versi siap pakai di folder `dist/`. Satu peringatan kuning `Some chunks are larger than 500 kB after minification` itu normal sejak Modul 23 (pustaka grafik Recharts membuat berkas JavaScript-nya besar; sejak Modul 25 Leaflet menambah sekitar 157 kB, atau 46 kB sesudah dikompres gzip); build tetap berhasil |
+-| `npm run preview` | menyajikan isi `dist/` di `http://localhost:5173` untuk dicoba (hentikan `npm run dev` dulu). Untuk HP: `npm run preview -- --host` |
++| `npm run preview` | menyajikan isi `dist/` di `http://localhost:5173` untuk dicoba (hentikan `npm run dev` dulu). Untuk HP: `npm run preview -- --host`. Bukan server sungguhan: sejak Modul 26, `dist/` disajikan Caddy di image web |
+ | `npm run lint` | memeriksa kode dengan oxlint; bersih = tidak ada peringatan atau galat yang dicetak |
+ | `npm run cek-skema` | memeriksa bahwa salinan skema di `src/skema/` sama persis dengan aslinya di `../backend/src/schemas/` (lihat "Salinan skema"). Hasil yang benar: dua baris `SAMA` |
+ 
+@@ -33,7 +68,7 @@ Paket peta (Modul 25) juga dipasang dengan versi tertulis: `npm install leaflet@
+ 
+ ## Peta rute
+ 
+-Semua alamat ada di satu tempat: `<Routes>` di `src/App.tsx`. Alamat halaman sengaja berbahasa Indonesia supaya tidak tertukar dengan alamat API backend (`/auth`, `/devices`, `/rules`). `npm run dev` dan `npm run preview` menyajikan `index.html` untuk alamat mana pun, jadi **F5** dan tautan langsung ke `/perangkat/f00d00000001` tetap jalan; server lain (Modul 26–27) butuh aturan yang sama ("semua alamat → `index.html`").
++Semua alamat ada di satu tempat: `<Routes>` di `src/App.tsx`. Alamat halaman sengaja berbahasa Indonesia supaya tidak tertukar dengan alamat API backend (`/auth`, `/devices`, `/rules`). `npm run dev` dan `npm run preview` menyajikan `index.html` untuk alamat mana pun, jadi **F5** dan tautan langsung ke `/perangkat/f00d00000001` tetap jalan. Sejak Modul 26, Caddy di image web memakai aturan yang sama (`try_files {path} /index.html` di `caddy/Caddyfile`).
+ 
+ | Alamat | Layar | Siapa |
+ | :--- | :--- | :--- |
+@@ -100,10 +135,12 @@ Tombol **Keluar** bekerja dalam empat langkah: (1) memutus sambungan *live* lebi
+ 
+ ## Alamat backend (`.env.local`, tidak wajib)
+ 
+-Tanpa setelan apa pun, dashboard memanggil backend di nama host halaman + port `8080`: halaman `http://localhost:5173` → API `http://localhost:8080`, dan halaman `http://<IP-laptop>:5173` di HP → API `http://<IP-laptop>:8080`. Sambungan *live* (Socket.IO) memakai alamat yang sama. Kalau backend-mu di alamat lain, salin `.env.example` menjadi `.env.local`, isi `VITE_API_BASE` (misalnya `VITE_API_BASE=http://localhost:8081`), lalu jalankan ulang `npm run dev`. `.env.local` tidak ikut Git, dan untuk mode HP baris `VITE_API_BASE` harus tetap diberi `#`. Semua variabel `VITE_…` ikut tertanam di JavaScript yang dikirim ke browser, jadi isinya alamat saja, **tidak pernah** rahasia.
++Tanpa setelan apa pun, dashboard memanggil backend di nama host halaman + port `8080`: halaman `http://localhost:5173` → API `http://localhost:8080`, dan halaman `http://<IP-laptop>:5173` di HP → API `http://<IP-laptop>:8080`. Sambungan *live* (Socket.IO) memakai alamat yang sama. Kalau backend-mu di alamat lain, salin `.env.example` menjadi `.env.local`, isi `VITE_API_BASE` (misalnya `VITE_API_BASE=http://localhost:8081`), lalu jalankan ulang `npm run dev`. `.env.local` tidak ikut Git, dan untuk mode HP baris `VITE_API_BASE` harus tetap diberi `#`. Semua variabel `VITE_…` ikut tertanam di JavaScript yang dikirim ke browser, jadi isinya alamat saja, **tidak pernah** rahasia. Semua ini hanya untuk mode kembang: image web Docker selalu memakai `/api` (dibakar saat build, lihat "Menjalankan dengan Docker Compose"), dan `.env.local` tidak ikut ke image.
+ 
+ ## Membuka dari HP (WiFi rumah)
+ 
++**Mode rumah (Docker Compose, Modul 26)** cukup diatur di `.env` akar: `ALAMAT_WEB=0.0.0.0` (loket web dibuka ke WiFi rumah, bukan hanya `127.0.0.1`) dan alamat halaman di HP ditambahkan ke `CORS_ORIGIN`, misalnya `http://localhost,http://127.0.0.1,http://<IP-laptop>` (dengan port-nya juga kalau `PORT_WEB` bukan 80), lalu `docker compose up -d`. HP membuka `http://<IP-laptop>`, tanpa port 5173. Kembalikan kedua baris itu sesudah mencoba. Tabel dan langkah di bawah ini untuk **mode kembang** (Vite).
++
+ HP dan laptop harus tersambung ke WiFi rumah yang sama (bukan WiFi tamu). Nyalakan "mode HP" hanya selama mencoba, di WiFi rumah yang kamu percaya, lalu kembalikan ke "mode laptop". Sejak v1.0 akun admin bisa mengendalikan perangkat dari HP: sandi admin melewati `http://` polos (belum terenkripsi, HTTPS menyusul di Modul 27), jadi untuk penguji pakai akun sementara dan hapus sesudahnya.
+ 
+ | Setelan | Mode laptop (bawaan) | Mode HP (sementara) |
+@@ -128,7 +165,7 @@ HP dan laptop harus tersambung ke WiFi rumah yang sama (bukan WiFi tamu). Nyalak
+ | `main.tsx` | titik masuk: memasang `App` di dalam `StrictMode` dan `<BrowserRouter>` |
+ | `App.tsx` | memeriksa *login* sekali (`GET /auth/me`), menjaga sambungan *live* sekali (di atas `<Routes>`, jadi pindah layar tidak memutusnya), dan peta rute di satu tempat |
+ | `api.ts` | satu pintu ke backend: `fetch` dengan `credentials: "include"`, `GalatApi` yang tahu kode HTTP, *refresh* sekali saat dijawab 401, bacaan dan riwayat, `kirimPerintah()` (+ `Ack.safeParse`), `ambilAturan()` (+ `safeParse`), `buatAturan()`, `ubahAturan()`, `hapusAturan()` |
+-| `soket.ts` | satu sambungan Socket.IO (`withCredentials: true`), pemulihan sambungan, `ikuti`/`berhenti`, hook `useRealtime()`; acara `kejadian` → *toast*; daftar perangkat diambil ulang setiap kali sambungan PULIH (status yang berubah selama putus) |
++| `soket.ts` | satu sambungan Socket.IO (`withCredentials: true`; sejak v1.2, `BASE` yang diawali `/` dipakai sebagai opsi `path`: `/api/socket.io`), pemulihan sambungan, `ikuti`/`berhenti`, hook `useRealtime()`; acara `kejadian` → *toast*; daftar perangkat diambil ulang setiap kali sambungan PULIH (status yang berubah selama putus) |
+ | `toko.ts` | toko Zustand: sesi dan peran (`useAdmin()`), sambungan, daftar perangkat, status, bacaan terbaru, "terakhir dilihat", titik grafik 5 menit, `terapkanKeadaan()` dari *ack*, `kosongkanSemua()`, `sesiHabis()` |
+ | `toast.ts` | toko *toast* kecil: `toast(pesan, jenis)`, paling banyak 2, hilang sesudah 4 detik |
+ | `aturan.ts` | bentuk jawaban `GET /rules`, `uraikanAturan()` (aturan → kalimat), isi bawaan formulir, pilihan perangkat, peta pesan ramah, dan pembaca galat 400 backend |
+@@ -154,16 +191,20 @@ HP dan laptop harus tersambung ke WiFi rumah yang sama (bukan WiFi tamu). Nyalak
+ 
+ ## *Login* dan keamanan
+ 
+-- Dashboard tidak menyimpan sandi, token, atau peran. Backend memasang dua *cookie* `HttpOnly; SameSite=Strict`: `akses` (15 menit) dan `sesi` (7 hari). JavaScript tidak bisa membacanya; browser yang mengirimkannya karena setiap `fetch` memakai `credentials: "include"` dan Socket.IO memakai `withCredentials: true`. Tidak ada apa pun yang disimpan di `localStorage`.
++- Dashboard tidak menyimpan sandi, token, atau peran. Backend memasang dua *cookie* `HttpOnly; SameSite=Strict`: `akses` (15 menit, jalur `/`) dan `sesi` (7 hari, jalur `/auth`; lewat Caddy di mode rumah jalurnya ditulis ulang menjadi `/api/auth`). JavaScript tidak bisa membacanya; browser yang mengirimkannya karena setiap `fetch` memakai `credentials: "include"` dan Socket.IO memakai `withCredentials: true`. Tidak ada apa pun yang disimpan di `localStorage`.
+ - Kalau sebuah permintaan dijawab 401 (*cookie* `akses` sudah habis), `api.ts` memanggil `POST /auth/refresh` **sekali**, lalu mengulang permintaannya sekali. Kalau *refresh* juga gagal, toko dikosongkan dan layar pindah ke `/masuk`.
+ - Permintaan tanpa isi (`POST /auth/logout`, `POST /auth/refresh`, `DELETE /rules/:id`) dikirim TANPA kepala `Content-Type: application/json`: backend menolak permintaan yang mengaku membawa JSON tetapi isinya kosong (400).
+ - Sambungan *live* diputus server setiap kali *cookie* `akses` habis (15 menit) dan saat *logout*. Dashboard lalu memanggil *refresh* dan menyambung lagi sendiri; kalau *refresh* ditolak (misalnya sudah *logout* di tab lain), layar pindah ke `/masuk`. Sesudah 3 kali gagal beruntun lencana menjadi **Terputus**, dan halaman perlu dimuat ulang sesudah backend pulih.
+ - Data baru hanya datang lewat Socket.IO: tidak ada *polling*. `setInterval` hanya dipakai di `waktu.ts` untuk jam di layar.
+ - Nama perangkat, nama aturan, dan kalimat kejadian ditampilkan sebagai teks JSX yang otomatis diloloskan React; dashboard tidak memakai `dangerouslySetInnerHTML`.
+ 
+-## Batasan v1.1
++## Batasan v1.2
+ 
+-- **Hanya jaringan rumah, dan masih `http://` polos.** Mode HP di atas membuka dashboard dari perangkat lain di WiFi rumah; sandi (juga sandi admin) lewat tanpa enkripsi. Akses dari internet dengan HTTPS, dan aplikasi terpasang (PWA), menyusul di Modul 27.
++- **Hanya jaringan rumah, dan masih `http://` polos.** Mode HP di atas membuka dashboard dari perangkat lain di WiFi rumah; sandi (juga sandi admin) lewat tanpa enkripsi. Akses dari internet dengan HTTPS, dan aplikasi terpasang (PWA), menyusul di Modul 27. Caddy di image web sudah siap untuk itu (alamat `:80` cukup diganti nama domain), tetapi di Modul 26 hanya melayani HTTP.
++- **Image web dibangun untuk satu awalan API, `/api`.** Alamat itu dibakar ke JavaScript saat build; dashboard Compose tidak bisa diarahkan ke backend di alamat lain tanpa membangun ulang image. Image juga hanya untuk jenis prosesor mesin yang membangunnya (arm64 di Pi atau Mac Apple silicon, amd64 di kebanyakan laptop Windows); image untuk keduanya sekaligus dibahas di Modul 29.
++- **Jalur *cookie* `sesi` ditambal di Caddy** (`header_down`), bukan di backend. Kalau kelak jalur *cookie* di backend berubah, `caddy/Caddyfile` harus ikut diubah.
++- **`VITE_API_BASE` hanya boleh berupa jalur (`/api`) atau alamat tanpa jalur** (`http://localhost:8080`). Alamat lengkap yang berjalur, misalnya `http://localhost/api`, belum didukung sambungan *live*: Socket.IO membaca `/api` di ujungnya sebagai *namespace*, jadi lencana tidak pernah **Live**.
++- **Dashboard Compose tidak memperbarui diri sendiri.** Mengubah kode berarti `docker compose build web` + `docker compose up -d web` (±1 menit di Pi 5); untuk mengubah sambil melihat hasilnya, pakai mode kembang (Vite).
+ - **Menyembunyikan tombol bukan pengaman.** Peran di layar hanya kenyamanan; satpam backend (403) yang menjaga. Peran yang diubah baru terlihat sesudah muat ulang atau ≤ 15 menit.
+ - **Hanya sebagian jawaban API yang diperiksa Zod**: *ack* perintah dan daftar aturan. Jawaban lain (perangkat, bacaan, riwayat, acara Socket.IO) tetap dipercaya lewat tipe TypeScript.
+ - **Sesudah 504, tampilan kembali ke keadaan terlapor**, padahal backend masih akan mengirim ulang perintah lampu atau kipas saat perangkat terdengar lagi; dashboard tidak menampilkan perintah yang masih tertunda.
+@@ -176,4 +217,13 @@ HP dan laptop harus tersambung ke WiFi rumah yang sama (bukan WiFi tamu). Nyalak
+ - **Penanda tidak bisa dipilih dengan tombol Tab.** Kotak peta sendiri bisa difokus dengan Tab lalu digeser dengan tombol panah (bawaan Leaflet), tetapi lingkaran penanda dan popup-nya hanya bisa dibuka dengan klik atau ketuk. Isi yang sama (nama, status, terakhir dilihat, tautan detail) ada di layar **Perangkat**.
+ - **Ubin peta tetap terang di mode gelap**, dan untuk satu rumah titik-titiknya berdekatan (beberapa meter, zoom 18): peta paling berguna saat perangkat tersebar (kebun, rumah lain).
+ - **Mode gelap mengikuti setelan sistem** HP atau laptop; belum ada tombol terang/gelap.
+-- "Rapi di HP" diperiksa dengan mode perangkat DevTools (lebar 375 px, HP tegak), dan mode HP dicoba dengan membuka alamat IP WiFi laptop dari laptop itu sendiri; pemakaian oleh orang lain dari HP sungguhan dan pintasan layar utama belum dicoba penulis. Tailwind CSS v4 butuh browser yang cukup baru (Chrome 111+, Safari 16.4+, Firefox 128+).
++- "Rapi di HP" diperiksa dengan mode perangkat DevTools (lebar 375 px, HP tegak), dan mode HP dicoba dengan membuka alamat IP WiFi laptop dari laptop itu sendiri; pemakaian oleh orang lain dari HP sungguhan dan pintasan layar utama belum dicoba penulis. Image web dan Caddyfile diuji penulis di Raspberry Pi 5 (Ubuntu 26.04 arm64, Docker Engine 29.1.3, Compose 2.40.3) dengan Chrome 156; Docker Desktop di Windows dan macOS belum dicoba. Tailwind CSS v4 butuh browser yang cukup baru (Chrome 111+, Safari 16.4+, Firefox 128+).
++
++## Catatan versi 1.2
++
++Dashboard v1.2 (Modul 26) = v1.1 + kemasan Docker. Tanpa paket npm baru, tanpa perubahan layar; kontrak data tetap 1.4. Mode rumah butuh backend 1.3 (cetakan Docker dan `compose.cloud.yml`); di mode kembang, v1.2 tetap jalan dengan backend 1.2.
++
++- `src/soket.ts`: tiga baris. `BASE` yang diawali `/` (misalnya `/api` di balik Caddy) atau kosong dipakai sebagai jalur Socket.IO (`io({ path: "/api/socket.io", … })`), bukan *namespace*. Mode kembang tidak berubah.
++- Berkas baru: `Dockerfile` (dua tahap, `ARG VITE_API_BASE=/api`), `.dockerignore`, `caddy/Caddyfile` (`index.html` dengan `Cache-Control: no-cache`, `/assets/…` yang tidak ada dijawab `404`).
++- `.env.example`: dua baris komentar (berkas ini hanya untuk mode kembang).
++- `package.json` dan `package-lock.json`: `version` 1.2.0.
+diff --git a/frontend/caddy/Caddyfile b/frontend/caddy/Caddyfile
+new file mode 100644
+index 0000000..6f78926
+--- /dev/null
++++ b/frontend/caddy/Caddyfile
+@@ -0,0 +1,46 @@
++# Caddyfile - pintu depan dashboard Rumah Pintar Mini (Modul 26): menyajikan isi dist/ dan meneruskan /api/... ke backend.
++# Salinan berkas ini ikut di dalam image web. Docker Compose memasang FOLDER frontend/caddy/ di atasnya (bukan berkas
++# tunggal), jadi berkas di repo inilah yang dipakai. Sesudah mengubahnya: docker compose restart web
++{
++	# Caddy biasanya membuka "loket admin" (2019) untuk mengubah setelan sambil jalan. Tidak kita pakai: setelan hanya
++	# dibaca dari berkas ini saat Caddy menyala.
++	admin off
++}
++
++# ":80" = HTTP biasa di port 80 kontainer, untuk alamat mana pun yang diketik di browser (localhost, IP laptop).
++# Modul 27 mengganti ":80" dengan nama domain, lalu Caddy memasang HTTPS sendiri. ("auto_https off" TIDAK membuat Caddy
++# melayani HTTP; alamat ":80" inilah yang membuatnya.)
++:80 {
++	# jawaban dikompres sebelum dikirim: JavaScript dashboard ±1 MB tiba di browser sekitar 300 kB
++	encode zstd gzip
++
++	# /api/devices -> backend:8080/devices (awalan /api dibuang dulu). Sambungan live ikut: /api/socket.io/ -> backend:8080/socket.io/
++	# "backend" = nama layanan di compose.cloud.yml (lorong Compose), bukan localhost.
++	handle_path /api/* {
++		reverse_proxy backend:8080 {
++			# Backend memasang cookie "sesi" (kartu terusan 7 hari) berjalur /auth, padahal browser memanggilnya lewat
++			# /api/auth. Tanpa baris ini browser tidak mengirim cookie itu ke /api/auth/refresh, dan kamu terlempar ke
++			# layar Masuk setiap 15 menit. Baris ini mengganti jalurnya di jawaban backend: Path=/auth -> Path=/api/auth.
++			header_down Set-Cookie "Path=/auth" "Path=/api/auth"
++		}
++	}
++
++	# /assets/...: JavaScript dan CSS hasil build. Namanya bersidik (misalnya index-DcefnpS2.js) dan berganti setiap
++	# build, jadi browser boleh menyimpannya lama. Berkas yang tidak ada dijawab 404 (bukan index.html): galatnya jujur.
++	handle /assets/* {
++		root * /srv
++		file_server
++	}
++
++	# Selain /api dan /assets: berkas dashboard di /srv (isi dist/). Alamat layar seperti /peta atau /perangkat/f00d00000001
++	# bukan berkas, jadi dijawab index.html, lalu React Router memilih layarnya ("SPA fallback", janji Modul 24). Tanpa ini,
++	# F5 di layar mana pun selain / menjawab 404.
++	handle {
++		root * /srv
++		# no-cache = browser wajib bertanya dulu ke Caddy sebelum memakai index.html simpanannya (Caddy menjawab 304 bila
++		# belum berubah). Tanpa ini, sesudah image web dibangun ulang browser bisa tetap menampilkan dashboard LAMA sampai F5.
++		header Cache-Control "no-cache"
++		try_files {path} /index.html
++		file_server
++	}
++}
+diff --git a/frontend/package-lock.json b/frontend/package-lock.json
+index 6db90c3..7992020 100644
+--- a/frontend/package-lock.json
++++ b/frontend/package-lock.json
+@@ -1,12 +1,12 @@
+ {
+   "name": "rumah-pintar-mini-frontend",
+-  "version": "1.1.0",
++  "version": "1.2.0",
+   "lockfileVersion": 3,
+   "requires": true,
+   "packages": {
+     "": {
+       "name": "rumah-pintar-mini-frontend",
+-      "version": "1.1.0",
++      "version": "1.2.0",
+       "dependencies": {
+         "@hookform/resolvers": "^5.9.2",
+         "@tailwindcss/vite": "^4.3.3",
+diff --git a/frontend/package.json b/frontend/package.json
+index 22d09de..cd63822 100644
+--- a/frontend/package.json
++++ b/frontend/package.json
+@@ -1,7 +1,7 @@
+ {
+   "name": "rumah-pintar-mini-frontend",
+   "private": true,
+-  "version": "1.1.0",
++  "version": "1.2.0",
+   "type": "module",
+   "scripts": {
+     "dev": "vite",
+diff --git a/frontend/src/soket.ts b/frontend/src/soket.ts
+index 90b28e5..c218f43 100644
+--- a/frontend/src/soket.ts
++++ b/frontend/src/soket.ts
+@@ -13,7 +13,12 @@ import type { DariKlien, Kejadian, KeKlien, Perangkat, StatusPerangkat, Telemetr
+ // Alamatnya SAMA dengan api.ts (BASE): halaman http://<IP-laptop>:5173 di HP otomatis menyambung ke http://<IP-laptop>:8080.
+ // withCredentials: true = bawa cookie login ke port lain (padanan credentials: "include" pada fetch). Tanpa ini,
+ // backend menjawab "belum login" walaupun fetch berhasil. autoConnect: false = baru menyambung sesudah login.
+-export const socket: Socket<KeKlien, DariKlien> = io(BASE, { withCredentials: true, autoConnect: false });
++// Modul 26: di image Docker, BASE = "/api" (jalur di alamat halaman ini, diteruskan Caddy ke backend). io("/api") akan
++// membacanya sebagai namespace Socket.IO, bukan jalur, jadi jalurnya diberikan lewat opsi path: /api/socket.io/.
++// BASE kosong (VITE_API_BASE=/) = API di akar alamat halaman ini: jalurnya /socket.io/.
++export const socket: Socket<KeKlien, DariKlien> = BASE === "" || BASE.startsWith("/")
++  ? io({ path: `${BASE}/socket.io`, withCredentials: true, autoConnect: false })
++  : io(BASE, { withCredentials: true, autoConnect: false });
+ 
+ // Hanya perangkat yang kirimannya diterima backend yang diikuti. Kiriman perangkat yang kuncinya dicabut atau
+ // belum terdaftar diabaikan backend (Modul 21), jadi acaranya tidak akan pernah datang.

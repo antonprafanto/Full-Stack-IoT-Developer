@@ -1,6 +1,8 @@
 -- pengguna-grafana.sql - akun database KHUSUS Grafana yang hanya bisa MEMBACA (Modul 25).
--- Jalankan SEKALI di psql sebagai postgres (caranya di grafana/README.md). Berkas ini sengaja TANPA sandi: sandinya diketik
--- sesudahnya dengan \password grafana_baca, supaya tidak pernah tersimpan di Git maupun di riwayat terminal.
+-- Sejak Modul 26 dijalankan otomatis oleh layanan sekali-jalan akun-grafana (compose.cloud.yml) bila grafana_baca belum ada.
+-- Setiap docker compose up, layanan itu juga menyamakan sandinya dengan GRAFANA_BACA_SANDI di .env. Berkas ini sengaja TANPA
+-- sandi, supaya sandi tidak pernah tersimpan di Git. Cara Modul 25 (tanpa Compose, kini hanya sejarah): jalankan SEKALI di
+-- psql sebagai postgres, lalu ketik sandinya dengan \password grafana_baca (grafana/README.md, Sebelum Modul 26).
 -- Dua lapis pengaman: (1) setiap transaksi akun ini hanya-baca, (2) izinnya hanya SELECT pada tabel dan kolom di bawah.
 
 CREATE ROLE grafana_baca LOGIN CONNECTION LIMIT 5;              -- boleh masuk, paling banyak 5 sambungan sekaligus

@@ -1,0 +1,12 @@
+# .dockerignore - berkas yang TIDAK ikut dikirim ke docker build (Modul 26). Image yang dibagikan (GHCR publik) bisa dibongkar
+# siapa pun: berkas setelan pribadi tidak boleh masuk, bahkan ke tahap bangun yang nanti dibuang.
+# Library hasil npm install di laptop: tahap bangun memasang sendiri (npm ci); COPY . . tidak boleh mencampurnya
+# dengan milik laptop (versinya bisa lain; kode mesin Windows/macOS tidak jalan di Linux).
+node_modules
+# Hasil build lama di laptop: image membangunnya sendiri.
+dist
+# Setelan lokal mode kembang (.env.local berisi VITE_API_BASE milik laptopmu). Hanya contohnya (.env.example) yang boleh.
+.env
+.env.*
+!.env.example
+*.local

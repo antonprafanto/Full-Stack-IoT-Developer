@@ -1,0 +1,74 @@
+# compose.edge.yml - layanan GERBANG Rumah Pintar Mini di Raspberry Pi (Modul 26), pasangan compose.cloud.yml di laptop.
+# Jalankan di Pi, dari folder edge:  docker compose up -d
+#   Baris COMPOSE_FILE=compose.edge.yml di edge/.env membuat -f tidak perlu (contohnya edge/.env.example).
+# Broker Mosquitto gerbang (menggantikan paket apt Modul 12) + jembatan ke broker pusat di laptop (jembatan/pusat.conf).
+# cloudflared (Modul 27) dan Node-RED (opsional) hanya menyala kalau profilnya disebut, misalnya:
+#   docker compose --profile nodered up -d
+# Di Modul 26 keduanya TIDAK dinyalakan. JANGAN "docker compose down -v": -v menghapus lemari berisi berkas sandi broker.
+name: rumahpintar-gerbang
+
+# Log setiap kontainer dibatasi 3 berkas x 10 MB. Bawaan Docker TANPA batas: kartu microSD Pi bisa penuh pelan-pelan.
+x-log: &log
+  driver: json-file
+  options:
+    max-size: 10m
+    max-file: "3"
+
+services:
+  # Broker gerbang: Node 1 (dan Node 2 lewat Node 1) tetap masuk ke IP Pi port 1883 dengan akun lamanya. Mosquitto 2.1.2
+  # membaca berkas sandi lama Pi (format 2.0) apa adanya.
+  mosquitto:
+    image: eclipse-mosquitto:2.1.2-alpine
+    volumes:
+      # Konfigurasi dan daftar izin dari repo (hanya-baca). Sesudah mengubah salah satunya: docker compose restart mosquitto
+      - ./gerbang.conf:/mosquitto/config/mosquitto.conf:ro
+      - ./acl-broker:/mosquitto/config/acl-broker:ro
+      # folder jembatan: berisi pusat.conf (sandi jembatan, tidak ikut Git)
+      - ./jembatan:/mosquitto/config/jembatan:ro
+      # berkas sandi (dipindah dari /etc/mosquitto/sandi-broker), pesan retained, dan sesi
+      - data-broker:/mosquitto/data
+    # Image Mosquitto menyiapkan folder log sebagai lemari, padahal log kita tampil di layar (docker compose logs).
+    # tmpfs = folder sementara di RAM: tanpa ini Docker membuat lemari tanpa nama setiap kontainer ini dibuat baru.
+    tmpfs:
+      - /mosquitto/log
+    ports:
+      # semua antarmuka: perangkat masuk dari WiFi rumah. Firmware memakai 1883, jadi di Pi angka ini jangan diganti.
+      - "${PORT_GERBANG:-1883}:1883"
+    extra_hosts:
+      # nama "pusat" di jembatan/pusat.conf diarahkan ke IP laptop yang menjalankan compose.cloud.yml (ALAMAT_PUSAT di
+      # edge/.env). Gerbang dicoba di laptop yang sama (jalur laptop): ALAMAT_PUSAT=host-gateway (= mesin ini sendiri).
+      - "pusat:${ALAMAT_PUSAT:?isi ALAMAT_PUSAT di edge/.env (IP laptop pusat)}"
+    restart: unless-stopped
+    logging: *log
+
+  # Terowongan Cloudflare (Modul 27, jalur gratis): butuh TUNNEL_TOKEN di edge/.env. Profil "terowongan" = tidak menyala
+  # sampai dipanggil: docker compose --profile terowongan up -d
+  cloudflared:
+    image: cloudflare/cloudflared:2026.10.5
+    profiles: ["terowongan"]
+    # program awal image sudah "cloudflared --no-autoupdate"; ini lanjutannya
+    command: ["tunnel", "run"]
+    environment:
+      TUNNEL_TOKEN: ${TUNNEL_TOKEN:-}
+    restart: unless-stopped
+    logging: *log
+
+  # Node-RED dalam kontainer (opsional). Modul 26 tetap memakai Node-RED systemd dari Modul 13. Sebelum profil ini dipakai,
+  # matikan layanan nodered systemd (loket 1880 bentrok), pindahkan flow dan kredensialnya, lalu ganti alamat broker di flow
+  # dari localhost menjadi mosquitto (di dalam kontainer, localhost = kontainer Node-RED sendiri).
+  nodered:
+    image: nodered/node-red:5.0.9-24
+    profiles: ["nodered"]
+    environment:
+      TZ: Asia/Jakarta
+    volumes:
+      - data-nodered:/data
+    ports:
+      - "${PORT_NODERED:-1880}:1880"
+    restart: unless-stopped
+    logging: *log
+
+volumes:
+  # Lemari milik Compose: berkas sandi broker gerbang + pesan retained, dan data Node-RED (bila profilnya dipakai).
+  data-broker:
+  data-nodered:

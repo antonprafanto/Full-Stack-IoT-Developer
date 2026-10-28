@@ -1,7 +1,10 @@
-# node-diam.yaml - aturan alert "Node diam" Modul 25 (grup kesehatan-node, folder Rumah Pintar Mini), DIBUAT LEWAT LAYAR lalu
-# diekspor dari Grafana 13.2.4 lab penulis (Alert rules -> grup kesehatan-node -> More -> Export rules group -> YAML -> Download);
-# isi di bawah baris komentar ini apa adanya. datasourceUid eg2epmia7sd1cc = data source lab penulis (di Grafana-mu lain).
-# Tidak ada token, sandi, atau chat_id di sini: contact point hanya disebut namanya (receiver), isinya tidak pernah diekspor.
+# node-diam.yaml - aturan alert "Node diam" Modul 25 (grup kesehatan-node, folder Rumah Pintar Mini). Modul 25 membuatnya
+# lewat layar lalu mengekspornya dari Grafana 13.2.4 (Alert rules -> grup kesehatan-node -> More -> Export rules group ->
+# YAML); isinya dipakai apa adanya. Sejak Modul 26 berkas ini bukan arsip lagi, melainkan berkas provisioning: Grafana di
+# compose.cloud.yml memasangnya sendiri saat menyala. Satu-satunya perubahan dari ekspor Modul 25: datasourceUid kini
+# rumahpintar-db (uid tetap data source di ../datasources/rumahpintar.yaml), bukan uid acak data source lab penulis.
+# Aturan ini terkunci di layar ("Provisioned"): ubah berkas ini, lalu docker compose restart grafana.
+# Tidak ada token, sandi, atau chat_id di sini: contact point hanya disebut namanya (receiver), isinya di kontak-telegram.yaml.
 apiVersion: 1
 groups:
     - orgId: 1
@@ -17,7 +20,7 @@ groups:
               relativeTimeRange:
                 from: 600
                 to: 0
-              datasourceUid: eg2epmia7sd1cc
+              datasourceUid: rumahpintar-db
               model:
                 dataset: rumahpintar
                 editorMode: code

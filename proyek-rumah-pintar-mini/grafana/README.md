@@ -2,67 +2,59 @@
 
 🌐 **Bahasa Indonesia** · [English](../../en/mini-smart-home/grafana/README.md)
 
-Grafana adalah dashboard **tim teknis** Rumah Pintar Mini ([Modul 25](../../fase-4-frontend-dashboard/modul-25-grafana-peta-laporan/README.md)): panel kesehatan perangkat (RSSI, *uptime*, *heap* Node 1; paket per jam Node 2) dan *alert* "node diam" ke Telegram, dibaca langsung dari database TimescaleDB (Modul 17–18). Dashboard untuk penghuni rumah tetap `frontend/` (Modul 22–24). Grafana berjalan di laptop sebagai kontainer Docker, di samping kontainer database `rumahpintar-db`.
+Grafana adalah dashboard **tim teknis** Rumah Pintar Mini ([Modul 25](../../fase-4-frontend-dashboard/modul-25-grafana-peta-laporan/README.md)): panel kesehatan perangkat (RSSI, *uptime*, *heap* Node 1; paket per jam Node 2) dan *alert* "node diam" ke Telegram, dibaca langsung dari database TimescaleDB (Modul 17–18). Dashboard untuk penghuni rumah tetap `frontend/` (Modul 22–24). Sejak [Modul 26](../../fase-5-operasi-skala/modul-26-docker-compose/README.md), Grafana adalah layanan `grafana` di `compose.cloud.yml` (akar proyek), memakai lemari `rumahpintar-grafana-data` yang sama dengan Modul 25, dan **dirakit dari berkas** di folder ini (*provisioning*): data source, dashboard, aturan *alert*, dan *contact point* Telegram langsung ada begitu Grafana menyala, tanpa klik.
 
-Folder ini menyimpan **resep** Grafana, bukan Grafana-nya: semua isinya boleh ikut Git karena **tidak ada rahasia** di dalamnya. Sandi admin Grafana, sandi akun database `grafana_baca`, dan token bot Telegram tidak pernah ditulis di sini.
+Folder ini menyimpan **resep** Grafana, bukan Grafana-nya: semua isinya boleh ikut Git karena **tidak ada rahasia** di dalamnya. Sandi admin Grafana, sandi akun database `grafana_baca`, dan token bot Telegram hanya ada di `.env` akar proyek (tidak ikut Git); berkas di sini menyebut nama variabelnya saja.
 
 | Berkas | Isinya |
 | :--- | :--- |
-| [`pengguna-grafana.sql`](pengguna-grafana.sql) | akun database `grafana_baca` yang hanya bisa membaca (tanpa sandi; sandinya diketik dengan `\password`) |
-| [`dashboards/kesehatan-sistem.json`](dashboards/kesehatan-sistem.json) | dashboard "Kesehatan Sistem", diekspor dari Grafana sebagai JSON **Classic** (Modul 25 Praktik 9) |
-| [`alerting/node-diam.yaml`](alerting/node-diam.yaml) | aturan *alert* "node diam", diekspor dari Grafana (tanpa *contact point*: token bot tidak pernah diekspor) |
+| [`pengguna-grafana.sql`](pengguna-grafana.sql) | akun database `grafana_baca` yang hanya bisa membaca (tanpa sandi). Sejak Modul 26 dijalankan layanan sekali-jalan `akun-grafana`, yang lalu menyamakan sandinya dengan `GRAFANA_BACA_SANDI` di `.env` |
+| [`dashboards/kesehatan-sistem.json`](dashboards/kesehatan-sistem.json) | dashboard "Kesehatan Sistem", ekspor JSON **Classic** Modul 25 Praktik 9; sejak Modul 26 setiap panel menunjuk data source ber-uid tetap `rumahpintar-db` |
+| [`provisioning/datasources/rumahpintar.yaml`](provisioning/datasources/rumahpintar.yaml) | data source PostgreSQL `rumahpintar-db` (host `db:5432`, database `rumahpintar`, akun `grafana_baca`, TimescaleDB, **Max open** 4); sandinya dari `$GRAFANA_BACA_SANDI` |
+| [`provisioning/dashboards/rumahpintar.yaml`](provisioning/dashboards/rumahpintar.yaml) | penyedia dashboard: setiap JSON di `dashboards/` masuk folder "Rumah Pintar Mini", terkunci di layar (`allowUiUpdates: false`) |
+| [`provisioning/alerting/node-diam.yaml`](provisioning/alerting/node-diam.yaml) | aturan *alert* "Node diam" (ekspor Modul 25; sampai Modul 25 tersimpan di `alerting/` sebagai arsip) |
+| [`provisioning/alerting/kontak-telegram.yaml`](provisioning/alerting/kontak-telegram.yaml) | *contact point* "Telegram Rumah Pintar" (isian layar Modul 25 4.1); token dan chat_id dari `$TELEGRAM_BOT_TOKEN` dan `$TELEGRAM_CHAT_ID` |
+| [`provisioning/plugins/tanpa-plugin.yaml`](provisioning/plugins/tanpa-plugin.yaml) | daftar plugin yang sengaja kosong (tanpa berkas ini, log Grafana menulis `level=error` tentang folder `plugins`) |
 
-## Menjalankan
+## Menjalankan (Docker Compose, Modul 26)
 
-Perintah di bawah dijalankan dari folder proyek `rumah-pintar-mini` dan tidak memakai fitur khusus satu *shell* (tanpa `<`, `>`, atau `$(…)`), jadi diketik apa adanya di PowerShell (Windows), Terminal macOS, maupun Linux. Kontainer database `rumahpintar-db` (Modul 17) harus sudah berjalan.
+Semua perintah diketik dari **akar proyek**. Isi dulu di `.env` akar (contohnya `.env.example`): `GRAFANA_BACA_SANDI`, `GRAFANA_ADMIN_SANDI`, dan (tidak wajib) `TELEGRAM_BOT_TOKEN` + `TELEGRAM_CHAT_ID`. Lalu:
 
-1. **Lorong antarkontainer** (*network*): Grafana di dalam kontainer tidak bisa memakai `localhost:5432` (itu kontainer Grafana sendiri), jadi kedua kontainer dipertemukan di satu *network* buatan bernama `rumahpintar`. Cukup sekali:
+```text
+docker compose up -d
+```
 
-   ```text
-   docker network create rumahpintar
-   ```
+Urutannya diatur `compose.cloud.yml`: database sehat → `migrasi` → `akun-grafana` (membuat `grafana_baca` bila belum ada, lalu menyamakan sandinya dengan `.env`, dan berhenti sendiri) → `grafana`. `docker compose ps` menunjukkan `grafana` `(healthy)` begitu `http://127.0.0.1:3000/api/health` menjawab `"database": "ok"`.
 
-   ```text
-   docker network connect rumahpintar rumahpintar-db
-   ```
+1. Buka `http://localhost:3000`. Lemari Grafana baru (laptop baru): masuk sebagai `admin` dengan `GRAFANA_ADMIN_SANDI`. Lemari Modul 25: sandi admin **lamamu** tetap berlaku; `GRAFANA_ADMIN_SANDI` hanya dipakai Grafana saat lemarinya masih kosong.
+2. **Dashboards → Rumah Pintar Mini → Kesehatan Sistem**: panel berisi data begitu ada perangkat terdaftar yang mengirim data. Dashboard ini dari berkas: **Edit → Save** menjawab `This dashboard cannot be saved from the Grafana UI because it has been provisioned from another source.`
+3. **Alerting → Alert rules**: "Node diam" (grup `kesehatan-node`) bertanda *Provisioned*. **Alerting → Contact points**: "Telegram Rumah Pintar" bertanda *Provisioned*; klik **Test** untuk mengirim pesan uji (butuh token dan chat_id asli di `.env`).
+4. Kosong di `.env`, Telegram tetap tidak wajib: `compose.cloud.yml` memberi Grafana nilai pengganti `belum-diisi` dan `0`, supaya Grafana tetap menyala (*contact point* Telegram tanpa token membuat Grafana gagal menyala, jatuh bangun). *Alert* tetap dihitung dan tampil di layar; hanya kirimannya ke Telegram yang gagal.
 
-2. **Grafana** (satu baris; unduh dulu `docker pull grafana/grafana:13.2.4`, sekitar 445 MB untuk arm64):
+**Pindah dari Modul 25: ambil alih ke berkas.** Lemari Modul 25 sudah berisi aturan "Node diam", *contact point* "Telegram Rumah Pintar", dan data source buatan layar. Kalau berkas *provisioning* dipasang begitu saja di atasnya, *contact point* itu berisi **dua** integrasi Telegram dan setiap *alert* terkirim **dua kali**. Karena itu, SEBELUM Grafana pertama kali menyala dengan folder `provisioning/` (Modul 26 Praktik 7), di Grafana yang masih berjalan:
 
-   ```text
-   docker run -d --name rumahpintar-grafana --network rumahpintar -p 127.0.0.1:3000:3000 -e GF_PLUGINS_PREINSTALL_DISABLED=true -e GF_ANALYTICS_REPORTING_ENABLED=false -e GF_SNAPSHOTS_EXTERNAL_ENABLED=false -e GF_PUBLIC_DASHBOARDS_ENABLED=false -v rumahpintar-grafana-data:/var/lib/grafana --restart unless-stopped grafana/grafana:13.2.4
-   ```
+1. Kalau dashboard "Kesehatan Sistem" kamu ubah sesudah ekspor Modul 25 Praktik 9, ekspor lagi (**Export → Export as JSON**, Classic), timpa `dashboards/kesehatan-sistem.json`, lalu ganti setiap uid data source di dalamnya menjadi `rumahpintar-db`.
+2. **Alerting → Alert rules**: hapus aturan "Node diam".
+3. **Alerting → Contact points**: hapus "Telegram Rumah Pintar".
+4. **Connections → Data sources**: hapus data source lama `grafana-postgresql-datasource` (dashboard dan aturan dari berkas memakai `rumahpintar-db`). Dashboard lain buatan layar yang masih memakai data source lama, misalnya `Panel pertama` dari Kemenangan Cepat Modul 25, sesudah itu tampil merah tanpa data: hapus juga, atau ganti data source panelnya dengan `rumahpintar-db` (sesudah langkah 5) lalu **Save**.
+5. `docker compose up -d`, lalu periksa langkah 2–3 di atas: Save dashboard ditolak, aturan "Node diam" *Provisioned* dan `Normal`, **Test** *contact point* sampai. Akun admin dan sandinya tetap dari lemari lama.
 
-   `127.0.0.1:3000` = hanya bisa dibuka dari laptop ini. `GF_PLUGINS_PREINSTALL_DISABLED=true` mencegah unduhan plugin sekitar 290 MB saat Grafana pertama menyala; tiga setelan `false` berikutnya mematikan kiriman ke luar (statistik pemakaian ke stats.grafana.org, *snapshot* ke server Grafana, dan dashboard publik). Yang TETAP menghubungi internet: pemeriksaan versi baru Grafana dan pluginnya ke grafana.com, umpan berita, dan gambar avatar (Gravatar); semuanya tanpa isi dashboard atau data rumahmu. Kalau ingin pemeriksaan versi ikut mati, tambahkan `-e GF_ANALYTICS_CHECK_FOR_UPDATES=false -e GF_ANALYTICS_CHECK_FOR_PLUGIN_UPDATES=false` sebelum `-v`. Semua isi Grafana (dashboard, *alert*, akun) tersimpan di volume `rumahpintar-grafana-data`, jadi tetap ada walaupun kontainernya dibuat ulang. Tulis versinya persis (`13.2.4`): image `grafana/grafana-oss` sudah tidak diperbarui, dan tanpa tag kamu mendapat versi lain yang menunya bisa berbeda.
-3. Buka `http://localhost:3000`, masuk dengan `admin` / `admin`, lalu di layar **Update your password** ketik sandi baru dan klik **Submit** (jangan **Skip**: sandi `admin` tetap berlaku kalau dilewati).
-4. **Akun database hanya-baca** (sekali saja). Salin berkas SQL ke kontainer database, jalankan, lalu ketik sandi `grafana_baca` dua kali (tidak tampil di layar dan tidak masuk riwayat terminal):
+**Mengubah dashboard atau aturan sesudah Modul 26.** Benda dari berkas terkunci di layar: tombol **Save** dashboard ditolak (`allowUiUpdates: false`), dan aturan serta *contact point* tidak bisa diedit. Ubah lewat layar sebagai percobaan, lalu ekspor (dashboard: **Export → Export as JSON**, Classic, uid data source tetap `rumahpintar-db`; aturan: **More → Export rules group → YAML**), timpa berkas di folder ini, jalankan `docker compose restart grafana`, lalu *commit*. Dashboard dibaca ulang dari berkas setiap 30 detik; aturan, *contact point*, dan data source baru terbaca sesudah `restart`.
 
-   ```text
-   docker cp grafana/pengguna-grafana.sql rumahpintar-db:/tmp/pengguna-grafana.sql
-   ```
-
-   ```text
-   docker exec rumahpintar-db psql -U postgres -d rumahpintar -f /tmp/pengguna-grafana.sql
-   ```
-
-   ```text
-   docker exec -it rumahpintar-db psql -U postgres -d rumahpintar -c "\password grafana_baca"
-   ```
-
-   Kalau perintah kedua diulang (misalnya berkasnya dijalankan dua kali), baris pertamanya menjawab `ERROR:  role "grafana_baca" already exists`: itu wajar, baris-baris lainnya tetap berlaku.
-
-5. **Data source** di Grafana: **Connections → Data sources → Add data source → PostgreSQL**, Host URL `rumahpintar-db:5432` (nama kontainer, lewat lorong `rumahpintar`), Database name `rumahpintar`, Username `grafana_baca` dan sandinya, TLS/SSL Mode `disable`, **TimescaleDB** dinyalakan, **Max open** (bagian **Connection limits**) diisi `4`, lalu **Save & test** sampai muncul **Database Connection OK**. Angka 4 itu penting: akun `grafana_baca` boleh paling banyak 5 sambungan, sedangkan Grafana tanpa angka ini boleh membuka sampai 100; dengan 4, Grafana mengantre sendiri dan masih tersisa satu sambungan untuk psql. Kalau angka itu baru diubah pada data source yang sedang dipakai dashboard, **Save & test** pertama bisa menjawab `too many connections for role "grafana_baca"` (sambungan lama belum dilepas): tunggu beberapa detik lalu klik **Save & test** lagi.
-6. Dashboard dan aturan *alert* dibuat lewat layar Grafana (Modul 25 Praktik 2–4), lalu diekspor ke folder `dashboards/` dan `alerting/` di sini. Untuk memulihkannya di Grafana lain, impor JSON dashboard (**Dashboards → New → Import dashboard**) dan pilih data source PostgreSQL-mu saat ditanya; di Grafana yang sama, klik **Change uid** dulu supaya dashboard lama tidak tertimpa. *Contact point* Telegram (token bot + chat_id Modul 19) dan aturan *alert* **dibuat ulang** lewat layar: berkas YAML di `alerting/` adalah arsip, karena menu **Import alert rules** Grafana 13.2.4 hanya menerima aturan format Prometheus. Memasang YAML itu sebagai berkas *provisioning* baru dibahas di Modul 26 (Grafana menolak menyala kalau *contact point* bernama sama belum ada: `receiver Telegram Rumah Pintar does not exist`).
+**Sebelum Modul 26** (tanpa Compose), Grafana dijalankan dengan `docker run -d --name rumahpintar-grafana --network rumahpintar -p 127.0.0.1:3000:3000 -e GF_PLUGINS_PREINSTALL_DISABLED=true -e GF_ANALYTICS_REPORTING_ENABLED=false -e GF_SNAPSHOTS_EXTERNAL_ENABLED=false -e GF_PUBLIC_DASHBOARDS_ENABLED=false -v rumahpintar-grafana-data:/var/lib/grafana --restart unless-stopped grafana/grafana:13.2.4`, akun `grafana_baca` lewat `docker cp` + `psql -f pengguna-grafana.sql` + `\password grafana_baca`, dan data source, dashboard, aturan, serta *contact point* dibuat lewat layar (Modul 25). Kontainer `rumahpintar-grafana` itu harus dihentikan dan dihapus (`docker stop`, `docker rm`; lemarinya tetap) sebelum layanan `grafana` Compose menyala: dua Grafana dengan database dan aturan yang sama = setiap *alert* terkirim dua kali.
 
 ## Keamanan
 
-- Grafana hanya di `127.0.0.1:3000`, dengan sandi `admin` yang sudah diganti saat masuk pertama kali.
-- Grafana membaca database dengan `grafana_baca`, **bukan** `postgres`: hanya `SELECT` pada `readings`, `readings_per_jam`, `device_health`, `events`, `commands`, dan kolom tertentu `devices` (tanpa `kunci_hash`). `users` dan `sesi` (sidik jari sandi, token sesi) tidak bisa dibacanya; `INSERT`, `DROP`, dan semacamnya ditolak (`cannot execute … in a read-only transaction`); kueri yang lebih lama dari 10 detik dihentikan. Karena izinnya per kolom, `SELECT * FROM devices` ditolak (`permission denied for table devices`): selalu tulis nama kolomnya.
-- Token bot hanya ada di `backend/.env` dan di *contact point* Grafana (tersimpan di volume Grafana; enkripsinya memakai kunci bawaan yang sama di semua instalasi selama `GF_SECURITY_SECRET_KEY` tidak diatur, jadi jaga volume itu seperti menjaga token), tidak pernah di JSON, YAML, Git, atau tangkapan layar. Sebelum *commit*, cari kata `token` dan chat_id-mu di berkas ekspor: hasilnya harus kosong.
+- Grafana hanya di `127.0.0.1:3000` (loket `PORT_GRAFANA` di `.env`), dengan sandi admin yang bukan `admin`.
+- Setelan Modul 25 dibawa persis di `compose.cloud.yml`: `GF_PLUGINS_PREINSTALL_DISABLED=true` (tanpa unduhan plugin ±290 MB) dan tiga setelan `false` yang mematikan kiriman ke luar (statistik pemakaian, *snapshot*, dashboard publik). Yang TETAP menghubungi internet: pemeriksaan versi baru Grafana dan pluginnya, umpan berita, dan gambar avatar; semuanya tanpa isi dashboard atau data rumahmu.
+- Grafana membaca database dengan `grafana_baca`, **bukan** `postgres`: hanya `SELECT` pada `readings`, `readings_per_jam`, `device_health`, `events`, `commands`, dan kolom tertentu `devices` (tanpa `kunci_hash`). `users` dan `sesi` tidak bisa dibacanya; `INSERT`, `DROP`, dan semacamnya ditolak (`cannot execute … in a read-only transaction`); kueri yang lebih lama dari 10 detik dihentikan. Karena izinnya per kolom, `SELECT * FROM devices` ditolak (`permission denied for table devices`): selalu tulis nama kolomnya.
+- **Token bot Telegram** kini ada di `.env` akar (dan `backend/.env` untuk mode kembang), lalu tersimpan juga di lemari Grafana sebagai isian *contact point*. Enkripsinya memakai kunci bawaan Grafana selama `GF_SECURITY_SECRET_KEY` tidak diatur: **jangan** menambahkan `GF_SECURITY_SECRET_KEY` baru di atas lemari Modul 25 (isian rahasia lama tidak terbaca lagi). Jaga `.env` dan lemari itu seperti menjaga token. `docker compose config` mencetak token dan semua sandi apa adanya: jangan menempel keluarannya ke mana pun. Token tidak pernah ada di JSON, YAML, Git, atau tangkapan layar; sebelum *commit*, cari kata `token` dan chat_id-mu di folder ini: hasilnya harus kosong.
 
 ## Batasan
 
-- Grafana hanya menyala selama laptop menyala (sama dengan backend). Server yang menyala terus menyusul di Modul 26–27.
+- Grafana hanya menyala selama laptop (dan Docker Desktop) menyala, sama dengan backend. Sejak Modul 26 kontainernya dinyalakan lagi oleh Docker kalau berhenti sendiri (`restart: unless-stopped`); server yang menyala terus menyusul di Modul 27.
 - *Alert* "node diam" membaca waktu bacaan terakhir di database. Kalau **backend** mati, tidak ada bacaan baru yang tersimpan, jadi **semua** node tampak diam sekaligus. Kalau **database** mati, aturan menjadi *Error* (`DatasourceError`) dan datang pesan tanpa nama node; di lab penulis (DB mati ±80 detik, grup 1 menit) node yang sedang 🔴 tetap 🔴, tetapi kabar "pulih" palsu pernah teramati saat aturan dievaluasi tiap 10 detik.
-- Akun `grafana_baca` boleh paling banyak 5 sambungan sekaligus. Dengan **Max open** `4` di data source (langkah 5), satu Grafana tidak pernah melewatinya, walau dashboard dibuka di dua tab atau di laptop dan HP bersamaan. Tanpa itu (bawaan 100), dua tab yang memuat dashboard bersamaan sudah bisa membuat sebagian panel merah atau kosong dengan galat `too many connections for role "grafana_baca"`; dua Grafana yang memakai akun yang sama juga.
-- Kalau Grafana gagal membaca database, pesan *alert* datang tanpa nama node (`🔴 [no value] ([no value]) tidak mengirim data, …`, lalu `✅  kembali mengirim data.`): itu tanda masalah database atau Grafana, bukan node yang diam.
+- Akun `grafana_baca` boleh paling banyak 5 sambungan sekaligus. Dengan `maxOpenConns: 4` di data source, satu Grafana tidak pernah melewatinya, walau dashboard dibuka di dua tab atau di laptop dan HP bersamaan; dua Grafana yang memakai akun yang sama bisa melewatinya (`too many connections for role "grafana_baca"`).
+- Kalau Grafana gagal membaca database, pesan *alert* datang tanpa nama node (`🔴 [no value] ([no value]) tidak mengirim data, …`, lalu `✅  kembali mengirim data.`): itu tanda masalah database atau Grafana (misalnya uid data source yang tidak cocok), bukan node yang diam.
+- Selama belum ada perangkat terdaftar (misalnya laptop teman yang baru menyalakan Compose), panel yang memakai variabel Node menulis `db query error: ERROR: syntax error at or near ")" (SQLSTATE 42601)`; hilang sendiri begitu perangkat pertama terdaftar.
 - Pesan *alert* tanpa gambar panel (perender gambar Grafana tidak dipasang).

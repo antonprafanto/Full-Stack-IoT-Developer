@@ -1,0 +1,33 @@
+# compose.simulasi.yml - kunci Tantangan 3 Modul 26: layanan simulator (profil "simulasi") sebagai berkas Compose TAMBAHAN.
+# Berkas utama compose.cloud.yml tidak diubah. Taruh berkas ini di akar proyek (di sebelah compose.cloud.yml), lalu tulis
+# kedua nama berkas di baris COMPOSE_FILE pada .env akar, dipisah ":" (Linux, macOS, Pi) atau ";" (Windows):
+#   COMPOSE_FILE=compose.cloud.yml:compose.simulasi.yml
+# Compose menggabungkan keduanya menjadi satu rumah: simulator ikut lorong yang sama, jadi bisa memanggil "mosquitto".
+# Simulator TIDAK menyala dengan "docker compose up -d" biasa. Nyalakan dengan: docker compose --profile simulasi up -d
+services:
+  simulator:
+    profiles: ["simulasi"]
+    # Cetakan lokal (tidak dikirim ke toko image): nama + tag persis (= version di alat/package.json), dibangun dari
+    # alat/Dockerfile. Jalur ./alat dihitung dari folder compose.cloud.yml (berkas pertama di COMPOSE_FILE).
+    image: rumah-pintar-mini-alat:1.0.0
+    build: ./alat
+    # satu perangkat palsu (f00d00000001) ke broker PUSAT lewat nama layanan "mosquitto", bukan 127.0.0.1:
+    # di dalam kontainer, 127.0.0.1 adalah kontainer simulator itu sendiri
+    command: ["node", "simulator-perangkat.js", "mqtt://mosquitto:1883", "1"]
+    # Node sebagai proses pertama (PID 1) di kontainer mengabaikan sinyal berhenti SIGTERM, karena simulator tidak punya
+    # penangannya: "docker compose stop" lalu menunggu 10 detik sebelum mematikannya paksa. init: true memasang "init"
+    # kecil sebagai PID 1 yang meneruskan sinyal itu ke Node, jadi simulator berhenti dalam sekejap (lab: 10,5 s -> 0,5 s).
+    init: true
+    environment:
+      # kunci perangkat latihan (jawaban POST /devices) = sandi akun broker f00d00000001. Diisi di .env akar.
+      KUNCI_F00D00000001: ${KUNCI_F00D00000001:-}
+    depends_on:
+      mosquitto:
+        condition: service_started
+    restart: unless-stopped
+    # batas log sama dengan layanan lain (anchor x-log di compose.cloud.yml tidak bisa dirujuk dari berkas lain)
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"

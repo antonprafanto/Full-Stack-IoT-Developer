@@ -1,0 +1,290 @@
+# compose.cloud.yml - semua layanan PUSAT Rumah Pintar Mini dalam satu berkas (Modul 26).
+# Modul 26: menyala di laptop, masih di jaringan rumah. Modul 27: berkas yang sama pindah ke VPS (dan Caddy memasang HTTPS).
+# Jalankan dari folder ini (akar proyek):  docker compose up -d
+#   Belum ada .env? Salin .env.example menjadi .env dan isi rahasianya dulu. Tanpa .env, Compose tidak menemukan berkas ini
+#   (no configuration file provided); rahasia yang masih kosong membuatnya berhenti (required variable).
+#   Baris COMPOSE_FILE=compose.cloud.yml di .env membuat -f tidak perlu (tanpa baris itu: docker compose -f compose.cloud.yml ...).
+# Rahasia dan setelan dibaca dari .env di folder ini (contohnya .env.example). .env TIDAK PERNAH ikut Git, dan keluaran
+# "docker compose config" mencetak semua rahasia: jangan ditempel ke forum, isu, atau AI.
+# JANGAN "docker compose down -v": -v menghapus lemari (volume) milik Compose. Lemari riwayat (db, grafana) sengaja "external"
+# supaya tidak ikut terhapus, tetapi sandi broker dan data Uptime Kuma tetap hilang.
+name: rumahpintar
+
+# Setelan backend dipakai dua layanan (backend dan migrasi): ditulis sekali di sini, lalu dirujuk dengan *setelan-backend.
+# Nama "x-..." diabaikan Compose sebagai layanan; isinya hanya bahan rujukan.
+x-setelan-backend: &setelan-backend
+  # di dalam lorong Compose, layanan lain dipanggil dengan NAMA LAYANAN: mosquitto, db (bukan 127.0.0.1)
+  MQTT_URL: mqtt://mosquitto:1883
+  MQTT_USERNAME: backend
+  MQTT_PASSWORD: ${MQTT_PASSWORD:?isi MQTT_PASSWORD di .env}
+  DATABASE_URL: postgres://postgres:${POSTGRES_PASSWORD:?isi POSTGRES_PASSWORD di .env}@db:5432/rumahpintar
+  # 0.0.0.0 = mendengar di semua antarmuka DI DALAM kontainer, supaya Caddy dan healthcheck bisa masuk. Yang menentukan
+  # siapa di luar laptop bisa mengetuk tetap loket (ports) layanan backend di bawah: 127.0.0.1 saja.
+  HOST: 0.0.0.0
+  PORT: "8080"
+  JWT_SECRET: ${JWT_SECRET:?isi JWT_SECRET di .env}
+  # halaman (origin) yang boleh login dari browser: dashboard lewat Caddy di http://localhost (loket web 80)
+  CORS_ORIGIN: ${CORS_ORIGIN:-http://localhost,http://127.0.0.1}
+  TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN:-}
+  TELEGRAM_CHAT_ID: ${TELEGRAM_CHAT_ID:-}
+  # hanya untuk server Bot API tiruan di lab; kosong = server Telegram sungguhan
+  TELEGRAM_API_ROOT: ${TELEGRAM_API_ROOT:-}
+  LAPORAN_JADWAL: "${LAPORAN_JADWAL:-0 7 * * *}"
+  # jam di log backend memakai WIB (tanpa ini, jam kontainer = UTC)
+  TZ: Asia/Jakarta
+
+# Log setiap kontainer dibatasi 3 berkas x 10 MB. Bawaan Docker TANPA batas: lama-lama disk penuh.
+x-log: &log
+  driver: json-file
+  options:
+    max-size: 10m
+    max-file: "3"
+
+services:
+  # Database TimescaleDB (Modul 17-18). Lemarinya = lemari rumahpintar-data yang sama sejak Modul 17 (lihat volumes di bawah).
+  db:
+    image: timescale/timescaledb:2.30.2-pg17
+    environment:
+      # Formulir ini hanya dibaca saat lemari masih KOSONG. Lemari lama sudah berisi sandi: tulis sandi LAMA di .env.
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?isi POSTGRES_PASSWORD di .env}
+      POSTGRES_DB: rumahpintar
+      TIMESCALEDB_TELEMETRY: "off"
+    volumes:
+      - data-db:/var/lib/postgresql/data
+    ports:
+      # 127.0.0.1 = hanya laptop ini (DBeaver, psql, mode kembang npm run dev). Tanpa 127.0.0.1, Docker membuka loket ke
+      # seluruh WiFi dan melewati firewall.
+      - "127.0.0.1:${PORT_DB:-5432}:5432"
+    networks:
+      default:
+        # nama lama kontainer Modul 17-25: data source Grafana buatan layar (host rumahpintar-db:5432) tetap tersambung
+        aliases:
+          - rumahpintar-db
+    healthcheck:
+      # "running" belum tentu "siap menerima tamu". -h 127.0.0.1: saat lemari baru diisi pertama kali, server sementara
+      # hanya mendengar soket lokal, jadi tanpa -h pemeriksaan bisa lolos terlalu dini.
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U postgres -d rumahpintar"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+      start_period: 60s
+    restart: unless-stopped
+    logging: *log
+
+  # Sekali jalan: membuat akun broker "backend" di lemari broker, HANYA bila berkas sandi belum ada (laptop baru, lemari
+  # kosong). Akun lain (perangkat simulator, jembatan-pi, pemantau) ditambah dengan (-u mosquitto = pemilik berkas sandi):
+  #   docker compose exec -u mosquitto mosquitto mosquitto_passwd /mosquitto/data/sandi-broker <nama>
+  # lalu: docker compose restart mosquitto
+  akun-broker:
+    image: eclipse-mosquitto:2.1.2-alpine
+    environment:
+      MQTT_PASSWORD: ${MQTT_PASSWORD:?isi MQTT_PASSWORD di .env}
+    # $$ = tanda $ yang diteruskan ke sh, bukan diisi Compose dari .env. -b = sandi ditulis di perintah: tidak masuk riwayat
+    # terminalmu, tetapi sesaat terlihat di daftar proses mesin (di Linux dan Pi, ps juga menampilkan proses kontainer).
+    # Risikonya kecil: hanya sekali, saat berkas sandi dibuat, di laptop atau Pi pribadimu.
+    command:
+      - sh
+      - -c
+      - |
+        set -e
+        if [ -f /mosquitto/data/sandi-broker ]; then
+          echo "berkas sandi broker sudah ada: dilewati"
+        else
+          mosquitto_passwd -b -c /mosquitto/data/sandi-broker backend "$$MQTT_PASSWORD"
+          chmod 600 /mosquitto/data/sandi-broker
+          echo "akun broker backend dibuat"
+        fi
+    volumes:
+      - data-broker:/mosquitto/data
+    # Image Mosquitto menyiapkan folder log sebagai lemari, padahal log kita tampil di layar (docker compose logs).
+    # tmpfs = folder sementara di RAM: tanpa ini Docker membuat lemari tanpa nama setiap kontainer ini dibuat baru.
+    tmpfs:
+      - /mosquitto/log
+    restart: "no"
+    logging: *log
+
+  # Broker MQTT PUSAT (Mosquitto 2.1.2: membaca berkas sandi format 2.0 dan 2.1). Backend memanggilnya mosquitto:1883;
+  # gerbang Pi (jembatan) dan simulator di laptop masuk lewat loket 1883.
+  mosquitto:
+    image: eclipse-mosquitto:2.1.2-alpine
+    volumes:
+      # Konfigurasi dan daftar izin dari repo (hanya-baca). Sesudah mengubah salah satunya: docker compose restart mosquitto
+      - ./edge/pusat.conf:/mosquitto/config/mosquitto.conf:ro
+      - ./edge/acl-broker:/mosquitto/config/acl-broker:ro
+      # berkas sandi, pesan retained, dan sesi disimpan di lemari ini (milik Compose)
+      - data-broker:/mosquitto/data
+    # folder log bawaan image tidak dipakai (log ke layar): tmpfs, supaya tidak ada lemari tanpa nama
+    tmpfs:
+      - /mosquitto/log
+    ports:
+      # semua antarmuka: gerbang Pi dan ESP32 jalur laptop masuk dari WiFi rumah. Jangan port forwarding (belum TLS, Modul 27).
+      # Broker ini ikut menyala setiap Docker menyala, di WiFi mana pun. Laptop di WiFi umum (kafe, kampus):
+      # docker compose stop mosquitto, lalu di rumah lagi: docker compose start mosquitto
+      - "${PORT_MQTT:-1883}:1883"
+    depends_on:
+      akun-broker:
+        condition: service_completed_successfully
+    restart: unless-stopped
+    logging: *log
+
+  # Sekali jalan: menerapkan berkas migrasi/*.sql yang baru (aman diulang: "0 migrasi baru diterapkan").
+  migrasi:
+    # cetakan yang sama dengan layanan backend (image + build ditulis sama persis di kedua layanan)
+    image: ${TOKO_IMAGE:?isi TOKO_IMAGE di .env}/rumah-pintar-mini-backend:1.3.0
+    build: ./backend
+    command: ["node", "src/db/migrasi.ts"]
+    environment: *setelan-backend
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: "no"
+    logging: *log
+
+  # Backend 1.3.0 (Modul 16-26). Tag image = version di backend/package.json.
+  backend:
+    # image: nama di toko image (GHCR, Praktik 10). build: kalau image itu belum ada di laptop dan tidak bisa ditarik dari
+    # toko, Compose membangunnya sendiri dari backend/Dockerfile.
+    image: ${TOKO_IMAGE:?isi TOKO_IMAGE di .env}/rumah-pintar-mini-backend:1.3.0
+    build: ./backend
+    environment: *setelan-backend
+    ports:
+      # Bruno, Swagger (http://localhost:8080/docs), dan alat/terminal-live.js tetap memakai loket lama
+      - "127.0.0.1:${PORT_BACKEND:-8080}:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+      mosquitto:
+        condition: service_started
+      migrasi:
+        condition: service_completed_successfully
+    healthcheck:
+      # HEAD /health dari dalam kontainer (image node tidak membawa curl). Sehat = proses hidup dan menjawab; /health tetap
+      # 200 walau broker atau database putus (pemantau sungguhan = Modul 30). "unhealthy" TIDAK me-restart kontainer.
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:8080/health',{method:'HEAD'}).then(r=>process.exit(r.ok?0:1),()=>process.exit(1))"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+      start_interval: 2s
+    restart: unless-stopped
+    logging: *log
+
+  # Dashboard 1.2.0 (Modul 22-26) disajikan Caddy: halaman di /, API backend di /api (satu alamat, tanpa CORS lintas port).
+  web:
+    image: ${TOKO_IMAGE:?isi TOKO_IMAGE di .env}/rumah-pintar-mini-web:1.2.0
+    build:
+      context: ./frontend
+      args:
+        # alamat API dibakar ke JavaScript saat build; harus sama dengan awalan handle_path di frontend/caddy/Caddyfile
+        VITE_API_BASE: /api
+    volumes:
+      # Caddyfile dipasang sebagai FOLDER (bukan berkas tunggal), supaya isi baru terbaca sesudah berkasnya disimpan editor.
+      # Sertifikat HTTPS (lemari /data) menyusul di Modul 27.
+      - ./frontend/caddy:/etc/caddy:ro
+    ports:
+      # bawaan 127.0.0.1:80 = hanya laptop ini. Mode HP: ALAMAT_WEB=0.0.0.0 di .env dan IP laptop di CORS_ORIGIN.
+      - "${ALAMAT_WEB:-127.0.0.1}:${PORT_WEB:-80}:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+    logging: *log
+
+  # Sekali jalan: akun database hanya-baca grafana_baca (grafana/pengguna-grafana.sql) bila belum ada, lalu sandinya
+  # disamakan dengan GRAFANA_BACA_SANDI di .env. Kontainer ini hanya memakai psql dari image database, bukan databasenya.
+  akun-grafana:
+    image: timescale/timescaledb:2.30.2-pg17
+    environment:
+      PGHOST: db
+      PGUSER: postgres
+      PGDATABASE: rumahpintar
+      PGPASSWORD: ${POSTGRES_PASSWORD:?isi POSTGRES_PASSWORD di .env}
+      GRAFANA_BACA_SANDI: ${GRAFANA_BACA_SANDI:?isi GRAFANA_BACA_SANDI di .env}
+    # $$ = tanda $ untuk sh; sandi dikirim lewat variabel psql (:'sandi'), tidak pernah tertulis di berkas atau di layar
+    command:
+      - sh
+      - -c
+      - |
+        set -e
+        if [ "$$(psql -tAc "SELECT 1 FROM pg_roles WHERE rolname = 'grafana_baca'")" = "1" ]; then
+          echo "akun grafana_baca sudah ada: dilewati"
+        else
+          psql -v ON_ERROR_STOP=1 -f /grafana/pengguna-grafana.sql
+        fi
+        echo "ALTER ROLE grafana_baca PASSWORD :'sandi';" | psql -v ON_ERROR_STOP=1 -v sandi="$$GRAFANA_BACA_SANDI"
+        echo "sandi grafana_baca disamakan dengan GRAFANA_BACA_SANDI di .env"
+    volumes:
+      - ./grafana:/grafana:ro
+    # Image database menyiapkan folder datanya sebagai lemari, padahal kontainer ini hanya memakai psql: tmpfs, supaya
+    # tidak ada lemari tanpa nama setiap kontainer ini dibuat baru (riwayat tetap di lemari layanan db).
+    tmpfs:
+      - /var/lib/postgresql/data
+    depends_on:
+      migrasi:
+        condition: service_completed_successfully
+    restart: "no"
+    logging: *log
+
+  # Grafana 13.2.4 (Modul 25), lemari rumahpintar-grafana-data yang sama. Data source, dashboard, aturan "Node diam", dan
+  # contact point Telegram dipasang dari berkas grafana/provisioning (Modul 26): tampil "Provisioned", diubah lewat berkas.
+  grafana:
+    image: grafana/grafana:13.2.4
+    environment:
+      # setelan Modul 25 persis: tanpa unduhan plugin saat menyala pertama, tanpa kiriman statistik/snapshot/dashboard publik
+      GF_PLUGINS_PREINSTALL_DISABLED: "true"
+      GF_ANALYTICS_REPORTING_ENABLED: "false"
+      GF_SNAPSHOTS_EXTERNAL_ENABLED: "false"
+      GF_PUBLIC_DASHBOARDS_ENABLED: "false"
+      # hanya dipakai saat lemari Grafana masih kosong; lemari Modul 25 tetap memakai sandi admin lamamu
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_SANDI:?isi GRAFANA_ADMIN_SANDI di .env}
+      # dibaca berkas provisioning ($GRAFANA_BACA_SANDI, $TELEGRAM_BOT_TOKEN, $TELEGRAM_CHAT_ID)
+      GRAFANA_BACA_SANDI: ${GRAFANA_BACA_SANDI:?isi GRAFANA_BACA_SANDI di .env}
+      # Telegram tidak wajib, tetapi contact point tanpa token membuat Grafana gagal menyala (jatuh bangun). "belum-diisi"
+      # dan 0 = Grafana tetap menyala; alert tetap tercatat, hanya kirimannya ke Telegram yang gagal.
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN:-belum-diisi}
+      TELEGRAM_CHAT_ID: ${TELEGRAM_CHAT_ID:-0}
+    volumes:
+      - data-grafana:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./grafana/dashboards:/etc/grafana/dashboards:ro
+    ports:
+      - "127.0.0.1:${PORT_GRAFANA:-3000}:3000"
+    depends_on:
+      akun-grafana:
+        condition: service_completed_successfully
+    healthcheck:
+      # image Grafana membawa curl; /api/health menjawab "database": "ok" bila Grafana siap
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:3000/api/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 60s
+      start_interval: 2s
+    restart: unless-stopped
+    logging: *log
+
+  # Uptime Kuma (dikonfigurasi di Modul 30). Profil "pantau": TIDAK menyala dengan "docker compose up -d" biasa;
+  # nyalakan dengan: docker compose --profile pantau up -d
+  # matikan dengan:  docker compose --profile pantau down   (tanpa --profile, Uptime Kuma tetap menyala)
+  uptime-kuma:
+    image: louislam/uptime-kuma:2.5.8-slim
+    profiles: ["pantau"]
+    volumes:
+      - data-kuma:/app/data
+    ports:
+      - "127.0.0.1:${PORT_KUMA:-3001}:3001"
+    restart: unless-stopped
+    logging: *log
+
+volumes:
+  # Lemari riwayat milik KAMU, bukan milik Compose ("external"): Compose tidak pernah membuat atau menghapusnya, juga tidak
+  # dengan "down -v". Laptop baru membuatnya sekali: docker volume create rumahpintar-data (dan rumahpintar-grafana-data).
+  data-db:
+    external: true
+    name: ${LEMARI_DB:-rumahpintar-data}
+  data-grafana:
+    external: true
+    name: ${LEMARI_GRAFANA:-rumahpintar-grafana-data}
+  # Lemari milik Compose (dibuat sendiri, ikut terhapus oleh "down -v"): berkas sandi broker + retained, data Uptime Kuma.
+  data-broker:
+  data-kuma:

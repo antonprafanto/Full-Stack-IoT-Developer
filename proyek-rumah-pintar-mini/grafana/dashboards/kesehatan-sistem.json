@@ -74,7 +74,7 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "${DS_GRAFANA-POSTGRESQL-DATASOURCE}"
+        "uid": "rumahpintar-db"
       },
       "description": "Makin dekat ke 0 makin kuat. Konvensi umum: di bawah -75 dBm mulai lemah (bukan standar).",
       "fieldConfig": {
@@ -161,7 +161,7 @@
           "dataset": "rumahpintar",
           "datasource": {
             "type": "grafana-postgresql-datasource",
-            "uid": "${DS_GRAFANA-POSTGRESQL-DATASOURCE}"
+            "uid": "rumahpintar-db"
           },
           "editorMode": "code",
           "format": "time_series",
@@ -193,7 +193,7 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "${DS_GRAFANA-POSTGRESQL-DATASOURCE}"
+        "uid": "rumahpintar-db"
       },
       "description": "Turun mendadak ke angka kecil = perangkat baru menyala ulang (restart).",
       "fieldConfig": {
@@ -248,7 +248,7 @@
           "dataset": "rumahpintar",
           "datasource": {
             "type": "grafana-postgresql-datasource",
-            "uid": "${DS_GRAFANA-POSTGRESQL-DATASOURCE}"
+            "uid": "rumahpintar-db"
           },
           "editorMode": "code",
           "format": "time_series",
@@ -280,7 +280,7 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "${DS_GRAFANA-POSTGRESQL-DATASOURCE}"
+        "uid": "rumahpintar-db"
       },
       "description": "Turun terus dari hari ke hari = curiga memori bocor.",
       "fieldConfig": {
@@ -365,7 +365,7 @@
           "dataset": "rumahpintar",
           "datasource": {
             "type": "grafana-postgresql-datasource",
-            "uid": "${DS_GRAFANA-POSTGRESQL-DATASOURCE}"
+            "uid": "rumahpintar-db"
           },
           "editorMode": "code",
           "format": "time_series",
@@ -397,7 +397,7 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "${DS_GRAFANA-POSTGRESQL-DATASOURCE}"
+        "uid": "rumahpintar-db"
       },
       "description": "Node 2 bangun tiap 300 detik = 12 paket per jam. Jam yang batangnya pendek = Kebun sempat diam.",
       "fieldConfig": {
@@ -479,7 +479,7 @@
           "dataset": "rumahpintar",
           "datasource": {
             "type": "grafana-postgresql-datasource",
-            "uid": "${DS_GRAFANA-POSTGRESQL-DATASOURCE}"
+            "uid": "rumahpintar-db"
           },
           "editorMode": "code",
           "format": "time_series",
@@ -511,7 +511,7 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "${DS_GRAFANA-POSTGRESQL-DATASOURCE}"
+        "uid": "rumahpintar-db"
       },
       "description": "Kueri yang sama dengan aturan alert Node diam: lebih dari 5 = alert menyala. Node 2 sudah dikurangi 5 menit jadwal bangunnya.",
       "fieldConfig": {
@@ -563,7 +563,7 @@
           "dataset": "rumahpintar",
           "datasource": {
             "type": "grafana-postgresql-datasource",
-            "uid": "${DS_GRAFANA-POSTGRESQL-DATASOURCE}"
+            "uid": "rumahpintar-db"
           },
           "editorMode": "code",
           "format": "table",
@@ -604,7 +604,7 @@
         "current": {},
         "datasource": {
           "type": "grafana-postgresql-datasource",
-          "uid": "${DS_GRAFANA-POSTGRESQL-DATASOURCE}"
+          "uid": "rumahpintar-db"
         },
         "definition": "SELECT coalesce(nama, device_id) AS __text, device_id AS __value FROM devices WHERE terdaftar IS NOT NULL AND dicabut IS NULL ORDER BY 1",
         "includeAll": true,

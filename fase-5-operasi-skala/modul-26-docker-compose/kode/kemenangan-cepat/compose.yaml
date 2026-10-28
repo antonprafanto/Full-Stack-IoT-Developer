@@ -1,0 +1,45 @@
+# compose.yaml - Kemenangan Cepat Modul 26: dua layanan, satu perintah.
+# Nama berkas ini adalah nama BAWAAN Docker Compose, jadi di folder ini cukup: docker compose up -d   (tanpa -f)
+# LATIHAN SAJA: broker di bawah TANPA akun (allow_anonymous), hanya bisa dihubungi dari laptop ini (127.0.0.1), dan
+# dibongkar di langkah terakhir dengan: docker compose down
+# Proyek Compose-nya bernama sama dengan folder ini (kemenangan-cepat).
+services:
+  # Layanan 1: broker MQTT latihan. Image resmi, tag persis (sama dengan broker pusat proyek), tanpa "latest".
+  broker:
+    image: eclipse-mosquitto:2.1.2-alpine
+    # berkas setelan bawaan di dalam image ini: listener 1883 tanpa akun (allow_anonymous true)
+    command: ["mosquitto", "-c", "/mosquitto-no-auth.conf"]
+    ports:
+      # kiri = loket di laptopmu (1884, supaya tidak bentrok dengan broker 1883 yang mungkin sudah ada),
+      # kanan = port di dalam kontainer. 127.0.0.1 = hanya laptop ini, bukan seluruh WiFi.
+      - "127.0.0.1:1884:1883"
+    # Image Mosquitto menyiapkan folder data dan log sebagai lemari. Di latihan ini keduanya cukup di memori (tmpfs):
+    # hilang saat kontainer dihapus, dan tidak meninggalkan lemari tanpa nama sesudah "docker compose down".
+    tmpfs:
+      - /mosquitto/data
+      - /mosquitto/log
+
+  # Layanan 2: pengirim. Image yang sama (sudah ada di laptop, tanpa unduhan lagi), tetapi yang dijalankan mosquitto_pub.
+  pengirim:
+    image: eclipse-mosquitto:2.1.2-alpine
+    # Alamat broker = NAMA LAYANAN "broker": di lorong (network) Compose, setiap layanan dikenal dengan namanya.
+    # Port 1883 = port di DALAM kontainer broker, bukan loket 1884 di laptop. $$ = tanda $ untuk sh, bukan untuk Compose.
+    command:
+      - sh
+      - -c
+      - |
+        n=0
+        while true; do
+          n=$$((n + 1))
+          mosquitto_pub -h broker -p 1883 -t latihan/sapa -m "halo dari kontainer pengirim, pesan ke-$$n"
+          echo "terkirim pesan ke-$$n"
+          sleep 2
+        done
+    # nyalakan broker lebih dulu (urutan menyala saja: belum menunggu broker "siap", itu dibahas di Konsep 8)
+    depends_on:
+      - broker
+    # sh sebagai proses pertama mengabaikan sinyal berhenti; init kecil ini meneruskannya, jadi "down" tidak menunggu 10 detik
+    init: true
+    tmpfs:
+      - /mosquitto/data
+      - /mosquitto/log

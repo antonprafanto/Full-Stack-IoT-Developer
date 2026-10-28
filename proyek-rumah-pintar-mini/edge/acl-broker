@@ -1,7 +1,8 @@
 # acl-broker - daftar izin broker Rumah Pintar Mini (Modul 21).
 # Mosquitto membaca berkas ini dari atas ke bawah. Baris berawalan # adalah catatan (# harus huruf pertama baris).
 # Akun yang tidak disebut di sini tidak boleh menulis atau membaca apa pun.
-# Setiap kali berkas ini diubah, RESTART broker (bukan reload).
+# Setiap kali berkas ini diubah, RESTART broker (bukan reload). Modul 26, broker di Docker Compose: docker compose restart
+# mosquitto (dari akar proyek untuk broker pusat, dari folder edge di Pi untuk broker gerbang).
 
 # 1) Setiap perangkat hanya boleh "bicara" di topiknya sendiri. Baris pattern berlaku untuk SEMUA akun;
 #    %u diganti nama pengguna yang sudah terbukti dengan sandi, yaitu device_id perangkat itu.
@@ -42,3 +43,13 @@ topic read rpm/#
 user pemantau
 topic read rpm/#
 topic read $SYS/#
+
+# 7) Jembatan gerbang Pi (Modul 26): berlaku di broker PUSAT (compose.cloud.yml), tempat jembatan masuk dengan akun ini.
+#    Jembatan meneruskan pesan semua perangkat ke pusat dan mengambil perintah untuk mereka. Pemeriksaan per perangkat
+#    (butir 1 dan 2) sudah dilakukan broker gerbang di Pi, yang memakai berkas yang sama tetapi tidak punya akun jembatan-pi.
+user jembatan-pi
+topic write rpm/+/telemetry
+topic write rpm/+/status
+topic write rpm/+/vitals
+topic write rpm/+/ack
+topic read rpm/+/cmd

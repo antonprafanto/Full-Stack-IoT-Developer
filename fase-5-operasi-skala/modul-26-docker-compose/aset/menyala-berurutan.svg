@@ -1,0 +1,182 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1268" viewBox="0 0 1200 1268" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="1268" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" xml:space="preserve">Menyala berurutan, bangkit sendiri</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" xml:space="preserve">Konsep 8 · <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5">depends_on</tspan> + <tspan font-style="italic">healthcheck</tspan> mengatur urutan <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5">up</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5">-d</tspan>; <tspan font-style="italic">restart policy</tspan> mengatur siapa yang bangkit lagi</text>
+<rect x="30.0" y="100.0" width="1140.0" height="554.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="54.0" y="132.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Garis waktu <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="15" fill="#1e2a4a" font-weight="800">docker</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="15" fill="#1e2a4a" font-weight="800">compose</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="15" fill="#1e2a4a" font-weight="800">up</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="15" fill="#1e2a4a" font-weight="800">-d</tspan> di lab penulis</text>
+<text x="54.0" y="154.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">lemari sudah berisi, image sudah ada · angka = ujung batang (detik di layar Compose, Pi 5) · awal batang disimpulkan dari <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568" font-weight="800">depends_on</tspan></text>
+<line x1="330.0" y1="182.0" x2="330.0" y2="534.0" stroke="#9aa3b0" stroke-width="1" stroke-linecap="round" />
+<line x1="394.2" y1="182.0" x2="394.2" y2="534.0" stroke="#d5dbe3" stroke-width="1" stroke-linecap="round" stroke-dasharray="3 4" />
+<line x1="458.3" y1="182.0" x2="458.3" y2="534.0" stroke="#d5dbe3" stroke-width="1" stroke-linecap="round" stroke-dasharray="3 4" />
+<line x1="522.5" y1="182.0" x2="522.5" y2="534.0" stroke="#d5dbe3" stroke-width="1" stroke-linecap="round" stroke-dasharray="3 4" />
+<line x1="586.7" y1="182.0" x2="586.7" y2="534.0" stroke="#d5dbe3" stroke-width="1" stroke-linecap="round" stroke-dasharray="3 4" />
+<line x1="650.8" y1="182.0" x2="650.8" y2="534.0" stroke="#9aa3b0" stroke-width="1" stroke-linecap="round" />
+<line x1="715.0" y1="182.0" x2="715.0" y2="534.0" stroke="#d5dbe3" stroke-width="1" stroke-linecap="round" stroke-dasharray="3 4" />
+<line x1="779.2" y1="182.0" x2="779.2" y2="534.0" stroke="#d5dbe3" stroke-width="1" stroke-linecap="round" stroke-dasharray="3 4" />
+<line x1="843.3" y1="182.0" x2="843.3" y2="534.0" stroke="#d5dbe3" stroke-width="1" stroke-linecap="round" stroke-dasharray="3 4" />
+<line x1="907.5" y1="182.0" x2="907.5" y2="534.0" stroke="#d5dbe3" stroke-width="1" stroke-linecap="round" stroke-dasharray="3 4" />
+<line x1="971.7" y1="182.0" x2="971.7" y2="534.0" stroke="#9aa3b0" stroke-width="1" stroke-linecap="round" />
+<line x1="1035.8" y1="182.0" x2="1035.8" y2="534.0" stroke="#d5dbe3" stroke-width="1" stroke-linecap="round" stroke-dasharray="3 4" />
+<line x1="1100.0" y1="182.0" x2="1100.0" y2="534.0" stroke="#d5dbe3" stroke-width="1" stroke-linecap="round" stroke-dasharray="3 4" />
+<text x="54.0" y="202.0" font-size="13" font-weight="800" fill="#336791" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">db</text>
+<text x="54.0" y="219.0" font-size="10.5" font-weight="600" fill="#4a5568" text-anchor="start" >langsung menyala</text>
+<rect x="336.4" y="194.0" width="285.5" height="20.0" rx="4" fill="#336791" />
+<line x1="623.0" y1="204.0" x2="1100.0" y2="204.0" stroke="#336791" stroke-width="3" stroke-linecap="round" />
+<rect x="630.0" y="184.0" width="100.3" height="16.0" rx="3" fill="#ffffff" />
+<text x="634.0" y="196.0" font-size="11.5" font-weight="800" fill="#336791" text-anchor="start" >Healthy 9,1 s</text>
+<text x="54.0" y="246.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">akun-broker</text>
+<text x="54.0" y="263.0" font-size="10.5" font-weight="600" fill="#4a5568" text-anchor="start" >langsung menyala</text>
+<rect x="336.4" y="238.0" width="96.2" height="20.0" rx="4" fill="#eef1f5" stroke="#9aa3b0" stroke-width="1.2" stroke-dasharray="4 3"/>
+<rect x="440.7" y="241.0" width="93.2" height="16.0" rx="3" fill="#ffffff" />
+<text x="444.7" y="253.0" font-size="11.5" font-weight="800" fill="#4a5568" text-anchor="start" >Exited 3,2 s</text>
+<text x="54.0" y="290.0" font-size="13" font-weight="800" fill="#0f8b8d" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">mosquitto</text>
+<text x="54.0" y="307.0" font-size="10.5" font-weight="600" fill="#4a5568" text-anchor="start" >tunggu: akun-broker selesai</text>
+<line x1="330.0" y1="292.0" x2="432.7" y2="292.0" stroke="#9aa3b0" stroke-width="1.6" stroke-linecap="round" stroke-dasharray="4 4" />
+<rect x="432.7" y="282.0" width="6.4" height="20.0" rx="4" fill="#0f8b8d" />
+<line x1="440.1" y1="292.0" x2="1100.0" y2="292.0" stroke="#0f8b8d" stroke-width="3" stroke-linecap="round" />
+<rect x="447.1" y="272.0" width="100.3" height="16.0" rx="3" fill="#ffffff" />
+<text x="451.1" y="284.0" font-size="11.5" font-weight="800" fill="#0f8b8d" text-anchor="start" >Started 3,4 s</text>
+<text x="54.0" y="334.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">migrasi</text>
+<text x="54.0" y="351.0" font-size="10.5" font-weight="600" fill="#4a5568" text-anchor="start" >tunggu: db sehat</text>
+<line x1="330.0" y1="336.0" x2="622.0" y2="336.0" stroke="#9aa3b0" stroke-width="1.6" stroke-linecap="round" stroke-dasharray="4 4" />
+<rect x="622.0" y="326.0" width="32.1" height="20.0" rx="4" fill="#eef1f5" stroke="#9aa3b0" stroke-width="1.2" stroke-dasharray="4 3"/>
+<rect x="662.0" y="329.0" width="100.3" height="16.0" rx="3" fill="#ffffff" />
+<text x="666.0" y="341.0" font-size="11.5" font-weight="800" fill="#4a5568" text-anchor="start" >Exited 10,1 s</text>
+<text x="54.0" y="378.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">akun-grafana</text>
+<text x="54.0" y="395.0" font-size="10.5" font-weight="600" fill="#4a5568" text-anchor="start" >tunggu: migrasi selesai</text>
+<line x1="330.0" y1="380.0" x2="654.0" y2="380.0" stroke="#9aa3b0" stroke-width="1.6" stroke-linecap="round" stroke-dasharray="4 4" />
+<rect x="654.0" y="370.0" width="38.5" height="20.0" rx="4" fill="#eef1f5" stroke="#9aa3b0" stroke-width="1.2" stroke-dasharray="4 3"/>
+<rect x="700.5" y="373.0" width="100.3" height="16.0" rx="3" fill="#ffffff" />
+<text x="704.5" y="385.0" font-size="11.5" font-weight="800" fill="#4a5568" text-anchor="start" >Exited 11,3 s</text>
+<text x="54.0" y="422.0" font-size="13" font-weight="800" fill="#6f42c1" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">grafana</text>
+<text x="54.0" y="439.0" font-size="10.5" font-weight="600" fill="#4a5568" text-anchor="start" >tunggu: akun-grafana selesai</text>
+<line x1="330.0" y1="424.0" x2="692.5" y2="424.0" stroke="#9aa3b0" stroke-width="1.6" stroke-linecap="round" stroke-dasharray="4 4" />
+<rect x="692.5" y="414.0" width="9.6" height="20.0" rx="4" fill="#6f42c1" />
+<line x1="703.2" y1="424.0" x2="1100.0" y2="424.0" stroke="#6f42c1" stroke-width="3" stroke-linecap="round" />
+<rect x="710.2" y="404.0" width="107.4" height="16.0" rx="3" fill="#ffffff" />
+<text x="714.2" y="416.0" font-size="11.5" font-weight="800" fill="#6f42c1" text-anchor="start" >Started 11,6 s</text>
+<text x="54.0" y="466.0" font-size="13" font-weight="800" fill="#1a7f37" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">backend</text>
+<text x="54.0" y="483.0" font-size="10.5" font-weight="600" fill="#4a5568" text-anchor="start" >tunggu: db sehat, migrasi selesai, mosquitto menyala</text>
+<line x1="330.0" y1="468.0" x2="654.0" y2="468.0" stroke="#9aa3b0" stroke-width="1.6" stroke-linecap="round" stroke-dasharray="4 4" />
+<rect x="654.0" y="458.0" width="333.7" height="20.0" rx="4" fill="#1a7f37" />
+<line x1="988.7" y1="468.0" x2="1100.0" y2="468.0" stroke="#1a7f37" stroke-width="3" stroke-linecap="round" />
+<rect x="995.7" y="448.0" width="107.4" height="16.0" rx="3" fill="#ffffff" />
+<text x="999.7" y="460.0" font-size="11.5" font-weight="800" fill="#1a7f37" text-anchor="start" >Healthy 20,5 s</text>
+<text x="54.0" y="510.0" font-size="13" font-weight="800" fill="#6f42c1" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">web</text>
+<text x="54.0" y="527.0" font-size="10.5" font-weight="600" fill="#4a5568" text-anchor="start" >tunggu: backend sehat</text>
+<line x1="330.0" y1="512.0" x2="987.7" y2="512.0" stroke="#9aa3b0" stroke-width="1.6" stroke-linecap="round" stroke-dasharray="4 4" />
+<rect x="987.7" y="502.0" width="19.3" height="20.0" rx="4" fill="#6f42c1" />
+<line x1="1008.0" y1="512.0" x2="1100.0" y2="512.0" stroke="#6f42c1" stroke-width="3" stroke-linecap="round" />
+<rect x="1015.0" y="492.0" width="107.4" height="16.0" rx="3" fill="#ffffff" />
+<text x="1019.0" y="504.0" font-size="11.5" font-weight="800" fill="#6f42c1" text-anchor="start" >Started 21,1 s</text>
+<text x="330.0" y="552.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="middle" >0 s</text>
+<text x="394.2" y="552.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="middle" >2 s</text>
+<text x="458.3" y="552.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="middle" >4 s</text>
+<text x="522.5" y="552.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="middle" >6 s</text>
+<text x="586.7" y="552.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="middle" >8 s</text>
+<text x="650.8" y="552.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="middle" >10 s</text>
+<text x="715.0" y="552.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="middle" >12 s</text>
+<text x="779.2" y="552.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="middle" >14 s</text>
+<text x="843.3" y="552.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="middle" >16 s</text>
+<text x="907.5" y="552.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="middle" >18 s</text>
+<text x="971.7" y="552.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="middle" >20 s</text>
+<text x="1035.8" y="552.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="middle" >22 s</text>
+<text x="1100.0" y="552.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="middle" >24 s</text>
+<text x="54.0" y="577.0" font-size="11.5" font-weight="800" fill="#4a5568" text-anchor="start" >cara membaca:</text>
+<rect x="148.0" y="567.0" width="24.0" height="11.0" rx="3" fill="#9aa3b0" />
+<text x="180.0" y="577.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">menyala sampai Started / Healthy</text>
+<line x1="394.0" y1="572.5" x2="418.0" y2="572.5" stroke="#9aa3b0" stroke-width="3" stroke-linecap="round" />
+<text x="426.0" y="577.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">tetap berjalan</text>
+<rect x="536.5" y="567.0" width="24.0" height="11.0" rx="3" fill="#eef1f5" stroke="#9aa3b0" stroke-width="1.2" stroke-dasharray="4 3"/>
+<text x="568.5" y="577.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">sekali jalan, lalu Exited</text>
+<line x1="742.2" y1="572.5" x2="766.2" y2="572.5" stroke="#9aa3b0" stroke-width="1.6" stroke-linecap="round" stroke-dasharray="4 4" />
+<text x="774.2" y="577.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">menunggu syarat <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#4a5568" font-weight="800">depends_on</tspan></text>
+<text x="54.0" y="600.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">docker</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">compose</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">up</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">-d</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">--wait</tspan> menunggu semua sehat (Grafana juga) sebelum kembali ke <tspan font-style="italic">prompt</tspan>: lab 25,6 s, Grafana sehat paling akhir (23,1 s).</text>
+<text x="54.0" y="620.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">Tanpa syarat <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">service_healthy</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">migrasi</tspan> menyala 0,3 s sesudah <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">db</tspan> dan gagal: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">ECONNREFUSED</tspan>, exit 1 (uji riset penulis).</text>
+<rect x="30.0" y="672.0" width="370.0" height="120.0" rx="12" fill="#ffffff" stroke="#a13a6b" stroke-width="1.6" />
+<text x="48.0" y="700.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-style="italic">Running</tspan> belum tentu siap</text>
+<text x="48.0" y="724.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">db</tspan>: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">pg_isready</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">-h</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">127.0.0.1</tspan> tiap 5 s</text>
+<text x="48.0" y="742.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">backend</tspan>: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">HEAD</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">/health</tspan> lewat <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">node</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">-e</tspan></text>
+<text x="48.0" y="760.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">grafana</tspan>: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">curl</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">-fsS</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">…/api/health</tspan></text>
+<text x="48.0" y="778.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">mosquitto</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">web</tspan>: tanpa healthcheck</text>
+<rect x="415.0" y="672.0" width="370.0" height="120.0" rx="12" fill="#ffffff" stroke="#e63946" stroke-width="1.6" />
+<text x="433.0" y="700.0" font-size="13.5" font-weight="800" fill="#e63946" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" fill="#e63946" font-weight="800">unhealthy</tspan> TIDAK me-restart</text>
+<text x="433.0" y="724.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">healthcheck hanya untuk urutan, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">ps</tspan>,</text>
+<text x="433.0" y="742.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">dan <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">--wait</tspan>. <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">/health</tspan> tetap 200 walau</text>
+<text x="433.0" y="760.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">broker atau DB putus: pemantau</text>
+<text x="433.0" y="778.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">sungguhan = Modul 30</text>
+<rect x="800.0" y="672.0" width="370.0" height="120.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="818.0" y="700.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Sekali jalan, aman diulang</text>
+<text x="818.0" y="724.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">up</tspan> berikutnya: "berkas sandi broker sudah</text>
+<text x="818.0" y="742.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">ada: dilewati", "0 migrasi baru diterapkan,</text>
+<text x="818.0" y="760.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">8 sudah ada sebelumnya.", "akun grafana_baca</text>
+<text x="818.0" y="778.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">sudah ada: dilewati"</text>
+<rect x="30.0" y="812.0" width="1140.0" height="414.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="54.0" y="842.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="start" >Siapa yang hidup lagi sendiri?</text>
+<text x="320.0" y="842.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >Silabus: "mematikan satu kontainer dan melihatnya hidup lagi sendiri" (Praktik 8)</text>
+<text x="54.0" y="866.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">kejadian</text>
+<text x="420.0" y="866.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">restart: "no"</tspan></text>
+<text x="420.0" y="882.0" font-size="10.5" font-weight="600" fill="#4a5568" text-anchor="start" >sekali jalan</text>
+<text x="720.0" y="866.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">always</tspan></text>
+<text x="720.0" y="882.0" font-size="10.5" font-weight="600" fill="#4a5568" text-anchor="start" >pembanding</text>
+<text x="850.0" y="866.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">bukti</text>
+<rect x="546.0" y="850.0" width="160.0" height="320.0" rx="6" fill="#fcf2f6" />
+<text x="560.0" y="866.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#a13a6b" font-weight="800">unless-stopped</tspan></text>
+<text x="560.0" y="882.0" font-size="10.5" font-weight="600" fill="#4a5568" text-anchor="start" >5 layanan Modul 26</text>
+<line x1="54.0" y1="894.0" x2="1146.0" y2="894.0" stroke="#e0dcd2" stroke-width="1" stroke-linecap="round" />
+<text x="54.0" y="914.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve">berhenti sendiri dari dalam:</text>
+<text x="54.0" y="931.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">docker compose exec backend kill 1</tspan></text>
+<text x="420.0" y="923.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" >– tidak</text>
+<path d="M561 918 L566 924 L576 912" fill="none" stroke="#2a9d5c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="582.0" y="923.0" font-size="12" font-weight="800" fill="#2a9d5c" text-anchor="start" >hidup lagi</text>
+<path d="M721 918 L726 924 L736 912" fill="none" stroke="#2a9d5c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="742.0" y="923.0" font-size="12" font-weight="800" fill="#2a9d5c" text-anchor="start" >hidup lagi</text>
+<text x="850.0" y="914.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve">direkam (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">unless-stopped</tspan>):</text>
+<text x="850.0" y="931.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Up 2 seconds, RestartCount 1</text>
+<line x1="54.0" y1="940.0" x2="1146.0" y2="940.0" stroke="#e0dcd2" stroke-width="1" stroke-linecap="round" />
+<text x="54.0" y="960.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-style="italic">crash</tspan>: program keluar dengan</text>
+<text x="54.0" y="977.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve">kode bukan 0</text>
+<text x="420.0" y="969.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" >– tidak</text>
+<path d="M561 964 L566 970 L576 958" fill="none" stroke="#2a9d5c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="582.0" y="969.0" font-size="12" font-weight="800" fill="#2a9d5c" text-anchor="start" >hidup lagi*</text>
+<path d="M721 964 L726 970 L736 958" fill="none" stroke="#2a9d5c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="742.0" y="969.0" font-size="12" font-weight="800" fill="#2a9d5c" text-anchor="start" >hidup lagi*</text>
+<rect x="850.0" y="952.0" width="163.2" height="22.0" rx="11.0" fill="#eef1f5" stroke="#9aa3b0" stroke-width="1.4" />
+<text x="931.6" y="967.0" font-size="11" font-weight="800" fill="#4a5568" text-anchor="middle" xml:space="preserve">dokumen + kode Docker</text>
+<line x1="54.0" y1="986.0" x2="1146.0" y2="986.0" stroke="#e0dcd2" stroke-width="1" stroke-linecap="round" />
+<text x="54.0" y="1015.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">docker compose stop backend</tspan></text>
+<text x="420.0" y="1015.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" >– tidak</text>
+<text x="560.0" y="1015.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" >– tidak</text>
+<text x="720.0" y="1015.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" >– tidak</text>
+<text x="850.0" y="1006.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve">direkam (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">unless-stopped</tspan>):</text>
+<text x="850.0" y="1023.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Exited (0), tunggu <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">start</tspan></text>
+<line x1="54.0" y1="1032.0" x2="1146.0" y2="1032.0" stroke="#e0dcd2" stroke-width="1" stroke-linecap="round" />
+<text x="54.0" y="1061.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">docker compose kill backend</tspan></text>
+<text x="420.0" y="1061.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" >– tidak</text>
+<text x="560.0" y="1061.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" >– tidak</text>
+<text x="720.0" y="1061.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" >– tidak</text>
+<text x="850.0" y="1060.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve">uji riset (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">docker</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">kill</tspan>)</text>
+<line x1="54.0" y1="1078.0" x2="1146.0" y2="1078.0" stroke="#e0dcd2" stroke-width="1" stroke-linecap="round" />
+<text x="54.0" y="1098.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve">reboot / Docker dinyalakan ulang,</text>
+<text x="54.0" y="1115.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve">layanan sedang jalan</text>
+<text x="420.0" y="1107.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" >– tidak</text>
+<path d="M561 1102 L566 1108 L576 1096" fill="none" stroke="#2a9d5c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="582.0" y="1107.0" font-size="12" font-weight="800" fill="#2a9d5c" text-anchor="start" >hidup lagi</text>
+<path d="M721 1102 L726 1108 L736 1096" fill="none" stroke="#2a9d5c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="742.0" y="1107.0" font-size="12" font-weight="800" fill="#2a9d5c" text-anchor="start" >hidup lagi</text>
+<rect x="850.0" y="1090.0" width="170.0" height="22.0" rx="11.0" fill="#eef1f5" stroke="#9aa3b0" stroke-width="1.4" />
+<text x="935.0" y="1105.0" font-size="11" font-weight="800" fill="#4a5568" text-anchor="middle" xml:space="preserve">dokumen, tidak direkam</text>
+<line x1="54.0" y1="1124.0" x2="1146.0" y2="1124.0" stroke="#e0dcd2" stroke-width="1" stroke-linecap="round" />
+<text x="54.0" y="1144.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve">reboot, layanan sebelumnya</text>
+<text x="54.0" y="1161.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve">di-<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">stop</tspan></text>
+<text x="420.0" y="1153.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" >– tidak</text>
+<text x="560.0" y="1153.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" >– tidak</text>
+<path d="M721 1148 L726 1154 L736 1142" fill="none" stroke="#2a9d5c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="742.0" y="1153.0" font-size="12" font-weight="800" fill="#2a9d5c" text-anchor="start" >hidup lagi</text>
+<rect x="850.0" y="1136.0" width="170.0" height="22.0" rx="11.0" fill="#eef1f5" stroke="#9aa3b0" stroke-width="1.4" />
+<text x="935.0" y="1151.0" font-size="11" font-weight="800" fill="#4a5568" text-anchor="middle" xml:space="preserve">dokumen, tidak direkam</text>
+<line x1="54.0" y1="1170.0" x2="1146.0" y2="1170.0" stroke="#e0dcd2" stroke-width="1" stroke-linecap="round" />
+<text x="54.0" y="1192.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">* Docker mencoba lagi dengan jeda yang makin panjang (sampai 1 menit). <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#4a5568" font-weight="800">kill</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#4a5568" font-weight="800">1</tspan> dari dalam meniru program yang berhenti sendiri, bukan <tspan font-style="italic">crash</tspan>.</text>
+<text x="54.0" y="1210.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">Sesudah <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#4a5568" font-weight="800">docker</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#4a5568" font-weight="800">compose</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#4a5568" font-weight="800">down</tspan> tidak ada yang hidup lagi (kontainernya sudah dihapus). Laptop tidur = semuanya tidur; menyala 24 jam = Modul 27.</text>
+<text x="1178.0" y="1254.0" font-size="11" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

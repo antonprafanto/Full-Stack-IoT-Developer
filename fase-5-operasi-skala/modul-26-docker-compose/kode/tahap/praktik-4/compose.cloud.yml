@@ -1,0 +1,60 @@
+# compose.cloud.yml - TAHAP Praktik 4 Modul 26: hanya database dan Grafana, memakai dua lemari LAMA (Modul 17 dan 25).
+# Isinya ditulis di akar proyek (bukan di folder tahap ini). Berkas akhir Modul 26: ../../compose.cloud.yml.
+# Jalankan dari akar proyek:  docker compose up -d   (.env berisi COMPOSE_FILE=compose.cloud.yml dan sandi postgres LAMA)
+# Sebelumnya kontainer lama dihentikan dan dihapus (lemarinya tetap): docker stop + docker rm rumahpintar-grafana rumahpintar-db
+name: rumahpintar
+
+services:
+  # Database TimescaleDB (Modul 17-18), lemari rumahpintar-data yang sama sejak Modul 17.
+  db:
+    image: timescale/timescaledb:2.30.2-pg17
+    environment:
+      # Formulir ini hanya dibaca saat lemari masih KOSONG. Lemari lama sudah berisi sandi: tulis sandi LAMA di .env.
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?isi POSTGRES_PASSWORD di .env}
+      POSTGRES_DB: rumahpintar
+      TIMESCALEDB_TELEMETRY: "off"
+    volumes:
+      - data-db:/var/lib/postgresql/data
+    ports:
+      # 127.0.0.1 = hanya laptop ini (DBeaver, psql, npm run dev). Tanpa 127.0.0.1, Docker membuka loket ke seluruh WiFi.
+      - "127.0.0.1:${PORT_DB:-5432}:5432"
+    networks:
+      default:
+        # nama lama kontainer Modul 17-25: data source Grafana buatan layar (host rumahpintar-db:5432) tetap tersambung
+        aliases:
+          - rumahpintar-db
+    healthcheck:
+      # "running" belum tentu "siap menerima tamu"; -h 127.0.0.1 supaya tidak lolos terlalu dini saat lemari baru diisi
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U postgres -d rumahpintar"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+      start_period: 60s
+    restart: unless-stopped
+
+  # Grafana 13.2.4 (Modul 25) dengan setelan Modul 25 persis dan lemari rumahpintar-grafana-data yang sama: dashboard,
+  # aturan, contact point, dan akun admin lamamu ikut. Dirakit dari berkas (provisioning) baru di Praktik 7.
+  grafana:
+    image: grafana/grafana:13.2.4
+    environment:
+      GF_PLUGINS_PREINSTALL_DISABLED: "true"
+      GF_ANALYTICS_REPORTING_ENABLED: "false"
+      GF_SNAPSHOTS_EXTERNAL_ENABLED: "false"
+      GF_PUBLIC_DASHBOARDS_ENABLED: "false"
+    volumes:
+      - data-grafana:/var/lib/grafana
+    ports:
+      - "127.0.0.1:${PORT_GRAFANA:-3000}:3000"
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  # Lemari riwayat milik KAMU ("external"): Compose tidak pernah membuat atau menghapusnya, juga tidak dengan "down -v".
+  data-db:
+    external: true
+    name: ${LEMARI_DB:-rumahpintar-data}
+  data-grafana:
+    external: true
+    name: ${LEMARI_GRAFANA:-rumahpintar-grafana-data}

@@ -1,0 +1,17 @@
+# rumahpintar.yaml - penyedia dashboard (Modul 26): Grafana memasang setiap berkas .json di /etc/grafana/dashboards
+# (= folder grafana/dashboards di repo, dipasang compose.cloud.yml) ke folder "Rumah Pintar Mini".
+apiVersion: 1
+providers:
+  - name: rumahpintar
+    folder: Rumah Pintar Mini
+    type: file
+    # dashboard dari berkas tidak bisa dihapus lewat layar
+    disableDeletion: true
+    # false = tombol Save di layar ditolak ("This dashboard cannot be saved from the Grafana UI because it has been
+    # provisioned from another source"). Mengubah dashboard: ubah di layar, Export ->
+    # Export as JSON (Classic), timpa berkas di grafana/dashboards, lalu docker compose restart grafana.
+    allowUiUpdates: false
+    # berkas dari folder yang dipasang Docker diperiksa ulang setiap 30 detik (lebih dari 10, anjuran dokumen Grafana)
+    updateIntervalSeconds: 30
+    options:
+      path: /etc/grafana/dashboards

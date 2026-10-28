@@ -1,0 +1,23 @@
+# rumahpintar.yaml - data source PostgreSQL Rumah Pintar Mini sebagai berkas provisioning (Modul 26). Isiannya sama dengan
+# layar Modul 25 (Connections -> Data sources), ditambah uid TETAP rumahpintar-db: dashboard dan aturan alert di repo
+# menunjuk uid ini, jadi keduanya langsung tersambung di Grafana mana pun yang dinyalakan dari compose.cloud.yml.
+# Sandi grafana_baca TIDAK ditulis di sini: Grafana mengambilnya dari variabel GRAFANA_BACA_SANDI (dari .env lewat
+# compose.cloud.yml). Ditulis $GRAFANA_BACA_SANDI, bukan ${...}: bentuk berkurung bisa terbaca dua kali bila sandinya memuat $.
+apiVersion: 1
+datasources:
+  - name: rumahpintar-db
+    uid: rumahpintar-db
+    type: grafana-postgresql-datasource
+    # db = nama layanan database di compose.cloud.yml (lorong Compose), loket 5432 di dalam lorong
+    url: db:5432
+    user: grafana_baca
+    jsonData:
+      database: rumahpintar
+      sslmode: disable
+      timescaledb: true
+      # akun grafana_baca boleh paling banyak 5 sambungan: Grafana memakai 4, satu tersisa untuk psql (Modul 25)
+      maxOpenConns: 4
+    secureJsonData:
+      password: $GRAFANA_BACA_SANDI
+    # terkunci di layar: perubahan lewat berkas ini, lalu docker compose restart grafana
+    editable: false

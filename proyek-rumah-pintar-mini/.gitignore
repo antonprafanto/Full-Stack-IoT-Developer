@@ -2,3 +2,12 @@
 kunci.h
 # Modul 21: berkas sandi broker (sidik jari akun MQTT): tidak pernah ikut ke GitHub. Daftar izin edge/acl-broker boleh ikut.
 edge/sandi-broker
+# Modul 26: setelan Docker Compose berisi SEMUA rahasia rumahmu (.env di akar untuk compose.cloud.yml, edge/.env untuk
+# gerbang Pi; baris ini berlaku di folder mana pun) beserta salinannya. Hanya contohnya (.env.example) yang boleh ikut.
+.env
+.env.*
+!.env.example
+# Modul 26: salinan jembatan gerbang -> pusat (edge/jembatan/pusat.conf) berisi sandi akun jembatan-pi
+edge/jembatan/*.conf
+# Modul 26: cadangan database dan lemari Grafana (pg_dump, tar): besar dan berisi data pribadi
+backup/

@@ -1,0 +1,610 @@
+diff --git a/backend/.dockerignore b/backend/.dockerignore
+new file mode 100644
+index 0000000..8281563
+--- /dev/null
++++ b/backend/.dockerignore
+@@ -0,0 +1,17 @@
++# .dockerignore - berkas yang TIDAK ikut dikirim ke docker build (Modul 26). Image yang dibagikan (GHCR publik) bisa dibongkar
++# siapa pun, lapis demi lapis: rahasia tidak boleh masuk, bahkan ke tahap yang nanti dibuang.
++# Library hasil npm install di laptop: tidak pernah disalin ke image (Dockerfile memasang sendiri: npm ci --omit=dev);
++# dikecualikan supaya konteks build tetap kecil.
++node_modules
++# Rahasia mode kembang (.env) dan salinannya; hanya contohnya (.env.example) yang boleh.
++.env
++.env.*
++!.env.example
++# Fotokopi database, koleksi Bruno, uji beban, dan berkas uji curl Modul 20 (berisi sandi dan cookie).
++backup
++bruno
++uji
++login*.json
++kue*.txt
++# Berkas uji Vitest tidak dipakai server yang berjalan.
++src/**/*.test.ts
+diff --git a/backend/.env.example b/backend/.env.example
+index 5918fec..386fc8c 100644
+--- a/backend/.env.example
++++ b/backend/.env.example
+@@ -1,12 +1,18 @@
+ # Salin file ini menjadi .env, lalu sesuaikan isinya. File .env tidak ikut Git (lihat .gitignore).
+-MQTT_URL=mqtt://192.168.1.37:1883
+-# Modul 21: akun broker milik backend (dibuat di mesin broker dengan mosquitto_passwd). Buat sandinya dengan perintah yang
+-# sama dengan JWT_SECRET di bawah. Jangan menaruh nama pengguna atau sandi di MQTT_URL.
++# Modul 26: berkas ini hanya untuk MODE KEMBANG (npm run dev di laptop, saat mengubah kode backend). Di MODE RUMAH (Docker
++# Compose, layanan backend di compose.cloud.yml) backend TIDAK membaca berkas ini: setelannya datang dari .env di akar proyek.
++# Satu backend saja yang boleh menyala: sebelum npm run dev, hentikan yang di kontainer (docker compose stop backend web).
++# Modul 26: broker PUSAT di laptop ini (layanan mosquitto Docker Compose, loket 1883). Data Node 1 sampai ke sini lewat
++# jembatan gerbang Pi. Sebelum Modul 26: alamat IP Pi, misalnya mqtt://192.168.1.37:1883.
++MQTT_URL=mqtt://127.0.0.1:1883
++# Modul 21: akun broker milik backend. Modul 26: akun "backend" di broker pusat dibuat layanan akun-broker dari MQTT_PASSWORD
++# di .env akar, jadi sandi di bawah SAMA dengan MQTT_PASSWORD di .env akar. Jangan menaruh nama pengguna atau sandi di MQTT_URL.
+ MQTT_USERNAME=backend
+ MQTT_PASSWORD=
+ PORT=8080
+ HOST=127.0.0.1
+-# database PostgreSQL di kontainer Docker (Modul 17); ganti ganti-sandi-ini dengan sandi pilihanmu
++# database PostgreSQL di kontainer Docker (Modul 17; sejak Modul 26 layanan db di compose.cloud.yml, loket 127.0.0.1:5432 yang
++# sama). Ganti ganti-sandi-ini dengan sandi postgres-mu (= POSTGRES_PASSWORD di .env akar).
+ DATABASE_URL=postgres://postgres:ganti-sandi-ini@127.0.0.1:5432/rumahpintar
+ # Telegram (Modul 19, tidak wajib): token dari @BotFather dan chat_id-mu (balasan /start). Kosong = notifikasi mati.
+ TELEGRAM_BOT_TOKEN=
+diff --git a/backend/Dockerfile b/backend/Dockerfile
+new file mode 100644
+index 0000000..e995e95
+--- /dev/null
++++ b/backend/Dockerfile
+@@ -0,0 +1,35 @@
++# Dockerfile - cetakan (image) backend Rumah Pintar Mini 1.3.0 (Modul 26). Dua tahap ("multi-stage"):
++#   tahap "paket": memasang library npm persis menurut package-lock.json, TANPA alat pengembang (TypeScript, Vitest, Vite)
++#   tahap akhir  : Node.js 24 + library dari tahap "paket" + kode src/ dan migrasi/, berjalan sebagai pengguna "node" (bukan root)
++# Tidak ada tahap kompilasi: Node 24 menjalankan berkas .ts langsung (type stripping, Modul 16).
++# Dibangun dari folder proyek dengan: docker compose build backend   (atau: docker build -t rumah-pintar-mini-backend:1.3.0 ./backend)
++
++# Tag persis, bukan "latest" atau "24-alpine": cetakan yang sama hari ini dan bulan depan. Alpine = image Node terkecil;
++# bcrypt membawa versi siap pakai untuk Alpine (musl), jadi tidak perlu kompiler.
++FROM node:24.22.1-alpine3.24 AS paket
++WORKDIR /app
++# package*.json disalin LEBIH DULU daripada kode: selama daftar library tidak berubah, lapisan "npm ci" diambil dari cache
++# dan build ulang sesudah mengubah kode hanya beberapa detik.
++COPY package.json package-lock.json ./
++# --omit=dev: alat pengembang tidak ikut. Sejak 1.3.0, pino-pretty ada di "dependencies" karena dipakai saat server berjalan
++# (tanpa itu server di kontainer mogok: unable to determine transport target for "pino-pretty"). Cache npm tidak perlu
++# dibersihkan: tahap ini dibuang, hanya folder node_modules yang dibawa ke tahap akhir.
++RUN npm ci --omit=dev
++
++FROM node:24.22.1-alpine3.24
++# Menautkan image di GHCR ke repositori GitHub-mu (Modul 26 Praktik 10). Ganti <akun> dengan nama akun GitHub-mu (huruf
++# kecil) dan rumah-pintar-mini dengan nama repositorimu bila berbeda. Tanpa label ini, paket di GHCR tidak tertaut ke repo.
++LABEL org.opencontainers.image.source="https://github.com/<akun>/rumah-pintar-mini"
++ENV NODE_ENV=production
++WORKDIR /app
++COPY --from=paket /app/node_modules ./node_modules
++COPY package.json ./
++COPY migrasi ./migrasi
++COPY src ./src
++# Pengguna "node" (uid 1000) sudah tersedia di image node. Server tidak butuh hak root: kalau ada celah, kerusakannya lebih kecil.
++USER node
++# Hanya catatan "server ini mendengar di 8080 di dalam kontainer". Loket di laptop diatur compose.cloud.yml (ports).
++EXPOSE 8080
++# Bentuk daftar (exec), bukan "npm start": sinyal berhenti dari Docker (SIGTERM) langsung sampai ke Node, jadi backend
++# berhenti dengan rapi. Tanpa --env-file: di kontainer, setelan datang dari Docker Compose (environment), bukan dari .env.
++CMD ["node", "src/server.ts"]
+diff --git a/backend/README.md b/backend/README.md
+index 5863f39..f0e1aef 100644
+--- a/backend/README.md
++++ b/backend/README.md
+@@ -2,34 +2,62 @@
+ 
+ 🌐 **Bahasa Indonesia** · [English](../../en/mini-smart-home/backend/README.md)
+ 
+-Backend v1.2 proyek Rumah Pintar Mini: server Node.js 24 dengan TypeScript ringan yang mendengarkan semua pesan MQTT `rpm/#`, memeriksa setiap pesan dengan kontrak data 1.4 (skema Zod), menyimpan keadaan terakhir setiap perangkat di memori, mengarsipkan semua pesan ke database PostgreSQL dengan tambahan TimescaleDB (lewat Docker), dan menyediakan API berdokumentasi. Riwayat bacaan bisa diminta mentah atau sudah diringkas per 15 menit, per jam, atau per hari. Sejak Modul 19, bacaan juga mengalir *live* lewat Socket.IO, semua perintah lewat satu pintu (dengan keadaan yang diinginkan dan yang dilaporkan), aturan otomatis dan jadwal disimpan di database dan bisa diubah lewat API tanpa memulai ulang server, setiap kejadian penting dicatat, dan peringatan dikirim lewat Telegram. Sejak Modul 20, API dan Socket.IO **berkunci untuk manusia**: tamu harus *login* dulu, akun `viewer` hanya boleh melihat, percobaan *login* dibatasi, dan halaman web lain tidak bisa menyuruh server atas nama pengguna. Sejak Modul 21, backend juga **berkunci untuk perangkat**: hanya perangkat yang didaftarkan admin (dengan kunci per perangkat) yang datanya diproses, pesan dari perangkat yang belum terdaftar atau kuncinya dicabut diabaikan, dan backend sendiri masuk ke broker dengan akunnya sendiri. 🎉 **Checkpoint Fase 3: rumah berkunci untuk manusia dan perangkat.**
++Backend v1.3 proyek Rumah Pintar Mini: server Node.js 24 dengan TypeScript ringan yang mendengarkan semua pesan MQTT `rpm/#`, memeriksa setiap pesan dengan kontrak data 1.4 (skema Zod), menyimpan keadaan terakhir setiap perangkat di memori, mengarsipkan semua pesan ke database PostgreSQL dengan tambahan TimescaleDB (lewat Docker), dan menyediakan API berdokumentasi. Riwayat bacaan bisa diminta mentah atau sudah diringkas per 15 menit, per jam, atau per hari. Sejak Modul 19, bacaan juga mengalir *live* lewat Socket.IO, semua perintah lewat satu pintu (dengan keadaan yang diinginkan dan yang dilaporkan), aturan otomatis dan jadwal disimpan di database dan bisa diubah lewat API tanpa memulai ulang server, setiap kejadian penting dicatat, dan peringatan dikirim lewat Telegram. Sejak Modul 20, API dan Socket.IO **berkunci untuk manusia**: tamu harus *login* dulu, akun `viewer` hanya boleh melihat, percobaan *login* dibatasi, dan halaman web lain tidak bisa menyuruh server atas nama pengguna. Sejak Modul 21, backend juga **berkunci untuk perangkat**: hanya perangkat yang didaftarkan admin (dengan kunci per perangkat) yang datanya diproses, pesan dari perangkat yang belum terdaftar atau kuncinya dicabut diabaikan, dan backend sendiri masuk ke broker dengan akunnya sendiri. 🎉 **Checkpoint Fase 3: rumah berkunci untuk manusia dan perangkat.**
+ 
+ **v1.1 (Modul 24)** menambah tiga hal kecil yang dibutuhkan dashboard v1.0: aturan **di bawah ambang** (misalnya siram kalau tanah di bawah 30 %), aturan ambang yang **mengirim perintah sekali** (misalnya pompa 5 detik), dan **hapus aturan** (`DELETE /rules/:id`). Tanpa migrasi database dan tanpa perubahan kontrak data (tetap 1.4); rinciannya di [Catatan versi 1.1](#catatan-versi-11).
+ 
+ **v1.2 (Modul 25)** menambah dua hal untuk peta perangkat dan laporan harian: `GET /devices` kini membawa **titik peta** setiap perangkat (`lat`, `lng`), dan admin memindahkannya lewat `PUT /devices/:id/lokasi`; backend juga mengirim **laporan harian CSV** lewat bot Telegram setiap pagi (bawaan 07.00 WIB, setelan `LAPORAN_JADWAL`), dan `POST /laporan/kirim` mengirimnya sekarang juga. Tanpa migrasi database, tanpa paket npm baru, kontrak data tetap 1.4; rinciannya di [Peta dan laporan harian](#peta-dan-laporan-harian-modul-25) dan [Catatan versi 1.2](#catatan-versi-12).
+ 
+-## Menjalankan
++**v1.3 (Modul 26)** membuat backend bisa berjalan sebagai **kontainer Docker** di `compose.cloud.yml` (akar proyek), bersama database, broker pusat, dashboard, dan Grafana: satu perintah `docker compose up -d` menyalakan semuanya, dan backend yang berhenti sendiri dinyalakan lagi oleh Docker. Isinya kecil: `pino-pretty` pindah ke `dependencies` (dipakai saat server berjalan), skrip npm tidak lagi mogok bila `.env` tidak ada, ketukan `/health` yang berhasil tidak lagi memenuhi log, plus `Dockerfile` dan `.dockerignore`. Tanpa migrasi database, tanpa paket npm baru, kontrak data tetap 1.4; rinciannya di [Catatan versi 1.3](#catatan-versi-13).
+ 
+-1. Pasang Node.js 24 LTS dan Docker Desktop.
+-2. Jalankan database, cukup sekali (ganti `ganti-sandi-ini` dengan sandimu; pakai huruf, angka, dan tanda minus saja):
++Ada dua cara menjalankan backend, dan **hanya satu yang boleh menyala** pada satu waktu (dua backend dengan token Telegram yang sama saling berebut, `409 Conflict`; dua backend juga berebut loket 8080):
+ 
+-   ```text
+-   docker run -d --name rumahpintar-db -p 127.0.0.1:5432:5432 -e POSTGRES_PASSWORD=ganti-sandi-ini -e POSTGRES_DB=rumahpintar -e TIMESCALEDB_TELEMETRY=off -v rumahpintar-data:/var/lib/postgresql/data --restart unless-stopped timescale/timescaledb:2.30.2-pg17
+-   ```
++| Cara | Kapan | Setelannya dari |
++| :--- | :--- | :--- |
++| **Mode rumah** (Docker Compose) | sehari-hari: rumah menyala, dashboard di `http://localhost` | `.env` di **akar proyek** (contohnya `.env.example` akar) |
++| **Mode kembang** (`npm run dev`) | saat mengubah kode backend | `backend/.env` (contohnya `backend/.env.example` di folder ini) |
++
++## Menjalankan dengan Docker Compose (Modul 26)
++
++Semua perintah di bagian ini diketik dari **akar proyek** (folder yang berisi `compose.cloud.yml`), sama di PowerShell, Terminal macOS, dan Linux. Langkah lengkapnya, termasuk memindahkan database dan Grafana lama ke Compose tanpa kehilangan data, ada di [Modul 26](../../fase-5-operasi-skala/modul-26-docker-compose/README.md).
++
++1. Salin `.env.example` (akar) menjadi `.env`, lalu isi rahasianya dan `TOKO_IMAGE` (`ghcr.io/` + nama akun GitHub-mu dalam huruf kecil; bukan rahasia). Pindah dari Modul 25: `POSTGRES_PASSWORD` = sandi postgres **lama**-mu (lemari `rumahpintar-data` sudah menyimpannya). Di Linux, macOS, dan Pi: `chmod 600 .env`.
++2. Laptop baru saja (lemari Modul 17 dan 25 belum ada): `docker volume create rumahpintar-data` dan `docker volume create rumahpintar-grafana-data`.
++3. `docker compose up -d`. Pertama kali, Compose menarik cetakan backend dan dashboard dari toko image, atau membangunnya sendiri dari `Dockerfile` kalau belum ada di toko (beberapa menit). Layanan `migrasi` menerapkan berkas `migrasi/` yang baru lalu berhenti sendiri, backend menyala sesudahnya. `docker compose ps -a` menunjukkan `backend` `(healthy)` dan `migrasi` `Exited (0)` (tanpa `-a`, layanan sekali jalan yang sudah selesai tidak tampil).
++4. Akun pertama (sandi ditanyakan dua kali): `docker compose exec backend node src/db/kelola-pengguna.ts tambah admin@rumah.test "Admin Rumah" admin`. Akun yang sudah ada di lemari lama tetap berlaku.
++
++| Perintah (dari akar proyek) | Gunanya |
++| :--- | :--- |
++| `docker compose ps -a` | keadaan semua layanan, termasuk layanan sekali jalan yang sudah selesai (`Exited (0)`): `(healthy)` = backend menjawab `HEAD /health` |
++| `docker compose logs -f backend` | log backend (jam WIB); **Ctrl + C** hanya berhenti membaca, backend tetap jalan. `--since 10m` = 10 menit terakhir |
++| `docker compose exec backend node src/db/kelola-pengguna.ts <perintah>` | semua perintah `npm run pengguna -- …` di tabel Mode kembang (`npm run pengguna -- …` juga jalan di kontainer, dengan baris `.env not found. Continuing without it.`) |
++| `docker compose exec backend node src/db/isi-riwayat.ts` | data latihan 7 hari (laptop tanpa riwayat), lalu ringkas sekali dengan perintah langkah 7 Mode kembang |
++| `docker compose build backend` lalu `docker compose up -d backend` | membangun ulang cetakan sesudah kode berubah (tag = `version` di `package.json`) |
++| `docker compose stop backend` / `docker compose start backend` | mematikan dan menyalakan lagi; yang dimatikan dengan `stop` TIDAK dinyalakan Docker sendiri |
+ 
++Dokumentasi API tetap di loket lama, **`http://localhost:8080/docs`** (bukan `127.0.0.1`: di kontainer backend mendengar di `0.0.0.0`, jadi *login* lewat **Try it out** dari halaman `http://127.0.0.1:8080/docs` ditolak `403`). Kalau `PORT_BACKEND` di `.env` akar bukan 8080 (misalnya 8082), tambahkan `http://localhost:8082` ke `CORS_ORIGIN` di `.env` itu lalu `docker compose up -d`; tanpa itu *login* dari `http://localhost:8082/docs` juga ditolak `403`. Koleksi Bruno (`baseUrl` `http://127.0.0.1:8080`) dan `alat/terminal-live.js` tetap jalan tanpa perubahan. Dashboard memanggil backend lewat Caddy di `http://localhost/api/…`.
++
++Cetakan backend dibangun dari [`Dockerfile`](Dockerfile) (dua tahap `node:24.22.1-alpine3.24`, `npm ci --omit=dev`, pengguna `node`, `CMD ["node", "src/server.ts"]`); [`.dockerignore`](.dockerignore) menahan `.env`, `node_modules`, `backup`, Bruno, uji beban, dan berkas uji. Di dalam kontainer, setelan datang dari `compose.cloud.yml` (`HOST=0.0.0.0`, `MQTT_URL=mqtt://mosquitto:1883`, `DATABASE_URL=…@db:5432/…`, `TZ=Asia/Jakarta`), bukan dari `backend/.env`.
++
++## Mode kembang (tanpa kontainer backend)
++
++Untuk mengubah kode backend, jalankan backend langsung dengan Node di laptop, memakai database dan broker pusat dari Compose. Mulai dari akar proyek: `docker compose up -d`, lalu `docker compose stop backend web` (backend dan dashboard kontainer dimatikan; database, broker, dan Grafana tetap menyala). Selesai mengembangkan: **Ctrl + C** di terminal `npm run dev`, lalu `docker compose start backend web`.
++
++1. Pasang Node.js 24 LTS dan Docker Desktop.
++2. Database = layanan `db` di `compose.cloud.yml`, di loket lama `127.0.0.1:5432` (bagian sebelumnya). Sebelum Modul 26, database dijalankan sendiri, cukup sekali: `docker run -d --name rumahpintar-db -p 127.0.0.1:5432:5432 -e POSTGRES_PASSWORD=ganti-sandi-ini -e POSTGRES_DB=rumahpintar -e TIMESCALEDB_TELEMETRY=off -v rumahpintar-data:/var/lib/postgresql/data --restart unless-stopped timescale/timescaledb:2.30.2-pg17` (sandi: huruf, angka, dan tanda minus saja). Jangan menjalankan kontainer itu bersama Compose: nama lemarinya sama.
+ 3. Di folder ini, jalankan `npm install`.
+-4. Salin `.env.example` menjadi `.env`, lalu isi `MQTT_URL` (alamat broker, **tanpa** nama pengguna/sandi di dalamnya) dan sandi database di `DATABASE_URL`. Sejak Modul 21, isi juga `MQTT_USERNAME` dan `MQTT_PASSWORD`: akun broker milik backend, yang kamu buat di mesin broker dengan `mosquitto_passwd backend`. Buat sandinya dengan perintah `randomBytes(32)` yang sama dengan `JWT_SECRET` di bawah. Kalau brokermu belum dikunci, keduanya boleh dikosongkan (backend masuk tanpa akun, dengan peringatan).
++4. Salin `.env.example` menjadi `.env`, lalu isi sandi database di `DATABASE_URL` (= `POSTGRES_PASSWORD` di `.env` akar). `MQTT_URL` sudah menunjuk broker pusat di laptop ini (`mqtt://127.0.0.1:1883`); sebelum Modul 26 isinya alamat IP Pi. Isi `MQTT_PASSWORD` dengan sandi akun broker `backend` (= `MQTT_PASSWORD` di `.env` akar; akunnya dibuat layanan `akun-broker`). Kalau brokermu belum dikunci, `MQTT_USERNAME` dan `MQTT_PASSWORD` boleh dikosongkan (backend masuk tanpa akun, dengan peringatan).
+ 5. Buat kunci tanda tangan JWT dengan perintah ini, lalu tempel hasilnya (43 karakter acak) di `JWT_SECRET` pada `.env`. Langkah ini wajib **sebelum** langkah berikutnya: server, `npm run migrasi`, dan `npm run pengguna` menolak berjalan kalau `JWT_SECRET` kosong, kurang dari 32 karakter, atau masih berisi contoh.
+ 
+    ```text
+    node -e "console.log(require('node:crypto').randomBytes(32).toString('base64url'))"
+    ```
+ 
+-6. Buat tabel-tabelnya dengan `npm run migrasi`.
+-7. Petugas ringkasan hanya meringkas ulang 3 hari terakhir. Riwayat yang lebih tua dan masuk sekaligus (bacaan yang sudah ada sebelum migrasi `003`, data latihan dari `npm run isi-riwayat`, atau uji beban di bawah) baru tersimpan di buku ringkasan per jam kalau diringkas **sekali** dengan perintah ini, sesudah datanya masuk:
++6. Buat tabel-tabelnya dengan `npm run migrasi` (di Compose, layanan `migrasi` sudah melakukannya; mengulanginya aman).
++7. Petugas ringkasan hanya meringkas ulang 3 hari terakhir. Riwayat yang lebih tua dan masuk sekaligus (bacaan yang sudah ada sebelum migrasi `003`, data latihan dari `npm run isi-riwayat`, atau uji beban di bawah) baru tersimpan di buku ringkasan per jam kalau diringkas **sekali** dengan perintah ini (dari akar proyek), sesudah datanya masuk:
+ 
+    ```text
+-   docker exec rumahpintar-db psql -U postgres -d rumahpintar -c "CALL refresh_continuous_aggregate('readings_per_jam', NULL, now() - INTERVAL '1 hour');"
++   docker compose exec db psql -U postgres -d rumahpintar -c "CALL refresh_continuous_aggregate('readings_per_jam', NULL, now() - INTERVAL '1 hour');"
+    ```
+ 
+    Jangan mengulang perintah ini setelah retensi (migrasi `004`) membuang data lama: jendela `NULL` ikut menghapus ringkasan lama yang bacaan mentahnya sudah dibuang.
+@@ -46,9 +74,9 @@ Backend v1.2 proyek Rumah Pintar Mini: server Node.js 24 dengan TypeScript ringa
+ | Perintah | Gunanya |
+ | :--- | :--- |
+ | `npm run dev` | menjalankan server dan memulainya ulang setiap kali kode atau `.env` disimpan |
+-| `npm start` | menjalankan server tanpa mulai ulang otomatis; **Ctrl + C** menghentikannya dengan rapi (di Windows, `npm run dev` + **Ctrl + C** mematikan server seketika) |
++| `npm start` | menjalankan server tanpa mulai ulang otomatis (sejak 1.3 juga jalan tanpa berkas `.env`, misalnya di kontainer); **Ctrl + C** menghentikannya dengan rapi (di Windows, `npm run dev` + **Ctrl + C** mematikan server seketika) |
+ | `npm run cek` | memeriksa tipe TypeScript, termasuk file uji (jalankan sebelum setiap *commit*) |
+-| `npm test` | menjalankan *unit test* dengan Vitest: *rules engine* dan skema aturan (`src/aturan/*.test.ts`; sejak Modul 24 juga aturan di bawah ambang), *login* (`src/auth/auth.test.ts`), kunci perangkat (`src/auth/kunci.test.ts`, Modul 21), buku tamu dan lapis kedua (`src/services/daftar.test.ts`), rute registrasi (`src/routes/perangkat.test.ts`), rute hapus aturan beserta satpamnya: tamu 401, *viewer* 403, *preflight* `DELETE` (`src/routes/aturan.test.ts`, Modul 24), dan aturan siram yang berjalan: pompa dikirim sekali, padam tanpa perintah, perintah yang ditolak ditandai `ok: false`, aturan yang dihapus atau dinonaktifkan tidak bertindak lagi (`src/services/otomasi.test.ts`, Modul 24), lalu (Modul 25) titik peta: skema lokasi dan rute `PUT /devices/:id/lokasi` beserta satpamnya (`src/routes/lokasi.test.ts`), pembuat CSV (`src/services/csv.test.ts`), laporan harian: rentang kemarin WIB, isi CSV, Telegram mati atau menolak, jadwal WIB yang terlambat tetap melaporkan hari yang benar, jadwal terlewat hanya dikabarkan (`src/services/laporan.test.ts`), rute `POST /laporan/kirim` (`src/routes/laporan.test.ts`), berkas laporan terkirim dengan namanya dan kabar 📴/✅ setelah 60 detik (`src/services/telegram.test.ts`), status `online` *retained* sesudah broker dimulai ulang (`src/services/mqtt.test.ts`), dan setelan `LAPORAN_JADWAL` (`src/config/env.test.ts`) |
++| `npm test` | menjalankan *unit test* dengan Vitest: *rules engine* dan skema aturan (`src/aturan/*.test.ts`; sejak Modul 24 juga aturan di bawah ambang), *login* (`src/auth/auth.test.ts`), kunci perangkat (`src/auth/kunci.test.ts`, Modul 21), buku tamu dan lapis kedua (`src/services/daftar.test.ts`), rute registrasi (`src/routes/perangkat.test.ts`), rute hapus aturan beserta satpamnya: tamu 401, *viewer* 403, *preflight* `DELETE` (`src/routes/aturan.test.ts`, Modul 24), dan aturan siram yang berjalan: pompa dikirim sekali, padam tanpa perintah, perintah yang ditolak ditandai `ok: false`, aturan yang dihapus atau dinonaktifkan tidak bertindak lagi (`src/services/otomasi.test.ts`, Modul 24), lalu (Modul 25) titik peta: skema lokasi dan rute `PUT /devices/:id/lokasi` beserta satpamnya (`src/routes/lokasi.test.ts`), pembuat CSV (`src/services/csv.test.ts`), laporan harian: rentang kemarin WIB, isi CSV, Telegram mati atau menolak, jadwal WIB yang terlambat tetap melaporkan hari yang benar, jadwal terlewat hanya dikabarkan (`src/services/laporan.test.ts`), rute `POST /laporan/kirim` (`src/routes/laporan.test.ts`), berkas laporan terkirim dengan namanya dan kabar 📴/✅ setelah 60 detik (`src/services/telegram.test.ts`), status `online` *retained* sesudah broker dimulai ulang (`src/services/mqtt.test.ts`), setelan `LAPORAN_JADWAL` (`src/config/env.test.ts`), dan (Modul 26) saringan log: ketukan `/health` yang berhasil tidak dicatat (`src/services/log.test.ts`) |
+ | `npm run migrasi` | menjalankan file SQL baru di folder `migrasi/` (aman diulang) |
+ | `npm run isi-riwayat` | mengisi data latihan 7 hari untuk perangkat latihan `f00d00000001` dan `f00d00000002` |
+ | `npm run pengguna -- tambah <email> "<nama>" <admin\|viewer>` | membuat akun; sandi ditanyakan dan hanya tampil sebagai `*` (minimal 15 karakter, maksimal 72 *byte*) |
+@@ -57,22 +85,22 @@ Backend v1.2 proyek Rumah Pintar Mini: server Node.js 24 dengan TypeScript ringa
+ | `npm run pengguna -- hapus <email>` | menghapus akun beserta semua sesinya |
+ | `npm run pengguna -- daftar` | menampilkan semua akun (tanpa sidik jari sandi) |
+ 
+-Untuk uji beban, `uji/beban-1-juta.sql` memuat 1.036.801 bacaan palsu (satu setiap 10 detik selama 120 hari) untuk perangkat uji `beef00000001`. Jalankan dari folder ini:
++Untuk uji beban, `uji/beban-1-juta.sql` memuat 1.036.801 bacaan palsu (satu setiap 10 detik selama 120 hari) untuk perangkat uji `beef00000001`. Jalankan dari akar proyek (database = layanan `db` Compose):
+ 
+ ```text
+-docker cp uji/beban-1-juta.sql rumahpintar-db:/tmp/beban-1-juta.sql
+-docker exec rumahpintar-db psql -U postgres -d rumahpintar -f /tmp/beban-1-juta.sql
++docker compose cp backend/uji/beban-1-juta.sql db:/tmp/beban-1-juta.sql
++docker compose exec db psql -U postgres -d rumahpintar -f /tmp/beban-1-juta.sql
+ ```
+ 
+ ## *Login* dan pengaman
+ 
+ - **Akun** hanya dibuat dari terminal (`npm run pengguna`); tidak ada rute pendaftaran di API. Database menyimpan sidik jari sandi (bcrypt, *cost* 12), bukan sandinya.
+-- **`POST /auth/login`** menjawab dua *cookie* `HttpOnly; SameSite=Strict`: `akses` (JWT 15 menit, `Path=/`) dan `sesi` (*refresh token* 7 hari, `Path=/auth`; database hanya menyimpan SHA-256-nya). Email salah dan sandi salah dijawab sama: `401 {"pesan":"email atau sandi salah"}`.
++- **`POST /auth/login`** menjawab dua *cookie* `HttpOnly; SameSite=Strict`: `akses` (JWT 15 menit, `Path=/`) dan `sesi` (*refresh token* 7 hari, `Path=/auth`; database hanya menyimpan SHA-256-nya). Email salah dan sandi salah dijawab sama: `401 {"pesan":"email atau sandi salah"}`. Lewat Caddy (mode rumah, Modul 26) alamatnya berawalan `/api`, jadi Caddy menulis ulang jalur *cookie* `sesi` menjadi `Path=/api/auth` (`frontend/caddy/Caddyfile`); backend sendiri tidak berubah.
+ - **Gelang habis?** `POST /auth/refresh` menukar *cookie* `sesi` dengan gelang baru dan kartu terusan baru (rotasi). Kartu terusan lama yang dipakai lagi 30 detik atau lebih sesudah diganti dianggap curian: sesinya dicabut. **`POST /auth/logout`** menghapus sesi, mengosongkan kedua *cookie*, dan memutus sambungan Socket.IO sesi itu.
+ - **Rute terbuka** (tanpa *login*): `POST /auth/login`, `POST /auth/refresh`, `POST /auth/logout`, `GET`/`HEAD /health`, dan `/docs`. Semua rute lain, termasuk rute baru dan URL yang tidak ada, menjawab `401` bagi tamu.
+ - **Peran**: `admin` boleh semua; `viewer` hanya `GET`/`HEAD` (selain itu `403`).
+ - ***Rate limit***: paling banyak 10 percobaan `POST /auth/login` per menit dari alamat IP yang sama; percobaan ke-11 dijawab `429` dengan kepala `retry-after`. Hitungannya di memori: server dimulai ulang = mulai dari nol.
+-- **CORS dan asal halaman**: halaman web di `CORS_ORIGIN` (`.env`, bawaan `http://localhost:5173,http://127.0.0.1:5173` untuk Modul 22) boleh memanggil API dari browser dengan *cookie*. Permintaan selain `GET`/`HEAD` yang membawa kepala `Origin` dari halaman lain ditolak `403`; curl, Bruno, dan Node tidak mengirim `Origin`, jadi tidak terganggu.
++- **CORS dan asal halaman**: halaman web di `CORS_ORIGIN` (`.env`, bawaan `http://localhost:5173,http://127.0.0.1:5173` untuk Modul 22; mode rumah: `http://localhost,http://127.0.0.1` dari `.env` akar) boleh memanggil API dari browser dengan *cookie*. Permintaan selain `GET`/`HEAD` yang membawa kepala `Origin` dari halaman lain ditolak `403`; curl, Bruno, dan Node tidak mengirim `Origin`, jadi tidak terganggu.
+ - **Bruno**: koleksi `bruno/` punya permintaan `login admin`, `login viewer`, `login salah`, `siapa saya`, `refresh`, dan `logout`, serta (Modul 21) `daftarkan Node 1`, `daftarkan Node 2 lewat Node 1`, `daftarkan perangkat latihan`, `ganti kunci perangkat latihan`, dan `cabut kunci perangkat latihan`, dan (Modul 24) `buat aturan siram tanah` dan `hapus aturan` (ganti angka di alamat `hapus aturan` dengan `id` dari jawaban `buat aturan siram tanah`; bawaannya `4`, nomor aturan pertama sesudah tiga aturan Modul 19), serta (Modul 25) `daftarkan Kebun tiruan` (Node 2 palsu `f00d000000b2` lewat `f00d00000001`, untuk jalur tanpa Node 2; lihat `alat/README.md`), `atur lokasi perangkat`, dan `kirim laporan sekarang` (`?hari=ini`). Sandinya dibaca dari `bruno/.env` (tidak ikut Git) berisi `SANDI_ADMIN=…` dan `SANDI_VIEWER=…`. Kirim `login admin` atau `login viewer` dulu; *cookie*-nya dipakai otomatis oleh permintaan lain.
+ 
+ ## API
+@@ -176,7 +204,7 @@ Sampai Modul 20, backend membuat baris `devices` otomatis untuk perangkat **apa
+ - **Daftar resmi + kunci per perangkat.** Perangkat harus didaftarkan admin lewat `POST /devices`. Jawabannya memuat **kunci** 32 *byte* acak (43 huruf `base64url`) yang **hanya tampil sekali**; database hanya menyimpan sidik jari SHA-256-nya (seperti *refresh token* Modul 20). `POST /devices/:id/kunci` membuat kunci baru (yang lama langsung mati), `POST /devices/:id/cabut` mencabutnya. Jawaban registrasi juga memuat `langkah`: pasang kunci yang sama ke perangkat (ketik `kunci <isi>` di Serial Monitor, atau `KUNCI_<DEVICE_ID>=…` di `alat/.env` untuk simulator) dan ke broker (`mosquitto_passwd` di mesin broker). Perangkat ESP-NOW (Node 2) didaftarkan dengan `penghubung` (device\_id Node 1) dan **tidak** diberi kunci: datanya diterbitkan Node 1.
+ - **Lapis kedua di backend.** Walaupun broker sudah menjaga pintu, backend memeriksa lagi: pesan dari perangkat yang **belum terdaftar** atau **sudah dicabut** diabaikan seketika (dicatat `DIABAIKAN …` paling sering sekali semenit per perangkat, dihitung di `/health` sebagai `diabaikan`), perintah kepadanya dijawab 404/409, dan backend **tidak lagi** membuat baris `devices` otomatis. Jadi walaupun berkas sandi broker dan database sempat tidak sama, perangkat yang tidak berhak tetap tertolak.
+ - **Akun broker milik backend.** Backend masuk ke broker dengan akunnya sendiri (`MQTT_USERNAME`/`MQTT_PASSWORD` di `.env`, **bukan** di dalam `MQTT_URL`), bukan sebagai perangkat atau manusia. Kalau broker menolak akunnya (CONNACK 5), backend mencatatnya sekali dan mencoba lagi tiap 60 detik; begitu akunnya diperbaiki di broker dan broker dimuat ulang, backend pulih sendiri tanpa dijalankan ulang.
+-- **Broker (di luar backend).** Berkas contoh `edge/mosquitto-lan.conf`, `edge/gateway-pi.conf`, dan `edge/acl-broker` mengunci broker dengan `allow_anonymous false`, `password_file`, `acl_file` (pola `%u` = `device_id`), dan `use_username_as_clientid`. Lihat `edge/README.md`.
++- **Broker (di luar backend).** Berkas contoh `edge/mosquitto-lan.conf`, `edge/gateway-pi.conf`, dan `edge/acl-broker` mengunci broker dengan `allow_anonymous false`, `password_file`, `acl_file` (pola `%u` = `device_id`), dan `use_username_as_clientid`; sejak Modul 26 versi kontainernya `edge/pusat.conf` (broker pusat Compose, tempat backend masuk sebagai `mqtt://mosquitto:1883`) dan `edge/gerbang.conf` (broker gerbang Pi). Lihat `edge/README.md`.
+ 
+ **🎉 Checkpoint Fase 3.** Rumah kini berkunci untuk manusia (akun, login, peran, pengaman API — Modul 20) *dan* untuk perangkat (kunci per perangkat, lapis kedua, akun broker, ACL — Modul 21). Yang **belum** aman, dan jujur disebut: lalu lintas MQTT dan HTTP masih tanpa enkripsi di LAN (kunci terbaca polos oleh penyadap di jaringan yang sama) — wajib TLS sebelum dibuka ke internet (Modul 27); kunci di NVS ESP32 terbaca siapa pun yang memegang papan (*flash encryption*, 🔬); dan hitungan *rate limit* masih di memori.
+ 
+@@ -209,27 +237,27 @@ ORDER BY dikirim;
+ 
+ ## Backup & restore
+ 
+-Fotokopi seluruh database dibuat **di dalam kontainer** (memakai `pg_dump` yang versinya pasti cocok), lalu disalin ke folder `backup/` (tidak ikut Git):
++Sejak Modul 26 database adalah layanan `db` di `compose.cloud.yml`, jadi perintahnya memakai `docker compose exec db` dan `docker compose cp db:…` (diketik dari **akar proyek**; folder `backup/` di sana tidak ikut Git). Fotokopi seluruh database dibuat **di dalam kontainer** (memakai `pg_dump` yang versinya pasti cocok), lalu disalin ke folder `backup/`:
+ 
+ ```text
+-docker exec rumahpintar-db pg_dump -U postgres -d rumahpintar -Fc -f /tmp/rumahpintar.dump
++docker compose exec db pg_dump -U postgres -d rumahpintar -Fc -f /tmp/rumahpintar.dump
+ mkdir backup
+-docker cp rumahpintar-db:/tmp/rumahpintar.dump backup/rumahpintar-2026-10-20.dump
++docker compose cp db:/tmp/rumahpintar.dump backup/rumahpintar-2026-10-28.dump
+ ```
+ 
+-Ganti `2026-10-20` di nama berkas dengan tanggal hari ini supaya backup-backup berikutnya tidak saling menimpa. Pada backup berikutnya, `mkdir backup` boleh dilewati karena foldernya sudah ada. Sejak Modul 20, fotokopi ini juga berisi akun dan sidik jari sandinya: simpan sebaik menyimpan `.env`.
++Ganti `2026-10-28` di nama berkas dengan tanggal hari ini supaya backup-backup berikutnya tidak saling menimpa. Pada backup berikutnya, `mkdir backup` boleh dilewati karena foldernya sudah ada. Sejak Modul 20, fotokopi ini juga berisi akun dan sidik jari sandinya: simpan sebaik menyimpan `.env`. Akun database (peran `postgres`, `grafana_baca`) **tidak** ikut `pg_dump` satu database: di database yang benar-benar baru, `grafana_baca` dibuat lagi oleh layanan `akun-grafana` saat `docker compose up -d`. Lemari database jangan dicadangkan dengan menyalin isi lemarinya (`tar`) selama database menyala: hasilnya bisa rusak; pakai `pg_dump`.
+ 
+-Perintah di bagian ini sama persis di PowerShell (Windows), Terminal macOS, dan Linux. `pg_dump` menulis satu peringatan *circular foreign-key constraints* (`detail: continuous_agg`) beserta dua `hint`; itu wajar. Jangan membuat berkas dump dengan `>` (misalnya `pg_dump … > berkas.dump`): di Windows PowerShell 5.1 berkasnya rusak, jadi selalu pakai `-f` lalu `docker cp`. Di Git Bash, tulis `//tmp/…` (dua garis miring) karena Git Bash mengubah `/tmp/…` menjadi folder Windows.
++Perintah di bagian ini sama persis di PowerShell (Windows), Terminal macOS, dan Linux. `pg_dump` menulis satu peringatan *circular foreign-key constraints* (`detail: continuous_agg`) beserta dua `hint`; itu wajar. Jangan membuat berkas dump dengan `>` (misalnya `pg_dump … > berkas.dump`): di Windows PowerShell 5.1 berkasnya rusak, jadi selalu pakai `-f` lalu `docker compose cp`. Di Git Bash, tulis `//tmp/…` (dua garis miring) karena Git Bash mengubah `/tmp/…` menjadi folder Windows. Sebelum Modul 26 (kontainer `rumahpintar-db` dari `docker run`), perintahnya sama dengan `docker exec rumahpintar-db` dan `docker cp rumahpintar-db:…`.
+ 
+ Membangun ulang di database baru `rumahpintar_pulih` (di kontainer yang sama; TimescaleDB harus versi yang sama, 2.30.2):
+ 
+ ```text
+-docker cp backup/rumahpintar-2026-10-20.dump rumahpintar-db:/tmp/pulih.dump
+-docker exec rumahpintar-db createdb -U postgres -T template0 rumahpintar_pulih
+-docker exec rumahpintar-db psql -U postgres -d rumahpintar_pulih -c "CREATE EXTENSION timescaledb;"
+-docker exec rumahpintar-db psql -U postgres -d rumahpintar_pulih -c "SELECT timescaledb_pre_restore();"
+-docker exec rumahpintar-db pg_restore -U postgres -d rumahpintar_pulih /tmp/pulih.dump
+-docker exec rumahpintar-db psql -U postgres -d rumahpintar_pulih -c "SELECT timescaledb_post_restore();"
++docker compose cp backup/rumahpintar-2026-10-28.dump db:/tmp/pulih.dump
++docker compose exec db createdb -U postgres -T template0 rumahpintar_pulih
++docker compose exec db psql -U postgres -d rumahpintar_pulih -c "CREATE EXTENSION timescaledb;"
++docker compose exec db psql -U postgres -d rumahpintar_pulih -c "SELECT timescaledb_pre_restore();"
++docker compose exec db pg_restore -U postgres -d rumahpintar_pulih /tmp/pulih.dump
++docker compose exec db psql -U postgres -d rumahpintar_pulih -c "SELECT timescaledb_post_restore();"
+ ```
+ 
+ Jangan memakai `pg_restore -j`, dan jangan melewatkan `timescaledb_pre_restore()` atau `timescaledb_post_restore()`. Untuk membuktikan datanya sama, jalankan dulu `CALL run_job(…);` di `rumahpintar` dengan nomor *job* `Retention Policy` (nomornya terlihat lewat kueri `timescaledb_information.jobs` di bagian Database). Database salinan langsung menjalankan *job* retensinya begitu dipulihkan, jadi database asli harus sudah membuang jilid yang sama. Lalu jalankan kueri ini di psql pada `rumahpintar` dan `rumahpintar_pulih`, dan bandingkan satu barisnya:
+@@ -242,7 +270,21 @@ SELECT (SELECT count(*) FROM readings) AS bacaan,
+        (SELECT count(*) FROM timescaledb_information.jobs WHERE job_id >= 1000) AS tugas;
+ ```
+ 
+-Setelah terbukti, hapus salinannya dengan `docker exec rumahpintar-db dropdb -U postgres rumahpintar_pulih`.
++Setelah terbukti, hapus salinannya dengan `docker compose exec db dropdb -U postgres rumahpintar_pulih`. Uji pulih ke proyek Compose terpisah dengan lemari sendiri (tanpa menyentuh lemari `rumahpintar-data`) ada di Modul 26 Praktik 9. Jangan pernah memakai `docker compose down -v`, `docker volume rm rumahpintar-data`, atau `docker system prune --volumes` di laptop yang menyimpan riwayat asli.
++
++## Catatan versi 1.3
++
++Backend 1.3.0 dibuat di Modul 26 supaya backend bisa dikemas menjadi cetakan (*image*) dan dijalankan Docker Compose bersama layanan lain.
++
++- **`pino-pretty` pindah dari `devDependencies` ke `dependencies`** (`package.json` + `package-lock.json`: versi tetap 13.2.0, hanya tanda `"dev": true` miliknya dan dependensinya yang hilang). Logger `src/server.ts` memakainya saat server berjalan, jadi cetakan yang hanya memasang paket produksi (`npm ci --omit=dev`) dengan versi 1.2 mogok: `Error: unable to determine transport target for "pino-pretty"`.
++- **Skrip `start`, `migrasi`, `isi-riwayat`, dan `pengguna` memakai `--env-file-if-exists=.env`** (Node 24): tanpa berkas `.env` (di kontainer, setelan datang dari Compose) skripnya tetap jalan dengan pesan `.env not found. Continuing without it.`, bukan berhenti dengan `node: .env: not found`. `dev` tetap `--env-file=.env`: mode kembang wajib punya `.env`.
++- **Ketukan `/health` yang berhasil tidak dicatat di log** (`perluDicatat()` di `src/services/log.ts`, diuji `src/services/log.test.ts`): healthcheck Docker mengetuk `HEAD /health` setiap 15 detik. `/health` yang gagal (kode 400 ke atas) dan semua alamat lain tetap tercatat.
++- **`Dockerfile` dan `.dockerignore` baru** (bagian [Menjalankan dengan Docker Compose](#menjalankan-dengan-docker-compose-modul-26)). Healthcheck ditulis di `compose.cloud.yml`, bukan di `Dockerfile`, supaya ada di satu tempat.
++- **`.env.example`** kini untuk mode kembang: `MQTT_URL=mqtt://127.0.0.1:1883` (broker pusat di laptop, layanan `mosquitto` Compose; sebelumnya alamat IP Pi), komentar tentang `.env` akar dan aturan satu backend.
++- Komentar `RUTE_TERBUKA` di `src/auth/keamanan.ts` diperbarui (healthcheck Docker memakai `HEAD /health`); kode pengamannya tidak berubah.
++- **Tanpa migrasi database dan tanpa paket npm baru.** Kontrak data tetap **1.4**; firmware tidak berubah.
++- **Turun versi**: backend 1.2 tetap jalan sebagai mode kembang dengan database yang sama; sebagai kontainer (`--omit=dev`) 1.2 mogok karena `pino-pretty`.
++- Versi `1.3.0` di `package.json`, di `/docs`, dan di tag cetakan (`…/rumah-pintar-mini-backend:1.3.0`).
+ 
+ ## Catatan versi 1.2
+ 
+@@ -273,22 +315,26 @@ Backend 1.1.0 dibuat di Modul 24 supaya dashboard v1.0 bisa membuat aturan "sira
+ - **Turun versi**: backend v1.0 yang membaca aturan berbentuk baru tidak mogok; aturan itu dilewati dengan peringatan `aturan N dilewati: …` (lihat `muatAturan()`), aturan lainnya tetap berjalan. Aturan yang dilewati juga TIDAK tampil di `GET /rules` v1.0 (dashboard seolah kehilangan aturan itu); datanya utuh di database dan tampil lagi begitu naik ke 1.1. Jangan menyimpan aturan bernomor itu lewat `PUT` v1.0: isinya akan ditimpa bentuk v1.0.
+ - Versi `1.1.0` di `package.json` dan di `/docs`.
+ 
+-## Batasan v1.2
++## Batasan v1.3
+ 
+ - `GET /devices/:id/latest`, `vitals`, dan `state` masih dibaca dari memori, jadi kosong lagi setiap server dimulai ulang. Keadaan yang diinginkan (`desired`) dan hitungan "selama" setiap aturan juga hilang saat server dimulai ulang; riwayat bacaan, perintah, aturan, kejadian, akun, dan sesi tersimpan permanen di database.
+ - Bacaan yang datang saat database tidak bisa dihubungi tidak tersimpan.
+ - Bacaan mentah hanya disimpan 90 hari; yang lebih tua tinggal ringkasan per jamnya.
+ - Hari pada ringkasan `1d` adalah hari WIB (`Asia/Jakarta`), juga bagi perangkat di WITA atau WIT. Jadwal aturan juga dihitung dalam WIB.
+ - Aturan dan jadwal hanya berjalan selama backend menyala. Jadwal yang terlambat lebih dari 15 menit (misalnya laptop tidur pukul 06.00) tidak dijalankan belakangan, hanya dicatat; kalau backend mati pada jam itu, tidak ada yang dicatat. Saat broker tak terjangkau, Node 1 menjalankan pengaman kipasnya sendiri dengan ambang dari `config`.
+-- **Laporan harian juga hanya terkirim selama backend menyala** (Modul 25). Laptop yang tidur lebih dari 15 menit melewati `LAPORAN_JADWAL` tidak mengirimnya belakangan: log dan Telegram hanya mencatat `⏰ Laporan harian pada … terlewat`; kirim manual dengan `POST /laporan/kirim`. Kalau backend mati pada jam itu, tidak ada catatan sama sekali. Server yang menyala terus menyusul di Modul 26–27. Laporan hanya dikirim ke satu chat (`TELEGRAM_CHAT_ID`), dan laporan hari pertama (kemarin belum ada data) memang kosong: pakai `?hari=ini`. Broker yang dimulai ulang terhitung satu kali putus (`kali_terputus`) untuk setiap Node 1 yang tersambung saat itu: wasiat `offline`-nya memang terbit.
++- **Laporan harian juga hanya terkirim selama backend menyala** (Modul 25). Laptop yang tidur lebih dari 15 menit melewati `LAPORAN_JADWAL` tidak mengirimnya belakangan: log dan Telegram hanya mencatat `⏰ Laporan harian pada … terlewat`; kirim manual dengan `POST /laporan/kirim`. Kalau backend mati pada jam itu, tidak ada catatan sama sekali. Sejak Modul 26, backend di kontainer dinyalakan lagi oleh Docker kalau berhenti sendiri, tetapi hanya selama Docker (Docker Desktop di laptop) menyala: laptop yang tidur tetap melewatkan jadwal. Server yang menyala terus menyusul di Modul 27. Laporan hanya dikirim ke satu chat (`TELEGRAM_CHAT_ID`), dan laporan hari pertama (kemarin belum ada data) memang kosong: pakai `?hari=ini`. Broker yang dimulai ulang terhitung satu kali putus (`kali_terputus`) untuk setiap Node 1 yang tersambung saat itu: wasiat `offline`-nya memang terbit.
+ - **`devices.terakhir_dilihat` bukan "data terakhir"**: kolom ini dimajukan oleh SETIAP pesan perangkat terdaftar, termasuk pesan `status` (wasiat `offline` dari broker, status Node 2 yang diterbitkan Node 1, dan status *retained* yang dikirim ulang broker saat backend menyala). Untuk "kapan perangkat terakhir mengirim data" (misalnya *alert* "node diam" di Grafana, Modul 25), pakai `readings.diterima` bacaan terbarunya. Perilaku kolom ini sengaja tidak diubah di v1.2.
+ - Perubahan aturan langsung di database (misalnya lewat DBeaver) baru terbaca saat server dimulai ulang atau saat aturan lain diubah lewat API; pakai API `/rules`.
++- **Aturan otomatis dimuat sekali saat server menyala.** Kalau database belum bisa dihubungi saat itu, log menulis `aturan otomatis belum bisa dimuat: …` dan tidak mencoba lagi (daftar perangkat dicoba lagi setiap 10 detik): aturan tidak bertindak dan layar **Aturan** kosong, padahal backend tetap `(healthy)`. Di Compose, `docker compose up` menunggu database siap lebih dulu, tetapi sesudah laptop dinyalakan ulang atau Docker Desktop dibuka, Docker menyalakan semua kontainer sekaligus tanpa urutan itu. Gejala itu muncul? `docker compose restart backend`.
+ - Aturan dengan aksi `perintah` (misalnya pompa sekali) hanya bertindak saat aturannya berganti keadaan. Karena hitungannya hilang saat server dimulai ulang atau aturannya diubah, perintahnya dikirim sekali lagi kalau kondisinya masih terpenuhi sesudah itu.
+ - Menonaktifkan atau menghapus aturan kipas **tidak** mencabut `config` *retained* `suhu_kipas_on` yang sudah terkirim: Node 1 tetap memakai angka terakhir itu sebagai pengaman lokal saat broker tak terjangkau.
+ - Menghapus atau menonaktifkan aturan `sakelar` yang sedang menyala **tidak** memadamkan aktuatornya: kipas atau lampu dibiarkan dalam keadaan terakhir (server tidak mengirim perintah apa pun). Padamkan lewat tombol dashboard atau `POST /devices/:id/command`.
+ - Backend hanya mengirim `suhu_kipas_on`, tidak pernah `tanah_siram`. Node 1 v1.6.0 tetap menyiram sendiri (3 detik, lalu jeda 30 detik) kalau tanah di bawah ambang lokalnya, bawaan 30 %, juga saat backend menyala. Supaya aturan siram di server yang bertindak lebih dulu, turunkan ambang lokal di bawah ambang aturan server lewat Serial Monitor (`ambang 20`); siram lokal lalu baru bertindak kalau tanah tetap mengering sampai di bawah 20 %, misalnya saat backend mati atau WiFi putus. Pengaman tandon firmware (`pompa ditolak: air tandon kurang` di bawah 20 %) tetap menjaga keduanya.
+ - Gelang (JWT akses) yang sudah dibagikan tetap berlaku sampai kedaluwarsa (paling lama 15 menit), juga sesudah *logout*, ganti peran, ganti sandi, atau hapus akun; sambungan Socket.IO yang sedang berjalan pun baru diputus saat gelangnya habis (kecuali *logout* dari sesi itu sendiri, atau kartu terusan lama yang dipakai lagi 30 detik atau lebih sesudah diganti, yang langsung memutusnya).
+ - Hitungan *rate limit* disimpan di memori satu server: dimulai ulang = nol, dan tidak cocok untuk beberapa server sekaligus.
+-- *Cookie* belum `Secure` karena server masih `http://`; HTTPS menyusul di Fase 5. Server masih hanya menerima tamu dari laptop ini (`HOST=127.0.0.1`).
++- *Cookie* belum `Secure` karena server masih `http://`; HTTPS menyusul di Modul 27. Mode kembang: server hanya menerima tamu dari laptop ini (`HOST=127.0.0.1`). Mode rumah: di dalam kontainer `HOST=0.0.0.0` (supaya Caddy dan healthcheck bisa masuk), tetapi loket di laptop tetap `127.0.0.1:8080`, dan dashboard lewat Caddy hanya di `127.0.0.1:80` kecuali `ALAMAT_WEB` diubah (mode HP).
++- **Di balik Caddy, backend belum memakai `trustProxy`** (Modul 27, bersama HTTPS). Menurut cara kerja Fastify, tanpa setelan itu alamat tamu yang terbaca adalah alamat kontainer Caddy, jadi pembatas *login* Modul 20 (10 percobaan per menit per alamat) menghitung semua tamu dashboard sebagai satu alamat (lab penulis: sesudah 10 login salah lewat dashboard, login yang benar dari tamu lain pun dijawab `429` sampai semenit lewat, sedangkan Bruno di loket backend tetap bisa masuk), dan `secure: "auto"` tidak pernah memasang `Secure` walau Caddy kelak sudah HTTPS.
++- **`/health` selalu menjawab 200**, juga saat broker atau database putus (isinya `broker: false` / `database: false`). Healthcheck Docker hanya membuktikan "proses hidup dan menjawab", dan status `unhealthy` tidak membuat Docker menyalakan ulang kontainer. `/health` yang menjawab 503 saat ada yang putus, dan pemantau sungguhan, menyusul di Modul 30.
++- **Swagger UI tidak bisa dipakai lewat Caddy** (`http://localhost/api/docs`): aset halamannya dicari di alamat yang salah, dan tombol **Try it out** memanggil API tanpa awalan `/api`. Pakai loket backend: `http://localhost:8080/docs`.
+ - **Lalu lintas MQTT (dan HTTP) masih tanpa enkripsi.** Nama pengguna dan kunci perangkat terkirim polos di LAN: siapa pun yang bisa melihat paket di jaringan yang sama bisa membacanya (buktikan sendiri dengan `alat/penyadap.js`). Di jaringan rumah tertutup risikonya masih kecil, tetapi **wajib TLS sebelum dibuka ke internet** (Modul 27). Kunci di NVS ESP32 juga terbaca siapa pun yang memegang papan (*flash encryption*, 🔬).
+ - Daftar perangkat terdaftar dimuat ke memori saat server menyala; perubahan `devices` langsung di database (bukan lewat API) baru terbaca saat server dimulai ulang. `GET /devices` sendiri selalu dibaca segar dari database.
+diff --git a/backend/package-lock.json b/backend/package-lock.json
+index 4f57e76..10891e5 100644
+--- a/backend/package-lock.json
++++ b/backend/package-lock.json
+@@ -1,12 +1,12 @@
+ {
+   "name": "rumah-pintar-mini-backend",
+-  "version": "1.2.0",
++  "version": "1.3.0",
+   "lockfileVersion": 3,
+   "requires": true,
+   "packages": {
+     "": {
+       "name": "rumah-pintar-mini-backend",
+-      "version": "1.2.0",
++      "version": "1.3.0",
+       "dependencies": {
+         "@fastify/cookie": "^11.1.3",
+         "@fastify/cors": "^11.3.1",
+@@ -21,6 +21,7 @@
+         "mqtt": "^5.16.1",
+         "node-cron": "^4.6.0",
+         "pg": "^8.23.1",
++        "pino-pretty": "^13.2.0",
+         "socket.io": "^4.8.4",
+         "zod": "^4.6.7"
+       },
+@@ -28,7 +29,6 @@
+         "@types/bcrypt": "^6.0.0",
+         "@types/node": "^24.19.2",
+         "@types/pg": "^8.23.1",
+-        "pino-pretty": "^13.2.0",
+         "typescript": "^7.0.2",
+         "vite": "^8.3.4",
+         "vitest": "^5.0.5"
+@@ -1431,7 +1431,6 @@
+       "version": "2.0.20",
+       "resolved": "https://registry.npmjs.org/colorette/-/colorette-2.0.20.tgz",
+       "integrity": "sha512-IfEDxwoWIjkeXL1eXcDiow4UbKjhLdq6/EuSVR9GMN7KVH3r9gQ83e73hsz1Nd1T3ijd5xv1wcWRYO+D6kCI2w==",
+-      "dev": true,
+       "license": "MIT"
+     },
+     "node_modules/commist": {
+@@ -1516,7 +1515,6 @@
+       "version": "4.6.3",
+       "resolved": "https://registry.npmjs.org/dateformat/-/dateformat-4.6.3.tgz",
+       "integrity": "sha512-2P0p0pFGzHS5EMnhdxQi7aJN+iMheud0UhG4dlE1DLAlvL8JHjJJTX/CSm4JXwV0Ka5nGk3zC5mcb5bUQUxxMA==",
+-      "dev": true,
+       "license": "MIT",
+       "engines": {
+         "node": "*"
+@@ -1580,7 +1578,6 @@
+       "version": "1.4.5",
+       "resolved": "https://registry.npmjs.org/end-of-stream/-/end-of-stream-1.4.5.tgz",
+       "integrity": "sha512-ooEGc6HP26xXq/N+GCGOT0JKCLDGrq2bQUZrQ7gyrJiZANJ/8YDTxTpQBXGMn+WbIQXNVpyWymm7KYVICQnyOg==",
+-      "dev": true,
+       "license": "MIT",
+       "dependencies": {
+         "once": "^1.4.0"
+@@ -1700,7 +1697,6 @@
+       "version": "4.2.0",
+       "resolved": "https://registry.npmjs.org/fast-copy/-/fast-copy-4.2.0.tgz",
+       "integrity": "sha512-WSlnvPXaMdUjFdgxPkovE4e5aslybVod4TNKrEKKyoA8GoHZzbDLlhDXZOvqjtFgjtOHd9TYCstkUcGXy1+SEA==",
+-      "dev": true,
+       "license": "MIT"
+     },
+     "node_modules/fast-decode-uri-component": {
+@@ -1768,7 +1764,6 @@
+       "version": "2.1.1",
+       "resolved": "https://registry.npmjs.org/fast-safe-stringify/-/fast-safe-stringify-2.1.1.tgz",
+       "integrity": "sha512-W+KJc2dmILlPplD/H4K9l9LcAHAfPtP6BY84uVLXQ6Evcz9Lcg33Y2z1IVblT6xdY54PXYVHEv+0Wpq8Io6zkA==",
+-      "dev": true,
+       "license": "MIT"
+     },
+     "node_modules/fast-unique-numbers": {
+@@ -2058,7 +2053,6 @@
+       "version": "3.1.1",
+       "resolved": "https://registry.npmjs.org/joycon/-/joycon-3.1.1.tgz",
+       "integrity": "sha512-34wB/Y7MW7bzjKRjUKTa46I2Z7eV62Rkhva+KkopW7Qvv/OSWBqvkSY7vusOPrNuZcUG3tApvdVgNB8POj3SPw==",
+-      "dev": true,
+       "license": "MIT",
+       "engines": {
+         "node": ">=10"
+@@ -2681,7 +2675,6 @@
+       "version": "1.4.0",
+       "resolved": "https://registry.npmjs.org/once/-/once-1.4.0.tgz",
+       "integrity": "sha512-lNaJgI+2Q5URQBkccEKHTQOPaXdUxnZZElQTZY0MFUAuaEqe1E+Nyvgdz/aIyNi6Z9MzO5dv1H8n58/GELp3+w==",
+-      "dev": true,
+       "license": "ISC",
+       "dependencies": {
+         "wrappy": "1"
+@@ -2862,7 +2855,6 @@
+       "version": "13.2.0",
+       "resolved": "https://registry.npmjs.org/pino-pretty/-/pino-pretty-13.2.0.tgz",
+       "integrity": "sha512-jjghD1ML+Di/WxjJDz6j6Y4FT7hIXOlb8h27AyJ+ohtAXJXH4PS/xkv7si+RCCIW59HMgZsMKTDgzdr0RhuRrg==",
+-      "dev": true,
+       "license": "MIT",
+       "dependencies": {
+         "colorette": "^2.0.7",
+@@ -2887,7 +2879,6 @@
+       "version": "5.0.2",
+       "resolved": "https://registry.npmjs.org/sonic-boom/-/sonic-boom-5.0.2.tgz",
+       "integrity": "sha512-/JEruzo6yhNVhsLblTRchgTQHIt7SsdJP0YyrfWaNKjIOQDfrdZv9gwYraYCAsmKV39/LAdV31FLL5NCDpoL/A==",
+-      "dev": true,
+       "license": "MIT",
+       "dependencies": {
+         "atomic-sleep": "^1.0.0"
+@@ -3002,7 +2993,6 @@
+       "version": "3.0.4",
+       "resolved": "https://registry.npmjs.org/pump/-/pump-3.0.4.tgz",
+       "integrity": "sha512-VS7sjc6KR7e1ukRFhQSY5LM2uBWAUPiOPa/A3mkKmiMwSmRFUITt0xuj+/lesgnCv+dPIEYlkzrcyXgquIHMcA==",
+-      "dev": true,
+       "license": "MIT",
+       "dependencies": {
+         "end-of-stream": "^1.1.0",
+@@ -3357,7 +3347,6 @@
+       "version": "5.0.3",
+       "resolved": "https://registry.npmjs.org/strip-json-comments/-/strip-json-comments-5.0.3.tgz",
+       "integrity": "sha512-1tB5mhVo7U+ETBKNf92xT4hrQa3pm0MZ0PQvuDnWgAAGHDsfp4lPSpiS6psrSiet87wyGPh9ft6wmhOMQ0hDiw==",
+-      "dev": true,
+       "license": "MIT",
+       "engines": {
+         "node": ">=14.16"
+@@ -3748,7 +3737,6 @@
+       "version": "1.0.2",
+       "resolved": "https://registry.npmjs.org/wrappy/-/wrappy-1.0.2.tgz",
+       "integrity": "sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==",
+-      "dev": true,
+       "license": "ISC"
+     },
+     "node_modules/ws": {
+diff --git a/backend/package.json b/backend/package.json
+index fbbc8c8..f5e4a65 100644
+--- a/backend/package.json
++++ b/backend/package.json
+@@ -1,16 +1,16 @@
+ {
+   "name": "rumah-pintar-mini-backend",
+-  "version": "1.2.0",
++  "version": "1.3.0",
+   "description": "Backend Rumah Pintar Mini (Modul 16-21): mendengar MQTT, memeriksa kontrak data, menyimpan semua pesan ke database deret waktu, menyediakan API riwayat, data realtime, perintah, aturan otomatis, jadwal, dan notifikasi Telegram, login dengan peran admin dan viewer, serta daftar resmi perangkat dengan kunci per perangkat dan akun broker tersendiri",
+   "private": true,
+   "type": "module",
+   "scripts": {
+     "dev": "node --watch --env-file=.env src/server.ts",
+-    "start": "node --env-file=.env src/server.ts",
++    "start": "node --env-file-if-exists=.env src/server.ts",
+     "cek": "tsc --noEmit",
+-    "migrasi": "node --env-file=.env src/db/migrasi.ts",
+-    "isi-riwayat": "node --env-file=.env src/db/isi-riwayat.ts",
+-    "pengguna": "node --env-file=.env src/db/kelola-pengguna.ts",
++    "migrasi": "node --env-file-if-exists=.env src/db/migrasi.ts",
++    "isi-riwayat": "node --env-file-if-exists=.env src/db/isi-riwayat.ts",
++    "pengguna": "node --env-file-if-exists=.env src/db/kelola-pengguna.ts",
+     "test": "vitest run"
+   },
+   "dependencies": {
+@@ -27,6 +27,7 @@
+     "mqtt": "^5.16.1",
+     "node-cron": "^4.6.0",
+     "pg": "^8.23.1",
++    "pino-pretty": "^13.2.0",
+     "socket.io": "^4.8.4",
+     "zod": "^4.6.7"
+   },
+@@ -34,7 +35,6 @@
+     "@types/bcrypt": "^6.0.0",
+     "@types/node": "^24.19.2",
+     "@types/pg": "^8.23.1",
+-    "pino-pretty": "^13.2.0",
+     "typescript": "^7.0.2",
+     "vite": "^8.3.4",
+     "vitest": "^5.0.5"
+diff --git a/backend/src/auth/keamanan.ts b/backend/src/auth/keamanan.ts
+index d8a87bf..58ba9d3 100644
+--- a/backend/src/auth/keamanan.ts
++++ b/backend/src/auth/keamanan.ts
+@@ -38,7 +38,7 @@ export const OPSI_SESI = { ...DASAR, path: "/auth", maxAge: UMUR_SESI_DETIK }; /
+ // Rute yang boleh diketuk TANPA login. Semua rute lain wajib login, termasuk rute baru yang kelak ditambahkan.
+ export const RUTE_TERBUKA = new Set([
+   "POST /auth/login", "POST /auth/refresh", "POST /auth/logout",
+-  "GET /health", "HEAD /health", // HEAD: pemeriksa kesehatan seperti wget --spider (Docker, Fase 5)
++  "GET /health", "HEAD /health", // HEAD: healthcheck Docker Compose (Modul 26) mengetuk HEAD /health
+ ]);
+ const MEMBACA = new Set(["GET", "HEAD"]); // satu-satunya metode yang boleh dipakai akun viewer
+ // Halaman web (origin) yang boleh MENGUBAH sesuatu lewat browser: daftar CORS + server ini sendiri (Swagger UI di /docs).
+diff --git a/backend/src/server.ts b/backend/src/server.ts
+index c960431..329b476 100644
+--- a/backend/src/server.ts
++++ b/backend/src/server.ts
+@@ -1,9 +1,11 @@
+-// server.ts - pintu masuk backend Rumah Pintar Mini v1.2 (Modul 25: titik perangkat di peta dan laporan harian CSV lewat
+-// Telegram; di atas v1.1 Modul 24: aturan "di bawah ambang" seperti siram kalau tanah kering, aturan ambang boleh mengirim
+-// perintah sekali, dan aturan bisa dihapus; di atas v1.0 Modul 21: daftar resmi perangkat dan kuncinya, akun broker sendiri,
+-// pesan dari perangkat tak terdaftar/dicabut diabaikan; Modul 20: login, JWT di cookie, peran, dan pengaman API; dan
+-// Modul 19: data realtime, perintah satu pintu, aturan otomatis, jadwal, dan notifikasi Telegram).
+-// Jalankan: npm run dev (otomatis mulai ulang saat file disimpan) atau npm start.
++// server.ts - pintu masuk backend Rumah Pintar Mini v1.3 (Modul 26: bisa berjalan sebagai kontainer Docker di compose.cloud.yml;
++// di atas v1.2 Modul 25: titik perangkat di peta dan laporan harian CSV lewat Telegram; v1.1 Modul 24: aturan "di bawah ambang"
++// seperti siram kalau tanah kering, aturan ambang boleh mengirim perintah sekali, dan aturan bisa dihapus; v1.0 Modul 21: daftar
++// resmi perangkat dan kuncinya, akun broker sendiri, pesan dari perangkat tak terdaftar/dicabut diabaikan; Modul 20: login, JWT
++// di cookie, peran, dan pengaman API; dan Modul 19: data realtime, perintah satu pintu, aturan otomatis, jadwal, dan notifikasi
++// Telegram).
++// Jalankan: npm run dev (otomatis mulai ulang saat file disimpan) atau npm start. Di kontainer (Modul 26): node src/server.ts,
++// setelannya datang dari Docker Compose, bukan dari berkas .env (lihat Dockerfile).
+ import Fastify, { LogController } from "fastify";
+ import swagger from "@fastify/swagger";
+ import swaggerUi from "@fastify/swagger-ui";
+@@ -21,7 +23,7 @@ import { muatAturan } from "./services/otomasi.ts";
+ import { hentikanJadwal } from "./services/jadwal.ts";
+ import { hentikanTelegram, mulaiTelegram } from "./services/telegram.ts";
+ import { mulaiLaporan } from "./services/laporan.ts";
+-import { pakaiLog } from "./services/log.ts";
++import { pakaiLog, perluDicatat } from "./services/log.ts";
+ import { databaseHidup } from "./db/arsip.ts";
+ import { semuaPerangkatDb } from "./db/perangkat.ts";
+ import { isiDaftar } from "./services/daftar.ts";
+@@ -34,7 +36,9 @@ const app = Fastify({
+ pakaiLog(app.log); // Modul 19: layanan lain (perintah, aturan, jadwal, Telegram) menulis ke log yang sama
+ app.addHook("onResponse", async (req, reply) => {
+   // ...jadi diganti satu baris per permintaan (hook = "middleware" Fastify). Hanya metode, alamat, dan kode jawaban:
+-  // isi permintaan (sandi!) dan cookie (token!) tidak pernah ditulis ke log.
++  // isi permintaan (sandi!) dan cookie (token!) tidak pernah ditulis ke log. Modul 26: ketukan /health yang berhasil
++  // (healthcheck Docker setiap 15 detik) tidak dicatat, supaya log tidak penuh baris yang sama.
++  if (!perluDicatat(req.method, req.url, reply.statusCode)) return;
+   req.log.info(`${req.method} ${req.url} -> ${reply.statusCode} (${Math.round(reply.elapsedTime)} ms)`);
+ });
+ app.setValidatorCompiler(validatorCompiler); // skema Zod memeriksa isi permintaan...
+@@ -45,7 +49,7 @@ await app.register(swagger, {
+   openapi: {
+     info: {
+       title: "Rumah Pintar Mini API",
+-      description: "Backend v1.2 (Modul 25). Semua rute butuh login, kecuali yang tidak bergembok. Login dulu lewat "
++      description: "Backend v1.3 (Modul 26). Semua rute butuh login, kecuali yang tidak bergembok. Login dulu lewat "
+         + "POST /auth/login (Try it out): browser menyimpan cookie akses dan mengirimnya sendiri ke rute lain. "
+         + "Akun viewer hanya boleh melihat (GET); perintah dan perubahan dijawab 403. Perangkat didaftarkan admin lewat "
+         + "POST /devices; kuncinya hanya tampil sekali, dan pesan dari perangkat tak terdaftar atau dicabut diabaikan. "
+@@ -53,8 +57,10 @@ await app.register(swagger, {
+         + "mengirim satu perintah saat menyala, dan aturan bisa dihapus (DELETE /rules/:id). Sejak v1.2, GET /devices "
+         + "membawa titik peta setiap perangkat (lat, lng), dan admin memindahkannya lewat PUT /devices/:id/lokasi. "
+         + "Laporan harian CSV dikirim ke Telegram sesuai LAPORAN_JADWAL (bawaan 07.00 WIB); POST /laporan/kirim "
+-        + "mengirimnya sekarang juga.",
+-      version: "1.2.0",
++        + "mengirimnya sekarang juga. Sejak v1.3 (Modul 26), backend juga berjalan sebagai kontainer di Docker Compose: "
++        + "dashboard memanggilnya lewat penyaji web Caddy dengan awalan /api, sedangkan halaman ini dibuka di "
++        + "http://localhost:8080/docs (di kontainer, login dari http://127.0.0.1:8080/docs ditolak 403).",
++      version: "1.3.0",
+     },
+     components: {
+       securitySchemes: { // Modul 20: rute bergembok butuh cookie akses dari POST /auth/login
+diff --git a/backend/src/services/log.test.ts b/backend/src/services/log.test.ts
+new file mode 100644
+index 0000000..3c8d953
+--- /dev/null
++++ b/backend/src/services/log.test.ts
+@@ -0,0 +1,26 @@
++// log.test.ts - uji saringan log permintaan (Modul 26): ketukan /health yang berhasil dari healthcheck Docker tidak dicatat,
++// semua permintaan lain tetap dicatat. Fungsi murni: tanpa server, tanpa database, tanpa jaringan. Jalankan: npm test
++import { describe, expect, it } from "vitest";
++import { perluDicatat } from "./log.ts";
++
++describe("saringan log permintaan", () => {
++  it("GET dan HEAD /health yang berhasil TIDAK dicatat (healthcheck Docker setiap 15 detik)", () => {
++    expect(perluDicatat("HEAD", "/health", 200)).toBe(false);
++    expect(perluDicatat("GET", "/health", 200)).toBe(false);
++    expect(perluDicatat("GET", "/health?asal=uptime-kuma", 200)).toBe(false); // ?… di belakang tidak mengubah alamatnya
++  });
++
++  it("/health yang GAGAL tetap dicatat, supaya masalahnya terlihat di docker compose logs", () => {
++    expect(perluDicatat("HEAD", "/health", 500)).toBe(true);
++    expect(perluDicatat("GET", "/health", 503)).toBe(true);
++  });
++
++  it("alamat lain, metode lain, dan alamat yang hanya mirip tetap dicatat", () => {
++    expect(perluDicatat("GET", "/devices", 200)).toBe(true);
++    expect(perluDicatat("HEAD", "/devices", 200)).toBe(true);
++    expect(perluDicatat("POST", "/health", 404)).toBe(true);
++    expect(perluDicatat("GET", "/healthz", 404)).toBe(true);
++    expect(perluDicatat("GET", "/health/lain", 404)).toBe(true);
++    expect(perluDicatat("POST", "/auth/login", 401)).toBe(true);
++  });
++});
+diff --git a/backend/src/services/log.ts b/backend/src/services/log.ts
+index a4fc461..2323637 100644
+--- a/backend/src/services/log.ts
++++ b/backend/src/services/log.ts
+@@ -13,3 +13,13 @@ export const log = {
+   warn: (pesan: string) => pencatat?.warn(pesan),
+   error: (pesan: string) => pencatat?.error(pesan),
+ };
++
++// Modul 26: apakah satu permintaan HTTP perlu ditulis ke log (dipakai hook onResponse di server.ts)? Healthcheck Docker
++// mengetuk HEAD /health setiap 15 detik; tanpa saringan ini, log berisi ribuan baris yang sama setiap hari dan baris
++// penting tenggelam. Hanya ketukan /health yang BERHASIL (GET atau HEAD, kode di bawah 400) yang tidak dicatat: /health
++// yang gagal dan semua alamat lain tetap dicatat seperti biasa.
++export function perluDicatat(metode: string, alamat: string, kode: number): boolean {
++  const jalur = alamat.split("?")[0]; // tanpa ?… di belakangnya
++  const ketukanKesehatan = (metode === "GET" || metode === "HEAD") && jalur === "/health";
++  return !(ketukanKesehatan && kode < 400);
++}

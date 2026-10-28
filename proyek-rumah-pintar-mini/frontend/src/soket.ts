@@ -13,7 +13,12 @@ import type { DariKlien, Kejadian, KeKlien, Perangkat, StatusPerangkat, Telemetr
 // Alamatnya SAMA dengan api.ts (BASE): halaman http://<IP-laptop>:5173 di HP otomatis menyambung ke http://<IP-laptop>:8080.
 // withCredentials: true = bawa cookie login ke port lain (padanan credentials: "include" pada fetch). Tanpa ini,
 // backend menjawab "belum login" walaupun fetch berhasil. autoConnect: false = baru menyambung sesudah login.
-export const socket: Socket<KeKlien, DariKlien> = io(BASE, { withCredentials: true, autoConnect: false });
+// Modul 26: di image Docker, BASE = "/api" (jalur di alamat halaman ini, diteruskan Caddy ke backend). io("/api") akan
+// membacanya sebagai namespace Socket.IO, bukan jalur, jadi jalurnya diberikan lewat opsi path: /api/socket.io/.
+// BASE kosong (VITE_API_BASE=/) = API di akar alamat halaman ini: jalurnya /socket.io/.
+export const socket: Socket<KeKlien, DariKlien> = BASE === "" || BASE.startsWith("/")
+  ? io({ path: `${BASE}/socket.io`, withCredentials: true, autoConnect: false })
+  : io(BASE, { withCredentials: true, autoConnect: false });
 
 // Hanya perangkat yang kirimannya diterima backend yang diikuti. Kiriman perangkat yang kuncinya dicabut atau
 // belum terdaftar diabaikan backend (Modul 21), jadi acaranya tidak akan pernah datang.
