@@ -1,0 +1,60 @@
+# Mini Smart Home Grafana
+
+🌐 **English** · [Bahasa Indonesia](../../../../../fase-5-operasi-skala/modul-26-docker-compose/kode/grafana/README.md)
+
+Grafana is the Mini Smart Home dashboard for the **technical team** ([Module 25](../../../../phase-4-frontend-dashboard/module-25-grafana-maps-reports/README.md)): device health panels (RSSI, uptime, heap of Node 1; packets per hour of Node 2) and the "silent node" alert to Telegram, read straight from the TimescaleDB database (Modules 17–18). The dashboard for the residents is still `frontend/` (Modules 22–24). Since [Module 26](../../README.md), Grafana is the `grafana` service in `compose.cloud.yml` (the project root), uses the same `smarthome-grafana-data` cupboard as Module 25, and is **assembled from the files** in this folder (*provisioning*): the data source, the dashboard, the alert rule, and the Telegram contact point are there as soon as Grafana starts, without a click.
+
+This folder holds the Grafana **recipe**, not Grafana itself: all of its content may go into Git because there are **no secrets** in it. The Grafana admin password, the password of the database account `grafana_reader`, and the Telegram bot token only live in the root `.env` of the project (not in Git); the files here only name their variables.
+
+| File | What it holds |
+| :--- | :--- |
+| [`grafana-user.sql`](grafana-user.sql) | the database account `grafana_reader` that can only read (without a password). Since Module 26 it is run by the one-off `grafana-account` service, which then syncs its password with `GRAFANA_READER_PASSWORD` in `.env` |
+| [`dashboards/system-health.json`](dashboards/system-health.json) | the "System Health" dashboard, the **Classic** JSON export of Module 25 Practice 9; since Module 26 every panel points at the data source with the fixed uid `smarthome-db` |
+| [`provisioning/datasources/smarthome.yaml`](provisioning/datasources/smarthome.yaml) | the PostgreSQL data source `smarthome-db` (host `db:5432`, database `smarthome`, account `grafana_reader`, TimescaleDB, **Max open** 4); its password from `$GRAFANA_READER_PASSWORD` |
+| [`provisioning/dashboards/smarthome.yaml`](provisioning/dashboards/smarthome.yaml) | the dashboard provider: every JSON in `dashboards/` goes into the "Mini Smart Home" folder, locked on the screen (`allowUiUpdates: false`) |
+| [`provisioning/alerting/silent-node.yaml`](provisioning/alerting/silent-node.yaml) | the "Silent node" alert rule (the Module 25 export; until Module 25 it was kept in `alerting/` as an archive) |
+| [`provisioning/alerting/telegram-contact.yaml`](provisioning/alerting/telegram-contact.yaml) | the "Telegram Smart Home" contact point (the Module 25 4.1 screen fields); the token and chat_id from `$TELEGRAM_BOT_TOKEN` and `$TELEGRAM_CHAT_ID` |
+| [`provisioning/plugins/no-plugins.yaml`](provisioning/plugins/no-plugins.yaml) | a plugin list that is empty on purpose (without this file, the Grafana log writes `level=error` about the `plugins` folder) |
+
+## How to run it (Docker Compose, Module 26)
+
+Every command is typed from the **project root**. First fill in the root `.env` (its example is `.env.example`): `GRAFANA_READER_PASSWORD`, `GRAFANA_ADMIN_PASSWORD`, and (optional) `TELEGRAM_BOT_TOKEN` + `TELEGRAM_CHAT_ID`. Then:
+
+```text
+docker compose up -d
+```
+
+The order is set by `compose.cloud.yml`: the database healthy → `migrate` → `grafana-account` (creates `grafana_reader` if it doesn't exist yet, then syncs its password with `.env`, and stops by itself) → `grafana`. `docker compose ps` shows `grafana` `(healthy)` as soon as `http://127.0.0.1:3000/api/health` answers `"database": "ok"`.
+
+1. Open `http://localhost:3000`. A new Grafana cupboard (a new laptop): log in as `admin` with `GRAFANA_ADMIN_PASSWORD`. The Module 25 cupboard: your **old** admin password stays valid; Grafana only uses `GRAFANA_ADMIN_PASSWORD` while its cupboard is still empty.
+2. **Dashboards → Mini Smart Home → System Health**: the panels hold data as soon as a registered device sends data. This dashboard comes from a file: **Edit → Save** answers `This dashboard cannot be saved from the Grafana UI because it has been provisioned from another source.`
+3. **Alerting → Alert rules**: "Silent node" (group `node-health`) marked *Provisioned*. **Alerting → Notification configuration → Contact points**: "Telegram Smart Home" marked *Provisioned*; click **Test** to send a test message (needs a real token and chat_id in `.env`).
+4. Left empty in `.env`, Telegram stays optional: `compose.cloud.yml` gives Grafana the stand-in values `not-set-yet` and `0`, so that Grafana still starts (a Telegram contact point without a token makes Grafana fail to start, over and over). Alerts are still evaluated and shown on the screen; only sending them to Telegram fails.
+
+**Moving from Module 25: the takeover to files.** The Module 25 cupboard already holds the "Silent node" rule, the "Telegram Smart Home" contact point, and a screen-made data source. If the provisioning files are simply installed on top of it, that contact point holds **two** Telegram integrations and every alert is sent **twice**. So, BEFORE Grafana starts for the first time with the `provisioning/` folder (Module 26 Practice 7), in the Grafana that is still running:
+
+1. If you changed the "System Health" dashboard after the Module 25 Practice 9 export, export it again (**Export → Export as JSON**, Classic), overwrite `dashboards/system-health.json`, then change every data source uid in it to `smarthome-db`.
+2. **Alerting → Alert rules**: delete the "Silent node" rule.
+3. **Alerting → Notification configuration → Contact points**: delete "Telegram Smart Home".
+4. **Connections → Data sources**: delete the old data source `grafana-postgresql-datasource` (the dashboard and rule from the files use `smarthome-db`). Other screen-made dashboards that still use the old data source, for example `First panel` from the Module 25 Quick Win, then show red without data: delete them too, or change their panel's data source to `smarthome-db` (after step 5), then **Save**.
+5. `docker compose up -d`, then check steps 2–3 above: Save dashboard refused, the "Silent node" rule *Provisioned* and `Normal`, the contact point **Test** arrives. The admin account and its password stay from the old cupboard.
+
+**Changing the dashboard or a rule after Module 26.** Things from files are locked on the screen: the dashboard's **Save** button is refused (`allowUiUpdates: false`), and the rule and the contact point can't be edited. Change it on the screen as an experiment, then export it (dashboard: **Export → Export as JSON**, Classic, the data source uid stays `smarthome-db`; rule: **More → Export rules group → YAML**), overwrite the file in this folder, run `docker compose restart grafana`, then commit. The dashboard is read from its file again every 30 seconds; the rule, the contact point, and the data source are only read again after `restart`.
+
+**Before Module 26** (without Compose), Grafana was started with `docker run -d --name smarthome-grafana --network smarthome -p 127.0.0.1:3000:3000 -e GF_PLUGINS_PREINSTALL_DISABLED=true -e GF_ANALYTICS_REPORTING_ENABLED=false -e GF_SNAPSHOTS_EXTERNAL_ENABLED=false -e GF_PUBLIC_DASHBOARDS_ENABLED=false -v smarthome-grafana-data:/var/lib/grafana --restart unless-stopped grafana/grafana:13.2.4`, the `grafana_reader` account through `docker cp` + `psql -f grafana-user.sql` + `\password grafana_reader`, and the data source, the dashboard, the rule, and the contact point were made on the screens (Module 25). That `smarthome-grafana` container must be stopped and removed (`docker stop`, `docker rm`; its cupboard stays) before the Compose `grafana` service starts: two Grafanas with the same database and rules = every alert sent twice.
+
+## Security
+
+- Grafana only on `127.0.0.1:3000` (the counter `PORT_GRAFANA` in `.env`), with an admin password that isn't `admin`.
+- The Module 25 settings are carried over exactly in `compose.cloud.yml`: `GF_PLUGINS_PREINSTALL_DISABLED=true` (no plugin download of ±290 MB) and three `false` settings that turn off what is sent out (usage statistics, snapshots, public dashboards). What STILL contacts the internet: the check for new versions of Grafana and its plugins, the news feed, and avatar pictures; none of them carry dashboard content or your home's data.
+- Grafana reads the database with `grafana_reader`, **not** `postgres`: only `SELECT` on `readings`, `readings_hourly`, `device_health`, `events`, `commands`, and certain `devices` columns (without `key_hash`). It can't read `users` and `sessions`; `INSERT`, `DROP`, and the like are refused (`cannot execute … in a read-only transaction`); a query longer than 10 seconds is stopped. Because its rights are per column, `SELECT * FROM devices` is refused (`permission denied for table devices`): always write the column names.
+- **The Telegram bot token** now lives in the root `.env` (and in `backend/.env` for dev mode), then is also stored in the Grafana cupboard as a contact point field. Its encryption uses Grafana's default key as long as `GF_SECURITY_SECRET_KEY` isn't set: **don't** add a new `GF_SECURITY_SECRET_KEY` on top of the Module 25 cupboard (the old secret fields can't be read any more). Guard `.env` and that cupboard like you guard the token. `docker compose config` prints the token and every password as they are: don't paste its output anywhere. The token is never in JSON, YAML, Git, or screenshots; before a commit, search this folder for the word `token` and your chat_id: the result must be empty.
+
+## Limits
+
+- Grafana only runs while the laptop (and Docker Desktop) is on, the same as the backend. Since Module 26 its container is started again by Docker if it stops by itself (`restart: unless-stopped`); a server that is always on follows in Module 27.
+- The "silent node" alert reads the time of the last reading in the database. If the **backend** is down, no new readings are stored, so **all** nodes look silent at once. If the **database** is down, the rule becomes *Error* (`DatasourceError`) and messages arrive without a node name; in the author's lab (DB down ±80 seconds, group 1 minute) a node that was 🔴 stayed 🔴, but a false "recovered" message was once seen when the rule was evaluated every 10 seconds.
+- The `grafana_reader` account may have at most 5 connections at once. With `maxOpenConns: 4` in the data source, one Grafana never goes over it, even when the dashboard is open in two tabs or on a laptop and a phone at the same time; two Grafanas using the same account can go over it (`too many connections for role "grafana_reader"`).
+- If Grafana can't read the database, alert messages arrive without a node name (`🔴 [no value] ([no value]) is not sending data, …`, then `✅  is sending data again.`): that is a sign of a database or Grafana problem (for example a data source uid that doesn't match), not of a silent node.
+- As long as no device is registered yet (for example a friend's laptop that has just started Compose), the panels that use the Node variable write `db query error: ERROR: syntax error at or near ")" (SQLSTATE 42601)`; it goes away by itself as soon as the first device is registered.
+- Alert messages come without a panel picture (Grafana's image renderer isn't installed).

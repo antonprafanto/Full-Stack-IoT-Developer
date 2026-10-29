@@ -1,0 +1,55 @@
+# acl-broker - the Mini Smart Home broker's access list (Module 21).
+# Mosquitto reads this file from top to bottom. A line starting with # is a note (# must be the first character of the line).
+# An account not mentioned here may not write or read anything.
+# Every time this file changes, RESTART the broker (not reload). Module 26, the broker in Docker Compose: docker compose restart
+# mosquitto (from the project root for the central broker, from the edge folder on the Pi for the gateway broker).
+
+# 1) Each device may only "talk" on its own topics. A pattern line applies to ALL accounts;
+#    %u is replaced by the username proven with a password, that is, that device's device_id.
+pattern write msh/%u/telemetry
+pattern write msh/%u/status
+pattern write msh/%u/vitals
+pattern write msh/%u/ack
+pattern read msh/%u/cmd
+
+# 2) One exception in the data contract (rule 6): Node 1 publishes Node 2's telemetry and status.
+#    Replace a4cf12e5b7c0 with your Node 1's device_id and 246f28b1c7d4 with your Node 2's device_id.
+user a4cf12e5b7c0
+topic write msh/246f28b1c7d4/telemetry
+topic write msh/246f28b1c7d4/status
+
+# 2b) Laptop path (Module 25): the "mock Garden" f00d000000b2 is published by the first fake device f00d00000001 (simulator in
+#     tools/), exactly like item 2. Only for readers WITHOUT a real Node 2: delete "# " (the hash and its space) in front of
+#     the three lines below, save, then RESTART the broker. Readers with Kit A + B don't need this block.
+# user f00d00000001
+# topic write msh/f00d000000b2/telemetry
+# topic write msh/f00d000000b2/status
+
+# 3) Backend: reads all device messages, sends commands (set and config) to cmd.
+user backend
+topic read msh/#
+topic write msh/+/cmd
+
+# 4) Node-RED on the Pi gateway: the dashboard reads, the Fan switch sends cmd.
+user nodered
+topic read msh/#
+topic write msh/+/cmd
+
+# 5) The contract checker (tools/contract-checker.js): read only.
+user checker
+topic read msh/#
+
+# 6) Monitor (MQTTX, mosquitto_sub): looks only, including the broker statistics in $SYS.
+user monitor
+topic read msh/#
+topic read $SYS/#
+
+# 7) The Pi gateway bridge (Module 26): applies on the CENTRAL broker (compose.cloud.yml), where the bridge logs in with this account.
+#    The bridge forwards the messages of all devices to the center and picks up the commands for them. The per-device checks
+#    (items 1 and 2) are already done by the gateway broker on the Pi, which uses the same file but has no pi-bridge account.
+user pi-bridge
+topic write msh/+/telemetry
+topic write msh/+/status
+topic write msh/+/vitals
+topic write msh/+/ack
+topic read msh/+/cmd

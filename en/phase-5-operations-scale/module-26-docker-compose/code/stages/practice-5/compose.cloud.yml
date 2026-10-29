@@ -1,0 +1,243 @@
+# compose.cloud.yml - STAGE of Module 26 Practice 5: the whole home (database, central broker, migrate, backend, dashboard + Caddy,
+# Grafana, Uptime Kuma in a profile), Grafana still assembled through its screens like Module 25 (provisioning in Practice 7).
+# Its content is written at the project root (not in this stage folder). The final Module 26 file: ../../compose.cloud.yml.
+# Run it from the project root:  docker compose up -d --build
+# Secrets and settings are read from .env at the project root (its example is .env.example). .env NEVER goes into Git, and the output
+# of "docker compose config" prints every secret: don't paste it into a forum, an issue, or an AI.
+# NEVER "docker compose down -v": -v deletes the cupboards (volumes) that belong to Compose. The history cupboards (db, grafana) are
+# "external" on purpose so they aren't deleted with them, but the broker passwords and the Uptime Kuma data are still lost.
+name: smarthome
+
+# The backend settings are used by two services (backend and migrate): written once here, then referred to with *backend-settings.
+# Compose ignores an "x-..." name as a service; its content is only material to refer to.
+x-backend-settings: &backend-settings
+  # inside the Compose hallway, other services are called by their SERVICE NAME: mosquitto, db (not 127.0.0.1)
+  MQTT_URL: mqtt://mosquitto:1883
+  MQTT_USERNAME: backend
+  MQTT_PASSWORD: ${MQTT_PASSWORD:?fill in MQTT_PASSWORD in .env}
+  DATABASE_URL: postgres://postgres:${POSTGRES_PASSWORD:?fill in POSTGRES_PASSWORD in .env}@db:5432/smarthome
+  # 0.0.0.0 = listen on every interface INSIDE the container, so that Caddy and the healthcheck can get in. What decides
+  # who outside the laptop can knock is still the counter (ports) of the backend service below: 127.0.0.1 only.
+  HOST: 0.0.0.0
+  PORT: "8080"
+  JWT_SECRET: ${JWT_SECRET:?fill in JWT_SECRET in .env}
+  # pages (origins) that may log in from a browser: the dashboard through Caddy at http://localhost (web counter 80)
+  CORS_ORIGIN: ${CORS_ORIGIN:-http://localhost,http://127.0.0.1}
+  TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN:-}
+  TELEGRAM_CHAT_ID: ${TELEGRAM_CHAT_ID:-}
+  # only for a mock Bot API server in the lab; empty = the real Telegram server
+  TELEGRAM_API_ROOT: ${TELEGRAM_API_ROOT:-}
+  REPORT_SCHEDULE: "${REPORT_SCHEDULE:-0 7 * * *}"
+  # the times in the backend log use WIB (without this, the container's clock = UTC)
+  TZ: Asia/Jakarta
+
+# Each container's log is limited to 3 files x 10 MB. Docker's default has NO limit: in the long run the disk fills up.
+x-log: &log
+  driver: json-file
+  options:
+    max-size: 10m
+    max-file: "3"
+
+services:
+  # The TimescaleDB database (Modules 17-18). Its cupboard = the same smarthome-data cupboard since Module 17 (see volumes below).
+  db:
+    image: timescale/timescaledb:2.30.2-pg17
+    environment:
+      # This form is only read while the cupboard is still EMPTY. An old cupboard already holds the password: write the OLD one in .env.
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?fill in POSTGRES_PASSWORD in .env}
+      POSTGRES_DB: smarthome
+      TIMESCALEDB_TELEMETRY: "off"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      # 127.0.0.1 = this laptop only (DBeaver, psql, dev mode npm run dev). Without 127.0.0.1, Docker opens the counter to
+      # the whole Wi-Fi and goes around the firewall.
+      - "127.0.0.1:${PORT_DB:-5432}:5432"
+    networks:
+      default:
+        # the old container name of Modules 17-25: the screen-made Grafana data source (host smarthome-db:5432) stays connected
+        aliases:
+          - smarthome-db
+    healthcheck:
+      # "running" doesn't mean "ready for visitors". -h 127.0.0.1: while a new cupboard is filled for the first time, a temporary
+      # server only listens on the local socket, so without -h the check can pass too early.
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U postgres -d smarthome"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+      start_period: 60s
+    restart: unless-stopped
+    logging: *log
+
+  # One-off: makes the broker account "backend" in the broker cupboard, ONLY when there's no password file yet (a new laptop, an
+  # empty cupboard). Other accounts (simulator devices, pi-bridge, monitor) are added with (-u mosquitto = the password file's owner):
+  #   docker compose exec -u mosquitto mosquitto mosquitto_passwd /mosquitto/data/broker-passwd <name>
+  # then: docker compose restart mosquitto
+  broker-account:
+    image: eclipse-mosquitto:2.1.2-alpine
+    environment:
+      MQTT_PASSWORD: ${MQTT_PASSWORD:?fill in MQTT_PASSWORD in .env}
+    # $$ = a $ sign passed on to sh, not filled in by Compose from .env. -b = the password is written in the command: it doesn't
+    # go into your terminal history, but it's briefly visible in the machine's process list (on Linux and the Pi, ps also shows
+    # container processes). The risk is small: only once, when the password file is made, on your own laptop or Pi.
+    command:
+      - sh
+      - -c
+      - |
+        set -e
+        if [ -f /mosquitto/data/broker-passwd ]; then
+          echo "broker password file already exists: skipped"
+        else
+          mosquitto_passwd -b -c /mosquitto/data/broker-passwd backend "$$MQTT_PASSWORD"
+          chmod 600 /mosquitto/data/broker-passwd
+          echo "broker account backend created"
+        fi
+    volumes:
+      - broker-data:/mosquitto/data
+    # The Mosquitto image declares its log folder as a cupboard, while our log shows on the screen (docker compose logs).
+    # tmpfs = a temporary folder in RAM: without it Docker makes a nameless cupboard every time this container is recreated.
+    tmpfs:
+      - /mosquitto/log
+    restart: "no"
+    logging: *log
+
+  # The CENTRAL MQTT broker (Mosquitto 2.1.2: reads password files in the 2.0 and 2.1 formats). The backend calls it mosquitto:1883;
+  # the Pi gateway (bridge) and the simulator on the laptop come in through counter 1883.
+  mosquitto:
+    image: eclipse-mosquitto:2.1.2-alpine
+    volumes:
+      # The configuration and the access list from the repo (read-only). After changing either: docker compose restart mosquitto
+      - ./edge/center.conf:/mosquitto/config/mosquitto.conf:ro
+      - ./edge/acl-broker:/mosquitto/config/acl-broker:ro
+      # the password file, retained messages, and sessions are kept in this cupboard (it belongs to Compose)
+      - broker-data:/mosquitto/data
+    # the image's own log folder isn't used (log to the screen): tmpfs, so that there's no nameless cupboard
+    tmpfs:
+      - /mosquitto/log
+    ports:
+      # every interface: the Pi gateway and a laptop-path ESP32 come in from the home Wi-Fi. No port forwarding (no TLS yet, Module 27).
+      # This broker starts every time Docker starts, on any Wi-Fi. A laptop on a public Wi-Fi (a cafe, a campus):
+      # docker compose stop mosquitto, then back home: docker compose start mosquitto
+      - "${PORT_MQTT:-1883}:1883"
+    depends_on:
+      broker-account:
+        condition: service_completed_successfully
+    restart: unless-stopped
+    logging: *log
+
+  # One-off: applies the new migrations/*.sql files (safe to repeat: "0 new migration(s) applied").
+  migrate:
+    # the same mold as the backend service (image + build written exactly the same in both services)
+    image: ${IMAGE_REGISTRY:?fill in IMAGE_REGISTRY in .env}/mini-smart-home-backend:1.3.0
+    build: ./backend
+    command: ["node", "src/db/migrate.ts"]
+    environment: *backend-settings
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: "no"
+    logging: *log
+
+  # Backend 1.3.0 (Modules 16-26). The image tag = version in backend/package.json.
+  backend:
+    # image: the name in the image shop (GHCR, Practice 10). build: if that image isn't on the laptop yet and can't be pulled from
+    # the shop, Compose builds it itself from backend/Dockerfile.
+    image: ${IMAGE_REGISTRY:?fill in IMAGE_REGISTRY in .env}/mini-smart-home-backend:1.3.0
+    build: ./backend
+    environment: *backend-settings
+    ports:
+      # Bruno, Swagger (http://localhost:8080/docs), and tools/live-terminal.js keep using the old counter
+      - "127.0.0.1:${PORT_BACKEND:-8080}:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+      mosquitto:
+        condition: service_started
+      migrate:
+        condition: service_completed_successfully
+    healthcheck:
+      # HEAD /health from inside the container (the node image has no curl). Healthy = the process is alive and answers; /health
+      # stays 200 even when the broker or the database is down (a real monitor = Module 30). "unhealthy" does NOT restart the container.
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:8080/health',{method:'HEAD'}).then(r=>process.exit(r.ok?0:1),()=>process.exit(1))"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+      start_interval: 2s
+    restart: unless-stopped
+    logging: *log
+
+  # Dashboard 1.2.0 (Modules 22-26) served by Caddy: the page at /, the backend API at /api (one address, no cross-port CORS).
+  web:
+    image: ${IMAGE_REGISTRY:?fill in IMAGE_REGISTRY in .env}/mini-smart-home-web:1.2.0
+    build:
+      context: ./frontend
+      args:
+        # the API address is built into the JavaScript at build time; it must equal the handle_path prefix in frontend/caddy/Caddyfile
+        VITE_API_BASE: /api
+    volumes:
+      # The Caddyfile is mounted as a FOLDER (not a single file), so that new content is read after the editor saves the file.
+      # HTTPS certificates (the /data cupboard) follow in Module 27.
+      - ./frontend/caddy:/etc/caddy:ro
+    ports:
+      # the default 127.0.0.1:80 = this laptop only. Phone mode: WEB_ADDRESS=0.0.0.0 in .env and the laptop's IP in CORS_ORIGIN.
+      - "${WEB_ADDRESS:-127.0.0.1}:${PORT_WEB:-80}:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+    logging: *log
+
+  # Grafana 13.2.4 (Module 25) with the same smarthome-grafana-data cupboard: your dashboards, rules, contact point, and old
+  # admin account come along. Assembled from files (provisioning) only in Practice 7.
+  grafana:
+    image: grafana/grafana:13.2.4
+    environment:
+      # exactly the Module 25 settings: no plugin download at the first start, no statistics/snapshots/public dashboards sent out
+      GF_PLUGINS_PREINSTALL_DISABLED: "true"
+      GF_ANALYTICS_REPORTING_ENABLED: "false"
+      GF_SNAPSHOTS_EXTERNAL_ENABLED: "false"
+      GF_PUBLIC_DASHBOARDS_ENABLED: "false"
+    volumes:
+      - grafana-data:/var/lib/grafana
+    ports:
+      - "127.0.0.1:${PORT_GRAFANA:-3000}:3000"
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      # the Grafana image has curl; /api/health answers "database": "ok" when Grafana is ready
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:3000/api/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 60s
+      start_interval: 2s
+    restart: unless-stopped
+    logging: *log
+
+  # Uptime Kuma (set up in Module 30). The "monitoring" profile: it does NOT start with a plain "docker compose up -d";
+  # start it with: docker compose --profile monitoring up -d
+  # stop it with:  docker compose --profile monitoring down   (without --profile, Uptime Kuma keeps running)
+  uptime-kuma:
+    image: louislam/uptime-kuma:2.5.8-slim
+    profiles: ["monitoring"]
+    volumes:
+      - kuma-data:/app/data
+    ports:
+      - "127.0.0.1:${PORT_KUMA:-3001}:3001"
+    restart: unless-stopped
+    logging: *log
+
+volumes:
+  # The history cupboards belong to YOU, not to Compose ("external"): Compose never creates or deletes them, not even
+  # with "down -v". A new laptop creates them once: docker volume create smarthome-data (and smarthome-grafana-data).
+  db-data:
+    external: true
+    name: ${DB_VOLUME:-smarthome-data}
+  grafana-data:
+    external: true
+    name: ${GRAFANA_VOLUME:-smarthome-grafana-data}
+  # Compose's cupboards (made by itself, deleted by "down -v"): the broker password file + retained messages, the Uptime Kuma data.
+  broker-data:
+  kuma-data:

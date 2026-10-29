@@ -1,0 +1,428 @@
+diff --git a/edge/.env.example b/edge/.env.example
+new file mode 100644
+index 0000000..946c57b
+--- /dev/null
++++ b/edge/.env.example
+@@ -0,0 +1,21 @@
++# edge/.env.example - the Docker Compose settings of the Mini Smart Home GATEWAY (Raspberry Pi) (Module 26), for compose.edge.yml.
++# On the Pi, from the edge folder: cp .env.example .env, fill in the empty lines, then chmod 600 .env. edge/.env isn't in Git.
++
++# The Compose file's name. With this line, "docker compose up -d" in the edge folder is enough (without -f compose.edge.yml).
++COMPOSE_FILE=compose.edge.yml
++
++# The CENTRAL broker's address = the IP of the laptop that runs compose.cloud.yml, for example 192.168.1.20 (a fixed address in the router,
++# like Module 23's phone mode: if the laptop's IP changes, the bridge breaks). The gateway tried on the same laptop: host-gateway
++CENTER_ADDRESS=
++
++# The gateway broker's counter. On the Pi: 1883 (the Node 1 firmware uses 1883). The gateway tried on the same laptop as
++# compose.cloud.yml: 1884, because 1883 is already used by the central broker.
++PORT_GATEWAY=1883
++
++# Module 27 (not used in Module 26): the Cloudflare Tunnel token for the "tunnel" profile. Secret.
++TUNNEL_TOKEN=
++# Node-RED in a container (the "nodered" profile, optional; Module 26 keeps using the systemd Node-RED): the editor's counter.
++PORT_NODERED=1880
++
++# Profiles that start with "docker compose up -d". Empty = only the gateway broker.
++# COMPOSE_PROFILES=nodered
+diff --git a/edge/README.md b/edge/README.md
+index 41b989b..31849d7 100644
+--- a/edge/README.md
++++ b/edge/README.md
+@@ -2,7 +2,7 @@
+ 
+ 🌐 **English** · [Bahasa Indonesia](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/proyek-rumah-pintar-mini/edge/README.md)
+ 
+-The gateway is the Raspberry Pi that runs the Mini Smart Home MQTT broker 24 hours a day ([Module 12](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-12-raspberry-pi-and-linux/README.md)), and since [Module 13](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-13-node-red-dashboard/README.md) it also runs Node-RED with the dashboard and the fan automation (the automation has been switched off since [Module 16](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-3-backend-data/module-16-backend-typescript-api-git/README.md), because the brain has moved to the backend); since [Module 14](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-14-node-2-esp-now/README.md), that dashboard has a Garden card for Node 2, and since [Module 15](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-15-modbus-rs485-and-protocols/README.md), an RS-485 Sensor group for the RS-485 soil sensor that Node 1 reads. This page is its **main backup**: if the microSD card breaks, the gateway can be rebuilt from a blank card in about an hour with the recipe below. Fill in the table with your own gateway's details.
++The gateway is the Raspberry Pi that runs the Mini Smart Home MQTT broker 24 hours a day ([Module 12](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-12-raspberry-pi-and-linux/README.md)), and since [Module 13](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-13-node-red-dashboard/README.md) it also runs Node-RED with the dashboard and the fan automation (the automation has been switched off since [Module 16](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-3-backend-data/module-16-backend-typescript-api-git/README.md), because the brain has moved to the backend); since [Module 14](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-14-node-2-esp-now/README.md), that dashboard has a Garden card for Node 2, and since [Module 15](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-15-modbus-rs485-and-protocols/README.md), an RS-485 Sensor group for the RS-485 soil sensor that Node 1 reads. Since [Module 26](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-5-operations-scale/module-26-docker-compose/README.md), that broker runs as a **Docker container** ([`compose.edge.yml`](compose.edge.yml), the Compose project `smarthome-gateway`; the module calls the Pi **the gateway**), with the same accounts, port, and address, so the firmware doesn't change; the gateway broker forwards the device messages to the **central** broker on the laptop through a bridge. This page is its **main backup**: if the microSD card breaks, the gateway can be rebuilt from a blank card in about an hour with the recipe below. Fill in the table with your own gateway's details.
+ 
+ > [!CAUTION]
+ > **Never write a password** (the Pi's, the Wi-Fi's, or any other) in this file or anywhere else in the repository.
+@@ -15,24 +15,32 @@ The gateway is the Raspberry Pi that runs the Mini Smart Home MQTT broker 24 hou
+ | Hostname | `gateway` |
+ | User | `budi` (the password isn't recorded here) |
+ | Fixed address | `192.168.1.37`, over the LAN cable (Option A: a reservation on the router / Option B: `nmcli`) |
+-| Broker | Mosquitto 2.0.21 from the Debian package, systemd service `mosquitto`, settings in [`gateway-pi.conf`](gateway-pi.conf) |
++| Docker | Docker Engine 29 from Docker's apt repository (the Debian guide) + the `docker compose` plugin |
++| Broker | Mosquitto 2.1.2 in a container (`eclipse-mosquitto:2.1.2-alpine`, [`compose.edge.yml`](compose.edge.yml) + [`gateway.conf`](gateway.conf)), since Module 26; before that Mosquitto 2.0.21 from the Debian package, systemd service `mosquitto`, [`gateway-pi.conf`](gateway-pi.conf) |
++| Central broker (the bridge's target) | laptop `192.168.1.20`, counter 1883 (`CENTER_ADDRESS` in `edge/.env`) |
+ | Built | (date) |
+ 
+ ## Files in this folder
+ 
+ | File | Used on | Contents |
+ | :--- | :--- | :--- |
+-| [`mosquitto-lan.conf`](mosquitto-lan.conf) | the laptop ([Module 11](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-11-mqtt-and-data-contract/README.md); locked in Module 21) | `mosquitto -v -c mosquitto-lan.conf` in a terminal |
+-| [`gateway-pi.conf`](gateway-pi.conf) | the Pi gateway (Module 12; locked in Module 21) | on the Pi: `/etc/mosquitto/conf.d/gateway-pi.conf` |
+-| [`acl-broker`](acl-broker) | the Pi gateway and the laptop ([Module 21](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-3-backend-data/module-21-device-broker-security/README.md)) | the broker access list (ACL): a device only writes its own topics. On the Pi: `/etc/mosquitto/acl-broker` (OUTSIDE `conf.d`) |
+-| `broker-passwd` | the Pi gateway and the laptop (Module 21) | **not in Git** (`.gitignore`): the broker accounts' password file, made **on the broker machine** with `mosquitto_passwd` |
+-| [`node-red-flows.json`](node-red-flows.json) | the Pi gateway (Module 13) | all the Node-RED flows; restored through **Import** in the editor (step 11) |
++| [`compose.edge.yml`](compose.edge.yml) | the Pi gateway (Module 26) | the `mosquitto` service (the gateway broker + the bridge); `cloudflared` (profile `tunnel`, Module 27) and `nodered` (profile `nodered`, optional) are only written, not started |
++| [`.env.example`](.env.example) | the Pi gateway (Module 26) | the example of `edge/.env`: `COMPOSE_FILE=compose.edge.yml`, `CENTER_ADDRESS` (the center laptop's IP), `PORT_GATEWAY`. `edge/.env` is **not in Git** |
++| [`gateway.conf`](gateway.conf) | the Pi gateway (Module 26) | the gateway broker's settings inside the container: accounts, ACL, persistence, log to the container's screen, the `bridge/` folder |
++| [`center.conf`](center.conf) | the laptop (Module 26) | the CENTRAL broker's settings inside the container (the `mosquitto` service in `compose.cloud.yml` at the project root) |
++| [`bridge.example.conf`](bridge.example.conf) | the Pi gateway (Module 26) | an example bridge gateway → center (the `pi-bridge` account, without a password); its copy `bridge/center.conf` holds the password and is **not in Git** |
++| [`bridge/`](bridge/README.md) | the Pi gateway (Module 26) | the folder the gateway broker reads (`include_dir`); only its `README.md` is in Git |
++| [`acl-broker`](acl-broker) | the gateway and central brokers ([Module 21](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-3-backend-data/module-21-device-broker-security/README.md); block `7) pi-bridge` since Module 26) | the broker access list (ACL): a device only writes its own topics. Both containers read it straight from this folder (read-only) |
++| `broker-passwd` | the gateway and central brokers (Module 21) | the broker accounts' password file. Since Module 26 it lives in each broker's **cupboard** (volume) (`/mosquitto/data/broker-passwd` inside the container), made with `mosquitto_passwd` inside the container; never in Git |
++| [`gateway-pi.conf`](gateway-pi.conf) | the Pi gateway **without Docker** (before Module 26; Module 12, locked in Module 21) | on the Pi: `/etc/mosquitto/conf.d/gateway-pi.conf`; kept for a Pi that hasn't moved yet and as a way back |
++| [`mosquitto-lan.conf`](mosquitto-lan.conf) | the laptop **without Docker** (before Module 26; [Module 11](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-11-mqtt-and-data-contract/README.md), locked in Module 21) | `mosquitto -v -c mosquitto-lan.conf` in a terminal; since Module 26 replaced by the Compose central broker |
++| [`node-red-flows.json`](node-red-flows.json) | the Pi gateway (Module 13) | all the Node-RED flows; restored through **Import** in the editor (step 13) |
+ 
+ ## Rebuild recipe
+ 
+ 1. **Write the card** with Raspberry Pi Imager: **Raspberry Pi 5** → **Raspberry Pi OS (other)** → **Raspberry Pi OS Lite (64-bit)** → the microSD card. In **Customisation**: hostname `gateway`, **Capital city** set to **Jakarta (Indonesia)**, user `budi` with a strong password, the home Wi-Fi (the backup path), **Enable SSH** with **Use password authentication**, and **Raspberry Pi Connect** left off.
+ 2. **Start** the Pi with a LAN cable to the router. From the laptop: `ssh budi@gateway.local`. Because the card is new, the laptop may refuse with `REMOTE HOST IDENTIFICATION HAS CHANGED!`; first run `ssh-keygen -R gateway.local` and `ssh-keygen -R 192.168.1.37` on the laptop (step 6 uses the IP address).
+-3. **Update** (steps 3–5 are typed on the Pi, in that SSH terminal, except the `ssh` command for logging in again, which is typed on the laptop): `sudo apt update`, then `sudo apt full-upgrade`, then `sudo reboot`. Wait about one minute, then log in again with `ssh budi@gateway.local`.
++3. **Update** (steps 3–9 are typed on the Pi, in that SSH terminal, except the `ssh` command for logging in again, which is typed on the laptop): `sudo apt update`, then `sudo apt full-upgrade`, then `sudo reboot`. Wait about one minute, then log in again with `ssh budi@gateway.local`.
+ 4. **Fixed address**. For Option A, make sure the reservation of `192.168.1.37` on the router uses this Pi's `eth0` MAC address (`ip link show eth0`; this address only changes if the Pi board itself is replaced); or Option B:
+ 
+    ```bash
+@@ -40,24 +48,21 @@ The gateway is the Raspberry Pi that runs the Mini Smart Home MQTT broker 24 hou
+    ```
+ 
+    then run `sudo nmcli connection up "netplan-eth0"`. If the name of the `eth0` connection in `nmcli device status` is different, use that name. An SSH terminal that goes over the cable may freeze when the address moves; close its window, then log in again with `ssh budi@192.168.1.37`.
+-5. **Install the broker**: `sudo apt install mosquitto mosquitto-clients`.
+-6. **Restore the broker settings** from this folder. On the laptop, from the `mini-smart-home` folder:
++5. **Install Docker Engine** from Docker's apt repository, following the official **Debian** page (<https://docs.docker.com/engine/install/debian/>, the section *Install using the apt repository*): the 64-bit Raspberry Pi OS is Debian, while the "Raspberry Pi OS" page on Docker's site is only for 32-bit (`dpkg --print-architecture` must answer `arm64`). That page first asks you to remove the conflicting default packages (`docker.io docker-compose docker-doc docker-buildx podman-docker containerd runc`), install Docker's key and repository source, then `sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin`. We don't use the `get.docker.com` script (its official docs: not recommended for machines in real use). After installing: `sudo usermod -aG docker $USER`, leave SSH and log in again, then check `docker version` and `docker compose version`. The `docker` group equals **root**: only for the Pi's own user. Docker starts by itself every time the Pi starts.
++6. **Get the project and prepare its settings**: `sudo apt install git` (if it isn't there yet), `git clone https://github.com/YOUR-USERNAME/mini-smart-home.git` (your repo), then `cd mini-smart-home/edge`. Copy `.env.example` to `.env` (`cp .env.example .env`), fill in `CENTER_ADDRESS` with the IP of the laptop that runs `compose.cloud.yml` (a fixed address in the router), then `chmod 600 .env`. Copy the bridge example: `cp bridge.example.conf bridge/center.conf`, replace `replace-with-the-pi-bridge-account-password` with the password of the `pi-bridge` account (that account is made on the **central** broker, see Locking the broker), then `chmod 600 bridge/center.conf`.
++7. **The broker password file into the gateway cupboard.** An old Pi moving from the apt Mosquitto: copy its password file (the Mosquitto 2.0 format is read by Mosquitto 2.1.2 as it is), then stop the old broker so that counter 1883 is free:
+ 
+    ```bash
+-   scp edge/gateway-pi.conf budi@192.168.1.37:
+-   ```
+-
+-   Then on the Pi:
+-
+-   ```bash
+-   sudo cp ~/gateway-pi.conf /etc/mosquitto/conf.d/
++   sudo cat /etc/mosquitto/broker-passwd | docker compose run --rm -T --no-deps mosquitto sh -c 'cat > /mosquitto/data/broker-passwd && chmod 600 /mosquitto/data/broker-passwd'
+    ```
+ 
+    ```bash
+-   sudo systemctl restart mosquitto
++   sudo systemctl disable --now mosquitto
+    ```
+ 
+-7. **Test**: `systemctl status mosquitto` says `enabled` and `active (running)`; MQTTX on the laptop connects to `192.168.1.37:1883`; Node 1 greets the broker (`sudo tail -f /var/log/mosquitto/mosquitto.log`).
++   A new card (the old file is gone with the card): make the first account in the gateway cupboard with `docker compose run --rm --no-deps -u mosquitto mosquitto mosquitto_passwd -c /mosquitto/data/broker-passwd nodered` (the password is typed twice; `-c` = create a new file), then the device accounts and the other accounts after the broker is running (Locking the broker). The way back if something goes wrong: `docker compose down`, then `sudo systemctl enable --now mosquitto` (the old apt broker starts again with its old file).
++8. **Start it**: `docker compose up -d` (from the `edge` folder; the `COMPOSE_FILE` line in `.env` makes `-f compose.edge.yml` unnecessary).
++9. **Test**: `docker compose ps` shows `mosquitto` `Up`; `docker compose logs mosquitto` writes `Connecting bridge center (center:1883)`, and on the laptop `docker compose logs mosquitto` (project root) writes `New bridge connected … as pi-bridge`; MQTTX on the laptop connects to `192.168.1.37:1883`; Node 1 greets the gateway broker (`docker compose logs -f mosquitto`, **Ctrl + C** only stops reading).
+ 
+ ## Monthly check
+ 
+@@ -66,15 +71,34 @@ The gateway is the Raspberry Pi that runs the Mini Smart Home MQTT broker 24 hou
+ | `vcgencmd get_throttled` | `throttled=0x0`: never short of voltage, never overheated |
+ | `df -h /` | `Use%` below 80% |
+ | `systemctl list-units --failed` | `0 loaded units listed.` |
+-| `sudo apt update`, then `sudo apt full-upgrade` | updates installed; `sudo reboot` if there was a kernel update |
++| `docker compose ps` (in the `edge` folder) | `mosquitto` `Up`, not `Restarting` |
++| `docker system df` | reasonable image and cupboard sizes; each container's log is already limited to 3 × 10 MB by `compose.edge.yml`. Don't run an automatic prune |
++| `sudo apt update`, then `sudo apt full-upgrade` | updates installed (Docker Engine from Docker's repository too); `sudo reboot` if there was a kernel update. `restart: unless-stopped` containers start again by themselves after a reboot |
+ 
+-Every time the settings on the Pi change, copy the file to this folder again (`scp budi@192.168.1.37:/etc/mosquitto/conf.d/gateway-pi.conf edge/`), then make a commit.
++Since Module 26, the gateway broker's settings live in the repo cloned on the Pi: change `gateway.conf` or `acl-broker` on the laptop, commit and push, then on the Pi `git pull` and `docker compose restart mosquitto`. Without Docker (before Module 26): copy the file from the Pi again (`scp budi@192.168.1.37:/etc/mosquitto/conf.d/gateway-pi.conf edge/`), then make a commit.
+ 
+ ## Locking the broker (Module 21)
+ 
+-Up to Module 20, the broker let anyone in without a password (`allow_anonymous true`). [Module 21](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-3-backend-data/module-21-device-broker-security/README.md) locks it: every program (device, backend, Node-RED, monitor) connects with its own account, and the access list (ACL) limits the topics each account may write or read. `gateway-pi.conf` and `mosquitto-lan.conf` already contain `allow_anonymous false`, `password_file`, `acl_file`, and `use_username_as_clientid true`.
++Up to Module 20, the broker let anyone in without a password (`allow_anonymous true`). [Module 21](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-3-backend-data/module-21-device-broker-security/README.md) locks it: every program (device, backend, Node-RED, monitor) connects with its own account, and the access list (ACL) limits the topics each account may write or read. `gateway.conf`, `center.conf`, `gateway-pi.conf`, and `mosquitto-lan.conf` all contain `allow_anonymous false`, `password_file`, `acl_file`, and `use_username_as_clientid true`.
++
++**Since Module 26 (the broker in a container)**, the commands are typed from the folder of its Compose project: the `edge` folder on the Pi for the gateway broker, the project root on the laptop for the central broker. The password file lives in that broker's cupboard, so `mosquitto_passwd` runs **inside the container**, as the user `mosquitto` (the file's owner; without `-u mosquitto`, `mosquitto_passwd` warns `owner is not root`):
++
++```bash
++docker compose exec -u mosquitto mosquitto mosquitto_passwd /mosquitto/data/broker-passwd a4cf12e5b7c0
++```
+ 
+-- **The password file `broker-passwd`** holds a fingerprint (not the real password) of every account. It is made with `mosquitto_passwd` **on the machine where the broker runs** (on the Pi over SSH; a Mosquitto 2.1 password file on the laptop **can't** be used by the Pi's 2.0.21, and the other way around). The first account with `-c` (create the file), the rest without `-c`:
++```bash
++docker compose restart mosquitto
++```
++
++The password is typed twice (it doesn't show). Revoking an account: `docker compose exec -u mosquitto mosquitto mosquitto_passwd -D /mosquitto/data/broker-passwd <device_id>`, then `restart`. In a container, **always `docker compose restart mosquitto`** after changing an account, `acl-broker`, or a `*.conf` (a restart reads the file the editor has just saved; don't use `docker compose kill -s SIGHUP` as a reload: Docker treats it as a manual stop). Accounts per broker:
++
++- **The gateway broker (Pi):** the device accounts (`device_id`), `nodered`, `monitor`, `checker`. It doesn't need the `backend` account any more: the backend now connects to the central broker.
++- **The central broker (laptop):** `backend` (made automatically by the `broker-account` service from `MQTT_PASSWORD` in the root `.env`), `pi-bridge` (its password is also written in `edge/bridge/center.conf` on the Pi; its rights are block `7) pi-bridge` in `acl-broker`), and the `tools/` simulator devices for the laptop path.
++
++**Without Docker (before Module 26)**, the steps are as below.
++
++- **The password file `broker-passwd`** holds a fingerprint (not the real password) of every account. It is made with `mosquitto_passwd` **on the machine where the broker runs** (on the Pi over SSH; a Mosquitto 2.1 password file on the laptop **can't** be used by Mosquitto 2.0.21, but the Module 26 Mosquitto 2.1.2 in a container reads both the 2.0 and the 2.1 format). The first account with `-c` (create the file), the rest without `-c`:
+ 
+   ```bash
+   sudo mosquitto_passwd -c /etc/mosquitto/broker-passwd backend
+@@ -103,9 +127,9 @@ Up to Module 20, the broker let anyone in without a password (`allow_anonymous t
+ 
+ - **The account for each program.** Backend: `backend` (`.env`, `MQTT_USERNAME`/`MQTT_PASSWORD`). Node-RED: `nodered`, filled in on the **Security** tab of the broker node (double-click the "Mosquitto on the gateway" node → **Security** → Username `nodered` + Password → **Done** → **Deploy**); those credentials are stored encrypted in `flows_cred.json`, **not** in `node-red-flows.json`, so exporting the flows stays safe. MQTTX for monitoring: the `monitor` account (may read `msh/#` and `$SYS/#`, may not write). The `contract-checker.js` tool: the `checker` account (reads `msh/#` only).
+ 
+-- **The mock Garden, the path without a Node 2 ([Module 25](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-4-frontend-dashboard/module-25-grafana-maps-reports/README.md)).** The simulator `tools/device-simulator.js` can run a fake Node 2 `f00d000000b2` whose data is published by the fake device `f00d00000001`. For the broker to allow it, open the block `2b) Laptop path (Module 25)` in `acl-broker`: delete `# ` (the hash and its space) in front of the three lines `user f00d00000001`, `topic write msh/f00d000000b2/telemetry`, and `topic write msh/f00d000000b2/status`, save, then **restart** the broker. Laptop broker (`mosquitto -v -c mosquitto-lan.conf`): **Ctrl + C**, then run the same command again. Broker on the Pi: copy `acl-broker` to the Pi as above, `sudo cp ~/acl-broker /etc/mosquitto/`, then `sudo systemctl restart mosquitto`. Readers with a real Node 2 don't need this block (leave it commented out). How to use the mock Garden is in `tools/README.md`.
++- **The mock Garden, the path without a Node 2 ([Module 25](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-4-frontend-dashboard/module-25-grafana-maps-reports/README.md)).** The simulator `tools/device-simulator.js` can run a fake Node 2 `f00d000000b2` whose data is published by the fake device `f00d00000001`. For the broker to allow it, open the block `2b) Laptop path (Module 25)` in `acl-broker`: delete `# ` (the hash and its space) in front of the three lines `user f00d00000001`, `topic write msh/f00d000000b2/telemetry`, and `topic write msh/f00d000000b2/status`, save, then **restart** the broker. The Compose central broker (Module 26, the laptop path): `docker compose restart mosquitto` from the project root. Before Module 26: the laptop broker (`mosquitto -v -c mosquitto-lan.conf`) **Ctrl + C**, then run the same command again; the broker on the Pi: copy `acl-broker` to the Pi as above, `sudo cp ~/acl-broker /etc/mosquitto/`, then `sudo systemctl restart mosquitto`. Readers with a real Node 2 don't need this block (leave it commented out). How to use the mock Garden is in `tools/README.md`.
+ 
+-Its traffic is still unencrypted: the key travels in the clear on the LAN (see `tools/sniffer.js`). That's fine for now on a closed home network, but TLS is a must before the broker is opened to the internet (Module 27) — don't set up port forwarding to the Pi.
++Its traffic is still unencrypted: the key travels in the clear on the LAN (see `tools/sniffer.js`), and so does the gateway → center bridge (Module 26). That's fine for now on a closed home network, but TLS is a must before the broker is opened to the internet (Module 27) — don't set up port forwarding to the Pi or to the laptop. The Module 26 bridge also doesn't yet hold messages while the central broker is down (a sleeping laptop = the telemetry of that time is lost); the bridge's queue and TLS follow in Module 27.
+ 
+ ## Node-RED and the dashboard (Module 13)
+ 
+@@ -118,18 +142,20 @@ Node-RED runs on this same gateway, as the systemd service `nodered` ([Module 13
+ | Dashboard | FlowFuse Dashboard (`@flowfuse/node-red-dashboard`) 1.33.0, `http://192.168.1.37:1880/dashboard/home` |
+ | Automation | switched off since Module 16: the four nodes of section 2 (fan on above 30 °C, off below 28 °C) are marked `"d": true` and look faded in the editor |
+ 
+-The recipe continues, after step 7 above:
++Since Module 26, Node-RED **stays** a systemd service: the broker node in the flows (`localhost:1883`) now connects to the gateway broker in the container through the Pi's counter 1883, with the `nodered` account from the password file moved in step 7. Node-RED in a container (the `nodered` profile in `compose.edge.yml`) is optional and not used yet: before starting it, the systemd `nodered` service must be stopped (counter 1880 clashes), the flows and their credentials moved, and the broker address in the flows changed from `localhost` to `mosquitto`.
++
++The recipe continues, after step 9 above:
+ 
+-8. **Install Node-RED** on the Pi, as `budi` and **without** `sudo`:
++10. **Install Node-RED** on the Pi, as `budi` and **without** `sudo`:
+ 
+    ```bash
+    bash <(curl -sL https://github.com/node-red/linux-installers/releases/latest/download/install-update-nodered-deb)
+    ```
+ 
+    Type `y` for the first question (within 30 seconds) and `n` for the *Pi-specific nodes*. In `node-red admin init`, answer exactly as in the Quick Win table of Module 13: `Share Anonymouse Usage Information` **No, do not send my usage data**; `Do you want to setup user security?` **Yes**, with **Username** `admin` and a new editor password; `Do you want to enable the Projects feature?` **No**; fill in a passphrase (keep it somewhere safe, not here); `Allow Function nodes to load external modules?` **No**; then press **Enter** for the other questions. Don't just press **Enter** for every question: the default choice for the usage data and for the external modules is `Yes`, and an empty passphrase makes the credentials get saved without encryption.
+-9. **Start the service**: `sudo systemctl enable --now nodered.service`.
+-10. **Install Dashboard 2**: on the laptop, open `http://192.168.1.37:1880` and log in. Main menu → **Manage palette** → the **Install** tab → search for `@flowfuse/node-red-dashboard` → click **install** on the package whose name is **exactly** that (not `@flowfuse/node-red-dashboard-2-…`) → click **Install** in the confirmation window.
+-11. **Restore the flows**: main menu → **Import** → **select a file to import** → choose `edge/node-red-flows.json` from the `mini-smart-home` folder on the laptop → **Import**, then **Deploy**.
+-12. **Test**: `systemctl status nodered` says `enabled` and `active (running)`; the phone opens the dashboard; the **Fan** switch moves the relay and slides over after the `ack` arrives; the **Garden** card fills in again as soon as Node 2 wakes up (within 5 minutes at most); the **RS-485 Sensor** group says `reading`, `no reading`, or `not in use`, depending on the sensor's state.
++11. **Start the service**: `sudo systemctl enable --now nodered.service`.
++12. **Install Dashboard 2**: on the laptop, open `http://192.168.1.37:1880` and log in. Main menu → **Manage palette** → the **Install** tab → search for `@flowfuse/node-red-dashboard` → click **install** on the package whose name is **exactly** that (not `@flowfuse/node-red-dashboard-2-…`) → click **Install** in the confirmation window.
++13. **Restore the flows**: main menu → **Import** → **select a file to import** → choose `edge/node-red-flows.json` from the `mini-smart-home` folder on the laptop → **Import**, then **Deploy**.
++14. **Test**: `systemctl status nodered` says `enabled` and `active (running)`; the phone opens the dashboard; the **Fan** switch moves the relay and slides over after the `ack` arrives; the **Garden** card fills in again as soon as Node 2 wakes up (within 5 minutes at most); the **RS-485 Sensor** group says `reading`, `no reading`, or `not in use`, depending on the sensor's state.
+ 
+ Every time the flows change, export them again from the editor (main menu → **Export** → **all flows** → **formatted** → **Download**), overwrite `edge/node-red-flows.json`, then make a commit.
+diff --git a/edge/acl-broker b/edge/acl-broker
+index 3fc78fe..bdd3216 100644
+--- a/edge/acl-broker
++++ b/edge/acl-broker
+@@ -1,7 +1,8 @@
+ # acl-broker - the Mini Smart Home broker's access list (Module 21).
+ # Mosquitto reads this file from top to bottom. A line starting with # is a note (# must be the first character of the line).
+ # An account not mentioned here may not write or read anything.
+-# Every time this file changes, RESTART the broker (not reload).
++# Every time this file changes, RESTART the broker (not reload). Module 26, the broker in Docker Compose: docker compose restart
++# mosquitto (from the project root for the central broker, from the edge folder on the Pi for the gateway broker).
+ 
+ # 1) Each device may only "talk" on its own topics. A pattern line applies to ALL accounts;
+ #    %u is replaced by the username proven with a password, that is, that device's device_id.
+@@ -42,3 +43,13 @@ topic read msh/#
+ user monitor
+ topic read msh/#
+ topic read $SYS/#
++
++# 7) The Pi gateway bridge (Module 26): applies on the CENTRAL broker (compose.cloud.yml), where the bridge logs in with this account.
++#    The bridge forwards the messages of all devices to the center and picks up the commands for them. The per-device checks
++#    (items 1 and 2) are already done by the gateway broker on the Pi, which uses the same file but has no pi-bridge account.
++user pi-bridge
++topic write msh/+/telemetry
++topic write msh/+/status
++topic write msh/+/vitals
++topic write msh/+/ack
++topic read msh/+/cmd
+diff --git a/edge/bridge.example.conf b/edge/bridge.example.conf
+new file mode 100644
+index 0000000..5021203
+--- /dev/null
++++ b/edge/bridge.example.conf
+@@ -0,0 +1,19 @@
++# bridge.example.conf - an EXAMPLE bridge from the Pi gateway broker to the central broker on the laptop (Module 26).
++# Copy it to edge/bridge/center.conf (cp bridge.example.conf bridge/center.conf), then replace the password. That copy
++# holds a password, so it isn't in Git. This first bridge is still plain (no TLS yet) and doesn't yet hold messages while the center
++# is down: both are Module 27.
++connection center
++# "center" = the name compose.edge.yml points at CENTER_ADDRESS in edge/.env (the IP of the laptop that runs compose.cloud.yml).
++# Leave "center" written here; what you change is the address in edge/.env. 1883 = the central broker's PORT_MQTT counter.
++address center:1883
++# the bridge's client name is made fixed. Its default holds the container name, which changes every time the container is recreated.
++remote_clientid pi-bridge
++# the pi-bridge account on the CENTRAL broker (made with mosquitto_passwd in the central container; its rights are block 7 of acl-broker)
++remote_username pi-bridge
++remote_password replace-with-the-pi-bridge-account-password
++# device messages go up to the center (out), commands from the backend come down to the devices (in), QoS 1
++topic msh/+/telemetry out 1
++topic msh/+/status out 1
++topic msh/+/vitals out 1
++topic msh/+/ack out 1
++topic msh/+/cmd in 1
+diff --git a/edge/bridge/README.md b/edge/bridge/README.md
+new file mode 100644
+index 0000000..d74801e
+--- /dev/null
++++ b/edge/bridge/README.md
+@@ -0,0 +1,13 @@
++# The bridge folder (Module 26)
++
++The gateway broker on the Raspberry Pi reads **every `.conf` file** in this folder (`include_dir` in [`../gateway.conf`](../gateway.conf)).
++It holds one file, `center.conf`, a copy of [`../bridge.example.conf`](../bridge.example.conf) with the password of the `pi-bridge` account:
++
++```bash
++cp bridge.example.conf bridge/center.conf
++```
++
++(typed from the `edge` folder, then replace `replace-with-the-pi-bridge-account-password` with its password). The `.conf` files in this folder
++**aren't in Git** (the project root `.gitignore`) because they hold a password. This `README.md` file is in Git on purpose so that the folder
++already exists after `git clone`: if this folder doesn't exist yet at `docker compose up`, Docker on Linux creates it by itself as
++owned by `root`, and you can't copy `center.conf` into it without `sudo`.
+diff --git a/edge/center.conf b/edge/center.conf
+new file mode 100644
+index 0000000..bf47dbf
+--- /dev/null
++++ b/edge/center.conf
+@@ -0,0 +1,25 @@
++# center.conf - the Mini Smart Home CENTRAL broker inside a container (Module 26, the mosquitto service in compose.cloud.yml).
++# Runs on the laptop (Module 26) and later on a VPS (Module 27). The backend connects through the service name mosquitto:1883; the
++# Pi gateway through the bridge with the pi-bridge account; the tools/ simulator through the laptop's counter 1883. Paths below = INSIDE the container.
++# After changing this file or acl-broker: docker compose restart mosquitto (restart, not reload).
++listener 1883
++# without a registered username and password, no one may connect (Module 21)
++allow_anonymous false
++# the password file lives in the broker-data cupboard (made by mosquitto_passwd INSIDE the container; the image hands it to the
++# mosquitto user every time it starts, so there's no file-owner trouble on the laptop)
++password_file /mosquitto/data/broker-passwd
++acl_file /mosquitto/config/acl-broker
++# the client name is always = the username: no one can pretend to be or kick out another client
++use_username_as_clientid true
++# retained messages (device statuses, the backend's config) and sessions are kept in the cupboard: not lost when the container is recreated
++persistence true
++persistence_location /mosquitto/data/
++# log to the container's screen: read it with docker compose logs mosquitto (limited to 3 x 10 MB by compose.cloud.yml)
++log_dest stdout
++log_type error
++log_type warning
++log_type notice
++log_type information
++# remove the # in front of the line below to also see the messages REFUSED by the access list (Denied PUBLISH, Module 21);
++# the log gets much busier
++# log_type debug
+diff --git a/edge/compose.edge.yml b/edge/compose.edge.yml
+new file mode 100644
+index 0000000..30aae2a
+--- /dev/null
++++ b/edge/compose.edge.yml
+@@ -0,0 +1,74 @@
++# compose.edge.yml - the Mini Smart Home GATEWAY services on the Raspberry Pi (Module 26), the partner of compose.cloud.yml on the laptop.
++# Run it on the Pi, from the edge folder:  docker compose up -d
++#   The line COMPOSE_FILE=compose.edge.yml in edge/.env makes -f unnecessary (its example is edge/.env.example).
++# The Mosquitto gateway broker (replacing the Module 12 apt package) + the bridge to the central broker on the laptop (bridge/center.conf).
++# cloudflared (Module 27) and Node-RED (optional) only start when their profile is named, for example:
++#   docker compose --profile nodered up -d
++# In Module 26 neither of them is started. NEVER "docker compose down -v": -v deletes the cupboard holding the broker password file.
++name: smarthome-gateway
++
++# Each container's log is limited to 3 files x 10 MB. Docker's default has NO limit: the Pi's microSD card can fill up slowly.
++x-log: &log
++  driver: json-file
++  options:
++    max-size: 10m
++    max-file: "3"
++
++services:
++  # The gateway broker: Node 1 (and Node 2 through Node 1) keeps connecting to the Pi's IP on port 1883 with its old account.
++  # Mosquitto 2.1.2 reads the Pi's old password file (2.0 format) as it is.
++  mosquitto:
++    image: eclipse-mosquitto:2.1.2-alpine
++    volumes:
++      # The configuration and the access list from the repo (read-only). After changing either: docker compose restart mosquitto
++      - ./gateway.conf:/mosquitto/config/mosquitto.conf:ro
++      - ./acl-broker:/mosquitto/config/acl-broker:ro
++      # the bridge folder: holds center.conf (the bridge password, not in Git)
++      - ./bridge:/mosquitto/config/bridge:ro
++      # the password file (moved from /etc/mosquitto/broker-passwd), retained messages, and sessions
++      - broker-data:/mosquitto/data
++    # The Mosquitto image declares its log folder as a cupboard, while our log shows on the screen (docker compose logs).
++    # tmpfs = a temporary folder in RAM: without it Docker makes a nameless cupboard every time this container is recreated.
++    tmpfs:
++      - /mosquitto/log
++    ports:
++      # all interfaces: devices connect from the home Wi-Fi. The firmware uses 1883, so on the Pi don't change this number.
++      - "${PORT_GATEWAY:-1883}:1883"
++    extra_hosts:
++      # the name "center" in bridge/center.conf points at the IP of the laptop that runs compose.cloud.yml (CENTER_ADDRESS in
++      # edge/.env). The gateway tried on the same laptop (laptop path): CENTER_ADDRESS=host-gateway (= this machine itself).
++      - "center:${CENTER_ADDRESS:?fill in CENTER_ADDRESS in edge/.env (the center laptop's IP)}"
++    restart: unless-stopped
++    logging: *log
++
++  # The Cloudflare tunnel (Module 27, the free path): needs TUNNEL_TOKEN in edge/.env. The "tunnel" profile = doesn't start
++  # until it's called: docker compose --profile tunnel up -d
++  cloudflared:
++    image: cloudflare/cloudflared:2026.10.5
++    profiles: ["tunnel"]
++    # the image's starting program is already "cloudflared --no-autoupdate"; this is what follows it
++    command: ["tunnel", "run"]
++    environment:
++      TUNNEL_TOKEN: ${TUNNEL_TOKEN:-}
++    restart: unless-stopped
++    logging: *log
++
++  # Node-RED in a container (optional). Module 26 keeps using the systemd Node-RED of Module 13. Before using this profile,
++  # stop the systemd nodered service (counter 1880 clashes), move the flows and their credentials, then change the broker
++  # address in the flows from localhost to mosquitto (inside a container, localhost = the Node-RED container itself).
++  nodered:
++    image: nodered/node-red:5.0.9-24
++    profiles: ["nodered"]
++    environment:
++      TZ: Asia/Jakarta
++    volumes:
++      - nodered-data:/data
++    ports:
++      - "${PORT_NODERED:-1880}:1880"
++    restart: unless-stopped
++    logging: *log
++
++volumes:
++  # Compose's cupboards: the gateway broker's password file + retained messages, and the Node-RED data (if its profile is used).
++  broker-data:
++  nodered-data:
+diff --git a/edge/gateway-pi.conf b/edge/gateway-pi.conf
+index ec68dd8..0f0060a 100644
+--- a/edge/gateway-pi.conf
++++ b/edge/gateway-pi.conf
+@@ -1,4 +1,6 @@
+ # gateway-pi.conf - the Mini Smart Home broker on the Raspberry Pi gateway (Module 12), locked in Module 21.
++# WITHOUT DOCKER (before Module 26): for the apt-package Mosquitto on the Pi. Since Module 26, the Pi runs the broker in a container
++# (compose.edge.yml + gateway.conf); this file is kept for a Pi that hasn't moved yet and as a way back.
+ # Location on the Pi: /etc/mosquitto/conf.d/gateway-pi.conf. Accounts are in /etc/mosquitto/broker-passwd (mosquitto_passwd),
+ # the access list in /etc/mosquitto/acl-broker. Traffic isn't encrypted yet: don't set up port forwarding to the Pi (Module 27).
+ listener 1883
+diff --git a/edge/gateway.conf b/edge/gateway.conf
+new file mode 100644
+index 0000000..6ca6186
+--- /dev/null
++++ b/edge/gateway.conf
+@@ -0,0 +1,26 @@
++# gateway.conf - the Mini Smart Home GATEWAY broker on the Raspberry Pi, inside a container (Module 26, edge/compose.edge.yml).
++# Replaces the apt Mosquitto package + /etc/mosquitto/conf.d/gateway-pi.conf (Modules 12 and 21). Devices keep connecting to the
++# Pi's IP on port 1883 with their old accounts, so the firmware doesn't change. Paths below = INSIDE the container.
++# After changing this file, acl-broker, or bridge/center.conf: docker compose restart mosquitto (restart, not reload).
++listener 1883
++# without a registered username and password, no one may connect (Module 21)
++allow_anonymous false
++# the password file lives in the broker-data cupboard; the Pi's old file (/etc/mosquitto/broker-passwd, 2.0 format) is read by Mosquitto 2.1.2
++password_file /mosquitto/data/broker-passwd
++acl_file /mosquitto/config/acl-broker
++# the client name is always = the username (device_id): no one can pretend to be or kick out another device
++use_username_as_clientid true
++# retained messages and sessions are kept in the cupboard (like the apt Mosquitto on the Pi, which saves them when it stops)
++persistence true
++persistence_location /mosquitto/data/
++# log to the container's screen: read it with docker compose logs mosquitto (limited to 3 x 10 MB by compose.edge.yml)
++log_dest stdout
++log_type error
++log_type warning
++log_type notice
++log_type information
++# remove the # in front of the line below to also see the messages REFUSED by the access list (Denied PUBLISH, Module 21);
++# the log gets much busier
++# log_type debug
++# the bridge to the central broker: every .conf file in this folder is read (edge/bridge/center.conf, holds a password, not in Git)
++include_dir /mosquitto/config/bridge
+diff --git a/edge/mosquitto-lan.conf b/edge/mosquitto-lan.conf
+index 8603907..5d5596f 100644
+--- a/edge/mosquitto-lan.conf
++++ b/edge/mosquitto-lan.conf
+@@ -1,4 +1,6 @@
+ # mosquitto-lan.conf - the Module 11 practice broker for the home network, locked in Module 21.
++# WITHOUT DOCKER (before Module 26): Mosquitto installed directly on the laptop. Since Module 26, the laptop broker is the
++# mosquitto service in compose.cloud.yml (center.conf); stop this old broker so counter 1883 isn't used by two programs.
+ # Run it from the edge folder: mosquitto -v -c mosquitto-lan.conf. Turn the broker off before the laptop joins a public Wi-Fi.
+ # Accounts are in broker-passwd (made with mosquitto_passwd on this laptop; not in Git), the access list in acl-broker.
+ listener 1883

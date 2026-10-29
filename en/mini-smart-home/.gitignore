@@ -2,3 +2,12 @@
 keys.h
 # Module 21: broker password file (MQTT account fingerprints): never pushed to GitHub. The ACL list edge/acl-broker may be committed.
 edge/broker-passwd
+# Module 26: the Docker Compose settings hold ALL your home's secrets (.env at the root for compose.cloud.yml, edge/.env for
+# the Pi gateway; this line applies in any folder) and their copies. Only the example (.env.example) may go in.
+.env
+.env.*
+!.env.example
+# Module 26: the gateway -> center bridge copy (edge/bridge/center.conf) holds the pi-bridge account's password
+edge/bridge/*.conf
+# Module 26: database and Grafana cupboard backups (pg_dump, tar): large, and they hold personal data
+backup/

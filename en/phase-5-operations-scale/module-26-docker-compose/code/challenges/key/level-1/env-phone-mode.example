@@ -1,0 +1,18 @@
+# env-phone-mode.example - the Module 26 Level 1 answer key: the root .env lines changed for "phone mode" (the dashboard from a phone on the home Wi-Fi).
+# Not a whole .env file: copy only these lines into your .env, replace 192.168.1.20 with your laptop's Wi-Fi IP, then from the project
+# root: docker compose up -d. Put the laptop-mode values back after trying it (see README.md in this folder).
+
+# Phone mode with the default web counter 80. The phone opens http://192.168.1.20
+WEB_ADDRESS=0.0.0.0
+CORS_ORIGIN=http://localhost,http://127.0.0.1,http://192.168.1.20
+
+# Phone mode with web counter 8081 (port 80 on the laptop is already taken). The phone opens http://192.168.1.20:8081
+# The port MUST be written in every CORS_ORIGIN address too, including localhost and 127.0.0.1.
+# WEB_ADDRESS=0.0.0.0
+# PORT_WEB=8081
+# CORS_ORIGIN=http://localhost:8081,http://127.0.0.1:8081,http://192.168.1.20:8081
+
+# Laptop mode (the .env.example default), to put it back:
+# WEB_ADDRESS=127.0.0.1
+# PORT_WEB=80
+# CORS_ORIGIN=http://localhost,http://127.0.0.1

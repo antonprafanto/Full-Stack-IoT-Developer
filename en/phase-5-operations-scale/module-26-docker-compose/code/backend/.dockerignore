@@ -1,0 +1,17 @@
+# .dockerignore - files that are NOT sent to docker build (Module 26). A shared image (public GHCR) can be taken apart by
+# anyone, layer by layer: secrets must not get in, not even into a stage that is thrown away later.
+# Libraries from npm install on the laptop: never copied into the image (the Dockerfile installs its own: npm ci --omit=dev);
+# left out so that the build context stays small.
+node_modules
+# The dev-mode secrets (.env) and their copies; only the example (.env.example) may go in.
+.env
+.env.*
+!.env.example
+# Database photocopies, the Bruno collection, the load test, and the Module 20 curl test files (they hold passwords and cookies).
+backup
+bruno
+test
+login*.json
+cookies*.txt
+# Vitest test files aren't used by the running server.
+src/**/*.test.ts

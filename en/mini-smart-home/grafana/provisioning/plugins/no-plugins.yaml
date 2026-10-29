@@ -1,0 +1,5 @@
+# no-plugins.yaml - Grafana reads the provisioning/plugins folder every time it starts; if this folder doesn't exist, its log
+# writes level=error "Failed to read plugin provisioning files" (harmless, but confusing). Mini Smart Home
+# installs no extra plugins (Module 25: GF_PLUGINS_PREINSTALL_DISABLED), so the list is deliberately empty.
+apiVersion: 1
+apps: []

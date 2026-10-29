@@ -1,0 +1,124 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="944" viewBox="0 0 1200 944" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="944" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" xml:space="preserve">The image shop: from your laptop to a friend's laptop</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" xml:space="preserve">Concept 11 · Practices 10–11 · GHCR = an image shop (registry) · by hand in Module 26, automatic in Module 29</text>
+<rect x="30.0" y="104.0" width="258.0" height="304.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<circle cx="52.0" cy="130.0" r="12" fill="#a13a6b" stroke="#ffffff" stroke-width="2" />
+<text x="52.0" y="134.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >1</text>
+<g transform="translate(88 131) scale(0.7) translate(-88 -131)">
+<rect x="68.0" y="116.0" width="40.0" height="26.0" rx="3" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<path d="M62 146 L114 146" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+</g>
+<text x="116.0" y="130.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >Your laptop</text>
+<text x="116.0" y="147.0" font-size="11.5" font-weight="700" fill="#a13a6b" text-anchor="start" >build</text>
+<text x="46.0" y="178.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">.env</tspan>: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">IMAGE_REGISTRY=</tspan></text>
+<text x="46.0" y="199.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">ghcr.io/&lt;account&gt;</tspan> (all lowercase)</text>
+<text x="46.0" y="220.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">docker compose build</tspan></text>
+<text x="46.0" y="262.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the result, tagged = version:</text>
+<text x="46.0" y="283.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">…/mini-smart-home-backend</tspan></text>
+<text x="46.0" y="304.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">:1.3.0</tspan> and <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">…-web:1.2.0</tspan></text>
+<text x="46.0" y="346.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">before pushing: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">.dockerignore</tspan></text>
+<text x="46.0" y="367.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">and <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">docker</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">history</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">--no-trunc</tspan></text>
+<text x="46.0" y="388.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">without passwords/tokens</text>
+<line x1="291.0" y1="224.0" x2="315.0" y2="224.0" stroke="#a13a6b" stroke-width="2.4" stroke-linecap="round" />
+<path d="M308.8 227.3 L315.0 224.0 L308.8 220.7" fill="none" stroke="#a13a6b" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="318.0" y="104.0" width="258.0" height="304.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<circle cx="340.0" cy="130.0" r="12" fill="#a13a6b" stroke="#ffffff" stroke-width="2" />
+<text x="340.0" y="134.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >2</text>
+<g transform="translate(376 131) scale(0.7) translate(-376 -131)">
+<rect x="365.0" y="128.0" width="22.0" height="17.0" rx="3" fill="none" stroke="#a13a6b" stroke-width="2" />
+<path d="M369.5 128 L369.5 123 A6.5 6.5 0 0 1 382.5 123 L382.5 128" fill="none" stroke="#a13a6b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="376.0" cy="136.0" r="1.8" fill="#a13a6b" />
+</g>
+<text x="404.0" y="130.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >Into the shop</text>
+<text x="404.0" y="147.0" font-size="11.5" font-weight="700" fill="#a13a6b" text-anchor="start" >push</text>
+<text x="334.0" y="178.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">token: a classic PAT, tick</text>
+<text x="334.0" y="199.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">only <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">write:packages</tspan></text>
+<text x="334.0" y="220.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">(untick <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">repo</tspan> if it comes along),</text>
+<text x="334.0" y="241.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">a short expiry</text>
+<text x="334.0" y="283.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">docker login ghcr.io -u &lt;account&gt;</tspan></text>
+<text x="334.0" y="304.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">(paste the token when asked)</text>
+<text x="334.0" y="325.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">docker compose push backend web</tspan></text>
+<line x1="579.0" y1="224.0" x2="603.0" y2="224.0" stroke="#a13a6b" stroke-width="2.4" stroke-linecap="round" />
+<path d="M596.8 227.3 L603.0 224.0 L596.8 220.7" fill="none" stroke="#a13a6b" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="606.0" y="104.0" width="258.0" height="304.0" rx="12" fill="#fcf2f6" stroke="#a13a6b" stroke-width="1.8" />
+<circle cx="628.0" cy="130.0" r="12" fill="#a13a6b" stroke="#ffffff" stroke-width="2" />
+<text x="628.0" y="134.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >3</text>
+<g transform="translate(664 131) scale(0.7) translate(-664 -131)">
+<path d="M644 141 Q634 141 636 131 Q638 121 650 123 Q656 111 670 116 Q682 113 684 125 Q694 127 692 136 Q690 141 682 141 Z" fill="none" stroke="#a13a6b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+</g>
+<text x="692.0" y="130.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >GHCR</text>
+<text x="692.0" y="147.0" font-size="11.5" font-weight="700" fill="#a13a6b" text-anchor="start" >the shop</text>
+<text x="622.0" y="178.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the first package is always <tspan font-weight="800" fill="#1e2a4a">private</tspan></text>
+<text x="622.0" y="199.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Package settings → Change</text>
+<text x="622.0" y="220.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">visibility → <tspan font-weight="800" fill="#1e2a4a">Public</tspan></text>
+<text x="622.0" y="241.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">(CANNOT be undone)</text>
+<text x="622.0" y="283.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">LABEL <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">org.opencontainers.</tspan></text>
+<text x="622.0" y="304.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">image.source</tspan> links the</text>
+<text x="622.0" y="325.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">package to your repo</text>
+<text x="622.0" y="367.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">GHCR is currently free</text>
+<text x="622.0" y="388.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">(public and private)</text>
+<line x1="867.0" y1="224.0" x2="891.0" y2="224.0" stroke="#a13a6b" stroke-width="2.4" stroke-linecap="round" />
+<path d="M884.8 227.3 L891.0 224.0 L884.8 220.7" fill="none" stroke="#a13a6b" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="894.0" y="104.0" width="258.0" height="304.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<circle cx="916.0" cy="130.0" r="12" fill="#a13a6b" stroke="#ffffff" stroke-width="2" />
+<text x="916.0" y="134.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >4</text>
+<g transform="translate(952 131) scale(0.7) translate(-952 -131)">
+<rect x="932.0" y="116.0" width="40.0" height="26.0" rx="3" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<path d="M926 146 L978 146" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+</g>
+<text x="980.0" y="130.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >A friend's laptop</text>
+<text x="980.0" y="147.0" font-size="11.5" font-weight="700" fill="#a13a6b" text-anchor="start" >pull</text>
+<text x="910.0" y="178.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">git</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">clone</tspan> your repo</text>
+<text x="910.0" y="199.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">.env</tspan> with the same <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">IMAGE_REGISTRY</tspan></text>
+<text x="910.0" y="220.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">docker compose up -d</tspan></text>
+<text x="910.0" y="262.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">backend and web images pulled</text>
+<text x="910.0" y="283.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">from GHCR without a login (public),</text>
+<text x="910.0" y="304.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the official images from Docker Hub</text>
+<text x="910.0" y="346.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">no Node.js, no build</text>
+<text x="910.0" y="367.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">(if the processor is the same; see below)</text>
+<text x="30.0" y="434.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">The author's lab:</tspan> GHCR played by <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">registry:3.1.2</tspan> on <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">127.0.0.1</tspan> (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">docker</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">compose</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">push</tspan> 3.7 s, pulled again in a test folder); the login, the package page, and pulls from public GHCR <tspan font-weight="800" fill="#1e2a4a">not recorded</tspan>.</text>
+<rect x="30.0" y="454.0" width="1140.0" height="300.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="54.0" y="484.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="start" >A mold is made for one processor type</text>
+<text x="412.0" y="484.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >your own image follows the architecture of the machine that built it</text>
+<rect x="54.0" y="504.0" width="470.0" height="38.0" rx="8" fill="#eef1f5" />
+<text x="70.0" y="521.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >an Intel or AMD laptop</text>
+<text x="70.0" y="536.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="start" >most Windows and Linux laptops</text>
+<text x="508.0" y="529.0" font-size="12" font-weight="800" fill="#a13a6b" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">linux/amd64</text>
+<rect x="54.0" y="550.0" width="470.0" height="38.0" rx="8" fill="#eef1f5" />
+<text x="70.0" y="567.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Mac Apple silicon, Windows Snapdragon</text>
+<text x="70.0" y="582.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="start" >ARM processors</text>
+<text x="508.0" y="575.0" font-size="12" font-weight="800" fill="#a13a6b" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">linux/arm64</text>
+<rect x="54.0" y="596.0" width="470.0" height="38.0" rx="8" fill="#eef1f5" />
+<text x="70.0" y="613.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Raspberry Pi (64-bit OS)</text>
+<text x="70.0" y="628.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="start" >the author's lab: a Pi 5 with Ubuntu</text>
+<text x="508.0" y="621.0" font-size="12" font-weight="800" fill="#a13a6b" text-anchor="end" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">linux/arm64</text>
+<text x="54.0" y="664.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">check your machine: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">docker</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">version</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">--format</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">'{{.Server.Arch}}'</tspan></text>
+<text x="54.0" y="683.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">check an image: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">docker</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">image</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">inspect</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">--format</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">'{{.Os}}/{{.Architecture}}'</tspan></text>
+<text x="54.0" y="702.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the official images (TimescaleDB, Grafana, Mosquitto, Caddy)</text>
+<text x="54.0" y="721.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">already carry many architectures: safe anywhere</text>
+<text x="556.0" y="520.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >An image built on a Pi or a Mac (arm64), pulled by a friend's Intel laptop (amd64):</text>
+<rect x="556.0" y="534.0" width="590.0" height="70.0" rx="8" fill="#fde6e8" stroke="#e63946" stroke-width="1.4" />
+<text x="570.0" y="554.0" font-size="10.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">$ docker pull --platform linux/amd64 …/mini-smart-home-backend:1.3.0</text>
+<text x="570.0" y="574.0" font-size="10.5" font-weight="800" fill="#e63946" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">Error response from daemon: no matching manifest for linux/amd64 in</text>
+<text x="570.0" y="592.0" font-size="10.5" font-weight="800" fill="#e63946" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">the manifest list entries: no match for platform in manifest: not found</text>
+<text x="556.0" y="630.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" >The Module 26 remedy</text>
+<text x="556.0" y="652.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the friend's laptop builds them itself: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#a13a6b" font-weight="800">docker</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#a13a6b" font-weight="800">compose</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#a13a6b" font-weight="800">up</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#a13a6b" font-weight="800">-d</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#a13a6b" font-weight="800">--build</tspan></text>
+<text x="556.0" y="671.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">(takes time and npm downloads; not tested by the author on amd64)</text>
+<text x="556.0" y="690.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">one image for both architectures at once = Module 29 (GitHub Actions)</text>
+<rect x="556.0" y="708.0" width="590.0" height="30.0" rx="6" fill="#fcf2f6" />
+<text x="568.0" y="728.0" font-size="11.5" font-weight="700" fill="#a13a6b" text-anchor="start" xml:space="preserve">the author's lab: the error above recorded against the stand-in registry, image <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#a13a6b" font-weight="800">linux/arm64</tspan></text>
+<rect x="30.0" y="772.0" width="600.0" height="130.0" rx="12" fill="#ffffff" stroke="#a13a6b" stroke-width="1.6" />
+<text x="48.0" y="800.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" fill="#a13a6b" font-weight="800">image:</tspan> + <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" fill="#a13a6b" font-weight="800">build:</tspan> in the same service</text>
+<text x="48.0" y="826.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Compose PULLS first. An image not in the shop (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">not</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">found</tspan>):</text>
+<text x="48.0" y="845.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">a warning, then Compose builds it itself from the <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">Dockerfile</tspan></text>
+<text x="48.0" y="864.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">(proven in the lab). That's why <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">IMAGE_REGISTRY</tspan> is required,</text>
+<text x="48.0" y="883.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">with no default: Compose won't pull someone else's same-named image.</text>
+<rect x="645.0" y="772.0" width="525.0" height="130.0" rx="12" fill="#ffffff" stroke="#e63946" stroke-width="1.6" />
+<text x="663.0" y="800.0" font-size="13.5" font-weight="800" fill="#e63946" text-anchor="start" xml:space="preserve">Frequent errors</text>
+<text x="663.0" y="826.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">… required variable IMAGE_REGISTRY is missing a value</tspan></text>
+<text x="663.0" y="845.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">→ the <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">IMAGE_REGISTRY</tspan> line in <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">.env</tspan> isn't filled in</text>
+<text x="663.0" y="864.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">invalid reference format: … must be lowercase</tspan></text>
+<text x="663.0" y="883.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">→ the account name in <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">ghcr.io/…</tspan> must be lowercase</text>
+<text x="1178.0" y="930.0" font-size="11" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer Curriculum · CC BY 4.0</text>
+</svg>

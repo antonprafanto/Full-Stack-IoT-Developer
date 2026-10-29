@@ -1,0 +1,18 @@
+# telegram-contact.yaml - the "Telegram Smart Home" contact point as a provisioning file (Module 26). Its fields are the same as
+# the Module 25 Practice 4.1 screen: the Telegram integration, Parse mode None, the 🔴/✅ message template, the "resolved" message still sent.
+# The bot token and chat_id are NOT written here: Grafana takes them from the variables TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID
+# (from .env through compose.cloud.yml). Empty in .env = compose.cloud.yml gives "not-set-yet" and 0, because a Telegram contact point
+# without a token makes Grafana fail to start.
+apiVersion: 1
+contactPoints:
+  - orgId: 1
+    name: Telegram Smart Home
+    receivers:
+      - uid: telegram-smart-home
+        type: telegram
+        settings:
+          bottoken: $TELEGRAM_BOT_TOKEN
+          chatid: "$TELEGRAM_CHAT_ID"
+          parse_mode: None
+          message: '{{ range .Alerts.Firing }}🔴 {{ .Annotations.summary }}{{ "\n" }}{{ end }}{{ range .Alerts.Resolved }}✅ {{ .Labels.node }} is sending data again.{{ "\n" }}{{ end }}'
+        disableResolveMessage: false

@@ -1,0 +1,177 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1100" viewBox="0 0 1200 1100" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="1100" fill="#fffdf7"/>
+<text x="600.0" y="40.0" font-size="26" font-weight="700" fill="#1e2a4a" text-anchor="middle" >Mini roadmap — you are here</text>
+<text x="600.0" y="66.0" font-size="15" font-weight="400" fill="#555" text-anchor="middle" >32 modules = 32 weeks · one running project "Mini Smart Home" that grows from a blinking LED to an online system</text>
+<rect x="60.0" y="112.0" width="160.0" height="56.0" rx="8" fill="#e0e0e0" />
+<text x="140.0" y="136.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="middle" >PHASE 0</text>
+<text x="140.0" y="156.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="middle" >Foundations · M1–4</text>
+<rect x="226.0" y="112.0" width="125.0" height="56.0" rx="8" fill="#e0e0e0" />
+<text x="288.5" y="136.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="middle" >PHASE 1</text>
+<text x="288.5" y="156.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="middle" >ESP32 · M5–9</text>
+<rect x="357.0" y="112.0" width="176.0" height="56.0" rx="8" fill="#e0e0e0" />
+<text x="445.0" y="136.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="middle" >PHASE 2</text>
+<text x="445.0" y="156.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="middle" >Connectivity · M10–15</text>
+<rect x="539.0" y="112.0" width="196.0" height="56.0" rx="8" fill="#e0e0e0" />
+<text x="637.0" y="136.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="middle" >PHASE 3</text>
+<text x="637.0" y="156.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="middle" >Backend &amp; data · M16–21</text>
+<rect x="741.0" y="112.0" width="170.0" height="56.0" rx="8" fill="#e0e0e0" />
+<text x="826.0" y="136.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="middle" >PHASE 4</text>
+<text x="826.0" y="156.0" font-size="14" font-weight="400" fill="#1e2a4a" text-anchor="middle" >Dashboard · M22–25</text>
+<rect x="917.0" y="112.0" width="223.0" height="56.0" rx="8" fill="#f5e0ea" stroke="#a13a6b" stroke-width="2.4" />
+<text x="1028.5" y="136.0" font-size="14" font-weight="800" fill="#a13a6b" text-anchor="middle" >PHASE 5</text>
+<text x="1028.5" y="156.0" font-size="14" font-weight="700" fill="#a13a6b" text-anchor="middle" >Operations &amp; scale · M26–32</text>
+<line x1="933.0" y1="112.0" x2="933.0" y2="82.0" stroke="#a13a6b" stroke-width="2.2" stroke-linecap="round" />
+<path d="M933 82 L957 88.5 L933 95 Z" fill="#a13a6b" stroke="#a13a6b" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="965.0" y="95.0" font-size="14" font-weight="800" fill="#a13a6b" text-anchor="start" >Phase 5 opens</text>
+<rect x="60.0" y="182.0" width="30.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="75.0" y="200.0" font-size="13" font-weight="600" fill="#fff" text-anchor="middle" >M1</text>
+<rect x="96.0" y="182.0" width="30.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="111.0" y="200.0" font-size="13" font-weight="600" fill="#fff" text-anchor="middle" >M2</text>
+<rect x="132.0" y="182.0" width="30.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="147.0" y="200.0" font-size="13" font-weight="600" fill="#fff" text-anchor="middle" >M3</text>
+<rect x="168.0" y="182.0" width="30.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="183.0" y="200.0" font-size="13" font-weight="600" fill="#fff" text-anchor="middle" >M4</text>
+<rect x="226.0" y="182.0" width="22.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="237.0" y="199.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M5</text>
+<rect x="251.8" y="182.0" width="22.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="262.8" y="199.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M6</text>
+<rect x="277.5" y="182.0" width="22.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="288.5" y="199.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M7</text>
+<rect x="303.2" y="182.0" width="22.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="314.2" y="199.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M8</text>
+<rect x="329.0" y="182.0" width="22.0" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="340.0" y="199.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M9</text>
+<rect x="357.0" y="182.0" width="27.5" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="370.8" y="199.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M10</text>
+<rect x="386.7" y="182.0" width="27.5" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="400.4" y="199.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M11</text>
+<rect x="416.4" y="182.0" width="27.5" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="430.1" y="199.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M12</text>
+<rect x="446.1" y="182.0" width="27.5" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="459.9" y="199.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M13</text>
+<rect x="475.8" y="182.0" width="27.5" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="489.6" y="199.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M14</text>
+<rect x="505.5" y="182.0" width="27.5" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="519.2" y="199.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M15</text>
+<rect x="539.0" y="182.0" width="30.8" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="554.4" y="199.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M16</text>
+<rect x="572.0" y="182.0" width="30.8" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="587.4" y="199.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M17</text>
+<rect x="605.1" y="182.0" width="30.8" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="620.5" y="199.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M18</text>
+<rect x="638.1" y="182.0" width="30.8" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="653.5" y="199.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M19</text>
+<rect x="671.2" y="182.0" width="30.8" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="686.6" y="199.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M20</text>
+<rect x="704.2" y="182.0" width="30.8" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="719.6" y="199.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M21</text>
+<rect x="741.0" y="182.0" width="30.8" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="756.4" y="199.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M22</text>
+<rect x="774.0" y="182.0" width="30.8" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="789.4" y="199.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M23</text>
+<rect x="807.1" y="182.0" width="30.8" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="822.5" y="199.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M24</text>
+<rect x="840.1" y="182.0" width="30.8" height="26.0" rx="5" fill="#9aa3b0" />
+<text x="855.5" y="199.2" font-size="11.5" font-weight="600" fill="#fff" text-anchor="middle" >M25</text>
+<rect x="917.0" y="182.0" width="28.6" height="26.0" rx="5" fill="#e63946" />
+<text x="931.3" y="199.5" font-size="11" font-weight="700" fill="#fff" text-anchor="middle" >M26</text>
+<rect x="949.4" y="182.0" width="28.6" height="26.0" rx="5" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.4" />
+<text x="963.7" y="199.5" font-size="11" font-weight="600" fill="#4a5568" text-anchor="middle" >M27</text>
+<rect x="981.8" y="182.0" width="28.6" height="26.0" rx="5" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.4" />
+<text x="996.1" y="199.5" font-size="11" font-weight="600" fill="#4a5568" text-anchor="middle" >M28</text>
+<rect x="1014.2" y="182.0" width="28.6" height="26.0" rx="5" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.4" />
+<text x="1028.5" y="199.5" font-size="11" font-weight="600" fill="#4a5568" text-anchor="middle" >M29</text>
+<rect x="1046.6" y="182.0" width="28.6" height="26.0" rx="5" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.4" />
+<text x="1060.9" y="199.5" font-size="11" font-weight="600" fill="#4a5568" text-anchor="middle" >M30</text>
+<rect x="1079.0" y="182.0" width="28.6" height="26.0" rx="5" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.4" />
+<text x="1093.3" y="199.5" font-size="11" font-weight="600" fill="#4a5568" text-anchor="middle" >M31</text>
+<rect x="1111.4" y="182.0" width="28.6" height="26.0" rx="5" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.4" />
+<text x="1125.7" y="199.5" font-size="11" font-weight="600" fill="#4a5568" text-anchor="middle" >M32</text>
+<text x="60.0" y="226.0" font-size="13" font-weight="700" fill="#2a9d5c" text-anchor="start" >done ✓ (M1–25)</text>
+<line x1="931.3" y1="214.0" x2="931.3" y2="240.0" stroke="#e63946" stroke-width="2.4" stroke-linecap="round" />
+<path d="M927.5 232.9 L931.3 240.0 L935.1 232.9" fill="none" stroke="#e63946" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="931.3" y="260.0" font-size="14" font-weight="800" fill="#e63946" text-anchor="middle" >YOU ARE HERE</text>
+<text x="862.0" y="260.0" font-size="14" font-weight="700" fill="#a13a6b" text-anchor="end" xml:space="preserve">the whole home in Docker Compose: one command on the laptop and on the Pi →</text>
+<text x="862.0" y="280.0" font-size="14" font-weight="700" fill="#a13a6b" text-anchor="end" xml:space="preserve">backend and web images (molds), Grafana from files, still on the home network</text>
+<text x="80.0" y="338.0" font-size="17" font-weight="700" fill="#1e2a4a" text-anchor="start" >Module 26 this week (10–12 hours, spread out; the ⭐ path ±9 hours)</text>
+<text x="1120.0" y="338.0" font-size="14" font-weight="700" fill="#4a5568" text-anchor="end" >⭐ = required to pass</text>
+<text x="80.0" y="362.0" font-size="14" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">Kit B (Raspberry Pi) or a laptop only · Docker Desktop ≥ 4.96.2 or Docker Engine 29 + <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" fill="#4a5568" font-weight="700">docker</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" fill="#4a5568" font-weight="700">compose</tspan> · disk ±6 GB · the Module 25 result on <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" fill="#4a5568" font-weight="700">main</tspan></text>
+<rect x="80.0" y="387.0" width="50.0" height="22.0" rx="11" fill="#a13a6b" />
+<path d="M99.17 395.88 A6.2 6.2 0 0 1 110.37 394.90" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M107.42 393.20 L110.37 394.90 L110.37 391.50" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M110.83 400.12 A6.2 6.2 0 0 1 99.63 401.10" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M102.58 402.80 L99.63 401.10 L99.63 404.50" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<text x="142.0" y="403.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">just-enough Docker &amp; YAML warm-up: your home's</text>
+<text x="142.0" y="424.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">inventory, counters in use, YAML, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13.8" font-weight="700">.env</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13.8" font-weight="700">docker</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13.8" font-weight="700">inspect</tspan></text>
+<rect x="80.0" y="443.0" width="50.0" height="22.0" rx="11.0" fill="#a13a6b" />
+<text x="105.0" y="458.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >QW</text>
+<text x="142.0" y="459.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Quick Win: two services, one command</text>
+<text x="142.0" y="480.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">a practice broker + a sender, service name = address</text>
+<rect x="80.0" y="499.0" width="50.0" height="22.0" rx="11.0" fill="#a13a6b" />
+<text x="105.0" y="514.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P1</text>
+<text x="142.0" y="515.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the workbench and the old data's fingerprint ⭐</text>
+<text x="142.0" y="534.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="start" xml:space="preserve">branch <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#4a5568" font-weight="800">feature/docker-compose</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#4a5568" font-weight="800">scripts/fingerprint.sql</tspan></text>
+<rect x="80.0" y="553.0" width="50.0" height="22.0" rx="11.0" fill="#a13a6b" />
+<text x="105.0" y="568.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P2</text>
+<text x="142.0" y="569.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the backend 1.3.0 mold ⭐</text>
+<text x="142.0" y="588.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="start" xml:space="preserve">a two-stage <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#4a5568" font-weight="800">Dockerfile</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#4a5568" font-weight="800">.dockerignore</tspan>, the user <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#4a5568" font-weight="800">node</tspan></text>
+<rect x="80.0" y="607.0" width="50.0" height="22.0" rx="11.0" fill="#a13a6b" />
+<text x="105.0" y="622.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P3</text>
+<text x="142.0" y="623.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the web 1.2.0 mold: Vite → Caddy ⭐</text>
+<text x="142.0" y="642.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="start" xml:space="preserve">Caddy serves <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#4a5568" font-weight="800">dist/</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#4a5568" font-weight="800">/api</tspan> is forwarded to the backend</text>
+<rect x="80.0" y="661.0" width="50.0" height="22.0" rx="11.0" fill="#a13a6b" />
+<text x="105.0" y="676.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P4</text>
+<text x="142.0" y="677.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the cupboards move: database &amp; Grafana into Compose ⭐</text>
+<text x="142.0" y="696.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#4a5568" font-weight="800">external</tspan> cupboards, the old password in <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#4a5568" font-weight="800">.env</tspan>, data intact</text>
+<rect x="80.0" y="715.0" width="50.0" height="22.0" rx="11.0" fill="#a13a6b" />
+<text x="105.0" y="730.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P5</text>
+<text x="142.0" y="731.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the whole home in one command ⭐</text>
+<text x="142.0" y="750.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="start" xml:space="preserve">central broker, migrate, backend, web: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#4a5568" font-weight="800">docker</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#4a5568" font-weight="800">compose</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#4a5568" font-weight="800">up</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#4a5568" font-weight="800">-d</tspan></text>
+<rect x="580.0" y="387.0" width="50.0" height="22.0" rx="11.0" fill="#a13a6b" />
+<text x="605.0" y="402.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P6</text>
+<text x="642.0" y="403.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the Pi gateway: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13.8" font-weight="700">edge/compose.edge.yml</tspan> + a bridge ⭐</text>
+<text x="642.0" y="422.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="start" xml:space="preserve">pass requirement L4 (Kit B); laptop path: the simulator</text>
+<rect x="580.0" y="441.0" width="50.0" height="22.0" rx="11.0" fill="#a13a6b" />
+<text x="605.0" y="456.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P7</text>
+<text x="642.0" y="457.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Grafana as files (<tspan font-style="italic">provisioning</tspan>) ⭐</text>
+<text x="642.0" y="476.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="start" xml:space="preserve">the takeover: rule → <tspan font-style="italic">contact point</tspan> → old data source</text>
+<rect x="580.0" y="495.0" width="50.0" height="22.0" rx="11.0" fill="#a13a6b" />
+<text x="605.0" y="510.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P8</text>
+<text x="642.0" y="511.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">coming back to life by itself, data that stays ⭐</text>
+<text x="642.0" y="530.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="start" xml:space="preserve">pass requirement L3: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#4a5568" font-weight="800">exec</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#4a5568" font-weight="800">backend</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#4a5568" font-weight="800">kill</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#4a5568" font-weight="800">1</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#4a5568" font-weight="800">down</tspan> then <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#4a5568" font-weight="800">up</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#4a5568" font-weight="800">-d</tspan></text>
+<rect x="580.0" y="549.0" width="50.0" height="22.0" rx="11.0" fill="#a13a6b" />
+<text x="605.0" y="564.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P9</text>
+<text x="642.0" y="565.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">backing up the cupboards and a restore test</text>
+<text x="642.0" y="584.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#4a5568" font-weight="800">pg_dump</tspan> → a separate project, the same fingerprint</text>
+<rect x="580.0" y="603.0" width="50.0" height="22.0" rx="11.0" fill="#a13a6b" />
+<text x="605.0" y="618.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P10</text>
+<text x="642.0" y="619.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the image shop: GHCR by hand</text>
+<text x="642.0" y="638.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#4a5568" font-weight="800">docker</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#4a5568" font-weight="800">compose</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#4a5568" font-weight="800">push</tspan>, a public package, arm64 vs amd64</text>
+<rect x="580.0" y="657.0" width="50.0" height="22.0" rx="11.0" fill="#a13a6b" />
+<text x="605.0" y="672.5" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle" >P11</text>
+<text x="642.0" y="673.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">✅ the clean-laptop test ⭐</text>
+<text x="642.0" y="692.0" font-size="13" font-weight="700" fill="#4a5568" text-anchor="start" xml:space="preserve">pass requirements L1, L2, L3: a stopwatch from <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#4a5568" font-weight="800">git</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#4a5568" font-weight="800">clone</tspan></text>
+<rect x="580.0" y="711.0" width="50.0" height="22.0" rx="11.0" fill="#1e2a4a" />
+<text x="605.0" y="727.4" font-size="15" font-weight="700" fill="#ffffff" text-anchor="middle" >+</text>
+<text x="642.0" y="727.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Add-on: the whole system wrapped in Docker, <tspan font-style="italic">pull request</tspan></text>
+<text x="642.0" y="748.0" font-size="15" font-weight="400" fill="#1e2a4a" text-anchor="start" xml:space="preserve">"The whole system in Docker Compose" ⭐</text>
+<line x1="80.0" y1="772.0" x2="1120.0" y2="772.0" stroke="#e0dcd2" stroke-width="1" stroke-linecap="round" />
+<text x="80.0" y="796.0" font-size="14" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#a13a6b">Pass requirement (split of the Syllabus ✅):</tspan> L1–L4 = the lines you tick in the pass checklist</text>
+<text x="80.0" y="818.0" font-size="11.5" font-weight="800" fill="#a13a6b" text-anchor="start" >L1</text>
+<text x="102.0" y="818.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">a clean laptop: from <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" fill="#4a5568" font-weight="700">git</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" fill="#4a5568" font-weight="700">clone</tspan> to the Login page in &lt; 10 minutes; write down two numbers (total and without downloads) + your internet speed</text>
+<text x="80.0" y="838.0" font-size="11.5" font-weight="800" fill="#a13a6b" text-anchor="start" >L2</text>
+<text x="102.0" y="838.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the default services are up: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" fill="#4a5568" font-weight="700">db</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" fill="#4a5568" font-weight="700">backend</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" fill="#4a5568" font-weight="700">grafana</tspan> healthy, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" fill="#4a5568" font-weight="700">mosquitto</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" fill="#4a5568" font-weight="700">web</tspan>; the one-offs <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" fill="#4a5568" font-weight="700">Exited</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" fill="#4a5568" font-weight="700">(0)</tspan></text>
+<text x="80.0" y="858.0" font-size="11.5" font-weight="800" fill="#a13a6b" text-anchor="start" >L3</text>
+<text x="102.0" y="858.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the same history fingerprint after <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" fill="#4a5568" font-weight="700">docker</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" fill="#4a5568" font-weight="700">compose</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" fill="#4a5568" font-weight="700">down</tspan> and then <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" fill="#4a5568" font-weight="700">docker</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" fill="#4a5568" font-weight="700">compose</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" fill="#4a5568" font-weight="700">up</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" fill="#4a5568" font-weight="700">-d</tspan> (not <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" fill="#4a5568" font-weight="700">down</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" fill="#4a5568" font-weight="700">-v</tspan>)</text>
+<text x="80.0" y="878.0" font-size="11.5" font-weight="800" fill="#a13a6b" text-anchor="start" >L4</text>
+<text x="102.0" y="878.0" font-size="14" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Kit B: the Pi runs <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" fill="#4a5568" font-weight="700">edge/compose.edge.yml</tspan>; Node 1 connects with its old address and account (firmware unchanged), data <tspan font-style="italic">live</tspan></text>
+<text x="80.0" y="900.0" font-size="14" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">Laptop path (no Pi):</tspan> L1 + L2 + L3; the stand-in for L4 = the simulator publishing to the central broker on the laptop, shown <tspan font-style="italic">live</tspan>.</text>
+<text x="80.0" y="924.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">split from the Syllabus ✅ sentence: "on a ‘clean’ laptop (or a friend's), <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12.5" fill="#4a5568" font-weight="700">git</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12.5" fill="#4a5568" font-weight="700">clone</tspan> + <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12.5" fill="#4a5568" font-weight="700">docker</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12.5" fill="#4a5568" font-weight="700">compose</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12.5" fill="#4a5568" font-weight="700">up</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12.5" fill="#4a5568" font-weight="700">-d</tspan> runs the whole system</text>
+<text x="80.0" y="943.0" font-size="13" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">in &lt; 10 minutes, and the history data is still there after <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12.5" fill="#4a5568" font-weight="700">docker</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12.5" fill="#4a5568" font-weight="700">compose</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12.5" fill="#4a5568" font-weight="700">down</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12.5" fill="#4a5568" font-weight="700">&amp;&amp;</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12.5" fill="#4a5568" font-weight="700">up</tspan>." (note in Syllabus v1.0.28: prerequisites don't count, ±1.1 GB download)</text>
+<text x="80.0" y="968.0" font-size="14" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">Proven in:</tspan> L1 and L2 Practice 11 · L3 Practices 8 and 11 · L4 Practice 6 · the author's lab (warm): 62.3 s to the Login page</text>
+<text x="80.0" y="992.0" font-size="14" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">Changed:</tspan> backend 1.3.0, frontend 1.2.0, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" fill="#4a5568" font-weight="700">grafana/</tspan> becomes <tspan font-style="italic">provisioning</tspan> files, new <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" fill="#4a5568" font-weight="700">compose.cloud.yml</tspan> + <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" fill="#4a5568" font-weight="700">edge/compose.edge.yml</tspan>.</text>
+<text x="80.0" y="1012.0" font-size="14" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">Unchanged:</tspan> data contract 1.4, the Node 1 and Node 2 firmware, database migrations 001–010.</text>
+<text x="80.0" y="1036.0" font-size="14" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">Still on the home network:</tspan> the internet, HTTPS, MQTT TLS, and a bridge that survives outages come in Module 27.</text>
+<rect x="60.0" y="306.0" width="1080.0" height="752.0" rx="14" fill="none" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="1178.0" y="1086.0" font-size="12" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer Curriculum · CC BY 4.0</text>
+</svg>

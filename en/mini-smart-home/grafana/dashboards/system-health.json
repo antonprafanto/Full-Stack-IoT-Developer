@@ -74,7 +74,7 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "${DS_GRAFANA-POSTGRESQL-DATASOURCE}"
+        "uid": "smarthome-db"
       },
       "description": "The closer to 0, the stronger. A common convention: below -75 dBm it starts getting weak (not a standard).",
       "fieldConfig": {
@@ -161,7 +161,7 @@
           "dataset": "smarthome",
           "datasource": {
             "type": "grafana-postgresql-datasource",
-            "uid": "${DS_GRAFANA-POSTGRESQL-DATASOURCE}"
+            "uid": "smarthome-db"
           },
           "editorMode": "code",
           "format": "time_series",
@@ -193,7 +193,7 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "${DS_GRAFANA-POSTGRESQL-DATASOURCE}"
+        "uid": "smarthome-db"
       },
       "description": "A sudden drop to a small number = the device has just restarted.",
       "fieldConfig": {
@@ -248,7 +248,7 @@
           "dataset": "smarthome",
           "datasource": {
             "type": "grafana-postgresql-datasource",
-            "uid": "${DS_GRAFANA-POSTGRESQL-DATASOURCE}"
+            "uid": "smarthome-db"
           },
           "editorMode": "code",
           "format": "time_series",
@@ -280,7 +280,7 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "${DS_GRAFANA-POSTGRESQL-DATASOURCE}"
+        "uid": "smarthome-db"
       },
       "description": "Falling day after day = suspect a memory leak.",
       "fieldConfig": {
@@ -365,7 +365,7 @@
           "dataset": "smarthome",
           "datasource": {
             "type": "grafana-postgresql-datasource",
-            "uid": "${DS_GRAFANA-POSTGRESQL-DATASOURCE}"
+            "uid": "smarthome-db"
           },
           "editorMode": "code",
           "format": "time_series",
@@ -397,7 +397,7 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "${DS_GRAFANA-POSTGRESQL-DATASOURCE}"
+        "uid": "smarthome-db"
       },
       "description": "Node 2 wakes up every 300 seconds = 12 packets per hour. An hour with a short bar = the Garden went silent for a while.",
       "fieldConfig": {
@@ -479,7 +479,7 @@
           "dataset": "smarthome",
           "datasource": {
             "type": "grafana-postgresql-datasource",
-            "uid": "${DS_GRAFANA-POSTGRESQL-DATASOURCE}"
+            "uid": "smarthome-db"
           },
           "editorMode": "code",
           "format": "time_series",
@@ -511,7 +511,7 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "${DS_GRAFANA-POSTGRESQL-DATASOURCE}"
+        "uid": "smarthome-db"
       },
       "description": "The same query as the Silent node alert rule: more than 5 = the alert fires. Node 2 already has its 5-minute wake-up schedule subtracted.",
       "fieldConfig": {
@@ -563,7 +563,7 @@
           "dataset": "smarthome",
           "datasource": {
             "type": "grafana-postgresql-datasource",
-            "uid": "${DS_GRAFANA-POSTGRESQL-DATASOURCE}"
+            "uid": "smarthome-db"
           },
           "editorMode": "code",
           "format": "table",
@@ -604,7 +604,7 @@
         "current": {},
         "datasource": {
           "type": "grafana-postgresql-datasource",
-          "uid": "${DS_GRAFANA-POSTGRESQL-DATASOURCE}"
+          "uid": "smarthome-db"
         },
         "definition": "SELECT coalesce(name, device_id) AS __text, device_id AS __value FROM devices WHERE registered_at IS NOT NULL AND revoked_at IS NULL ORDER BY 1",
         "includeAll": true,

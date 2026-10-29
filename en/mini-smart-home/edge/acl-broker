@@ -1,7 +1,8 @@
 # acl-broker - the Mini Smart Home broker's access list (Module 21).
 # Mosquitto reads this file from top to bottom. A line starting with # is a note (# must be the first character of the line).
 # An account not mentioned here may not write or read anything.
-# Every time this file changes, RESTART the broker (not reload).
+# Every time this file changes, RESTART the broker (not reload). Module 26, the broker in Docker Compose: docker compose restart
+# mosquitto (from the project root for the central broker, from the edge folder on the Pi for the gateway broker).
 
 # 1) Each device may only "talk" on its own topics. A pattern line applies to ALL accounts;
 #    %u is replaced by the username proven with a password, that is, that device's device_id.
@@ -42,3 +43,13 @@ topic read msh/#
 user monitor
 topic read msh/#
 topic read $SYS/#
+
+# 7) The Pi gateway bridge (Module 26): applies on the CENTRAL broker (compose.cloud.yml), where the bridge logs in with this account.
+#    The bridge forwards the messages of all devices to the center and picks up the commands for them. The per-device checks
+#    (items 1 and 2) are already done by the gateway broker on the Pi, which uses the same file but has no pi-bridge account.
+user pi-bridge
+topic write msh/+/telemetry
+topic write msh/+/status
+topic write msh/+/vitals
+topic write msh/+/ack
+topic read msh/+/cmd

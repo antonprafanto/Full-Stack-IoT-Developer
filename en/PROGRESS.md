@@ -53,7 +53,7 @@ Tick `[x]` every time you meet the **"You pass when"** criteria in [SYLLABUS.md]
 
 ## ⬛ Phase 5 — Operations & Scale (Modules 26–32)
 
-- [ ] **Module 26** — Docker & Docker Compose: One Command for All Services
+- [ ] **[Module 26](phase-5-operations-scale/module-26-docker-compose/README.md)** — Docker & Docker Compose: One Command for All Services
 - [ ] **Module 27** — To the Internet: VPS, Domain, HTTPS, MQTT over TLS, Pi → VPS Bridge, & a Phone App (PWA)
 - [ ] **Module 28** — OTA Updates, Provisioning, Fleets, & From Breadboard to Enclosure
 - [ ] **Module 29** — Testing & CI/CD: Every Change Tested and Deployed Automatically

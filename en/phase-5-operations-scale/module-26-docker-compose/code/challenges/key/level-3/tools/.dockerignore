@@ -1,0 +1,7 @@
+# .dockerignore - the Module 26 Level 3 answer key (put it at tools/.dockerignore). What does NOT go into docker build:
+# the libraries from npm install on the laptop (made again in the image), the device keys and accounts in .env, and an old simulator store.
+node_modules
+.env
+.env.*
+!.env.example
+data

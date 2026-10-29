@@ -39,18 +39,18 @@ For `contract-checker.js`, install its library once (in this `tools` folder), th
 npm install mqtt@5.16.1
 ```
 
-Since Module 21, the home broker is locked, so the checker and the simulator need a broker account. Copy `.env.example` to `.env` in this `tools` folder (if you haven't yet), then fill in `CHECKER_KEY` with the password of the `checker` account (an account that may only read `msh/#`, made on the broker with `mosquitto_passwd`) and `KEY_F00D00000001` with the practice device's key from the `POST /devices` answer in the backend. The `.env` file doesn't go into Git. Run both with `--env-file=.env`:
+Since Module 21, the home broker is locked, so the checker and the simulator need a broker account. Since Module 26, the laptop broker is the **central broker** of Docker Compose (the `mosquitto` service in `compose.cloud.yml`; from this laptop its address is `127.0.0.1:1883`): its accounts are made inside the container, from the project root, with `docker compose exec -u mosquitto mosquitto mosquitto_passwd /mosquitto/data/broker-passwd checker` (then the practice device account, for example `f00d00000001`, with its key), then `docker compose restart mosquitto`. Data from the Pi gateway broker also reaches the central broker through the bridge, so a checker connected to the central broker sees the real devices' messages too. Copy `.env.example` to `.env` in this `tools` folder (if you haven't yet), then fill in `CHECKER_KEY` with the password of the `checker` account (an account that may only read `msh/#`, made on the broker with `mosquitto_passwd`) and `KEY_F00D00000001` with the practice device's key from the `POST /devices` answer in the backend. The `.env` file doesn't go into Git. Run both with `--env-file=.env`:
 
 ```bash
 node --env-file=.env contract-checker.js
 ```
 
-With nothing added, the checker connects to the broker on the same laptop (`127.0.0.1`) and checks every `msh/#` topic; for a broker on another computer, add its address, for example `node --env-file=.env contract-checker.js 192.168.1.10`, and for a port other than 1883 add the port too, for example `127.0.0.1:1884`. If the broker rejects its account, the checker stops with the message `Broker 127.0.0.1:1883 rejected the checker account (code 5). …`. On a public broker (the Wokwi path), also add your device's `device_id` so only its messages are checked, for example `node contract-checker.js broker.emqx.io 240ac45e114b` (without `--env-file`: that public broker isn't locked). Stop it with **Ctrl + C**; before stopping, it prints a PASS/FAIL summary. The explanation is in Module 11, Practice 8, and Module 21.
+With nothing added, the checker connects to the broker on the same laptop (`127.0.0.1`; since Module 26 = the Compose central broker) and checks every `msh/#` topic; for a broker on another computer, add its address, for example `node --env-file=.env contract-checker.js 192.168.1.10`, and for a port other than 1883 add the port too, for example `127.0.0.1:1884`. If the broker rejects its account, the checker stops with the message `Broker 127.0.0.1:1883 rejected the checker account (code 5). …`. On a public broker (the Wokwi path), also add your device's `device_id` so only its messages are checked, for example `node contract-checker.js broker.emqx.io 240ac45e114b` (without `--env-file`: that public broker isn't locked). Stop it with **Ctrl + C**; before stopping, it prints a PASS/FAIL summary. The explanation is in Module 11, Practice 8, and Module 21.
 
-The simulator uses the same library. Write the broker's full address (starting with `mqtt://`) after its file name. The second value (optional) is the number of fake devices, for example `1`. Only devices whose key is in `tools/.env` (`KEY_F00D00000001=…`, `KEY_F00D00000002=…`, and so on) are started; the others are skipped with the message `no key in tools/.env`. Run it like this, then stop it with **Ctrl + C** when you're done:
+The simulator uses the same library. Write the broker's full address (starting with `mqtt://`) after its file name: since Module 26 usually the central broker on this laptop, `mqtt://127.0.0.1:1883` (before, the Pi's broker, for example `mqtt://192.168.1.37:1883`, which you may still use: its data reaches the center through the bridge). The second value (optional) is the number of fake devices, for example `1`. Only devices whose key is in `tools/.env` (`KEY_F00D00000001=…`, `KEY_F00D00000002=…`, and so on) are started; the others are skipped with the message `no key in tools/.env`. Run it like this, then stop it with **Ctrl + C** when you're done:
 
 ```bash
-node --env-file=.env device-simulator.js mqtt://192.168.1.37:1883 1
+node --env-file=.env device-simulator.js mqtt://127.0.0.1:1883 1
 ```
 
 If the broker rejects a fake device's key (the key is wrong, not yet installed on the broker, or revoked), the simulator writes `f00d00000001: REJECTED by broker (code 5): wrong key, not registered, or revoked. Retrying in 60 seconds.` and retries every 60 seconds.
@@ -58,7 +58,7 @@ If the broker rejects a fake device's key (the key is wrong, not yet installed o
 The word `clean` in the place of the second value deletes the fake devices' retained status from the broker (each device connects with its own account), then the program ends by itself. Since Module 25, the mock Garden's status is deleted too, through `f00d00000001` (only if the Garden's ACL block is open). The retained `config` on the `cmd` topic is not deleted: only the `backend` and `nodered` accounts may write `cmd`, and that config can only be read by the device itself.
 
 ```bash
-node --env-file=.env device-simulator.js mqtt://192.168.1.37:1883 clean
+node --env-file=.env device-simulator.js mqtt://127.0.0.1:1883 clean
 ```
 
 While the simulator runs, type `temp 33` and then **Enter** in the same terminal so that every fake device reads 33.0 °C (use a point for decimals, for example `temp 29.5`); `temp random` brings back a random temperature of 25.0–33.0 °C. The simulator is explained in Module 16, Practice 7, and in Module 19.
@@ -76,7 +76,7 @@ A typed number goes out with the next `telemetry` (at most 10 seconds later), wh
 
 For readers **without a real Node 2**: the first fake device `f00d00000001` plays the Node 1 that publishes the data of a fake Node 2 `f00d000000b2` ("the mock Garden"), exactly like a real Node 1 publishes Node 2's data ([`DATA-CONTRACT.md`](../DATA-CONTRACT.md) sections 1 and 5). Set it up once:
 
-1. **Broker permission.** In `edge/acl-broker`, delete `# ` (the hash and its space) in front of the three lines of the block `2b) Laptop path (Module 25)`: `user f00d00000001`, `topic write msh/f00d000000b2/telemetry`, and `topic write msh/f00d000000b2/status`. Save, then **restart** the broker (not reload; see `edge/README.md`). Without this step the broker drops the Garden's data silently, with no error message in the simulator.
+1. **Broker permission.** In `edge/acl-broker`, delete `# ` (the hash and its space) in front of the three lines of the block `2b) Laptop path (Module 25)`: `user f00d00000001`, `topic write msh/f00d000000b2/telemetry`, and `topic write msh/f00d000000b2/status`. Save, then **restart** the broker (not reload; see `edge/README.md`): the Compose central broker (Module 26) with `docker compose restart mosquitto` from the project root. Without this step the broker drops the Garden's data silently, with no error message in the simulator.
 2. **Register the Garden** in the backend as an ESP-NOW device with the linking device `f00d00000001`: Bruno `register mock Garden` (`POST /devices` with `"device_id": "f00d000000b2"` and `"linked_via": "f00d00000001"`). The Garden has no key, so `tools/.env` doesn't change; the one required is still `KEY_F00D00000001`.
 3. Run the simulator as usual (one fake device is enough: the second value `1`), then type in the same terminal:
 

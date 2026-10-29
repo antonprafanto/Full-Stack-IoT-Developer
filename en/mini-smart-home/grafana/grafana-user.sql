@@ -1,6 +1,8 @@
 -- grafana-user.sql - a database account ONLY for Grafana that can only READ (Module 25).
--- Run it ONCE in psql as postgres (how: grafana/README.md). This file deliberately has NO password: the password is typed
--- afterwards with \password grafana_reader, so that it is never stored in Git or in the terminal history.
+-- Since Module 26 the one-off grafana-account service (compose.cloud.yml) runs it by itself when grafana_reader is missing.
+-- At every docker compose up, that service also syncs its password with GRAFANA_READER_PASSWORD in .env. This file has NO
+-- password on purpose, so a password is never stored in Git. The Module 25 way (without Compose, now only history): run it ONCE
+-- in psql as postgres, then type the password with \password grafana_reader (grafana/README.md, Before Module 26).
 -- Two layers of protection: (1) every transaction of this account is read-only, (2) its rights are only SELECT on the tables and columns below.
 
 CREATE ROLE grafana_reader LOGIN CONNECTION LIMIT 5;               -- may log in, at most 5 connections at once

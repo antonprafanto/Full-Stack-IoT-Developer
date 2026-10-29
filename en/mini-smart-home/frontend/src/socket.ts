@@ -13,7 +13,12 @@ import type { Device, DeviceStatus, FromClient, SavedEvent, Telemetry, ToClient 
 // The address is the SAME as in api.ts (BASE): the page http://<laptop-IP>:5173 on a phone connects to http://<laptop-IP>:8080 by itself.
 // withCredentials: true = bring the login cookies to another port (the twin of credentials: "include" in fetch). Without it,
 // the backend answers "not logged in" even though fetch works. autoConnect: false = only connect after the login.
-export const socket: Socket<ToClient, FromClient> = io(BASE, { withCredentials: true, autoConnect: false });
+// Module 26: in the Docker image, BASE = "/api" (a path on this page's address, forwarded by Caddy to the backend). io("/api") would
+// read it as a Socket.IO namespace, not a path, so the path is given through the path option: /api/socket.io/.
+// An empty BASE (VITE_API_BASE=/) = the API at the root of this page's address: the path is /socket.io/.
+export const socket: Socket<ToClient, FromClient> = BASE === "" || BASE.startsWith("/")
+  ? io({ path: `${BASE}/socket.io`, withCredentials: true, autoConnect: false })
+  : io(BASE, { withCredentials: true, autoConnect: false });
 
 // Only devices whose messages the backend accepts are followed. Messages from a device whose key is revoked or that
 // isn't registered are ignored by the backend (Module 21), so their events would never come.

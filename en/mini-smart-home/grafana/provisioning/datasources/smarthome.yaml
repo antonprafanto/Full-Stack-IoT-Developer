@@ -1,0 +1,23 @@
+# smarthome.yaml - the Mini Smart Home PostgreSQL data source as a provisioning file (Module 26). Its fields are the same as the
+# Module 25 screen (Connections -> Data sources), plus the FIXED uid smarthome-db: the dashboard and the alert rule in the repo
+# point at this uid, so both are connected at once in any Grafana started from compose.cloud.yml.
+# The grafana_reader password is NOT written here: Grafana takes it from the variable GRAFANA_READER_PASSWORD (from .env through
+# compose.cloud.yml). Written $GRAFANA_READER_PASSWORD, not ${...}: the braced form can be read twice if the password holds a $.
+apiVersion: 1
+datasources:
+  - name: smarthome-db
+    uid: smarthome-db
+    type: grafana-postgresql-datasource
+    # db = the database service's name in compose.cloud.yml (the Compose hallway), counter 5432 inside the hallway
+    url: db:5432
+    user: grafana_reader
+    jsonData:
+      database: smarthome
+      sslmode: disable
+      timescaledb: true
+      # the grafana_reader account may hold at most 5 connections: Grafana uses 4, one stays free for psql (Module 25)
+      maxOpenConns: 4
+    secureJsonData:
+      password: $GRAFANA_READER_PASSWORD
+    # locked on the screen: changes go through this file, then docker compose restart grafana
+    editable: false

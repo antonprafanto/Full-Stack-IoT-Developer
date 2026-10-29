@@ -1,0 +1,17 @@
+# smarthome.yaml - the dashboard provider (Module 26): Grafana installs every .json file in /etc/grafana/dashboards
+# (= the grafana/dashboards folder in the repo, mounted by compose.cloud.yml) into the "Mini Smart Home" folder.
+apiVersion: 1
+providers:
+  - name: smarthome
+    folder: Mini Smart Home
+    type: file
+    # a dashboard from a file can't be deleted on the screen
+    disableDeletion: true
+    # false = the Save button on the screen is refused ("This dashboard cannot be saved from the Grafana UI because it has been
+    # provisioned from another source"). Changing the dashboard: change it on the screen, Export ->
+    # Export as JSON (Classic), overwrite the file in grafana/dashboards, then docker compose restart grafana.
+    allowUiUpdates: false
+    # files from a folder mounted by Docker are checked again every 30 seconds (more than 10, as Grafana's docs recommend)
+    updateIntervalSeconds: 30
+    options:
+      path: /etc/grafana/dashboards

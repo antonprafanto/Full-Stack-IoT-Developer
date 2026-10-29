@@ -1,0 +1,46 @@
+# practice.yaml - Module 26 warm-up, steps 3-4: YAML and environment variables in one small Compose file.
+# This file is NOT meant to be started. Just ask Compose to READ it with "config": Compose prints its content again as it
+# understands it (variable values filled in, numbers turned into text), without starting anything. From this folder:
+#   docker compose -f practice.yaml config                           -> error: OWNER isn't filled in (see ${OWNER:?...})
+#   docker compose -f practice.yaml --env-file practice.env config   -> works, with the values from practice.env
+#
+# YAML rules used here:
+# - "key: value" = a map (pairs of a name and its content). Content indented to the right under a key belongs to that key.
+# - Indent with SPACES (2 per level in this file), NEVER a Tab: a Tab makes Compose stop with the error
+#   "found character that cannot start any token".
+# - A line that starts with "- " = one list item.
+# - A # sign = a comment to the end of the line; Compose ignores it.
+name: practice-yaml
+
+services:
+  greet:
+    # plain text may go without quotes
+    image: eclipse-mosquitto:2.1.2-alpine
+    # a list may be written downward (with "- ") or on one line inside [ ]. $$ = a $ sign for sh, not for Compose.
+    command: ["sh", "-c", "echo $$GREETING, $$OWNER"]
+    environment:
+      # Three variable forms. The value is looked up in the terminal's environment, then in .env of this folder (or --env-file):
+      #   ${NAME:-default}  the default is used when NAME is empty or missing
+      #   ${NAME:?message}  Compose STOPS with that message when NAME is empty or missing (for required secrets)
+      #   ${NAME}           when missing: the warning "variable is not set", then filled in with empty text
+      GREETING: ${GREETING:-hello}
+      OWNER: ${OWNER:?fill in OWNER in practice.env}
+      CITY: ${CITY}
+      # An unquoted number is read as a NUMBER first, then turned into text: leading and trailing zeros are lost.
+      CODE_UNQUOTED: 007          # becomes "7"
+      CODE: "007"                 # stays "007"
+      VERSION_UNQUOTED: 1.10      # becomes "1.1"
+      VERSION: "1.10"             # stays "1.10"
+      # Compose 2.40.3 reads off even without quotes as the text "off", but older YAML readers read it as "false".
+      # Quotes make it text for sure everywhere (our project writes TIMESCALEDB_TELEMETRY: "off").
+      TELEMETRY: "off"
+    ports:
+      # "laptop-counter:container-port". Always quoted: it holds colons and is more than a plain word.
+      - "127.0.0.1:1885:1883"
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        # quotes: Docker's log settings only accept text; Compose 2.40.3 turns 3 into "3" by itself, but the quotes
+        # make the intent clear
+        max-file: "3"

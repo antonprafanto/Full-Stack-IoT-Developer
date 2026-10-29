@@ -38,7 +38,7 @@ export const SESSION_OPTIONS = { ...BASE, path: "/auth", maxAge: SESSION_AGE_SEC
 // Routes you may knock on WITHOUT logging in. Every other route requires a login, including routes added later.
 export const OPEN_ROUTES = new Set([
   "POST /auth/login", "POST /auth/refresh", "POST /auth/logout",
-  "GET /health", "HEAD /health", // HEAD: health checkers such as wget --spider (Docker, Phase 5)
+  "GET /health", "HEAD /health", // HEAD: the Docker Compose healthcheck (Module 26) knocks HEAD /health
 ]);
 const READ_METHODS = new Set(["GET", "HEAD"]); // the only methods a viewer account may use
 // Web pages (origins) that may CHANGE something through a browser: the CORS list + this server itself (Swagger UI at /docs).

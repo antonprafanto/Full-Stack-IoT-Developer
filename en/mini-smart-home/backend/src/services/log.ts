@@ -13,3 +13,13 @@ export const log = {
   warn: (message: string) => logger?.warn(message),
   error: (message: string) => logger?.error(message),
 };
+
+// Module 26: should one HTTP request be written to the log (used by the onResponse hook in server.ts)? The Docker healthcheck
+// knocks HEAD /health every 15 seconds; without this filter, the log holds thousands of identical lines every day and the
+// important lines drown. Only SUCCESSFUL /health knocks (GET or HEAD, a code below 400) are not logged: a failed /health
+// and every other address are still logged as usual.
+export function shouldLog(method: string, url: string, code: number): boolean {
+  const path = url.split("?")[0]; // without the ?… behind it
+  const healthKnock = (method === "GET" || method === "HEAD") && path === "/health";
+  return !(healthKnock && code < 400);
+}

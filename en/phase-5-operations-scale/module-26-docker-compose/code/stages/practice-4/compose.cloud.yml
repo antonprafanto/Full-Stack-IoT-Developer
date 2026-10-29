@@ -1,0 +1,60 @@
+# compose.cloud.yml - STAGE of Module 26 Practice 4: only the database and Grafana, on the two OLD cupboards (Modules 17 and 25).
+# Its content is written at the project root (not in this stage folder). The final Module 26 file: ../../compose.cloud.yml.
+# Run it from the project root:  docker compose up -d   (.env holds COMPOSE_FILE=compose.cloud.yml and the OLD postgres password)
+# Before that, the old containers are stopped and removed (their cupboards stay): docker stop + docker rm smarthome-grafana smarthome-db
+name: smarthome
+
+services:
+  # The TimescaleDB database (Modules 17-18), the same smarthome-data cupboard since Module 17.
+  db:
+    image: timescale/timescaledb:2.30.2-pg17
+    environment:
+      # This form is only read while the cupboard is still EMPTY. An old cupboard already holds the password: write the OLD one in .env.
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?fill in POSTGRES_PASSWORD in .env}
+      POSTGRES_DB: smarthome
+      TIMESCALEDB_TELEMETRY: "off"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      # 127.0.0.1 = this laptop only (DBeaver, psql, npm run dev). Without 127.0.0.1, Docker opens the counter to the whole Wi-Fi.
+      - "127.0.0.1:${PORT_DB:-5432}:5432"
+    networks:
+      default:
+        # the old container name of Modules 17-25: the screen-made Grafana data source (host smarthome-db:5432) stays connected
+        aliases:
+          - smarthome-db
+    healthcheck:
+      # "running" doesn't mean "ready for visitors"; -h 127.0.0.1 so that it doesn't pass too early while a new cupboard is filled
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U postgres -d smarthome"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+      start_period: 60s
+    restart: unless-stopped
+
+  # Grafana 13.2.4 (Module 25) with exactly the Module 25 settings and the same smarthome-grafana-data cupboard: your dashboards,
+  # rules, contact point, and old admin account come along. Assembled from files (provisioning) only in Practice 7.
+  grafana:
+    image: grafana/grafana:13.2.4
+    environment:
+      GF_PLUGINS_PREINSTALL_DISABLED: "true"
+      GF_ANALYTICS_REPORTING_ENABLED: "false"
+      GF_SNAPSHOTS_EXTERNAL_ENABLED: "false"
+      GF_PUBLIC_DASHBOARDS_ENABLED: "false"
+    volumes:
+      - grafana-data:/var/lib/grafana
+    ports:
+      - "127.0.0.1:${PORT_GRAFANA:-3000}:3000"
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  # The history cupboards belong to YOU ("external"): Compose never creates or deletes them, not even with "down -v".
+  db-data:
+    external: true
+    name: ${DB_VOLUME:-smarthome-data}
+  grafana-data:
+    external: true
+    name: ${GRAFANA_VOLUME:-smarthome-grafana-data}

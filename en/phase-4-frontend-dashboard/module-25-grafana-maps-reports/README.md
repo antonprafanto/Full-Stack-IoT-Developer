@@ -4,7 +4,7 @@
 
 *Phase 4 · Week 25 · Hardware: **Kit A + B** (Node 2 on a battery) or the Module 21 simulator + the **mock Garden** · **a Telegram account + the Module 19 bot** · Prerequisites: **Module 24** (dashboard v1.0 + backend 1.1 on `main`), Module 18, Module 19 (vitals & bot), Module 23 · Time: 11–13 hours, spread over the week*
 
-[⬅️ Module 24](../module-24-control-rules-roles/README.md) · [Phase 4](../README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · [Module 26 ➡️ (coming soon — read the summary in the Syllabus)](../../SYLLABUS.md#module-26--docker--docker-compose-one-command-for-all-services)
+[⬅️ Module 24](../module-24-control-rules-roles/README.md) · [Phase 4](../README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · [Module 26 ➡️](../../phase-5-operations-scale/module-26-docker-compose/README.md)
 
 ---
 
@@ -3710,7 +3710,7 @@ The pass requirement from the Syllabus: **Grafana sends a Telegram alert when yo
 
 **Phase 4 is complete: two screens for two audiences.** The residents look, command according to their role, and find their devices on the **Map**; the technical team reads the devices' history and health in Grafana, is woken by alerts when a node goes silent, and receives yesterday's report every morning. The limit: its brain is still on the laptop, so the alerts and the reports go to sleep when the laptop sleeps.
 
-> ➡️ **Next module:** Module 26 — Docker & Docker Compose: One Command for All Services (coming soon; [read the summary in the Syllabus](../../SYLLABUS.md#module-26--docker--docker-compose-one-command-for-all-services)). Grafana moves to Docker Compose with the same `smarthome-grafana-data` cupboard: your dashboard, rule, and contact point come along.
+> ➡️ **Next module:** [Module 26 — Docker & Docker Compose: One Command for All Services](../../phase-5-operations-scale/module-26-docker-compose/README.md). Grafana moves to Docker Compose with the same `smarthome-grafana-data` cupboard: your dashboard, rule, and contact point come along.
 
 ## 📚 Sources & Image Credits
 
@@ -3745,4 +3745,4 @@ Telegram is a **mock** Bot API server with a fake token and chat_id, as in [Modu
 
 ---
 
-[⬅️ Module 24](../module-24-control-rules-roles/README.md) · [Phase 4](../README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · **Next: Module 26 — Docker & Docker Compose: One Command for All Services** (coming soon; [read the summary in the Syllabus](../../SYLLABUS.md#module-26--docker--docker-compose-one-command-for-all-services))
+[⬅️ Module 24](../module-24-control-rules-roles/README.md) · [Phase 4](../README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · **Next: [Module 26 — Docker & Docker Compose: One Command for All Services](../../phase-5-operations-scale/module-26-docker-compose/README.md) ➡️**

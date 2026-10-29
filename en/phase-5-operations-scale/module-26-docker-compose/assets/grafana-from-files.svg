@@ -1,0 +1,156 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1124" viewBox="0 0 1200 1124" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="1124" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" xml:space="preserve">Grafana assembled from files (provisioning)</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" xml:space="preserve">Concept 9 · Practice 7 · the <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5">grafana/</tspan> folder in the repo + secrets in <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5">.env</tspan> → a full Grafana without a click, in the same cupboard</text>
+<rect x="30.0" y="100.0" width="470.0" height="330.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<path d="M43 119 L54 119 L58 123 L77 123 L77 143 L43 143 Z" fill="none" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="43.0" y1="128.0" x2="77.0" y2="128.0" stroke="#1e2a4a" stroke-width="1.4" stroke-linecap="round" />
+<text x="88.0" y="130.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Repo: the <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14" fill="#1e2a4a" font-weight="800">grafana/</tspan> folder</text>
+<text x="88.0" y="149.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >in Git, without a single secret</text>
+<text x="50.0" y="180.0" font-size="11.5" font-weight="800" fill="#a13a6b" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">provisioning/datasources/smarthome.yaml</text>
+<text x="62.0" y="197.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">data source <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="700">smarthome-db</tspan> (fixed uid), <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="700">db:5432</tspan></text>
+<text x="50.0" y="215.0" font-size="11.5" font-weight="800" fill="#a13a6b" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">provisioning/dashboards/smarthome.yaml</text>
+<text x="62.0" y="232.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">folder "Mini Smart Home", <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="700">allowUiUpdates:</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="700">false</tspan></text>
+<text x="50.0" y="250.0" font-size="11.5" font-weight="800" fill="#a13a6b" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">dashboards/system-health.json</text>
+<text x="62.0" y="267.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">dashboard (uid = your Module 25 export), panels → <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="700">smarthome-db</tspan></text>
+<text x="50.0" y="285.0" font-size="11.5" font-weight="800" fill="#a13a6b" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">provisioning/alerting/silent-node.yaml</text>
+<text x="62.0" y="302.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">the "Silent node" rule, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="700">datasourceUid:</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="700">smarthome-db</tspan></text>
+<text x="50.0" y="320.0" font-size="11.5" font-weight="800" fill="#a13a6b" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">provisioning/alerting/telegram-contact.yaml</text>
+<text x="62.0" y="337.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">contact point, token <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="700">$TELEGRAM_BOT_TOKEN</tspan></text>
+<text x="50.0" y="355.0" font-size="11.5" font-weight="800" fill="#a13a6b" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">provisioning/plugins/no-plugins.yaml</text>
+<text x="62.0" y="372.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">an empty plugin list (a log without <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="700">level=error</tspan>)</text>
+<text x="50.0" y="390.0" font-size="11.5" font-weight="800" fill="#a13a6b" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">grafana-user.sql</text>
+<text x="62.0" y="407.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">the read-only <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="700">grafana_reader</tspan> account (used by <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="700">grafana-account</tspan>)</text>
+<rect x="30.0" y="444.0" width="470.0" height="150.0" rx="12" fill="#fcf2f6" stroke="#a13a6b" stroke-width="1.6" />
+<rect x="49.0" y="471.0" width="22.0" height="17.0" rx="3" fill="none" stroke="#a13a6b" stroke-width="2" />
+<path d="M53.5 471 L53.5 466 A6.5 6.5 0 0 1 66.5 466 L66.5 471" fill="none" stroke="#a13a6b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="60.0" cy="479.0" r="1.8" fill="#a13a6b" />
+<text x="88.0" y="474.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13.5" fill="#a13a6b" font-weight="800">.env</tspan> at the project root</text>
+<text x="88.0" y="493.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >not in Git; the files above only name its variables</text>
+<text x="50.0" y="526.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#a13a6b" font-weight="800">GRAFANA_READER_PASSWORD</tspan>: the <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#a13a6b" font-weight="800">grafana_reader</tspan> password</text>
+<text x="50.0" y="546.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#a13a6b" font-weight="800">TELEGRAM_BOT_TOKEN</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#a13a6b" font-weight="800">TELEGRAM_CHAT_ID</tspan>: empty → <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#a13a6b" font-weight="800">not-set-yet</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#a13a6b" font-weight="800">0</tspan></text>
+<text x="50.0" y="566.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#a13a6b" font-weight="800">GRAFANA_ADMIN_PASSWORD</tspan>: used only while the cupboard is empty</text>
+<rect x="524.0" y="140.0" width="196.0" height="420.0" rx="12" fill="#eef1f5" />
+<text x="622.0" y="166.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="middle" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">docker compose up -d</tspan></text>
+<rect x="538.0" y="184.0" width="168.0" height="84.0" rx="8" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.4" stroke-dasharray="6 4"/>
+<text x="550.0" y="206.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">grafana-account</text>
+<text x="550.0" y="226.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">a one-off:</text>
+<text x="550.0" y="242.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">grafana_reader</tspan> + its</text>
+<text x="550.0" y="258.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">password, synced to <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">.env</tspan></text>
+<line x1="622.0" y1="272.0" x2="622.0" y2="296.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<path d="M618.7 291.8 L622.0 298.0 L625.3 291.8" fill="none" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="538.0" y="302.0" width="168.0" height="222.0" rx="8" fill="#ffffff" stroke="#6f42c1" stroke-width="2" />
+<g transform="translate(562 326) scale(0.6) translate(-562 -326)">
+<rect x="543.0" y="312.0" width="38.0" height="28.0" rx="4" fill="none" stroke="#6f42c1" stroke-width="2" />
+<path d="M549 333 L557 325 L564 330 L575 318" fill="none" stroke="#6f42c1" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+</g>
+<text x="582.0" y="331.0" font-size="13" font-weight="800" fill="#6f42c1" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">grafana</text>
+<text x="550.0" y="358.0" font-size="10.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="700">grafana/grafana:13.2.4</tspan></text>
+<text x="550.0" y="377.0" font-size="10.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">mounted read-only:</text>
+<text x="550.0" y="396.0" font-size="10.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="700">./grafana/provisioning</tspan></text>
+<text x="550.0" y="415.0" font-size="10.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">→ <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="700">/etc/grafana/</tspan></text>
+<text x="550.0" y="434.0" font-size="10.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">  <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="700">provisioning</tspan></text>
+<text x="550.0" y="453.0" font-size="10.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="700">./grafana/dashboards</tspan></text>
+<text x="550.0" y="472.0" font-size="10.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">→ <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="700">/etc/grafana/</tspan></text>
+<text x="550.0" y="491.0" font-size="10.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">  <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="700">dashboards</tspan></text>
+<line x1="504.0" y1="260.0" x2="520.0" y2="260.0" stroke="#a13a6b" stroke-width="2.2" stroke-linecap="round" />
+<path d="M513.8 263.3 L520.0 260.0 L513.8 256.7" fill="none" stroke="#a13a6b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="504.0" y1="508.0" x2="520.0" y2="508.0" stroke="#a13a6b" stroke-width="2.2" stroke-linecap="round" />
+<path d="M513.8 511.3 L520.0 508.0 L513.8 504.7" fill="none" stroke="#a13a6b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="744.0" y="100.0" width="426.0" height="494.0" rx="14" fill="#ffffff" stroke="#6f42c1" stroke-width="1.8" />
+<text x="764.0" y="130.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >The result in Grafana, without a click</text>
+<text x="764.0" y="149.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">the same <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568" font-weight="800">smarthome-grafana-data</tspan> cupboard since Module 25</text>
+<line x1="724.0" y1="360.0" x2="740.0" y2="360.0" stroke="#6f42c1" stroke-width="2.2" stroke-linecap="round" />
+<path d="M733.8 363.3 L740.0 360.0 L733.8 356.7" fill="none" stroke="#6f42c1" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="760.0" y="172.0" width="394.0" height="68.0" rx="8" fill="#eef1f5" />
+<text x="774.0" y="194.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Data sources</text>
+<text x="774.0" y="214.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="700">smarthome-db</tspan> · PostgreSQL · <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="700">db:5432</tspan></text>
+<text x="774.0" y="231.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Database Connection OK</text>
+<rect x="760.0" y="248.0" width="394.0" height="110.0" rx="8" fill="#eef1f5" />
+<text x="774.0" y="270.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Dashboards › Mini Smart Home</text>
+<text x="774.0" y="290.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">System Health: panels with data;</text>
+<text x="774.0" y="307.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Edit → Save refused:</text>
+<text x="774.0" y="326.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="start" xml:space="preserve">"This dashboard cannot be saved from the Grafana UI</text>
+<text x="774.0" y="342.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="start" xml:space="preserve">because it has been provisioned from another source."</text>
+<rect x="760.0" y="366.0" width="394.0" height="52.0" rx="8" fill="#eef1f5" />
+<text x="774.0" y="388.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Alert rules</text>
+<rect x="990.0" y="374.0" width="150.0" height="20.0" rx="10" fill="#e6dcf5" stroke="#6f42c1" stroke-width="1.2" />
+<text x="1065.0" y="388.0" font-size="11" font-weight="800" fill="#6f42c1" text-anchor="middle" >Provisioned · Normal</text>
+<text x="774.0" y="408.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Silent node (group <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="700">node-health</tspan>)</text>
+<rect x="760.0" y="426.0" width="394.0" height="68.0" rx="8" fill="#eef1f5" />
+<text x="774.0" y="448.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Contact points</text>
+<rect x="1049.4" y="434.0" width="90.6" height="20.0" rx="10" fill="#e6dcf5" stroke="#6f42c1" stroke-width="1.2" />
+<text x="1094.7" y="448.0" font-size="11" font-weight="800" fill="#6f42c1" text-anchor="middle" >Provisioned</text>
+<text x="774.0" y="468.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Telegram Smart Home · Used by 1 alert rules</text>
+<text x="774.0" y="485.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the Test button → the test message arrives</text>
+<rect x="760.0" y="502.0" width="394.0" height="68.0" rx="8" fill="#eef1f5" />
+<text x="774.0" y="524.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Admin account</text>
+<text x="774.0" y="544.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the OLD password stays (200);</text>
+<text x="774.0" y="561.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="700">GRAFANA_ADMIN_PASSWORD</tspan> ignored (401)</text>
+<rect x="30.0" y="616.0" width="1140.0" height="336.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="54.0" y="646.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="start" >The takeover from Module 25 (once, Practice 7)</text>
+<text x="452.0" y="646.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >in the Grafana that is still running (from Practice 4), BEFORE the provisioning folder is mounted</text>
+<rect x="54.0" y="666.0" width="252.0" height="124.0" rx="10" fill="#ffffff" stroke="#a13a6b" stroke-width="1.6" />
+<circle cx="76.0" cy="690.0" r="12" fill="#a13a6b" stroke="#ffffff" stroke-width="2" />
+<text x="76.0" y="694.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >1</text>
+<text x="96.0" y="695.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Alert rules</text>
+<text x="72.0" y="724.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">delete the rule</text>
+<text x="72.0" y="742.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">"Silent node"</text>
+<text x="72.0" y="764.0" font-size="10.5" font-weight="700" fill="#4a5568" text-anchor="start" xml:space="preserve">first: dashboard changed since</text>
+<text x="72.0" y="779.0" font-size="10.5" font-weight="700" fill="#4a5568" text-anchor="start" xml:space="preserve">Module 25? export it to your JSON again</text>
+<line x1="309.0" y1="718.0" x2="327.0" y2="718.0" stroke="#a13a6b" stroke-width="2" stroke-linecap="round" />
+<path d="M321.7 720.8 L327.0 718.0 L321.7 715.2" fill="none" stroke="#a13a6b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="330.0" y="666.0" width="252.0" height="124.0" rx="10" fill="#ffffff" stroke="#a13a6b" stroke-width="1.6" />
+<circle cx="352.0" cy="690.0" r="12" fill="#a13a6b" stroke="#ffffff" stroke-width="2" />
+<text x="352.0" y="694.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >2</text>
+<text x="372.0" y="695.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Contact points</text>
+<text x="348.0" y="724.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">delete "Telegram</text>
+<text x="348.0" y="742.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Smart Home"</text>
+<line x1="585.0" y1="718.0" x2="603.0" y2="718.0" stroke="#a13a6b" stroke-width="2" stroke-linecap="round" />
+<path d="M597.7 720.8 L603.0 718.0 L597.7 715.2" fill="none" stroke="#a13a6b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="606.0" y="666.0" width="252.0" height="124.0" rx="10" fill="#ffffff" stroke="#a13a6b" stroke-width="1.6" />
+<circle cx="628.0" cy="690.0" r="12" fill="#a13a6b" stroke="#ffffff" stroke-width="2" />
+<text x="628.0" y="694.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >3</text>
+<text x="648.0" y="695.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Data sources</text>
+<text x="624.0" y="724.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">delete the old data source</text>
+<text x="624.0" y="742.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#a13a6b" font-weight="800">grafana-postgresql-datasource</tspan></text>
+<text x="624.0" y="764.0" font-size="10.5" font-weight="700" fill="#e63946" text-anchor="start" xml:space="preserve">"First panel" (M25 Quick Win) breaks too</text>
+<text x="624.0" y="779.0" font-size="10.5" font-weight="700" fill="#e63946" text-anchor="start" xml:space="preserve">→ delete it, or change its data source first</text>
+<line x1="861.0" y1="718.0" x2="879.0" y2="718.0" stroke="#a13a6b" stroke-width="2" stroke-linecap="round" />
+<path d="M873.7 720.8 L879.0 718.0 L873.7 715.2" fill="none" stroke="#a13a6b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="882.0" y="666.0" width="252.0" height="124.0" rx="10" fill="#fcf2f6" stroke="#a13a6b" stroke-width="1.6" />
+<circle cx="904.0" cy="690.0" r="12" fill="#a13a6b" stroke="#ffffff" stroke-width="2" />
+<text x="904.0" y="694.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >4</text>
+<text x="924.0" y="695.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#1e2a4a" font-weight="800">docker compose up -d</tspan></text>
+<text x="900.0" y="724.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the files replace them: 1 rule,</text>
+<text x="900.0" y="742.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">1 contact point, 1 dashboard</text>
+<rect x="54.0" y="806.0" width="540.0" height="132.0" rx="10" fill="#fde6e8" stroke="#e63946" stroke-width="1.4" />
+<text x="72.0" y="830.0" font-size="12.5" font-weight="800" fill="#e63946" text-anchor="start" >Wrong order: the contact point deleted first</text>
+<text x="72.0" y="851.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Grafana refuses. On screen: <tspan font-weight="800" fill="#1e2a4a">More</tspan> → <tspan font-weight="800" fill="#1e2a4a">Delete</tspan> grayed out, with the tooltip:</text>
+<text x="72.0" y="869.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" >"Contact point is referenced by one or more alert rules"</text>
+<text x="72.0" y="887.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">through the API: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#4a5568" font-weight="800">409</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#4a5568" font-weight="800">Receiver</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#4a5568" font-weight="800">is</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#4a5568" font-weight="800">used</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#4a5568" font-weight="800">by</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#4a5568" font-weight="800">1</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#4a5568" font-weight="800">rule(s)</tspan></text>
+<text x="72.0" y="909.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" >Without the takeover: the contact point holds TWO Telegram</text>
+<text x="72.0" y="927.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" >integrations → every alert is sent twice</text>
+<rect x="610.0" y="806.0" width="536.0" height="132.0" rx="10" fill="#eef1f5" />
+<text x="628.0" y="830.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Not deleted: the dashboard and the notification policies</text>
+<text x="628.0" y="856.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the "System Health" dashboard is taken over when the uid in your</text>
+<text x="628.0" y="877.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">JSON = the uid in the cupboard (your M25 export; the author's lab: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">ad6w2nq</tspan>);</text>
+<text x="628.0" y="898.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">someone else's JSON with another uid → maybe two dashboards, same name</text>
+<text x="628.0" y="919.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the notification policies stay default (lab: not in the way)</text>
+<rect x="30.0" y="970.0" width="430.0" height="112.0" rx="12" fill="#ffffff" stroke="#e63946" stroke-width="1.6" />
+<text x="48.0" y="998.0" font-size="13.5" font-weight="800" fill="#e63946" text-anchor="start" >A random uid (the raw Module 25 file)</text>
+<text x="48.0" y="1022.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">dashboard: every panel red</text>
+<text x="48.0" y="1041.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">Datasource ${DS_GRAFANA-POSTGRESQL-DATASOURCE} was not found</tspan></text>
+<text x="48.0" y="1060.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">rule: a false 🔴 without a node name → fixed uid <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">smarthome-db</tspan></text>
+<rect x="475.0" y="970.0" width="340.0" height="112.0" rx="12" fill="#ffffff" stroke="#e63946" stroke-width="1.6" />
+<text x="493.0" y="998.0" font-size="13.5" font-weight="800" fill="#e63946" text-anchor="start" >An empty Telegram token</text>
+<text x="493.0" y="1022.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Grafana crash-loops:</text>
+<text x="493.0" y="1041.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">could not find Bot Token in settings</tspan></text>
+<text x="493.0" y="1060.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">→ <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">compose.cloud.yml</tspan> gives <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">not-set-yet</tspan> and <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">0</tspan></text>
+<rect x="830.0" y="970.0" width="340.0" height="112.0" rx="12" fill="#ffffff" stroke="#a13a6b" stroke-width="1.6" />
+<text x="848.0" y="998.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Changing it after Module 26</text>
+<text x="848.0" y="1022.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">change on the screen as a trial → export</text>
+<text x="848.0" y="1041.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">(JSON Classic / YAML) → overwrite the file →</text>
+<text x="848.0" y="1060.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">docker</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">compose</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">restart</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">grafana</tspan> → commit</text>
+<text x="1178.0" y="1110.0" font-size="11" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer Curriculum · CC BY 4.0</text>
+</svg>

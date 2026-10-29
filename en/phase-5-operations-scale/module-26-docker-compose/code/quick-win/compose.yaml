@@ -1,0 +1,45 @@
+# compose.yaml - Quick Win of Module 26: two services, one command.
+# This file's name is Docker Compose's DEFAULT name, so in this folder this is enough: docker compose up -d   (without -f)
+# PRACTICE ONLY: the broker below has NO accounts (allow_anonymous), can only be reached from this laptop (127.0.0.1), and
+# is taken down in the last step with: docker compose down
+# The Compose project is named after this folder (quick-win).
+services:
+  # Service 1: the practice MQTT broker. An official image, an exact tag (the same as the project's central broker), no "latest".
+  broker:
+    image: eclipse-mosquitto:2.1.2-alpine
+    # the default settings file inside this image: listener 1883 without accounts (allow_anonymous true)
+    command: ["mosquitto", "-c", "/mosquitto-no-auth.conf"]
+    ports:
+      # left = the counter on your laptop (1884, so it doesn't clash with a 1883 broker that may already exist),
+      # right = the port inside the container. 127.0.0.1 = this laptop only, not the whole Wi-Fi.
+      - "127.0.0.1:1884:1883"
+    # The Mosquitto image declares its data and log folders as cupboards. In this practice both can live in memory (tmpfs):
+    # gone when the container is removed, and no nameless cupboards are left behind after "docker compose down".
+    tmpfs:
+      - /mosquitto/data
+      - /mosquitto/log
+
+  # Service 2: the sender. The same image (already on the laptop, no new download), but it runs mosquitto_pub.
+  sender:
+    image: eclipse-mosquitto:2.1.2-alpine
+    # The broker's address = the SERVICE NAME "broker": in the Compose hallway (network), every service is known by its name.
+    # Port 1883 = the port INSIDE the broker container, not counter 1884 on the laptop. $$ = a $ sign for sh, not for Compose.
+    command:
+      - sh
+      - -c
+      - |
+        n=0
+        while true; do
+          n=$$((n + 1))
+          mosquitto_pub -h broker -p 1883 -t practice/greet -m "hello from the sender container, message $$n"
+          echo "sent message $$n"
+          sleep 2
+        done
+    # start the broker first (only the starting order: it doesn't wait for the broker to be "ready" yet, that's Concept 8)
+    depends_on:
+      - broker
+    # sh as the first process ignores the stop signal; this small init passes it on, so "down" doesn't wait 10 seconds
+    init: true
+    tmpfs:
+      - /mosquitto/data
+      - /mosquitto/log

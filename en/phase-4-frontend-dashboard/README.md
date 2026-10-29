@@ -39,4 +39,4 @@ Module 25 closes this phase: Mini Smart Home is now **watched over and reporting
 
 ---
 
-[⬅️ Phase 3 — Backend & Data](../phase-3-backend-data/README.md) · [Front page](../README.md) · [Syllabus](../SYLLABUS.md) · [Progress tracker](../PROGRESS.md) · **Start: [Module 22](module-22-react-basics/README.md) ➡️**
+[⬅️ Phase 3 — Backend & Data](../phase-3-backend-data/README.md) · [Front page](../README.md) · [Syllabus](../SYLLABUS.md) · [Progress tracker](../PROGRESS.md) · **Start: [Module 22](module-22-react-basics/README.md) ➡️** · [Phase 5 ➡️](../phase-5-operations-scale/README.md)

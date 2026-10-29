@@ -1,7 +1,10 @@
-# silent-node.yaml - the Module 25 "Silent node" alert rule (group node-health, folder Mini Smart Home), MADE ON THE SCREEN then
-# exported from the author's lab Grafana 13.2.4 (Alert rules -> group node-health -> More -> Export rules group -> YAML -> Download);
-# the content below this comment line as it is. datasourceUid cg2hjf4u3bfuoa = the author's lab data source (different in your Grafana).
-# No token, password, or chat_id here: the contact point is only named (receiver), its content is never exported.
+# silent-node.yaml - the Module 25 "Silent node" alert rule (group node-health, folder Mini Smart Home). Module 25 made it
+# on the screen, then exported it from Grafana 13.2.4 (Alert rules -> group node-health -> More -> Export rules group ->
+# YAML); its content is used as is. Since Module 26 this file is no longer an archive but a provisioning file: the Grafana in
+# compose.cloud.yml installs it by itself when it starts. The only change from the Module 25 export: datasourceUid is now
+# smarthome-db (the fixed uid of the data source in ../datasources/smarthome.yaml), not the author's lab data source's random uid.
+# This rule is locked on the screen ("Provisioned"): change this file, then docker compose restart grafana.
+# No token, password, or chat_id here: the contact point is only named (receiver), its content is in telegram-contact.yaml.
 apiVersion: 1
 groups:
     - orgId: 1
@@ -17,7 +20,7 @@ groups:
               relativeTimeRange:
                 from: 600
                 to: 0
-              datasourceUid: cg2hjf4u3bfuoa
+              datasourceUid: smarthome-db
               model:
                 dataset: smarthome
                 editorMode: code

@@ -1,6 +1,6 @@
 # 🏠 Proyek Rumah Pintar Mini — versi rujukan
 
-🌐 **Bahasa Indonesia** · [English](../../../en/mini-smart-home/README.md)
+🌐 **Bahasa Indonesia** · [English](../../../en/phase-5-operations-scale/module-26-docker-compose/code/README.md)
 
 Folder ini berisi **kode proyek benang merah** kurikulum dalam versi terbarunya. Setiap modul menambahkan satu-dua bagian; folder `kode/` di setiap modul menyimpan "potret" pada minggu itu, sedangkan folder ini selalu berisi versi paling baru.
 

@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1102" viewBox="0 0 1200 1102" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="1102" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" xml:space="preserve">A mold in layers: the kitchen and the serving table</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" xml:space="preserve">Concepts 2–4 · a two-stage <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5">Dockerfile</tspan> (multi-stage) · numbers from the author's build on a Raspberry Pi 5 (arm64)</text>
+<text x="30.0" y="122.0" font-size="16" font-weight="600" fill="#1a7f37" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1a7f37">Backend 1.3.0</tspan> · <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14" fill="#1e2a4a" font-weight="800">backend/Dockerfile</tspan></text>
+<text x="590.0" y="122.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="end" >lines shortened: copy them from the file</text>
+<rect x="30.0" y="136.0" width="560.0" height="182.0" rx="10" fill="#eef1f5" stroke="#9aa3b0" stroke-width="1.4" stroke-dasharray="7 5"/>
+<text x="46.0" y="162.0" font-size="13.5" font-weight="800" fill="#4a5568" text-anchor="start" xml:space="preserve">Stage <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" fill="#4a5568" font-weight="800">packages</tspan></text>
+<text x="574.0" y="162.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="end" >the kitchen: thrown away after the build</text>
+<text x="46.0" y="190.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">FROM node:24.22.1-alpine3.24 AS packages</text>
+<text x="46.0" y="213.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">COPY package.json package-lock.json ./</text>
+<text x="46.0" y="236.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">RUN npm ci --omit=dev</text>
+<text x="574.0" y="236.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="end" xml:space="preserve">186 packages, no developer tools</text>
+<line x1="100.0" y1="322.0" x2="100.0" y2="354.0" stroke="#a13a6b" stroke-width="2.4" stroke-linecap="round" />
+<path d="M96.2 346.9 L100.0 354.0 L103.8 346.9" fill="none" stroke="#a13a6b" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="116.0" y="343.0" font-size="12.5" font-weight="800" fill="#a13a6b" text-anchor="start" xml:space="preserve">only <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#a13a6b" font-weight="800">node_modules</tspan> is carried over</text>
+<rect x="30.0" y="360.0" width="560.0" height="182.0" rx="10" fill="#ffffff" stroke="#a13a6b" stroke-width="2" />
+<text x="46.0" y="386.0" font-size="13.5" font-weight="800" fill="#a13a6b" text-anchor="start" >Final stage</text>
+<text x="574.0" y="386.0" font-size="12" font-weight="700" fill="#a13a6b" text-anchor="end" >the serving table = the image contents</text>
+<text x="46.0" y="414.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">FROM node:24.22.1-alpine3.24</text>
+<text x="46.0" y="438.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">ENV NODE_ENV=production</text>
+<text x="46.0" y="462.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">COPY --from=packages /app/node_modules ./node_modules</text>
+<text x="46.0" y="486.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">COPY src ./src</text>
+<text x="574.0" y="486.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="end" xml:space="preserve">code (also <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#4a5568" font-weight="800">package.json</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#4a5568" font-weight="800">migrations</tspan>)</text>
+<text x="46.0" y="510.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">USER node</text>
+<text x="574.0" y="510.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="end" xml:space="preserve">not root (uid 1000)</text>
+<text x="46.0" y="534.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">CMD ["node", "src/server.ts"]</text>
+<text x="574.0" y="534.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="end" xml:space="preserve">no npm start</text>
+<rect x="30.0" y="554.0" width="560.0" height="40.0" rx="8" fill="#fcf2f6" />
+<text x="46.0" y="579.0" font-size="13" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#a13a6b">313 MB</tspan> on disk · <tspan font-weight="800" fill="#a13a6b">71.9 MB</tspan> download (compressed) · Node.js 24 + libraries + code</text>
+<text x="610.0" y="122.0" font-size="16" font-weight="600" fill="#6f42c1" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#6f42c1">Web 1.2.0</tspan> · <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14" fill="#1e2a4a" font-weight="800">frontend/Dockerfile</tspan></text>
+<text x="1170.0" y="122.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="end" >lines shortened: copy them from the file</text>
+<rect x="610.0" y="136.0" width="560.0" height="182.0" rx="10" fill="#eef1f5" stroke="#9aa3b0" stroke-width="1.4" stroke-dasharray="7 5"/>
+<text x="626.0" y="162.0" font-size="13.5" font-weight="800" fill="#4a5568" text-anchor="start" xml:space="preserve">Stage <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" fill="#4a5568" font-weight="800">build</tspan></text>
+<text x="1154.0" y="162.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="end" >the Node.js kitchen: thrown away after the build</text>
+<text x="626.0" y="190.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">FROM node:24.22.1-alpine3.24 AS build</text>
+<text x="626.0" y="213.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">COPY package.json package-lock.json ./</text>
+<text x="626.0" y="236.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">RUN npm ci</text>
+<text x="1154.0" y="236.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="end" xml:space="preserve">110 packages, + TypeScript, Vite</text>
+<text x="626.0" y="259.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">COPY . .</text>
+<text x="626.0" y="282.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">ARG VITE_API_BASE=/api</text>
+<text x="1154.0" y="282.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="end" xml:space="preserve">baked into the JavaScript</text>
+<text x="626.0" y="305.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">RUN npm run build</text>
+<text x="1154.0" y="305.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="end" xml:space="preserve">→ <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#4a5568" font-weight="800">dist/</tspan> ±1.1 MB</text>
+<line x1="680.0" y1="322.0" x2="680.0" y2="354.0" stroke="#a13a6b" stroke-width="2.4" stroke-linecap="round" />
+<path d="M676.2 346.9 L680.0 354.0 L683.8 346.9" fill="none" stroke="#a13a6b" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="696.0" y="343.0" font-size="12.5" font-weight="800" fill="#a13a6b" text-anchor="start" xml:space="preserve">only <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#a13a6b" font-weight="800">dist/</tspan> is carried over</text>
+<rect x="610.0" y="360.0" width="560.0" height="182.0" rx="10" fill="#ffffff" stroke="#a13a6b" stroke-width="2" />
+<text x="626.0" y="386.0" font-size="13.5" font-weight="800" fill="#a13a6b" text-anchor="start" >Final stage</text>
+<text x="1154.0" y="386.0" font-size="12" font-weight="700" fill="#a13a6b" text-anchor="end" >the serving table = the image contents</text>
+<text x="626.0" y="414.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">FROM caddy:2.11.7-alpine</text>
+<text x="1154.0" y="414.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="end" xml:space="preserve">the serving table: Caddy</text>
+<text x="626.0" y="438.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">COPY caddy/Caddyfile /etc/caddy/Caddyfile</text>
+<text x="626.0" y="462.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">COPY --from=build /app/dist /srv</text>
+<text x="1154.0" y="462.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="end" xml:space="preserve">the ready-to-serve pages</text>
+<text x="626.0" y="510.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve"># no CMD: the Caddy image already brings one</text>
+<text x="626.0" y="534.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve"># Compose mounts the frontend/caddy/ folder over it</text>
+<rect x="610.0" y="554.0" width="560.0" height="40.0" rx="8" fill="#fcf2f6" />
+<text x="626.0" y="579.0" font-size="13" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#a13a6b">90.4 MB</tspan> on disk · <tspan font-weight="800" fill="#a13a6b">24 MB</tspan> download (compressed) · Caddy + <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#1e2a4a" font-weight="800">dist/</tspan>, without Node.js</text>
+<rect x="30.0" y="616.0" width="560.0" height="274.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="50.0" y="646.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >Layers and the cache</text>
+<text x="230.0" y="646.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >line order = layer order (simplified, backend example)</text>
+<rect x="50.0" y="664.0" width="320.0" height="34.0" rx="6" fill="#fcf2f6" stroke="#a13a6b" stroke-width="1.6" />
+<text x="62.0" y="686.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">COPY src</tspan></text>
+<text x="364.0" y="686.0" font-size="11" font-weight="800" fill="#a13a6b" text-anchor="end" >rebuilt</text>
+<text x="382.0" y="686.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" >code: changes most often</text>
+<rect x="50.0" y="704.0" width="320.0" height="34.0" rx="6" fill="#eef1f5" stroke="#9aa3b0" stroke-width="1.2" />
+<text x="62.0" y="726.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">RUN npm ci --omit=dev</tspan></text>
+<text x="364.0" y="726.0" font-size="11" font-weight="800" fill="#4a5568" text-anchor="end" >CACHED</text>
+<text x="382.0" y="726.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" >slow (24.6 s)</text>
+<rect x="50.0" y="744.0" width="320.0" height="34.0" rx="6" fill="#eef1f5" stroke="#9aa3b0" stroke-width="1.2" />
+<text x="62.0" y="766.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">COPY package.json package-lock.json</tspan></text>
+<text x="364.0" y="766.0" font-size="11" font-weight="800" fill="#4a5568" text-anchor="end" >CACHED</text>
+<text x="382.0" y="766.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" >the library list</text>
+<rect x="50.0" y="784.0" width="320.0" height="34.0" rx="6" fill="#eef1f5" stroke="#9aa3b0" stroke-width="1.2" />
+<text x="62.0" y="806.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve">base <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">node:24.22.1-alpine3.24</tspan></text>
+<text x="364.0" y="806.0" font-size="11" font-weight="800" fill="#4a5568" text-anchor="end" >CACHED</text>
+<text x="382.0" y="806.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" >downloaded once</text>
+<text x="50.0" y="836.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">change one file in <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#1e2a4a" font-weight="800">src/</tspan>: only <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#1e2a4a" font-weight="800">COPY</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#1e2a4a" font-weight="800">src</tspan> is rebuilt, the rest is <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#1e2a4a" font-weight="800">CACHED</tspan></text>
+<text x="50.0" y="856.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">a second build without changes: <tspan font-weight="800" fill="#a13a6b">1.9 s</tspan> · without the layer cache (base present): <tspan font-weight="800" fill="#a13a6b">45.8 s</tspan></text>
+<text x="50.0" y="875.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">web: first 103 s (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568" font-weight="800">npm</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568" font-weight="800">ci</tspan> 49.5 s + <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568" font-weight="800">npm</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568" font-weight="800">run</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568" font-weight="800">build</tspan> 49.3 s), a code change ±50 s</text>
+<rect x="610.0" y="616.0" width="560.0" height="274.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="630.0" y="646.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >Why two stages: a small image</text>
+<text x="630.0" y="666.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >bar length = size on disk; the second number = download</text>
+<text x="630.0" y="692.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve">backend, two stages (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#1e2a4a" font-weight="800">--omit=dev</tspan>)</text>
+<text x="1150.0" y="692.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="end" >the Module 26 image</text>
+<rect x="630.0" y="702.0" width="232.4" height="20.0" rx="4" fill="#a13a6b" />
+<text x="870.4" y="717.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">313 MB</tspan> / 71.9 MB</text>
+<text x="630.0" y="748.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve">backend, a full <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#1e2a4a" font-weight="800">npm</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#1e2a4a" font-weight="800">ci</tspan> (with developer tools)</text>
+<text x="1150.0" y="748.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="end" >research test, base 24.21.0</text>
+<rect x="630.0" y="758.0" width="300.0" height="20.0" rx="4" fill="#9aa3b0" />
+<text x="938.0" y="773.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">404 MB</tspan> / 94.8 MB</text>
+<text x="630.0" y="804.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve">web: Caddy + <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#1e2a4a" font-weight="800">dist/</tspan></text>
+<text x="1150.0" y="804.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="end" >without Node.js</text>
+<rect x="630.0" y="814.0" width="67.1" height="20.0" rx="4" fill="#a13a6b" />
+<text x="705.1" y="829.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">90.4 MB</tspan> / 24 MB</text>
+<text x="630.0" y="874.0" font-size="12" font-weight="700" fill="#a13a6b" text-anchor="start" >two stages: the developer tools (TypeScript, Vitest, Vite) are not served</text>
+<rect x="30.0" y="910.0" width="370.0" height="150.0" rx="12" fill="#ffffff" stroke="#e63946" stroke-width="1.6" />
+<text x="48.0" y="938.0" font-size="13.5" font-weight="800" fill="#e63946" text-anchor="start" xml:space="preserve">The <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" fill="#e63946" font-weight="800">--omit=dev</tspan> trap</text>
+<text x="48.0" y="962.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">a library used while the server RUNS must be in</text>
+<text x="48.0" y="981.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">dependencies</tspan>. The 1.2 mold dies with:</text>
+<text x="48.0" y="1000.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">unable to determine transport target</tspan></text>
+<text x="48.0" y="1019.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">for "pino-pretty"</tspan></text>
+<text x="48.0" y="1038.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">→ backend 1.3.0 moves <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">pino-pretty</tspan></text>
+<rect x="415.0" y="910.0" width="370.0" height="150.0" rx="12" fill="#ffffff" stroke="#a13a6b" stroke-width="1.6" />
+<text x="433.0" y="938.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Tag and digest</text>
+<text x="433.0" y="962.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">a tag = a label, can be moved to other contents:</text>
+<text x="433.0" y="981.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">node:24.22.1-alpine3.24</tspan></text>
+<text x="433.0" y="1000.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">a digest = the contents' fingerprint, never changes:</text>
+<text x="433.0" y="1019.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">sha256:06d7adf3…8b53</tspan></text>
+<text x="433.0" y="1038.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Compose needs only an exact tag; digest = 🔬</text>
+<rect x="800.0" y="910.0" width="370.0" height="150.0" rx="12" fill="#ffffff" stroke="#a13a6b" stroke-width="1.6" />
+<text x="818.0" y="938.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" fill="#a13a6b" font-weight="800">.dockerignore</tspan> and <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" fill="#a13a6b" font-weight="800">latest</tspan></text>
+<text x="818.0" y="962.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">.env</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">node_modules</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">backup</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">bruno</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">test</tspan></text>
+<text x="818.0" y="981.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">are not sent to the build;</text>
+<text x="818.0" y="1000.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">latest</tspan> can change silently:</text>
+<text x="818.0" y="1019.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Mosquitto <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">latest</tspan> = 2.1, Uptime Kuma</text>
+<text x="818.0" y="1038.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">latest</tspan> = series 1 → write an exact tag</text>
+<text x="1178.0" y="1088.0" font-size="11" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer Curriculum · CC BY 4.0</text>
+</svg>

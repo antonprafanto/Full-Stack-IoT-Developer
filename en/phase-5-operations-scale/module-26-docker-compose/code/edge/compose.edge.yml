@@ -1,0 +1,74 @@
+# compose.edge.yml - the Mini Smart Home GATEWAY services on the Raspberry Pi (Module 26), the partner of compose.cloud.yml on the laptop.
+# Run it on the Pi, from the edge folder:  docker compose up -d
+#   The line COMPOSE_FILE=compose.edge.yml in edge/.env makes -f unnecessary (its example is edge/.env.example).
+# The Mosquitto gateway broker (replacing the Module 12 apt package) + the bridge to the central broker on the laptop (bridge/center.conf).
+# cloudflared (Module 27) and Node-RED (optional) only start when their profile is named, for example:
+#   docker compose --profile nodered up -d
+# In Module 26 neither of them is started. NEVER "docker compose down -v": -v deletes the cupboard holding the broker password file.
+name: smarthome-gateway
+
+# Each container's log is limited to 3 files x 10 MB. Docker's default has NO limit: the Pi's microSD card can fill up slowly.
+x-log: &log
+  driver: json-file
+  options:
+    max-size: 10m
+    max-file: "3"
+
+services:
+  # The gateway broker: Node 1 (and Node 2 through Node 1) keeps connecting to the Pi's IP on port 1883 with its old account.
+  # Mosquitto 2.1.2 reads the Pi's old password file (2.0 format) as it is.
+  mosquitto:
+    image: eclipse-mosquitto:2.1.2-alpine
+    volumes:
+      # The configuration and the access list from the repo (read-only). After changing either: docker compose restart mosquitto
+      - ./gateway.conf:/mosquitto/config/mosquitto.conf:ro
+      - ./acl-broker:/mosquitto/config/acl-broker:ro
+      # the bridge folder: holds center.conf (the bridge password, not in Git)
+      - ./bridge:/mosquitto/config/bridge:ro
+      # the password file (moved from /etc/mosquitto/broker-passwd), retained messages, and sessions
+      - broker-data:/mosquitto/data
+    # The Mosquitto image declares its log folder as a cupboard, while our log shows on the screen (docker compose logs).
+    # tmpfs = a temporary folder in RAM: without it Docker makes a nameless cupboard every time this container is recreated.
+    tmpfs:
+      - /mosquitto/log
+    ports:
+      # all interfaces: devices connect from the home Wi-Fi. The firmware uses 1883, so on the Pi don't change this number.
+      - "${PORT_GATEWAY:-1883}:1883"
+    extra_hosts:
+      # the name "center" in bridge/center.conf points at the IP of the laptop that runs compose.cloud.yml (CENTER_ADDRESS in
+      # edge/.env). The gateway tried on the same laptop (laptop path): CENTER_ADDRESS=host-gateway (= this machine itself).
+      - "center:${CENTER_ADDRESS:?fill in CENTER_ADDRESS in edge/.env (the center laptop's IP)}"
+    restart: unless-stopped
+    logging: *log
+
+  # The Cloudflare tunnel (Module 27, the free path): needs TUNNEL_TOKEN in edge/.env. The "tunnel" profile = doesn't start
+  # until it's called: docker compose --profile tunnel up -d
+  cloudflared:
+    image: cloudflare/cloudflared:2026.10.5
+    profiles: ["tunnel"]
+    # the image's starting program is already "cloudflared --no-autoupdate"; this is what follows it
+    command: ["tunnel", "run"]
+    environment:
+      TUNNEL_TOKEN: ${TUNNEL_TOKEN:-}
+    restart: unless-stopped
+    logging: *log
+
+  # Node-RED in a container (optional). Module 26 keeps using the systemd Node-RED of Module 13. Before using this profile,
+  # stop the systemd nodered service (counter 1880 clashes), move the flows and their credentials, then change the broker
+  # address in the flows from localhost to mosquitto (inside a container, localhost = the Node-RED container itself).
+  nodered:
+    image: nodered/node-red:5.0.9-24
+    profiles: ["nodered"]
+    environment:
+      TZ: Asia/Jakarta
+    volumes:
+      - nodered-data:/data
+    ports:
+      - "${PORT_NODERED:-1880}:1880"
+    restart: unless-stopped
+    logging: *log
+
+volumes:
+  # Compose's cupboards: the gateway broker's password file + retained messages, and the Node-RED data (if its profile is used).
+  broker-data:
+  nodered-data:

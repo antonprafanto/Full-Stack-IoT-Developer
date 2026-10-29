@@ -1,0 +1,610 @@
+diff --git a/backend/.dockerignore b/backend/.dockerignore
+new file mode 100644
+index 0000000..16bd577
+--- /dev/null
++++ b/backend/.dockerignore
+@@ -0,0 +1,17 @@
++# .dockerignore - files that are NOT sent to docker build (Module 26). A shared image (public GHCR) can be taken apart by
++# anyone, layer by layer: secrets must not get in, not even into a stage that is thrown away later.
++# Libraries from npm install on the laptop: never copied into the image (the Dockerfile installs its own: npm ci --omit=dev);
++# left out so that the build context stays small.
++node_modules
++# The dev-mode secrets (.env) and their copies; only the example (.env.example) may go in.
++.env
++.env.*
++!.env.example
++# Database photocopies, the Bruno collection, the load test, and the Module 20 curl test files (they hold passwords and cookies).
++backup
++bruno
++test
++login*.json
++cookies*.txt
++# Vitest test files aren't used by the running server.
++src/**/*.test.ts
+diff --git a/backend/.env.example b/backend/.env.example
+index f64b07f..cc04e75 100644
+--- a/backend/.env.example
++++ b/backend/.env.example
+@@ -1,12 +1,18 @@
+ # Copy this file to .env, then adjust its contents. The .env file doesn't go into Git (see .gitignore).
+-MQTT_URL=mqtt://192.168.1.37:1883
+-# Module 21: the backend's broker account (made on the broker machine with mosquitto_passwd). Make its password with the same
+-# command as JWT_SECRET below. Don't put a username or password in MQTT_URL.
++# Module 26: this file is only for DEV MODE (npm run dev on the laptop, while changing the backend code). In HOME MODE (Docker
++# Compose, the backend service in compose.cloud.yml) the backend does NOT read this file: its settings come from .env at the project root.
++# Only one backend may run: before npm run dev, stop the one in the container (docker compose stop backend web).
++# Module 26: the CENTRAL broker on this laptop (the mosquitto service of Docker Compose, counter 1883). Node 1's data reaches it through
++# the Pi gateway's bridge. Before Module 26: the Pi's IP address, for example mqtt://192.168.1.37:1883.
++MQTT_URL=mqtt://127.0.0.1:1883
++# Module 21: the backend's broker account. Module 26: the "backend" account on the central broker is made by the broker-account service
++# from MQTT_PASSWORD in the root .env, so the password below is the SAME as MQTT_PASSWORD there. Don't put a username or password in MQTT_URL.
+ MQTT_USERNAME=backend
+ MQTT_PASSWORD=
+ PORT=8080
+ HOST=127.0.0.1
+-# the PostgreSQL database in a Docker container (Module 17); replace change-this-password with a password of your choice
++# the PostgreSQL database in a Docker container (Module 17; since Module 26 the db service in compose.cloud.yml, the same counter
++# 127.0.0.1:5432). Replace change-this-password with your postgres password (= POSTGRES_PASSWORD in the root .env).
+ DATABASE_URL=postgres://postgres:change-this-password@127.0.0.1:5432/smarthome
+ # Telegram (Module 19, optional): the token from @BotFather and your chat_id (the answer to /start). Empty = notifications off.
+ TELEGRAM_BOT_TOKEN=
+diff --git a/backend/Dockerfile b/backend/Dockerfile
+new file mode 100644
+index 0000000..65954cf
+--- /dev/null
++++ b/backend/Dockerfile
+@@ -0,0 +1,35 @@
++# Dockerfile - the backend image (mold) of Mini Smart Home 1.3.0 (Module 26). Two stages ("multi-stage"):
++#   stage "packages": installs the npm libraries exactly as package-lock.json says, WITHOUT the developer tools (TypeScript, Vitest, Vite)
++#   final stage     : Node.js 24 + the libraries from the "packages" stage + the src/ and migrations/ code, running as the user "node" (not root)
++# No compile stage: Node 24 runs the .ts files directly (type stripping, Module 16).
++# Built from the project folder with: docker compose build backend   (or: docker build -t mini-smart-home-backend:1.3.0 ./backend)
++
++# An exact tag, not "latest" or "24-alpine": the same mold today and next month. Alpine = the smallest Node image;
++# bcrypt ships a ready-made build for Alpine (musl), so no compiler is needed.
++FROM node:24.22.1-alpine3.24 AS packages
++WORKDIR /app
++# package*.json is copied BEFORE the code: as long as the library list doesn't change, the "npm ci" layer comes from the cache
++# and a rebuild after changing the code takes only a few seconds.
++COPY package.json package-lock.json ./
++# --omit=dev: the developer tools stay out. Since 1.3.0, pino-pretty is in "dependencies" because it's used while the server runs
++# (without it the server in the container fails: unable to determine transport target for "pino-pretty"). The npm cache doesn't
++# need cleaning: this stage is thrown away, only the node_modules folder is carried to the final stage.
++RUN npm ci --omit=dev
++
++FROM node:24.22.1-alpine3.24
++# Links the image on GHCR to your GitHub repository (Module 26 Practice 10). Replace <account> with your GitHub account name
++# (lowercase) and mini-smart-home with your repository's name if it's different. Without this label, the GHCR package isn't linked.
++LABEL org.opencontainers.image.source="https://github.com/<account>/mini-smart-home"
++ENV NODE_ENV=production
++WORKDIR /app
++COPY --from=packages /app/node_modules ./node_modules
++COPY package.json ./
++COPY migrations ./migrations
++COPY src ./src
++# The user "node" (uid 1000) already exists in the node image. The server needs no root rights: if there's a hole, the damage is smaller.
++USER node
++# Only a note: "this server listens on 8080 inside the container". The counter on the laptop is set by compose.cloud.yml (ports).
++EXPOSE 8080
++# The list (exec) form, not "npm start": Docker's stop signal (SIGTERM) goes straight to Node, so the backend stops
++# gracefully. No --env-file: in a container, the settings come from Docker Compose (environment), not from .env.
++CMD ["node", "src/server.ts"]
+diff --git a/backend/README.md b/backend/README.md
+index c5b8089..aa2b5b2 100644
+--- a/backend/README.md
++++ b/backend/README.md
+@@ -2,34 +2,62 @@
+ 
+ 🌐 **English** · [Bahasa Indonesia](../../../proyek-rumah-pintar-mini/backend/README.md)
+ 
+-Backend v1.2 of the Mini Smart Home project: a Node.js 24 server in light TypeScript that listens to every `msh/#` MQTT message, checks every message against data contract 1.4 (Zod schemas), keeps the last state of every device in memory, archives every message in a PostgreSQL database with the TimescaleDB add-on (through Docker), and provides a documented API. The reading history can be requested raw or already summarized per 15 minutes, per hour, or per day. Since Module 19, readings also flow live through Socket.IO, every command goes through one door (with the desired and the reported state), automation rules and schedules are stored in the database and can be changed through the API without restarting the server, every important event is recorded, and alerts are sent through Telegram. Since Module 20, the API and Socket.IO are **locked for people**: guests must log in first, `viewer` accounts can only look, login attempts are limited, and other web pages can't make the server act on a user's behalf. Since Module 21, the backend is also **locked for devices**: only devices an admin has registered (with a per-device key) have their data processed, messages from unregistered or revoked devices are ignored, and the backend itself connects to the broker with its own account. 🎉 **Phase 3 checkpoint: the house is locked for people and for devices.**
++Backend v1.3 of the Mini Smart Home project: a Node.js 24 server in light TypeScript that listens to every `msh/#` MQTT message, checks every message against data contract 1.4 (Zod schemas), keeps the last state of every device in memory, archives every message in a PostgreSQL database with the TimescaleDB add-on (through Docker), and provides a documented API. The reading history can be requested raw or already summarized per 15 minutes, per hour, or per day. Since Module 19, readings also flow live through Socket.IO, every command goes through one door (with the desired and the reported state), automation rules and schedules are stored in the database and can be changed through the API without restarting the server, every important event is recorded, and alerts are sent through Telegram. Since Module 20, the API and Socket.IO are **locked for people**: guests must log in first, `viewer` accounts can only look, login attempts are limited, and other web pages can't make the server act on a user's behalf. Since Module 21, the backend is also **locked for devices**: only devices an admin has registered (with a per-device key) have their data processed, messages from unregistered or revoked devices are ignored, and the backend itself connects to the broker with its own account. 🎉 **Phase 3 checkpoint: the house is locked for people and for devices.**
+ 
+ **v1.1 (Module 24)** adds three small things dashboard v1.0 needs: **below-threshold** rules (for example water when the soil is below 30%), threshold rules that **send a command once** (for example the pump for 5 seconds), and **deleting rules** (`DELETE /rules/:id`). No database migration and no data-contract change (still 1.4); details in [Version 1.1 notes](#version-11-notes).
+ 
+ **v1.2 (Module 25)** adds two things for the device map and the daily report: `GET /devices` now carries each device's **map point** (`lat`, `lng`), and the admin moves it with `PUT /devices/:id/location`; the backend also sends a **daily CSV report** through the Telegram bot every morning (default 07:00 WIB, setting `REPORT_SCHEDULE`), and `POST /reports/send` sends it right now. No database migration, no new npm package, the data contract stays 1.4; details in [Map and daily report](#map-and-daily-report-module-25) and [Version 1.2 notes](#version-12-notes).
+ 
+-## How to run it
++**v1.3 (Module 26)** lets the backend run as a **Docker container** in `compose.cloud.yml` (the project root), together with the database, the central broker, the dashboard, and Grafana: one command, `docker compose up -d`, starts everything, and a backend that stops by itself is started again by Docker. The changes are small: `pino-pretty` moves to `dependencies` (it's used while the server runs), the npm scripts no longer fail when there is no `.env`, successful `/health` knocks no longer fill the log, plus a `Dockerfile` and a `.dockerignore`. No database migration, no new npm package, the data contract stays 1.4; details in [Version 1.3 notes](#version-13-notes).
+ 
+-1. Install Node.js 24 LTS and Docker Desktop.
+-2. Start the database, just once (replace `change-this-password` with your password; use only letters, digits, and hyphens):
++There are two ways to run the backend, and **only one may run** at a time (two backends with the same Telegram token fight each other, `409 Conflict`; two backends also fight over counter 8080):
+ 
+-   ```text
+-   docker run -d --name smarthome-db -p 127.0.0.1:5432:5432 -e POSTGRES_PASSWORD=change-this-password -e POSTGRES_DB=smarthome -e TIMESCALEDB_TELEMETRY=off -v smarthome-data:/var/lib/postgresql/data --restart unless-stopped timescale/timescaledb:2.30.2-pg17
+-   ```
++| Way | When | Its settings come from |
++| :--- | :--- | :--- |
++| **Home mode** (Docker Compose) | every day: the home is on, the dashboard at `http://localhost` | `.env` at the **project root** (its example is the root `.env.example`) |
++| **Dev mode** (`npm run dev`) | while changing the backend code | `backend/.env` (its example is `backend/.env.example` in this folder) |
++
++## How to run it with Docker Compose (Module 26)
++
++All the commands in this section are typed from the **project root** (the folder that holds `compose.cloud.yml`), the same in PowerShell, the macOS Terminal, and Linux. The full steps, including moving the old database and Grafana into Compose without losing data, are in [Module 26](../../phase-5-operations-scale/module-26-docker-compose/README.md).
++
++1. Copy the root `.env.example` to `.env`, then fill in its secrets and `IMAGE_REGISTRY` (`ghcr.io/` + your GitHub account name in lowercase; not a secret). Moving from Module 25: `POSTGRES_PASSWORD` = your **old** postgres password (the `smarthome-data` cupboard already stores it). On Linux, macOS, and the Pi: `chmod 600 .env`.
++2. New laptop only (the Module 17 and 25 cupboards don't exist yet): `docker volume create smarthome-data` and `docker volume create smarthome-grafana-data`.
++3. `docker compose up -d`. The first time, Compose pulls the backend and dashboard images from the image shop, or builds them itself from the `Dockerfile` when the shop doesn't have them yet (a few minutes). The `migrate` service applies the new `migrations/` files and then stops by itself; the backend starts after it. `docker compose ps -a` shows `backend` `(healthy)` and `migrate` `Exited (0)` (without `-a`, one-off services that are done don't show).
++4. The first account (the password is asked twice): `docker compose exec backend node src/db/manage-users.ts add admin@home.test "Home Admin" admin`. Accounts already in the old cupboard stay valid.
++
++| Command (from the project root) | What it does |
++| :--- | :--- |
++| `docker compose ps -a` | the state of every service, including one-off services that are done (`Exited (0)`): `(healthy)` = the backend answers `HEAD /health` |
++| `docker compose logs -f backend` | the backend log (WIB times); **Ctrl + C** only stops reading, the backend keeps running. `--since 10m` = the last 10 minutes |
++| `docker compose exec backend node src/db/manage-users.ts <command>` | every `npm run users -- …` command of the Dev mode table (`npm run users -- …` also works in the container, with the line `.env not found. Continuing without it.`) |
++| `docker compose exec backend node src/db/seed-history.ts` | 7 days of practice data (a laptop without history), then summarize it once with the command of Dev mode step 7 |
++| `docker compose build backend` then `docker compose up -d backend` | rebuilds the image after the code changed (tag = `version` in `package.json`) |
++| `docker compose stop backend` / `docker compose start backend` | stops it and starts it again; a container stopped with `stop` is NOT started again by Docker itself |
+ 
++The API docs stay at the old counter, **`http://localhost:8080/docs`** (not `127.0.0.1`: in the container the backend listens on `0.0.0.0`, so a login through **Try it out** from the page `http://127.0.0.1:8080/docs` is refused with `403`). If `PORT_BACKEND` in the root `.env` isn't 8080 (for example 8082), add `http://localhost:8082` to `CORS_ORIGIN` in that `.env`, then `docker compose up -d`; without it, a login from `http://localhost:8082/docs` is refused with `403` too. The Bruno collection (`baseUrl` `http://127.0.0.1:8080`) and `tools/live-terminal.js` keep working unchanged. The dashboard calls the backend through Caddy at `http://localhost/api/…`.
++
++The backend image is built from the [`Dockerfile`](Dockerfile) (two `node:24.22.1-alpine3.24` stages, `npm ci --omit=dev`, the user `node`, `CMD ["node", "src/server.ts"]`); the [`.dockerignore`](.dockerignore) keeps out `.env`, `node_modules`, `backup`, Bruno, the load test, and the test files. Inside the container, the settings come from `compose.cloud.yml` (`HOST=0.0.0.0`, `MQTT_URL=mqtt://mosquitto:1883`, `DATABASE_URL=…@db:5432/…`, `TZ=Asia/Jakarta`), not from `backend/.env`.
++
++## Dev mode (without the backend container)
++
++To change the backend code, run the backend directly with Node on the laptop, using the database and the central broker from Compose. Start from the project root: `docker compose up -d`, then `docker compose stop backend web` (the backend and dashboard containers are stopped; the database, the broker, and Grafana keep running). Done developing: **Ctrl + C** in the `npm run dev` terminal, then `docker compose start backend web`.
++
++1. Install Node.js 24 LTS and Docker Desktop.
++2. The database = the `db` service in `compose.cloud.yml`, on the old counter `127.0.0.1:5432` (previous section). Before Module 26, the database was started on its own, just once: `docker run -d --name smarthome-db -p 127.0.0.1:5432:5432 -e POSTGRES_PASSWORD=change-this-password -e POSTGRES_DB=smarthome -e TIMESCALEDB_TELEMETRY=off -v smarthome-data:/var/lib/postgresql/data --restart unless-stopped timescale/timescaledb:2.30.2-pg17` (password: only letters, digits, and hyphens). Don't run that container together with Compose: its cupboard has the same name.
+ 3. In this folder, run `npm install`.
+-4. Copy `.env.example` to `.env`, then fill in `MQTT_URL` (the broker's address, **without** a username/password inside it) and the database password in `DATABASE_URL`. Since Module 21, fill in `MQTT_USERNAME` and `MQTT_PASSWORD` too: the backend's own broker account, which you make on the broker machine with `mosquitto_passwd backend`. Make its password with the same `randomBytes(32)` command as `JWT_SECRET` below. If your broker isn't locked yet, both may be left empty (the backend connects without an account, with a warning).
++4. Copy `.env.example` to `.env`, then fill in the database password in `DATABASE_URL` (= `POSTGRES_PASSWORD` in the root `.env`). `MQTT_URL` already points at the central broker on this laptop (`mqtt://127.0.0.1:1883`); before Module 26 it held the Pi's IP address. Fill in `MQTT_PASSWORD` with the password of the broker account `backend` (= `MQTT_PASSWORD` in the root `.env`; the `broker-account` service makes the account). If your broker isn't locked yet, `MQTT_USERNAME` and `MQTT_PASSWORD` may be left empty (the backend connects without an account, with a warning).
+ 5. Make the JWT signing key with this command, then paste the result (43 random characters) into `JWT_SECRET` in `.env`. This step is required **before** the next ones: the server, `npm run migrate`, and `npm run users` refuse to run when `JWT_SECRET` is empty, shorter than 32 characters, or still holds the example.
+ 
+    ```text
+    node -e "console.log(require('node:crypto').randomBytes(32).toString('base64url'))"
+    ```
+ 
+-6. Create the tables with `npm run migrate`.
+-7. The summary clerk only summarizes the last 3 days again. Older history that arrives all at once (readings that were there before migration `003`, the practice data from `npm run seed-history`, or the load test below) only gets into the hourly summary book when it is summarized **once** with this command, after the data is in:
++6. Create the tables with `npm run migrate` (in Compose, the `migrate` service has already done it; repeating it is safe).
++7. The summary clerk only summarizes the last 3 days again. Older history that arrives all at once (readings that were there before migration `003`, the practice data from `npm run seed-history`, or the load test below) only gets into the hourly summary book when it is summarized **once** with this command (from the project root), after the data is in:
+ 
+    ```text
+-   docker exec smarthome-db psql -U postgres -d smarthome -c "CALL refresh_continuous_aggregate('readings_hourly', NULL, now() - INTERVAL '1 hour');"
++   docker compose exec db psql -U postgres -d smarthome -c "CALL refresh_continuous_aggregate('readings_hourly', NULL, now() - INTERVAL '1 hour');"
+    ```
+ 
+    Don't repeat this command after retention (migration `004`) has dropped old data: a `NULL` window also deletes the old summaries whose raw readings have already been dropped.
+@@ -46,9 +74,9 @@ Backend v1.2 of the Mini Smart Home project: a Node.js 24 server in light TypeSc
+ | Command | What it does |
+ | :--- | :--- |
+ | `npm run dev` | runs the server and restarts it every time the code or `.env` is saved |
+-| `npm start` | runs the server without automatic restarts; **Ctrl + C** stops it gracefully (on Windows, `npm run dev` + **Ctrl + C** kills the server at once) |
++| `npm start` | runs the server without automatic restarts (since 1.3 also without a `.env` file, for example in a container); **Ctrl + C** stops it gracefully (on Windows, `npm run dev` + **Ctrl + C** kills the server at once) |
+ | `npm run check` | checks the TypeScript types, test files included (run it before every commit) |
+-| `npm test` | runs the unit tests with Vitest: the rules engine and the rule schema (`src/rules/*.test.ts`; since Module 24 also below-threshold rules), login (`src/auth/auth.test.ts`), device keys (`src/auth/key.test.ts`, Module 21), the guest book and second layer (`src/services/registry.test.ts`), the registration routes (`src/routes/devices.test.ts`), the delete-rule route with its guard: guest 401, viewer 403, the `DELETE` preflight (`src/routes/rules.test.ts`, Module 24), and a running watering rule: the pump sent once, turning off without a command, a refused command marked `ok: false`, a deleted or deactivated rule no longer acting (`src/services/automation.test.ts`, Module 24), then (Module 25) the map point: the location schema and the `PUT /devices/:id/location` route with its guard (`src/routes/location.test.ts`), the CSV maker (`src/services/csv.test.ts`), the daily report: yesterday's WIB range, the CSV content, Telegram off or refusing, a late WIB schedule still reporting the right day, a missed schedule only reported (`src/services/reports.test.ts`), the `POST /reports/send` route (`src/routes/reports.test.ts`), a report file sent with its name and the 📴/✅ messages after 60 seconds (`src/services/telegram.test.ts`), a retained `online` status after a broker restart (`src/services/mqtt.test.ts`), and the `REPORT_SCHEDULE` setting (`src/config/env.test.ts`) |
++| `npm test` | runs the unit tests with Vitest: the rules engine and the rule schema (`src/rules/*.test.ts`; since Module 24 also below-threshold rules), login (`src/auth/auth.test.ts`), device keys (`src/auth/key.test.ts`, Module 21), the guest book and second layer (`src/services/registry.test.ts`), the registration routes (`src/routes/devices.test.ts`), the delete-rule route with its guard: guest 401, viewer 403, the `DELETE` preflight (`src/routes/rules.test.ts`, Module 24), and a running watering rule: the pump sent once, turning off without a command, a refused command marked `ok: false`, a deleted or deactivated rule no longer acting (`src/services/automation.test.ts`, Module 24), then (Module 25) the map point: the location schema and the `PUT /devices/:id/location` route with its guard (`src/routes/location.test.ts`), the CSV maker (`src/services/csv.test.ts`), the daily report: yesterday's WIB range, the CSV content, Telegram off or refusing, a late WIB schedule still reporting the right day, a missed schedule only reported (`src/services/reports.test.ts`), the `POST /reports/send` route (`src/routes/reports.test.ts`), a report file sent with its name and the 📴/✅ messages after 60 seconds (`src/services/telegram.test.ts`), a retained `online` status after a broker restart (`src/services/mqtt.test.ts`), the `REPORT_SCHEDULE` setting (`src/config/env.test.ts`), and (Module 26) the log filter: successful `/health` knocks aren't logged (`src/services/log.test.ts`) |
+ | `npm run migrate` | runs the new SQL files in the `migrations/` folder (safe to repeat) |
+ | `npm run seed-history` | fills in 7 days of practice data for the practice devices `f00d00000001` and `f00d00000002` |
+ | `npm run users -- add <email> "<name>" <admin\|viewer>` | creates an account; the password is asked for and only shows up as `*` (at least 15 characters, at most 72 bytes) |
+@@ -57,22 +85,22 @@ Backend v1.2 of the Mini Smart Home project: a Node.js 24 server in light TypeSc
+ | `npm run users -- delete <email>` | deletes the account together with all its sessions |
+ | `npm run users -- list` | shows every account (without the password fingerprints) |
+ 
+-For a load test, `test/load-1-million.sql` loads 1,036,801 fake readings (one every 10 seconds for 120 days) for the test device `beef00000001`. Run it from this folder:
++For a load test, `backend/test/load-1-million.sql` loads 1,036,801 fake readings (one every 10 seconds for 120 days) for the test device `beef00000001`. Run it from the project root (the database = the Compose `db` service):
+ 
+ ```text
+-docker cp test/load-1-million.sql smarthome-db:/tmp/load-1-million.sql
+-docker exec smarthome-db psql -U postgres -d smarthome -f /tmp/load-1-million.sql
++docker compose cp backend/test/load-1-million.sql db:/tmp/load-1-million.sql
++docker compose exec db psql -U postgres -d smarthome -f /tmp/load-1-million.sql
+ ```
+ 
+ ## Login and protection
+ 
+ - **Accounts** are only made from the terminal (`npm run users`); there is no sign-up route in the API. The database stores the password fingerprint (bcrypt, cost 12), not the password.
+-- **`POST /auth/login`** answers with two `HttpOnly; SameSite=Strict` cookies: `access` (a 15-minute JWT, `Path=/`) and `session` (a 7-day refresh token, `Path=/auth`; the database only stores its SHA-256). A wrong email and a wrong password get the same answer: `401 {"message":"wrong email or password"}`.
++- **`POST /auth/login`** answers with two `HttpOnly; SameSite=Strict` cookies: `access` (a 15-minute JWT, `Path=/`) and `session` (a 7-day refresh token, `Path=/auth`; the database only stores its SHA-256). A wrong email and a wrong password get the same answer: `401 {"message":"wrong email or password"}`. Through Caddy (home mode, Module 26) the addresses start with `/api`, so Caddy rewrites the path of the `session` cookie to `Path=/api/auth` (`frontend/caddy/Caddyfile`); the backend itself doesn't change.
+ - **Wristband ran out?** `POST /auth/refresh` swaps the `session` cookie for a new wristband and a new season pass (rotation). An old season pass that is used again 30 seconds or more after it was replaced counts as stolen: its session is revoked. **`POST /auth/logout`** deletes the session, empties both cookies, and cuts that session's Socket.IO connections.
+ - **Open routes** (no login): `POST /auth/login`, `POST /auth/refresh`, `POST /auth/logout`, `GET`/`HEAD /health`, and `/docs`. Every other route, including new routes and URLs that don't exist, answers guests with `401`.
+ - **Roles**: `admin` may do everything; `viewer` only `GET`/`HEAD` (anything else gets `403`).
+ - **Rate limit**: at most 10 `POST /auth/login` attempts per minute from the same IP address; the 11th attempt gets `429` with a `retry-after` header. The counts live in memory: a server restart = starting from zero.
+-- **CORS and the page's origin**: web pages in `CORS_ORIGIN` (`.env`, default `http://localhost:5173,http://127.0.0.1:5173` for Module 22) may call the API from a browser with cookies. Requests other than `GET`/`HEAD` that carry an `Origin` header from another page are refused with `403`; curl, Bruno, and Node don't send `Origin`, so they aren't affected.
++- **CORS and the page's origin**: web pages in `CORS_ORIGIN` (`.env`, default `http://localhost:5173,http://127.0.0.1:5173` for Module 22; home mode: `http://localhost,http://127.0.0.1` from the root `.env`) may call the API from a browser with cookies. Requests other than `GET`/`HEAD` that carry an `Origin` header from another page are refused with `403`; curl, Bruno, and Node don't send `Origin`, so they aren't affected.
+ - **Bruno**: the `bruno/` collection has the requests `login admin`, `login viewer`, `wrong login`, `who am i`, `refresh`, and `logout`, plus (Module 21) `register Node 1`, `register Node 2 via Node 1`, `register practice device`, `rotate practice device key`, and `revoke practice device key`, and (Module 24) `create soil watering rule` and `delete rule` (replace the number in the `delete rule` address with the `id` from the `create soil watering rule` answer; it defaults to `4`, the first rule number after the three Module 19 rules), plus (Module 25) `register mock Garden` (fake Node 2 `f00d000000b2` via `f00d00000001`, for the path without a Node 2; see `tools/README.md`), `set device location`, and `send report now` (`?day=today`). Their passwords are read from `bruno/.env` (not in Git) holding `ADMIN_PASSWORD=…` and `VIEWER_PASSWORD=…`. Send `login admin` or `login viewer` first; the other requests use its cookie automatically.
+ 
+ ## API
+@@ -176,7 +204,7 @@ Up to Module 20, the backend created a `devices` row automatically for **any** d
+ - **Official registry + per-device key.** A device must be registered by an admin through `POST /devices`. The answer carries a **key** of 32 random *bytes* (43 `base64url` characters) **shown only this once**; the database stores only its SHA-256 fingerprint (like a refresh token in Module 20). `POST /devices/:id/key` makes a new key (the old one dies at once), `POST /devices/:id/revoke` revokes it. The registration answer also carries `steps`: install the same key on the device (type `key <value>` in the Serial Monitor, or `KEY_<DEVICE_ID>=…` in `tools/.env` for the simulator) and on the broker (`mosquitto_passwd` on the broker machine). An ESP-NOW device (Node 2) is registered with `linked_via` (Node 1's device_id) and gets **no** key: its data is published by Node 1.
+ - **A second layer in the backend.** Even though the broker already guards the door, the backend checks again: a message from a device that is **not registered** or has been **revoked** is ignored at once (logged `IGNORED …` at most once a minute per device, counted at `/health` as `ignored`), commands to it are answered 404/409, and the backend **no longer** creates a `devices` row automatically. So even if the broker password file and the database are briefly out of sync, a device that isn't allowed is still refused.
+ - **The backend's own broker account.** The backend connects to the broker with its own account (`MQTT_USERNAME`/`MQTT_PASSWORD` in `.env`, **not** inside `MQTT_URL`), not as a device or a person. If the broker rejects its account (CONNACK 5), the backend logs it once and retries every 60 seconds; as soon as its account is fixed on the broker and the broker is reloaded, the backend recovers by itself without being restarted.
+-- **The broker (outside the backend).** The example files `edge/mosquitto-lan.conf`, `edge/gateway-pi.conf`, and `edge/acl-broker` lock the broker with `allow_anonymous false`, `password_file`, `acl_file` (the `%u` pattern = `device_id`), and `use_username_as_clientid`. See `edge/README.md`.
++- **The broker (outside the backend).** The example files `edge/mosquitto-lan.conf`, `edge/gateway-pi.conf`, and `edge/acl-broker` lock the broker with `allow_anonymous false`, `password_file`, `acl_file` (the `%u` pattern = `device_id`), and `use_username_as_clientid`; since Module 26 their container versions are `edge/center.conf` (the Compose central broker, where the backend connects as `mqtt://mosquitto:1883`) and `edge/gateway.conf` (the Pi gateway broker). See `edge/README.md`.
+ 
+ **🎉 Phase 3 checkpoint.** The house is now locked for people (accounts, login, roles, API protection — Module 20) *and* for devices (a per-device key, the second layer, a broker account, the ACL — Module 21). What is **not** secure yet, named honestly: MQTT and HTTP traffic is still unencrypted on the LAN (a key is readable in the clear by a sniffer on the same network) — TLS is a must before opening it to the internet (Module 27); a key in the ESP32's NVS is readable by anyone who holds the board (*flash encryption*, 🔬); and the rate-limit counts are still in memory.
+ 
+@@ -209,27 +237,27 @@ ORDER BY sent_at;
+ 
+ ## Backup & restore
+ 
+-A photocopy of the whole database is made **inside the container** (with a `pg_dump` whose version is sure to match), then copied to the `backup/` folder (not tracked by Git):
++Since Module 26 the database is the `db` service in `compose.cloud.yml`, so the commands use `docker compose exec db` and `docker compose cp db:…` (typed from the **project root**; the `backup/` folder there isn't tracked by Git). A photocopy of the whole database is made **inside the container** (with a `pg_dump` whose version is sure to match), then copied to the `backup/` folder:
+ 
+ ```text
+-docker exec smarthome-db pg_dump -U postgres -d smarthome -Fc -f /tmp/smarthome.dump
++docker compose exec db pg_dump -U postgres -d smarthome -Fc -f /tmp/smarthome.dump
+ mkdir backup
+-docker cp smarthome-db:/tmp/smarthome.dump backup/smarthome-2026-10-20.dump
++docker compose cp db:/tmp/smarthome.dump backup/smarthome-2026-10-28.dump
+ ```
+ 
+-Replace `2026-10-20` in the file name with today's date so that later backups don't overwrite each other. On later backups, you can skip `mkdir backup` because the folder already exists. Since Module 20, this photocopy also holds the accounts and their password fingerprints: keep it as safe as `.env`.
++Replace `2026-10-28` in the file name with today's date so that later backups don't overwrite each other. On later backups, you can skip `mkdir backup` because the folder already exists. Since Module 20, this photocopy also holds the accounts and their password fingerprints: keep it as safe as `.env`. The database accounts (the roles `postgres`, `grafana_reader`) are **not** in a one-database `pg_dump`: in a truly new database, `grafana_reader` is made again by the `grafana-account` service at `docker compose up -d`. Don't back up the database cupboard by copying its contents (`tar`) while the database is running: the result can be corrupt; use `pg_dump`.
+ 
+-The commands in this section are exactly the same in PowerShell (Windows), the macOS Terminal, and Linux. `pg_dump` writes one *circular foreign-key constraints* warning (`detail: continuous_agg`) with two `hint` lines; that's normal. Don't create the dump file with `>` (for example `pg_dump … > file.dump`): in Windows PowerShell 5.1 the file gets corrupted, so always use `-f` and then `docker cp`. In Git Bash, write `//tmp/…` (two slashes) because Git Bash turns `/tmp/…` into a Windows folder.
++The commands in this section are exactly the same in PowerShell (Windows), the macOS Terminal, and Linux. `pg_dump` writes one *circular foreign-key constraints* warning (`detail: continuous_agg`) with two `hint` lines; that's normal. Don't create the dump file with `>` (for example `pg_dump … > file.dump`): in Windows PowerShell 5.1 the file gets corrupted, so always use `-f` and then `docker compose cp`. In Git Bash, write `//tmp/…` (two slashes) because Git Bash turns `/tmp/…` into a Windows folder. Before Module 26 (the `smarthome-db` container from `docker run`), the commands were the same with `docker exec smarthome-db` and `docker cp smarthome-db:…`.
+ 
+ Rebuilding it in a new database `smarthome_restored` (in the same container; TimescaleDB must be the same version, 2.30.2):
+ 
+ ```text
+-docker cp backup/smarthome-2026-10-20.dump smarthome-db:/tmp/restore.dump
+-docker exec smarthome-db createdb -U postgres -T template0 smarthome_restored
+-docker exec smarthome-db psql -U postgres -d smarthome_restored -c "CREATE EXTENSION timescaledb;"
+-docker exec smarthome-db psql -U postgres -d smarthome_restored -c "SELECT timescaledb_pre_restore();"
+-docker exec smarthome-db pg_restore -U postgres -d smarthome_restored /tmp/restore.dump
+-docker exec smarthome-db psql -U postgres -d smarthome_restored -c "SELECT timescaledb_post_restore();"
++docker compose cp backup/smarthome-2026-10-28.dump db:/tmp/restore.dump
++docker compose exec db createdb -U postgres -T template0 smarthome_restored
++docker compose exec db psql -U postgres -d smarthome_restored -c "CREATE EXTENSION timescaledb;"
++docker compose exec db psql -U postgres -d smarthome_restored -c "SELECT timescaledb_pre_restore();"
++docker compose exec db pg_restore -U postgres -d smarthome_restored /tmp/restore.dump
++docker compose exec db psql -U postgres -d smarthome_restored -c "SELECT timescaledb_post_restore();"
+ ```
+ 
+ Don't use `pg_restore -j`, and don't skip `timescaledb_pre_restore()` or `timescaledb_post_restore()`. To prove that the data is the same, first run `CALL run_job(…);` in `smarthome` with the number of the `Retention Policy` job (you can see the number with the `timescaledb_information.jobs` query in the Database section). The copy runs its retention job as soon as it is restored, so the original database must already have dropped the same binders. Then run this query in psql on `smarthome` and on `smarthome_restored`, and compare the single row:
+@@ -242,7 +270,21 @@ SELECT (SELECT count(*) FROM readings) AS readings,
+        (SELECT count(*) FROM timescaledb_information.jobs WHERE job_id >= 1000) AS jobs;
+ ```
+ 
+-Once it is proven, delete the copy with `docker exec smarthome-db dropdb -U postgres smarthome_restored`.
++Once it is proven, delete the copy with `docker compose exec db dropdb -U postgres smarthome_restored`. A restore test into a separate Compose project with its own cupboard (without touching the `smarthome-data` cupboard) is in Module 26 Practice 9. Never use `docker compose down -v`, `docker volume rm smarthome-data`, or `docker system prune --volumes` on a laptop that holds the real history.
++
++## Version 1.3 notes
++
++Backend 1.3.0 was made in Module 26 so that the backend can be packed into an image (mold) and run by Docker Compose together with the other services.
++
++- **`pino-pretty` moved from `devDependencies` to `dependencies`** (`package.json` + `package-lock.json`: the version stays 13.2.0, only the `"dev": true` flags of it and its dependencies are gone). The logger of `src/server.ts` uses it while the server runs, so an image that only installs the production packages (`npm ci --omit=dev`) fails with version 1.2: `Error: unable to determine transport target for "pino-pretty"`.
++- **The `start`, `migrate`, `seed-history`, and `users` scripts use `--env-file-if-exists=.env`** (Node 24): without a `.env` file (in a container the settings come from Compose) the script still runs with the message `.env not found. Continuing without it.`, instead of stopping with `node: .env: not found`. `dev` keeps `--env-file=.env`: dev mode must have a `.env`.
++- **Successful `/health` knocks aren't logged** (`shouldLog()` in `src/services/log.ts`, tested in `src/services/log.test.ts`): the Docker healthcheck knocks `HEAD /health` every 15 seconds. A failed `/health` (code 400 and up) and every other address are still logged.
++- **A new `Dockerfile` and `.dockerignore`** (section [How to run it with Docker Compose](#how-to-run-it-with-docker-compose-module-26)). The healthcheck is written in `compose.cloud.yml`, not in the `Dockerfile`, so that it lives in one place.
++- **`.env.example`** is now for dev mode: `MQTT_URL=mqtt://127.0.0.1:1883` (the central broker on the laptop, the Compose `mosquitto` service; before, the Pi's IP address), comments about the root `.env` and the one-backend rule.
++- The `OPEN_ROUTES` comment in `src/auth/security.ts` is updated (the Docker healthcheck uses `HEAD /health`); the guard's code doesn't change.
++- **No database migration and no new npm package.** The data contract stays **1.4**; the firmware doesn't change.
++- **Downgrading**: backend 1.2 still runs in dev mode with the same database; as a container (`--omit=dev`) 1.2 fails because of `pino-pretty`.
++- Version `1.3.0` in `package.json`, in `/docs`, and in the image tag (`…/mini-smart-home-backend:1.3.0`).
+ 
+ ## Version 1.2 notes
+ 
+@@ -273,22 +315,26 @@ Backend 1.1.0 was made in Module 24 so that dashboard v1.0 can create the rule "
+ - **Downgrading**: a v1.0 backend that reads a rule of the new shape doesn't crash; that rule is skipped with the warning `rule N skipped: …` (see `loadRules()`), and the other rules keep running. A skipped rule is NOT shown by `GET /rules` in v1.0 either (the dashboard seems to lose it); its data stays whole in the database and shows again once you move up to 1.1. Don't save that rule number through a v1.0 `PUT`: its content would be overwritten with a v1.0 shape.
+ - Version `1.1.0` in `package.json` and in `/docs`.
+ 
+-## Limits of v1.2
++## Limits of v1.3
+ 
+ - `GET /devices/:id/latest`, `vitals`, and `state` are still read from memory, so they are empty again after every server restart. The desired state (`desired`) and the "for" count of every rule are also lost when the server restarts; the reading history, the commands, the rules, the events, the accounts, and the sessions are stored permanently in the database.
+ - Readings that arrive while the database can't be reached aren't stored.
+ - Raw readings are only kept for 90 days; for older times, only their hourly summaries remain.
+ - The days of the `1d` summary are WIB days (`Asia/Jakarta`), also for devices in WITA or WIT. Rule schedules are counted in WIB too.
+ - Rules and schedules only run while the backend is running. A schedule that is more than 15 minutes late (for example a laptop asleep at 06:00) isn't run afterwards, only recorded; if the backend is off at that time, nothing is recorded. When the broker can't be reached, Node 1 runs its own fan safety with the threshold from `config`.
+-- **The daily report is also only sent while the backend is on** (Module 25). A laptop that sleeps more than 15 minutes past `REPORT_SCHEDULE` doesn't send it afterwards: the log and Telegram only record `⏰ The daily report of … was missed`; send it by hand with `POST /reports/send`. If the backend is off at that time, nothing is recorded at all. A server that is always on follows in Modules 26–27. The report is only sent to one chat (`TELEGRAM_CHAT_ID`), and the first day's report (no data yesterday yet) is really empty: use `?day=today`. A broker restart counts as one disconnect (`disconnects`) for every Node 1 connected at that moment: its `offline` will really is published.
++- **The daily report is also only sent while the backend is on** (Module 25). A laptop that sleeps more than 15 minutes past `REPORT_SCHEDULE` doesn't send it afterwards: the log and Telegram only record `⏰ The daily report of … was missed`; send it by hand with `POST /reports/send`. If the backend is off at that time, nothing is recorded at all. Since Module 26, a backend in a container that stops by itself is started again by Docker, but only while Docker (Docker Desktop on the laptop) is running: a sleeping laptop still misses the schedule. A server that is always on follows in Module 27. The report is only sent to one chat (`TELEGRAM_CHAT_ID`), and the first day's report (no data yesterday yet) is really empty: use `?day=today`. A broker restart counts as one disconnect (`disconnects`) for every Node 1 connected at that moment: its `offline` will really is published.
+ - **`devices.last_seen` isn't "the last data"**: this column is moved forward by EVERY message of a registered device, `status` messages included (the broker's `offline` will, Node 2's status published by Node 1, and retained statuses the broker sends again when the backend starts). For "when did the device last send data" (for example the "silent node" alert in Grafana, Module 25), use `readings.received_at` of its latest reading. This column's behavior is deliberately not changed in v1.2.
+ - Changes made to the rules directly in the database (for example through DBeaver) are only read when the server restarts or when another rule is changed through the API; use the `/rules` API.
++- **Automation rules are loaded once, when the server starts.** If the database can't be reached at that moment, the log writes `automation rules couldn't be loaded yet: …` and doesn't try again (the device registry is retried every 10 seconds): the rules don't act and the **Rules** screen is empty, while the backend stays `(healthy)`. In Compose, `docker compose up` waits for the database to be ready first, but after the laptop restarts or Docker Desktop opens, Docker starts every container at once without that order. Seeing that? `docker compose restart backend`.
+ - A rule with a `command` action (for example the pump, once) only acts when the rule changes state. Because its count is lost when the server restarts or the rule is changed, its command is sent once more if its condition still holds after that.
+ - Deactivating or deleting a fan rule does **not** withdraw the retained `temp_fan_on` `config` already sent: Node 1 keeps using that last number as its local safety rule while the broker can't be reached.
+ - Deleting or deactivating a `switch` rule that is on does **not** turn its actuator off: the fan or lamp is left in its last state (the server sends no command at all). Turn it off with the dashboard button or `POST /devices/:id/command`.
+ - The backend only sends `temp_fan_on`, never `soil_watering`. Node 1 v1.6.0 still waters by itself (3 seconds, then a 30-second pause) when the soil is below its local threshold, 30% by default, even while the backend is running. To let the server's watering rule act first, lower the local threshold below the server rule's threshold in the Serial Monitor (`threshold 20`); local watering then only acts if the soil keeps drying to below 20%, for example when the backend is off or the Wi-Fi drops. The firmware's tank safety check (`pump refused: tank water too low` below 20%) still protects both.
+ - A wristband (access JWT) that was handed out stays valid until it expires (15 minutes at most), also after a logout, a role change, a password change, or a deleted account; a Socket.IO connection that is running is only cut when its wristband runs out too (except a logout of that very session, or an old season pass used again 30 seconds or more after it was replaced, which cut it right away).
+ - The rate-limit counts are kept in the memory of one server: a restart = zero, and they don't fit several servers at once.
+-- The cookies aren't `Secure` yet because the server is still `http://`; HTTPS comes in Phase 5. The server still only accepts guests from this laptop (`HOST=127.0.0.1`).
++- The cookies aren't `Secure` yet because the server is still `http://`; HTTPS comes in Module 27. Dev mode: the server only accepts guests from this laptop (`HOST=127.0.0.1`). Home mode: inside the container `HOST=0.0.0.0` (so that Caddy and the healthcheck can get in), but the counter on the laptop stays `127.0.0.1:8080`, and the dashboard through Caddy is only on `127.0.0.1:80` unless `WEB_ADDRESS` is changed (phone mode).
++- **Behind Caddy, the backend doesn't use `trustProxy` yet** (Module 27, together with HTTPS). By the way Fastify works, without that setting the visitor address it reads is the Caddy container's address, so the Module 20 login limiter (10 attempts per minute per address) counts every dashboard visitor as one address (author's lab: after 10 wrong logins through the dashboard, even a correct login from another visitor got `429` until the minute had passed, while Bruno on the backend counter could still log in), and `secure: "auto"` never sets `Secure` even once Caddy has HTTPS later.
++- **`/health` always answers 200**, also while the broker or the database is down (its content is `broker: false` / `database: false`). The Docker healthcheck only proves "the process is alive and answers", and an `unhealthy` status doesn't make Docker restart the container. A `/health` that answers 503 when something is down, and a real monitor, follow in Module 30.
++- **Swagger UI can't be used through Caddy** (`http://localhost/api/docs`): its page assets are looked for at the wrong address, and the **Try it out** button calls the API without the `/api` prefix. Use the backend counter: `http://localhost:8080/docs`.
+ - **MQTT (and HTTP) traffic is still unencrypted.** The username and the device key travel in the clear on the LAN: anyone who can see the packets on the same network can read them (prove it yourself with `tools/sniffer.js`). On a closed home network the risk is still small, but **TLS is a must before opening it to the internet** (Module 27). A key in the ESP32's NVS is also readable by anyone who holds the board (*flash encryption*, 🔬).
+ - The registry of registered devices is loaded into memory when the server starts; changes to `devices` made directly in the database (not through the API) are only read when the server restarts. `GET /devices` itself is always read fresh from the database.
+diff --git a/backend/package-lock.json b/backend/package-lock.json
+index 624d648..625c395 100644
+--- a/backend/package-lock.json
++++ b/backend/package-lock.json
+@@ -1,12 +1,12 @@
+ {
+   "name": "mini-smart-home-backend",
+-  "version": "1.2.0",
++  "version": "1.3.0",
+   "lockfileVersion": 3,
+   "requires": true,
+   "packages": {
+     "": {
+       "name": "mini-smart-home-backend",
+-      "version": "1.2.0",
++      "version": "1.3.0",
+       "dependencies": {
+         "@fastify/cookie": "^11.1.3",
+         "@fastify/cors": "^11.3.1",
+@@ -21,6 +21,7 @@
+         "mqtt": "^5.16.1",
+         "node-cron": "^4.6.0",
+         "pg": "^8.23.1",
++        "pino-pretty": "^13.2.0",
+         "socket.io": "^4.8.4",
+         "zod": "^4.6.7"
+       },
+@@ -28,7 +29,6 @@
+         "@types/bcrypt": "^6.0.0",
+         "@types/node": "^24.19.2",
+         "@types/pg": "^8.23.1",
+-        "pino-pretty": "^13.2.0",
+         "typescript": "^7.0.2",
+         "vite": "^8.3.4",
+         "vitest": "^5.0.5"
+@@ -1431,7 +1431,6 @@
+       "version": "2.0.20",
+       "resolved": "https://registry.npmjs.org/colorette/-/colorette-2.0.20.tgz",
+       "integrity": "sha512-IfEDxwoWIjkeXL1eXcDiow4UbKjhLdq6/EuSVR9GMN7KVH3r9gQ83e73hsz1Nd1T3ijd5xv1wcWRYO+D6kCI2w==",
+-      "dev": true,
+       "license": "MIT"
+     },
+     "node_modules/commist": {
+@@ -1516,7 +1515,6 @@
+       "version": "4.6.3",
+       "resolved": "https://registry.npmjs.org/dateformat/-/dateformat-4.6.3.tgz",
+       "integrity": "sha512-2P0p0pFGzHS5EMnhdxQi7aJN+iMheud0UhG4dlE1DLAlvL8JHjJJTX/CSm4JXwV0Ka5nGk3zC5mcb5bUQUxxMA==",
+-      "dev": true,
+       "license": "MIT",
+       "engines": {
+         "node": "*"
+@@ -1580,7 +1578,6 @@
+       "version": "1.4.5",
+       "resolved": "https://registry.npmjs.org/end-of-stream/-/end-of-stream-1.4.5.tgz",
+       "integrity": "sha512-ooEGc6HP26xXq/N+GCGOT0JKCLDGrq2bQUZrQ7gyrJiZANJ/8YDTxTpQBXGMn+WbIQXNVpyWymm7KYVICQnyOg==",
+-      "dev": true,
+       "license": "MIT",
+       "dependencies": {
+         "once": "^1.4.0"
+@@ -1700,7 +1697,6 @@
+       "version": "4.2.0",
+       "resolved": "https://registry.npmjs.org/fast-copy/-/fast-copy-4.2.0.tgz",
+       "integrity": "sha512-WSlnvPXaMdUjFdgxPkovE4e5aslybVod4TNKrEKKyoA8GoHZzbDLlhDXZOvqjtFgjtOHd9TYCstkUcGXy1+SEA==",
+-      "dev": true,
+       "license": "MIT"
+     },
+     "node_modules/fast-decode-uri-component": {
+@@ -1768,7 +1764,6 @@
+       "version": "2.1.1",
+       "resolved": "https://registry.npmjs.org/fast-safe-stringify/-/fast-safe-stringify-2.1.1.tgz",
+       "integrity": "sha512-W+KJc2dmILlPplD/H4K9l9LcAHAfPtP6BY84uVLXQ6Evcz9Lcg33Y2z1IVblT6xdY54PXYVHEv+0Wpq8Io6zkA==",
+-      "dev": true,
+       "license": "MIT"
+     },
+     "node_modules/fast-unique-numbers": {
+@@ -2058,7 +2053,6 @@
+       "version": "3.1.1",
+       "resolved": "https://registry.npmjs.org/joycon/-/joycon-3.1.1.tgz",
+       "integrity": "sha512-34wB/Y7MW7bzjKRjUKTa46I2Z7eV62Rkhva+KkopW7Qvv/OSWBqvkSY7vusOPrNuZcUG3tApvdVgNB8POj3SPw==",
+-      "dev": true,
+       "license": "MIT",
+       "engines": {
+         "node": ">=10"
+@@ -2681,7 +2675,6 @@
+       "version": "1.4.0",
+       "resolved": "https://registry.npmjs.org/once/-/once-1.4.0.tgz",
+       "integrity": "sha512-lNaJgI+2Q5URQBkccEKHTQOPaXdUxnZZElQTZY0MFUAuaEqe1E+Nyvgdz/aIyNi6Z9MzO5dv1H8n58/GELp3+w==",
+-      "dev": true,
+       "license": "ISC",
+       "dependencies": {
+         "wrappy": "1"
+@@ -2862,7 +2855,6 @@
+       "version": "13.2.0",
+       "resolved": "https://registry.npmjs.org/pino-pretty/-/pino-pretty-13.2.0.tgz",
+       "integrity": "sha512-jjghD1ML+Di/WxjJDz6j6Y4FT7hIXOlb8h27AyJ+ohtAXJXH4PS/xkv7si+RCCIW59HMgZsMKTDgzdr0RhuRrg==",
+-      "dev": true,
+       "license": "MIT",
+       "dependencies": {
+         "colorette": "^2.0.7",
+@@ -2887,7 +2879,6 @@
+       "version": "5.0.2",
+       "resolved": "https://registry.npmjs.org/sonic-boom/-/sonic-boom-5.0.2.tgz",
+       "integrity": "sha512-/JEruzo6yhNVhsLblTRchgTQHIt7SsdJP0YyrfWaNKjIOQDfrdZv9gwYraYCAsmKV39/LAdV31FLL5NCDpoL/A==",
+-      "dev": true,
+       "license": "MIT",
+       "dependencies": {
+         "atomic-sleep": "^1.0.0"
+@@ -3002,7 +2993,6 @@
+       "version": "3.0.4",
+       "resolved": "https://registry.npmjs.org/pump/-/pump-3.0.4.tgz",
+       "integrity": "sha512-VS7sjc6KR7e1ukRFhQSY5LM2uBWAUPiOPa/A3mkKmiMwSmRFUITt0xuj+/lesgnCv+dPIEYlkzrcyXgquIHMcA==",
+-      "dev": true,
+       "license": "MIT",
+       "dependencies": {
+         "end-of-stream": "^1.1.0",
+@@ -3357,7 +3347,6 @@
+       "version": "5.0.3",
+       "resolved": "https://registry.npmjs.org/strip-json-comments/-/strip-json-comments-5.0.3.tgz",
+       "integrity": "sha512-1tB5mhVo7U+ETBKNf92xT4hrQa3pm0MZ0PQvuDnWgAAGHDsfp4lPSpiS6psrSiet87wyGPh9ft6wmhOMQ0hDiw==",
+-      "dev": true,
+       "license": "MIT",
+       "engines": {
+         "node": ">=14.16"
+@@ -3748,7 +3737,6 @@
+       "version": "1.0.2",
+       "resolved": "https://registry.npmjs.org/wrappy/-/wrappy-1.0.2.tgz",
+       "integrity": "sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==",
+-      "dev": true,
+       "license": "ISC"
+     },
+     "node_modules/ws": {
+diff --git a/backend/package.json b/backend/package.json
+index f597926..b8e44a3 100644
+--- a/backend/package.json
++++ b/backend/package.json
+@@ -1,16 +1,16 @@
+ {
+   "name": "mini-smart-home-backend",
+-  "version": "1.2.0",
++  "version": "1.3.0",
+   "description": "Mini Smart Home backend (Modules 16-21): listens to MQTT, checks the data contract, stores every message in a time-series database, and provides a history API, realtime data, commands, automation rules, schedules, and Telegram notifications, login with admin and viewer roles, plus an official device registry with a per-device key and the backend's own broker account",
+   "private": true,
+   "type": "module",
+   "scripts": {
+     "dev": "node --watch --env-file=.env src/server.ts",
+-    "start": "node --env-file=.env src/server.ts",
++    "start": "node --env-file-if-exists=.env src/server.ts",
+     "check": "tsc --noEmit",
+-    "migrate": "node --env-file=.env src/db/migrate.ts",
+-    "seed-history": "node --env-file=.env src/db/seed-history.ts",
+-    "users": "node --env-file=.env src/db/manage-users.ts",
++    "migrate": "node --env-file-if-exists=.env src/db/migrate.ts",
++    "seed-history": "node --env-file-if-exists=.env src/db/seed-history.ts",
++    "users": "node --env-file-if-exists=.env src/db/manage-users.ts",
+     "test": "vitest run"
+   },
+   "dependencies": {
+@@ -27,6 +27,7 @@
+     "mqtt": "^5.16.1",
+     "node-cron": "^4.6.0",
+     "pg": "^8.23.1",
++    "pino-pretty": "^13.2.0",
+     "socket.io": "^4.8.4",
+     "zod": "^4.6.7"
+   },
+@@ -34,7 +35,6 @@
+     "@types/bcrypt": "^6.0.0",
+     "@types/node": "^24.19.2",
+     "@types/pg": "^8.23.1",
+-    "pino-pretty": "^13.2.0",
+     "typescript": "^7.0.2",
+     "vite": "^8.3.4",
+     "vitest": "^5.0.5"
+diff --git a/backend/src/auth/security.ts b/backend/src/auth/security.ts
+index bdfc071..71323af 100644
+--- a/backend/src/auth/security.ts
++++ b/backend/src/auth/security.ts
+@@ -38,7 +38,7 @@ export const SESSION_OPTIONS = { ...BASE, path: "/auth", maxAge: SESSION_AGE_SEC
+ // Routes you may knock on WITHOUT logging in. Every other route requires a login, including routes added later.
+ export const OPEN_ROUTES = new Set([
+   "POST /auth/login", "POST /auth/refresh", "POST /auth/logout",
+-  "GET /health", "HEAD /health", // HEAD: health checkers such as wget --spider (Docker, Phase 5)
++  "GET /health", "HEAD /health", // HEAD: the Docker Compose healthcheck (Module 26) knocks HEAD /health
+ ]);
+ const READ_METHODS = new Set(["GET", "HEAD"]); // the only methods a viewer account may use
+ // Web pages (origins) that may CHANGE something through a browser: the CORS list + this server itself (Swagger UI at /docs).
+diff --git a/backend/src/server.ts b/backend/src/server.ts
+index a4f1f3c..54234d8 100644
+--- a/backend/src/server.ts
++++ b/backend/src/server.ts
+@@ -1,9 +1,11 @@
+-// server.ts - the entry point of the Mini Smart Home backend v1.2 (Module 25: the device's point on the map and the daily CSV
+-// report through Telegram; on top of v1.1, Module 24: "below-threshold" rules such as watering when the soil is dry, threshold
+-// rules may send one command, and rules can be deleted; on top of v1.0, Module 21: the device registry and its keys, the
+-// backend's own broker account, unregistered/revoked devices ignored; Module 20: login, JWT in cookies, roles, and API protection;
+-// and Module 19: realtime data, one door for commands, automation rules, schedules, and Telegram notifications).
+-// Run: npm run dev (automatically restarts when a file is saved) or npm start.
++// server.ts - the entry point of the Mini Smart Home backend v1.3 (Module 26: it can run as a Docker container in compose.cloud.yml;
++// on top of v1.2, Module 25: the device's point on the map and the daily CSV report through Telegram; v1.1, Module 24: "below-
++// threshold" rules such as watering when the soil is dry, threshold rules may send one command, and rules can be deleted; v1.0,
++// Module 21: the device registry and its keys, the backend's own broker account, unregistered/revoked devices ignored; Module 20:
++// login, JWT in cookies, roles, and API protection; and Module 19: realtime data, one door for commands, automation rules,
++// schedules, and Telegram notifications).
++// Run: npm run dev (automatically restarts when a file is saved) or npm start. In a container (Module 26): node src/server.ts,
++// its settings come from Docker Compose, not from a .env file (see Dockerfile).
+ import Fastify, { LogController } from "fastify";
+ import swagger from "@fastify/swagger";
+ import swaggerUi from "@fastify/swagger-ui";
+@@ -21,7 +23,7 @@ import { loadRules } from "./services/automation.ts";
+ import { stopSchedules } from "./services/schedule.ts";
+ import { stopTelegram, startTelegram } from "./services/telegram.ts";
+ import { startReports } from "./services/reports.ts";
+-import { useLog } from "./services/log.ts";
++import { useLog, shouldLog } from "./services/log.ts";
+ import { databaseAlive } from "./db/archive.ts";
+ import { allDevicesDb } from "./db/devices.ts";
+ import { loadRegistry } from "./services/registry.ts";
+@@ -34,7 +36,9 @@ const app = Fastify({
+ useLog(app.log); // Module 19: other services (commands, rules, schedules, Telegram) write to the same log
+ app.addHook("onResponse", async (req, reply) => {
+   // ...so it's replaced by one line per request (hook = Fastify's "middleware"). Only the method, the address, and the status
+-  // code: the request content (passwords!) and the cookies (tokens!) are never written to the log.
++  // code: the request content (passwords!) and the cookies (tokens!) are never written to the log. Module 26: successful /health
++  // knocks (the Docker healthcheck every 15 seconds) aren't logged, so the log doesn't fill up with the same line.
++  if (!shouldLog(req.method, req.url, reply.statusCode)) return;
+   req.log.info(`${req.method} ${req.url} -> ${reply.statusCode} (${Math.round(reply.elapsedTime)} ms)`);
+ });
+ app.setValidatorCompiler(validatorCompiler); // Zod schemas check the content of requests...
+@@ -45,7 +49,7 @@ await app.register(swagger, {
+   openapi: {
+     info: {
+       title: "Mini Smart Home API",
+-      description: "Backend v1.2 (Module 25). Every route needs a login, except the ones without a padlock. Log in first with "
++      description: "Backend v1.3 (Module 26). Every route needs a login, except the ones without a padlock. Log in first with "
+         + "POST /auth/login (Try it out): the browser keeps the access cookie and sends it by itself to the other routes. "
+         + "Viewer accounts can only look (GET); commands and changes are answered with 403. Devices are registered by an admin "
+         + "with POST /devices; a key is shown only once, and messages from unregistered or revoked devices are ignored. "
+@@ -53,8 +57,10 @@ await app.register(swagger, {
+         + "send one command when it turns on, and rules can be deleted (DELETE /rules/:id). Since v1.2, GET /devices carries "
+         + "each device's map point (lat, lng), and the admin moves it with PUT /devices/:id/location. "
+         + "The daily CSV report is sent to Telegram at REPORT_SCHEDULE (default 07:00 WIB); POST /reports/send "
+-        + "sends it right now.",
+-      version: "1.2.0",
++        + "sends it right now. Since v1.3 (Module 26), the backend also runs as a container in Docker Compose: "
++        + "the dashboard calls it through the Caddy web server with the prefix /api, while this page is opened at "
++        + "http://localhost:8080/docs (in the container, a login from http://127.0.0.1:8080/docs is refused with 403).",
++      version: "1.3.0",
+     },
+     components: {
+       securitySchemes: { // Module 20: routes with a padlock need the access cookie from POST /auth/login
+diff --git a/backend/src/services/log.test.ts b/backend/src/services/log.test.ts
+new file mode 100644
+index 0000000..6af4029
+--- /dev/null
++++ b/backend/src/services/log.test.ts
+@@ -0,0 +1,26 @@
++// log.test.ts - tests of the request log filter (Module 26): successful /health knocks from the Docker healthcheck aren't logged,
++// every other request is still logged. A pure function: no server, no database, no network. Run: npm test
++import { describe, expect, it } from "vitest";
++import { shouldLog } from "./log.ts";
++
++describe("request log filter", () => {
++  it("successful GET and HEAD /health are NOT logged (the Docker healthcheck every 15 seconds)", () => {
++    expect(shouldLog("HEAD", "/health", 200)).toBe(false);
++    expect(shouldLog("GET", "/health", 200)).toBe(false);
++    expect(shouldLog("GET", "/health?from=uptime-kuma", 200)).toBe(false); // ?… behind it doesn't change the address
++  });
++
++  it("a FAILED /health is still logged, so the problem shows in docker compose logs", () => {
++    expect(shouldLog("HEAD", "/health", 500)).toBe(true);
++    expect(shouldLog("GET", "/health", 503)).toBe(true);
++  });
++
++  it("other addresses, other methods, and look-alike addresses are still logged", () => {
++    expect(shouldLog("GET", "/devices", 200)).toBe(true);
++    expect(shouldLog("HEAD", "/devices", 200)).toBe(true);
++    expect(shouldLog("POST", "/health", 404)).toBe(true);
++    expect(shouldLog("GET", "/healthz", 404)).toBe(true);
++    expect(shouldLog("GET", "/health/other", 404)).toBe(true);
++    expect(shouldLog("POST", "/auth/login", 401)).toBe(true);
++  });
++});
+diff --git a/backend/src/services/log.ts b/backend/src/services/log.ts
+index 7a9eebd..2fd6c99 100644
+--- a/backend/src/services/log.ts
++++ b/backend/src/services/log.ts
+@@ -13,3 +13,13 @@ export const log = {
+   warn: (message: string) => logger?.warn(message),
+   error: (message: string) => logger?.error(message),
+ };
++
++// Module 26: should one HTTP request be written to the log (used by the onResponse hook in server.ts)? The Docker healthcheck
++// knocks HEAD /health every 15 seconds; without this filter, the log holds thousands of identical lines every day and the
++// important lines drown. Only SUCCESSFUL /health knocks (GET or HEAD, a code below 400) are not logged: a failed /health
++// and every other address are still logged as usual.
++export function shouldLog(method: string, url: string, code: number): boolean {
++  const path = url.split("?")[0]; // without the ?… behind it
++  const healthKnock = (method === "GET" || method === "HEAD") && path === "/health";
++  return !(healthKnock && code < 400);
++}
