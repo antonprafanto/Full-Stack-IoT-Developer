@@ -11,3 +11,6 @@ acl-broker text eol=lf
 .env.example text eol=lf
 Dockerfile text eol=lf
 .dockerignore text eol=lf
+# Module 27: SQL scripts sent to psql inside the database container. scripts/check-late-arrivals.sql uses psql commands (\if,
+# \set, \echo) that are read line by line: safer without hidden CR characters (not tested with CRLF).
+*.sql text eol=lf

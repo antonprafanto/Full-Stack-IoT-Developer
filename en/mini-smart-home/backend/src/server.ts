@@ -1,9 +1,10 @@
-// server.ts - the entry point of the Mini Smart Home backend v1.3 (Module 26: it can run as a Docker container in compose.cloud.yml;
-// on top of v1.2, Module 25: the device's point on the map and the daily CSV report through Telegram; v1.1, Module 24: "below-
-// threshold" rules such as watering when the soil is dry, threshold rules may send one command, and rules can be deleted; v1.0,
-// Module 21: the device registry and its keys, the backend's own broker account, unregistered/revoked devices ignored; Module 20:
-// login, JWT in cookies, roles, and API protection; and Module 19: realtime data, one door for commands, automation rules,
-// schedules, and Telegram notifications).
+// server.ts - the entry point of the Mini Smart Home backend v1.4 (Module 27: the backend on the internet, behind Caddy HTTPS.
+// TRUST_PROXY makes the backend trust what Caddy says about the visitor: Secure login cookies over HTTPS and a login limit per
+// visitor; on top of v1.3, Module 26: it can run as a Docker container in compose.cloud.yml; v1.2, Module 25: the device's point
+// on the map and the daily CSV report through Telegram; v1.1, Module 24: "below-threshold" rules such as watering when the soil
+// is dry, threshold rules may send one command, and rules can be deleted; v1.0, Module 21: the device registry and its keys, the
+// backend's own broker account, unregistered/revoked devices ignored; Module 20: login, JWT in cookies, roles, and API
+// protection; and Module 19: realtime data, one door for commands, automation rules, schedules, and Telegram notifications).
 // Run: npm run dev (automatically restarts when a file is saved) or npm start. In a container (Module 26): node src/server.ts,
 // its settings come from Docker Compose, not from a .env file (see Dockerfile).
 import Fastify, { LogController } from "fastify";
@@ -32,6 +33,9 @@ import { pool } from "./db/pool.ts";
 const app = Fastify({
   logger: { transport: { target: "pino-pretty", options: { translateTime: "SYS:HH:MM:ss", ignore: "pid,hostname,reqId" } } },
   logController: new LogController({ disableRequestLogging: true }), // the built-in log per request is too long...
+  // Module 27: the X-Forwarded-For/-Proto headers from Caddy are only trusted when they come from a proxy in TRUST_PROXY (in
+  // compose.cloud.yml: uniquelocal = the Docker hallway). Empty (dev mode) = those headers are ignored, as in v1.3.
+  trustProxy: env.TRUST_PROXY,
 });
 useLog(app.log); // Module 19: other services (commands, rules, schedules, Telegram) write to the same log
 app.addHook("onResponse", async (req, reply) => {
@@ -41,6 +45,9 @@ app.addHook("onResponse", async (req, reply) => {
   if (!shouldLog(req.method, req.url, reply.statusCode)) return;
   req.log.info(`${req.method} ${req.url} -> ${reply.statusCode} (${Math.round(reply.elapsedTime)} ms)`);
 });
+if (env.TRUST_PROXY !== false) { // Module 27: one line at startup, proof that the TRUST_PROXY setting was read
+  app.log.info(`trusted proxies (TRUST_PROXY): ${env.TRUST_PROXY === true ? "all" : env.TRUST_PROXY.join(", ")}`);
+}
 app.setValidatorCompiler(validatorCompiler); // Zod schemas check the content of requests...
 app.setSerializerCompiler(serializerCompiler); // ...and the shape of replies
 
@@ -49,7 +56,7 @@ await app.register(swagger, {
   openapi: {
     info: {
       title: "Mini Smart Home API",
-      description: "Backend v1.3 (Module 26). Every route needs a login, except the ones without a padlock. Log in first with "
+      description: "Backend v1.4 (Module 27). Every route needs a login, except the ones without a padlock. Log in first with "
         + "POST /auth/login (Try it out): the browser keeps the access cookie and sends it by itself to the other routes. "
         + "Viewer accounts can only look (GET); commands and changes are answered with 403. Devices are registered by an admin "
         + "with POST /devices; a key is shown only once, and messages from unregistered or revoked devices are ignored. "
@@ -59,8 +66,11 @@ await app.register(swagger, {
         + "The daily CSV report is sent to Telegram at REPORT_SCHEDULE (default 07:00 WIB); POST /reports/send "
         + "sends it right now. Since v1.3 (Module 26), the backend also runs as a container in Docker Compose: "
         + "the dashboard calls it through the Caddy web server with the prefix /api, while this page is opened at "
-        + "http://localhost:8080/docs (in the container, a login from http://127.0.0.1:8080/docs is refused with 403).",
-      version: "1.3.0",
+        + "http://localhost:8080/docs (in the container, a login from http://127.0.0.1:8080/docs is refused with 403). Since v1.4 "
+        + "(Module 27), the backend can be opened from the internet behind Caddy HTTPS: with TRUST_PROXY (in Compose: uniquelocal) "
+        + "the backend uses the visitor's IP address and protocol from Caddy, so the login cookies are Secure and the limit of 10 "
+        + "login attempts applies per visitor.",
+      version: "1.4.0",
     },
     components: {
       securitySchemes: { // Module 20: routes with a padlock need the access cookie from POST /auth/login

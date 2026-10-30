@@ -1,0 +1,131 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1012" viewBox="0 0 1200 1012" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="1012" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" xml:space="preserve">Caddy as the front door</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" xml:space="preserve">Concept 7 · one <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5">frontend/caddy/Caddyfile</tspan> · one address for the dashboard, the API, Socket.IO, and Grafana</text>
+<rect x="30.0" y="98.0" width="1140.0" height="420.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<rect x="50.0" y="118.0" width="210.0" height="214.0" rx="12" fill="#eef1f5" />
+<rect x="65.0" y="129.0" width="22.0" height="38.0" rx="5" fill="none" stroke="#6f42c1" stroke-width="2" />
+<circle cx="76.0" cy="161.0" r="1.8" fill="#6f42c1" />
+<text x="98.0" y="146.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >Visitors</text>
+<text x="98.0" y="163.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" >phone, browser, app</text>
+<text x="64.0" y="198.0" font-size="11.5" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">http://iot.…</text>
+<text x="64.0" y="218.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">answered <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">308</tspan> →</text>
+<text x="64.0" y="244.0" font-size="11.5" font-weight="800" fill="#6f42c1" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">https://iot.…/…</text>
+<text x="64.0" y="262.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" >HTTP/2, the padlock</text>
+<text x="64.0" y="290.0" font-size="11.5" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">https://mqtt.…</text>
+<text x="64.0" y="308.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" >the wrong address</text>
+<line x1="264.0" y1="226.0" x2="292.0" y2="226.0" stroke="#6f42c1" stroke-width="2.4" stroke-linecap="round" />
+<path d="M284.9 229.8 L292.0 226.0 L284.9 222.2" fill="none" stroke="#6f42c1" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="296.0" y="118.0" width="250.0" height="346.0" rx="14" fill="#fcf2f6" stroke="#a13a6b" stroke-width="2" />
+<g transform="translate(324 144) scale(0.75) translate(-324 -144)">
+<rect x="305.0" y="130.0" width="38.0" height="28.0" rx="4" fill="none" stroke="#a13a6b" stroke-width="2" />
+<line x1="305.0" y1="138.0" x2="343.0" y2="138.0" stroke="#a13a6b" stroke-width="1.6" stroke-linecap="round" />
+<circle cx="310.0" cy="134.0" r="1.1" fill="#a13a6b" />
+<circle cx="314.5" cy="134.0" r="1.1" fill="#a13a6b" />
+<circle cx="319.0" cy="134.0" r="1.1" fill="#a13a6b" />
+</g>
+<text x="350.0" y="148.0" font-size="15" font-weight="800" fill="#a13a6b" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14" fill="#a13a6b" font-weight="800">web</tspan> = Caddy</text>
+<text x="350.0" y="167.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">caddy:2.11.7-alpine</text>
+<text x="314.0" y="202.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#a13a6b">HTTPS on 443</tspan> (TCP + UDP)</text>
+<text x="314.0" y="223.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">certificate + key in the cupboard</text>
+<text x="314.0" y="244.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">caddy-data</tspan> (don't <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">down</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">-v</tspan>)</text>
+<text x="314.0" y="286.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">http://</tspan> → <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">308</tspan> → <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">https://</tspan></text>
+<text x="314.0" y="307.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">no HSTS (Technical Deep Dive)</text>
+<text x="314.0" y="349.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">compression <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">zstd</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">gzip</tspan>: ±1 MB</text>
+<text x="314.0" y="370.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">of JavaScript arrives as ±300 kB</text>
+<text x="314.0" y="412.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the site address in the Caddyfile:</text>
+<text x="314.0" y="433.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">{$WEB_DOMAIN::80} {$MQTT_DOMAIN}</tspan></text>
+<line x1="548.0" y1="226.0" x2="568.0" y2="164.0" stroke="#a13a6b" stroke-width="1.6" stroke-linecap="round" />
+<path d="M577.8 167.3 L584.0 164.0 L577.8 160.7" fill="none" stroke="#a13a6b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="568.0" y1="164.0" x2="582.0" y2="164.0" stroke="#a13a6b" stroke-width="1.6" stroke-linecap="round" />
+<rect x="590.0" y="149.0" width="178.0" height="30.0" rx="8" fill="#ffffff" stroke="#1e2a4a" stroke-width="1.6" />
+<text x="602.0" y="169.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the name <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">mqtt.…</tspan></text>
+<line x1="770.0" y1="164.0" x2="786.0" y2="164.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<path d="M780.7 166.8 L786.0 164.0 L780.7 161.2" fill="none" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="790.0" y="128.0" width="360.0" height="72.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="802.0" y="149.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">answer <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">404</tspan> + the sentence:</text>
+<text x="802.0" y="168.0" font-size="11" font-weight="600" fill="#e63946" text-anchor="start" xml:space="preserve">This address is for the MQTT broker (port 8883),</text>
+<text x="802.0" y="186.0" font-size="11" font-weight="600" fill="#e63946" text-anchor="start" xml:space="preserve">not the dashboard.</text>
+<line x1="548.0" y1="226.0" x2="568.0" y2="250.0" stroke="#a13a6b" stroke-width="1.6" stroke-linecap="round" />
+<path d="M577.8 253.3 L584.0 250.0 L577.8 246.7" fill="none" stroke="#a13a6b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="568.0" y1="250.0" x2="582.0" y2="250.0" stroke="#a13a6b" stroke-width="1.6" stroke-linecap="round" />
+<rect x="590.0" y="235.0" width="178.0" height="30.0" rx="8" fill="#ffffff" stroke="#1a7f37" stroke-width="1.6" />
+<text x="602.0" y="255.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1a7f37" font-weight="800">/api/*</tspan></text>
+<line x1="770.0" y1="250.0" x2="786.0" y2="250.0" stroke="#1a7f37" stroke-width="2" stroke-linecap="round" />
+<path d="M780.7 252.8 L786.0 250.0 L780.7 247.2" fill="none" stroke="#1a7f37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="790.0" y="214.0" width="360.0" height="72.0" rx="10" fill="#ffffff" stroke="#1a7f37" stroke-width="1.6" />
+<text x="802.0" y="235.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1a7f37" font-weight="800">backend:8080</tspan> (the <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1a7f37" font-weight="800">/api</tspan> prefix removed)</text>
+<text x="802.0" y="254.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">+ <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">X-Forwarded-For</tspan> (visitor IP), <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">X-Forwarded-Proto:</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">https</tspan></text>
+<text x="802.0" y="272.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">cookie <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">Path=/auth</tspan> → <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">/api/auth</tspan>; Socket.IO too (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">wss://</tspan>)</text>
+<line x1="548.0" y1="226.0" x2="568.0" y2="327.0" stroke="#a13a6b" stroke-width="1.6" stroke-linecap="round" />
+<path d="M577.8 330.3 L584.0 327.0 L577.8 323.7" fill="none" stroke="#a13a6b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="568.0" y1="327.0" x2="582.0" y2="327.0" stroke="#a13a6b" stroke-width="1.6" stroke-linecap="round" />
+<rect x="590.0" y="312.0" width="178.0" height="30.0" rx="8" fill="#ffffff" stroke="#6f42c1" stroke-width="1.6" />
+<text x="602.0" y="332.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">/grafana/*</tspan></text>
+<line x1="770.0" y1="327.0" x2="786.0" y2="327.0" stroke="#6f42c1" stroke-width="2" stroke-linecap="round" />
+<path d="M780.7 329.8 L786.0 327.0 L780.7 324.2" fill="none" stroke="#6f42c1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="790.0" y="300.0" width="360.0" height="54.0" rx="10" fill="#ffffff" stroke="#6f42c1" stroke-width="1.6" />
+<text x="802.0" y="321.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">grafana:3000</tspan> (the <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">/grafana</tspan> prefix kept)</text>
+<text x="802.0" y="340.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">/grafana</tspan> redirected to <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">/grafana/</tspan>; the cookie gets <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">Secure</tspan></text>
+<line x1="548.0" y1="226.0" x2="568.0" y2="395.0" stroke="#a13a6b" stroke-width="1.6" stroke-linecap="round" />
+<path d="M577.8 398.3 L584.0 395.0 L577.8 391.7" fill="none" stroke="#a13a6b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="568.0" y1="395.0" x2="582.0" y2="395.0" stroke="#a13a6b" stroke-width="1.6" stroke-linecap="round" />
+<rect x="590.0" y="380.0" width="178.0" height="30.0" rx="8" fill="#ffffff" stroke="#1e2a4a" stroke-width="1.6" />
+<text x="602.0" y="400.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">/assets/*</tspan></text>
+<line x1="770.0" y1="395.0" x2="786.0" y2="395.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<path d="M780.7 397.8 L786.0 395.0 L780.7 392.2" fill="none" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="790.0" y="368.0" width="360.0" height="54.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="802.0" y="389.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">files in <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">/srv/assets</tspan> (JavaScript, CSS)</text>
+<text x="802.0" y="408.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">missing = <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">404</tspan> (an honest error)</text>
+<line x1="548.0" y1="226.0" x2="568.0" y2="463.0" stroke="#a13a6b" stroke-width="1.6" stroke-linecap="round" />
+<path d="M577.8 466.3 L584.0 463.0 L577.8 459.7" fill="none" stroke="#a13a6b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="568.0" y1="463.0" x2="582.0" y2="463.0" stroke="#a13a6b" stroke-width="1.6" stroke-linecap="round" />
+<rect x="590.0" y="448.0" width="178.0" height="30.0" rx="8" fill="#ffffff" stroke="#1e2a4a" stroke-width="1.6" />
+<text x="602.0" y="468.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the rest</text>
+<line x1="770.0" y1="463.0" x2="786.0" y2="463.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<path d="M780.7 465.8 L786.0 463.0 L780.7 460.2" fill="none" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="790.0" y="436.0" width="360.0" height="54.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="802.0" y="457.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">files in <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">/srv</tspan> (the <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">dist/</tspan> contents), screens → <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">index.html</tspan></text>
+<text x="802.0" y="476.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">Cache-Control:</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">no-cache</tspan> (also <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">sw.js</tspan>, the manifest)</text>
+<text x="30.0" y="544.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >One Caddyfile, three places</text>
+<text x="270.0" y="544.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">WEB_DOMAIN</tspan> empty in <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">.env</tspan> → <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">compose.cloud.yml</tspan> fills in <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">:80</tspan> (Caddy only uses its fallback when the variable DOESN'T EXIST)</text>
+<rect x="30.0" y="558.0" width="370.0" height="106.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="48.0" y="584.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Laptop (Module 26)</text>
+<text x="48.0" y="608.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">WEB_DOMAIN</tspan> empty → <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">:80</tspan></text>
+<text x="48.0" y="627.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">HTTP at <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">http://localhost</tspan></text>
+<text x="48.0" y="646.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">no certificate</text>
+<rect x="415.0" y="558.0" width="370.0" height="106.0" rx="12" fill="#fcf2f6" stroke="#a13a6b" stroke-width="1.8" />
+<text x="433.0" y="584.0" font-size="13.5" font-weight="800" fill="#a13a6b" text-anchor="start" >VPS (the main path)</text>
+<text x="433.0" y="608.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">WEB_DOMAIN=iot.yourname.my.id</tspan></text>
+<text x="433.0" y="627.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Caddy asks for the certificate, HTTPS 443,</text>
+<text x="433.0" y="646.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">renews it itself</text>
+<rect x="800.0" y="558.0" width="370.0" height="106.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="818.0" y="584.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Pi (the free path)</text>
+<text x="818.0" y="608.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">WEB_DOMAIN</tspan> empty → <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">:80</tspan></text>
+<text x="818.0" y="627.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">HTTPS is set up by Cloudflare;</text>
+<text x="818.0" y="646.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">CADDY_TRUSTED_PROXIES=private_ranges</tspan></text>
+<rect x="30.0" y="684.0" width="1140.0" height="286.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="54.0" y="714.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >trustProxy: the backend trusts Caddy's information about visitors</text>
+<text x="1146.0" y="714.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="end" >simulated lab, three visitors from the "internet"</text>
+<rect x="318.0" y="728.0" width="400.0" height="34.0" rx="8" fill="#eef1f5" />
+<rect x="728.0" y="728.0" width="418.0" height="34.0" rx="8" fill="#f5e0ea" />
+<text x="330.0" y="750.0" font-size="12.5" font-weight="800" fill="#4a5568" text-anchor="start" xml:space="preserve">without trustProxy (backend 1.3)</text>
+<text x="740.0" y="750.0" font-size="12.5" font-weight="800" fill="#a13a6b" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#a13a6b" font-weight="800">TRUST_PROXY=uniquelocal</tspan> (backend 1.4.0)</text>
+<text x="54.0" y="789.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the backend sees the visitors as</text>
+<text x="330.0" y="789.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">all = Caddy's IP in the hallway (lab: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#4a5568" font-weight="800">172.19.0.4</tspan>), <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#4a5568" font-weight="800">http</tspan></text>
+<text x="740.0" y="789.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">each visitor's real IP (A, B, C each), <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">https</tspan></text>
+<line x1="54.0" y1="802.0" x2="1146.0" y2="802.0" stroke="#e0dcd2" stroke-width="1" stroke-linecap="round" />
+<text x="54.0" y="825.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the login cookie</text>
+<text x="330.0" y="825.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">no <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#4a5568" font-weight="800">Secure</tspan>, even over HTTPS</text>
+<text x="740.0" y="825.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">Secure</tspan>: the browser only sends it over HTTPS</text>
+<line x1="54.0" y1="838.0" x2="1146.0" y2="838.0" stroke="#e0dcd2" stroke-width="1" stroke-linecap="round" />
+<text x="54.0" y="861.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve">visitor A: 11 wrong passwords</text>
+<text x="330.0" y="861.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">visitor B (right password) refused <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#4a5568" font-weight="800">429</tspan> too</text>
+<text x="740.0" y="861.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">only visitor A <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">429</tspan>; visitor B in (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">200</tspan>)</text>
+<line x1="54.0" y1="874.0" x2="1146.0" y2="874.0" stroke="#e0dcd2" stroke-width="1" stroke-linecap="round" />
+<text x="54.0" y="897.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve">visitor C fakes <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">X-Forwarded-For</tspan></text>
+<text x="330.0" y="897.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#4a5568" font-weight="800">429</tspan> too (the limit shared by all visitors)</text>
+<text x="740.0" y="897.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Caddy overwrites it; counted on C's real IP</text>
+<text x="54.0" y="934.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">Backend log at startup: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">trusted</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">proxies</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">(TRUST_PROXY):</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">uniquelocal</tspan> · a hop number (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">TRUST_PROXY=1</tspan>) is refused · <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">CORS_ORIGIN=https://iot.yourname.my.id</tspan> exactly (else <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">403</tspan>)</text>
+<text x="1178.0" y="998.0" font-size="11" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer Curriculum · CC BY 4.0</text>
+</svg>

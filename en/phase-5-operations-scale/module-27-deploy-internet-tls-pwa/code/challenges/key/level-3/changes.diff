@@ -1,0 +1,128 @@
+diff --git a/backend/src/services/mqtt.ts b/backend/src/services/mqtt.ts
+index 35e03dc..c6ebb4e 100644
+--- a/backend/src/services/mqtt.ts
++++ b/backend/src/services/mqtt.ts
+@@ -12,6 +12,7 @@ import { sendAllConfigs, evaluateReading } from "./automation.ts";
+ import { recordEvent } from "./events.ts";
+ import { notify, notifyStatus } from "./telegram.ts";
+ import { recordIgnored, devicePermission } from "./registry.ts";
++import { receiveBridgeStatus } from "./bridge.ts";
+ 
+ let client: mqtt.MqttClient | undefined;
+ 
+@@ -45,6 +46,9 @@ export function startMqtt(url: string, account: BrokerAccount | null, log: Fasti
+     rejected = false;
+     log.info(`connected to broker ${url}${account === null ? " WITHOUT an account" : ` as ${account.username}`}`);
+     client?.subscribe("msh/#", { qos: 1 });
++    // Module 27 Challenge 3: the home gateway's bridge status message (1 = connected, 0 = down). The # in "msh/#" never
++    // covers topics that start with $SYS, so its subscription is written separately (and its permission in edge/acl-broker, item 3).
++    client?.subscribe("$SYS/broker/connection/+/state", { qos: 0 });
+     sendAllConfigs(); // Module 19: a broker without persistence forgets the retained config when restarted (contract rule 10)
+   });
+   client.on("reconnect", () => {
+@@ -67,7 +71,10 @@ export function startMqtt(url: string, account: BrokerAccount | null, log: Fasti
+     log.error(`MQTT error: ${error.message}`);
+   });
+   // packet.retain = true: an old message the broker kept, sent again because the backend just subscribed (Module 19)
+-  client.on("message", (topic, content, packet) => receive(topic, content.toString(), packet.retain, log));
++  client.on("message", (topic, content, packet) => {
++    if (topic.startsWith("$SYS/")) return receiveBridgeStatus(topic, content.toString(), packet.retain, log);
++    receive(topic, content.toString(), packet.retain, log);
++  });
+ }
+ 
+ export function brokerConnected(): boolean {
+diff --git a/backend/src/services/realtime.ts b/backend/src/services/realtime.ts
+index 41c815e..26d2e78 100644
+--- a/backend/src/services/realtime.ts
++++ b/backend/src/services/realtime.ts
+@@ -9,6 +9,8 @@ import { DeviceId } from "../schemas/contract.ts";
+ import type { Status, TelemetryNode1, TelemetryNode2 } from "../schemas/contract.ts";
+ import type { SavedEvent } from "../db/archive.ts";
+ import { findDevice } from "./store.ts";
++import { allBridges } from "./bridge.ts";
++import type { BridgeState } from "./bridge.ts";
+ import { env } from "../config/env.ts";
+ import { ALLOWED_ORIGINS, ACCESS_COOKIE } from "../auth/security.ts";
+ import type { TokenPayload } from "../auth/security.ts";
+@@ -27,6 +29,7 @@ interface ToClient {
+   telemetry: (deviceId: string, content: Telemetry) => void;
+   status: (deviceId: string, status: Status) => void;
+   event: (event: SavedEvent) => void;
++  bridge: (name: string, state: BridgeState) => void; // Module 27 Challenge 3
+ }
+ 
+ // events from the client to the server; "respond" is the Socket.IO ack
+@@ -64,6 +67,8 @@ export function startRealtime(app: FastifyInstance): void {
+     const { sub, role, sid, exp } = socket.data.user;
+     app.log.info(`realtime client connected: ${socket.id} (account ${sub}, ${role})`);
+     void socket.join(`session:${sid}`); // logging out of this session = cut all its connections (disconnectSession)
++    // Module 27 Challenge 3: a dashboard that has just connected knows the state of every bridge already heard at once
++    for (const [name, state] of allBridges()) socket.emit("bridge", name, state);
+     // the wristband is only checked at the door: when it expires, the connection is cut; the client refreshes, reconnects
+     const expiry = setTimeout(() => socket.disconnect(true), exp * 1000 - Date.now());
+     socket.on("follow", (deviceId, respond) => {
+@@ -110,3 +115,8 @@ export function broadcastStatus(deviceId: string, status: Status): void {
+ export function broadcastEvent(event: SavedEvent): void {
+   io?.emit("event", event);
+ }
++
++// Module 27 Challenge 3: the home gateway's bridge status message to ALL clients
++export function broadcastBridge(name: string, state: BridgeState): void {
++  io?.emit("bridge", name, state);
++}
+diff --git a/edge/acl-broker b/edge/acl-broker
+index c6cdbc8..dc1b309 100644
+--- a/edge/acl-broker
++++ b/edge/acl-broker
+@@ -27,9 +27,11 @@ topic write msh/246f28b1c7d4/status
+ # topic write msh/f00d000000b2/status
+ 
+ # 3) Backend: reads all device messages, sends commands (set and config) to cmd.
++#    Module 27 Challenge 3: also reads the bridge status message (1 = connected, 0 = down) for the dashboard banner.
+ user backend
+ topic read msh/#
+ topic write msh/+/cmd
++topic read $SYS/broker/connection/+/state
+ 
+ # 4) Node-RED on the Pi gateway: the dashboard reads, the Fan switch sends cmd.
+ user nodered
+diff --git a/frontend/src/components/Layout.tsx b/frontend/src/components/Layout.tsx
+index 14c9667..7e7544a 100644
+--- a/frontend/src/components/Layout.tsx
++++ b/frontend/src/components/Layout.tsx
+@@ -6,6 +6,7 @@ import { ApiError, getDevices, logout } from "../api";
+ import { socket } from "../socket";
+ import { clearAll, handleSessionExpired, useLiveStore } from "../store";
+ import ConnectionBadge from "./ConnectionBadge";
++import BridgeBanner from "./BridgeBanner";
+ import ToastRegion from "./ToastRegion";
+ 
+ // The menu links' style. NavLink calls this function with isActive = true when its address is open.
+@@ -103,6 +104,8 @@ export default function Layout() {
+           </div>
+         </div>
+       </header>
++      {/* Module 27 Challenge 3: the "Home gateway disconnected" banner (empty while every bridge is connected) */}
++      <BridgeBanner />
+ 
+       {/* Module 24: toasts show on every screen after logging in (switching screens doesn't remove them): at the bottom of
+           phones and tablets, top right on a wide laptop (see ToastRegion) */}
+diff --git a/frontend/src/types.ts b/frontend/src/types.ts
+index 1a4ed26..04a6eac 100644
+--- a/frontend/src/types.ts
++++ b/frontend/src/types.ts
+@@ -105,8 +105,13 @@ export type ToClient = {
+   telemetry: (deviceId: string, content: Telemetry) => void;
+   status: (deviceId: string, status: "online" | "offline" | "offline-mode") => void;
+   event: (event: SavedEvent) => void;
++  bridge: (name: string, state: BridgeState) => void; // Module 27 Challenge 3
+ };
+ 
++// Module 27 Challenge 3: the state of one home gateway bridge (from $SYS/broker/connection/<name>/state on the central broker).
++// since = when the backend heard the change (ISO); null = unknown (an old message the broker kept).
++export type BridgeState = { connected: boolean; since: string | null };
++
+ // events from the dashboard to the server; "respond" is the Socket.IO ack (a function the server calls to answer)
+ export type FromClient = {
+   follow: (deviceId: string, respond: (answer: FollowAnswer) => void) => void;

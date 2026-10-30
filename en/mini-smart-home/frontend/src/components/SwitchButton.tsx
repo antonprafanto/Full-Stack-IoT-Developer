@@ -18,8 +18,10 @@ type Props = {
 // the toast sentence for a failed command, according to the backend's answer
 function failureMessage(err: unknown, label: string): string {
   if (!(err instanceof ApiError)) return label + ": the command failed.";
-  // 504 is NOT "cancelled": the backend remembers our wish and sends it again by itself when it hears from the device again
-  if (err.code === 504) return label + ": not confirmed by the device yet; the server will try again when it hears from the device.";
+  // 504 is NOT "cancelled": the backend remembers our wish and sends it again by itself when it hears from the device again.
+  // Module 27 (backend 1.4): only if the device is heard within 2 minutes; after that the command is forgotten, so that the
+  // lamp doesn't suddenly turn on hours later when the home internet comes back.
+  if (err.code === 504) return label + ": not confirmed by the device yet; the server tries again if it hears from the device within 2 minutes.";
   if (err.code === 0) return label + ": the server didn't answer.";
   return label + ": " + err.message; // 409 "device is offline, …", 404, 503, 403
 }

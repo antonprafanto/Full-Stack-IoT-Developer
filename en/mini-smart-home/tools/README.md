@@ -53,6 +53,14 @@ The simulator uses the same library. Write the broker's full address (starting w
 node --env-file=.env device-simulator.js mqtt://127.0.0.1:1883 1
 ```
 
+**To a broker on the internet (Module 27, the center on a VPS).** The same simulator can connect straight to the VPS's TLS door, without changing its code: write `mqtts://` (not `mqtt://`), the broker's **name** (not an IP: its certificate is only valid for that name), and port 8883. The account and key of every fake device must exist on the VPS broker (`mosquitto_passwd` on the VPS) and the device must be registered in the VPS backend. Node.js checks the VPS certificate against its built-in list of CA roots, which already holds the Let's Encrypt root (ISRG Root X1), so no CA file is needed:
+
+```bash
+node --env-file=.env device-simulator.js mqtts://mqtt.yourname.my.id:8883 1
+```
+
+In the author's lab (a simulated VPS and a stand-in for Let's Encrypt, Pebble), Node was given the stand-in root CA through `NODE_EXTRA_CA_CERTS=<root file>`; the result was `f00d00000001: online`, and the VPS broker log wrote `Client f00d00000001 negotiated TLSv1.3 cipher TLS_AES_256_GCM_SHA384`. Not tested by the author with real Let's Encrypt yet. `contract-checker.js` still only speaks plain (`mqtt://`): run it on the same network as the broker.
+
 If the broker rejects a fake device's key (the key is wrong, not yet installed on the broker, or revoked), the simulator writes `f00d00000001: REJECTED by broker (code 5): wrong key, not registered, or revoked. Retrying in 60 seconds.` and retries every 60 seconds.
 
 The word `clean` in the place of the second value deletes the fake devices' retained status from the broker (each device connects with its own account), then the program ends by itself. Since Module 25, the mock Garden's status is deleted too, through `f00d00000001` (only if the Garden's ACL block is open). The retained `config` on the `cmd` topic is not deleted: only the `backend` and `nodered` accounts may write `cmd`, and that config can only be read by the device itself.
@@ -109,6 +117,7 @@ The first value is the backend's address, the second the `device_id` of the devi
 - The `package.json` in this folder contains `"type": "module"` so that `import`/`export` can be used. It was created with `npm init -y`, followed by `npm pkg set type=module`, just like in Module 4. Since Module 11, it also records the `mqtt` library under `dependencies`, and `package-lock.json` records the exact version of every helper library.
 - `.gitignore` tells Git to ignore `node_modules/` and `data/`: fake data doesn't need to be stored in the project repository. Since Module 20, Git also ignores `.env` (the `live-terminal.js` account, which holds a password; since Module 21 also the checker's broker account and the practice device keys); its example is in `.env.example`.
 - **This receiver is deliberately bare-bones:** anyone who can reach your laptop can send it anything, without a password. Use it only on your home network. How to lock it down is covered in Modules 20, 21, and 27.
+- **`sniffer.js` in front of the TLS door 8883 (Module 27):** `node sniffer.js <broker address> 8883 1884`. A client that tries **without TLS** on 8883 still sends its username and key in the clear (the sniffer prints them) before the broker refuses it: test "without TLS is refused" only with a test account such as `checker`, never with a device key. You don't need to repeat the TLS part: a TLS client that knocks on the sniffer at `127.0.0.1` refuses to connect, because the broker's certificate is only valid for the name `mqtt.…` (that name check is what protects you from a sniffer). In the author's lab (the sniffer and its client on the same machine), the name check was deliberately switched off for this test only, and the result: the TLS client was only recorded as `new connection from … -> …:8883`, without a username or a key (its content is encrypted).
 
 ---
 

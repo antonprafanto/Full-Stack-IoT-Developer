@@ -5,7 +5,8 @@
 # mosquitto (from the project root for the central broker, from the edge folder on the Pi for the gateway broker).
 
 # 1) Each device may only "talk" on its own topics. A pattern line applies to ALL accounts;
-#    %u is replaced by the username proven with a password, that is, that device's device_id.
+#    %u is replaced by the username proven with a password, that is, that device's device_id. Module 27: devices at another
+#    location that go straight to the VPS broker (door 8883) use the same rules; their account only has to be made on the VPS broker.
 pattern write msh/%u/telemetry
 pattern write msh/%u/status
 pattern write msh/%u/vitals
@@ -47,9 +48,12 @@ topic read $SYS/#
 # 7) The Pi gateway bridge (Module 26): applies on the CENTRAL broker (compose.cloud.yml), where the bridge logs in with this account.
 #    The bridge forwards the messages of all devices to the center and picks up the commands for them. The per-device checks
 #    (items 1 and 2) are already done by the gateway broker on the Pi, which uses the same file but has no pi-bridge account.
+#    Module 27: the last line = the bridge status message (notifications true in bridge/center.conf): 1 = connected, 0 = down,
+#    a retained message in this $SYS topic. The # in other lines doesn't cover topics that start with $SYS, so its permission is written separately.
 user pi-bridge
 topic write msh/+/telemetry
 topic write msh/+/status
 topic write msh/+/vitals
 topic write msh/+/ack
 topic read msh/+/cmd
+topic write $SYS/broker/connection/pi-bridge/state

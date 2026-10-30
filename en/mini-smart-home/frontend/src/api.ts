@@ -43,6 +43,15 @@ export function refreshOnce(): Promise<boolean | null> {
   return refreshInFlight;
 }
 
+// The message when the server can't be reached at all. Module 27: the dashboard is now also opened from phones, from the
+// internet, and as an installed app that stays open even when the internet is down; there the hints "localhost:5173" and
+// CORS_ORIGIN mislead. Those hints are only for dev mode (npm run dev), where a CORS error really can happen.
+// (Behind Caddy, a backend that is down is answered with 502 "Something went wrong (502).", not this message.)
+const UNREACHABLE_MESSAGE = import.meta.env.DEV
+  ? "Can't reach the server at " + BASE + ". Maybe the backend isn't running yet, or this page was opened from " +
+    "an address the backend doesn't allow (open http://localhost:5173, see CORS_ORIGIN)."
+  : "Can't reach the server. Check your internet connection, then try again.";
+
 // An error that knows its HTTP code, so a screen can tell "not logged in" (401) apart from other problems.
 // Code 0 = the server can't be reached at all.
 export class ApiError extends Error {
@@ -65,11 +74,7 @@ async function request<T>(path: string, options: RequestInit = {}, mayRetry = tr
   } catch {
     // fetch failed completely: backend down, wrong address, or blocked by CORS. The browser deliberately doesn't tell
     // JavaScript which one (a CORS error looks the same as a backend that is down); the details are only in the Console tab.
-    throw new ApiError(
-      0,
-      "Can't reach the server at " + BASE + ". Maybe the backend isn't running yet, or this page was opened from " +
-        "an address the backend doesn't allow (open http://localhost:5173, see CORS_ORIGIN).",
-    );
+    throw new ApiError(0, UNREACHABLE_MESSAGE);
   }
   // Wristband expired (401)? Refresh ONCE, then repeat this request ONCE (Module 20's promise).
   // If the refresh fails too, the 401 is passed on to the screen, and the screen goes back to the login form.

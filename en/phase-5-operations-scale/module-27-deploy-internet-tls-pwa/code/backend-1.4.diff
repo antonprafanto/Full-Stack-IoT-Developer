@@ -1,0 +1,792 @@
+diff --git a/backend/.env.example b/backend/.env.example
+index cc04e75..8f6517b 100644
+--- a/backend/.env.example
++++ b/backend/.env.example
+@@ -24,5 +24,10 @@ REPORT_SCHEDULE=0 7 * * *
+ # Module 20: the JWT signing key, at least 32 random characters. Make your own with this command, then paste the result:
+ #   node -e "console.log(require('node:crypto').randomBytes(32).toString('base64url'))"
+ JWT_SECRET=change-this-to-the-output-of-the-command-above
+-# Module 20: web pages (origins) that may call the API from a browser, comma-separated (Module 22: Vite on port 5173)
++# Module 20: web pages (origins) that may call the API from a browser, comma-separated (Module 22: Vite on port 5173).
++# Its form is http(s)://name[:port] without a / at the end (Module 27 checks it when the server starts).
+ CORS_ORIGIN=http://localhost:5173,http://127.0.0.1:5173
++# Module 27: the proxy trusted to tell the visitor's IP address and protocol (X-Forwarded-For/-Proto). Dev mode without
++# Caddy: leave it empty. The backend in Docker Compose behind Caddy uses uniquelocal from compose.cloud.yml, not from
++# this file. A number (a hop count) is refused: Fastify 5 doesn't trust it.
++TRUST_PROXY=
+diff --git a/backend/Dockerfile b/backend/Dockerfile
+index 65954cf..7d9e965 100644
+--- a/backend/Dockerfile
++++ b/backend/Dockerfile
+@@ -1,8 +1,9 @@
+-# Dockerfile - the backend image (mold) of Mini Smart Home 1.3.0 (Module 26). Two stages ("multi-stage"):
++# Dockerfile - the backend image (mold) of Mini Smart Home (Module 26; its contents stay the same in 1.4.0, Module 27).
++# Two stages ("multi-stage"):
+ #   stage "packages": installs the npm libraries exactly as package-lock.json says, WITHOUT the developer tools (TypeScript, Vitest, Vite)
+ #   final stage     : Node.js 24 + the libraries from the "packages" stage + the src/ and migrations/ code, running as the user "node" (not root)
+ # No compile stage: Node 24 runs the .ts files directly (type stripping, Module 16).
+-# Built from the project folder with: docker compose build backend   (or: docker build -t mini-smart-home-backend:1.3.0 ./backend)
++# Built from the project folder with: docker compose build backend   (or: docker build -t mini-smart-home-backend:1.4.0 ./backend)
+ 
+ # An exact tag, not "latest" or "24-alpine": the same mold today and next month. Alpine = the smallest Node image;
+ # bcrypt ships a ready-made build for Alpine (musl), so no compiler is needed.
+diff --git a/backend/README.md b/backend/README.md
+index aa2b5b2..1033504 100644
+--- a/backend/README.md
++++ b/backend/README.md
+@@ -2,7 +2,7 @@
+ 
+ 🌐 **English** · [Bahasa Indonesia](../../../proyek-rumah-pintar-mini/backend/README.md)
+ 
+-Backend v1.3 of the Mini Smart Home project: a Node.js 24 server in light TypeScript that listens to every `msh/#` MQTT message, checks every message against data contract 1.4 (Zod schemas), keeps the last state of every device in memory, archives every message in a PostgreSQL database with the TimescaleDB add-on (through Docker), and provides a documented API. The reading history can be requested raw or already summarized per 15 minutes, per hour, or per day. Since Module 19, readings also flow live through Socket.IO, every command goes through one door (with the desired and the reported state), automation rules and schedules are stored in the database and can be changed through the API without restarting the server, every important event is recorded, and alerts are sent through Telegram. Since Module 20, the API and Socket.IO are **locked for people**: guests must log in first, `viewer` accounts can only look, login attempts are limited, and other web pages can't make the server act on a user's behalf. Since Module 21, the backend is also **locked for devices**: only devices an admin has registered (with a per-device key) have their data processed, messages from unregistered or revoked devices are ignored, and the backend itself connects to the broker with its own account. 🎉 **Phase 3 checkpoint: the house is locked for people and for devices.**
++Backend v1.4 of the Mini Smart Home project: a Node.js 24 server in light TypeScript that listens to every `msh/#` MQTT message, checks every message against data contract 1.5 (Zod schemas; the message shapes are the same as in 1.4), keeps the last state of every device in memory, archives every message in a PostgreSQL database with the TimescaleDB add-on (through Docker), and provides a documented API. The reading history can be requested raw or already summarized per 15 minutes, per hour, or per day. Since Module 19, readings also flow live through Socket.IO, every command goes through one door (with the desired and the reported state), automation rules and schedules are stored in the database and can be changed through the API without restarting the server, every important event is recorded, and alerts are sent through Telegram. Since Module 20, the API and Socket.IO are **locked for people**: guests must log in first, `viewer` accounts can only look, login attempts are limited, and other web pages can't make the server act on a user's behalf. Since Module 21, the backend is also **locked for devices**: only devices an admin has registered (with a per-device key) have their data processed, messages from unregistered or revoked devices are ignored, and the backend itself connects to the broker with its own account. 🎉 **Phase 3 checkpoint: the house is locked for people and for devices.**
+ 
+ **v1.1 (Module 24)** adds three small things dashboard v1.0 needs: **below-threshold** rules (for example water when the soil is below 30%), threshold rules that **send a command once** (for example the pump for 5 seconds), and **deleting rules** (`DELETE /rules/:id`). No database migration and no data-contract change (still 1.4); details in [Version 1.1 notes](#version-11-notes).
+ 
+@@ -10,6 +10,8 @@ Backend v1.3 of the Mini Smart Home project: a Node.js 24 server in light TypeSc
+ 
+ **v1.3 (Module 26)** lets the backend run as a **Docker container** in `compose.cloud.yml` (the project root), together with the database, the central broker, the dashboard, and Grafana: one command, `docker compose up -d`, starts everything, and a backend that stops by itself is started again by Docker. The changes are small: `pino-pretty` moves to `dependencies` (it's used while the server runs), the npm scripts no longer fail when there is no `.env`, successful `/health` knocks no longer fill the log, plus a `Dockerfile` and a `.dockerignore`. No database migration, no new npm package, the data contract stays 1.4; details in [Version 1.3 notes](#version-13-notes).
+ 
++**v1.4 (Module 27)** gets the backend ready for the **internet**, behind Caddy, which adds HTTPS (a VPS, or a Raspberry Pi with Cloudflare Tunnel): the new setting `TRUST_PROXY` makes the backend trust what Caddy says about its visitors, so the login cookies get the `Secure` attribute on an `https://` page and the login limiter (10 attempts per minute) counts **per visitor**, not every visitor as one address. `CORS_ORIGIN` now has its form checked when the server starts (a dashboard address such as `https://iot.yourname.my.id`, without a `/` at the end), and a manual command the device doesn't answer is no longer quietly sent again long after the dashboard reported it as failed (for example while the home internet is down). No database migration and no new npm package; the data contract moves up to **1.5** without any change to the message shapes. Details in [On the internet, behind Caddy HTTPS](#on-the-internet-behind-caddy-https-module-27) and [Version 1.4 notes](#version-14-notes).
++
+ There are two ways to run the backend, and **only one may run** at a time (two backends with the same Telegram token fight each other, `409 Conflict`; two backends also fight over counter 8080):
+ 
+ | Way | When | Its settings come from |
+@@ -39,6 +41,27 @@ The API docs stay at the old counter, **`http://localhost:8080/docs`** (not `127
+ 
+ The backend image is built from the [`Dockerfile`](Dockerfile) (two `node:24.22.1-alpine3.24` stages, `npm ci --omit=dev`, the user `node`, `CMD ["node", "src/server.ts"]`); the [`.dockerignore`](.dockerignore) keeps out `.env`, `node_modules`, `backup`, Bruno, the load test, and the test files. Inside the container, the settings come from `compose.cloud.yml` (`HOST=0.0.0.0`, `MQTT_URL=mqtt://mosquitto:1883`, `DATABASE_URL=…@db:5432/…`, `TZ=Asia/Jakarta`), not from `backend/.env`.
+ 
++## On the internet, behind Caddy HTTPS (Module 27)
++
++On the VPS (or on the Pi on the free path), visitors from the internet never connect to the backend directly: every request goes into Caddy (the `web` service), and Caddy forwards `/api/…` to `backend:8080` over plain HTTP in the Docker hallway. The backend only sees **Caddy** as its visitor. Caddy passes on what it knows about the real visitor in the headers `X-Forwarded-For` (the visitor's IP address) and `X-Forwarded-Proto` (`https`), but anyone can write such headers, so the backend only trusts them from the proxies named in **`TRUST_PROXY`**:
++
++| `TRUST_PROXY` | Meaning | Used in |
++| :--- | :--- | :--- |
++| empty (the backend default) | trusts no proxy at all: the visitor's address = the connection's address, the protocol = `http` | dev mode (`npm run dev`, without Caddy) |
++| `uniquelocal` | trusts a proxy at a private address (`10.x`, `172.16–31.x`, `192.168.x`, `fc00::/7`), including the Docker hallway where Caddy is | **`compose.cloud.yml`** (its default, on the laptop, the VPS, and the Pi) |
++| `true` | trusts anyone, including a visitor who fakes the headers | avoid it |
++| address/CIDR, comma-separated | for example `172.18.0.0/16`; `loopback` and `linklocal` are allowed too | if you want something narrower than `uniquelocal` |
++
++A number (a hop count, the old recipe `trustProxy: 1`) is **refused** when the server starts: Fastify 5 deliberately doesn't trust proxies that are only counted, so that setting would silently do nothing. A wrong value stops the server with its reason, for example `Setting TRUST_PROXY in .env: a number (a hop count) isn't used by Fastify 5 (it trusts nothing at all); behind Caddy write uniquelocal`. The setting that was read is written once in the log at startup: `trusted proxies (TRUST_PROXY): uniquelocal`.
++
++What this means behind Caddy HTTPS:
++
++- The `access` and `session` cookies get the **`Secure`** attribute (the browser only sends them over HTTPS). `secure: "auto"` in `src/auth/security.ts` has been there since Module 20; the only thing missing was the `https` information from Caddy. On `http://localhost` (the laptop) the cookies stay without `Secure`, so logging in on the laptop still works.
++- The login limiter counts **per visitor**: 10 wrong logins from one phone don't make other visitors get `429`. The log line `login failed: … (IP …)` also writes the visitor's address, not Caddy's.
++- **`CORS_ORIGIN`** in the root `.env` = the dashboard address the visitor types, exactly, for example `CORS_ORIGIN=https://iot.yourname.my.id` (several allowed, comma-separated). Without it, a login from the dashboard is refused by the guard with `403` (`request from the page https://iot.yourname.my.id refused`). A slash at the end (`https://iot.yourname.my.id/`), a path, or an address without `http(s)://` is refused when the server starts, because a browser never sends an `Origin` of that form.
++
++Tested in `src/config/env.test.ts` (every form of `TRUST_PROXY` and `CORS_ORIGIN`) and `src/routes/proxy.test.ts` (the real login route with a fake "Caddy": `Secure` cookies, `429` per visitor, fake headers from a direct visitor not trusted, and the old behavior without `trustProxy` for comparison). The steps for moving the center to a VPS are in [Module 27](../../phase-5-operations-scale/module-27-deploy-internet-tls-pwa/README.md).
++
+ ## Dev mode (without the backend container)
+ 
+ To change the backend code, run the backend directly with Node on the laptop, using the database and the central broker from Compose. Start from the project root: `docker compose up -d`, then `docker compose stop backend web` (the backend and dashboard containers are stopped; the database, the broker, and Grafana keep running). Done developing: **Ctrl + C** in the `npm run dev` terminal, then `docker compose start backend web`.
+@@ -99,8 +122,8 @@ docker compose exec db psql -U postgres -d smarthome -f /tmp/load-1-million.sql
+ - **Wristband ran out?** `POST /auth/refresh` swaps the `session` cookie for a new wristband and a new season pass (rotation). An old season pass that is used again 30 seconds or more after it was replaced counts as stolen: its session is revoked. **`POST /auth/logout`** deletes the session, empties both cookies, and cuts that session's Socket.IO connections.
+ - **Open routes** (no login): `POST /auth/login`, `POST /auth/refresh`, `POST /auth/logout`, `GET`/`HEAD /health`, and `/docs`. Every other route, including new routes and URLs that don't exist, answers guests with `401`.
+ - **Roles**: `admin` may do everything; `viewer` only `GET`/`HEAD` (anything else gets `403`).
+-- **Rate limit**: at most 10 `POST /auth/login` attempts per minute from the same IP address; the 11th attempt gets `429` with a `retry-after` header. The counts live in memory: a server restart = starting from zero.
+-- **CORS and the page's origin**: web pages in `CORS_ORIGIN` (`.env`, default `http://localhost:5173,http://127.0.0.1:5173` for Module 22; home mode: `http://localhost,http://127.0.0.1` from the root `.env`) may call the API from a browser with cookies. Requests other than `GET`/`HEAD` that carry an `Origin` header from another page are refused with `403`; curl, Bruno, and Node don't send `Origin`, so they aren't affected.
++- **Rate limit**: at most 10 `POST /auth/login` attempts per minute from the same IP address; the 11th attempt gets `429` with a `retry-after` header. The counts live in memory: a server restart = starting from zero. Behind Caddy, "the same IP address" only means "the same visitor" when `TRUST_PROXY` is filled in (Module 27; `compose.cloud.yml` fills it with `uniquelocal`).
++- **CORS and the page's origin**: web pages in `CORS_ORIGIN` (`.env`, default `http://localhost:5173,http://127.0.0.1:5173` for Module 22; home mode: `http://localhost,http://127.0.0.1` from the root `.env`; on the internet, Module 27: `https://iot.yourname.my.id`) may call the API from a browser with cookies. Requests other than `GET`/`HEAD` that carry an `Origin` header from another page are refused with `403`; curl, Bruno, and Node don't send `Origin`, so they aren't affected.
+ - **Bruno**: the `bruno/` collection has the requests `login admin`, `login viewer`, `wrong login`, `who am i`, `refresh`, and `logout`, plus (Module 21) `register Node 1`, `register Node 2 via Node 1`, `register practice device`, `rotate practice device key`, and `revoke practice device key`, and (Module 24) `create soil watering rule` and `delete rule` (replace the number in the `delete rule` address with the `id` from the `create soil watering rule` answer; it defaults to `4`, the first rule number after the three Module 19 rules), plus (Module 25) `register mock Garden` (fake Node 2 `f00d000000b2` via `f00d00000001`, for the path without a Node 2; see `tools/README.md`), `set device location`, and `send report now` (`?day=today`). Their passwords are read from `bruno/.env` (not in Git) holding `ADMIN_PASSWORD=…` and `VIEWER_PASSWORD=…`. Send `login admin` or `login viewer` first; the other requests use its cookie automatically.
+ 
+ ## API
+@@ -154,7 +177,7 @@ The rule shapes are written in `src/schemas/rule-basics.ts` (without node-cron,
+ 
+ With `bucket`, the answer has the shape `{ device_id, from, to, bucket, count, summary: [ { time, avg_temp, min_temp, max_temp, avg_humidity, avg_soil, avg_light, reading_count } ] }`. `time` is the start of the bucket (UTC), and `from` is rounded down to the start of a bucket. The 15-minute summary is computed directly from the raw readings, the hourly summary is read from `readings_hourly`, and the daily summary combines the hourly summaries into WIB days. Its daily averages are exactly the same as a calculation from the raw readings, because every hour stores an average and the number of values (`avg_temp` and `temp_n`, and so on).
+ 
+-The Bruno collection for every route is in the `bruno/` folder (choose the `local` environment).
++The Bruno collection for every route is in the `bruno/` folder (choose the `local` environment). Since Module 27 there is an `internet` environment (`baseUrl` `https://iot.yourname.my.id/api`, through Caddy on the VPS; replace the domain name with yours); the `session` cookie there has the path `/api/auth`, the same as in the dashboard.
+ 
+ ## Map and daily report (Module 25)
+ 
+@@ -272,6 +295,20 @@ SELECT (SELECT count(*) FROM readings) AS readings,
+ 
+ Once it is proven, delete the copy with `docker compose exec db dropdb -U postgres smarthome_restored`. A restore test into a separate Compose project with its own cupboard (without touching the `smarthome-data` cupboard) is in Module 26 Practice 9. Never use `docker compose down -v`, `docker volume rm smarthome-data`, or `docker system prune --volumes` on a laptop that holds the real history.
+ 
++## Version 1.4 notes
++
++Backend 1.4.0 was made in Module 27 so that the backend can be opened safely from the internet behind Caddy HTTPS.
++
++- **`TRUST_PROXY`** (`src/config/env.ts`, Zod schema): empty/`false` = off, `true`, `uniquelocal`/`loopback`/`linklocal`, or addresses/CIDRs, comma-separated (capitals and spaces tidied); a number is refused with its reason. The result is used by `Fastify({ trustProxy })` in `src/server.ts`, plus one log line `trusted proxies (TRUST_PROXY): …` at startup. `compose.cloud.yml` fills it with `uniquelocal` (section [On the internet, behind Caddy HTTPS](#on-the-internet-behind-caddy-https-module-27)). The cookie and login-limiter code doesn't change; the comments in `src/auth/security.ts` are updated.
++- **`CORS_ORIGIN` has its form checked**: every address must be `http(s)://name[:port]` without a `/` at the end and without a path; anything else stops the server with the message `Setting CORS_ORIGIN in .env: "…" is not a page address: …`. Values that were already right (Modules 20–26) are still accepted.
++- **A stale manual command isn't sent again** (`src/services/commands.ts`). Since Module 19, a lamp, fan, or curtain command the device doesn't answer within 5 seconds stays "desired" by the server and is sent again when the device is heard again (reconciliation). While the home internet is down, the dashboard on the VPS reports that command as failed, and then the late arrivals that come in afterwards make the command go out again, maybe hours later. Since v1.4, a command from the dashboard/API or Telegram that the device has **never** carried out is only sent again if the device is heard within **2 minutes** of the last attempt; after that it is forgotten with the log line `command lamp = true (api) to … not carried out for more than 2 minutes: not sent again`. The wishes of automation rules and schedules, and a state that was carried out once and then lost because the device restarted, are still reconciled as in Module 19. Tested in `src/services/commands.test.ts`.
++- **A persistent MQTT session** (`src/services/mqtt.ts`, `clean: false` when the backend logs in with an account, with client name = account name, for example `backend`): the central broker remembers the backend's subscription and holds QoS 1 messages while the backend isn't connected, then sends them as soon as the backend is back. Without this, the Pi bridge's queue that arrives just after the central broker restarts (`docker compose restart mosquitto`, a VPS reboot), before the backend does, is lost without a trace; so are the readings that arrive while the backend container is being recreated. The broker log writes `c0` (a persistent session) in the line `New client connected … as backend (p4, c0, …)`. A backend without an account (the old mode, a random client name) keeps a clean session. This session is only safe when no other client can use the name `backend`: the central broker writes `use_username_as_clientid true` on **every** door, including the TLS door 8883 on the VPS (`edge/center-internet.conf`).
++- **New tests**: `src/routes/proxy.test.ts` (7 tests), `src/services/commands.test.ts` (4 tests), 6 more tests in `src/config/env.test.ts`, and 2 more in `src/services/mqtt.test.ts` (the client name and session). 118 tests in 17 files in all.
++- **Bruno**: a new environment `bruno/environments/internet.yml` (`baseUrl` `https://iot.yourname.my.id/api`).
++- **No database migration and no new npm package** (`package-lock.json` only changes its version number). The data contract moves up to **1.5** (the broker address on the internet and the bridge's store-and-forward rule) without any change to the message shapes, so the schemas in `src/schemas/contract.ts` don't change; the firmware doesn't change.
++- **Downgrading**: backend 1.3 still runs with the same database and `.env` (the `TRUST_PROXY` setting is ignored); it just goes back to cookies without `Secure` and a shared login limiter behind Caddy.
++- The contents of `Dockerfile` and `.dockerignore` don't change (only the version comment at the top of the `Dockerfile`). Version `1.4.0` in `package.json`, in `/docs`, and in the image tag (`…/mini-smart-home-backend:1.4.0`).
++
+ ## Version 1.3 notes
+ 
+ Backend 1.3.0 was made in Module 26 so that the backend can be packed into an image (mold) and run by Docker Compose together with the other services.
+@@ -315,14 +352,14 @@ Backend 1.1.0 was made in Module 24 so that dashboard v1.0 can create the rule "
+ - **Downgrading**: a v1.0 backend that reads a rule of the new shape doesn't crash; that rule is skipped with the warning `rule N skipped: …` (see `loadRules()`), and the other rules keep running. A skipped rule is NOT shown by `GET /rules` in v1.0 either (the dashboard seems to lose it); its data stays whole in the database and shows again once you move up to 1.1. Don't save that rule number through a v1.0 `PUT`: its content would be overwritten with a v1.0 shape.
+ - Version `1.1.0` in `package.json` and in `/docs`.
+ 
+-## Limits of v1.3
++## Limits of v1.4
+ 
+ - `GET /devices/:id/latest`, `vitals`, and `state` are still read from memory, so they are empty again after every server restart. The desired state (`desired`) and the "for" count of every rule are also lost when the server restarts; the reading history, the commands, the rules, the events, the accounts, and the sessions are stored permanently in the database.
+ - Readings that arrive while the database can't be reached aren't stored.
+ - Raw readings are only kept for 90 days; for older times, only their hourly summaries remain.
+ - The days of the `1d` summary are WIB days (`Asia/Jakarta`), also for devices in WITA or WIT. Rule schedules are counted in WIB too.
+ - Rules and schedules only run while the backend is running. A schedule that is more than 15 minutes late (for example a laptop asleep at 06:00) isn't run afterwards, only recorded; if the backend is off at that time, nothing is recorded. When the broker can't be reached, Node 1 runs its own fan safety with the threshold from `config`.
+-- **The daily report is also only sent while the backend is on** (Module 25). A laptop that sleeps more than 15 minutes past `REPORT_SCHEDULE` doesn't send it afterwards: the log and Telegram only record `⏰ The daily report of … was missed`; send it by hand with `POST /reports/send`. If the backend is off at that time, nothing is recorded at all. Since Module 26, a backend in a container that stops by itself is started again by Docker, but only while Docker (Docker Desktop on the laptop) is running: a sleeping laptop still misses the schedule. A server that is always on follows in Module 27. The report is only sent to one chat (`TELEGRAM_CHAT_ID`), and the first day's report (no data yesterday yet) is really empty: use `?day=today`. A broker restart counts as one disconnect (`disconnects`) for every Node 1 connected at that moment: its `offline` will really is published.
++- **The daily report is also only sent while the backend is on** (Module 25). A laptop that sleeps more than 15 minutes past `REPORT_SCHEDULE` doesn't send it afterwards: the log and Telegram only record `⏰ The daily report of … was missed`; send it by hand with `POST /reports/send`. If the backend is off at that time, nothing is recorded at all. Since Module 26, a backend in a container that stops by itself is started again by Docker, but only while Docker (Docker Desktop on the laptop) is running: a sleeping laptop still misses the schedule. Since Module 27, the backend can live on a VPS (or a Pi) that is always on. The report is only sent to one chat (`TELEGRAM_CHAT_ID`), and the first day's report (no data yesterday yet) is really empty: use `?day=today`. A broker restart counts as one disconnect (`disconnects`) for every Node 1 connected at that moment: its `offline` will really is published.
+ - **`devices.last_seen` isn't "the last data"**: this column is moved forward by EVERY message of a registered device, `status` messages included (the broker's `offline` will, Node 2's status published by Node 1, and retained statuses the broker sends again when the backend starts). For "when did the device last send data" (for example the "silent node" alert in Grafana, Module 25), use `readings.received_at` of its latest reading. This column's behavior is deliberately not changed in v1.2.
+ - Changes made to the rules directly in the database (for example through DBeaver) are only read when the server restarts or when another rule is changed through the API; use the `/rules` API.
+ - **Automation rules are loaded once, when the server starts.** If the database can't be reached at that moment, the log writes `automation rules couldn't be loaded yet: …` and doesn't try again (the device registry is retried every 10 seconds): the rules don't act and the **Rules** screen is empty, while the backend stays `(healthy)`. In Compose, `docker compose up` waits for the database to be ready first, but after the laptop restarts or Docker Desktop opens, Docker starts every container at once without that order. Seeing that? `docker compose restart backend`.
+@@ -332,9 +369,11 @@ Backend 1.1.0 was made in Module 24 so that dashboard v1.0 can create the rule "
+ - The backend only sends `temp_fan_on`, never `soil_watering`. Node 1 v1.6.0 still waters by itself (3 seconds, then a 30-second pause) when the soil is below its local threshold, 30% by default, even while the backend is running. To let the server's watering rule act first, lower the local threshold below the server rule's threshold in the Serial Monitor (`threshold 20`); local watering then only acts if the soil keeps drying to below 20%, for example when the backend is off or the Wi-Fi drops. The firmware's tank safety check (`pump refused: tank water too low` below 20%) still protects both.
+ - A wristband (access JWT) that was handed out stays valid until it expires (15 minutes at most), also after a logout, a role change, a password change, or a deleted account; a Socket.IO connection that is running is only cut when its wristband runs out too (except a logout of that very session, or an old season pass used again 30 seconds or more after it was replaced, which cut it right away).
+ - The rate-limit counts are kept in the memory of one server: a restart = zero, and they don't fit several servers at once.
+-- The cookies aren't `Secure` yet because the server is still `http://`; HTTPS comes in Module 27. Dev mode: the server only accepts guests from this laptop (`HOST=127.0.0.1`). Home mode: inside the container `HOST=0.0.0.0` (so that Caddy and the healthcheck can get in), but the counter on the laptop stays `127.0.0.1:8080`, and the dashboard through Caddy is only on `127.0.0.1:80` unless `WEB_ADDRESS` is changed (phone mode).
+-- **Behind Caddy, the backend doesn't use `trustProxy` yet** (Module 27, together with HTTPS). By the way Fastify works, without that setting the visitor address it reads is the Caddy container's address, so the Module 20 login limiter (10 attempts per minute per address) counts every dashboard visitor as one address (author's lab: after 10 wrong logins through the dashboard, even a correct login from another visitor got `429` until the minute had passed, while Bruno on the backend counter could still log in), and `secure: "auto"` never sets `Secure` even once Caddy has HTTPS later.
++- The cookies are only `Secure` behind HTTPS with `TRUST_PROXY` filled in (Module 27); on `http://localhost` and in phone mode (`http://<laptop IP>`) they stay without `Secure`. Dev mode: the server only accepts guests from this laptop (`HOST=127.0.0.1`). Home mode: inside the container `HOST=0.0.0.0` (so that Caddy and the healthcheck can get in), but the counter on the laptop (and on the VPS) stays `127.0.0.1:8080`, and the dashboard through Caddy is only on `127.0.0.1` unless `WEB_ADDRESS` is changed (phone mode, or `0.0.0.0` on the VPS).
++- **`TRUST_PROXY=uniquelocal` trusts ALL private addresses**, not only Caddy. On the VPS, a program running on that VPS itself that knocks on the counter `127.0.0.1:8080` through Docker also comes from a private hallway address, so it could write a fake `X-Forwarded-For` (for example to get past the login limiter). Only someone with access to the VPS can do that. Visitors from the internet always come through Caddy, which overwrites their fake headers.
++- **When the home internet is down, the backend on the VPS doesn't know.** The devices still show `online` (the retained status from the bridge) with frozen numbers, the server's automation rules are silent (no new readings, and the rules ignore late arrivals older than 60 seconds), and Node 1's local safety does NOT switch on, because the Pi's broker can still be reached (local watering keeps running). Once connected again, the late arrivals go into the database with their original `ts` (no duplicates: `duplicate skipped`) and are broadcast to the live dashboard all at once, oldest first. The bridge status message (`$SYS/broker/connection/pi-bridge/state`) isn't read by the backend yet. While the backend isn't connected, the central broker only holds QoS 1 messages (the ones through the bridge), at most 1000 messages (Mosquitto's default); QoS 0 messages that go straight into the central broker (devices without a gateway) are still lost.
++- **A manual command that isn't answered** is only sent again if the device is heard within 2 minutes (v1.4); within those 2 minutes, a command already reported as failed can still be carried out later.
+ - **`/health` always answers 200**, also while the broker or the database is down (its content is `broker: false` / `database: false`). The Docker healthcheck only proves "the process is alive and answers", and an `unhealthy` status doesn't make Docker restart the container. A `/health` that answers 503 when something is down, and a real monitor, follow in Module 30.
+ - **Swagger UI can't be used through Caddy** (`http://localhost/api/docs`): its page assets are looked for at the wrong address, and the **Try it out** button calls the API without the `/api` prefix. Use the backend counter: `http://localhost:8080/docs`.
+-- **MQTT (and HTTP) traffic is still unencrypted.** The username and the device key travel in the clear on the LAN: anyone who can see the packets on the same network can read them (prove it yourself with `tools/sniffer.js`). On a closed home network the risk is still small, but **TLS is a must before opening it to the internet** (Module 27). A key in the ESP32's NVS is also readable by anyone who holds the board (*flash encryption*, 🔬).
++- **On the home network, MQTT traffic is still unencrypted** (Node 1 to the Pi's broker, port 1883): the username and the device key travel in the clear on the LAN (prove it yourself with `tools/sniffer.js`). What goes out to the internet since Module 27 is encrypted: the dashboard and the API over HTTPS (Caddy), the Pi → VPS bridge over TLS on port 8883. The backend itself still uses plain `mqtt://mosquitto:1883` inside the Docker hallway (it never leaves the VPS). A key in the ESP32's NVS is also readable by anyone who holds the board (*flash encryption*, 🔬).
+ - The registry of registered devices is loaded into memory when the server starts; changes to `devices` made directly in the database (not through the API) are only read when the server restarts. `GET /devices` itself is always read fresh from the database.
+diff --git a/backend/bruno/environments/internet.yml b/backend/bruno/environments/internet.yml
+new file mode 100644
+index 0000000..a9b10fc
+--- /dev/null
++++ b/backend/bruno/environments/internet.yml
+@@ -0,0 +1,4 @@
++name: internet
++variables:
++  - name: baseUrl
++    value: https://iot.yourname.my.id/api
+diff --git a/backend/package-lock.json b/backend/package-lock.json
+index 625c395..8eea5ba 100644
+--- a/backend/package-lock.json
++++ b/backend/package-lock.json
+@@ -1,12 +1,12 @@
+ {
+   "name": "mini-smart-home-backend",
+-  "version": "1.3.0",
++  "version": "1.4.0",
+   "lockfileVersion": 3,
+   "requires": true,
+   "packages": {
+     "": {
+       "name": "mini-smart-home-backend",
+-      "version": "1.3.0",
++      "version": "1.4.0",
+       "dependencies": {
+         "@fastify/cookie": "^11.1.3",
+         "@fastify/cors": "^11.3.1",
+diff --git a/backend/package.json b/backend/package.json
+index b8e44a3..2a18ce1 100644
+--- a/backend/package.json
++++ b/backend/package.json
+@@ -1,6 +1,6 @@
+ {
+   "name": "mini-smart-home-backend",
+-  "version": "1.3.0",
++  "version": "1.4.0",
+   "description": "Mini Smart Home backend (Modules 16-21): listens to MQTT, checks the data contract, stores every message in a time-series database, and provides a history API, realtime data, commands, automation rules, schedules, and Telegram notifications, login with admin and viewer roles, plus an official device registry with a per-device key and the backend's own broker account",
+   "private": true,
+   "type": "module",
+diff --git a/backend/src/auth/security.ts b/backend/src/auth/security.ts
+index 71323af..6dd1ac3 100644
+--- a/backend/src/auth/security.ts
++++ b/backend/src/auth/security.ts
+@@ -30,7 +30,9 @@ export const SESSION_COOKIE = "session";
+ 
+ // httpOnly: JavaScript on the page can't read the cookie (a thief using XSS doesn't get the token).
+ // sameSite strict: the browser doesn't send the cookie with requests started by another site (CSRF).
+-// secure auto: the Secure attribute is set when the request comes over HTTPS (Phase 5); on http://127.0.0.1 it isn't.
++// secure auto: the Secure attribute is set when the request comes over HTTPS; on http://127.0.0.1 it isn't. Module 27: behind
++// Caddy, the Caddy -> backend connection is always plain HTTP; the backend only learns that its visitor came over HTTPS from
++// Caddy's X-Forwarded-Proto header, and that header is only trusted when TRUST_PROXY is filled in (config/env.ts, server.ts).
+ const BASE = { httpOnly: true, sameSite: "strict", secure: "auto" } as const;
+ export const ACCESS_OPTIONS = { ...BASE, path: "/", maxAge: ACCESS_AGE_SECONDS }; // path "/" REQUIRED: else only /auth/...
+ export const SESSION_OPTIONS = { ...BASE, path: "/auth", maxAge: SESSION_AGE_SECONDS }; // only sent to /auth/...
+@@ -61,7 +63,9 @@ export async function setupSecurity(app: FastifyInstance): Promise<void> {
+     verify: { onlyCookie: true }, // the wristband is only read from the cookie, not from the Authorization header
+   });
+   await app.register(rateLimit, {
+-    global: false, // only routes that ask for it (POST /auth/login); counts are kept in memory: restart = start from zero
++    // only routes that ask for it (POST /auth/login); counts are kept in memory: restart = start from zero. Counts per
++    // visitor IP address (req.ip): behind Caddy, that address is only the real visitor's address when TRUST_PROXY is filled in (Module 27)
++    global: false,
+     errorResponseBuilder: (_req, context) => Object.assign(
+       new Error(`too many attempts: try again in ${Math.ceil(context.ttl / 1000)} seconds`),
+       { statusCode: context.statusCode }, // 429
+diff --git a/backend/src/config/env.test.ts b/backend/src/config/env.test.ts
+index c660e19..50651e7 100644
+--- a/backend/src/config/env.test.ts
++++ b/backend/src/config/env.test.ts
+@@ -1,5 +1,6 @@
+-// env.test.ts - tests for the REPORT_SCHEDULE setting (Module 25) in env.ts. env.ts checks process.env ONCE when it is imported, so
+-// every test imports it again (vi.resetModules) with different fake .env contents. Run: npm test
++// env.test.ts - tests for the settings REPORT_SCHEDULE (Module 25), TRUST_PROXY and CORS_ORIGIN (Module 27) in env.ts. env.ts
++// checks process.env ONCE when it is imported, so every test imports it again (vi.resetModules) with different fake .env
++// contents. Run: npm test
+ import { afterEach, describe, expect, it, vi } from "vitest";
+ 
+ const VALID = { // valid required settings (nothing is really contacted)
+@@ -8,11 +9,20 @@ const VALID = { // valid required settings (nothing is really contacted)
+   JWT_SECRET: "test-secret-long-enough-for-zod-0123456789",
+ };
+ 
+-async function readSettings(schedule: string) {
++async function readWith(extra: Record<string, string>) {
+   vi.resetModules();
+-  for (const [name, value] of Object.entries({ ...VALID, REPORT_SCHEDULE: schedule })) vi.stubEnv(name, value);
++  for (const [name, value] of Object.entries({ ...VALID, ...extra })) vi.stubEnv(name, value);
+   return (await import("./env.ts")).env;
+ }
++const readSettings = (schedule: string) => readWith({ REPORT_SCHEDULE: schedule });
++
++// a wrong setting: the server writes the reason on screen, then stops (the fake process.exit throws an error)
++async function refused(extra: Record<string, string>): Promise<unknown[][]> {
++  const consoleError = vi.spyOn(console, "error").mockImplementation(() => {});
++  vi.spyOn(process, "exit").mockImplementation(() => { throw new Error("process.exit"); });
++  await expect(readWith(extra)).rejects.toThrow("process.exit");
++  return consoleError.mock.calls;
++}
+ 
+ afterEach(() => {
+   vi.unstubAllEnvs();
+@@ -33,3 +43,52 @@ describe("REPORT_SCHEDULE in .env", () => {
+       "Setting REPORT_SCHEDULE in .env: must have 5 fields: minute hour day month weekday, for example 0 7 * * *");
+   });
+ });
++
++describe("TRUST_PROXY in .env (Module 27)", () => {
++  it("empty or not written = off (false), like v1.3; false is off too", async () => {
++    expect((await readWith({})).TRUST_PROXY).toBe(false);
++    expect((await readWith({ TRUST_PROXY: "" })).TRUST_PROXY).toBe(false);
++    expect((await readWith({ TRUST_PROXY: "false" })).TRUST_PROXY).toBe(false);
++  });
++
++  it("true = trust everyone; uniquelocal, loopback, linklocal, addresses, and CIDRs become a list (capitals and spaces tidied)",
++    async () => {
++      expect((await readWith({ TRUST_PROXY: "true" })).TRUST_PROXY).toBe(true);
++      expect((await readWith({ TRUST_PROXY: "uniquelocal" })).TRUST_PROXY).toEqual(["uniquelocal"]);
++      expect((await readWith({ TRUST_PROXY: " UniqueLocal , loopback,10.0.0.5, 172.18.0.0/16,fc00::/7" })).TRUST_PROXY)
++        .toEqual(["uniquelocal", "loopback", "10.0.0.5", "172.18.0.0/16", "fc00::/7"]);
++    });
++
++  it("a number (a hop count, trustProxy: 1) is refused with its reason, also inside a list", async () => {
++    const message = "Setting TRUST_PROXY in .env: a number (a hop count) isn't used by Fastify 5 (it trusts nothing at all); "
++      + "behind Caddy write uniquelocal";
++    expect(await refused({ TRUST_PROXY: "1" })).toContainEqual([message]);
++    expect(await refused({ TRUST_PROXY: "uniquelocal,2" })).toContainEqual([message]);
++  });
++
++  it("unknown names or blocks are refused, including a mixed-in true and out-of-range CIDRs", async () => {
++    for (const wrong of ["caddy", "true,uniquelocal", "10.0.0.0/33", "fc00::/129", "10.0.0/8", "172.18.0.0/16/1"]) {
++      const printed = await refused({ TRUST_PROXY: wrong });
++      expect(printed.flat().join("\n")).toMatch(/^Setting TRUST_PROXY in \.env: ".+" is unknown: write uniquelocal/);
++      vi.restoreAllMocks();
++    }
++  });
++});
++
++describe("CORS_ORIGIN in .env (Module 27: a dashboard over HTTPS with a domain name)", () => {
++  it("an https address with a domain name and a mixed list are taken as they are", async () => {
++    expect((await readWith({ CORS_ORIGIN: "https://iot.yourname.my.id" })).CORS_ORIGIN).toEqual(["https://iot.yourname.my.id"]);
++    expect((await readWith({ CORS_ORIGIN: "http://localhost, http://127.0.0.1:8081,https://iot.yourname.my.id" })).CORS_ORIGIN)
++      .toEqual(["http://localhost", "http://127.0.0.1:8081", "https://iot.yourname.my.id"]);
++  });
++
++  it("a trailing slash, a path, or no http(s):// is refused (a browser's Origin will never match)", async () => {
++    const printed = await refused({ CORS_ORIGIN: "https://iot.yourname.my.id/,iot.yourname.my.id,http://localhost:5173/login" });
++    expect(printed.flat()).toEqual(expect.arrayContaining([
++      'Setting CORS_ORIGIN in .env: "https://iot.yourname.my.id/" is not a page address: write http(s)://name[:port] without a / '
++        + "at the end, for example https://iot.yourname.my.id or http://localhost",
++      expect.stringContaining('"iot.yourname.my.id" is not a page address'),
++      expect.stringContaining('"http://localhost:5173/login" is not a page address'),
++    ]));
++  });
++});
+diff --git a/backend/src/config/env.ts b/backend/src/config/env.ts
+index 680c2be..3540c15 100644
+--- a/backend/src/config/env.ts
++++ b/backend/src/config/env.ts
+@@ -1,5 +1,7 @@
+ // env.ts - the server settings from .env (read by Node.js through --env-file), checked once by a Zod schema at startup.
+ // Module 20: .env now also holds a secret (JWT_SECRET), so it is checked as strictly as the messages from devices.
++// Module 27: + TRUST_PROXY (the backend behind Caddy HTTPS) and a check of the address form in CORS_ORIGIN.
++import { isIP } from "node:net";
+ import { z } from "zod";
+ import cron from "node-cron";
+ 
+@@ -8,6 +10,17 @@ z.config(z.locales.en()); // Zod error messages in English (this file is read fi
+ const empty = (value: unknown) => (value === "" ? undefined : value); // an empty line "NAME=" = not filled in
+ const required = z.preprocess(empty, z.string({ error: "not filled in" }));
+ 
++// Module 27: the address group names Fastify knows for TRUST_PROXY. uniquelocal = the private addresses 10.x, 172.16-31.x,
++// 192.168.x, and fc00::/7, including the Docker hallway where Caddy lives; loopback = 127.0.0.1 and ::1 (this machine itself).
++const PROXY_GROUPS = ["loopback", "linklocal", "uniquelocal"];
++// one IP address (10.0.0.5) or one CIDR address block (172.16.0.0/12, fc00::/7)
++function addressOrBlock(text: string): boolean {
++  const [address, prefix, ...rest] = text.split("/");
++  const version = isIP(address);
++  if (version === 0 || rest.length > 0) return false;
++  return prefix === undefined || (/^\d{1,3}$/.test(prefix) && Number(prefix) <= (version === 4 ? 32 : 128));
++}
++
+ const Settings = z.object({
+   // the broker's address, for example mqtt://192.168.1.37:1883. Module 21: WITHOUT a username and password inside it (this
+   // address is written to the log when connecting); its account is in the next two settings
+@@ -36,8 +49,43 @@ const Settings = z.object({
+     .min(32, "too short (at least 32 characters); make a new one with the command in .env.example")
+     .refine((s) => !s.startsWith("change"), "still holds the example from .env.example; make a new secret")),
+   // Module 20: web page addresses (origins) that may call this API from a browser, comma-separated. Module 22: Vite, 5173.
++  // Module 27: on the internet, the dashboard's HTTPS address with a domain name, for example https://iot.yourname.my.id. A
++  // browser sends Origin without a slash at the end and without a path, so "https://iot.yourname.my.id/" will never match
++  // (every login from a browser refused with 403): that form is refused here, when the server starts.
+   CORS_ORIGIN: z.preprocess(empty, z.string().default("http://localhost:5173,http://127.0.0.1:5173")
+-    .transform((text) => text.split(",").map((origin) => origin.trim()).filter((origin) => origin !== ""))),
++    .transform((text) => text.split(",").map((origin) => origin.trim()).filter((origin) => origin !== ""))
++    .superRefine((list, ctx) => {
++      for (const origin of list.filter((o) => !/^https?:\/\/[^/\s]+$/.test(o))) {
++        ctx.addIssue({ code: "custom", message: `"${origin}" is not a page address: write http(s)://name[:port] without a / at `
++          + "the end, for example https://iot.yourname.my.id or http://localhost" });
++      }
++    })),
++  // Module 27: who may tell the backend the visitor's REAL IP address and protocol (http/https), through the headers
++  // X-Forwarded-For and X-Forwarded-Proto. Behind Caddy, the backend only sees Caddy: without this setting the login cookies
++  // don't get the Secure attribute even on an HTTPS page, and every visitor counts as one address (the 429 login limit shared).
++  //   empty (default) = trust nobody: dev mode (npm run dev) without Caddy
++  //   uniquelocal     = trust a proxy at a private address (the Docker hallway, where Caddy is): the compose.cloud.yml choice
++  //   true            = trust ANYONE (also a visitor who fakes the header): avoid it
++  //   address/CIDR    = for example 172.18.0.0/16, several allowed, comma-separated (also loopback, linklocal)
++  // A number (a hop count, the old recipe trustProxy: 1) is refused: Fastify 5 deliberately doesn't trust it at all, so
++  // that setting silently does nothing.
++  TRUST_PROXY: z.string().default("")
++    .transform((text) => text.split(",").map((entry) => entry.trim().toLowerCase()).filter((entry) => entry !== ""))
++    .superRefine((list, ctx) => {
++      if (list.some((entry) => /^\d+$/.test(entry))) {
++        ctx.addIssue({ code: "custom", message: "a number (a hop count) isn't used by Fastify 5 (it trusts nothing at all); "
++          + "behind Caddy write uniquelocal" });
++      } else if (list.join() !== "true" && list.join() !== "false") { // true/false may only stand alone
++        const wrong = list.filter((entry) => !PROXY_GROUPS.includes(entry) && !addressOrBlock(entry));
++        if (wrong.length > 0) {
++          ctx.addIssue({ code: "custom", message: `"${wrong.join(",")}" is unknown: write uniquelocal, true, loopback, `
++            + "linklocal, or an address/CIDR such as 172.18.0.0/16 (comma-separated); empty = no proxy is trusted" });
++        }
++      }
++    })
++    // the result for Fastify({ trustProxy }): false = off, true = trust everyone, a list = only the proxies at those addresses
++    .transform((list): boolean | string[] => (list.length === 0 || list.join() === "false" ? false
++      : list.join() === "true" ? true : list)),
+ }).refine((s) => s.MQTT_USERNAME !== "" || s.MQTT_PASSWORD === "", { // Module 21: the broker account must be complete
+   message: "MQTT_PASSWORD is filled in but MQTT_USERNAME is empty", path: ["MQTT_USERNAME"],
+ }).refine((s) => s.MQTT_PASSWORD !== "" || s.MQTT_USERNAME === "", {
+diff --git a/backend/src/routes/proxy.test.ts b/backend/src/routes/proxy.test.ts
+new file mode 100644
+index 0000000..54f6af9
+--- /dev/null
++++ b/backend/src/routes/proxy.test.ts
+@@ -0,0 +1,113 @@
++// proxy.test.ts - tests for TRUST_PROXY (Module 27): the backend behind Caddy HTTPS. The REAL login route (auth.ts) and the
++// REAL protection (security.ts: cookies, login limiter, guard) without a database: users.ts, password.ts, and realtime.ts are
++// replaced by fakes (vi.mock), the Fastify server runs without a network (app.inject). "Caddy" = requests from the Docker
++// hallway address 172.19.0.4 that carry X-Forwarded-For (the visitor's address) and X-Forwarded-Proto: https, as the real
++// Caddy adds them (the Module 27 lab). Run: npm test
++import { afterAll, describe, expect, it, vi } from "vitest";
++
++vi.hoisted(() => { // env.ts checks .env when imported: give it valid fake settings (nothing is really contacted)
++  process.env.MQTT_URL = "mqtt://127.0.0.1:1";
++  process.env.DATABASE_URL = "postgres://fake:fake@127.0.0.1:1/fake";
++  process.env.JWT_SECRET = "test-secret-long-enough-for-zod-0123456789";
++  process.env.CORS_ORIGIN = "https://iot.yourname.my.id"; // the dashboard on the internet (Module 27)
++  process.env.TRUST_PROXY = "uniquelocal"; // the compose.cloud.yml default
++});
++
++// one fake account; only one "right" password (no bcrypt: the tests stay fast)
++vi.mock("../db/users.ts", () => ({
++  findForLogin: async (email: string) => (email === "budi@home.test"
++    ? { id: 1, email, name: "Budi", role: "admin", password_hash: "fake-fingerprint" } : undefined),
++  createSession: async () => 7,
++  getUser: async () => undefined,
++  rotateSession: async () => undefined,
++  findSessionByOldToken: async () => undefined,
++  deleteSession: async () => {},
++  deleteSessionByToken: async () => undefined,
++}));
++vi.mock("../auth/password.ts", () => ({
++  matchPassword: async (password: string, fingerprint: string | null | undefined) => fingerprint === "fake-fingerprint" && password === "right-password",
++}));
++vi.mock("../services/realtime.ts", () => ({ disconnectSession: () => {} }));
++
++import Fastify from "fastify";
++import { serializerCompiler, validatorCompiler } from "fastify-type-provider-zod";
++import { env } from "../config/env.ts";
++import { setupSecurity } from "../auth/security.ts";
++import { authRoutes } from "./auth.ts";
++
++// a server like server.ts: with trustProxy from TRUST_PROXY (v1.4), or without trustProxy at all (v1.3)
++async function makeServer(trustProxy: typeof env.TRUST_PROXY) {
++  const app = Fastify({ trustProxy });
++  app.setValidatorCompiler(validatorCompiler);
++  app.setSerializerCompiler(serializerCompiler);
++  await setupSecurity(app);
++  await app.register(authRoutes);
++  await app.ready();
++  return app;
++}
++const v14 = await makeServer(env.TRUST_PROXY);
++const v13 = await makeServer(false);
++afterAll(async () => { await v14.close(); await v13.close(); });
++
++const CADDY = "172.19.0.4"; // the address of the web container (Caddy) in the Docker hallway: a private address = uniquelocal
++// a login through "Caddy": a visitor at the internet address visitorIp, an HTTPS page from the dashboard's domain
++const throughCaddy = (app: typeof v14, visitorIp: string, password: string, proto = "https") => app.inject({
++  method: "POST", url: "/auth/login", remoteAddress: CADDY,
++  headers: { "x-forwarded-for": visitorIp, "x-forwarded-proto": proto, origin: "https://iot.yourname.my.id" },
++  payload: { email: "budi@home.test", password },
++});
++const cookie = (answer: Awaited<ReturnType<typeof throughCaddy>>, name: string) =>
++  ([] as string[]).concat(answer.headers["set-cookie"] ?? []).find((line) => line.startsWith(`${name}=`)) ?? "";
++
++describe("TRUST_PROXY=uniquelocal (backend 1.4.0 behind Caddy)", () => {
++  it("the setting is read as the list [uniquelocal]", () => {
++    expect(env.TRUST_PROXY).toEqual(["uniquelocal"]);
++  });
++
++  it("HTTPS page: both login cookies (access and session) are Secure", async () => {
++    const answer = await throughCaddy(v14, "203.0.113.10", "right-password");
++    expect(answer.statusCode).toBe(200);
++    expect(cookie(answer, "access")).toMatch(/; HttpOnly; Secure; SameSite=Strict$/);
++    expect(cookie(answer, "session")).toMatch(/; Path=\/auth; HttpOnly; Secure; SameSite=Strict$/);
++  });
++
++  it("HTTP page (home mode http://localhost): cookies without Secure, so logging in still works", async () => {
++    const answer = await throughCaddy(v14, "192.168.1.20", "right-password", "http");
++    expect(answer.statusCode).toBe(200);
++    expect(cookie(answer, "access")).not.toContain("Secure");
++  });
++
++  it("a visitor who comes DIRECTLY (not through a private proxy) can't pretend to use HTTPS with a fake header", async () => {
++    const answer = await v14.inject({
++      method: "POST", url: "/auth/login", remoteAddress: "203.0.113.66",
++      headers: { "x-forwarded-for": "198.51.100.1", "x-forwarded-proto": "https" },
++      payload: { email: "budi@home.test", password: "right-password" },
++    });
++    expect(answer.statusCode).toBe(200);
++    expect(cookie(answer, "access")).not.toContain("Secure");
++  });
++
++  it("10 wrong logins from visitor A: A's 11th attempt gets 429, visitor B (another address) can still log in", async () => {
++    for (let i = 0; i < 10; i++) expect((await throughCaddy(v14, "203.0.113.21", "wrong")).statusCode).toBe(401);
++    const a = await throughCaddy(v14, "203.0.113.21", "wrong");
++    expect(a.statusCode).toBe(429);
++    expect(a.json().message).toMatch(/^too many attempts: try again in \d+ seconds$/);
++    expect((await throughCaddy(v14, "203.0.113.22", "right-password")).statusCode).toBe(200);
++  });
++});
++
++describe("without trustProxy (the backend 1.3.0 behavior behind Caddy, the reason for Module 27)", () => {
++  it("HTTPS page but cookies WITHOUT Secure: the backend only sees an HTTP connection from Caddy", async () => {
++    const answer = await throughCaddy(v13, "203.0.113.10", "right-password");
++    expect(answer.statusCode).toBe(200);
++    expect(cookie(answer, "access")).not.toContain("Secure");
++  });
++
++  it("every visitor counts as one address (Caddy): after 10 wrong logins by visitor A, visitor B gets 429 too", async () => {
++    const fresh = await makeServer(false); // the login limiter counts from zero
++    for (let i = 0; i < 10; i++) expect((await throughCaddy(fresh, "203.0.113.31", "wrong")).statusCode).toBe(401);
++    expect((await throughCaddy(fresh, "203.0.113.31", "wrong")).statusCode).toBe(429);
++    expect((await throughCaddy(fresh, "203.0.113.32", "right-password")).statusCode).toBe(429);
++    await fresh.close();
++  });
++});
+diff --git a/backend/src/server.ts b/backend/src/server.ts
+index 54234d8..87cd736 100644
+--- a/backend/src/server.ts
++++ b/backend/src/server.ts
+@@ -1,9 +1,10 @@
+-// server.ts - the entry point of the Mini Smart Home backend v1.3 (Module 26: it can run as a Docker container in compose.cloud.yml;
+-// on top of v1.2, Module 25: the device's point on the map and the daily CSV report through Telegram; v1.1, Module 24: "below-
+-// threshold" rules such as watering when the soil is dry, threshold rules may send one command, and rules can be deleted; v1.0,
+-// Module 21: the device registry and its keys, the backend's own broker account, unregistered/revoked devices ignored; Module 20:
+-// login, JWT in cookies, roles, and API protection; and Module 19: realtime data, one door for commands, automation rules,
+-// schedules, and Telegram notifications).
++// server.ts - the entry point of the Mini Smart Home backend v1.4 (Module 27: the backend on the internet, behind Caddy HTTPS.
++// TRUST_PROXY makes the backend trust what Caddy says about the visitor: Secure login cookies over HTTPS and a login limit per
++// visitor; on top of v1.3, Module 26: it can run as a Docker container in compose.cloud.yml; v1.2, Module 25: the device's point
++// on the map and the daily CSV report through Telegram; v1.1, Module 24: "below-threshold" rules such as watering when the soil
++// is dry, threshold rules may send one command, and rules can be deleted; v1.0, Module 21: the device registry and its keys, the
++// backend's own broker account, unregistered/revoked devices ignored; Module 20: login, JWT in cookies, roles, and API
++// protection; and Module 19: realtime data, one door for commands, automation rules, schedules, and Telegram notifications).
+ // Run: npm run dev (automatically restarts when a file is saved) or npm start. In a container (Module 26): node src/server.ts,
+ // its settings come from Docker Compose, not from a .env file (see Dockerfile).
+ import Fastify, { LogController } from "fastify";
+@@ -32,6 +33,9 @@ import { pool } from "./db/pool.ts";
+ const app = Fastify({
+   logger: { transport: { target: "pino-pretty", options: { translateTime: "SYS:HH:MM:ss", ignore: "pid,hostname,reqId" } } },
+   logController: new LogController({ disableRequestLogging: true }), // the built-in log per request is too long...
++  // Module 27: the X-Forwarded-For/-Proto headers from Caddy are only trusted when they come from a proxy in TRUST_PROXY (in
++  // compose.cloud.yml: uniquelocal = the Docker hallway). Empty (dev mode) = those headers are ignored, as in v1.3.
++  trustProxy: env.TRUST_PROXY,
+ });
+ useLog(app.log); // Module 19: other services (commands, rules, schedules, Telegram) write to the same log
+ app.addHook("onResponse", async (req, reply) => {
+@@ -41,6 +45,9 @@ app.addHook("onResponse", async (req, reply) => {
+   if (!shouldLog(req.method, req.url, reply.statusCode)) return;
+   req.log.info(`${req.method} ${req.url} -> ${reply.statusCode} (${Math.round(reply.elapsedTime)} ms)`);
+ });
++if (env.TRUST_PROXY !== false) { // Module 27: one line at startup, proof that the TRUST_PROXY setting was read
++  app.log.info(`trusted proxies (TRUST_PROXY): ${env.TRUST_PROXY === true ? "all" : env.TRUST_PROXY.join(", ")}`);
++}
+ app.setValidatorCompiler(validatorCompiler); // Zod schemas check the content of requests...
+ app.setSerializerCompiler(serializerCompiler); // ...and the shape of replies
+ 
+@@ -49,7 +56,7 @@ await app.register(swagger, {
+   openapi: {
+     info: {
+       title: "Mini Smart Home API",
+-      description: "Backend v1.3 (Module 26). Every route needs a login, except the ones without a padlock. Log in first with "
++      description: "Backend v1.4 (Module 27). Every route needs a login, except the ones without a padlock. Log in first with "
+         + "POST /auth/login (Try it out): the browser keeps the access cookie and sends it by itself to the other routes. "
+         + "Viewer accounts can only look (GET); commands and changes are answered with 403. Devices are registered by an admin "
+         + "with POST /devices; a key is shown only once, and messages from unregistered or revoked devices are ignored. "
+@@ -59,8 +66,11 @@ await app.register(swagger, {
+         + "The daily CSV report is sent to Telegram at REPORT_SCHEDULE (default 07:00 WIB); POST /reports/send "
+         + "sends it right now. Since v1.3 (Module 26), the backend also runs as a container in Docker Compose: "
+         + "the dashboard calls it through the Caddy web server with the prefix /api, while this page is opened at "
+-        + "http://localhost:8080/docs (in the container, a login from http://127.0.0.1:8080/docs is refused with 403).",
+-      version: "1.3.0",
++        + "http://localhost:8080/docs (in the container, a login from http://127.0.0.1:8080/docs is refused with 403). Since v1.4 "
++        + "(Module 27), the backend can be opened from the internet behind Caddy HTTPS: with TRUST_PROXY (in Compose: uniquelocal) "
++        + "the backend uses the visitor's IP address and protocol from Caddy, so the login cookies are Secure and the limit of 10 "
++        + "login attempts applies per visitor.",
++      version: "1.4.0",
+     },
+     components: {
+       securitySchemes: { // Module 20: routes with a padlock need the access cookie from POST /auth/login
+diff --git a/backend/src/services/commands.test.ts b/backend/src/services/commands.test.ts
+new file mode 100644
+index 0000000..2831635
+--- /dev/null
++++ b/backend/src/services/commands.test.ts
+@@ -0,0 +1,84 @@
++// commands.test.ts - tests for command reconciliation (Module 19) with the age limit for manual commands (Module 27): a dashboard
++// command the device doesn't answer is sent again if the device is heard within 2 minutes, but NOT sent again after a long home
++// internet outage (the late arrivals come in afterwards). Without a broker, a database, or a device: store, mqtt, archive,
++// events, log, and registry are replaced by fakes (vi.mock), the clock by a fake clock (vi.useFakeTimers). Run: npm test
++import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
++import type { State } from "../schemas/contract.ts";
++
++// one fake Node 1 that looks "online" (as on the VPS while the home internet is down: the retained status stays online)
++const mock = vi.hoisted(() => ({
++  device: { kind: "node1", status: "online", reported: null as State | null, reported_ts: null as string | null },
++  sent: [] as { target: string; value: unknown }[],
++  logLines: [] as string[],
++}));
++vi.mock("./store.ts", () => ({
++  findDevice: () => mock.device,
++  saveReport: (_id: string, state: State) => { mock.device.reported = state; return true; },
++  waitForAck: async () => null, // the device never answers: the home internet is down
++}));
++vi.mock("./mqtt.ts", () => ({
++  brokerConnected: () => true,
++  makeCommandId: () => "c-20261029-090000-1",
++  sendCommand: (_id: string, _commandId: string, command: { target: string; value: unknown }) => {
++    mock.sent.push(command);
++  },
++}));
++vi.mock("../db/archive.ts", () => ({ archiveCommand: async () => {} }));
++vi.mock("./events.ts", () => ({ recordEvent: () => {} }));
++vi.mock("./log.ts", () => ({
++  log: { info: (p: string) => mock.logLines.push(p), warn: (p: string) => mock.logLines.push(p), error: () => {} },
++}));
++vi.mock("./registry.ts", () => ({ devicePermission: () => "registered" }));
++
++import { deviceRestarted, issueCommand, recordReport } from "./commands.ts";
++
++const ALL_OFF: State = { fan: false, lamp: false, pump: false, curtain: 0 };
++// the server's wishes are kept per device_id inside commands.ts: every test uses its own device_id
++const ID = ["a4cf12e5b7c1", "a4cf12e5b7c2", "a4cf12e5b7c3", "a4cf12e5b7c4"];
++const minutes = (n: number) => vi.advanceTimersByTime(n * 60_000);
++
++beforeEach(() => {
++  vi.useFakeTimers();
++  vi.setSystemTime(new Date("2026-10-29T09:00:00Z"));
++  mock.device.reported = { ...ALL_OFF };
++  mock.sent.length = 0;
++  mock.logLines.length = 0;
++});
++afterEach(() => vi.useRealTimers());
++
++describe("manual commands without an ack (Module 27)", () => {
++  it("the device is heard again within 2 minutes: the lamp command is sent again (Module 19 reconciliation still works)", async () => {
++    expect((await issueCommand(ID[0], { target: "lamp", value: true }, "api")).status).toBe("no-ack");
++    minutes(1); // 60 seconds later a telemetry arrives, the lamp is still off
++    recordReport(ID[0], ALL_OFF, "2026-10-29T09:01:00Z");
++    expect(mock.sent).toEqual([{ target: "lamp", value: true }, { target: "lamp", value: true }]);
++  });
++
++  it("the home internet down for 10 minutes: late arrivals come in, a lamp command already reported as failed is NOT sent again", async () => {
++    expect((await issueCommand(ID[1], { target: "lamp", value: true }, "api")).status).toBe("no-ack");
++    minutes(10);
++    recordReport(ID[1], ALL_OFF, "2026-10-29T09:00:30Z"); // a late arrival (an old ts) ...
++    recordReport(ID[1], ALL_OFF, "2026-10-29T09:10:00Z"); // ... then a new one
++    expect(mock.sent).toEqual([{ target: "lamp", value: true }]); // only the first send
++    expect(mock.logLines).toContain(
++      `command lamp = true (api) to ${ID[1]} not carried out for more than 2 minutes: not sent again`);
++  });
++
++  it("a command from Telegram is treated the same; an automation rule's wish is still retried after 10 minutes", async () => {
++    await issueCommand(ID[2], { target: "lamp", value: true }, "telegram");
++    await issueCommand(ID[2], { target: "fan", value: true }, "rule", 3);
++    minutes(10);
++    recordReport(ID[2], ALL_OFF, "2026-10-29T09:10:00Z");
++    expect(mock.sent).toEqual([
++      { target: "lamp", value: true }, { target: "fan", value: true }, { target: "fan", value: true }]);
++  });
++
++  it("a command that WAS carried out is still restored after the device restarts, however old it is", async () => {
++    await issueCommand(ID[3], { target: "lamp", value: true }, "api");
++    recordReport(ID[3], { ...ALL_OFF, lamp: true }, "2026-10-29T09:00:05Z"); // the lamp is on: the wish is fulfilled
++    minutes(30);
++    deviceRestarted(ID[3], 12); // Node 1 lost power for a moment: every relay is off
++    recordReport(ID[3], ALL_OFF, "2026-10-29T09:30:00Z");
++    expect(mock.sent).toEqual([{ target: "lamp", value: true }, { target: "lamp", value: true }]);
++  });
++});
+diff --git a/backend/src/services/commands.ts b/backend/src/services/commands.ts
+index 2866e74..6659716 100644
+--- a/backend/src/services/commands.ts
++++ b/backend/src/services/commands.ts
+@@ -20,6 +20,11 @@ export type CommandResult =
+ 
+ const ACK_TIMEOUT_MS = 5000; // every cmd is answered by an ack within 5 seconds (contract rule 4)
+ const RETRY_INTERVAL_MS = 30_000; // reconciliation: at most once every 30 seconds per actuator
++// Module 27: a MANUAL command (dashboard/API and Telegram) the device has never carried out is only retried if the device
++// is heard within 2 minutes of the last attempt. When the home internet is down, the dashboard on the VPS has already reported
++// that command as failed (no ack); without this limit, the command is sent again as soon as the late arrivals come in (maybe
++// hours later) and the lamp suddenly turns on. The wishes of rules and schedules are still reconciled as in Module 19.
++const MANUAL_COMMAND_MAX_AGE_MS = 120_000;
+ 
+ // the pump has no lasting state: its command is a 1-10 second pulse that turns off by itself
+ type LastingCommand = Extract<SetCommand, { target: "fan" | "lamp" | "curtain" }>;
+@@ -30,7 +35,8 @@ interface Wish {
+   source: Source;
+   ruleId: number | null;
+   triedAt: number; // when its command was last sent (milliseconds, like Date.now())
+-  fulfilled: boolean; // has the device ever reported the wished state?
++  fulfilled: boolean; // has the device reported the wished state? (back to false when the device restarts)
++  everFulfilled: boolean; // Module 27: has the device ever carried it out since this wish was recorded?
+ }
+ 
+ const wishes = new Map<string, Map<string, Wish>>(); // device_id -> (target -> wish)
+@@ -80,7 +86,8 @@ function recordWish(deviceId: string, command: LastingCommand, source: Source, r
+     deviceWishes = new Map();
+     wishes.set(deviceId, deviceWishes);
+   }
+-  deviceWishes.set(command.target, { command, source, ruleId, triedAt: Date.now(), fulfilled: false });
++  deviceWishes.set(command.target,
++    { command, source, ruleId, triedAt: Date.now(), fulfilled: false, everFulfilled: false });
+ }
+ 
+ // Called by mqtt.ts every time a telemetry or ack of a device arrives. state = the state in that message (null for
+@@ -88,7 +95,7 @@ function recordWish(deviceId: string, command: LastingCommand, source: Source, r
+ export function recordReport(deviceId: string, state: State | null, ts: string | null): void {
+   if (state !== null && saveReport(deviceId, state, ts)) {
+     for (const w of wishes.get(deviceId)?.values() ?? []) {
+-      if (state[w.command.target] === w.command.value) w.fulfilled = true;
++      if (state[w.command.target] === w.command.value) w.fulfilled = w.everFulfilled = true;
+     }
+   }
+   reconcile(deviceId);
+@@ -102,6 +109,12 @@ function reconcile(deviceId: string): void {
+   for (const w of wishes.get(deviceId)?.values() ?? []) {
+     const { target, value } = w.command;
+     if (w.fulfilled || d.reported[target] === value) continue; // already as wished
++    if ((w.source === "api" || w.source === "telegram") && !w.everFulfilled
++      && Date.now() - w.triedAt > MANUAL_COMMAND_MAX_AGE_MS) { // Module 27: a manual command that has gone stale
++      wishes.get(deviceId)?.delete(target);
++      log.info(`command ${target} = ${value} (${w.source}) to ${deviceId} not carried out for more than 2 minutes: not sent again`);
++      continue;
++    }
+     if (ackPending.has(`${deviceId}/${target}`)) continue; // the previous command is still being waited for
+     if (Date.now() - w.triedAt < RETRY_INTERVAL_MS) continue; // too soon: wait first
+     const message = `${target} ${deviceId} reported ${d.reported[target]}, but ${value} is desired (${w.source}); `
+diff --git a/backend/src/services/mqtt.test.ts b/backend/src/services/mqtt.test.ts
+index 7495448..90d3950 100644
+--- a/backend/src/services/mqtt.test.ts
++++ b/backend/src/services/mqtt.test.ts
+@@ -1,16 +1,23 @@
+ // mqtt.test.ts - tests for STATUS messages from the broker (Module 25) WITHOUT a broker, a database, or Telegram: the mqtt
+ // library and mqtt.ts's neighbours are replaced by fakes (vi.mock); the in-memory store (store.ts) stays the real one. What is
+ // tested: which status messages are passed on to Telegram (notifyStatus), including an "online" that arrives as a RETAINED
++// Since Module 27 also: the client name and session the backend asks for when it connects (the mqtt.connect options).
+ // message after a broker restart. Run: npm test
+ import { beforeEach, describe, expect, it, vi } from "vitest";
+ import type { FastifyBaseLogger } from "fastify";
+ 
+ const mock = vi.hoisted(() => ({
+   listeners: new Map<string, (...args: unknown[]) => void>(), // the fake MQTT client's events ("message", "connect", ...)
++  options: [] as Record<string, unknown>[], // the options of every mqtt.connect call, in order
+   notifyStatus: vi.fn(),
+ }));
+ vi.mock("mqtt", () => ({
+-  default: { connect: () => ({ options: {}, on: (event: string, fn: (...args: unknown[]) => void) => mock.listeners.set(event, fn) }) },
++  default: {
++    connect: (_url: string, options: Record<string, unknown>) => {
++      mock.options.push(options);
++      return { options: {}, on: (event: string, fn: (...args: unknown[]) => void) => mock.listeners.set(event, fn) };
++    },
++  },
+ }));
+ vi.mock("../db/archive.ts", () => ({ archiveStatus: async () => {}, archiveTelemetry: async () => true, archiveVitals: async () => {} }));
+ vi.mock("./realtime.ts", () => ({ broadcastStatus: () => {}, broadcastTelemetry: () => {} }));
+@@ -48,3 +55,20 @@ describe("device status to Telegram (notifyStatus)", () => {
+     expect(mock.notifyStatus).not.toHaveBeenCalled();
+   });
+ });
++
++describe("the backend's MQTT client name and session (Module 27)", () => {
++  it("without an account: a random client name backend-xxxxxx and a clean session (clean true), as before Module 27", () => {
++    const options = mock.options[0]; // the startMqtt call above (without an account)
++    expect(options?.clientId).toMatch(/^backend-[0-9a-f]{1,6}$/);
++    expect(options?.clean).toBe(true);
++    expect(options?.username).toBeUndefined();
++  });
++
++  it("with an account: client name = account name and a PERSISTENT session (clean false), so the broker holds QoS 1 messages while the backend is away", () => {
++    startMqtt("mqtt://127.0.0.1:1", { username: "backend", password: "test-password" }, log);
++    const options = mock.options.at(-1);
++    expect(options?.clientId).toBe("backend");
++    expect(options?.clean).toBe(false);
++    expect(options?.username).toBe("backend");
++  });
++});
+diff --git a/backend/src/services/mqtt.ts b/backend/src/services/mqtt.ts
+index 02ee351..35e03dc 100644
+--- a/backend/src/services/mqtt.ts
++++ b/backend/src/services/mqtt.ts
+@@ -25,12 +25,19 @@ export interface BrokerAccount {
+ }
+ 
+ export function startMqtt(url: string, account: BrokerAccount | null, log: FastifyBaseLogger): void {
+-  const clientName = "backend-" + Math.random().toString(16).slice(2, 8); // a unique name; a locked broker uses its account name
++  // The client name: without an account = a random name (an old broker without locks). With an account = the account name
++  // itself (Module 27), as a locked broker uses it (use_username_as_clientid), so the persistent session below stays the same.
++  const clientName = account === null ? "backend-" + Math.random().toString(16).slice(2, 8) : account.username;
+   client = mqtt.connect(url, {
+     clientId: clientName,
+     reconnectPeriod: RETRY_NORMAL_MS,
+     ...(account === null ? {} : { username: account.username, password: account.password }),
+     reconnectOnConnackError: true, // Module 21: without this, once rejected by the broker = stop trying forever
++    // Module 27: a PERSISTENT session when logging in with an account (client name = account name: always the same session).
++    // The central broker remembers the backend's subscription and HOLDS QoS 1 messages (the Pi bridge's queue among them) while
++    // the backend isn't connected: a few seconds after the central broker restarts, or while the backend itself is recreated.
++    // A clean session = messages that arrive before the backend subscribes again are lost. Without an account (random name): clean.
++    clean: account === null,
+   });
+   let rejected = false; // currently rejected by the broker? (so the long message is written only once)
+   client.on("connect", () => {

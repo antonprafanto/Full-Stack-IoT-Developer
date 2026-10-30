@@ -1,0 +1,84 @@
+# Caddyfile - the front door of the Mini Smart Home dashboard (Modules 26-27): serves the files of dist/ and forwards /api/... to the backend.
+# A copy of this file is built into the web image. Docker Compose mounts the FOLDER frontend/caddy/ over it (not a single
+# file), so the file in this repo is the one that's used. After changing it: docker compose restart web
+# {$NAME} = the value of the variable NAME from the environment part of the web service in compose.cloud.yml (it comes from .env),
+# read when Caddy starts; {$NAME:value} = "value" when NAME doesn't exist at all (a variable that exists but is empty STAYS empty,
+# so the fallback for an empty .env line is written in compose.cloud.yml). After changing .env: docker compose up -d (web is recreated).
+{
+	# Caddy usually opens an "admin counter" (2019) to change settings while running. We don't use it: the settings are only
+	# read from this file when Caddy starts.
+	admin off
+	# Module 27, the free path only (Pi + Cloudflare Tunnel). There, visitors arrive through cloudflared, which already writes
+	# the visitor's address and "https" in the X-Forwarded-* headers itself. Caddy usually overwrites those headers (anyone can
+	# fake them), unless they come from a trusted proxy: CADDY_TRUSTED_PROXIES=private_ranges = the private addresses, including
+	# the Docker hallway where cloudflared is. Empty (laptop, VPS) = trust nobody. _strict = the visitor's address is read
+	# from the right (what the proxy added), not from the left (what the visitor can write themselves).
+	servers {
+		trusted_proxies static {$CADDY_TRUSTED_PROXIES}
+		trusted_proxies_strict
+	}
+}
+
+# The site address. WEB_DOMAIN empty in .env = ":80" (filled in by compose.cloud.yml): plain HTTP on port 80 of the container, for
+# any address typed in the browser (localhost, the laptop's IP; the free-path Pi behind cloudflared), exactly as in Module 26.
+# ("auto_https off" does NOT make Caddy serve HTTP; this ":80" address is what does.)
+# Module 27, WEB_DOMAIN filled in (VPS): a domain name, for example iot.yourname.my.id. Caddy asks Let's Encrypt for a certificate
+# by itself, serves HTTPS on 443, redirects http:// to https://, and renews its certificate before it runs out. Without the
+# "email" option above, the only issuer is Let's Encrypt. MQTT_DOMAIN (mqtt.yourname.my.id) is requested here too so that Caddy
+# also takes care of the broker's certificate; Mosquitto uses its COPY (the mqtt-certificate service).
+{$WEB_DOMAIN::80} {$MQTT_DOMAIN} {
+	# the broker's name isn't a web page: a short answer. mqtt.invalid = a name that never exists (the .invalid ending), so
+	# that this line stays valid when MQTT_DOMAIN is empty (laptop, free-path Pi).
+	@broker host {$MQTT_DOMAIN} mqtt.invalid
+	handle @broker {
+		respond "This address is for the MQTT broker (port 8883), not the dashboard." 404
+	}
+
+	# answers are compressed before they're sent: the dashboard's ±1 MB of JavaScript reaches the browser as about 300 kB
+	encode zstd gzip
+
+	# /api/devices -> backend:8080/devices (the /api prefix is removed first). The live connection too: /api/socket.io/ -> backend:8080/socket.io/
+	# "backend" = the service's name in compose.cloud.yml (the Compose hallway), not localhost. Caddy adds the headers X-Forwarded-For
+	# (the visitor's address) and X-Forwarded-Proto (https) for the backend; backend 1.4 trusts them because of TRUST_PROXY (Module 27).
+	handle_path /api/* {
+		reverse_proxy backend:8080 {
+			# The backend sets the "session" cookie (the 7-day season pass) with the path /auth, but the browser calls it through
+			# /api/auth. Without this line the browser doesn't send that cookie to /api/auth/refresh, and you're thrown back to
+			# the Login screen every 15 minutes. This line changes the path in the backend's answer: Path=/auth -> Path=/api/auth.
+			header_down Set-Cookie "Path=/auth" "Path=/api/auth"
+		}
+	}
+
+	# Module 27: Grafana through the same address, under /grafana/ (https://iot.yourname.my.id/grafana/). The /grafana prefix is
+	# NOT removed: Grafana itself serves that path when GRAFANA_URL in .env ends with /grafana/ (compose.cloud.yml).
+	# GRAFANA_URL empty (laptop) = Grafana stays at http://localhost:3000; this path isn't used (Grafana redirects it
+	# to /login, which the dashboard answers).
+	redir /grafana /grafana/
+	handle /grafana/* {
+		reverse_proxy grafana:3000 {
+			# Grafana's login cookie gets the Secure attribute (the browser only sends it over HTTPS); Grafana doesn't set it
+			# itself because the Caddy -> Grafana connection is plain HTTP
+			header_down Set-Cookie "^(.*)$" "$1; Secure"
+		}
+	}
+
+	# /assets/...: the JavaScript and CSS from the build. Their names carry a fingerprint (for example index-BAET4URZ.js) and
+	# change with every build, so the browser may keep them long. A file that doesn't exist gets 404 (not index.html): an honest error.
+	handle /assets/* {
+		root * /srv
+		file_server
+	}
+
+	# Everything except /api, /grafana, and /assets: the dashboard files in /srv (from dist/). Screen addresses such as /map or
+	# /devices/f00d00000001 aren't files, so they are answered with index.html, then React Router picks the screen ("SPA
+	# fallback", Module 24's promise). Without this, F5 on any screen other than / answers 404.
+	handle {
+		root * /srv
+		# no-cache = the browser must ask Caddy first before using its saved index.html (Caddy answers 304 when it hasn't
+		# changed). Without it, after the web image is rebuilt the browser can keep showing the OLD dashboard until F5.
+		# Module 27: this also applies to the service worker (sw.js) and the phone app's manifest (PWA), so a new version is read quickly.
+		header Cache-Control "no-cache"
+		try_files {path} /index.html
+		file_server
+	}
+}

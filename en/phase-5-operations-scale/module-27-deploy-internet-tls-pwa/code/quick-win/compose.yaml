@@ -1,0 +1,18 @@
+# compose.yaml - Module 27 Quick Win: a sealed envelope without an ID card.
+# This file's name is Docker Compose's DEFAULT name, so in this folder this is enough: docker compose up -d   (without -f)
+# PRACTICE ONLY: Caddy serves one page over HTTPS with a certificate it made ITSELF ("Caddy Local Authority"), which no
+# browser knows. The browser will warn you: that's exactly what we want to see. It can only be opened from this laptop
+# (127.0.0.1), and it is taken down in the last step with: docker compose down
+services:
+  envelope:
+    # the same image as the project's front door (the web service), an exact tag, no "latest"
+    image: caddy:2.11.7-alpine
+    ports:
+      # left = the counter on your laptop (8443, so it doesn't clash with 443), right = the HTTPS port inside the container.
+      # 127.0.0.1 = this laptop only, not the whole Wi-Fi.
+      - "127.0.0.1:8443:443"
+    volumes:
+      # the Caddy settings and the practice page from this folder, read-only (:ro)
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./page:/srv:ro
+    # No cupboard: the certificate Caddy makes is only kept inside the container and is lost at "docker compose down".

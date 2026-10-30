@@ -20,6 +20,11 @@ export type CommandResult =
 
 const ACK_TIMEOUT_MS = 5000; // every cmd is answered by an ack within 5 seconds (contract rule 4)
 const RETRY_INTERVAL_MS = 30_000; // reconciliation: at most once every 30 seconds per actuator
+// Module 27: a MANUAL command (dashboard/API and Telegram) the device has never carried out is only retried if the device
+// is heard within 2 minutes of the last attempt. When the home internet is down, the dashboard on the VPS has already reported
+// that command as failed (no ack); without this limit, the command is sent again as soon as the late arrivals come in (maybe
+// hours later) and the lamp suddenly turns on. The wishes of rules and schedules are still reconciled as in Module 19.
+const MANUAL_COMMAND_MAX_AGE_MS = 120_000;
 
 // the pump has no lasting state: its command is a 1-10 second pulse that turns off by itself
 type LastingCommand = Extract<SetCommand, { target: "fan" | "lamp" | "curtain" }>;
@@ -30,7 +35,8 @@ interface Wish {
   source: Source;
   ruleId: number | null;
   triedAt: number; // when its command was last sent (milliseconds, like Date.now())
-  fulfilled: boolean; // has the device ever reported the wished state?
+  fulfilled: boolean; // has the device reported the wished state? (back to false when the device restarts)
+  everFulfilled: boolean; // Module 27: has the device ever carried it out since this wish was recorded?
 }
 
 const wishes = new Map<string, Map<string, Wish>>(); // device_id -> (target -> wish)
@@ -80,7 +86,8 @@ function recordWish(deviceId: string, command: LastingCommand, source: Source, r
     deviceWishes = new Map();
     wishes.set(deviceId, deviceWishes);
   }
-  deviceWishes.set(command.target, { command, source, ruleId, triedAt: Date.now(), fulfilled: false });
+  deviceWishes.set(command.target,
+    { command, source, ruleId, triedAt: Date.now(), fulfilled: false, everFulfilled: false });
 }
 
 // Called by mqtt.ts every time a telemetry or ack of a device arrives. state = the state in that message (null for
@@ -88,7 +95,7 @@ function recordWish(deviceId: string, command: LastingCommand, source: Source, r
 export function recordReport(deviceId: string, state: State | null, ts: string | null): void {
   if (state !== null && saveReport(deviceId, state, ts)) {
     for (const w of wishes.get(deviceId)?.values() ?? []) {
-      if (state[w.command.target] === w.command.value) w.fulfilled = true;
+      if (state[w.command.target] === w.command.value) w.fulfilled = w.everFulfilled = true;
     }
   }
   reconcile(deviceId);
@@ -102,6 +109,12 @@ function reconcile(deviceId: string): void {
   for (const w of wishes.get(deviceId)?.values() ?? []) {
     const { target, value } = w.command;
     if (w.fulfilled || d.reported[target] === value) continue; // already as wished
+    if ((w.source === "api" || w.source === "telegram") && !w.everFulfilled
+      && Date.now() - w.triedAt > MANUAL_COMMAND_MAX_AGE_MS) { // Module 27: a manual command that has gone stale
+      wishes.get(deviceId)?.delete(target);
+      log.info(`command ${target} = ${value} (${w.source}) to ${deviceId} not carried out for more than 2 minutes: not sent again`);
+      continue;
+    }
     if (ackPending.has(`${deviceId}/${target}`)) continue; // the previous command is still being waited for
     if (Date.now() - w.triedAt < RETRY_INTERVAL_MS) continue; // too soon: wait first
     const message = `${target} ${deviceId} reported ${d.reported[target]}, but ${value} is desired (${w.source}); `

@@ -1,6 +1,6 @@
 # 🧰 Alat bantu Rumah Pintar Mini
 
-🌐 **Bahasa Indonesia** · [English](../../../../en/mini-smart-home/tools/README.md)
+🌐 **Bahasa Indonesia** · [English](../../../../en/phase-5-operations-scale/module-27-deploy-internet-tls-pwa/code/tools/README.md)
 
 Folder ini berisi program-program kecil Node.js yang dibuat di [Modul 4](../../../../fase-0-fondasi/modul-04-javascript-nodejs/README.md), [Modul 11](../../../../fase-2-konektivitas/modul-11-mqtt-dan-kontrak-data/README.md), [Modul 16](../../../../fase-3-backend-data/modul-16-backend-typescript-api-git/README.md), [Modul 19](../../../../fase-3-backend-data/modul-19-realtime-aturan-notifikasi/README.md), [Modul 20](../../../../fase-3-backend-data/modul-20-keamanan-pengguna/README.md), dan [Modul 21](../../../../fase-3-backend-data/modul-21-keamanan-perangkat-broker/README.md) (simulatornya diperbarui lagi di [Modul 24](../../../../fase-4-frontend-dashboard/modul-24-kendali-aturan-peran/README.md) dan [Modul 25](../../../../fase-4-frontend-dashboard/modul-25-grafana-peta-laporan/README.md)), lalu dipakai berulang kali di modul-modul berikutnya. Semuanya sudah diuji dengan **Node.js 24.21.0**. Tiga program pertama tidak membutuhkan library dari npm; `pemeriksa-kontrak.js` dan `simulator-perangkat.js` membutuhkan library **mqtt** 5.16.1, dan `terminal-live.js` membutuhkan **socket.io-client** 4.8.4 (lihat "Cara memakai").
 

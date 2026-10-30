@@ -1,0 +1,170 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1274" viewBox="0 0 1200 1274" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="1274" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" xml:space="preserve">A leaky firewall: ufw and Docker</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" xml:space="preserve">Concept 4 · on the VPS, packets for a container counter are diverted by Docker BEFORE the ufw rules are read</text>
+<rect x="30.0" y="98.0" width="1140.0" height="378.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="54.0" y="128.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="start" >The way of a packet from the internet</text>
+<path d="M72 258 Q62 258 64 248 Q66 238 78 240 Q84 228 98 233 Q110 230 112 242 Q122 244 120 253 Q118 258 110 258 Z" fill="none" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="92.0" y="282.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Internet</text>
+<rect x="196.0" y="150.0" width="954.0" height="262.0" rx="14" fill="#fcf2f6" stroke="#1e2a4a" stroke-width="2" />
+<rect x="206.0" y="366.0" width="36.0" height="11.0" rx="2" fill="none" stroke="#1e2a4a" stroke-width="1.8" />
+<circle cx="213.0" cy="371.5" r="1.6" fill="#1e2a4a" />
+<rect x="206.0" y="380.0" width="36.0" height="11.0" rx="2" fill="none" stroke="#1e2a4a" stroke-width="1.8" />
+<circle cx="213.0" cy="385.5" r="1.6" fill="#1e2a4a" />
+<rect x="206.0" y="394.0" width="36.0" height="11.0" rx="2" fill="none" stroke="#1e2a4a" stroke-width="1.8" />
+<circle cx="213.0" cy="399.5" r="1.6" fill="#1e2a4a" />
+<text x="248.0" y="391.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" >VPS (Ubuntu): one network card, two ways</text>
+<rect x="46.0" y="191.0" width="57.5" height="22.0" rx="6" fill="#ffffff" stroke="#1e2a4a" stroke-width="1.4" />
+<text x="54.0" y="206.1" font-size="11.5" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">to :22</text>
+<line x1="118.0" y1="202.0" x2="404.0" y2="202.0" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" />
+<path d="M397.8 205.3 L404.0 202.0 L397.8 198.7" fill="none" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="212.0" y="193.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="start" >for a program on the machine</text>
+<rect x="410.0" y="168.0" width="214.0" height="68.0" rx="10" fill="#ffffff" stroke="#1e2a4a" stroke-width="1.8" />
+<text x="424.0" y="190.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" >ufw (the firewall)</text>
+<text x="424.0" y="210.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">22/tcp</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">ALLOW</tspan>: let in</text>
+<text x="424.0" y="227.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" >not allowed: refused</text>
+<line x1="626.0" y1="202.0" x2="714.0" y2="202.0" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" />
+<path d="M707.8 205.3 L714.0 202.0 L707.8 198.7" fill="none" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="720.0" y="176.0" width="410.0" height="52.0" rx="10" fill="#ffffff" stroke="#1e2a4a" stroke-width="1.6" />
+<text x="734.0" y="198.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#1e2a4a" font-weight="800">sshd</tspan> · door 22</text>
+<text x="734.0" y="217.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" >a program on the VPS, not a container: CHECKED by ufw</text>
+<rect x="46.0" y="299.0" width="64.5" height="22.0" rx="6" fill="#ffffff" stroke="#a13a6b" stroke-width="1.4" />
+<text x="54.0" y="314.1" font-size="11.5" font-weight="800" fill="#a13a6b" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">to :443</text>
+<rect x="46.0" y="345.0" width="71.4" height="22.0" rx="6" fill="#ffffff" stroke="#a13a6b" stroke-width="1.4" />
+<text x="54.0" y="360.1" font-size="11.5" font-weight="800" fill="#a13a6b" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">to :1883</text>
+<text x="212.0" y="284.0" font-size="11.5" font-weight="700" fill="#a13a6b" text-anchor="start" >for a Docker counter</text>
+<line x1="126.0" y1="310.0" x2="404.0" y2="310.0" stroke="#a13a6b" stroke-width="2.4" stroke-linecap="round" />
+<path d="M396.9 313.8 L404.0 310.0 L396.9 306.2" fill="none" stroke="#a13a6b" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="134.0" y1="356.0" x2="404.0" y2="356.0" stroke="#a13a6b" stroke-width="2.4" stroke-linecap="round" />
+<path d="M396.9 359.8 L404.0 356.0 L396.9 352.2" fill="none" stroke="#a13a6b" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="410.0" y="276.0" width="214.0" height="92.0" rx="10" fill="#ffffff" stroke="#a13a6b" stroke-width="2" />
+<text x="424.0" y="298.0" font-size="13" font-weight="800" fill="#a13a6b" text-anchor="start" >Docker's NAT</text>
+<text x="424.0" y="318.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" >diverts the packets that</text>
+<text x="424.0" y="336.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">match a <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">ports:</tspan> line</text>
+<text x="424.0" y="354.0" font-size="11.5" font-weight="800" fill="#a13a6b" text-anchor="start" >BEFORE ufw reads them</text>
+<line x1="517.0" y1="238.0" x2="517.0" y2="274.0" stroke="#9aa3b0" stroke-width="1.8" stroke-linecap="round" stroke-dasharray="5 4" />
+<circle cx="517.0" cy="256.0" r="8" fill="none" stroke="#e63946" stroke-width="2.2" />
+<line x1="511.4" y1="261.6" x2="522.6" y2="250.4" stroke="#e63946" stroke-width="2.2" stroke-linecap="round" />
+<text x="532.0" y="260.5" font-size="12" font-weight="800" fill="#e63946" text-anchor="start" >ufw is never asked about a diverted packet</text>
+<line x1="626.0" y1="310.0" x2="714.0" y2="310.0" stroke="#a13a6b" stroke-width="2.4" stroke-linecap="round" />
+<path d="M706.9 313.8 L714.0 310.0 L706.9 306.2" fill="none" stroke="#a13a6b" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="720.0" y="288.0" width="410.0" height="42.0" rx="10" fill="#ffffff" stroke="#6f42c1" stroke-width="1.8" />
+<text x="734.0" y="315.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#6f42c1" font-weight="800">web</tspan> (Caddy) · counter <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#6f42c1" font-weight="800">0.0.0.0:443</tspan></text>
+<path d="M1087 310 L1092 316 L1102 304" fill="none" stroke="#2a9d5c" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="1080.0" y="315.0" font-size="12" font-weight="800" fill="#2a9d5c" text-anchor="end" >in</text>
+<line x1="626.0" y1="356.0" x2="690.0" y2="356.0" stroke="#a13a6b" stroke-width="2.4" stroke-linecap="round" />
+<line x1="695.0" y1="349.0" x2="709.0" y2="363.0" stroke="#e63946" stroke-width="2.6" stroke-linecap="round" />
+<line x1="695.0" y1="363.0" x2="709.0" y2="349.0" stroke="#e63946" stroke-width="2.6" stroke-linecap="round" />
+<rect x="720.0" y="336.0" width="410.0" height="40.0" rx="10" fill="#ffffff" stroke="#0f8b8d" stroke-width="1.6" />
+<text x="734.0" y="361.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#0f8b8d" font-weight="800">mosquitto</tspan> · counter <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#0f8b8d" font-weight="800">127.0.0.1:1883</tspan></text>
+<text x="1116.0" y="361.0" font-size="12" font-weight="800" fill="#e63946" text-anchor="end" >never arrives</text>
+<text x="54.0" y="438.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">Docker's documentation: container counters bypass the machine's firewall rules, ufw too. What decides who may knock is the <tspan font-weight="800" fill="#1e2a4a">address</tspan> in <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#1e2a4a" font-weight="800">ports:</tspan>.</text>
+<text x="54.0" y="460.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#1e2a4a" font-weight="800">:1883</tspan> matches no line (its counter is only <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#1e2a4a" font-weight="800">127.0.0.1</tspan>): <tspan font-weight="800" fill="#1e2a4a">not diverted</tspan>, and nobody answers on the public IP.</text>
+<rect x="30.0" y="494.0" width="562.0" height="124.0" rx="12" fill="#ffffff" stroke="#a13a6b" stroke-width="1.8" />
+<text x="50.0" y="524.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14" fill="#a13a6b" font-weight="800">0.0.0.0</tspan>  all interfaces (IPv4)</text>
+<text x="50.0" y="550.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">anyone on the internet can knock on this counter</text>
+<text x="50.0" y="570.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">used for: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">web</tspan> 80/443, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">mosquitto</tspan> 8883 (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">WEB_ADDRESS</tspan>)</text>
+<text x="50.0" y="590.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">IPv4 only: an A record is enough in DNS, no AAAA</text>
+<rect x="608.0" y="494.0" width="562.0" height="124.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="628.0" y="524.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14" fill="#4a5568" font-weight="800">127.0.0.1</tspan>  only the VPS itself</text>
+<text x="628.0" y="550.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">from the internet: unreachable (simulated lab: plain 1883</text>
+<text x="628.0" y="570.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">unreachable from outside, reachable from the VPS)</text>
+<text x="628.0" y="590.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">from the laptop: the tunnel <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">ssh</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">-L</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">5432:127.0.0.1:5432</tspan></text>
+<rect x="30.0" y="638.0" width="1140.0" height="356.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="54.0" y="668.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">The project's counters on the VPS (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14" fill="#1e2a4a" font-weight="800">compose.cloud.yml</tspan> + <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14" fill="#1e2a4a" font-weight="800">.env</tspan> VPS column)</text>
+<text x="54.0" y="696.0" font-size="12" font-weight="800" fill="#4a5568" text-anchor="start" xml:space="preserve">Service</text>
+<text x="196.0" y="696.0" font-size="12" font-weight="800" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568" font-weight="800">ports:</tspan> line (short)</text>
+<text x="510.0" y="696.0" font-size="12" font-weight="800" fill="#4a5568" text-anchor="start" xml:space="preserve">Address on the VPS</text>
+<text x="650.0" y="696.0" font-size="12" font-weight="800" fill="#4a5568" text-anchor="start" xml:space="preserve">From the internet</text>
+<text x="800.0" y="696.0" font-size="12" font-weight="800" fill="#4a5568" text-anchor="start" xml:space="preserve">Through what</text>
+<line x1="46.0" y1="706.0" x2="1154.0" y2="706.0" stroke="#e0dcd2" stroke-width="1.4" stroke-linecap="round" />
+<rect x="46.0" y="716.0" width="1108.0" height="34.0" rx="6" fill="#eef1f5" />
+<text x="54.0" y="738.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">web</text>
+<text x="196.0" y="738.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="700">${WEB_ADDRESS}:80</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="700">:443</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="700">:443/udp</tspan></text>
+<text x="510.0" y="738.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">0.0.0.0</tspan></text>
+<rect x="650.0" y="722.0" width="47.6" height="22.0" rx="11.0" fill="#f5e0ea" stroke="#a13a6b" stroke-width="1.4" />
+<text x="673.8" y="737.1" font-size="11.5" font-weight="800" fill="#a13a6b" text-anchor="middle" >open</text>
+<text x="800.0" y="738.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Let's Encrypt + visitors; <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">http://</tspan> → <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">https://</tspan></text>
+<text x="54.0" y="772.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">mosquitto</text>
+<text x="196.0" y="772.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="700">${WEB_ADDRESS}:8883</tspan></text>
+<text x="510.0" y="772.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">0.0.0.0</tspan></text>
+<rect x="650.0" y="756.0" width="47.6" height="22.0" rx="11.0" fill="#f5e0ea" stroke="#a13a6b" stroke-width="1.4" />
+<text x="673.8" y="771.1" font-size="11.5" font-weight="800" fill="#a13a6b" text-anchor="middle" >open</text>
+<text x="800.0" y="772.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">MQTT TLS: the Pi bridge, devices outside</text>
+<rect x="46.0" y="784.0" width="1108.0" height="34.0" rx="6" fill="#eef1f5" />
+<text x="54.0" y="806.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">mosquitto</text>
+<text x="196.0" y="806.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="700">${MQTT_ADDRESS}:1883</tspan></text>
+<text x="510.0" y="806.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">127.0.0.1</tspan></text>
+<rect x="650.0" y="790.0" width="75.4" height="22.0" rx="11.0" fill="#eef1f5" stroke="#9aa3b0" stroke-width="1.4" />
+<rect x="659.4" y="799.7" width="9.2" height="7.1" rx="1.26" fill="none" stroke="#4a5568" stroke-width="1.24" />
+<path d="M661.27 799.74 L661.27 797.64 A2.73 2.73 0 0 1 666.73 797.64 L666.73 799.74" fill="none" stroke="#4a5568" stroke-width="1.24" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="664.0" cy="803.1" r="1.056" fill="#4a5568" />
+<text x="699.7" y="805.1" font-size="11.5" font-weight="800" fill="#4a5568" text-anchor="middle" >closed</text>
+<text x="800.0" y="806.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">plain: the backend through the hallway <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">mosquitto:1883</tspan></text>
+<text x="54.0" y="840.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">backend</text>
+<text x="196.0" y="840.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="700">127.0.0.1:8080</tspan></text>
+<text x="510.0" y="840.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">127.0.0.1</tspan></text>
+<rect x="650.0" y="824.0" width="75.4" height="22.0" rx="11.0" fill="#eef1f5" stroke="#9aa3b0" stroke-width="1.4" />
+<rect x="659.4" y="833.7" width="9.2" height="7.1" rx="1.26" fill="none" stroke="#4a5568" stroke-width="1.24" />
+<path d="M661.27 833.74 L661.27 831.64 A2.73 2.73 0 0 1 666.73 831.64 L666.73 833.74" fill="none" stroke="#4a5568" stroke-width="1.24" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="664.0" cy="837.1" r="1.056" fill="#4a5568" />
+<text x="699.7" y="839.1" font-size="11.5" font-weight="800" fill="#4a5568" text-anchor="middle" >closed</text>
+<text x="800.0" y="840.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">visitors: Caddy <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">/api</tspan>; you: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">ssh</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">-L</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">8080:…</tspan></text>
+<rect x="46.0" y="852.0" width="1108.0" height="34.0" rx="6" fill="#eef1f5" />
+<text x="54.0" y="874.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">grafana</text>
+<text x="196.0" y="874.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="700">127.0.0.1:3000</tspan></text>
+<text x="510.0" y="874.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">127.0.0.1</tspan></text>
+<rect x="650.0" y="858.0" width="75.4" height="22.0" rx="11.0" fill="#eef1f5" stroke="#9aa3b0" stroke-width="1.4" />
+<rect x="659.4" y="867.7" width="9.2" height="7.1" rx="1.26" fill="none" stroke="#4a5568" stroke-width="1.24" />
+<path d="M661.27 867.74 L661.27 865.64 A2.73 2.73 0 0 1 666.73 865.64 L666.73 867.74" fill="none" stroke="#4a5568" stroke-width="1.24" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="664.0" cy="871.1" r="1.056" fill="#4a5568" />
+<text x="699.7" y="873.1" font-size="11.5" font-weight="800" fill="#4a5568" text-anchor="middle" >closed</text>
+<text x="800.0" y="874.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">visitors: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">/grafana/</tspan>; you: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">ssh</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">-L</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">3000:…</tspan></text>
+<text x="54.0" y="908.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">db</text>
+<text x="196.0" y="908.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="700">127.0.0.1:5432</tspan></text>
+<text x="510.0" y="908.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">127.0.0.1</tspan></text>
+<rect x="650.0" y="892.0" width="75.4" height="22.0" rx="11.0" fill="#eef1f5" stroke="#9aa3b0" stroke-width="1.4" />
+<rect x="659.4" y="901.7" width="9.2" height="7.1" rx="1.26" fill="none" stroke="#4a5568" stroke-width="1.24" />
+<path d="M661.27 901.74 L661.27 899.64 A2.73 2.73 0 0 1 666.73 899.64 L666.73 901.74" fill="none" stroke="#4a5568" stroke-width="1.24" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="664.0" cy="905.1" r="1.056" fill="#4a5568" />
+<text x="699.7" y="907.1" font-size="11.5" font-weight="800" fill="#4a5568" text-anchor="middle" >closed</text>
+<text x="800.0" y="908.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">DBeaver from the laptop: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">ssh</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">-L</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">5432:…</tspan></text>
+<rect x="46.0" y="920.0" width="1108.0" height="34.0" rx="6" fill="#eef1f5" />
+<text x="54.0" y="942.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">uptime-kuma</text>
+<text x="196.0" y="942.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="700">127.0.0.1:3001</tspan></text>
+<text x="510.0" y="942.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">127.0.0.1</tspan></text>
+<rect x="650.0" y="926.0" width="75.4" height="22.0" rx="11.0" fill="#eef1f5" stroke="#9aa3b0" stroke-width="1.4" />
+<rect x="659.4" y="935.7" width="9.2" height="7.1" rx="1.26" fill="none" stroke="#4a5568" stroke-width="1.24" />
+<path d="M661.27 935.74 L661.27 933.64 A2.73 2.73 0 0 1 666.73 933.64 L666.73 935.74" fill="none" stroke="#4a5568" stroke-width="1.24" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="664.0" cy="939.1" r="1.056" fill="#4a5568" />
+<text x="699.7" y="941.1" font-size="11.5" font-weight="800" fill="#4a5568" text-anchor="middle" >closed</text>
+<text x="800.0" y="942.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">profile <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">monitoring</tspan> (Module 30)</text>
+<text x="54.0" y="976.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">sshd</text>
+<text x="196.0" y="976.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">(a machine program, not Docker)</text>
+<text x="510.0" y="976.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" xml:space="preserve">port 22</text>
+<rect x="650.0" y="960.0" width="105.8" height="22.0" rx="11.0" fill="#f5e0ea" stroke="#a13a6b" stroke-width="1.4" />
+<text x="702.9" y="975.0" font-size="11" font-weight="800" fill="#a13a6b" text-anchor="middle" >if ufw allows</text>
+<text x="800.0" y="976.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">ed25519 SSH key, password login off</text>
+<rect x="30.0" y="1012.0" width="470.0" height="220.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="50.0" y="1040.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >ufw on the VPS: the order matters</text>
+<rect x="50.0" y="1054.0" width="430.0" height="160.3" rx="8" fill="#eef1f5" />
+<text x="62.0" y="1075.8" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">sudo ufw allow 22/tcp</text>
+<text x="62.0" y="1096.8" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">sudo ufw allow 80/tcp</text>
+<text x="62.0" y="1117.8" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">sudo ufw allow 443/tcp</text>
+<text x="62.0" y="1138.8" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">sudo ufw allow 443/udp</text>
+<text x="62.0" y="1159.8" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">sudo ufw allow 8883/tcp</text>
+<text x="62.0" y="1180.8" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">sudo ufw enable</text>
+<text x="62.0" y="1201.8" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">sudo ufw status verbose</text>
+<text x="470.0" y="1075.0" font-size="11.5" font-weight="800" fill="#a13a6b" text-anchor="end" >← FIRST</text>
+<text x="470.0" y="1180.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="end" >switch on</text>
+<rect x="516.0" y="1012.0" width="654.0" height="220.0" rx="12" fill="#eef1f5" />
+<text x="536.0" y="1040.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >Worth remembering</text>
+<text x="536.0" y="1066.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">22/tcp</tspan> first: without it, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">ufw</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">enable</tspan> can lock out your own SSH.</text>
+<text x="536.0" y="1088.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">ufw guards programs on the machine (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">sshd</tspan>). The 80, 443, 8883 lines</text>
+<text x="536.0" y="1110.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">are a note of intent: Docker still opens container counters itself.</text>
+<text x="536.0" y="1132.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">ufw</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">deny</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">1883</tspan> or <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">ufw</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">deny</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">5432</tspan> does NOT close a Docker counter.</text>
+<text x="536.0" y="1154.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Test from OUTSIDE (a phone, mobile data): MQTTX to <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">mqtt.yourname.my.id:1883</tspan> fails.</text>
+<text x="536.0" y="1176.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">Honestly:</tspan> ufw and a real VPS weren't tested by the author; the order</text>
+<text x="536.0" y="1198.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">comes from the Ubuntu and Docker docs, the <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">127.0.0.1</tspan> counters from the simulated lab.</text>
+<text x="1178.0" y="1260.0" font-size="11" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer Curriculum · CC BY 4.0</text>
+</svg>

@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1068" viewBox="0 0 1200 1068" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="1068" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" xml:space="preserve">From a shortcut to an app (PWA)</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" xml:space="preserve">Concept 11 · dashboard 1.3.0 · <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5">vite-plugin-pwa</tspan> 2.0.0 writes the manifest and the service worker at <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5">npm</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5">run</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5">build</tspan></text>
+<rect x="30.0" y="98.0" width="520.0" height="268.0" rx="14" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.6" stroke-dasharray="7 5"/>
+<rect x="51.0" y="115.0" width="22.0" height="38.0" rx="5" fill="none" stroke="#4a5568" stroke-width="2" />
+<circle cx="62.0" cy="147.0" r="1.8" fill="#4a5568" />
+<text x="88.0" y="130.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >A shortcut on the home screen</text>
+<text x="88.0" y="149.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >Modules 24–26, phone mode on the home Wi-Fi</text>
+<text x="50.0" y="182.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">address <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">http://192.168.1.10</tspan> (the laptop's IP)</text>
+<text x="50.0" y="207.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">not a secure context: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">isSecureContext</tspan> = <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">false</tspan></text>
+<text x="50.0" y="232.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">only the <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">apple-touch-icon.png</tspan> 180 px icon + a name</text>
+<text x="50.0" y="257.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">no service worker: offline = the browser's error page</text>
+<text x="50.0" y="282.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Android: opens in Chrome, with the Chrome logo</text>
+<text x="50.0" y="307.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the laptop's IP changes or it sleeps = a dead shortcut</text>
+<text x="50.0" y="332.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">outside the home Wi-Fi: it can't work at all</text>
+<line x1="558.0" y1="232.0" x2="624.0" y2="232.0" stroke="#a13a6b" stroke-width="2.8" stroke-linecap="round" />
+<path d="M616.1 236.2 L624.0 232.0 L616.1 227.8" fill="none" stroke="#a13a6b" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" />
+<text x="590.0" y="220.0" font-size="12" font-weight="800" fill="#a13a6b" text-anchor="middle" >Module 27</text>
+<rect x="630.0" y="98.0" width="540.0" height="268.0" rx="14" fill="#fcf2f6" stroke="#a13a6b" stroke-width="2" />
+<g transform="translate(662 134) scale(1.0) translate(-662 -134)">
+<rect x="651.0" y="115.0" width="22.0" height="38.0" rx="5" fill="none" stroke="#a13a6b" stroke-width="2" />
+<circle cx="662.0" cy="147.0" r="1.8" fill="#a13a6b" />
+</g>
+<text x="688.0" y="130.0" font-size="15" font-weight="800" fill="#a13a6b" text-anchor="start" >The installed app (PWA)</text>
+<text x="688.0" y="149.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >opened through the VPS or the Cloudflare tunnel, 24 hours</text>
+<text x="650.0" y="182.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">address <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">https://iot.yourname.my.id</tspan> (or <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">http://localhost</tspan>)</text>
+<text x="650.0" y="207.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">a secure context: the browser will install the app</text>
+<text x="650.0" y="232.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the manifest + icons 192/512 + a maskable icon</text>
+<text x="650.0" y="257.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the service worker keeps the dashboard's shell</text>
+<text x="650.0" y="282.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">its own window without an address bar (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">standalone</tspan>)</text>
+<text x="650.0" y="307.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">offline: the shell stays open + a clear message</text>
+<text x="650.0" y="332.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">from anywhere: another Wi-Fi, mobile data</text>
+<text x="30.0" y="392.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >The dashboard app's four parts</text>
+<text x="1170.0" y="392.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="end" >lab: headless Chrome 156, the install-error list empty at localhost and at the simulated HTTPS</text>
+<rect x="30.0" y="406.0" width="270.0" height="150.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<circle cx="54.0" cy="430.0" r="11" fill="#a13a6b" stroke="#ffffff" stroke-width="2" />
+<text x="54.0" y="434.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >1</text>
+<text x="74.0" y="435.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >A secure address</text>
+<text x="46.0" y="462.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">https://…</tspan> or <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">localhost</tspan></text>
+<text x="46.0" y="480.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Wi-Fi IP <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">http://192.168…</tspan></text>
+<text x="46.0" y="498.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">does NOT count as secure</text>
+<rect x="320.0" y="406.0" width="270.0" height="150.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<circle cx="344.0" cy="430.0" r="11" fill="#a13a6b" stroke="#ffffff" stroke-width="2" />
+<text x="344.0" y="434.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >2</text>
+<text x="364.0" y="435.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Manifest</text>
+<text x="336.0" y="462.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">manifest.webmanifest</tspan>:</text>
+<text x="336.0" y="480.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">"Mini Smart Home",</text>
+<text x="336.0" y="498.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">start_url</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">/</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">standalone</tspan>,</text>
+<text x="336.0" y="516.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">theme_color #1d293d</tspan></text>
+<rect x="610.0" y="406.0" width="270.0" height="150.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<circle cx="634.0" cy="430.0" r="11" fill="#a13a6b" stroke="#ffffff" stroke-width="2" />
+<text x="634.0" y="434.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >3</text>
+<text x="654.0" y="435.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Icons</text>
+<text x="626.0" y="462.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">pwa-192x192.png</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">pwa-512x512.png</tspan></text>
+<text x="626.0" y="480.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">maskable-icon-512x512.png</tspan></text>
+<text x="626.0" y="498.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">(+ 64 px), from <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">favicon.svg</tspan></text>
+<text x="626.0" y="516.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the Module 24 line house</text>
+<rect x="900.0" y="406.0" width="270.0" height="150.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<circle cx="924.0" cy="430.0" r="11" fill="#a13a6b" stroke="#ffffff" stroke-width="2" />
+<text x="924.0" y="434.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >4</text>
+<text x="944.0" y="435.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Service worker</text>
+<text x="916.0" y="462.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">sw.js</tspan>: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">generateSW</tspan>,</text>
+<text x="916.0" y="480.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">registerType: 'autoUpdate'</tspan></text>
+<text x="916.0" y="498.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the shell = 10 files (±1,054 KiB);</text>
+<text x="916.0" y="516.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">not required to install in current</text>
+<text x="916.0" y="534.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Chrome, but it makes offline work</text>
+<rect x="30.0" y="576.0" width="1140.0" height="236.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="54.0" y="606.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >The service worker: what is kept and what ALWAYS goes to the server</text>
+<rect x="54.0" y="650.0" width="230.0" height="118.0" rx="12" fill="#fcf2f6" stroke="#a13a6b" stroke-width="2" />
+<text x="70.0" y="683.0" font-size="14" font-weight="800" fill="#a13a6b" text-anchor="start" xml:space="preserve">service worker <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13.5" fill="#a13a6b" font-weight="800">sw.js</tspan></text>
+<text x="70.0" y="712.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">a helper in the browser</text>
+<text x="70.0" y="730.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">that checks every</text>
+<text x="70.0" y="748.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">page request</text>
+<rect x="360.0" y="628.0" width="400.0" height="82.0" rx="10" fill="#ffffff" stroke="#a13a6b" stroke-width="1.6" />
+<text x="376.0" y="652.0" font-size="13" font-weight="800" fill="#a13a6b" text-anchor="start" >from its store (the shell)</text>
+<text x="376.0" y="674.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">index.html</tspan>, JavaScript, CSS, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">favicon.svg</tspan>,</text>
+<text x="376.0" y="692.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">icons, the manifest, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">registerSW.js</tspan></text>
+<rect x="360.0" y="720.0" width="400.0" height="82.0" rx="10" fill="#ffffff" stroke="#1a7f37" stroke-width="1.6" />
+<text x="376.0" y="744.0" font-size="13" font-weight="800" fill="#1a7f37" text-anchor="start" >always to the server (never kept)</text>
+<text x="376.0" y="766.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">/api/…</tspan> (data, login, commands), <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">/grafana/…</tspan>,</text>
+<text x="376.0" y="784.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Socket.IO <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">wss://…/api/socket.io/</tspan> (WebSocket)</text>
+<line x1="286.0" y1="690.0" x2="356.0" y2="669.0" stroke="#a13a6b" stroke-width="2.2" stroke-linecap="round" />
+<path d="M351.0 673.9 L356.0 669.0 L349.1 667.6" fill="none" stroke="#a13a6b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="286.0" y1="730.0" x2="356.0" y2="761.0" stroke="#1a7f37" stroke-width="2.2" stroke-linecap="round" />
+<path d="M349.0 761.5 L356.0 761.0 L351.7 755.5" fill="none" stroke="#1a7f37" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="762.0" y1="669.0" x2="786.0" y2="669.0" stroke="#a13a6b" stroke-width="2" stroke-linecap="round" />
+<path d="M780.7 671.8 L786.0 669.0 L780.7 666.2" fill="none" stroke="#a13a6b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="762.0" y1="761.0" x2="786.0" y2="761.0" stroke="#1a7f37" stroke-width="2" stroke-linecap="round" />
+<path d="M780.7 763.8 L786.0 761.0 L780.7 758.2" fill="none" stroke="#1a7f37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="790.0" y="654.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the screen opens fast, offline too;</text>
+<text x="790.0" y="673.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">offline, the dashboard writes:</text>
+<rect x="786.0" y="680.0" width="364.0" height="46.0" rx="6" fill="#eef1f5" />
+<text x="798.0" y="698.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >Can't reach the server.</text>
+<text x="798.0" y="716.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >Check your internet connection, then try again.</text>
+<text x="790.0" y="758.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">numbers never come from the phone's store:</text>
+<text x="790.0" y="777.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">always from the server (the last reading</text>
+<text x="790.0" y="796.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the server got), or an error if unreachable</text>
+<rect x="30.0" y="830.0" width="562.0" height="196.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="50.0" y="858.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >A new version (autoUpdate)</text>
+<text x="50.0" y="886.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" >the web image is rebuilt on the server</text>
+<text x="50.0" y="908.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" >the first opening: still the OLD version (from</text>
+<text x="50.0" y="930.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" >the store) while the new one is fetched quietly</text>
+<text x="50.0" y="952.0" font-size="12" font-weight="700" fill="#a13a6b" text-anchor="start" >the next opening: the NEW version</text>
+<text x="50.0" y="974.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >(lab: shown on the 2nd reload; the tab isn't</text>
+<text x="50.0" y="996.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >reloaded by itself, form fields are safe)</text>
+<rect x="608.0" y="830.0" width="562.0" height="196.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="628.0" y="858.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >Installing</text>
+<text x="628.0" y="886.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">Android (Chrome):</tspan> menu ⋮ → the app install option</text>
+<text x="628.0" y="908.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">iPhone (Safari):</tspan> Share → Add to Home Screen →</text>
+<text x="628.0" y="930.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">turn on Open as Web App → Add</text>
+<text x="628.0" y="952.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">Laptop (Chrome, Edge):</tspan> the install button in the address bar</text>
+<text x="628.0" y="974.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">Honestly:</tspan> a real phone wasn't tested by the author (headless</text>
+<text x="628.0" y="996.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Chrome, 412 px); no push notifications, no offline data</text>
+<text x="1178.0" y="1054.0" font-size="11" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer Curriculum · CC BY 4.0</text>
+</svg>

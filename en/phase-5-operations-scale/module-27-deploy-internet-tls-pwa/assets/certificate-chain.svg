@@ -1,0 +1,130 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1160" viewBox="0 0 1200 1160" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="1160" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" xml:space="preserve">Certificates: chain, name, dates</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" xml:space="preserve">Concept 6 · the Let's Encrypt "Generation Y" chain as of October 2026 · three checks at every connection</text>
+<rect x="30.0" y="98.0" width="640.0" height="600.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="54.0" y="128.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="start" >The chain: who signs whom</text>
+<text x="54.0" y="148.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >arrow = "signed by"; read from the bottom (your certificate) up (the root)</text>
+<rect x="54.0" y="168.0" width="596.0" height="58.0" rx="10" fill="#f5e0ea" stroke="#a13a6b" stroke-width="2" />
+<g transform="translate(80 197) scale(1.4) translate(-80 -197)">
+<circle cx="71.0" cy="197.0" r="7" fill="none" stroke="#a13a6b" stroke-width="2" />
+<circle cx="71.0" cy="197.0" r="2.2" fill="#a13a6b" />
+<line x1="78.0" y1="197.0" x2="97.0" y2="197.0" stroke="#a13a6b" stroke-width="2" stroke-linecap="round" />
+<line x1="89.0" y1="197.0" x2="89.0" y2="202.5" stroke="#a13a6b" stroke-width="2" stroke-linecap="round" />
+<line x1="94.0" y1="197.0" x2="94.0" y2="202.5" stroke="#a13a6b" stroke-width="2" stroke-linecap="round" />
+</g>
+<text x="112.0" y="193.0" font-size="15" font-weight="800" fill="#a13a6b" text-anchor="start" >ISRG Root X1</text>
+<text x="112.0" y="213.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" >the old root (RSA 4096), trusted by almost every phone, laptop, and Pi</text>
+<text x="108.0" y="254.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" >ECDSA (Caddy's default key)</text>
+<text x="426.0" y="254.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" >RSA (for comparison)</text>
+<rect x="54.0" y="268.0" width="278.0" height="66.0" rx="10" fill="#ffffff" stroke="#1e2a4a" stroke-width="1.6" />
+<text x="68.0" y="290.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">ISRG Root X2</text>
+<text x="68.0" y="308.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">the ECDSA root; its X1-signed</text>
+<text x="68.0" y="325.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">version is sent along for old clients</text>
+<rect x="54.0" y="348.0" width="278.0" height="66.0" rx="10" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.6" stroke-dasharray="6 4"/>
+<text x="68.0" y="370.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Root YE</text>
+<text x="68.0" y="388.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">a new root, not yet trusted by phones:</text>
+<text x="68.0" y="405.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">its X2-signed version</text>
+<rect x="54.0" y="428.0" width="278.0" height="54.0" rx="10" fill="#ffffff" stroke="#1e2a4a" stroke-width="1.6" />
+<text x="68.0" y="450.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">YE1 or YE2</text>
+<text x="68.0" y="468.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">intermediate certificate (the issuer)</text>
+<rect x="54.0" y="496.0" width="278.0" height="66.0" rx="10" fill="#fcf2f6" stroke="#a13a6b" stroke-width="2" />
+<text x="68.0" y="518.0" font-size="13" font-weight="800" fill="#a13a6b" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#a13a6b" font-weight="800">iot.yourname.my.id</tspan></text>
+<text x="68.0" y="536.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">the leaf certificate = yours</text>
+<text x="68.0" y="553.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">(also <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#4a5568" font-weight="800">mqtt.yourname.my.id</tspan>)</text>
+<rect x="372.0" y="348.0" width="278.0" height="66.0" rx="10" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.6" stroke-dasharray="6 4"/>
+<text x="386.0" y="370.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Root YR</text>
+<text x="386.0" y="388.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">a new root, not yet trusted by phones:</text>
+<text x="386.0" y="405.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">its X1-signed version</text>
+<rect x="372.0" y="428.0" width="278.0" height="54.0" rx="10" fill="#ffffff" stroke="#1e2a4a" stroke-width="1.6" />
+<text x="386.0" y="450.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">YR1 or YR2</text>
+<text x="386.0" y="468.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">intermediate certificate (the issuer)</text>
+<rect x="372.0" y="496.0" width="278.0" height="66.0" rx="10" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.6" />
+<text x="386.0" y="518.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">a leaf with an RSA key</text>
+<text x="386.0" y="536.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">if Caddy is asked for RSA</text>
+<text x="386.0" y="553.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">(Technical Deep Dive; not the default)</text>
+<line x1="90.0" y1="494.0" x2="90.0" y2="486.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<path d="M93.3 492.2 L90.0 486.0 L86.7 492.2" fill="none" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="90.0" y1="426.0" x2="90.0" y2="418.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<path d="M93.3 424.2 L90.0 418.0 L86.7 424.2" fill="none" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="408.0" y1="494.0" x2="408.0" y2="486.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<path d="M411.3 492.2 L408.0 486.0 L404.7 492.2" fill="none" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="408.0" y1="426.0" x2="408.0" y2="418.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<path d="M411.3 424.2 L408.0 418.0 L404.7 424.2" fill="none" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="90.0" y1="346.0" x2="90.0" y2="338.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<path d="M93.3 344.2 L90.0 338.0 L86.7 344.2" fill="none" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="90.0" y1="266.0" x2="90.0" y2="230.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<path d="M93.3 236.2 L90.0 230.0 L86.7 236.2" fill="none" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="408.0" y1="346.0" x2="408.0" y2="234.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<path d="M411.3 236.2 L408.0 230.0 L404.7 236.2" fill="none" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="46.0" y1="568.0" x2="654.0" y2="568.0" stroke="#e0dcd2" stroke-width="1.4" stroke-linecap="round" />
+<text x="54.0" y="586.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" >The trusted roots, and where the chain stops</text>
+<text x="54.0" y="610.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">phones, laptops, browsers</tspan> (have X1 and X2): ECDSA stops at X2, RSA at X1</text>
+<text x="54.0" y="630.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">the Pi bridge:</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">bridge_cafile</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">…/ca-cert-ISRG_Root_X1.pem</tspan> (already</text>
+<text x="54.0" y="650.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">in the Mosquitto image) → through X1-signed X2 up to X1 (documentation; not tested)</text>
+<text x="54.0" y="670.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">ESP32</tspan> (optional): embed X1 + X2, or the built-in CA bundle</text>
+<rect x="690.0" y="98.0" width="480.0" height="600.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="714.0" y="128.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="start" >The client's three checks</text>
+<text x="714.0" y="148.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >browser, MQTTX, bridge, ESP32: at every connection</text>
+<rect x="706.0" y="168.0" width="448.0" height="132.0" rx="10" fill="#eef1f5" />
+<circle cx="728.0" cy="192.0" r="12" fill="#a13a6b" stroke="#ffffff" stroke-width="2" />
+<text x="728.0" y="196.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >1</text>
+<text x="750.0" y="197.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >Chain</text>
+<text x="722.0" y="222.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the signatures connect up to a root</text>
+<text x="722.0" y="241.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the client ALREADY has</text>
+<text x="722.0" y="268.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="start" >fails (simulated lab):</text>
+<text x="722.0" y="287.0" font-size="10.5" font-weight="800" fill="#e63946" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">unable to get local issuer certificate</text>
+<rect x="706.0" y="316.0" width="448.0" height="132.0" rx="10" fill="#eef1f5" />
+<circle cx="728.0" cy="340.0" r="12" fill="#a13a6b" stroke="#ffffff" stroke-width="2" />
+<text x="728.0" y="344.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >2</text>
+<text x="750.0" y="345.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >Name</text>
+<text x="722.0" y="370.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the typed name is written in the certificate:</text>
+<text x="722.0" y="389.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">mqtt.yourname.my.id</tspan>, not an IP address</text>
+<text x="722.0" y="416.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="start" >fails (simulated lab):</text>
+<text x="722.0" y="435.0" font-size="10.5" font-weight="800" fill="#e63946" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">Hostname/IP does not match certificate's altnames</text>
+<rect x="706.0" y="464.0" width="448.0" height="132.0" rx="10" fill="#eef1f5" />
+<circle cx="728.0" cy="488.0" r="12" fill="#a13a6b" stroke="#ffffff" stroke-width="2" />
+<text x="728.0" y="492.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >3</text>
+<text x="750.0" y="493.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >Dates</text>
+<text x="722.0" y="518.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">today is between "valid from" and</text>
+<text x="722.0" y="537.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">"valid until"; the client's clock must be right</text>
+<text x="722.0" y="564.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="start" >fails (simulated lab):</text>
+<text x="722.0" y="583.0" font-size="10.5" font-weight="800" fill="#e63946" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">certificate has expired</text>
+<rect x="706.0" y="628.0" width="448.0" height="54.0" rx="10" fill="#fcf2f6" />
+<text x="722.0" y="650.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Browser: all three pass = the padlock. A failure =</text>
+<text x="722.0" y="670.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">Your connection is not private</tspan> (the Quick Win)</text>
+<rect x="30.0" y="718.0" width="1140.0" height="214.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="54.0" y="748.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="start" >Let's Encrypt certificate lifetimes keep getting shorter</text>
+<text x="1146.0" y="748.0" font-size="12" font-weight="700" fill="#a13a6b" text-anchor="end" >Caddy renews by itself, at about a third of the lifetime left</text>
+<text x="54.0" y="794.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" >today (Oct 2026)</text>
+<rect x="250.0" y="776.0" width="648.0" height="26.0" rx="6" fill="#f5e0ea" stroke="#a13a6b" stroke-width="1.4" />
+<text x="262.0" y="794.0" font-size="13" font-weight="800" fill="#a13a6b" text-anchor="start" >90 days</text>
+<line x1="682.0" y1="772.0" x2="682.0" y2="806.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<text x="912.0" y="794.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" >vertical line ±day 60: Caddy renews</text>
+<text x="54.0" y="838.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" >from 10 Feb 2027</text>
+<rect x="250.0" y="820.0" width="460.8" height="26.0" rx="6" fill="#f5e0ea" stroke="#a13a6b" stroke-width="1.4" />
+<text x="262.0" y="838.0" font-size="13" font-weight="800" fill="#a13a6b" text-anchor="start" >64 days</text>
+<line x1="559.6" y1="816.0" x2="559.6" y2="850.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<text x="724.8" y="838.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" >vertical line ±day 43: Caddy renews</text>
+<text x="54.0" y="882.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" >from 16 Feb 2028</text>
+<rect x="250.0" y="864.0" width="324.0" height="26.0" rx="6" fill="#f5e0ea" stroke="#a13a6b" stroke-width="1.4" />
+<text x="262.0" y="882.0" font-size="13" font-weight="800" fill="#a13a6b" text-anchor="start" >45 days</text>
+<line x1="466.0" y1="860.0" x2="466.0" y2="894.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<text x="588.0" y="882.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" >vertical line ±day 30: Caddy renews</text>
+<text x="54.0" y="914.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">Let's Encrypt no longer sends expiry warning emails (a monitor follows in Module 30). Shorter lifetimes do NOT change the root.</text>
+<rect x="30.0" y="950.0" width="640.0" height="168.0" rx="12" fill="#fcf2f6" stroke="#a13a6b" stroke-width="1.6" />
+<text x="50.0" y="978.0" font-size="14" font-weight="800" fill="#a13a6b" text-anchor="start" >ACME: how Caddy gets a certificate</text>
+<text x="50.0" y="1004.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Caddy proves the name is its own through port <tspan font-weight="800" fill="#1e2a4a">80</tspan> (HTTP-01)</text>
+<text x="50.0" y="1025.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">or <tspan font-weight="800" fill="#1e2a4a">443</tspan> (TLS-ALPN-01): DNS must already point at the VPS</text>
+<text x="50.0" y="1046.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">an ACME account without email; a limit of <tspan font-weight="800" fill="#1e2a4a">5 identical</tspan></text>
+<text x="50.0" y="1067.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">certificates per 7 days</tspan>: don't delete Caddy's cupboard (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">docker</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">compose</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">down</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">-v</tspan>)</text>
+<text x="50.0" y="1088.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">simulated lab: Pebble issues within ±6 s (not a Let's Encrypt number)</text>
+<rect x="690.0" y="950.0" width="480.0" height="168.0" rx="12" fill="#eef1f5" />
+<text x="710.0" y="978.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >When does the root change?</text>
+<text x="710.0" y="1004.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">X1 is trusted by root programs until ±2030</text>
+<text x="710.0" y="1025.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">(its file is valid until 4 Jun 2035);</text>
+<text x="710.0" y="1046.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">its retirement date isn't announced yet</text>
+<text x="710.0" y="1067.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">a root change: the Pi just pulls a new image,</text>
+<text x="710.0" y="1088.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the ESP32 needs new firmware (OTA, Module 28)</text>
+<text x="1178.0" y="1146.0" font-size="11" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer Curriculum · CC BY 4.0</text>
+</svg>

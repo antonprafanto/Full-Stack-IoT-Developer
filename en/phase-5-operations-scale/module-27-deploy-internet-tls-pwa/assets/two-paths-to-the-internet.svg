@@ -1,0 +1,256 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1280" viewBox="0 0 1200 1280" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="1280" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" xml:space="preserve">Two paths to the internet</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" xml:space="preserve">Concepts 1 and 10 · the Mini Smart Home after Module 27 · no port forwarding on the router on either path</text>
+<rect x="30.0" y="102.0" width="372.0" height="640.0" rx="16" fill="#ffffff" stroke="#1e2a4a" stroke-width="2.2" />
+<path d="M47 131 L64 117 L81 131" fill="none" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="52.0" y="129.0" width="24.0" height="18.0" rx="2" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<rect x="60.5" y="137.0" width="7.0" height="10.0" rx="1" fill="none" stroke="#1e2a4a" stroke-width="1.6" />
+<text x="92.0" y="130.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >Home (home Wi-Fi)</text>
+<text x="92.0" y="149.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">home router: no port forwarding</text>
+<rect x="46.0" y="168.0" width="158.0" height="92.0" rx="12" fill="#fdeedd" stroke="#b45f17" stroke-width="1.8" />
+<rect x="57.0" y="178.0" width="30.0" height="40.0" rx="3" fill="none" stroke="#b45f17" stroke-width="2" />
+<rect x="63.0" y="184.0" width="18.0" height="14.0" rx="2" fill="none" stroke="#b45f17" stroke-width="1.6" />
+<line x1="57.0" y1="188.0" x2="52.0" y2="188.0" stroke="#b45f17" stroke-width="1.6" stroke-linecap="round" />
+<line x1="87.0" y1="188.0" x2="92.0" y2="188.0" stroke="#b45f17" stroke-width="1.6" stroke-linecap="round" />
+<line x1="57.0" y1="196.0" x2="52.0" y2="196.0" stroke="#b45f17" stroke-width="1.6" stroke-linecap="round" />
+<line x1="87.0" y1="196.0" x2="92.0" y2="196.0" stroke="#b45f17" stroke-width="1.6" stroke-linecap="round" />
+<line x1="57.0" y1="204.0" x2="52.0" y2="204.0" stroke="#b45f17" stroke-width="1.6" stroke-linecap="round" />
+<line x1="87.0" y1="204.0" x2="92.0" y2="204.0" stroke="#b45f17" stroke-width="1.6" stroke-linecap="round" />
+<line x1="57.0" y1="212.0" x2="52.0" y2="212.0" stroke="#b45f17" stroke-width="1.6" stroke-linecap="round" />
+<line x1="87.0" y1="212.0" x2="92.0" y2="212.0" stroke="#b45f17" stroke-width="1.6" stroke-linecap="round" />
+<text x="96.0" y="196.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Node 2</text>
+<text x="96.0" y="213.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" >"Garden"</text>
+<text x="60.0" y="246.0" font-size="11.5" font-weight="800" fill="#b45f17" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">v1.0.0</text>
+<rect x="228.0" y="168.0" width="158.0" height="92.0" rx="12" fill="#e2f3f1" stroke="#0f8b8d" stroke-width="1.8" />
+<rect x="239.0" y="178.0" width="30.0" height="40.0" rx="3" fill="none" stroke="#0f8b8d" stroke-width="2" />
+<rect x="245.0" y="184.0" width="18.0" height="14.0" rx="2" fill="none" stroke="#0f8b8d" stroke-width="1.6" />
+<line x1="239.0" y1="188.0" x2="234.0" y2="188.0" stroke="#0f8b8d" stroke-width="1.6" stroke-linecap="round" />
+<line x1="269.0" y1="188.0" x2="274.0" y2="188.0" stroke="#0f8b8d" stroke-width="1.6" stroke-linecap="round" />
+<line x1="239.0" y1="196.0" x2="234.0" y2="196.0" stroke="#0f8b8d" stroke-width="1.6" stroke-linecap="round" />
+<line x1="269.0" y1="196.0" x2="274.0" y2="196.0" stroke="#0f8b8d" stroke-width="1.6" stroke-linecap="round" />
+<line x1="239.0" y1="204.0" x2="234.0" y2="204.0" stroke="#0f8b8d" stroke-width="1.6" stroke-linecap="round" />
+<line x1="269.0" y1="204.0" x2="274.0" y2="204.0" stroke="#0f8b8d" stroke-width="1.6" stroke-linecap="round" />
+<line x1="239.0" y1="212.0" x2="234.0" y2="212.0" stroke="#0f8b8d" stroke-width="1.6" stroke-linecap="round" />
+<line x1="269.0" y1="212.0" x2="274.0" y2="212.0" stroke="#0f8b8d" stroke-width="1.6" stroke-linecap="round" />
+<text x="278.0" y="196.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Node 1</text>
+<text x="278.0" y="213.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" >"Home"</text>
+<text x="242.0" y="246.0" font-size="11.5" font-weight="800" fill="#0f8b8d" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">v1.6.0</text>
+<text x="294.0" y="246.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="start" >unchanged</text>
+<line x1="206.0" y1="214.0" x2="224.0" y2="214.0" stroke="#b45f17" stroke-width="2.2" stroke-linecap="round" />
+<path d="M218.7 216.8 L224.0 214.0 L218.7 211.2" fill="none" stroke="#b45f17" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="60.0" y="280.0" font-size="11" font-weight="800" fill="#b45f17" text-anchor="start" >ESP-NOW to Node 1</text>
+<line x1="307.0" y1="262.0" x2="307.0" y2="318.0" stroke="#2f6fd1" stroke-width="2.4" stroke-linecap="round" />
+<path d="M303.2 310.9 L307.0 318.0 L310.8 310.9" fill="none" stroke="#2f6fd1" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="298.0" y="286.0" font-size="11.5" font-weight="700" fill="#2f6fd1" text-anchor="end" xml:space="preserve">plain MQTT to</text>
+<text x="298.0" y="302.0" font-size="11.5" font-weight="700" fill="#2f6fd1" text-anchor="end" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#2f6fd1" font-weight="800">192.168.1.37:1883</tspan></text>
+<rect x="46.0" y="322.0" width="340.0" height="404.0" rx="12" fill="#ffffff" stroke="#1e2a4a" stroke-width="1.8" />
+<rect x="54.0" y="333.0" width="48.0" height="34.0" rx="4" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<circle cx="61.0" cy="339.0" r="1.3" fill="#1e2a4a" />
+<circle cx="66.4" cy="339.0" r="1.3" fill="#1e2a4a" />
+<circle cx="71.8" cy="339.0" r="1.3" fill="#1e2a4a" />
+<circle cx="77.2" cy="339.0" r="1.3" fill="#1e2a4a" />
+<circle cx="82.6" cy="339.0" r="1.3" fill="#1e2a4a" />
+<circle cx="88.0" cy="339.0" r="1.3" fill="#1e2a4a" />
+<rect x="86.0" y="346.0" width="12.0" height="9.0" rx="1" fill="none" stroke="#1e2a4a" stroke-width="1.5" />
+<rect x="66.0" y="348.0" width="12.0" height="12.0" rx="1.5" fill="none" stroke="#1e2a4a" stroke-width="1.5" />
+<text x="110.0" y="348.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >Raspberry Pi</text>
+<text x="110.0" y="366.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">192.168.1.37</text>
+<rect x="60.0" y="380.0" width="312.0" height="104.0" rx="10" fill="#ffffff" stroke="#0f8b8d" stroke-width="1.8" />
+<text x="74.0" y="404.0" font-size="12.5" font-weight="800" fill="#0f8b8d" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">mosquitto</text>
+<text x="149.7" y="404.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="start" >gateway · counter 1883</text>
+<text x="74.0" y="426.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">edge/compose.edge.yml</tspan> (Module 26)</text>
+<text x="74.0" y="444.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#a13a6b">store-and-forward:</tspan> the queue is held</text>
+<text x="74.0" y="462.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">on the Pi while the internet is down (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">gateway.conf</tspan>)</text>
+<rect x="60.0" y="500.0" width="312.0" height="212.0" rx="10" fill="#fcf2f6" stroke="#a13a6b" stroke-width="1.6" stroke-dasharray="7 5"/>
+<text x="74.0" y="522.0" font-size="12.5" font-weight="800" fill="#a13a6b" text-anchor="start" >Free path only: the center on the Pi too</text>
+<text x="74.0" y="544.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">compose.cloud.yml</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">.env</tspan> Pi column:</text>
+<text x="74.0" y="562.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">web</tspan> (Caddy <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">:80</tspan>), <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">backend</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">db</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">grafana</tspan>,</text>
+<text x="74.0" y="580.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">central broker <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">1884</tspan> (only <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">172.17.0.1</tspan>)</text>
+<text x="74.0" y="598.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">LAN bridge gateway → <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">center:1884</tspan></text>
+<text x="74.0" y="616.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">(<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">host-gateway</tspan>, plain: never leaves home)</text>
+<rect x="74.0" y="640.0" width="284.0" height="44.0" rx="8" fill="#ffffff" stroke="#a13a6b" stroke-width="1.6" />
+<text x="86.0" y="659.0" font-size="12" font-weight="800" fill="#a13a6b" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">cloudflared</text>
+<text x="173.5" y="659.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="start" xml:space="preserve">profile <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#4a5568" font-weight="800">tunnel</tspan></text>
+<text x="86.0" y="676.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="start" >opens an OUTGOING tunnel to Cloudflare</text>
+<rect x="492.0" y="102.0" width="380.0" height="392.0" rx="16" fill="#ffffff" stroke="#a13a6b" stroke-width="2.2" />
+<rect x="506.0" y="112.0" width="36.0" height="11.0" rx="2" fill="none" stroke="#a13a6b" stroke-width="1.8" />
+<circle cx="513.0" cy="117.5" r="1.6" fill="#a13a6b" />
+<rect x="506.0" y="126.0" width="36.0" height="11.0" rx="2" fill="none" stroke="#a13a6b" stroke-width="1.8" />
+<circle cx="513.0" cy="131.5" r="1.6" fill="#a13a6b" />
+<rect x="506.0" y="140.0" width="36.0" height="11.0" rx="2" fill="none" stroke="#a13a6b" stroke-width="1.8" />
+<circle cx="513.0" cy="145.5" r="1.6" fill="#a13a6b" />
+<text x="552.0" y="130.0" font-size="15" font-weight="800" fill="#a13a6b" text-anchor="start" >Rented VPS: the main path</text>
+<text x="552.0" y="149.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">Ubuntu 26.04 · 2 GB · example IP <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#4a5568" font-weight="800">203.0.113.10</tspan></text>
+<rect x="506.0" y="162.0" width="352.0" height="44.0" rx="8" fill="#fcf2f6" />
+<text x="518.0" y="180.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the SAME <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#a13a6b" font-weight="800">compose.cloud.yml</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#a13a6b" font-weight="800">.env</tspan> VPS column</text>
+<text x="518.0" y="198.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#4a5568" font-weight="800">CENTER_CONF=center-internet.conf</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#4a5568" font-weight="800">*_DOMAIN</tspan> set</text>
+<rect x="506.0" y="220.0" width="172.0" height="70.0" rx="10" fill="#ffffff" stroke="#1a7f37" stroke-width="1.8" />
+<text x="518.0" y="242.0" font-size="12" font-weight="800" fill="#1a7f37" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">backend</text>
+<text x="518.0" y="260.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="start" xml:space="preserve">1.4.0</text>
+<text x="518.0" y="278.0" font-size="11" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">Secure</tspan> cookie on HTTPS</text>
+<rect x="686.0" y="220.0" width="172.0" height="70.0" rx="10" fill="#ffffff" stroke="#6f42c1" stroke-width="1.8" />
+<text x="698.0" y="242.0" font-size="12" font-weight="800" fill="#6f42c1" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">web</text>
+<text x="698.0" y="260.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="start" xml:space="preserve">Caddy: automatic HTTPS</text>
+<text x="698.0" y="278.0" font-size="11" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">80</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">443</tspan> from the internet</text>
+<rect x="506.0" y="302.0" width="172.0" height="70.0" rx="10" fill="#ffffff" stroke="#336791" stroke-width="1.8" />
+<text x="518.0" y="324.0" font-size="12" font-weight="800" fill="#336791" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">db</text>
+<text x="518.0" y="342.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="start" xml:space="preserve">history moved</text>
+<text x="518.0" y="360.0" font-size="11" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">external</tspan> cupboard</text>
+<rect x="686.0" y="302.0" width="172.0" height="70.0" rx="10" fill="#ffffff" stroke="#6f42c1" stroke-width="1.8" />
+<text x="698.0" y="324.0" font-size="12" font-weight="800" fill="#6f42c1" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">grafana</text>
+<text x="698.0" y="342.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="start" xml:space="preserve">through <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#4a5568" font-weight="800">/grafana/</tspan></text>
+<text x="698.0" y="360.0" font-size="11" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">alert links <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">https://</tspan></text>
+<rect x="506.0" y="384.0" width="172.0" height="70.0" rx="10" fill="#ffffff" stroke="#0f8b8d" stroke-width="1.8" />
+<text x="518.0" y="406.0" font-size="12" font-weight="800" fill="#0f8b8d" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">mosquitto</text>
+<text x="518.0" y="424.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="start" xml:space="preserve">central</text>
+<text x="518.0" y="442.0" font-size="11" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">8883</tspan> TLS · <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">1883</tspan> local</text>
+<rect x="686.0" y="384.0" width="172.0" height="70.0" rx="10" fill="#ffffff" stroke="#a13a6b" stroke-width="1.8" />
+<text x="698.0" y="406.0" font-size="12" font-weight="800" fill="#a13a6b" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">mqtt-certificate</text>
+<text x="698.0" y="428.0" font-size="11" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">copy + weekly cron</text>
+<text x="506.0" y="480.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">open doors: <tspan font-weight="800" fill="#a13a6b">22</tspan> SSH · <tspan font-weight="800" fill="#a13a6b">80/443</tspan> web · <tspan font-weight="800" fill="#a13a6b">8883</tspan> MQTT TLS</text>
+<rect x="492.0" y="522.0" width="380.0" height="220.0" rx="16" fill="#ffffff" stroke="#a13a6b" stroke-width="1.8" stroke-dasharray="8 5"/>
+<path d="M510 564 Q500 564 502 554 Q504 544 516 546 Q522 534 536 539 Q548 536 550 548 Q560 550 558 559 Q556 564 548 564 Z" fill="none" stroke="#a13a6b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="566.0" y="552.0" font-size="15" font-weight="800" fill="#a13a6b" text-anchor="start" >Cloudflare: the free path</text>
+<text x="566.0" y="571.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >free account, the domain kept at Cloudflare</text>
+<text x="512.0" y="602.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">HTTPS is set up at Cloudflare's edge, then carried</text>
+<text x="512.0" y="621.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">through the tunnel to <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">web:80</tspan> on the Pi</text>
+<text x="512.0" y="640.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">iot.</tspan> = a CNAME to the tunnel; no <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">mqtt.</tspan>:</text>
+<text x="512.0" y="659.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">MQTT doesn't go through the tunnel, the broker</text>
+<text x="512.0" y="678.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">is only on the home network</text>
+<text x="512.0" y="697.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Cloudflare sees the traffic's contents (privacy)</text>
+<line x1="372.0" y1="432.0" x2="482.0" y2="432.0" stroke="#a13a6b" stroke-width="3" stroke-linecap="round" />
+<path d="M482.1 436.2 L490.0 432.0 L482.1 427.8" fill="none" stroke="#a13a6b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<text x="447.0" y="388.0" font-size="12" font-weight="800" fill="#a13a6b" text-anchor="middle" >TLS bridge</text>
+<text x="447.0" y="404.0" font-size="11.5" font-weight="700" fill="#a13a6b" text-anchor="middle" >out, 8883</text>
+<text x="447.0" y="420.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="middle" >root ISRG X1</text>
+<text x="447.0" y="452.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="middle" >commands</text>
+<text x="447.0" y="467.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="middle" >come down</text>
+<text x="447.0" y="482.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="middle" >the same way</text>
+<line x1="358.0" y1="659.0" x2="482.0" y2="659.0" stroke="#a13a6b" stroke-width="2.2" stroke-linecap="round" stroke-dasharray="7 5" />
+<line x1="358.0" y1="665.0" x2="482.0" y2="665.0" stroke="#a13a6b" stroke-width="2.2" stroke-linecap="round" stroke-dasharray="7 5" />
+<path d="M482.1 666.2 L490.0 662.0 L482.1 657.8" fill="none" stroke="#a13a6b" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="449.0" y="632.0" font-size="12" font-weight="800" fill="#a13a6b" text-anchor="middle" >tunnel</text>
+<text x="449.0" y="648.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="middle" >from the Pi</text>
+<rect x="900.0" y="220.0" width="270.0" height="118.0" rx="12" fill="#ffffff" stroke="#6f42c1" stroke-width="1.6" />
+<rect x="919.0" y="237.0" width="22.0" height="38.0" rx="5" fill="none" stroke="#6f42c1" stroke-width="2" />
+<circle cx="930.0" cy="269.0" r="1.8" fill="#6f42c1" />
+<text x="952.0" y="250.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Visitors anywhere</text>
+<text x="952.0" y="268.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" >a phone (mobile data), a friend</text>
+<text x="952.0" y="284.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" >in another town, the PWA app</text>
+<text x="916.0" y="312.0" font-size="11" font-weight="800" fill="#6f42c1" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">https://iot.yourname.my.id</text>
+<text x="916.0" y="329.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="start" >dashboard, /api, Socket.IO, Grafana</text>
+<line x1="898.0" y1="279.0" x2="878.0" y2="279.0" stroke="#6f42c1" stroke-width="2.4" stroke-linecap="round" />
+<path d="M885.1 275.2 L878.0 279.0 L885.1 282.8" fill="none" stroke="#6f42c1" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="886.0" y="271.0" font-size="11.5" font-weight="800" fill="#6f42c1" text-anchor="middle" >443</text>
+<rect x="900.0" y="360.0" width="270.0" height="104.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<rect x="914.0" y="377.0" width="40.0" height="26.0" rx="3" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<path d="M908 407 L960 407" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="966.0" y="390.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Laptop (admin)</text>
+<text x="966.0" y="408.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" >ed25519 SSH key</text>
+<text x="916.0" y="434.0" font-size="11" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">ssh</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">git</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">pull</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">docker</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">compose</tspan></text>
+<text x="916.0" y="452.0" font-size="11" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">ssh</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">-L</tspan> for the <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">127.0.0.1</tspan> counters</text>
+<line x1="898.0" y1="412.0" x2="878.0" y2="412.0" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" />
+<path d="M884.2 408.7 L878.0 412.0 L884.2 415.3" fill="none" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="886.0" y="404.0" font-size="11.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" >22</text>
+<rect x="900.0" y="562.0" width="270.0" height="104.0" rx="12" fill="#ffffff" stroke="#6f42c1" stroke-width="1.6" stroke-dasharray="7 5"/>
+<rect x="919.0" y="579.0" width="22.0" height="38.0" rx="5" fill="none" stroke="#6f42c1" stroke-width="2" />
+<circle cx="930.0" cy="611.0" r="1.8" fill="#6f42c1" />
+<text x="952.0" y="592.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Visitors (free path)</text>
+<text x="952.0" y="610.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" >the same address and app</text>
+<text x="916.0" y="638.0" font-size="11" font-weight="800" fill="#6f42c1" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">https://iot.yourname.my.id</text>
+<text x="916.0" y="655.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="start" >MQTT from outside the home: none</text>
+<line x1="898.0" y1="614.0" x2="878.0" y2="614.0" stroke="#6f42c1" stroke-width="2.2" stroke-linecap="round" />
+<path d="M884.2 610.7 L878.0 614.0 L884.2 617.3" fill="none" stroke="#6f42c1" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="886.0" y="606.0" font-size="11.5" font-weight="800" fill="#6f42c1" text-anchor="middle" >443</text>
+<text x="900.0" y="688.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#a13a6b">Neither opens the router:</tspan></text>
+<text x="900.0" y="706.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" >the bridge and the tunnel are</text>
+<text x="900.0" y="724.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" >OUTGOING connections from home</text>
+<rect x="30.0" y="764.0" width="1140.0" height="40.0" rx="10" fill="#fcf2f6" />
+<text x="50.0" y="790.0" font-size="13" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#a13a6b">After Module 27:</tspan> backend <tspan font-weight="800" fill="#a13a6b">1.4.0</tspan> · dashboard (frontend) <tspan font-weight="800" fill="#a13a6b">1.3.0</tspan> · data contract <tspan font-weight="800" fill="#a13a6b">1.5</tspan> · Node 1 v1.6.0 and Node 2 v1.0.0 firmware <tspan font-weight="800" fill="#a13a6b">unchanged</tspan> · migrations unchanged</text>
+<rect x="30.0" y="822.0" width="760.0" height="416.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<path d="M50 864 Q40 864 42 854 Q44 844 56 846 Q62 834 76 839 Q88 836 90 848 Q100 850 98 859 Q96 864 88 864 Z" fill="none" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="108.0" y="856.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >GitHub: mini-smart-home</text>
+<text x="770.0" y="856.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="end" xml:space="preserve">branch <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="700">feature/to-the-internet</tspan> → pull request</text>
+<rect x="50.0" y="872.0" width="13.0" height="13.0" rx="3" fill="#a13a6b" stroke="#a13a6b" stroke-width="1.4" />
+<path d="M53 878.8 L55.6 881.4 L60.2 875.8" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<text x="72.0" y="884.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">pull request "Online on the internet: HTTPS, MQTT over TLS, an outage-proof bridge, PWA"</text>
+<text x="50.0" y="914.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">compose.cloud.yml</text>
+<text x="400.0" y="914.0" font-size="12" font-weight="700" fill="#a13a6b" text-anchor="start" xml:space="preserve">one file for laptop, VPS, Pi: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="800">mqtt-certificate</tspan>, 443, 8883</text>
+<text x="50.0" y="933.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">.env.example</text>
+<text x="400.0" y="933.0" font-size="12" font-weight="700" fill="#a13a6b" text-anchor="start" xml:space="preserve">block "On the internet": values per place (laptop, VPS, Pi)</text>
+<text x="50.0" y="952.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">frontend/caddy/Caddyfile</text>
+<text x="400.0" y="952.0" font-size="12" font-weight="700" fill="#a13a6b" text-anchor="start" xml:space="preserve">HTTPS when <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="800">WEB_DOMAIN</tspan> is set, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="800">/grafana/</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="800">mqtt.</tspan> → 404</text>
+<text x="50.0" y="971.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">edge/center-internet.conf</text>
+<text x="400.0" y="971.0" font-size="12" font-weight="700" fill="#a13a6b" text-anchor="start" xml:space="preserve">new: the TLS door 8883 with a certificate copy</text>
+<text x="50.0" y="990.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">edge/gateway.conf</text>
+<text x="400.0" y="990.0" font-size="12" font-weight="700" fill="#a13a6b" text-anchor="start" xml:space="preserve">+ 4 store-and-forward lines (the queue is held)</text>
+<text x="50.0" y="1009.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">edge/bridge.example.conf</text>
+<text x="400.0" y="1009.0" font-size="12" font-weight="700" fill="#a13a6b" text-anchor="start" xml:space="preserve">TLS to the VPS, root ISRG Root X1, clean central session</text>
+<text x="50.0" y="1028.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">edge/acl-broker + compose.edge.yml</text>
+<text x="400.0" y="1028.0" font-size="12" font-weight="700" fill="#a13a6b" text-anchor="start" xml:space="preserve">status <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="800">$SYS/…/pi-bridge/state</tspan>; <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="800">cloudflared</tspan> moved</text>
+<text x="50.0" y="1047.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">scripts/*.sh + check-late-arrivals.sql</text>
+<text x="400.0" y="1047.0" font-size="12" font-weight="700" fill="#a13a6b" text-anchor="start" xml:space="preserve">new: copy + reload (cron), proof of late arrivals</text>
+<text x="50.0" y="1066.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">backend/ 1.4.0</text>
+<text x="400.0" y="1066.0" font-size="12" font-weight="700" fill="#a13a6b" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="800">TRUST_PROXY</tspan>, persistent session at the broker (118 tests pass)</text>
+<text x="50.0" y="1085.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">frontend/ 1.3.0</text>
+<text x="400.0" y="1085.0" font-size="12" font-weight="700" fill="#a13a6b" text-anchor="start" xml:space="preserve">PWA: manifest, house icons, service worker</text>
+<text x="50.0" y="1104.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">DATA-CONTRACT.md 1.5</text>
+<text x="400.0" y="1104.0" font-size="12" font-weight="700" fill="#a13a6b" text-anchor="start" xml:space="preserve">internet broker address + store-and-forward rules</text>
+<text x="50.0" y="1123.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">tools/, grafana/, README.md, PR template</text>
+<text x="400.0" y="1123.0" font-size="12" font-weight="700" fill="#a13a6b" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="800">mqtts://</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="800">/grafana/</tspan>, items (Module 27)</text>
+<text x="50.0" y="1146.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">unchanged:</tspan> the MQTT message shapes, the Node 1 and Node 2 firmware, the database migrations</text>
+<rect x="46.0" y="1158.0" width="728.0" height="50.0" rx="8" fill="#eef1f5" />
+<rect x="57.0" y="1173.3" width="12.1" height="9.4" rx="1.6500000000000001" fill="none" stroke="#1e2a4a" stroke-width="1.5" />
+<path d="M59.42 1173.35 L59.42 1170.60 A3.58 3.58 0 0 1 66.58 1170.60 L66.58 1173.35" fill="none" stroke="#1e2a4a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="63.0" cy="1177.8" r="1.29" fill="#1e2a4a" />
+<text x="80.0" y="1179.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve">never in Git: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="800">.env</tspan> (also <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="800">TUNNEL_TOKEN</tspan>), <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="800">edge/.env</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="800">edge/bridge/center.conf</tspan>,</text>
+<text x="80.0" y="1198.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve">private SSH keys, Caddy's cupboard contents (certificates + keys), <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" font-weight="800">backup/</tspan></text>
+<text x="810.0" y="836.0" font-size="12.5" font-weight="800" fill="#4a5568" text-anchor="start" >coming later</text>
+<rect x="810.0" y="848.0" width="360.0" height="74.0" rx="8" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.4" stroke-dasharray="7 5"/>
+<g transform="translate(832 870) scale(0.5) translate(-832 -870)">
+<rect x="817.0" y="850.0" width="30.0" height="40.0" rx="3" fill="none" stroke="#4a5568" stroke-width="2" />
+<rect x="823.0" y="856.0" width="18.0" height="14.0" rx="2" fill="none" stroke="#4a5568" stroke-width="1.6" />
+<line x1="817.0" y1="860.0" x2="812.0" y2="860.0" stroke="#4a5568" stroke-width="1.6" stroke-linecap="round" />
+<line x1="847.0" y1="860.0" x2="852.0" y2="860.0" stroke="#4a5568" stroke-width="1.6" stroke-linecap="round" />
+<line x1="817.0" y1="868.0" x2="812.0" y2="868.0" stroke="#4a5568" stroke-width="1.6" stroke-linecap="round" />
+<line x1="847.0" y1="868.0" x2="852.0" y2="868.0" stroke="#4a5568" stroke-width="1.6" stroke-linecap="round" />
+<line x1="817.0" y1="876.0" x2="812.0" y2="876.0" stroke="#4a5568" stroke-width="1.6" stroke-linecap="round" />
+<line x1="847.0" y1="876.0" x2="852.0" y2="876.0" stroke="#4a5568" stroke-width="1.6" stroke-linecap="round" />
+<line x1="817.0" y1="884.0" x2="812.0" y2="884.0" stroke="#4a5568" stroke-width="1.6" stroke-linecap="round" />
+<line x1="847.0" y1="884.0" x2="852.0" y2="884.0" stroke="#4a5568" stroke-width="1.6" stroke-linecap="round" />
+</g>
+<text x="852.0" y="874.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Module 28</text>
+<text x="852.0" y="894.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">firmware over the air (OTA) and a fleet</text>
+<text x="852.0" y="911.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">of devices</text>
+<rect x="810.0" y="932.0" width="360.0" height="74.0" rx="8" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.4" stroke-dasharray="7 5"/>
+<g transform="translate(832 954) scale(0.5) translate(-832 -954)">
+<rect x="814.0" y="934.0" width="36.0" height="11.0" rx="2" fill="none" stroke="#4a5568" stroke-width="1.8" />
+<circle cx="821.0" cy="939.5" r="1.6" fill="#4a5568" />
+<rect x="814.0" y="948.0" width="36.0" height="11.0" rx="2" fill="none" stroke="#4a5568" stroke-width="1.8" />
+<circle cx="821.0" cy="953.5" r="1.6" fill="#4a5568" />
+<rect x="814.0" y="962.0" width="36.0" height="11.0" rx="2" fill="none" stroke="#4a5568" stroke-width="1.8" />
+<circle cx="821.0" cy="967.5" r="1.6" fill="#4a5568" />
+</g>
+<text x="852.0" y="958.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Module 29</text>
+<text x="852.0" y="978.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">GitHub Actions: multi-architecture images,</text>
+<text x="852.0" y="995.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">automatic deploys to the VPS and the Pi</text>
+<rect x="810.0" y="1016.0" width="360.0" height="74.0" rx="8" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.4" stroke-dasharray="7 5"/>
+<g transform="translate(832 1038) scale(0.5) translate(-832 -1038)">
+<rect x="813.0" y="1024.0" width="38.0" height="28.0" rx="4" fill="none" stroke="#4a5568" stroke-width="2" />
+<path d="M819 1045 L827 1037 L834 1042 L845 1030" fill="none" stroke="#4a5568" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+</g>
+<text x="852.0" y="1042.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Module 30</text>
+<text x="852.0" y="1062.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">Uptime Kuma, automatic backups off the</text>
+<text x="852.0" y="1079.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">VPS, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#4a5568" font-weight="800">/health</tspan> 503, runbooks</text>
+<rect x="810.0" y="1100.0" width="360.0" height="138.0" rx="12" fill="#eef1f5" />
+<text x="828.0" y="1126.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" >Honestly, after Module 27 still:</text>
+<circle cx="832.0" cy="1146.0" r="2.2" fill="#1e2a4a" />
+<text x="842.0" y="1150.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">home internet down: the dashboard still</text>
+<text x="842.0" y="1168.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">says "Online" (stale data), the server's</text>
+<text x="842.0" y="1186.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">automation rules stay quiet until it reconnects</text>
+<circle cx="832.0" cy="1200.0" r="2.2" fill="#1e2a4a" />
+<text x="842.0" y="1204.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">tested on a simulated internet (Pebble, a</text>
+<text x="842.0" y="1222.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Docker network), not a real VPS or phone</text>
+<text x="1178.0" y="1266.0" font-size="11" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer Curriculum · CC BY 4.0</text>
+</svg>

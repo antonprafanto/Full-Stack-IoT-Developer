@@ -1,10 +1,13 @@
-# compose.edge.yml - the Mini Smart Home GATEWAY services on the Raspberry Pi (Module 26), the partner of compose.cloud.yml on the laptop.
+# compose.edge.yml - the Mini Smart Home GATEWAY services on the Raspberry Pi (Modules 26-27), the partner of compose.cloud.yml at the
+# center (the laptop in Module 26; a VPS or the same Pi in Module 27).
 # Run it on the Pi, from the edge folder:  docker compose up -d
 #   The line COMPOSE_FILE=compose.edge.yml in edge/.env makes -f unnecessary (its example is edge/.env.example).
-# The Mosquitto gateway broker (replacing the Module 12 apt package) + the bridge to the central broker on the laptop (bridge/center.conf).
-# cloudflared (Module 27) and Node-RED (optional) only start when their profile is named, for example:
-#   docker compose --profile nodered up -d
-# In Module 26 neither of them is started. NEVER "docker compose down -v": -v deletes the cupboard holding the broker password file.
+# The Mosquitto gateway broker (replacing the Module 12 apt package) + the bridge to the central broker (bridge/center.conf). Since Module 27
+# that bridge holds the devices' messages while the center can't be reached (gateway.conf) and can connect over TLS to a VPS.
+# Node-RED (optional) only starts when its profile is named: docker compose --profile nodered up -d
+# Module 27: cloudflared (the Cloudflare tunnel, the free path) MOVED to compose.cloud.yml (profile "tunnel"), because it must
+# share a hallway with the web service. DON'T "docker compose down -v": -v deletes the cupboard with the broker password file AND
+# the queue of messages not yet sent to the center.
 name: smarthome-gateway
 
 # Each container's log is limited to 3 files x 10 MB. Docker's default has NO limit: the Pi's microSD card can fill up slowly.
@@ -25,7 +28,7 @@ services:
       - ./acl-broker:/mosquitto/config/acl-broker:ro
       # the bridge folder: holds center.conf (the bridge password, not in Git)
       - ./bridge:/mosquitto/config/bridge:ro
-      # the password file (moved from /etc/mosquitto/broker-passwd), retained messages, and sessions
+      # the password file (moved from /etc/mosquitto/broker-passwd), retained messages, sessions, and (Module 27) the bridge queue
       - broker-data:/mosquitto/data
     # The Mosquitto image declares its log folder as a cupboard, while our log shows on the screen (docker compose logs).
     # tmpfs = a temporary folder in RAM: without it Docker makes a nameless cupboard every time this container is recreated.
@@ -35,23 +38,20 @@ services:
       # all interfaces: devices connect from the home Wi-Fi. The firmware uses 1883, so on the Pi don't change this number.
       - "${PORT_GATEWAY:-1883}:1883"
     extra_hosts:
-      # the name "center" in bridge/center.conf points at the IP of the laptop that runs compose.cloud.yml (CENTER_ADDRESS in
-      # edge/.env). The gateway tried on the same laptop (laptop path): CENTER_ADDRESS=host-gateway (= this machine itself).
-      - "center:${CENTER_ADDRESS:?fill in CENTER_ADDRESS in edge/.env (the center laptop's IP)}"
+      # the name "center" in bridge/center.conf (the HOME bridge, plain) points at CENTER_ADDRESS in edge/.env: the IP of the laptop
+      # that runs compose.cloud.yml (Module 26), or host-gateway (= this machine itself) when the center and the gateway are on the
+      # same machine (the Module 26 laptop path, the Module 27 free-path Pi). The bridge to a VPS (Module 27 main path) uses the
+      # domain name directly, so this line isn't used there: CENTER_ADDRESS may stay empty (= host-gateway).
+      - "center:${CENTER_ADDRESS:-host-gateway}"
+      # Module 27, OPTIONAL (main path): while the home internet is down, every bridge attempt asks DNS for the VPS broker's
+      # name, and the gateway broker is held up to ±5 seconds waiting for the answer (local messages are delayed too; devices
+      # don't disconnect). A name written here is not asked from DNS: remove the # in front of the next line and fill in the
+      # broker name + your VPS IP. The price: if the VPS IP changes, this line must change too (the bridge won't connect until then).
+      # - "mqtt.yourname.my.id:203.0.113.10"
     restart: unless-stopped
     logging: *log
 
-  # The Cloudflare tunnel (Module 27, the free path): needs TUNNEL_TOKEN in edge/.env. The "tunnel" profile = doesn't start
-  # until it's called: docker compose --profile tunnel up -d
-  cloudflared:
-    image: cloudflare/cloudflared:2026.10.5
-    profiles: ["tunnel"]
-    # the image's starting program is already "cloudflared --no-autoupdate"; this is what follows it
-    command: ["tunnel", "run"]
-    environment:
-      TUNNEL_TOKEN: ${TUNNEL_TOKEN:-}
-    restart: unless-stopped
-    logging: *log
+  # Module 27: the cloudflared service (profile "tunnel") written here in Module 26 now lives in compose.cloud.yml.
 
   # Node-RED in a container (optional). Module 26 keeps using the systemd Node-RED of Module 13. Before using this profile,
   # stop the systemd nodered service (counter 1880 clashes), move the flows and their credentials, then change the broker

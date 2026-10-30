@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en" class="scheme-light dark:scheme-dark scroll-pb-64 xl:scroll-pb-0">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- Module 24: scroll-pb-64 = when the browser scrolls BY ITSELF to a button or field (the Tab key, a field with an error), it
+         leaves 16rem free at the bottom, where the toasts sit on phones and tablets. From 1280 px the toasts are beside the content: xl:scroll-pb-0. -->
+    <!-- Module 27: the tab icon = a house (public/favicon.svg), not the Vite logo anymore. -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <!-- Module 24: an icon (180 x 180 px) and a short name for the iPhone ("Add to Home Screen"). Module 27: over https://,
+         Android and laptops read the app's name and icons from manifest.webmanifest; vite-plugin-pwa adds its link by
+         itself at npm run build (see vite.config.ts). -->
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="Smart Home" />
+    <!-- Module 27: the color of the installed app's top bar; must equal theme_color in vite.config.ts -->
+    <meta name="theme-color" content="#1d293d" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mini Smart Home</title>
+  </head>
+  <body class="bg-slate-100 dark:bg-slate-900">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

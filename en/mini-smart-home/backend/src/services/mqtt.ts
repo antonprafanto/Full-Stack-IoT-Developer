@@ -25,12 +25,19 @@ export interface BrokerAccount {
 }
 
 export function startMqtt(url: string, account: BrokerAccount | null, log: FastifyBaseLogger): void {
-  const clientName = "backend-" + Math.random().toString(16).slice(2, 8); // a unique name; a locked broker uses its account name
+  // The client name: without an account = a random name (an old broker without locks). With an account = the account name
+  // itself (Module 27), as a locked broker uses it (use_username_as_clientid), so the persistent session below stays the same.
+  const clientName = account === null ? "backend-" + Math.random().toString(16).slice(2, 8) : account.username;
   client = mqtt.connect(url, {
     clientId: clientName,
     reconnectPeriod: RETRY_NORMAL_MS,
     ...(account === null ? {} : { username: account.username, password: account.password }),
     reconnectOnConnackError: true, // Module 21: without this, once rejected by the broker = stop trying forever
+    // Module 27: a PERSISTENT session when logging in with an account (client name = account name: always the same session).
+    // The central broker remembers the backend's subscription and HOLDS QoS 1 messages (the Pi bridge's queue among them) while
+    // the backend isn't connected: a few seconds after the central broker restarts, or while the backend itself is recreated.
+    // A clean session = messages that arrive before the backend subscribes again are lost. Without an account (random name): clean.
+    clean: account === null,
   });
   let rejected = false; // currently rejected by the broker? (so the long message is written only once)
   client.on("connect", () => {

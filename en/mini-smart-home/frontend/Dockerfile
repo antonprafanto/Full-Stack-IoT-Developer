@@ -1,8 +1,9 @@
-# Dockerfile - the web image (mold) of Mini Smart Home 1.2.0 (Module 26). Two stages ("multi-stage"):
-#   stage "build": Node.js turns the React + TypeScript code into ready-to-serve files (npm run build -> the dist/ folder)
+# Dockerfile - the web image (mold) of Mini Smart Home 1.3.0 (Module 26, a PWA since Module 27). Two stages ("multi-stage"):
+#   stage "build": Node.js turns the React + TypeScript code into ready-to-serve files (npm run build -> the dist/ folder,
+#                  including manifest.webmanifest and the service worker sw.js since Module 27)
 #   final stage  : only Caddy + the files of dist/. Node.js, node_modules, and the source code stay behind in the build stage.
 # Built from the project folder with: docker compose build web   (or from this folder only, without the backend folder:
-# docker build -t mini-smart-home-web:1.2.0 .)
+# docker build -t mini-smart-home-web:1.3.0 .)
 
 # An exact tag (the same as the backend image), not "latest": the same mold today and next month.
 FROM node:24.22.1-alpine3.24 AS build
@@ -29,7 +30,7 @@ LABEL org.opencontainers.image.source="https://github.com/<account>/mini-smart-h
 # The Caddyfile is built into the image, so that this image can be tried on its own (docker run). Docker Compose mounts the
 # caddy/ folder of the repo over it.
 COPY caddy/Caddyfile /etc/caddy/Caddyfile
-# Only the build result is carried over from the build stage: the HTML, CSS, JavaScript, and icon files (about 1 MB).
+# Only the build result is carried over from the build stage: the HTML, CSS, JavaScript, icon, manifest, and sw.js files (about 1 MB).
 COPY --from=build /app/dist /srv
 # No CMD and EXPOSE: the Caddy image already brings them ("caddy run --config /etc/caddy/Caddyfile --adapter caddyfile",
 # port 80 inside the running image). The counter on the laptop is set by compose.cloud.yml (ports).

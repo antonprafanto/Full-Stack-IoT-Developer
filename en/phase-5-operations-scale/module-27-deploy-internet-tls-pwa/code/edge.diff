@@ -1,0 +1,383 @@
+diff --git a/edge/.env.example b/edge/.env.example
+index 946c57b..96d1bc5 100644
+--- a/edge/.env.example
++++ b/edge/.env.example
+@@ -1,21 +1,26 @@
+-# edge/.env.example - the Docker Compose settings of the Mini Smart Home GATEWAY (Raspberry Pi) (Module 26), for compose.edge.yml.
++# edge/.env.example - the Docker Compose settings of the Mini Smart Home GATEWAY (Raspberry Pi) (Modules 26-27), for compose.edge.yml.
+ # On the Pi, from the edge folder: cp .env.example .env, fill in the empty lines, then chmod 600 .env. edge/.env isn't in Git.
+ 
+ # The Compose file's name. With this line, "docker compose up -d" in the edge folder is enough (without -f compose.edge.yml).
+ COMPOSE_FILE=compose.edge.yml
+ 
+-# The CENTRAL broker's address = the IP of the laptop that runs compose.cloud.yml, for example 192.168.1.20 (a fixed address in the router,
+-# like Module 23's phone mode: if the laptop's IP changes, the bridge breaks). The gateway tried on the same laptop: host-gateway
++# The CENTRAL broker's address for the HOME bridge (address center:... in bridge/center.conf). Fill it in for where your center is:
++#   center on the laptop (Module 26, Kit B)  : the laptop's IP, for example 192.168.1.10 (a fixed address in the router, like
++#                                              Module 23's phone mode: if the laptop's IP changes, the bridge breaks)
++#   center on the same Pi (Module 27, free path) or the gateway tried on the center laptop: host-gateway (= this machine itself)
++#   center on a VPS (Module 27, main path)    : leave it empty. The TLS bridge uses the broker's domain name (mqtt.yourname.my.id)
++#                                              written straight in bridge/center.conf, not an address here.
++# Empty = host-gateway.
+ CENTER_ADDRESS=
+ 
+ # The gateway broker's counter. On the Pi: 1883 (the Node 1 firmware uses 1883). The gateway tried on the same laptop as
+-# compose.cloud.yml: 1884, because 1883 is already used by the central broker.
++# compose.cloud.yml (Module 26): 1884, because 1883 is already used by the central broker.
+ PORT_GATEWAY=1883
+ 
+-# Module 27 (not used in Module 26): the Cloudflare Tunnel token for the "tunnel" profile. Secret.
+-TUNNEL_TOKEN=
+ # Node-RED in a container (the "nodered" profile, optional; Module 26 keeps using the systemd Node-RED): the editor's counter.
+ PORT_NODERED=1880
+ 
+ # Profiles that start with "docker compose up -d". Empty = only the gateway broker.
+ # COMPOSE_PROFILES=nodered
++
++# Module 27: TUNNEL_TOKEN (Cloudflare Tunnel, the free path) is NOT here anymore: write it in the project root .env (compose.cloud.yml).
+diff --git a/edge/README.md b/edge/README.md
+index 31849d7..a84a896 100644
+--- a/edge/README.md
++++ b/edge/README.md
+@@ -2,7 +2,7 @@
+ 
+ 🌐 **English** · [Bahasa Indonesia](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/proyek-rumah-pintar-mini/edge/README.md)
+ 
+-The gateway is the Raspberry Pi that runs the Mini Smart Home MQTT broker 24 hours a day ([Module 12](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-12-raspberry-pi-and-linux/README.md)), and since [Module 13](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-13-node-red-dashboard/README.md) it also runs Node-RED with the dashboard and the fan automation (the automation has been switched off since [Module 16](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-3-backend-data/module-16-backend-typescript-api-git/README.md), because the brain has moved to the backend); since [Module 14](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-14-node-2-esp-now/README.md), that dashboard has a Garden card for Node 2, and since [Module 15](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-15-modbus-rs485-and-protocols/README.md), an RS-485 Sensor group for the RS-485 soil sensor that Node 1 reads. Since [Module 26](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-5-operations-scale/module-26-docker-compose/README.md), that broker runs as a **Docker container** ([`compose.edge.yml`](compose.edge.yml), the Compose project `smarthome-gateway`; the module calls the Pi **the gateway**), with the same accounts, port, and address, so the firmware doesn't change; the gateway broker forwards the device messages to the **central** broker on the laptop through a bridge. This page is its **main backup**: if the microSD card breaks, the gateway can be rebuilt from a blank card in about an hour with the recipe below. Fill in the table with your own gateway's details.
++The gateway is the Raspberry Pi that runs the Mini Smart Home MQTT broker 24 hours a day ([Module 12](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-12-raspberry-pi-and-linux/README.md)), and since [Module 13](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-13-node-red-dashboard/README.md) it also runs Node-RED with the dashboard and the fan automation (the automation has been switched off since [Module 16](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-3-backend-data/module-16-backend-typescript-api-git/README.md), because the brain has moved to the backend); since [Module 14](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-14-node-2-esp-now/README.md), that dashboard has a Garden card for Node 2, and since [Module 15](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-15-modbus-rs485-and-protocols/README.md), an RS-485 Sensor group for the RS-485 soil sensor that Node 1 reads. Since [Module 26](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-5-operations-scale/module-26-docker-compose/README.md), that broker runs as a **Docker container** ([`compose.edge.yml`](compose.edge.yml), the Compose project `smarthome-gateway`; the module calls the Pi **the gateway**), with the same accounts, port, and address, so the firmware doesn't change; the gateway broker forwards the device messages to the **central** broker on the laptop through a bridge. Since [Module 27](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-5-operations-scale/module-27-deploy-internet-tls-pwa/README.md), that bridge **holds the devices' messages** while the center can't be reached and sends them later with their original time (store-and-forward), and the center can move to a **VPS** on the internet (the bridge over TLS, port 8883) or to this Pi itself (the free path). This page is its **main backup**: if the microSD card breaks, the gateway can be rebuilt from a blank card in about an hour with the recipe below. Fill in the table with your own gateway's details.
+ 
+ > [!CAUTION]
+ > **Never write a password** (the Pi's, the Wi-Fi's, or any other) in this file or anywhere else in the repository.
+@@ -17,20 +17,21 @@ The gateway is the Raspberry Pi that runs the Mini Smart Home MQTT broker 24 hou
+ | Fixed address | `192.168.1.37`, over the LAN cable (Option A: a reservation on the router / Option B: `nmcli`) |
+ | Docker | Docker Engine 29 from Docker's apt repository (the Debian guide) + the `docker compose` plugin |
+ | Broker | Mosquitto 2.1.2 in a container (`eclipse-mosquitto:2.1.2-alpine`, [`compose.edge.yml`](compose.edge.yml) + [`gateway.conf`](gateway.conf)), since Module 26; before that Mosquitto 2.0.21 from the Debian package, systemd service `mosquitto`, [`gateway-pi.conf`](gateway-pi.conf) |
+-| Central broker (the bridge's target) | laptop `192.168.1.20`, counter 1883 (`CENTER_ADDRESS` in `edge/.env`) |
++| Central broker (the bridge's target) | Module 26: laptop `192.168.1.10`, counter 1883 (`CENTER_ADDRESS` in `edge/.env`). Module 27: VPS `mqtt.yourname.my.id`, port 8883 TLS (the name in `edge/bridge/center.conf`), or this Pi itself, counter 1884 (the free path, `CENTER_ADDRESS=host-gateway`) |
+ | Built | (date) |
+ 
+ ## Files in this folder
+ 
+ | File | Used on | Contents |
+ | :--- | :--- | :--- |
+-| [`compose.edge.yml`](compose.edge.yml) | the Pi gateway (Module 26) | the `mosquitto` service (the gateway broker + the bridge); `cloudflared` (profile `tunnel`, Module 27) and `nodered` (profile `nodered`, optional) are only written, not started |
+-| [`.env.example`](.env.example) | the Pi gateway (Module 26) | the example of `edge/.env`: `COMPOSE_FILE=compose.edge.yml`, `CENTER_ADDRESS` (the center laptop's IP), `PORT_GATEWAY`. `edge/.env` is **not in Git** |
+-| [`gateway.conf`](gateway.conf) | the Pi gateway (Module 26) | the gateway broker's settings inside the container: accounts, ACL, persistence, log to the container's screen, the `bridge/` folder |
+-| [`center.conf`](center.conf) | the laptop (Module 26) | the CENTRAL broker's settings inside the container (the `mosquitto` service in `compose.cloud.yml` at the project root) |
+-| [`bridge.example.conf`](bridge.example.conf) | the Pi gateway (Module 26) | an example bridge gateway → center (the `pi-bridge` account, without a password); its copy `bridge/center.conf` holds the password and is **not in Git** |
++| [`compose.edge.yml`](compose.edge.yml) | the Pi gateway (Modules 26–27) | the `mosquitto` service (the gateway broker + the bridge) and `nodered` (profile `nodered`, optional, only written). `cloudflared` (Module 27, the free path) **moved** to `compose.cloud.yml` at the project root. A commented-out `extra_hosts` line for the VPS broker's name: see [A bridge to the internet](#a-bridge-to-the-internet-that-survives-outages-module-27) |
++| [`.env.example`](.env.example) | the Pi gateway (Modules 26–27) | the example of `edge/.env`: `COMPOSE_FILE=compose.edge.yml`, `CENTER_ADDRESS` (the center laptop's IP; `host-gateway` when the center is on this Pi; empty when the center is on a VPS), `PORT_GATEWAY`. `edge/.env` is **not in Git** |
++| [`gateway.conf`](gateway.conf) | the Pi gateway (Modules 26–27) | the gateway broker's settings inside the container: accounts, ACL, persistence, log to the container's screen, the `bridge/` folder; since Module 27 also the four store-and-forward lines (`autosave_interval 30`, `queue_qos0_messages true`, `max_queued_messages 100000`, `upgrade_outgoing_qos true`) |
++| [`center.conf`](center.conf) | the laptop (Module 26), the free-path Pi (Module 27) | the CENTRAL broker's settings inside the container (the `mosquitto` service in `compose.cloud.yml` at the project root): only the plain door 1883 |
++| [`center-internet.conf`](center-internet.conf) | the VPS (Module 27) | the contents of `center.conf` + the TLS door 8883 with a copy of the Let's Encrypt certificate (`certfile`/`keyfile`) and `use_username_as_clientid true` once more (that option applies per door). Chosen with `CENTER_CONF=center-internet.conf` in the root `.env`. Change both together |
++| [`bridge.example.conf`](bridge.example.conf) | the Pi gateway (Modules 26–27) | an example bridge gateway → center (the `pi-bridge` account, without a password): the MAIN PATH block (the VPS name + 8883 + the ISRG Root X1 root) active, the HOME PATH block (`center:1883`/`center:1884`, plain) commented out, the store-and-forward settings, narrow topics. Its copy `bridge/center.conf` holds the password and is **not in Git** |
+ | [`bridge/`](bridge/README.md) | the Pi gateway (Module 26) | the folder the gateway broker reads (`include_dir`); only its `README.md` is in Git |
+-| [`acl-broker`](acl-broker) | the gateway and central brokers ([Module 21](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-3-backend-data/module-21-device-broker-security/README.md); block `7) pi-bridge` since Module 26) | the broker access list (ACL): a device only writes its own topics. Both containers read it straight from this folder (read-only) |
++| [`acl-broker`](acl-broker) | the gateway and central brokers ([Module 21](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-3-backend-data/module-21-device-broker-security/README.md); block `7) pi-bridge` since Module 26, the permission for the bridge status message `$SYS/broker/connection/pi-bridge/state` since Module 27) | the broker access list (ACL): a device only writes its own topics. Both containers read it straight from this folder (read-only) |
+ | `broker-passwd` | the gateway and central brokers (Module 21) | the broker accounts' password file. Since Module 26 it lives in each broker's **cupboard** (volume) (`/mosquitto/data/broker-passwd` inside the container), made with `mosquitto_passwd` inside the container; never in Git |
+ | [`gateway-pi.conf`](gateway-pi.conf) | the Pi gateway **without Docker** (before Module 26; Module 12, locked in Module 21) | on the Pi: `/etc/mosquitto/conf.d/gateway-pi.conf`; kept for a Pi that hasn't moved yet and as a way back |
+ | [`mosquitto-lan.conf`](mosquitto-lan.conf) | the laptop **without Docker** (before Module 26; [Module 11](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-11-mqtt-and-data-contract/README.md), locked in Module 21) | `mosquitto -v -c mosquitto-lan.conf` in a terminal; since Module 26 replaced by the Compose central broker |
+@@ -49,7 +50,7 @@ The gateway is the Raspberry Pi that runs the Mini Smart Home MQTT broker 24 hou
+ 
+    then run `sudo nmcli connection up "netplan-eth0"`. If the name of the `eth0` connection in `nmcli device status` is different, use that name. An SSH terminal that goes over the cable may freeze when the address moves; close its window, then log in again with `ssh budi@192.168.1.37`.
+ 5. **Install Docker Engine** from Docker's apt repository, following the official **Debian** page (<https://docs.docker.com/engine/install/debian/>, the section *Install using the apt repository*): the 64-bit Raspberry Pi OS is Debian, while the "Raspberry Pi OS" page on Docker's site is only for 32-bit (`dpkg --print-architecture` must answer `arm64`). That page first asks you to remove the conflicting default packages (`docker.io docker-compose docker-doc docker-buildx podman-docker containerd runc`), install Docker's key and repository source, then `sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin`. We don't use the `get.docker.com` script (its official docs: not recommended for machines in real use). After installing: `sudo usermod -aG docker $USER`, leave SSH and log in again, then check `docker version` and `docker compose version`. The `docker` group equals **root**: only for the Pi's own user. Docker starts by itself every time the Pi starts.
+-6. **Get the project and prepare its settings**: `sudo apt install git` (if it isn't there yet), `git clone https://github.com/YOUR-USERNAME/mini-smart-home.git` (your repo), then `cd mini-smart-home/edge`. Copy `.env.example` to `.env` (`cp .env.example .env`), fill in `CENTER_ADDRESS` with the IP of the laptop that runs `compose.cloud.yml` (a fixed address in the router), then `chmod 600 .env`. Copy the bridge example: `cp bridge.example.conf bridge/center.conf`, replace `replace-with-the-pi-bridge-account-password` with the password of the `pi-bridge` account (that account is made on the **central** broker, see Locking the broker), then `chmod 600 bridge/center.conf`.
++6. **Get the project and prepare its settings**: `sudo apt install git` (if it isn't there yet), `git clone https://github.com/YOUR-USERNAME/mini-smart-home.git` (your repo), then `cd mini-smart-home/edge`. Copy `.env.example` to `.env` (`cp .env.example .env`), fill in `CENTER_ADDRESS` with the IP of the laptop that runs `compose.cloud.yml` (a fixed address in the router; Module 27: `host-gateway` when the center is on this Pi, empty when the center is on a VPS), then `chmod 600 .env`. Copy the bridge example: `cp bridge.example.conf bridge/center.conf`, replace `replace-with-the-pi-bridge-account-password` with the password of the `pi-bridge` account (that account is made on the **central** broker, see Locking the broker), choose its address block (MAIN PATH: replace `mqtt.yourname.my.id` with your VPS broker's name; HOME PATH: follow the hints in the file), then `chmod 600 bridge/center.conf`.
+ 7. **The broker password file into the gateway cupboard.** An old Pi moving from the apt Mosquitto: copy its password file (the Mosquitto 2.0 format is read by Mosquitto 2.1.2 as it is), then stop the old broker so that counter 1883 is free:
+ 
+    ```bash
+@@ -79,7 +80,7 @@ Since Module 26, the gateway broker's settings live in the repo cloned on the Pi
+ 
+ ## Locking the broker (Module 21)
+ 
+-Up to Module 20, the broker let anyone in without a password (`allow_anonymous true`). [Module 21](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-3-backend-data/module-21-device-broker-security/README.md) locks it: every program (device, backend, Node-RED, monitor) connects with its own account, and the access list (ACL) limits the topics each account may write or read. `gateway.conf`, `center.conf`, `gateway-pi.conf`, and `mosquitto-lan.conf` all contain `allow_anonymous false`, `password_file`, `acl_file`, and `use_username_as_clientid true`.
++Up to Module 20, the broker let anyone in without a password (`allow_anonymous true`). [Module 21](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-3-backend-data/module-21-device-broker-security/README.md) locks it: every program (device, backend, Node-RED, monitor) connects with its own account, and the access list (ACL) limits the topics each account may write or read. `gateway.conf`, `center.conf`, `center-internet.conf`, `gateway-pi.conf`, and `mosquitto-lan.conf` all contain `allow_anonymous false`, `password_file`, `acl_file`, and `use_username_as_clientid true`. The first three apply to every door of the broker; `use_username_as_clientid` only to the door (`listener`) written above it, so `center-internet.conf` writes it twice: under `listener 1883` and under `listener 8883`. Without the second line, any account could come in through 8883 with the client name `backend` or `pi-bridge` and kick out the real client (`session taken over`).
+ 
+ **Since Module 26 (the broker in a container)**, the commands are typed from the folder of its Compose project: the `edge` folder on the Pi for the gateway broker, the project root on the laptop for the central broker. The password file lives in that broker's cupboard, so `mosquitto_passwd` runs **inside the container**, as the user `mosquitto` (the file's owner; without `-u mosquitto`, `mosquitto_passwd` warns `owner is not root`):
+ 
+@@ -129,7 +130,34 @@ The password is typed twice (it doesn't show). Revoking an account: `docker comp
+ 
+ - **The mock Garden, the path without a Node 2 ([Module 25](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-4-frontend-dashboard/module-25-grafana-maps-reports/README.md)).** The simulator `tools/device-simulator.js` can run a fake Node 2 `f00d000000b2` whose data is published by the fake device `f00d00000001`. For the broker to allow it, open the block `2b) Laptop path (Module 25)` in `acl-broker`: delete `# ` (the hash and its space) in front of the three lines `user f00d00000001`, `topic write msh/f00d000000b2/telemetry`, and `topic write msh/f00d000000b2/status`, save, then **restart** the broker. The Compose central broker (Module 26, the laptop path): `docker compose restart mosquitto` from the project root. Before Module 26: the laptop broker (`mosquitto -v -c mosquitto-lan.conf`) **Ctrl + C**, then run the same command again; the broker on the Pi: copy `acl-broker` to the Pi as above, `sudo cp ~/acl-broker /etc/mosquitto/`, then `sudo systemctl restart mosquitto`. Readers with a real Node 2 don't need this block (leave it commented out). How to use the mock Garden is in `tools/README.md`.
+ 
+-Its traffic is still unencrypted: the key travels in the clear on the LAN (see `tools/sniffer.js`), and so does the gateway → center bridge (Module 26). That's fine for now on a closed home network, but TLS is a must before the broker is opened to the internet (Module 27) — don't set up port forwarding to the Pi or to the laptop. The Module 26 bridge also doesn't yet hold messages while the central broker is down (a sleeping laptop = the telemetry of that time is lost); the bridge's queue and TLS follow in Module 27.
++On the home network the traffic is still unencrypted: the device key travels in the clear on the LAN (see `tools/sniffer.js`), and so does the HOME bridge gateway → center (the laptop or the free-path Pi). That's not a problem yet on a closed home network; since Module 27 the only thing that leaves the home is the TLS bridge to the VPS (port 8883). Never set up port forwarding to the Pi or to the laptop. Holding messages while the center can't be reached: the next section.
++
++## A bridge to the internet that survives outages (Module 27)
++
++Since [Module 27](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-5-operations-scale/module-27-deploy-internet-tls-pwa/README.md), the gateway → center bridge works **store-and-forward**: while the center can't be reached (the home internet is down, the VPS restarts, the center laptop sleeps), the device messages heading for the center are held in the gateway broker's queue, then sent as soon as the bridge is connected again, with their original `ts`. The central backend stores them at the time they happened, and a send that turns out to be a duplicate is refused by the database (`duplicate skipped` in the backend log). The settings are in two files:
++
++| File | Setting | What it does |
++| :--- | :--- | :--- |
++| `gateway.conf` (the whole gateway broker) | `autosave_interval 30` | the queue is saved to the cupboard every 30 seconds (default 30 minutes): a power cut in the whole house doesn't erase the older part of the queue |
++| | `queue_qos0_messages true` | QoS 0 messages (the way the firmware publishes) are queued too, not dropped |
++| | `max_queued_messages 100000` | a queue big enough for days (the default 1000 ≈ 1.5 hours for two devices) |
++| | `upgrade_outgoing_qos true` | messages are forwarded to the bridge as QoS 1: what is sent in "the blind window" (the internet already down, the gateway not aware yet, up to ±2 minutes) is sent again, not lost |
++| `bridge/center.conf` | `cleansession true` + `local_cleansession false` | up is kept on the Pi, down is not: a command from the dashboard sent while the bridge is down is NOT carried out later (the dashboard has already reported it as failed) |
++| | `notifications true` | the bridge status message `$SYS/broker/connection/pi-bridge/state` at the center: `1` connected, `0` down (needs the permission line in block 7 of `acl-broker`) |
++| | `topic msh/+/telemetry out 1` … `topic msh/+/cmd in 1` | only the device topics leave the home; commands come down to the devices |
++
++**The recipe for a TLS bridge to a VPS (the main path).** On the VPS (the project root): make the `pi-bridge` account (`docker compose exec -u mosquitto mosquitto mosquitto_passwd /mosquitto/data/broker-passwd pi-bridge`, then `docker compose restart mosquitto`). On the Pi (the `edge` folder): `git pull`; in `bridge/center.conf` use the MAIN PATH block (`address mqtt.yourname.my.id:8883` and `bridge_cafile /etc/ssl/certs/ca-cert-ISRG_Root_X1.pem`, a root file already inside the Mosquitto image) and the VPS `pi-bridge` password; `CENTER_ADDRESS` in `edge/.env` may stay empty; then `docker compose up -d --force-recreate mosquitto`. The signs of success: the gateway log `Connecting bridge center (mqtt.yourname.my.id:8883)`; the VPS broker log `New bridge connected from <home IP>:<port> as pi-bridge (p4, c1, k60, u'pi-bridge').` followed by `Client pi-bridge negotiated TLSv1.3 cipher …`. Write the **name**, not the IP: the VPS certificate is only valid for that name (`certificate verify failed`). Don't use `bridge_insecure`. Door 8883 also forces client name = account name: a test client that logs in with the `checker` account and the client name `backend` (`mosquitto_sub … -i backend -u checker …`) is recorded as `New client connected … as checker`; if it is recorded `as backend`, the line `use_username_as_clientid true` under `listener 8883` is missing.
++
++**The recipe for the free path (everything on the Pi + Cloudflare Tunnel).** The `compose.cloud.yml` center runs on the same Pi with `PORT_MQTT=1884` and `MQTT_ADDRESS=172.17.0.1` in the root `.env` (the gateway broker stays on 1883 for Node 1, the firmware doesn't change). `172.17.0.1` = the Pi's address in Docker's default hallway, where `host-gateway` points (check with `ip -4 addr show docker0`; if it differs, write that address): the plain door 1884 can only be reached by the bridge on this Pi, not from the home Wi-Fi. Here: `CENTER_ADDRESS=host-gateway` in `edge/.env` and the HOME PATH block in `bridge/center.conf` with `address center:1884` (plain: it doesn't leave the home). The MQTT broker doesn't go through the Cloudflare tunnel.
++
++**Seeing the queue.** With the `monitor` account (allowed to read `$SYS`), on the Pi: `docker compose exec mosquitto mosquitto_sub -u monitor -P <password> -t '$SYS/broker/store/messages/count' -C 1` (it rises during an outage and falls again after reconnecting), and at the center: `-t '$SYS/broker/connection/pi-bridge/state' -C 1`.
++
++**Honest limits (the author's lab, a simulated internet and VPS):**
++- When the internet goes down, the gateway only notices after ±2 minutes (keepalive 60 seconds); the center after ±1.5 minutes. The messages in that time are still safe thanks to `upgrade_outgoing_qos`.
++- During an outage, every bridge attempt asks DNS for the VPS name; in the lab, the gateway broker stalled for ±5 seconds per attempt and local messages were delayed up to ±4 seconds too (devices didn't disconnect). The commented-out `extra_hosts` line in `compose.edge.yml` (the broker name + the VPS IP) removes that wait, at a price: the VPS IP is fixed in the file.
++- The dashboard on the VPS still shows the devices **Online** (with frozen numbers) while the home internet is down: that status belongs to the gateway broker. The server's automation rules are silent until it reconnects; Node 1's local safety doesn't switch on because the Pi's broker can still be reached (local watering keeps running).
++- Device messages sent while the **home Wi-Fi** (not the internet) is down don't reach the gateway, so they aren't queued.
++- `docker compose down -v` in the `edge` folder deletes the unsent queue together with the password file.
+ 
+ ## Node-RED and the dashboard (Module 13)
+ 
+diff --git a/edge/acl-broker b/edge/acl-broker
+index bdd3216..c6cdbc8 100644
+--- a/edge/acl-broker
++++ b/edge/acl-broker
+@@ -5,7 +5,8 @@
+ # mosquitto (from the project root for the central broker, from the edge folder on the Pi for the gateway broker).
+ 
+ # 1) Each device may only "talk" on its own topics. A pattern line applies to ALL accounts;
+-#    %u is replaced by the username proven with a password, that is, that device's device_id.
++#    %u is replaced by the username proven with a password, that is, that device's device_id. Module 27: devices at another
++#    location that go straight to the VPS broker (door 8883) use the same rules; their account only has to be made on the VPS broker.
+ pattern write msh/%u/telemetry
+ pattern write msh/%u/status
+ pattern write msh/%u/vitals
+@@ -47,9 +48,12 @@ topic read $SYS/#
+ # 7) The Pi gateway bridge (Module 26): applies on the CENTRAL broker (compose.cloud.yml), where the bridge logs in with this account.
+ #    The bridge forwards the messages of all devices to the center and picks up the commands for them. The per-device checks
+ #    (items 1 and 2) are already done by the gateway broker on the Pi, which uses the same file but has no pi-bridge account.
++#    Module 27: the last line = the bridge status message (notifications true in bridge/center.conf): 1 = connected, 0 = down,
++#    a retained message in this $SYS topic. The # in other lines doesn't cover topics that start with $SYS, so its permission is written separately.
+ user pi-bridge
+ topic write msh/+/telemetry
+ topic write msh/+/status
+ topic write msh/+/vitals
+ topic write msh/+/ack
+ topic read msh/+/cmd
++topic write $SYS/broker/connection/pi-bridge/state
+diff --git a/edge/bridge.example.conf b/edge/bridge.example.conf
+index 5021203..8ec0fd7 100644
+--- a/edge/bridge.example.conf
++++ b/edge/bridge.example.conf
+@@ -1,17 +1,42 @@
+-# bridge.example.conf - an EXAMPLE bridge from the Pi gateway broker to the central broker on the laptop (Module 26).
+-# Copy it to edge/bridge/center.conf (cp bridge.example.conf bridge/center.conf), then replace the password. That copy
+-# holds a password, so it isn't in Git. This first bridge is still plain (no TLS yet) and doesn't yet hold messages while the center
+-# is down: both are Module 27.
++# bridge.example.conf - an EXAMPLE bridge from the Pi gateway broker to the central broker (Modules 26-27).
++# Copy it to edge/bridge/center.conf (cp bridge.example.conf bridge/center.conf), then replace the domain name and the password.
++# That copy holds a password, so it isn't in Git. After changing it: docker compose restart mosquitto (from the edge folder).
++# A Mosquitto note: a # may only be at the START of a line (a note behind a setting is read as part of the setting).
+ connection center
+-# "center" = the name compose.edge.yml points at CENTER_ADDRESS in edge/.env (the IP of the laptop that runs compose.cloud.yml).
+-# Leave "center" written here; what you change is the address in edge/.env. 1883 = the central broker's PORT_MQTT counter.
+-address center:1883
++
++# --- Where the bridge connects: choose ONE of the two blocks ---
++# MAIN PATH (Module 27, the center on a VPS): the broker's name on the internet + the TLS door 8883. Write the NAME, not an IP
++# address: this name is what the certificate says, so an IP or another name fails the certificate check (certificate verify failed).
++address mqtt.yourname.my.id:8883
++# the CA root trusted for the VPS broker's certificate: ISRG Root X1, the Let's Encrypt root. The file is already inside the
++# Mosquitto image (not a download). Not bridge_insecure: without the check, anyone pretending to be the VPS is accepted.
++bridge_cafile /etc/ssl/certs/ca-cert-ISRG_Root_X1.pem
++# HOME PATH (Module 26: the center on the laptop; Module 27 free path: the center on the same Pi, PORT_MQTT 1884): plain, without
++# TLS, because it never leaves the home network. Put # in front of the two MAIN PATH lines above, then remove the # in front of this line.
++# "center" = the name compose.edge.yml points at CENTER_ADDRESS in edge/.env; the number = the central broker's PORT_MQTT counter
++# (laptop 1883, free-path Pi 1884).
++# address center:1883
++
++# --- The account on the CENTRAL broker ---
+ # the bridge's client name is made fixed. Its default holds the container name, which changes every time the container is recreated.
+ remote_clientid pi-bridge
+ # the pi-bridge account on the CENTRAL broker (made with mosquitto_passwd in the central container; its rights are block 7 of acl-broker)
+ remote_username pi-bridge
+ remote_password replace-with-the-pi-bridge-account-password
+-# device messages go up to the center (out), commands from the backend come down to the devices (in), QoS 1
++
++# --- Store-and-forward (Module 27; its partner is the four lines in gateway.conf) ---
++# The session at the CENTER is clean: a command (cmd) sent while the bridge is down is NOT kept by the center to be sent later
++# (the dashboard has already reported it as failed; a lamp that suddenly turns on minutes later is dangerous). The session at the
++# GATEWAY is persistent: the devices' messages for the center are held in the gateway's queue while the bridge is down, then sent on reconnect.
++# In short: up is kept on the Pi, down is not.
++cleansession true
++local_cleansession false
++# the bridge status message for the center: 1 = connected, 0 = down (the topic $SYS/broker/connection/pi-bridge/state, needs
++# the permission in block 7 of acl-broker)
++notifications true
++
++# --- Topics: device messages go up to the center (out), commands from the backend come down to the devices (in), QoS 1 ---
++# Only what's needed, not "topic # out 1": other messages on the gateway broker (for example Node-RED) stay at home.
+ topic msh/+/telemetry out 1
+ topic msh/+/status out 1
+ topic msh/+/vitals out 1
+diff --git a/edge/center-internet.conf b/edge/center-internet.conf
+new file mode 100644
+index 0000000..f5af8d2
+--- /dev/null
++++ b/edge/center-internet.conf
+@@ -0,0 +1,40 @@
++# center-internet.conf - the Mini Smart Home CENTRAL broker on a VPS (Module 27, main path), chosen with CENTER_CONF=
++# center-internet.conf in .env (the mosquitto service in compose.cloud.yml). Its contents are the SAME as center.conf (change both
++# together), plus one more door below: 8883, MQTT encrypted with TLS, for the Pi bridge and devices from the internet. The plain
++# door 1883 is still there for the backend in the Compose hallway, but its counter on the VPS is only 127.0.0.1 (MQTT_ADDRESS), not the internet.
++# Paths below = INSIDE the container.
++# After changing this file or acl-broker: docker compose restart mosquitto (restart, not reload).
++listener 1883
++# without a registered username and password, no one may connect (Module 21)
++allow_anonymous false
++# the password file lives in the broker-data cupboard (made by mosquitto_passwd INSIDE the container; the image hands it to the
++# mosquitto user every time it starts, so there's no file-owner trouble on the laptop)
++password_file /mosquitto/data/broker-passwd
++acl_file /mosquitto/config/acl-broker
++# the client name is always = the username: no one can pretend to be or kick out another client. This option applies PER DOOR
++# (only to the listener above it), so door 8883 below writes it again.
++use_username_as_clientid true
++# retained messages (device statuses, the backend's config) and sessions are kept in the cupboard: not lost when the container is recreated
++persistence true
++persistence_location /mosquitto/data/
++# log to the container's screen: read it with docker compose logs mosquitto (limited to 3 x 10 MB by compose.cloud.yml)
++log_dest stdout
++log_type error
++log_type warning
++log_type notice
++log_type information
++# remove the # in front of the line below to also see the messages REFUSED by the access list (Denied PUBLISH, Module 21);
++# the log gets much busier
++# log_type debug
++# Module 27: the TLS door for visitors from the internet. Its certificate is a COPY of the Let's Encrypt certificate Caddy asked for
++# MQTT_DOMAIN (the mqtt-certificate service copies it to the certificate-data cupboard as owned by the user mosquitto). certfile
++# holds the broker name's certificate + its intermediate issuer's certificate (the chain); keyfile = its key. Without these files,
++# the broker stops when it starts (Unable to load server certificate). The lowest TLS version = Mosquitto 2.x's default, TLS 1.2.
++# The account, password, and access-list rules above apply to this door too; use_username_as_clientid does NOT carry over, so
++# it is written again right under listener 8883. Without that line, ANY broker account (for example the test account checker in
++# MQTTX on a phone) could come in from the internet with the client name "backend" or "pi-bridge": the real client is kicked out
++# (log "session taken over") and the queue of messages the broker holds for the backend is erased too.
++listener 8883
++use_username_as_clientid true
++certfile /mosquitto/certs/broker.crt
++keyfile /mosquitto/certs/broker.key
+diff --git a/edge/center.conf b/edge/center.conf
+index bf47dbf..b3159d0 100644
+--- a/edge/center.conf
++++ b/edge/center.conf
+@@ -1,6 +1,8 @@
+ # center.conf - the Mini Smart Home CENTRAL broker inside a container (Module 26, the mosquitto service in compose.cloud.yml).
+-# Runs on the laptop (Module 26) and later on a VPS (Module 27). The backend connects through the service name mosquitto:1883; the
+-# Pi gateway through the bridge with the pi-bridge account; the tools/ simulator through the laptop's counter 1883. Paths below = INSIDE the container.
++# Used on the laptop (Module 26) and on the free-path Pi (Module 27): one plain door 1883 for the home network. On the VPS
++# (Module 27), center-internet.conf is used: the same contents + the TLS door 8883 (CENTER_CONF in .env chooses one of them).
++# The backend connects through the service name mosquitto:1883; the Pi gateway through the bridge with the pi-bridge account;
++# the tools/ simulator through the counter 1883. Paths below = INSIDE the container.
+ # After changing this file or acl-broker: docker compose restart mosquitto (restart, not reload).
+ listener 1883
+ # without a registered username and password, no one may connect (Module 21)
+@@ -9,7 +11,8 @@ allow_anonymous false
+ # mosquitto user every time it starts, so there's no file-owner trouble on the laptop)
+ password_file /mosquitto/data/broker-passwd
+ acl_file /mosquitto/config/acl-broker
+-# the client name is always = the username: no one can pretend to be or kick out another client
++# the client name is always = the username: no one can pretend to be or kick out another client. This option applies PER DOOR
++# (only to the listener above it): a new door, for example 8883 in center-internet.conf, must write it again.
+ use_username_as_clientid true
+ # retained messages (device statuses, the backend's config) and sessions are kept in the cupboard: not lost when the container is recreated
+ persistence true
+diff --git a/edge/compose.edge.yml b/edge/compose.edge.yml
+index 30aae2a..a7cc6a1 100644
+--- a/edge/compose.edge.yml
++++ b/edge/compose.edge.yml
+@@ -1,10 +1,13 @@
+-# compose.edge.yml - the Mini Smart Home GATEWAY services on the Raspberry Pi (Module 26), the partner of compose.cloud.yml on the laptop.
++# compose.edge.yml - the Mini Smart Home GATEWAY services on the Raspberry Pi (Modules 26-27), the partner of compose.cloud.yml at the
++# center (the laptop in Module 26; a VPS or the same Pi in Module 27).
+ # Run it on the Pi, from the edge folder:  docker compose up -d
+ #   The line COMPOSE_FILE=compose.edge.yml in edge/.env makes -f unnecessary (its example is edge/.env.example).
+-# The Mosquitto gateway broker (replacing the Module 12 apt package) + the bridge to the central broker on the laptop (bridge/center.conf).
+-# cloudflared (Module 27) and Node-RED (optional) only start when their profile is named, for example:
+-#   docker compose --profile nodered up -d
+-# In Module 26 neither of them is started. NEVER "docker compose down -v": -v deletes the cupboard holding the broker password file.
++# The Mosquitto gateway broker (replacing the Module 12 apt package) + the bridge to the central broker (bridge/center.conf). Since Module 27
++# that bridge holds the devices' messages while the center can't be reached (gateway.conf) and can connect over TLS to a VPS.
++# Node-RED (optional) only starts when its profile is named: docker compose --profile nodered up -d
++# Module 27: cloudflared (the Cloudflare tunnel, the free path) MOVED to compose.cloud.yml (profile "tunnel"), because it must
++# share a hallway with the web service. DON'T "docker compose down -v": -v deletes the cupboard with the broker password file AND
++# the queue of messages not yet sent to the center.
+ name: smarthome-gateway
+ 
+ # Each container's log is limited to 3 files x 10 MB. Docker's default has NO limit: the Pi's microSD card can fill up slowly.
+@@ -25,7 +28,7 @@ services:
+       - ./acl-broker:/mosquitto/config/acl-broker:ro
+       # the bridge folder: holds center.conf (the bridge password, not in Git)
+       - ./bridge:/mosquitto/config/bridge:ro
+-      # the password file (moved from /etc/mosquitto/broker-passwd), retained messages, and sessions
++      # the password file (moved from /etc/mosquitto/broker-passwd), retained messages, sessions, and (Module 27) the bridge queue
+       - broker-data:/mosquitto/data
+     # The Mosquitto image declares its log folder as a cupboard, while our log shows on the screen (docker compose logs).
+     # tmpfs = a temporary folder in RAM: without it Docker makes a nameless cupboard every time this container is recreated.
+@@ -35,23 +38,20 @@ services:
+       # all interfaces: devices connect from the home Wi-Fi. The firmware uses 1883, so on the Pi don't change this number.
+       - "${PORT_GATEWAY:-1883}:1883"
+     extra_hosts:
+-      # the name "center" in bridge/center.conf points at the IP of the laptop that runs compose.cloud.yml (CENTER_ADDRESS in
+-      # edge/.env). The gateway tried on the same laptop (laptop path): CENTER_ADDRESS=host-gateway (= this machine itself).
+-      - "center:${CENTER_ADDRESS:?fill in CENTER_ADDRESS in edge/.env (the center laptop's IP)}"
++      # the name "center" in bridge/center.conf (the HOME bridge, plain) points at CENTER_ADDRESS in edge/.env: the IP of the laptop
++      # that runs compose.cloud.yml (Module 26), or host-gateway (= this machine itself) when the center and the gateway are on the
++      # same machine (the Module 26 laptop path, the Module 27 free-path Pi). The bridge to a VPS (Module 27 main path) uses the
++      # domain name directly, so this line isn't used there: CENTER_ADDRESS may stay empty (= host-gateway).
++      - "center:${CENTER_ADDRESS:-host-gateway}"
++      # Module 27, OPTIONAL (main path): while the home internet is down, every bridge attempt asks DNS for the VPS broker's
++      # name, and the gateway broker is held up to ±5 seconds waiting for the answer (local messages are delayed too; devices
++      # don't disconnect). A name written here is not asked from DNS: remove the # in front of the next line and fill in the
++      # broker name + your VPS IP. The price: if the VPS IP changes, this line must change too (the bridge won't connect until then).
++      # - "mqtt.yourname.my.id:203.0.113.10"
+     restart: unless-stopped
+     logging: *log
+ 
+-  # The Cloudflare tunnel (Module 27, the free path): needs TUNNEL_TOKEN in edge/.env. The "tunnel" profile = doesn't start
+-  # until it's called: docker compose --profile tunnel up -d
+-  cloudflared:
+-    image: cloudflare/cloudflared:2026.10.5
+-    profiles: ["tunnel"]
+-    # the image's starting program is already "cloudflared --no-autoupdate"; this is what follows it
+-    command: ["tunnel", "run"]
+-    environment:
+-      TUNNEL_TOKEN: ${TUNNEL_TOKEN:-}
+-    restart: unless-stopped
+-    logging: *log
++  # Module 27: the cloudflared service (profile "tunnel") written here in Module 26 now lives in compose.cloud.yml.
+ 
+   # Node-RED in a container (optional). Module 26 keeps using the systemd Node-RED of Module 13. Before using this profile,
+   # stop the systemd nodered service (counter 1880 clashes), move the flows and their credentials, then change the broker
+diff --git a/edge/gateway.conf b/edge/gateway.conf
+index 6ca6186..347c93d 100644
+--- a/edge/gateway.conf
++++ b/edge/gateway.conf
+@@ -1,4 +1,4 @@
+-# gateway.conf - the Mini Smart Home GATEWAY broker on the Raspberry Pi, inside a container (Module 26, edge/compose.edge.yml).
++# gateway.conf - the Mini Smart Home GATEWAY broker on the Raspberry Pi, inside a container (Modules 26-27, edge/compose.edge.yml).
+ # Replaces the apt Mosquitto package + /etc/mosquitto/conf.d/gateway-pi.conf (Modules 12 and 21). Devices keep connecting to the
+ # Pi's IP on port 1883 with their old accounts, so the firmware doesn't change. Paths below = INSIDE the container.
+ # After changing this file, acl-broker, or bridge/center.conf: docker compose restart mosquitto (restart, not reload).
+@@ -13,6 +13,19 @@ use_username_as_clientid true
+ # retained messages and sessions are kept in the cupboard (like the apt Mosquitto on the Pi, which saves them when it stops)
+ persistence true
+ persistence_location /mosquitto/data/
++# Module 27 (store-and-forward): when the bridge to the center is down (the home internet is out), the devices' messages for the
++# bridge are HELD in the gateway's queue, then sent later with their original ts. The four lines below apply to the whole gateway broker.
++# The queue is written to the cupboard every 30 seconds (default 1800 = 30 minutes): a power cut in the whole house doesn't erase
++# the part of the queue older than 30 seconds. The price: one microSD card write and one log line every 30 seconds.
++autosave_interval 30
++# the firmware publishes with QoS 0; without this line, QoS 0 messages for a bridge that is down are dropped, not queued
++queue_qos0_messages true
++# the queue limit per client (the bridge = one client). The default 1000 = about 1.5 hours for two devices; 100000 = days
++max_queued_messages 100000
++# QoS 0 messages are forwarded to the bridge as QoS 1 (answered by the center, sent again if not answered). Without this, messages
++# sent in "the blind window" (the internet already down, the gateway not aware yet, up to 2 minutes) are lost. A non-standard
++# Mosquitto option, applies to every subscriber of this broker.
++upgrade_outgoing_qos true
+ # log to the container's screen: read it with docker compose logs mosquitto (limited to 3 x 10 MB by compose.edge.yml)
+ log_dest stdout
+ log_type error

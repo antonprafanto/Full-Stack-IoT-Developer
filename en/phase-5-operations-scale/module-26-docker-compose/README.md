@@ -4,7 +4,7 @@
 
 *Phase 5 · Week 26 · Hardware: **Kit B** (Raspberry Pi) or a laptop only · Prerequisites: **Module 25** (backend 1.2.0, frontend 1.1.0, Grafana on `main`), Module 17 (just enough Docker), Module 21 (the locked broker) · Time: 10–12 hours, spread over the week (the ⭐ path ±9 hours)*
 
-[⬅️ Module 25](../../phase-4-frontend-dashboard/module-25-grafana-maps-reports/README.md) · [Phase 5](../README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · [Module 27 ➡️ (coming soon — read the summary in the Syllabus)](../../SYLLABUS.md#module-27--to-the-internet-vps-domain-https-mqtt-over-tls-pi--vps-bridge--a-phone-app-pwa)
+[⬅️ Module 25](../../phase-4-frontend-dashboard/module-25-grafana-maps-reports/README.md) · [Phase 5](../README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · [Module 27 ➡️](../module-27-deploy-internet-tls-pwa/README.md)
 
 ---
 
@@ -4653,7 +4653,7 @@ The Syllabus's pass requirement: **on a "clean" laptop (or a friend's), `git clo
 
 **Phase 5 opens: the whole home in one package.** One command starts everything, the history and Grafana moved without losing data, and another laptop runs it from `git clone`. Its limits: everything is still on the home network without HTTPS and TLS, and a sleeping laptop puts the bot, the alerts, and the morning report to sleep too.
 
-> ➡️ **Next module:** Module 27 — To the Internet: VPS, Domain, HTTPS, MQTT over TLS, Pi → VPS Bridge, & a Phone App (PWA) (coming soon; [read the summary in the Syllabus](../../SYLLABUS.md#module-27--to-the-internet-vps-domain-https-mqtt-over-tls-pi--vps-bridge--a-phone-app-pwa)). The same `compose.cloud.yml` moves to a VPS with a domain and HTTPS (in the Caddyfile, `:80` is replaced by the domain name), the Pi bridge moves up to TLS and learns to hold data while the internet is down, and the dashboard becomes an app on your phone. Its free path: everything on the Pi, through Cloudflare Tunnel (the `tunnel` profile).
+> ➡️ **Next module:** [Module 27 — To the Internet: VPS, Domain, HTTPS, MQTT over TLS, Pi → VPS Bridge, & a Phone App (PWA)](../module-27-deploy-internet-tls-pwa/README.md). The same `compose.cloud.yml` moves to a VPS with a domain and HTTPS (in the Caddyfile, `:80` is replaced by the domain name), the Pi bridge moves up to TLS and learns to hold data while the internet is down, and the dashboard becomes an app on your phone. Its free path: everything on the Pi, through Cloudflare Tunnel (the `tunnel` profile).
 
 ## 📚 Sources & Image Credits
 
@@ -4685,4 +4685,4 @@ Telegram = a **mock** Bot API server (a fake token and chat_id): the backend thr
 
 ---
 
-[⬅️ Module 25](../../phase-4-frontend-dashboard/module-25-grafana-maps-reports/README.md) · [Phase 5](../README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · **Next: Module 27 — To the Internet: VPS, Domain, HTTPS, MQTT over TLS, Pi → VPS Bridge, & a Phone App (PWA)** (coming soon; [read the summary in the Syllabus](../../SYLLABUS.md#module-27--to-the-internet-vps-domain-https-mqtt-over-tls-pi--vps-bridge--a-phone-app-pwa))
+[⬅️ Module 25](../../phase-4-frontend-dashboard/module-25-grafana-maps-reports/README.md) · [Phase 5](../README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · **Next: [Module 27 — To the Internet: VPS, Domain, HTTPS, MQTT over TLS, Pi → VPS Bridge, & a Phone App (PWA)](../module-27-deploy-internet-tls-pwa/README.md) ➡️**

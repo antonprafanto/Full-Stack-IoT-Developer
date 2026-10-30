@@ -30,7 +30,9 @@ export const SESSION_COOKIE = "session";
 
 // httpOnly: JavaScript on the page can't read the cookie (a thief using XSS doesn't get the token).
 // sameSite strict: the browser doesn't send the cookie with requests started by another site (CSRF).
-// secure auto: the Secure attribute is set when the request comes over HTTPS (Phase 5); on http://127.0.0.1 it isn't.
+// secure auto: the Secure attribute is set when the request comes over HTTPS; on http://127.0.0.1 it isn't. Module 27: behind
+// Caddy, the Caddy -> backend connection is always plain HTTP; the backend only learns that its visitor came over HTTPS from
+// Caddy's X-Forwarded-Proto header, and that header is only trusted when TRUST_PROXY is filled in (config/env.ts, server.ts).
 const BASE = { httpOnly: true, sameSite: "strict", secure: "auto" } as const;
 export const ACCESS_OPTIONS = { ...BASE, path: "/", maxAge: ACCESS_AGE_SECONDS }; // path "/" REQUIRED: else only /auth/...
 export const SESSION_OPTIONS = { ...BASE, path: "/auth", maxAge: SESSION_AGE_SECONDS }; // only sent to /auth/...
@@ -61,7 +63,9 @@ export async function setupSecurity(app: FastifyInstance): Promise<void> {
     verify: { onlyCookie: true }, // the wristband is only read from the cookie, not from the Authorization header
   });
   await app.register(rateLimit, {
-    global: false, // only routes that ask for it (POST /auth/login); counts are kept in memory: restart = start from zero
+    // only routes that ask for it (POST /auth/login); counts are kept in memory: restart = start from zero. Counts per
+    // visitor IP address (req.ip): behind Caddy, that address is only the real visitor's address when TRUST_PROXY is filled in (Module 27)
+    global: false,
     errorResponseBuilder: (_req, context) => Object.assign(
       new Error(`too many attempts: try again in ${Math.ceil(context.ttl / 1000)} seconds`),
       { statusCode: context.statusCode }, // 429

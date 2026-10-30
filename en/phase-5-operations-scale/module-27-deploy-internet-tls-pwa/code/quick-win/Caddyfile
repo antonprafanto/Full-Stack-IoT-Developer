@@ -1,0 +1,17 @@
+# Caddyfile - Module 27 Quick Win: HTTPS with a certificate Caddy makes itself (tls internal).
+{
+	# no "admin counter" (2019), as in the project
+	admin off
+	# Caddy usually tries to install its root certificate into the computer's list of trusted roots. Inside a container that
+	# is useless (your laptop's list of roots isn't touched), so it is skipped.
+	skip_install_trust
+}
+
+# The site address: the name localhost. Caddy serves HTTPS on port 443 of the container (counter 8443 on the laptop).
+localhost {
+	# "tls internal" = the certificate is issued by Caddy's own local issuer ("Caddy Local Authority"), not Let's Encrypt.
+	# The connection's contents are still encrypted, but the browser doesn't know the issuer, so the site's identity isn't proven.
+	tls internal
+	root * /srv
+	file_server
+}

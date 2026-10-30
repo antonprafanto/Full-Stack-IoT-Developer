@@ -1,8 +1,9 @@
-# Dockerfile - the backend image (mold) of Mini Smart Home 1.3.0 (Module 26). Two stages ("multi-stage"):
+# Dockerfile - the backend image (mold) of Mini Smart Home (Module 26; its contents stay the same in 1.4.0, Module 27).
+# Two stages ("multi-stage"):
 #   stage "packages": installs the npm libraries exactly as package-lock.json says, WITHOUT the developer tools (TypeScript, Vitest, Vite)
 #   final stage     : Node.js 24 + the libraries from the "packages" stage + the src/ and migrations/ code, running as the user "node" (not root)
 # No compile stage: Node 24 runs the .ts files directly (type stripping, Module 16).
-# Built from the project folder with: docker compose build backend   (or: docker build -t mini-smart-home-backend:1.3.0 ./backend)
+# Built from the project folder with: docker compose build backend   (or: docker build -t mini-smart-home-backend:1.4.0 ./backend)
 
 # An exact tag, not "latest" or "24-alpine": the same mold today and next month. Alpine = the smallest Node image;
 # bcrypt ships a ready-made build for Alpine (musl), so no compiler is needed.
