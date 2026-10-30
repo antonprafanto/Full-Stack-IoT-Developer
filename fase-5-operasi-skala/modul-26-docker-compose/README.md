@@ -4,7 +4,7 @@
 
 *Fase 5 · Minggu 26 · Perangkat keras: **Kit B** (Raspberry Pi) atau laptop saja · Prasyarat: **Modul 25** (backend 1.2.0, frontend 1.1.0, Grafana di `main`), Modul 17 (Docker secukupnya), Modul 21 (broker berkunci) · Waktu: 10–12 jam, dicicil dalam satu minggu (jalur ⭐ ±9 jam)*
 
-[⬅️ Modul 25](../../fase-4-frontend-dashboard/modul-25-grafana-peta-laporan/README.md) · [Fase 5](../README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · [Modul 27 ➡️ (segera terbit — baca ringkasannya di Silabus)](../../SILABUS.md#modul-27--ke-internet-vps-domain-https-tls-mqtt-bridge-pi--vps--aplikasi-di-hp-pwa)
+[⬅️ Modul 25](../../fase-4-frontend-dashboard/modul-25-grafana-peta-laporan/README.md) · [Fase 5](../README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · [Modul 27 ➡️](../modul-27-deploy-internet-tls-pwa/README.md)
 
 ---
 
@@ -4653,7 +4653,7 @@ Syarat lulus dari Silabus: **di laptop yang "bersih" (atau milik teman), `git cl
 
 **Fase 5 dibuka: seluruh rumah dalam satu bungkusan.** Satu perintah menyalakan semuanya, riwayat dan Grafana pindah tanpa kehilangan data, dan laptop lain menjalankannya dari `git clone`. Batasnya: semua masih di jaringan rumah tanpa HTTPS dan TLS, dan laptop yang tidur ikut menidurkan bot, *alert*, dan laporan pagi.
 
-> ➡️ **Modul berikutnya:** Modul 27 — Ke Internet: VPS, Domain, HTTPS, TLS MQTT, Bridge Pi → VPS, & Aplikasi di HP (PWA) (segera terbit; [ringkasannya di Silabus](../../SILABUS.md#modul-27--ke-internet-vps-domain-https-tls-mqtt-bridge-pi--vps--aplikasi-di-hp-pwa)). `compose.cloud.yml` yang sama pindah ke VPS dengan domain dan HTTPS (di Caddyfile, `:80` diganti nama domain), jembatan Pi naik ke TLS dan belajar menahan data saat internet putus, dan dashboard menjadi aplikasi di HP. Jalur gratisnya: semua di Pi, lewat Cloudflare Tunnel (profil `terowongan`).
+> ➡️ **Modul berikutnya:** [Modul 27 — Ke Internet: VPS, Domain, HTTPS, TLS MQTT, Bridge Pi → VPS, & Aplikasi di HP (PWA)](../modul-27-deploy-internet-tls-pwa/README.md). `compose.cloud.yml` yang sama pindah ke VPS dengan domain dan HTTPS (di Caddyfile, `:80` diganti nama domain), jembatan Pi naik ke TLS dan belajar menahan data saat internet putus, dan dashboard menjadi aplikasi di HP. Jalur gratisnya: semua di Pi, lewat Cloudflare Tunnel (profil `terowongan`).
 
 ## 📚 Sumber & atribusi gambar
 
@@ -4685,4 +4685,4 @@ Yang **belum terbukti** saat terbit: Grafana 13.2.5 di atas lemari 13.2.4; Node-
 
 ---
 
-[⬅️ Modul 25](../../fase-4-frontend-dashboard/modul-25-grafana-peta-laporan/README.md) · [Fase 5](../README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · **Berikutnya: Modul 27 — Ke Internet: VPS, Domain, HTTPS, TLS MQTT, Bridge Pi → VPS, & Aplikasi di HP (PWA)** (segera terbit; [ringkasannya di Silabus](../../SILABUS.md#modul-27--ke-internet-vps-domain-https-tls-mqtt-bridge-pi--vps--aplikasi-di-hp-pwa))
+[⬅️ Modul 25](../../fase-4-frontend-dashboard/modul-25-grafana-peta-laporan/README.md) · [Fase 5](../README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · **Berikutnya: [Modul 27 — Ke Internet: VPS, Domain, HTTPS, TLS MQTT, Bridge Pi → VPS, & Aplikasi di HP (PWA)](../modul-27-deploy-internet-tls-pwa/README.md) ➡️**
