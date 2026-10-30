@@ -1,9 +1,10 @@
-// server.ts - pintu masuk backend Rumah Pintar Mini v1.3 (Modul 26: bisa berjalan sebagai kontainer Docker di compose.cloud.yml;
-// di atas v1.2 Modul 25: titik perangkat di peta dan laporan harian CSV lewat Telegram; v1.1 Modul 24: aturan "di bawah ambang"
-// seperti siram kalau tanah kering, aturan ambang boleh mengirim perintah sekali, dan aturan bisa dihapus; v1.0 Modul 21: daftar
-// resmi perangkat dan kuncinya, akun broker sendiri, pesan dari perangkat tak terdaftar/dicabut diabaikan; Modul 20: login, JWT
-// di cookie, peran, dan pengaman API; dan Modul 19: data realtime, perintah satu pintu, aturan otomatis, jadwal, dan notifikasi
-// Telegram).
+// server.ts - pintu masuk backend Rumah Pintar Mini v1.4 (Modul 27: backend di internet, di balik Caddy HTTPS. TRUST_PROXY
+// membuat backend memercayai keterangan Caddy tentang tamu: cookie login ber-Secure di HTTPS dan pembatas login per tamu; di
+// atas v1.3 Modul 26: bisa berjalan sebagai kontainer Docker di compose.cloud.yml; v1.2 Modul 25: titik perangkat di peta dan
+// laporan harian CSV lewat Telegram; v1.1 Modul 24: aturan "di bawah ambang" seperti siram kalau tanah kering, aturan ambang
+// boleh mengirim perintah sekali, dan aturan bisa dihapus; v1.0 Modul 21: daftar resmi perangkat dan kuncinya, akun broker
+// sendiri, pesan dari perangkat tak terdaftar/dicabut diabaikan; Modul 20: login, JWT di cookie, peran, dan pengaman API; dan
+// Modul 19: data realtime, perintah satu pintu, aturan otomatis, jadwal, dan notifikasi Telegram).
 // Jalankan: npm run dev (otomatis mulai ulang saat file disimpan) atau npm start. Di kontainer (Modul 26): node src/server.ts,
 // setelannya datang dari Docker Compose, bukan dari berkas .env (lihat Dockerfile).
 import Fastify, { LogController } from "fastify";
@@ -32,6 +33,9 @@ import { pool } from "./db/pool.ts";
 const app = Fastify({
   logger: { transport: { target: "pino-pretty", options: { translateTime: "SYS:HH:MM:ss", ignore: "pid,hostname,reqId" } } },
   logController: new LogController({ disableRequestLogging: true }), // log bawaan per permintaan terlalu panjang...
+  // Modul 27: header X-Forwarded-For/-Proto dari Caddy hanya dipercaya bila datang dari penerus di TRUST_PROXY (di
+  // compose.cloud.yml: uniquelocal = lorong Docker). Kosong (mode kembang) = header itu diabaikan, seperti v1.3.
+  trustProxy: env.TRUST_PROXY,
 });
 pakaiLog(app.log); // Modul 19: layanan lain (perintah, aturan, jadwal, Telegram) menulis ke log yang sama
 app.addHook("onResponse", async (req, reply) => {
@@ -41,6 +45,9 @@ app.addHook("onResponse", async (req, reply) => {
   if (!perluDicatat(req.method, req.url, reply.statusCode)) return;
   req.log.info(`${req.method} ${req.url} -> ${reply.statusCode} (${Math.round(reply.elapsedTime)} ms)`);
 });
+if (env.TRUST_PROXY !== false) { // Modul 27: satu baris saat menyala, bukti setelan TRUST_PROXY terbaca
+  app.log.info(`penerus tepercaya (TRUST_PROXY): ${env.TRUST_PROXY === true ? "semua" : env.TRUST_PROXY.join(", ")}`);
+}
 app.setValidatorCompiler(validatorCompiler); // skema Zod memeriksa isi permintaan...
 app.setSerializerCompiler(serializerCompiler); // ...dan bentuk jawaban
 
@@ -49,7 +56,7 @@ await app.register(swagger, {
   openapi: {
     info: {
       title: "Rumah Pintar Mini API",
-      description: "Backend v1.3 (Modul 26). Semua rute butuh login, kecuali yang tidak bergembok. Login dulu lewat "
+      description: "Backend v1.4 (Modul 27). Semua rute butuh login, kecuali yang tidak bergembok. Login dulu lewat "
         + "POST /auth/login (Try it out): browser menyimpan cookie akses dan mengirimnya sendiri ke rute lain. "
         + "Akun viewer hanya boleh melihat (GET); perintah dan perubahan dijawab 403. Perangkat didaftarkan admin lewat "
         + "POST /devices; kuncinya hanya tampil sekali, dan pesan dari perangkat tak terdaftar atau dicabut diabaikan. "
@@ -59,8 +66,11 @@ await app.register(swagger, {
         + "Laporan harian CSV dikirim ke Telegram sesuai LAPORAN_JADWAL (bawaan 07.00 WIB); POST /laporan/kirim "
         + "mengirimnya sekarang juga. Sejak v1.3 (Modul 26), backend juga berjalan sebagai kontainer di Docker Compose: "
         + "dashboard memanggilnya lewat penyaji web Caddy dengan awalan /api, sedangkan halaman ini dibuka di "
-        + "http://localhost:8080/docs (di kontainer, login dari http://127.0.0.1:8080/docs ditolak 403).",
-      version: "1.3.0",
+        + "http://localhost:8080/docs (di kontainer, login dari http://127.0.0.1:8080/docs ditolak 403). Sejak v1.4 "
+        + "(Modul 27), backend bisa dibuka dari internet di balik Caddy HTTPS: dengan TRUST_PROXY (di Compose: uniquelocal) "
+        + "backend memakai alamat IP dan protokol tamu dari Caddy, jadi cookie login ber-Secure dan batas 10 percobaan "
+        + "login berlaku per tamu.",
+      version: "1.4.0",
     },
     components: {
       securitySchemes: { // Modul 20: rute bergembok butuh cookie akses dari POST /auth/login

@@ -1,0 +1,59 @@
+# acl-broker - daftar izin broker Rumah Pintar Mini (Modul 21).
+# Mosquitto membaca berkas ini dari atas ke bawah. Baris berawalan # adalah catatan (# harus huruf pertama baris).
+# Akun yang tidak disebut di sini tidak boleh menulis atau membaca apa pun.
+# Setiap kali berkas ini diubah, RESTART broker (bukan reload). Modul 26, broker di Docker Compose: docker compose restart
+# mosquitto (dari akar proyek untuk broker pusat, dari folder edge di Pi untuk broker gerbang).
+
+# 1) Setiap perangkat hanya boleh "bicara" di topiknya sendiri. Baris pattern berlaku untuk SEMUA akun;
+#    %u diganti nama pengguna yang sudah terbukti dengan sandi, yaitu device_id perangkat itu. Modul 27: perangkat di lokasi
+#    lain yang langsung ke broker VPS (pintu 8883) memakai aturan yang sama; cukup akunnya dibuat di broker VPS.
+pattern write rpm/%u/telemetry
+pattern write rpm/%u/status
+pattern write rpm/%u/vitals
+pattern write rpm/%u/ack
+pattern read rpm/%u/cmd
+
+# 2) Satu pengecualian di kontrak data (aturan 6): Node 1 menerbitkan telemetry dan status Node 2.
+#    Ganti a4cf12e5b7c0 dengan device_id Node 1-mu dan 246f28b1c7d4 dengan device_id Node 2-mu.
+user a4cf12e5b7c0
+topic write rpm/246f28b1c7d4/telemetry
+topic write rpm/246f28b1c7d4/status
+
+# 2b) Jalur laptop (Modul 25): "Kebun tiruan" f00d000000b2 diterbitkan perangkat palsu pertama f00d00000001 (simulator di
+#     alat/), persis seperti butir 2. Hanya untuk pembaca TANPA Node 2 sungguhan: hapus "# " (pagar dan spasinya) di depan
+#     tiga baris berikut, simpan, lalu RESTART broker. Pembaca dengan Kit A + B tidak perlu blok ini.
+# user f00d00000001
+# topic write rpm/f00d000000b2/telemetry
+# topic write rpm/f00d000000b2/status
+
+# 3) Backend: membaca semua pesan perangkat, mengirim perintah (set dan config) ke cmd.
+user backend
+topic read rpm/#
+topic write rpm/+/cmd
+
+# 4) Node-RED di gateway Pi: dashboard membaca, sakelar Kipas mengirim cmd.
+user nodered
+topic read rpm/#
+topic write rpm/+/cmd
+
+# 5) Pemeriksa kontrak (alat/pemeriksa-kontrak.js): hanya membaca.
+user pemeriksa
+topic read rpm/#
+
+# 6) Pemantau (MQTTX, mosquitto_sub): hanya melihat, termasuk statistik broker di $SYS.
+user pemantau
+topic read rpm/#
+topic read $SYS/#
+
+# 7) Jembatan gerbang Pi (Modul 26): berlaku di broker PUSAT (compose.cloud.yml), tempat jembatan masuk dengan akun ini.
+#    Jembatan meneruskan pesan semua perangkat ke pusat dan mengambil perintah untuk mereka. Pemeriksaan per perangkat
+#    (butir 1 dan 2) sudah dilakukan broker gerbang di Pi, yang memakai berkas yang sama tetapi tidak punya akun jembatan-pi.
+#    Modul 27: baris terakhir = kabar jembatan (notifications true di jembatan/pusat.conf): 1 = tersambung, 0 = putus,
+#    pesan retained di topik $SYS ini. Tanda # di baris lain tidak mencakup topik berawalan $SYS, jadi izinnya ditulis sendiri.
+user jembatan-pi
+topic write rpm/+/telemetry
+topic write rpm/+/status
+topic write rpm/+/vitals
+topic write rpm/+/ack
+topic read rpm/+/cmd
+topic write $SYS/broker/connection/jembatan-pi/state

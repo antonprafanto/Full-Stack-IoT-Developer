@@ -1,0 +1,18 @@
+# compose.yaml - Kemenangan Cepat Modul 27: amplop tersegel tanpa kartu identitas.
+# Nama berkas ini adalah nama BAWAAN Docker Compose, jadi di folder ini cukup: docker compose up -d   (tanpa -f)
+# LATIHAN SAJA: Caddy menyajikan satu halaman lewat HTTPS dengan sertifikat buatannya SENDIRI ("Caddy Local Authority"), yang
+# tidak dikenal browser mana pun. Browser akan memperingatkan: itu memang yang ingin kita lihat. Hanya bisa dibuka dari laptop
+# ini (127.0.0.1), dan dibongkar di langkah terakhir dengan: docker compose down
+services:
+  amplop:
+    # image yang sama dengan pintu depan proyek (layanan web), tag persis, tanpa "latest"
+    image: caddy:2.11.7-alpine
+    ports:
+      # kiri = loket di laptopmu (8443, supaya tidak bentrok dengan 443), kanan = port HTTPS di dalam kontainer.
+      # 127.0.0.1 = hanya laptop ini, bukan seluruh WiFi.
+      - "127.0.0.1:8443:443"
+    volumes:
+      # setelan Caddy dan halaman latihan dari folder ini, hanya-baca (:ro)
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./halaman:/srv:ro
+    # Tanpa lemari: sertifikat buatan Caddy tersimpan di dalam kontainer saja dan ikut hilang saat "docker compose down".

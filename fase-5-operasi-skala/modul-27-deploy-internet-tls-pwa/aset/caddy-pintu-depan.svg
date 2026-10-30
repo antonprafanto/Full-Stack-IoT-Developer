@@ -1,0 +1,130 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1012" viewBox="0 0 1200 1012" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="1012" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" xml:space="preserve">Caddy sebagai pintu depan</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" xml:space="preserve">Konsep 7 · satu <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5">frontend/caddy/Caddyfile</tspan> · satu alamat untuk dashboard, API, Socket.IO, dan Grafana</text>
+<rect x="30.0" y="98.0" width="1140.0" height="420.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<rect x="50.0" y="118.0" width="210.0" height="214.0" rx="12" fill="#eef1f5" />
+<rect x="65.0" y="129.0" width="22.0" height="38.0" rx="5" fill="none" stroke="#6f42c1" stroke-width="2" />
+<circle cx="76.0" cy="161.0" r="1.8" fill="#6f42c1" />
+<text x="98.0" y="146.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >Tamu</text>
+<text x="98.0" y="163.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" >HP, browser, aplikasi</text>
+<text x="64.0" y="198.0" font-size="11.5" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">http://iot.…</text>
+<text x="64.0" y="218.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">dijawab <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">308</tspan> →</text>
+<text x="64.0" y="244.0" font-size="11.5" font-weight="800" fill="#6f42c1" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">https://iot.…/…</text>
+<text x="64.0" y="262.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" >HTTP/2, gembok</text>
+<text x="64.0" y="290.0" font-size="11.5" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">https://mqtt.…</text>
+<text x="64.0" y="308.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" >salah alamat</text>
+<line x1="264.0" y1="226.0" x2="292.0" y2="226.0" stroke="#6f42c1" stroke-width="2.4" stroke-linecap="round" />
+<path d="M284.9 229.8 L292.0 226.0 L284.9 222.2" fill="none" stroke="#6f42c1" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="296.0" y="118.0" width="250.0" height="346.0" rx="14" fill="#fcf2f6" stroke="#a13a6b" stroke-width="2" />
+<g transform="translate(324 144) scale(0.75) translate(-324 -144)">
+<rect x="305.0" y="130.0" width="38.0" height="28.0" rx="4" fill="none" stroke="#a13a6b" stroke-width="2" />
+<line x1="305.0" y1="138.0" x2="343.0" y2="138.0" stroke="#a13a6b" stroke-width="1.6" stroke-linecap="round" />
+<circle cx="310.0" cy="134.0" r="1.1" fill="#a13a6b" />
+<circle cx="314.5" cy="134.0" r="1.1" fill="#a13a6b" />
+<circle cx="319.0" cy="134.0" r="1.1" fill="#a13a6b" />
+</g>
+<text x="350.0" y="148.0" font-size="15" font-weight="800" fill="#a13a6b" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14" fill="#a13a6b" font-weight="800">web</tspan> = Caddy</text>
+<text x="350.0" y="167.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">caddy:2.11.7-alpine</text>
+<text x="314.0" y="202.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#a13a6b">HTTPS di 443</tspan> (TCP + UDP)</text>
+<text x="314.0" y="223.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">sertifikat + kunci di lemari</text>
+<text x="314.0" y="244.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">data-caddy</tspan> (jangan <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">down</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">-v</tspan>)</text>
+<text x="314.0" y="286.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">http://</tspan> → <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">308</tspan> → <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">https://</tspan></text>
+<text x="314.0" y="307.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">tanpa HSTS (Bedah Teknis)</text>
+<text x="314.0" y="349.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">kompres <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">zstd</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">gzip</tspan>: JavaScript</text>
+<text x="314.0" y="370.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">±1 MB tiba di browser ±300 kB</text>
+<text x="314.0" y="412.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">alamat situs di Caddyfile:</text>
+<text x="314.0" y="433.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">{$DOMAIN_WEB::80} {$DOMAIN_MQTT}</tspan></text>
+<line x1="548.0" y1="226.0" x2="568.0" y2="155.0" stroke="#a13a6b" stroke-width="1.6" stroke-linecap="round" />
+<path d="M577.8 158.3 L584.0 155.0 L577.8 151.7" fill="none" stroke="#a13a6b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="568.0" y1="155.0" x2="582.0" y2="155.0" stroke="#a13a6b" stroke-width="1.6" stroke-linecap="round" />
+<rect x="590.0" y="140.0" width="178.0" height="30.0" rx="8" fill="#ffffff" stroke="#1e2a4a" stroke-width="1.6" />
+<text x="602.0" y="160.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">nama <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">mqtt.…</tspan></text>
+<line x1="770.0" y1="155.0" x2="786.0" y2="155.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<path d="M780.7 157.8 L786.0 155.0 L780.7 152.2" fill="none" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="790.0" y="128.0" width="360.0" height="54.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="802.0" y="149.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">jawaban <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">404</tspan> + kalimat:</text>
+<text x="802.0" y="168.0" font-size="11" font-weight="600" fill="#e63946" text-anchor="start" xml:space="preserve">Alamat ini untuk broker MQTT (port 8883), bukan dashboard.</text>
+<line x1="548.0" y1="226.0" x2="568.0" y2="232.0" stroke="#a13a6b" stroke-width="1.6" stroke-linecap="round" />
+<path d="M577.8 235.3 L584.0 232.0 L577.8 228.7" fill="none" stroke="#a13a6b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="568.0" y1="232.0" x2="582.0" y2="232.0" stroke="#a13a6b" stroke-width="1.6" stroke-linecap="round" />
+<rect x="590.0" y="217.0" width="178.0" height="30.0" rx="8" fill="#ffffff" stroke="#1a7f37" stroke-width="1.6" />
+<text x="602.0" y="237.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1a7f37" font-weight="800">/api/*</tspan></text>
+<line x1="770.0" y1="232.0" x2="786.0" y2="232.0" stroke="#1a7f37" stroke-width="2" stroke-linecap="round" />
+<path d="M780.7 234.8 L786.0 232.0 L780.7 229.2" fill="none" stroke="#1a7f37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="790.0" y="196.0" width="360.0" height="72.0" rx="10" fill="#ffffff" stroke="#1a7f37" stroke-width="1.6" />
+<text x="802.0" y="217.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1a7f37" font-weight="800">backend:8080</tspan> (awalan <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1a7f37" font-weight="800">/api</tspan> dibuang)</text>
+<text x="802.0" y="236.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">+ <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">X-Forwarded-For</tspan> (IP tamu), <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">X-Forwarded-Proto:</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">https</tspan></text>
+<text x="802.0" y="254.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-style="italic">cookie</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">Path=/auth</tspan> → <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">/api/auth</tspan>; Socket.IO ikut (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">wss://</tspan>)</text>
+<line x1="548.0" y1="226.0" x2="568.0" y2="309.0" stroke="#a13a6b" stroke-width="1.6" stroke-linecap="round" />
+<path d="M577.8 312.3 L584.0 309.0 L577.8 305.7" fill="none" stroke="#a13a6b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="568.0" y1="309.0" x2="582.0" y2="309.0" stroke="#a13a6b" stroke-width="1.6" stroke-linecap="round" />
+<rect x="590.0" y="294.0" width="178.0" height="30.0" rx="8" fill="#ffffff" stroke="#6f42c1" stroke-width="1.6" />
+<text x="602.0" y="314.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">/grafana/*</tspan></text>
+<line x1="770.0" y1="309.0" x2="786.0" y2="309.0" stroke="#6f42c1" stroke-width="2" stroke-linecap="round" />
+<path d="M780.7 311.8 L786.0 309.0 L780.7 306.2" fill="none" stroke="#6f42c1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="790.0" y="282.0" width="360.0" height="54.0" rx="10" fill="#ffffff" stroke="#6f42c1" stroke-width="1.6" />
+<text x="802.0" y="303.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">grafana:3000</tspan> (awalan <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#6f42c1" font-weight="800">/grafana</tspan> tetap)</text>
+<text x="802.0" y="322.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">/grafana</tspan> dialihkan ke <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">/grafana/</tspan>; <tspan font-style="italic">cookie</tspan> diberi <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">Secure</tspan></text>
+<line x1="548.0" y1="226.0" x2="568.0" y2="377.0" stroke="#a13a6b" stroke-width="1.6" stroke-linecap="round" />
+<path d="M577.8 380.3 L584.0 377.0 L577.8 373.7" fill="none" stroke="#a13a6b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="568.0" y1="377.0" x2="582.0" y2="377.0" stroke="#a13a6b" stroke-width="1.6" stroke-linecap="round" />
+<rect x="590.0" y="362.0" width="178.0" height="30.0" rx="8" fill="#ffffff" stroke="#1e2a4a" stroke-width="1.6" />
+<text x="602.0" y="382.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">/assets/*</tspan></text>
+<line x1="770.0" y1="377.0" x2="786.0" y2="377.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<path d="M780.7 379.8 L786.0 377.0 L780.7 374.2" fill="none" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="790.0" y="350.0" width="360.0" height="54.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="802.0" y="371.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">berkas di <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">/srv/assets</tspan> (JavaScript, CSS)</text>
+<text x="802.0" y="390.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">tidak ada = <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">404</tspan> (galat jujur)</text>
+<line x1="548.0" y1="226.0" x2="568.0" y2="445.0" stroke="#a13a6b" stroke-width="1.6" stroke-linecap="round" />
+<path d="M577.8 448.3 L584.0 445.0 L577.8 441.7" fill="none" stroke="#a13a6b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="568.0" y1="445.0" x2="582.0" y2="445.0" stroke="#a13a6b" stroke-width="1.6" stroke-linecap="round" />
+<rect x="590.0" y="430.0" width="178.0" height="30.0" rx="8" fill="#ffffff" stroke="#1e2a4a" stroke-width="1.6" />
+<text x="602.0" y="450.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">lainnya</text>
+<line x1="770.0" y1="445.0" x2="786.0" y2="445.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<path d="M780.7 447.8 L786.0 445.0 L780.7 442.2" fill="none" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="790.0" y="418.0" width="360.0" height="54.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="802.0" y="439.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">berkas di <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">/srv</tspan> (isi <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">dist/</tspan>), layar → <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">index.html</tspan></text>
+<text x="802.0" y="458.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">Cache-Control:</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">no-cache</tspan> (juga <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">sw.js</tspan>, manifest)</text>
+<text x="30.0" y="544.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >Satu Caddyfile, tiga tempat</text>
+<text x="270.0" y="544.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">DOMAIN_WEB</tspan> kosong di <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">.env</tspan> → <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">compose.cloud.yml</tspan> mengisi <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">:80</tspan> (Caddy hanya memakai nilai pengganti bila variabel TIDAK ADA)</text>
+<rect x="30.0" y="558.0" width="370.0" height="106.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="48.0" y="584.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Laptop (Modul 26)</text>
+<text x="48.0" y="608.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">DOMAIN_WEB</tspan> kosong → <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">:80</tspan></text>
+<text x="48.0" y="627.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">HTTP di <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">http://localhost</tspan></text>
+<text x="48.0" y="646.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">tanpa sertifikat</text>
+<rect x="415.0" y="558.0" width="370.0" height="106.0" rx="12" fill="#fcf2f6" stroke="#a13a6b" stroke-width="1.8" />
+<text x="433.0" y="584.0" font-size="13.5" font-weight="800" fill="#a13a6b" text-anchor="start" >VPS (jalur utama)</text>
+<text x="433.0" y="608.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">DOMAIN_WEB=iot.namaanda.my.id</tspan></text>
+<text x="433.0" y="627.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Caddy meminta sertifikat, HTTPS 443,</text>
+<text x="433.0" y="646.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">memperbaruinya sendiri</text>
+<rect x="800.0" y="558.0" width="370.0" height="106.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="818.0" y="584.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Pi (jalur gratis)</text>
+<text x="818.0" y="608.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">DOMAIN_WEB</tspan> kosong → <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">:80</tspan></text>
+<text x="818.0" y="627.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">HTTPS dipasang Cloudflare;</text>
+<text x="818.0" y="646.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">PROKSI_TEPERCAYA=private_ranges</tspan></text>
+<rect x="30.0" y="684.0" width="1140.0" height="286.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="54.0" y="714.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >trustProxy: backend percaya keterangan Caddy tentang tamu</text>
+<text x="1146.0" y="714.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="end" >lab tiruan, tiga tamu dari "internet"</text>
+<rect x="318.0" y="728.0" width="400.0" height="34.0" rx="8" fill="#eef1f5" />
+<rect x="728.0" y="728.0" width="418.0" height="34.0" rx="8" fill="#f5e0ea" />
+<text x="330.0" y="750.0" font-size="12.5" font-weight="800" fill="#4a5568" text-anchor="start" xml:space="preserve">tanpa trustProxy (backend 1.3)</text>
+<text x="740.0" y="750.0" font-size="12.5" font-weight="800" fill="#a13a6b" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#a13a6b" font-weight="800">TRUST_PROXY=uniquelocal</tspan> (backend 1.4.0)</text>
+<text x="54.0" y="789.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve">backend melihat tamu sebagai</text>
+<text x="330.0" y="789.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">semua = IP Caddy di lorong (lab: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#4a5568" font-weight="800">172.19.0.4</tspan>), <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#4a5568" font-weight="800">http</tspan></text>
+<text x="740.0" y="789.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">IP asli tiap tamu (A, B, C masing-masing), <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">https</tspan></text>
+<line x1="54.0" y1="802.0" x2="1146.0" y2="802.0" stroke="#e0dcd2" stroke-width="1" stroke-linecap="round" />
+<text x="54.0" y="825.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-style="italic">cookie</tspan> login</text>
+<text x="330.0" y="825.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">tanpa <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#4a5568" font-weight="800">Secure</tspan>, walau lewat HTTPS</text>
+<text x="740.0" y="825.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">Secure</tspan>: browser hanya mengirimnya lewat HTTPS</text>
+<line x1="54.0" y1="838.0" x2="1146.0" y2="838.0" stroke="#e0dcd2" stroke-width="1" stroke-linecap="round" />
+<text x="54.0" y="861.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve">tamu A salah sandi 11 kali</text>
+<text x="330.0" y="861.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">tamu B (sandi benar) ikut ditolak <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#4a5568" font-weight="800">429</tspan></text>
+<text x="740.0" y="861.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">hanya tamu A <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">429</tspan>; tamu B masuk (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">200</tspan>)</text>
+<line x1="54.0" y1="874.0" x2="1146.0" y2="874.0" stroke="#e0dcd2" stroke-width="1" stroke-linecap="round" />
+<text x="54.0" y="897.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve">tamu C memalsukan <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">X-Forwarded-For</tspan></text>
+<text x="330.0" y="897.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">ikut <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#4a5568" font-weight="800">429</tspan> (batas dibagi semua tamu)</text>
+<text x="740.0" y="897.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Caddy menimpanya; dihitung atas IP asli C</text>
+<text x="54.0" y="934.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">Log backend saat menyala: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">penerus</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">tepercaya</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">(TRUST_PROXY):</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">uniquelocal</tspan> · angka jumlah hop (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">TRUST_PROXY=1</tspan>) ditolak backend · <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">CORS_ORIGIN=https://iot.namaanda.my.id</tspan> persis (lain = <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">403</tspan>)</text>
+<text x="1178.0" y="998.0" font-size="11" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

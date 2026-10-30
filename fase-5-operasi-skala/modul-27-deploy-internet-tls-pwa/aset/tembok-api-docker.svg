@@ -1,0 +1,170 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1274" viewBox="0 0 1200 1274" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="1274" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" xml:space="preserve">Tembok api yang bocor: ufw dan Docker</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" xml:space="preserve">Konsep 4 · di VPS, paket ke loket kontainer dibelokkan Docker SEBELUM aturan ufw dibaca</text>
+<rect x="30.0" y="98.0" width="1140.0" height="378.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="54.0" y="128.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="start" >Jalan sebuah paket dari internet</text>
+<path d="M72 258 Q62 258 64 248 Q66 238 78 240 Q84 228 98 233 Q110 230 112 242 Q122 244 120 253 Q118 258 110 258 Z" fill="none" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="92.0" y="282.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="middle" >Internet</text>
+<rect x="196.0" y="150.0" width="954.0" height="262.0" rx="14" fill="#fcf2f6" stroke="#1e2a4a" stroke-width="2" />
+<rect x="206.0" y="366.0" width="36.0" height="11.0" rx="2" fill="none" stroke="#1e2a4a" stroke-width="1.8" />
+<circle cx="213.0" cy="371.5" r="1.6" fill="#1e2a4a" />
+<rect x="206.0" y="380.0" width="36.0" height="11.0" rx="2" fill="none" stroke="#1e2a4a" stroke-width="1.8" />
+<circle cx="213.0" cy="385.5" r="1.6" fill="#1e2a4a" />
+<rect x="206.0" y="394.0" width="36.0" height="11.0" rx="2" fill="none" stroke="#1e2a4a" stroke-width="1.8" />
+<circle cx="213.0" cy="399.5" r="1.6" fill="#1e2a4a" />
+<text x="248.0" y="391.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" >VPS (Ubuntu): satu kartu jaringan, dua jalan</text>
+<rect x="46.0" y="191.0" width="57.5" height="22.0" rx="6" fill="#ffffff" stroke="#1e2a4a" stroke-width="1.4" />
+<text x="54.0" y="206.1" font-size="11.5" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">ke :22</text>
+<line x1="118.0" y1="202.0" x2="404.0" y2="202.0" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" />
+<path d="M397.8 205.3 L404.0 202.0 L397.8 198.7" fill="none" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="212.0" y="193.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="start" >untuk program di mesin</text>
+<rect x="410.0" y="168.0" width="214.0" height="68.0" rx="10" fill="#ffffff" stroke="#1e2a4a" stroke-width="1.8" />
+<text x="424.0" y="190.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" >ufw (tembok api)</text>
+<text x="424.0" y="210.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">22/tcp</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">ALLOW</tspan>: masuk</text>
+<text x="424.0" y="227.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" >yang tidak diizinkan: ditolak</text>
+<line x1="626.0" y1="202.0" x2="714.0" y2="202.0" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" />
+<path d="M707.8 205.3 L714.0 202.0 L707.8 198.7" fill="none" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="720.0" y="176.0" width="410.0" height="52.0" rx="10" fill="#ffffff" stroke="#1e2a4a" stroke-width="1.6" />
+<text x="734.0" y="198.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#1e2a4a" font-weight="800">sshd</tspan> · loket 22</text>
+<text x="734.0" y="217.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" >program di mesin VPS, bukan kontainer: DIPERIKSA ufw</text>
+<rect x="46.0" y="299.0" width="64.5" height="22.0" rx="6" fill="#ffffff" stroke="#a13a6b" stroke-width="1.4" />
+<text x="54.0" y="314.1" font-size="11.5" font-weight="800" fill="#a13a6b" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">ke :443</text>
+<rect x="46.0" y="345.0" width="71.4" height="22.0" rx="6" fill="#ffffff" stroke="#a13a6b" stroke-width="1.4" />
+<text x="54.0" y="360.1" font-size="11.5" font-weight="800" fill="#a13a6b" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">ke :1883</text>
+<text x="212.0" y="284.0" font-size="11.5" font-weight="700" fill="#a13a6b" text-anchor="start" >untuk loket Docker</text>
+<line x1="126.0" y1="310.0" x2="404.0" y2="310.0" stroke="#a13a6b" stroke-width="2.4" stroke-linecap="round" />
+<path d="M396.9 313.8 L404.0 310.0 L396.9 306.2" fill="none" stroke="#a13a6b" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="134.0" y1="356.0" x2="404.0" y2="356.0" stroke="#a13a6b" stroke-width="2.4" stroke-linecap="round" />
+<path d="M396.9 359.8 L404.0 356.0 L396.9 352.2" fill="none" stroke="#a13a6b" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="410.0" y="276.0" width="214.0" height="92.0" rx="10" fill="#ffffff" stroke="#a13a6b" stroke-width="2" />
+<text x="424.0" y="298.0" font-size="13" font-weight="800" fill="#a13a6b" text-anchor="start" >NAT Docker</text>
+<text x="424.0" y="318.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" >membelokkan paket yang</text>
+<text x="424.0" y="336.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">cocok dengan baris <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">ports:</tspan></text>
+<text x="424.0" y="354.0" font-size="11.5" font-weight="800" fill="#a13a6b" text-anchor="start" >SEBELUM ufw membacanya</text>
+<line x1="517.0" y1="238.0" x2="517.0" y2="274.0" stroke="#9aa3b0" stroke-width="1.8" stroke-linecap="round" stroke-dasharray="5 4" />
+<circle cx="517.0" cy="256.0" r="8" fill="none" stroke="#e63946" stroke-width="2.2" />
+<line x1="511.4" y1="261.6" x2="522.6" y2="250.4" stroke="#e63946" stroke-width="2.2" stroke-linecap="round" />
+<text x="532.0" y="260.5" font-size="12" font-weight="800" fill="#e63946" text-anchor="start" >ufw tidak pernah ditanya untuk paket yang dibelokkan</text>
+<line x1="626.0" y1="310.0" x2="714.0" y2="310.0" stroke="#a13a6b" stroke-width="2.4" stroke-linecap="round" />
+<path d="M706.9 313.8 L714.0 310.0 L706.9 306.2" fill="none" stroke="#a13a6b" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="720.0" y="288.0" width="410.0" height="42.0" rx="10" fill="#ffffff" stroke="#6f42c1" stroke-width="1.8" />
+<text x="734.0" y="315.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#6f42c1" font-weight="800">web</tspan> (Caddy) · loket <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#6f42c1" font-weight="800">0.0.0.0:443</tspan></text>
+<path d="M1087 310 L1092 316 L1102 304" fill="none" stroke="#2a9d5c" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="1080.0" y="315.0" font-size="12" font-weight="800" fill="#2a9d5c" text-anchor="end" >masuk</text>
+<line x1="626.0" y1="356.0" x2="690.0" y2="356.0" stroke="#a13a6b" stroke-width="2.4" stroke-linecap="round" />
+<line x1="695.0" y1="349.0" x2="709.0" y2="363.0" stroke="#e63946" stroke-width="2.6" stroke-linecap="round" />
+<line x1="695.0" y1="363.0" x2="709.0" y2="349.0" stroke="#e63946" stroke-width="2.6" stroke-linecap="round" />
+<rect x="720.0" y="336.0" width="410.0" height="40.0" rx="10" fill="#ffffff" stroke="#0f8b8d" stroke-width="1.6" />
+<text x="734.0" y="361.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#0f8b8d" font-weight="800">mosquitto</tspan> · loket <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#0f8b8d" font-weight="800">127.0.0.1:1883</tspan></text>
+<text x="1116.0" y="361.0" font-size="12" font-weight="800" fill="#e63946" text-anchor="end" >tidak sampai</text>
+<text x="54.0" y="438.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">Dokumen Docker: loket kontainer melewati aturan tembok api (<tspan font-style="italic">firewall</tspan>) mesin, juga ufw. Yang menentukan siapa boleh mengetuk adalah <tspan font-weight="800" fill="#1e2a4a">alamat</tspan> di <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#1e2a4a" font-weight="800">ports:</tspan>.</text>
+<text x="54.0" y="460.0" font-size="12.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#1e2a4a" font-weight="800">:1883</tspan> tidak cocok dengan baris mana pun (loketnya hanya <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#1e2a4a" font-weight="800">127.0.0.1</tspan>): <tspan font-weight="800" fill="#1e2a4a">tidak dibelokkan</tspan>, dan di IP publik tidak ada yang menjawab.</text>
+<rect x="30.0" y="494.0" width="562.0" height="124.0" rx="12" fill="#ffffff" stroke="#a13a6b" stroke-width="1.8" />
+<text x="50.0" y="524.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14" fill="#a13a6b" font-weight="800">0.0.0.0</tspan>  semua antarmuka (IPv4)</text>
+<text x="50.0" y="550.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">siapa pun di internet bisa mengetuk loket ini</text>
+<text x="50.0" y="570.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">dipakai: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">web</tspan> 80/443, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">mosquitto</tspan> 8883 (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">ALAMAT_WEB</tspan>)</text>
+<text x="50.0" y="590.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">IPv4 saja: di DNS cukup <tspan font-style="italic">record</tspan> A, jangan AAAA</text>
+<rect x="608.0" y="494.0" width="562.0" height="124.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="628.0" y="524.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14" fill="#4a5568" font-weight="800">127.0.0.1</tspan>  hanya mesin VPS itu sendiri</text>
+<text x="628.0" y="550.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">dari internet: tidak terjangkau (lab tiruan: 1883 polos</text>
+<text x="628.0" y="570.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">tidak terjangkau dari luar, terjangkau dari VPS)</text>
+<text x="628.0" y="590.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">dari laptop: terowongan <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">ssh</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">-L</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">5432:127.0.0.1:5432</tspan></text>
+<rect x="30.0" y="638.0" width="1140.0" height="356.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="54.0" y="668.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Loket proyek di VPS (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14" fill="#1e2a4a" font-weight="800">compose.cloud.yml</tspan> + <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14" fill="#1e2a4a" font-weight="800">.env</tspan> kolom VPS)</text>
+<text x="54.0" y="696.0" font-size="12" font-weight="800" fill="#4a5568" text-anchor="start" xml:space="preserve">Layanan</text>
+<text x="196.0" y="696.0" font-size="12" font-weight="800" fill="#4a5568" text-anchor="start" xml:space="preserve">Baris <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568" font-weight="800">ports:</tspan> (ringkas)</text>
+<text x="510.0" y="696.0" font-size="12" font-weight="800" fill="#4a5568" text-anchor="start" xml:space="preserve">Alamat di VPS</text>
+<text x="650.0" y="696.0" font-size="12" font-weight="800" fill="#4a5568" text-anchor="start" xml:space="preserve">Dari internet</text>
+<text x="800.0" y="696.0" font-size="12" font-weight="800" fill="#4a5568" text-anchor="start" xml:space="preserve">Lewat mana</text>
+<line x1="46.0" y1="706.0" x2="1154.0" y2="706.0" stroke="#e0dcd2" stroke-width="1.4" stroke-linecap="round" />
+<rect x="46.0" y="716.0" width="1108.0" height="34.0" rx="6" fill="#eef1f5" />
+<text x="54.0" y="738.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">web</text>
+<text x="196.0" y="738.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="700">${ALAMAT_WEB}:80</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="700">:443</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="700">:443/udp</tspan></text>
+<text x="510.0" y="738.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">0.0.0.0</tspan></text>
+<rect x="650.0" y="722.0" width="68.3" height="22.0" rx="11.0" fill="#f5e0ea" stroke="#a13a6b" stroke-width="1.4" />
+<text x="684.1" y="737.1" font-size="11.5" font-weight="800" fill="#a13a6b" text-anchor="middle" >terbuka</text>
+<text x="800.0" y="738.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Let's Encrypt + tamu; <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">http://</tspan> → <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">https://</tspan></text>
+<text x="54.0" y="772.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">mosquitto</text>
+<text x="196.0" y="772.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="700">${ALAMAT_WEB}:8883</tspan></text>
+<text x="510.0" y="772.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">0.0.0.0</tspan></text>
+<rect x="650.0" y="756.0" width="68.3" height="22.0" rx="11.0" fill="#f5e0ea" stroke="#a13a6b" stroke-width="1.4" />
+<text x="684.1" y="771.1" font-size="11.5" font-weight="800" fill="#a13a6b" text-anchor="middle" >terbuka</text>
+<text x="800.0" y="772.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">MQTT TLS: jembatan Pi, perangkat di luar</text>
+<rect x="46.0" y="784.0" width="1108.0" height="34.0" rx="6" fill="#eef1f5" />
+<text x="54.0" y="806.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">mosquitto</text>
+<text x="196.0" y="806.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="700">${ALAMAT_MQTT}:1883</tspan></text>
+<text x="510.0" y="806.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">127.0.0.1</tspan></text>
+<rect x="650.0" y="790.0" width="89.2" height="22.0" rx="11.0" fill="#eef1f5" stroke="#9aa3b0" stroke-width="1.4" />
+<rect x="659.4" y="799.7" width="9.2" height="7.1" rx="1.26" fill="none" stroke="#4a5568" stroke-width="1.24" />
+<path d="M661.27 799.74 L661.27 797.64 A2.73 2.73 0 0 1 666.73 797.64 L666.73 799.74" fill="none" stroke="#4a5568" stroke-width="1.24" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="664.0" cy="803.1" r="1.056" fill="#4a5568" />
+<text x="706.6" y="805.1" font-size="11.5" font-weight="800" fill="#4a5568" text-anchor="middle" >tertutup</text>
+<text x="800.0" y="806.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">polos: backend lewat lorong <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">mosquitto:1883</tspan></text>
+<text x="54.0" y="840.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">backend</text>
+<text x="196.0" y="840.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="700">127.0.0.1:8080</tspan></text>
+<text x="510.0" y="840.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">127.0.0.1</tspan></text>
+<rect x="650.0" y="824.0" width="89.2" height="22.0" rx="11.0" fill="#eef1f5" stroke="#9aa3b0" stroke-width="1.4" />
+<rect x="659.4" y="833.7" width="9.2" height="7.1" rx="1.26" fill="none" stroke="#4a5568" stroke-width="1.24" />
+<path d="M661.27 833.74 L661.27 831.64 A2.73 2.73 0 0 1 666.73 831.64 L666.73 833.74" fill="none" stroke="#4a5568" stroke-width="1.24" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="664.0" cy="837.1" r="1.056" fill="#4a5568" />
+<text x="706.6" y="839.1" font-size="11.5" font-weight="800" fill="#4a5568" text-anchor="middle" >tertutup</text>
+<text x="800.0" y="840.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">tamu: Caddy <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">/api</tspan>; kamu: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">ssh</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">-L</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">8080:…</tspan></text>
+<rect x="46.0" y="852.0" width="1108.0" height="34.0" rx="6" fill="#eef1f5" />
+<text x="54.0" y="874.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">grafana</text>
+<text x="196.0" y="874.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="700">127.0.0.1:3000</tspan></text>
+<text x="510.0" y="874.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">127.0.0.1</tspan></text>
+<rect x="650.0" y="858.0" width="89.2" height="22.0" rx="11.0" fill="#eef1f5" stroke="#9aa3b0" stroke-width="1.4" />
+<rect x="659.4" y="867.7" width="9.2" height="7.1" rx="1.26" fill="none" stroke="#4a5568" stroke-width="1.24" />
+<path d="M661.27 867.74 L661.27 865.64 A2.73 2.73 0 0 1 666.73 865.64 L666.73 867.74" fill="none" stroke="#4a5568" stroke-width="1.24" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="664.0" cy="871.1" r="1.056" fill="#4a5568" />
+<text x="706.6" y="873.1" font-size="11.5" font-weight="800" fill="#4a5568" text-anchor="middle" >tertutup</text>
+<text x="800.0" y="874.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">tamu: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">/grafana/</tspan>; kamu: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">ssh</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">-L</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">3000:…</tspan></text>
+<text x="54.0" y="908.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">db</text>
+<text x="196.0" y="908.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="700">127.0.0.1:5432</tspan></text>
+<text x="510.0" y="908.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">127.0.0.1</tspan></text>
+<rect x="650.0" y="892.0" width="89.2" height="22.0" rx="11.0" fill="#eef1f5" stroke="#9aa3b0" stroke-width="1.4" />
+<rect x="659.4" y="901.7" width="9.2" height="7.1" rx="1.26" fill="none" stroke="#4a5568" stroke-width="1.24" />
+<path d="M661.27 901.74 L661.27 899.64 A2.73 2.73 0 0 1 666.73 899.64 L666.73 901.74" fill="none" stroke="#4a5568" stroke-width="1.24" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="664.0" cy="905.1" r="1.056" fill="#4a5568" />
+<text x="706.6" y="907.1" font-size="11.5" font-weight="800" fill="#4a5568" text-anchor="middle" >tertutup</text>
+<text x="800.0" y="908.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">DBeaver dari laptop: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">ssh</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">-L</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">5432:…</tspan></text>
+<rect x="46.0" y="920.0" width="1108.0" height="34.0" rx="6" fill="#eef1f5" />
+<text x="54.0" y="942.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">uptime-kuma</text>
+<text x="196.0" y="942.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="700">127.0.0.1:3001</tspan></text>
+<text x="510.0" y="942.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">127.0.0.1</tspan></text>
+<rect x="650.0" y="926.0" width="89.2" height="22.0" rx="11.0" fill="#eef1f5" stroke="#9aa3b0" stroke-width="1.4" />
+<rect x="659.4" y="935.7" width="9.2" height="7.1" rx="1.26" fill="none" stroke="#4a5568" stroke-width="1.24" />
+<path d="M661.27 935.74 L661.27 933.64 A2.73 2.73 0 0 1 666.73 933.64 L666.73 935.74" fill="none" stroke="#4a5568" stroke-width="1.24" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="664.0" cy="939.1" r="1.056" fill="#4a5568" />
+<text x="706.6" y="941.1" font-size="11.5" font-weight="800" fill="#4a5568" text-anchor="middle" >tertutup</text>
+<text x="800.0" y="942.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">profil <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">pantau</tspan> (Modul 30)</text>
+<text x="54.0" y="976.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">sshd</text>
+<text x="196.0" y="976.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">(program mesin, bukan Docker)</text>
+<text x="510.0" y="976.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="start" xml:space="preserve">port 22</text>
+<rect x="650.0" y="960.0" width="125.6" height="22.0" rx="11.0" fill="#f5e0ea" stroke="#a13a6b" stroke-width="1.4" />
+<text x="712.8" y="975.0" font-size="11" font-weight="800" fill="#a13a6b" text-anchor="middle" >bila ufw izinkan</text>
+<text x="800.0" y="976.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">kunci SSH ed25519, login sandi mati</text>
+<rect x="30.0" y="1012.0" width="470.0" height="220.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="50.0" y="1040.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >ufw di VPS: urutan penting</text>
+<rect x="50.0" y="1054.0" width="430.0" height="160.3" rx="8" fill="#eef1f5" />
+<text x="62.0" y="1075.8" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">sudo ufw allow 22/tcp</text>
+<text x="62.0" y="1096.8" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">sudo ufw allow 80/tcp</text>
+<text x="62.0" y="1117.8" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">sudo ufw allow 443/tcp</text>
+<text x="62.0" y="1138.8" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">sudo ufw allow 443/udp</text>
+<text x="62.0" y="1159.8" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">sudo ufw allow 8883/tcp</text>
+<text x="62.0" y="1180.8" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">sudo ufw enable</text>
+<text x="62.0" y="1201.8" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">sudo ufw status verbose</text>
+<text x="470.0" y="1075.0" font-size="11.5" font-weight="800" fill="#a13a6b" text-anchor="end" >← DULU</text>
+<text x="470.0" y="1180.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="end" >nyalakan</text>
+<rect x="516.0" y="1012.0" width="654.0" height="220.0" rx="12" fill="#eef1f5" />
+<text x="536.0" y="1040.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >Yang perlu diingat</text>
+<text x="536.0" y="1066.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">22/tcp</tspan> lebih dulu: tanpa itu <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">ufw</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">enable</tspan> bisa mengunci SSH-mu sendiri.</text>
+<text x="536.0" y="1088.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">ufw menjaga program di mesin (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">sshd</tspan>). Baris 80, 443, 8883 = catatan niat:</text>
+<text x="536.0" y="1110.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Docker tetap membuka loket kontainer sendiri.</text>
+<text x="536.0" y="1132.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">ufw</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">deny</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">1883</tspan> atau <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">ufw</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">deny</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">5432</tspan> TIDAK menutup loket Docker.</text>
+<text x="536.0" y="1154.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Uji dari LUAR (HP, data seluler): MQTTX ke <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">mqtt.namaanda.my.id:1883</tspan> gagal.</text>
+<text x="536.0" y="1176.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">Jujur:</tspan> ufw dan VPS sungguhan tidak diuji penulis; urutan dari</text>
+<text x="536.0" y="1198.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">dokumen Ubuntu dan Docker, loket <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">127.0.0.1</tspan> dari lab tiruan.</text>
+<text x="1178.0" y="1260.0" font-size="11" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

@@ -1,8 +1,9 @@
-# Dockerfile - cetakan (image) backend Rumah Pintar Mini 1.3.0 (Modul 26). Dua tahap ("multi-stage"):
+# Dockerfile - cetakan (image) backend Rumah Pintar Mini (Modul 26; isinya tetap sama di 1.4.0, Modul 27).
+# Dua tahap ("multi-stage"):
 #   tahap "paket": memasang library npm persis menurut package-lock.json, TANPA alat pengembang (TypeScript, Vitest, Vite)
 #   tahap akhir  : Node.js 24 + library dari tahap "paket" + kode src/ dan migrasi/, berjalan sebagai pengguna "node" (bukan root)
 # Tidak ada tahap kompilasi: Node 24 menjalankan berkas .ts langsung (type stripping, Modul 16).
-# Dibangun dari folder proyek dengan: docker compose build backend   (atau: docker build -t rumah-pintar-mini-backend:1.3.0 ./backend)
+# Dibangun dari folder proyek dengan: docker compose build backend   (atau: docker build -t rumah-pintar-mini-backend:1.4.0 ./backend)
 
 # Tag persis, bukan "latest" atau "24-alpine": cetakan yang sama hari ini dan bulan depan. Alpine = image Node terkecil;
 # bcrypt membawa versi siap pakai untuk Alpine (musl), jadi tidak perlu kompiler.

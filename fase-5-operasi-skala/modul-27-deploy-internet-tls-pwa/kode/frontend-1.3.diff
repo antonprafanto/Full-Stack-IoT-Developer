@@ -1,0 +1,488 @@
+diff --git a/frontend/Dockerfile b/frontend/Dockerfile
+index 94b7a66..4d2bb77 100644
+--- a/frontend/Dockerfile
++++ b/frontend/Dockerfile
+@@ -1,8 +1,9 @@
+-# Dockerfile - cetakan (image) web Rumah Pintar Mini 1.2.0 (Modul 26). Dua tahap ("multi-stage"):
+-#   tahap "bangun": Node.js mengubah kode React + TypeScript menjadi berkas siap saji (npm run build -> folder dist/)
++# Dockerfile - cetakan (image) web Rumah Pintar Mini 1.3.0 (Modul 26, PWA sejak Modul 27). Dua tahap ("multi-stage"):
++#   tahap "bangun": Node.js mengubah kode React + TypeScript menjadi berkas siap saji (npm run build -> folder dist/,
++#                   termasuk manifest.webmanifest dan service worker sw.js sejak Modul 27)
+ #   tahap akhir   : hanya Caddy + isi dist/. Node.js, node_modules, dan kode sumber tertinggal di tahap bangun.
+ # Dibangun dari folder proyek dengan: docker compose build web   (atau dari folder ini saja, tanpa folder backend:
+-# docker build -t rumah-pintar-mini-web:1.2.0 .)
++# docker build -t rumah-pintar-mini-web:1.3.0 .)
+ 
+ # Tag persis (sama dengan cetakan backend), bukan "latest": cetakan yang sama hari ini dan bulan depan.
+ FROM node:24.22.1-alpine3.24 AS bangun
+@@ -29,7 +30,7 @@ LABEL org.opencontainers.image.source="https://github.com/<akun>/rumah-pintar-mi
+ # Caddyfile bawaan di dalam image, supaya image ini bisa dicoba sendirian (docker run). Docker Compose memasang folder
+ # caddy/ dari repo di atasnya.
+ COPY caddy/Caddyfile /etc/caddy/Caddyfile
+-# Hanya hasil build yang dibawa dari tahap bangun: berkas HTML, CSS, JavaScript, dan ikon (sekitar 1 MB).
++# Hanya hasil build yang dibawa dari tahap bangun: berkas HTML, CSS, JavaScript, ikon, manifest, dan sw.js (sekitar 1 MB).
+ COPY --from=bangun /app/dist /srv
+ # Tanpa CMD dan EXPOSE: image Caddy sudah membawanya ("caddy run --config /etc/caddy/Caddyfile --adapter caddyfile",
+ # port 80 di dalam kontainer). Loket di laptop diatur compose.cloud.yml (ports).
+diff --git a/frontend/README.md b/frontend/README.md
+index 19cf8d1..1f75ca7 100644
+--- a/frontend/README.md
++++ b/frontend/README.md
+@@ -2,10 +2,12 @@
+ 
+ 🌐 **Bahasa Indonesia** · [English](../../en/mini-smart-home/frontend/README.md)
+ 
+-Dashboard v1.2 proyek Rumah Pintar Mini: halaman web React 19 + TypeScript dengan Tailwind CSS v4, dibuat dengan Vite 8 (templat `react-ts` dari create-vite 9.3.1). Setiap layar punya alamat sendiri (React Router v8, mode deklaratif), dan layar di balik *login* dijaga rute terproteksi. Dashboard menampilkan data *live* dari backend lewat Socket.IO (daftar perangkat, detail dengan grafik 5 menit dan gauge, riwayat 1 jam / 24 jam / 7 hari dengan tabel dan CSV), dan sejak Modul 24 juga **mengendalikan** perangkat: akun admin menyalakan lampu dan kipas dengan status "Menunggu konfirmasi perangkat…", menyiram dengan pompa, serta membuat, mengubah, menonaktifkan, dan menghapus aturan otomatis lewat formulir yang diperiksa skema Zod yang sama dengan backend. Akun viewer melihat semua data tanpa tombol kendali. Kejadian penting (aturan bertindak, perangkat terputus) muncul sebagai *toast*. Sejak Modul 25 (v1.1) ada layar **Peta**: setiap perangkat yang punya titik (`lat`, `lng` dari backend 1.2) tampil sebagai lingkaran hijau/abu-abu di atas peta OpenStreetMap, berwarna menurut status *live*-nya. Tampilannya dirancang rapi di HP dan laptop, mengikuti mode gelap sistem, dan bisa dibuka dari HP di WiFi rumah (lihat "Batasan v1.2"). Dengan v1.1, dashboard Fase 4 lengkap: data *live* (Modul 23), kendali dan peran (Modul 24), dan peta perangkat (Modul 25, 🎉 Checkpoint Fase 4). Dashboard teknis Grafana BUKAN bagian folder ini: ia tinggal di kontainernya sendiri, dengan berkasnya di folder `grafana/` proyek.
++Dashboard v1.3 proyek Rumah Pintar Mini: halaman web React 19 + TypeScript dengan Tailwind CSS v4, dibuat dengan Vite 8 (templat `react-ts` dari create-vite 9.3.1). Setiap layar punya alamat sendiri (React Router v8, mode deklaratif), dan layar di balik *login* dijaga rute terproteksi. Dashboard menampilkan data *live* dari backend lewat Socket.IO (daftar perangkat, detail dengan grafik 5 menit dan gauge, riwayat 1 jam / 24 jam / 7 hari dengan tabel dan CSV), dan sejak Modul 24 juga **mengendalikan** perangkat: akun admin menyalakan lampu dan kipas dengan status "Menunggu konfirmasi perangkat…", menyiram dengan pompa, serta membuat, mengubah, menonaktifkan, dan menghapus aturan otomatis lewat formulir yang diperiksa skema Zod yang sama dengan backend. Akun viewer melihat semua data tanpa tombol kendali. Kejadian penting (aturan bertindak, perangkat terputus) muncul sebagai *toast*. Sejak Modul 25 (v1.1) ada layar **Peta**: setiap perangkat yang punya titik (`lat`, `lng` dari backend 1.2) tampil sebagai lingkaran hijau/abu-abu di atas peta OpenStreetMap, berwarna menurut status *live*-nya. Tampilannya dirancang rapi di HP dan laptop, mengikuti mode gelap sistem, dan bisa dibuka dari HP di WiFi rumah (lihat "Batasan v1.3"). Dengan v1.1, dashboard Fase 4 lengkap: data *live* (Modul 23), kendali dan peran (Modul 24), dan peta perangkat (Modul 25, 🎉 Checkpoint Fase 4). Dashboard teknis Grafana BUKAN bagian folder ini: ia tinggal di kontainernya sendiri, dengan berkasnya di folder `grafana/` proyek.
+ 
+ **v1.2 (Modul 26)** mengemas dashboard sebagai **image Docker** (layanan `web` di `compose.cloud.yml`, akar proyek): Node.js hanya dipakai saat membangun, lalu **Caddy** menyajikan isi `dist/` di `http://localhost` dan meneruskan setiap alamat `/api/…` ke backend, jadi halaman dan API berada di satu alamat. Kode dashboard hanya berubah tiga baris di `src/soket.ts` (sambungan *live* lewat jalur `/api/socket.io/`), dan `npm run dev` tetap jalan seperti sebelumnya. Rinciannya di [Menjalankan dengan Docker Compose](#menjalankan-dengan-docker-compose-modul-26) dan [Catatan versi 1.2](#catatan-versi-12).
+ 
++**v1.3 (Modul 27)** menjadikan dashboard **aplikasi yang bisa dipasang** (PWA, *Progressive Web App*) di HP dan laptop: satu paket pengembang baru, `vite-plugin-pwa` 2.0.0, menulis *manifest* (nama, ikon, warna aplikasi) dan *service worker* (petugas kecil di browser yang menyimpan cangkang dashboard) saat `npm run build`. Ikon tab kini gambar rumah (bukan lagi logo Vite), dan ada ikon aplikasi 192 dan 512 px. Data rumah tidak pernah disimpan: angka tetap diminta ke server, dan saat internet putus aplikasi terpasang tetap terbuka dengan pesan "Tidak bisa menghubungi server. Periksa sambungan internetmu, lalu coba lagi." Pemasangannya butuh alamat aman, `https://` (VPS atau jalur gratis Modul 27) atau `http://localhost`. Rinciannya di [Aplikasi di HP (PWA, Modul 27)](#aplikasi-di-hp-pwa-modul-27) dan [Catatan versi 1.3](#catatan-versi-13).
++
+ ## Menjalankan dengan Docker Compose (Modul 26)
+ 
+ Cara sehari-hari ("mode rumah"): dashboard menyala bersama seluruh rumah, tanpa Node.js dan tanpa `npm install` di laptop. Semua perintah diketik dari **akar proyek** (folder yang berisi `compose.cloud.yml`). Langkah lengkapnya ada di [Modul 26](../../fase-5-operasi-skala/modul-26-docker-compose/README.md).
+@@ -17,8 +19,8 @@ Cara sehari-hari ("mode rumah"): dashboard menyala bersama seluruh rumah, tanpa
+ | Perintah (dari akar proyek) | Gunanya |
+ | :--- | :--- |
+ | `docker compose ps` | `web` harus `Up`. Kolom PORTS juga menulis `443/tcp, 2019/tcp, 443/udp`: itu hanya catatan bawaan image Caddy; yang benar-benar dibuka ke laptop hanya `127.0.0.1:80->80/tcp` |
+-| `docker compose logs web` | log Caddy (format JSON). Empat baris `"level":"warn"` saat menyala itu wajar di Modul 26: `admin endpoint disabled`, `server is listening only on the HTTP port, so no automatic HTTPS will be applied to this server`, `HTTP/2 skipped because it requires TLS`, dan `HTTP/3 skipped because it requires TLS` (HTTPS menyusul di Modul 27) |
+-| `docker compose build web` lalu `docker compose up -d web` | membangun ulang image sesudah kode dashboard berubah (tag = `version` di `package.json`). Di Raspberry Pi 5 penulis: ±103 detik dari awal (`npm ci` 49,5 detik + `npm run build` 49,3 detik), ±50 detik bila daftar library tidak berubah (hanya `npm run build` yang diulang), dan 2,3 detik bila tidak ada yang berubah |
++| `docker compose logs web` | log Caddy (format JSON). Empat baris `"level":"warn"` saat menyala itu wajar di Modul 26: `admin endpoint disabled`, `server is listening only on the HTTP port, so no automatic HTTPS will be applied to this server`, `HTTP/2 skipped because it requires TLS`, dan `HTTP/3 skipped because it requires TLS`. Itu juga wajar di laptop sejak Modul 27 (`DOMAIN_WEB` kosong = HTTP saja); di VPS, Caddy menulis log sertifikatnya sendiri (lihat Modul 27) |
++| `docker compose build web` lalu `docker compose up -d web` | membangun ulang image sesudah kode dashboard berubah (tag = `version` di `package.json`). Di Raspberry Pi 5 penulis (v1.3, dengan paket PWA): ±127 detik dari awal (`npm ci` ±67 detik + `npm run build` ±55 detik), ±60 detik bila daftar library tidak berubah (hanya `npm run build` yang diulang). Sebelum v1.3: ±103 detik dari awal |
+ | `docker compose restart web` | membaca ulang `caddy/Caddyfile` sesudah kamu mengubahnya (±1 detik) |
+ 
+ **Cara kerjanya.**
+@@ -29,13 +31,13 @@ Cara sehari-hari ("mode rumah"): dashboard menyala bersama seluruh rumah, tanpa
+ - **Sambungan *live*.** Socket.IO membaca `io("/api")` sebagai *namespace* (nama ruang di dalam server), bukan jalur, sehingga lencana tidak pernah **Live** (`connect_error: server error`). Karena itu `src/soket.ts` sejak v1.2: kalau `BASE` diawali `/` (atau kosong), jalurnya diberikan lewat opsi `path` (`/api/socket.io`). Di mode kembang `BASE` berisi alamat lengkap (`http://localhost:8080`), jadi cara lama tetap dipakai.
+ - **Jalur *cookie* `sesi`.** Backend memasang *cookie* `sesi` (kartu terusan 7 hari) berjalur `/auth`, padahal dari browser alamatnya `/api/auth`. Baris `header_down Set-Cookie "Path=/auth" "Path=/api/auth"` di Caddyfile mengganti jalurnya; tanpa itu kamu terlempar ke layar **Masuk** setiap 15 menit (*refresh* dijawab `401 belum login: cookie sesi tidak ada`). Backend sendiri tidak berubah.
+ - **Semua alamat layar dijawab `index.html`** (*SPA fallback*, janji Modul 24): `try_files {path} /index.html`. F5 di `/peta` atau `/perangkat/f00d00000001` tetap membuka layarnya. Berkas JavaScript dan CSS di `/assets/…` tidak ikut aturan itu: berkas yang tidak ada (misalnya `/assets/lama.js`) dijawab `404`, bukan halaman `index.html`.
+-- **Dashboard baru langsung terpakai.** Halaman `index.html` dikirim dengan `Cache-Control: no-cache`: browser selalu bertanya dulu ke Caddy sebelum memakai salinan simpanannya (Caddy menjawab `304` bila belum berubah). Tanpa itu, sesudah image web dibangun ulang, Chrome bisa tetap menampilkan dashboard lama sampai F5. Berkas `/assets/…` boleh disimpan lama oleh browser, karena namanya bersidik dan berganti setiap *build*.
++- **Dashboard baru cepat terpakai.** Halaman `index.html` dikirim dengan `Cache-Control: no-cache`: browser selalu bertanya dulu ke Caddy sebelum memakai salinan simpanannya (Caddy menjawab `304` bila belum berubah). Sejak v1.3 aturan yang sama berlaku untuk `sw.js` dan `manifest.webmanifest`, jadi browser cepat tahu ada versi baru; tetapi karena *service worker* menyajikan cangkang dari simpanannya, versi baru baru tampil pada **pembukaan berikutnya** sesudah browser selesai mengambilnya di belakang layar (lihat "Aplikasi di HP"). Berkas `/assets/…` boleh disimpan lama oleh browser, karena namanya bersidik dan berganti setiap *build*.
+ - **Caddyfile dari repo.** Compose memasang folder `frontend/caddy/` ke `/etc/caddy` (hanya-baca); salinan di dalam image hanya dipakai kalau image dijalankan sendirian. Caddy membaca berkas itu saat menyala saja (`admin off`), jadi sesudah mengubahnya: `docker compose restart web`.
+-- **HTTP saja.** Alamat situs `:80` = HTTP biasa untuk nama apa pun yang diketik di browser. Modul 27 menggantinya dengan nama domain, lalu Caddy memasang HTTPS sendiri.
++- **HTTP di laptop, HTTPS di internet (Modul 27).** Alamat situs di Caddyfile adalah `{$DOMAIN_WEB::80}`: bila `DOMAIN_WEB` di `.env` akar kosong (laptop, Pi jalur gratis), Caddy melayani HTTP biasa di port 80 untuk nama apa pun yang diketik, persis Modul 26. Di VPS, `DOMAIN_WEB=iot.namaanda.my.id`: Caddy meminta sertifikat Let's Encrypt sendiri, melayani HTTPS, dan mengalihkan `http://` ke `https://`. Alamat broker (`DOMAIN_MQTT`) dijawab `404` "Alamat ini untuk broker MQTT (port 8883), bukan dashboard.", dan `/grafana/` diteruskan ke Grafana bila `GRAFANA_ALAMAT` diisi (lihat `grafana/README.md`). Langkahnya ada di [Modul 27](../../fase-5-operasi-skala/modul-27-deploy-internet-tls-pwa/README.md).
+ - **Backend mati?** Halaman tetap terbuka (Caddy yang menyajikannya), tetapi setiap permintaan `/api` dijawab `502` tanpa isi: layar **Masuk** menulis `Terjadi gangguan (502).`, dan dashboard yang sudah terbuka menampilkan lencana **Menyambung ulang…** sampai backend kembali. `docker compose logs web` menulis sebabnya, misalnya `dial tcp: lookup backend on 127.0.0.11:53: server misbehaving` (layanan `backend` dihentikan) atau `connect: connection refused` (backend sedang menyala). Periksa `docker compose ps` dan `docker compose logs backend`.
+ - **Dokumentasi API** tetap di loket backend, `http://localhost:8080/docs` (lihat `backend/README.md`). `http://localhost/api/docs` tidak bisa dipakai di balik Caddy: aset halamannya salah alamat, dan tombol **Try it out** memanggil API tanpa awalan `/api`.
+ 
+-**Mencoba image ini sendirian** (tanpa Compose, dari folder `frontend`, tanpa folder `backend`): `docker build -t rumah-pintar-mini-web:1.2.0 .`, lalu `docker run -d --rm --name coba-web -p 127.0.0.1:8088:80 rumah-pintar-mini-web:1.2.0`. `http://localhost:8088/` dan `http://localhost:8088/peta` menjawab halaman dashboard (200), sedangkan `http://localhost:8088/api/health` menjawab `502`, karena di luar Compose tidak ada layanan bernama `backend`. Hentikan dengan `docker stop coba-web`.
++**Mencoba image ini sendirian** (tanpa Compose, dari folder `frontend`, tanpa folder `backend`): `docker build -t rumah-pintar-mini-web:1.3.0 .`, lalu `docker run -d --rm --name coba-web -p 127.0.0.1:8088:80 rumah-pintar-mini-web:1.3.0`. `http://localhost:8088/` dan `http://localhost:8088/peta` menjawab halaman dashboard (200), sedangkan `http://localhost:8088/api/health` menjawab `502`, karena di luar Compose tidak ada layanan bernama `backend`. Hentikan dengan `docker stop coba-web`.
+ 
+ ## Mode kembang (Vite, `npm run dev`)
+ 
+@@ -57,13 +59,15 @@ docker compose exec db psql -U postgres -d rumahpintar -c "CALL refresh_continuo
+ | :--- | :--- |
+ | `npm run dev` | *dev server* di `http://localhost:5173` yang memperbarui halaman setiap kali kode disimpan (HMR). Portnya dikunci (`strictPort`): kalau 5173 sedang terpakai, Vite berhenti dengan galat, tidak pindah diam-diam ke 5174 |
+ | `npm run dev:hp` | sama dengan `npm run dev`, tetapi juga bisa dibuka perangkat lain di WiFi rumah (`vite --host`). Hanya untuk "mode HP", lihat di bawah |
+-| `npm run build` | memeriksa tipe TypeScript (`tsc -b`), lalu membuat versi siap pakai di folder `dist/`. Satu peringatan kuning `Some chunks are larger than 500 kB after minification` itu normal sejak Modul 23 (pustaka grafik Recharts membuat berkas JavaScript-nya besar; sejak Modul 25 Leaflet menambah sekitar 157 kB, atau 46 kB sesudah dikompres gzip); build tetap berhasil |
+-| `npm run preview` | menyajikan isi `dist/` di `http://localhost:5173` untuk dicoba (hentikan `npm run dev` dulu). Untuk HP: `npm run preview -- --host`. Bukan server sungguhan: sejak Modul 26, `dist/` disajikan Caddy di image web |
++| `npm run build` | memeriksa tipe TypeScript (`tsc -b`), lalu membuat versi siap pakai di folder `dist/`. Satu peringatan kuning `Some chunks are larger than 500 kB after minification` itu normal sejak Modul 23 (pustaka grafik Recharts membuat berkas JavaScript-nya besar; sejak Modul 25 Leaflet menambah sekitar 157 kB, atau 46 kB sesudah dikompres gzip); build tetap berhasil. Sejak v1.3 keluarannya ditutup bagian `PWA v2.0.0`, `mode generateSW`, `precache 10 entries (…KiB)`, dan `files generated` `dist/sw.js` + `dist/workbox-….js` |
++| `npm run preview` | menyajikan isi `dist/` di `http://localhost:5173` untuk dicoba (hentikan `npm run dev` dulu). Untuk HP: `npm run preview -- --host`. Bukan server sungguhan: sejak Modul 26, `dist/` disajikan Caddy di image web. **Sejak v1.3:** preview memasang *service worker* di `http://localhost:5173`, dan `npm run dev` sesudahnya di alamat yang sama tetap menampilkan hasil build LAMA dari simpanannya. Sebelum kembali ke `npm run dev`, buka DevTools → **Application** → **Storage** → **Clear site data** (lihat "Aplikasi di HP") |
+ | `npm run lint` | memeriksa kode dengan oxlint; bersih = tidak ada peringatan atau galat yang dicetak |
+ | `npm run cek-skema` | memeriksa bahwa salinan skema di `src/skema/` sama persis dengan aslinya di `../backend/src/schemas/` (lihat "Salinan skema"). Hasil yang benar: dua baris `SAMA` |
+ 
+ Paket yang ditambahkan di Modul 24 dipasang dengan versi tertulis: `npm install react-router@8.5.0 react-hook-form@7.91.0 @hookform/resolvers@5.9.2 zod@4.6.7`. Perintah tanpa versi bisa gagal (`npm error code ERESOLVE`, karena `@hookform/resolvers` 6.0.0); jangan memakai `--legacy-peer-deps`.
+ 
++Paket PWA (Modul 27) adalah paket **pengembang** (`-D`, hanya dipakai saat build) dengan versi persis: `npm install -D -E vite-plugin-pwa@2.0.0`. Ia menarik sekitar 300 paket pembantu (Workbox, Babel), jadi `node_modules` membesar dari ±245 MB menjadi ±321 MB; isi `dist/` hanya bertambah ±16 kB. Sesudah pemasangan, npm menulis `4 low severity vulnerabilities`: semuanya satu temuan di `deepmerge` (dipakai alat build Workbox, berjalan di laptopmu saat `npm run build`, tidak ikut ke browser), dan per Oktober 2026 belum ada versi perbaikannya. `npm audit --omit=dev` (paket yang ikut ke browser) menulis `found 0 vulnerabilities`. **Jangan** menjalankan `npm audit fix --force`: perintah itu "memperbaiki" dengan memasang `vite-plugin-pwa` 0.2.1 yang kuno dan merusak build.
++
+ Paket peta (Modul 25) juga dipasang dengan versi tertulis: `npm install leaflet@1.9.4 react-leaflet@5.0.0`, lalu `npm install -D @types/leaflet@1.9.22`. Jangan menyalin perintah dari halaman pemasangan react-leaflet (`react@rc`, `react-leaflet@next`): per Oktober 2026 perintah itu memasang versi uji lama (React 19.0.0-rc.1, react-leaflet 5.0.0-rc.2).
+ 
+ ## Peta rute
+@@ -107,7 +111,7 @@ Layar yang dibuka tanpa *login* (misalnya tautan `/perangkat/f00d00000001/riwaya
+ 
+ ## Tombol kendali
+ 
+-- **Lampu dan kipas** (`components/TombolSakelar.tsx`): begitu diketuk, tombol langsung berganti (*optimistic UI*, `useOptimistic` + `useTransition` React 19) dan menulis "Menunggu konfirmasi perangkat…" sampai backend meneruskan jawaban perangkat (*ack*, paling lama 5 detik). Keadaan akhirnya diambil dari *ack*. Kalau perintahnya gagal, tombol kembali sendiri ke keadaan yang dilaporkan perangkat, dan *toast* menjelaskan sebabnya: perangkat menolak (`ack.ok` `false`), 409 (perangkat offline, perintah sebelumnya masih menunggu), 503, server tidak menjawab. Jawaban **504** berarti "belum dikonfirmasi perangkat; server akan mencoba lagi saat perangkat terdengar": perintah lampu dan kipas TIDAK batal, jadi lampu bisa menyala sendiri beberapa saat kemudian.
++- **Lampu dan kipas** (`components/TombolSakelar.tsx`): begitu diketuk, tombol langsung berganti (*optimistic UI*, `useOptimistic` + `useTransition` React 19) dan menulis "Menunggu konfirmasi perangkat…" sampai backend meneruskan jawaban perangkat (*ack*, paling lama 5 detik). Keadaan akhirnya diambil dari *ack*. Kalau perintahnya gagal, tombol kembali sendiri ke keadaan yang dilaporkan perangkat, dan *toast* menjelaskan sebabnya: perangkat menolak (`ack.ok` `false`), 409 (perangkat offline, perintah sebelumnya masih menunggu), 503, server tidak menjawab. Jawaban **504** berarti "belum dikonfirmasi perangkat; server mencoba lagi bila perangkat terdengar dalam 2 menit": perintah lampu dan kipas belum batal, jadi lampu bisa menyala sendiri beberapa saat kemudian. Sejak backend 1.4 (Modul 27) perintah dari dashboard atau Telegram yang tetap tidak dikerjakan perangkat dilupakan sesudah 2 menit (log backend: `… tidak dikerjakan lebih dari 2 menit: tidak dikirim lagi`), supaya lampu tidak tiba-tiba menyala berjam-jam kemudian saat internet rumah pulih.
+ - **Pompa** (`components/TombolPompa.tsx`): 3, 5, atau 10 detik, sengaja **tidak** optimis (air yang sudah keluar tidak bisa ditarik lagi; perintah yang diulang = menyiram dua kali). Layar baru berubah sesudah *ack*, dan tombolnya mati selama pompa masih menyiram. Backend tidak mengirim ulang perintah pompa sesudah 504.
+ - Tombol mati (dengan alasannya tertulis) kalau perangkat tidak online atau jenisnya belum diketahui. Node 2 dan perangkat yang kuncinya dicabut atau belum terdaftar tidak punya bagian **Kendali**. Tirai hanya ditampilkan (tombolnya: Tantangan Modul 24).
+ - Jawaban `POST /devices/:id/command` diperiksa dengan skema `Ack` (salinan dari backend) memakai `safeParse`, bukan sekadar dipercaya.
+@@ -156,7 +160,41 @@ HP dan laptop harus tersambung ke WiFi rumah yang sama (bukan WiFi tamu). Nyalak
+ 4. Di HP, buka `http://<IP-laptop>:8080/health` dulu (harus menjawab), lalu `http://<IP-laptop>:5173`, dan masuk. *Login* di laptop tidak ikut ke HP: *cookie* melekat pada nama host (`localhost` dan alamat IP itu dua nama berbeda).
+ 5. Selesai mencoba, dan selalu sebelum laptop dibawa ke jaringan lain: kembalikan `HOST` dan `CORS_ORIGIN`, lalu jalankan Vite lagi dengan `npm run dev`. Alamat IP bisa berubah besok (router membagikannya ulang); kalau HP tidak bisa membuka lagi, cari IP-nya lagi.
+ 
+-**Tambahkan ke layar utama.** Dashboard bisa dijadikan pintasan di layar utama HP (Chrome Android: menu ⋮ → **Install and create shortcut** → **Create shortcut**; iPhone: Bagikan → **Add to Home Screen**). Untuk iPhone, `index.html` memasang ikon `public/apple-touch-icon.png` (180 × 180 px: gambar garis rumah sederhana di atas latar terang penuh, dibuat sendiri dari SVG) dan nama pendek "Rumah Pintar". Ini hanya pintasan ke `http://<IP-laptop>:5173`, bukan aplikasi terpasang: PWA butuh HTTPS (Modul 27), dan pintasannya rusak kalau IP laptop berubah.
++**Tambahkan ke layar utama.** Dashboard bisa dijadikan pintasan di layar utama HP (Chrome Android: menu ⋮ → pilihan pemasangan atau pintasan, misalnya **Install and create shortcut** → **Create shortcut** di HP berbahasa Inggris; iPhone, Safari berbahasa Indonesia: **Bagikan** → **Tambah ke Layar Utama**, atau **Add to Home Screen** di HP berbahasa Inggris). Untuk iPhone, `index.html` memasang ikon `public/apple-touch-icon.png` (180 × 180 px: gambar garis rumah sederhana di atas latar terang penuh, dibuat sendiri dari SVG) dan nama pendek "Rumah Pintar". Lewat `http://<IP-laptop>` ini hanya pintasan, bukan aplikasi terpasang: alamat IP WiFi bukan alamat aman, jadi browser tidak memasang *service worker*, dan pintasannya rusak kalau IP laptop berubah. Aplikasi sungguhan (PWA) ada sejak v1.3 lewat `https://` (Modul 27): lihat bagian berikut.
++
++## Aplikasi di HP (PWA, Modul 27)
++
++Sejak v1.3, `npm run build` (juga di dalam `docker compose build web`) menambah empat berkas ke `dist/`, semuanya dibuat `vite-plugin-pwa` dari setelan di [`vite.config.ts`](vite.config.ts):
++
++| Berkas di `dist/` | Isinya |
++| :--- | :--- |
++| `manifest.webmanifest` | kartu nama aplikasi: nama "Rumah Pintar Mini", nama pendek "Rumah Pintar", bahasa `id`, alamat awal `/`, jendela sendiri tanpa bilah alamat (`standalone`), warna, dan empat ikon. Tautannya (`<link rel="manifest">`) ditambahkan sendiri ke `index.html` |
++| `sw.js` + `workbox-….js` | *service worker*: menyimpan **cangkang** dashboard (HTML, JavaScript, CSS, ikon; 10 berkas, ±1 MB) supaya aplikasi terbuka cepat dan tetap terbuka saat internet putus |
++| `registerSW.js` | tiga baris kecil yang memasang `sw.js` sesudah halaman selesai dimuat |
++
++**Yang disimpan dan yang tidak.** Hanya cangkang. Setiap alamat layar (`/perangkat`, `/peta`, `/perangkat/f00d00000001/riwayat`, …) dijawab `index.html` dari simpanan, lalu React Router memilih layarnya. Alamat yang **bukan** layar dashboard selalu diteruskan ke server dan tidak pernah diganti `index.html`: `/api/…` (data dan sambungan *live*), `/grafana/…` (Grafana di alamat yang sama, Modul 27), dan `/socket.io/…`. Tanpa pengecualian `/grafana`, membuka `https://iot…/grafana/` di browser yang pernah membuka dashboard menampilkan layar "Halaman tidak ditemukan" milik dashboard, bukan Grafana (dicoba penulis). Data rumah, bacaan, riwayat, dan ubin peta tidak pernah disimpan: angka di layar selalu dari server, jadi tidak ada angka basi yang tampak baru.
++
++**Alamat aman.** Browser hanya memasang *service worker* dan menawarkan pemasangan aplikasi di alamat aman: `https://…` atau `http://localhost`. Jadi:
++
++| Alamat | Aplikasi terpasang? |
++| :--- | :--- |
++| `http://localhost` (mode rumah, laptop) | ya, untuk mencoba di laptop (Chrome atau Edge) |
++| `https://iot.namaanda.my.id` (VPS atau jalur gratis Modul 27) | ya, di HP dan laptop, dari mana saja |
++| `http://<IP-laptop>` atau `http://<IP-laptop>:5173` (mode HP, WiFi rumah) | tidak: hanya pintasan (lihat di atas) |
++| `http://localhost:5173` (`npm run dev`) | tidak: mode kembang tanpa *service worker* |
++
++**Memasang.** Laptop (Chrome atau Edge): buka alamatnya, lalu pakai menu pemasangan aplikasi browser (tombol di bilah alamat atau menu ⋮); dashboard lalu terbuka di jendela sendiri dengan ikon rumah. HP Android (Chrome): buka `https://iot.namaanda.my.id`, lalu menu ⋮ → pilihan pemasangan aplikasi. iPhone (Safari, label Indonesia): ⋯ → **Bagikan** → **Tambah ke Layar Utama** (bila tidak ada: **Edit Tindakan**) → nyalakan **Buka sebagai App Web** → **Tambah**. Label menu Chrome di HP berbeda per versi dan bahasa; pemasangan di HP sungguhan belum dicoba penulis (lihat "Batasan v1.3").
++
++**Memeriksa di laptop** (DevTools, F12): tab **Application** → **Manifest** (nama, ikon, tanpa galat) dan **Service workers** (`sw.js` dengan status *activated*). Di Chrome 156 penulis, `http://localhost` dinyatakan bisa dipasang (tanpa galat pemasangan), *service worker* aktif pada kunjungan pertama, dan mulai kunjungan kedua setiap layar dijawab dari simpanannya.
++
++**Saat internet putus** (mode pesawat, WiFi mati, atau server mati): aplikasi terpasang tetap terbuka dan menampilkan layar **Masuk** dengan pesan `Tidak bisa menghubungi server. Periksa sambungan internetmu, lalu coba lagi.` Begitu tersambung lagi, buka ulang aplikasinya (atau muat ulang); *cookie* login yang masih berlaku langsung membawamu kembali ke dashboard. Tanpa *service worker*, yang tampil adalah halaman galat browser.
++
++**Versi baru.** Setelan `registerType: 'autoUpdate'` membuat *service worker* baru langsung dipakai tanpa bertanya, tetapi tidak memuat ulang halaman yang sedang terbuka. Sesudah image web dibangun ulang: pembukaan (atau muat ulang) **pertama** masih menampilkan versi lama dari simpanan sambil browser mengambil versi baru di belakang layar; pembukaan **berikutnya**, sesudah browser selesai mengambil versi baru itu (biasanya beberapa detik; di jaringan HP yang lambat bisa lebih lama), menampilkan versi baru (dicoba penulis: versi baru tampil pada muat ulang kedua, tanpa langkah lain). Aplikasi di HP yang hanya dikembalikan dari daftar aplikasi terakhir belum tentu memeriksa versi baru: tutup lalu buka lagi. Isian formulir yang sedang diketik tidak hilang karena pembaruan.
++
++**Membuang *service worker*** (misalnya sesudah `npm run preview`, atau saat ragu dashboard yang tampil sudah versi terbaru): DevTools → **Application** → **Storage** → **Clear site data**, lalu muat ulang. Ini juga menghapus *cookie* login di alamat itu (kamu perlu masuk lagi).
++
++**Ikon.** `public/favicon.svg` (ikon tab, menggantikan logo petir bawaan Vite) adalah gambar rumah garis dengan pintu teal yang sama dengan `apple-touch-icon.png` Modul 24, di atas ubin terang bersudut bulat. `pwa-64x64.png`, `pwa-192x192.png`, dan `pwa-512x512.png` dibuat penulis sekali dari `favicon.svg` (sudut tembus pandang); `maskable-icon-512x512.png` adalah versi berlatar terang penuh untuk peluncur Android, yang memotong ikon menjadi lingkaran atau kotak bulat: gambar rumahnya ada di dalam lingkaran aman 80 % di tengah. Semua PNG ikut repo, jadi kamu tidak perlu membuatnya sendiri. `apple-touch-icon.png` (iPhone) tetap berkas Modul 24.
++
+ 
+ ## Isi folder `src/`
+ 
+@@ -173,7 +211,7 @@ HP dan laptop harus tersambung ke WiFi rumah yang sama (bukan WiFi tamu). Nyalak
+ | `skema/` | `kontrak.ts` dan `aturan-dasar.ts` = salinan identik dari backend; `masuk.ts` = skema formulir Masuk; `README.md` |
+ | `waktu.ts` | jam WIB, "… detik yang lalu" (date-fns), batas data basi, label sumbu waktu, dan detak satu detik (`useSekarang`) |
+ | `csv.ts` | menyusun dan mengunduh CSV di browser (titik koma, desimal koma, BOM) |
+-| `types.ts` | tipe data dari kontrak data 1.4 (Lampiran A), jawaban API, dan acara Socket.IO |
++| `types.ts` | tipe data dari kontrak data 1.5 (Lampiran A; bentuk pesan sama dengan 1.4), jawaban API, dan acara Socket.IO |
+ | `peta.ts` | setelan peta dalam satu konstanta `PETA` (Modul 25): alamat ubin OSM, atribusi, zoom, warna penanda |
+ | `halaman/` | satu berkas pembungkus tipis per layar: `Masuk`, `Daftar`, `Detail`, `Riwayat`, `Peta`, `Aturan`, `FormAturan`, `TidakDitemukan`. Layar yang memakai `:id` mencari datanya sendiri dari alamat |
+ | `components/JagaMasuk.tsx` | penjaga rute: "Memeriksa sesi…", pindah ke `/masuk` (membawa alamat tujuan), atau `<Outlet />` |
+@@ -191,23 +229,27 @@ HP dan laptop harus tersambung ke WiFi rumah yang sama (bukan WiFi tamu). Nyalak
+ 
+ ## *Login* dan keamanan
+ 
+-- Dashboard tidak menyimpan sandi, token, atau peran. Backend memasang dua *cookie* `HttpOnly; SameSite=Strict`: `akses` (15 menit, jalur `/`) dan `sesi` (7 hari, jalur `/auth`; lewat Caddy di mode rumah jalurnya ditulis ulang menjadi `/api/auth`). JavaScript tidak bisa membacanya; browser yang mengirimkannya karena setiap `fetch` memakai `credentials: "include"` dan Socket.IO memakai `withCredentials: true`. Tidak ada apa pun yang disimpan di `localStorage`.
++- Dashboard tidak menyimpan sandi, token, atau peran. Backend memasang dua *cookie* `HttpOnly; SameSite=Strict`: `akses` (15 menit, jalur `/`) dan `sesi` (7 hari, jalur `/auth`; lewat Caddy di mode rumah jalurnya ditulis ulang menjadi `/api/auth`). Lewat `https://` (Modul 27, backend 1.4 dengan `TRUST_PROXY`), keduanya juga ber-`Secure`: browser hanya mengirimnya lewat sambungan terenkripsi. *Service worker* tidak pernah menyimpan jawaban `/api`, jadi *cookie* dan data akun tidak ikut tersimpan di simpanannya. JavaScript tidak bisa membacanya; browser yang mengirimkannya karena setiap `fetch` memakai `credentials: "include"` dan Socket.IO memakai `withCredentials: true`. Tidak ada apa pun yang disimpan di `localStorage`.
+ - Kalau sebuah permintaan dijawab 401 (*cookie* `akses` sudah habis), `api.ts` memanggil `POST /auth/refresh` **sekali**, lalu mengulang permintaannya sekali. Kalau *refresh* juga gagal, toko dikosongkan dan layar pindah ke `/masuk`.
+ - Permintaan tanpa isi (`POST /auth/logout`, `POST /auth/refresh`, `DELETE /rules/:id`) dikirim TANPA kepala `Content-Type: application/json`: backend menolak permintaan yang mengaku membawa JSON tetapi isinya kosong (400).
+ - Sambungan *live* diputus server setiap kali *cookie* `akses` habis (15 menit) dan saat *logout*. Dashboard lalu memanggil *refresh* dan menyambung lagi sendiri; kalau *refresh* ditolak (misalnya sudah *logout* di tab lain), layar pindah ke `/masuk`. Sesudah 3 kali gagal beruntun lencana menjadi **Terputus**, dan halaman perlu dimuat ulang sesudah backend pulih.
+ - Data baru hanya datang lewat Socket.IO: tidak ada *polling*. `setInterval` hanya dipakai di `waktu.ts` untuk jam di layar.
+ - Nama perangkat, nama aturan, dan kalimat kejadian ditampilkan sebagai teks JSX yang otomatis diloloskan React; dashboard tidak memakai `dangerouslySetInnerHTML`.
+ 
+-## Batasan v1.2
++## Batasan v1.3
+ 
+-- **Hanya jaringan rumah, dan masih `http://` polos.** Mode HP di atas membuka dashboard dari perangkat lain di WiFi rumah; sandi (juga sandi admin) lewat tanpa enkripsi. Akses dari internet dengan HTTPS, dan aplikasi terpasang (PWA), menyusul di Modul 27. Caddy di image web sudah siap untuk itu (alamat `:80` cukup diganti nama domain), tetapi di Modul 26 hanya melayani HTTP.
++- **Di rumah masih `http://` polos.** Mode HP (WiFi rumah) membuka dashboard tanpa enkripsi; sandi (juga sandi admin) lewat polos. Dari internet, dashboard dibuka lewat `https://` (Modul 27: VPS, atau Pi + Cloudflare Tunnel). HTTPS butuh nama domain, jadi alamat IP di WiFi rumah tetap HTTP.
++- **Aplikasi terpasang hanya cangkang.** Tanpa internet, aplikasi terbuka tetapi tidak menampilkan angka apa pun (tidak ada data luring), tidak bisa mengendalikan perangkat, dan tidak mengirim notifikasi *push*; kabar tetap lewat Telegram (Modul 19, 25). Perintah yang diketuk saat terputus tidak disimpan untuk dikirim nanti.
++- **Versi baru tampil pada pembukaan berikutnya** sesudah image web dibangun ulang dan browser selesai mengambilnya di belakang layar (lihat "Aplikasi di HP"), bukan langsung seperti v1.2. Biasanya cukup membuka lagi atau muat ulang dua kali dengan jeda beberapa detik.
++- **`npm run preview` meninggalkan *service worker*** di `http://localhost:5173`; `npm run dev` sesudahnya menampilkan build lama sampai *site data* dibersihkan (DevTools → **Application** → **Storage** → **Clear site data**). Dicoba penulis.
++- **Pemasangan di HP belum dicoba penulis.** Yang diuji: Chrome 156 tanpa layar di Raspberry Pi (manifest tanpa galat, bisa dipasang, *service worker* aktif, cangkang luring, pembaruan versi) di `http://localhost`, dan di `https://` dengan nama domain dan sertifikat tiruan (VPS dan Let's Encrypt ditiru di lab, termasuk Grafana `/grafana/` dengan *service worker* aktif). Tombol pemasangan Chrome Android, ikon di peluncur HP, dan Safari iPhone belum dicoba; label menu ditulis dari dokumentasi.
+ - **Image web dibangun untuk satu awalan API, `/api`.** Alamat itu dibakar ke JavaScript saat build; dashboard Compose tidak bisa diarahkan ke backend di alamat lain tanpa membangun ulang image. Image juga hanya untuk jenis prosesor mesin yang membangunnya (arm64 di Pi atau Mac Apple silicon, amd64 di kebanyakan laptop Windows); image untuk keduanya sekaligus dibahas di Modul 29.
+ - **Jalur *cookie* `sesi` ditambal di Caddy** (`header_down`), bukan di backend. Kalau kelak jalur *cookie* di backend berubah, `caddy/Caddyfile` harus ikut diubah.
+ - **`VITE_API_BASE` hanya boleh berupa jalur (`/api`) atau alamat tanpa jalur** (`http://localhost:8080`). Alamat lengkap yang berjalur, misalnya `http://localhost/api`, belum didukung sambungan *live*: Socket.IO membaca `/api` di ujungnya sebagai *namespace*, jadi lencana tidak pernah **Live**.
+ - **Dashboard Compose tidak memperbarui diri sendiri.** Mengubah kode berarti `docker compose build web` + `docker compose up -d web` (±1 menit di Pi 5); untuk mengubah sambil melihat hasilnya, pakai mode kembang (Vite).
+ - **Menyembunyikan tombol bukan pengaman.** Peran di layar hanya kenyamanan; satpam backend (403) yang menjaga. Peran yang diubah baru terlihat sesudah muat ulang atau ≤ 15 menit.
+ - **Hanya sebagian jawaban API yang diperiksa Zod**: *ack* perintah dan daftar aturan. Jawaban lain (perangkat, bacaan, riwayat, acara Socket.IO) tetap dipercaya lewat tipe TypeScript.
+-- **Sesudah 504, tampilan kembali ke keadaan terlapor**, padahal backend masih akan mengirim ulang perintah lampu atau kipas saat perangkat terdengar lagi; dashboard tidak menampilkan perintah yang masih tertunda.
++- **Sesudah 504, tampilan kembali ke keadaan terlapor**, padahal backend masih akan mengirim ulang perintah lampu atau kipas bila perangkat terdengar dalam 2 menit (backend 1.4; sesudah itu tidak); dashboard tidak menampilkan perintah yang masih tertunda.
+ - **Tirai belum punya tombol**, dan jadwal aturan diisi sebagai teks cron 5 bidang (dengan tiga contoh siap klik), belum dengan pemilih jam dan hari.
+ - **Riwayat ringkasan hanya empat besaran**: suhu (rata-rata, terendah, tertinggi), kelembapan udara, kelembapan tanah, dan cahaya. Tekanan udara, baterai, dan air tandon hanya tampil di kartu *live*. Rentangnya mengikuti nilai bawaan API: 1 jam (bacaan mentah), 24 jam (per 15 menit), dan 7 hari (per jam).
+ - **Grafik 5 menit hanya untuk perangkat yang mengirim tiap 10 detik** (Node 1 dan simulator). Node 2 mengirim tiap 5 menit, jadi grafiknya dilihat di layar riwayat.
+@@ -217,7 +259,19 @@ HP dan laptop harus tersambung ke WiFi rumah yang sama (bukan WiFi tamu). Nyalak
+ - **Penanda tidak bisa dipilih dengan tombol Tab.** Kotak peta sendiri bisa difokus dengan Tab lalu digeser dengan tombol panah (bawaan Leaflet), tetapi lingkaran penanda dan popup-nya hanya bisa dibuka dengan klik atau ketuk. Isi yang sama (nama, status, terakhir dilihat, tautan detail) ada di layar **Perangkat**.
+ - **Ubin peta tetap terang di mode gelap**, dan untuk satu rumah titik-titiknya berdekatan (beberapa meter, zoom 18): peta paling berguna saat perangkat tersebar (kebun, rumah lain).
+ - **Mode gelap mengikuti setelan sistem** HP atau laptop; belum ada tombol terang/gelap.
+-- "Rapi di HP" diperiksa dengan mode perangkat DevTools (lebar 375 px, HP tegak), dan mode HP dicoba dengan membuka alamat IP WiFi laptop dari laptop itu sendiri; pemakaian oleh orang lain dari HP sungguhan dan pintasan layar utama belum dicoba penulis. Image web dan Caddyfile diuji penulis di Raspberry Pi 5 (Ubuntu 26.04 arm64, Docker Engine 29.1.3, Compose 2.40.3) dengan Chrome 156; Docker Desktop di Windows dan macOS belum dicoba. Tailwind CSS v4 butuh browser yang cukup baru (Chrome 111+, Safari 16.4+, Firefox 128+).
++- "Rapi di HP" diperiksa dengan mode perangkat DevTools (lebar 375 px, HP tegak) dan Chrome tanpa layar selebar 412 px, dan mode HP dicoba dengan membuka alamat IP WiFi laptop dari laptop itu sendiri; pemakaian oleh orang lain dari HP sungguhan dan pintasan layar utama belum dicoba penulis. Image web dan Caddyfile diuji penulis di Raspberry Pi 5 (Ubuntu 26.04 arm64, Docker Engine 29.1.3, Compose 2.40.3) dengan Chrome 156; HTTPS diuji dengan nama domain dan penerbit sertifikat tiruan di mesin penulis, bukan Let's Encrypt sungguhan; Docker Desktop di Windows dan macOS belum dicoba. Tailwind CSS v4 butuh browser yang cukup baru (Chrome 111+, Safari 16.4+, Firefox 128+).
++
++## Catatan versi 1.3
++
++Dashboard v1.3 (Modul 27) = v1.2 + aplikasi terpasang (PWA). Satu paket pengembang baru, tanpa perubahan layar; kontrak data tetap (bentuk pesan sama dengan 1.4, kontrak 1.5 hanya menambah aturan broker internet). Pasangannya di internet adalah backend 1.4 (`TRUST_PROXY`: *cookie* `Secure` dan pembatas *login* per tamu di balik Caddy); di `http://localhost` v1.3 juga jalan dengan backend 1.3, hanya saja *toast* perintah gagal ("… bila perangkat terdengar dalam 2 menit") baru benar dengan backend 1.4; backend 1.3 masih mengirim ulang perintah itu kapan pun perangkat terdengar lagi.
++
++- `package.json` dan `package-lock.json`: `version` 1.3.0; devDependency baru `vite-plugin-pwa` **2.0.0** (versi persis, tanpa `^`); paket lain tidak berubah versi.
++- `vite.config.ts`: `VitePWA({ registerType: 'autoUpdate', manifest, workbox })`; `globPatterns` hanya berkas build, `navigateFallbackDenylist` untuk `/api`, `/grafana`, dan `/socket.io`.
++- `index.html`: `<meta name="theme-color" content="#1d293d">` (sama dengan `theme_color` manifest) dan komentar ikon; tautan manifest dan `registerSW.js` ditambahkan plugin saat build.
++- `public/`: `favicon.svg` diganti gambar rumah; berkas baru `pwa-64x64.png`, `pwa-192x192.png`, `pwa-512x512.png`, `maskable-icon-512x512.png`.
++- `src/api.ts`: pesan saat server tidak terjangkau kini netral di hasil build (`Tidak bisa menghubungi server. Periksa sambungan internetmu, lalu coba lagi.`); petunjuk `localhost:5173` dan `CORS_ORIGIN` hanya di mode kembang (`npm run dev`).
++- `src/components/TombolSakelar.tsx`: kalimat *toast* 504 mengikuti backend 1.4 (`… server mencoba lagi bila perangkat terdengar dalam 2 menit.`).
++- `caddy/Caddyfile` (bagian infrastruktur Modul 27): alamat situs `{$DOMAIN_WEB::80} {$DOMAIN_MQTT}`, jawaban `404` untuk nama broker, `/grafana/` ke Grafana, penerus tepercaya untuk jalur gratis; aturan `no-cache` M26 kini juga berlaku untuk `sw.js` dan `manifest.webmanifest`. `Dockerfile`: komentar saja (tag 1.3.0).
+ 
+ ## Catatan versi 1.2
+ 
+diff --git a/frontend/caddy/Caddyfile b/frontend/caddy/Caddyfile
+index 6f78926..ff17070 100644
+--- a/frontend/caddy/Caddyfile
++++ b/frontend/caddy/Caddyfile
+@@ -1,21 +1,45 @@
+-# Caddyfile - pintu depan dashboard Rumah Pintar Mini (Modul 26): menyajikan isi dist/ dan meneruskan /api/... ke backend.
++# Caddyfile - pintu depan dashboard Rumah Pintar Mini (Modul 26-27): menyajikan isi dist/ dan meneruskan /api/... ke backend.
+ # Salinan berkas ini ikut di dalam image web. Docker Compose memasang FOLDER frontend/caddy/ di atasnya (bukan berkas
+ # tunggal), jadi berkas di repo inilah yang dipakai. Sesudah mengubahnya: docker compose restart web
++# {$NAMA} = isi variabel NAMA dari bagian environment layanan web di compose.cloud.yml (asalnya .env), dibaca saat Caddy
++# menyala; {$NAMA:isi} = "isi" bila NAMA tidak ada sama sekali (variabel yang ada tetapi kosong TETAP kosong, jadi nilai
++# pengganti untuk .env yang kosong ditulis di compose.cloud.yml). Sesudah mengubah .env: docker compose up -d (web dibuat ulang).
+ {
+ 	# Caddy biasanya membuka "loket admin" (2019) untuk mengubah setelan sambil jalan. Tidak kita pakai: setelan hanya
+ 	# dibaca dari berkas ini saat Caddy menyala.
+ 	admin off
++	# Modul 27, jalur gratis saja (Pi + Cloudflare Tunnel). Di sana tamu tiba lewat cloudflared, yang sendiri sudah
++	# menulis alamat tamu dan "https" di kepala X-Forwarded-*. Caddy biasanya menimpa kepala itu (siapa saja bisa
++	# memalsukannya), kecuali bila datang dari penerus tepercaya: PROKSI_TEPERCAYA=private_ranges = alamat privat, termasuk
++	# lorong Docker tempat cloudflared berada. Kosong (laptop, VPS) = tidak memercayai siapa pun. _strict = alamat tamu
++	# dibaca dari kanan (yang ditambahkan penerus), bukan dari kiri (yang bisa ditulis tamu sendiri).
++	servers {
++		trusted_proxies static {$PROKSI_TEPERCAYA}
++		trusted_proxies_strict
++	}
+ }
+ 
+-# ":80" = HTTP biasa di port 80 kontainer, untuk alamat mana pun yang diketik di browser (localhost, IP laptop).
+-# Modul 27 mengganti ":80" dengan nama domain, lalu Caddy memasang HTTPS sendiri. ("auto_https off" TIDAK membuat Caddy
+-# melayani HTTP; alamat ":80" inilah yang membuatnya.)
+-:80 {
++# Alamat situs. DOMAIN_WEB kosong di .env = ":80" (diisikan compose.cloud.yml): HTTP biasa di port 80 kontainer, untuk alamat
++# apa pun yang diketik di browser (localhost, IP laptop; Pi jalur gratis di belakang cloudflared), persis Modul 26.
++# ("auto_https off" TIDAK membuat Caddy melayani HTTP; alamat ":80" inilah yang membuatnya.)
++# Modul 27, DOMAIN_WEB terisi (VPS): nama domain, misalnya iot.namaanda.my.id. Caddy meminta sertifikat Let's Encrypt
++# sendiri, melayani HTTPS di 443, mengalihkan http:// ke https://, dan memperbarui sertifikatnya sebelum habis. Tanpa
++# opsi "email" di atas, penerbitnya hanya Let's Encrypt. DOMAIN_MQTT (mqtt.namaanda.my.id) ikut diminta di sini supaya Caddy
++# juga mengurus sertifikat broker; Mosquitto memakai SALINANNYA (layanan sertifikat-mqtt).
++{$DOMAIN_WEB::80} {$DOMAIN_MQTT} {
++	# nama broker bukan halaman web: jawab singkat. mqtt.invalid = nama yang tidak pernah ada (akhiran .invalid), supaya
++	# baris ini tetap sah saat DOMAIN_MQTT kosong (laptop, Pi jalur gratis).
++	@broker host {$DOMAIN_MQTT} mqtt.invalid
++	handle @broker {
++		respond "Alamat ini untuk broker MQTT (port 8883), bukan dashboard." 404
++	}
++
+ 	# jawaban dikompres sebelum dikirim: JavaScript dashboard ±1 MB tiba di browser sekitar 300 kB
+ 	encode zstd gzip
+ 
+ 	# /api/devices -> backend:8080/devices (awalan /api dibuang dulu). Sambungan live ikut: /api/socket.io/ -> backend:8080/socket.io/
+-	# "backend" = nama layanan di compose.cloud.yml (lorong Compose), bukan localhost.
++	# "backend" = nama layanan di compose.cloud.yml (lorong Compose), bukan localhost. Caddy menambah kepala X-Forwarded-For
++	# (alamat tamu) dan X-Forwarded-Proto (https) untuk backend; backend 1.4 memercayainya karena TRUST_PROXY (Modul 27).
+ 	handle_path /api/* {
+ 		reverse_proxy backend:8080 {
+ 			# Backend memasang cookie "sesi" (kartu terusan 7 hari) berjalur /auth, padahal browser memanggilnya lewat
+@@ -25,6 +49,19 @@
+ 		}
+ 	}
+ 
++	# Modul 27: Grafana lewat alamat yang sama, di bawah /grafana/ (https://iot.namaanda.my.id/grafana/). Awalan /grafana
++	# TIDAK dibuang: Grafana sendiri melayani jalur itu bila GRAFANA_ALAMAT di .env berakhiran /grafana/ (compose.cloud.yml).
++	# GRAFANA_ALAMAT kosong (laptop) = Grafana tetap di http://localhost:3000; jalur ini tidak dipakai (Grafana mengalihkannya
++	# ke /login, yang dijawab dashboard).
++	redir /grafana /grafana/
++	handle /grafana/* {
++		reverse_proxy grafana:3000 {
++			# cookie login Grafana diberi atribut Secure (browser hanya mengirimnya lewat HTTPS); Grafana sendiri tidak
++			# memasangnya karena sambungan Caddy -> Grafana adalah HTTP biasa
++			header_down Set-Cookie "^(.*)$" "$1; Secure"
++		}
++	}
++
+ 	# /assets/...: JavaScript dan CSS hasil build. Namanya bersidik (misalnya index-DcefnpS2.js) dan berganti setiap
+ 	# build, jadi browser boleh menyimpannya lama. Berkas yang tidak ada dijawab 404 (bukan index.html): galatnya jujur.
+ 	handle /assets/* {
+@@ -32,13 +69,14 @@
+ 		file_server
+ 	}
+ 
+-	# Selain /api dan /assets: berkas dashboard di /srv (isi dist/). Alamat layar seperti /peta atau /perangkat/f00d00000001
+-	# bukan berkas, jadi dijawab index.html, lalu React Router memilih layarnya ("SPA fallback", janji Modul 24). Tanpa ini,
+-	# F5 di layar mana pun selain / menjawab 404.
++	# Selain /api, /grafana, dan /assets: berkas dashboard di /srv (isi dist/). Alamat layar seperti /peta atau
++	# /perangkat/f00d00000001 bukan berkas, jadi dijawab index.html, lalu React Router memilih layarnya ("SPA fallback",
++	# janji Modul 24). Tanpa ini, F5 di layar mana pun selain / menjawab 404.
+ 	handle {
+ 		root * /srv
+ 		# no-cache = browser wajib bertanya dulu ke Caddy sebelum memakai index.html simpanannya (Caddy menjawab 304 bila
+ 		# belum berubah). Tanpa ini, sesudah image web dibangun ulang browser bisa tetap menampilkan dashboard LAMA sampai F5.
++		# Modul 27: berlaku juga untuk service worker (sw.js) dan manifest aplikasi HP (PWA), jadi versi baru cepat terbaca.
+ 		header Cache-Control "no-cache"
+ 		try_files {path} /index.html
+ 		file_server
+diff --git a/frontend/index.html b/frontend/index.html
+index 1677c1d..7c5fb07 100644
+--- a/frontend/index.html
++++ b/frontend/index.html
+@@ -4,11 +4,15 @@
+     <meta charset="UTF-8" />
+     <!-- Modul 24: scroll-pb-64 = saat browser menggulir SENDIRI ke tombol atau kolom (tombol Tab, kolom yang salah isi), ia
+          menyisakan 16rem di bawah, tempat toast di HP dan tablet. Mulai 1280 px toast ada di samping isi: xl:scroll-pb-0. -->
++    <!-- Modul 27: ikon tab = gambar rumah (public/favicon.svg), bukan lagi logo Vite. -->
+     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+-    <!-- Modul 24: ikon (180 x 180 px) dan nama pendek untuk pintasan "Tambahkan ke Layar Utama" di iPhone. Hanya pintasan,
+-         bukan aplikasi terpasang (PWA butuh HTTPS: Modul 27). -->
++    <!-- Modul 24: ikon (180 x 180 px) dan nama pendek untuk iPhone ("Tambah ke Layar Utama"). Modul 27: lewat https://,
++         Android dan laptop membaca nama dan ikon aplikasi dari manifest.webmanifest; tautannya ditambahkan sendiri oleh
++         vite-plugin-pwa saat npm run build (lihat vite.config.ts). -->
+     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+     <meta name="apple-mobile-web-app-title" content="Rumah Pintar" />
++    <!-- Modul 27: warna bilah atas aplikasi terpasang; harus sama dengan theme_color di vite.config.ts -->
++    <meta name="theme-color" content="#1d293d" />
+     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+     <title>Rumah Pintar Mini</title>
+   </head>
+diff --git a/frontend/package.json b/frontend/package.json
+index cd63822..01f6fd3 100644
+--- a/frontend/package.json
++++ b/frontend/package.json
+@@ -1,7 +1,7 @@
+ {
+   "name": "rumah-pintar-mini-frontend",
+   "private": true,
+-  "version": "1.2.0",
++  "version": "1.3.0",
+   "type": "module",
+   "scripts": {
+     "dev": "vite",
+@@ -36,6 +36,7 @@
+     "@vitejs/plugin-react": "^6.1.2",
+     "oxlint": "^1.88.0",
+     "typescript": "~6.0.3",
+-    "vite": "^8.3.4"
++    "vite": "^8.3.4",
++    "vite-plugin-pwa": "2.0.0"
+   }
+ }
+diff --git a/frontend/public/favicon.svg b/frontend/public/favicon.svg
+index 6893eb1..beb99a2 100644
+--- a/frontend/public/favicon.svg
++++ b/frontend/public/favicon.svg
+@@ -1 +1,8 @@
+-<svg xmlns="http://www.w3.org/2000/svg" width="48" height="46" fill="none" viewBox="0 0 48 46"><path fill="#863bff" d="M25.946 44.938c-.664.845-2.021.375-2.021-.698V33.937a2.26 2.26 0 0 0-2.262-2.262H10.287c-.92 0-1.456-1.04-.92-1.788l7.48-10.471c1.07-1.497 0-3.578-1.842-3.578H1.237c-.92 0-1.456-1.04-.92-1.788L10.013.474c.214-.297.556-.474.92-.474h28.894c.92 0 1.456 1.04.92 1.788l-7.48 10.471c-1.07 1.498 0 3.579 1.842 3.579h11.377c.943 0 1.473 1.088.89 1.83L25.947 44.94z" style="fill:#863bff;fill:color(display-p3 .5252 .23 1);fill-opacity:1"/><mask id="a" width="48" height="46" x="0" y="0" maskUnits="userSpaceOnUse" style="mask-type:alpha"><path fill="#000" d="M25.842 44.938c-.664.844-2.021.375-2.021-.698V33.937a2.26 2.26 0 0 0-2.262-2.262H10.183c-.92 0-1.456-1.04-.92-1.788l7.48-10.471c1.07-1.498 0-3.579-1.842-3.579H1.133c-.92 0-1.456-1.04-.92-1.787L9.91.473c.214-.297.556-.474.92-.474h28.894c.92 0 1.456 1.04.92 1.788l-7.48 10.471c-1.07 1.498 0 3.578 1.842 3.578h11.377c.943 0 1.473 1.088.89 1.832L25.843 44.94z" style="fill:#000;fill-opacity:1"/></mask><g mask="url(#a)"><g filter="url(#b)"><ellipse cx="5.508" cy="14.704" fill="#ede6ff" rx="5.508" ry="14.704" style="fill:#ede6ff;fill:color(display-p3 .9275 .9033 1);fill-opacity:1" transform="matrix(.00324 1 1 -.00324 -4.47 31.516)"/></g><g filter="url(#c)"><ellipse cx="10.399" cy="29.851" fill="#ede6ff" rx="10.399" ry="29.851" style="fill:#ede6ff;fill:color(display-p3 .9275 .9033 1);fill-opacity:1" transform="matrix(.00324 1 1 -.00324 -39.328 7.883)"/></g><g filter="url(#d)"><ellipse cx="5.508" cy="30.487" fill="#7e14ff" rx="5.508" ry="30.487" style="fill:#7e14ff;fill:color(display-p3 .4922 .0767 1);fill-opacity:1" transform="rotate(89.814 -25.913 -14.639)scale(1 -1)"/></g><g filter="url(#e)"><ellipse cx="5.508" cy="30.599" fill="#7e14ff" rx="5.508" ry="30.599" style="fill:#7e14ff;fill:color(display-p3 .4922 .0767 1);fill-opacity:1" transform="rotate(89.814 -32.644 -3.334)scale(1 -1)"/></g><g filter="url(#f)"><ellipse cx="5.508" cy="30.599" fill="#7e14ff" rx="5.508" ry="30.599" style="fill:#7e14ff;fill:color(display-p3 .4922 .0767 1);fill-opacity:1" transform="matrix(.00324 1 1 -.00324 -34.34 30.47)"/></g><g filter="url(#g)"><ellipse cx="14.072" cy="22.078" fill="#ede6ff" rx="14.072" ry="22.078" style="fill:#ede6ff;fill:color(display-p3 .9275 .9033 1);fill-opacity:1" transform="rotate(93.35 24.506 48.493)scale(-1 1)"/></g><g filter="url(#h)"><ellipse cx="3.47" cy="21.501" fill="#7e14ff" rx="3.47" ry="21.501" style="fill:#7e14ff;fill:color(display-p3 .4922 .0767 1);fill-opacity:1" transform="rotate(89.009 28.708 47.59)scale(-1 1)"/></g><g filter="url(#i)"><ellipse cx="3.47" cy="21.501" fill="#7e14ff" rx="3.47" ry="21.501" style="fill:#7e14ff;fill:color(display-p3 .4922 .0767 1);fill-opacity:1" transform="rotate(89.009 28.708 47.59)scale(-1 1)"/></g><g filter="url(#j)"><ellipse cx=".387" cy="8.972" fill="#7e14ff" rx="4.407" ry="29.108" style="fill:#7e14ff;fill:color(display-p3 .4922 .0767 1);fill-opacity:1" transform="rotate(39.51 .387 8.972)"/></g><g filter="url(#k)"><ellipse cx="47.523" cy="-6.092" fill="#7e14ff" rx="4.407" ry="29.108" style="fill:#7e14ff;fill:color(display-p3 .4922 .0767 1);fill-opacity:1" transform="rotate(37.892 47.523 -6.092)"/></g><g filter="url(#l)"><ellipse cx="41.412" cy="6.333" fill="#47bfff" rx="5.971" ry="9.665" style="fill:#47bfff;fill:color(display-p3 .2799 .748 1);fill-opacity:1" transform="rotate(37.892 41.412 6.333)"/></g><g filter="url(#m)"><ellipse cx="-1.879" cy="38.332" fill="#7e14ff" rx="4.407" ry="29.108" style="fill:#7e14ff;fill:color(display-p3 .4922 .0767 1);fill-opacity:1" transform="rotate(37.892 -1.88 38.332)"/></g><g filter="url(#n)"><ellipse cx="-1.879" cy="38.332" fill="#7e14ff" rx="4.407" ry="29.108" style="fill:#7e14ff;fill:color(display-p3 .4922 .0767 1);fill-opacity:1" transform="rotate(37.892 -1.88 38.332)"/></g><g filter="url(#o)"><ellipse cx="35.651" cy="29.907" fill="#7e14ff" rx="4.407" ry="29.108" style="fill:#7e14ff;fill:color(display-p3 .4922 .0767 1);fill-opacity:1" transform="rotate(37.892 35.651 29.907)"/></g><g filter="url(#p)"><ellipse cx="38.418" cy="32.4" fill="#47bfff" rx="5.971" ry="15.297" style="fill:#47bfff;fill:color(display-p3 .2799 .748 1);fill-opacity:1" transform="rotate(37.892 38.418 32.4)"/></g></g><defs><filter id="b" width="60.045" height="41.654" x="-19.77" y="16.149" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur result="effect1_foregroundBlur_2002_17158" stdDeviation="7.659"/></filter><filter id="c" width="90.34" height="51.437" x="-54.613" y="-7.533" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur result="effect1_foregroundBlur_2002_17158" stdDeviation="7.659"/></filter><filter id="d" width="79.355" height="29.4" x="-49.64" y="2.03" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur result="effect1_foregroundBlur_2002_17158" stdDeviation="4.596"/></filter><filter id="e" width="79.579" height="29.4" x="-45.045" y="20.029" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur result="effect1_foregroundBlur_2002_17158" stdDeviation="4.596"/></filter><filter id="f" width="79.579" height="29.4" x="-43.513" y="21.178" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur result="effect1_foregroundBlur_2002_17158" stdDeviation="4.596"/></filter><filter id="g" width="74.749" height="58.852" x="15.756" y="-17.901" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur result="effect1_foregroundBlur_2002_17158" stdDeviation="7.659"/></filter><filter id="h" width="61.377" height="25.362" x="23.548" y="2.284" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur result="effect1_foregroundBlur_2002_17158" stdDeviation="4.596"/></filter><filter id="i" width="61.377" height="25.362" x="23.548" y="2.284" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur result="effect1_foregroundBlur_2002_17158" stdDeviation="4.596"/></filter><filter id="j" width="56.045" height="63.649" x="-27.636" y="-22.853" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur result="effect1_foregroundBlur_2002_17158" stdDeviation="4.596"/></filter><filter id="k" width="54.814" height="64.646" x="20.116" y="-38.415" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur result="effect1_foregroundBlur_2002_17158" stdDeviation="4.596"/></filter><filter id="l" width="33.541" height="35.313" x="24.641" y="-11.323" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur result="effect1_foregroundBlur_2002_17158" stdDeviation="4.596"/></filter><filter id="m" width="54.814" height="64.646" x="-29.286" y="6.009" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur result="effect1_foregroundBlur_2002_17158" stdDeviation="4.596"/></filter><filter id="n" width="54.814" height="64.646" x="-29.286" y="6.009" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur result="effect1_foregroundBlur_2002_17158" stdDeviation="4.596"/></filter><filter id="o" width="54.814" height="64.646" x="8.244" y="-2.416" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur result="effect1_foregroundBlur_2002_17158" stdDeviation="4.596"/></filter><filter id="p" width="39.409" height="43.623" x="18.713" y="10.588" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur result="effect1_foregroundBlur_2002_17158" stdDeviation="4.596"/></filter></defs></svg>
+\ No newline at end of file
++<svg xmlns="http://www.w3.org/2000/svg" width="180" height="180" viewBox="0 0 180 180">
++  <!-- Ikon Rumah Pintar Mini (Modul 27): gambar rumah garis + pintu teal yang sama dengan apple-touch-icon.png Modul 24,
++       di atas ubin terang bersudut bulat. Menggantikan logo petir bawaan Vite. Ikon aplikasi pwa-*.png dibuat dari berkas ini. -->
++  <rect width="180" height="180" rx="40" fill="#f8fafc"/>
++  <path d="M38 86 L90 44 L142 86" fill="none" stroke="#1d293d" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
++  <path d="M54 76 V136 H126 V76" fill="none" stroke="#1d293d" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
++  <rect x="79" y="102" width="22" height="34" rx="3" fill="#00786f"/>
++</svg>
+diff --git a/frontend/public/maskable-icon-512x512.png b/frontend/public/maskable-icon-512x512.png
+new file mode 100644
+index 0000000..8430d1b
+Binary files /dev/null and b/frontend/public/maskable-icon-512x512.png differ
+diff --git a/frontend/public/pwa-192x192.png b/frontend/public/pwa-192x192.png
+new file mode 100644
+index 0000000..57e3b9f
+Binary files /dev/null and b/frontend/public/pwa-192x192.png differ
+diff --git a/frontend/public/pwa-512x512.png b/frontend/public/pwa-512x512.png
+new file mode 100644
+index 0000000..bba1742
+Binary files /dev/null and b/frontend/public/pwa-512x512.png differ
+diff --git a/frontend/public/pwa-64x64.png b/frontend/public/pwa-64x64.png
+new file mode 100644
+index 0000000..517d58a
+Binary files /dev/null and b/frontend/public/pwa-64x64.png differ
+diff --git a/frontend/src/api.ts b/frontend/src/api.ts
+index b2cff80..d6d846f 100644
+--- a/frontend/src/api.ts
++++ b/frontend/src/api.ts
+@@ -43,6 +43,15 @@ export function refreshSekali(): Promise<boolean | null> {
+   return refreshBerjalan;
+ }
+ 
++// Pesan saat server sama sekali tidak bisa dihubungi. Modul 27: dashboard kini juga dibuka dari HP, dari internet, dan
++// sebagai aplikasi terpasang yang tetap terbuka walau internet putus; di sana petunjuk "localhost:5173" dan CORS_ORIGIN
++// menyesatkan. Petunjuk itu hanya untuk mode kembang (npm run dev), tempat galat CORS memang mungkin terjadi.
++// (Di balik Caddy, backend yang mati dijawab 502 "Terjadi gangguan (502).", bukan pesan ini.)
++const PESAN_TAK_TERJANGKAU = import.meta.env.DEV
++  ? "Tidak bisa menghubungi server di " + BASE + ". Mungkin backend belum menyala, atau halaman ini dibuka dari " +
++    "alamat yang tidak diizinkan backend (buka http://localhost:5173, lihat CORS_ORIGIN)."
++  : "Tidak bisa menghubungi server. Periksa sambungan internetmu, lalu coba lagi.";
++
+ // Galat yang tahu kode HTTP-nya, supaya layar bisa membedakan "belum login" (401) dari gangguan lain.
+ // Kode 0 = server sama sekali tidak bisa dihubungi.
+ export class GalatApi extends Error {
+@@ -65,11 +74,7 @@ async function minta<T>(jalur: string, opsi: RequestInit = {}, bolehUlang = true
+   } catch {
+     // fetch gagal total: backend mati, alamatnya salah, atau diblokir CORS. Browser sengaja tidak memberi tahu
+     // JavaScript yang mana (galat CORS tampak sama dengan backend mati); rinciannya hanya ada di tab Console.
+-    throw new GalatApi(
+-      0,
+-      "Tidak bisa menghubungi server di " + BASE + ". Mungkin backend belum menyala, atau halaman ini dibuka dari " +
+-        "alamat yang tidak diizinkan backend (buka http://localhost:5173, lihat CORS_ORIGIN).",
+-    );
++    throw new GalatApi(0, PESAN_TAK_TERJANGKAU);
+   }
+   // Gelang habis (401)? Refresh SEKALI, lalu ulangi permintaan ini SEKALI (janji Modul 20).
+   // Kalau refresh juga gagal, 401 diteruskan ke layar, dan layar kembali ke formulir login.
+diff --git a/frontend/src/components/TombolSakelar.tsx b/frontend/src/components/TombolSakelar.tsx
+index 9b5e4a2..239b4fd 100644
+--- a/frontend/src/components/TombolSakelar.tsx
++++ b/frontend/src/components/TombolSakelar.tsx
+@@ -18,8 +18,10 @@ type Props = {
+ // kalimat toast untuk perintah yang gagal, menurut jawaban backend
+ function pesanGagal(err: unknown, label: string): string {
+   if (!(err instanceof GalatApi)) return label + ": perintah gagal.";
+-  // 504 BUKAN "dibatalkan": backend mengingat keinginan kita dan mengirim ulang sendiri saat perangkat terdengar lagi
+-  if (err.kode === 504) return label + ": belum dikonfirmasi perangkat; server akan mencoba lagi saat perangkat terdengar.";
++  // 504 BUKAN "dibatalkan": backend mengingat keinginan kita dan mengirim ulang sendiri saat perangkat terdengar lagi.
++  // Modul 27 (backend 1.4): hanya bila perangkat terdengar dalam 2 menit; sesudah itu perintahnya dilupakan, supaya
++  // lampu tidak tiba-tiba menyala berjam-jam kemudian saat internet rumah pulih.
++  if (err.kode === 504) return label + ": belum dikonfirmasi perangkat; server mencoba lagi bila perangkat terdengar dalam 2 menit.";
+   if (err.kode === 0) return label + ": server tidak menjawab.";
+   return label + ": " + err.message; // 409 "perangkat sedang offline, …", 404, 503, 403
+ }
+diff --git a/frontend/vite.config.ts b/frontend/vite.config.ts
+index eaa8e05..190cdc5 100644
+--- a/frontend/vite.config.ts
++++ b/frontend/vite.config.ts
+@@ -1,10 +1,59 @@
+ import react from '@vitejs/plugin-react'
+ import tailwindcss from '@tailwindcss/vite'
+ import { defineConfig } from 'vite'
++import { VitePWA } from 'vite-plugin-pwa'
+ 
+ // https://vite.dev/config/
+ export default defineConfig({
+-  plugins: [react(), tailwindcss()],
++  plugins: [
++    react(),
++    tailwindcss(),
++    // Modul 27: dashboard bisa DIPASANG sebagai aplikasi di HP dan laptop (PWA). Plugin ini menulis dua berkas saat
++    // npm run build: manifest.webmanifest (nama, ikon, warna aplikasi) dan sw.js (service worker = petugas kecil di
++    // browser yang menyimpan cangkang dashboard). Browser hanya memakainya di alamat aman: https://... atau localhost.
++    // Di npm run dev tidak ada service worker (hanya hasil build yang punya).
++    VitePWA({
++      // versi baru dashboard dipakai tanpa bertanya: sesudah image web dibangun ulang, browser mengambil sw.js baru dan
++      // memakainya di pembukaan berikutnya (lihat README "Aplikasi di HP")
++      registerType: 'autoUpdate',
++      manifest: {
++        name: 'Rumah Pintar Mini',
++        // nama pendek di bawah ikon layar utama (sama dengan apple-mobile-web-app-title di index.html)
++        short_name: 'Rumah Pintar',
++        description: 'Dashboard Rumah Pintar Mini: sensor, kendali, dan riwayat rumahmu',
++        lang: 'id',
++        // halaman pertama saat ikon diketuk, dan batas alamat yang dianggap "di dalam aplikasi"
++        start_url: '/',
++        scope: '/',
++        // jendela sendiri tanpa bilah alamat, seperti aplikasi biasa
++        display: 'standalone',
++        // warna layar pembuka (= latar halaman, bg-slate-100) dan warna bilah atas (sama dengan theme-color di index.html)
++        background_color: '#f1f5f9',
++        theme_color: '#1d293d',
++        // ikon di folder public/, dibuat dari favicon.svg (rumah garis yang sama dengan apple-touch-icon.png Modul 24).
++        // 192 dan 512 = ukuran yang diminta Chrome untuk tombol Install. "maskable" = versi berlatar penuh yang boleh
++        // dipotong peluncur Android menjadi lingkaran atau kotak bulat: gambar rumahnya di tengah, di dalam zona aman.
++        icons: [
++          { src: 'pwa-64x64.png', sizes: '64x64', type: 'image/png' },
++          { src: 'pwa-192x192.png', sizes: '192x192', type: 'image/png' },
++          { src: 'pwa-512x512.png', sizes: '512x512', type: 'image/png' },
++          { src: 'maskable-icon-512x512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
++        ],
++      },
++      workbox: {
++        // CANGKANG saja yang disimpan service worker: berkas hasil build (HTML, JavaScript, CSS, favicon.svg); ikon di
++        // manifest ikut disimpan sendiri oleh plugin. Data rumah (/api/...) dan sambungan live tidak pernah disimpan:
++        // selalu diminta ke server, jadi angka di layar tidak pernah basi diam-diam.
++        globPatterns: ['**/*.{js,css,html,svg}'],
++        // alamat layar seperti /peta atau /perangkat/f00d00000001 dijawab index.html dari simpanan (React Router memilih
++        // layarnya), juga saat internet putus: aplikasi tetap terbuka dan menulis pesan bahwa server tidak terjangkau
++        navigateFallback: '/index.html',
++        // ...KECUALI alamat yang bukan layar dashboard: API (/api), Grafana (/grafana/, Modul 27), dan Socket.IO
++        // (/socket.io bila VITE_API_BASE=/). Alamat itu selalu diteruskan ke server, tidak pernah diganti index.html.
++        navigateFallbackDenylist: [/^\/api(\/|$)/, /^\/grafana(\/|$)/, /^\/socket\.io(\/|$)/],
++      },
++    }),
++  ],
+   // Modul 22: selalu di port 5173 (alamat yang diizinkan CORS_ORIGIN backend).
+   // Kalau port itu sedang dipakai, berhenti dengan galat, jangan pindah diam-diam ke 5174.
+   server: { port: 5173, strictPort: true },

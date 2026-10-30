@@ -25,12 +25,19 @@ export interface AkunBroker {
 }
 
 export function mulaiMqtt(url: string, akun: AkunBroker | null, log: FastifyBaseLogger): void {
-  const idKlien = "backend-" + Math.random().toString(16).slice(2, 8); // nama unik; broker berkunci memakai nama akunnya
+  // Nama klien: tanpa akun = nama acak (broker lama tanpa kunci). Dengan akun = nama akun itu sendiri (Modul 27), sama dengan
+  // yang dipakai broker berkunci (use_username_as_clientid), supaya sesi tetap di bawah selalu sesi yang sama.
+  const idKlien = akun === null ? "backend-" + Math.random().toString(16).slice(2, 8) : akun.username;
   klien = mqtt.connect(url, {
     clientId: idKlien,
     reconnectPeriod: JEDA_BIASA_MS,
     ...(akun === null ? {} : { username: akun.username, password: akun.password }),
     reconnectOnConnackError: true, // Modul 21: tanpa ini, sekali ditolak broker = berhenti mencoba selamanya
+    // Modul 27: sesi TETAP bila masuk dengan akun (nama klien = nama akun, jadi sesinya selalu sama).
+    // Broker pusat mengingat langganan backend dan MENAHAN pesan QoS 1 (antara lain antrean jembatan Pi) selama backend
+    // belum tersambung: beberapa detik sesudah broker pusat dinyalakan ulang, atau saat backend sendiri dibuat ulang.
+    // Sesi bersih = pesan yang tiba sebelum backend berlangganan lagi hilang. Tanpa akun (nama klien acak): tetap bersih.
+    clean: akun === null,
   });
   let ditolak = false; // sedang ditolak broker? (supaya pesan panjangnya hanya ditulis sekali)
   klien.on("connect", () => {

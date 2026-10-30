@@ -1,0 +1,141 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="998" viewBox="0 0 1200 998" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="998" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" xml:space="preserve">Domain dan DNS: buku telepon internet</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" xml:space="preserve">Konsep 5 · nama <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5">namaanda.my.id</tspan> disewa di registrar, isinya dicatat di Cloudflare</text>
+<rect x="30.0" y="98.0" width="330.0" height="230.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<circle cx="54.0" cy="124.0" r="12" fill="#a13a6b" stroke="#ffffff" stroke-width="2" />
+<text x="54.0" y="128.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >1</text>
+<text x="76.0" y="129.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >Registrar (toko domain)</text>
+<text x="50.0" y="158.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">terakreditasi PANDI (pengelola <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">.id</tspan>)</text>
+<text x="50.0" y="179.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">sewa <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">namaanda.my.id</tspan> (dibayar per tahun)</text>
+<text x="50.0" y="200.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">.my.id</tspan> boleh untuk perorangan</text>
+<text x="50.0" y="221.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">email terverifikasi; KTP bila diminta</text>
+<text x="50.0" y="263.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#a13a6b">isian nameserver:</tspan> ganti dengan</text>
+<text x="50.0" y="284.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">dua nama dari Cloudflare</text>
+<rect x="390.0" y="98.0" width="330.0" height="230.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<circle cx="414.0" cy="124.0" r="12" fill="#a13a6b" stroke="#ffffff" stroke-width="2" />
+<text x="414.0" y="128.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >2</text>
+<text x="436.0" y="129.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >Cloudflare (paket gratis)</text>
+<text x="410.0" y="158.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">tambah situs <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">namaanda.my.id</tspan></text>
+<text x="410.0" y="179.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">dua nameserver Cloudflare ditempel</text>
+<text x="410.0" y="200.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">di registrar → status <tspan font-weight="800" fill="#2a9d5c">Active</tspan></text>
+<text x="410.0" y="221.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">(lama menunggunya tidak pasti)</text>
+<text x="410.0" y="263.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">sejak itu semua catatan (<tspan font-style="italic">record</tspan>)</text>
+<text x="410.0" y="284.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">nama ini ditulis di Cloudflare</text>
+<line x1="364.0" y1="248.0" x2="386.0" y2="248.0" stroke="#a13a6b" stroke-width="2.4" stroke-linecap="round" />
+<path d="M378.9 251.8 L386.0 248.0 L378.9 244.2" fill="none" stroke="#a13a6b" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="724.0" y1="248.0" x2="746.0" y2="248.0" stroke="#a13a6b" stroke-width="2.4" stroke-linecap="round" />
+<path d="M738.9 251.8 L746.0 248.0 L738.9 244.2" fill="none" stroke="#a13a6b" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="750.0" y="98.0" width="420.0" height="230.0" rx="12" fill="#fcf2f6" stroke="#a13a6b" stroke-width="1.8" />
+<circle cx="774.0" cy="124.0" r="12" fill="#a13a6b" stroke="#ffffff" stroke-width="2" />
+<text x="774.0" y="128.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >3</text>
+<text x="796.0" y="129.0" font-size="14" font-weight="800" fill="#a13a6b" text-anchor="start" >Catatan DNS jalur utama</text>
+<text x="770.0" y="160.0" font-size="12" font-weight="800" fill="#4a5568" text-anchor="start" >Tipe</text>
+<text x="824.0" y="160.0" font-size="12" font-weight="800" fill="#4a5568" text-anchor="start" >Nama</text>
+<text x="886.0" y="160.0" font-size="12" font-weight="800" fill="#4a5568" text-anchor="start" >Isi</text>
+<text x="1016.0" y="160.0" font-size="12" font-weight="800" fill="#4a5568" text-anchor="start" >Proxy</text>
+<rect x="762.0" y="172.0" width="396.0" height="38.0" rx="8" fill="#ffffff" />
+<text x="770.0" y="196.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">A</text>
+<text x="824.0" y="196.0" font-size="12.5" font-weight="800" fill="#a13a6b" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">iot</text>
+<text x="886.0" y="196.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">203.0.113.10</text>
+<g transform="translate(1034.0 191.0) scale(0.62)">
+<path d="M-20 10 Q-30 10 -28 0 Q-26 -10 -14 -8 Q-8 -20 6 -15 Q18 -18 20 -6 Q30 -4 28 5 Q26 10 18 10 Z" fill="#ffffff" stroke="#4a5568" stroke-width="3.2258064516129035" stroke-linecap="round" stroke-linejoin="round" />
+</g>
+<text x="1056.0" y="196.0" font-size="12" font-weight="800" fill="#4a5568" text-anchor="start" >DNS only</text>
+<rect x="762.0" y="218.0" width="396.0" height="38.0" rx="8" fill="#ffffff" />
+<text x="770.0" y="242.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">A</text>
+<text x="824.0" y="242.0" font-size="12.5" font-weight="800" fill="#a13a6b" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">mqtt</text>
+<text x="886.0" y="242.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">203.0.113.10</text>
+<g transform="translate(1034.0 237.0) scale(0.62)">
+<path d="M-20 10 Q-30 10 -28 0 Q-26 -10 -14 -8 Q-8 -20 6 -15 Q18 -18 20 -6 Q30 -4 28 5 Q26 10 18 10 Z" fill="#ffffff" stroke="#4a5568" stroke-width="3.2258064516129035" stroke-linecap="round" stroke-linejoin="round" />
+</g>
+<text x="1056.0" y="242.0" font-size="12" font-weight="800" fill="#4a5568" text-anchor="start" >DNS only</text>
+<text x="770.0" y="284.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">IP VPS-mu (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">203.0.113.10</tspan> = contoh); TTL kecil (300 s)</text>
+<text x="770.0" y="303.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">saat menyiapkan; tanpa <tspan font-style="italic">record</tspan> AAAA</text>
+<rect x="30.0" y="350.0" width="1140.0" height="200.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="54.0" y="380.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >HP bertanya: di mana iot.namaanda.my.id?</text>
+<rect x="54.0" y="398.0" width="236.0" height="96.0" rx="10" fill="#eef1f5" />
+<g transform="translate(80 424) scale(0.6) translate(-80 -424)">
+<rect x="69.0" y="405.0" width="22.0" height="38.0" rx="5" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<circle cx="80.0" cy="437.0" r="1.8" fill="#1e2a4a" />
+</g>
+<text x="104.0" y="429.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" >HP tamu</text>
+<text x="70.0" y="456.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">ketik alamat di</text>
+<text x="70.0" y="474.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">browser atau aplikasi</text>
+<line x1="294.0" y1="446.0" x2="330.0" y2="446.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<path d="M324.7 448.8 L330.0 446.0 L324.7 443.2" fill="none" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="334.0" y="398.0" width="236.0" height="96.0" rx="10" fill="#eef1f5" />
+<g transform="translate(360 424) scale(0.6) translate(-360 -424)">
+<rect x="342.0" y="404.0" width="36.0" height="11.0" rx="2" fill="none" stroke="#1e2a4a" stroke-width="1.8" />
+<circle cx="349.0" cy="409.5" r="1.6" fill="#1e2a4a" />
+<rect x="342.0" y="418.0" width="36.0" height="11.0" rx="2" fill="none" stroke="#1e2a4a" stroke-width="1.8" />
+<circle cx="349.0" cy="423.5" r="1.6" fill="#1e2a4a" />
+<rect x="342.0" y="432.0" width="36.0" height="11.0" rx="2" fill="none" stroke="#1e2a4a" stroke-width="1.8" />
+<circle cx="349.0" cy="437.5" r="1.6" fill="#1e2a4a" />
+</g>
+<text x="384.0" y="429.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" >Resolver</text>
+<text x="350.0" y="456.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">DNS penyedia internet</text>
+<text x="350.0" y="474.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">atau <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">1.1.1.1</tspan></text>
+<line x1="574.0" y1="446.0" x2="610.0" y2="446.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<path d="M604.7 448.8 L610.0 446.0 L604.7 443.2" fill="none" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="614.0" y="398.0" width="236.0" height="96.0" rx="10" fill="#eef1f5" />
+<g transform="translate(640 424) scale(0.6) translate(-640 -424)">
+<path d="M629 410 L644 410 L651 417 L651 438 L629 438 Z" fill="none" stroke="#1e2a4a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M644 410 L644 417 L651 417" fill="none" stroke="#1e2a4a" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="634.0" y1="422.0" x2="646.0" y2="422.0" stroke="#1e2a4a" stroke-width="1.3" stroke-linecap="round" />
+<line x1="634.0" y1="427.0" x2="646.0" y2="427.0" stroke="#1e2a4a" stroke-width="1.3" stroke-linecap="round" />
+<line x1="634.0" y1="432.0" x2="646.0" y2="432.0" stroke="#1e2a4a" stroke-width="1.3" stroke-linecap="round" />
+</g>
+<text x="664.0" y="429.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" >Registri .id</text>
+<text x="630.0" y="456.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">"nama ini dicatat di</text>
+<text x="630.0" y="474.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">nameserver Cloudflare"</text>
+<line x1="854.0" y1="446.0" x2="890.0" y2="446.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<path d="M884.7 448.8 L890.0 446.0 L884.7 443.2" fill="none" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="894.0" y="398.0" width="236.0" height="96.0" rx="10" fill="#fcf2f6" stroke="#a13a6b" stroke-width="1.4" />
+<g transform="translate(920 424) scale(0.6) translate(-920 -424)">
+<path d="M900 434 Q890 434 892 424 Q894 414 906 416 Q912 404 926 409 Q938 406 940 418 Q950 420 948 429 Q946 434 938 434 Z" fill="none" stroke="#a13a6b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+</g>
+<text x="944.0" y="429.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" >Nameserver Cloudflare</text>
+<text x="910.0" y="456.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">menjawab:</text>
+<text x="910.0" y="474.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">A <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">203.0.113.10</tspan>, TTL 300</text>
+<text x="54.0" y="520.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Lalu HP menyambung langsung ke <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#a13a6b" font-weight="800">203.0.113.10</tspan>:443. Resolver menyimpan jawaban selama <tspan font-weight="800" fill="#1e2a4a">TTL</tspan> detik; cek dari laptop: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#a13a6b" font-weight="800">nslookup</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#a13a6b" font-weight="800">iot.namaanda.my.id</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#a13a6b" font-weight="800">1.1.1.1</tspan></text>
+<text x="54.0" y="539.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" >Lab penulis: DNS tiruan di Docker (pebble-challtestsrv), bukan Cloudflare.</text>
+<rect x="30.0" y="572.0" width="562.0" height="204.0" rx="12" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.8" />
+<g transform="translate(66.0 602.0) scale(0.9)">
+<path d="M-20 10 Q-30 10 -28 0 Q-26 -10 -14 -8 Q-8 -20 6 -15 Q18 -18 20 -6 Q30 -4 28 5 Q26 10 18 10 Z" fill="#ffffff" stroke="#4a5568" stroke-width="2.2222222222222223" stroke-linecap="round" stroke-linejoin="round" />
+</g>
+<text x="100.0" y="600.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >DNS only (awan abu-abu)</text>
+<text x="100.0" y="618.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >jawaban = IP VPS-mu yang asli</text>
+<text x="50.0" y="650.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">tamu menyambung LANGSUNG ke VPS:</text>
+<text x="50.0" y="671.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#1e2a4a" font-weight="800">443</tspan> → Caddy, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#1e2a4a" font-weight="800">8883</tspan> → Mosquitto</text>
+<text x="50.0" y="692.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">sertifikat Let's Encrypt milik Caddy-mu</text>
+<text x="50.0" y="734.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#a13a6b">WAJIB</tspan> untuk <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#1e2a4a" font-weight="800">mqtt.</tspan>; jalur utama: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#1e2a4a" font-weight="800">iot.</tspan> juga</text>
+<rect x="608.0" y="572.0" width="562.0" height="204.0" rx="12" fill="#ffffff" stroke="#b45f17" stroke-width="1.8" />
+<g transform="translate(644.0 602.0) scale(0.9)">
+<path d="M-20 10 Q-30 10 -28 0 Q-26 -10 -14 -8 Q-8 -20 6 -15 Q18 -18 20 -6 Q30 -4 28 5 Q26 10 18 10 Z" fill="#fdeedd" stroke="#b45f17" stroke-width="2.2222222222222223" stroke-linecap="round" stroke-linejoin="round" />
+</g>
+<text x="678.0" y="600.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Proxied (awan oranye)</text>
+<text x="678.0" y="618.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >jawaban = IP Cloudflare, bukan VPS</text>
+<text x="628.0" y="650.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Cloudflare hanya meneruskan port web:</text>
+<text x="628.0" y="671.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">HTTP 80, 8080, 8880, 2052, 2082, 2086, 2095</text>
+<text x="628.0" y="692.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">HTTPS 443, 2053, 2083, 2087, 2096, 8443</text>
+<text x="628.0" y="713.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#e63946">8883 tidak ada → MQTT tidak sampai</tspan></text>
+<text x="628.0" y="734.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">port lain: Spectrum, paket Enterprise saja</text>
+<text x="628.0" y="755.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">contoh nyata: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">open-meteo.com</tspan> → <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">104.21.40.60</tspan></text>
+<rect x="30.0" y="796.0" width="562.0" height="160.0" rx="12" fill="#fcf2f6" stroke="#a13a6b" stroke-width="1.6" stroke-dasharray="7 5"/>
+<text x="50.0" y="824.0" font-size="14" font-weight="800" fill="#a13a6b" text-anchor="start" >Jalur gratis: catatan untuk terowongan</text>
+<text x="50.0" y="850.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">iot</tspan> CNAME <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">&lt;id-terowongan&gt;.cfargotunnel.com</tspan>, <tspan font-style="italic">proxied</tspan></text>
+<text x="50.0" y="869.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">(dasbor: Networking → Tunnels → Create Tunnel; Routes →</text>
+<text x="50.0" y="888.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Add route → Published application, Service URL <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">http://web:80</tspan>)</text>
+<text x="50.0" y="907.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#a13a6b">periksa</tspan> di daftar DNS bahwa CNAME ini ada; tanpa <tspan font-style="italic">record</tspan></text>
+<text x="50.0" y="926.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">mqtt</tspan>: broker hanya di jaringan rumah</text>
+<rect x="608.0" y="796.0" width="562.0" height="160.0" rx="12" fill="#eef1f5" />
+<text x="628.0" y="826.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">.my.id</tspan> <tspan font-weight="800" fill="#1e2a4a">ada di Public Suffix List:</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">namaanda.my.id</tspan> dihitung</text>
+<text x="628.0" y="845.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">sebagai domainmu sendiri, jadi batas Let's Encrypt</text>
+<text x="628.0" y="864.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">(50 sertifikat baru per minggu) tidak dibagi orang lain.</text>
+<text x="628.0" y="883.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">Jujur:</tspan> langkah registrar dan Cloudflare dari dokumen;</text>
+<text x="628.0" y="902.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">penulis tidak punya akunnya. Dukungan zona <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">.my.id</tspan> di</text>
+<text x="628.0" y="921.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Cloudflare gratis belum dicek; bila ditolak: jalur utama</text>
+<text x="628.0" y="940.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">memakai DNS registrar, jalur gratis butuh domain lain.</text>
+<text x="1178.0" y="984.0" font-size="11" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

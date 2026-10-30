@@ -43,6 +43,15 @@ export function refreshSekali(): Promise<boolean | null> {
   return refreshBerjalan;
 }
 
+// Pesan saat server sama sekali tidak bisa dihubungi. Modul 27: dashboard kini juga dibuka dari HP, dari internet, dan
+// sebagai aplikasi terpasang yang tetap terbuka walau internet putus; di sana petunjuk "localhost:5173" dan CORS_ORIGIN
+// menyesatkan. Petunjuk itu hanya untuk mode kembang (npm run dev), tempat galat CORS memang mungkin terjadi.
+// (Di balik Caddy, backend yang mati dijawab 502 "Terjadi gangguan (502).", bukan pesan ini.)
+const PESAN_TAK_TERJANGKAU = import.meta.env.DEV
+  ? "Tidak bisa menghubungi server di " + BASE + ". Mungkin backend belum menyala, atau halaman ini dibuka dari " +
+    "alamat yang tidak diizinkan backend (buka http://localhost:5173, lihat CORS_ORIGIN)."
+  : "Tidak bisa menghubungi server. Periksa sambungan internetmu, lalu coba lagi.";
+
 // Galat yang tahu kode HTTP-nya, supaya layar bisa membedakan "belum login" (401) dari gangguan lain.
 // Kode 0 = server sama sekali tidak bisa dihubungi.
 export class GalatApi extends Error {
@@ -65,11 +74,7 @@ async function minta<T>(jalur: string, opsi: RequestInit = {}, bolehUlang = true
   } catch {
     // fetch gagal total: backend mati, alamatnya salah, atau diblokir CORS. Browser sengaja tidak memberi tahu
     // JavaScript yang mana (galat CORS tampak sama dengan backend mati); rinciannya hanya ada di tab Console.
-    throw new GalatApi(
-      0,
-      "Tidak bisa menghubungi server di " + BASE + ". Mungkin backend belum menyala, atau halaman ini dibuka dari " +
-        "alamat yang tidak diizinkan backend (buka http://localhost:5173, lihat CORS_ORIGIN).",
-    );
+    throw new GalatApi(0, PESAN_TAK_TERJANGKAU);
   }
   // Gelang habis (401)? Refresh SEKALI, lalu ulangi permintaan ini SEKALI (janji Modul 20).
   // Kalau refresh juga gagal, 401 diteruskan ke layar, dan layar kembali ke formulir login.

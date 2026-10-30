@@ -1,6 +1,6 @@
 {
   "name": "rumah-pintar-mini-backend",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Backend Rumah Pintar Mini (Modul 16-21): mendengar MQTT, memeriksa kontrak data, menyimpan semua pesan ke database deret waktu, menyediakan API riwayat, data realtime, perintah, aturan otomatis, jadwal, dan notifikasi Telegram, login dengan peran admin dan viewer, serta daftar resmi perangkat dengan kunci per perangkat dan akun broker tersendiri",
   "private": true,
   "type": "module",

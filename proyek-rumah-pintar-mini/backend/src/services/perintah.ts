@@ -20,6 +20,11 @@ export type HasilPerintah =
 
 const BATAS_ACK_MS = 5000; // setiap cmd dijawab ack dalam 5 detik (kontrak aturan 4)
 const JEDA_COBA_LAGI_MS = 30_000; // rekonsiliasi: paling sering sekali setiap 30 detik per aktuator
+// Modul 27: perintah TANGAN (dashboard/API dan Telegram) yang belum pernah dikerjakan perangkat hanya dicoba lagi bila
+// perangkat terdengar dalam 2 menit sesudah percobaan terakhir. Saat internet rumah putus, dashboard di VPS sudah melaporkan
+// perintah itu gagal (tanpa ack); tanpa batas ini, perintahnya dikirim lagi begitu kiriman susulan tiba (bisa berjam-jam
+// kemudian) dan lampu tiba-tiba menyala. Keinginan aturan dan jadwal tetap dicocokkan terus seperti Modul 19.
+const UMUR_PERINTAH_TANGAN_MS = 120_000;
 
 // pompa tidak punya keadaan yang bertahan: perintahnya denyut 1-10 detik yang padam sendiri
 type PerintahTetap = Extract<PerintahSet, { target: "kipas" | "lampu" | "tirai" }>;
@@ -30,7 +35,8 @@ interface Keinginan {
   sumber: Sumber;
   aturanId: number | null;
   dicoba: number; // kapan perintahnya terakhir dikirim (milidetik, seperti Date.now())
-  terpenuhi: boolean; // sudah pernah dilaporkan perangkat sesuai keinginan?
+  terpenuhi: boolean; // sudah dilaporkan perangkat sesuai keinginan? (kembali false saat perangkat menyala ulang)
+  pernahTerpenuhi: boolean; // Modul 27: pernah dikerjakan perangkat sejak keinginan ini dicatat?
 }
 
 const keinginan = new Map<string, Map<string, Keinginan>>(); // device_id -> (target -> keinginan)
@@ -80,7 +86,8 @@ function catatKeinginan(deviceId: string, perintah: PerintahTetap, sumber: Sumbe
     milikPerangkat = new Map();
     keinginan.set(deviceId, milikPerangkat);
   }
-  milikPerangkat.set(perintah.target, { perintah, sumber, aturanId, dicoba: Date.now(), terpenuhi: false });
+  milikPerangkat.set(perintah.target,
+    { perintah, sumber, aturanId, dicoba: Date.now(), terpenuhi: false, pernahTerpenuhi: false });
 }
 
 // Dipanggil mqtt.ts setiap kali telemetry atau ack perangkat tiba. keadaan = state di pesan itu (null kalau telemetry
@@ -88,7 +95,7 @@ function catatKeinginan(deviceId: string, perintah: PerintahTetap, sumber: Sumbe
 export function catatLaporan(deviceId: string, keadaan: Keadaan | null, ts: string | null): void {
   if (keadaan !== null && simpanLaporan(deviceId, keadaan, ts)) {
     for (const k of keinginan.get(deviceId)?.values() ?? []) {
-      if (keadaan[k.perintah.target] === k.perintah.nilai) k.terpenuhi = true;
+      if (keadaan[k.perintah.target] === k.perintah.nilai) k.terpenuhi = k.pernahTerpenuhi = true;
     }
   }
   cocokkan(deviceId);
@@ -102,6 +109,12 @@ function cocokkan(deviceId: string): void {
   for (const k of keinginan.get(deviceId)?.values() ?? []) {
     const { target, nilai } = k.perintah;
     if (k.terpenuhi || p.reported[target] === nilai) continue; // sudah sesuai
+    if ((k.sumber === "api" || k.sumber === "telegram") && !k.pernahTerpenuhi
+      && Date.now() - k.dicoba > UMUR_PERINTAH_TANGAN_MS) { // Modul 27: perintah tangan yang sudah basi
+      keinginan.get(deviceId)?.delete(target);
+      log.info(`perintah ${target} = ${nilai} (${k.sumber}) ke ${deviceId} tidak dikerjakan lebih dari 2 menit: tidak dikirim lagi`);
+      continue;
+    }
     if (menungguAck.has(`${deviceId}/${target}`)) continue; // perintah sebelumnya masih ditunggu
     if (Date.now() - k.dicoba < JEDA_COBA_LAGI_MS) continue; // terlalu cepat: tunggu dulu
     const pesan = `${target} ${deviceId} dilaporkan ${p.reported[target]}, padahal diinginkan ${nilai} (${k.sumber}); `

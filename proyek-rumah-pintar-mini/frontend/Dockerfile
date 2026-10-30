@@ -1,8 +1,9 @@
-# Dockerfile - cetakan (image) web Rumah Pintar Mini 1.2.0 (Modul 26). Dua tahap ("multi-stage"):
-#   tahap "bangun": Node.js mengubah kode React + TypeScript menjadi berkas siap saji (npm run build -> folder dist/)
+# Dockerfile - cetakan (image) web Rumah Pintar Mini 1.3.0 (Modul 26, PWA sejak Modul 27). Dua tahap ("multi-stage"):
+#   tahap "bangun": Node.js mengubah kode React + TypeScript menjadi berkas siap saji (npm run build -> folder dist/,
+#                   termasuk manifest.webmanifest dan service worker sw.js sejak Modul 27)
 #   tahap akhir   : hanya Caddy + isi dist/. Node.js, node_modules, dan kode sumber tertinggal di tahap bangun.
 # Dibangun dari folder proyek dengan: docker compose build web   (atau dari folder ini saja, tanpa folder backend:
-# docker build -t rumah-pintar-mini-web:1.2.0 .)
+# docker build -t rumah-pintar-mini-web:1.3.0 .)
 
 # Tag persis (sama dengan cetakan backend), bukan "latest": cetakan yang sama hari ini dan bulan depan.
 FROM node:24.22.1-alpine3.24 AS bangun
@@ -29,7 +30,7 @@ LABEL org.opencontainers.image.source="https://github.com/<akun>/rumah-pintar-mi
 # Caddyfile bawaan di dalam image, supaya image ini bisa dicoba sendirian (docker run). Docker Compose memasang folder
 # caddy/ dari repo di atasnya.
 COPY caddy/Caddyfile /etc/caddy/Caddyfile
-# Hanya hasil build yang dibawa dari tahap bangun: berkas HTML, CSS, JavaScript, dan ikon (sekitar 1 MB).
+# Hanya hasil build yang dibawa dari tahap bangun: berkas HTML, CSS, JavaScript, ikon, manifest, dan sw.js (sekitar 1 MB).
 COPY --from=bangun /app/dist /srv
 # Tanpa CMD dan EXPOSE: image Caddy sudah membawanya ("caddy run --config /etc/caddy/Caddyfile --adapter caddyfile",
 # port 80 di dalam kontainer). Loket di laptop diatur compose.cloud.yml (ports).

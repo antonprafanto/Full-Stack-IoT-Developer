@@ -53,6 +53,14 @@ Simulator memakai library yang sama. Tulis alamat broker lengkap (diawali `mqtt:
 node --env-file=.env simulator-perangkat.js mqtt://127.0.0.1:1883 1
 ```
 
+**Ke broker di internet (Modul 27, pusat di VPS).** Simulator yang sama bisa menyambung langsung ke pintu TLS VPS, tanpa mengubah kodenya: tulis `mqtts://` (bukan `mqtt://`), **nama** broker (bukan IP: sertifikatnya hanya berlaku untuk nama itu), dan port 8883. Akun dan kunci setiap perangkat palsu harus ada di broker VPS (`mosquitto_passwd` di VPS) dan perangkatnya terdaftar di backend VPS. Node.js memeriksa sertifikat VPS dengan daftar akar CA bawaannya, yang sudah memuat akar Let's Encrypt (ISRG Root X1), jadi tidak perlu berkas CA:
+
+```bash
+node --env-file=.env simulator-perangkat.js mqtts://mqtt.namaanda.my.id:8883 1
+```
+
+Di lab penulis (VPS dan Let's Encrypt tiruan, Pebble), Node diberi akar CA tiruannya lewat `NODE_EXTRA_CA_CERTS=<berkas akar>`; hasilnya `f00d00000001: online`, dan log broker VPS menulis `Client f00d00000001 negotiated TLSv1.3 cipher TLS_AES_256_GCM_SHA384`. Belum diuji penulis dengan Let's Encrypt sungguhan. `pemeriksa-kontrak.js` tetap hanya polos (`mqtt://`): jalankan di jaringan yang sama dengan brokernya.
+
 Kalau broker menolak kunci sebuah perangkat palsu (kunci salah, belum dipasang di broker, atau sudah dicabut), simulator menulis `f00d00000001: DITOLAK broker (kode 5): kunci salah, belum didaftarkan, atau sudah dicabut. Dicoba lagi 60 detik lagi.` dan mencoba lagi setiap 60 detik.
 
 Kata `bersihkan` di tempat isian kedua menghapus status *retained* perangkat palsu dari broker (setiap perangkat masuk dengan akunnya sendiri), lalu programnya selesai sendiri. Sejak Modul 25, status Kebun tiruan ikut dihapus lewat `f00d00000001` (hanya berlaku kalau blok ACL Kebun sudah dibuka). `config` *retained* di topik `cmd` tidak ikut dihapus: hanya akun `backend` dan `nodered` yang boleh menulis `cmd`, dan config itu hanya bisa dibaca perangkat itu sendiri.
@@ -109,6 +117,7 @@ Isian pertama adalah alamat backend, isian kedua `device_id` perangkat yang ingi
 - `package.json` di folder ini berisi `"type": "module"` supaya `import`/`export` bisa dipakai. File ini dibuat dengan `npm init -y` lalu `npm pkg set type=module`, sama seperti di Modul 4. Sejak Modul 11, ia juga mencatat library `mqtt` di bagian `dependencies`, dan `package-lock.json` mencatat versi persis setiap library pembantunya.
 - `.gitignore` menyuruh Git mengabaikan `node_modules/` dan `data/`: data palsu tidak perlu disimpan di repositori proyek. Sejak Modul 20, Git juga mengabaikan `.env` (akun `terminal-live.js`, berisi sandi; sejak Modul 21 juga akun broker pemeriksa dan kunci perangkat latihan); contohnya ada di `.env.example`.
 - **Penerima ini sengaja polos:** siapa pun yang bisa menghubungi laptopmu boleh mengirim apa saja, tanpa kata sandi. Pakai hanya di jaringan rumah. Cara menguncinya dibahas di Modul 20, 21, dan 27.
+- **`penyadap.js` di depan pintu TLS 8883 (Modul 27):** `node penyadap.js <alamat broker> 8883 1884`. Klien yang mencoba **tanpa TLS** ke 8883 tetap mengirim nama pengguna dan kuncinya polos (penyadap mencetaknya) sebelum broker menolaknya: uji "tanpa TLS ditolak" hanya dengan akun uji seperti `pemeriksa`, jangan dengan kunci perangkat. Bagian TLS tidak perlu kamu ulang: klien TLS yang mengetuk penyadap di `127.0.0.1` menolak tersambung, karena sertifikat broker hanya berlaku untuk nama `mqtt.…` (pemeriksaan nama itulah yang melindungimu dari penyadap). Di lab penulis (penyadap dan kliennya di mesin yang sama), pemeriksaan nama sengaja dimatikan khusus untuk uji ini, dan hasilnya: klien TLS hanya tercatat `sambungan baru dari … -> …:8883`, tanpa nama pengguna dan kunci (isinya terenkripsi).
 
 ---
 

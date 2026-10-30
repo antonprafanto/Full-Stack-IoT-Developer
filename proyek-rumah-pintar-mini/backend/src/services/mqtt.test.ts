@@ -1,16 +1,23 @@
 // mqtt.test.ts - uji pesan STATUS dari broker (Modul 25) TANPA broker, database, dan Telegram: pustaka mqtt dan tetangga
 // mqtt.ts diganti tiruan (vi.mock); gudang memori (gudang.ts) tetap yang asli. Yang diuji: kabar status mana yang diteruskan
 // ke Telegram (kabariStatus), termasuk "online" yang tiba sebagai pesan RETAINED sesudah broker dimulai ulang.
+// Sejak Modul 27 juga: nama klien dan sesi yang diminta backend saat tersambung (opsi mqtt.connect).
 // Jalankan: npm test
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { FastifyBaseLogger } from "fastify";
 
 const tiruan = vi.hoisted(() => ({
   pendengar: new Map<string, (...isi: unknown[]) => void>(), // acara klien MQTT tiruan ("message", "connect", ...)
+  opsi: [] as Record<string, unknown>[], // opsi setiap panggilan mqtt.connect, berurutan
   kabariStatus: vi.fn(),
 }));
 vi.mock("mqtt", () => ({
-  default: { connect: () => ({ options: {}, on: (acara: string, fn: (...isi: unknown[]) => void) => tiruan.pendengar.set(acara, fn) }) },
+  default: {
+    connect: (_url: string, opsi: Record<string, unknown>) => {
+      tiruan.opsi.push(opsi);
+      return { options: {}, on: (acara: string, fn: (...isi: unknown[]) => void) => tiruan.pendengar.set(acara, fn) };
+    },
+  },
 }));
 vi.mock("../db/arsip.ts", () => ({ arsipkanStatus: async () => {}, arsipkanTelemetry: async () => true, arsipkanVitals: async () => {} }));
 vi.mock("./realtime.ts", () => ({ siarkanStatus: () => {}, siarkanTelemetry: () => {} }));
@@ -46,5 +53,22 @@ describe("status perangkat ke Telegram (kabariStatus)", () => {
     statusTiba("f00d00000002", "offline", true);
     statusTiba("f00d00000002", "offline", false);
     expect(tiruan.kabariStatus).not.toHaveBeenCalled();
+  });
+});
+
+describe("nama klien dan sesi MQTT backend (Modul 27)", () => {
+  it("tanpa akun: nama klien acak backend-xxxxxx dan sesi bersih (clean true), seperti sebelum Modul 27", () => {
+    const opsi = tiruan.opsi[0]; // panggilan mulaiMqtt di atas (tanpa akun)
+    expect(opsi?.clientId).toMatch(/^backend-[0-9a-f]{1,6}$/);
+    expect(opsi?.clean).toBe(true);
+    expect(opsi?.username).toBeUndefined();
+  });
+
+  it("dengan akun: nama klien = nama akun dan sesi TETAP (clean false), supaya broker menahan pesan QoS 1 selama backend putus", () => {
+    mulaiMqtt("mqtt://127.0.0.1:1", { username: "backend", password: "sandi-uji" }, log);
+    const opsi = tiruan.opsi.at(-1);
+    expect(opsi?.clientId).toBe("backend");
+    expect(opsi?.clean).toBe(false);
+    expect(opsi?.username).toBe("backend");
   });
 });

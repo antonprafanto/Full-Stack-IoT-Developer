@@ -5,7 +5,8 @@
 # mosquitto (dari akar proyek untuk broker pusat, dari folder edge di Pi untuk broker gerbang).
 
 # 1) Setiap perangkat hanya boleh "bicara" di topiknya sendiri. Baris pattern berlaku untuk SEMUA akun;
-#    %u diganti nama pengguna yang sudah terbukti dengan sandi, yaitu device_id perangkat itu.
+#    %u diganti nama pengguna yang sudah terbukti dengan sandi, yaitu device_id perangkat itu. Modul 27: perangkat di lokasi
+#    lain yang langsung ke broker VPS (pintu 8883) memakai aturan yang sama; cukup akunnya dibuat di broker VPS.
 pattern write rpm/%u/telemetry
 pattern write rpm/%u/status
 pattern write rpm/%u/vitals
@@ -47,9 +48,12 @@ topic read $SYS/#
 # 7) Jembatan gerbang Pi (Modul 26): berlaku di broker PUSAT (compose.cloud.yml), tempat jembatan masuk dengan akun ini.
 #    Jembatan meneruskan pesan semua perangkat ke pusat dan mengambil perintah untuk mereka. Pemeriksaan per perangkat
 #    (butir 1 dan 2) sudah dilakukan broker gerbang di Pi, yang memakai berkas yang sama tetapi tidak punya akun jembatan-pi.
+#    Modul 27: baris terakhir = kabar jembatan (notifications true di jembatan/pusat.conf): 1 = tersambung, 0 = putus,
+#    pesan retained di topik $SYS ini. Tanda # di baris lain tidak mencakup topik berawalan $SYS, jadi izinnya ditulis sendiri.
 user jembatan-pi
 topic write rpm/+/telemetry
 topic write rpm/+/status
 topic write rpm/+/vitals
 topic write rpm/+/ack
 topic read rpm/+/cmd
+topic write $SYS/broker/connection/jembatan-pi/state

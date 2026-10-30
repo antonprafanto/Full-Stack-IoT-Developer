@@ -1,0 +1,383 @@
+diff --git a/edge/.env.example b/edge/.env.example
+index 11fffab..19ae057 100644
+--- a/edge/.env.example
++++ b/edge/.env.example
+@@ -1,21 +1,26 @@
+-# edge/.env.example - setelan Docker Compose GERBANG (Raspberry Pi) Rumah Pintar Mini (Modul 26), untuk compose.edge.yml.
++# edge/.env.example - setelan Docker Compose GERBANG (Raspberry Pi) Rumah Pintar Mini (Modul 26-27), untuk compose.edge.yml.
+ # Di Pi, dari folder edge: cp .env.example .env, isi baris yang kosong, lalu chmod 600 .env. edge/.env tidak ikut Git.
+ 
+ # Nama berkas Compose. Dengan baris ini, "docker compose up -d" di folder edge sudah cukup (tanpa -f compose.edge.yml).
+ COMPOSE_FILE=compose.edge.yml
+ 
+-# Alamat broker PUSAT = IP laptop yang menjalankan compose.cloud.yml, misalnya 192.168.1.20 (pesan alamat tetap di router,
+-# seperti mode HP Modul 23: kalau IP laptop berganti, jembatan putus). Gerbang dicoba di laptop yang sama: host-gateway
++# Alamat broker PUSAT untuk jembatan RUMAH (address pusat:... di jembatan/pusat.conf). Isi sesuai tempat pusatmu:
++#   pusat di laptop (Modul 26, Kit B) : IP laptop, misalnya 192.168.1.10 (pesan alamat tetap di router, seperti mode HP
++#                                       Modul 23: kalau IP laptop berganti, jembatan putus)
++#   pusat di Pi yang sama (Modul 27, jalur gratis) atau gerbang dicoba di laptop pusat: host-gateway (= mesin ini sendiri)
++#   pusat di VPS (Modul 27, jalur utama): biarkan kosong. Jembatan TLS memakai nama domain broker (mqtt.namaanda.my.id)
++#                                       yang ditulis langsung di jembatan/pusat.conf, bukan alamat di sini.
++# Kosong = host-gateway.
+ ALAMAT_PUSAT=
+ 
+ # Loket broker gerbang. Di Pi: 1883 (firmware Node 1 memakai 1883). Gerbang dicoba di laptop yang sama dengan
+-# compose.cloud.yml: 1884, karena 1883 sudah dipakai broker pusat.
++# compose.cloud.yml (Modul 26): 1884, karena 1883 sudah dipakai broker pusat.
+ PORT_GERBANG=1883
+ 
+-# Modul 27 (belum dipakai di Modul 26): token Cloudflare Tunnel untuk profil "terowongan". Rahasia.
+-TUNNEL_TOKEN=
+ # Node-RED dalam kontainer (profil "nodered", opsional; Modul 26 tetap memakai Node-RED systemd): loket editor.
+ PORT_NODERED=1880
+ 
+ # Profil yang ikut menyala dengan "docker compose up -d". Kosong = hanya broker gerbang.
+ # COMPOSE_PROFILES=nodered
++
++# Modul 27: TUNNEL_TOKEN (Cloudflare Tunnel, jalur gratis) TIDAK lagi di sini: tulis di .env akar proyek (compose.cloud.yml).
+diff --git a/edge/README.md b/edge/README.md
+index 161dd97..c793644 100644
+--- a/edge/README.md
++++ b/edge/README.md
+@@ -2,7 +2,7 @@
+ 
+ 🌐 **Bahasa Indonesia** · [English](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/mini-smart-home/edge/README.md)
+ 
+-Gateway adalah Raspberry Pi yang menjalankan broker MQTT Rumah Pintar Mini 24 jam ([Modul 12](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-2-konektivitas/modul-12-raspberry-pi-dan-linux/README.md)), dan sejak [Modul 13](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-2-konektivitas/modul-13-node-red-dashboard/README.md) juga menjalankan Node-RED dengan dashboard dan otomasi kipas (otomasinya dimatikan sejak [Modul 16](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-3-backend-data/modul-16-backend-typescript-api-git/README.md) karena otaknya pindah ke backend); sejak [Modul 14](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-2-konektivitas/modul-14-node-2-esp-now/README.md), dashboard itu punya kartu Kebun untuk Node 2, dan sejak [Modul 15](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-2-konektivitas/modul-15-modbus-rs485-dan-protokol/README.md), grup Sensor RS-485 untuk sensor tanah RS-485 yang dibaca Node 1. Sejak [Modul 26](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-5-operasi-skala/modul-26-docker-compose/README.md), broker itu berjalan sebagai **kontainer Docker** ([`compose.edge.yml`](compose.edge.yml), proyek Compose `rumahpintar-gerbang`; di modul, Pi disebut **gerbang**), dengan akun, port, dan alamat yang sama, jadi firmware tidak berubah; broker gerbang meneruskan pesan perangkat ke broker **pusat** di laptop lewat jembatan (*bridge*). Halaman ini adalah **cadangan utamanya**: kalau kartu microSD rusak, gateway bisa dibangun ulang dari kartu kosong dalam sekitar satu jam dengan resep di bawah. Isi tabelnya dengan data gateway-mu sendiri.
++Gateway adalah Raspberry Pi yang menjalankan broker MQTT Rumah Pintar Mini 24 jam ([Modul 12](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-2-konektivitas/modul-12-raspberry-pi-dan-linux/README.md)), dan sejak [Modul 13](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-2-konektivitas/modul-13-node-red-dashboard/README.md) juga menjalankan Node-RED dengan dashboard dan otomasi kipas (otomasinya dimatikan sejak [Modul 16](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-3-backend-data/modul-16-backend-typescript-api-git/README.md) karena otaknya pindah ke backend); sejak [Modul 14](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-2-konektivitas/modul-14-node-2-esp-now/README.md), dashboard itu punya kartu Kebun untuk Node 2, dan sejak [Modul 15](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-2-konektivitas/modul-15-modbus-rs485-dan-protokol/README.md), grup Sensor RS-485 untuk sensor tanah RS-485 yang dibaca Node 1. Sejak [Modul 26](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-5-operasi-skala/modul-26-docker-compose/README.md), broker itu berjalan sebagai **kontainer Docker** ([`compose.edge.yml`](compose.edge.yml), proyek Compose `rumahpintar-gerbang`; di modul, Pi disebut **gerbang**), dengan akun, port, dan alamat yang sama, jadi firmware tidak berubah; broker gerbang meneruskan pesan perangkat ke broker **pusat** di laptop lewat jembatan (*bridge*). Sejak [Modul 27](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-5-operasi-skala/modul-27-deploy-internet-tls-pwa/README.md), jembatan itu **menahan pesan perangkat** selama pusat tak terjangkau dan mengirimnya belakangan dengan waktu aslinya (simpan-teruskan), dan pusatnya bisa pindah ke **VPS** di internet (jembatan lewat TLS, port 8883) atau ke Pi ini sendiri (jalur gratis). Halaman ini adalah **cadangan utamanya**: kalau kartu microSD rusak, gateway bisa dibangun ulang dari kartu kosong dalam sekitar satu jam dengan resep di bawah. Isi tabelnya dengan data gateway-mu sendiri.
+ 
+ > [!CAUTION]
+ > **Jangan pernah menulis kata sandi** (Pi, WiFi, atau apa pun) di berkas ini atau di mana pun di repositori.
+@@ -17,20 +17,21 @@ Gateway adalah Raspberry Pi yang menjalankan broker MQTT Rumah Pintar Mini 24 ja
+ | Alamat tetap | `192.168.1.37`, lewat kabel LAN (Cara A: pemesanan di router / Cara B: `nmcli`) |
+ | Docker | Docker Engine 29 dari repo apt Docker (panduan Debian) + plugin `docker compose` |
+ | Broker | Mosquitto 2.1.2 dalam kontainer (`eclipse-mosquitto:2.1.2-alpine`, [`compose.edge.yml`](compose.edge.yml) + [`gerbang.conf`](gerbang.conf)), sejak Modul 26; sebelumnya Mosquitto 2.0.21 dari paket Debian, layanan systemd `mosquitto`, [`gateway-pi.conf`](gateway-pi.conf) |
+-| Broker pusat (tujuan jembatan) | laptop `192.168.1.20`, loket 1883 (`ALAMAT_PUSAT` di `edge/.env`) |
++| Broker pusat (tujuan jembatan) | Modul 26: laptop `192.168.1.10`, loket 1883 (`ALAMAT_PUSAT` di `edge/.env`). Modul 27: VPS `mqtt.namaanda.my.id`, port 8883 TLS (nama di `edge/jembatan/pusat.conf`), atau Pi ini sendiri, loket 1884 (jalur gratis, `ALAMAT_PUSAT=host-gateway`) |
+ | Dibangun | (tanggal) |
+ 
+ ## Berkas di folder ini
+ 
+ | Berkas | Dipakai di | Isi |
+ | :--- | :--- | :--- |
+-| [`compose.edge.yml`](compose.edge.yml) | gerbang Pi (Modul 26) | layanan `mosquitto` (broker gerbang + jembatan); `cloudflared` (profil `terowongan`, Modul 27) dan `nodered` (profil `nodered`, opsional) hanya tertulis, tidak menyala |
+-| [`.env.example`](.env.example) | gerbang Pi (Modul 26) | contoh `edge/.env`: `COMPOSE_FILE=compose.edge.yml`, `ALAMAT_PUSAT` (IP laptop pusat), `PORT_GERBANG`. `edge/.env` **tidak ikut Git** |
+-| [`gerbang.conf`](gerbang.conf) | gerbang Pi (Modul 26) | pengaturan broker gerbang di dalam kontainer: akun, ACL, *persistence*, log ke layar kontainer, folder `jembatan/` |
+-| [`pusat.conf`](pusat.conf) | laptop (Modul 26) | pengaturan broker PUSAT di dalam kontainer (layanan `mosquitto` di `compose.cloud.yml` akar proyek) |
+-| [`jembatan.contoh.conf`](jembatan.contoh.conf) | gerbang Pi (Modul 26) | contoh jembatan gerbang → pusat (akun `jembatan-pi`, tanpa sandi); salinannya `jembatan/pusat.conf` berisi sandi dan **tidak ikut Git** |
++| [`compose.edge.yml`](compose.edge.yml) | gerbang Pi (Modul 26–27) | layanan `mosquitto` (broker gerbang + jembatan) dan `nodered` (profil `nodered`, opsional, hanya tertulis). `cloudflared` (Modul 27, jalur gratis) **pindah** ke `compose.cloud.yml` di akar proyek. Baris `extra_hosts` berkomentar untuk nama broker VPS: lihat [Jembatan ke internet](#jembatan-ke-internet-dan-tahan-putus-modul-27) |
++| [`.env.example`](.env.example) | gerbang Pi (Modul 26–27) | contoh `edge/.env`: `COMPOSE_FILE=compose.edge.yml`, `ALAMAT_PUSAT` (IP laptop pusat; `host-gateway` bila pusat di Pi ini; kosong bila pusat di VPS), `PORT_GERBANG`. `edge/.env` **tidak ikut Git** |
++| [`gerbang.conf`](gerbang.conf) | gerbang Pi (Modul 26–27) | pengaturan broker gerbang di dalam kontainer: akun, ACL, *persistence*, log ke layar kontainer, folder `jembatan/`; sejak Modul 27 juga empat baris simpan-teruskan (`autosave_interval 30`, `queue_qos0_messages true`, `max_queued_messages 100000`, `upgrade_outgoing_qos true`) |
++| [`pusat.conf`](pusat.conf) | laptop (Modul 26), Pi jalur gratis (Modul 27) | pengaturan broker PUSAT di dalam kontainer (layanan `mosquitto` di `compose.cloud.yml` akar proyek): pintu polos 1883 saja |
++| [`pusat-internet.conf`](pusat-internet.conf) | VPS (Modul 27) | isi `pusat.conf` + pintu TLS 8883 dengan salinan sertifikat Let's Encrypt (`certfile`/`keyfile`) dan `use_username_as_clientid true` sekali lagi (opsi itu berlaku per pintu). Dipilih dengan `KONF_PUSAT=pusat-internet.conf` di `.env` akar. Ubah keduanya bersamaan |
++| [`jembatan.contoh.conf`](jembatan.contoh.conf) | gerbang Pi (Modul 26–27) | contoh jembatan gerbang → pusat (akun `jembatan-pi`, tanpa sandi): blok JALUR UTAMA (nama VPS + 8883 + akar ISRG Root X1) aktif, blok JALUR RUMAH (`pusat:1883`/`pusat:1884` polos) berkomentar, setelan simpan-teruskan, topik sempit. Salinannya `jembatan/pusat.conf` berisi sandi dan **tidak ikut Git** |
+ | [`jembatan/`](jembatan/README.md) | gerbang Pi (Modul 26) | folder yang dibaca broker gerbang (`include_dir`); hanya `README.md`-nya yang ikut Git |
+-| [`acl-broker`](acl-broker) | broker gerbang dan pusat ([Modul 21](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-3-backend-data/modul-21-keamanan-perangkat-broker/README.md); blok `7) jembatan-pi` sejak Modul 26) | daftar izin broker (ACL): perangkat hanya menulis topiknya sendiri. Kedua kontainer membacanya langsung dari folder ini (hanya-baca) |
++| [`acl-broker`](acl-broker) | broker gerbang dan pusat ([Modul 21](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-3-backend-data/modul-21-keamanan-perangkat-broker/README.md); blok `7) jembatan-pi` sejak Modul 26, izin kabar jembatan `$SYS/broker/connection/jembatan-pi/state` sejak Modul 27) | daftar izin broker (ACL): perangkat hanya menulis topiknya sendiri. Kedua kontainer membacanya langsung dari folder ini (hanya-baca) |
+ | `sandi-broker` | broker gerbang dan pusat (Modul 21) | berkas sandi akun broker. Sejak Modul 26 tinggal di **lemari** (*volume*) masing-masing broker (`/mosquitto/data/sandi-broker` di dalam kontainer), dibuat dengan `mosquitto_passwd` di dalam kontainer; tidak pernah ikut Git |
+ | [`gateway-pi.conf`](gateway-pi.conf) | gateway Pi **tanpa Docker** (sebelum Modul 26; Modul 12, dikunci Modul 21) | di Pi: `/etc/mosquitto/conf.d/gateway-pi.conf`; disimpan untuk Pi yang belum pindah dan untuk jalan mundur |
+ | [`mosquitto-lan.conf`](mosquitto-lan.conf) | laptop **tanpa Docker** (sebelum Modul 26; [Modul 11](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-2-konektivitas/modul-11-mqtt-dan-kontrak-data/README.md), dikunci Modul 21) | `mosquitto -v -c mosquitto-lan.conf` di terminal; sejak Modul 26 diganti broker pusat Compose |
+@@ -49,7 +50,7 @@ Gateway adalah Raspberry Pi yang menjalankan broker MQTT Rumah Pintar Mini 24 ja
+ 
+    lalu jalankan `sudo nmcli connection up "netplan-eth0"`. Kalau nama sambungan `eth0` di `nmcli device status` berbeda, pakai nama itu. Terminal SSH yang lewat kabel bisa membeku saat alamatnya berpindah; tutup jendelanya, lalu masuk lagi dengan `ssh budi@192.168.1.37`.
+ 5. **Pasang Docker Engine** dari repo apt Docker, mengikuti halaman resmi **Debian** (<https://docs.docker.com/engine/install/debian/>, bagian *Install using the apt repository*): Raspberry Pi OS 64-bit adalah Debian, sedangkan halaman "Raspberry Pi OS" di situs Docker hanya untuk 32-bit (`dpkg --print-architecture` harus menjawab `arm64`). Halaman itu meminta mencopot paket bawaan yang bentrok dulu (`docker.io docker-compose docker-doc docker-buildx podman-docker containerd runc`), memasang kunci dan sumber repo Docker, lalu `sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin`. Skrip `get.docker.com` tidak kita pakai (dokumen resminya: tidak dianjurkan untuk mesin yang dipakai sungguhan). Sesudah terpasang: `sudo usermod -aG docker $USER`, keluar dari SSH lalu masuk lagi, dan periksa `docker version` serta `docker compose version`. Grup `docker` setara **root**: hanya untuk pengguna Pi sendiri. Docker menyala sendiri setiap Pi dinyalakan.
+-6. **Ambil proyek dan siapkan setelan**: `sudo apt install git` (kalau belum ada), `git clone https://github.com/nama-akunmu/rumah-pintar-mini.git` (repo-mu), lalu `cd rumah-pintar-mini/edge`. Salin `.env.example` menjadi `.env` (`cp .env.example .env`), isi `ALAMAT_PUSAT` dengan IP laptop yang menjalankan `compose.cloud.yml` (pesan alamat tetap di router), lalu `chmod 600 .env`. Salin contoh jembatan: `cp jembatan.contoh.conf jembatan/pusat.conf`, ganti `ganti-dengan-sandi-akun-jembatan-pi` dengan sandi akun `jembatan-pi` (akun itu dibuat di broker **pusat**, lihat Mengunci broker), lalu `chmod 600 jembatan/pusat.conf`.
++6. **Ambil proyek dan siapkan setelan**: `sudo apt install git` (kalau belum ada), `git clone https://github.com/nama-akunmu/rumah-pintar-mini.git` (repo-mu), lalu `cd rumah-pintar-mini/edge`. Salin `.env.example` menjadi `.env` (`cp .env.example .env`), isi `ALAMAT_PUSAT` dengan IP laptop yang menjalankan `compose.cloud.yml` (pesan alamat tetap di router; Modul 27: `host-gateway` bila pusat di Pi ini, kosong bila pusat di VPS), lalu `chmod 600 .env`. Salin contoh jembatan: `cp jembatan.contoh.conf jembatan/pusat.conf`, ganti `ganti-dengan-sandi-akun-jembatan-pi` dengan sandi akun `jembatan-pi` (akun itu dibuat di broker **pusat**, lihat Mengunci broker), pilih blok alamatnya (JALUR UTAMA: ganti `mqtt.namaanda.my.id` dengan nama broker VPS-mu; JALUR RUMAH: ikuti petunjuk di berkasnya), lalu `chmod 600 jembatan/pusat.conf`.
+ 7. **Berkas sandi broker ke lemari gerbang.** Pi lama yang pindah dari Mosquitto apt: salin berkas sandinya (format Mosquitto 2.0 terbaca Mosquitto 2.1.2 apa adanya), lalu matikan broker lama supaya loket 1883 bebas:
+ 
+    ```bash
+@@ -79,7 +80,7 @@ Sejak Modul 26, pengaturan broker gerbang ada di repo yang di-*clone* di Pi: uba
+ 
+ ## Mengunci broker (Modul 21)
+ 
+-Sampai Modul 20, broker menerima siapa saja tanpa kata sandi (`allow_anonymous true`). [Modul 21](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-3-backend-data/modul-21-keamanan-perangkat-broker/README.md) menguncinya: setiap program (perangkat, backend, Node-RED, pemantau) masuk dengan akunnya sendiri, dan daftar izin (ACL) membatasi topik yang boleh ditulis atau dibaca tiap akun. `gerbang.conf`, `pusat.conf`, `gateway-pi.conf`, dan `mosquitto-lan.conf` semuanya berisi `allow_anonymous false`, `password_file`, `acl_file`, dan `use_username_as_clientid true`.
++Sampai Modul 20, broker menerima siapa saja tanpa kata sandi (`allow_anonymous true`). [Modul 21](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-3-backend-data/modul-21-keamanan-perangkat-broker/README.md) menguncinya: setiap program (perangkat, backend, Node-RED, pemantau) masuk dengan akunnya sendiri, dan daftar izin (ACL) membatasi topik yang boleh ditulis atau dibaca tiap akun. `gerbang.conf`, `pusat.conf`, `pusat-internet.conf`, `gateway-pi.conf`, dan `mosquitto-lan.conf` semuanya berisi `allow_anonymous false`, `password_file`, `acl_file`, dan `use_username_as_clientid true`. Tiga yang pertama berlaku untuk semua pintu broker; `use_username_as_clientid` hanya untuk pintu (`listener`) yang ditulis di atasnya, jadi `pusat-internet.conf` menulisnya dua kali: di bawah `listener 1883` dan di bawah `listener 8883`. Tanpa baris kedua, akun mana pun bisa masuk lewat 8883 dengan nama klien `backend` atau `jembatan-pi` dan menendang klien aslinya (`session taken over`).
+ 
+ **Sejak Modul 26 (broker dalam kontainer)**, perintahnya diketik dari folder proyek Compose-nya: folder `edge` di Pi untuk broker gerbang, akar proyek di laptop untuk broker pusat. Berkas sandi tinggal di lemari broker itu, jadi `mosquitto_passwd` dijalankan **di dalam kontainer**, sebagai pengguna `mosquitto` (pemilik berkas; tanpa `-u mosquitto`, `mosquitto_passwd` memperingatkan `owner is not root`):
+ 
+@@ -129,7 +130,34 @@ Sandi diketik dua kali (tidak tampil). Mencabut akun: `docker compose exec -u mo
+ 
+ - **Kebun tiruan, jalur tanpa Node 2 ([Modul 25](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-4-frontend-dashboard/modul-25-grafana-peta-laporan/README.md)).** Simulator `alat/simulator-perangkat.js` bisa menjalankan Node 2 palsu `f00d000000b2` yang datanya diterbitkan perangkat palsu `f00d00000001`. Supaya broker mengizinkannya, buka blok `2b) Jalur laptop (Modul 25)` di `acl-broker`: hapus `# ` (pagar dan spasinya) di depan tiga baris `user f00d00000001`, `topic write rpm/f00d000000b2/telemetry`, dan `topic write rpm/f00d000000b2/status`, simpan, lalu **restart** broker. Broker pusat Compose (Modul 26, jalur laptop): `docker compose restart mosquitto` dari akar proyek. Sebelum Modul 26: broker laptop (`mosquitto -v -c mosquitto-lan.conf`) **Ctrl + C** lalu jalankan lagi perintah yang sama; broker di Pi: salin `acl-broker` ke Pi seperti di atas, `sudo cp ~/acl-broker /etc/mosquitto/`, lalu `sudo systemctl restart mosquitto`. Pembaca dengan Node 2 sungguhan tidak perlu blok ini (biarkan tetap berkomentar). Cara memakai Kebun tiruan ada di `alat/README.md`.
+ 
+-Lalu lintasnya masih tanpa enkripsi: kunci terkirim polos di LAN (lihat `alat/penyadap.js`), begitu juga jembatan gerbang → pusat (Modul 26). Itu belum masalah di jaringan rumah tertutup, tetapi wajib TLS sebelum broker dibuka ke internet (Modul 27) — jangan membuat *port forwarding* ke Pi atau ke laptop. Jembatan Modul 26 juga belum menahan pesan saat broker pusat mati (laptop tidur = telemetry selama itu hilang); antrean dan TLS jembatan menyusul di Modul 27.
++Di jaringan rumah lalu lintasnya masih tanpa enkripsi: kunci perangkat terkirim polos di LAN (lihat `alat/penyadap.js`), begitu juga jembatan RUMAH gerbang → pusat (laptop atau Pi jalur gratis). Itu belum masalah di jaringan rumah tertutup; yang keluar rumah sejak Modul 27 hanya jembatan TLS ke VPS (port 8883). Jangan pernah membuat *port forwarding* ke Pi atau ke laptop. Penahanan pesan saat pusat tak terjangkau: bagian berikut.
++
++## Jembatan ke internet dan tahan putus (Modul 27)
++
++Sejak [Modul 27](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-5-operasi-skala/modul-27-deploy-internet-tls-pwa/README.md), jembatan gerbang → pusat bekerja **simpan-teruskan**: selama pusat tak terjangkau (internet rumah putus, VPS dimulai ulang, laptop pusat tidur), pesan perangkat yang menuju pusat ditahan di antrean broker gerbang, lalu dikirim begitu jembatan tersambung lagi, dengan `ts` aslinya. Backend pusat menyimpannya pada waktu kejadian, dan kiriman yang ternyata dobel ditolak database (`kiriman ganda dilewati` di log backend). Setelannya ada di dua berkas:
++
++| Berkas | Setelan | Gunanya |
++| :--- | :--- | :--- |
++| `gerbang.conf` (seluruh broker gerbang) | `autosave_interval 30` | antrean ikut tersimpan ke lemari setiap 30 detik (bawaan 30 menit): listrik padam se-rumah tidak menghapus antrean yang lebih tua |
++| | `queue_qos0_messages true` | pesan QoS 0 (cara firmware menerbitkan) ikut diantre, bukan dibuang |
++| | `max_queued_messages 100000` | antrean cukup untuk berhari-hari (bawaan 1000 ≈ 1,5 jam untuk dua perangkat) |
++| | `upgrade_outgoing_qos true` | pesan diteruskan ke jembatan sebagai QoS 1: yang terkirim di "jendela buta" (internet sudah putus, gerbang belum sadar, sampai ±2 menit) dikirim ulang, bukan hilang |
++| `jembatan/pusat.conf` | `cleansession true` + `local_cleansession false` | naik disimpan di Pi, turun tidak disimpan: perintah dari dashboard yang dikirim saat jembatan putus TIDAK dijalankan belakangan (dashboard sudah melaporkannya gagal) |
++| | `notifications true` | kabar jembatan `$SYS/broker/connection/jembatan-pi/state` di pusat: `1` tersambung, `0` putus (butuh baris izin di `acl-broker` blok 7) |
++| | `topic rpm/+/telemetry out 1` … `topic rpm/+/cmd in 1` | hanya topik perangkat yang keluar rumah; perintah turun ke perangkat |
++
++**Resep jembatan TLS ke VPS (jalur utama).** Di VPS (akar proyek): buat akun `jembatan-pi` (`docker compose exec -u mosquitto mosquitto mosquitto_passwd /mosquitto/data/sandi-broker jembatan-pi`, lalu `docker compose restart mosquitto`). Di Pi (folder `edge`): `git pull`; di `jembatan/pusat.conf` pakai blok JALUR UTAMA (`address mqtt.namaanda.my.id:8883` dan `bridge_cafile /etc/ssl/certs/ca-cert-ISRG_Root_X1.pem`, berkas akar yang sudah ada di image Mosquitto) dan sandi `jembatan-pi` VPS; `ALAMAT_PUSAT` di `edge/.env` boleh kosong; lalu `docker compose up -d --force-recreate mosquitto`. Tanda berhasil: log gerbang `Connecting bridge pusat (mqtt.namaanda.my.id:8883)`; log broker VPS `New bridge connected from <IP rumah>:<port> as jembatan-pi (p4, c1, k60, u'jembatan-pi').` disusul `Client jembatan-pi negotiated TLSv1.3 cipher …`. Tulis **nama**, bukan IP: sertifikat VPS hanya berlaku untuk nama itu (`certificate verify failed`). Jangan `bridge_insecure`. Pintu 8883 juga memaksa nama klien = nama akun: klien uji yang masuk dengan akun `pemeriksa` dan nama klien `backend` (`mosquitto_sub … -i backend -u pemeriksa …`) tercatat `New client connected … as pemeriksa`; bila tercatat `as backend`, baris `use_username_as_clientid true` di bawah `listener 8883` hilang.
++
++**Resep jalur gratis (semua di Pi + Cloudflare Tunnel).** Pusat `compose.cloud.yml` menyala di Pi yang sama dengan `PORT_MQTT=1884` dan `ALAMAT_MQTT=172.17.0.1` di `.env` akar (broker gerbang tetap 1883 untuk Node 1, firmware tidak berubah). `172.17.0.1` = alamat Pi di lorong bawaan Docker, tujuan `host-gateway` (cek dengan `ip -4 addr show docker0`; bila berbeda, tulis alamat itu): pintu polos 1884 hanya terjangkau jembatan di Pi ini, tidak dari WiFi rumah. Di sini: `ALAMAT_PUSAT=host-gateway` di `edge/.env` dan blok JALUR RUMAH di `jembatan/pusat.conf` dengan `address pusat:1884` (polos: tidak keluar rumah). Broker MQTT tidak lewat terowongan Cloudflare.
++
++**Melihat antrean.** Dengan akun `pemantau` (boleh membaca `$SYS`), di Pi: `docker compose exec mosquitto mosquitto_sub -u pemantau -P <sandi> -t '$SYS/broker/store/messages/count' -C 1` (naik selama putus, turun lagi sesudah tersambung), dan di pusat: `-t '$SYS/broker/connection/jembatan-pi/state' -C 1`.
++
++**Batas jujur (lab penulis, internet dan VPS tiruan):**
++- Saat internet putus, gerbang baru sadar sesudah ±2 menit (*keepalive* 60 detik); pusat ±1,5 menit. Pesan selama itu tetap selamat berkat `upgrade_outgoing_qos`.
++- Selama putus, setiap percobaan jembatan menanyakan nama VPS ke DNS; di lab, broker gerbang tertahan ±5 detik per percobaan dan pesan lokal ikut terlambat sampai ±4 detik (perangkat tidak terputus). Baris `extra_hosts` berkomentar di `compose.edge.yml` (nama broker + IP VPS) menghilangkan tunggu itu, dengan harga: IP VPS terpaku di berkas.
++- Dashboard di VPS tetap menampilkan perangkat **Online** (dengan angka yang membeku) selama internet rumah putus: status itu milik broker gerbang. Aturan otomatis di server diam sampai tersambung lagi; pengaman lokal Node 1 tidak menyala karena broker Pi tetap terjangkau (siram lokal tetap jalan).
++- Pesan perangkat yang terkirim saat **WiFi rumah** (bukan internet) mati tidak sampai ke gerbang, jadi tidak ikut diantre.
++- `docker compose down -v` di folder `edge` menghapus antrean yang belum terkirim bersama berkas sandi.
+ 
+ ## Node-RED dan dashboard (Modul 13)
+ 
+diff --git a/edge/acl-broker b/edge/acl-broker
+index a36553b..30299df 100644
+--- a/edge/acl-broker
++++ b/edge/acl-broker
+@@ -5,7 +5,8 @@
+ # mosquitto (dari akar proyek untuk broker pusat, dari folder edge di Pi untuk broker gerbang).
+ 
+ # 1) Setiap perangkat hanya boleh "bicara" di topiknya sendiri. Baris pattern berlaku untuk SEMUA akun;
+-#    %u diganti nama pengguna yang sudah terbukti dengan sandi, yaitu device_id perangkat itu.
++#    %u diganti nama pengguna yang sudah terbukti dengan sandi, yaitu device_id perangkat itu. Modul 27: perangkat di lokasi
++#    lain yang langsung ke broker VPS (pintu 8883) memakai aturan yang sama; cukup akunnya dibuat di broker VPS.
+ pattern write rpm/%u/telemetry
+ pattern write rpm/%u/status
+ pattern write rpm/%u/vitals
+@@ -47,9 +48,12 @@ topic read $SYS/#
+ # 7) Jembatan gerbang Pi (Modul 26): berlaku di broker PUSAT (compose.cloud.yml), tempat jembatan masuk dengan akun ini.
+ #    Jembatan meneruskan pesan semua perangkat ke pusat dan mengambil perintah untuk mereka. Pemeriksaan per perangkat
+ #    (butir 1 dan 2) sudah dilakukan broker gerbang di Pi, yang memakai berkas yang sama tetapi tidak punya akun jembatan-pi.
++#    Modul 27: baris terakhir = kabar jembatan (notifications true di jembatan/pusat.conf): 1 = tersambung, 0 = putus,
++#    pesan retained di topik $SYS ini. Tanda # di baris lain tidak mencakup topik berawalan $SYS, jadi izinnya ditulis sendiri.
+ user jembatan-pi
+ topic write rpm/+/telemetry
+ topic write rpm/+/status
+ topic write rpm/+/vitals
+ topic write rpm/+/ack
+ topic read rpm/+/cmd
++topic write $SYS/broker/connection/jembatan-pi/state
+diff --git a/edge/compose.edge.yml b/edge/compose.edge.yml
+index b37ec65..f1962a7 100644
+--- a/edge/compose.edge.yml
++++ b/edge/compose.edge.yml
+@@ -1,10 +1,13 @@
+-# compose.edge.yml - layanan GERBANG Rumah Pintar Mini di Raspberry Pi (Modul 26), pasangan compose.cloud.yml di laptop.
++# compose.edge.yml - layanan GERBANG Rumah Pintar Mini di Raspberry Pi (Modul 26-27), pasangan compose.cloud.yml di pusat
++# (laptop di Modul 26; VPS atau Pi yang sama di Modul 27).
+ # Jalankan di Pi, dari folder edge:  docker compose up -d
+ #   Baris COMPOSE_FILE=compose.edge.yml di edge/.env membuat -f tidak perlu (contohnya edge/.env.example).
+-# Broker Mosquitto gerbang (menggantikan paket apt Modul 12) + jembatan ke broker pusat di laptop (jembatan/pusat.conf).
+-# cloudflared (Modul 27) dan Node-RED (opsional) hanya menyala kalau profilnya disebut, misalnya:
+-#   docker compose --profile nodered up -d
+-# Di Modul 26 keduanya TIDAK dinyalakan. JANGAN "docker compose down -v": -v menghapus lemari berisi berkas sandi broker.
++# Broker Mosquitto gerbang (menggantikan paket apt Modul 12) + jembatan ke broker pusat (jembatan/pusat.conf). Sejak Modul 27
++# jembatan itu menahan pesan perangkat selama pusat tak terjangkau (gerbang.conf) dan bisa menyambung lewat TLS ke VPS.
++# Node-RED (opsional) hanya menyala kalau profilnya disebut: docker compose --profile nodered up -d
++# Modul 27: cloudflared (terowongan Cloudflare, jalur gratis) PINDAH ke compose.cloud.yml (profil "terowongan"), karena harus
++# satu lorong dengan layanan web. JANGAN "docker compose down -v": -v menghapus lemari berisi berkas sandi broker DAN antrean
++# pesan yang belum terkirim ke pusat.
+ name: rumahpintar-gerbang
+ 
+ # Log setiap kontainer dibatasi 3 berkas x 10 MB. Bawaan Docker TANPA batas: kartu microSD Pi bisa penuh pelan-pelan.
+@@ -25,7 +28,7 @@ services:
+       - ./acl-broker:/mosquitto/config/acl-broker:ro
+       # folder jembatan: berisi pusat.conf (sandi jembatan, tidak ikut Git)
+       - ./jembatan:/mosquitto/config/jembatan:ro
+-      # berkas sandi (dipindah dari /etc/mosquitto/sandi-broker), pesan retained, dan sesi
++      # berkas sandi (dipindah dari /etc/mosquitto/sandi-broker), pesan retained, sesi, dan (Modul 27) antrean jembatan
+       - data-broker:/mosquitto/data
+     # Image Mosquitto menyiapkan folder log sebagai lemari, padahal log kita tampil di layar (docker compose logs).
+     # tmpfs = folder sementara di RAM: tanpa ini Docker membuat lemari tanpa nama setiap kontainer ini dibuat baru.
+@@ -35,23 +38,20 @@ services:
+       # semua antarmuka: perangkat masuk dari WiFi rumah. Firmware memakai 1883, jadi di Pi angka ini jangan diganti.
+       - "${PORT_GERBANG:-1883}:1883"
+     extra_hosts:
+-      # nama "pusat" di jembatan/pusat.conf diarahkan ke IP laptop yang menjalankan compose.cloud.yml (ALAMAT_PUSAT di
+-      # edge/.env). Gerbang dicoba di laptop yang sama (jalur laptop): ALAMAT_PUSAT=host-gateway (= mesin ini sendiri).
+-      - "pusat:${ALAMAT_PUSAT:?isi ALAMAT_PUSAT di edge/.env (IP laptop pusat)}"
++      # nama "pusat" di jembatan/pusat.conf (jembatan RUMAH, polos) diarahkan ke ALAMAT_PUSAT di edge/.env: IP laptop yang
++      # menjalankan compose.cloud.yml (Modul 26), atau host-gateway (= mesin ini sendiri) bila pusat dan gerbang di mesin
++      # yang sama (jalur laptop Modul 26, Pi jalur gratis Modul 27). Jembatan ke VPS (jalur utama Modul 27) memakai nama
++      # domain langsung, jadi baris ini tidak terpakai di sana: ALAMAT_PUSAT boleh kosong (= host-gateway).
++      - "pusat:${ALAMAT_PUSAT:-host-gateway}"
++      # Modul 27, OPSIONAL (jalur utama): selama internet rumah putus, setiap percobaan jembatan menanyakan nama broker VPS ke
++      # DNS, dan broker gerbang tertahan sampai ±5 detik menunggu jawabannya (pesan lokal ikut terlambat; perangkat tidak
++      # putus). Nama yang ditulis tetap di sini tidak ditanyakan ke DNS: hapus # di depan baris berikut dan isi nama broker +
++      # IP VPS-mu. Harganya: kalau IP VPS berganti, baris ini wajib diubah juga (jembatan tidak tersambung sampai diubah).
++      # - "mqtt.namaanda.my.id:203.0.113.10"
+     restart: unless-stopped
+     logging: *log
+ 
+-  # Terowongan Cloudflare (Modul 27, jalur gratis): butuh TUNNEL_TOKEN di edge/.env. Profil "terowongan" = tidak menyala
+-  # sampai dipanggil: docker compose --profile terowongan up -d
+-  cloudflared:
+-    image: cloudflare/cloudflared:2026.10.5
+-    profiles: ["terowongan"]
+-    # program awal image sudah "cloudflared --no-autoupdate"; ini lanjutannya
+-    command: ["tunnel", "run"]
+-    environment:
+-      TUNNEL_TOKEN: ${TUNNEL_TOKEN:-}
+-    restart: unless-stopped
+-    logging: *log
++  # Modul 27: layanan cloudflared (profil "terowongan") yang tertulis di sini pada Modul 26 kini ada di compose.cloud.yml.
+ 
+   # Node-RED dalam kontainer (opsional). Modul 26 tetap memakai Node-RED systemd dari Modul 13. Sebelum profil ini dipakai,
+   # matikan layanan nodered systemd (loket 1880 bentrok), pindahkan flow dan kredensialnya, lalu ganti alamat broker di flow
+diff --git a/edge/gerbang.conf b/edge/gerbang.conf
+index 93e0546..1173cba 100644
+--- a/edge/gerbang.conf
++++ b/edge/gerbang.conf
+@@ -1,4 +1,4 @@
+-# gerbang.conf - broker GERBANG Rumah Pintar Mini di Raspberry Pi, di dalam kontainer (Modul 26, edge/compose.edge.yml).
++# gerbang.conf - broker GERBANG Rumah Pintar Mini di Raspberry Pi, di dalam kontainer (Modul 26-27, edge/compose.edge.yml).
+ # Menggantikan paket Mosquitto apt + /etc/mosquitto/conf.d/gateway-pi.conf (Modul 12 dan 21). Perangkat tetap menyambung ke
+ # IP Pi port 1883 dengan akun lamanya, jadi firmware tidak berubah. Jalur di bawah = jalur DI DALAM kontainer.
+ # Sesudah mengubah berkas ini, acl-broker, atau jembatan/pusat.conf: docker compose restart mosquitto (restart, bukan reload).
+@@ -13,6 +13,19 @@ use_username_as_clientid true
+ # pesan retained dan sesi disimpan di lemari (sama dengan Mosquitto apt di Pi yang menyimpannya saat dimatikan)
+ persistence true
+ persistence_location /mosquitto/data/
++# Modul 27 (simpan-teruskan): saat jembatan ke pusat putus (internet rumah mati), pesan perangkat untuk jembatan DITAHAN di
++# antrean gerbang, lalu dikirim belakangan dengan ts aslinya. Empat baris berikut berlaku untuk seluruh broker gerbang.
++# Isi antrean ditulis ke lemari setiap 30 detik (bawaan 1800 = 30 menit): listrik padam se-rumah tidak menghapus antrean
++# yang lebih tua dari 30 detik. Harganya: satu kali tulis kartu microSD dan satu baris log setiap 30 detik.
++autosave_interval 30
++# firmware menerbitkan pesan dengan QoS 0; tanpa baris ini pesan QoS 0 untuk jembatan yang putus dibuang, tidak diantre
++queue_qos0_messages true
++# batas antrean per klien (jembatan = satu klien). Bawaan 1000 = sekitar 1,5 jam untuk dua perangkat; 100000 = berhari-hari
++max_queued_messages 100000
++# pesan QoS 0 diteruskan ke jembatan sebagai QoS 1 (dijawab pusat, dikirim ulang bila tak dijawab). Tanpa ini, pesan yang
++# terkirim di "jendela buta" (internet sudah putus, gerbang belum sadar, bisa sampai 2 menit) hilang. Opsi tidak baku
++# Mosquitto, berlaku untuk semua pelanggan broker ini.
++upgrade_outgoing_qos true
+ # log ke layar kontainer: dibaca dengan docker compose logs mosquitto (dibatasi 3 x 10 MB oleh compose.edge.yml)
+ log_dest stdout
+ log_type error
+diff --git a/edge/jembatan.contoh.conf b/edge/jembatan.contoh.conf
+index 2780cad..a75b359 100644
+--- a/edge/jembatan.contoh.conf
++++ b/edge/jembatan.contoh.conf
+@@ -1,17 +1,42 @@
+-# jembatan.contoh.conf - CONTOH jembatan (bridge) dari broker gerbang Pi ke broker pusat di laptop (Modul 26).
+-# Salin menjadi edge/jembatan/pusat.conf (cp jembatan.contoh.conf jembatan/pusat.conf), lalu ganti sandinya. Salinan itu
+-# berisi sandi, jadi tidak ikut Git. Jembatan pertama ini masih polos (belum TLS) dan belum menahan pesan saat pusat mati:
+-# keduanya Modul 27.
++# jembatan.contoh.conf - CONTOH jembatan (bridge) dari broker gerbang Pi ke broker pusat (Modul 26-27).
++# Salin menjadi edge/jembatan/pusat.conf (cp jembatan.contoh.conf jembatan/pusat.conf), lalu ganti nama domain dan sandinya.
++# Salinan itu berisi sandi, jadi tidak ikut Git. Sesudah mengubahnya: docker compose restart mosquitto (dari folder edge).
++# Catatan Mosquitto: tanda # hanya boleh di AWAL baris (catatan di belakang setelan ikut terbaca sebagai isi setelan).
+ connection pusat
+-# "pusat" = nama yang diarahkan compose.edge.yml ke ALAMAT_PUSAT di edge/.env (IP laptop yang menjalankan compose.cloud.yml).
+-# Biarkan tertulis "pusat"; yang diganti alamat di edge/.env. 1883 = loket PORT_MQTT broker pusat.
+-address pusat:1883
++
++# --- Ke mana jembatan menyambung: pilih SATU dari dua blok ---
++# JALUR UTAMA (Modul 27, pusat di VPS): nama broker di internet + pintu TLS 8883. Tulis NAMA, bukan alamat IP: nama inilah
++# yang tertulis di sertifikat, jadi IP atau nama lain ditolak pemeriksaan sertifikat (certificate verify failed).
++address mqtt.namaanda.my.id:8883
++# akar CA yang dipercaya untuk sertifikat broker VPS: ISRG Root X1, akar Let's Encrypt. Berkasnya sudah ada di dalam image
++# Mosquitto (bukan unduhan). Jangan bridge_insecure: tanpa pemeriksaan, siapa pun yang menyamar sebagai VPS diterima.
++bridge_cafile /etc/ssl/certs/ca-cert-ISRG_Root_X1.pem
++# JALUR RUMAH (Modul 26: pusat di laptop; Modul 27 jalur gratis: pusat di Pi yang sama, PORT_MQTT 1884): polos tanpa TLS,
++# karena tidak keluar dari jaringan rumah. Beri # di depan dua baris JALUR UTAMA di atas, lalu hapus # di depan baris ini.
++# "pusat" = nama yang diarahkan compose.edge.yml ke ALAMAT_PUSAT di edge/.env; angkanya = loket PORT_MQTT broker pusat
++# (laptop 1883, Pi jalur gratis 1884).
++# address pusat:1883
++
++# --- Akun di broker PUSAT ---
+ # nama klien jembatan dibuat tetap. Bawaannya memuat nama kontainer, yang berganti setiap kontainer dibuat ulang.
+ remote_clientid jembatan-pi
+ # akun jembatan-pi di broker PUSAT (dibuat dengan mosquitto_passwd di kontainer pusat; izinnya blok 7 di acl-broker)
+ remote_username jembatan-pi
+ remote_password ganti-dengan-sandi-akun-jembatan-pi
+-# pesan perangkat naik ke pusat (out), perintah dari backend turun ke perangkat (in), QoS 1
++
++# --- Simpan-teruskan (Modul 27; pasangannya empat baris di gerbang.conf) ---
++# Sesi di PUSAT bersih: perintah (cmd) yang dikirim saat jembatan putus TIDAK disimpan pusat untuk dikirim belakangan
++# (dashboard sudah melaporkannya gagal; lampu yang tiba-tiba menyala menit kemudian berbahaya). Sesi di GERBANG tetap:
++# pesan perangkat untuk pusat ditahan di antrean gerbang selama jembatan putus, lalu dikirim saat tersambung lagi.
++# Ringkasnya: naik disimpan di Pi, turun tidak disimpan.
++cleansession true
++local_cleansession false
++# kabar jembatan untuk pusat: 1 = tersambung, 0 = putus (topik $SYS/broker/connection/jembatan-pi/state, butuh izin di
++# acl-broker blok 7)
++notifications true
++
++# --- Topik: pesan perangkat naik ke pusat (out), perintah dari backend turun ke perangkat (in), QoS 1 ---
++# Hanya yang perlu, bukan "topic # out 1": pesan lain di broker gerbang (misalnya Node-RED) tetap di rumah.
+ topic rpm/+/telemetry out 1
+ topic rpm/+/status out 1
+ topic rpm/+/vitals out 1
+diff --git a/edge/pusat-internet.conf b/edge/pusat-internet.conf
+new file mode 100644
+index 0000000..b63c942
+--- /dev/null
++++ b/edge/pusat-internet.conf
+@@ -0,0 +1,40 @@
++# pusat-internet.conf - broker PUSAT Rumah Pintar Mini di VPS (Modul 27, jalur utama), dipilih dengan KONF_PUSAT=
++# pusat-internet.conf di .env (layanan mosquitto di compose.cloud.yml). Isinya SAMA dengan pusat.conf (ubah keduanya bersamaan),
++# ditambah satu pintu lagi di bawah: 8883, MQTT terenkripsi TLS, untuk jembatan Pi dan perangkat dari internet. Pintu polos
++# 1883 tetap ada untuk backend di lorong Compose, tetapi loketnya di VPS hanya 127.0.0.1 (ALAMAT_MQTT), tidak ke internet.
++# Jalur di bawah = jalur DI DALAM kontainer.
++# Sesudah mengubah berkas ini atau acl-broker: docker compose restart mosquitto (restart, bukan reload).
++listener 1883
++# tanpa nama pengguna dan sandi yang terdaftar, tidak boleh masuk (Modul 21)
++allow_anonymous false
++# berkas sandi tinggal di lemari data-broker (dibuat mosquitto_passwd DI DALAM kontainer; image menyerahkannya ke pengguna
++# mosquitto setiap kali menyala, jadi tanpa urusan pemilik berkas di laptop)
++password_file /mosquitto/data/sandi-broker
++acl_file /mosquitto/config/acl-broker
++# nama klien selalu = nama pengguna: tidak ada yang bisa menyamar atau menendang klien lain. Opsi ini berlaku PER PINTU
++# (hanya untuk listener di atasnya), jadi pintu 8883 di bawah menulisnya lagi.
++use_username_as_clientid true
++# pesan retained (status perangkat, config dari backend) dan sesi disimpan di lemari: tidak hilang saat kontainer dibuat ulang
++persistence true
++persistence_location /mosquitto/data/
++# log ke layar kontainer: dibaca dengan docker compose logs mosquitto (dibatasi 3 x 10 MB oleh compose.cloud.yml)
++log_dest stdout
++log_type error
++log_type warning
++log_type notice
++log_type information
++# hapus # di depan baris berikut untuk melihat juga pesan yang DITOLAK daftar izin (Denied PUBLISH, Modul 21);
++# akibatnya log jauh lebih ramai
++# log_type debug
++# Modul 27: pintu TLS untuk tamu dari internet. Sertifikatnya SALINAN sertifikat Let's Encrypt yang diminta Caddy untuk
++# DOMAIN_MQTT (layanan sertifikat-mqtt menyalinnya ke lemari data-sertifikat sebagai milik pengguna mosquitto). certfile
++# berisi sertifikat nama broker + sertifikat penerbit antaranya (rantai); keyfile = kuncinya. Tanpa berkas ini, broker
++# berhenti saat menyala (Unable to load server certificate). Versi TLS paling rendah = bawaan Mosquitto 2.x, yaitu TLS 1.2.
++# Aturan akun, sandi, dan daftar izin di atas berlaku juga untuk pintu ini; use_username_as_clientid TIDAK ikut, jadi
++# ditulis lagi tepat di bawah listener 8883. Tanpa baris itu, akun broker MANA PUN (misalnya akun uji pemeriksa di MQTTX
++# HP) bisa masuk lewat internet dengan nama klien "backend" atau "jembatan-pi": klien aslinya ditendang (log "session
++# taken over") dan antrean pesan yang ditahan broker untuk backend ikut terhapus.
++listener 8883
++use_username_as_clientid true
++certfile /mosquitto/sertifikat/broker.crt
++keyfile /mosquitto/sertifikat/broker.key
+diff --git a/edge/pusat.conf b/edge/pusat.conf
+index 56dc6e1..4c47e6a 100644
+--- a/edge/pusat.conf
++++ b/edge/pusat.conf
+@@ -1,6 +1,8 @@
+ # pusat.conf - broker PUSAT Rumah Pintar Mini di dalam kontainer (Modul 26, layanan mosquitto di compose.cloud.yml).
+-# Menyala di laptop (Modul 26) dan kelak di VPS (Modul 27). Backend masuk lewat nama layanan mosquitto:1883; gerbang Pi masuk
+-# lewat jembatan dengan akun jembatan-pi; simulator alat/ lewat loket 1883 laptop. Jalur di bawah = jalur DI DALAM kontainer.
++# Dipakai di laptop (Modul 26) dan di Pi jalur gratis (Modul 27): satu pintu polos 1883 untuk jaringan rumah. Di VPS
++# (Modul 27) dipakai pusat-internet.conf: isinya sama + pintu TLS 8883 (KONF_PUSAT di .env memilih salah satunya).
++# Backend masuk lewat nama layanan mosquitto:1883; gerbang Pi masuk lewat jembatan dengan akun jembatan-pi; simulator alat/
++# lewat loket 1883. Jalur di bawah = jalur DI DALAM kontainer.
+ # Sesudah mengubah berkas ini atau acl-broker: docker compose restart mosquitto (restart, bukan reload).
+ listener 1883
+ # tanpa nama pengguna dan sandi yang terdaftar, tidak boleh masuk (Modul 21)
+@@ -9,7 +11,8 @@ allow_anonymous false
+ # mosquitto setiap kali menyala, jadi tanpa urusan pemilik berkas di laptop)
+ password_file /mosquitto/data/sandi-broker
+ acl_file /mosquitto/config/acl-broker
+-# nama klien selalu = nama pengguna: tidak ada yang bisa menyamar atau menendang klien lain
++# nama klien selalu = nama pengguna: tidak ada yang bisa menyamar atau menendang klien lain. Opsi ini berlaku PER PINTU
++# (hanya untuk listener di atasnya): pintu baru, misalnya 8883 di pusat-internet.conf, harus menulisnya lagi.
+ use_username_as_clientid true
+ # pesan retained (status perangkat, config dari backend) dan sesi disimpan di lemari: tidak hilang saat kontainer dibuat ulang
+ persistence true

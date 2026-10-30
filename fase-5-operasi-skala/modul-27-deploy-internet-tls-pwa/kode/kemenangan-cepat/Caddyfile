@@ -1,0 +1,17 @@
+# Caddyfile - Kemenangan Cepat Modul 27: HTTPS dengan sertifikat buatan Caddy sendiri (tls internal).
+{
+	# tanpa "loket admin" (2019), seperti di proyek
+	admin off
+	# Caddy biasanya mencoba memasang akar sertifikatnya ke daftar akar tepercaya komputer. Di dalam kontainer itu tidak
+	# berguna (daftar akar laptopmu tidak tersentuh), jadi dilewati.
+	skip_install_trust
+}
+
+# Alamat situs: nama localhost. Caddy melayani HTTPS di port 443 kontainer (loket 8443 di laptop).
+localhost {
+	# "tls internal" = sertifikat diterbitkan penerbit lokal milik Caddy sendiri ("Caddy Local Authority"), bukan Let's Encrypt.
+	# Isi sambungan tetap terenkripsi, tetapi browser tidak mengenal penerbitnya, jadi identitas situs tidak terbukti.
+	tls internal
+	root * /srv
+	file_server
+}

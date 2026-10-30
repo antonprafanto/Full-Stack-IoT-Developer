@@ -1,0 +1,264 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1316" viewBox="0 0 1200 1316" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="1316" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" xml:space="preserve">Jembatan simpan-teruskan: siapa menahan apa</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" xml:space="preserve">Konsep 9 · naik disimpan di Pi, turun tidak disimpan · uji cabut internet rumah 10 menit (lab tiruan)</text>
+<rect x="30.0" y="98.0" width="1140.0" height="196.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<rect x="50.0" y="120.0" width="168.0" height="90.0" rx="10" fill="#e2f3f1" stroke="#0f8b8d" stroke-width="1.8" />
+<rect x="59.0" y="130.0" width="30.0" height="40.0" rx="3" fill="none" stroke="#0f8b8d" stroke-width="2" />
+<rect x="65.0" y="136.0" width="18.0" height="14.0" rx="2" fill="none" stroke="#0f8b8d" stroke-width="1.6" />
+<line x1="59.0" y1="140.0" x2="54.0" y2="140.0" stroke="#0f8b8d" stroke-width="1.6" stroke-linecap="round" />
+<line x1="89.0" y1="140.0" x2="94.0" y2="140.0" stroke="#0f8b8d" stroke-width="1.6" stroke-linecap="round" />
+<line x1="59.0" y1="148.0" x2="54.0" y2="148.0" stroke="#0f8b8d" stroke-width="1.6" stroke-linecap="round" />
+<line x1="89.0" y1="148.0" x2="94.0" y2="148.0" stroke="#0f8b8d" stroke-width="1.6" stroke-linecap="round" />
+<line x1="59.0" y1="156.0" x2="54.0" y2="156.0" stroke="#0f8b8d" stroke-width="1.6" stroke-linecap="round" />
+<line x1="89.0" y1="156.0" x2="94.0" y2="156.0" stroke="#0f8b8d" stroke-width="1.6" stroke-linecap="round" />
+<line x1="59.0" y1="164.0" x2="54.0" y2="164.0" stroke="#0f8b8d" stroke-width="1.6" stroke-linecap="round" />
+<line x1="89.0" y1="164.0" x2="94.0" y2="164.0" stroke="#0f8b8d" stroke-width="1.6" stroke-linecap="round" />
+<text x="98.0" y="148.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Node 1</text>
+<text x="98.0" y="166.0" font-size="11" font-weight="800" fill="#0f8b8d" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">v1.6.0</text>
+<text x="62.0" y="190.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >QoS 0 tiap 10 s</text>
+<text x="62.0" y="205.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="start" >(firmware tetap)</text>
+<line x1="220.0" y1="165.0" x2="252.0" y2="165.0" stroke="#2f6fd1" stroke-width="2.2" stroke-linecap="round" />
+<path d="M245.8 168.3 L252.0 165.0 L245.8 161.7" fill="none" stroke="#2f6fd1" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="256.0" y="120.0" width="250.0" height="90.0" rx="10" fill="#fcf2f6" stroke="#a13a6b" stroke-width="2" />
+<text x="270.0" y="148.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >broker gerbang (Pi)</text>
+<text x="270.0" y="172.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#a13a6b">antrean</tspan> untuk jembatan (batas</text>
+<text x="270.0" y="188.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" >disetel 100.000); ke lemari tiap 30 s</text>
+<text x="270.0" y="204.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" >(berjaga bila listrik padam)</text>
+<line x1="512.0" y1="148.0" x2="734.0" y2="148.0" stroke="#a13a6b" stroke-width="3.2" stroke-linecap="round" />
+<path d="M732.1 152.2 L740.0 148.0 L732.1 143.8" fill="none" stroke="#a13a6b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<text x="626.0" y="138.0" font-size="11.5" font-weight="800" fill="#a13a6b" text-anchor="middle" xml:space="preserve">naik <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#a13a6b" font-weight="800">out</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#a13a6b" font-weight="800">1</tspan>: DITAHAN saat putus</text>
+<text x="626.0" y="168.0" font-size="11" font-weight="700" fill="#1e2a4a" text-anchor="middle" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">telemetry</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">status</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">vitals</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">ack</tspan></text>
+<line x1="518.0" y1="186.0" x2="740.0" y2="186.0" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" />
+<path d="M519.1 182.2 L512.0 186.0 L519.1 189.8" fill="none" stroke="#9aa3b0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="626.0" y="206.0" font-size="11.5" font-weight="800" fill="#4a5568" text-anchor="middle" xml:space="preserve">turun <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#4a5568" font-weight="800">cmd</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#4a5568" font-weight="800">in</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#4a5568" font-weight="800">1</tspan>: TIDAK ditahan</text>
+<rect x="748.0" y="120.0" width="180.0" height="90.0" rx="10" fill="#ffffff" stroke="#0f8b8d" stroke-width="1.8" />
+<text x="762.0" y="146.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" >broker pusat (VPS)</text>
+<text x="762.0" y="166.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" >pintu 8883 TLS</text>
+<text x="762.0" y="184.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">kabar <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">…/jembatan-pi/</tspan></text>
+<text x="762.0" y="200.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">state</tspan> 1 atau 0</text>
+<line x1="930.0" y1="165.0" x2="954.0" y2="165.0" stroke="#1a7f37" stroke-width="2.2" stroke-linecap="round" />
+<path d="M947.8 168.3 L954.0 165.0 L947.8 161.7" fill="none" stroke="#1a7f37" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="958.0" y="120.0" width="192.0" height="90.0" rx="10" fill="#ffffff" stroke="#1a7f37" stroke-width="1.8" />
+<text x="972.0" y="146.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" >backend → db</text>
+<text x="972.0" y="166.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">disimpan dengan <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">ts</tspan> asli</text>
+<text x="972.0" y="184.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">ON</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">CONFLICT</tspan>: bacaan</text>
+<text x="972.0" y="200.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" >kembar ditolak</text>
+<text x="50.0" y="240.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">gerbang.conf</tspan>: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">persistence</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">true</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">autosave_interval</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">30</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">queue_qos0_messages</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">true</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">max_queued_messages</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">100000</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">upgrade_outgoing_qos</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">true</tspan></text>
+<text x="50.0" y="260.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">jembatan/pusat.conf</tspan>: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">cleansession</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">true</tspan> (sesi pusat bersih) + <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">local_cleansession</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">false</tspan> (antrean di Pi tetap), <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">notifications</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">true</tspan></text>
+<rect x="30.0" y="312.0" width="1140.0" height="578.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="54.0" y="342.0" font-size="16" font-weight="800" fill="#1e2a4a" text-anchor="start" >Garis waktu uji: internet rumah dicabut 10 menit</text>
+<text x="1146.0" y="342.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="end" xml:space="preserve">lab tiruan penulis (Node 1 = simulator <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568" font-weight="800">alat/</tspan>), 30 Okt 2026 (jam WIB)</text>
+<rect x="355.2" y="394.0" width="647.8" height="322.0" rx="0" fill="#eef1f5" />
+<rect x="355.2" y="452.0" width="116.3" height="44.0" rx="0" fill="#f5e0ea" />
+<line x1="355.2" y1="374.0" x2="355.2" y2="716.0" stroke="#1e2a4a" stroke-width="1.8" stroke-linecap="round" stroke-dasharray="6 4" />
+<text x="349.2" y="386.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="end" >cabut 00.42.24</text>
+<line x1="1003.0" y1="374.0" x2="1003.0" y2="716.0" stroke="#1e2a4a" stroke-width="1.8" stroke-linecap="round" stroke-dasharray="6 4" />
+<text x="1009.0" y="386.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >sambung 00.52.48</text>
+<text x="679.1" y="386.0" font-size="12.5" font-weight="800" fill="#4a5568" text-anchor="middle" >internet rumah putus 10 menit 24 detik</text>
+<text x="54.0" y="422.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Node 1 → gerbang</text>
+<text x="54.0" y="438.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">tetap tersambung</text>
+<text x="54.0" y="472.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Jembatan menurut Pi</text>
+<text x="54.0" y="488.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">broker gerbang</text>
+<text x="54.0" y="522.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Jembatan menurut VPS</text>
+<text x="54.0" y="538.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">kabar state</text>
+<text x="54.0" y="572.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Antrean jembatan di Pi</text>
+<text x="54.0" y="588.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">kenaikan <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#4a5568" font-weight="800">$SYS/…/messages/count</tspan></text>
+<text x="54.0" y="622.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Bacaan di database</text>
+<text x="54.0" y="638.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">tiba di VPS</text>
+<text x="54.0" y="672.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Dashboard dan backend</text>
+<circle cx="275.3" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="285.6" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="296.0" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="306.4" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="316.8" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="327.2" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="337.6" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="347.9" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="358.3" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="368.7" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="379.1" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="389.5" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="399.8" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="410.2" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="420.6" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="431.0" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="441.4" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="451.7" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="462.1" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="472.5" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="482.9" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="493.3" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="503.6" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="514.0" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="524.4" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="534.8" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="545.2" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="555.6" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="565.9" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="576.3" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="586.7" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="597.1" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="607.5" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="617.8" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="628.2" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="638.6" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="649.0" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="659.4" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="669.7" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="680.1" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="690.5" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="700.9" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="711.3" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="721.6" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="732.0" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="742.4" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="752.8" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="763.2" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="773.6" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="783.9" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="794.3" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="804.7" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="815.1" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="825.5" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="835.8" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="846.2" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="856.6" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="867.0" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="877.4" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="887.7" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="898.1" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="908.5" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="918.9" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="929.3" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="939.6" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="950.0" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="960.4" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="970.8" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="981.2" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="991.6" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="1001.9" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="1012.3" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="1022.7" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="1033.1" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="1043.5" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="1053.8" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="1064.2" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="1074.6" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="1085.0" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="1095.4" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="1105.7" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="1116.1" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="1126.5" cy="416.0" r="2.4" fill="#0f8b8d" />
+<circle cx="1136.9" cy="416.0" r="2.4" fill="#0f8b8d" />
+<line x1="268.0" y1="466.0" x2="355.2" y2="466.0" stroke="#1e2a4a" stroke-width="4" stroke-linecap="butt" />
+<line x1="355.2" y1="466.0" x2="471.5" y2="466.0" stroke="#a13a6b" stroke-width="4" stroke-linecap="butt" stroke-dasharray="3 3" />
+<line x1="471.5" y1="466.0" x2="1032.0" y2="466.0" stroke="#9aa3b0" stroke-width="2.2" stroke-linecap="round" stroke-dasharray="6 5" />
+<line x1="1032.0" y1="466.0" x2="1140.0" y2="466.0" stroke="#1e2a4a" stroke-width="4" stroke-linecap="butt" />
+<text x="363.2" y="448.0" font-size="11.5" font-weight="800" fill="#a13a6b" text-anchor="start" >jendela buta 112 s</text>
+<text x="479.5" y="458.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="start" >sadar putus: mencoba lagi tiap 5–30 s</text>
+<line x1="268.0" y1="516.0" x2="441.4" y2="516.0" stroke="#1e2a4a" stroke-width="4" stroke-linecap="butt" />
+<line x1="441.4" y1="516.0" x2="1032.0" y2="516.0" stroke="#9aa3b0" stroke-width="2.2" stroke-linecap="round" stroke-dasharray="6 5" />
+<line x1="1032.0" y1="516.0" x2="1140.0" y2="516.0" stroke="#1e2a4a" stroke-width="4" stroke-linecap="butt" />
+<text x="449.4" y="508.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#4a5568" font-weight="800">state</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#4a5568" font-weight="800">0</tspan> (+83 s)</text>
+<text x="1040.0" y="508.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">state 1</tspan></text>
+<polyline points="268.0,576.0 355.2,576.0 377.0,575.2 397.8,574.3 419.6,573.5 440.3,572.6 461.1,571.0 482.9,570.1 503.6,569.3 525.4,568.4 546.2,567.6 567.0,566.8 588.8,565.9 609.5,565.1 631.3,564.2 652.1,563.0 673.9,562.1 694.7,561.3 718.5,560.9 740.3,559.6 761.1,557.9 781.9,557.1 803.7,556.3 827.5,555.4 849.3,554.2 870.1,553.3 890.9,552.5 912.7,551.6 934.5,551.2 956.3,550.0 977.0,549.1 1001.9,548.3 1023.7,547.4 1044.5,576.0 1066.3,576.0 1087.1,576.0 1107.8,576.0 1129.6,576.0 1140.0,576.0" fill="none" stroke="#a13a6b" stroke-width="2.6" stroke-linejoin="round"/>
+<text x="272.0" y="570.0" font-size="11.5" font-weight="800" fill="#a13a6b" text-anchor="start" >kosong</text>
+<text x="995.0" y="539.4" font-size="11.5" font-weight="800" fill="#a13a6b" text-anchor="end" >68 pesan ditahan</text>
+<text x="1052.5" y="570.0" font-size="11.5" font-weight="800" fill="#a13a6b" text-anchor="start" >kosong lagi</text>
+<text x="679.1" y="593.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="middle" xml:space="preserve">angka mentah <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#4a5568" font-weight="800">$SYS</tspan>: 59 → 127 → 59; ±60 di antaranya pesan <tspan font-style="italic">retained</tspan> yang selalu ada</text>
+<circle cx="275.3" cy="616.0" r="2.4" fill="#1a7f37" />
+<circle cx="285.6" cy="616.0" r="2.4" fill="#1a7f37" />
+<circle cx="296.0" cy="616.0" r="2.4" fill="#1a7f37" />
+<circle cx="306.4" cy="616.0" r="2.4" fill="#1a7f37" />
+<circle cx="316.8" cy="616.0" r="2.4" fill="#1a7f37" />
+<circle cx="327.2" cy="616.0" r="2.4" fill="#1a7f37" />
+<circle cx="337.6" cy="616.0" r="2.4" fill="#1a7f37" />
+<circle cx="347.9" cy="616.0" r="2.4" fill="#1a7f37" />
+<circle cx="1033.1" cy="616.0" r="2.4" fill="#1a7f37" />
+<circle cx="1043.5" cy="616.0" r="2.4" fill="#1a7f37" />
+<circle cx="1053.8" cy="616.0" r="2.4" fill="#1a7f37" />
+<circle cx="1064.2" cy="616.0" r="2.4" fill="#1a7f37" />
+<circle cx="1074.6" cy="616.0" r="2.4" fill="#1a7f37" />
+<circle cx="1085.0" cy="616.0" r="2.4" fill="#1a7f37" />
+<circle cx="1095.4" cy="616.0" r="2.4" fill="#1a7f37" />
+<circle cx="1105.7" cy="616.0" r="2.4" fill="#1a7f37" />
+<circle cx="1116.1" cy="616.0" r="2.4" fill="#1a7f37" />
+<circle cx="1126.5" cy="616.0" r="2.4" fill="#1a7f37" />
+<circle cx="1136.9" cy="616.0" r="2.4" fill="#1a7f37" />
+<rect x="1030.0" y="605.0" width="5.0" height="22.0" rx="3" fill="#a13a6b" />
+<text x="679.1" y="621.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="middle" >tidak ada yang tiba selama putus</text>
+<text x="993.0" y="640.0" font-size="11.5" font-weight="800" fill="#a13a6b" text-anchor="end" xml:space="preserve">susulan: 65 bacaan Node 1 dalam ±1 s, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#a13a6b" font-weight="800">ts</tspan> asli →</text>
+<circle cx="434.1" cy="666.0" r="10" fill="#1e2a4a" stroke="#ffffff" stroke-width="2" />
+<text x="434.1" y="670.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >1</text>
+<circle cx="755.9" cy="666.0" r="10" fill="#1e2a4a" stroke="#ffffff" stroke-width="2" />
+<text x="755.9" y="670.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >2</text>
+<circle cx="1032.0" cy="666.0" r="10" fill="#1e2a4a" stroke="#ffffff" stroke-width="2" />
+<text x="1032.0" y="670.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >3</text>
+<line x1="268.0" y1="712.0" x2="1140.0" y2="712.0" stroke="#9aa3b0" stroke-width="1.2" stroke-linecap="round" />
+<line x1="268.0" y1="712.0" x2="268.0" y2="717.0" stroke="#9aa3b0" stroke-width="1.2" stroke-linecap="round" />
+<text x="268.0" y="731.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="middle" >00.41</text>
+<line x1="330.3" y1="712.0" x2="330.3" y2="717.0" stroke="#9aa3b0" stroke-width="1.2" stroke-linecap="round" />
+<text x="330.3" y="731.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="middle" >00.42</text>
+<line x1="392.6" y1="712.0" x2="392.6" y2="717.0" stroke="#9aa3b0" stroke-width="1.2" stroke-linecap="round" />
+<line x1="454.9" y1="712.0" x2="454.9" y2="717.0" stroke="#9aa3b0" stroke-width="1.2" stroke-linecap="round" />
+<text x="454.9" y="731.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="middle" >00.44</text>
+<line x1="517.1" y1="712.0" x2="517.1" y2="717.0" stroke="#9aa3b0" stroke-width="1.2" stroke-linecap="round" />
+<line x1="579.4" y1="712.0" x2="579.4" y2="717.0" stroke="#9aa3b0" stroke-width="1.2" stroke-linecap="round" />
+<text x="579.4" y="731.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="middle" >00.46</text>
+<line x1="641.7" y1="712.0" x2="641.7" y2="717.0" stroke="#9aa3b0" stroke-width="1.2" stroke-linecap="round" />
+<line x1="704.0" y1="712.0" x2="704.0" y2="717.0" stroke="#9aa3b0" stroke-width="1.2" stroke-linecap="round" />
+<text x="704.0" y="731.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="middle" >00.48</text>
+<line x1="766.3" y1="712.0" x2="766.3" y2="717.0" stroke="#9aa3b0" stroke-width="1.2" stroke-linecap="round" />
+<line x1="828.6" y1="712.0" x2="828.6" y2="717.0" stroke="#9aa3b0" stroke-width="1.2" stroke-linecap="round" />
+<text x="828.6" y="731.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="middle" >00.50</text>
+<line x1="890.9" y1="712.0" x2="890.9" y2="717.0" stroke="#9aa3b0" stroke-width="1.2" stroke-linecap="round" />
+<line x1="953.1" y1="712.0" x2="953.1" y2="717.0" stroke="#9aa3b0" stroke-width="1.2" stroke-linecap="round" />
+<text x="953.1" y="731.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="middle" >00.52</text>
+<line x1="1015.4" y1="712.0" x2="1015.4" y2="717.0" stroke="#9aa3b0" stroke-width="1.2" stroke-linecap="round" />
+<line x1="1077.7" y1="712.0" x2="1077.7" y2="717.0" stroke="#9aa3b0" stroke-width="1.2" stroke-linecap="round" />
+<text x="1077.7" y="731.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="middle" >00.54</text>
+<line x1="1140.0" y1="712.0" x2="1140.0" y2="717.0" stroke="#9aa3b0" stroke-width="1.2" stroke-linecap="round" />
+<circle cx="66.0" cy="752.0" r="9" fill="#1e2a4a" stroke="#ffffff" stroke-width="2" />
+<text x="66.0" y="756.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >1</text>
+<text x="82.0" y="756.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">00.43.40 tombol Lampu → toast "belum dikonfirmasi perangkat…" (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">504</tspan>)</text>
+<circle cx="606.0" cy="752.0" r="9" fill="#1e2a4a" stroke="#ffffff" stroke-width="2" />
+<text x="606.0" y="756.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >2</text>
+<text x="622.0" y="756.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">00.48.50 Grafana: alert "Node diam" ke Telegram tiruan</text>
+<circle cx="66.0" cy="774.0" r="9" fill="#1e2a4a" stroke="#ffffff" stroke-width="2" />
+<text x="66.0" y="778.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >3</text>
+<text x="82.0" y="778.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">00.53.16 jembatan masuk lagi; backend: perintah lampu "tidak dikerjakan lebih dari 2 menit: tidak dikirim lagi"</text>
+<rect x="46.0" y="796.0" width="1108.0" height="74.0" rx="10" fill="#fcf2f6" stroke="#a13a6b" stroke-width="1.4" />
+<text x="62.0" y="818.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">skrip/cek-susulan.sql</tspan> (Node 1, 00.41–00.55): bacaan <tspan font-weight="800" fill="#a13a6b">84</tspan> · celah terbesar <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">00:00:10</tspan> · celah lebih dari 12 detik <tspan font-weight="800" fill="#a13a6b">0</tspan> · tiba &gt; 60 s sesudah <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">ts</tspan> <tspan font-weight="800" fill="#a13a6b">60</tspan> · kembar <tspan font-weight="800" fill="#a13a6b">0</tspan></text>
+<text x="62.0" y="838.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Sidik daftar <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">ts</tspan> yang TERBIT di gerbang = yang TERSIMPAN di VPS (84 = 84): <tspan font-weight="800" fill="#a13a6b">0 hilang, 0 dobel</tspan>, termasuk jendela buta (QoS 0 dinaikkan menjadi QoS 1).</text>
+<text x="62.0" y="858.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">Kenapa 60, bukan 65? Lima bacaan terakhir sebelum jembatan masuk lagi tiba kurang dari 60 s sesudah <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">ts</tspan>-nya, jadi skrip tidak menghitungnya susulan.</text>
+<rect x="30.0" y="908.0" width="1140.0" height="276.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="54.0" y="938.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >Kenapa setelannya berbeda dari bunyi Silabus</text>
+<text x="1146.0" y="938.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="end" >baris Pi mati listrik: prototipe riset penulis; baris lain: kode akhir; semua lab tiruan</text>
+<rect x="418.0" y="952.0" width="378.0" height="30.0" rx="8" fill="#fde6e8" />
+<rect x="808.0" y="952.0" width="346.0" height="30.0" rx="8" fill="#f5e0ea" />
+<text x="430.0" y="972.0" font-size="12.5" font-weight="800" fill="#e63946" text-anchor="start" >bunyi Silabus asli</text>
+<text x="820.0" y="972.0" font-size="12.5" font-weight="800" fill="#a13a6b" text-anchor="start" >setelan Modul 27</text>
+<text x="54.0" y="1004.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" >bacaan QoS 0 tiap 10 s, internet putus 10 menit</text>
+<text x="430.0" y="1004.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" >7 bacaan HILANG, semua di awal putus (jendela buta)</text>
+<text x="820.0" y="1004.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" >0 hilang (uji di atas: 84 = 84)</text>
+<line x1="54.0" y1="1011.0" x2="1146.0" y2="1011.0" stroke="#e0dcd2" stroke-width="1" stroke-linecap="round" />
+<text x="54.0" y="1028.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" >perintah lampu saat putus (dashboard sudah melapor gagal)</text>
+<text x="430.0" y="1028.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" >disimpan pusat, dikerjakan saat jalur kembali</text>
+<text x="820.0" y="1028.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" >tidak disimpan pusat (sesi bersih); yang lebih</text>
+<text x="430.0" y="1052.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" >(lab: 3–4 menit sesudah dashboard melapor gagal)</text>
+<text x="820.0" y="1052.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" >dari 2 menit tidak dikirim ulang backend 1.4.0</text>
+<line x1="54.0" y1="1059.0" x2="1146.0" y2="1059.0" stroke="#e0dcd2" stroke-width="1" stroke-linecap="round" />
+<text x="54.0" y="1076.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" >Pi mati listrik saat internet putus</text>
+<text x="430.0" y="1076.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" >antrean sejak simpanan terakhir hilang, QoS 1</text>
+<text x="820.0" y="1076.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" >paling banyak ±30 detik terakhir hilang</text>
+<text x="430.0" y="1100.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" >juga (bawaan: simpan tiap 30 menit)</text>
+<text x="820.0" y="1100.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" >(simpan tiap 30 detik)</text>
+<text x="54.0" y="1130.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">Silabus: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">topic</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">#</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">out</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">1</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">cleansession</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">false</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">persistence</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">true</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">queue_qos0_messages</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">true</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">max_queued_messages</tspan> diperbesar, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">notifications</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">true</tspan>.</text>
+<text x="54.0" y="1148.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">Modul 27 mengganti <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">cleansession</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">false</tspan> menjadi <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">cleansession</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">true</tspan> + <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">local_cleansession</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">false</tspan> dan <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">topic</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">#</tspan> menjadi topik sempit, lalu menambah</text>
+<text x="54.0" y="1166.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">upgrade_outgoing_qos</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">true</tspan> dan <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">autosave_interval</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">30</tspan>. Perintah turun tetap QoS 1 (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">in</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">1</tspan>), hanya tidak ditahan saat jalur putus.</text>
+<rect x="30.0" y="1200.0" width="1140.0" height="74.0" rx="12" fill="#eef1f5" />
+<text x="50.0" y="1226.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">Jujur, selama internet putus:</tspan> dashboard tetap menulis Online (dengan "data basi"); aturan otomatis server diam dan tidak bertindak atas susulan (bacaan &gt; 60 s).</text>
+<text x="50.0" y="1250.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">WiFi rumah putus ≠ internet putus:</tspan> bila Node 1 tidak bisa mencapai Pi, bacaannya hilang; antrean ini hanya menolong jalur Pi → VPS.</text>
+<text x="1178.0" y="1302.0" font-size="11" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

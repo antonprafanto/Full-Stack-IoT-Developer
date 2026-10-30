@@ -1,0 +1,84 @@
+# Caddyfile - pintu depan dashboard Rumah Pintar Mini (Modul 26-27): menyajikan isi dist/ dan meneruskan /api/... ke backend.
+# Salinan berkas ini ikut di dalam image web. Docker Compose memasang FOLDER frontend/caddy/ di atasnya (bukan berkas
+# tunggal), jadi berkas di repo inilah yang dipakai. Sesudah mengubahnya: docker compose restart web
+# {$NAMA} = isi variabel NAMA dari bagian environment layanan web di compose.cloud.yml (asalnya .env), dibaca saat Caddy
+# menyala; {$NAMA:isi} = "isi" bila NAMA tidak ada sama sekali (variabel yang ada tetapi kosong TETAP kosong, jadi nilai
+# pengganti untuk .env yang kosong ditulis di compose.cloud.yml). Sesudah mengubah .env: docker compose up -d (web dibuat ulang).
+{
+	# Caddy biasanya membuka "loket admin" (2019) untuk mengubah setelan sambil jalan. Tidak kita pakai: setelan hanya
+	# dibaca dari berkas ini saat Caddy menyala.
+	admin off
+	# Modul 27, jalur gratis saja (Pi + Cloudflare Tunnel). Di sana tamu tiba lewat cloudflared, yang sendiri sudah
+	# menulis alamat tamu dan "https" di kepala X-Forwarded-*. Caddy biasanya menimpa kepala itu (siapa saja bisa
+	# memalsukannya), kecuali bila datang dari penerus tepercaya: PROKSI_TEPERCAYA=private_ranges = alamat privat, termasuk
+	# lorong Docker tempat cloudflared berada. Kosong (laptop, VPS) = tidak memercayai siapa pun. _strict = alamat tamu
+	# dibaca dari kanan (yang ditambahkan penerus), bukan dari kiri (yang bisa ditulis tamu sendiri).
+	servers {
+		trusted_proxies static {$PROKSI_TEPERCAYA}
+		trusted_proxies_strict
+	}
+}
+
+# Alamat situs. DOMAIN_WEB kosong di .env = ":80" (diisikan compose.cloud.yml): HTTP biasa di port 80 kontainer, untuk alamat
+# apa pun yang diketik di browser (localhost, IP laptop; Pi jalur gratis di belakang cloudflared), persis Modul 26.
+# ("auto_https off" TIDAK membuat Caddy melayani HTTP; alamat ":80" inilah yang membuatnya.)
+# Modul 27, DOMAIN_WEB terisi (VPS): nama domain, misalnya iot.namaanda.my.id. Caddy meminta sertifikat Let's Encrypt
+# sendiri, melayani HTTPS di 443, mengalihkan http:// ke https://, dan memperbarui sertifikatnya sebelum habis. Tanpa
+# opsi "email" di atas, penerbitnya hanya Let's Encrypt. DOMAIN_MQTT (mqtt.namaanda.my.id) ikut diminta di sini supaya Caddy
+# juga mengurus sertifikat broker; Mosquitto memakai SALINANNYA (layanan sertifikat-mqtt).
+{$DOMAIN_WEB::80} {$DOMAIN_MQTT} {
+	# nama broker bukan halaman web: jawab singkat. mqtt.invalid = nama yang tidak pernah ada (akhiran .invalid), supaya
+	# baris ini tetap sah saat DOMAIN_MQTT kosong (laptop, Pi jalur gratis).
+	@broker host {$DOMAIN_MQTT} mqtt.invalid
+	handle @broker {
+		respond "Alamat ini untuk broker MQTT (port 8883), bukan dashboard." 404
+	}
+
+	# jawaban dikompres sebelum dikirim: JavaScript dashboard ±1 MB tiba di browser sekitar 300 kB
+	encode zstd gzip
+
+	# /api/devices -> backend:8080/devices (awalan /api dibuang dulu). Sambungan live ikut: /api/socket.io/ -> backend:8080/socket.io/
+	# "backend" = nama layanan di compose.cloud.yml (lorong Compose), bukan localhost. Caddy menambah kepala X-Forwarded-For
+	# (alamat tamu) dan X-Forwarded-Proto (https) untuk backend; backend 1.4 memercayainya karena TRUST_PROXY (Modul 27).
+	handle_path /api/* {
+		reverse_proxy backend:8080 {
+			# Backend memasang cookie "sesi" (kartu terusan 7 hari) berjalur /auth, padahal browser memanggilnya lewat
+			# /api/auth. Tanpa baris ini browser tidak mengirim cookie itu ke /api/auth/refresh, dan kamu terlempar ke
+			# layar Masuk setiap 15 menit. Baris ini mengganti jalurnya di jawaban backend: Path=/auth -> Path=/api/auth.
+			header_down Set-Cookie "Path=/auth" "Path=/api/auth"
+		}
+	}
+
+	# Modul 27: Grafana lewat alamat yang sama, di bawah /grafana/ (https://iot.namaanda.my.id/grafana/). Awalan /grafana
+	# TIDAK dibuang: Grafana sendiri melayani jalur itu bila GRAFANA_ALAMAT di .env berakhiran /grafana/ (compose.cloud.yml).
+	# GRAFANA_ALAMAT kosong (laptop) = Grafana tetap di http://localhost:3000; jalur ini tidak dipakai (Grafana mengalihkannya
+	# ke /login, yang dijawab dashboard).
+	redir /grafana /grafana/
+	handle /grafana/* {
+		reverse_proxy grafana:3000 {
+			# cookie login Grafana diberi atribut Secure (browser hanya mengirimnya lewat HTTPS); Grafana sendiri tidak
+			# memasangnya karena sambungan Caddy -> Grafana adalah HTTP biasa
+			header_down Set-Cookie "^(.*)$" "$1; Secure"
+		}
+	}
+
+	# /assets/...: JavaScript dan CSS hasil build. Namanya bersidik (misalnya index-DcefnpS2.js) dan berganti setiap
+	# build, jadi browser boleh menyimpannya lama. Berkas yang tidak ada dijawab 404 (bukan index.html): galatnya jujur.
+	handle /assets/* {
+		root * /srv
+		file_server
+	}
+
+	# Selain /api, /grafana, dan /assets: berkas dashboard di /srv (isi dist/). Alamat layar seperti /peta atau
+	# /perangkat/f00d00000001 bukan berkas, jadi dijawab index.html, lalu React Router memilih layarnya ("SPA fallback",
+	# janji Modul 24). Tanpa ini, F5 di layar mana pun selain / menjawab 404.
+	handle {
+		root * /srv
+		# no-cache = browser wajib bertanya dulu ke Caddy sebelum memakai index.html simpanannya (Caddy menjawab 304 bila
+		# belum berubah). Tanpa ini, sesudah image web dibangun ulang browser bisa tetap menampilkan dashboard LAMA sampai F5.
+		# Modul 27: berlaku juga untuk service worker (sw.js) dan manifest aplikasi HP (PWA), jadi versi baru cepat terbaca.
+		header Cache-Control "no-cache"
+		try_files {path} /index.html
+		file_server
+	}
+}

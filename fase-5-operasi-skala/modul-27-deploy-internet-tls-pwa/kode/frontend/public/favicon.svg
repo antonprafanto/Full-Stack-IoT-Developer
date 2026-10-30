@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="180" height="180" viewBox="0 0 180 180">
+  <!-- Ikon Rumah Pintar Mini (Modul 27): gambar rumah garis + pintu teal yang sama dengan apple-touch-icon.png Modul 24,
+       di atas ubin terang bersudut bulat. Menggantikan logo petir bawaan Vite. Ikon aplikasi pwa-*.png dibuat dari berkas ini. -->
+  <rect width="180" height="180" rx="40" fill="#f8fafc"/>
+  <path d="M38 86 L90 44 L142 86" fill="none" stroke="#1d293d" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M54 76 V136 H126 V76" fill="none" stroke="#1d293d" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="79" y="102" width="22" height="34" rx="3" fill="#00786f"/>
+</svg>

@@ -11,3 +11,6 @@ acl-broker text eol=lf
 .env.example text eol=lf
 Dockerfile text eol=lf
 .dockerignore text eol=lf
+# Modul 27: skrip SQL yang dikirim ke psql di dalam kontainer database. skrip/cek-susulan.sql memakai perintah psql (\if,
+# \set, \echo) yang dibaca per baris: lebih aman tanpa tanda CR tersembunyi (tidak diuji dengan CRLF).
+*.sql text eol=lf

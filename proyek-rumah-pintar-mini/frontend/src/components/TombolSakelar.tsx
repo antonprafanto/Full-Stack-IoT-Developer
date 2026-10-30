@@ -18,8 +18,10 @@ type Props = {
 // kalimat toast untuk perintah yang gagal, menurut jawaban backend
 function pesanGagal(err: unknown, label: string): string {
   if (!(err instanceof GalatApi)) return label + ": perintah gagal.";
-  // 504 BUKAN "dibatalkan": backend mengingat keinginan kita dan mengirim ulang sendiri saat perangkat terdengar lagi
-  if (err.kode === 504) return label + ": belum dikonfirmasi perangkat; server akan mencoba lagi saat perangkat terdengar.";
+  // 504 BUKAN "dibatalkan": backend mengingat keinginan kita dan mengirim ulang sendiri saat perangkat terdengar lagi.
+  // Modul 27 (backend 1.4): hanya bila perangkat terdengar dalam 2 menit; sesudah itu perintahnya dilupakan, supaya
+  // lampu tidak tiba-tiba menyala berjam-jam kemudian saat internet rumah pulih.
+  if (err.kode === 504) return label + ": belum dikonfirmasi perangkat; server mencoba lagi bila perangkat terdengar dalam 2 menit.";
   if (err.kode === 0) return label + ": server tidak menjawab.";
   return label + ": " + err.message; // 409 "perangkat sedang offline, …", 404, 503, 403
 }

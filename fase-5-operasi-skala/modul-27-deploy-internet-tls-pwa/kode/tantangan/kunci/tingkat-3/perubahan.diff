@@ -1,0 +1,128 @@
+diff --git a/backend/src/services/mqtt.ts b/backend/src/services/mqtt.ts
+index 8d7ad0d..7c91245 100644
+--- a/backend/src/services/mqtt.ts
++++ b/backend/src/services/mqtt.ts
+@@ -12,6 +12,7 @@ import { kirimSemuaConfig, nilaiBacaan } from "./otomasi.ts";
+ import { catatKejadian } from "./kejadian.ts";
+ import { kabari, kabariStatus } from "./telegram.ts";
+ import { catatAbaikan, izinPerangkat } from "./daftar.ts";
++import { terimaKabarJembatan } from "./jembatan.ts";
+ 
+ let klien: mqtt.MqttClient | undefined;
+ 
+@@ -45,6 +46,9 @@ export function mulaiMqtt(url: string, akun: AkunBroker | null, log: FastifyBase
+     ditolak = false;
+     log.info(`tersambung ke broker ${url}${akun === null ? " TANPA akun" : ` sebagai ${akun.username}`}`);
+     klien?.subscribe("rpm/#", { qos: 1 });
++    // Tantangan 3 Modul 27: kabar jembatan gerbang rumah (1 = tersambung, 0 = putus). Tanda # di "rpm/#" tidak pernah
++    // mencakup topik berawalan $SYS, jadi langganannya ditulis sendiri (dan izinnya di edge/acl-broker, butir 3).
++    klien?.subscribe("$SYS/broker/connection/+/state", { qos: 0 });
+     kirimSemuaConfig(); // Modul 19: broker tanpa persistence lupa config retained saat dimulai ulang (kontrak aturan 10)
+   });
+   klien.on("reconnect", () => {
+@@ -67,7 +71,10 @@ export function mulaiMqtt(url: string, akun: AkunBroker | null, log: FastifyBase
+     log.error(`galat MQTT: ${galat.message}`);
+   });
+   // paket.retain = true: pesan lama yang disimpan broker, dikirim ulang karena backend baru berlangganan (Modul 19)
+-  klien.on("message", (topik, isi, paket) => terima(topik, isi.toString(), paket.retain, log));
++  klien.on("message", (topik, isi, paket) => {
++    if (topik.startsWith("$SYS/")) return terimaKabarJembatan(topik, isi.toString(), paket.retain, log);
++    terima(topik, isi.toString(), paket.retain, log);
++  });
+ }
+ 
+ export function brokerTersambung(): boolean {
+diff --git a/backend/src/services/realtime.ts b/backend/src/services/realtime.ts
+index 0d63ee4..395b4b7 100644
+--- a/backend/src/services/realtime.ts
++++ b/backend/src/services/realtime.ts
+@@ -9,6 +9,8 @@ import { DeviceId } from "../schemas/kontrak.ts";
+ import type { Status, TelemetryNode1, TelemetryNode2 } from "../schemas/kontrak.ts";
+ import type { Kejadian } from "../db/arsip.ts";
+ import { cariPerangkat } from "./gudang.ts";
++import { semuaJembatan } from "./jembatan.ts";
++import type { KeadaanJembatan } from "./jembatan.ts";
+ import { env } from "../config/env.ts";
+ import { ASAL_BOLEH, COOKIE_AKSES } from "../auth/keamanan.ts";
+ import type { IsiToken } from "../auth/keamanan.ts";
+@@ -27,6 +29,7 @@ interface KeKlien {
+   telemetry: (deviceId: string, isi: Telemetry) => void;
+   status: (deviceId: string, status: Status) => void;
+   kejadian: (kejadian: Kejadian) => void;
++  jembatan: (nama: string, keadaan: KeadaanJembatan) => void; // Tantangan 3 Modul 27
+ }
+ 
+ // acara dari klien ke server; "balas" adalah ack Socket.IO
+@@ -64,6 +67,8 @@ export function mulaiRealtime(app: FastifyInstance): void {
+     const { sub, peran, sid, exp } = socket.data.pengguna;
+     app.log.info(`klien realtime tersambung: ${socket.id} (akun ${sub}, ${peran})`);
+     void socket.join(`sesi:${sid}`); // logout sesi ini = putuskan semua sambungannya (putuskanSesi)
++    // Tantangan 3 Modul 27: dashboard yang baru tersambung langsung tahu keadaan setiap jembatan yang sudah terdengar
++    for (const [nama, keadaan] of semuaJembatan()) socket.emit("jembatan", nama, keadaan);
+     // gelang hanya diperiksa di pintu: saat kedaluwarsa, sambungan diputus; klien refresh lalu menyambung lagi
+     const habis = setTimeout(() => socket.disconnect(true), exp * 1000 - Date.now());
+     socket.on("ikuti", (deviceId, balas) => {
+@@ -110,3 +115,8 @@ export function siarkanStatus(deviceId: string, status: Status): void {
+ export function siarkanKejadian(kejadian: Kejadian): void {
+   io?.emit("kejadian", kejadian);
+ }
++
++// Tantangan 3 Modul 27: kabar jembatan gerbang rumah ke SEMUA klien
++export function siarkanJembatan(nama: string, keadaan: KeadaanJembatan): void {
++  io?.emit("jembatan", nama, keadaan);
++}
+diff --git a/edge/acl-broker b/edge/acl-broker
+index 30299df..afe1ad8 100644
+--- a/edge/acl-broker
++++ b/edge/acl-broker
+@@ -27,9 +27,11 @@ topic write rpm/246f28b1c7d4/status
+ # topic write rpm/f00d000000b2/status
+ 
+ # 3) Backend: membaca semua pesan perangkat, mengirim perintah (set dan config) ke cmd.
++#    Tantangan 3 Modul 27: juga membaca kabar jembatan (1 = tersambung, 0 = putus) untuk pita di dashboard.
+ user backend
+ topic read rpm/#
+ topic write rpm/+/cmd
++topic read $SYS/broker/connection/+/state
+ 
+ # 4) Node-RED di gateway Pi: dashboard membaca, sakelar Kipas mengirim cmd.
+ user nodered
+diff --git a/frontend/src/components/TataLetak.tsx b/frontend/src/components/TataLetak.tsx
+index 7014e0f..16728e1 100644
+--- a/frontend/src/components/TataLetak.tsx
++++ b/frontend/src/components/TataLetak.tsx
+@@ -6,6 +6,7 @@ import { ambilPerangkat, GalatApi, keluar } from "../api";
+ import { socket } from "../soket";
+ import { kosongkanSemua, sesiHabis, useToko } from "../toko";
+ import LencanaKoneksi from "./LencanaKoneksi";
++import PitaJembatan from "./PitaJembatan";
+ import WadahToast from "./WadahToast";
+ 
+ // Gaya tautan menu. NavLink memanggil fungsi ini dengan isActive = true kalau alamatnya sedang dibuka.
+@@ -103,6 +104,8 @@ export default function TataLetak() {
+           </div>
+         </div>
+       </header>
++      {/* Tantangan 3 Modul 27: pita "Gerbang rumah terputus" (kosong selama semua jembatan tersambung) */}
++      <PitaJembatan />
+ 
+       {/* Modul 24: toast tampil di semua layar sesudah masuk (pindah layar tidak menghapusnya): di bawah layar HP dan
+           tablet, di pojok kanan atas laptop lebar (lihat WadahToast) */}
+diff --git a/frontend/src/types.ts b/frontend/src/types.ts
+index b39034d..d95171f 100644
+--- a/frontend/src/types.ts
++++ b/frontend/src/types.ts
+@@ -105,8 +105,13 @@ export type KeKlien = {
+   telemetry: (deviceId: string, isi: Telemetry) => void;
+   status: (deviceId: string, status: "online" | "offline" | "offline-mode") => void;
+   kejadian: (kejadian: Kejadian) => void;
++  jembatan: (nama: string, keadaan: KeadaanJembatan) => void; // Tantangan 3 Modul 27
+ };
+ 
++// Tantangan 3 Modul 27: keadaan satu jembatan gerbang rumah (dari $SYS/broker/connection/<nama>/state di broker pusat).
++// sejak = kapan backend mendengar perubahannya (ISO); null = tidak diketahui (kabar lama yang disimpan broker).
++export type KeadaanJembatan = { tersambung: boolean; sejak: string | null };
++
+ // acara dari dashboard ke server; "balas" adalah ack Socket.IO (fungsi yang dipanggil server untuk menjawab)
+ export type DariKlien = {
+   ikuti: (deviceId: string, balas: (jawaban: JawabanIkuti) => void) => void;

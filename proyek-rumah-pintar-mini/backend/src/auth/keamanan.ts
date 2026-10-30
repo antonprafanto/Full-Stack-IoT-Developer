@@ -30,7 +30,9 @@ export const COOKIE_SESI = "sesi";
 
 // httpOnly: JavaScript di halaman tidak bisa membaca cookie (pencuri lewat XSS tidak mendapat token).
 // sameSite strict: browser tidak mengirim cookie pada permintaan yang dipicu situs lain (CSRF).
-// secure auto: atribut Secure dipasang kalau permintaannya lewat HTTPS (Fase 5); di http://127.0.0.1 tidak.
+// secure auto: atribut Secure dipasang kalau permintaannya lewat HTTPS; di http://127.0.0.1 tidak. Modul 27: di balik Caddy,
+// sambungan Caddy -> backend selalu HTTP biasa; backend baru tahu tamunya datang lewat HTTPS dari header X-Forwarded-Proto
+// Caddy, dan header itu hanya dipercaya bila TRUST_PROXY diisi (config/env.ts, server.ts).
 const DASAR = { httpOnly: true, sameSite: "strict", secure: "auto" } as const;
 export const OPSI_AKSES = { ...DASAR, path: "/", maxAge: UMUR_AKSES_DETIK }; // path "/" WAJIB: tanpa itu hanya /auth/...
 export const OPSI_SESI = { ...DASAR, path: "/auth", maxAge: UMUR_SESI_DETIK }; // hanya dikirim ke /auth/...
@@ -61,7 +63,9 @@ export async function pasangKeamanan(app: FastifyInstance): Promise<void> {
     verify: { onlyCookie: true }, // gelang hanya dibaca dari cookie, bukan dari header Authorization
   });
   await app.register(rateLimit, {
-    global: false, // hanya rute yang memintanya (POST /auth/login); hitungan disimpan di memori: restart = mulai dari nol
+    // hanya rute yang memintanya (POST /auth/login); hitungan disimpan di memori: restart = mulai dari nol. Hitungan per
+    // alamat IP tamu (req.ip): di balik Caddy, alamat itu baru alamat tamu yang sebenarnya bila TRUST_PROXY diisi (Modul 27)
+    global: false,
     errorResponseBuilder: (_req, konteks) => Object.assign(
       new Error(`terlalu banyak percobaan: coba lagi dalam ${Math.ceil(konteks.ttl / 1000)} detik`),
       { statusCode: konteks.statusCode }, // 429

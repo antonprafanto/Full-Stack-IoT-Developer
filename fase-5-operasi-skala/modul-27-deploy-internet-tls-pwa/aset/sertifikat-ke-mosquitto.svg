@@ -1,0 +1,164 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1126" viewBox="0 0 1200 1126" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="1126" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" xml:space="preserve">Sertifikat ke Mosquitto: salin, izinkan, muat ulang</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" xml:space="preserve">Konsep 8 · Caddy meminta sertifikat untuk <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5">mqtt.namaanda.my.id</tspan>, Mosquitto memakai SALINANNYA di pintu 8883</text>
+<rect x="30.0" y="98.0" width="1140.0" height="440.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<path d="M64 150 Q54 150 56 140 Q58 130 70 132 Q76 120 90 125 Q102 122 104 134 Q114 136 112 145 Q110 150 102 150 Z" fill="none" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="118.0" y="138.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Let's Encrypt</text>
+<text x="118.0" y="155.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" >menerbitkan + memperbarui</text>
+<line x1="84.0" y1="156.0" x2="84.0" y2="190.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<path d="M80.7 183.8 L84.0 190.0 L87.3 183.8" fill="none" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="50.0" y="194.0" width="250.0" height="240.0" rx="12" fill="#ffffff" stroke="#6f42c1" stroke-width="1.8" />
+<text x="64.0" y="218.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12.5" fill="#6f42c1" font-weight="800">web</tspan> (Caddy) · root</text>
+<rect x="62.0" y="232.0" width="226.0" height="190.0" rx="8" fill="#eef1f5" />
+<rect x="69.0" y="247.0" width="30.0" height="38.0" rx="3" fill="none" stroke="#4a5568" stroke-width="2" />
+<line x1="80.0" y1="253.3" x2="88.0" y2="253.3" stroke="#4a5568" stroke-width="1.8" stroke-linecap="round" />
+<line x1="69.0" y1="259.7" x2="99.0" y2="259.7" stroke="#4a5568" stroke-width="1.6" stroke-linecap="round" />
+<line x1="80.0" y1="266.0" x2="88.0" y2="266.0" stroke="#4a5568" stroke-width="1.8" stroke-linecap="round" />
+<line x1="69.0" y1="272.3" x2="99.0" y2="272.3" stroke="#4a5568" stroke-width="1.6" stroke-linecap="round" />
+<line x1="80.0" y1="278.6" x2="88.0" y2="278.6" stroke="#4a5568" stroke-width="1.8" stroke-linecap="round" />
+<text x="106.0" y="256.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">lemari <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">data-caddy</tspan></text>
+<text x="106.0" y="274.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" >(milik Compose)</text>
+<text x="74.0" y="306.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">/data/caddy/certificates/</tspan></text>
+<text x="74.0" y="324.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">  &lt;penerbit&gt;/mqtt.…/</tspan></text>
+<text x="74.0" y="342.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">  mqtt.….crt</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">.key</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">.json</tspan></text>
+<text x="74.0" y="378.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">folder <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">drwx------</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">root</tspan></text>
+<text x="74.0" y="396.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">berkas <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">-rw-------</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">root</tspan></text>
+<text x="74.0" y="414.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#e63946">hanya root yang boleh baca</tspan></text>
+<rect x="334.0" y="194.0" width="318.0" height="240.0" rx="12" fill="#fcf2f6" stroke="#a13a6b" stroke-width="2" />
+<text x="348.0" y="218.0" font-size="13" font-weight="800" fill="#a13a6b" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">sertifikat-mqtt</text>
+<text x="473.4" y="218.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="start" >sekali jalan, root</text>
+<text x="348.0" y="238.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">menjalankan <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">skrip/salin-sertifikat.sh</tspan></text>
+<text x="348.0" y="256.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" >lemari Caddy dipasang hanya-baca</text>
+<circle cx="360.0" cy="282.0" r="10" fill="#a13a6b" stroke="#ffffff" stroke-width="2" />
+<text x="360.0" y="286.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >1</text>
+<text x="378.0" y="287.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">cari <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">mqtt.….crt</tspan> terbaru (tunggu ≤ 5 menit)</text>
+<circle cx="360.0" cy="310.0" r="10" fill="#a13a6b" stroke="#ffffff" stroke-width="2" />
+<text x="360.0" y="314.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >2</text>
+<text x="378.0" y="315.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">isi sama? betulkan pemilik, "tidak berubah"</text>
+<circle cx="360.0" cy="338.0" r="10" fill="#a13a6b" stroke="#ffffff" stroke-width="2" />
+<text x="360.0" y="342.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >3</text>
+<text x="378.0" y="343.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">salin ke nama sementara <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">….baru</tspan></text>
+<circle cx="360.0" cy="366.0" r="10" fill="#a13a6b" stroke="#ffffff" stroke-width="2" />
+<text x="360.0" y="370.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >4</text>
+<text x="378.0" y="371.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">chown</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">1883:1883</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">chmod</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">644</tspan> / <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">600</tspan></text>
+<circle cx="360.0" cy="394.0" r="10" fill="#a13a6b" stroke="#ffffff" stroke-width="2" />
+<text x="360.0" y="398.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >5</text>
+<text x="378.0" y="399.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">ganti nama (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">mv</tspan>): tak pernah separuh</text>
+<text x="348.0" y="420.0" font-size="11.5" font-weight="700" fill="#a13a6b" text-anchor="start" xml:space="preserve">lalu <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#a13a6b" font-weight="800">Exited</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#a13a6b" font-weight="800">(0)</tspan>; Mosquitto baru boleh menyala</text>
+<rect x="686.0" y="194.0" width="210.0" height="240.0" rx="12" fill="#ffffff" stroke="#a13a6b" stroke-width="1.8" />
+<rect x="697.0" y="207.0" width="30.0" height="38.0" rx="3" fill="none" stroke="#a13a6b" stroke-width="2" />
+<line x1="708.0" y1="213.3" x2="716.0" y2="213.3" stroke="#a13a6b" stroke-width="1.8" stroke-linecap="round" />
+<line x1="697.0" y1="219.7" x2="727.0" y2="219.7" stroke="#a13a6b" stroke-width="1.6" stroke-linecap="round" />
+<line x1="708.0" y1="226.0" x2="716.0" y2="226.0" stroke="#a13a6b" stroke-width="1.8" stroke-linecap="round" />
+<line x1="697.0" y1="232.3" x2="727.0" y2="232.3" stroke="#a13a6b" stroke-width="1.6" stroke-linecap="round" />
+<line x1="708.0" y1="238.6" x2="716.0" y2="238.6" stroke="#a13a6b" stroke-width="1.8" stroke-linecap="round" />
+<text x="734.0" y="220.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">lemari</text>
+<text x="734.0" y="238.0" font-size="11.5" font-weight="800" fill="#a13a6b" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">data-sertifikat</text>
+<rect x="700.0" y="266.0" width="182.0" height="50.0" rx="8" fill="#eef1f5" />
+<text x="712.0" y="287.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">broker.crt</text>
+<text x="712.0" y="306.0" font-size="10.5" font-weight="800" fill="#4a5568" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">-rw-r--r-- 1883</text>
+<rect x="700.0" y="328.0" width="182.0" height="50.0" rx="8" fill="#eef1f5" />
+<text x="712.0" y="349.0" font-size="12" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">broker.key</text>
+<text x="712.0" y="368.0" font-size="10.5" font-weight="800" fill="#4a5568" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">-rw------- 1883</text>
+<text x="700.0" y="408.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">sertifikat boleh dibaca semua;</text>
+<text x="700.0" y="425.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">kunci hanya pemiliknya</text>
+<rect x="930.0" y="194.0" width="220.0" height="240.0" rx="12" fill="#ffffff" stroke="#0f8b8d" stroke-width="2" />
+<g transform="translate(956 226) scale(0.6) translate(-956 -226)">
+<path d="M932 220 L956 202 L980 220" fill="none" stroke="#0f8b8d" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="937.0" y="220.0" width="38.0" height="28.0" rx="2" fill="none" stroke="#0f8b8d" stroke-width="2.2" />
+<rect x="947.0" y="228.0" width="18.0" height="5.0" rx="1" fill="#0f8b8d" />
+</g>
+<text x="978.0" y="224.0" font-size="13" font-weight="800" fill="#0f8b8d" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">mosquitto</text>
+<text x="944.0" y="258.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">pusat-internet.conf</tspan></text>
+<text x="944.0" y="276.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">1. menyala sebagai root</text>
+<text x="944.0" y="294.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">2. turun hak menjadi</text>
+<text x="944.0" y="312.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">   <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">mosquitto</tspan> (uid 1883)</text>
+<text x="944.0" y="330.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">3. BARU membaca <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">certfile</tspan></text>
+<text x="944.0" y="348.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">   dan <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">keyfile</tspan></text>
+<text x="944.0" y="366.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">4. pintu <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">8883</tspan> TLS</text>
+<text x="944.0" y="384.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">   (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">1883</tspan> polos tetap</text>
+<text x="944.0" y="402.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">   di dalam lorong)</text>
+<line x1="303.0" y1="314.0" x2="331.0" y2="314.0" stroke="#a13a6b" stroke-width="2.4" stroke-linecap="round" />
+<path d="M323.9 317.8 L331.0 314.0 L323.9 310.2" fill="none" stroke="#a13a6b" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="655.0" y1="314.0" x2="683.0" y2="314.0" stroke="#a13a6b" stroke-width="2.4" stroke-linecap="round" />
+<path d="M675.9 317.8 L683.0 314.0 L675.9 310.2" fill="none" stroke="#a13a6b" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="899.0" y1="314.0" x2="927.0" y2="314.0" stroke="#a13a6b" stroke-width="2.4" stroke-linecap="round" />
+<path d="M919.9 317.8 L927.0 314.0 L919.9 310.2" fill="none" stroke="#a13a6b" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M175.0 436 L175.0 466 L1040.0 466 L1040.0 442" fill="none" stroke="#e63946" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="6 4"/>
+<path d="M1043.3 444.2 L1040.0 438.0 L1036.7 444.2" fill="none" stroke="#e63946" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="215.0" y="454.0" width="640.0" height="26.0" rx="6" fill="#ffffff" />
+<text x="227.0" y="471.0" font-size="12" font-weight="700" fill="#e63946" text-anchor="start" xml:space="preserve">tanpa penyalin: Mosquitto membaca lemari Caddy langsung → <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#e63946" font-weight="800">Permission</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#e63946" font-weight="800">denied</tspan>, broker berhenti</text>
+<text x="54.0" y="504.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">folder penerbit Let's Encrypt: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">acme-v02.api.letsencrypt.org-directory</tspan> (lab tiruan: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">pebble-14000-dir</tspan>)</text>
+<text x="54.0" y="524.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">urutan: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">web</tspan> meminta sertifikat, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">sertifikat-mqtt</tspan> menunggu berkasnya (≤ 5 menit) lalu menyalin, baru <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">mosquitto</tspan> menyala</text>
+<text x="30.0" y="564.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >Sesudah salinan baru: muat ulang broker VPS (di Pi gerbang: restart, bukan HUP)</text>
+<text x="1170.0" y="564.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="end" >lab tiruan; "kunci salah pemilik" = salinan tangan sebagai root</text>
+<rect x="30.0" y="578.0" width="400.0" height="176.0" rx="12" fill="#ffffff" stroke="#2a9d5c" stroke-width="1.8" />
+<path d="M49 604 L54 610 L64 598" fill="none" stroke="#2a9d5c" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="76.0" y="609.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Muat ulang (HUP)</text>
+<rect x="44.0" y="622.0" width="372.0" height="28.0" rx="6" fill="#eef1f5" />
+<text x="54.0" y="641.0" font-size="10.5" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">docker compose exec mosquitto kill -HUP 1</text>
+<text x="48.0" y="674.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">log <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">Reloading</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">config.</tspan>; PID sama, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">RestartCount</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">0</tspan></text>
+<text x="48.0" y="692.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">jembatan Pi TIDAK putus</text>
+<text x="48.0" y="710.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">kunci salah pemilik: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">Error</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">when</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">reloading</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">certificate</tspan></text>
+<text x="48.0" y="728.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">→ broker tetap jalan dengan sertifikat lama</text>
+<rect x="446.0" y="578.0" width="372.0" height="176.0" rx="12" fill="#ffffff" stroke="#e63946" stroke-width="1.8" />
+<line x1="466.0" y1="598.0" x2="478.0" y2="610.0" stroke="#e63946" stroke-width="2.6" stroke-linecap="round" />
+<line x1="466.0" y1="610.0" x2="478.0" y2="598.0" stroke="#e63946" stroke-width="2.6" stroke-linecap="round" />
+<text x="492.0" y="609.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Nyalakan ulang (restart) di VPS</text>
+<rect x="460.0" y="622.0" width="344.0" height="28.0" rx="6" fill="#eef1f5" />
+<text x="470.0" y="641.0" font-size="10.5" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">docker compose restart mosquitto</text>
+<text x="464.0" y="674.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">kunci salah pemilik: jatuh-bangun</text>
+<text x="464.0" y="692.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">Restarting</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">(1)</tspan>, 6 kali dalam ±12 detik</text>
+<text x="464.0" y="710.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">Unable to load server key file</tspan></text>
+<text x="464.0" y="728.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">jembatan dan perangkat putus</text>
+<rect x="834.0" y="578.0" width="336.0" height="176.0" rx="12" fill="#ffffff" stroke="#e63946" stroke-width="1.8" />
+<line x1="854.0" y1="598.0" x2="866.0" y2="610.0" stroke="#e63946" stroke-width="2.6" stroke-linecap="round" />
+<line x1="854.0" y1="610.0" x2="866.0" y2="598.0" stroke="#e63946" stroke-width="2.6" stroke-linecap="round" />
+<text x="880.0" y="609.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Jangan</text>
+<rect x="848.0" y="622.0" width="308.0" height="28.0" rx="6" fill="#eef1f5" />
+<text x="858.0" y="641.0" font-size="10.5" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">docker compose kill -s SIGHUP mosquitto</text>
+<text x="852.0" y="674.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Docker mencatatnya sebagai dihentikan:</text>
+<text x="852.0" y="692.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">broker tidak dinyalakan lagi sesudah</text>
+<text x="852.0" y="710.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-style="italic">crash</tspan> atau <tspan font-style="italic">reboot</tspan>; yang benar: sinyal</text>
+<text x="852.0" y="728.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">dari DALAM kontainer (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">exec</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">…</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">kill</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">-HUP</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">1</tspan>)</text>
+<rect x="30.0" y="772.0" width="1140.0" height="312.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="54.0" y="802.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >Perpanjangan: Caddy memperbarui sendiri, Mosquitto TIDAK membaca ulang sendiri</text>
+<rect x="80.0" y="864.0" width="1040.0" height="26.0" rx="6" fill="#f5e0ea" stroke="#a13a6b" stroke-width="1.4" />
+<text x="90.0" y="882.0" font-size="12" font-weight="800" fill="#a13a6b" text-anchor="start" >sertifikat Let's Encrypt: 90 hari (hari ini)</text>
+<line x1="80.0" y1="894.0" x2="80.0" y2="902.0" stroke="#9aa3b0" stroke-width="1.4" stroke-linecap="round" />
+<line x1="160.9" y1="894.0" x2="160.9" y2="902.0" stroke="#9aa3b0" stroke-width="1.4" stroke-linecap="round" />
+<line x1="241.8" y1="894.0" x2="241.8" y2="902.0" stroke="#9aa3b0" stroke-width="1.4" stroke-linecap="round" />
+<line x1="322.7" y1="894.0" x2="322.7" y2="902.0" stroke="#9aa3b0" stroke-width="1.4" stroke-linecap="round" />
+<line x1="403.6" y1="894.0" x2="403.6" y2="902.0" stroke="#9aa3b0" stroke-width="1.4" stroke-linecap="round" />
+<line x1="484.4" y1="894.0" x2="484.4" y2="902.0" stroke="#9aa3b0" stroke-width="1.4" stroke-linecap="round" />
+<line x1="565.3" y1="894.0" x2="565.3" y2="902.0" stroke="#9aa3b0" stroke-width="1.4" stroke-linecap="round" />
+<line x1="646.2" y1="894.0" x2="646.2" y2="902.0" stroke="#9aa3b0" stroke-width="1.4" stroke-linecap="round" />
+<line x1="727.1" y1="894.0" x2="727.1" y2="902.0" stroke="#9aa3b0" stroke-width="1.4" stroke-linecap="round" />
+<line x1="808.0" y1="894.0" x2="808.0" y2="902.0" stroke="#9aa3b0" stroke-width="1.4" stroke-linecap="round" />
+<line x1="888.9" y1="894.0" x2="888.9" y2="902.0" stroke="#9aa3b0" stroke-width="1.4" stroke-linecap="round" />
+<line x1="969.8" y1="894.0" x2="969.8" y2="902.0" stroke="#9aa3b0" stroke-width="1.4" stroke-linecap="round" />
+<line x1="1050.7" y1="894.0" x2="1050.7" y2="902.0" stroke="#9aa3b0" stroke-width="1.4" stroke-linecap="round" />
+<text x="80.0" y="918.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="start" >garis kecil = cron tiap Senin 03.17 (jam VPS)</text>
+<text x="80.0" y="856.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >hari 0: terbit</text>
+<text x="1120.0" y="856.0" font-size="11.5" font-weight="700" fill="#e63946" text-anchor="end" >hari 90: habis</text>
+<line x1="773.3" y1="842.0" x2="773.3" y2="894.0" stroke="#a13a6b" stroke-width="2.6" stroke-linecap="round" />
+<text x="773.3" y="836.0" font-size="11.5" font-weight="800" fill="#a13a6b" text-anchor="middle" >±hari 60: Caddy memperbarui (443 langsung baru)</text>
+<line x1="808.0" y1="894.0" x2="808.0" y2="910.0" stroke="#1e2a4a" stroke-width="2.6" stroke-linecap="round" />
+<text x="814.0" y="918.0" font-size="11.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >cron berikutnya: 8883 ikut baru</text>
+<rect x="54.0" y="940.0" width="560.0" height="124.0" rx="10" fill="#eef1f5" />
+<text x="70.0" y="964.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Satu baris cron di VPS (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#1e2a4a" font-weight="800">crontab</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#1e2a4a" font-weight="800">-e</tspan>), tanpa ganti baris</text>
+<text x="70.0" y="986.0" font-size="10.5" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">17 3 * * 1 sh /home/rumah/rumah-pintar-mini/skrip/perbarui-sertifikat-mqtt.sh</text>
+<text x="70.0" y="1003.0" font-size="10.5" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">  &gt;&gt; /home/rumah/perbarui-sertifikat.log 2&gt;&amp;1</text>
+<text x="366.4" y="1003.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="start" >← sambungan baris yang sama</text>
+<text x="70.0" y="1028.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">skrip: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">docker</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">compose</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">run</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">--rm</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">sertifikat-mqtt</tspan>,</text>
+<text x="70.0" y="1046.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">lalu <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">docker</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">compose</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">exec</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">-T</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">mosquitto</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">kill</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">-HUP</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">1</tspan></text>
+<text x="636.0" y="958.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">Lab tiruan</tspan> (Pebble, umur 600 s): 443 sudah seri baru,</text>
+<text x="636.0" y="975.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">8883 tetap seri lama sampai skrip; sesudahnya seri baru,</text>
+<text x="636.0" y="992.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">PID sama, tanpa <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">New</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">bridge</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">connected</tspan> baru.</text>
+<text x="636.0" y="1009.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">Lupa sampai habis:</tspan> jembatan yang sudah tersambung</text>
+<text x="636.0" y="1026.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">tetap jalan; sambungan BARU ditolak <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">certificate</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">has</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">expired</tspan>.</text>
+<text x="636.0" y="1043.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">docker</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">compose</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">up</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">-d</tspan> ikut menyalin tetapi TIDAK memuat</text>
+<text x="636.0" y="1060.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">ulang: karena itu HUP tetap tiap minggu.</text>
+<text x="1178.0" y="1112.0" font-size="11" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>
