@@ -1,0 +1,187 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1164" viewBox="0 0 1200 1164" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="1164" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" xml:space="preserve">Devices behind the gateway</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" xml:space="preserve">Concept 8 · device broker accounts are made by the backend on the VPS, but live on the Pi gateway broker · the main path</text>
+<rect x="30.0" y="100.0" width="420.0" height="378.0" rx="16" fill="#ffffff" stroke="#1e2a4a" stroke-width="2.2" />
+<path d="M47 129 L64 115 L81 129" fill="none" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="52.0" y="127.0" width="24.0" height="18.0" rx="2" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<rect x="60.5" y="135.0" width="7.0" height="10.0" rx="1" fill="none" stroke="#1e2a4a" stroke-width="1.6" />
+<text x="92.0" y="128.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >Home (the home Wi-Fi)</text>
+<text x="92.0" y="147.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">home router: no port forwarding</text>
+<rect x="48.0" y="170.0" width="150.0" height="76.0" rx="10" fill="#e2f3f1" stroke="#0f8b8d" stroke-width="1.8" />
+<rect x="57.0" y="180.0" width="30.0" height="40.0" rx="3" fill="none" stroke="#0f8b8d" stroke-width="2" />
+<rect x="63.0" y="186.0" width="18.0" height="14.0" rx="2" fill="none" stroke="#0f8b8d" stroke-width="1.6" />
+<line x1="57.0" y1="190.0" x2="52.0" y2="190.0" stroke="#0f8b8d" stroke-width="1.6" stroke-linecap="round" />
+<line x1="87.0" y1="190.0" x2="92.0" y2="190.0" stroke="#0f8b8d" stroke-width="1.6" stroke-linecap="round" />
+<line x1="57.0" y1="198.0" x2="52.0" y2="198.0" stroke="#0f8b8d" stroke-width="1.6" stroke-linecap="round" />
+<line x1="87.0" y1="198.0" x2="92.0" y2="198.0" stroke="#0f8b8d" stroke-width="1.6" stroke-linecap="round" />
+<line x1="57.0" y1="206.0" x2="52.0" y2="206.0" stroke="#0f8b8d" stroke-width="1.6" stroke-linecap="round" />
+<line x1="87.0" y1="206.0" x2="92.0" y2="206.0" stroke="#0f8b8d" stroke-width="1.6" stroke-linecap="round" />
+<line x1="57.0" y1="214.0" x2="52.0" y2="214.0" stroke="#0f8b8d" stroke-width="1.6" stroke-linecap="round" />
+<line x1="87.0" y1="214.0" x2="92.0" y2="214.0" stroke="#0f8b8d" stroke-width="1.6" stroke-linecap="round" />
+<text x="96.0" y="200.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" >Node 1</text>
+<text x="96.0" y="219.0" font-size="11.5" font-weight="700" fill="#0f8b8d" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#0f8b8d" font-weight="800">1.7.0</tspan></text>
+<rect x="48.0" y="262.0" width="150.0" height="76.0" rx="10" fill="#e2f3f1" stroke="#0f8b8d" stroke-width="1.8" />
+<rect x="57.0" y="272.0" width="30.0" height="40.0" rx="3" fill="none" stroke="#0f8b8d" stroke-width="2" />
+<rect x="63.0" y="278.0" width="18.0" height="14.0" rx="2" fill="none" stroke="#0f8b8d" stroke-width="1.6" />
+<line x1="57.0" y1="282.0" x2="52.0" y2="282.0" stroke="#0f8b8d" stroke-width="1.6" stroke-linecap="round" />
+<line x1="87.0" y1="282.0" x2="92.0" y2="282.0" stroke="#0f8b8d" stroke-width="1.6" stroke-linecap="round" />
+<line x1="57.0" y1="290.0" x2="52.0" y2="290.0" stroke="#0f8b8d" stroke-width="1.6" stroke-linecap="round" />
+<line x1="87.0" y1="290.0" x2="92.0" y2="290.0" stroke="#0f8b8d" stroke-width="1.6" stroke-linecap="round" />
+<line x1="57.0" y1="298.0" x2="52.0" y2="298.0" stroke="#0f8b8d" stroke-width="1.6" stroke-linecap="round" />
+<line x1="87.0" y1="298.0" x2="92.0" y2="298.0" stroke="#0f8b8d" stroke-width="1.6" stroke-linecap="round" />
+<line x1="57.0" y1="306.0" x2="52.0" y2="306.0" stroke="#0f8b8d" stroke-width="1.6" stroke-linecap="round" />
+<line x1="87.0" y1="306.0" x2="92.0" y2="306.0" stroke="#0f8b8d" stroke-width="1.6" stroke-linecap="round" />
+<text x="96.0" y="292.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" >third board</text>
+<text x="96.0" y="311.0" font-size="11.5" font-weight="700" fill="#0f8b8d" text-anchor="start" xml:space="preserve">from a claim</text>
+<rect x="226.0" y="170.0" width="206.0" height="168.0" rx="10" fill="#ffffff" stroke="#0f8b8d" stroke-width="2" />
+<text x="240.0" y="194.0" font-size="13.5" font-weight="800" fill="#0f8b8d" text-anchor="start" >Pi gateway broker</text>
+<text x="240.0" y="212.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#4a5568" font-weight="800">pi1</tspan> · <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#4a5568" font-weight="800">192.168.1.37:1883</tspan></text>
+<text x="240.0" y="236.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#a13a6b">device</tspan> accounts: made by</text>
+<text x="240.0" y="253.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the backend (dynamic security)</text>
+<text x="240.0" y="270.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">service accounts + the old</text>
+<text x="240.0" y="287.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Module 21 ones: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">password_file</tspan></text>
+<text x="240.0" y="304.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">a device may only read</text>
+<text x="240.0" y="321.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">its own <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">msh/&lt;id&gt;/cmd</tspan></text>
+<line x1="200.0" y1="208.0" x2="223.0" y2="208.0" stroke="#0f8b8d" stroke-width="2" stroke-linecap="round" />
+<path d="M216.8 211.3 L223.0 208.0 L216.8 204.7" fill="none" stroke="#0f8b8d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="200.0" y1="300.0" x2="223.0" y2="300.0" stroke="#0f8b8d" stroke-width="2" stroke-linecap="round" />
+<path d="M216.8 303.3 L223.0 300.0 L216.8 296.7" fill="none" stroke="#0f8b8d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="48.0" y="386.0" width="384.0" height="72.0" rx="10" fill="#eef1f5" />
+<rect x="56.0" y="424.0" width="44.0" height="16.0" rx="4" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<line x1="66.0" y1="424.0" x2="62.0" y2="408.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<line x1="90.0" y1="424.0" x2="94.0" y2="408.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<circle cx="68.0" cy="432.0" r="1.6" fill="#1e2a4a" />
+<circle cx="75.0" cy="432.0" r="1.6" fill="#1e2a4a" />
+<circle cx="82.0" cy="432.0" r="1.6" fill="#1e2a4a" />
+<text x="112.0" y="416.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" >home router to the internet</text>
+<text x="112.0" y="435.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" >OUTGOING connections, no door opened</text>
+<line x1="123.0" y1="340.0" x2="123.0" y2="383.0" stroke="#a13a6b" stroke-width="2.2" stroke-linecap="round" />
+<path d="M119.7 376.8 L123.0 383.0 L126.3 376.8" fill="none" stroke="#a13a6b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="660.0" y="100.0" width="510.0" height="378.0" rx="16" fill="#ffffff" stroke="#a13a6b" stroke-width="2.2" />
+<rect x="674.0" y="110.0" width="36.0" height="11.0" rx="2" fill="none" stroke="#a13a6b" stroke-width="1.8" />
+<circle cx="681.0" cy="115.5" r="1.6" fill="#a13a6b" />
+<rect x="674.0" y="124.0" width="36.0" height="11.0" rx="2" fill="none" stroke="#a13a6b" stroke-width="1.8" />
+<circle cx="681.0" cy="129.5" r="1.6" fill="#a13a6b" />
+<rect x="674.0" y="138.0" width="36.0" height="11.0" rx="2" fill="none" stroke="#a13a6b" stroke-width="1.8" />
+<circle cx="681.0" cy="143.5" r="1.6" fill="#a13a6b" />
+<text x="720.0" y="128.0" font-size="15" font-weight="800" fill="#a13a6b" text-anchor="start" >VPS (the main path)</text>
+<text x="720.0" y="147.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#4a5568" font-weight="800">compose.cloud.yml</tspan> + the VPS column of <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#4a5568" font-weight="800">.env</tspan>, backend 1.5.0</text>
+<rect x="678.0" y="170.0" width="216.0" height="168.0" rx="10" fill="#ffffff" stroke="#0f8b8d" stroke-width="2" />
+<text x="692.0" y="194.0" font-size="13.5" font-weight="800" fill="#0f8b8d" text-anchor="start" >central broker</text>
+<text x="692.0" y="212.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#4a5568" font-weight="800">8883</tspan> TLS from outside</text>
+<text x="692.0" y="236.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">dynamic security too</text>
+<text x="692.0" y="253.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">(used when a device logs</text>
+<text x="692.0" y="270.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">in straight to the center)</text>
+<text x="692.0" y="287.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">takes account commands</text>
+<text x="692.0" y="304.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">for the gateway on the topic</text>
+<text x="692.0" y="321.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">msh-gateway/pi1/…</tspan></text>
+<rect x="912.0" y="170.0" width="240.0" height="168.0" rx="10" fill="#ffffff" stroke="#1a7f37" stroke-width="2" />
+<text x="926.0" y="194.0" font-size="13.5" font-weight="800" fill="#1a7f37" text-anchor="start" >backend 1.5.0</text>
+<text x="926.0" y="218.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1a7f37" font-weight="800">AUTO_BROKER_ACCOUNTS=</tspan></text>
+<text x="926.0" y="235.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1a7f37" font-weight="800">gateway:pi1</tspan></text>
+<text x="926.0" y="269.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">claim, registration, key rotation,</text>
+<text x="926.0" y="286.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Deactivate → account commands</text>
+<text x="926.0" y="303.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">(<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1a7f37" font-weight="800">createClient</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1a7f37" font-weight="800">deleteClient</tspan>)</text>
+<line x1="910.0" y1="290.0" x2="897.0" y2="290.0" stroke="#1a7f37" stroke-width="2" stroke-linecap="round" />
+<path d="M903.2 286.7 L897.0 290.0 L903.2 293.3" fill="none" stroke="#1a7f37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="678.0" y="360.0" width="474.0" height="96.0" rx="10" fill="#e6dcf5" stroke="#6f42c1" stroke-width="1.8" />
+<text x="692.0" y="384.0" font-size="13.5" font-weight="800" fill="#6f42c1" text-anchor="start" >Caddy, HTTPS 443</text>
+<text x="692.0" y="406.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">/fw/*</tspan> and <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">/api/provision/claim</tspan> → the backend</text>
+<text x="692.0" y="423.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">SERVER_URL=https://iot.yourname.my.id</tspan> (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">.env</tspan>, read by the backend)</text>
+<text x="692.0" y="440.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">(the same address is typed in the board's portal)</text>
+<line x1="1032.0" y1="358.0" x2="1032.0" y2="341.0" stroke="#6f42c1" stroke-width="2" stroke-linecap="round" />
+<path d="M1035.3 347.2 L1032.0 341.0 L1028.7 347.2" fill="none" stroke="#6f42c1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="434.0" y1="220.0" x2="668.0" y2="220.0" stroke="#a13a6b" stroke-width="3" stroke-linecap="round" />
+<path d="M666.1 224.2 L674.0 220.0 L666.1 215.8" fill="none" stroke="#a13a6b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<text x="555.0" y="194.0" font-size="12" font-weight="800" fill="#a13a6b" text-anchor="middle" >TLS bridge 8883</text>
+<text x="555.0" y="209.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="middle" >out of the home</text>
+<text x="555.0" y="239.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="middle" >data up</text>
+<line x1="442.0" y1="290.0" x2="676.0" y2="290.0" stroke="#a13a6b" stroke-width="3" stroke-linecap="round" />
+<path d="M443.9 285.8 L436.0 290.0 L443.9 294.2" fill="none" stroke="#a13a6b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<text x="555.0" y="279.0" font-size="11.5" font-weight="800" fill="#a13a6b" text-anchor="middle" >account commands</text>
+<text x="555.0" y="309.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="middle" >come down through</text>
+<text x="555.0" y="324.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="middle" >the same bridge</text>
+<line x1="432.0" y1="422.0" x2="668.0" y2="422.0" stroke="#a13a6b" stroke-width="3" stroke-linecap="round" />
+<path d="M667.1 426.2 L675.0 422.0 L667.1 417.8" fill="none" stroke="#a13a6b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="461.7" y="398.6" width="192.7" height="16.2" rx="3" fill="#fffdf7" />
+<text x="558.0" y="410.0" font-size="12" font-weight="800" fill="#a13a6b" text-anchor="middle" xml:space="preserve">firmware downloads + claims</text>
+<rect x="472.5" y="433.6" width="171.0" height="14.9" rx="3" fill="#fffdf7" />
+<text x="558.0" y="444.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="middle" xml:space="preserve">HTTPS straight to the VPS,</text>
+<rect x="485.0" y="449.6" width="145.9" height="14.9" rx="3" fill="#fffdf7" />
+<text x="558.0" y="460.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="middle" xml:space="preserve">not through the bridge</text>
+<rect x="30.0" y="498.0" width="1140.0" height="214.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="54.0" y="528.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >How an account is made at a gateway behind a router</text>
+<circle cx="66.0" cy="554.0" r="10" fill="#a13a6b" stroke="#ffffff" stroke-width="2" />
+<text x="66.0" y="558.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >1</text>
+<text x="86.0" y="558.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the backend publishes <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">setDefaultACLAccess</tspan>, then <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">createClient</tspan> at the central broker, topic <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">msh-gateway/pi1/dynamic-security/v1</tspan></text>
+<circle cx="66.0" cy="576.0" r="10" fill="#a13a6b" stroke="#ffffff" stroke-width="2" />
+<text x="66.0" y="580.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >2</text>
+<text x="86.0" y="580.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the bridge carries it down to the gateway as <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">$CONTROL/dynamic-security/v1</tspan>: the plugin makes the account</text>
+<circle cx="66.0" cy="598.0" r="10" fill="#a13a6b" stroke="#ffffff" stroke-width="2" />
+<text x="66.0" y="602.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >3</text>
+<text x="86.0" y="602.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the answer <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">…/response</tspan> goes up through the same bridge to the backend: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">201</tspan>, the board can connect</text>
+<circle cx="66.0" cy="620.0" r="10" fill="#a13a6b" stroke="#ffffff" stroke-width="2" />
+<text x="66.0" y="624.3" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle" >4</text>
+<text x="86.0" y="624.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">no answer within 3 seconds: tried once more, then <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">503</tspan>; the database is unchanged, but a command already</text>
+<text x="86.0" y="646.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">sent may still be carried out by the gateway as soon as the bridge is back: repeat the step</text>
+<rect x="54.0" y="664.0" width="760.0" height="44.9" rx="8" fill="#fcf2f6" />
+<text x="63.0" y="682.4" font-size="11" font-weight="700" fill="#a13a6b" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">topic dynamic-security/v1 in 1 $CONTROL/ msh-gateway/pi1/</text>
+<text x="63.0" y="699.4" font-size="11" font-weight="700" fill="#a13a6b" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">topic dynamic-security/v1/response out 1 $CONTROL/ msh-gateway/pi1/</text>
+<text x="836.0" y="670.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">the two remap lines in</text>
+<text x="836.0" y="687.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#4a5568" font-weight="800">bridge/center.conf</tspan> (Pi)</text>
+<text x="1146.0" y="528.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="end" >simulated lab, TLS bridge: register 201 in 0.15–0.31 s · Deactivate 0.18 s</text>
+<rect x="30.0" y="732.0" width="760.0" height="246.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="54.0" y="762.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Settings per place (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13.5" fill="#1e2a4a" font-weight="800">.env</tspan>)</text>
+<text x="54.0" y="790.0" font-size="11.5" font-weight="800" fill="#4a5568" text-anchor="start" >setting</text>
+<text x="236.0" y="790.0" font-size="11.5" font-weight="800" fill="#4a5568" text-anchor="start" >Laptop without a Pi</text>
+<text x="378.0" y="790.0" font-size="11.5" font-weight="800" fill="#4a5568" text-anchor="start" >Laptop + Pi</text>
+<text x="520.0" y="790.0" font-size="11.5" font-weight="800" fill="#a13a6b" text-anchor="start" >VPS (main)</text>
+<text x="656.0" y="790.0" font-size="11.5" font-weight="800" fill="#4a5568" text-anchor="start" >Pi (free)</text>
+<line x1="54.0" y1="804.0" x2="766.0" y2="804.0" stroke="#e0dcd2" stroke-width="1" stroke-linecap="round" />
+<text x="54.0" y="829.0" font-size="10.5" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">SERVER_URL</text>
+<text x="236.0" y="821.0" font-size="10.5" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">http://</text>
+<text x="236.0" y="836.0" font-size="10.5" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">192.168.1.10</text>
+<text x="378.0" y="821.0" font-size="10.5" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">http://</text>
+<text x="378.0" y="836.0" font-size="10.5" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">192.168.1.10</text>
+<text x="520.0" y="821.0" font-size="10.5" font-weight="800" fill="#a13a6b" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">https://iot.</text>
+<text x="520.0" y="836.0" font-size="10.5" font-weight="800" fill="#a13a6b" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">yourname.my.id</text>
+<text x="656.0" y="821.0" font-size="10.5" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">http://</text>
+<text x="656.0" y="836.0" font-size="10.5" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">192.168.1.37</text>
+<line x1="54.0" y1="844.0" x2="766.0" y2="844.0" stroke="#e0dcd2" stroke-width="1" stroke-linecap="round" />
+<text x="54.0" y="869.0" font-size="10.5" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">AUTO_BROKER_ACCOUNTS</text>
+<text x="236.0" y="869.0" font-size="10.5" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">center</text>
+<text x="378.0" y="869.0" font-size="10.5" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">gateway:pi1</text>
+<text x="520.0" y="869.0" font-size="10.5" font-weight="800" fill="#a13a6b" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">gateway:pi1</text>
+<text x="656.0" y="869.0" font-size="10.5" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">gateway:pi1</text>
+<line x1="54.0" y1="884.0" x2="766.0" y2="884.0" stroke="#e0dcd2" stroke-width="1" stroke-linecap="round" />
+<text x="54.0" y="909.0" font-size="10.5" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">WEB_INNER_PORT</text>
+<text x="236.0" y="909.0" font-size="10.5" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">empty (= 80)</text>
+<text x="378.0" y="909.0" font-size="10.5" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">empty (= 80)</text>
+<text x="520.0" y="909.0" font-size="10.5" font-weight="800" fill="#a13a6b" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">empty (= 80)</text>
+<text x="656.0" y="901.0" font-size="10.5" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">8081</text>
+<text x="656.0" y="916.0" font-size="10.5" font-weight="600" fill="#4a5568" text-anchor="start" >(inside the container)</text>
+<text x="54.0" y="938.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">the board's portal: <tspan font-weight="800" fill="#1e2a4a">Server address</tspan> = your place's <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#4a5568" font-weight="800">SERVER_URL</tspan>, exactly (without <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#4a5568" font-weight="800">:8081</tspan>)</text>
+<text x="54.0" y="960.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">Broker address</tspan> = the gateway's or the laptop's IP (port 1883 on the home Wi-Fi)</text>
+<rect x="806.0" y="732.0" width="364.0" height="246.0" rx="14" fill="#fcf2f6" stroke="#a13a6b" stroke-width="1.6" stroke-dasharray="7 5"/>
+<text x="824.0" y="762.0" font-size="14" font-weight="800" fill="#a13a6b" text-anchor="start" >The free path: everything on the Pi</text>
+<text x="824.0" y="786.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the center on the Pi too (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">1884</tspan>), a LAN bridge</text>
+<text x="824.0" y="804.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">downloads + claims to <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">http://192.168.1.37</tspan></text>
+<text x="824.0" y="822.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">without a port: the Pi's port 80 goes to</text>
+<text x="824.0" y="840.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the <tspan font-weight="800" fill="#a13a6b">device door</tspan> (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">8081</tspan> inside the</text>
+<text x="824.0" y="858.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">web</tspan> container): only <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">/fw/*</tspan> + claims,</text>
+<text x="824.0" y="876.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">no dashboard, no trust in</text>
+<text x="824.0" y="894.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">X-Forwarded-For</tspan>; the dashboard stays</text>
+<text x="824.0" y="912.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">on the Cloudflare tunnel;</text>
+<text x="824.0" y="930.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">downloads don't go through Cloudflare:</text>
+<text x="824.0" y="948.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">its edge certificate not tested with an ESP32</text>
+<rect x="30.0" y="998.0" width="1140.0" height="124.0" rx="14" fill="#eef1f5" />
+<text x="54.0" y="1028.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >Moving the old Module 21 accounts to automatic ones (per device)</text>
+<text x="54.0" y="1056.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#a13a6b">1</tspan> rotate the key with Bruno</text>
+<text x="334.0" y="1056.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#a13a6b">2</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">key</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">&lt;value&gt;</tspan> on Serial, at once</text>
+<text x="614.0" y="1056.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#a13a6b">3</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">mosquitto_passwd</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">-D</tspan> the old line</text>
+<text x="894.0" y="1056.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#a13a6b">4</tspan> restart the gateway (not HUP)</text>
+<text x="54.0" y="1080.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">step <tspan font-weight="800" fill="#a13a6b">1</tspan> = <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">POST</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">/devices/&lt;id&gt;/key</tspan> from Bruno (Module 21); the <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">/fleet</tspan> dashboard has no key-rotation button</text>
+<text x="54.0" y="1102.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">without step 3, deactivating that device brings its old key back to life (lab); a gateway restart keeps the queue (simulated lab: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#4a5568" font-weight="800">Restored</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#4a5568" font-weight="800">5</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#4a5568" font-weight="800">client</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#4a5568" font-weight="800">messages</tspan>, 0 readings lost)</text>
+<text x="1178.0" y="1150.0" font-size="11" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer Curriculum · CC BY 4.0</text>
+</svg>

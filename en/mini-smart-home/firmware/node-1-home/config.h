@@ -2,7 +2,9 @@
 // The pins follow PIN-MAP.md. The calibration numbers are your own Module 6 results.
 #pragma once
 
-const char FIRMWARE_VERSION[] = "1.6.0";
+// Module 28: SemVer x.y.z. RAISE it every time the firmware changes: the server refuses the same version uploaded twice.
+const char FIRMWARE_VERSION[] = "1.7.0";
+const char VERSION_NOTE[] = "installed by cable";  // Module 28: a short sentence on Serial at startup, may be changed
 
 // ---------- Node 1 canonical pin map (copied from PIN-MAP.md) ----------
 const int PIN_STATUS_LED = 2;      // Module 2; moved from D4 to D2 in Module 15 (D4 is now the RS-485 DE/RE)
@@ -54,7 +56,7 @@ const char TIME_ZONE[] = "WIB-7";          // WITA: "WITA-8", WIT: "WIT-9" (Modu
 const char BROKER_ADDRESS[] = "192.168.1.37";  // REPLACE with your Pi gateway's fixed address (Module 12, Practice 2)
 const uint16_t BROKER_PORT = 1883;
 const unsigned long SEND_INTERVAL = 10000;     // telemetry every 10 seconds, plus immediately when something important happens
-const unsigned long VITALS_INTERVAL = 300000;  // vitals (Node 1's health) every 5 minutes
+const unsigned long VITALS_INTERVAL = 300000;  // vitals (Node 1's health) every 5 minutes; since Module 28 = the default
 
 // ---------- Module 14: ESP-NOW bridge for Node 2 "Garden" ----------
 // Node 2's WiFi MAC address, printed by Node 2 when it first powers up. ESP-NOW packets from other addresses are rejected.
@@ -81,3 +83,20 @@ const unsigned long OFFLINE_TEST_TIME = 180000;     // "test offline" command: t
 // ---------- Module 21: the broker account ----------
 // The broker username = device_id. Its key is NOT written in the code: type "key <value>" in the Serial Monitor (stored in NVS).
 const bool WOKWI_LOCKED = false;  // Wokwi only: true = the LOCKED public broker test.mosquitto.org:1884, public account "rw"
+
+// ---------- Module 28: over-the-air firmware updates (OTA), the trial period, and registration ----------
+// The home server's address: where Node 1 downloads firmware (<address>/fw/node-1/<version>.bin) and exchanges a claim code.
+// Usually filled in through the Wi-Fi portal (the "Server address" field) or Serial "server <address>", then stored in NVS.
+// The value here is only used while NVS holds no address yet. Empty = none yet (updates are refused until it is set).
+// Example: "https://iot.yourname.my.id" (VPS, Module 27) or "http://192.168.1.37" (the free-path Pi, home IP only; without a
+// port = the Pi's port 80, which Docker forwards to the device door 8081 INSIDE the web container, so don't write :8081).
+// It must be EXACTLY the same as SERVER_URL in the server's .env (at most 64 characters, lowercase, no / at the end).
+const char DEFAULT_SERVER_ADDRESS[] = "";
+const unsigned long OTA_TRIAL_PERIOD = 60000;         // the new firmware must connect to the broker and publish within 60 seconds
+const unsigned long OTA_WATCHDOG_TIMEOUT = 60000;     // while downloading firmware or claiming: the watchdog is relaxed to 60 seconds
+const unsigned long VITALS_INTERVAL_MIN_S = 60;       // the config "intervals.vitals_s" from the server: 60-3600 seconds (data contract 1.6)
+const unsigned long VITALS_INTERVAL_MAX_S = 3600;
+// The rollback PRACTICE switch (Module 28, firmware 1.7.2-test). 0 = normal. 1 = before connecting to the broker, the broker key
+// is broken on purpose IN RAM ONLY (NVS isn't touched), so the broker refuses this firmware, the 60-second trial period passes, and
+// Node 1 goes back to the previous firmware by itself. After the practice, SET IT BACK to 0.
+const int TEST_WRONG_KEY = 0;

@@ -1,0 +1,2475 @@
+diff --git a/PIN-MAP.md b/PIN-MAP.md
+index 83a44a8..b4d7ef8 100644
+--- a/PIN-MAP.md
++++ b/PIN-MAP.md
+@@ -2,7 +2,7 @@
+ 
+ 🌐 **English** · [Bahasa Indonesia](../../proyek-rumah-pintar-mini/PETA-PIN.md)
+ 
+-> Created in [Module 5](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-1-esp32-embedded/module-05-gpio-and-pin-map/README.md#3-the-pin-budget-and-the-canonical-pin-map-of-node-1-and-node-2), updated in [Module 6](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-1-esp32-embedded/module-06-reading-sensors/README.md), [Module 7](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-1-esp32-embedded/module-07-sensor-bus-oled-schematics/README.md), [Module 9](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-1-esp32-embedded/module-09-power-and-low-power/README.md), [Module 14](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-14-node-2-esp-now/README.md), and [Module 15](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-15-modbus-rs485-and-protocols/README.md); valid until Module 28.
++> Created in [Module 5](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-1-esp32-embedded/module-05-gpio-and-pin-map/README.md#3-the-pin-budget-and-the-canonical-pin-map-of-node-1-and-node-2), updated in [Module 6](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-1-esp32-embedded/module-06-reading-sensors/README.md), [Module 7](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-1-esp32-embedded/module-07-sensor-bus-oled-schematics/README.md), [Module 9](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-1-esp32-embedded/module-09-power-and-low-power/README.md), [Module 14](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-14-node-2-esp-now/README.md), [Module 15](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-15-modbus-rs485-and-protocols/README.md), and [Module 28](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-5-operations-scale/module-28-ota-provisioning-fleet/README.md). **Version 7 (Module 28): the pins don't change**; only their place changes: Node 1's connections move from the breadboard into the project box (see **Node 1 inside the box**).
+ > **Before you add anything to Node 1 or Node 2, check this file first.**
+ 
+ ## Rules
+@@ -121,6 +121,27 @@ All the holes are on the **lower breadboard**, except the end of the module's VC
+ 
+ The 120 Ω resistor on the module (R7, the terminator) is left in place: two modules at the two ends of the cable = exactly two terminators.
+ 
++## Node 1 inside the box (since Module 28)
++
++The pins, the power rails, and the firmware **don't change** when Node 1 moves from the workbench into the project box: the **Node 1 "Home"**
++table above still applies as it is. Only the way things are connected changes.
++
++| Part | On the workbench (Modules 5–27) | Inside the box (Module 28, the no-solder path) |
++| :--- | :--- | :--- |
++| ESP32 board | plugged into the breadboard | plugged into a **screw-terminal expansion board** for the 30-pin DevKit V1; first measure the distance between its two rows of pins against your board with a ruler (a board for 38 pins doesn't fit) |
++| Signal wires (Node 1 table) | jumper wires on the breadboard | short solid-core wires from the screw terminal labeled with the same GPIO (D32, D33, D25, ...); the labels on the expansion board may use the GPIO name or the D name: match them with the first column of the Node 1 table |
++| Small circuits: the ECHO voltage divider (D35), the LDR divider + capacitor (VP), the pump MOSFET + resistor (D25), the RS-485 RO divider (RX2) | on the breadboard | on a **mini self-adhesive breadboard** inside the box (or a soldered perfboard, the optional path); the expansion board has no room for resistors and MOSFETs |
++| ESP32 power | its own charger through the board's USB (Module 9) | **the same**: its own charger through the board's USB; the charger's plug stays in the wall socket (outside the box), only its USB cable goes into the box. The expansion board's DC jack and regulator are **not used** |
++| Load power (relays, pump, servo, 5 V sensors) | MB102 from a 5 V adapter | **the same**: the MB102 goes into the box too; its adapter's plug stays in the wall socket (outside the box), only its 5 V cable goes into the box. The 5 V and 3.3 V rails as in the **Power rails on the workbench** table; GND stays joined |
++| Sensors that must "see" or "feel" the outside air | on the desk | outside the box or through the box wall: DHT22 (away from the warm ESP32 and regulator), PIR and LDR (facing the room), HC-SR04 (above the water tank), soil sensor (in the pot) |
++
++Box rules (Module 28): no 220 V mains cable goes into the box: the plugs of the charger and the adapter stay in the wall socket outside
++the box, only their 5 V cables go in (the relays are only for this project's 5 V loads); the box gets ventilation holes, it isn't a tightly
++sealed waterproof box (condensation); the wires are tied so they can't be pulled out of the terminals; check polarity and connections with a
++multimeter **before** the power goes in; move things group by group (power → actuators → sensors) and test each group through the dashboard.
++Put a label on the box: `device_id`, name, the first firmware version + date, power polarity, the Wi-Fi portal password (`PORTAL_PASSWORD`,
++if used), and "hold D13 at power-up = Wi-Fi portal".
++
+ ## Golden power rules
+ 
+ 1. **Loads** (relays, fan, pump, servo) **always get their power from the MB102**, never from the ESP32's VIN or 3V3 pin.
+@@ -139,7 +160,8 @@ The 120 Ω resistor on the module (R7, the terminator) is left in place: two mod
+ | 4 | 9 | Node 1 gets its power from its own charger (golden power rules 2, 4, and 5). Node 2 skeleton connected: DS18B20 on GPIO 27 and the "awake" LED on GPIO 2. New **Node 2 battery circuit** section. I2C address `0x40` reserved for the INA219, a temporary measuring tool. |
+ | 5 | 14 | Node 2 complete: the BME280 on I2C (D21/D22), the second soil sensor on VN with VCC from **D32** (off during sleep), the DS18B20 moves to the mini breadboard's bottom rail; VP optional for the battery voltage. New **Node 2 sensors** section. Node 1 doesn't change. |
+ | 6 | 15 | RS-485 connected on Node 1: RX2/TX2 (16/17) and **DE/RE on D4**; the status LED moves from D4 to **D2** (the MAX485 module pulls DE/RE up to 5 V, so D2 as DE/RE could make uploads fail). The second-board lab uses 16/17/4. New **RS-485 on the Node 1 workbench** section. |
++| 7 | 28 | **The pins don't change.** Node 1 moves from the breadboard into the project box: a screw-terminal expansion board + a mini breadboard (or perfboard) for the small circuits, the Module 9 power supply reused. New **Node 1 inside the box** section. Node 2 doesn't change. |
+ 
+ ---
+ 
+-[⬅️ Back to the project folder](README.md) · [Module 5](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-1-esp32-embedded/module-05-gpio-and-pin-map/README.md) · [Module 7](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-1-esp32-embedded/module-07-sensor-bus-oled-schematics/README.md) · [Module 9](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-1-esp32-embedded/module-09-power-and-low-power/README.md) · [Module 14](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-14-node-2-esp-now/README.md) · [Module 15](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-15-modbus-rs485-and-protocols/README.md) · [Syllabus](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/SYLLABUS.md)
++[⬅️ Back to the project folder](README.md) · [Module 5](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-1-esp32-embedded/module-05-gpio-and-pin-map/README.md) · [Module 7](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-1-esp32-embedded/module-07-sensor-bus-oled-schematics/README.md) · [Module 9](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-1-esp32-embedded/module-09-power-and-low-power/README.md) · [Module 14](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-14-node-2-esp-now/README.md) · [Module 15](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-15-modbus-rs485-and-protocols/README.md) · [Module 28](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-5-operations-scale/module-28-ota-provisioning-fleet/README.md) · [Syllabus](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/SYLLABUS.md)
+diff --git a/firmware/README.md b/firmware/README.md
+new file mode 100644
+index 0000000..147f112
+--- /dev/null
++++ b/firmware/README.md
+@@ -0,0 +1,133 @@
++# 🔌 Firmware — Mini Smart Home
++
++🌐 **English** · [Bahasa Indonesia](../../../proyek-rumah-pintar-mini/firmware/README.md)
++
++This folder holds the firmware of both ESP32 boards of the **Mini Smart Home** project:
++
++| Folder | Board | Version | Last changed |
++| :--- | :--- | :---: | :--- |
++| [`node-1-home/`](node-1-home/) | Node 1 "Home" (ESP32 DevKit V1, powered by a charger) | **1.7.0** | Module 28: over-the-air updates (OTA), automatic rollback, claim codes |
++| [`node-2-garden/`](node-2-garden/) | Node 2 "Garden" (ESP32 DevKit V1, battery, ESP-NOW) | 1.0.0 | Module 14 (unchanged in Module 28) |
++
++> [!WARNING]
++> **Status 1.7.0: compiled, NOT yet run on a real board.** On 3 November 2026 the author compiled Node 1 1.7.0 and
++> both of its practice versions (1.7.1 and 1.7.2-test) with `arduino-cli` 1.5.1, the esp32 package 3.3.12, and the libraries in the list below
++> (exact versions), for the **ESP32 Dev Module** board with **Minimal SPIFFS** and **Flash Mode DIO** (the Module 10 settings): no errors, and
++> not a single warning from the `node-1-home` files (the warnings that do show come from the WiFiManager, ESP32Servo, and ModbusMaster libraries,
++> the same as with 1.6.0). The result: `Sketch uses 1411683 bytes (71%)`, `Global variables use 58404 bytes (17%)`, and the file `node-1-home.ino.bin`
++> is 1,411,824 bytes (71.8% of a program shelf, 554,256 left). The list of functions in the compiled file (`nm`) confirms that the line
++> `extern "C" bool verifyRollbackLater()` in `trial-period.cpp` really replaces the default function of the Arduino core (symbol `T`, not `W`),
++> so rollback is on. The update, trial period, and rollback logic was also tested on a computer with fakes. **Not yet** done: running this firmware
++> on a real ESP32 board (uploading by cable, the 1.7.1 update over the air, the 1.7.2-test rollback, a claim code), because the author has no
++> board on the desk. This note will be updated after the board test.
++
++## What Node 1 1.7.0 needs
++
++- **Arduino IDE 2.3.10** with the board package **esp32 version 3.3.12** (not 3.3.11 or older: `setSHA256sum()` and `useBuiltinCACertBundle()`
++  are new in 3.3.12; not 4.0.0-RC1, which is still a pre-release).
++- The **ESP32 Dev Module** board, **Tools → Partition Scheme → Minimal SPIFFS (1.9MB APP with OTA/128KB SPIFFS)**, and
++  **Tools → Flash Mode → DIO** (the same as Module 10): two program shelves of 1,966,080 bytes each. A scheme without OTA (**No OTA**,
++  **Huge APP**) has only one shelf: an update command is still accepted (`ack` `ok:true`), then the update ends `failed`
++  (`Update error: Partition Could Not be Found (Update 10)`; from the code and the esp32 package source, not run by the author).
++- Libraries (Library Manager): ESP32Servo 3.2.1, DHT sensor library 1.4.7, Adafruit SSD1306 2.5.17, WiFiManager 2.0.17, ArduinoJson 7.4.3,
++  **PubSubClient3** 3.3.2, ModbusMaster 2.0.1, plus three supporting libraries installed together with DHT and SSD1306 (the versions the
++  author used: Adafruit Unified Sensor 1.1.15, Adafruit GFX Library 1.12.6, Adafruit BusIO 1.17.4). HTTPUpdate, HTTPClient,
++  NetworkClientSecure, Update, Preferences, and WiFi already come with the esp32 package.
++- **The server first.** Install backend 1.5.0 (data contract 1.6) before Node 1 1.7.0: the old backend refuses the new `vitals` that carry
++  `reset_reason`, `fw`, and `ota`.
++
++## New in Node 1 1.7.0
++
++| What | In short | File |
++| :--- | :--- | :--- |
++| Over-the-air updates | The MQTT `update` command (the **Update** button on `/fleet`) → `ack` `ok:true` = **accepted** → status `offline-mode` + a clean disconnect → download `<server address>/fw/node-1/<version>.bin` with the device key → the SHA-256 fingerprint is checked → restart into the other shelf. A failure = the old firmware keeps running, a `failed` report | `ota-update.cpp` |
++| Only from the home server | Node 1 only downloads from the server address **stored on Node 1 itself** (the Wi-Fi portal, Serial `server`, or a claim). A command with another address is refused (`url is not this home's server`) before the key is sent anywhere | `ota-check.cpp` |
++| The 60-second trial period and rollback | New firmware is valid if within 60 seconds of starting it connects to the broker, publishes `online`, and subscribes to `cmd`. If not, Node 1 **goes back by itself** to the old firmware. A restart in the middle of the trial period (a power cut, `restart`, the program crashing) also cancels the new firmware | `trial-period.cpp` |
++| Result reports | `vitals` carry `reset_reason`, `fw`, and the `ota` report (`succeeded`, `rollback`, or `failed`), repeated in at most 3 `vitals` | `ota-update.cpp`, `networking.cpp` |
++| Claim codes | A new board registers with an `XXXX-XXXX` code from the admin (the **Claim code** field in the Wi-Fi portal, or Serial `claim <code>`), without typing a key | `claim.cpp` |
++| Wi-Fi portal | Three new fields: **Claim code** (not stored), **Server address**, **Broker address**. A password-protected portal if `PORTAL_PASSWORD` is written in `keys.h`. The portal isn't opened during the trial period | `networking.cpp` |
++| The `vitals` interval from afar | `config` may carry `"intervals":{"vitals_s":60}` (60–3600 seconds, 300 by default). `telemetry` stays every 10 seconds | `networking.cpp`, `settings.cpp` |
++| Stopping on purpose | Before an update, the Serial command `restart`, and `wifi forget`: status `offline-mode` then a clean disconnect (the broker doesn't publish the `offline` will) | `networking.cpp`, `ota-update.cpp` |
++
++New Serial Monitor commands: `ota` (the version, program shelves, trial period, report), `server`, `server <address>`, `broker`, `broker <ip>`, `claim`,
++`claim <code> [server address] [broker address]`. Example: `claim 7K2M-QF9D https://iot.yourname.my.id 192.168.1.37`.
++
++> [!IMPORTANT]
++> **The line that turns rollback on** is in `trial-period.cpp`: `extern "C" bool verifyRollbackLater() { return true; }`. Without that line, or
++> without the words `extern "C"`, the firmware still compiles without any warning, but rollback **never** happens: the Arduino core
++> marks every new firmware valid right away, before `setup()`. Don't delete or change that line.
++
++## Making the firmware file for the server
++
++1. Raise `FIRMWARE_VERSION` in `config.h`. The server refuses a version that was already uploaded, and the device refuses the same version as
++   the one it is running. A downgrade (the **Allow downgrade** tick on the server) is allowed, but not below 1.7.0: old firmware has no trial
++   period and no rollback, so the device answers `versions below 1.7.0 have no rollback: install by cable`.
++2. In the Arduino IDE: **Sketch → Export Compiled Binary**. The file shows up in the sketch's `build/` folder (for example
++   `build/esp32.esp32.esp32/node-1-home.ino.bin`).
++3. Upload **`node-1-home.ino.bin`** on `/fleet` (**Upload firmware**). Not `.merged.bin` (4 MB, starts with the byte `0xFF`, always refused) and
++   not `.bootloader.bin` or `.partitions.bin`.
++
++`.bin` files and the `build/` folder are guarded by `.gitignore`: **never** commit or share them. Node 1's broker key isn't in that
++file (the key is stored in the board's NVS), but the content of `keys.h` is compiled into it: the ESP-NOW key (Module 14, if
++`USE_ENCRYPTION = true`) and the portal password `PORTAL_PASSWORD` (if written).
++
++The size of a program shelf: 1,966,080 bytes. Node 1 1.6.0 = 1,194,928 bytes (60%, Module 21). Node 1 1.7.0 (with HTTPS and the built-in list of root
++certificates) = **1,411,683 bytes (71%)** according to `Sketch uses` on the author's machine (the Module 10 settings: Minimal SPIFFS, Flash Mode DIO), and
++its `.bin` file is 1,411,824 bytes: about 554 thousand bytes of the shelf are still free. The numbers in your Arduino IDE may differ by a few hundred
++bytes, because the full board name, the operating system, and the folder path of the esp32 package are stored inside the firmware too (on the author's
++machine, 1.6.0 with the same settings came to 1,194,560 bytes, 368 bytes smaller than the Module 21 record).
++
++## Module 28 practice: 1.7.1 over the air, then 1.7.2-test (rollback)
++
++Both practice versions are made from 1.7.0 **by changing constants only** in `config.h`:
++
++| Version | Change in `config.h` | Installed | What to expect |
++| :---: | :--- | :--- | :--- |
++| 1.7.0 | (as it is) | **by cable**, for the last time | Serial: `Node 1 Home - firmware 1.7.0 (installed by cable)` |
++| 1.7.1 | `FIRMWARE_VERSION[] = "1.7.1"`, `VERSION_NOTE[] = "installed over the air"` | the **Update** button on `/fleet` | valid within 60 seconds, `/fleet` shows `fw` 1.7.1 |
++| 1.7.2-test | `FIRMWARE_VERSION[] = "1.7.2"`, `VERSION_NOTE[] = "rollback TEST release"`, `TEST_WRONG_KEY = 1` | uploaded with the **test** box ticked, then **Update** on one device | the broker refuses its key, 60 seconds pass, Node 1 goes back to 1.7.1 and reports `rollback` |
++
++```diff
++-const char FIRMWARE_VERSION[] = "1.7.0";
++-const char VERSION_NOTE[] = "installed by cable";  // Module 28: a short sentence on Serial at startup, may be changed
+++const char FIRMWARE_VERSION[] = "1.7.2";
+++const char VERSION_NOTE[] = "rollback TEST release";  // Module 28: a short sentence on Serial at startup, may be changed
++ ...
++-const int TEST_WRONG_KEY = 0;
+++const int TEST_WRONG_KEY = 1;
++```
++
++`TEST_WRONG_KEY = 1` breaks the broker key **in RAM only**: NVS isn't touched, so the old firmware that comes back uses its real key again.
++After the practice, **set it back to 0** and `FIRMWARE_VERSION` to the next release version (for example 1.7.3). The version `1.7.2` (without the
++`-test` suffix: the data contract only accepts x.y.z) is already used by the test release on the server, so the next normal release uses a new number.
++
++## The Wi-Fi portal password (optional, recommended for Node 1 inside the box)
++
++In `keys.h` (the Module 14 secret file, guarded by `.gitignore`), add one line, then write the same password on the label of Node 1's box:
++
++```cpp
++#define PORTAL_PASSWORD "password-of-8-to-63-characters"
++```
++
++Without that line, the portal is open without a password as in Module 10, and the Serial Monitor warns that the page `192.168.4.1/update` can be
++opened by anyone near Node 1 while the portal is open. A password shorter than 8 or longer than 63 characters stops the compile with a clear
++message (the WPA2 Wi-Fi password rule).
++
++## Known limits
++
++- While the firmware downloads (about half a minute to a minute), `loop()` stops: the pump and the buzzer are turned off first, the lamp, the fan, and the curtain
++  stay in their last state, and the local safety (the offline-mode fan, automatic watering) doesn't run. A Node 2 ESP-NOW packet that arrives
++  at that moment may be missed.
++- The watchdog is relaxed to 60 seconds while downloading or exchanging a claim code, then set back to 5 seconds. A server that is silent for 8 seconds
++  before answering = `failed` (`-11`) without a restart. Data that stops **in the middle** of the file: over `https://` the library gives up by itself
++  after ±30 seconds (`failed`, `Update 6`, without a restart); over `http://` (the home network) the 60-second watchdog restarts Node 1.
++  On both paths the old shelf stays whole; the `http://` path reports `failed: restarted while downloading (WDT)` with `reset_reason` `WDT`.
++- New firmware that gets stuck in `setup()` (for example waiting for a sensor forever) is still rolled back: during the trial period, a 75-second watchdog already
++  watches `setup()`.
++- A router that is off during the trial period: the Wi-Fi guard tries again every 10 seconds (60 seconds normally). A router that isn't on within 60 seconds =
++  the new firmware is rolled back even though it is actually fine: repeat **Update** after the router is on.
++- A command that arrives exactly while Node 1 stops on purpose (±0.3 seconds) isn't carried out and is answered `ok:false`
++  (`Node 1 is stopping on purpose: send it again once it is online`).
++- A restart in the middle of the trial period (a power cut, the `restart` command, a brownout) always cancels the new firmware, even if that firmware
++  is actually fine. Install updates while the power is stable.
++- Node 2 isn't updated over the air: still by cable.
+diff --git a/firmware/node-1-home/actuators.cpp b/firmware/node-1-home/actuators.cpp
+index d027c6b..697f5a7 100644
+--- a/firmware/node-1-home/actuators.cpp
++++ b/firmware/node-1-home/actuators.cpp
+@@ -115,6 +115,20 @@ void soundBuzzer() {
+   buzzerStartTime = millis();
+ }
+ 
++// Module 28: while firmware is being downloaded, loop() doesn't run, so updateActuators() can't turn off the pump and
++// the buzzer on time. Both are turned off now. The lamp, the fan, and the curtain are left in their last state.
++void turnOffPumpAndBuzzer() {
++  if (pump) {
++    digitalWrite(PIN_PUMP, LOW);
++    pump = false;
++    logInfo("Pump turned off before updating the firmware.");
++  }
++  if (buzzer) {
++    ledcWriteTone(PIN_BUZZER, 0);
++    buzzer = false;
++  }
++}
++
+ bool lampOn() {
+   return lamp;
+ }
+diff --git a/firmware/node-1-home/actuators.h b/firmware/node-1-home/actuators.h
+index e45d5b9..19ae537 100644
+--- a/firmware/node-1-home/actuators.h
++++ b/firmware/node-1-home/actuators.h
+@@ -10,6 +10,7 @@ void setFanBySafety(bool isOn);                // Module 19: only for the local
+ bool turnOnPump(int seconds, int waterLevel);  // returns false if refused because the tank is too low
+ void setCurtain(int angle);
+ void soundBuzzer();                            // beeps for 150 ms, but the program doesn't wait for it
++void turnOffPumpAndBuzzer();                   // Module 28: before downloading firmware (loop() stops for over a minute)
+ 
+ bool lampOn();
+ bool lampByAutomation();  // true if the lamp that is on was turned on by the automation rule
+diff --git a/firmware/node-1-home/claim.cpp b/firmware/node-1-home/claim.cpp
+new file mode 100644
+index 0000000..e1ace44
+--- /dev/null
++++ b/firmware/node-1-home/claim.cpp
+@@ -0,0 +1,151 @@
++// claim.cpp - the code of the claim module. Its functions are listed in claim.h.
++// Compiled by the author (arduino-cli 1.5.1, esp32 3.3.12), but NOT run on a board yet: firmware README, "Status 1.7.0".
++#include <Arduino.h>
++#include <HTTPClient.h>           // comes with the esp32 package
++#include <NetworkClientSecure.h>  // comes with the esp32 package: HTTPS with the built-in list of root certificates
++#include <ArduinoJson.h>
++#include "config.h"
++#include "logger.h"
++#include "system.h"
++#include "settings.h"
++#include "ota-check.h"
++#include "networking.h"
++#include "trial-period.h"
++#include "claim.h"
++
++const unsigned long CLAIM_RETRY_INTERVAL = 30000;  // the server can't be reached or 503: try again 30 seconds later
++const int MAX_CLAIM_ATTEMPTS = 3;                  // at most 3 times; after that, type "claim <code>" again
++
++static char claimCode[13] = "";  // RAM only: a single-use code is never written to NVS
++static bool waiting = false;
++static bool hasTried = false;
++static int attempt = 0;
++static unsigned long lastTryTime = 0;
++
++static void finishClaim() {
++  memset(claimCode, 0, sizeof(claimCode));  // the code is wiped from RAM too
++  waiting = false;
++}
++
++const char* startClaim(const char* code) {
++  const char* wrong = checkClaimCode(code);  // ota-check.cpp: only its form
++  if (wrong != nullptr) {
++    return wrong;
++  }
++  if (inTrialPeriod()) {
++    return "wait until the new firmware's trial period is over (type: ota)";
++  }
++  if (storedServerAddress()[0] == '\0') {
++    return "server address not set: type claim <code> <server address>, or server <address> first";
++  }
++  snprintf(claimCode, sizeof(claimCode), "%s", code);
++  waiting = true;
++  hasTried = false;
++  attempt = 0;
++  logInfo("Claim code accepted (not saved in NVS); sent to %s as soon as Wi-Fi is ready.", storedServerAddress());
++  return nullptr;
++}
++
++static void sendClaim(const char* server, bool https) {
++  hasTried = true;
++  lastTryTime = millis();
++  attempt++;
++  char url[SERVER_ADDRESS_MAX_LENGTH + 24];
++  snprintf(url, sizeof(url), "%s/api/provision/claim", server);
++  char content[64];  // the code was already checked (letters, digits, -, spaces), so it is safe to write it straight into JSON
++  snprintf(content, sizeof(content), "{\"code\":\"%s\",\"device_id\":\"%s\"}", claimCode, myDeviceId());
++  logInfo("Claim: sending the code to %s (attempt %d of %d)...", url, attempt, MAX_CLAIM_ATTEMPTS);
++
++  setWatchdogTimeout(OTA_WATCHDOG_TIMEOUT);  // an HTTPS handshake may take more than 5 seconds
++  NetworkClient plain;
++  NetworkClientSecure secure;
++  NetworkClient* client = &plain;
++  if (https) {
++    secure.useBuiltinCACertBundle();
++    secure.setHandshakeTimeout(20);
++    client = &secure;
++  }
++  HTTPClient http;
++  int code = HTTPC_ERROR_CONNECTION_REFUSED;
++  String reply;
++  unsigned long start = millis();
++  if (http.begin(*client, url)) {
++    http.setConnectTimeout(5000);
++    http.setTimeout(10000);
++    http.addHeader("Content-Type", "application/json");
++    code = http.POST(String(content));
++    if (code > 0) {
++      reply = http.getString();
++    }
++    http.end();
++  }
++  setWatchdogTimeout(WATCHDOG_TIMEOUT);
++  unsigned long elapsed = millis() - start;
++
++  JsonDocument doc;
++  bool validJson = code > 0 && !deserializeJson(doc, reply);
++  if (code == HTTP_CODE_CREATED) {
++    const char* key = validJson ? (doc["key"] | "") : "";
++    if (!saveBrokerKey(key)) {  // settings.cpp: 1-64 characters A-Z, a-z, 0-9, - or _
++      logError("Claim: a 201 answer without a valid key. Report it to the admin.");
++      finishClaim();
++      return;
++    }
++    logInfo("Claim SUCCEEDED in %lu ms: device key saved in NVS (broker username %s). Connecting to the broker...",
++            elapsed, myDeviceId());
++    changeBrokerKey();  // networking.cpp: tried right away with the new key
++    finishClaim();
++    return;
++  }
++  const char* message = validJson ? (doc["message"] | "") : "";  // our server's errors and Fastify's both use "message"
++  if (code <= 0) {
++    char tls[48] = "";
++    if (https) {
++      secure.lastError(tls, sizeof(tls));
++    }
++    logError("Claim FAILED: server %s can't be reached (%s)%s%s", server, HTTPClient::errorToString(code).c_str(),
++             tls[0] != '\0' ? ": " : "", tls);
++  } else {
++    logError("Claim REFUSED %d: %s", code, message[0] != '\0' ? message : "(no message)");
++  }
++  if (code == 403) {
++    logInfo("Wrong code, expired, or already used: ask the admin for a new code (/fleet, Create claim code).");
++  } else if (code == 409) {
++    logInfo("This device is still registered and active: deactivate it on /fleet first, then claim again with a new code.");
++  } else if (code == 429) {
++    logInfo("Too many attempts: wait 1 minute, then type claim <code> again.");
++  }
++  if ((code <= 0 || code == 503) && attempt < MAX_CLAIM_ATTEMPTS) {  // 503: the code is NOT used up
++    logInfo("Claim tried again in %lu seconds.", CLAIM_RETRY_INTERVAL / 1000);
++  } else {
++    finishClaim();
++  }
++}
++
++void updateClaim() {
++  if (!waiting || inTrialPeriod() || !wifiConnected()) {
++    return;
++  }
++  if (hasTried && millis() - lastTryTime < CLAIM_RETRY_INTERVAL) {
++    return;
++  }
++  const char* server = storedServerAddress();
++  if (server[0] == '\0') {
++    logError("Claim cancelled: server address not set.");
++    finishClaim();
++    return;
++  }
++  // HTTPS doesn't need to wait for the internet clock: the esp32 3.3.12 package checks the certificate chain and the server name, but
++  // does NOT check its validity dates (CONFIG_MBEDTLS_HAVE_TIME_DATE is off in that package). So the claim is sent as soon as Wi-Fi is ready.
++  bool https = strncmp(server, "https://", 8) == 0;
++  sendClaim(server, https);
++}
++
++void printClaimInfo() {
++  if (waiting) {
++    Serial.printf("claim: a code is waiting to be sent to %s (%d of %d attempts so far)\n", storedServerAddress(), attempt,
++                  MAX_CLAIM_ATTEMPTS);
++  } else {
++    Serial.println("claim: no code is waiting");
++  }
++}
+diff --git a/firmware/node-1-home/claim.h b/firmware/node-1-home/claim.h
+new file mode 100644
+index 0000000..c643947
+--- /dev/null
++++ b/firmware/node-1-home/claim.h
+@@ -0,0 +1,11 @@
++// claim.h - registering with a CLAIM CODE from the admin (Module 28, DATA-CONTRACT.md 1.6 section 10).
++// The code is typed in the Wi-Fi portal (the "Claim code" field) or in the Serial Monitor ("claim <code>"). As soon as Wi-Fi is
++// connected, Node 1 sends once:
++//   POST <server address>/api/provision/claim {"code":"7K2M-QF9D","device_id":"<device_id>"}
++// The 201 answer carries the device key; that key is saved in NVS like "key <value>" (Module 21), then Node 1 connects
++// to the broker right away. The code itself is NOT saved in NVS: only in RAM until it is used.
++#pragma once
++
++const char* startClaim(const char* code);  // nullptr = the code is accepted and will be sent; otherwise the reason
++void updateClaim();                        // call it in every pass of loop(): sends the code as soon as Wi-Fi is ready
++void printClaimInfo();                     // part of the answer to the Serial command "claim"
+diff --git a/firmware/node-1-home/commands.cpp b/firmware/node-1-home/commands.cpp
+index 3866e56..682cf1d 100644
+--- a/firmware/node-1-home/commands.cpp
++++ b/firmware/node-1-home/commands.cpp
+@@ -11,9 +11,14 @@
+ #include "networking.h"
+ #include "bridge.h"
+ #include "rs485.h"
++#include "ota-check.h"   // Module 28: tidyAddress(), checkServerAddress(), checkBrokerAddress()
++#include "ota-update.h"  // Module 28: the "ota" and "restart" commands
++#include "claim.h"       // Module 28: the "claim" command
+ #include "commands.h"
+ 
+-const int MAX_LINE_LENGTH = 80;  // Module 21: up from 40, so "key " + a 43-character key fits
++// Module 21: up from 40, so "key " + a 43-character key fits. Module 28: up from 80, so
++// "claim <code> <64-character server address> <broker address>" fits.
++const int MAX_LINE_LENGTH = 128;
+ static char line[MAX_LINE_LENGTH + 1];  // +1 for the end-of-text mark
+ static int lineLength = 0;
+ static bool lineTruncated = false;  // Module 21: a line longer than its container: don't use it (the key would be cut!)
+@@ -89,6 +94,84 @@ static void printKey() {
+   }
+ }
+ 
++// ---------- Module 28: the server address, the broker address, and the claim code ----------
++// Splits a line into words separated by spaces. Returns the number of words (more than "maxWords" = maxWords + 1).
++static int splitWords(const String& text, String words[], int maxWords) {
++  int count = 0;
++  int i = 0;
++  int n = text.length();
++  while (i < n) {
++    while (i < n && text[i] == ' ') {
++      i++;
++    }
++    if (i >= n) {
++      break;
++    }
++    int start = i;
++    while (i < n && text[i] != ' ') {
++      i++;
++    }
++    if (count == maxWords) {
++      return maxWords + 1;  // too many words
++    }
++    words[count] = text.substring(start, i);
++    count++;
++  }
++  return count;
++}
++
++static bool setServerAddress(const String& text) {
++  char tidy[SERVER_ADDRESS_MAX_LENGTH + 2];  // +2: an address that is too long is still detected
++  tidyAddress(text.c_str(), tidy, sizeof(tidy));
++  const char* wrong = checkServerAddress(tidy);
++  if (wrong != nullptr) {
++    Serial.printf("server: not saved. %s\n", wrong);
++    return false;
++  }
++  saveServerAddress(tidy);
++  Serial.printf("server: %s (firmware is only downloaded from this address: <address>/fw/node-1/<version>.bin)\n",
++                storedServerAddress());
++  return true;
++}
++
++static bool setBrokerAddress(const String& text) {
++  char tidy[SERVER_ADDRESS_MAX_LENGTH + 2];
++  tidyAddress(text.c_str(), tidy, sizeof(tidy));
++  const char* wrong = checkBrokerAddress(tidy);
++  if (wrong != nullptr) {
++    Serial.printf("broker: not saved. %s\n", wrong);
++    return false;
++  }
++  saveBrokerAddress(tidy);
++  changeBrokerAddress();  // networking.cpp: reconnect now to that address
++  Serial.printf("broker: %s, door %u; Node 1 is connecting there now.\n", storedBrokerAddress(), BROKER_PORT);
++  return true;
++}
++
++// "claim <code> [server address] [broker address]": a way to register without the portal (for example in Wokwi, or a board that
++// already has Wi-Fi). The addresses written are saved first, then the code is sent.
++static void runClaimCommand(const String& command) {
++  String words[4];
++  int count = splitWords(command, words, 4);
++  if (count < 2 || count > 4) {
++    Serial.println("Example: claim 7K2M-QF9D http://192.168.1.10 192.168.1.37 (the server and broker addresses may be "
++                   "left out; write the code with its -, without spaces)");
++    return;
++  }
++  if (count >= 3 && !setServerAddress(words[2])) {
++    return;
++  }
++  if (count == 4 && !setBrokerAddress(words[3])) {
++    return;
++  }
++  const char* wrong = startClaim(words[1].c_str());
++  if (wrong != nullptr) {
++    Serial.printf("claim: %s\n", wrong);
++    return;
++  }
++  Serial.printf("claim: code accepted; sent to %s as soon as Wi-Fi is ready (the result shows in the log).\n", storedServerAddress());
++}
++
+ // Returns true if the text is NOT a number: toInt() gives 0, but the text isn't "0" (as in Module 5, Practice 5).
+ static bool notANumber(String text) {
+   return text.toInt() == 0 && text != "0";
+@@ -217,14 +300,36 @@ void checkSerialCommand() {
+     printKey();
+     Serial.printf("key: Node 1 is trying to connect to the broker as %s with this key now.\n", brokerUsername());
+     return;
++  } else if (command == "ota") {
++    printOtaInfo();  // Module 28: version, program shelves, trial period, update report
++    return;
++  } else if (command == "server") {
++    Serial.printf("server: %s\n", storedServerAddress()[0] != '\0' ? storedServerAddress()
++                                                                    : "NOT SET. Example: server http://192.168.1.10");
++    return;
++  } else if (command.startsWith("server ")) {
++    setServerAddress(command.substring(7));  // Module 28: saved in NVS
++    return;
++  } else if (command == "broker") {
++    Serial.printf("broker: %s (%s), door %u\n", storedBrokerAddress(),
++                  brokerAddressFromNvs() ? "from NVS" : "from config.h", BROKER_PORT);
++    return;
++  } else if (command.startsWith("broker ")) {
++    setBrokerAddress(command.substring(7));  // Module 28: saved in NVS, then reconnect
++    return;
++  } else if (command == "claim") {
++    printClaimInfo();  // Module 28
++    return;
++  } else if (command.startsWith("claim ")) {
++    runClaimCommand(command);  // Module 28: register with a claim code from the admin
++    return;
+   } else if (command == "restart") {
+-    Serial.println("Restarting now...");
+-    Serial.flush();  // wait until the message above has really been sent
+-    ESP.restart();
++    restartOnPurpose("Serial restart command");  // Module 28: offline-mode + a clean disconnect first, then restart
+   } else if (command != "status") {
+     Serial.println("Unknown command. Examples: lamp on, fan off, pump 3, curtain 90, beep, status,");
+     Serial.println("info, threshold, threshold 35, threshold default, log debug, log info, log error, wifi, wifi forget,");
+-    Serial.println("send, node2, node2 reset, rs485, rs485 on, rs485 off, test offline, key, key clear, restart");
++    Serial.println("send, node2, node2 reset, rs485, rs485 on, rs485 off, test offline, key, key clear,");
++    Serial.println("ota, server, server <address>, broker, broker <ip>, claim, claim <code> [server] [broker], restart");
+     return;
+   }
+   printStatus();
+diff --git a/firmware/node-1-home/config.h b/firmware/node-1-home/config.h
+index 148c244..64abc66 100644
+--- a/firmware/node-1-home/config.h
++++ b/firmware/node-1-home/config.h
+@@ -2,7 +2,9 @@
+ // The pins follow PIN-MAP.md. The calibration numbers are your own Module 6 results.
+ #pragma once
+ 
+-const char FIRMWARE_VERSION[] = "1.6.0";
++// Module 28: SemVer x.y.z. RAISE it every time the firmware changes: the server refuses the same version uploaded twice.
++const char FIRMWARE_VERSION[] = "1.7.0";
++const char VERSION_NOTE[] = "installed by cable";  // Module 28: a short sentence on Serial at startup, may be changed
+ 
+ // ---------- Node 1 canonical pin map (copied from PIN-MAP.md) ----------
+ const int PIN_STATUS_LED = 2;      // Module 2; moved from D4 to D2 in Module 15 (D4 is now the RS-485 DE/RE)
+@@ -54,7 +56,7 @@ const char TIME_ZONE[] = "WIB-7";          // WITA: "WITA-8", WIT: "WIT-9" (Modu
+ const char BROKER_ADDRESS[] = "192.168.1.37";  // REPLACE with your Pi gateway's fixed address (Module 12, Practice 2)
+ const uint16_t BROKER_PORT = 1883;
+ const unsigned long SEND_INTERVAL = 10000;     // telemetry every 10 seconds, plus immediately when something important happens
+-const unsigned long VITALS_INTERVAL = 300000;  // vitals (Node 1's health) every 5 minutes
++const unsigned long VITALS_INTERVAL = 300000;  // vitals (Node 1's health) every 5 minutes; since Module 28 = the default
+ 
+ // ---------- Module 14: ESP-NOW bridge for Node 2 "Garden" ----------
+ // Node 2's WiFi MAC address, printed by Node 2 when it first powers up. ESP-NOW packets from other addresses are rejected.
+@@ -81,3 +83,20 @@ const unsigned long OFFLINE_TEST_TIME = 180000;     // "test offline" command: t
+ // ---------- Module 21: the broker account ----------
+ // The broker username = device_id. Its key is NOT written in the code: type "key <value>" in the Serial Monitor (stored in NVS).
+ const bool WOKWI_LOCKED = false;  // Wokwi only: true = the LOCKED public broker test.mosquitto.org:1884, public account "rw"
++
++// ---------- Module 28: over-the-air firmware updates (OTA), the trial period, and registration ----------
++// The home server's address: where Node 1 downloads firmware (<address>/fw/node-1/<version>.bin) and exchanges a claim code.
++// Usually filled in through the Wi-Fi portal (the "Server address" field) or Serial "server <address>", then stored in NVS.
++// The value here is only used while NVS holds no address yet. Empty = none yet (updates are refused until it is set).
++// Example: "https://iot.yourname.my.id" (VPS, Module 27) or "http://192.168.1.37" (the free-path Pi, home IP only; without a
++// port = the Pi's port 80, which Docker forwards to the device door 8081 INSIDE the web container, so don't write :8081).
++// It must be EXACTLY the same as SERVER_URL in the server's .env (at most 64 characters, lowercase, no / at the end).
++const char DEFAULT_SERVER_ADDRESS[] = "";
++const unsigned long OTA_TRIAL_PERIOD = 60000;         // the new firmware must connect to the broker and publish within 60 seconds
++const unsigned long OTA_WATCHDOG_TIMEOUT = 60000;     // while downloading firmware or claiming: the watchdog is relaxed to 60 seconds
++const unsigned long VITALS_INTERVAL_MIN_S = 60;       // the config "intervals.vitals_s" from the server: 60-3600 seconds (data contract 1.6)
++const unsigned long VITALS_INTERVAL_MAX_S = 3600;
++// The rollback PRACTICE switch (Module 28, firmware 1.7.2-test). 0 = normal. 1 = before connecting to the broker, the broker key
++// is broken on purpose IN RAM ONLY (NVS isn't touched), so the broker refuses this firmware, the 60-second trial period passes, and
++// Node 1 goes back to the previous firmware by itself. After the practice, SET IT BACK to 0.
++const int TEST_WRONG_KEY = 0;
+diff --git a/firmware/node-1-home/keys.example.h b/firmware/node-1-home/keys.example.h
+index 578f650..9846d14 100644
+--- a/firmware/node-1-home/keys.example.h
++++ b/firmware/node-1-home/keys.example.h
+@@ -6,3 +6,7 @@
+ const bool USE_ENCRYPTION = false;
+ const char KEY_PMK[] = "Example16CharPMK";  // exactly 16 letters/digits
+ const char KEY_LMK[] = "Example16CharLMK";  // exactly 16 letters/digits
++// Module 28 (Node 1 only; Node 2 ignores it): Node 1's Wi-Fi portal password, 8-63 characters. Remove the // in front of the line
++// below, replace the password with your own, then write the same password on the label of Node 1's box. Without this line, the
++// Wi-Fi portal is open without a password as in Module 10. DON'T use this example password.
++// #define PORTAL_PASSWORD "change-this-portal-password"
+diff --git a/firmware/node-1-home/networking.cpp b/firmware/node-1-home/networking.cpp
+index 0ab48b1..e998dbf 100644
+--- a/firmware/node-1-home/networking.cpp
++++ b/firmware/node-1-home/networking.cpp
+@@ -14,13 +14,30 @@
+ #include "actuators.h"
+ #include "display.h"
+ #include "rs485.h"
++#include "ota-check.h"     // Module 28: tidyAddress(), checkServerAddress(), checkBrokerAddress(), UpdateFields
++#include "ota-update.h"    // Module 28: the update command, the ota report in vitals, restarting on purpose
++#include "trial-period.h"  // Module 28: firmwareProven(), inTrialPeriod()
++#include "claim.h"         // Module 28: a claim code from the Wi-Fi portal
+ #include "networking.h"
+ 
+ #ifndef MQTT_QOS1  // only PubSubClient3 has this name
+ #error "The old PubSubClient (2.8) is in use. Remove it in the Library Manager, then install PubSubClient3 version 3.3.2."
+ #endif
+ 
++// Module 28: the Wi-Fi portal password (optional) in keys.h, the file that doesn't go to GitHub (Module 14, Practice 8). Write there:
++//   #define PORTAL_PASSWORD "a-password-of-8-to-63-characters"
++// then write the same password on the label of Node 1's box. Without that line, the portal is open without a password as in Module 10.
++#if __has_include("keys.h")
++#include "keys.h"
++#endif
++#ifndef PORTAL_PASSWORD
++#define PORTAL_PASSWORD ""
++#endif
++static_assert(sizeof(PORTAL_PASSWORD) == 1 || (sizeof(PORTAL_PASSWORD) >= 9 && sizeof(PORTAL_PASSWORD) <= 64),
++              "PORTAL_PASSWORD in keys.h must be 8-63 characters (the WPA2 Wi-Fi password rule), or delete the line");
++
+ const unsigned long NO_ATTEMPT_TIMEOUT = 60000;  // guard: 60 seconds without a connection attempt = tell it to try again
++const unsigned long TRIAL_RETRY_INTERVAL = 10000;  // Module 28: during a new firmware's trial period, every 10 seconds
+ const unsigned long MQTT_RETRY_INTERVAL = 5000;  // couldn't connect to the broker? try again 5 seconds later
+ const unsigned long REJECTED_RETRY_INTERVAL = 60000;  // Module 21: the broker REJECTS the key? try again 60 seconds later
+ const unsigned long MIN_IMMEDIATE_GAP = 2000;    // immediate sends at most every 2 seconds
+@@ -31,7 +48,7 @@ const char WOKWI_BROKER_LOCKED[] = "test.mosquitto.org";  // Module 21: port 188
+ static WiFiClient netClient;          // TCP connection to the broker
+ static PubSubClient mqtt(netClient);  // MQTT runs on top of that connection
+ static char deviceId[13] = "";  // device_id: 12 hexadecimal digits + the end-of-text mark (Appendix A)
+-static const char* brokerAddress = BROKER_ADDRESS;  // Module 21: chosen once in setupNetwork()
++static const char* brokerAddress = BROKER_ADDRESS;  // Module 21: chosen in setupNetwork(); Module 28: from NVS
+ static uint16_t brokerPort = BROKER_PORT;
+ static const char* username = deviceId;  // Module 21: the broker username = device_id (data contract section 1)
+ static bool brokerRejected = false;      // Module 21: the last attempt was answered by the broker with code 4 or 5
+@@ -73,6 +90,7 @@ static unsigned long lastVitalsTime = 0;
+ static unsigned long publishCount = 0;
+ static char lastIds[8][40];  // the last 8 command ids received (including refused ones)
+ static int idPosition = 0;
++static bool held = false;  // Module 28: stopped on purpose (offline-mode): don't reconnect until allowed
+ 
+ // ---------- Module 19: offline mode and its report ----------
+ static unsigned long lastReadyTime = 0;   // millis() the last time WiFi and MQTT were both connected
+@@ -134,10 +152,46 @@ bool makeTs(char* ts, size_t size) {
+ }
+ 
+ // ---------- WiFi portal (Module 10, Practice 4) ----------
++// Module 28: the content of the three extra fields is saved here, when the portal's Save button is pressed. WiFiManager itself
++// does NOT save the content of extra fields; that's our job. A field left empty means "not changed".
++static void savePortalFields(const char* code, const char* server, const char* broker) {
++  char tidy[SERVER_ADDRESS_MAX_LENGTH + 2];  // +2: an address that is too long is still detected
++  if (server[0] != '\0') {
++    tidyAddress(server, tidy, sizeof(tidy));
++    const char* wrong = checkServerAddress(tidy);
++    if (wrong != nullptr) {
++      logError("Portal: the server address was NOT saved. %s", wrong);
++    } else {
++      saveServerAddress(tidy);
++    }
++  }
++  if (broker[0] != '\0') {
++    tidyAddress(broker, tidy, sizeof(tidy));
++    const char* wrong = checkBrokerAddress(tidy);
++    if (wrong != nullptr) {
++      logError("Portal: the broker address was NOT saved. %s", wrong);
++    } else {
++      saveBrokerAddress(tidy);
++    }
++  }
++  if (code[0] != '\0') {
++    const char* wrong = startClaim(code);  // claim.cpp: sent as soon as Wi-Fi connects (loop())
++    if (wrong != nullptr) {
++      logError("Portal: the claim code wasn't used: %s", wrong);
++    }
++  }
++}
++
+ // Waiting here is allowed: it is called from setup(), before the watchdog watches loop().
+ static void openPortal() {
+   logInfo("WiFi portal open for %lu seconds: connect your phone to the WiFi \"%s\", then open http://192.168.4.1",
+           PORTAL_TIMEOUT, PORTAL_NAME);
++  if (PORTAL_PASSWORD[0] != '\0') {
++    logInfo("Password-protected portal: its password is on the label of Node 1's box (PORTAL_PASSWORD in keys.h).");
++  } else {
++    logError("Portal WITHOUT a password: anyone near Node 1 can open 192.168.4.1, including the /update page. "
++             "Set PORTAL_PASSWORD in keys.h (Module 28).");
++  }
+   showMessage("WIFI PORTAL", "Connect a phone to:", PORTAL_NAME, "Open 192.168.4.1");
+   digitalWrite(PIN_STATUS_LED, HIGH);  // the status LED stays on while the portal is open
+ 
+@@ -151,7 +205,23 @@ static void openPortal() {
+   // The address 192.168.4.1/update itself still exists: open the portal only while you are filling it in yourself.
+   wm.setConfigPortalTimeout(PORTAL_TIMEOUT);  // closes by itself when unused
+   wm.setConnectTimeout(20);                   // tries the newly entered WiFi for at most 20 seconds
+-  bool success = wm.startConfigPortal(PORTAL_NAME);
++
++  // Module 28: three extra fields on the WiFi page (its menu has no "param", so the fields go on the WiFi page):
++  // (id, the label above the field, its initial content, its maximum length). The fields must exist while the portal is open.
++  WiFiManagerParameter codeField("claim_code", "Claim code from /fleet (may be empty)", "", 12);
++  WiFiManagerParameter serverField("server_address", "Server address, for example http://192.168.1.10", storedServerAddress(),
++                                   SERVER_ADDRESS_MAX_LENGTH);
++  WiFiManagerParameter brokerField("broker_address", "Broker address (the Pi gateway's IP)", storedBrokerAddress(),
++                                   BROKER_ADDRESS_MAX_LENGTH);
++  wm.addParameter(&codeField);
++  wm.addParameter(&serverField);
++  wm.addParameter(&brokerField);
++  // [&] = a small nameless function that may use the three fields above; WiFiManager calls it when Save is pressed.
++  wm.setSaveParamsCallback([&]() {
++    savePortalFields(codeField.getValue(), serverField.getValue(), brokerField.getValue());
++  });
++  // Module 28: with a password, a phone must enter that password to join the portal's Wi-Fi (nullptr = no password).
++  bool success = wm.startConfigPortal(PORTAL_NAME, PORTAL_PASSWORD[0] != '\0' ? PORTAL_PASSWORD : nullptr);
+ 
+   digitalWrite(PIN_STATUS_LED, LOW);
+   if (success) {
+@@ -251,37 +321,93 @@ static const char* doSet(JsonDocument& command) {
+ 
+ // Module 19: one "config" command. All thresholds are checked first; only if all of them are valid are they saved
+ // to NVS (only the ones whose number changed). Returns nullptr if it worked, or the reason it was refused.
++// Module 28 (contract 1.6): a config may carry "thresholds", "intervals", or both. Everything is checked first, then saved.
+ static const char* doConfig(JsonDocument& command) {
+   static char reason[48];  // static: sendAck() still reads its content after this function has ended
+-  JsonObject thresholds = command["thresholds"].as<JsonObject>();
+-  if (thresholds.isNull() || thresholds.size() == 0) {
+-    return "thresholds must contain temp_fan_on or soil_watering";
++  // A key that IS there counts even if its content is null: {"intervals": null} = the wrong type (the whole command is refused,
++  // contract section 7), not "not sent". isNull() can't tell the two apart, so the key names are looked up one by one.
++  bool hasThresholds = false;
++  bool hasIntervals = false;  // Module 28
++  for (JsonPair p : command.as<JsonObject>()) {
++    hasThresholds = hasThresholds || strcmp(p.key().c_str(), "thresholds") == 0;
++    hasIntervals = hasIntervals || strcmp(p.key().c_str(), "intervals") == 0;
+   }
+-  for (JsonPair p : thresholds) {  // any other name = a typo: refuse everything so that nothing slips through quietly
+-    const char* name = p.key().c_str();
+-    if (strcmp(name, "temp_fan_on") != 0 && strcmp(name, "soil_watering") != 0) {
+-      snprintf(reason, sizeof(reason), "unknown threshold: %s", name);
+-      return reason;
+-    }
++  if (!hasThresholds && !hasIntervals) {
++    return "config must contain thresholds or intervals";
+   }
+-  JsonVariant temperature = thresholds["temp_fan_on"];
+-  JsonVariant soil = thresholds["soil_watering"];
+-  if (!temperature.isNull()
+-      && (!temperature.is<float>() || temperature.as<float>() < TEMP_FAN_MIN || temperature.as<float>() > TEMP_FAN_MAX)) {
+-    return "temp_fan_on must be a number 15-45";
++  JsonObject thresholds = command["thresholds"].as<JsonObject>();
++  if (hasThresholds) {
++    if (thresholds.isNull() || thresholds.size() == 0) {
++      return "thresholds must contain temp_fan_on or soil_watering";
++    }
++    for (JsonPair p : thresholds) {  // any other name = a typo: refuse everything so that nothing slips through quietly
++      const char* name = p.key().c_str();
++      if (strcmp(name, "temp_fan_on") != 0 && strcmp(name, "soil_watering") != 0) {
++        snprintf(reason, sizeof(reason), "unknown threshold: %s", name);
++        return reason;
++      }
++    }
++    JsonVariant temperature = thresholds["temp_fan_on"];
++    JsonVariant soil = thresholds["soil_watering"];
++    if (!temperature.isNull()
++        && (!temperature.is<float>() || temperature.as<float>() < TEMP_FAN_MIN || temperature.as<float>() > TEMP_FAN_MAX)) {
++      return "temp_fan_on must be a number 15-45";
++    }
++    if (!soil.isNull() && (!soil.is<int>() || soil.as<int>() < 0 || soil.as<int>() > 100)) {
++      return "soil_watering must be a whole number 0-100";
++    }
+   }
+-  if (!soil.isNull() && (!soil.is<int>() || soil.as<int>() < 0 || soil.as<int>() > 100)) {
+-    return "soil_watering must be a whole number 0-100";
++  // Module 28: "intervals" may only contain vitals_s (60-3600 seconds). telemetry stays 10 seconds (contract rule 3).
++  JsonObject intervals = command["intervals"].as<JsonObject>();
++  if (hasIntervals) {
++    if (intervals.isNull()) {
++      return "intervals must contain vitals_s";
++    }
++    for (JsonPair p : intervals) {
++      const char* name = p.key().c_str();
++      if (strcmp(name, "vitals_s") != 0) {
++        snprintf(reason, sizeof(reason), "unknown interval: %s", name);
++        return reason;
++      }
++    }
++    JsonVariant vitals = intervals["vitals_s"];
++    if (!vitals.is<int>() || vitals.as<int>() < (int)VITALS_INTERVAL_MIN_S || vitals.as<int>() > (int)VITALS_INTERVAL_MAX_S) {
++      return "vitals_s must be a whole number 60-3600";
++    }
+   }
+-  if (!temperature.isNull()) {
+-    saveTempFanThreshold(temperature.as<float>());
++  // All valid: only now are they saved (only the ones whose number changed).
++  if (hasThresholds) {
++    JsonVariant temperature = thresholds["temp_fan_on"];
++    JsonVariant soil = thresholds["soil_watering"];
++    if (!temperature.isNull()) {
++      saveTempFanThreshold(temperature.as<float>());
++    }
++    if (!soil.isNull()) {
++      saveSoilWateringThreshold(soil.as<int>());
++    }
+   }
+-  if (!soil.isNull()) {
+-    saveSoilWateringThreshold(soil.as<int>());
++  if (hasIntervals) {
++    int seconds = intervals["vitals_s"].as<int>();
++    if ((unsigned long)seconds != vitalsIntervalSeconds()) {
++      saveVitalsInterval(seconds);
++      lastVitalsTime = millis();  // the new schedule counts from now (the same as the simulator)
++    }
+   }
+   return nullptr;
+ }
+ 
++// Module 28: one "update" command. Its content is taken from the JSON, then checked and accepted in ota-update.cpp.
++// A field that is missing or of the wrong type becomes nullptr / -1, and is refused with the same reason as the simulator.
++static const char* handleUpdate(const char* id, JsonDocument& command) {
++  UpdateFields content = {
++    command["version"].as<const char*>(),  // nullptr if it's missing or not text
++    command["url"].as<const char*>(),
++    command["sha256"].as<const char*>(),
++    command["size"].is<long>() ? (long long)command["size"].as<long>() : -1,  // a fraction, text, missing = -1
++  };
++  return acceptUpdate(id, content);
++}
++
+ // Called by the library inside mqtt.loop() for every message on msh/<device_id>/cmd.
+ // The order: read the JSON, check, carry out, answer. A command whose id was already received is ignored.
+ static void onMqttMessage(char* topic, byte* content, unsigned int length) {
+@@ -313,6 +439,17 @@ static void onMqttMessage(char* topic, byte* content, unsigned int length) {
+     }
+     return;
+   }
++  if (held) {
++    // Module 28: Node 1 is stopping on purpose (it disconnects shortly). The command isn't carried out, but it is still answered
++    // (contract rule 4: every cmd is answered), and its id is NOT remembered: a retained config that arrives again after
++    // connecting, or a command sent again, is still carried out later.
++    const char* reason = strcmp(action, "update") == 0 && updateInProgress()
++                             ? "another update is running"
++                             : "Node 1 is stopping on purpose: send it again once it is online";
++    logInfo("Command %s arrived while Node 1 was stopping on purpose: refused (%s).", id, reason);
++    sendAck(id, false, reason);
++    return;
++  }
+   rememberId(id);
+   const char* message = "unknown action";
+   if (strcmp(action, "set") == 0) {
+@@ -320,10 +457,14 @@ static void onMqttMessage(char* topic, byte* content, unsigned int length) {
+   } else if (strcmp(action, "config") == 0) {
+     message = doConfig(command);  // Module 19
+   } else if (strcmp(action, "update") == 0) {
+-    message = "action update not supported yet (Module 28)";
+-  }
+-  if (message == nullptr) {
+-    logInfo("Command %s: %s %s done.", id, action, command["target"] | "thresholds");
++    message = handleUpdate(id, command);  // Module 28: ok = ACCEPTED; the download starts in the next pass of loop()
++  }
++  if (message == nullptr && strcmp(action, "update") == 0) {
++    logInfo("Command %s: update to %s accepted; the update begins.", id, command["version"] | "?");
++  } else if (message == nullptr && strcmp(action, "config") == 0) {
++    logInfo("Command %s: config done.", id);
++  } else if (message == nullptr) {
++    logInfo("Command %s: %s %s done.", id, action, command["target"] | "");
+   } else {
+     logError("Command %s refused: %s", id, message);
+   }
+@@ -349,14 +490,6 @@ void setupNetwork() {
+   logInfo("device_id %s", deviceId);
+ 
+   netClient.setConnectionTimeout(1000);  // TCP connect to the broker takes at most 1 second (default: 3 seconds)
+-  if (USE_WOKWI && WOKWI_LOCKED) {  // Module 21: the "accepted vs rejected" practice on a locked public broker
+-    brokerAddress = WOKWI_BROKER_LOCKED;
+-    brokerPort = 1884;  // the MQTT port of test.mosquitto.org that asks for a username and key
+-    username = "rw";    // the public test.mosquitto.org account; its key: readwrite
+-  } else if (USE_WOKWI) {
+-    brokerAddress = WOKWI_BROKER;
+-  }
+-  mqtt.setServer(brokerAddress, brokerPort);  // at home: an IP address, not a name, so no name lookup (DNS) needed
+   mqtt.setSocketTimeout(1);  // wait at most 1 second for the broker's answer (default: 15 seconds)
+   if (!mqtt.setBufferSize(512)) {  // a 512-byte message container (default: 256)
+     logError("Not enough memory for a 512-byte MQTT message container.");
+@@ -364,13 +497,19 @@ void setupNetwork() {
+   mqtt.setCallback(onMqttMessage);
+ 
+   if (USE_WOKWI) {
+-    logInfo("Wokwi mode: connecting to Wokwi-GUEST without the portal, public broker %s:%u.", brokerAddress, brokerPort);
++    logInfo("Wokwi mode: connecting to Wokwi-GUEST without the portal, public broker %s:%u.",
++            WOKWI_LOCKED ? WOKWI_BROKER_LOCKED : WOKWI_BROKER, WOKWI_LOCKED ? 1884 : BROKER_PORT);
+     WiFi.begin("Wokwi-GUEST", "", 6);  // 6 = the Wokwi-GUEST channel so that it connects faster
+     hasWiFi = true;
+   } else {
+     WiFiManager wm;
+     hasWiFi = wm.getWiFiIsSaved();
+-    if (digitalRead(PIN_BUTTON) == LOW) {  // D13 button held at power-up = asking for the portal
++    bool portalRequested = digitalRead(PIN_BUTTON) == LOW || !hasWiFi;
++    if (portalRequested && inTrialPeriod()) {
++      // Module 28: new firmware must connect to the broker within 60 seconds. A portal waiting here (up to 3 minutes)
++      // would surely make it fail, so the portal is postponed: after the trial period (or a rollback), hold D13 while pressing EN.
++      logError("Trial period of new firmware: the Wi-Fi portal is POSTPONED. Open it after the trial (hold D13, press EN).");
++    } else if (digitalRead(PIN_BUTTON) == LOW) {  // D13 button held at power-up = asking for the portal
+       logInfo("D13 button held at power-up: WiFi portal opened.");
+       openPortal();
+     } else if (!hasWiFi) {
+@@ -382,6 +521,18 @@ void setupNetwork() {
+       logInfo("Connecting to the saved WiFi \"%s\" (without waiting)...", wm.getWiFiSSID().c_str());
+     }
+   }
++
++  // The broker address is chosen AFTER the portal: the portal's "Broker address" field may have just changed it (Module 28).
++  if (USE_WOKWI && WOKWI_LOCKED) {  // Module 21: the "accepted vs rejected" practice on a locked public broker
++    brokerAddress = WOKWI_BROKER_LOCKED;
++    brokerPort = 1884;  // the MQTT port of test.mosquitto.org that asks for a username and key
++    username = "rw";    // the public test.mosquitto.org account; its key: readwrite
++  } else if (USE_WOKWI) {
++    brokerAddress = WOKWI_BROKER;
++  } else {
++    brokerAddress = storedBrokerAddress();  // Module 28: from NVS (portal, Serial, claim), or BROKER_ADDRESS
++  }
++  mqtt.setServer(brokerAddress, brokerPort);  // at home: an IP address, not a name, so no name lookup (DNS) needed
+   lastReadyTime = millis();  // Module 19: the offline-mode count starts after the WiFi portal, not at power-up
+ }
+ 
+@@ -405,15 +556,20 @@ static void guardConnection() {
+       && WiFi.channel() != routerChannel) {
+     WiFi.setChannel(routerChannel);
+   }
+-  if (now - lastEvent >= NO_ATTEMPT_TIMEOUT
+-      && now - lastGuardTime >= NO_ATTEMPT_TIMEOUT) {
++  // Module 28: the esp32 package only retries by ITSELF once after starting (setAutoReconnect(false)). During the trial period,
++  // new firmware must connect within 60 seconds, so the guard tries every 10 seconds, not every 60; otherwise a router
++  // that is just restarting would already make good firmware roll back.
++  unsigned long limit = inTrialPeriod() ? TRIAL_RETRY_INTERVAL : NO_ATTEMPT_TIMEOUT;
++  if (now - lastEvent >= limit && now - lastGuardTime >= limit) {
+     lastGuardTime = now;
+-    logInfo("WiFi guard: %lu seconds without a new attempt, trying to reconnect.", NO_ATTEMPT_TIMEOUT / 1000);
++    logInfo("WiFi guard: %lu seconds without a new attempt, trying to reconnect.", limit / 1000);
+     WiFi.reconnect();
+   }
+ }
+ 
+ // ---------- Health report: vitals (Appendix A) ----------
++// Module 28 (contract 1.6): vitals also carry reset_reason and fw, and a firmware update report (ota) that hasn't been
++// sent 3 times yet. Their interval can be set by the server through the config "intervals.vitals_s" (default 300 seconds).
+ static void sendVitals() {
+   char ts[21];
+   if (!makeTs(ts, sizeof(ts))) {
+@@ -429,8 +585,26 @@ static void sendVitals() {
+     doc["offline_s"] = reportSeconds;
+     doc["local_fan"] = reportLocalFan;
+   }
+-  char content[192];  // Module 19: enlarged from 128 for the offline-mode report
++  doc["reset_reason"] = resetReasonName();  // Module 28: required since 1.7.0, always together with fw
++  doc["fw"] = FIRMWARE_VERSION;
++  const OtaReport* otaReport = pendingOtaReport();  // ota-update.cpp; nullptr = no report
++  if (otaReport != nullptr) {
++    JsonObject ota = doc["ota"].to<JsonObject>();
++    ota["id"] = otaReport->id;
++    ota["result"] = otaReport->result;
++    ota["version"] = otaReport->version;
++    if (otaReport->message[0] != '\0') {
++      ota["message"] = otaReport->message;
++    }
++  }
++  // Module 28: enlarged from 192 (the longest vitals is about 380 characters). PubSubClient3 3.3.2 sends an OUTGOING message's
++  // content bit by bit, so the 512-byte MQTT buffer only limits INCOMING messages (cmd), not vitals.
++  char content[480];
+   size_t length = serializeJson(doc, content, sizeof(content));
++  if (length >= sizeof(content) && otaReport != nullptr) {  // nearly impossible (an id full of special characters): the message goes
++    doc["ota"].as<JsonObject>().remove("message");
++    length = serializeJson(doc, content, sizeof(content));
++  }
+   if (length >= sizeof(content)) {
+     logError("Vitals too long for the content[] container: not sent.");
+     vitalsSent = true;  // don't try again on every pass of loop()
+@@ -448,11 +622,18 @@ static void sendVitals() {
+       reportSeconds = 0;
+       reportLocalFan = 0;
+     }
++    if (otaReport != nullptr) {  // Module 28: count the sends of the update report (at most 3 times)
++      logInfo("The update report rides along with vitals: %s for %s", otaReport->result, otaReport->version);
++      otaReportSent();
++    }
+   }
+ }
+ 
+ // One attempt to connect to the broker, at most every MQTT_RETRY_INTERVAL. Never loops while waiting.
+ static void tryConnectBroker() {
++  if (held) {  // Module 28: stopped on purpose for a firmware update: don't reconnect yet
++    return;
++  }
+   if (offlineTest) {  // Module 19: the "test offline" command is running: pretend the broker is unreachable
+     if (millis() - offlineTestTime < OFFLINE_TEST_TIME) {
+       return;
+@@ -469,6 +650,12 @@ static void tryConnectBroker() {
+   lastMqttTryTime = millis();
+   unsigned long start = millis();
+   const char* key = brokerKey();  // Module 21: from NVS; "" = none yet
++  if (TEST_WRONG_KEY == 1) {
++    // Module 28, the PRACTICE firmware 1.7.2-test: the key is broken on purpose IN RAM ONLY (NVS isn't touched). The broker refuses it,
++    // the 60-second trial period passes, and Node 1 goes back by itself to the previous firmware, which uses the real key from NVS.
++    key = "broken-key-TEST_WRONG_KEY";
++    logError("TEST_WRONG_KEY = 1: the broker key is wrong on purpose (the Module 28 rollback practice).");
++  }
+   // Client name = device_id; username = device_id (Wokwi locked: rw); key from NVS (nullptr = no key);
+   // then the last will: the status topic, QoS 1, retained, content "offline" (Module 11, Concept 7).
+   if (mqtt.connect(deviceId, username, key[0] != '\0' ? key : nullptr, statusTopic, 1, true, "offline")) {
+@@ -480,11 +667,14 @@ static void tryConnectBroker() {
+       // 5 seconds, and the watchdog restarts Node 1. Keep its IP address: the next reconnect needs no DNS anymore.
+       mqtt.setServer(netClient.remoteIP(), brokerPort);
+     }
+-    mqtt.publish(statusTopic, "online", true);  // retained: subscribers who come later still see it
+-    mqtt.subscribe(cmdTopic, 1);                // subscribe again after every connect (clean session)
++    bool published = mqtt.publish(statusTopic, "online", true);  // retained: subscribers who come later still see it
++    bool subscribed = mqtt.subscribe(cmdTopic, 1);                // subscribe again after every connect (clean session)
+     logInfo("MQTT connected to broker %s:%u in %lu ms, as %s", brokerAddress, brokerPort, millis() - start,
+             username);
+     vitalsSent = false;  // the first vitals are sent right away
++    if (published && subscribed) {
++      firmwareProven();  // Module 28 (trial-period.cpp): key accepted + "online" published + cmd subscribed = firmware VALID
++    }
+     return;
+   }
+   int code = mqtt.state();
+@@ -514,7 +704,7 @@ static void guardMqtt() {
+     // usually lost the broker too and only reconnects a few seconds later. vitals is not retained, so a report
+     // published before the server subscribes again would never arrive.
+     bool reportWaitsForServer = reportPending && millis() - offlineEndTime < REPORT_DELAY;
+-    if (!reportWaitsForServer && (!vitalsSent || millis() - lastVitalsTime >= VITALS_INTERVAL)) {
++    if (!reportWaitsForServer && (!vitalsSent || millis() - lastVitalsTime >= vitalsIntervalSeconds() * 1000UL)) {
+       sendVitals();
+     }
+     return;
+@@ -772,8 +962,10 @@ void printNetworkInfo() {
+   }
+   Serial.printf("mqtt: username %s, key %s\n", username,  // Module 21
+                 brokerKey()[0] != '\0' ? "stored (details: type key)" : "NONE YET");
+-  Serial.printf("mqtt: telemetry every %lu seconds and immediately when something important happens, vitals every %lu minutes, "
+-                "published %lu times\n", SEND_INTERVAL / 1000, VITALS_INTERVAL / 60000, publishCount);
++  Serial.printf("mqtt: broker address %s (%s)\n", brokerAddress,  // Module 28
++                USE_WOKWI ? "Wokwi" : (brokerAddressFromNvs() ? "from NVS" : "from config.h"));
++  Serial.printf("mqtt: telemetry every %lu seconds and immediately when something important happens, vitals every %lu seconds, "
++                "published %lu times\n", SEND_INTERVAL / 1000, vitalsIntervalSeconds(), publishCount);
+   unsigned long now = millis();  // Module 19: offline mode
+   if (offline) {
+     Serial.printf("offline mode: YES, for %lu s; local safety has turned the fan on %u time(s)\n",
+@@ -792,6 +984,7 @@ void printNetworkInfo() {
+ }
+ 
+ void forgetWiFi() {
++  prepareRestart("wifi forget command");  // Module 28: offline-mode + a clean disconnect (and a report if in the middle of the trial)
+   Serial.println("Saved WiFi erased. Restarting now; the WiFi portal will open.");
+   Serial.flush();
+   WiFi.disconnect(true, true);  // true, true = turn off the radio AND erase the saved WiFi from NVS
+@@ -851,3 +1044,55 @@ void changeBrokerKey() {
+     netClient.stop();
+   }
+ }
++
++// ---------- Module 28: firmware updates and registration ----------
++const char* myDeviceId() {
++  return deviceId;
++}
++
++bool wifiConnected() {
++  return connected;
++}
++
++// A new broker address (Serial "broker", "claim", or the portal): used for the next connection, which is tried now.
++void changeBrokerAddress() {
++  if (USE_WOKWI) {
++    logInfo("Wokwi mode: the broker address stays the public broker; the new address is used on the home network.");
++    return;
++  }
++  brokerAddress = storedBrokerAddress();
++  mqtt.setServer(brokerAddress, brokerPort);
++  changeBrokerKey();  // disconnect (if connected) and try now, without waiting for the interval
++}
++
++// Stopping on purpose (contract 1.6 section 3): before installing new firmware or restarting on command, Node 1 publishes
++// "offline-mode" (retained, QoS 1), then disconnects with a DISCONNECT message. The broker doesn't publish the "offline" will
++// for a connection closed cleanly, so the dashboard writes "stopped on purpose", not "gone".
++void stopOnPurpose() {
++  held = true;  // from now on: don't reconnect and don't carry out new commands
++  if (mqtt.connected()) {
++    mqtt.loop();  // take the messages that already arrived (the update command's own ack was already sent inside the callback)
++    mqtt.publish(statusTopic, "offline-mode", MQTT_QOS1, true);
++    unsigned long start = millis();
++    while (millis() - start < 300) {  // give the broker time to take it (and answer PUBACK), without waiting long
++      mqtt.loop();
++      delay(10);
++    }
++    // Incoming data not read yet (for example a command that arrived in the last second) is thrown away first. Without this, a
++    // connection that still holds incoming data is closed with RST (not FIN), the DISCONNECT can be thrown away too, and the
++    // broker publishes the "offline" will although Node 1 stopped on purpose.
++    netClient.clear();
++    mqtt.disconnect();  // a clean DISCONNECT
++    logInfo("Status offline-mode published, broker connection closed cleanly (no offline will).");
++  }
++  mqttConnected = false;  // so that guardMqtt() doesn't write "MQTT DISCONNECTED"
++}
++
++// After a FAILED update (the old firmware keeps running without a restart): reconnect right now. The time spent stopped
++// on purpose isn't counted as the offline mode of Module 19.
++void resumeConnection() {
++  held = false;
++  hasTriedMqtt = false;
++  brokerRejected = false;
++  lastReadyTime = millis();
++}
+diff --git a/firmware/node-1-home/networking.h b/firmware/node-1-home/networking.h
+index ea8ab08..34fd86b 100644
+--- a/firmware/node-1-home/networking.h
++++ b/firmware/node-1-home/networking.h
+@@ -22,3 +22,8 @@ void startOfflineTest();             // Module 19: Serial command "test offline"
+ const char* brokerUsername();        // Module 21: the broker username (device_id; Wokwi locked: "rw")
+ bool mqttRejected();                 // Module 21: true if the broker rejected the key on the last attempt
+ void changeBrokerKey();              // Module 21: a new key or a cleared one: reconnect NOW with that key
++const char* myDeviceId();            // Module 28: device_id (12 lowercase hexadecimal digits from the Wi-Fi MAC)
++bool wifiConnected();                // Module 28: true if Wi-Fi is connected now (claims and firmware downloads)
++void changeBrokerAddress();          // Module 28: a new broker address (portal, Serial, claim): reconnect NOW
++void stopOnPurpose();                // Module 28: publish "offline-mode", disconnect CLEANLY, and don't reconnect
++void resumeConnection();             // Module 28: after a failed update: may (and soon will) connect again
+diff --git a/firmware/node-1-home/node-1-home.ino b/firmware/node-1-home/node-1-home.ino
+index 4e61276..ec92831 100644
+--- a/firmware/node-1-home/node-1-home.ino
++++ b/firmware/node-1-home/node-1-home.ino
+@@ -1,6 +1,14 @@
+-// Node 1 "Home" - firmware v1.6.0 (Module 21: connects to the broker with a username and key)
++// Node 1 "Home" - firmware v1.7.0 (Module 28: over-the-air updates, automatic rollback, claim codes)
+ // The running project: Mini Smart Home.
+ //
++// New in v1.7.0: Node 1 can be updated without a cable. The MQTT "update" command from the server (the Update button on /fleet)
++// makes Node 1 stop on purpose (status offline-mode), download the firmware from <server address>/fw/node-1/<version>.bin
++// with its own key, check the SHA-256 fingerprint, then restart into the other program shelf. The new firmware must
++// connect to the broker and publish within 60 seconds; otherwise Node 1 goes back to the old firmware by itself (rollback,
++// trial-period.cpp). A new board can be registered with a claim code from the admin (the Wi-Fi portal or Serial "claim <code>").
++// vitals now carry reset_reason, fw, and the update report (data contract 1.6); their interval can be set by the server.
++// Firmware 1.7.0 is the last firmware that MUST be installed by cable: later versions can go over the air. Versions
++// below 1.7.0 are refused over the air (they have no trial period and no rollback): install them by cable.
+ // New in v1.6.0: Node 1 connects to the broker with username = device_id and its own device key. The key is never
+ // written in the code: type "key <value>" in the Serial Monitor once, and Node 1 saves it in NVS. If the broker
+ // rejects it (key wrong, not set, or revoked), the Serial Monitor shows REJECTED and the display DENIED, and Node 1
+@@ -22,13 +30,16 @@
+ // From v1.0.0 (Module 8): no delay() in loop(), modular code, watchdog, NVS, leveled logging, status page.
+ // Commands from the Serial Monitor: lamp on, fan off, pump 3, curtain 90, beep, status, info,
+ // threshold, threshold 35, threshold default, log debug, log info, log error, wifi, wifi forget, send, node2,
+-// node2 reset, rs485, rs485 on, rs485 off, test offline, key, key <value>, key clear, restart.
++// node2 reset, rs485, rs485 on, rs485 off, test offline, key, key <value>, key clear, restart,
++// and since v1.7.0: ota, server, server <address>, broker, broker <ip>, claim, claim <code> [server] [broker].
+ //
+ // Libraries: ESP32Servo version 3.2.1, DHT sensor library version 1.4.7
+ // (installed with it: Adafruit Unified Sensor version 1.1.15), Adafruit SSD1306 version 2.5.17
+ // (installed with it: Adafruit GFX Library version 1.12.6 and Adafruit BusIO version 1.17.4),
+ // WiFiManager version 2.0.17, ArduinoJson version 7.4.3, PubSubClient3 version 3.3.2, and ModbusMaster version 2.0.1.
+-// Wire, SPI, SD, Preferences, and WiFi already come with the esp32 package.
++// Wire, SPI, SD, Preferences, and WiFi already come with the esp32 package. Module 28: HTTPUpdate, HTTPClient, NetworkClientSecure,
++// and Update also come with the esp32 package, version 3.3.12 REQUIRED (setSHA256sum() and useBuiltinCACertBundle() are new there).
++// Partition scheme: Minimal SPIFFS (two program shelves, Module 10).
+ 
+ #include <esp_task_wdt.h>  // watchdog
+ #include "config.h"
+@@ -46,6 +57,8 @@
+ #include "networking.h"  // Modules 10-11
+ #include "bridge.h"   // Module 14: Node 2 over ESP-NOW
+ #include "rs485.h"    // Module 15: RS-485 soil sensor
++#include "ota-update.h"  // Module 28: over-the-air firmware updates (OTA)
++#include "claim.h"       // Module 28: registering with a claim code
+ 
+ // ---------- Main cycle: IDLE -> READING -> DISPLAYING -> ACTING -> IDLE ... ----------
+ enum CycleStep { IDLE, READING, DISPLAYING, ACTING };
+@@ -162,17 +175,19 @@ void setup() {
+   Serial.begin(115200);
+   delay(500);  // allowed: setup() runs only once, and the watchdog isn't watching yet
+   Serial.println();
+-  logInfo("Node 1 Home - firmware %s", FIRMWARE_VERSION);
++  logInfo("Node 1 Home - firmware %s (%s)", FIRMWARE_VERSION, VERSION_NOTE);
+   logInfo("Last restart reason: %s", resetReasonName());
+ 
+   setupActuators();  // first: the relays are switched off right away
+   loadSettings();
++  setupOta();  // Module 28: new firmware? the 60-second trial period starts. Also an update report left behind in NVS
+   setupSensors();
+   beginHeartbeat(PIN_STATUS_LED);
+   beginButton(PIN_BUTTON);
+   setupDisplay();  // Module 7
+   setupCard();     // Module 7 (optional)
+   setupNetwork();  // Module 10: the WiFi portal may wait here because the watchdog isn't watching yet
++                      // (Module 28: during the trial period the watchdog is already watching, but the portal is postponed)
+   setupBridge();   // Module 14: after the WiFi is on
+   setupRS485();    // Module 15
+ 
+@@ -183,7 +198,10 @@ void setup() {
+     .trigger_panic = true,           // fed too late = panic, then restart
+   };
+   esp_task_wdt_reconfigure(&watchdogConfig);  // the esp32 package has already started the watchdog: just reconfigure it
+-  esp_task_wdt_add(NULL);                     // NULL = watch the task that is running now, that is, loop()
++  if (esp_task_wdt_status(NULL) != ESP_OK) {       // Module 28: during the trial period this task is watched from the start of setup()
++    esp_task_wdt_add(NULL);                        // NULL = watch the task that is running now, that is, loop()
++  }
++  esp_task_wdt_reset();                            // the first 5-second count starts here
+   logInfo("Watchdog active: automatic restart if loop() is stuck for more than %lu seconds.", WATCHDOG_TIMEOUT / 1000);
+ }
+ 
+@@ -197,6 +215,8 @@ void loop() {
+   updateHeartbeat();     // status LED
+   updateDisplay();       // status page: the clock ticks, then it goes back by itself
+   updateNetwork();       // Modules 10-11: WiFi, internet time, and MQTT; never waits long
++  updateOta();           // Module 28: the 60-second trial period; an accepted update (BLOCKS for over a minute)
++  updateClaim();         // Module 28: sends the claim code as soon as Wi-Fi is ready (blocks a few seconds, once only)
+   updateBridge();        // Module 14: Node 2 packets -> holding shelf -> broker; never waits
+   handleButton();
+   checkSerialCommand();
+diff --git a/firmware/node-1-home/ota-check.cpp b/firmware/node-1-home/ota-check.cpp
+new file mode 100644
+index 0000000..44a8596
+--- /dev/null
++++ b/firmware/node-1-home/ota-check.cpp
+@@ -0,0 +1,269 @@
++// ota-check.cpp - the code of the ota-check module. Its functions are listed in ota-check.h.
++#include <stdio.h>
++#include <string.h>
++#include "version.h"
++#include "ota-check.h"
++
++static bool digit(char c) {
++  return c >= '0' && c <= '9';
++}
++
++static char lowercase(char c) {
++  return (c >= 'A' && c <= 'Z') ? (char)(c - 'A' + 'a') : c;
++}
++
++// Reads an IPv4 address "a.b.c.d" (exactly four parts 0-255, with nothing after it).
++static bool parseIpv4(const char* text, int parts[4]) {
++  int position = 0;
++  for (int i = 0; i < 4; i++) {
++    int value = 0;
++    int count = 0;
++    while (digit(text[position]) && count < 4) {
++      value = value * 10 + (text[position] - '0');
++      count++;
++      position++;
++    }
++    if (count == 0 || count > 3 || value > 255) {
++      return false;
++    }
++    parts[i] = value;
++    char separator = (i < 3) ? '.' : '\0';
++    if (text[position] != separator) {
++      return false;
++    }
++    position++;
++  }
++  return true;
++}
++
++bool isHomeIpAddress(const char* host) {
++  int b[4];
++  if (host == nullptr || !parseIpv4(host, b)) {
++    return false;
++  }
++  return b[0] == 10 || (b[0] == 172 && b[1] >= 16 && b[1] <= 31) || (b[0] == 192 && b[1] == 168);
++}
++
++void tidyAddress(const char* in, char* out, size_t size) {
++  if (size == 0) {
++    return;
++  }
++  out[0] = '\0';
++  if (in == nullptr) {
++    return;
++  }
++  while (*in == ' ' || *in == '\t') {
++    in++;  // drop the spaces in front
++  }
++  size_t length = strlen(in);
++  while (length > 0 && (in[length - 1] == ' ' || in[length - 1] == '\t' || in[length - 1] == '/')) {
++    length--;  // drop the spaces and slashes at the back
++  }
++  if (length >= size) {
++    length = size - 1;  // cut off: the length check afterwards will refuse it
++  }
++  for (size_t i = 0; i < length; i++) {
++    out[i] = lowercase(in[i]);
++  }
++  out[length] = '\0';
++}
++
++// "http://" (7) or "https://" (8) at the start of the text; 0 if neither. Capitals and lowercase count as the same.
++static size_t schemeLength(const char* text, bool* secure) {
++  const char* prefix[2] = {"http://", "https://"};
++  for (int i = 0; i < 2; i++) {
++    size_t n = strlen(prefix[i]);
++    size_t j = 0;
++    while (j < n && text[j] != '\0' && lowercase(text[j]) == prefix[i][j]) {
++      j++;
++    }
++    if (j == n) {
++      *secure = (i == 1);
++      return n;
++    }
++  }
++  return 0;
++}
++
++// Copies the "host" part of "host:port" (without the port) to "out" and checks its port. false = the wrong form.
++static bool splitHost(const char* hostPort, size_t length, char* out, size_t size) {
++  size_t colon = length;
++  for (size_t i = 0; i < length; i++) {
++    if (hostPort[i] == ':') {
++      colon = i;
++      break;
++    }
++  }
++  if (colon == 0 || colon >= size) {
++    return false;
++  }
++  memcpy(out, hostPort, colon);
++  out[colon] = '\0';
++  if (colon < length) {  // there is a ":port": 1-5 digits, 1-65535
++    long port = 0;
++    size_t count = 0;
++    for (size_t i = colon + 1; i < length; i++) {
++      if (!digit(hostPort[i]) || count >= 5) {
++        return false;
++      }
++      port = port * 10 + (hostPort[i] - '0');
++      count++;
++    }
++    if (count == 0 || port < 1 || port > 65535) {
++      return false;
++    }
++  }
++  return true;
++}
++
++const char* checkServerAddress(const char* address) {
++  const char* example = "Write the server address without a / at the end, for example http://192.168.1.10 or https://iot.yourname.my.id";
++  if (address == nullptr || address[0] == '\0') {
++    return example;
++  }
++  if (strlen(address) > (size_t)SERVER_ADDRESS_MAX_LENGTH) {
++    return "Server address at most 64 characters";
++  }
++  bool secure = false;
++  size_t scheme = schemeLength(address, &secure);
++  if (scheme == 0) {
++    return example;
++  }
++  const char* hostPort = address + scheme;
++  size_t length = strlen(hostPort);
++  for (size_t i = 0; i < length; i++) {  // only lowercase letters, digits, dots, -, and : for the port
++    char c = hostPort[i];
++    if (!((c >= 'a' && c <= 'z') || digit(c) || c == '.' || c == '-' || c == ':')) {
++      return example;  // for example a path (/), an @, a space, or a capital that wasn't tidied
++    }
++  }
++  char host[SERVER_ADDRESS_MAX_LENGTH + 1];
++  if (!splitHost(hostPort, length, host, sizeof(host))) {
++    return example;
++  }
++  if (!secure && !isHomeIpAddress(host)) {
++    return "http only for the home network (IP address 10.x, 172.16-31.x, 192.168.x): use https:// on the internet";
++  }
++  return nullptr;
++}
++
++const char* checkBrokerAddress(const char* address) {
++  if (address == nullptr || strlen(address) > (size_t)BROKER_ADDRESS_MAX_LENGTH || !isHomeIpAddress(address)) {
++    return "Broker address must be an IP address on the home network, for example 192.168.1.37 (without http:// and without a port)";
++  }
++  return nullptr;
++}
++
++const char* checkClaimCode(const char* code) {
++  size_t length = (code == nullptr) ? 0 : strlen(code);
++  if (length < 8 || length > 12) {
++    return "claim code must be 8 characters, for example 7K2M-QF9D";
++  }
++  for (size_t i = 0; i < length; i++) {
++    char c = code[i];
++    if (!((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || digit(c) || c == '-' || c == ' ')) {
++      return "a claim code only contains letters, digits, and -, for example 7K2M-QF9D";
++    }
++  }
++  return nullptr;
++}
++
++bool buildFirmwareUrl(const char* server, const char* version, char* out, size_t size) {
++  int n = snprintf(out, size, "%s/fw/node-1/%s.bin", server, version);
++  return n > 0 && (size_t)n < size;
++}
++
++static bool isValidSha256(const char* text) {
++  if (text == nullptr || strlen(text) != 64) {
++    return false;
++  }
++  for (int i = 0; i < 64; i++) {
++    if (!(digit(text[i]) || (text[i] >= 'a' && text[i] <= 'f'))) {
++      return false;  // contract 1.6: LOWERCASE, the same as the output of sha256sum
++    }
++  }
++  return true;
++}
++
++// Compares two texts without telling capitals and lowercase apart.
++static bool equalIgnoringCase(const char* a, const char* b) {
++  while (*a != '\0' && *b != '\0') {
++    if (lowercase(*a) != lowercase(*b)) {
++      return false;
++    }
++    a++;
++    b++;
++  }
++  return *a == *b;
++}
++
++const char* checkUpdate(const UpdateFields& content, const UpdateState& state, char* reason, size_t size) {
++  if (state.trialPeriod) {
++    return "still in the 60-second trial period";  // contract rule 13: the new firmware isn't proven yet
++  }
++  if (state.updateRunning) {
++    return "another update is running";
++  }
++  if (!isValidVersion(content.version)) {
++    return "version must look like x.y.z";
++  }
++  if (compareVersions(content.version, state.runningVersion) == 0) {
++    snprintf(reason, size, "already running %s", state.runningVersion);
++    return reason;
++  }
++  if (compareVersions(content.version, FIRST_OTA_VERSION) < 0) {  // a downgrade is still allowed, as long as it isn't below 1.7.0
++    return "versions below 1.7.0 have no rollback: install by cable";
++  }
++  if (!isValidSha256(content.sha256)) {
++    return "sha256 must be 64 lowercase hexadecimal digits";
++  }
++  uint32_t limit = state.shelfSpace < CONTRACT_PROGRAM_SHELF ? state.shelfSpace : CONTRACT_PROGRAM_SHELF;
++  if (limit == 0) {
++    return "no spare program shelf: use the Minimal SPIFFS scheme (Module 10)";
++  }
++  if (content.size < 1 || content.size > (long long)limit) {
++    snprintf(reason, size, "size must be 1-%lu bytes", (unsigned long)limit);
++    return reason;
++  }
++
++  // url: the scheme, the host, and the path. The same message as the simulator for every mistake.
++  const char* url = content.url;
++  if (url == nullptr || url[0] == '\0') {
++    return "invalid url";
++  }
++  bool secure = false;
++  size_t scheme = schemeLength(url, &secure);
++  const char* urlFormat = "url must be http(s)://<address>/fw/node-1/<version>.bin";
++  if (scheme == 0) {
++    const char* colon = strchr(url, ':');
++    return colon == nullptr || colon == url ? "invalid url" : urlFormat;  // "abc" vs "ftp://..."
++  }
++  const char* hostPort = url + scheme;
++  size_t hostLength = strcspn(hostPort, "/?#");
++  if (hostLength == 0) {
++    return "invalid url";  // "http:///fw/...": no server name
++  }
++  const char* path = hostPort + hostLength;
++  size_t pathLength = strcspn(path, "?#");
++  char correctPath[48];
++  snprintf(correctPath, sizeof(correctPath), "/fw/node-1/%s.bin", content.version);
++  if (strlen(url) > (size_t)URL_MAX_LENGTH || pathLength != strlen(correctPath)
++      || strncmp(path, correctPath, pathLength) != 0) {
++    return urlFormat;
++  }
++
++  // the url MUST = <stored server address>/fw/node-1/<version>.bin. The download carries the device key (Basic device_id:key),
++  // so Node 1 never downloads from another server, whoever sent the command (contract 1.6 section 7).
++  if (state.serverAddress == nullptr || state.serverAddress[0] == '\0') {
++    return "server address not set (Serial: server <address>)";
++  }
++  char homeUrl[SERVER_ADDRESS_MAX_LENGTH + 48];
++  if (!buildFirmwareUrl(state.serverAddress, content.version, homeUrl, sizeof(homeUrl)) || !equalIgnoringCase(url, homeUrl)) {
++    return "url is not this home's server";
++  }
++  char host[URL_MAX_LENGTH + 1];
++  if (!secure && (!splitHost(hostPort, hostLength, host, sizeof(host)) || !isHomeIpAddress(host))) {
++    return "http only for the home network";  // the key must not travel in plain text to the internet
++  }
++  return nullptr;
++}
+diff --git a/firmware/node-1-home/ota-check.h b/firmware/node-1-home/ota-check.h
+new file mode 100644
+index 0000000..e6fbf0f
+--- /dev/null
++++ b/firmware/node-1-home/ota-check.h
+@@ -0,0 +1,55 @@
++// ota-check.h - checking the content of an "update" command, the server address, the broker address, and the claim code (Module 28).
++// Every function here only CHECKS text and numbers: it doesn't touch Wi-Fi, MQTT, NVS, or the flash. That's why this file
++// uses nothing from Arduino and can be tested on a laptop (host tests). Its rules follow DATA-CONTRACT.md 1.6
++// sections 7 and 10, and the order of its checks is the same as the simulator's tools/device-simulator.js (checkUpdate).
++#pragma once
++#include <stddef.h>
++#include <stdint.h>
++
++const uint32_t CONTRACT_PROGRAM_SHELF = 1966080;  // one Minimal SPIFFS program shelf (Module 10): the contract 1.6 "size" limit
++const int SERVER_ADDRESS_MAX_LENGTH = 64;         // the "Server address" field of the Wi-Fi portal
++const int BROKER_ADDRESS_MAX_LENGTH = 40;         // the "Broker address" field of the Wi-Fi portal
++const int URL_MAX_LENGTH = 200;                   // contract 1.6: a url is at most 200 characters
++// The first version with a trial period and a rollback. Versions below it are refused over the air: the Arduino core marks that
++// firmware valid right away without a trial period, and it can't take an update command anymore (only fixed by cable).
++const char FIRST_OTA_VERSION[] = "1.7.0";
++
++// "192.168.1.10" (without a port) is an IPv4 address on the home network: 10.x.x.x, 172.16.x.x-172.31.x.x, or 192.168.x.x.
++bool isHomeIpAddress(const char* host);
++
++// Tidies a typed address: spaces at the edges are dropped, capitals become lowercase, a slash at the end is dropped.
++void tidyAddress(const char* in, char* out, size_t size);
++
++// A server address that may be stored (already tidied): http://<home IP>[:port] or https://<name>[:port], without a path.
++// Answers nullptr if it is valid, or the sentence with the reason.
++const char* checkServerAddress(const char* address);
++
++// A broker address that may be stored: an IP address on the home network (data contract section 3: at home, broker = an IP, door 1883).
++const char* checkBrokerAddress(const char* address);
++
++// A claim code from the admin (XXXX-XXXX). Only its form is checked here; the server checks whether it is right.
++const char* checkClaimCode(const char* code);
++
++// <server address>/fw/node-1/<version>.bin, the only address Node 1 is willing to download firmware from. false = it doesn't fit.
++bool buildFirmwareUrl(const char* server, const char* version, char* out, size_t size);
++
++// The content of an "update" command already read from the JSON. nullptr = that field is missing or isn't text.
++struct UpdateFields {
++  const char* version;
++  const char* url;
++  const char* sha256;
++  long long size;  // -1 if missing or not a whole number
++};
++
++// Node 1's state when that command arrives.
++struct UpdateState {
++  const char* runningVersion;  // FIRMWARE_VERSION
++  const char* serverAddress;   // the stored server address (already tidied); "" if not set yet
++  uint32_t shelfSpace;         // ESP.getFreeSketchSpace(): the size of the other program shelf, 0 if there is none
++  bool trialPeriod;            // the running firmware still has to prove itself (60 seconds)
++  bool updateRunning;          // another update was already accepted and hasn't finished
++};
++
++// Answers nullptr if the command may be carried out (ack ok:true), or the reason it is refused (ack ok:false + message).
++// A reason that holds a number is written to "reason" (at least 48 characters).
++const char* checkUpdate(const UpdateFields& content, const UpdateState& state, char* reason, size_t size);
+diff --git a/firmware/node-1-home/ota-update.cpp b/firmware/node-1-home/ota-update.cpp
+new file mode 100644
+index 0000000..3045a1e
+--- /dev/null
++++ b/firmware/node-1-home/ota-update.cpp
+@@ -0,0 +1,392 @@
++// ota-update.cpp - the code of the ota-update module. Its functions and the order of its work are listed in ota-update.h.
++// Compiled by the author (arduino-cli 1.5.1, esp32 3.3.12), but NOT run on a board yet: firmware README, "Status 1.7.0".
++#include <Arduino.h>
++#include <HTTPUpdate.h>           // comes with the esp32 3.3.12 package: httpUpdate (download + write to the other shelf)
++#include <NetworkClientSecure.h>  // comes with the esp32 package: HTTPS with the built-in list of root certificates
++#include <esp_task_wdt.h>         // watchdog
++#include "config.h"
++#include "logger.h"
++#include "system.h"
++#include "settings.h"
++#include "actuators.h"
++#include "display.h"
++#include "networking.h"
++#include "trial-period.h"
++#include "ota-update.h"
++
++static const char PLAN_LABEL[] = "ota_plan";  // NVS label (8 characters, limit 15)
++static const char REPORT_LABEL[] = "ota_report";
++const uint8_t REPORT_REPEATS = 3;  // the report rides along with at most 3 vitals (vitals QoS 0 can get lost)
++
++static OtaReport report;           // a copy of the report in RAM
++static bool hasReport = false;
++static bool scheduled = false;     // the update command is accepted (ack ok:true), the download hasn't started yet
++static bool inProgress = false;
++static char newId[ID_MAX_LENGTH + 1] = "";
++static char newVersion[VERSION_MAX_LENGTH + 1] = "";
++static char newSha256[65] = "";
++static int lastPercent = -10;  // -10: the 0 % report is printed too
++
++// ---------- Records in NVS ----------
++bool readOtaPlan(OtaPlan& plan) {
++  return readRecord(PLAN_LABEL, &plan, sizeof(plan));
++}
++
++static void saveOtaPlan(const OtaPlan& plan) {
++  saveRecord(PLAN_LABEL, &plan, sizeof(plan));
++}
++
++void clearOtaPlan() {
++  clearRecord(PLAN_LABEL);
++}
++
++// Text from outside (a library's error message, a command id) used in the report: only visible ASCII characters, so that its JSON
++// stays short and readable. Quotation marks and backslashes are replaced by spaces.
++static void copyTidy(char* destination, size_t size, const char* source) {
++  size_t i = 0;
++  for (; source != nullptr && source[i] != '\0' && i + 1 < size; i++) {
++    char c = source[i];
++    destination[i] = (c < 32 || c > 126 || c == '"' || c == '\\') ? ' ' : c;
++  }
++  destination[i] = '\0';
++}
++
++void recordOtaResult(const char* id, const char* result, const char* version, const char* message) {
++  memset(&report, 0, sizeof(report));
++  snprintf(report.id, sizeof(report.id), "%s", id);  // the server uses the id to match it: copied as it is
++  snprintf(report.result, sizeof(report.result), "%s", result);
++  snprintf(report.version, sizeof(report.version), "%s", version);
++  copyTidy(report.message, sizeof(report.message), message);
++  report.sentCount = 0;
++  saveRecord(REPORT_LABEL, &report, sizeof(report));
++  hasReport = true;
++  logInfo("Update report saved: %s for %s%s%s (rides along with the next %u vitals)", report.result, report.version,
++          report.message[0] != '\0' ? ": " : "", report.message, REPORT_REPEATS);
++}
++
++const OtaReport* pendingOtaReport() {
++  return hasReport ? &report : nullptr;
++}
++
++void otaReportSent() {
++  if (!hasReport) {
++    return;
++  }
++  report.sentCount++;
++  if (report.sentCount >= REPORT_REPEATS) {
++    clearRecord(REPORT_LABEL);
++    hasReport = false;
++    logInfo("The update report rode along with vitals %u times: done.", REPORT_REPEATS);
++  } else {
++    saveRecord(REPORT_LABEL, &report, sizeof(report));  // its count is saved too, even if Node 1 restarts
++  }
++}
++
++// ---------- At startup ----------
++static bool bootedByPowerOn() {  // the power went out and came back, not a restart by the program or the watchdog
++  return strcmp(resetReasonName(), "POWERON") == 0 || strcmp(resetReasonName(), "BROWNOUT") == 0;
++}
++
++void setupOta() {
++  if (readRecord(REPORT_LABEL, &report, sizeof(report)) && report.sentCount < REPORT_REPEATS) {
++    hasReport = true;
++    logInfo("An update report is waiting to be sent: %s for %s (%u of %u times so far)", report.result, report.version,
++            report.sentCount, REPORT_REPEATS);
++  }
++  startTrialPeriod();  // trial-period.cpp: was the running shelf just installed over the air? the 60-second trial period starts
++
++  OtaPlan r;
++  if (!readOtaPlan(r)) {
++    return;  // no update left behind
++  }
++  char message[OTA_MESSAGE_MAX_LENGTH + 1];
++  // A "downloading" plan found by firmware that is in its TRIAL PERIOD isn't a failed download: the power went out right after
++  // the library finished installing this firmware (the shelf already picked) but before its plan could be written as "installed".
++  // That plan is handed over to the trial period below, which later reports success or rollback.
++  if (r.stage == STAGE_DOWNLOADING && !inTrialPeriod()) {
++    // Started again in the middle of a download (the power went out, or the watchdog). The old shelf is whole: the library writes the
++    // first 16 bytes of the new shelf last, so the bootloader never runs a half-written shelf.
++    if (bootedByPowerOn()) {
++      snprintf(message, sizeof(message), "power lost while downloading");
++    } else {
++      snprintf(message, sizeof(message), "restarted while downloading (%s)", resetReasonName());
++    }
++    logError("The update to %s didn't finish: %s. Firmware %s stays in use.", r.to, message, FIRMWARE_VERSION);
++    recordOtaResult(r.id, "failed", r.to, message);
++    clearOtaPlan();
++    return;
++  }
++  if (inTrialPeriod()) {  // this firmware is the one just installed: its plan is used by the trial period (trial-period.cpp)
++    if (strcmp(FIRMWARE_VERSION, r.to) != 0) {
++      logError("WARNING: the file of version %s contains FIRMWARE_VERSION %s. Forgot to raise FIRMWARE_VERSION before "
++               "Export Compiled Binary?", r.to, FIRMWARE_VERSION);
++    }
++    return;
++  }
++  if (strcmp(FIRMWARE_VERSION, r.from) == 0) {
++    // The old firmware is the one that started: the bootloader cancelled the new firmware (ABORTED) because Node 1 restarted in the
++    // middle of its trial period (the power went out, the program crashed, or the watchdog) before the new firmware could prove itself.
++    if (bootedByPowerOn()) {
++      snprintf(message, sizeof(message), "power lost during the trial period");
++    } else {
++      snprintf(message, sizeof(message), "restarted during the trial period (%s)", resetReasonName());
++    }
++    logError("Firmware %s CANCELLED, back to %s: %s.", r.to, r.from, message);
++    recordOtaResult(r.id, "rollback", r.to, message);
++  } else if (strcmp(FIRMWARE_VERSION, r.to) == 0) {
++    // The new firmware was already marked valid, but the power went out before its plan could be cleared.
++    logInfo("Firmware %s was already valid before Node 1 lost power: the success report is sent now.", r.to);
++    recordOtaResult(r.id, "succeeded", r.to, "");
++  } else {
++    logInfo("Old update plan (%s to %s) thrown away: firmware %s was installed by cable.", r.from, r.to, FIRMWARE_VERSION);
++  }
++  clearOtaPlan();
++}
++
++// ---------- Accepting the command ----------
++bool updateInProgress() {
++  return scheduled || inProgress;
++}
++
++const char* acceptUpdate(const char* id, const UpdateFields& content) {
++  static char reason[64];  // static: sendAck() still reads its content after this function has ended
++  UpdateState state = {
++    FIRMWARE_VERSION, storedServerAddress(), ESP.getFreeSketchSpace(), inTrialPeriod(), updateInProgress(),
++  };
++  const char* refusal = checkUpdate(content, state, reason, sizeof(reason));  // ota-check.cpp, the same as the simulator
++  if (refusal != nullptr) {
++    return refusal;
++  }
++  // Copied now: the command's JSON is gone as soon as the calling function ends. The download is done by updateOta()
++  // in the next pass of loop(), AFTER mqtt.loop() is over and the ack is already written to the connection.
++  snprintf(newId, sizeof(newId), "%s", id);
++  snprintf(newVersion, sizeof(newVersion), "%s", content.version);
++  snprintf(newSha256, sizeof(newSha256), "%s", content.sha256);
++  scheduled = true;
++  if (compareVersions(content.version, FIRMWARE_VERSION) < 0) {
++    logInfo("Update %s: a DOWNGRADE from %s to %s (the server sent it with Allow downgrade ticked).", id, FIRMWARE_VERSION, content.version);
++  }
++  return nullptr;
++}
++
++// ---------- Downloading ----------
++// Called by HTTPUpdate every time one sector (4 KB) is written. This is the ONLY place where the watchdog is fed while
++// downloading: if the data stops coming in the middle of the file, the watchdog isn't fed anymore (see runUpdate()).
++static void onDownloadProgress(int done, int total) {
++  esp_task_wdt_reset();
++  int percent = total > 0 ? (int)((long long)done * 100 / total) : 0;
++  if (percent / 10 != lastPercent / 10 || done == total) {
++    lastPercent = percent;
++    logInfo("Downloading firmware %s: %d %% (%d of %d bytes)", newVersion, percent, done, total);
++    char line[22];
++    snprintf(line, sizeof(line), "%d %%", percent);
++    showMessage("FIRMWARE UPDATE", newVersion, line, "don't unplug power");
++  }
++}
++
++// HTTPUpdate/HTTPClient/Update error codes into a short sentence for ota.message (at most 80 characters).
++static void explainError(int code, NetworkClientSecure& secure, bool https, char* message, size_t size) {
++  switch (code) {
++    case HTTP_UE_TOO_LESS_SPACE:
++      snprintf(message, size, "file bigger than the program shelf (-100 HTTP_UE_TOO_LESS_SPACE)");
++      return;
++    case HTTP_UE_SERVER_NOT_REPORT_SIZE:
++      snprintf(message, size, "the server gave no Content-Length (-101 HTTP_UE_SERVER_NOT_REPORT_SIZE)");
++      return;
++    case HTTP_UE_SERVER_FILE_NOT_FOUND:
++      snprintf(message, size, "file not on the server: 404 (-102 HTTP_UE_SERVER_FILE_NOT_FOUND)");
++      return;
++    case HTTP_UE_SERVER_FORBIDDEN:
++      snprintf(message, size, "download refused by the server: 403 (-103 HTTP_UE_SERVER_FORBIDDEN)");
++      return;
++    case HTTP_UE_SERVER_WRONG_HTTP_CODE:  // including 3xx: HTTPUpdate doesn't follow redirects
++      snprintf(message, size, "server answer not 200/304/403/404 (-104 HTTP_UE_SERVER_WRONG_HTTP_CODE)");
++      return;
++    case HTTP_UE_BIN_VERIFY_HEADER_FAILED:  // http://: file content that arrives more than 0.1 seconds late also ends up here
++      snprintf(message, size, "first byte not 0xE9 or not arrived yet (-106 HTTP_UE_BIN_VERIFY_HEADER_FAILED)");
++      return;
++    case HTTP_UE_NO_PARTITION:
++      snprintf(message, size, "no spare program shelf (-108 HTTP_UE_NO_PARTITION)");
++      return;
++    case HTTP_UE_SERVER_FAULTY_SHA256:
++      snprintf(message, size, "the command's sha256 refused by Update (-109 HTTP_UE_SERVER_FAULTY_SHA256)");
++      return;
++    case UPDATE_ERROR_SHA256:  // the file differs from the one the command meant: the old shelf stays in use
++      snprintf(message, size, "SHA-256 doesn't match the command (Update 15 UPDATE_ERROR_SHA256)");
++      return;
++    case HTTPC_ERROR_READ_TIMEOUT:  // only while WAITING for the head of the server's answer (HTTPClient), not in the middle of the file
++      snprintf(message, size, "server silent 8 seconds before answering (-11 HTTPC_ERROR_READ_TIMEOUT)");
++      return;
++    case UPDATE_ERROR_STREAM:  // https://: the data stopped in the MIDDLE of the file, the library gives up after 300 x 0.1 seconds
++      snprintf(message, size, "download stopped halfway: 30 seconds without data (Update 6 UPDATE_ERROR_STREAM)");
++      return;
++    case HTTPC_ERROR_CONNECTION_REFUSED: {  // also an HTTPS certificate that was refused: the details come from NetworkClientSecure
++      char tls[48] = "";
++      if (https) {
++        secure.lastError(tls, sizeof(tls));
++      }
++      snprintf(message, size, "can't connect to server (-1)%s%s", tls[0] != '\0' ? ": " : "", tls);
++      return;
++    }
++    default:
++      break;
++  }
++  if (code < 0) {  // other HTTPClient errors (the connection dropped halfway, and so on)
++    snprintf(message, size, "download failed: %s (%d)", HTTPClient::errorToString(code).c_str(), code);
++  } else if (code > 0) {  // Update errors (writing the flash, the data stream cut off, ...)
++    snprintf(message, size, "%s (Update %d)", httpUpdate.getLastErrorString().c_str(), code);
++  } else {
++    // http.begin() failed: the error code isn't filled in. Note: httpUpdate doesn't reset its error code on every attempt,
++    // so after another failure, the old code is the one read. Practically never happens: the address was already checked before.
++    snprintf(message, size, "download failed (the address can't be used)");
++  }
++}
++
++// Downloads the firmware and writes it to the other shelf. true = success (the other shelf is ready to run after the restart).
++static bool downloadFirmware(char* message, size_t size) {
++  if (!wifiConnected()) {
++    snprintf(message, size, "Wi-Fi lost before downloading");
++    return false;
++  }
++  if (brokerKey()[0] == '\0') {
++    snprintf(message, size, "no device key yet: the download needs a key (Module 21)");
++    return false;
++  }
++  char url[SERVER_ADDRESS_MAX_LENGTH + 48];
++  // The download address is built by Node 1 ITSELF from the stored server address (exactly the same as the command's url that was
++  // already checked, only in lowercase): the device key is never sent to an address someone else wrote.
++  if (!buildFirmwareUrl(storedServerAddress(), newVersion, url, sizeof(url))) {
++    snprintf(message, size, "download address too long");
++    return false;
++  }
++  bool https = strncmp(url, "https://", 8) == 0;
++  // HTTPS doesn't need to wait for the internet clock: the esp32 3.3.12 package checks the certificate chain and the server name, but
++  // does NOT check its validity dates (CONFIG_MBEDTLS_HAVE_TIME_DATE is off in that package).
++  NetworkClient plain;          // http:// only to a home IP address (already checked by ota-check.cpp)
++  NetworkClientSecure secure;   // https://: the server's certificate is checked with the built-in root list (ISRG Root X1 and X2 included)
++  NetworkClient* client = &plain;
++  if (https) {
++    secure.useBuiltinCACertBundle();  // new in the esp32 3.3.12 package
++    secure.setHandshakeTimeout(20);   // seconds: a stuck TLS handshake doesn't wait for the watchdog
++    client = &secure;
++  }
++  httpUpdate.rebootOnUpdate(false);                 // we restart by ourselves, after the plan in NVS is updated
++  httpUpdate.setLedPin(PIN_STATUS_LED, HIGH);       // the status LED blinks while writing
++  httpUpdate.setAuthorization(myDeviceId(), brokerKey());  // Basic device_id:key, matched by the backend (Module 21)
++  httpUpdate.setSHA256sum(newSha256);               // wins over the server's x-SHA256 header
++  httpUpdate.onProgress(onDownloadProgress);
++  lastPercent = -10;
++  logInfo("Downloading %s ...", url);
++  unsigned long start = millis();
++  HTTPUpdateResult result = httpUpdate.update(*client, url, FIRMWARE_VERSION);  // x-ESP32-version = the running version
++  if (result == HTTP_UPDATE_OK) {
++    logInfo("Firmware %s written on the other shelf in %lu seconds, the SHA-256 fingerprint matches.", newVersion, (millis() - start) / 1000);
++    return true;
++  }
++  if (result == HTTP_UPDATE_NO_UPDATES) {  // 304: the server thinks that version is already installed
++    snprintf(message, size, "server: no update (304, HTTP_UPDATE_NO_UPDATES)");
++    return false;
++  }
++  explainError(httpUpdate.getLastError(), secure, https, message, size);
++  return false;
++}
++
++static void runUpdate() {
++  scheduled = false;
++  inProgress = true;
++  logInfo("Update %s ACCEPTED: %s to %s.", newId, FIRMWARE_VERSION, newVersion);
++
++  // 1. The plan into NVS first: if the power goes out halfway, the firmware that starts afterwards knows it must report.
++  OtaPlan plan;
++  memset(&plan, 0, sizeof(plan));
++  snprintf(plan.id, sizeof(plan.id), "%s", newId);
++  snprintf(plan.from, sizeof(plan.from), "%s", FIRMWARE_VERSION);
++  snprintf(plan.to, sizeof(plan.to), "%s", newVersion);
++  plan.stage = STAGE_DOWNLOADING;
++  saveOtaPlan(plan);
++
++  // 2. Pump and buzzer off: while downloading, loop() doesn't run (the local safety guards stop too for ±1 minute).
++  turnOffPumpAndBuzzer();
++
++  // 3. Stop on purpose: "offline-mode" then a CLEAN DISCONNECT, so that the broker doesn't publish the "offline" will.
++  stopOnPurpose();
++  showMessage("FIRMWARE UPDATE", newVersion, "contacting server", "don't unplug power");
++
++  // 4. The watchdog is relaxed to 60 seconds: connecting + waiting for the server's answer alone may take 8 seconds (more than the
++  //    usual 5-second limit), and while the file flows, the watchdog is fed every 4 KB (onDownloadProgress). If the data STOPS in the
++  //    middle of the file: over https://, the library gives up by itself after ±30 seconds (Update 6, then the old firmware connects
++  //    again); over http://, the library waits much longer, so the 60-second watchdog restarts Node 1. The old shelf stays
++  //    whole, and after starting, the old firmware reports "failed: restarted while downloading (WDT)".
++  setWatchdogTimeout(OTA_WATCHDOG_TIMEOUT);
++
++  // 5. Download + write + check the SHA-256 fingerprint.
++  char message[OTA_MESSAGE_MAX_LENGTH + 1] = "";
++  if (downloadFirmware(message, sizeof(message))) {
++    plan.stage = STAGE_INSTALLED;  // the bootloader already picked the other shelf for the next start
++    saveOtaPlan(plan);
++    logInfo("Restarting into firmware %s. The 60-second trial period starts right after the restart.", newVersion);
++    showMessage("FIRMWARE UPDATE", newVersion, "downloaded", "restarting...");
++    Serial.flush();
++    delay(200);
++    ESP.restart();  // the next reset_reason: SW
++  }
++
++  // Failed BEFORE restarting: the old shelf is whole, the old firmware keeps running without a restart.
++  setWatchdogTimeout(WATCHDOG_TIMEOUT);
++  logError("The update to %s FAILED: %s. Firmware %s stays in use.", newVersion, message, FIRMWARE_VERSION);
++  recordOtaResult(newId, "failed", newVersion, message);
++  clearOtaPlan();
++  inProgress = false;
++  showMessage("UPDATE FAILED", newVersion, "old firmware", "still in use");
++  resumeConnection();  // networking.cpp: connected to the broker again (online), then vitals carry the "failed" report
++}
++
++void updateOta() {
++  updateTrialPeriod();  // trial-period.cpp: 60 seconds passed without proof = rollback
++  if (scheduled) {
++    runUpdate();
++  }
++}
++
++// ---------- Restarting on purpose (the Serial commands "restart", "wifi forget") ----------
++void prepareRestart(const char* cause) {
++  if (inTrialPeriod()) {
++    // Restarting in the middle of the trial period cancels the new firmware: the bootloader goes back to the old shelf (contract rule 13).
++    OtaPlan r;
++    if (readOtaPlan(r)) {
++      recordOtaResult(r.id, "rollback", r.to, "restarted during the trial period");
++      clearOtaPlan();
++    }
++    logError("Restart in the middle of the trial period: firmware %s CANCELLED, Node 1 goes back to the previous firmware.", FIRMWARE_VERSION);
++  }
++  logInfo("Stopped on purpose (%s): status offline-mode, then a clean disconnect from the broker.", cause);
++  stopOnPurpose();
++}
++
++void restartOnPurpose(const char* cause) {
++  prepareRestart(cause);
++  Serial.println("Restarting now...");
++  Serial.flush();  // wait until the message above has really been sent
++  delay(200);
++  ESP.restart();
++}
++
++// ---------- The Serial command "ota" ----------
++void printOtaInfo() {
++  Serial.printf("ota: firmware %s (%s), server address %s\n", FIRMWARE_VERSION, VERSION_NOTE,
++                storedServerAddress()[0] != '\0' ? storedServerAddress() : "NOT SET (type: server <address>)");
++  printShelfInfo();  // trial-period.cpp: the running shelf, the other shelf, the trial period
++  if (updateInProgress()) {
++    Serial.printf("ota: the update to %s is running\n", newVersion);
++  }
++  OtaPlan r;
++  if (readOtaPlan(r)) {
++    Serial.printf("ota: stored plan: %s to %s (id %s, stage %u)\n", r.from, r.to, r.id, r.stage);
++  }
++  if (hasReport) {
++    Serial.printf("ota: waiting report: %s for %s%s%s (id %s, %u of %u vitals so far)\n", report.result, report.version,
++                  report.message[0] != '\0' ? ": " : "", report.message, report.id, report.sentCount, REPORT_REPEATS);
++  } else {
++    Serial.println("ota: no update report is waiting");
++  }
++}
+diff --git a/firmware/node-1-home/ota-update.h b/firmware/node-1-home/ota-update.h
+new file mode 100644
+index 0000000..43b9778
+--- /dev/null
++++ b/firmware/node-1-home/ota-update.h
+@@ -0,0 +1,53 @@
++// ota-update.h - over-the-air firmware updates (OTA) from the home server, on the MQTT "update" command (Module 28).
++// The order (DATA-CONTRACT.md 1.6 section 7, the same as the simulator tools/device-simulator.js):
++//   check the command -> ack ok:true ("accepted", NOT "finished") -> plan into NVS -> pump and buzzer off ->
++//   status "offline-mode" + a CLEAN disconnect from the broker -> watchdog 60 seconds -> download <server address>/fw/node-1/<version>.bin
++//   (Basic device_id:key, SHA-256 fingerprint from the command) -> success: restart into the other shelf, 60-second trial period
++//   (trial-period.cpp); failure: the watchdog back to 5 seconds, connected again, a "failed" report rides along with vitals.
++// The result of every update is saved in NVS BEFORE the restart, then sent in vitals (at most 3 times).
++#pragma once
++#include <stdint.h>
++#include "version.h"    // VERSION_MAX_LENGTH
++#include "ota-check.h"  // UpdateFields
++
++const int ID_MAX_LENGTH = 39;           // contract rule 4: a command id is at most 39 characters
++const int OTA_MESSAGE_MAX_LENGTH = 80;  // contract 1.6: ota.message is at most 80 characters
++
++const uint8_t STAGE_DOWNLOADING = 1;  // plan saved, the firmware is being downloaded (the old shelf is still whole)
++const uint8_t STAGE_INSTALLED = 2;    // the new firmware is already written on the other shelf, Node 1 restarts into it
++
++// The update plan, saved in NVS BEFORE downloading (label "ota_plan"). With this plan, the firmware that starts
++// afterwards (new or old) knows what is going on, even if the power went out in between.
++struct OtaPlan {
++  char id[ID_MAX_LENGTH + 1];         // id of the update command
++  char from[VERSION_MAX_LENGTH + 1];  // the version running when the command came
++  char to[VERSION_MAX_LENGTH + 1];    // the version being installed
++  uint8_t stage;                      // STAGE_DOWNLOADING or STAGE_INSTALLED
++};
++
++// The report of one update's result (label "ota_report"), its content is the same as the "ota" object in vitals (contract 1.6 section 6).
++struct OtaReport {
++  char id[ID_MAX_LENGTH + 1];
++  char result[10];                           // "succeeded", "rollback", or "failed"
++  char version[VERSION_MAX_LENGTH + 1];      // the version TRIED
++  char message[OTA_MESSAGE_MAX_LENGTH + 1];  // the reason for a rollback/failure; "" = not written
++  uint8_t sentCount;                         // how many vitals it already rode along with (at most 3)
++};
++
++void setupOta();   // setup(), after loadSettings() and BEFORE setupNetwork(): the trial period + a plan left behind
++void updateOta();  // loop(): runs an update already accepted, and watches the 60-second trial period
++
++// Called by networking.cpp for the MQTT "update" command. nullptr = accepted (ack ok:true, the download starts in the next
++// pass of loop()), otherwise the reason of the refusal for ack ok:false.
++const char* acceptUpdate(const char* id, const UpdateFields& content);
++bool updateInProgress();  // true from when the command is accepted until the download is over
++
++const OtaReport* pendingOtaReport();  // a report that hasn't ridden along with vitals 3 times yet; nullptr if none
++void otaReportSent();                 // called after the vitals carrying that report were published successfully
++void recordOtaResult(const char* id, const char* result, const char* version, const char* message);  // save a new report to NVS
++bool readOtaPlan(OtaPlan& plan);  // false if no plan is stored
++void clearOtaPlan();
++
++void prepareRestart(const char* cause);    // stopping on purpose: the trial period report (if needed), offline-mode, a clean disconnect
++void restartOnPurpose(const char* cause);  // prepareRestart(), then ESP.restart(): the Serial command "restart"
++void printOtaInfo();                       // the answer to the Serial command "ota"
+diff --git a/firmware/node-1-home/settings.cpp b/firmware/node-1-home/settings.cpp
+index d1cef79..c8de66f 100644
+--- a/firmware/node-1-home/settings.cpp
++++ b/firmware/node-1-home/settings.cpp
+@@ -3,6 +3,7 @@
+ #include <Preferences.h>  // comes with the esp32 package, nothing to install
+ #include "config.h"
+ #include "logger.h"
++#include "ota-check.h"  // Module 28: tidyAddress(), checkServerAddress()
+ #include "settings.h"
+ 
+ static Preferences archive;  // the NVS "filing cabinet"; we use the folder named "node1"
+@@ -11,6 +12,9 @@ static unsigned long bootNumber = 0;
+ static bool useRS485 = false;  // Module 15: not in use by default (no sensor connected yet)
+ static float tempFanOn = DEFAULT_TEMP_FAN_ON;  // Module 19: the safety fan threshold, in °C
+ static char key[65] = "";  // Module 21: the broker key, at most 64 characters + the end-of-text mark; "" = none yet
++static char server[SERVER_ADDRESS_MAX_LENGTH + 1] = "";  // Module 28: the server address; "" = not set yet
++static char broker[BROKER_ADDRESS_MAX_LENGTH + 1] = "";  // Module 28: the broker address from NVS; "" = use BROKER_ADDRESS
++static unsigned long vitalsInterval = VITALS_INTERVAL / 1000;  // Module 28: seconds between two vitals
+ 
+ void loadSettings() {
+   archive.begin("node1", false);  // false = the folder is opened for reading AND writing
+@@ -35,6 +39,25 @@ void loadSettings() {
+     archive.getString("broker_key", key, sizeof(key));
+   }
+   logInfo("Broker key: %s", key[0] != '\0' ? "stored in NVS" : "NONE YET (type: key <value>)");
++
++  // Module 28: the server address (firmware downloads and claims), the broker address, and the vitals interval
++  if (archive.isKey("server_address")) {
++    archive.getString("server_address", server, sizeof(server));
++  } else if (DEFAULT_SERVER_ADDRESS[0] != '\0') {
++    tidyAddress(DEFAULT_SERVER_ADDRESS, server, sizeof(server));
++    const char* wrong = checkServerAddress(server);
++    if (wrong != nullptr) {
++      logError("DEFAULT_SERVER_ADDRESS in config.h isn't used: %s", wrong);
++      server[0] = '\0';
++    }
++  }
++  logInfo("Server address: %s", server[0] != '\0' ? server : "NOT SET (type: server <address>)");
++  if (archive.isKey("broker_address")) {
++    archive.getString("broker_address", broker, sizeof(broker));
++  }
++  logInfo("Broker address: %s (%s)", storedBrokerAddress(), brokerAddressFromNvs() ? "from NVS" : "from config.h");
++  vitalsInterval = archive.getUInt("vitals_interval", VITALS_INTERVAL / 1000);  // 15 characters = the NVS limit
++  logInfo("Vitals interval: %lu seconds (%s)", vitalsInterval, vitalsIntervalFromNvs() ? "from NVS" : "default");
+ }
+ 
+ int soilWateringThreshold() {
+@@ -139,3 +162,88 @@ void clearBrokerKey() {
+   }
+   key[0] = '\0';
+ }
++
++// ---------- Module 28: the server address, the broker address, and the vitals interval ----------
++// All three can only be changed through the Wi-Fi portal, the Serial Monitor, or a claim, NOT through MQTT: a wrong address makes
++// Node 1 unreachable (data contract 1.6 section 7). Only the vitals interval may be sent by the server (config).
++const char* storedServerAddress() {
++  return server;
++}
++
++bool saveServerAddress(const char* address) {
++  if (strlen(address) >= sizeof(server)) {
++    return false;
++  }
++  if (strcmp(address, server) != 0 || !archive.isKey("server_address")) {  // the same: no need to write it again
++    archive.putString("server_address", address);  // 14 characters
++    snprintf(server, sizeof(server), "%s", address);
++    logInfo("Server address saved to NVS: %s", server);
++  }
++  return true;
++}
++
++const char* storedBrokerAddress() {
++  if (broker[0] != '\0') {
++    return broker;
++  }
++  return BROKER_ADDRESS;  // NVS holds none yet: the address in config.h (Module 11)
++}
++
++bool brokerAddressFromNvs() {
++  return broker[0] != '\0';
++}
++
++bool saveBrokerAddress(const char* address) {
++  if (strlen(address) >= sizeof(broker)) {
++    return false;
++  }
++  if (strcmp(address, broker) != 0) {  // the same: no need to write it again
++    archive.putString("broker_address", address);  // 14 characters
++    snprintf(broker, sizeof(broker), "%s", address);
++    logInfo("Broker address saved to NVS: %s", broker);
++  }
++  return true;
++}
++
++unsigned long vitalsIntervalSeconds() {
++  return vitalsInterval;
++}
++
++bool vitalsIntervalFromNvs() {
++  return archive.isKey("vitals_interval");
++}
++
++bool saveVitalsInterval(long seconds) {
++  if (seconds < (long)VITALS_INTERVAL_MIN_S || seconds > (long)VITALS_INTERVAL_MAX_S) {
++    return false;
++  }
++  if ((unsigned long)seconds == vitalsInterval && vitalsIntervalFromNvs()) {
++    return true;  // the number is already the same: no need to write it again (flash writes are limited)
++  }
++  archive.putUInt("vitals_interval", (uint32_t)seconds);
++  vitalsInterval = (unsigned long)seconds;
++  logInfo("Vitals interval saved to NVS: %lu seconds", vitalsInterval);
++  return true;
++}
++
++// ---------- Module 28: the firmware update records ----------
++// One record = one whole struct (for example the update plan) under one NVS label. One putBytes() call writes all of it
++// at once, so power lost right while writing doesn't leave a record that is half new, half old.
++bool readRecord(const char* label, void* content, size_t size) {
++  if (!archive.isKey(label) || archive.getBytesLength(label) != size) {
++    return false;  // none yet, or written by other firmware with a different struct shape
++  }
++  return archive.getBytes(label, content, size) == size;
++}
++
++void saveRecord(const char* label, const void* content, size_t size) {
++  if (archive.putBytes(label, content, size) != size) {
++    logError("Record %s couldn't be written to NVS.", label);
++  }
++}
++
++void clearRecord(const char* label) {
++  if (archive.isKey(label)) {
++    archive.remove(label);
++  }
++}
+diff --git a/firmware/node-1-home/settings.h b/firmware/node-1-home/settings.h
+index 38fbde3..d9cd03d 100644
+--- a/firmware/node-1-home/settings.h
++++ b/firmware/node-1-home/settings.h
+@@ -1,5 +1,6 @@
+ // settings.h - settings that stay even when the power goes out, saved in NVS (Module 8)
+ #pragma once
++#include <stddef.h>  // size_t
+ 
+ void loadSettings();                          // call once in setup(): reads the settings from NVS
+ int soilWateringThreshold();                  // the "dry soil" threshold in effect now, in percent
+@@ -15,3 +16,15 @@ bool saveTempFanThreshold(float degrees);     // Module 19: returns false if out
+ const char* brokerKey();                      // Module 21: the broker key from NVS; "" if none yet. NEVER print it in full
+ bool saveBrokerKey(const char* value);        // Module 21: false if it isn't 1-64 characters A-Z, a-z, 0-9, - or _
+ void clearBrokerKey();                        // Module 21: the "key clear" command
++const char* storedServerAddress();            // Module 28: where Node 1 downloads firmware and claims; "" if not set yet
++bool saveServerAddress(const char* address);  // Module 28: an address ALREADY tidied and checked (ota-check.h)
++const char* storedBrokerAddress();            // Module 28: the broker address from NVS, or BROKER_ADDRESS in config.h
++bool brokerAddressFromNvs();                  // Module 28: true if that broker address is from NVS (portal, Serial, or claim)
++bool saveBrokerAddress(const char* address);  // Module 28: an IP address ALREADY checked (ota-check.h)
++unsigned long vitalsIntervalSeconds();        // Module 28: the time between vitals (seconds), sent by the server in the "intervals" config
++bool vitalsIntervalFromNvs();                 // Module 28: true if that interval is from NVS, not the default
++bool saveVitalsInterval(long seconds);        // Module 28: false if outside VITALS_INTERVAL_MIN_S-VITALS_INTERVAL_MAX_S
++// Module 28: the firmware update records (the plan and the report) are stored whole as a series of bytes (a struct) under one label.
++bool readRecord(const char* label, void* content, size_t size);         // false if none yet or its size differs
++void saveRecord(const char* label, const void* content, size_t size);
++void clearRecord(const char* label);
+diff --git a/firmware/node-1-home/system.cpp b/firmware/node-1-home/system.cpp
+index 5ad7925..e19046a 100644
+--- a/firmware/node-1-home/system.cpp
++++ b/firmware/node-1-home/system.cpp
+@@ -2,6 +2,7 @@
+ #include <Arduino.h>
+ #include <esp_system.h>  // esp_reset_reason()
+ #include <esp_timer.h>   // esp_timer_get_time()
++#include <esp_task_wdt.h>  // Module 28: watchdog
+ #include "system.h"
+ 
+ static unsigned long longestLoopUs = 0;  // microseconds
+@@ -45,3 +46,18 @@ void recordLoopTime(unsigned long microseconds) {
+ unsigned long longestLoopMs() {
+   return longestLoopUs / 1000;
+ }
++
++// Module 28: downloading firmware (or exchanging a claim code over HTTPS) blocks loop() for more than 5 seconds: just waiting for
++// the server's answer may take up to 8 seconds (HTTPClient). So the watchdog timeout is relaxed for a while, then put back.
++// The new firmware's trial period also uses it to guard setup() (trial-period.cpp).
++// Its content is the same as the watchdog setup in setup() (Module 8, Concept 8); only the timeout changes.
++void setWatchdogTimeout(unsigned long milliseconds) {
++  esp_task_wdt_config_t watchdogConfig = {
++    .timeout_ms = (uint32_t)milliseconds,
++    .idle_core_mask = 0b01,  // keep watching the "idle task" of core 0 (the esp32 package default)
++    .trigger_panic = true,   // fed too late = panic, then restart
++  };
++  esp_task_wdt_reset();  // feed it first so the count for the new timeout starts from zero
++  esp_task_wdt_reconfigure(&watchdogConfig);
++  esp_task_wdt_reset();
++}
+diff --git a/firmware/node-1-home/system.h b/firmware/node-1-home/system.h
+index 667d32e..2bc3886 100644
+--- a/firmware/node-1-home/system.h
++++ b/firmware/node-1-home/system.h
+@@ -5,3 +5,4 @@ unsigned long uptimeSeconds();                    // seconds since power-up; doe
+ const char* resetReasonName();                    // the last restart reason, with the same names as Appendix A
+ void recordLoopTime(unsigned long microseconds);  // call at the end of every pass of loop()
+ unsigned long longestLoopMs();                    // the longest loop() pass since power-up, in milliseconds
++void setWatchdogTimeout(unsigned long milliseconds);  // Module 28: change the watchdog timeout (5 seconds normally, 60 while downloading)
+diff --git a/firmware/node-1-home/trial-period.cpp b/firmware/node-1-home/trial-period.cpp
+new file mode 100644
+index 0000000..82d557a
+--- /dev/null
++++ b/firmware/node-1-home/trial-period.cpp
+@@ -0,0 +1,153 @@
++// trial-period.cpp - the code of the trial period module. Its functions are listed in trial-period.h.
++// Compiled by the author (arduino-cli 1.5.1, esp32 3.3.12), but NOT run on a board yet: firmware README, "Status 1.7.0".
++#include <Arduino.h>
++#include <esp_ota_ops.h>  // ESP-IDF: the state of the program shelves (otadata), mark the firmware valid or cancel it
++#include <esp_task_wdt.h> // watchdog: guards setup() during the trial period
++#include "config.h"
++#include "logger.h"
++#include "system.h"
++#include "display.h"
++#include "ota-update.h"
++#include "trial-period.h"
++
++// ================================================================================================================
++// THE MOST IMPORTANT LINE OF MODULE 28: without it, the automatic rollback NEVER happens, and there is no message at all.
++//
++// The bootloader of the esp32 3.3.12 package can already roll back: firmware just installed over the air starts in the state
++// PENDING_VERIFY ("waiting to be proven"). But before setup() runs, the Arduino core (initArduino() in
++// esp32-hal-misc.c) asks the function verifyRollbackLater(): "do you want to prove it yourself later?". Its default answer is
++// false, so the Arduino core marks the new firmware VALID right away, before it even tried the broker. Even firmware with a
++// wrong broker key counts as valid, and will never go back to the old version.
++//
++// The function below replaces that default answer with true: "yes, I prove it myself" (the trial period below).
++//
++// Why extern "C"? The default function is written in the C language (a .c file). C++ quietly changes every function's name
++// when it compiles (name mangling, for example into _Z19verifyRollbackLaterv) so that functions with the same name may have
++// different parameters. Without extern "C", our function has another name in the linker's eyes, the default function is still
++// used, and the compile still SUCCEEDS without any warning. extern "C" = "use the name as it is, like the C language", so that
++// our function replaces the default function (which is marked weak = "may be replaced").
++// ================================================================================================================
++extern "C" bool verifyRollbackLater() {
++  return true;
++}
++
++static bool trialPeriod = false;
++
++// The watchdog timeout during setup() of firmware in its trial period: the 60-second trial period + 15 seconds. If setup() finishes
++// sooner (usually within a few seconds), the timeout goes back to 5 seconds at the end of setup() as usual.
++const unsigned long TRIAL_SETUP_WATCHDOG_TIMEOUT = OTA_TRIAL_PERIOD + 15000;
++
++// The name of a program shelf's state in otadata (esp_ota_img_states_t), for the Serial command "ota".
++static const char* stateName(esp_ota_img_states_t state) {
++  switch (state) {
++    case ESP_OTA_IMG_NEW: return "NEW, never started yet";
++    case ESP_OTA_IMG_PENDING_VERIFY: return "PENDING_VERIFY, trial period";
++    case ESP_OTA_IMG_VALID: return "VALID, already proven";
++    case ESP_OTA_IMG_INVALID: return "INVALID, refused";
++    case ESP_OTA_IMG_ABORTED: return "ABORTED, cancelled";
++    case ESP_OTA_IMG_UNDEFINED: return "UNDEFINED, installed by cable";
++    default: return "unknown";
++  }
++}
++
++void startTrialPeriod() {
++  const esp_partition_t* running = esp_ota_get_running_partition();
++  esp_ota_img_states_t state;
++  if (running == nullptr || esp_ota_get_state_partition(running, &state) != ESP_OK) {
++    return;  // the state isn't recorded (for example just installed by cable): no trial period
++  }
++  if (state != ESP_OTA_IMG_PENDING_VERIFY) {
++    return;
++  }
++  trialPeriod = true;
++  logInfo("TRIAL PERIOD: firmware %s was just installed over the air on shelf %s. Within %lu seconds it must connect to the broker "
++          "and publish; otherwise Node 1 goes back to the previous firmware by itself.", FIRMWARE_VERSION, running->label,
++          OTA_TRIAL_PERIOD / 1000);
++  logInfo("During the trial period, the Wi-Fi portal isn't opened and update commands are refused.");
++
++  // The trial period also guards setup(). Normally the watchdog only starts watching loop() at the END of setup(), and the trial
++  // period is checked in loop(). New firmware that hangs in setup() (for example waiting for a sensor forever) would never reach
++  // loop(), so it would never be rolled back. That's why, from now on, the watchdog watches this task with a 75-second limit: hanging
++  // in setup() = the watchdog restarts Node 1, and the bootloader cancels the firmware that isn't proven yet (PENDING_VERIFY becomes
++  // ABORTED), so Node 1 still goes back to the old firmware and reports "rollback".
++  // The order: register first, then set the limit (feeding the watchdog before registering = the error "task not found").
++  if (esp_task_wdt_status(NULL) != ESP_OK) {   // ESP_OK = this task is already watched
++    esp_task_wdt_add(NULL);                    // NULL = the task that is running now: setup() then loop()
++  }
++  setWatchdogTimeout(TRIAL_SETUP_WATCHDOG_TIMEOUT);  // system.cpp
++}
++
++bool inTrialPeriod() {
++  return trialPeriod;
++}
++
++void firmwareProven() {
++  if (!trialPeriod) {
++    return;
++  }
++  trialPeriod = false;
++  // Mark it valid FIRST, then record it in NVS: if the power goes out between the two, this firmware is still valid and
++  // setupOta() at the next start writes the "succeeded" report from the plan left behind.
++  esp_err_t error = esp_ota_mark_app_valid_cancel_rollback();  // otadata: PENDING_VERIFY -> VALID
++  char message[OTA_MESSAGE_MAX_LENGTH + 1] = "";
++  if (error != ESP_OK) {
++    snprintf(message, sizeof(message), "couldn't be marked valid: %s", esp_err_to_name(error));
++    logError("Firmware %s %s: the next restart may go back to the old firmware.", FIRMWARE_VERSION, message);
++  }
++  OtaPlan r;
++  if (readOtaPlan(r)) {
++    if (message[0] == '\0' && strcmp(FIRMWARE_VERSION, r.to) != 0) {
++      snprintf(message, sizeof(message), "fw %s, not %s: FIRMWARE_VERSION not raised?", FIRMWARE_VERSION, r.to);
++    }
++    recordOtaResult(r.id, "succeeded", r.to, message);
++    clearOtaPlan();
++  }
++  logInfo("Firmware %s VALID: connected to the broker and published %lu seconds after starting.", FIRMWARE_VERSION, millis() / 1000);
++}
++
++void updateTrialPeriod() {
++  if (!trialPeriod || millis() < OTA_TRIAL_PERIOD) {  // millis() counts from when Node 1 started
++    return;
++  }
++  trialPeriod = false;
++  OtaPlan r;
++  bool hasPlan = readOtaPlan(r);
++  logError("Firmware %s NOT proven within %lu seconds (not connected to the broker): ROLLBACK to the previous firmware.",
++           FIRMWARE_VERSION, OTA_TRIAL_PERIOD / 1000);
++  if (hasPlan) {  // the report is saved BEFORE the restart: after the restart, the old firmware is the one that runs
++    recordOtaResult(r.id, "rollback", r.to, "not connected to the broker within 60 seconds");
++    clearOtaPlan();
++  }
++  showMessage("ROLLBACK", "new firmware failed", "back to version", hasPlan ? r.from : "previous");
++  Serial.flush();
++  esp_err_t error = esp_ota_mark_app_invalid_rollback_and_reboot();  // otadata: INVALID, then restart into the old shelf
++  // If it gets here, the function above FAILED and didn't restart (for example the old shelf isn't valid). A normal restart still
++  // cancels this firmware: the bootloader changes PENDING_VERIFY into ABORTED and picks the old shelf.
++  logError("Automatic rollback failed (%s): a normal restart.", esp_err_to_name(error));
++  Serial.flush();
++  delay(100);
++  ESP.restart();
++}
++
++void printShelfInfo() {
++  const esp_partition_t* running = esp_ota_get_running_partition();
++  const esp_partition_t* other = esp_ota_get_next_update_partition(nullptr);
++  esp_ota_img_states_t state;
++  const char* text = "not recorded (installed by cable)";
++  if (running != nullptr && esp_ota_get_state_partition(running, &state) == ESP_OK) {
++    text = stateName(state);
++  }
++  Serial.printf("ota: running shelf %s (%s); other shelf %s, %lu bytes\n", running != nullptr ? running->label : "?", text,
++                other != nullptr ? other->label : "NONE (a partition scheme without OTA)",
++                other != nullptr ? (unsigned long)other->size : 0UL);
++  const esp_partition_t* cancelled = esp_ota_get_last_invalid_partition();
++  if (cancelled != nullptr) {
++    Serial.printf("ota: shelf %s was cancelled before (firmware that failed to prove itself)\n", cancelled->label);
++  }
++  if (trialPeriod) {
++    unsigned long remaining = millis() < OTA_TRIAL_PERIOD ? (OTA_TRIAL_PERIOD - millis()) / 1000 : 0;
++    Serial.printf("ota: TRIAL PERIOD, %lu seconds left\n", remaining);
++  } else {
++    Serial.println("ota: trial period: no");
++  }
++}
+diff --git a/firmware/node-1-home/trial-period.h b/firmware/node-1-home/trial-period.h
+new file mode 100644
+index 0000000..8f8bf7e
+--- /dev/null
++++ b/firmware/node-1-home/trial-period.h
+@@ -0,0 +1,10 @@
++// trial-period.h - the 60-second trial period of firmware just installed over the air, and the automatic rollback (Module 28).
++// New firmware is VALID if within 60 seconds of starting it connects to the broker (its key is accepted), publishes "online",
++// and subscribes to cmd. If not, Node 1 goes back to the previous firmware by itself (data contract 1.6, rule 13).
++#pragma once
++
++void startTrialPeriod();  // called by setupOta() in setup(): was the running shelf just installed? the trial period starts
++bool inTrialPeriod();     // true while this firmware isn't proven yet (the Wi-Fi portal and update commands are postponed)
++void firmwareProven();    // called by networking.cpp after it connected to the broker, published "online", and subscribed to cmd
++void updateTrialPeriod(); // called by updateOta() in every pass of loop(): 60 seconds passed = rollback
++void printShelfInfo();    // part of the answer to the Serial command "ota": the running shelf, the other shelf, the trial period
+diff --git a/firmware/node-1-home/version.cpp b/firmware/node-1-home/version.cpp
+new file mode 100644
+index 0000000..47236ac
+--- /dev/null
++++ b/firmware/node-1-home/version.cpp
+@@ -0,0 +1,51 @@
++// version.cpp - the code of the version module. Its functions are listed in version.h.
++#include "version.h"
++
++// Splits "1.7.12" into three numbers {1, 7, 12}. Answers false if its form isn't x.y.z.
++static bool parseVersion(const char* text, long parts[3]) {
++  if (text == nullptr) {
++    return false;
++  }
++  int position = 0;
++  for (int i = 0; i < 3; i++) {
++    long number = 0;
++    int digitCount = 0;
++    while (text[position] >= '0' && text[position] <= '9') {
++      number = number * 10 + (text[position] - '0');
++      digitCount++;
++      position++;
++      if (digitCount > 5) {
++        return false;  // more than 5 digits in one part: surely not one of our release versions
++      }
++    }
++    if (digitCount == 0) {
++      return false;  // an empty part, for example "1..0" or "v1.7.0"
++    }
++    parts[i] = number;
++    char separator = (i < 2) ? '.' : '\0';  // the first two parts end with a dot, the third with the end of the text
++    if (text[position] != separator) {
++      return false;  // for example "1.7", "1.7.0-test", or "1.7.0.1"
++    }
++    position++;
++  }
++  return true;
++}
++
++bool isValidVersion(const char* text) {
++  long parts[3];
++  return parseVersion(text, parts);
++}
++
++int compareVersions(const char* a, const char* b) {
++  long x[3];
++  long y[3];
++  if (!parseVersion(a, x) || !parseVersion(b, y)) {
++    return 0;  // the wrong form: counts as equal (see version.h)
++  }
++  for (int i = 0; i < 3; i++) {  // from the left: MAJOR, MINOR, PATCH
++    if (x[i] != y[i]) {
++      return x[i] < y[i] ? -1 : 1;
++    }
++  }
++  return 0;
++}
+diff --git a/firmware/node-1-home/version.h b/firmware/node-1-home/version.h
+new file mode 100644
+index 0000000..c34eec8
+--- /dev/null
++++ b/firmware/node-1-home/version.h
+@@ -0,0 +1,15 @@
++// version.h - comparing SemVer x.y.z firmware version numbers (Module 28), without an extra library.
++// Why not just compare them as text? Because "1.10.0" < "1.9.0" when read character by character ("1" < "9"),
++// while 1.10.0 is newer. Each part must be compared as a NUMBER, from the left: MAJOR, then MINOR, then PATCH.
++// The same function (with the same name) is in the backend: services/version.ts.
++// This file deliberately uses nothing from Arduino so that it can be tested on a laptop (host tests).
++#pragma once
++
++const int VERSION_MAX_LENGTH = 17;  // "99999.99999.99999": three parts, each at most 5 digits
++
++bool isValidVersion(const char* text);  // true if it looks like x.y.z: three numeric parts (1-5 digits), separated by dots
++
++// The result is negative if a is older than b, 0 if they are equal, positive if a is newer (like a sort() comparator).
++// Check both with isValidVersion() first: a version with the wrong form counts as EQUAL (result 0), so an update
++// command with a strange version is always refused, never quietly installed.
++int compareVersions(const char* a, const char* b);

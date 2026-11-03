@@ -1,0 +1,2630 @@
+diff --git a/frontend/Dockerfile b/frontend/Dockerfile
+index 83af498..6a88faf 100644
+--- a/frontend/Dockerfile
++++ b/frontend/Dockerfile
+@@ -1,9 +1,10 @@
+-# Dockerfile - the web image (mold) of Mini Smart Home 1.3.0 (Module 26, a PWA since Module 27). Two stages ("multi-stage"):
++# Dockerfile - the web image (mold) of Mini Smart Home 1.4.0 (Module 26; a PWA since Module 27, the Fleet screen since Module 28).
++# Two stages ("multi-stage"):
+ #   stage "build": Node.js turns the React + TypeScript code into ready-to-serve files (npm run build -> the dist/ folder,
+ #                  including manifest.webmanifest and the service worker sw.js since Module 27)
+ #   final stage  : only Caddy + the files of dist/. Node.js, node_modules, and the source code stay behind in the build stage.
+ # Built from the project folder with: docker compose build web   (or from this folder only, without the backend folder:
+-# docker build -t mini-smart-home-web:1.3.0 .)
++# docker build -t mini-smart-home-web:1.4.0 .)
+ 
+ # An exact tag (the same as the backend image), not "latest": the same mold today and next month.
+ FROM node:24.22.1-alpine3.24 AS build
+diff --git a/frontend/README.md b/frontend/README.md
+index fa11991..21f95bb 100644
+--- a/frontend/README.md
++++ b/frontend/README.md
+@@ -2,12 +2,14 @@
+ 
+ 🌐 **English** · [Bahasa Indonesia](../../../proyek-rumah-pintar-mini/frontend/README.md)
+ 
+-Dashboard v1.3 of the Mini Smart Home project: a React 19 + TypeScript web page with Tailwind CSS v4, made with Vite 8 (the `react-ts` template from create-vite 9.3.1). Every screen has its own address (React Router v8, declarative mode), and the screens behind the login are guarded by protected routes. The dashboard shows live data from the backend through Socket.IO (the device list, details with a 5-minute chart and gauges, a 1 hour / 24 hours / 7 days history with its rows and a CSV), and since Module 24 it also **controls** the devices: an admin account turns the lamp and fan on with the status "Waiting for device confirmation…", waters with the pump, and creates, changes, deactivates, and deletes automation rules in a form checked by the same Zod schema as the backend. A viewer account sees all the data without control buttons. Important events (a rule acting, a device disconnecting) appear as toasts. Since Module 25 (v1.1) there is a **Map** screen: every device that has a point (`lat`, `lng` from backend 1.2) shows as a green/gray circle on an OpenStreetMap map, colored by its live status. It's designed to be tidy on a phone and on a laptop, follows the system's dark mode, and can be opened from a phone on the home Wi-Fi (see "Limits of v1.3"). With v1.1, the Phase 4 dashboard is complete: live data (Module 23), control and roles (Module 24), and the device map (Module 25, 🎉 Phase 4 checkpoint). The Grafana technical dashboard is NOT part of this folder: it runs separately in Docker, with its files in the project's `grafana/` folder.
++Dashboard v1.4 of the Mini Smart Home project: a React 19 + TypeScript web page with Tailwind CSS v4, made with Vite 8 (the `react-ts` template from create-vite 9.3.1). Every screen has its own address (React Router v8, declarative mode), and the screens behind the login are guarded by protected routes. The dashboard shows live data from the backend through Socket.IO (the device list, details with a 5-minute chart and gauges, a 1 hour / 24 hours / 7 days history with its rows and a CSV), and since Module 24 it also **controls** the devices: an admin account turns the lamp and fan on with the status "Waiting for device confirmation…", waters with the pump, and creates, changes, deactivates, and deletes automation rules in a form checked by the same Zod schema as the backend. A viewer account sees all the data without control buttons. Important events (a rule acting, a device disconnecting) appear as toasts. Since Module 25 (v1.1) there is a **Map** screen: every device that has a point (`lat`, `lng` from backend 1.2) shows as a green/gray circle on an OpenStreetMap map, colored by its live status. It's designed to be tidy on a phone and on a laptop, follows the system's dark mode, and can be opened from a phone on the home Wi-Fi (see "Limits of v1.4"). With v1.1, the Phase 4 dashboard is complete: live data (Module 23), control and roles (Module 24), and the device map (Module 25, 🎉 Phase 4 checkpoint). The Grafana technical dashboard is NOT part of this folder: it runs separately in Docker, with its files in the project's `grafana/` folder.
+ 
+ **v1.2 (Module 26)** packs the dashboard as a **Docker image** (the `web` service in `compose.cloud.yml`, the project root): Node.js is only used while building, then **Caddy** serves what is in `dist/` at `http://localhost` and forwards every `/api/…` address to the backend, so the page and the API live at one address. The dashboard code only changes three lines in `src/socket.ts` (the live connection through the path `/api/socket.io/`), and `npm run dev` keeps working as before. Details in [How to run it with Docker Compose](#how-to-run-it-with-docker-compose-module-26) and [Version 1.2 notes](#version-12-notes).
+ 
+ **v1.3 (Module 27)** makes the dashboard an **app you can install** (a PWA, *Progressive Web App*) on phones and laptops: one new developer package, `vite-plugin-pwa` 2.0.0, writes a manifest (the app's name, icons, colors) and a service worker (a small helper in the browser that keeps the dashboard's shell) at `npm run build`. The tab icon is now a house (not the Vite logo anymore), and there are 192 and 512 px app icons. The home's data is never stored: the numbers are always requested from the server, and when the internet is down the installed app still opens with the message "Can't reach the server. Check your internet connection, then try again." Installing it needs a secure address, `https://` (a VPS or the Module 27 free path) or `http://localhost`. Details in [A phone app (PWA, Module 27)](#a-phone-app-pwa-module-27) and [Version 1.3 notes](#version-13-notes).
+ 
++**v1.4 (Module 28)** adds the **Fleet** screen (`/fleet`, the **Fleet** menu): every device with its firmware version, its health from the last vitals (the restart reason, Wi-Fi signal, RAM, uptime), and its last update, plus the list of firmware releases on the server. An admin account uploads a `.bin` firmware file from the browser (the server computes its size and SHA-256), updates the firmware over the air (OTA) for one device, the canary devices, then all of them, creates single-use **claim codes** for new devices, sets the vitals interval, and **deactivates** a lost device. An update's progress (accepted → downloading → succeeded, rollback, or failed) shows by itself through Socket.IO, without polling. The `offline-mode` status is now written **stopped on purpose** on every screen. No new npm package; its partners are backend 1.5 and data contract 1.6. Details in [The Fleet screen (Module 28)](#the-fleet-screen-module-28) and [Version 1.4 notes](#version-14-notes).
++
+ ## How to run it with Docker Compose (Module 26)
+ 
+ The everyday way ("home mode"): the dashboard starts together with the whole home, without Node.js and without `npm install` on the laptop. Every command is typed from the **project root** (the folder that holds `compose.cloud.yml`). The full steps are in [Module 26](../../phase-5-operations-scale/module-26-docker-compose/README.md).
+@@ -20,12 +22,12 @@ The everyday way ("home mode"): the dashboard starts together with the whole hom
+ | :--- | :--- |
+ | `docker compose ps` | `web` must be `Up`. The PORTS column also writes `443/tcp, 2019/tcp, 443/udp`: that's only a note the Caddy image ships with; the only port really opened to the laptop is `127.0.0.1:80->80/tcp` |
+ | `docker compose logs web` | the Caddy log (JSON format). Four `"level":"warn"` lines at startup are normal in Module 26: `admin endpoint disabled`, `server is listening only on the HTTP port, so no automatic HTTPS will be applied to this server`, `HTTP/2 skipped because it requires TLS`, and `HTTP/3 skipped because it requires TLS`. They are also normal on the laptop since Module 27 (`WEB_DOMAIN` empty = HTTP only); on the VPS, Caddy writes its own certificate log (see Module 27) |
+-| `docker compose build web` then `docker compose up -d web` | rebuilds the image after the dashboard code changed (tag = `version` in `package.json`). On the author's Raspberry Pi 5 (v1.3, with the PWA package): ±127 seconds from scratch (`npm ci` ±67 seconds + `npm run build` ±55 seconds), ±60 seconds when the library list doesn't change (only `npm run build` is repeated). Before v1.3: ±103 seconds from scratch |
++| `docker compose build web` then `docker compose up -d web` | rebuilds the image after the dashboard code changed (tag = `version` in `package.json`). On the author's Raspberry Pi 5, v1.4: 35.9 seconds (`npm ci` 16.8 seconds + `npm run build` 17.4 seconds) after `package.json` changed, ±20 seconds when the library list doesn't change (only `npm run build` is repeated). v1.3 was recorded at ±127 seconds (`npm ci` ±67 seconds): how long `npm ci` takes depends mostly on the package download speed at that moment, not on the dashboard code |
+ | `docker compose restart web` | reads `caddy/Caddyfile` again after you changed it (±1 second) |
+ 
+ **How it works.**
+ 
+-- **Two stages** ([`Dockerfile`](Dockerfile)). The `build` stage (`node:24.22.1-alpine3.24`) runs `npm ci`, then `npm run build`. The final stage (`caddy:2.11.7-alpine`) only carries what is in `dist/` (at `/srv`) and the `Caddyfile`: no Node.js, no `node_modules`, no source code. The author's image (Raspberry Pi 5, arm64) is **90.4 MB** on disk and **24 MB** compressed (what is downloaded from the image shop). The [`.dockerignore`](.dockerignore) keeps out your laptop's `node_modules`, `dist`, and `.env.local`.
++- **Two stages** ([`Dockerfile`](Dockerfile)). The `build` stage (`node:24.22.1-alpine3.24`) runs `npm ci`, then `npm run build`. The final stage (`caddy:2.11.7-alpine`) only carries what is in `dist/` (at `/srv`) and the `Caddyfile`: no Node.js, no `node_modules`, no source code. The author's image (Raspberry Pi 5, arm64) is **90.5 MB** on disk and **24 MB** compressed (what is downloaded from the image shop) for v1.4 (v1.3: 90.4 MB). The [`.dockerignore`](.dockerignore) keeps out your laptop's `node_modules`, `dist`, and `.env.local`.
+ - **The API address is built in at build time.** The line `ARG VITE_API_BASE=/api` in the `Dockerfile` (filled in by `args` in `compose.cloud.yml`) makes Vite write the text `/api` straight into the JavaScript, replacing the default address "the page's host name + `:8080`". Changing it means rebuilding the image; the image never reads `.env.local`.
+ - **One address for the page and the API.** Caddy ([`caddy/Caddyfile`](caddy/Caddyfile)) forwards every address that starts with `/api` to the backend and drops the prefix: `http://localhost/api/devices` → `backend:8080/devices`. `backend` is the service's name in the Compose hallway. Because the page and the API are both `http://localhost`, the browser needs no cross-port CORS permission, and the `SameSite=Strict` cookies are sent along.
+ - **The live connection.** Socket.IO reads `io("/api")` as a *namespace* (a room's name inside the server), not a path, so the badge never becomes **Live** (`connect_error: server error`). That's why `src/socket.ts` changed in v1.2: if `BASE` starts with `/` (or is empty), the path is given through the `path` option (`/api/socket.io`). In dev mode `BASE` holds a full address (`http://localhost:8080`), so the old way is still used.
+@@ -35,9 +37,11 @@ The everyday way ("home mode"): the dashboard starts together with the whole hom
+ - **The Caddyfile from the repo.** Compose mounts the `frontend/caddy/` folder at `/etc/caddy` (read-only); the copy inside the image is only used when the image runs on its own. Caddy only reads that file when it starts (`admin off`), so after changing it: `docker compose restart web`.
+ - **HTTP on the laptop, HTTPS on the internet (Module 27).** The site address in the Caddyfile is `{$WEB_DOMAIN::80}`: when `WEB_DOMAIN` in the root `.env` is empty (laptop, free-path Pi), Caddy serves plain HTTP on port 80 for any name typed, exactly as in Module 26. On the VPS, `WEB_DOMAIN=iot.yourname.my.id`: Caddy asks Let's Encrypt for a certificate by itself, serves HTTPS, and redirects `http://` to `https://`. The broker's address (`MQTT_DOMAIN`) is answered with `404` "This address is for the MQTT broker (port 8883), not the dashboard.", and `/grafana/` is forwarded to Grafana when `GRAFANA_URL` is filled in (see `grafana/README.md`). The steps are in [Module 27](../../phase-5-operations-scale/module-27-deploy-internet-tls-pwa/README.md).
+ - **Backend down?** The page still opens (Caddy serves it), but every `/api` request is answered with an empty `502`: the **Log in** screen writes `Something went wrong (502).`, and a dashboard that is already open shows the **Reconnecting…** badge until the backend is back. `docker compose logs web` writes the reason, for example `dial tcp: lookup backend on 127.0.0.11:53: server misbehaving` (the `backend` service was stopped) or `connect: connection refused` (the backend is starting). Check `docker compose ps` and `docker compose logs backend`.
++- **Firmware downloads `/fw/…` (Module 28)** are forwarded by Caddy to the backend as they are: no compression, no prefix removed (the `handle /fw/*` block in the Caddyfile, the infrastructure part). This address is for devices, not browsers: the backend checks the device key, so opening it in a browser is answered `403` `{"message":"needs Basic Auth device_id:key"}`, also after the service worker is active (tried by the author). Caddy never serves firmware files directly: the `firmware-data` cupboard is only mounted in the backend.
++- **The device door `:8081` (Module 28, the free-path Pi).** The Caddyfile has a second site on door 8081 that only forwards `/fw/…` and `/api/provision/claim`; anything else is answered `404`. On the free-path Pi, the root `.env` writes `WEB_ADDRESS=<Pi IP>` + `WEB_INNER_PORT=8081`, so the home Wi-Fi only sees that door, while the dashboard still goes through the tunnel (cloudflared knocks on `http://web:80`). The trust in `X-Forwarded-For` (`CADDY_TRUSTED_PROXIES`) only applies on door 80 (`servers :80` in the Caddyfile): if it applied to the home Wi-Fi too, any phone there could fake its address and get past the login and claim rate limits. On the laptop and the VPS, door 8081 isn't connected to the outside.
+ - **The API docs** stay at the backend counter, `http://localhost:8080/docs` (see `backend/README.md`). `http://localhost/api/docs` can't be used behind Caddy: its page assets have the wrong address, and the **Try it out** button calls the API without the `/api` prefix.
+ 
+-**Trying this image on its own** (without Compose, from the `frontend` folder, without the `backend` folder): `docker build -t mini-smart-home-web:1.3.0 .`, then `docker run -d --rm --name try-web -p 127.0.0.1:8088:80 mini-smart-home-web:1.3.0`. `http://localhost:8088/` and `http://localhost:8088/map` answer with the dashboard page (200), while `http://localhost:8088/api/health` answers `502`, because outside Compose there is no service named `backend`. Stop it with `docker stop try-web`.
++**Trying this image on its own** (without Compose, from the `frontend` folder, without the `backend` folder): `docker build -t mini-smart-home-web:1.4.0 .`, then `docker run -d --rm --name try-web -p 127.0.0.1:8088:80 mini-smart-home-web:1.4.0`. `http://localhost:8088/` and `http://localhost:8088/map` answer with the dashboard page (200), while `http://localhost:8088/api/health` answers `502`, because outside Compose there is no service named `backend`. Stop it with `docker stop try-web`.
+ 
+ ## Dev mode (Vite, `npm run dev`)
+ 
+@@ -66,13 +70,13 @@ docker compose exec db psql -U postgres -d smarthome -c "CALL refresh_continuous
+ 
+ The packages added in Module 24 are installed with written versions: `npm install react-router@8.5.0 react-hook-form@7.91.0 @hookform/resolvers@5.9.2 zod@4.6.7`. The command without versions can fail (`npm error code ERESOLVE`, because of `@hookform/resolvers` 6.0.0); don't use `--legacy-peer-deps`.
+ 
+-The PWA package (Module 27) is a **developer** package (`-D`, only used while building) with an exact version: `npm install -D -E vite-plugin-pwa@2.0.0`. It pulls in about 300 helper packages (Workbox, Babel), so `node_modules` grows from ±245 MB to ±321 MB; what is in `dist/` only grows by ±16 kB. After installing, npm writes `4 low severity vulnerabilities`: all of them are one finding in `deepmerge` (used by Workbox's build tool, which runs on your laptop at `npm run build` and doesn't go to the browser), and as of October 2026 there is no fixed version yet. `npm audit --omit=dev` (the packages that go to the browser) writes `found 0 vulnerabilities`. **Don't** run `npm audit fix --force`: it "fixes" things by installing the ancient `vite-plugin-pwa` 0.2.1, which breaks the build.
++The PWA package (Module 27) is a **developer** package (`-D`, only used while building) with an exact version: `npm install -D -E vite-plugin-pwa@2.0.0`. It pulls in about 300 helper packages (Workbox, Babel), so `node_modules` grows from ±245 MB to ±321 MB; what is in `dist/` only grows by ±16 kB. The audit summary npm writes after installing (also after `npm ci`) depends on the date. As of 2 November 2026, with the 1.4.0 `package-lock.json`, npm writes `10 vulnerabilities (2 low, 8 moderate)` (in Module 27: `4 low severity vulnerabilities`; since then two new vulnerability reports were published, for `glob` and `minimatch`). All of them are in build tools installed as developer packages: the old `deepmerge` Workbox uses, and `glob` and `minimatch` through `workbox-build` under `vite-plugin-pwa`. Those tools only run on your laptop at `npm run build` and don't go to the browser: `npm audit --omit=dev` (the packages that go to the browser) writes `found 0 vulnerabilities`. **Don't** run `npm audit fix --force`: as of the same date its suggestion goes *down* to `vite-plugin-pwa` 1.1.0, an old version, not a fix.
+ 
+ The map packages (Module 25) are installed with written versions too: `npm install leaflet@1.9.4 react-leaflet@5.0.0`, then `npm install -D @types/leaflet@1.9.22`. Don't copy the command from react-leaflet's installation page (`react@rc`, `react-leaflet@next`): as of October 2026 it installs old test versions (React 19.0.0-rc.1, react-leaflet 5.0.0-rc.2).
+ 
+ ## Route map
+ 
+-All the addresses are in one place: `<Routes>` in `src/App.tsx`. The screens' paths (`/devices`, `/rules`, `/login`) live at `localhost:5173` and the backend API's paths (`/auth`, `/devices`, `/rules`) at `localhost:8080`: some words are the same, but the port (the origin) is different, and in dev mode the dashboard calls the backend directly (CORS), with no proxy. `npm run dev` and `npm run preview` serve `index.html` for any address, so **F5** and a direct link to `/devices/f00d00000001` still work. Since Module 26, Caddy in the web image uses the same rule (`try_files {path} /index.html` in `caddy/Caddyfile`).
++All the addresses are in one place: `<Routes>` in `src/App.tsx`. The screens' paths (`/devices`, `/rules`, `/login`, since Module 28 `/fleet`) live at `localhost:5173` and the backend API's paths (`/auth`, `/devices`, `/rules`, `/fleet`) at `localhost:8080`: some words are the same, but the port (the origin) is different, and in dev mode the dashboard calls the backend directly (CORS), with no proxy; in home mode the API always goes through `/api/…`. `npm run dev` and `npm run preview` serve `index.html` for any address, so **F5** and a direct link to `/devices/f00d00000001` still work. Since Module 26, Caddy in the web image uses the same rule (`try_files {path} /index.html` in `caddy/Caddyfile`).
+ 
+ | Address | Screen | Who |
+ | :--- | :--- | :--- |
+@@ -84,6 +88,7 @@ All the addresses are in one place: `<Routes>` in `src/App.tsx`. The screens' pa
+ | `/map` | the device map (Module 25): green/gray circles by live status, a popup + a link to the details | admin & viewer |
+ | `/rules` | the automation rules in plain sentences; the **+ New rule** and **Edit** buttons only for admins | admin & viewer |
+ | `/rules/new`, `/rules/:id` | the rule form (create, change, deactivate, delete) | admin; a viewer sees the "Admin only" screen |
++| `/fleet` | the fleet (Module 28): firmware versions, health, updates; firmware releases; the **Upload firmware**, **Update**, **Canary**, **Update canary**/**Update all**, **Create code**, vitals interval, and **Deactivate** buttons only for admins | admin & viewer |
+ | any other address | "Page not found" + a link to the device list | everyone |
+ 
+ A screen opened without a login (for example the link `/devices/f00d00000001/history` in a private window) is moved to `/login`; after logging in, the dashboard goes back to that screen. After the **Log out** button, the next person always starts from `/devices`.
+@@ -102,10 +107,26 @@ A screen opened without a login (for example the link `/devices/f00d00000001/his
+ - **Privacy:** a home's coordinates are personal data (your home address). The examples in the module use a fictional point in a public place (around Monas, Jakarta). Before sharing a screenshot of the map, use the example point or cover the place.
+ - **Map library licenses:** Leaflet 1.9.4 is under the BSD-2-Clause license. react-leaflet 5.0.0 (with `@react-leaflet/core`) is under the **Hippocratic License 2.1**: free to use and change, provided the use is in line with human-rights principles (the UN Universal Declaration of Human Rights, named in its license text). That extra condition makes it **not** an open-source license recognized by the OSI (GitHub shows it as `NOASSERTION`). For this learning project that isn't a problem; for a product you sell, read its full text first (`node_modules/react-leaflet/LICENSE.md`), or use Leaflet directly without react-leaflet (covered in the Module 25 Deep Dive).
+ 
++## The Fleet screen (Module 28)
++
++The `/fleet` screen (the **Fleet** menu) is the firmware control room of every device. Its data comes from backend 1.5 (`GET /fleet` and `GET /firmware`); every role may look, its buttons are only drawn for admins. The full steps are in [Module 28](../../phase-5-operations-scale/module-28-ota-provisioning-fleet/README.md).
++
++- **A device card** (`components/FleetCard.tsx`): name, kind, location, `device_id`, "last seen", the status badge (**Online**, **Offline**, **stopped on purpose**, or **deactivated**), **canary**, and **needs update** (a Node 1 whose version is older than the latest release). Under it: the firmware version, the health from the last vitals (the restart reason `reset_reason` with its meaning, the Wi-Fi signal with the categories of the Module 10 RSSI table, free RAM, uptime, the vitals interval), and the last update (status, version from → to, time, reason). **Update history** (at most 20, newest on top) is only fetched from the server when it is opened. One card shape for phones and laptops (two columns on a phone, three from 640 px), not a table: the dashboard's content column is only 768 px.
++- **The restart reason** is colored by its meaning: `BROWNOUT` yellow (the voltage dipped: check the power supply), `PANIC` and `WDT` red (the program crashed or got stuck), `SW` blue (restarted by the program: an update, a rollback, `restart`), `POWERON`, `DEEPSLEEP`, and `UNKNOWN` gray. Firmware before 1.7.0 doesn't report it: "— (the old firmware doesn't report it)".
++- **stopped on purpose** = the `offline-mode` status (contract 1.6): the device disconnects cleanly on purpose before it restarts (installing new firmware, or the Serial command `restart`). Its badge is sky blue, not red, and it is usually back **Online** within ±1 minute. Since v1.4 the same badge is used on the Devices and Details screens (it used to say "offline mode", which got mixed up with the offline mode of Module 19).
++- **Node 2** shows with the version from its packet and the sentence "OTA isn't available for Node 2: update it by cable.", without an Update button.
++- **Upload firmware** (admin, `components/FirmwareUpload.tsx`): a `.bin` file, a version `x.y.z` (the same as `FIRMWARE_VERSION` in that file), notes (at most 200 characters), and the **test** tick (a release broken on purpose for rollback practice: per device only, never "all", not counted as the latest release). Before sending, the browser refuses a file that doesn't end in `.bin`, a `*.merged.bin`, `*.bootloader.bin`, or `*.partitions.bin` file, an empty file, a file over 1,966,080 bytes (one program shelf), and a file whose first byte isn't `0xE9`, and also a version that isn't `x.y.z` (the same version rule as the contract: `OtaReport.shape.version` from the schema copy). The file's content is sent **as it is** (`fetch` with a `File` body and `Content-Type: application/octet-stream`, not a multipart form); the backend checks everything again and computes the SHA-256 itself. The result (the size and the `sha256`) shows under the form: compare it with `sha256sum` (Linux, macOS) or `Get-FileHash` (PowerShell). Errors from the backend, for example a version that already exists (`409`), are written in the form.
++- **Firmware releases** (`components/ReleaseList.tsx`): newest on top, with the badges **latest**, **test**, or **withdrawn**, the size (and its percentage of one shelf), the `sha256`, the notes, the upload time, and the canary summary. An admin gets **Update canary** (every Node 1 marked canary) and **Update all**, which is locked ("Locked: no canary has succeeded yet.") until at least one canary has **succeeded** with that version and no canary failed; the server decides (`can_update_all`). The result (the devices that were sent the command and the skipped ones with their reasons) shows under that release. Devices that are offline or already updating are skipped, **not queued**: update them again later.
++- **The buttons on a card** (admin, `components/FleetActions.tsx`): a version choice (the latest release by default, also after a new release is uploaded; a test release can be chosen) + **Update**; **Canary**; and under **More settings**: the vitals interval 60–3600 seconds (`telemetry` stays 10 seconds; Wi-Fi, the server address, and the key can't be changed from afar) and **Deactivate**. Update, Update canary, Update all, and Deactivate always ask first in an "are you sure?" box on the page (`components/ConfirmButton.tsx`, the **Delete rule** pattern of Module 24: the **Cancel** button gets the focus at once). The Update button is disabled, with its reason written out, if the device is deactivated, a Node 2, of a kind not known yet, `SERVER_URL` in the server's `.env` isn't set, there is no release yet, the previous update is still running, the device isn't online, or the chosen version is the one in use. The backend still checks again (409), for example a downgrade: tick **Allow downgrade** in the "are you sure?" box. A button's error (for example the `503` of Deactivate: "not saved in the database yet … repeat this step in a moment") stays on the card until **Close** is tapped (`components/ErrorBox.tsx`), it doesn't vanish like a toast.
++- **A `202` answer = accepted, not finished.** The card then changes by itself through the Socket.IO `ota` event: **accepted by the device**, then **stopped on purpose** + **downloading**, then **Online** with **succeeded** (the new version), or **back to the old version (rollback)**, **failed** (with its reason, for example `SHA-256 doesn't match the command (Update 15 UPDATE_ERROR_SHA256)`), **rejected by the device**, or **expired (no word)**. A finished update makes the screen fetch `GET /fleet` and `GET /firmware` again (versions, health, the canary summary).
++- **New devices** (admin, `components/CreateClaimCode.tsx`): **Create code** with a name and a location (optional) and a validity of 5–60 minutes (default 30). The code `XXXX-XXXX` is shown **once** in a read-only box with a **Copy** button (copying automatically only works at a secure address, `https://` or `localhost`; at `http://<IP>` the code is selected so you can copy it with Ctrl + C). The code isn't stored anywhere in the browser: it is gone when **Close** is tapped or the screen is left. Under it, "Recent codes (without the code)": still valid, already used (by which `device_id`), or expired. A device that registers with that code appears on the Fleet screen by itself (a `provisioning` event), then its kind and version fill in as soon as its first message arrives.
++- **Deactivate** = `POST /devices/:id/revoke` (backend 1.5): the key is revoked, the broker account is deleted (the device is disconnected at once), and the server writes the `offline` status. The card becomes **deactivated**; the manual steps still needed (for example an old line in the Module 21 broker password file) show on the card until it is closed. The device only comes back with a new key or a new claim code.
++- **Live without polling.** The status, the version (from `telemetry`), and an update's progress come through Socket.IO. Other data is only fetched again when there is news: an update finished, a `provisioning` or `revoked` event, the live connection back, or your own button (`fleetVersion` in `store.ts`, the `rulesVersion` pattern of the Rules screen). Health (vitals, every 5 minutes by default) isn't sent through Socket.IO: its numbers come from the last fetch, with the time of their vitals written beside them.
++
+ ## Roles: admin and viewer
+ 
+ - The role is read from the `GET /auth/me` and `POST /auth/login` answers, then kept only in the tab's memory (the Zustand store), never in `localStorage`.
+-- The control buttons, **+ New rule**, and **Edit** are only drawn once the admin role is **certain** (`useAdmin()` in `store.ts`), so they don't flash up on a viewer's screen.
++- The control buttons, **+ New rule**, **Edit**, and (since v1.4) the Fleet screen's buttons are only drawn once the admin role is **certain** (`useAdmin()` in `store.ts`), so they don't flash up on a viewer's screen.
+ - Leaving buttons out is only screen convenience, **not protection**. What guards is still the backend's guard: every command and change from a viewer account is answered `403 viewer accounts can only look; commands and changes are admin-only`, from the dashboard, Bruno, or any other way.
+ - A role changed with `npm run users` in the backend only shows after the page is reloaded or the access wristband (15 minutes) is renewed.
+ 
+@@ -128,6 +149,7 @@ A screen opened without a login (for example the link `/devices/f00d00000001/his
+ - At most 2 at once (the third pushes the oldest out), each one disappears by itself after 4 seconds (`setTimeout`, not `setInterval`) or is closed with the ✕ button (44 × 44 px). Their region (`components/ToastRegion.tsx`) is mounted by `Layout` between the header and the screen content, so it is always there on every screen after logging in, with `role="status"` and `aria-live="polite"`: screen readers announce its content without moving the focus. The color always comes with an icon and text.
+ - Their place follows the screen width, so they don't cover the button being used. On screens of 1280 px and up: top right, in the empty space beside the content column, sticking to the top edge while the page scrolls. On phones and tablets (below 1280 px there's no empty space beside the content): at the BOTTOM of the screen, plus the height of the phone's system bar if there is one (`env(safe-area-inset-bottom)`). So that the lowest buttons (**Save rule**, **Delete rule**) can always be scrolled above the toasts, the page content gets 16rem of free space at the bottom (`pb-64` on `<main>`), and `scroll-pb-64` on `<html>` (`index.html`) makes a browser that scrolls by itself to a button or field (the Tab key, a field with an error) stop above the toasts. Tested at 375 px and 1280 px, light and dark, also with three toasts arriving at once: **Log out**, **+ New rule**, **Edit**, Lamp, Fan, the pump buttons, **Save rule**, **Cancel**, **Delete rule**, and **Yes, delete** are not covered. What can still happen on a phone: a button that happens to sit right at the bottom edge of the screen when a toast arrives is covered until the page is scrolled a little more (or the toast is closed with ✕, at most 4 seconds). On a short or very narrow screen (a phone turned sideways, or a phone 320 px wide) a toast can cover the Lamp/Fan row or the pump buttons, including a toast from the button just tapped. A tap that lands on a toast card doesn't reach the button under it: close the toast with ✕ first or wait until it goes away. The region's empty space (outside the cards) doesn't block taps.
+ - An event toast's color is taken from the data, not from its sentence: a device disconnecting (the device's status in the store isn't `online`), and a rule or schedule whose action wasn't carried out (`data.ok` `false` from backend 1.1, or `data.result` `no-ack`/`not-sent`) are red; the others are gray.
++- Since v1.4 (Module 28): an `ota` event is green when an update **succeeded**, red for a rollback, failed, rejected, or expired, and gray when its command was accepted; `provisioning` (a new device through a claim code) is green; `revoked` gray; a device that **stopped on purpose** (`offline-mode`) is gray, not red. The `ota` event itself doesn't become a toast (the important steps already arrive as events), and an update command the device accepted gets no second toast from its HTTP answer.
+ 
+ ## Logging out
+ 
+@@ -135,7 +157,7 @@ The **Log out** button works in four steps: (1) it cuts the live connection firs
+ 
+ ## Schema copies (`src/schemas/`)
+ 
+-`src/schemas/contract.ts` and `src/schemas/rule-basics.ts` are **identical copies** of `backend/src/schemas/` (explained in `src/schemas/README.md`). Don't change them in the frontend: change them in the backend, copy them again, then run `npm run check-schema` from this folder. The `check-schema.js` script compares the content of both files line by line (CRLF and LF line endings count as the same), prints `SAME` or `DIFF` with the first line that differs, and exits with code 1 if something differs. `src/schemas/login.ts` isn't a copy: the Log in form's schema is written by hand, mirroring `backend/src/routes/auth.ts`.
++`src/schemas/contract.ts` and `src/schemas/rule-basics.ts` are **identical copies** of `backend/src/schemas/` (explained in `src/schemas/README.md`). Since v1.4, `contract.ts` is data contract 1.6 (Module 28: `reset_reason`, `fw`, and the `ota` report in `vitals`; the `update` command; `intervals` in `config`). Don't change them in the frontend: change them in the backend, copy them again, then run `npm run check-schema` from this folder. The `check-schema.js` script compares the content of both files line by line (CRLF and LF line endings count as the same), prints `SAME` or `DIFF` with the first line that differs, and exits with code 1 if something differs. `src/schemas/login.ts` isn't a copy: the Log in form's schema is written by hand, mirroring `backend/src/routes/auth.ts`.
+ 
+ ## Backend address (`.env.local`, optional)
+ 
+@@ -172,7 +194,7 @@ Since v1.3, `npm run build` (also inside `docker compose build web`) adds four f
+ | `sw.js` + `workbox-….js` | the service worker: keeps the dashboard's **shell** (HTML, JavaScript, CSS, icons; 10 files, ±1 MB) so that the app opens fast and stays open while the internet is down |
+ | `registerSW.js` | three small lines that install `sw.js` after the page has finished loading |
+ 
+-**What is kept and what isn't.** Only the shell. Every screen address (`/devices`, `/map`, `/devices/f00d00000001/history`, …) is answered with `index.html` from the store, then React Router picks the screen. Addresses that **aren't** dashboard screens always go on to the server and are never replaced by `index.html`: `/api/…` (the data and the live connection), `/grafana/…` (Grafana at the same address, Module 27), and `/socket.io/…`. Without the `/grafana` exception, opening `https://iot…/grafana/` in a browser that has opened the dashboard before shows the dashboard's own "Page not found" screen, not Grafana (tried by the author). The home's data, readings, history, and map tiles are never stored: the numbers on screen always come from the server, so no stale number ever looks new.
++**What is kept and what isn't.** Only the shell. Every screen address (`/devices`, `/map`, `/devices/f00d00000001/history`, …) is answered with `index.html` from the store, then React Router picks the screen. Addresses that **aren't** dashboard screens always go on to the server and are never replaced by `index.html`: `/api/…` (the data and the live connection), `/grafana/…` (Grafana at the same address, Module 27), `/socket.io/…`, and (since v1.4) `/fw/…` (the devices' firmware downloads, Module 28). Without the `/grafana` exception, opening `https://iot…/grafana/` in a browser that has opened the dashboard before shows the dashboard's own "Page not found" screen, not Grafana (tried by the author). The home's data, readings, history, and map tiles are never stored: the numbers on screen always come from the server, so no stale number ever looks new.
+ 
+ **A secure address.** The browser only installs a service worker and offers to install the app at a secure address: `https://…` or `http://localhost`. So:
+ 
+@@ -183,7 +205,7 @@ Since v1.3, `npm run build` (also inside `docker compose build web`) adds four f
+ | `http://<laptop-IP>` or `http://<laptop-IP>:5173` (phone mode, home Wi-Fi) | no: only a shortcut (see above) |
+ | `http://localhost:5173` (`npm run dev`) | no: dev mode has no service worker |
+ 
+-**Installing.** Laptop (Chrome or Edge): open the address, then use the browser's app install menu (a button in the address bar or the ⋮ menu); the dashboard then opens in its own window with the house icon. Android phone (Chrome): open `https://iot.yourname.my.id`, then menu ⋮ → the app install option. iPhone (Safari): ⋯ → **Share** → **Add to Home Screen** (if it isn't there: **Edit Actions**) → turn on **Open as Web App** → **Add**. Chrome's menu labels on phones differ per version and language; installing on a real phone hasn't been tried by the author yet (see "Limits of v1.3").
++**Installing.** Laptop (Chrome or Edge): open the address, then use the browser's app install menu (a button in the address bar or the ⋮ menu); the dashboard then opens in its own window with the house icon. Android phone (Chrome): open `https://iot.yourname.my.id`, then menu ⋮ → the app install option. iPhone (Safari): ⋯ → **Share** → **Add to Home Screen** (if it isn't there: **Edit Actions**) → turn on **Open as Web App** → **Add**. Chrome's menu labels on phones differ per version and language; installing on a real phone hasn't been tried by the author yet (see "Limits of v1.4").
+ 
+ **Checking on the laptop** (DevTools, F12): the **Application** tab → **Manifest** (name, icons, no errors) and **Service workers** (`sw.js` with the status *activated*). In the author's Chrome 156, `http://localhost` is reported as installable (no installability errors), the service worker is active on the first visit, and from the second visit on every screen is answered from its store.
+ 
+@@ -202,27 +224,32 @@ Since v1.3, `npm run build` (also inside `docker compose build web`) adds four f
+ | :--- | :--- |
+ | `main.tsx` | the entry point: mounts `App` inside `StrictMode` and `<BrowserRouter>` |
+ | `App.tsx` | checks the login once (`GET /auth/me`), keeps the live connection once (above `<Routes>`, so switching screens doesn't cut it), and the route map in one place |
+-| `api.ts` | one door to the backend: `fetch` with `credentials: "include"`, an `ApiError` that knows the HTTP code, a refresh once when the answer is 401, readings and history, `sendCommand()` (+ `Ack.safeParse`), `getRules()` (+ `safeParse`), `createRule()`, `updateRule()`, `deleteRule()` |
+-| `socket.ts` | one Socket.IO connection (`withCredentials: true`; since v1.2, a `BASE` that starts with `/` is used as the `path` option: `/api/socket.io`), connection recovery, `follow`/`unfollow`, the `useRealtime()` hook; the `event` event → a toast; the device list is fetched again every time the connection is RESTORED (statuses that changed while it was down) |
+-| `store.ts` | the Zustand store: the session and role (`useAdmin()`), connection, device list, status, latest readings, "last seen", the 5-minute chart points, `applyState()` from an ack, `clearAll()`, `handleSessionExpired()` |
++| `api.ts` | one door to the backend: `fetch` with `credentials: "include"`, an `ApiError` that knows the HTTP code, a refresh once when the answer is 401, readings and history, `sendCommand()` (+ `Ack.safeParse`), `getRules()` (+ `safeParse`), `createRule()`, `updateRule()`, `deleteRule()`; since v1.4 also `getFleet()`, `getReleases()`, `uploadFirmware()` (a raw file body), `updateDevice()`, `updateMany()`, `setCanary()`, `setVitalsInterval()`, `deactivate()`, `getUpdateHistory()`, `createClaimCode()`, `getClaimCodes()` |
++| `socket.ts` | one Socket.IO connection (`withCredentials: true`; since v1.2, a `BASE` that starts with `/` is used as the `path` option: `/api/socket.io`), connection recovery, `follow`/`unfollow`, the `useRealtime()` hook; the `event` event → a toast; the device list is fetched again every time the connection is RESTORED (statuses that changed while it was down); since v1.4 the `ota` event → the store, the `provisioning`/`revoked` events → the device list and the fleet are fetched again |
++| `store.ts` | the Zustand store: the session and role (`useAdmin()`), connection, device list, status, latest readings, "last seen", the 5-minute chart points, `applyState()` from an ack, `clearAll()`, `handleSessionExpired()`; since v1.4 the last update notice of each device (`ota`, `receiveOta()`) and `fleetVersion` |
+ | `toast.ts` | the small toast store: `toast(message, kind)`, at most 2, gone after 4 seconds |
+ | `rules.ts` | the shape of the `GET /rules` answer, `describeRule()` (a rule → a sentence), the form's default values, device options, the friendly-message map, and the backend's 400 error reader |
+ | `fields.tsx` | helpers for the rule form's fields: the box and label styles, field ids, `useFieldErrors()` (error messages + `aria-invalid`/`aria-describedby`) |
+ | `schemas/` | `contract.ts` and `rule-basics.ts` = identical copies from the backend; `login.ts` = the Log in form's schema; `README.md` |
+ | `time.ts` | WIB time, "… seconds ago" (date-fns), the stale-data limit, time-axis labels, and the one-second tick (`useNow`) |
+ | `csv.ts` | builds and downloads a CSV in the browser (comma separator, decimal point, BOM: Excel with English settings) |
+-| `types.ts` | data types from data contract 1.5 (Appendix A; the message shapes are the same as in 1.4), the API answers, and the Socket.IO events |
++| `types.ts` | data types from data contract 1.6 (Appendix A), the API answers (since v1.4 also the fleet, releases, updates, claim codes), and the Socket.IO events (since v1.4 also `ota`) |
++| `fleet.ts` | the Fleet screen's helpers (Module 28): the texts and colors of the update statuses and `reset_reason`, the file size and shelf percentage, the Wi-Fi signal, RAM, uptime, why the Update button is disabled, `reportError()` |
+ | `map.ts` | the map settings in one constant `MAP` (Module 25): the OSM tile address, attribution, zoom, marker colors |
+-| `pages/` | one thin wrapper file per screen: `Login`, `Devices`, `Details`, `History`, `Map`, `Rules`, `RuleForm`, `NotFound`. The screens that use `:id` look up their own data from the address |
++| `pages/` | one thin wrapper file per screen: `Login`, `Devices`, `Details`, `History`, `Map`, `Rules`, `RuleForm`, `NotFound`, and (v1.4) `Fleet`, which fetches `GET /fleet` + `GET /firmware` together and again every time `fleetVersion` goes up. The screens that use `:id` look up their own data from the address |
+ | `components/RequireLogin.tsx` | the route guard: "Checking the session…", moving to `/login` (carrying the destination address), or `<Outlet />` |
+ | `components/AdminOnly.tsx` | the second guard: the "Admin only" screen for viewer accounts, or `<Outlet />` for admins |
+-| `components/Layout.tsx` | the frame after logging in: the header (connection badge, the **Devices** / **Map** / **Rules** menu, name + role, **Log out**), the toast region (and the free space under the content for it), fetching the device list once, `<Outlet />` |
++| `components/Layout.tsx` | the frame after logging in: the header (connection badge, the **Devices** / **Map** / **Rules** / **Fleet** menu, name + role, **Log out**; from 640 px a name and **Log out** that don't fit move down to a second row on the right side), the toast region (and the free space under the content for it), fetching the device list once, `<Outlet />` |
+ | `components/SwitchButton.tsx`, `components/PumpButton.tsx` | the control buttons (see "Control buttons") |
+ | `components/ToastRegion.tsx` | where the toasts show: at the bottom of phone and tablet screens, top right on screens of 1280 px and up |
+ | `components/RuleList.tsx`, `components/RuleForm.tsx` | the rule list in sentences and the rule form (input, save, delete, preview) |
+ | `components/WhenSection.tsx`, `components/ThenSection.tsx`, `components/ConfirmDelete.tsx` | the parts of the rule form: **When?**, **Then?** (+ Telegram and **Active**), and the **Delete rule** button with its "are you sure?" box |
+ | `components/DeviceList.tsx` | red/green device cards with the latest temperature and "last seen"; every card is a link to `/devices/<id>` |
+ | `components/DeviceDetails.tsx` | all the sensors of one device (Node 1 or Node 2), the **Controls** section (admin), the 5-minute chart, and gauges |
++| `components/FleetCard.tsx`, `components/FleetActions.tsx`, `components/UpdateHistory.tsx` | one device's card on the Fleet screen, its admin buttons (Update, Canary, vitals interval, Deactivate), and its update history |
++| `components/FirmwareUpload.tsx`, `components/ReleaseList.tsx`, `components/CreateClaimCode.tsx` | the firmware upload form, the release list (+ **Update canary**/**Update all**), and the claim codes for new devices |
++| `components/ConfirmButton.tsx` | a button with an "are you sure?" box on the page (Update, Update canary/all, Deactivate) |
++| `components/ErrorBox.tsx` | a Fleet button's error that stays on the card until **Close** (`role="alert"`) |
+ | `components/DeviceMap.tsx` | the device map (Module 25): a `MapContainer` with a set height, OSM tiles + attribution, a `CircleMarker` colored by live status, a popup + a details link, `fitBounds`, empty-state messages; fetches `GET /devices` again every time it opens |
+ | `components/LiveChart.tsx`, `Gauge.tsx`, `DeviceHistory.tsx`, `HistoryChart.tsx`, `HistoryTable.tsx`, `SensorCard.tsx`, `Badge.tsx`, `ConnectionBadge.tsx`, `LastSeen.tsx`, `Picker.tsx` | the Module 22–23 components (charts, gauges, history, cards, badges) |
+ | `index.css` | `@import "tailwindcss";` (Tailwind CSS v4, without `tailwind.config.js`) + chart colors that follow dark mode + the map popup box that follows dark mode (Module 25) |
+@@ -233,10 +260,21 @@ Since v1.3, `npm run build` (also inside `docker compose build web`) adds four f
+ - If a request is answered with 401 (the `access` cookie has run out), `api.ts` calls `POST /auth/refresh` **once**, then repeats the request once. If the refresh fails too, the store is cleared and the screen moves to `/login`.
+ - Requests without a body (`POST /auth/logout`, `POST /auth/refresh`, `DELETE /rules/:id`) are sent WITHOUT the `Content-Type: application/json` header: the backend refuses a request that claims to carry JSON but whose body is empty (400).
+ - The server cuts the live connection every time the `access` cookie runs out (15 minutes) and at logout. The dashboard then calls refresh and reconnects by itself; if the refresh is refused (for example after a logout in another tab), the screen moves to `/login`. After 3 failures in a row the badge becomes **Disconnected**, and the page has to be reloaded once the backend is back.
+-- New data only comes through Socket.IO: there's no polling. `setInterval` is only used in `time.ts` for the clock on the screen.
++- New data only comes through Socket.IO: there's no polling. `setInterval` is only used in `time.ts` for the clock on the screen. The Fleet screen only fetches its data again when there is news (tried by the author: 30 seconds idle on the Fleet screen = 0 requests).
++- A claim code (Module 28) only lives in one component's memory until its box is closed: not in the store, not in `localStorage`, not in the page address. The database only stores its fingerprint.
++- Firmware files are uploaded as raw content through the same `/api` (locked with the admin cookie); the dashboard never downloads firmware files. The `/fw/…` downloads are for devices only (the device key).
+ - Device names, rule names, and event sentences are shown as JSX text, which React escapes automatically; the dashboard doesn't use `dangerouslySetInnerHTML`.
+ 
+-## Limits of v1.3
++## Limits of v1.4
++
++- **The Fleet screen was tested with simulated devices, not boards.** The author tested the `/fleet` screen on the v1.4 web image + backend 1.5 with the simulator (`tools/device-simulator.js`, the firmware 1.7.0 design) and FAKE `.bin` files: upload (also the refusals in the browser and `409`), canary, one device, "Update all", a test release → rollback (±70 seconds), the vitals interval, a claim code → the new device showing by itself in ±1 second, deactivate, a viewer account, 375 px and 1280 px, light and dark. The timings on screen with a real ESP32 over Wi-Fi, and firmware 1.7.0 itself, haven't been tested.
++- **Health isn't live per vitals.** The signal, RAM, and uptime numbers are fetched when the screen opens and when there is news (an update finished, a new device, the connection back); the time of their vitals is written on the card. "Uptime" is the number at the moment those vitals were sent, it doesn't count up by itself.
++- **The program shelves (app0/app1) aren't shown**: contract 1.6 doesn't report them (only Serial and the OLED, the Module 28 Challenge).
++- **Withdrawing a release has no button yet.** A bad release is withdrawn through Bruno (the request `withdraw test release`, `POST /firmware/node1/<version>/withdraw`); the Fleet screen then shows the **withdrawn** badge and no longer offers it.
++- **Uploading has no progress bar and no time limit**: while uploading, its button says "Uploading…" (a stuck network = still "Uploading…"). Uploading through Caddy at `https://` with a domain name and a stand-in certificate was tried by the author (the Chrome form and `curl`, a 1.2 MB fake file); real Let's Encrypt wasn't.
++- **The version right after "succeeded".** The version field is updated by the `GET /fleet` fetch the `succeeded` notice triggers; over HTTPS in the author's lab, the word **succeeded** sometimes showed before its new version (at most until that fetch finishes or the next `telemetry`, ≤ 10 seconds).
++- **Fetches aren't merged.** Every finished update triggers `GET /fleet` + `GET /firmware` on every open dashboard: "Update all" for N devices = 2N requests per dashboard within a few seconds (N = 18 in the author's lab without problems; N = 100 not measured yet).
++- **The file checks in the browser are only a helper.** A `<sketch>.bootloader.bin` file also starts with `0xE9`; the browser refuses it by its name, not by its content. What decides is still the backend (and HTTPUpdate on the device).
+ 
+ - **At home, still plain `http://`.** Phone mode (home Wi-Fi) opens the dashboard without encryption; passwords (the admin password too) travel in the clear. From the internet, the dashboard is opened over `https://` (Module 27: a VPS, or a Pi + Cloudflare Tunnel). HTTPS needs a domain name, so an IP address on the home Wi-Fi stays HTTP.
+ - **The installed app is only a shell.** Without the internet, the app opens but shows no numbers at all (no offline data), can't control devices, and sends no push notifications; alerts still come through Telegram (Modules 19, 25). A command tapped while disconnected isn't kept to be sent later.
+@@ -248,7 +286,7 @@ Since v1.3, `npm run build` (also inside `docker compose build web`) adds four f
+ - **`VITE_API_BASE` may only be a path (`/api`) or an address without a path** (`http://localhost:8080`). A full address with a path, for example `http://localhost/api`, isn't supported by the live connection yet: Socket.IO reads the `/api` at its end as a *namespace*, so the badge never becomes **Live**.
+ - **The Compose dashboard doesn't update itself.** Changing the code means `docker compose build web` + `docker compose up -d web` (±1 minute on a Pi 5); to change it while watching the result, use dev mode (Vite).
+ - **Leaving buttons out isn't protection.** The role on the screen is only convenience; the backend's guard (403) is what guards. A changed role only shows after a reload or within 15 minutes.
+-- **Only some API answers are checked by Zod**: the command ack and the rule list. The other answers (devices, readings, history, Socket.IO events) are still trusted through TypeScript types.
++- **Only some API answers are checked by Zod**: the command ack and the rule list. The other answers (devices, readings, history, fleet, releases, Socket.IO events) are still trusted through TypeScript types.
+ - **After a 504, the screen goes back to the reported state**, although the backend will still send a lamp or fan command again if it hears from the device within 2 minutes (backend 1.4; after that it won't); the dashboard doesn't show commands that are still pending.
+ - **The curtain has no button yet**, and a rule's schedule is entered as a 5-field cron text (with three ready-to-click examples), not with a time and day picker yet.
+ - **The summary history has only four quantities**: temperature (average, lowest, highest), air humidity, soil moisture, and light. Air pressure, battery, and the water tank only show on the live cards. The ranges follow the API's defaults: 1 hour (raw readings), 24 hours (per 15 minutes), and 7 days (per hour).
+@@ -261,6 +299,21 @@ Since v1.3, `npm run build` (also inside `docker compose build web`) adds four f
+ - **Dark mode follows the system setting** of the phone or laptop; there's no light/dark button yet.
+ - "Tidy on a phone" was checked with DevTools device mode (375 px wide, a phone held upright) and headless Chrome 412 px wide, and phone mode was tried by opening the laptop's Wi-Fi IP address from that laptop itself; use by another person on a real phone and the home-screen shortcut haven't been tried by the author yet. The web image and the Caddyfile were tested by the author on a Raspberry Pi 5 (Ubuntu 26.04 arm64, Docker Engine 29.1.3, Compose 2.40.3) with Chrome 156; HTTPS was tested with a domain name and a stand-in certificate issuer on the author's machine, not real Let's Encrypt; Docker Desktop on Windows and macOS hasn't been tried. Tailwind CSS v4 needs a fairly new browser (Chrome 111+, Safari 16.4+, Firefox 128+).
+ 
++## Version 1.4 notes
++
++Dashboard v1.4 (Module 28) = v1.3 + the **Fleet** screen. No new npm package; data contract 1.6. Its partner is backend 1.5 (the routes `/fleet`, `/firmware`, `/provision/code`, `/devices/:id/update`, the Socket.IO `ota` event); with backend 1.4 the other screens still run, but the Fleet screen only shows an error because its routes don't exist yet (not tried by the author).
++
++- `package.json` and `package-lock.json`: `version` 1.4.0; the packages don't change.
++- New files: `src/pages/Fleet.tsx`, `src/fleet.ts`, `src/components/FleetCard.tsx`, `FleetActions.tsx`, `UpdateHistory.tsx`, `FirmwareUpload.tsx`, `ReleaseList.tsx`, `CreateClaimCode.tsx`, `ConfirmButton.tsx`, `ErrorBox.tsx`.
++- `src/schemas/contract.ts`: a copy of contract 1.6 from backend 1.5 (`npm run check-schema`: two `SAME`).
++- `src/api.ts`: eleven fleet functions (see "What's in the `src/` folder"). `src/types.ts`: the types of the fleet, releases, updates, claim codes, the Socket.IO `ota` event, and the `ota`/`provisioning`/`revoked` event kinds.
++- `src/socket.ts`: the `ota` event to the store; the `provisioning`/`revoked` events fetch the device list and the fleet again; the toast colors of `ota`, `provisioning`, and `offline-mode`; a restored connection fetches the fleet again too. `src/store.ts`: `ota`, `receiveOta()`, `fleetVersion`, `fleetChanged()`.
++- `src/App.tsx`: the `/fleet` route (admin and viewer). `src/components/Layout.tsx`: the **Fleet** menu; a name and **Log out** that move down a row are right-aligned from 640 px (`sm:ml-auto`).
++- `src/components/Badge.tsx`, `DeviceDetails.tsx`, `DeviceList.tsx`, `src/map.ts`: `offline-mode` = **stopped on purpose** (sky blue), no longer "offline mode".
++- `vite.config.ts`: `/fw` joins `navigateFallbackDenylist` (the service worker never answers `/fw/…` with `index.html`).
++- `caddy/Caddyfile` (the infrastructure part of Module 28): the `handle /fw/*` block to the backend, an `encode` that doesn't compress `/fw/*`, `servers :80` (the `X-Forwarded-For` trust only on door 80), and the device door `:8081`. `Dockerfile`: comments only (tag 1.4.0).
++- Fixes after the code verification (still 1.4.0, not yet published): a button's error on the device card and the release card (Update, Canary, interval, Deactivate, Update canary/all) stays on the card until **Close** (`components/ErrorBox.tsx`), not a 4-second toast, because the `503` of Deactivate says to repeat the step; after "are you sure?" the focus moves to the reason sentence of a button that is now disabled, and after Deactivate to the **Close** of the steps box; the upload form refuses a version with a leading zero (`1.07.1`), the same as backend 1.5.
++
+ ## Version 1.3 notes
+ 
+ Dashboard v1.3 (Module 27) = v1.2 + an installed app (PWA). One new developer package, no screen changes; the data contract stays the same (the message shapes are the same as in 1.4; contract 1.5 only adds the internet broker rules). Its partner on the internet is backend 1.4 (`TRUST_PROXY`: `Secure` cookies and a per-visitor login limiter behind Caddy); at `http://localhost` v1.3 also runs with backend 1.3, except that the failed-command toast ("… if it hears from the device within 2 minutes") is only right with backend 1.4; backend 1.3 still sends that command again whenever the device is heard again.
+diff --git a/frontend/caddy/Caddyfile b/frontend/caddy/Caddyfile
+index d3ca761..6297e6d 100644
+--- a/frontend/caddy/Caddyfile
++++ b/frontend/caddy/Caddyfile
+@@ -1,4 +1,6 @@
+-# Caddyfile - the front door of the Mini Smart Home dashboard (Modules 26-27): serves the files of dist/ and forwards /api/... to the backend.
++# Caddyfile - the front door of the Mini Smart Home dashboard (Modules 26-28): serves the files of dist/ and forwards /api/... to the backend.
++# Module 28: also forwards /fw/... (firmware downloads by devices) to the backend, as they are, and has a DEVICE DOOR
++# :8081 (at the very bottom) for the free-path Pi.
+ # A copy of this file is built into the web image. Docker Compose mounts the FOLDER frontend/caddy/ over it (not a single
+ # file), so the file in this repo is the one that's used. After changing it: docker compose restart web
+ # {$NAME} = the value of the variable NAME from the environment part of the web service in compose.cloud.yml (it comes from .env),
+@@ -13,7 +15,11 @@
+ 	# fake them), unless they come from a trusted proxy: CADDY_TRUSTED_PROXIES=private_ranges = the private addresses, including
+ 	# the Docker hallway where cloudflared is. Empty (laptop, VPS) = trust nobody. _strict = the visitor's address is read
+ 	# from the right (what the proxy added), not from the left (what the visitor can write themselves).
+-	servers {
++	# Module 28: ONLY for door :80, which cloudflared knocks on (http://web:80). The device door :8081 below doesn't
++	# trust anyone: on the free-path Pi that door is the one opened to the home Wi-Fi, and every device on the home Wi-Fi also
++	# has a private address. If this trust applied to every door, a fake X-Forwarded-For from any phone on the home Wi-Fi would
++	# get past the login and claim rate limits (an M28 code verification finding).
++	servers :80 {
+ 		trusted_proxies static {$CADDY_TRUSTED_PROXIES}
+ 		trusted_proxies_strict
+ 	}
+@@ -34,8 +40,11 @@
+ 		respond "This address is for the MQTT broker (port 8883), not the dashboard." 404
+ 	}
+ 
+-	# answers are compressed before they're sent: the dashboard's ±1 MB of JavaScript reaches the browser as about 300 kB
+-	encode zstd gzip
++	# answers are compressed before they're sent: the dashboard's ±1 MB of JavaScript reaches the browser as about 300 kB.
++	# Module 28: EXCEPT the firmware downloads /fw/... HTTPUpdate on the ESP32 asks for HTTP/1.0 and must get a Content-Length
++	# (error -101 without it) and the file's content as it is; a compressed file can't be installed.
++	@compressible not path /fw/*
++	encode @compressible zstd gzip
+ 
+ 	# /api/devices -> backend:8080/devices (the /api prefix is removed first). The live connection too: /api/socket.io/ -> backend:8080/socket.io/
+ 	# "backend" = the service's name in compose.cloud.yml (the Compose hallway), not localhost. Caddy adds the headers X-Forwarded-For
+@@ -62,6 +71,16 @@
+ 		}
+ 	}
+ 
++	# Module 28: /fw/node-1/1.7.1.bin -> backend:8080/fw/node-1/1.7.1.bin (the prefix is NOT removed: this path belongs to the data
++	# contract, Appendix A). The backend itself checks the device key (Basic Auth device_id:key) and answers 200, 304, 403,
++	# or 404 honestly. This block MUST EXIST; where it sits doesn't matter, because Caddy itself checks /fw/* before a "handle"
++	# without a matcher (the SPA fallback, at the very bottom). Without it, a file that doesn't exist is answered with index.html 200
++	# and the ESP32 fails with error -106 (not firmware) instead of -102 (doesn't exist). Caddy never serves firmware files directly
++	# (file_server): the firmware-data cupboard is only mounted in the backend.
++	handle /fw/* {
++		reverse_proxy backend:8080
++	}
++
+ 	# /assets/...: the JavaScript and CSS from the build. Their names carry a fingerprint (for example index-BAET4URZ.js) and
+ 	# change with every build, so the browser may keep them long. A file that doesn't exist gets 404 (not index.html): an honest error.
+ 	handle /assets/* {
+@@ -82,3 +101,24 @@
+ 		file_server
+ 	}
+ }
++
++# Module 28, the free-path Pi: the DEVICE DOOR. Node 1 on the home Wi-Fi downloads firmware from the Pi's IP, and a new board claims
++# its key from the Pi's IP, without going through Cloudflare. compose.cloud.yml connects WEB_ADDRESS:PORT_WEB (the Pi's IP:80) to this
++# door when .env writes WEB_INNER_PORT=8081. It holds ONLY those two paths: the dashboard, the login, and Grafana still go through the
++# tunnel (https), never through plain http on the home Wi-Fi. This door doesn't trust X-Forwarded-For (the "servers :80" block above
++# doesn't apply here), so the claim and download rate limits are counted per device's real address. On the laptop and the VPS this
++# door is inside the container but not connected to the outside (unused).
++:8081 {
++	# the same as the /fw/* block above: forwarded as it is (the prefix isn't removed), without compression
++	handle /fw/* {
++		reverse_proxy backend:8080
++	}
++	# a device calls <server address>/api/provision/claim (data contract section 10); the backend takes it at /provision/claim
++	handle /api/provision/claim {
++		uri strip_prefix /api
++		reverse_proxy backend:8080
++	}
++	handle {
++		respond "This door is only for devices (firmware downloads and claims). Dashboard: your tunnel's https address." 404
++	}
++}
+diff --git a/frontend/package-lock.json b/frontend/package-lock.json
+index d60f69c..2357d85 100644
+--- a/frontend/package-lock.json
++++ b/frontend/package-lock.json
+@@ -1,12 +1,12 @@
+ {
+   "name": "mini-smart-home-frontend",
+-  "version": "1.3.0",
++  "version": "1.4.0",
+   "lockfileVersion": 3,
+   "requires": true,
+   "packages": {
+     "": {
+       "name": "mini-smart-home-frontend",
+-      "version": "1.3.0",
++      "version": "1.4.0",
+       "dependencies": {
+         "@hookform/resolvers": "^5.9.2",
+         "@tailwindcss/vite": "^4.3.3",
+diff --git a/frontend/package.json b/frontend/package.json
+index 06b46e1..b3c3b37 100644
+--- a/frontend/package.json
++++ b/frontend/package.json
+@@ -1,7 +1,7 @@
+ {
+   "name": "mini-smart-home-frontend",
+   "private": true,
+-  "version": "1.3.0",
++  "version": "1.4.0",
+   "type": "module",
+   "scripts": {
+     "dev": "vite",
+diff --git a/frontend/src/App.tsx b/frontend/src/App.tsx
+index 916789c..46abd6d 100644
+--- a/frontend/src/App.tsx
++++ b/frontend/src/App.tsx
+@@ -2,13 +2,14 @@
+ // 1. asking the backend "who am I?" (GET /auth/me) when the page opens;
+ // 2. keeping the live connection (Socket.IO) while logged in (Module 23);
+ // 3. holding the route map (Module 24): which address shows which screen, and which screens are guarded.
+-//    Module 25: plus the /map screen (the device map).
++//    Module 25: plus the /map screen (the device map). Module 28: plus the /fleet screen (firmware and device health).
+ import { useEffect } from "react";
+ import { Navigate, Route, Routes } from "react-router";
+ import { ApiError, whoAmI } from "./api";
+ import RequireLogin from "./components/RequireLogin";
+ import AdminOnly from "./components/AdminOnly";
+ import Layout from "./components/Layout";
++import FleetPage from "./pages/Fleet";
+ import RulesPage from "./pages/Rules";
+ import DevicesPage from "./pages/Devices";
+ import DetailsPage from "./pages/Details";
+@@ -71,6 +72,9 @@ export default function App() {
+           {/* Module 25: the device map, for admins and viewers (outside the AdminOnly guard) */}
+           <Route path="/map" element={<MapPage />} />
+           <Route path="/rules" element={<RulesPage />} />
++          {/* Module 28: the fleet (firmware versions, health, over-the-air updates). Every role SEES the screen; its buttons
++              are drawn for the admin only inside the screen itself (the Rules screen pattern), so it is outside the AdminOnly guard */}
++          <Route path="/fleet" element={<FleetPage />} />
+           {/* the second guard: screens that change something are for admins only */}
+           <Route element={<AdminOnly />}>
+             <Route path="/rules/new" element={<RuleFormPage />} />
+diff --git a/frontend/src/api.ts b/frontend/src/api.ts
+index 9e76fa8..d7d5d64 100644
+--- a/frontend/src/api.ts
++++ b/frontend/src/api.ts
+@@ -6,7 +6,26 @@ import { FullRule } from "./rules";
+ import type { Rule } from "./schemas/rule-basics";
+ import { Ack } from "./schemas/contract";
+ import type { SetCommand } from "./schemas/contract";
+-import type { Device, HistoryData, HistoryRange, Reading, ReadingsAnswer, SummaryAnswer, SummaryPoint, User } from "./types";
++import type {
++  Reading,
++  ReleaseList,
++  FleetData,
++  HistoryData,
++  FleetResult,
++  IntervalResult,
++  DeactivateResult,
++  UpdateResult,
++  ReadingsAnswer,
++  SummaryAnswer,
++  ClaimCode,
++  NewClaimCode,
++  Update,
++  User,
++  Device,
++  HistoryRange,
++  Release,
++  SummaryPoint,
++} from "./types";
+ 
+ // Backend address. Default: this page's host name + port 8080, so the page http://localhost:5173 -> API http://localhost:8080.
+ // The same host name matters: a SameSite=Strict cookie only goes along when the page and the API are one site
+@@ -208,3 +227,98 @@ export async function getHistory(deviceId: string, range: HistoryRange): Promise
+   const answer = await request<SummaryAnswer>(path + "?bucket=" + bucket);
+   return { from: answer.from, to: answer.to, points: answer.summary };
+ }
++
++// ---- Module 28: the Fleet page (backend 1.5) ----
++
++// GET /fleet: every registered device with its firmware version, health, and last update (admin and viewer)
++export function getFleet(): Promise<FleetData> {
++  return request<FleetData>("/fleet");
++}
++
++// GET /firmware: the firmware release list (a "manifest" from the database) with each version's canary summary
++export function getReleases(): Promise<ReleaseList> {
++  return request<ReleaseList>("/firmware");
++}
++
++// POST /firmware/node1/<version> (admin): the body = the .bin file's content AS IT IS (the File from the file field), not a form.
++// Content-Type application/octet-stream = "raw file content"; the backend computes its SHA-256 itself from the content it
++// receives. The notes and the test mark go in the address (?notes=…&test=true): URLSearchParams turns them into text that is
++// safe in an address (a space becomes +, a & inside the notes becomes %26). 201 = a new release, 200 = a file that had gone
++// missing from the server was restored (exactly the same content). Errors: 400 (not an ESP32 app file, too big),
++// 409 (the version already exists).
++export function uploadFirmware(version: string, file: File, notes: string, test: boolean): Promise<Release> {
++  const query = new URLSearchParams();
++  if (notes !== "") query.set("notes", notes);
++  if (test) query.set("test", "true");
++  const text = query.toString(); // for example "notes=new+greeting&test=true"; empty if neither is filled in
++  return request<Release>("/firmware/node1/" + encodeURIComponent(version) + (text === "" ? "" : "?" + text), {
++    method: "POST",
++    headers: { "Content-Type": "application/octet-stream" },
++    body: file,
++  });
++}
++
++// POST /devices/:id/update (admin): update ONE device to that version. A 202 answer means the device ACCEPTED the
++// command (ack), NOT finished: its result (succeeded, rollback, failed) follows through the Socket.IO "ota" event.
++// force = true only for a downgrade that is on purpose. Errors: 404, 409 (offline, already updating, the same version,
++// a downgrade without force), 422 (the device refuses), 503 (the broker is down, SERVER_URL is empty).
++export function updateDevice(deviceId: string, version: string, force: boolean): Promise<UpdateResult> {
++  return request<UpdateResult>("/devices/" + deviceId + "/update", {
++    method: "POST",
++    headers: { "Content-Type": "application/json" },
++    body: JSON.stringify(force ? { version, force } : { version }),
++  });
++}
++
++// GET /devices/:id/updates: the firmware update history of one device (at most 20, newest first)
++export function getUpdateHistory(deviceId: string): Promise<Update[]> {
++  return request<Update[]>("/devices/" + deviceId + "/updates");
++}
++
++// POST /fleet/update (admin): update every canary device, or every Node 1. The server only opens "all" after at least
++// one canary SUCCEEDED with that version. Devices that don't qualify are skipped (not queued).
++export function updateMany(version: string, target: "canary" | "all"): Promise<FleetResult> {
++  return request<FleetResult>("/fleet/update", {
++    method: "POST",
++    headers: { "Content-Type": "application/json" },
++    body: JSON.stringify({ version, target }),
++  });
++}
++
++// PUT /devices/:id/canary (admin): mark (true) or unmark (false) a canary device
++export function setCanary(deviceId: string, canary: boolean): Promise<{ device_id: string; canary: boolean }> {
++  return request<{ device_id: string; canary: boolean }>("/devices/" + deviceId + "/canary", {
++    method: "PUT",
++    headers: { "Content-Type": "application/json" },
++    body: JSON.stringify({ canary }),
++  });
++}
++
++// PUT /devices/:id/intervals (admin): the vitals (health) sending interval, 60-3600 seconds. telemetry stays every 10 seconds.
++export function setVitalsInterval(deviceId: string, seconds: number): Promise<IntervalResult> {
++  return request<IntervalResult>("/devices/" + deviceId + "/intervals", {
++    method: "PUT",
++    headers: { "Content-Type": "application/json" },
++    body: JSON.stringify({ vitals_s: seconds }),
++  });
++}
++
++// POST /devices/:id/revoke (admin) = the "Deactivate" button: revoke the key (Module 21) + delete the broker account + status offline.
++// No body, so also NO JSON Content-Type (the same as logout).
++export function deactivate(deviceId: string): Promise<DeactivateResult> {
++  return request<DeactivateResult>("/devices/" + deviceId + "/revoke", { method: "POST" });
++}
++
++// POST /provision/code (admin): a single-use claim code for a new device. The code only exists in this answer.
++export function createClaimCode(content: { name?: string; location?: string; minutes: number }): Promise<NewClaimCode> {
++  return request<NewClaimCode>("/provision/code", {
++    method: "POST",
++    headers: { "Content-Type": "application/json" },
++    body: JSON.stringify(content),
++  });
++}
++
++// GET /provision/code (admin): the recent claim codes WITHOUT the code: still valid, used by which device, or expired
++export function getClaimCodes(): Promise<ClaimCode[]> {
++  return request<ClaimCode[]>("/provision/code");
++}
+diff --git a/frontend/src/components/Badge.tsx b/frontend/src/components/Badge.tsx
+index 058a31e..81965fb 100644
+--- a/frontend/src/components/Badge.tsx
++++ b/frontend/src/components/Badge.tsx
+@@ -1,14 +1,17 @@
+ // Badge.tsx - small colored badges for a device's status and key.
+-// Used on the device list cards and in the device details heading (both made in Module 22).
++// Used on the device list cards and in the device details heading (both made in Module 22), and on the Fleet screen (Module 28).
+ import type { DeviceStatus, KeyStatus } from "../types";
+ 
+ // The Tailwind classes are written WHOLE here, not joined ("bg-" + color): Tailwind only makes classes that are written in full.
+ // Module 23: color ALWAYS comes with text (online green "Online", offline red "Offline"), so it can still be read by
+ // people who find it hard to tell red and green apart.
++// Module 28: offline-mode is written "stopped on purpose" (it was "offline mode"): the device restarts on purpose, for example to
++// install new firmware. The words "offline mode" are already used for something else: the Module 19 local safety while the broker
++// can't be reached. Its color is sky blue (not red): this isn't a disruption, and it is usually back Online within ±1 minute.
+ const STATUS_BADGES: Record<DeviceStatus, { text: string; color: string }> = {
+   online: { text: "Online", color: "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100" },
+   offline: { text: "Offline", color: "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-100" },
+-  "offline-mode": { text: "offline mode", color: "bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-200" },
++  "offline-mode": { text: "stopped on purpose", color: "bg-sky-100 text-sky-800 dark:bg-sky-900 dark:text-sky-100" },
+   unknown: { text: "unknown", color: "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400" },
+ };
+ 
+@@ -24,7 +27,13 @@ const SHAPE = "rounded-full px-2 py-0.5 text-xs font-medium whitespace-nowrap";
+ 
+ export function StatusBadge({ status }: { status: DeviceStatus }) {
+   const { text, color } = STATUS_BADGES[status];
+-  return <span className={SHAPE + " " + color}>{text}</span>;
++  // title = the explanation that shows when the mouse hovers over the badge (Module 28: what "stopped on purpose" means)
++  const hint = status === "offline-mode" ? "Restarting on purpose, for example for a firmware update" : undefined;
++  return (
++    <span className={SHAPE + " " + color} title={hint}>
++      {text}
++    </span>
++  );
+ }
+ 
+ export function KeyBadge({ keyStatus }: { keyStatus: KeyStatus }) {
+diff --git a/frontend/src/components/ConfirmButton.tsx b/frontend/src/components/ConfirmButton.tsx
+new file mode 100644
+index 0000000..fab5eca
+--- /dev/null
++++ b/frontend/src/components/ConfirmButton.tsx
+@@ -0,0 +1,127 @@
++// ConfirmButton.tsx - a button that asks "are you sure?" first before doing something that is hard to undo (Module 28:
++// Update firmware, Update canary/all, Deactivate). The same pattern as ConfirmDelete (Module 24): the question box is
++// part of the page, not the browser's confirm() window; the Cancel button gets the focus at once, and after Cancel
++// (or after finishing) the focus goes back to the original button, so keyboard users aren't thrown to the top of the page.
++import { useEffect, useId, useRef, useState } from "react";
++import type { ReactNode } from "react";
++
++type Props = {
++  label: string; // the button's text, for example "Update"
++  title: string; // the question, for example "Update Node 1 garage to 1.7.1?"
++  children: ReactNode; // the explanation (and extra fields, for example the "force" tick) inside the box
++  yesLabel: string; // for example "Yes, update"
++  onYes: () => Promise<void>; // the work; the box closes after it finishes (succeeded or failed)
++  danger?: boolean; // true = a red button (Deactivate)
++  disabledReason?: string | null; // filled in = the button can't be used, and this sentence shows under it
++  // the wrapper's class. "contents" = the wrapper as if it weren't there: the button joins its owner's flex row (for example beside
++  // the version choice), while the reason sentence and the "are you sure?" box (basis-full) move down to a row of their own under it
++  wrapper?: string;
++};
++
++const PLAIN_BUTTON =
++  "min-h-11 rounded-lg bg-teal-700 px-4 font-medium text-white hover:bg-teal-800 disabled:cursor-not-allowed disabled:opacity-50";
++const DANGER_BUTTON =
++  "min-h-11 rounded-lg border border-red-600 px-4 font-medium text-red-700 hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-50 dark:border-red-400 dark:text-red-300 dark:hover:bg-red-950";
++
++export default function ConfirmButton(props: Props) {
++  const { label, title, children, yesLabel, onYes, danger = false, disabledReason = null, wrapper = "min-w-0" } = props;
++  const [confirming, setConfirming] = useState(false); // the "are you sure?" box is showing
++  const [busy, setBusy] = useState(false); // true while the work runs (the "Yes" button can't be tapped twice)
++  const buttonRef = useRef<HTMLButtonElement>(null);
++  const disabledSentence = useRef<HTMLParagraphElement>(null);
++  const pendingFocus = useRef(false); // true after the box closes: the focus hasn't landed on a button that can still be used
++  const id = useId(); // a unique id for aria-labelledby: one screen can have many buttons like this
++  const disabled = disabledReason !== null;
++
++  // A DISABLED button can't get the focus. After "Yes, update", the Update button is usually disabled right away
++  // ("The previous update is still running."): the focus moves to its reason sentence instead of falling to the top of the page.
++  function close() {
++    setConfirming(false);
++    if (buttonRef.current !== null && !buttonRef.current.disabled) buttonRef.current.focus();
++    else disabledSentence.current?.focus();
++    pendingFocus.current = true;
++    setTimeout(() => {
++      pendingFocus.current = false;
++    }, 3000);
++  }
++  // the button only becomes disabled AFTER the box closed (the live notice arrives later): move the focus once, only for this button
++  useEffect(() => {
++    if (disabled && pendingFocus.current) {
++      pendingFocus.current = false;
++      disabledSentence.current?.focus();
++    }
++  }, [disabled]);
++
++  async function yes() {
++    setBusy(true);
++    try {
++      await onYes(); // the success message or the error is shown by the button's owner (toast)
++    } finally {
++      setBusy(false);
++      close();
++    }
++  }
++
++  return (
++    <div className={wrapper}>
++      <button
++        ref={buttonRef}
++        type="button"
++        disabled={disabled}
++        aria-describedby={disabled ? id + "-disabled" : undefined}
++        onClick={() => setConfirming(true)}
++        className={danger ? DANGER_BUTTON : PLAIN_BUTTON}
++      >
++        {label}
++      </button>
++      {disabled ? (
++        <p ref={disabledSentence} tabIndex={-1} id={id + "-disabled"} className="mt-1 basis-full text-xs text-slate-600 dark:text-slate-400">
++          {disabledReason}
++        </p>
++      ) : null}
++      {confirming ? (
++        // role="alertdialog": a screen reader reads the title and the content as soon as the focus moves to the Cancel button
++        <div
++          role="alertdialog"
++          aria-labelledby={id + "-title"}
++          aria-describedby={id + "-body"}
++          className={
++            "mt-2 basis-full rounded-lg border p-3 text-sm " +
++            (danger
++              ? "border-red-300 bg-red-50 text-red-900 dark:border-red-800 dark:bg-red-950 dark:text-red-100"
++              : "border-teal-300 bg-teal-50 text-teal-950 dark:border-teal-800 dark:bg-teal-950 dark:text-teal-50")
++          }
++        >
++          <p id={id + "-title"} className="font-medium break-words">
++            {title}
++          </p>
++          <div id={id + "-body"} className="mt-1">
++            {children}
++          </div>
++          <div className="mt-3 flex flex-wrap gap-3">
++            <button
++              type="button"
++              onClick={yes}
++              disabled={busy}
++              className={
++                "min-h-11 rounded-lg px-4 font-medium text-white disabled:opacity-60 " +
++                (danger ? "bg-red-700 hover:bg-red-800" : "bg-teal-700 hover:bg-teal-800")
++              }
++            >
++              {busy ? "Sending…" : yesLabel}
++            </button>
++            <button
++              type="button"
++              autoFocus
++              onClick={close}
++              disabled={busy}
++              className="min-h-11 rounded-lg border border-slate-300 bg-white px-4 text-slate-800 hover:bg-slate-50 disabled:opacity-60 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100"
++            >
++              Cancel
++            </button>
++          </div>
++        </div>
++      ) : null}
++    </div>
++  );
++}
+diff --git a/frontend/src/components/CreateClaimCode.tsx b/frontend/src/components/CreateClaimCode.tsx
+new file mode 100644
+index 0000000..898b7cd
+--- /dev/null
++++ b/frontend/src/components/CreateClaimCode.tsx
+@@ -0,0 +1,200 @@
++// CreateClaimCode.tsx - "New devices" on the Fleet screen (Module 28, admin only): creates a single-use claim code
++// (POST /provision/code). The code is typed in the new device's Wi-Fi portal; the device exchanges it by itself for its device
++// key, the backend creates its broker account, and then it shows up on the Fleet screen. The code is shown only ONCE: the
++// database only stores its fingerprint, and this screen keeps it in the component's memory only (gone when closed or when you leave).
++import { useEffect, useRef, useState } from "react";
++import type { FormEvent } from "react";
++import { getClaimCodes, createClaimCode, ApiError } from "../api";
++import { reportError } from "../fleet";
++import { toast } from "../toast";
++import { handleSessionExpired, useLiveStore } from "../store";
++import type { ClaimCode, NewClaimCode } from "../types";
++import { wibTime, wibDateTime } from "../time";
++
++const BOX =
++  "mt-1 min-h-11 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100";
++const LABEL = "mt-3 block text-sm font-medium text-slate-700 dark:text-slate-200";
++const SHAPE = "rounded-full px-2 py-0.5 text-xs font-medium whitespace-nowrap";
++
++const STATE_BADGES: Record<ClaimCode["state"], string> = {
++  valid: "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100",
++  used: "bg-sky-100 text-sky-800 dark:bg-sky-900 dark:text-sky-100",
++  expired: "bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-200",
++};
++
++export default function CreateClaimCode() {
++  const [name, setName] = useState("");
++  const [location, setLocation] = useState("");
++  const [minutes, setMinutes] = useState("30");
++  const [busy, setBusy] = useState(false);
++  const [code, setCode] = useState<NewClaimCode | null>(null); // the code just created: shown once
++  const [copied, setCopied] = useState(false);
++  const [list, setList] = useState<ClaimCode[] | null>(null);
++  const [listNumber, setListNumber] = useState(0); // goes up after a code is created: the list is fetched again
++  const codeField = useRef<HTMLInputElement>(null);
++  // a code a device used causes a "provisioning" event, which raises fleetVersion: the list is fetched again too
++  const fleetVersion = useLiveStore((s) => s.fleetVersion);
++
++  useEffect(() => {
++    let ignore = false;
++    getClaimCodes()
++      .then((l) => {
++        if (!ignore) setList(l);
++      })
++      .catch((err) => {
++        if (ignore) return;
++        if (err instanceof ApiError && err.code === 401) handleSessionExpired();
++        // failing to read the list doesn't stop creating a code: only the list isn't shown
++      });
++    return () => {
++      ignore = true;
++    };
++  }, [listNumber, fleetVersion]);
++
++  async function create(e: FormEvent) {
++    e.preventDefault();
++    const m = Number(minutes);
++    if (!Number.isInteger(m) || m < 5 || m > 60) {
++      toast("The code's validity is 5 to 60 minutes.", "error");
++      return;
++    }
++    setBusy(true);
++    setCode(null);
++    setCopied(false);
++    try {
++      // a field left empty isn't sent at all (the backend refuses empty text)
++      const created = await createClaimCode({
++        minutes: m,
++        ...(name.trim() === "" ? {} : { name: name.trim() }),
++        ...(location.trim() === "" ? {} : { location: location.trim() }),
++      });
++      setCode(created);
++      setName("");
++      setLocation("");
++      setListNumber((n) => n + 1);
++    } catch (err) {
++      reportError(err, "The claim code couldn't be created.");
++    } finally {
++      setBusy(false);
++    }
++  }
++
++  async function copyCode() {
++    if (code === null) return;
++    try {
++      // navigator.clipboard only exists at a secure address (https:// or localhost). At http://<IP> it doesn't: the code
++      // is only selected (highlighted), then copied by hand with Ctrl + C (or long-press then Copy on a phone).
++      await navigator.clipboard.writeText(code.code);
++      setCopied(true);
++    } catch {
++      codeField.current?.select();
++      toast("Can't copy automatically at this address: the code is already selected, copy it with Ctrl + C.");
++    }
++  }
++
++  return (
++    <div className="rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-800">
++      <h4 className="font-semibold text-slate-800 dark:text-slate-100">Create claim code</h4>
++      <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">
++        A single-use code to register a new device: type it in that device's Wi-Fi portal (the Claim code field), together with the
++        server address and broker address. No key copied by hand, no mosquitto_passwd.
++      </p>
++
++      <form onSubmit={create} noValidate>
++        <div className="grid gap-x-3 sm:grid-cols-2">
++          <div>
++            <label htmlFor="claim-name" className={LABEL}>
++              Device name (optional)
++            </label>
++            <input id="claim-name" value={name} onChange={(e) => setName(e.target.value)} maxLength={60} placeholder="Node 1 garage" className={BOX} />
++          </div>
++          <div>
++            <label htmlFor="claim-location" className={LABEL}>
++              Location (optional)
++            </label>
++            <input id="claim-location" value={location} onChange={(e) => setLocation(e.target.value)} maxLength={60} placeholder="garage" className={BOX} />
++          </div>
++        </div>
++        <label htmlFor="claim-minutes" className={LABEL}>
++          Valid (minutes, 5-60)
++        </label>
++        <input
++          id="claim-minutes"
++          type="number"
++          inputMode="numeric"
++          min={5}
++          max={60}
++          step={1}
++          value={minutes}
++          onChange={(e) => setMinutes(e.target.value)}
++          className={BOX + " sm:w-32"}
++        />
++        <div>
++          <button
++            type="submit"
++            disabled={busy}
++            className="mt-3 min-h-11 rounded-lg bg-teal-700 px-4 font-medium text-white hover:bg-teal-800 disabled:opacity-60"
++          >
++            {busy ? "Creating…" : "Create code"}
++          </button>
++        </div>
++      </form>
++
++      {code !== null ? (
++        <div role="status" className="mt-3 rounded-lg border border-amber-300 bg-amber-50 p-3 text-sm text-amber-950 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-100">
++          <p className="font-medium">
++            Claim code{code.name === null ? "" : " for " + code.name}, valid until {wibTime(code.expires_at)} ({code.minutes} minutes):
++          </p>
++          {/* a read-only box: it can still be selected and copied by hand in a browser that doesn't allow copying automatically */}
++          <input
++            ref={codeField}
++            readOnly
++            value={code.code}
++            aria-label="Claim code"
++            onFocus={(e) => e.currentTarget.select()}
++            className="mt-2 w-full max-w-xs rounded-lg border border-amber-400 bg-white px-3 py-2 text-center font-mono text-2xl tracking-widest text-slate-900 dark:border-amber-700 dark:bg-slate-900 dark:text-slate-100"
++          />
++          <p className="mt-2">
++            This code is shown only <b>once</b>: write it down now. After it's closed, the code can't be seen again; create a new code if it's lost.
++          </p>
++          <div className="mt-2 flex flex-wrap gap-3">
++            <button
++              type="button"
++              onClick={copyCode}
++              className="min-h-11 rounded-lg bg-amber-700 px-4 font-medium text-white hover:bg-amber-800"
++            >
++              {copied ? "Copied ✓" : "Copy"}
++            </button>
++            <button
++              type="button"
++              onClick={() => setCode(null)}
++              className="min-h-11 rounded-lg border border-amber-400 px-4 hover:bg-amber-100 dark:border-amber-700 dark:hover:bg-amber-900"
++            >
++              Close
++            </button>
++          </div>
++        </div>
++      ) : null}
++
++      {list !== null && list.length > 0 ? (
++        <div className="mt-4">
++          <h5 className="text-sm font-medium text-slate-700 dark:text-slate-200">Recent codes (without the code)</h5>
++          <ul className="mt-1 space-y-1 text-sm">
++            {list.slice(0, 5).map((c, i) => (
++              // key: the creation time + the order (two codes can be created within the same second)
++              <li key={c.created_at + "-" + i} className="break-words text-slate-700 dark:text-slate-300">
++                <span className={SHAPE + " " + STATE_BADGES[c.state]}>{c.state}</span> {c.name ?? "no name"}
++                {c.location === null ? "" : " (" + c.location + ")"}
++                <span className="text-slate-600 dark:text-slate-400">
++                  {c.state === "used" && c.used_at !== null
++                    ? " · used " + (c.device_id ?? "") + ", " + wibDateTime(Date.parse(c.used_at))
++                    : (c.state === "valid" ? " · valid until " : " · expired ") + wibDateTime(Date.parse(c.expires_at))}
++                </span>
++              </li>
++            ))}
++          </ul>
++        </div>
++      ) : null}
++    </div>
++  );
++}
+diff --git a/frontend/src/components/DeviceDetails.tsx b/frontend/src/components/DeviceDetails.tsx
+index f976171..1876b51 100644
+--- a/frontend/src/components/DeviceDetails.tsx
++++ b/frontend/src/components/DeviceDetails.tsx
+@@ -85,7 +85,7 @@ function gauges(reading: Telemetry, node2: boolean) {
+ const STATUS_TEXT: Record<DeviceStatus, string> = {
+   online: "online",
+   offline: "offline",
+-  "offline-mode": "in offline mode",
++  "offline-mode": "stopped on purpose (for example restarting for a firmware update)", // Module 28
+   unknown: "in an unknown state",
+ };
+ function whyDisabled(kind: Kind, status: DeviceStatus): string | null {
+diff --git a/frontend/src/components/DeviceList.tsx b/frontend/src/components/DeviceList.tsx
+index 2fa0d0c..d201f19 100644
+--- a/frontend/src/components/DeviceList.tsx
++++ b/frontend/src/components/DeviceList.tsx
+@@ -14,7 +14,7 @@ import LastSeen from "./LastSeen";
+ const LEFT_EDGE: Record<DeviceStatus, string> = {
+   online: "border-l-green-500 dark:border-l-green-500", // repeated with dark: so the card's dark:border-slate-700 doesn't cover it
+   offline: "border-l-red-500 dark:border-l-red-500",
+-  "offline-mode": "border-l-slate-400",
++  "offline-mode": "border-l-sky-400 dark:border-l-sky-400", // Module 28: stopped on purpose, the color of its badge
+   unknown: "border-l-slate-300 dark:border-l-slate-600",
+ };
+ 
+diff --git a/frontend/src/components/ErrorBox.tsx b/frontend/src/components/ErrorBox.tsx
+new file mode 100644
+index 0000000..e608221
+--- /dev/null
++++ b/frontend/src/components/ErrorBox.tsx
+@@ -0,0 +1,27 @@
++// ErrorBox.tsx - a Fleet screen button's error that does NOT go away by itself (Module 28). A toast disappears after 4 seconds,
++// while an error such as the 503 of Deactivate holds an important, long instruction ("repeat this step in a moment so the database
++// and the broker match again"). This box stays on the card until Close is tapped, or until the same button succeeds.
++type Props = {
++  message: string | null; // null = no error, the box isn't drawn
++  onClose: () => void;
++};
++
++export default function ErrorBox({ message, onClose }: Props) {
++  if (message === null) return null;
++  return (
++    // role="alert": a screen reader reads the error out as soon as the box appears
++    <div
++      role="alert"
++      className="mt-3 rounded-lg border border-red-300 bg-red-50 p-3 text-sm text-red-800 dark:border-red-800 dark:bg-red-950 dark:text-red-100"
++    >
++      <p className="break-words">{message}</p>
++      <button
++        type="button"
++        onClick={onClose}
++        className="mt-2 min-h-11 rounded-lg border border-red-400 px-4 hover:bg-red-100 dark:border-red-700 dark:hover:bg-red-900"
++      >
++        Close
++      </button>
++    </div>
++  );
++}
+diff --git a/frontend/src/components/FirmwareUpload.tsx b/frontend/src/components/FirmwareUpload.tsx
+new file mode 100644
+index 0000000..0d39caa
+--- /dev/null
++++ b/frontend/src/components/FirmwareUpload.tsx
+@@ -0,0 +1,180 @@
++// FirmwareUpload.tsx - the "Upload firmware" form on the Fleet screen (Module 28, admin only). The .bin file from the build folder
++// (Sketch → Export Compiled Binary) is sent AS IT IS to the backend (POST /firmware/node1/<version>); the backend computes its
++// SHA-256 itself, and this screen shows the result so it can be compared with the file's fingerprint on your laptop.
++// The checks in the browser (size, the first byte 0xE9, the file name) are only there to make the error quick and clear: the
++// backend still checks everything again.
++import { useRef, useState } from "react";
++import type { FormEvent } from "react";
++import { ApiError, uploadFirmware } from "../api";
++import { PROGRAM_SHELF, sizeText } from "../fleet";
++import { OtaReport } from "../schemas/contract";
++import { toast } from "../toast";
++import { handleSessionExpired } from "../store";
++import type { Release } from "../types";
++import { wibDateTime } from "../time";
++
++const BOX =
++  "mt-1 min-h-11 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100";
++const LABEL = "mt-3 block text-sm font-medium text-slate-700 dark:text-slate-200";
++
++// the SAME version rule as the data contract (x.y.z, for example 1.7.1): the Version schema in schemas/contract.ts, borrowed through
++// OtaReport's version field (that file doesn't export Version itself)
++const Version = OtaReport.shape.version;
++
++// Other files in the build folder that ALSO end in .bin, but aren't app files for OTA
++const NOT_AN_APP = /\.(merged|bootloader|partitions)\.bin$/i;
++
++// Checks a file before it is uploaded. The result is an error sentence, or null if it looks right.
++async function checkFile(file: File): Promise<string | null> {
++  if (!file.name.toLowerCase().endsWith(".bin")) return "Firmware files end in .bin.";
++  if (NOT_AN_APP.test(file.name)) {
++    return "That isn't an app file: choose <sketch>.ino.bin, not .merged.bin, .bootloader.bin, or .partitions.bin.";
++  }
++  if (file.size === 0) return "The file is empty.";
++  if (file.size > PROGRAM_SHELF) {
++    return "Too big: " + file.size.toLocaleString("en-US") + " bytes, one program shelf is only 1,966,080 bytes.";
++  }
++  // the first byte of every ESP32 app file = 0xE9 (233). slice(0, 1) = a 1-byte piece only, without reading the whole file.
++  const first = new Uint8Array(await file.slice(0, 1).arrayBuffer());
++  if (first[0] !== 0xe9) return "Not an ESP32 app file: its first byte must be 0xE9.";
++  return null;
++}
++
++type Props = {
++  onDone: () => void; // a new release saved: the screen fetches the release list and the fleet again
++};
++
++export default function FirmwareUpload({ onDone }: Props) {
++  const [file, setFile] = useState<File | null>(null);
++  const [version, setVersion] = useState("");
++  const [notes, setNotes] = useState("");
++  const [test, setTest] = useState(false);
++  const [busy, setBusy] = useState(false);
++  const [error, setError] = useState<string | null>(null);
++  const [result, setResult] = useState<Release | null>(null); // the release just saved (size + sha256 from the server)
++  const fileField = useRef<HTMLInputElement>(null);
++
++  async function submit(e: FormEvent) {
++    e.preventDefault();
++    setError(null);
++    setResult(null);
++    if (file === null) return setError("Choose a .bin file first.");
++    const fileError = await checkFile(file);
++    if (fileError !== null) return setError(fileError);
++    const checkVersion = Version.safeParse(version.trim());
++    if (!checkVersion.success) return setError("Version must look like x.y.z, for example 1.7.1 (the same as FIRMWARE_VERSION).");
++    // backend 1.5 refuses a RELEASE version with a leading zero (1.07.1 equals 1.7.1 as a number, differs as text)
++    if (/(^|\.)0\d/.test(checkVersion.data)) return setError("Version without leading zeros: 1.7.1, not 1.07.1.");
++    if (notes.trim().length > 200) return setError("Notes at most 200 characters.");
++    setBusy(true);
++    try {
++      const release = await uploadFirmware(checkVersion.data, file, notes.trim(), test);
++      setResult(release);
++      toast("Firmware " + release.version + " saved on the server.", "success");
++      // empty the form; the file field can't be emptied through React state, so through its ref
++      setFile(null);
++      setVersion("");
++      setNotes("");
++      setTest(false);
++      if (fileField.current !== null) fileField.current.value = "";
++      onDone();
++    } catch (err) {
++      if (err instanceof ApiError && err.code === 401) return handleSessionExpired();
++      // an error from the backend goes in the form (not a toast): it usually needs a slow read, for example "1.7.1 already exists: …"
++      setError(err instanceof ApiError ? err.message : "Upload failed.");
++    } finally {
++      setBusy(false);
++    }
++  }
++
++  return (
++    <form onSubmit={submit} noValidate className="rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-800">
++      <h4 className="font-semibold text-slate-800 dark:text-slate-100">Upload Node 1 firmware</h4>
++      <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">
++        Choose <span className="font-mono">&lt;sketch&gt;.ino.bin</span> from the folder <span className="font-mono">build</span> (made by
++        Sketch → Export Compiled Binary). An existing version can't be overwritten: changed firmware always gets a new version.
++      </p>
++
++      <label htmlFor="upload-file" className={LABEL}>
++        .bin file
++      </label>
++      <input
++        ref={fileField}
++        id="upload-file"
++        type="file"
++        accept=".bin"
++        onChange={(e) => setFile(e.target.files?.[0] ?? null)}
++        className="mt-1 block w-full text-sm text-slate-700 file:mr-3 file:min-h-11 file:rounded-lg file:border-0 file:bg-teal-50 file:px-4 file:font-medium file:text-teal-800 hover:file:bg-teal-100 dark:text-slate-200 dark:file:bg-teal-950 dark:file:text-teal-200"
++      />
++      {file !== null ? (
++        <p className="mt-1 text-xs text-slate-600 dark:text-slate-400">
++          {file.name}: {sizeText(file.size)}
++        </p>
++      ) : null}
++
++      <label htmlFor="upload-version" className={LABEL}>
++        Version (the same as FIRMWARE_VERSION in that file)
++      </label>
++      <input
++        id="upload-version"
++        value={version}
++        onChange={(e) => setVersion(e.target.value)}
++        placeholder="1.7.1"
++        inputMode="decimal"
++        autoComplete="off"
++        className={BOX + " sm:w-40"}
++      />
++
++      <label htmlFor="upload-notes" className={LABEL}>
++        Notes (optional)
++      </label>
++      <input
++        id="upload-notes"
++        value={notes}
++        onChange={(e) => setNotes(e.target.value)}
++        maxLength={200}
++        placeholder="for example: a new-version greeting"
++        className={BOX}
++      />
++
++      <label className="mt-3 flex min-h-11 items-start gap-2 text-sm text-slate-700 dark:text-slate-200">
++        <input type="checkbox" checked={test} onChange={(e) => setTest(e.target.checked)} className="mt-0.5 size-5 shrink-0 accent-teal-700" />
++        <span>
++          A <b>test</b> release (for example deliberately broken firmware for rollback practice): can only be sent to one device, never
++          to all, and it doesn't count as the latest release.
++        </span>
++      </label>
++
++      {error !== null ? (
++        // role="alert": a screen reader reads the error out at once
++        <p role="alert" className="mt-3 rounded-lg bg-red-50 p-3 text-sm text-red-700 dark:bg-red-950 dark:text-red-200">
++          {error}
++        </p>
++      ) : null}
++
++      <button
++        type="submit"
++        disabled={busy}
++        className="mt-3 min-h-11 rounded-lg bg-teal-700 px-4 font-medium text-white hover:bg-teal-800 disabled:opacity-60"
++      >
++        {busy ? "Uploading…" : "Upload firmware"}
++      </button>
++
++      {result !== null ? (
++        <div role="status" className="mt-3 rounded-lg bg-green-50 p-3 text-sm text-green-950 dark:bg-green-950 dark:text-green-100">
++          <p className="font-medium">
++            Saved: Node 1 {result.version}
++            {result.test ? " (test)" : ""}, {wibDateTime(Date.parse(result.created_at))}
++          </p>
++          <p className="mt-1">Size: {sizeText(result.size)}</p>
++          <p className="mt-1">SHA-256 (computed by the server from the file it received):</p>
++          <p className="font-mono text-xs break-all">{result.sha256}</p>
++          <p className="mt-1">
++            Compare it with the file's fingerprint on your laptop (<span className="font-mono">sha256sum</span> or{" "}
++            <span className="font-mono">Get-FileHash</span>): it must match exactly.
++          </p>
++        </div>
++      ) : null}
++    </form>
++  );
++}
+diff --git a/frontend/src/components/FleetActions.tsx b/frontend/src/components/FleetActions.tsx
+new file mode 100644
+index 0000000..ea03b48
+--- /dev/null
++++ b/frontend/src/components/FleetActions.tsx
+@@ -0,0 +1,259 @@
++// FleetActions.tsx - the admin buttons on a Fleet card (Module 28): Update one device's firmware, the Canary mark, the vitals
++// interval, and Deactivate. Only drawn for admins (FleetCard uses useAdmin), but that's only screen convenience:
++// the backend's guard still answers 403 for a viewer account, and the backend checks every condition again (409).
++import { useEffect, useId, useRef, useState } from "react";
++import type { FormEvent } from "react";
++import { setCanary, setVitalsInterval, deactivate, updateDevice } from "../api";
++import { cannotUpdateReason, errorMessage, sizeText } from "../fleet";
++import { toast } from "../toast";
++import type { FleetRow, Update, FullRelease, DeviceStatus } from "../types";
++import ErrorBox from "./ErrorBox";
++import ConfirmButton from "./ConfirmButton";
++
++const BOX =
++  "mt-1 min-h-11 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100";
++
++// the label of a version choice, for example "1.7.1 (latest, in use)" or "1.7.2 (test)"
++function versionLabel(r: FullRelease, latest: string | null, fw: string | null): string {
++  const marks = [r.test ? "test" : "", r.version === latest ? "latest" : "", r.version === fw ? "in use" : ""].filter((t) => t !== "");
++  return r.version + (marks.length > 0 ? " (" + marks.join(", ") + ")" : "");
++}
++
++type Props = {
++  d: FleetRow;
++  status: DeviceStatus; // the LIVE status (store)
++  fw: string | null; // the version that is running (live)
++  update: Update | null; // the last update (live)
++  releases: FullRelease[];
++  latest: string | null;
++  otaReady: boolean;
++  onChange: () => void;
++};
++
++export default function FleetActions({ d, status, fw, update, releases, latest, otaReady, onChange }: Props) {
++  const id = d.device_id;
++  const name = d.name ?? id;
++  const fieldId = useId(); // a unique id for a label + field (one screen holds many cards)
++  // The version choice: the releases that aren't withdrawn, newest on top. The default is the latest release (not a test); a test
++  // release can still be chosen, because it may only be sent through this per-device button anyway.
++  const options = releases.filter((r) => r.withdrawn_at === null).reverse();
++  const defaultVersion = latest ?? options[0]?.version ?? "";
++  // null = the admin hasn't chosen yet: follow the latest release, also after a new release is uploaded. A choice that was withdrawn
++  // (no longer in the list) goes back to the default.
++  const [choice, setChoice] = useState<string | null>(null);
++  const version = choice !== null && options.some((r) => r.version === choice) ? choice : defaultVersion;
++  const chosenRelease = options.find((r) => r.version === version);
++  const [force, setForce] = useState(false); // allow a downgrade
++  const [savingCanary, setSavingCanary] = useState(false);
++  const [seconds, setSeconds] = useState(String(d.vitals_interval_s ?? 300));
++  const [savingInterval, setSavingInterval] = useState(false);
++  const [steps, setSteps] = useState<string[]>([]); // manual work after Deactivate (if any)
++  const [error, setError] = useState<string | null>(null); // the last button error, shown until Close (ErrorBox)
++  const closeSteps = useRef<HTMLButtonElement>(null);
++  // After Deactivate, this card's buttons disappear: the focus moves to the Close of the steps box (also after the card is drawn
++  // again as "deactivated"), so keyboard and screen reader users aren't thrown back to the top of the page.
++  useEffect(() => {
++    if (steps.length > 0) closeSteps.current?.focus();
++  }, [steps, d.key]);
++
++  const fail = (err: unknown, fallback: string) => setError(errorMessage(err, fallback));
++
++  const reason =
++    cannotUpdateReason(d, status, update, otaReady, options.length > 0) ?? (version === fw ? "The device is already running this version." : null);
++
++  // 202 = the device ACCEPTED the command (ack), NOT finished yet. The "accepted the update command" toast comes from the "ota"
++  // event (to every dashboard), so it isn't repeated here; the next steps show by themselves on the card (the "ota" event).
++  async function sendUpdate() {
++    try {
++      const result = await updateDevice(id, version, force);
++      if (result.status === "no-ack") {
++        toast(name + ": command sent, but the device didn't answer within 5 seconds. The result follows when the device reports.");
++      }
++      setForce(false);
++      setError(null);
++      onChange();
++    } catch (err) {
++      fail(err, "The update command couldn't be sent.");
++    }
++  }
++
++  async function changeCanary(value: boolean) {
++    setSavingCanary(true);
++    try {
++      await setCanary(id, value);
++      toast(value ? name + " is now a canary device." : name + " is no longer a canary device.", "success");
++      setError(null);
++      onChange();
++    } catch (err) {
++      fail(err, "The canary mark couldn't be saved.");
++    } finally {
++      setSavingCanary(false);
++    }
++  }
++
++  async function saveVitalsInterval(e: FormEvent) {
++    e.preventDefault(); // don't let the browser reload the page (a form's default behavior)
++    const s = Number(seconds);
++    if (!Number.isInteger(s) || s < 60 || s > 3600) {
++      setError("The vitals interval must be a whole number from 60 to 3600 seconds.");
++      return;
++    }
++    setSavingInterval(true);
++    try {
++      const result = await setVitalsInterval(id, s);
++      // the note is filled in if the device's firmware is still old (it doesn't know the interval yet): saved, applies after an update
++      toast("Vitals interval for " + name + " = " + result.vitals_interval_s + " seconds." + (result.note === null ? "" : " " + result.note), "success");
++      setError(null);
++      onChange();
++    } catch (err) {
++      fail(err, "The vitals interval couldn't be saved.");
++    } finally {
++      setSavingInterval(false);
++    }
++  }
++
++  async function deactivateNow() {
++    try {
++      const result = await deactivate(id);
++      toast(name + " deactivated.", "success");
++      setError(null);
++      setSteps(result.steps); // still shown after the card turns "deactivated"
++      onChange();
++    } catch (err) {
++      // 503 = the database hasn't changed, but a command held up in the bridge can still be carried out by the broker: the
++      // backend's sentence says to REPEAT this step, so the error stays on the card (not a 4-second toast)
++      fail(err, "Couldn't deactivate the device.");
++    }
++  }
++
++  // After deactivating: the buttons are gone, only the manual steps that still need doing remain (if any).
++  const stepsBox =
++    steps.length > 0 ? (
++      <div className="mt-3 rounded-lg border border-amber-300 bg-amber-50 p-3 text-sm text-amber-950 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-100">
++        <p className="font-medium">After deactivating:</p>
++        <ul className="mt-1 list-disc space-y-1 pl-5 break-words">
++          {steps.map((l) => (
++            <li key={l}>{l}</li>
++          ))}
++        </ul>
++        <button
++          ref={closeSteps}
++          type="button"
++          onClick={() => setSteps([])}
++          className="mt-2 min-h-11 rounded-lg border border-amber-400 px-4 hover:bg-amber-100 dark:border-amber-700 dark:hover:bg-amber-900"
++        >
++          Close
++        </button>
++      </div>
++    ) : null;
++  if (d.key === "revoked") return stepsBox;
++
++  return (
++    <section aria-label={"Admin actions for " + name} className="mt-3 border-t border-slate-200 pt-3 dark:border-slate-700">
++      {d.kind !== "node2" ? (
++        <>
++          {/* one row from 640 px: [version choice] [Update]; the disabled reason and the "are you sure?" box move below it */}
++          <div className="flex flex-wrap items-end gap-x-3 gap-y-2">
++            <div className="w-full sm:w-72">
++              <label htmlFor={fieldId + "-version"} className="block text-sm font-medium text-slate-700 dark:text-slate-200">
++                Update to version
++              </label>
++              <select
++                id={fieldId + "-version"}
++                value={version}
++                onChange={(e) => setChoice(e.target.value)}
++                disabled={options.length === 0}
++                className={BOX}
++              >
++                {options.length === 0 ? <option value="">no release yet</option> : null}
++                {options.map((r) => (
++                  <option key={r.version} value={r.version}>
++                    {versionLabel(r, latest, fw)}
++                  </option>
++                ))}
++              </select>
++            </div>
++            <ConfirmButton
++              wrapper="contents"
++              label="Update"
++              title={"Update " + name + " from " + (fw ?? "?") + " to " + version + "?"}
++              yesLabel="Yes, update"
++              onYes={sendUpdate}
++              disabledReason={reason}
++            >
++              <p>
++                The device accepts the command, stops on purpose, downloads{" "}
++                {chosenRelease === undefined ? "the file" : sizeText(chosenRelease.size)}, then restarts (±1 minute). If
++                the new firmware doesn't connect to the broker within 60 seconds, the device goes back by itself to {fw ?? "its old version"}{" "}
++                (rollback). Don't unplug its power meanwhile.
++              </p>
++              {chosenRelease?.test ? (
++                <p className="mt-1 font-medium">This is a TEST release: made on purpose for rollback practice.</p>
++              ) : null}
++              <label className="mt-2 flex min-h-11 items-center gap-2">
++                <input type="checkbox" checked={force} onChange={(e) => setForce(e.target.checked)} className="size-5 accent-teal-700" />
++                Allow downgrade (if the target version is older)
++              </label>
++            </ConfirmButton>
++          </div>
++          <label className="mt-2 flex min-h-11 items-center gap-2 text-sm text-slate-700 dark:text-slate-200">
++            <input
++              type="checkbox"
++              checked={d.canary}
++              disabled={savingCanary}
++              onChange={(e) => changeCanary(e.target.checked)}
++              className="size-5 accent-violet-700"
++            />
++            Canary: a test device that gets updates first{savingCanary ? " (saving…)" : ""}
++          </label>
++        </>
++      ) : null}
++
++      <details className="mt-1 text-sm">
++        {/* py-3: about 44 px high, easy to tap with a thumb */}
++        <summary className="cursor-pointer py-3 font-medium text-teal-700 dark:text-teal-300">More settings</summary>
++        {d.kind !== "node2" ? (
++          <form onSubmit={saveVitalsInterval} className="flex flex-wrap items-end gap-3">
++            <div>
++              <label htmlFor={fieldId + "-interval"} className="block font-medium text-slate-700 dark:text-slate-200">
++                Vitals interval (seconds, 60-3600)
++              </label>
++              <input
++                id={fieldId + "-interval"}
++                type="number"
++                inputMode="numeric"
++                min={60}
++                max={3600}
++                step={1}
++                value={seconds}
++                onChange={(e) => setSeconds(e.target.value)}
++                className={BOX + " sm:w-32"}
++              />
++            </div>
++            <button
++              type="submit"
++              disabled={savingInterval}
++              className="min-h-11 rounded-lg border border-slate-300 px-4 text-slate-800 hover:bg-slate-50 disabled:opacity-60 dark:border-slate-600 dark:text-slate-100 dark:hover:bg-slate-700"
++            >
++              {savingInterval ? "Saving…" : "Save interval"}
++            </button>
++            <p className="basis-full text-xs text-slate-600 dark:text-slate-400">
++              Only vitals (health). telemetry stays every 10 seconds. Wi-Fi, the server address, and the key can't be changed from afar.
++            </p>
++          </form>
++        ) : null}
++        <div className="mt-3">
++          <ConfirmButton label="Deactivate" title={"Deactivate " + name + "?"} yesLabel="Yes, deactivate" onYes={deactivateNow} danger>
++            <p>
++              For a device that is lost, stolen, or no longer used. Its key is revoked and its broker account deleted: the device
++              is disconnected at once, its messages are ignored, and it can't be updated or controlled. Bringing it back only works with
++              a new key or a new claim code.
++            </p>
++          </ConfirmButton>
++        </div>
++      </details>
++      <ErrorBox message={error} onClose={() => setError(null)} />
++      {stepsBox}
++    </section>
++  );
++}
+diff --git a/frontend/src/components/FleetCard.tsx b/frontend/src/components/FleetCard.tsx
+new file mode 100644
+index 0000000..16d03f2
+--- /dev/null
++++ b/frontend/src/components/FleetCard.tsx
+@@ -0,0 +1,197 @@
++// FleetCard.tsx - one device on the Fleet screen (Module 28): its firmware version, health from the last vitals (Wi-Fi signal,
++// RAM, uptime, restart reason), its last update, and (admin only) its buttons.
++// Like the cards of the device list (Module 23), every card picks its OWN data from the store: the status, the version from the
++// latest telemetry, and the update notice (the Socket.IO "ota" event) change by themselves without reloading the page.
++import type { ReactNode } from "react";
++import { RESET_MEANINGS, uptimeText, ramText, signalText, UPDATE_TEXT } from "../fleet";
++import { useAdmin, useLiveStore } from "../store";
++import type { FleetRow, Kind, OtaNotice, Update, FullRelease, DeviceStatus } from "../types";
++import { wibDateTime } from "../time";
++import { StatusBadge } from "./Badge";
++import UpdateHistory from "./UpdateHistory";
++import LastSeen from "./LastSeen";
++import FleetActions from "./FleetActions";
++
++const SHAPE = "rounded-full px-2 py-0.5 text-xs font-medium whitespace-nowrap";
++
++// the thick line on the card's left edge follows the status (like the device list cards)
++const EDGE: Record<DeviceStatus, string> = {
++  online: "border-l-green-500 dark:border-l-green-500",
++  offline: "border-l-red-500 dark:border-l-red-500",
++  "offline-mode": "border-l-sky-400 dark:border-l-sky-400",
++  unknown: "border-l-slate-300 dark:border-l-slate-600",
++};
++
++// The last update = the newest of two sources: the row from GET /fleet, or the live notice from the "ota" event.
++// Both times are UTC in the contract format (2026-10-31T01:02:03Z), so they can be compared as text.
++function latestUpdate(fromServer: Update | null, notice: OtaNotice | undefined): Update | null {
++  if (notice === undefined) return fromServer;
++  // >= : within the same second, the server's row (which is complete) wins over the live notice
++  if (fromServer !== null && fromServer.updated_at >= notice.time) return fromServer;
++  const finishedAt = ["sent", "accepted", "downloading"].includes(notice.status) ? null : notice.time;
++  return {
++    id: notice.id,
++    status: notice.status,
++    from: notice.from,
++    to: notice.to,
++    message: notice.message,
++    created_at: fromServer?.id === notice.id ? fromServer.created_at : notice.time,
++    updated_at: notice.time,
++    finished_at: finishedAt,
++  };
++}
++
++function kindText(kind: Kind, linkedVia: string | null): string {
++  if (kind === "node1") return "Node 1";
++  if (kind === "node2") return "Node 2" + (linkedVia === null ? "" : " via " + linkedVia);
++  return "kind not known yet";
++}
++
++// one "title: content" pair inside the card
++function Field({ title, children }: { title: string; children: ReactNode }) {
++  return (
++    <div className="min-w-0">
++      <dt className="text-xs text-slate-500 dark:text-slate-400">{title}</dt>
++      <dd className="break-words text-slate-800 dark:text-slate-100">{children}</dd>
++    </div>
++  );
++}
++
++type Props = {
++  d: FleetRow; // one row of GET /fleet
++  releases: FullRelease[]; // the release list (for the version choice of the Update button)
++  latest: string | null; // the latest Node 1 release
++  otaReady: boolean; // SERVER_URL is set on the server
++  onChange: () => void; // asks the screen to fetch the fleet data again
++};
++
++export default function FleetCard({ d, releases, latest, otaReady, onChange }: Props) {
++  const id = d.device_id;
++  const admin = useAdmin();
++  const deactivated = d.key === "revoked";
++  // a deactivated device: its live status is ignored (the broker may still keep an old "online", contract 1.6)
++  const liveStatus = useLiveStore((s) => s.status[id]);
++  const status: DeviceStatus = deactivated ? "offline" : (liveStatus ?? d.status);
++  const reading = useLiveStore((s) => s.latest[id]); // the last telemetry (live); undefined = none yet
++  // The firmware version: from telemetry (live, every 10 seconds) ONLY if that telemetry is newer than the fw record in the
++  // database. After a successful update, the database knows the new version first (from the vitals of the device that just
++  // started) before the next telemetry, and the old telemetry in the store still carries the OLD version.
++  const telemetryNewer = reading !== undefined && (d.fw_seen_at === null || Date.parse(reading.ts) >= Date.parse(d.fw_seen_at));
++  const fw = !deactivated && telemetryNewer ? reading.fw : d.fw;
++  // The kind: a device that just registered through a claim code is still "unknown" in GET /fleet until its first message.
++  // As soon as its telemetry arrives, its kind is read from that message (only Node 2 has air pressure), as in
++  // DeviceDetails (Module 24); without this the Update button stays disabled until the page is reloaded.
++  const kind: Kind = d.kind !== "unknown" || reading === undefined ? d.kind : "pressure" in reading ? "node2" : "node1";
++  const row = kind === d.kind ? d : { ...d, kind }; // for FleetActions: the same row with the current kind
++  const lastLive = useLiveStore((s) => s.lastSeen[id]);
++  const last = lastLive ?? (d.last_seen === null ? undefined : Date.parse(d.last_seen));
++  const notice = useLiveStore((s) => s.ota[id]);
++  const update = latestUpdate(d.update, notice);
++  // "needs update" is computed by the server against the fw in the database; a live version equal to the latest release closes it
++  const needsUpdate = d.needs_update && fw !== latest;
++  const h = d.health;
++
++  return (
++    <article
++      aria-labelledby={"fleet-" + id}
++      className={
++        "rounded-xl border border-l-4 border-slate-200 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-800 " +
++        (deactivated ? "border-l-slate-300 dark:border-l-slate-600" : EDGE[status])
++      }
++    >
++      {/* the title + badges; flex-wrap: on a phone the badges move down a row instead of pushing the name off the screen */}
++      <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
++        <h4 id={"fleet-" + id} className="min-w-0 font-semibold break-words text-slate-800 dark:text-slate-100">
++          {d.name ?? id}
++        </h4>
++        {deactivated ? (
++          <span className={SHAPE + " bg-red-600 text-white"}>deactivated</span>
++        ) : (
++          <StatusBadge status={status} />
++        )}
++        {d.canary && !deactivated ? (
++          <span className={SHAPE + " bg-violet-100 text-violet-800 dark:bg-violet-900 dark:text-violet-100"}>canary</span>
++        ) : null}
++        {needsUpdate && !deactivated ? (
++          <span className={SHAPE + " bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-100"}>needs update</span>
++        ) : null}
++      </div>
++      <p className="mt-0.5 text-sm text-slate-600 dark:text-slate-400">
++        {kindText(kind, d.linked_via)} · {d.location ?? "no location yet"} · <span className="font-mono text-xs">{id}</span> ·{" "}
++        <LastSeen t={last} kind={kind} checkStale={!deactivated} />
++      </p>
++
++      {/* dl = a "title: content" list. Two columns on a phone, three from 640 px */}
++      <dl className="mt-3 grid grid-cols-2 gap-x-4 gap-y-2 text-sm sm:grid-cols-3">
++        <Field title="Firmware version">
++          <span className="font-mono">{fw ?? "—"}</span>
++          {needsUpdate && !deactivated ? <span className="text-slate-600 dark:text-slate-400"> → {latest}</span> : null}
++        </Field>
++        {h === null ? (
++          <Field title="Health">
++            {kind === "node2" ? "Node 2 doesn't send vitals" : "no vitals yet"}
++          </Field>
++        ) : (
++          <>
++            <Field title="Restarted because">
++              {h.reset_reason === null ? (
++                <span className="text-slate-600 dark:text-slate-400">— (the old firmware doesn't report it)</span>
++              ) : (
++                <>
++                  <span className={SHAPE + " " + RESET_MEANINGS[h.reset_reason].color}>{h.reset_reason}</span>{" "}
++                  <span className="text-xs text-slate-600 dark:text-slate-400">{RESET_MEANINGS[h.reset_reason].meaning}</span>
++                </>
++              )}
++            </Field>
++            <Field title="Wi-Fi signal">{signalText(h.rssi)}</Field>
++            <Field title="RAM">{ramText(h.heap_free)}</Field>
++            <Field title="Uptime">{uptimeText(h.uptime_s)}</Field>
++          </>
++        )}
++      </dl>
++      {h !== null ? (
++        <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
++          Health from the last vitals, {wibDateTime(Date.parse(h.ts))}; vitals sent every{" "}
++          {d.vitals_interval_s === null ? "300 seconds (firmware default)" : d.vitals_interval_s + " seconds (set by the admin)"}.
++        </p>
++      ) : null}
++
++      {/* the last update: changes by itself through the "ota" event (accepted -> downloading -> succeeded / rollback / failed).
++          Node 2 is never updated over the air: one sentence is enough */}
++      {kind === "node2" ? (
++        <p className="mt-3 text-sm text-slate-600 dark:text-slate-400">OTA isn't available for Node 2: update it by cable.</p>
++      ) : (
++        <div className="mt-3 text-sm">
++          <span className="text-xs text-slate-500 dark:text-slate-400">Last update: </span>
++          {update === null ? (
++            <span className="text-slate-600 dark:text-slate-400">never over the air</span>
++          ) : (
++            <>
++              <span className={SHAPE + " " + UPDATE_TEXT[update.status].color}>{UPDATE_TEXT[update.status].text}</span>{" "}
++              <span className="font-mono text-slate-800 dark:text-slate-100">
++                {update.from ?? "?"} → {update.to}
++              </span>
++              <span className="text-slate-600 dark:text-slate-400"> · {wibDateTime(Date.parse(update.updated_at))}</span>
++              {update.message !== null ? (
++                <span className="block break-words text-slate-600 dark:text-slate-400">{update.message}</span>
++              ) : null}
++            </>
++          )}
++        </div>
++      )}
++      {deactivated ? (
++        <p className="mt-2 rounded-lg bg-red-50 p-2 text-sm text-red-700 dark:bg-red-950 dark:text-red-200">
++          Deactivated: its key is revoked and its messages are ignored. It comes back only with a new key or a new claim code.
++        </p>
++      ) : null}
++
++      {kind === "node1" ? <UpdateHistory deviceId={id} version={update === null ? "" : update.id + update.status} /> : null}
++
++      {/* the fleet buttons: drawn ONLY when the admin role is certain (the Module 24 pattern). For a device that is already
++          deactivated, FleetActions only shows the manual steps after Deactivate (if any) */}
++      {admin ? (
++        <FleetActions d={row} status={status} fw={fw} update={update} releases={releases} latest={latest} otaReady={otaReady} onChange={onChange} />
++      ) : null}
++    </article>
++  );
++}
+diff --git a/frontend/src/components/Layout.tsx b/frontend/src/components/Layout.tsx
+index 14c9667..98fbfc4 100644
+--- a/frontend/src/components/Layout.tsx
++++ b/frontend/src/components/Layout.tsx
+@@ -1,5 +1,5 @@
+ // Layout.tsx - the frame of every screen after logging in: the header (title, Live badge, menu, name, Log out button) and
+-// <Outlet />, where React Router puts the screen that matches the address (Devices, Details, History, Map, Rules).
++// <Outlet />, where React Router puts the screen that matches the address (Devices, Details, History, Map, Rules, Fleet).
+ import { useEffect } from "react";
+ import { NavLink, Outlet } from "react-router";
+ import { ApiError, getDevices, logout } from "../api";
+@@ -86,9 +86,15 @@ export default function Layout() {
+             <NavLink to="/rules" className={menuClass}>
+               Rules
+             </NavLink>
++            {/* Module 28: firmware versions, health, and over-the-air updates, for admins and viewers */}
++            <NavLink to="/fleet" className={menuClass}>
++              Fleet
++            </NavLink>
+           </nav>
+-          {/* min-w-0 + truncate: a long name is cut off with "…", it doesn't push the Log out button off the screen */}
+-          <div className="flex min-w-0 items-center gap-3 text-sm">
++          {/* min-w-0 + truncate: a long name is cut off with "…", it doesn't push the Log out button off the screen.
++              Module 28: sm:ml-auto = if it doesn't fit on the title and menu row (since the Fleet menu), the name and the Log out
++              button move down to the next row on the RIGHT side, not hanging on the left */}
++          <div className="flex min-w-0 items-center gap-3 text-sm sm:ml-auto">
+             <span className="truncate text-slate-600 dark:text-slate-300">
+               {user.name} <span className="text-slate-500 dark:text-slate-400">({user.role})</span>
+             </span>
+diff --git a/frontend/src/components/ReleaseList.tsx b/frontend/src/components/ReleaseList.tsx
+new file mode 100644
+index 0000000..c58dd78
+--- /dev/null
++++ b/frontend/src/components/ReleaseList.tsx
+@@ -0,0 +1,148 @@
++// ReleaseList.tsx - the firmware releases stored on the server (GET /firmware, Module 28): version, size, SHA-256, notes, and
++// its canary summary. An admin gets two buttons per release: "Update canary" (the devices marked canary first), then
++// "Update all", which only opens after at least one canary SUCCEEDED with that version (the server
++// decides: can_update_all). Test releases and withdrawn releases have no buttons: a test release only goes through Update on the
++// card of one device.
++import { useState } from "react";
++import { updateMany } from "../api";
++import { errorMessage, sizeText } from "../fleet";
++import { toast } from "../toast";
++import type { ReleaseList as List, FleetResult, FullRelease } from "../types";
++import { wibDateTime } from "../time";
++import ErrorBox from "./ErrorBox";
++import ConfirmButton from "./ConfirmButton";
++
++const SHAPE = "rounded-full px-2 py-0.5 text-xs font-medium whitespace-nowrap";
++
++// the sentence for one device that was sent the command
++const SEND_TEXT: Record<string, string> = {
++  accepted: "accepted the command",
++  "no-ack": "didn't answer within 5 seconds",
++  rejected: "refused",
++  "not-sent": "not sent",
++};
++
++function ReleaseCard({ r, latest, admin, onChange }: { r: FullRelease; latest: boolean; admin: boolean; onChange: () => void }) {
++  const [result, setResult] = useState<FleetResult | null>(null); // the last "Update canary/all" result for this release
++  const [error, setError] = useState<string | null>(null); // the last error, shown until Close (ErrorBox)
++
++  async function send(target: "canary" | "all") {
++    try {
++      const out = await updateMany(r.version, target);
++      setResult(out);
++      setError(null);
++      toast(
++        "Command " + r.version + " sent to " + out.sent.length + " device(s)" + (out.skipped.length > 0 ? ", " + out.skipped.length + " skipped." : "."),
++        out.sent.length > 0 ? "success" : "info",
++      );
++      onChange();
++    } catch (err) {
++      setError(errorMessage(err, "The update command couldn't be sent."));
++    }
++  }
++
++  return (
++    <li className="min-w-0 rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-800">
++      <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
++        <span className="font-mono font-semibold text-slate-800 dark:text-slate-100">Node 1 {r.version}</span>
++        {latest ? <span className={SHAPE + " bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100"}>latest</span> : null}
++        {r.test ? <span className={SHAPE + " bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-100"}>test</span> : null}
++        {r.withdrawn_at !== null ? <span className={SHAPE + " bg-red-600 text-white"}>withdrawn</span> : null}
++      </div>
++      {r.notes !== null ? <p className="mt-1 text-sm break-words text-slate-700 dark:text-slate-200">{r.notes}</p> : null}
++      <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
++        {sizeText(r.size)} · uploaded {wibDateTime(Date.parse(r.created_at))}
++      </p>
++      {/* break-all: 64 hexadecimal digits without spaces still wrap on a phone screen */}
++      <p className="mt-1 font-mono text-xs break-all text-slate-600 dark:text-slate-400">sha256 {r.sha256}</p>
++      {!r.test ? (
++        <p className="mt-1 text-sm text-slate-700 dark:text-slate-200">
++          Canary: {r.canary_succeeded} succeeded, {r.canary_failed} failed or rolled back
++        </p>
++      ) : null}
++
++      {admin && !r.test && r.withdrawn_at === null ? (
++        <div className="mt-3 flex flex-wrap items-start gap-3">
++          <ConfirmButton
++            label="Update canary"
++            title={"Update all canary devices to " + r.version + "?"}
++            yesLabel="Yes, update the canary"
++            onYes={() => send("canary")}
++          >
++            <p>
++              Only the online Node 1s marked canary. Devices that are offline, already updating, or already running {r.version}{" "}
++              are skipped, not queued.
++            </p>
++          </ConfirmButton>
++          <ConfirmButton
++            label="Update all"
++            title={"Update ALL Node 1s to " + r.version + "?"}
++            yesLabel="Yes, update all"
++            onYes={() => send("all")}
++            disabledReason={r.can_update_all ? null : "Locked: " + (r.update_all_reason ?? "conditions not met yet") + "."}
++          >
++            <p>
++              Every online Node 1 that meets the conditions gets the command at once. Those offline or already updating are skipped,
++              not queued: update again later.
++            </p>
++          </ConfirmButton>
++        </div>
++      ) : null}
++
++      <ErrorBox message={error} onClose={() => setError(null)} />
++
++      {result !== null ? (
++        <div role="status" className="mt-3 rounded-lg bg-slate-50 p-3 text-sm text-slate-800 dark:bg-slate-900 dark:text-slate-200">
++          <p className="font-medium">
++            Update {result.target} to {result.version}: {result.sent.length} sent, {result.skipped.length} skipped
++          </p>
++          <ul className="mt-1 space-y-0.5 break-words">
++            {result.sent.map((s) => (
++              <li key={s.device_id}>
++                <span className="font-mono">{s.device_id}</span> {SEND_TEXT[s.status] ?? s.status}
++                {s.message === undefined ? "" : ": " + s.message}
++              </li>
++            ))}
++            {result.skipped.map((s) => (
++              <li key={s.device_id} className="text-slate-600 dark:text-slate-400">
++                <span className="font-mono">{s.device_id}</span> skipped: {s.reason}
++              </li>
++            ))}
++          </ul>
++          <button
++            type="button"
++            onClick={() => setResult(null)}
++            className="mt-2 min-h-11 rounded-lg border border-slate-300 px-4 hover:bg-white dark:border-slate-600 dark:hover:bg-slate-800"
++          >
++            Close
++          </button>
++        </div>
++      ) : null}
++    </li>
++  );
++}
++
++type Props = {
++  list: List;
++  admin: boolean;
++  onChange: () => void;
++};
++
++export default function ReleaseList({ list, admin, onChange }: Props) {
++  if (list.releases.length === 0) {
++    return (
++      <p className="rounded-lg bg-white p-3 text-slate-600 dark:bg-slate-800 dark:text-slate-300">
++        No firmware uploaded to the server yet.
++      </p>
++    );
++  }
++  // newest on top: the server sends them in upload order (old to new); [...] = a copy, the original array isn't changed
++  const newestFirst = [...list.releases].reverse();
++  return (
++    <ul className="grid gap-3">
++      {newestFirst.map((r) => (
++        <ReleaseCard key={r.version} r={r} latest={r.version === list.latest.node1} admin={admin} onChange={onChange} />
++      ))}
++    </ul>
++  );
++}
+diff --git a/frontend/src/components/UpdateHistory.tsx b/frontend/src/components/UpdateHistory.tsx
+new file mode 100644
+index 0000000..8dbd454
+--- /dev/null
++++ b/frontend/src/components/UpdateHistory.tsx
+@@ -0,0 +1,74 @@
++// UpdateHistory.tsx - the firmware update history of one device (GET /devices/:id/updates, Module 28), inside a Fleet
++// card. Closed by default (<details>), and only fetched from the server when it is opened: a Fleet screen with many
++// devices doesn't need to ask for all their histories at once.
++import { useEffect, useState } from "react";
++import { getUpdateHistory, ApiError } from "../api";
++import { UPDATE_TEXT } from "../fleet";
++import { handleSessionExpired } from "../store";
++import type { Update } from "../types";
++import { wibDateTime } from "../time";
++
++type Props = {
++  deviceId: string;
++  version: string; // changes every time the last update changes: a history that is open is fetched again
++};
++
++export default function UpdateHistory({ deviceId, version }: Props) {
++  const [open, setOpen] = useState(false);
++  const [history, setHistory] = useState<Update[] | null>(null); // null = not loaded yet
++  const [error, setError] = useState<string | null>(null);
++
++  useEffect(() => {
++    if (!open) return; // closed: asks for nothing
++    let ignore = false;
++    getUpdateHistory(deviceId)
++      .then((list) => {
++        if (ignore) return;
++        setHistory(list);
++        setError(null);
++      })
++      .catch((err) => {
++        if (ignore) return;
++        if (err instanceof ApiError && err.code === 401) return handleSessionExpired();
++        setError(err instanceof ApiError ? err.message : "Couldn't load the update history.");
++      });
++    return () => {
++      ignore = true;
++    };
++  }, [open, deviceId, version]);
++
++  let content;
++  if (error !== null) content = <p className="text-red-700 dark:text-red-300">{error}</p>;
++  else if (history === null) content = <p className="text-slate-600 dark:text-slate-400">Loading the history…</p>;
++  else if (history.length === 0) content = <p className="text-slate-600 dark:text-slate-400">Never updated over the air.</p>;
++  else {
++    content = (
++      <ol className="space-y-1">
++        {history.map((u) => (
++          <li key={u.id} className="break-words">
++            <span className="font-mono">
++              {u.from ?? "?"} → {u.to}
++            </span>{" "}
++            <span className="font-medium">{UPDATE_TEXT[u.status].text}</span>
++            <span className="text-slate-600 dark:text-slate-400">
++              {" "}
++              · {wibDateTime(Date.parse(u.created_at))}
++              {u.message !== null ? " · " + u.message : ""}
++            </span>
++          </li>
++        ))}
++      </ol>
++    );
++  }
++
++  return (
++    // onToggle: the browser calls it every time the <details> opens or closes
++    <details className="mt-2 text-sm" onToggle={(e) => setOpen(e.currentTarget.open)}>
++      {/* py-3: about 44 px high, easy to tap with a thumb (no flex, so the browser's own open/close triangle still shows) */}
++      <summary className="cursor-pointer py-3 font-medium text-teal-700 dark:text-teal-300">
++        Update history
++      </summary>
++      <div className="mt-1 rounded-lg bg-slate-50 p-2 text-slate-800 dark:bg-slate-900 dark:text-slate-200">{content}</div>
++    </details>
++  );
++}
+diff --git a/frontend/src/fleet.ts b/frontend/src/fleet.ts
+new file mode 100644
+index 0000000..1025800
+--- /dev/null
++++ b/frontend/src/fleet.ts
+@@ -0,0 +1,117 @@
++// fleet.ts - helpers of the Fleet screen (Module 28): texts and colors for the update statuses and the restart reasons, how to
++// write a file size, the Wi-Fi signal, RAM, and uptime, and why the Update button can't be used yet.
++// It holds ordinary functions and tables (not components), so the device card and the release list stay short.
++import { ApiError } from "./api";
++import { toast } from "./toast";
++import { handleSessionExpired } from "./store";
++import type { FleetRow, Update, ResetReason, UpdateStatus, DeviceStatus } from "./types";
++
++// One program shelf (app0 or app1) of the Minimal SPIFFS scheme (Module 10): 0x1E0000 = 1,966,080 bytes. A bigger firmware
++// file doesn't fit the spare shelf, so the backend refuses it (400); this screen refuses it first, before it is uploaded.
++export const PROGRAM_SHELF = 1_966_080;
++
++// The Tailwind classes are written WHOLE (not joined), as in Badge.tsx: Tailwind only makes classes that are written in full.
++const BLUE = "bg-sky-100 text-sky-800 dark:bg-sky-900 dark:text-sky-100";
++const GREEN = "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100";
++const YELLOW = "bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-100";
++const RED = "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-100";
++const GRAY = "bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-200";
++
++// Update statuses: a color ALWAYS comes with text (still readable for people who find colors hard to tell apart).
++export const UPDATE_TEXT: Record<UpdateStatus, { text: string; color: string }> = {
++  sent: { text: "sent, waiting for the device", color: BLUE },
++  accepted: { text: "accepted by the device", color: BLUE }, // ack = the command ACCEPTED, not finished yet
++  downloading: { text: "downloading", color: BLUE },
++  succeeded: { text: "succeeded", color: GREEN },
++  rollback: { text: "back to the old version (rollback)", color: YELLOW }, // the new firmware failed, the device is safe
++  failed: { text: "failed", color: RED },
++  rejected: { text: "rejected by the device", color: YELLOW },
++  expired: { text: "expired (no word)", color: GRAY },
++};
++
++// the three statuses that mean "still running": meanwhile a second update command for the same device is refused (409)
++export function inProgress(u: Update | null): boolean {
++  return u !== null && (u.status === "sent" || u.status === "accepted" || u.status === "downloading");
++}
++
++// Why the device started the last time (contract 1.6 section 6). Red = something is wrong in the firmware; yellow = the power supply.
++export const RESET_MEANINGS: Record<ResetReason, { meaning: string; color: string }> = {
++  POWERON: { meaning: "power just came on or the EN button", color: GRAY },
++  BROWNOUT: { meaning: "the voltage dipped: check the power supply", color: YELLOW },
++  SW: { meaning: "restarted by the program (update, rollback, restart)", color: BLUE },
++  PANIC: { meaning: "the program crashed", color: RED },
++  WDT: { meaning: "the program got stuck (watchdog)", color: RED },
++  DEEPSLEEP: { meaning: "woke up from deep sleep", color: GRAY },
++  UNKNOWN: { meaning: "another reason", color: GRAY },
++};
++
++const NUMBER = new Intl.NumberFormat("en-US"); // 1234567 -> "1,234,567"
++
++// "1,234,567 bytes (63% of a shelf)": a firmware file's size compared with one program shelf
++export function sizeText(bytes: number): string {
++  return NUMBER.format(bytes) + " bytes (" + Math.round((bytes / PROGRAM_SHELF) * 100) + "% of a shelf)";
++}
++
++// the Wi-Fi signal strength, with the categories of the Module 10 RSSI table (Concept 2)
++export function signalText(rssi: number): string {
++  let category = "very weak";
++  if (rssi >= -55) category = "very strong";
++  else if (rssi >= -67) category = "strong";
++  else if (rssi >= -75) category = "fair";
++  else if (rssi >= -85) category = "weak";
++  return rssi + " dBm (" + category + ")";
++}
++
++// free RAM: bytes -> KB (1 KB = 1,024 bytes, the way ESP-IDF counts)
++export function ramText(bytes: number): string {
++  return NUMBER.format(Math.round(bytes / 1024)) + " KB free";
++}
++
++// uptime: 93784 seconds -> "1 d 2 h"; only the two biggest units, to keep it short
++export function uptimeText(seconds: number): string {
++  const days = Math.floor(seconds / 86400);
++  const hours = Math.floor((seconds % 86400) / 3600);
++  const minutes = Math.floor((seconds % 3600) / 60);
++  if (days > 0) return days + " d " + hours + " h";
++  if (hours > 0) return hours + " h " + minutes + " min";
++  if (minutes > 0) return minutes + " min";
++  return seconds + " s";
++}
++
++// Why the Update button of ONE device can't be used yet (null = it can). The server checks the same things (409), and
++// more (the same version, a downgrade, a withdrawn release); here only what is visible before the button is tapped, like
++// whyDisabled() in DeviceDetails (Module 24). status and update = the LIVE values from the store, not from GET /fleet.
++export function cannotUpdateReason(
++  d: FleetRow,
++  status: DeviceStatus,
++  update: Update | null,
++  otaReady: boolean,
++  hasRelease: boolean,
++): string | null {
++  if (d.key === "revoked") return "This device has been deactivated.";
++  if (d.kind === "node2") return "Node 2 (ESP-NOW) can't be updated over the air: update it by cable.";
++  if (d.kind !== "node1") return "Device kind not known yet: wait for its first message.";
++  if (!otaReady) return "SERVER_URL in the server's .env isn't set: the devices don't know where to download firmware from.";
++  if (!hasRelease) return "No firmware uploaded yet.";
++  if (inProgress(update)) return "The previous update is still running.";
++  if (status !== "online") return "The device isn't online: update commands are only sent to online devices (not queued).";
++  return null;
++}
++
++// The error sentence of a fleet button, or null if the session expired (401, and the refresh failed too: back to the Log in screen).
++// Its message comes from the backend (ApiError), for example "device is offline: update commands are only sent to online devices",
++// or the 503 of Deactivate "not saved in the database yet ... repeat this step in a moment".
++export function errorMessage(err: unknown, fallback: string): string | null {
++  if (err instanceof ApiError && err.code === 401) {
++    handleSessionExpired();
++    return null;
++  }
++  return err instanceof ApiError ? err.message : fallback;
++}
++
++// An error becomes a red toast (4 seconds). Used by Create claim code. The buttons on the device card and the release card use
++// ErrorBox (it stays until Close), because their messages can be long and important.
++export function reportError(err: unknown, fallback: string) {
++  const message = errorMessage(err, fallback);
++  if (message !== null) toast(message, "error");
++}
+diff --git a/frontend/src/map.ts b/frontend/src/map.ts
+index 248a70e..0ca71d9 100644
+--- a/frontend/src/map.ts
++++ b/frontend/src/map.ts
+@@ -14,5 +14,5 @@ export const MAP = {
+   // The fill color of the marker circles. The map's SVG doesn't know Tailwind classes, so the colors are written as color codes.
+   // A color is never alone: the marker popup and the legend under the map write the status in words.
+   onlineColor: "#15803d", // green (like Tailwind's green-700): the device is online
+-  otherColor: "#64748b", // gray (like Tailwind's slate-500): offline, offline mode, unknown, or its messages are ignored
++  otherColor: "#64748b", // gray (like Tailwind's slate-500): offline, stopped on purpose, unknown, or its messages are ignored
+ };
+diff --git a/frontend/src/pages/Fleet.tsx b/frontend/src/pages/Fleet.tsx
+new file mode 100644
+index 0000000..d02e5cd
+--- /dev/null
++++ b/frontend/src/pages/Fleet.tsx
+@@ -0,0 +1,131 @@
++// pages/Fleet.tsx - the /fleet screen (Module 28): every registered device with its firmware version, health, and last
++// update; the firmware releases on the server; and (admin only) the firmware upload, over-the-air updates (OTA), and claim codes
++// for new devices. Admins and viewers may both look; the buttons are only drawn for admins (the Rules screen pattern).
++// LIVE data without polling: the status, the version from telemetry, and an update's progress come through Socket.IO (the store);
++// other data is fetched again only when there is news from the server (fleetVersion goes up).
++import { useEffect, useState } from "react";
++import { getFleet, getReleases, ApiError } from "../api";
++import CreateClaimCode from "../components/CreateClaimCode";
++import ReleaseList from "../components/ReleaseList";
++import FleetCard from "../components/FleetCard";
++import FirmwareUpload from "../components/FirmwareUpload";
++import { handleSessionExpired, useAdmin, useLiveStore } from "../store";
++import type { ReleaseList as Releases, FleetData } from "../types";
++
++const SECTION_TITLE = "text-base font-semibold text-slate-800 dark:text-slate-100";
++
++// an ordinary function (not inside the component): the SAME function forever, safe to hand to many cards
++function reload() {
++  useLiveStore.getState().fleetChanged();
++}
++
++export default function FleetPage() {
++  const admin = useAdmin();
++  const fleetVersion = useLiveStore((s) => s.fleetVersion); // goes up when an update finishes, a new device, a deactivation, ...
++  const [data, setData] = useState<FleetData | null>(null); // null = still loading
++  const [releases, setReleases] = useState<Releases | null>(null);
++  const [error, setError] = useState<string | null>(null);
++
++  // Fetch the fleet and the release list AT THE SAME TIME (Promise.all) when the screen opens and every time fleetVersion goes up.
++  // The old data stays on screen until the new data arrives (no "Loading…" flicker).
++  useEffect(() => {
++    let ignore = false;
++    Promise.all([getFleet(), getReleases()])
++      .then(([fleet, releaseList]) => {
++        if (ignore) return;
++        setData(fleet);
++        setReleases(releaseList);
++        setError(null);
++      })
++      .catch((err) => {
++        if (ignore) return;
++        if (err instanceof ApiError && err.code === 401) return handleSessionExpired();
++        setError(err instanceof ApiError ? err.message : "Couldn't load the fleet.");
++      });
++    return () => {
++      ignore = true;
++    };
++  }, [fleetVersion]);
++
++  if (error !== null && data === null) {
++    return <p className="rounded-lg bg-red-50 p-3 text-red-700 dark:bg-red-950 dark:text-red-200">{error}</p>;
++  }
++  if (data === null || releases === null) return <p className="text-slate-600 dark:text-slate-400">Loading the fleet…</p>;
++
++  const latest = data.latest_release.node1;
++  const active = data.devices.filter((d) => d.key !== "revoked");
++  const needing = active.filter((d) => d.needs_update).length;
++
++  return (
++    <>
++      <h2 className="text-lg font-semibold text-slate-800 dark:text-slate-100">Fleet</h2>
++      <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">
++        {active.length} active device(s)
++        {data.devices.length > active.length ? " (+" + (data.devices.length - active.length) + " deactivated)" : ""} · latest Node 1 release:{" "}
++        <span className="font-mono">{latest ?? "none yet"}</span>
++        {needing > 0 ? " · " + needing + " to update" : ""}
++      </p>
++      {error !== null ? (
++        // fetching AGAIN failed: the old data stays on screen, with a warning that it may be stale
++        <p className="mt-2 rounded-lg bg-red-50 p-2 text-sm text-red-700 dark:bg-red-950 dark:text-red-200">
++          {error} The data below may be stale.
++        </p>
++      ) : null}
++      {admin && !data.settings.ota_ready ? (
++        <p className="mt-2 rounded-lg bg-amber-50 p-3 text-sm text-amber-900 dark:bg-amber-950 dark:text-amber-100">
++          SERVER_URL in the server's <span className="font-mono">.env</span> isn't set: the Update button can't be used yet, because
++          the devices don't know where to download firmware from.
++        </p>
++      ) : null}
++
++      <section aria-labelledby="devices-title" className="mt-4">
++        <h3 id="devices-title" className={SECTION_TITLE}>
++          Devices
++        </h3>
++        {data.devices.length === 0 ? (
++          <p className="mt-2 rounded-lg bg-white p-3 text-slate-600 dark:bg-slate-800 dark:text-slate-300">
++            No registered devices yet.{admin ? " Create a claim code below to register a new device." : ""}
++          </p>
++        ) : (
++          <ul className="mt-2 grid gap-3">
++            {data.devices.map((d) => (
++              <li key={d.device_id} className="min-w-0">
++                <FleetCard d={d} releases={releases.releases} latest={latest} otaReady={data.settings.ota_ready} onChange={reload} />
++              </li>
++            ))}
++          </ul>
++        )}
++      </section>
++
++      <section aria-labelledby="releases-title" className="mt-6">
++        <h3 id="releases-title" className={SECTION_TITLE}>
++          Firmware releases
++        </h3>
++        <p className="mt-1 mb-2 text-sm text-slate-600 dark:text-slate-300">
++          Firmware files can only be downloaded by registered devices with their own key. The server decides when devices
++          are updated: the canary first, then all.
++        </p>
++        <div className="grid gap-3">
++          {admin ? <FirmwareUpload onDone={reload} /> : null}
++          <ReleaseList list={releases} admin={admin} onChange={reload} />
++        </div>
++      </section>
++
++      {admin ? (
++        <section aria-labelledby="new-devices-title" className="mt-6">
++          <h3 id="new-devices-title" className={SECTION_TITLE}>
++            New devices
++          </h3>
++          <div className="mt-2">
++            <CreateClaimCode />
++          </div>
++        </section>
++      ) : (
++        <p className="mt-6 text-sm text-slate-600 dark:text-slate-400">
++          Your account is a viewer: you can see the fleet, but uploading firmware, updates, claim codes, and deactivating devices are for
++          the admin.
++        </p>
++      )}
++    </>
++  );
++}
+diff --git a/frontend/src/schemas/README.md b/frontend/src/schemas/README.md
+index 2df04f0..8093f30 100644
+--- a/frontend/src/schemas/README.md
++++ b/frontend/src/schemas/README.md
+@@ -6,4 +6,5 @@
+ - **Why copied, not imported from `../backend`?** `backend/src/schemas/rules.ts` uses node-cron, which can't run in a browser (the page turns white). The frontend must also build on its own, without the `backend` folder and its `node_modules`. The backend still checks every input again, including the cron expression that can't be checked in the browser.
+ - Both copies import with the `.ts` ending (`./contract.ts`), the same style as the backend. The frontend allows it through `allowImportingTsExtensions` in `tsconfig.app.json`; the other frontend files still import without the ending.
+ - `contract.ts` calls `z.config(z.locales.en())`, so every built-in Zod error message in the dashboard is in English.
++- Since Module 28, `contract.ts` is data contract **1.6** (backend 1.5). The Fleet screen uses its version rule for the version field of the **Upload firmware** form: that file doesn't export `Version` itself, so it is borrowed through `OtaReport.shape.version` (the same rule: `x.y.z`), plus one check in the form itself: no leading zeros (`1.07.1` is refused, the release version rule of backend 1.5). This copy still isn't changed in the frontend.
+ - `login.ts` is **not** a copy: the Log in form's schema is written by hand, mirroring the `LoginBody` schema in `backend/src/routes/auth.ts`.
+diff --git a/frontend/src/schemas/contract.ts b/frontend/src/schemas/contract.ts
+index ffb4724..d2f5028 100644
+--- a/frontend/src/schemas/contract.ts
++++ b/frontend/src/schemas/contract.ts
+@@ -1,5 +1,8 @@
+-// contract.ts - Appendix A (data contract 1.3) as Zod schemas: a contract that runs.
++// contract.ts - Appendix A (data contract 1.6, Module 28) as Zod schemas: a contract that runs.
+ // Every message from a device is checked against these schemas before it is stored ("never trust the device").
++// Module 28 (contract 1.6): vitals may carry reset_reason, fw, and the ota update report; the "update" cmd is spelled out (sha256,
++// size); config may carry intervals.vitals_s. The old form (firmware up to 1.6.0) stays valid.
++// This file is copied EXACTLY to frontend/src/schemas/contract.ts (npm run check-schema): it may only import zod.
+ import { z } from "zod";
+ 
+ z.config(z.locales.en()); // Zod error messages in English
+@@ -48,9 +51,26 @@ export const TelemetryNode2 = z.strictObject({
+   battery: decimal(2.5, 4.5).optional(),
+ });
+ 
++// offline-mode (used since Module 28): the device stops ON PURPOSE, for example before installing new firmware. Published by
++// the device itself before it disconnects cleanly, so the broker doesn't publish the "offline" will.
+ export const Status = z.enum(["online", "offline", "offline-mode"]);
+ 
+-// vitals (contract 1.0) plus the offline-mode report (contract 1.3): offline_s and local_fan always come together
++// Module 28: why the device restarted the last time (contract section 6). Only these seven values; any other ESP-IDF reason
++// is written UNKNOWN.
++export const ResetReason = z.enum(["POWERON", "BROWNOUT", "SW", "PANIC", "WDT", "DEEPSLEEP", "UNKNOWN"]);
++
++// Module 28: the result report of one firmware update inside vitals (contract 1.6). id = the id of its update command; the device
++// keeps it in NVS before restarting and repeats it in at most 3 vitals (vitals QoS 0 can get lost).
++export const OtaReport = z.strictObject({
++  id: z.string().min(1).max(39),
++  result: z.enum(["succeeded", "rollback", "failed"]),
++  version: Version, // the version it TRIED to install (to_version), not the version that is running
++  message: z.string().max(80).optional(),
++});
++
++// vitals (contract 1.0) plus the offline-mode report (contract 1.3): offline_s and local_fan always come together.
++// Module 28 (contract 1.6): reset_reason and fw (always together, required since firmware 1.7.0), and the ota update report
++// (only together with fw). Vitals from older firmware without all three stay valid.
+ export const Vitals = z
+   .strictObject({
+     ts: Time,
+@@ -59,9 +79,15 @@ export const Vitals = z
+     heap_free: z.number().int().min(0),
+     offline_s: z.number().int().min(0).optional(),
+     local_fan: z.number().int().min(0).optional(),
++    reset_reason: ResetReason.optional(),
++    fw: Version.optional(),
++    ota: OtaReport.optional(),
+   })
+   .refine((v) => (v.offline_s === undefined) === (v.local_fan === undefined),
+-    "the offline-mode report must be complete: offline_s and local_fan always come together");
++    "the offline-mode report must be complete: offline_s and local_fan always come together")
++  .refine((v) => (v.reset_reason === undefined) === (v.fw === undefined),
++    "reset_reason and fw always come together (firmware 1.7.0 and newer)")
++  .refine((v) => v.ota === undefined || v.fw !== undefined, "the ota report only together with fw");
+ 
+ export const Ack = z
+   .strictObject({
+@@ -81,6 +107,26 @@ export const SetCommand = z.discriminatedUnion("target", [
+   z.strictObject({ target: z.literal("curtain"), value: z.number().int().min(0).max(180) }),
+ ]);
+ 
++// Module 28: the content of the "update" cmd the server publishes (contract 1.6 section 7). NEVER retained. url = the final
++// address of the firmware file (no redirect: HTTPUpdate doesn't follow 3xx), sha256 = the fingerprint of the file's content (64
++// lowercase hexadecimal digits), size = the file's length in bytes, at most one Minimal SPIFFS program shelf.
++export const CmdUpdate = z.strictObject({
++  id: z.string().min(1).max(39),
++  ts: Time,
++  action: z.literal("update"),
++  version: Version,
++  url: z.string().max(200).regex(/^https?:\/\/[^\s/]+\/fw\/node-1\/\d+\.\d+\.\d+\.bin$/,
++    "url must be http(s)://<address>/fw/node-1/<version>.bin"),
++  sha256: z.string().regex(/^[0-9a-f]{64}$/, "sha256 must be 64 lowercase hexadecimal digits"),
++  size: z.number().int().min(1).max(1966080),
++}).refine((c) => c.url.endsWith(`/${c.version}.bin`), "url must point to the file of the same version as version");
++
++// Module 28: the sending intervals that can be set from afar through the "config" cmd (contract 1.6). Only vitals: telemetry stays every
++// 10 seconds (contract rule 3).
++export const Intervals = z.strictObject({
++  vitals_s: z.number().int().min(60).max(3600),
++});
++
+ // the thresholds of the local safety rules, sent with the "config" cmd (contract 1.3 section 7): at least one key
+ export const Thresholds = z
+   .strictObject({
+@@ -95,5 +141,9 @@ export type TelemetryNode1 = z.infer<typeof TelemetryNode1>;
+ export type TelemetryNode2 = z.infer<typeof TelemetryNode2>;
+ export type Status = z.infer<typeof Status>;
+ export type Vitals = z.infer<typeof Vitals>;
++export type ResetReason = z.infer<typeof ResetReason>;
++export type OtaReport = z.infer<typeof OtaReport>;
++export type CmdUpdate = z.infer<typeof CmdUpdate>;
++export type Intervals = z.infer<typeof Intervals>;
+ export type Ack = z.infer<typeof Ack>;
+ export type SetCommand = z.infer<typeof SetCommand>;
+diff --git a/frontend/src/socket.ts b/frontend/src/socket.ts
+index 54abd25..5edd94a 100644
+--- a/frontend/src/socket.ts
++++ b/frontend/src/socket.ts
+@@ -8,7 +8,7 @@ import { BASE, getDevices, refreshOnce } from "./api";
+ import { toast } from "./toast";
+ import type { ToastKind } from "./toast";
+ import { useLiveStore } from "./store";
+-import type { Device, DeviceStatus, FromClient, SavedEvent, Telemetry, ToClient } from "./types";
++import type { Device, DeviceStatus, FromClient, OtaNotice, SavedEvent, Telemetry, ToClient } from "./types";
+ 
+ // The address is the SAME as in api.ts (BASE): the page http://<laptop-IP>:5173 on a phone connects to http://<laptop-IP>:8080 by itself.
+ // withCredentials: true = bring the login cookies to another port (the twin of credentials: "include" in fetch). Without it,
+@@ -50,19 +50,34 @@ function followAll() {
+ // data has the type unknown, so Zod checks it first instead of trusting it as it is.
+ const ActionData = z.object({ result: z.string().optional(), ok: z.boolean().nullable().optional() });
+ 
++// Module 28: the "data" part of an ota event (a firmware update): its update status decides the toast color
++const OtaData = z.object({ status: z.string() });
++const OTA_FAILED = ["rollback", "failed", "rejected", "expired"];
++
+ // Module 24: the toast color for one event, from structured data (kind, status, ok), NOT from its sentence: a sentence
+ // made by the backend can change its words without changing its meaning.
+ function toastKind(ev: SavedEvent): ToastKind {
+   // a device connected again or disconnected: the server sends the same device's "status" event to EVERY dashboard
+   // FIRST (before the event is recorded), so its newest status is already in the store
+-  if (ev.kind === "status") return useLiveStore.getState().status[ev.device_id ?? ""] === "online" ? "info" : "error";
++  // Module 28: offline-mode = stopped ON PURPOSE (for example to install new firmware), not a disruption: not red
++  if (ev.kind === "status") {
++    const status = useLiveStore.getState().status[ev.device_id ?? ""];
++    return status === "online" || status === "offline-mode" ? "info" : "error";
++  }
++  if (ev.kind === "ota") {
++    const data = OtaData.safeParse(ev.data);
++    if (data.success && data.data.status === "succeeded") return "success";
++    if (data.success && OTA_FAILED.includes(data.data.status)) return "error";
++    return "info"; // accepted: the device starts working
++  }
++  if (ev.kind === "provisioning") return "success"; // a new device registered through a claim code
+   if (ev.kind === "rule" || ev.kind === "schedule") {
+     const data = ActionData.safeParse(ev.data);
+     if (data.success && (data.data.ok === false || data.data.result === "no-ack" || data.data.result === "not-sent")) {
+       return "error";
+     }
+   }
+-  return "info"; // a rule acted, a rule is ready again, back from offline mode, a command sent again
++  return "info"; // a rule acted, a rule is ready again, back from offline mode, a command sent again, deactivated
+ }
+ 
+ // useRealtime - called ONCE in App. While logged in: connects, restores the connection, and passes every event from the
+@@ -101,7 +116,11 @@ export function useRealtime(loggedIn: boolean, onSessionExpired: () => void) {
+       followAll();
+       // A RESTORED connection, not the first one: sync the status. The first doesn't need it, because Layout has just
+       // fetched the device list after logging in.
+-      if (everConnected) void syncDevices();
++      // Module 28: the Fleet screen fetches its data again too (updates that finished while disconnected).
++      if (everConnected) {
++        void syncDevices();
++        useLiveStore.getState().fleetChanged();
++      }
+       everConnected = true;
+     }
+     function onDisconnect(reason: string) {
+@@ -136,13 +155,25 @@ export function useRealtime(loggedIn: boolean, onSessionExpired: () => void) {
+     // Module 24: events from the backend's event log (a rule acting, a schedule, a device disconnecting, ...) become toasts.
+     // rule-changed doesn't: whoever saved the rule already got a toast from their own HTTP answer. That event only
+     // bumps rulesVersion, so an open Rules screen (on any dashboard) fetches its list again.
++    // Module 28: a new device (claim code) and a deactivated device change the device LIST: the list is fetched again
++    // (GET /devices), so a new device is followed right away and the cards on the Devices screen are right too, and the
++    // Fleet screen fetches its data again.
+     function onEvent(ev: SavedEvent) {
+       if (ev.kind === "rule-changed") {
+         useLiveStore.getState().rulesChanged();
+         return;
+       }
++      if (ev.kind === "provisioning" || ev.kind === "revoked") {
++        void syncDevices();
++        useLiveStore.getState().fleetChanged();
++      }
+       toast(ev.message, toastKind(ev));
+     }
++    // Module 28: the progress of a firmware update (the "ota" event, to every dashboard). No toast: every important step
++    // (accepted, succeeded, rollback, failed, expired) also comes as an "ota" event-log event, which already becomes a toast.
++    function onOta(notice: OtaNotice) {
++      useLiveStore.getState().receiveOta(notice);
++    }
+ 
+     socket.on("connect", onConnect);
+     socket.on("disconnect", onDisconnect);
+@@ -150,6 +181,7 @@ export function useRealtime(loggedIn: boolean, onSessionExpired: () => void) {
+     socket.on("telemetry", onTelemetry);
+     socket.on("status", onStatus);
+     socket.on("event", onEvent);
++    socket.on("ota", onOta);
+     useLiveStore.getState().setConnection("connecting");
+     socket.connect();
+     // StrictMode in dev mode: connect, disconnect, connect again. Still only ONE connection stays alive.
+@@ -161,6 +193,7 @@ export function useRealtime(loggedIn: boolean, onSessionExpired: () => void) {
+       socket.off("telemetry", onTelemetry);
+       socket.off("status", onStatus);
+       socket.off("event", onEvent);
++      socket.off("ota", onOta);
+       socket.disconnect();
+     };
+   }, [loggedIn, onSessionExpired]);
+diff --git a/frontend/src/store.ts b/frontend/src/store.ts
+index 3618fe2..ec45582 100644
+--- a/frontend/src/store.ts
++++ b/frontend/src/store.ts
+@@ -5,13 +5,16 @@
+ // can read it without it being handed down through props from App. The role still lives only in memory: never in localStorage.
+ import { create } from "zustand";
+ import { useToast } from "./toast";
+-import type { Device, DeviceStatus, Point, Reading, State, Telemetry, TelemetryNode1, User } from "./types";
++import type { Device, DeviceStatus, OtaNotice, Point, Reading, State, Telemetry, TelemetryNode1, User } from "./types";
+ 
+ // the Socket.IO connection state that the badge in the header shows
+ export type Connection = "connecting" | "live" | "disconnected";
+ 
+ const FIVE_MINUTES = 5 * 60 * 1000; // in milliseconds
+ 
++// Module 28: the update statuses that are FINISHED (they don't change anymore without a new command)
++const UPDATE_FINISHED = ["succeeded", "rollback", "failed", "rejected", "expired"];
++
+ // An empty array that is ALWAYS the same one. Selectors use "?? EMPTY", not "?? []": a new array on every call makes
+ // Zustand 5 think the data keeps changing, React re-renders without end, and the screen goes white.
+ export const EMPTY: Point[] = [];
+@@ -86,6 +89,15 @@ type LiveStore = {
+   // effect dependency, so its rule list is fetched again by itself.
+   rulesVersion: number;
+   rulesChanged: () => void;
++  // Module 28: the LAST firmware update notice of each device (the Socket.IO "ota" event), so the cards on the Fleet screen
++  // change by themselves: accepted -> downloading -> succeeded/rollback/failed, without reloading the page.
++  ota: Partial<Record<string, OtaNotice>>;
++  receiveOta: (notice: OtaNotice) => void;
++  // Module 28: goes up by 1 every time the fleet data changes on the server (an update finished, a new device through a claim
++  // code, a device deactivated, the live connection back). The Fleet screen uses it as an effect dependency (the rulesVersion
++  // pattern), so its data is fetched again only when there IS news, not every few seconds (no polling).
++  fleetVersion: number;
++  fleetChanged: () => void;
+ };
+ 
+ // create<LiveStore>()(…): the double parentheses really are how it's written in TypeScript (Zustand 5).
+@@ -164,6 +176,17 @@ export const useLiveStore = create<LiveStore>()((set) => ({
+ 
+   rulesVersion: 0,
+   rulesChanged: () => set((s) => ({ rulesVersion: s.rulesVersion + 1 })),
++
++  ota: {},
++  // A finished update also raises fleetVersion: the firmware version, the health (the vitals that carry its report), and
++  // each release's canary summary change too, and all of them can only be read again from the server.
++  receiveOta: (notice) =>
++    set((s) => ({
++      ota: { ...s.ota, [notice.device_id]: notice },
++      fleetVersion: UPDATE_FINISHED.includes(notice.status) ? s.fleetVersion + 1 : s.fleetVersion,
++    })),
++  fleetVersion: 0,
++  fleetChanged: () => set((s) => ({ fleetVersion: s.fleetVersion + 1 })),
+ }));
+ 
+ // Module 24: true ONLY when the admin role is certain. While GET /auth/me isn't answered yet ("loading") the result is false,
+diff --git a/frontend/src/types.ts b/frontend/src/types.ts
+index 1a4ed26..b10085e 100644
+--- a/frontend/src/types.ts
++++ b/frontend/src/types.ts
+@@ -1,13 +1,16 @@
+-// types.ts - data shapes from the data contract (Syllabus Appendix A, DATA-CONTRACT.md 1.4) and from the backend v1.0 API responses.
++// types.ts - data shapes from the data contract (Syllabus Appendix A, DATA-CONTRACT.md 1.6) and from the backend API responses.
+ // The field names are exactly the ones the backend sends, so data from the server "fits" right away.
+ // Module 25: backend 1.2 adds the map point (lat, lng) to the GET /devices answer.
++// Module 28: backend 1.5 adds the fleet page (GET /fleet), firmware releases, over-the-air updates (OTA), and claim codes.
+ // This file only holds types (labels for TypeScript): when the page runs in the browser, Vite has already removed all these lines.
+ // Value choices are written as unions of text ("a" | "b"), not enums: our template forbids enums (erasableSyntaxOnly).
+ 
+ // the device kind according to the backend
+ export type Kind = "node1" | "node2" | "unknown";
+ 
+-// the status from the msh/<device_id>/status topic; "unknown" = registered, but it has never sent a status
++// the status from the msh/<device_id>/status topic; "unknown" = registered, but it has never sent a status.
++// Module 28: "offline-mode" = the device stops ON PURPOSE (for example restarting to install new firmware), NOT the offline
++// mode of Module 19 (the local safety while the broker can't be reached). On screen it is written "stopped on purpose".
+ export type DeviceStatus = "online" | "offline" | "offline-mode" | "unknown";
+ 
+ // the key field in GET /devices (Module 21)
+@@ -93,7 +96,8 @@ export type SavedEvent = {
+   id: number;
+   occurred_at: string; // server time, UTC
+   device_id: string | null;
+-  kind: "rule" | "rule-changed" | "schedule" | "status" | "offline-report" | "command";
++  // Module 28: ota (firmware updates), provisioning (a new device through a claim code), revoked (a device deactivated)
++  kind: "rule" | "rule-changed" | "schedule" | "status" | "offline-report" | "command" | "ota" | "provisioning" | "revoked";
+   source: string; // api, rule, schedule, telegram, device
+   rule_id: number | null;
+   message: string; // a sentence for humans
+@@ -105,6 +109,7 @@ export type ToClient = {
+   telemetry: (deviceId: string, content: Telemetry) => void;
+   status: (deviceId: string, status: "online" | "offline" | "offline-mode") => void;
+   event: (event: SavedEvent) => void;
++  ota: (notice: OtaNotice) => void; // Module 28: the progress of one firmware update, to ALL dashboards
+ };
+ 
+ // events from the dashboard to the server; "respond" is the Socket.IO ack (a function the server calls to answer)
+@@ -183,3 +188,158 @@ export type HistoryData = {
+   to: string;
+   points: SummaryPoint[]; // oldest first
+ };
++
++// ---- Module 28: the fleet, firmware releases, over-the-air updates (OTA), and claim codes (backend 1.5) ----
++
++// the journey of one update: sent -> accepted (the device's ack) -> downloading -> succeeded, rollback, or failed.
++// rejected = the device refused the command; expired = no word from the device for OTA_TIMEOUT_MINUTES (default 10 minutes).
++export type UpdateStatus = "sent" | "accepted" | "downloading" | "rejected" | "succeeded" | "rollback" | "failed" | "expired";
++
++// why the device started the last time (contract 1.6 section 6). null = older firmware (before 1.7.0) doesn't report it yet.
++export type ResetReason = "POWERON" | "BROWNOUT" | "SW" | "PANIC" | "WDT" | "DEEPSLEEP" | "UNKNOWN";
++
++// the last update of one device (also one row of GET /devices/:id/updates). Times = UTC.
++export type Update = {
++  id: string; // the update command's id
++  status: UpdateStatus;
++  from: string | null; // the version before the update (null = not known yet)
++  to: string; // the version it tried to install
++  message: string | null; // the reason from the device or the server, for example "sha256 doesn't match"
++  created_at: string;
++  updated_at: string;
++  finished_at: string | null; // null = still running
++};
++
++// the Socket.IO "ota" event: ONE update status change, sent by the server to every dashboard
++export type OtaNotice = {
++  device_id: string;
++  id: string;
++  status: UpdateStatus;
++  from: string | null;
++  to: string;
++  message: string | null;
++  time: string; // the server time (UTC), the same as the updated_at column in the database
++};
++
++// the device's last vitals (health). Node 2 doesn't send vitals, so its field is null.
++export type Health = {
++  ts: string; // when the device made those vitals (UTC)
++  rssi: number; // the Wi-Fi signal strength in dBm: the closer to 0, the stronger
++  heap_free: number; // free RAM, bytes
++  uptime_s: number; // seconds since the last start
++  reset_reason: ResetReason | null;
++};
++
++// one row of GET /fleet
++export type FleetRow = {
++  device_id: string;
++  name: string | null;
++  location: string | null;
++  kind: Kind;
++  status: DeviceStatus; // a deactivated device is always "offline"
++  key: "active" | "revoked" | "no-key"; // revoked = deactivated; no-key = a Node 2 via Node 1
++  linked_via: string | null;
++  last_seen: string | null; // the server time when the last telemetry or vitals arrived
++  canary: boolean; // a test device that gets new releases first
++  vitals_interval_s: number | null; // null = not set yet (the firmware uses its default of 300 seconds)
++  fw: string | null; // the firmware version reported last (Node 2: the version from its packet)
++  fw_seen_at: string | null;
++  needs_update: boolean; // a Node 1 with a version older than the latest release
++  health: Health | null;
++  update: Update | null; // the last update; null = never
++  can_update: boolean; // may be updated to the latest release NOW
++  blocked_reason: string | null; // the server's sentence if it can't
++};
++
++// the GET /fleet answer
++export type FleetData = {
++  latest_release: { node1: string | null }; // the highest release that isn't a test and isn't withdrawn
++  settings: {
++    ota_ready: boolean; // false = SERVER_URL in .env isn't set
++    broker_accounts: string; // AUTO_BROKER_ACCOUNTS: off, center, or gateway:<name>
++  };
++  devices: FleetRow[];
++};
++
++// one firmware release in GET /firmware (and the upload answer)
++export type Release = {
++  kind: "node1";
++  version: string;
++  size: number; // bytes
++  sha256: string; // computed by the server from the file content it received
++  notes: string | null;
++  test: boolean; // a TEST release: only for one device, never "update all"
++  uploaded_by: string | null; // the admin account's number
++  created_at: string;
++  withdrawn_at: string | null;
++  url: string | null; // the device download address; null = SERVER_URL isn't set
++};
++
++// A release in the GET /firmware list carries its canary summary
++export type FullRelease = Release & {
++  canary_succeeded: number;
++  canary_failed: number;
++  can_update_all: boolean; // the "Update all" button may be used for this version
++  update_all_reason: string | null;
++};
++
++export type ReleaseList = {
++  latest: { node1: string | null };
++  releases: FullRelease[]; // in upload order
++};
++
++// the result of ONE update command. "accepted" = the device accepted the command (NOT finished: the result follows through the ota event)
++export type UpdateResult = {
++  device_id: string;
++  id: string | null;
++  status: "accepted" | "no-ack" | "rejected" | "not-sent";
++  from?: string | null;
++  to?: string;
++  wait_ms?: number;
++  message?: string;
++};
++
++// the POST /fleet/update answer (update canary / update all)
++export type FleetResult = {
++  version: string;
++  target: "canary" | "all";
++  sent: UpdateResult[];
++  skipped: { device_id: string; reason: string }[]; // not queued: these devices were sent nothing
++};
++
++// the POST /provision/code answer: the code is shown only ONCE (the database only stores its fingerprint)
++export type NewClaimCode = {
++  code: string; // XXXX-XXXX
++  expires_at: string; // UTC
++  minutes: number;
++  name: string | null;
++  location: string | null;
++};
++
++// one row of GET /provision/code (WITHOUT the code)
++export type ClaimCode = {
++  name: string | null;
++  location: string | null;
++  created_by: string | null;
++  created_at: string;
++  expires_at: string;
++  state: "valid" | "used" | "expired";
++  used_at: string | null;
++  device_id: string | null; // the device that used it
++};
++
++// the POST /devices/:id/revoke answer ("Deactivate")
++export type DeactivateResult = {
++  device_id: string;
++  revoked_at: string;
++  steps: string[]; // what still has to be done by hand (if anything)
++  broker_account: "deleted" | "none" | "manual" | "no-key";
++};
++
++// the PUT /devices/:id/intervals answer
++export type IntervalResult = {
++  device_id: string;
++  vitals_interval_s: number;
++  config_id: string | null;
++  note: string | null; // for example older firmware that doesn't know the interval yet
++};
+diff --git a/frontend/vite.config.ts b/frontend/vite.config.ts
+index a1e8d09..35813f4 100644
+--- a/frontend/vite.config.ts
++++ b/frontend/vite.config.ts
+@@ -48,9 +48,10 @@ export default defineConfig({
+         // screen addresses such as /map or /devices/f00d00000001 are answered with index.html from the store (React Router
+         // picks the screen), also while the internet is down: the app stays open and says the server can't be reached
+         navigateFallback: '/index.html',
+-        // ...EXCEPT the addresses that aren't dashboard screens: the API (/api), Grafana (/grafana/, Module 27), and Socket.IO
+-        // (/socket.io when VITE_API_BASE=/). Those addresses always go on to the server, never replaced by index.html.
+-        navigateFallbackDenylist: [/^\/api(\/|$)/, /^\/grafana(\/|$)/, /^\/socket\.io(\/|$)/],
++        // ...EXCEPT the addresses that aren't dashboard screens: the API (/api), Grafana (/grafana/, Module 27), Socket.IO
++        // (/socket.io when VITE_API_BASE=/), and the devices' firmware downloads (/fw/, Module 28). Those addresses always go on to
++        // the server, never replaced by index.html. (Their answers are never stored either: only the globPatterns files are.)
++        navigateFallbackDenylist: [/^\/api(\/|$)/, /^\/grafana(\/|$)/, /^\/socket\.io(\/|$)/, /^\/fw(\/|$)/],
+       },
+     }),
+   ],

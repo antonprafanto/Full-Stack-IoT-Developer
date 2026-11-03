@@ -1,7 +1,8 @@
 // automation.test.ts - tests for automation.ts (Module 24) WITHOUT a database, MQTT, or Telegram: all its neighbours are
 // replaced by fakes (vi.mock). Only which commands are "sent" to the device and which events are written are recorded. Tested:
 // a watering rule (below-threshold + command) waters ONCE, turns off without a command and is then ready again, a command the
-// device refuses is marked ok: false, and a rule that is deleted or deactivated doesn't act anymore. Run: npm test
+// is marked ok: false, and a rule that is deleted or deactivated doesn't act anymore. Module 28: the COMBINED config (the threshold
+// from a rule + the vitals interval per device) in one message, only for registered devices. Run: npm test
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 const table = vi.hoisted(() => ({ rules: [] as Record<string, unknown>[] })); // the fake rules table
@@ -38,11 +39,14 @@ vi.mock("./commands.ts", () => ({
 }));
 vi.mock("./events.ts", () => ({ recordEvent: (e: { rule_id: number | null; message: string }) => { events.push(e); } }));
 vi.mock("./store.ts", () => ({ findDevice: () => undefined, waitForAck: async () => null }));
-vi.mock("./mqtt.ts", () => ({ makeCommandId: () => "c-config", sendConfig: () => {}, summarize: () => "" }));
+const config = vi.hoisted(() => [] as { deviceId: string; content: unknown }[]); // Module 28: the configs "published"
+vi.mock("./mqtt.ts", () => ({ makeCommandId: () => "c-config", summarize: () => "",
+  sendConfig: (deviceId: string, _id: string, content: unknown) => { config.push({ deviceId, content }); } }));
 vi.mock("./schedule.ts", () => ({ installSchedules: () => {} }));
 vi.mock("./telegram.ts", () => ({ notifyIfNeeded: async () => {} }));
 
-import { deleteRule, evaluateReading, loadRules, replaceRule } from "./automation.ts";
+import { deleteRule, evaluateReading, loadRules, loadVitalsIntervals, replaceRule, sendAllConfigs } from "./automation.ts";
+import { loadRegistry } from "./registry.ts";
 import type { Rule } from "../schemas/rules.ts";
 import type { TelemetryNode1 } from "../schemas/contract.ts";
 
@@ -112,5 +116,24 @@ describe("automation: the watering rule (below-threshold + command)", () => {
     expect(forgotten).toEqual([ruleNo]);
     await reading(25);
     expect(sent).toHaveLength(0);
+  });
+});
+
+describe("the combined config, threshold + vitals interval (Module 28)", () => {
+  it("one message per device: the threshold from the fan rule + the interval from the admin; an unregistered device gets nothing", async () => {
+    const FAN: Rule = { name: "Automatic fan", active: true,
+      condition: { kind: "threshold", device_id: ID, quantity: "temperature", on_above: 31, off_below: 29, for_seconds: 0 },
+      action: { kind: "switch", device_id: ID, target: "fan", notify: false } };
+    table.rules = [{ ...structuredClone(FAN), id: ++ruleNo, created_at: new Date(), updated_at: new Date() }];
+    await loadRules();
+    loadRegistry([{ device_id: ID, registered_at: new Date(), revoked_at: null }, { device_id: "f00d00000002", registered_at: new Date(), revoked_at: null }]);
+    loadVitalsIntervals([{ device_id: ID, vitals_interval_s: 60 }, { device_id: "f00d00000002", vitals_interval_s: 120 },
+      { device_id: "0123456789ab", vitals_interval_s: 90 }]); // the last one isn't registered
+    config.length = 0;
+    sendAllConfigs();
+    expect(config).toEqual([
+      { deviceId: ID, content: { thresholds: { temp_fan_on: 31 }, intervals: { vitals_s: 60 } } },
+      { deviceId: "f00d00000002", content: { intervals: { vitals_s: 120 } } }, // no fan rule: only the interval
+    ]);
   });
 });

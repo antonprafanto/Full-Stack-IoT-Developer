@@ -5,3 +5,4 @@ unsigned long uptimeSeconds();                    // seconds since power-up; doe
 const char* resetReasonName();                    // the last restart reason, with the same names as Appendix A
 void recordLoopTime(unsigned long microseconds);  // call at the end of every pass of loop()
 unsigned long longestLoopMs();                    // the longest loop() pass since power-up, in milliseconds
+void setWatchdogTimeout(unsigned long milliseconds);  // Module 28: change the watchdog timeout (5 seconds normally, 60 while downloading)

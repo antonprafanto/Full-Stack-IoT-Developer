@@ -1,0 +1,135 @@
+diff --git a/backend/src/server.ts b/backend/src/server.ts
+index dacdc85..0c31a5a 100644
+--- a/backend/src/server.ts
++++ b/backend/src/server.ts
+@@ -23,6 +23,7 @@ import { reportRoutes } from "./routes/reports.ts";
+ import { firmwareRoutes } from "./routes/firmware.ts";
+ import { fleetRoutes } from "./routes/fleet.ts";
+ import { claimRoutes } from "./routes/claims.ts";
++import { waveRoutes } from "./routes/wave.ts";
+ import { brokerConnected, stopMqtt, startMqtt } from "./services/mqtt.ts";
+ import { startRealtime } from "./services/realtime.ts";
+ import { loadVitalsIntervals, sendAllConfigs, loadRules } from "./services/automation.ts";
+@@ -101,6 +102,7 @@ await app.register(reportRoutes); // Module 25
+ await app.register(firmwareRoutes); // Module 28: firmware releases and the locked download /fw
+ await app.register(fleetRoutes); // Module 28: the /fleet page, update commands, the canary, the vitals interval
+ await app.register(claimRoutes); // Module 28: claim codes
++await app.register(waveRoutes); // Module 28 Challenge 3: the automatic wave (canary, healthy wait, step by step)
+ 
+ if (await databaseAlive()) app.log.info("database ready");
+ else app.log.warn("database not reachable yet: check the database container and DATABASE_URL in .env");
+diff --git a/backend/src/services/ota.ts b/backend/src/services/ota.ts
+index 400c965..05ee41e 100644
+--- a/backend/src/services/ota.ts
++++ b/backend/src/services/ota.ts
+@@ -16,6 +16,7 @@ import { findDevice, waitForAck } from "./store.ts";
+ import { brokerConnected, makeCommandId, sendUpdate } from "./mqtt.ts";
+ import { recordEvent } from "./events.ts";
+ import { broadcastOta } from "./realtime.ts";
++import { waveNotice } from "./wave.ts";
+ import { compareVersions } from "./version.ts";
+ import { log } from "./log.ts";
+ 
+@@ -189,6 +190,7 @@ function announce(u: UpdateRow, source: "api" | "device"): void {
+   }
+   broadcastOta({ device_id: u.device_id, id: u.id, status: u.status, from: u.from_version, to: u.to_version, message: u.message,
+     time: u.updated_at.toISOString().slice(0, 19) + "Z" });
++  waveNotice(u); // Module 28 Challenge 3: the update result for the automatic wave (services/wave.ts)
+ }
+ 
+ function dbFailed(what: string) {
+diff --git a/backend/src/services/telegram.test.ts b/backend/src/services/telegram.test.ts
+index 055912b..ffbbb7f 100644
+--- a/backend/src/services/telegram.test.ts
++++ b/backend/src/services/telegram.test.ts
+@@ -21,7 +21,7 @@ vi.mock("grammy", async (original) => ({
+   },
+ }));
+ 
+-import { notifyStatus, sendFile, forgetStatusNotice, startTelegram } from "./telegram.ts";
++import { muteStopNotice, notifyStatus, sendFile, forgetStatusNotice, startTelegram } from "./telegram.ts";
+ 
+ afterEach(() => vi.useRealTimers());
+ 
+@@ -101,3 +101,26 @@ describe("stopping on purpose (offline-mode, Module 28)", () => {
+     expect(bot.sendMessage).not.toHaveBeenCalled();
+   });
+ });
++
++// Module 28 Challenge 3: the devices being updated by the automatic wave are summarized by services/wave.ts
++describe("the automatic wave (Module 28 Challenge 3)", () => {
++  it("a device in the wave: 🔄 and ✅ stay quiet; 📴 'hasn't come back' is still sent; other devices are still reported", () => {
++    startTelegram("123456:fake-token", "777000111", "");
++    vi.useFakeTimers({ now: new Date("2026-11-02T03:00:00Z") }); // 10:00 WIB
++    bot.sendMessage.mockClear();
++    const messages = () => bot.sendMessage.mock.calls.map((c) => c[1]);
++    muteStopNotice("f00d00000005", true);
++    notifyStatus("f00d00000005", "offline-mode");
++    vi.advanceTimersByTime(6_000);
++    notifyStatus("f00d00000005", "online"); // succeeded: no 🔄 and ✅ (the wave sends its summary)
++    muteStopNotice("f00d00000005", false);
++    vi.advanceTimersByTime(5 * 60_000);
++    expect(messages()).toEqual([]);
++    muteStopNotice("f00d00000006", true);
++    notifyStatus("f00d00000006", "offline-mode"); // doesn't come back
++    vi.advanceTimersByTime(3 * 60_000);
++    expect(messages()).toEqual(["📴 f00d00000006 hasn't come back after stopping on purpose at 10:05 WIB"]);
++    notifyStatus("f00d00000007", "offline-mode"); // outside the wave: an ordinary message
++    expect(messages().at(-1)).toBe("🔄 f00d00000007 stopped on purpose (firmware update or restart), back online shortly");
++  });
++});
+diff --git a/backend/src/services/telegram.ts b/backend/src/services/telegram.ts
+index a21b05b..8886ca6 100644
+--- a/backend/src/services/telegram.ts
++++ b/backend/src/services/telegram.ts
+@@ -99,6 +99,15 @@ const STOPPED_ON_PURPOSE_GRACE_MS = 3 * 60_000;
+ const offlineTimers = new Map<string, ReturnType<typeof setTimeout>>(); // device_id -> the timer that is waiting
+ const sinceStopped = new Map<string, number>(); // device_id -> when it stopped on purpose (the 🔄 message already sent)
+ const offlineSince = new Map<string, number>(); // device_id -> since when it is offline (already reported with 📴)
++// Module 28 Challenge 3: the devices being updated by the automatic WAVE (services/wave.ts) aren't reported one by
++// one: 🔄 and its ✅ pair are replaced by ONE summary per wave. 📴 "hasn't come back" is still sent (a danger sign).
++const waveMuted = new Set<string>(); // device_ids being updated by the wave
++const stopMuted = new Set<string>(); // device_ids whose 🔄 was muted: its ✅ pair stays quiet too
++
++export function muteStopNotice(deviceId: string, mute: boolean): void {
++  if (mute) waveMuted.add(deviceId);
++  else waveMuted.delete(deviceId);
++}
+ 
+ export function notifyStatus(deviceId: string, status: string): void {
+   if (status === "online") {
+@@ -110,10 +119,12 @@ export function notifyStatus(deviceId: string, status: string): void {
+     const stopped = sinceStopped.get(deviceId);
+     if (stopped !== undefined && !offlineSince.has(deviceId)) { // Module 28: the pair of the 🔄 message
+       sinceStopped.delete(deviceId);
++      if (stopMuted.delete(deviceId)) return; // Module 28 Challenge 3: its 🔄 was muted, ✅ too
+       void notify(`✅ ${deviceId} online again after stopping on purpose (${Math.round((Date.now() - stopped) / 1000)} seconds)`);
+       return;
+     }
+     sinceStopped.delete(deviceId);
++    stopMuted.delete(deviceId); // Module 28 Challenge 3
+     const since = offlineSince.get(deviceId);
+     if (since !== undefined) {
+       offlineSince.delete(deviceId);
+@@ -127,10 +138,12 @@ export function notifyStatus(deviceId: string, status: string): void {
+     clearTimeout(offlineTimers.get(deviceId)); // stopping on purpose replaces the ordinary "offline" wait
+     const start = Date.now();
+     sinceStopped.set(deviceId, start);
+-    void notify(`🔄 ${deviceId} stopped on purpose (firmware update or restart), back online shortly`);
++    if (waveMuted.has(deviceId)) stopMuted.add(deviceId); // Module 28 Challenge 3: summarized by the wave
++    else void notify(`🔄 ${deviceId} stopped on purpose (firmware update or restart), back online shortly`);
+     offlineTimers.set(deviceId, setTimeout(() => {
+       offlineTimers.delete(deviceId);
+       sinceStopped.delete(deviceId);
++      stopMuted.delete(deviceId); // Module 28 Challenge 3: the 📴 below is still sent
+       offlineSince.set(deviceId, start);
+       void notify(`📴 ${deviceId} hasn't come back after stopping on purpose at ${wibTime.format(start)} WIB`);
+     }, STOPPED_ON_PURPOSE_GRACE_MS));
+@@ -152,6 +165,7 @@ export function forgetStatusNotice(deviceId: string): void {
+   offlineTimers.delete(deviceId);
+   sinceStopped.delete(deviceId);
+   offlineSince.delete(deviceId);
++  stopMuted.delete(deviceId); // Module 28 Challenge 3
+ }
+ 
+ // the answer to /status: the last state of every device in the in-memory store

@@ -2,7 +2,7 @@
 
 🌐 **English** · [Bahasa Indonesia](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/proyek-rumah-pintar-mini/KONTRAK-DATA.md)
 
-> **Contract version 1.5** ([Module 27](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-5-operations-scale/module-27-deploy-internet-tls-pwa/README.md), October 2026; version 1.4 from [Module 21](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-3-backend-data/module-21-device-broker-security/README.md), version 1.3 from Module 19, version 1.2 from Module 15, version 1.1 from Module 14, version 1.0 from Module 11). Its main reference is [Appendix A of the Syllabus](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/SYLLABUS.md#14-appendix-a--mini-smart-home-data-contract); this file is its working copy, kept in the project. **The ground rules:** every change is written here and in Appendix A first, then the code is changed, then the firmware version goes up.
+> **Contract version 1.6** ([Module 28](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-5-operations-scale/module-28-ota-provisioning-fleet/README.md), October 2026; version 1.5 from [Module 27](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-5-operations-scale/module-27-deploy-internet-tls-pwa/README.md), version 1.4 from [Module 21](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-3-backend-data/module-21-device-broker-security/README.md), version 1.3 from Module 19, version 1.2 from Module 15, version 1.1 from Module 14, version 1.0 from Module 11). Its main reference is [Appendix A of the Syllabus](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/SYLLABUS.md#14-appendix-a--mini-smart-home-data-contract); this file is its working copy, kept in the project. **The ground rules:** every change is written here and in Appendix A first, then the code is changed, then the firmware version goes up.
 
 The data contract is the "shared language" of every part of the project: the firmware, the broker, the contract checker, the gateway (Module 12), Node-RED (Module 13), the backend (Module 16), the database (Module 17), and the dashboard (Module 22). As long as they all follow this contract, each part can be built in a different week and still fit together with the others. The full explanation is in [Module 11](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-11-mqtt-and-data-contract/README.md).
 
@@ -20,7 +20,7 @@ Prefix `msh` = Mini Smart Home. Topics are always lowercase and do **not** start
 | :--- | :--- | :--- | :---: | :--- |
 | `msh/<device_id>/telemetry` | device → broker | all sensor readings in one JSON | no | Node 1: every 10 seconds, and immediately when something important happens. Node 2: once every time it wakes up (5 minutes), published by Node 1 |
 | `msh/<device_id>/status` | device → broker | the text `online`, `offline`, or `offline-mode` | **yes** | `online` when connected; `offline` is published by the broker (*Last Will*). Node 2: both are published by Node 1 (section 5) |
-| `msh/<device_id>/vitals` | device → broker | device health | no | once after connecting, then every 5 minutes |
+| `msh/<device_id>/vitals` | device → broker | device health | no | once after connecting, then every 5 minutes (from contract 1.6: its interval can be set from afar, `intervals.vitals_s` in `config`) |
 | `msh/<device_id>/cmd` | broker → device | one command | only `config` (Module 19) | any time |
 | `msh/<device_id>/ack` | device → broker | the answer to one command | no | right after the command is received |
 
@@ -40,6 +40,7 @@ Node 2 (ESP-NOW) isn't connected to the broker. From Module 14 on, **Node 1 publ
 | *Keep-alive* | 15 seconds (the broker declares the device gone after 22.5 seconds) |
 | *Last Will* | topic `status`, content `offline`, QoS 1, retained |
 | After connecting | publish `online` (retained), then subscribe to `cmd` with QoS 1 |
+| Stopping on purpose (from contract 1.6, Module 28) | before restarting on purpose (installing new firmware, or the `restart` command): publish `offline-mode` (retained, QoS 1), then disconnect **cleanly** (a DISCONNECT message). The broker doesn't publish the `offline` will for a connection that was closed cleanly |
 | Publishing QoS | `telemetry`, `vitals`, `ack`: QoS 0 |
 | Message container | at least 512 bytes (`setBufferSize(512)`) |
 | Reconnecting | at most every 5 seconds, with each attempt taking about 1 second at most |
@@ -126,11 +127,13 @@ Plain text, not JSON:
 | :--- | :--- | :--- |
 | `online` | the device is connected | the device, every time it connects |
 | `offline` | the device disappeared without saying goodbye (power cut, Wi-Fi dropped, stuck) | the broker, from the device's last will |
-| `offline-mode` | the device stopped on purpose, for example before a firmware update | the device (used from Module 28 on) |
+| `offline-mode` | the device **stopped on purpose**: before restarting for a firmware update or the `restart` command (section 3, "Stopping on purpose"). Usually followed by `online` within a few seconds up to about 1.5 minutes | the device (from Node 1 firmware 1.7.0, Module 28) |
 
 **Node 2's status** is published by **Node 1** (retained): `online` when the first valid packet from Node 2 arrives, `offline` if there's no packet for **3 × Node 2's interval + 1 minute** (a 5-minute interval = 16 minutes). Node 2 has no MQTT connection of its own, so it has no last will. That's why Node 2's status means "Node 1 still hears Node 2", and it can only be trusted while Node 1's own status is `online`.
 
-**Module 19's offline mode doesn't use `status`.** While the broker can't be reached, the device can't publish anything anyway, so its report is only sent after it reconnects, through `vitals` (section 6). The content of `status` stays `online` and `offline`; `offline-mode` still belongs to Module 28.
+**Module 19's offline mode doesn't use `status`.** While the broker can't be reached, the device can't publish anything anyway, so its report is only sent after it reconnects, through `vitals` (section 6). The content of `status` during offline mode stays `online` and `offline`. Don't mix them up: **offline mode** (Module 19) = the broker can't be reached, the local safety runs; **`offline-mode`** (Module 28) = the device stopped on purpose for a short while. The dashboard calls the second one "stopped on purpose".
+
+**A deactivated device** (from contract 1.6): the server deletes its broker account, and the broker disconnects it at once **without** publishing the will, so its last retained `status` (usually `online`) may stay behind on the broker. The server writes the `offline` status in its own database and ignores any message from that device (section 9, rule 14).
 
 ## 6. `vitals`
 
@@ -146,7 +149,9 @@ Plain text, not JSON:
 | `heap_free` | free *heap* memory in bytes |
 | `offline_s` | **from contract 1.3 on (Module 19):** how many seconds the device ran in offline mode before it reconnected (an integer ≥ 0) |
 | `local_fan` | **from contract 1.3 on (Module 19):** how many times the local safety rule turned the fan on during that offline mode (an integer ≥ 0) |
-| `reset_reason` | **from Module 28 on:** `POWERON`, `BROWNOUT`, `SW`, `PANIC`, `WDT`, `DEEPSLEEP`, or `UNKNOWN` |
+| `reset_reason` | **from contract 1.6 (Module 28), required from Node 1 firmware 1.7.0:** why the device last started: `POWERON` (the power just came on, also the EN button), `BROWNOUT` (the voltage dipped: check the power supply), `SW` (a restart by the program: a firmware update, a rollback ordered by the program, the `restart` command), `PANIC` (the program crashed), `WDT` (the watchdog: the program got stuck), `DEEPSLEEP` (woke up from deep sleep), or `UNKNOWN` (another reason) |
+| `fw` | **from contract 1.6, required together with `reset_reason`:** the version of the running firmware, SemVer, the same as `fw` in `telemetry` |
+| `ota` | **from contract 1.6, optional, only together with `fw`:** the result report of one firmware update (the table below) |
 
 `offline_s` and `local_fan` are the **offline-mode report** (section 9, rule 5). The two always come together, and only in the first `vitals` after the device reconnects from offline mode; in other `vitals` neither of them is written:
 
@@ -158,6 +163,23 @@ The device sends that reporting `vitals` about **10 seconds** after it reconnect
 
 This report is only kept in the device's memory. If the device restarts before it could send it, that offline-mode report is lost.
 
+### The firmware update report `ota` in `vitals` (since contract 1.6, Module 28)
+
+```json
+{"ts":"2026-10-31T01:04:54Z","rssi":-58,"uptime_s":7,"heap_free":181940,"reset_reason":"SW","fw":"1.7.1","ota":{"id":"c-20261031-010312-3","result":"rollback","version":"1.7.2","message":"not connected to the broker within 60 seconds"}}
+```
+
+| Field inside `ota` | Content |
+| :--- | :--- |
+| `id` | the `id` of the `update` command being reported (section 7) |
+| `result` | `succeeded` (the new firmware is valid, section 9 rule 13), `rollback` (the new firmware wasn't valid and the device went back to the previous version), or `failed` (the download or the file check failed; the old firmware keeps running, usually without a restart, unless the power went out or the watchdog fired while downloading, see `reset_reason`) |
+| `version` | the version **tried** (`version` in its command), not the running version (`fw`) |
+| `message` | optional, at most 80 characters: the reason for `rollback`/`failed`, for example a download error code |
+
+- The device saves the report in NVS **before** restarting, then sends it in the first `vitals` after connecting and **repeats** it in at most 3 `vitals` (`vitals` QoS 0 can get lost). The server ignores the same report for an `id` that is already finished.
+- `reset_reason` alone isn't enough: a successful update and a rollback ordered by the program are both `SW`.
+- Firmware up to 1.6.0 doesn't write `reset_reason`, `fw`, and `ota`. Its messages are still valid. **A server still on contract 1.5 (backend 1.4.0) refuses the `vitals` of firmware 1.7.0** (unknown fields), so the server is updated first.
+
 ## 7. `cmd`
 
 ```json
@@ -168,7 +190,7 @@ This report is only kept in the device's memory. If the device restarts before i
 | :--- | :--- |
 | `id` | unique text for every command, 39 characters at most; the device answers with the same `id` |
 | `ts` | the time the command was made (UTC). May be left out when a command is typed by hand in MQTTX |
-| `action` | `set`, `config` (Module 19), or `update` (Module 28) |
+| `action` | `set`, `config` (Module 19), or `update` (from contract 1.6, Module 28) |
 
 **`action: "set"`** moves one actuator:
 
@@ -190,12 +212,43 @@ This report is only kept in the device's memory. If the device restarts before i
 | `temp_fan_on` | number, 15–45 | °C. In offline mode, the local safety turns the fan on when `temperature` is **above** this number, then turns it off when `temperature` is **below** this number − 2 |
 | `soil_watering` | integer, 0–100 | %. The automatic watering threshold (Modules 6 and 8) |
 
-- `thresholds` contains **at least one** of the two keys. A key that isn't sent doesn't change. Any other key, a wrong type, or a number out of range makes the whole command refused (`ok:false`): the device checks every key first, and only saves if all of them are valid.
+- From contract 1.6, `config` may also carry `intervals` (below). One `config` holds `thresholds`, `intervals`, or both; `thresholds` (if present) contains **at least one** of the two keys. A key that isn't sent doesn't change. Any other key, a wrong type, or a number out of range makes the whole command refused (`ok:false`): the device checks every key first, and only saves if all of them are valid.
 - Valid thresholds are stored in NVS, **only the ones whose value changed**, then the device answers with an ordinary `ack`. The thresholds stay in use after the device restarts or the power goes out.
 - `config` is sent with **QoS 1, retained**: a device that has just started or just reconnected receives the last thresholds as soon as it subscribes to `cmd`. Because its `id` is the same, a `config` that arrives again after a reconnect is carried out only once while the device is on (rule 8).
 - An empty message on the `cmd` topic means someone deleted its retained message (for example with **Clear Retained Message** in MQTTX). The device ignores it without answering.
 
-**`action: "update"`** (Module 28) carries the `url` and the `version` of the new firmware. Until that module, the device answers it with `ok:false`.
+**`intervals` inside `config`** (from contract 1.6, Module 28):
+
+```json
+{"id":"c-20261031-061500-4","ts":"2026-10-31T06:15:00Z","action":"config","thresholds":{"temp_fan_on":30},"intervals":{"vitals_s":60}}
+```
+
+| Key inside `intervals` | Type | Content |
+| :--- | :--- | :--- |
+| `vitals_s` | integer, 60–3600 | the seconds between two `vitals` (300 by default). Stored in NVS like the thresholds |
+
+- Only `vitals` can be set from afar. `telemetry` **stays** every 10 seconds (rule 3): the dashboard's "stale data" label and Grafana's "Silent node" alert depend on it. Any other key inside `intervals` makes the whole command refused.
+- Wi-Fi, the server address, the broker address, and the device key **can't** be changed through `config` (a wrong address = the device can't be reached anymore; the server address is also the only place the device downloads firmware from); all of them only through the Wi-Fi portal or Serial.
+- Firmware up to 1.6.0 doesn't know `intervals` and ignores it (the thresholds in the same message are still carried out); it answers a `config` that only holds `intervals` with `ok:false`.
+
+**`action: "update"`** (from contract 1.6, Module 28) orders the device to install new firmware from the server, at once (the device doesn't check by itself "is there a new version" from time to time):
+
+```json
+{"id":"c-20261031-010147-2","ts":"2026-10-31T01:01:47Z","action":"update","version":"1.7.1","url":"https://iot.yourname.my.id/fw/node-1/1.7.1.bin","sha256":"9f2c…(64 hexadecimal digits)…","size":1196032}
+```
+
+| Field | Content |
+| :--- | :--- |
+| `version` | the SemVer version of the new firmware; it must be **different** from the running version |
+| `url` | the **final** address of the firmware file, at most 200 characters, and it **must be exactly the same** as `<server address>/fw/node-1/<version>.bin` (the case of the scheme and of the server name doesn't matter; the path `/fw/node-1/…` is lowercase), where `<server address>` = the server address **stored on the device** (the **Server address** field of the Wi-Fi portal, the Serial command `server`, or the address used when claiming, section 10; without a `/` at the end; its form: "Server address format" in section 10). The download carries the device key, so the device never downloads from another server, whoever sent the command. No redirects: the device doesn't follow 3xx. `https://` on the internet (the certificate is checked like the broker's in section 3); `http://` **only** to a home network IP address (`10.x`, `172.16–31.x`, `192.168.x`) |
+| `sha256` | the SHA-256 fingerprint of the file's content, 64 **lowercase** hexadecimal digits (the same as `sha256sum` of the file). The device refuses to install a file whose fingerprint differs. It is an integrity check, not a signature |
+| `size` | the length of the file in bytes, 1 to 1,966,080 (one program shelf of the Minimal SPIFFS scheme) |
+
+- QoS 1, **never** retained (for the same reason as `set`: the device restarts after installing it, so its `id` memory is gone; an `update` stuck on the broker would be carried out again at every start).
+- `ack` within 5 seconds like any other command, but `ok:true` means **the command was accepted and the update has started**, not finished. The result comes later in `vitals.ota` (section 6). `ok:false` + `message` if its content is broken, `version` is the same as the running one, `size` is too big, `url` isn't `<server address>/fw/node-1/<version>.bin` (`url is not this home's server`; the key isn't sent anywhere), the server address isn't set on the device yet, `url` is `http://` to an address outside the home, `version` is below 1.7.0 (firmware without a trial period and rollback: only by cable), another update is running (rule 12), or the device is still in the trial period of new firmware (rule 13).
+- After `ack ok:true` and **before** downloading, the device stops on purpose (section 3): `offline-mode`, then a clean DISCONNECT. The download uses `GET` with Basic Auth `device_id:key` (the device key of section 3) and the header `x-ESP32-STA-MAC`, only to that device's server address. A failure before the restart = connected again (`online`) and reports `failed`. A `304` answer from the server (the requested version is the same as the version the device sent in the header `x-ESP32-version`) also = not installed, reported as `failed` with the reason `304`.
+- Anyone who may write `msh/+/cmd` (the backend, and Node-RED of Module 13) may order an update, but only to a file on that home server itself: the file can only be uploaded by a dashboard admin, and a wrong `sha256` makes the device refuse to install it.
+- Up to firmware 1.6.0, the device answers `update` with `ok:false` (`action update not supported yet (Module 28)`).
 
 **Never** send a `set` command with the retained flag: the broker hands it over again every time the device connects, and the device carries it out again as soon as its `id` memory is empty, for example after a restart (section 9, rule 8).
 
@@ -221,21 +274,54 @@ This report is only kept in the device's memory. If the device restarts before i
 3. `telemetry` every 10 seconds **and** immediately when something important happens (section 4). Node 2: once every time it wakes up, without immediate sends.
 4. Every `cmd` is answered with one `ack` with the same `id` within 5 seconds; Node 1's target is under 1 second. Messages that aren't JSON, have no `id`, or have an `id` longer than 39 characters can't be answered and are only logged by the device.
 5. A `cmd` of the `config` type is sent retained and stored by the device in NVS as the basis for the local safety rules (Module 19). **Offline mode** = the broker (or the Wi-Fi) unreachable continuously for 2 minutes or more since the last connection. In offline mode, the local safety turns the fan on when `temperature` is above `temp_fan_on`. Any fan it turned on itself is turned off again when `temperature` is below `temp_fan_on` − 2, also after reconnecting, unless another command (`set fan` from the server, MQTTX, or Serial) has already taken the fan over: **whoever turned it on turns it off**. After reconnecting, the device reports its offline mode through `vitals` (section 6).
-6. A device may only write to the topics of its own `device_id`; from Module 21 on, this rule is enforced by the broker's access list (ACL) with the `%u` pattern (`pattern write msh/%u/telemetry|status|vitals|ack`, `pattern read msh/%u/cmd`), where `%u` is the username proven with the key, that is, its `device_id`. One exception: Node 1 also writes Node 2's `telemetry` and `status` (the lines `user <Node 1>` + `topic write msh/<Node 2>/telemetry|status` in the ACL). The backend and Node-RED use their own accounts (`read msh/#`, `write msh/+/cmd`).
+6. A device may only write to the topics of its own `device_id`; from Module 21 on, this rule is enforced by the broker's access list (ACL) with the `%u` pattern (`pattern write msh/%u/telemetry|status|vitals|ack`, `pattern read msh/%u/cmd`), where `%u` is the username proven with the key, that is, its `device_id`. One exception: Node 1 also writes Node 2's `telemetry` and `status` (the lines `user <Node 1>` + `topic write msh/<Node 2>/telemetry|status` in the ACL). The backend and Node-RED use their own accounts (`read msh/#`, `write msh/+/cmd`). From Module 28 on, the device accounts the backend makes through dynamic security follow the same pattern, for writing **and** reading (the backend changes the plugin's default read permission to "deny" before it makes an account).
 7. Failed readings are written as `null` in the JSON, for every field. Marker numbers such as `-1` never leave the device.
 8. A command with the same `id` is carried out only once; the device remembers at least the last eight `id`s and ignores repeats. This memory is lost when the device restarts, so `set` commands must not be sent retained (section 7).
 9. Every device only sends the sensor fields it has (section 4, "Fields per device").
 10. A topic has only **one** retained message. Deleting the retained message on `cmd` (for example a `set` command that was retained by mistake) deletes `config` as well, and a broker without storage (persistence) loses every retained message when it restarts. That's why the server publishes `config` again every time it connects to the broker and every time its threshold changes. The device stays safe in between: its last thresholds are stored in NVS.
 11. **Store-and-forward through the gateway** (from contract 1.5, Module 27; rule 13 in Appendix A). The gateway (the broker on the Raspberry Pi) forwards the devices' `telemetry`, `status`, `vitals`, and `ack` to the central broker with QoS 1, **holds them** while the path to the center is down (for example when the home internet is out), then sends them later with their original `ts`; the center stores them at the time they happened and rejects duplicates (rules 1 and 2). The other direction is **not** held: a `cmd` the center publishes while the path is down isn't kept to be sent later (the center has already reported that command as failed because there was no `ack`; backend 1.4 itself only resends a manual command that hasn't been carried out if the device is heard again within 2 minutes of the last attempt), while the retained `config` arrives at the gateway again as soon as the path is back. The devices don't change: they stay connected to the gateway on the home network with the rules of section 3, and their offline mode (rule 5) only happens when the **gateway** can't be reached, not when only the internet is down.
+12. **Firmware updates** (from contract 1.6, Module 28; rule 14 in Appendix A). `update` is never retained; `ack ok:true` = accepted, not finished; the result is reported in `vitals.ota` and repeated up to 3 times. The server only sends `update` to a device that is `online` right now (not queued), one update running per device. The device only downloads from `<the server address stored on the device>/fw/node-1/<version>.bin`; any other `url` is refused before the key is sent.
+13. **New firmware must prove itself** (from contract 1.6; rule 15 in Appendix A). Newly installed firmware is valid if within **60 seconds** of starting it connects to the broker (its key is accepted), subscribes to `cmd`, and publishes `online`; otherwise the device goes back by itself to the previous firmware (rollback) and reports `rollback`. During that trial period the device refuses another `update`. A restart in the middle of the trial period (a power cut, a restart, or the watchdog because the program got stuck, also in `setup()`) cancels the new firmware too.
+14. **A deactivated device** (from contract 1.6; rule 16 in Appendix A) is disconnected by the broker (its account deleted), ignored by the server, and its status is written by the server (section 5). It can only come back to life with a new key from the admin or a new claim code (section 10).
 
-## 10. Checking compliance
+The rule numbers in this file (1–14) differ from Appendix A of the Syllabus: rules 11–14 here = rules 13–16 in Appendix A.
+
+## 10. Registration with a claim code (since contract 1.6, Module 28)
+
+A new device gets its device key (section 3) without typing a key: the admin makes a single-use **claim code** on the dashboard (`XXXX-XXXX`, 8 Crockford Base32 characters without I, L, O, U; valid for 5–60 minutes, 30 by default), that code is typed in the device's Wi-Fi portal (or the Serial command `claim <code>`), then the device exchanges it over HTTP, once:
+
+```text
+POST <server address>/api/provision/claim
+{"code":"7K2M-QF9D","device_id":"a4cf12e5b7c0"}
+```
+
+| Answer | Meaning |
+| :--- | :--- |
+| `201 {"device_id","key","mqtt_username"}` | registered: save the `key` (43 characters) like a key from the Serial Monitor; the broker username = `device_id`; its broker account was already made by the server |
+| `403` | the code is wrong, expired, or already used (one answer for all three) |
+| `409` | that `device_id` is still registered and active (an identity can't be taken over); deactivate it first |
+| `429` | too many attempts from that IP address (more than 10 per minute) |
+| `503` | the server or the broker has a problem right now; the code is **not** used up, try again |
+
+`<server address>` and its scheme follow the `url` rules of section 7 (`https://` on the internet, `http://` only to a home IP address). The device stores this address in NVS (`server_address`): this is where it will later download firmware from (section 7), so the address must be the same as the home server's `SERVER_URL`. Lowercase letters, spaces, and `-` in the code are allowed.
+
+**Server address format** (from contract 1.6; the same for the **Server address** field of the Wi-Fi portal, the Serial commands `server` and `claim`, and the `SERVER_URL` setting in the server's `.env`):
+
+- `http://` or `https://`, then the server name, then `:port` if needed. At most **64 characters** in total (including `https://`), **without** a `/` at the end, and without a path after the server name (not `…/api`).
+- The server name only has lowercase `a`–`z`, digits, dots, and `-`: no underscore `_`, no `@`, no spaces.
+- The port (the number after the colon) has 1–5 digits, **1 to 65535**. Without a port means the scheme's default port (80 for `http`, 443 for `https`).
+- `http://` **only** to a home network IP address (`10.x`, `172.16–31.x`, `192.168.x`; exactly four numbers 0–255), because the device key is sent along without encryption. On the internet always `https://`.
+- The device tidies what was typed first (spaces at both ends and a `/` at the end are dropped, uppercase `A`–`Z` becomes lowercase), then refuses an address that is still wrong: that address isn't saved. The server refuses to start with a `SERVER_URL` that breaks these rules, because the device only downloads from **exactly** the same address. The server's only exception: `http://127.x`, for tests with simulated devices on the same machine; a real board refuses it.
+
+## 11. Checking compliance
 
 Run [`tools/contract-checker.js`](tools/contract-checker.js) (`node contract-checker.js` in the `tools` folder, after `npm install`). It subscribes to `msh/#` and stamps **PASS** or **FAIL** on every message, with its reasons and how long each `ack` took. On a public broker, also write your `device_id` after the broker's address (`node contract-checker.js broker.emqx.io <device_id>`) so only your device's messages are checked. Every firmware change must pass this check before it's committed. Since contract 1.1, the checker recognizes Node 2's `telemetry` by its typical field, checks it against Node 2's field list, and marks it `(telemetry Node 2)`. Since contract 1.2 (checker version 1.2), that typical field is `pressure`, because `soil_temperature` can now also come from Node 1; the checker also makes sure that Node 1's three RS-485 fields are always complete. Since contract 1.3 (checker version 1.3), the checker also checks the content of `state` in Node 1's `telemetry` and in `ack`, makes sure that the offline-mode report in `vitals` is always complete (`offline_s` and `local_fan`), checks the content of `thresholds` in every `config`, marks a `set` command retained on the broker as FAIL, and accepts an empty message on `cmd` as a sign that a retained message was just cleared.
 
-## 11. Change history
+## 12. Change history
 
 | Contract version | Module | Change |
 | :--- | :--- | :--- |
+| 1.6 | Module 28 | The `offline-mode` `status` is used (stopping on purpose: before restarting for a firmware update or `restart`, followed by a clean DISCONNECT; sections 3 and 5). `vitals` carry `reset_reason` and `fw` (required from Node 1 firmware 1.7.0, always together) and the `ota` update report (section 6). The `update` `cmd` in detail: `version`, `url` (only to the server address stored on the device), `sha256`, `size`, never retained, `ack` = accepted (section 7). `config` may carry `intervals.vitals_s` (60–3600 seconds; `telemetry` stays 10 seconds). New rules 12–14 (rules 14–16 in Appendix A): updates, the 60-second trial period + rollback, deactivated devices. A new section 10: registration with a claim code and the server address format (at most 64 characters, a server name without underscores, port 1–65535, no `/` at the end, `http://` only to a home IP). The old shape is still valid, but a server with contract 1.5 refuses the new `vitals`: **update the server first, then the firmware**. |
 | 1.5 | Module 27 | The broker rules on the internet (section 3, "Broker address"): a domain name + port `8883` + TLS 1.2 or newer + the certificate checked up to ISRG Root X1; the plain door `1883` isn't opened to the internet. A new rule 11 (rule 13 in Appendix A): the gateway holds the devices' messages while the path to the center is down and sends them later with their original `ts`; `cmd` isn't held. The shape of the `telemetry`, `status`, `vitals`, `cmd`, and `ack` messages **doesn't change**; the firmware doesn't need changing. |
 | 1.4 | Module 21 | Every device connects to the broker with its own account (username = `device_id`, password = a per-device key), see the "Broker account" row in section 3; rule 6 (a device only writes its own topics) is now enforced by the broker ACL with the `%u` pattern, together with the Node 1 → Node 2 exception. The shape of the `telemetry`, `status`, `vitals`, `cmd`, and `ack` messages **doesn't change**. |
 | 1.3 | Module 19 | Node 1's `telemetry` carries `state` (the state of the four actuators, the same as `ack.state`), and immediate sends also happen when an actuator's state changes; `vitals` may carry the offline-mode report `offline_s` and `local_fan`, always together and only in the first `vitals` after reconnecting (sent about 10 seconds after connecting); `config` in detail: `thresholds` contains `temp_fan_on` (15–45 °C) and/or `soil_watering` (0–100%), QoS 1 retained, stored in NVS; the local safety rule and offline mode (rule 5); one retained message per topic, so the server publishes `config` again (rule 10). `status` doesn't change. Node 2's data doesn't change. |

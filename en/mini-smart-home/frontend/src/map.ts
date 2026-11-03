@@ -14,5 +14,5 @@ export const MAP = {
   // The fill color of the marker circles. The map's SVG doesn't know Tailwind classes, so the colors are written as color codes.
   // A color is never alone: the marker popup and the legend under the map write the status in words.
   onlineColor: "#15803d", // green (like Tailwind's green-700): the device is online
-  otherColor: "#64748b", // gray (like Tailwind's slate-500): offline, offline mode, unknown, or its messages are ignored
+  otherColor: "#64748b", // gray (like Tailwind's slate-500): offline, stopped on purpose, unknown, or its messages are ignored
 };

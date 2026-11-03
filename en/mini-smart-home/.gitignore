@@ -11,3 +11,9 @@ edge/broker-passwd
 edge/bridge/*.conf
 # Module 26: database and Grafana cupboard backups (pg_dump, tar): large, and they hold personal data
 backup/
+# Module 28: firmware build files (Sketch -> Export Compiled Binary puts *.bin in the sketch's build/ folder). A Node 1 .bin file
+# may contain the ESP-NOW key (keys.h): it never goes to GitHub. Firmware is uploaded to the server through /fleet.
+firmware/**/build/
+*.bin
+# Module 28: the firmware files uploaded while the backend runs in dev mode (backend/firmware-data/)
+firmware-data/

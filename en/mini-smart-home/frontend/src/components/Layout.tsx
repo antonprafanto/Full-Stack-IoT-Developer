@@ -1,5 +1,5 @@
 // Layout.tsx - the frame of every screen after logging in: the header (title, Live badge, menu, name, Log out button) and
-// <Outlet />, where React Router puts the screen that matches the address (Devices, Details, History, Map, Rules).
+// <Outlet />, where React Router puts the screen that matches the address (Devices, Details, History, Map, Rules, Fleet).
 import { useEffect } from "react";
 import { NavLink, Outlet } from "react-router";
 import { ApiError, getDevices, logout } from "../api";
@@ -86,9 +86,15 @@ export default function Layout() {
             <NavLink to="/rules" className={menuClass}>
               Rules
             </NavLink>
+            {/* Module 28: firmware versions, health, and over-the-air updates, for admins and viewers */}
+            <NavLink to="/fleet" className={menuClass}>
+              Fleet
+            </NavLink>
           </nav>
-          {/* min-w-0 + truncate: a long name is cut off with "…", it doesn't push the Log out button off the screen */}
-          <div className="flex min-w-0 items-center gap-3 text-sm">
+          {/* min-w-0 + truncate: a long name is cut off with "…", it doesn't push the Log out button off the screen.
+              Module 28: sm:ml-auto = if it doesn't fit on the title and menu row (since the Fleet menu), the name and the Log out
+              button move down to the next row on the RIGHT side, not hanging on the left */}
+          <div className="flex min-w-0 items-center gap-3 text-sm sm:ml-auto">
             <span className="truncate text-slate-600 dark:text-slate-300">
               {user.name} <span className="text-slate-500 dark:text-slate-400">({user.role})</span>
             </span>

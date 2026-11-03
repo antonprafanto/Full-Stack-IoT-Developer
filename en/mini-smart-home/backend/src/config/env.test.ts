@@ -1,4 +1,5 @@
-// env.test.ts - tests for the settings REPORT_SCHEDULE (Module 25), TRUST_PROXY and CORS_ORIGIN (Module 27) in env.ts. env.ts
+// env.test.ts - tests for the settings REPORT_SCHEDULE (Module 25), TRUST_PROXY and CORS_ORIGIN (Module 27), plus SERVER_URL (= the
+// limits Node 1's firmware can store), AUTO_BROKER_ACCOUNTS, and OTA_TIMEOUT_MINUTES (Module 28) in env.ts. env.ts
 // checks process.env ONCE when it is imported, so every test imports it again (vi.resetModules) with different fake .env
 // contents. Run: npm test
 import { afterEach, describe, expect, it, vi } from "vitest";
@@ -90,5 +91,74 @@ describe("CORS_ORIGIN in .env (Module 27: a dashboard over HTTPS with a domain n
       expect.stringContaining('"iot.yourname.my.id" is not a page address'),
       expect.stringContaining('"http://localhost:5173/login" is not a page address'),
     ]));
+  });
+});
+
+describe("Module 28 settings in .env", () => {
+  it("defaults: OTA off (SERVER_URL empty), broker accounts by hand (off), expiry 10 minutes, folder firmware-data", async () => {
+    const env = await readWith({});
+    expect(env.SERVER_URL).toBe("");
+    expect(env.AUTO_BROKER_ACCOUNTS).toEqual({ kind: "off" });
+    expect(env.OTA_TIMEOUT_MINUTES).toBe(10);
+    expect(env.FIRMWARE_DIR).toBe("firmware-data");
+  });
+
+  it("AUTO_BROKER_ACCOUNTS: center, gateway:<name>; anything else is refused with its example", async () => {
+    expect((await readWith({ AUTO_BROKER_ACCOUNTS: "center" })).AUTO_BROKER_ACCOUNTS).toEqual({ kind: "center" });
+    expect((await readWith({ AUTO_BROKER_ACCOUNTS: "gateway:pi1" })).AUTO_BROKER_ACCOUNTS).toEqual({ kind: "gateway", name: "pi1" });
+    const printed = await refused({ AUTO_BROKER_ACCOUNTS: "gateway:pi/1" }); // a "/" would break the control topic's name
+    expect(printed.flat().join(" ")).toContain("gateway:pi1");
+  });
+
+  // SERVER_URL = the limits Node 1 1.7.0 can store (ota-check.cpp): any other address makes every update fail
+  it("a SERVER_URL Node 1 can store is taken as it is: https domain name, http home IP, port 1-65535, 64 characters",
+    async () => {
+      for (const valid of [
+        "https://iot.yourname.my.id", // VPS (the main path)
+        "http://192.168.1.37", // Pi on the free path: the Pi's port 80, without :8081
+        "http://192.168.1.10", // a laptop on the home Wi-Fi
+        "http://10.0.0.5:8080",
+        "http://172.20.0.2",
+        "https://iot.yourname.my.id:8443",
+        "http://192.168.1.37:1",
+        "http://192.168.1.37:65535",
+        "https://a-b.c-d.example",
+        "https://xn--bcher-kva.example", // a domain name with non-Latin letters, written in its punycode form
+        "http://127.0.0.1:6302", // lab only: the simulator on the same machine (a real ESP32 refuses 127.x)
+        `https://${"a".repeat(56)}`, // exactly 64 characters
+      ]) {
+        expect((await readWith({ SERVER_URL: valid })).SERVER_URL).toBe(valid);
+      }
+    });
+
+  it("a SERVER_URL Node 1 can't store is refused when the server starts, with its reason", async () => {
+    const cases: [string, string][] = [
+      [`https://${"a".repeat(57)}`, "is too long (65 characters): Node 1 can only store a server address of at most 64 characters"],
+      ["https://my_host.example", "no underscore _"],
+      ["https://user@iot.yourname.my.id", "no @"],
+      ["https://iot yourname.my.id", "no spaces"],
+      ["https://iot.yourname.my.id:0", "the port (the number after the colon) must be 1 to 65535"],
+      ["https://iot.yourname.my.id:65536", "must be 1 to 65535"],
+      ["https://iot.yourname.my.id:99999", "must be 1 to 65535"],
+      ["http://192.168.1.37:", "must be 1 to 65535"],
+      ["http://192.168.1.37:80:80", "must be 1 to 65535"],
+      ["https://iot.yourname.my.id/", "without a / at the end"],
+      ["https://iot.yourname.my.id/api", "without a path"],
+      ["https://IoT.YourName.my.id", "all in lowercase"],
+      ["HTTPS://iot.yourname.my.id", "must start with http:// or https:// (lowercase)"],
+      ["iot.yourname.my.id", "must start with http:// or https://"],
+      ["ftp://192.168.1.37", "must start with http:// or https://"],
+      ["https://", "the server name after :// is missing"],
+      ["https://:8443", "is missing"],
+      ["http://iot.yourname.my.id", "http:// only for an IP address on the home network"],
+      ["http://8.8.8.8", "home network"],
+      ["http://192.168.1.300", "home network"],
+    ];
+    for (const [wrong, reason] of cases) {
+      const printed = (await refused({ SERVER_URL: wrong })).flat().join("\n");
+      expect(printed, wrong).toContain(`Setting SERVER_URL in .env: "${wrong}"`);
+      expect(printed, wrong).toContain(reason);
+      vi.restoreAllMocks();
+    }
   });
 });

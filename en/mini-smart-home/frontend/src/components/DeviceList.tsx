@@ -14,7 +14,7 @@ import LastSeen from "./LastSeen";
 const LEFT_EDGE: Record<DeviceStatus, string> = {
   online: "border-l-green-500 dark:border-l-green-500", // repeated with dark: so the card's dark:border-slate-700 doesn't cover it
   offline: "border-l-red-500 dark:border-l-red-500",
-  "offline-mode": "border-l-slate-400",
+  "offline-mode": "border-l-sky-400 dark:border-l-sky-400", // Module 28: stopped on purpose, the color of its badge
   unknown: "border-l-slate-300 dark:border-l-slate-600",
 };
 

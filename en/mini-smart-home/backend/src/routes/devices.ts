@@ -2,6 +2,9 @@
 // commands, and the actuator state (desired/reported, Module 19). Module 21: the official device registry (registration, key
 // rotation, revoke); GET /devices is now read from the database. Module 25: GET /devices carries the map point (lat, lng), and
 // the admin moves that point with PUT /devices/:id/location.
+// Module 28: registration, key rotation, and revoke also create/change/delete the device's broker account automatically
+// (AUTO_BROKER_ACCOUNTS, services/broker-accounts.ts), inside the same transaction: the broker fails = the database doesn't change (503).
+// Revoke = "Deactivate" on /fleet: the broker disconnects the device at once, its status is written offline, its retained config deleted.
 import { z } from "zod";
 import type { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
 import { Ack, DeviceId, State, SetCommand, Status, TelemetryNode1, TelemetryNode2, Vitals } from "../schemas/contract.ts";
@@ -12,6 +15,12 @@ import { makeKey, hashKey } from "../auth/key.ts";
 import { recordRevoked, recordRegistered, devicePermission } from "../services/registry.ts";
 import { deviceState, issueCommand } from "../services/commands.ts";
 import { getSummary, getHistory, contractTime } from "../db/archive.ts";
+import { accountQueue, removeDeviceAccount, addDeviceAccount, accountPlace } from "../services/broker-accounts.ts";
+import { saveStatus } from "../services/store.ts";
+import { clearConfig } from "../services/mqtt.ts";
+import { broadcastStatus } from "../services/realtime.ts";
+import { recordEvent } from "../services/events.ts";
+import { forgetStatusNotice } from "../services/telegram.ts";
 
 const MINUTE = 60 * 1000; // in milliseconds, like Date.getTime()
 const HOUR = 60 * MINUTE;
@@ -116,6 +125,12 @@ const NewKey = z.object({
   steps: z.array(z.string()).describe("what to do next"),
 });
 const DATABASE_DOWN = "the database can't be reached right now, try again shortly";
+// Module 28: an error in the middle of a transaction can come from the database OR from the broker (a dynamic security account). The
+// database doesn't change (ROLLBACK), but an account command that was already sent can be held up in a stuck bridge and still be carried
+// out by the broker as soon as its connection is back (M28 behaviour lab): repeating the same step makes the database and broker match.
+const transactionError = (error: unknown) => `not saved in the database yet (the database or ${accountPlace()} has a problem: `
+  + `${(error as Error).message}). A command that already reached the broker may still be carried out as soon as its connection is back: `
+  + `repeat this step in a moment so the database and the broker match again`;
 
 const iso = (time: Date | null) => (time === null ? null : contractTime(time));
 
@@ -130,11 +145,14 @@ function present(r: DeviceRow) {
   };
 }
 
-// the next steps, so the key is installed on the device and on the broker right away
-function keySteps(id: string): string[] {
+// the next steps, so the key is installed on the device and on the broker right away. Module 28: the broker account is made by
+// the backend itself unless AUTO_BROKER_ACCOUNTS=off (account = "manual").
+function keySteps(id: string, account: "created" | "changed" | "manual"): string[] {
   return ["Save this key now: the key is shown only this once (the database only stores its fingerprint).",
     `Device: type  key <key>  in the Serial Monitor (simulator: KEY_${id.toUpperCase()}=<key> in tools/.env)`,
-    `Broker: mosquitto_passwd <broker password file> ${id} on the broker machine, paste the key twice, then reload the broker`];
+    account === "manual"
+      ? `Broker: mosquitto_passwd <broker password file> ${id} on the broker machine, paste the key twice, then reload the broker`
+      : `Broker: account ${id} already ${account} automatically at ${accountPlace()} (dynamic security): no manual step at the broker`];
 }
 
 function noKeySteps(id: string, linkedVia: string): string[] {
@@ -171,7 +189,7 @@ export const deviceRoutes: FastifyPluginAsyncZod = async (app) => {
       response: {
         201: NewKey.describe("device registered; save its key now"),
         409: ErrorBody.describe("already registered (use key rotation), or an invalid linked_via"),
-        503: ErrorBody.describe("the database can't be reached right now"),
+        503: ErrorBody.describe("a database or broker problem: the database didn't change, repeat this step in a moment"),
       },
     },
   }, async (req, reply) => {
@@ -183,19 +201,22 @@ export const deviceRoutes: FastifyPluginAsyncZod = async (app) => {
       }
     }
     const key = linkedVia === undefined ? makeKey() : null;
+    let account = "manual" as Awaited<ReturnType<typeof addDeviceAccount>>;
     try {
-      const row = await registerDevice(id, name ?? null, location ?? null, linkedVia ?? null,
-        key === null ? null : hashKey(key)); // the database only receives its fingerprint
+      // Module 28: the broker account inside the same transaction; accountQueue = one broker account step at a time
+      const row = await accountQueue(() => registerDevice(id, name ?? null, location ?? null, linkedVia ?? null,
+        key === null ? null : hashKey(key), // the database only receives its fingerprint
+        async () => { if (key !== null) account = await addDeviceAccount(id, key); }));
       if (row === undefined) {
         return reply.code(409).send({ message: `${id} is already registered; for a new key use POST /devices/${id}/key` });
       }
       recordRegistered(id);
       req.log.info(`device ${id} registered by account ${req.user.sub}${linkedVia === undefined ? "" : ` (via ${linkedVia})`}`);
-      const steps = linkedVia === undefined ? keySteps(id) : noKeySteps(id, linkedVia);
+      const steps = linkedVia === undefined ? keySteps(id, account) : noKeySteps(id, linkedVia);
       return reply.code(201).send({ device_id: id, key, steps });
     } catch (error) {
       req.log.error(`registration of ${id} failed: ${(error as Error).message}`);
-      return reply.code(503).send({ message: DATABASE_DOWN });
+      return reply.code(503).send({ message: transactionError(error) });
     }
   });
 
@@ -207,53 +228,80 @@ export const deviceRoutes: FastifyPluginAsyncZod = async (app) => {
       response: {
         200: NewKey.describe("the new key; save it now"),
         404: ErrorBody.describe("the device isn't registered, or an ESP-NOW device (it has no key)"),
-        503: ErrorBody.describe("the database can't be reached right now"),
+        503: ErrorBody.describe("a database or broker problem: the database didn't change, repeat this step in a moment"),
       },
     },
   }, async (req, reply) => {
     const id = req.params.id;
     const key = makeKey();
+    let account = "manual" as Awaited<ReturnType<typeof addDeviceAccount>>;
     try {
-      const row = await rotateDeviceKey(id, hashKey(key));
+      const row = await accountQueue(() => rotateDeviceKey(id, hashKey(key), async () => {
+        account = await addDeviceAccount(id, key);
+      }));
       if (row === undefined) return reply.code(404).send({ message: `${id} isn't registered, or a device with no key (ESP-NOW)` });
       recordRegistered(id);
-      req.log.info(`a new key for ${id} was made by account ${req.user.sub}`);
-      return { device_id: id, key, steps: keySteps(id) };
+      req.log.info(`a new key for ${id} was made by account ${req.user.sub}${account === "manual" ? "" : ` (broker account ${account})`}`);
+      return { device_id: id, key, steps: keySteps(id, account) };
     } catch (error) {
       req.log.error(`key rotation for ${id} failed: ${(error as Error).message}`);
-      return reply.code(503).send({ message: DATABASE_DOWN });
+      return reply.code(503).send({ message: transactionError(error) });
     }
   });
 
   app.post("/devices/:id/revoke", {
     schema: {
       tags: ["devices"],
-      summary: "Revoke a device's key (lost or stolen): the backend no longer serves it",
+      summary: "Deactivate a device (lost or stolen): revoke its key, disconnect it from the broker, and mark it offline",
+      description: "Module 28 (\"Deactivate\" on /fleet): besides revoking the key (Module 21), the backend deletes that device's broker "
+        + "account (AUTO_BROKER_ACCOUNTS) so the broker disconnects it at once, writes its status offline (the broker doesn't "
+        + "publish the will when it disconnects this way), and deletes its retained config. It comes back only with a key "
+        + "rotation (POST /devices/:id/key) or a new claim code.",
       params: IdParam,
       response: {
-        200: z.object({ device_id: z.string(), revoked_at: z.string(), steps: z.array(z.string()) })
-          .describe("revoked; also remove its account from the broker"),
+        200: z.object({
+          device_id: z.string(), revoked_at: z.string(), steps: z.array(z.string()),
+          broker_account: z.enum(["deleted", "none", "manual", "no-key"])
+            .describe("deleted = disconnected by the broker at once; none = an old Module 21 account (remove by hand); manual = off"),
+        }).describe("deactivated"),
         404: ErrorBody.describe("the device isn't registered or has already been revoked"),
-        503: ErrorBody.describe("the database can't be reached right now"),
+        503: ErrorBody.describe("a database or broker problem: the database didn't change, repeat this step in a moment"),
       },
     },
   }, async (req, reply) => {
     const id = req.params.id;
+    let account = "no-key" as Awaited<ReturnType<typeof removeDeviceAccount>> | "no-key";
     try {
-      const row = await revokeDevice(id);
+      const row = await accountQueue(() => revokeDevice(id, async (r) => {
+        if (r.linked_via === null) account = await removeDeviceAccount(id);
+      }));
       if (row === undefined) return reply.code(404).send({ message: `${id} isn't registered or has already been revoked` });
       recordRevoked(id);
-      req.log.warn(`key for ${id} REVOKED by account ${req.user.sub}`);
+      // Module 28: the status offline is written by the server (revokeDevice already changed the database), the retained config is
+      // deleted from the broker, and the Telegram notice still waiting for this device is forgotten
+      saveStatus(id, "offline");
+      broadcastStatus(id, "offline");
+      if (row.linked_via === null) clearConfig(id);
+      forgetStatusNotice(id);
+      const message = `${id} deactivated by account ${req.user.sub}` + (account === "deleted" ? `: its broker account deleted at ${accountPlace()}`
+        : account === "none" ? `: no dynamic security account at ${accountPlace()} (an old Module 21 account?)` : "");
+      req.log.warn(message);
+      recordEvent({ device_id: id, kind: "revoked", source: "api", rule_id: null, message, data: { broker_account: account } });
       return {
-        device_id: id, revoked_at: contractTime(row.revoked_at ?? new Date()),
-        steps: row.linked_via === null
-          ? [`Remove its account from the broker: mosquitto_passwd -D <broker password file> ${id}`,
-            "Reload the broker (Pi: sudo systemctl reload mosquitto; laptop: Ctrl + C then run it again)"]
-          : [`Remove the two msh/${id}/... lines from the user ${row.linked_via} block in the broker ACL file, then restart the broker`],
+        device_id: id, revoked_at: contractTime(row.revoked_at ?? new Date()), broker_account: account,
+        steps: row.linked_via !== null
+          ? [`Remove the two msh/${id}/... lines from the user ${row.linked_via} block in the broker ACL file, then restart the broker`]
+          : account === "deleted" ? [`Broker account ${id} already deleted at ${accountPlace()}: the device is disconnected at once and can't `
+            + "connect again. Bring it back only with a key rotation or a new claim code.",
+            `Registered the Module 21 way before? Make sure its old line is gone from the broker password file (mosquitto_passwd -D `
+            + `<broker password file> ${id}, then restart the broker): without a dynamic security account the broker accepts that OLD key again.`]
+            : [`Remove its account from the broker${account === "none" ? " (an old Module 21 account in the password file)" : ""}: `
+              + `mosquitto_passwd -D <broker password file> ${id}`,
+              "Then restart that broker (in a container: docker compose restart mosquitto); until then the broker still accepts the device"],
       };
     } catch (error) {
       req.log.error(`revoke of ${id} failed: ${(error as Error).message}`);
-      return reply.code(503).send({ message: DATABASE_DOWN });
+      return reply.code(503).send({ message: transactionError(error) });
     }
   });
 

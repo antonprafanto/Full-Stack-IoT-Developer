@@ -1,6 +1,14 @@
-// Node 1 "Home" - firmware v1.6.0 (Module 21: connects to the broker with a username and key)
+// Node 1 "Home" - firmware v1.7.0 (Module 28: over-the-air updates, automatic rollback, claim codes)
 // The running project: Mini Smart Home.
 //
+// New in v1.7.0: Node 1 can be updated without a cable. The MQTT "update" command from the server (the Update button on /fleet)
+// makes Node 1 stop on purpose (status offline-mode), download the firmware from <server address>/fw/node-1/<version>.bin
+// with its own key, check the SHA-256 fingerprint, then restart into the other program shelf. The new firmware must
+// connect to the broker and publish within 60 seconds; otherwise Node 1 goes back to the old firmware by itself (rollback,
+// trial-period.cpp). A new board can be registered with a claim code from the admin (the Wi-Fi portal or Serial "claim <code>").
+// vitals now carry reset_reason, fw, and the update report (data contract 1.6); their interval can be set by the server.
+// Firmware 1.7.0 is the last firmware that MUST be installed by cable: later versions can go over the air. Versions
+// below 1.7.0 are refused over the air (they have no trial period and no rollback): install them by cable.
 // New in v1.6.0: Node 1 connects to the broker with username = device_id and its own device key. The key is never
 // written in the code: type "key <value>" in the Serial Monitor once, and Node 1 saves it in NVS. If the broker
 // rejects it (key wrong, not set, or revoked), the Serial Monitor shows REJECTED and the display DENIED, and Node 1
@@ -22,13 +30,16 @@
 // From v1.0.0 (Module 8): no delay() in loop(), modular code, watchdog, NVS, leveled logging, status page.
 // Commands from the Serial Monitor: lamp on, fan off, pump 3, curtain 90, beep, status, info,
 // threshold, threshold 35, threshold default, log debug, log info, log error, wifi, wifi forget, send, node2,
-// node2 reset, rs485, rs485 on, rs485 off, test offline, key, key <value>, key clear, restart.
+// node2 reset, rs485, rs485 on, rs485 off, test offline, key, key <value>, key clear, restart,
+// and since v1.7.0: ota, server, server <address>, broker, broker <ip>, claim, claim <code> [server] [broker].
 //
 // Libraries: ESP32Servo version 3.2.1, DHT sensor library version 1.4.7
 // (installed with it: Adafruit Unified Sensor version 1.1.15), Adafruit SSD1306 version 2.5.17
 // (installed with it: Adafruit GFX Library version 1.12.6 and Adafruit BusIO version 1.17.4),
 // WiFiManager version 2.0.17, ArduinoJson version 7.4.3, PubSubClient3 version 3.3.2, and ModbusMaster version 2.0.1.
-// Wire, SPI, SD, Preferences, and WiFi already come with the esp32 package.
+// Wire, SPI, SD, Preferences, and WiFi already come with the esp32 package. Module 28: HTTPUpdate, HTTPClient, NetworkClientSecure,
+// and Update also come with the esp32 package, version 3.3.12 REQUIRED (setSHA256sum() and useBuiltinCACertBundle() are new there).
+// Partition scheme: Minimal SPIFFS (two program shelves, Module 10).
 
 #include <esp_task_wdt.h>  // watchdog
 #include "config.h"
@@ -46,6 +57,8 @@
 #include "networking.h"  // Modules 10-11
 #include "bridge.h"   // Module 14: Node 2 over ESP-NOW
 #include "rs485.h"    // Module 15: RS-485 soil sensor
+#include "ota-update.h"  // Module 28: over-the-air firmware updates (OTA)
+#include "claim.h"       // Module 28: registering with a claim code
 
 // ---------- Main cycle: IDLE -> READING -> DISPLAYING -> ACTING -> IDLE ... ----------
 enum CycleStep { IDLE, READING, DISPLAYING, ACTING };
@@ -162,17 +175,19 @@ void setup() {
   Serial.begin(115200);
   delay(500);  // allowed: setup() runs only once, and the watchdog isn't watching yet
   Serial.println();
-  logInfo("Node 1 Home - firmware %s", FIRMWARE_VERSION);
+  logInfo("Node 1 Home - firmware %s (%s)", FIRMWARE_VERSION, VERSION_NOTE);
   logInfo("Last restart reason: %s", resetReasonName());
 
   setupActuators();  // first: the relays are switched off right away
   loadSettings();
+  setupOta();  // Module 28: new firmware? the 60-second trial period starts. Also an update report left behind in NVS
   setupSensors();
   beginHeartbeat(PIN_STATUS_LED);
   beginButton(PIN_BUTTON);
   setupDisplay();  // Module 7
   setupCard();     // Module 7 (optional)
   setupNetwork();  // Module 10: the WiFi portal may wait here because the watchdog isn't watching yet
+                      // (Module 28: during the trial period the watchdog is already watching, but the portal is postponed)
   setupBridge();   // Module 14: after the WiFi is on
   setupRS485();    // Module 15
 
@@ -183,7 +198,10 @@ void setup() {
     .trigger_panic = true,           // fed too late = panic, then restart
   };
   esp_task_wdt_reconfigure(&watchdogConfig);  // the esp32 package has already started the watchdog: just reconfigure it
-  esp_task_wdt_add(NULL);                     // NULL = watch the task that is running now, that is, loop()
+  if (esp_task_wdt_status(NULL) != ESP_OK) {       // Module 28: during the trial period this task is watched from the start of setup()
+    esp_task_wdt_add(NULL);                        // NULL = watch the task that is running now, that is, loop()
+  }
+  esp_task_wdt_reset();                            // the first 5-second count starts here
   logInfo("Watchdog active: automatic restart if loop() is stuck for more than %lu seconds.", WATCHDOG_TIMEOUT / 1000);
 }
 
@@ -197,6 +215,8 @@ void loop() {
   updateHeartbeat();     // status LED
   updateDisplay();       // status page: the clock ticks, then it goes back by itself
   updateNetwork();       // Modules 10-11: WiFi, internet time, and MQTT; never waits long
+  updateOta();           // Module 28: the 60-second trial period; an accepted update (BLOCKS for over a minute)
+  updateClaim();         // Module 28: sends the claim code as soon as Wi-Fi is ready (blocks a few seconds, once only)
   updateBridge();        // Module 14: Node 2 packets -> holding shelf -> broker; never waits
   handleButton();
   checkSerialCommand();

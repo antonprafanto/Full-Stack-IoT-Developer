@@ -3,6 +3,7 @@
 #include <Preferences.h>  // comes with the esp32 package, nothing to install
 #include "config.h"
 #include "logger.h"
+#include "ota-check.h"  // Module 28: tidyAddress(), checkServerAddress()
 #include "settings.h"
 
 static Preferences archive;  // the NVS "filing cabinet"; we use the folder named "node1"
@@ -11,6 +12,9 @@ static unsigned long bootNumber = 0;
 static bool useRS485 = false;  // Module 15: not in use by default (no sensor connected yet)
 static float tempFanOn = DEFAULT_TEMP_FAN_ON;  // Module 19: the safety fan threshold, in °C
 static char key[65] = "";  // Module 21: the broker key, at most 64 characters + the end-of-text mark; "" = none yet
+static char server[SERVER_ADDRESS_MAX_LENGTH + 1] = "";  // Module 28: the server address; "" = not set yet
+static char broker[BROKER_ADDRESS_MAX_LENGTH + 1] = "";  // Module 28: the broker address from NVS; "" = use BROKER_ADDRESS
+static unsigned long vitalsInterval = VITALS_INTERVAL / 1000;  // Module 28: seconds between two vitals
 
 void loadSettings() {
   archive.begin("node1", false);  // false = the folder is opened for reading AND writing
@@ -35,6 +39,25 @@ void loadSettings() {
     archive.getString("broker_key", key, sizeof(key));
   }
   logInfo("Broker key: %s", key[0] != '\0' ? "stored in NVS" : "NONE YET (type: key <value>)");
+
+  // Module 28: the server address (firmware downloads and claims), the broker address, and the vitals interval
+  if (archive.isKey("server_address")) {
+    archive.getString("server_address", server, sizeof(server));
+  } else if (DEFAULT_SERVER_ADDRESS[0] != '\0') {
+    tidyAddress(DEFAULT_SERVER_ADDRESS, server, sizeof(server));
+    const char* wrong = checkServerAddress(server);
+    if (wrong != nullptr) {
+      logError("DEFAULT_SERVER_ADDRESS in config.h isn't used: %s", wrong);
+      server[0] = '\0';
+    }
+  }
+  logInfo("Server address: %s", server[0] != '\0' ? server : "NOT SET (type: server <address>)");
+  if (archive.isKey("broker_address")) {
+    archive.getString("broker_address", broker, sizeof(broker));
+  }
+  logInfo("Broker address: %s (%s)", storedBrokerAddress(), brokerAddressFromNvs() ? "from NVS" : "from config.h");
+  vitalsInterval = archive.getUInt("vitals_interval", VITALS_INTERVAL / 1000);  // 15 characters = the NVS limit
+  logInfo("Vitals interval: %lu seconds (%s)", vitalsInterval, vitalsIntervalFromNvs() ? "from NVS" : "default");
 }
 
 int soilWateringThreshold() {
@@ -138,4 +161,89 @@ void clearBrokerKey() {
     logInfo("Broker key deleted from NVS.");
   }
   key[0] = '\0';
+}
+
+// ---------- Module 28: the server address, the broker address, and the vitals interval ----------
+// All three can only be changed through the Wi-Fi portal, the Serial Monitor, or a claim, NOT through MQTT: a wrong address makes
+// Node 1 unreachable (data contract 1.6 section 7). Only the vitals interval may be sent by the server (config).
+const char* storedServerAddress() {
+  return server;
+}
+
+bool saveServerAddress(const char* address) {
+  if (strlen(address) >= sizeof(server)) {
+    return false;
+  }
+  if (strcmp(address, server) != 0 || !archive.isKey("server_address")) {  // the same: no need to write it again
+    archive.putString("server_address", address);  // 14 characters
+    snprintf(server, sizeof(server), "%s", address);
+    logInfo("Server address saved to NVS: %s", server);
+  }
+  return true;
+}
+
+const char* storedBrokerAddress() {
+  if (broker[0] != '\0') {
+    return broker;
+  }
+  return BROKER_ADDRESS;  // NVS holds none yet: the address in config.h (Module 11)
+}
+
+bool brokerAddressFromNvs() {
+  return broker[0] != '\0';
+}
+
+bool saveBrokerAddress(const char* address) {
+  if (strlen(address) >= sizeof(broker)) {
+    return false;
+  }
+  if (strcmp(address, broker) != 0) {  // the same: no need to write it again
+    archive.putString("broker_address", address);  // 14 characters
+    snprintf(broker, sizeof(broker), "%s", address);
+    logInfo("Broker address saved to NVS: %s", broker);
+  }
+  return true;
+}
+
+unsigned long vitalsIntervalSeconds() {
+  return vitalsInterval;
+}
+
+bool vitalsIntervalFromNvs() {
+  return archive.isKey("vitals_interval");
+}
+
+bool saveVitalsInterval(long seconds) {
+  if (seconds < (long)VITALS_INTERVAL_MIN_S || seconds > (long)VITALS_INTERVAL_MAX_S) {
+    return false;
+  }
+  if ((unsigned long)seconds == vitalsInterval && vitalsIntervalFromNvs()) {
+    return true;  // the number is already the same: no need to write it again (flash writes are limited)
+  }
+  archive.putUInt("vitals_interval", (uint32_t)seconds);
+  vitalsInterval = (unsigned long)seconds;
+  logInfo("Vitals interval saved to NVS: %lu seconds", vitalsInterval);
+  return true;
+}
+
+// ---------- Module 28: the firmware update records ----------
+// One record = one whole struct (for example the update plan) under one NVS label. One putBytes() call writes all of it
+// at once, so power lost right while writing doesn't leave a record that is half new, half old.
+bool readRecord(const char* label, void* content, size_t size) {
+  if (!archive.isKey(label) || archive.getBytesLength(label) != size) {
+    return false;  // none yet, or written by other firmware with a different struct shape
+  }
+  return archive.getBytes(label, content, size) == size;
+}
+
+void saveRecord(const char* label, const void* content, size_t size) {
+  if (archive.putBytes(label, content, size) != size) {
+    logError("Record %s couldn't be written to NVS.", label);
+  }
+}
+
+void clearRecord(const char* label) {
+  if (archive.isKey(label)) {
+    archive.remove(label);
+  }
 }

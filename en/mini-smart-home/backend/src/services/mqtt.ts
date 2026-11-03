@@ -1,9 +1,11 @@
 // mqtt.ts - the backend as an MQTT client: listens to msh/#, checks every message, stores it, and sends commands.
+// Module 28: also sends update commands (firmware updates) and the combined config (thresholds + intervals), records each device's
+// firmware version and restart reason, and carries the broker account commands (dynamic security) to the broker's control topic.
 import mqtt from "mqtt";
 import type { FastifyBaseLogger } from "fastify";
 import type { ZodError } from "zod";
 import { Ack, DeviceId, Status, TelemetryNode1, TelemetryNode2, Vitals } from "../schemas/contract.ts";
-import type { Thresholds, SetCommand } from "../schemas/contract.ts";
+import type { Thresholds, Intervals, SetCommand, Status as DeviceStatus } from "../schemas/contract.ts";
 import { findDevice, counts, deliverAck, saveStatus, saveTelemetry, saveVitals } from "./store.ts";
 import { archiveStatus, archiveTelemetry, archiveVitals } from "../db/archive.ts";
 import { broadcastStatus, broadcastTelemetry } from "./realtime.ts";
@@ -12,6 +14,8 @@ import { sendAllConfigs, evaluateReading } from "./automation.ts";
 import { recordEvent } from "./events.ts";
 import { notify, notifyStatus } from "./telegram.ts";
 import { recordIgnored, devicePermission } from "./registry.ts";
+import { deliverControlAnswer, controlTopic } from "./broker-accounts.ts";
+import { recordFw, recordUpdateVitals } from "./ota.ts";
 
 let client: mqtt.MqttClient | undefined;
 
@@ -45,6 +49,9 @@ export function startMqtt(url: string, account: BrokerAccount | null, log: Fasti
     rejected = false;
     log.info(`connected to broker ${url}${account === null ? " WITHOUT an account" : ` as ${account.username}`}`);
     client?.subscribe("msh/#", { qos: 1 });
+    // Module 28: the answers of the dynamic security plugin (automatic broker accounts). Their topic is outside msh/#, so subscribe to it.
+    const control = controlTopic();
+    if (control !== null) client?.subscribe(control.answer, { qos: 1 });
     sendAllConfigs(); // Module 19: a broker without persistence forgets the retained config when restarted (contract rule 10)
   });
   client.on("reconnect", () => {
@@ -94,7 +101,17 @@ export function summarize(error: ZodError): string {
   return error.issues.map((m) => `${m.path.join(".") || "content"}: ${m.message}`).join("; ");
 }
 
+// Module 28: the event-log sentence for a status change. offline-mode deliberately does NOT use the word "disconnected": the daily
+// report (services/reports.ts) counts disconnects from that word, and stopping on purpose for a firmware update isn't a
+// disruption.
+export function statusSentence(deviceId: string, status: DeviceStatus): string {
+  if (status === "online") return `${deviceId} back online`;
+  if (status === "offline-mode") return `${deviceId} stopped on purpose (offline-mode), for example to install new firmware`;
+  return `${deviceId} disconnected (${status})`;
+}
+
 function receive(topic: string, text: string, retained: boolean, log: FastifyBaseLogger): void {
+  if (topic === controlTopic()?.answer) return deliverControlAnswer(text); // Module 28: a broker account answer
   const parts = topic.split("/"); // ["msh", device_id, kind]
   if (parts.length !== 3) return reject(topic, "the topic must look like msh/<device_id>/<kind>", log);
   const [, deviceId, kind] = parts;
@@ -118,10 +135,10 @@ function receive(topic: string, text: string, retained: boolean, log: FastifyBas
     if (result.data !== previous) { // Module 19: only changes are broadcast and recorded
       broadcastStatus(deviceId, result.data);
       if (!retained) { // a retained status when the backend starts = an old state, not a new event
-        const message = result.data === "online" ? `${deviceId} back online` : `${deviceId} disconnected (${result.data})`;
+        const message = statusSentence(deviceId, result.data);
         archiving.then(() => recordEvent({ device_id: deviceId, kind: "status", source: "device", rule_id: null, message }))
           .catch(() => {}); // a failure to save the status is already logged by archiveFailed
-        notifyStatus(deviceId, result.data); // Telegram: offline is only reported once it lasts 60 seconds
+        notifyStatus(deviceId, result.data); // Telegram: offline after 60 seconds, offline-mode (Module 28) after 3 minutes
       } else if (result.data === "online") {
         // Module 25: a retained "online" still cancels a 📴 that is waiting. After a broker restart, a device can connect
         // BEFORE the backend, so its online message arrives as a retained message (without this: a false 📴)
@@ -147,6 +164,7 @@ function receive(topic: string, text: string, retained: boolean, log: FastifyBas
     saveTelemetry(deviceId, content);
     broadcastTelemetry(deviceId, content); // Module 19: passed on right away to the clients following this device
     if (!("pressure" in content)) recordReport(deviceId, content.state ?? null, content.ts); // Module 19: actuator state
+    recordFw(deviceId, content.fw); // Module 28: the running firmware version (Node 2: the version from its packet), for /fleet
     evaluateReading(deviceId, content); // Module 19: automation rules
     archiveTelemetry(deviceId, content)
       .then((isNew) => { if (!isNew) log.info(`duplicate skipped: ${deviceId} ${content.ts}`); })
@@ -156,6 +174,7 @@ function receive(topic: string, text: string, retained: boolean, log: FastifyBas
     if (!result.success) return reject(topic, summarize(result.error), log);
     const content = result.data;
     saveVitals(deviceId, content);
+    recordUpdateVitals(deviceId, content); // Module 28: fw, reset_reason, and the firmware update report (vitals.ota)
     // Module 19: the first vitals after the device starts carries a small uptime; all its relays have just turned off
     if (content.uptime_s < 60) deviceRestarted(deviceId, content.uptime_s);
     const archiving = archiveVitals(deviceId, content);
@@ -204,8 +223,31 @@ export function sendCommand(deviceId: string, commandId: string, command: SetCom
 }
 
 // Module 19: the thresholds of the local safety rules (contract 1.3 section 7). QoS 1 and retained: a device that has just
-// started or just connected receives them as soon as it subscribes to cmd.
-export function sendConfig(deviceId: string, commandId: string, thresholds: Thresholds): void {
-  const cmd = { id: commandId, ts: new Date().toISOString().slice(0, 19) + "Z", action: "config", thresholds };
+// started or just connected receives them as soon as it subscribes to cmd. Module 28 (contract 1.6): ONE combined message with thresholds
+// and/or intervals (the cmd topic holds only one retained message; a key that isn't sent doesn't change on the device).
+export function sendConfig(deviceId: string, commandId: string, content: { thresholds?: Thresholds; intervals?: Intervals }): void {
+  const cmd = { id: commandId, ts: new Date().toISOString().slice(0, 19) + "Z", action: "config", ...content };
   client?.publish(`msh/${deviceId}/cmd`, JSON.stringify(cmd), { qos: 1, retain: true });
+}
+
+// Module 28: delete the retained config of a deactivated device (an EMPTY retained message = the broker forgets the stored message
+// of that topic; a device ignores empty messages, contract section 7).
+export function clearConfig(deviceId: string): void {
+  client?.publish(`msh/${deviceId}/cmd`, "", { qos: 1, retain: true });
+}
+
+// Module 28: the firmware update command (contract 1.6 section 7). QoS 1 and NEVER retained: the device restarts after
+// installing it, so it forgets the id; an update stuck at the broker would be carried out again at every start.
+export function sendUpdate(deviceId: string, commandId: string,
+  content: { version: string; url: string; sha256: string; size: number }): void {
+  const cmd = { id: commandId, ts: new Date().toISOString().slice(0, 19) + "Z", action: "update", ...content };
+  client?.publish(`msh/${deviceId}/cmd`, JSON.stringify(cmd), { qos: 1, retain: false });
+}
+
+// Module 28: publish one command to the broker account control topic (services/broker-accounts.ts). false = not connected, so
+// the caller doesn't need to wait for an answer that will surely not come.
+export function publishControl(topic: string, content: string): boolean {
+  if (client === undefined || !client.connected) return false;
+  client.publish(topic, content, { qos: 1, retain: false });
+  return true;
 }

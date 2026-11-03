@@ -1,0 +1,56 @@
+diff --git a/firmware/node-1-home/display.cpp b/firmware/node-1-home/display.cpp
+index 41259b9..5c9a743 100644
+--- a/firmware/node-1-home/display.cpp
++++ b/firmware/node-1-home/display.cpp
+@@ -1,8 +1,10 @@
+ // display.cpp - the code of the display module. Its functions are listed in display.h.
++// Module 28 Challenge 1 key: the status page writes the running program shelf and the state of its trial period.
+ #include <Arduino.h>
+ #include <Wire.h>
+ #include <Adafruit_GFX.h>
+ #include <Adafruit_SSD1306.h>
++#include <esp_ota_ops.h>  // Module 28 Challenge 1: the running program shelf and its shelf note (otadata)
+ #include "config.h"
+ #include "logger.h"
+ #include "system.h"
+@@ -164,6 +166,29 @@ static void drawReadingsPage(SensorReading b) {
+   display.display();
+ }
+ 
++// ---------- Module 28 Challenge 1: the version, the program shelf, and the trial period ----------
++// Builds the last line of the status page: the version, the running shelf, and its state in the shelf note. Examples:
++// "v1.7.1 app1 TRIAL 42s" (trial period, 42 seconds left), "v1.7.1 app1 valid" (already proven), "v1.7.0 app0 cable" (installed
++// by USB cable, without a trial period). %.4s = at most 4 characters of the shelf name (app0/app1), so that the line always fits.
++static void shelfVersionText(char* result, size_t size) {
++  const esp_partition_t* shelf = esp_ota_get_running_partition();
++  esp_ota_img_states_t state = ESP_OTA_IMG_UNDEFINED;  // UNDEFINED = installed by cable
++  if (shelf == nullptr) {
++    snprintf(result, size, "v%s shelf ?", FIRMWARE_VERSION);
++    return;
++  }
++  esp_ota_get_state_partition(shelf, &state);
++  if (state == ESP_OTA_IMG_PENDING_VERIFY) {  // trial period: 60 seconds counted from when Node 1 started
++    unsigned long now = millis();
++    unsigned long remaining = now < OTA_TRIAL_PERIOD ? (OTA_TRIAL_PERIOD - now) / 1000 : 0;
++    snprintf(result, size, "v%s %.4s TRIAL %lus", FIRMWARE_VERSION, shelf->label, remaining);
++  } else if (state == ESP_OTA_IMG_VALID) {
++    snprintf(result, size, "v%s %.4s valid", FIRMWARE_VERSION, shelf->label);
++  } else {
++    snprintf(result, size, "v%s %.4s cable", FIRMWARE_VERSION, shelf->label);
++  }
++}
++
+ // ---------- Module 8: status page ----------
+ // Its text is built with char[] and snprintf() (Concept 6), without String.
+ static void drawStatusPage() {
+@@ -196,7 +221,9 @@ static void drawStatusPage() {
+   }
+   display.setCursor(0, 47);
+   display.print(text);
+-  snprintf(text, sizeof(text), "v%s  free %luKB", FIRMWARE_VERSION, ESP.getFreeHeap() / 1024);
++  // Module 28 Challenge 1: the last line is now the version + the shelf + the trial period. The free memory number that used to
++  // be here can still be seen with the Serial command "info" and on the Fleet card (RAM).
++  shelfVersionText(text, sizeof(text));
+   display.setCursor(0, 56);
+   display.print(text);
+ 

@@ -1,0 +1,295 @@
+diff --git a/edge/.env.example b/edge/.env.example
+index 96d1bc5..45dbfd0 100644
+--- a/edge/.env.example
++++ b/edge/.env.example
+@@ -1,4 +1,4 @@
+-# edge/.env.example - the Docker Compose settings of the Mini Smart Home GATEWAY (Raspberry Pi) (Modules 26-27), for compose.edge.yml.
++# edge/.env.example - the Docker Compose settings of the Mini Smart Home GATEWAY (Raspberry Pi) (Modules 26-28), for compose.edge.yml.
+ # On the Pi, from the edge folder: cp .env.example .env, fill in the empty lines, then chmod 600 .env. edge/.env isn't in Git.
+ 
+ # The Compose file's name. With this line, "docker compose up -d" in the edge folder is enough (without -f compose.edge.yml).
+@@ -20,6 +20,13 @@ PORT_GATEWAY=1883
+ # Node-RED in a container (the "nodered" profile, optional; Module 26 keeps using the systemd Node-RED): the editor's counter.
+ PORT_NODERED=1880
+ 
++# Module 28: the password of the "admin" account of the gateway broker's dynamic security plugin (at least 12 characters, random). Used
++# ONCE, when the broker first starts with Module 28 and makes its account file in the Pi's broker-data cupboard; never used to log in,
++# but whoever holds it controls every account of the gateway broker: a secret. Make it with (on the Pi):
++#   docker run --rm node:24.22.1-alpine3.24 node -e "console.log(require('node:crypto').randomBytes(32).toString('base64url'))"
++# Moving from Module 27: add this line BEFORE "docker compose up -d" (without it, Compose stops: required variable).
++MOSQUITTO_DYNSEC_PASSWORD=
++
+ # Profiles that start with "docker compose up -d". Empty = only the gateway broker.
+ # COMPOSE_PROFILES=nodered
+ 
+diff --git a/edge/README.md b/edge/README.md
+index a84a896..1e253d4 100644
+--- a/edge/README.md
++++ b/edge/README.md
+@@ -2,7 +2,7 @@
+ 
+ 🌐 **English** · [Bahasa Indonesia](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/proyek-rumah-pintar-mini/edge/README.md)
+ 
+-The gateway is the Raspberry Pi that runs the Mini Smart Home MQTT broker 24 hours a day ([Module 12](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-12-raspberry-pi-and-linux/README.md)), and since [Module 13](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-13-node-red-dashboard/README.md) it also runs Node-RED with the dashboard and the fan automation (the automation has been switched off since [Module 16](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-3-backend-data/module-16-backend-typescript-api-git/README.md), because the brain has moved to the backend); since [Module 14](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-14-node-2-esp-now/README.md), that dashboard has a Garden card for Node 2, and since [Module 15](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-15-modbus-rs485-and-protocols/README.md), an RS-485 Sensor group for the RS-485 soil sensor that Node 1 reads. Since [Module 26](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-5-operations-scale/module-26-docker-compose/README.md), that broker runs as a **Docker container** ([`compose.edge.yml`](compose.edge.yml), the Compose project `smarthome-gateway`; the module calls the Pi **the gateway**), with the same accounts, port, and address, so the firmware doesn't change; the gateway broker forwards the device messages to the **central** broker on the laptop through a bridge. Since [Module 27](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-5-operations-scale/module-27-deploy-internet-tls-pwa/README.md), that bridge **holds the devices' messages** while the center can't be reached and sends them later with their original time (store-and-forward), and the center can move to a **VPS** on the internet (the bridge over TLS, port 8883) or to this Pi itself (the free path). This page is its **main backup**: if the microSD card breaks, the gateway can be rebuilt from a blank card in about an hour with the recipe below. Fill in the table with your own gateway's details.
++The gateway is the Raspberry Pi that runs the Mini Smart Home MQTT broker 24 hours a day ([Module 12](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-12-raspberry-pi-and-linux/README.md)), and since [Module 13](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-13-node-red-dashboard/README.md) it also runs Node-RED with the dashboard and the fan automation (the automation has been switched off since [Module 16](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-3-backend-data/module-16-backend-typescript-api-git/README.md), because the brain has moved to the backend); since [Module 14](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-14-node-2-esp-now/README.md), that dashboard has a Garden card for Node 2, and since [Module 15](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-15-modbus-rs485-and-protocols/README.md), an RS-485 Sensor group for the RS-485 soil sensor that Node 1 reads. Since [Module 26](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-5-operations-scale/module-26-docker-compose/README.md), that broker runs as a **Docker container** ([`compose.edge.yml`](compose.edge.yml), the Compose project `smarthome-gateway`; the module calls the Pi **the gateway**), with the same accounts, port, and address, so the firmware doesn't change; the gateway broker forwards the device messages to the **central** broker on the laptop through a bridge. Since [Module 27](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-5-operations-scale/module-27-deploy-internet-tls-pwa/README.md), that bridge **holds the devices' messages** while the center can't be reached and sends them later with their original time (store-and-forward), and the center can move to a **VPS** on the internet (the bridge over TLS, port 8883) or to this Pi itself (the free path). Since [Module 28](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-5-operations-scale/module-28-ota-provisioning-fleet/README.md), the broker accounts of the **devices** on this gateway are made and deleted **automatically** by the backend at the center (the dynamic security plugin, its commands through the bridge), so a new device can register itself with a claim code and a lost device is disconnected right away. This page is its **main backup**: if the microSD card breaks, the gateway can be rebuilt from a blank card in about an hour with the recipe below. Fill in the table with your own gateway's details.
+ 
+ > [!CAUTION]
+ > **Never write a password** (the Pi's, the Wi-Fi's, or any other) in this file or anywhere else in the repository.
+@@ -25,13 +25,13 @@ The gateway is the Raspberry Pi that runs the Mini Smart Home MQTT broker 24 hou
+ | File | Used on | Contents |
+ | :--- | :--- | :--- |
+ | [`compose.edge.yml`](compose.edge.yml) | the Pi gateway (Modules 26–27) | the `mosquitto` service (the gateway broker + the bridge) and `nodered` (profile `nodered`, optional, only written). `cloudflared` (Module 27, the free path) **moved** to `compose.cloud.yml` at the project root. A commented-out `extra_hosts` line for the VPS broker's name: see [A bridge to the internet](#a-bridge-to-the-internet-that-survives-outages-module-27) |
+-| [`.env.example`](.env.example) | the Pi gateway (Modules 26–27) | the example of `edge/.env`: `COMPOSE_FILE=compose.edge.yml`, `CENTER_ADDRESS` (the center laptop's IP; `host-gateway` when the center is on this Pi; empty when the center is on a VPS), `PORT_GATEWAY`. `edge/.env` is **not in Git** |
+-| [`gateway.conf`](gateway.conf) | the Pi gateway (Modules 26–27) | the gateway broker's settings inside the container: accounts, ACL, persistence, log to the container's screen, the `bridge/` folder; since Module 27 also the four store-and-forward lines (`autosave_interval 30`, `queue_qos0_messages true`, `max_queued_messages 100000`, `upgrade_outgoing_qos true`) |
+-| [`center.conf`](center.conf) | the laptop (Module 26), the free-path Pi (Module 27) | the CENTRAL broker's settings inside the container (the `mosquitto` service in `compose.cloud.yml` at the project root): only the plain door 1883 |
++| [`.env.example`](.env.example) | the Pi gateway (Modules 26–28) | the example of `edge/.env`: `COMPOSE_FILE=compose.edge.yml`, `CENTER_ADDRESS` (the center laptop's IP; `host-gateway` when the center is on this Pi; empty when the center is on a VPS), `PORT_GATEWAY`, and (Module 28) `MOSQUITTO_DYNSEC_PASSWORD` (a random secret, required). `edge/.env` is **not in Git** |
++| [`gateway.conf`](gateway.conf) | the Pi gateway (Modules 26–28) | the gateway broker's settings inside the container: accounts, ACL, persistence, log to the container's screen, the `bridge/` folder; since Module 27 also the four store-and-forward lines (`autosave_interval 30`, `queue_qos0_messages true`, `max_queued_messages 100000`, `upgrade_outgoing_qos true`); since Module 28 the two dynamic security plugin lines (`plugin …mosquitto_dynamic_security.so`, `plugin_opt_config_file /mosquitto/data/dynamic-security.json`) |
++| [`center.conf`](center.conf) | the laptop (Module 26), the free-path Pi (Module 27) | the CENTRAL broker's settings inside the container (the `mosquitto` service in `compose.cloud.yml` at the project root): only the plain door 1883; since Module 28 the two dynamic security plugin lines (the same as `gateway.conf`) |
+ | [`center-internet.conf`](center-internet.conf) | the VPS (Module 27) | the contents of `center.conf` + the TLS door 8883 with a copy of the Let's Encrypt certificate (`certfile`/`keyfile`) and `use_username_as_clientid true` once more (that option applies per door). Chosen with `CENTER_CONF=center-internet.conf` in the root `.env`. Change both together |
+-| [`bridge.example.conf`](bridge.example.conf) | the Pi gateway (Modules 26–27) | an example bridge gateway → center (the `pi-bridge` account, without a password): the MAIN PATH block (the VPS name + 8883 + the ISRG Root X1 root) active, the HOME PATH block (`center:1883`/`center:1884`, plain) commented out, the store-and-forward settings, narrow topics. Its copy `bridge/center.conf` holds the password and is **not in Git** |
++| [`bridge.example.conf`](bridge.example.conf) | the Pi gateway (Modules 26–28) | an example bridge gateway → center (the `pi-bridge` account, without a password): the MAIN PATH block (the VPS name + 8883 + the ISRG Root X1 root) active, the HOME PATH block (`center:1883`/`center:1884`, plain) commented out, the store-and-forward settings, narrow topics; since Module 28 the two `topic dynamic-security/v1 …` lines that carry the device-account commands from the center (the gateway's name `pi1`). Its copy `bridge/center.conf` holds the password and is **not in Git** |
+ | [`bridge/`](bridge/README.md) | the Pi gateway (Module 26) | the folder the gateway broker reads (`include_dir`); only its `README.md` is in Git |
+-| [`acl-broker`](acl-broker) | the gateway and central brokers ([Module 21](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-3-backend-data/module-21-device-broker-security/README.md); block `7) pi-bridge` since Module 26, the permission for the bridge status message `$SYS/broker/connection/pi-bridge/state` since Module 27) | the broker access list (ACL): a device only writes its own topics. Both containers read it straight from this folder (read-only) |
++| [`acl-broker`](acl-broker) | the gateway and central brokers ([Module 21](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-3-backend-data/module-21-device-broker-security/README.md); block `7) pi-bridge` since Module 26, the permission for the bridge status message `$SYS/broker/connection/pi-bridge/state` since Module 27; since Module 28 four control-topic lines for `backend` and two for `pi-bridge`) | the broker access list (ACL): a device only writes its own topics. Both containers read it straight from this folder (read-only) |
+ | `broker-passwd` | the gateway and central brokers (Module 21) | the broker accounts' password file. Since Module 26 it lives in each broker's **cupboard** (volume) (`/mosquitto/data/broker-passwd` inside the container), made with `mosquitto_passwd` inside the container; never in Git |
+ | [`gateway-pi.conf`](gateway-pi.conf) | the Pi gateway **without Docker** (before Module 26; Module 12, locked in Module 21) | on the Pi: `/etc/mosquitto/conf.d/gateway-pi.conf`; kept for a Pi that hasn't moved yet and as a way back |
+ | [`mosquitto-lan.conf`](mosquitto-lan.conf) | the laptop **without Docker** (before Module 26; [Module 11](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-11-mqtt-and-data-contract/README.md), locked in Module 21) | `mosquitto -v -c mosquitto-lan.conf` in a terminal; since Module 26 replaced by the Compose central broker |
+@@ -94,7 +94,7 @@ docker compose restart mosquitto
+ 
+ The password is typed twice (it doesn't show). Revoking an account: `docker compose exec -u mosquitto mosquitto mosquitto_passwd -D /mosquitto/data/broker-passwd <device_id>`, then `restart`. In a container, **always `docker compose restart mosquitto`** after changing an account, `acl-broker`, or a `*.conf` (a restart reads the file the editor has just saved; don't use `docker compose kill -s SIGHUP` as a reload: Docker treats it as a manual stop). Accounts per broker:
+ 
+-- **The gateway broker (Pi):** the device accounts (`device_id`), `nodered`, `monitor`, `checker`. It doesn't need the `backend` account any more: the backend now connects to the central broker.
++- **The gateway broker (Pi):** the device accounts (`device_id`), `nodered`, `monitor`, `checker`. It doesn't need the `backend` account any more: the backend now connects to the central broker. Since Module 28, the device accounts are made by the backend itself through dynamic security (the section [Automatic device accounts](#automatic-device-accounts-module-28)); `mosquitto_passwd` remains only for the service accounts and the old devices.
+ - **The central broker (laptop):** `backend` (made automatically by the `broker-account` service from `MQTT_PASSWORD` in the root `.env`), `pi-bridge` (its password is also written in `edge/bridge/center.conf` on the Pi; its rights are block `7) pi-bridge` in `acl-broker`), and the `tools/` simulator devices for the laptop path.
+ 
+ **Without Docker (before Module 26)**, the steps are as below.
+@@ -159,6 +159,37 @@ Since [Module 27](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob
+ - Device messages sent while the **home Wi-Fi** (not the internet) is down don't reach the gateway, so they aren't queued.
+ - `docker compose down -v` in the `edge` folder deletes the unsent queue together with the password file.
+ 
++## Automatic device accounts (Module 28)
++
++Up to Module 27, every device account on the gateway broker was made by hand (`mosquitto_passwd` + a restart, Module 21). Since Module 28, the gateway and central brokers load the **dynamic security** plugin (already in the `eclipse-mosquitto:2.1.2-alpine` image) next to the password file and `acl-broker`, and the backend at the center makes, changes, and deletes the **device** accounts on the gateway through the bridge, when the admin registers a device, rotates a key, makes a claim code that a new board uses, or presses **Deactivate**. The service accounts (`nodered`, `monitor`, `checker`) stay in the password file.
++
++| Where | Setting | What it's for |
++| :--- | :--- | :--- |
++| `gateway.conf` (and `center.conf`, `center-internet.conf`) | `plugin /usr/lib/mosquitto_dynamic_security.so` + `plugin_opt_config_file /mosquitto/data/dynamic-security.json` | the plugin is read before the password file; the accounts it doesn't know are passed on to the password file. Its accounts are kept in the `broker-data` cupboard |
++| `edge/.env` | `MOSQUITTO_DYNSEC_PASSWORD` | the password of the plugin's `admin` account, used once when its account file is made. Random, at least 12 characters (the author's lab: with an empty password the plugin refuses to make its file; without the line at all, the plugin makes a random password by itself and an example account `democlient`). We never use it, but it is a secret |
++| `bridge/center.conf` | `topic dynamic-security/v1 in 1 $CONTROL/ msh-gateway/pi1/` and `topic dynamic-security/v1/response out 1 $CONTROL/ msh-gateway/pi1/` | the backend's commands at the center (`msh-gateway/pi1/dynamic-security/v1`) are carried by the bridge to `$CONTROL/dynamic-security/v1` of this gateway, and the answers are carried back |
++| `acl-broker` (used by the **central** broker) | block `3) backend`: `topic write msh-gateway/+/dynamic-security/v1` + `topic read …/response`; block `7) pi-bridge`: `topic read msh-gateway/pi1/dynamic-security/v1` + `topic write …/response` | only the backend may give account commands; the bridge only carries them |
++| the project root `.env` (center) | `AUTO_BROKER_ACCOUNTS=gateway:pi1` | the backend sends the account commands for the gateway named `pi1` |
++
++The name `pi1` must be the **same** in three places: `bridge/center.conf`, `acl-broker` block 7, and `AUTO_BROKER_ACCOUNTS`. Whoever may write `msh-gateway/pi1/dynamic-security/v1` at the center is the admin of every device account of this gateway: never give that permission (or `topic #`) to another account. The topic permissions of every device account, for writing **and** reading, are still the `%u` pattern in `acl-broker` (Module 21): the accounts the backend makes get no role at all, and before it makes an account the backend always sends `setDefaultACLAccess` (the default **read** permission for accounts without a role = deny). Why is that needed? The plugin makes its account file with the default **write** permission "deny" (the decision is left to `acl-broker`), but the default **read** permission "allow": without that command, a device account made by the backend could subscribe to `msh/#` and read the telemetry, `cmd`, and `config` of every other device, plus `$SYS` (an M28 code verification finding, the author's lab with Mosquitto 2.1.2; after that command, the same account only receives its own `cmd`, and firmware updates still work).
++
++**Installing** (on the Pi, the `edge` folder, after `git pull`): add `MOSQUITTO_DYNSEC_PASSWORD` to `edge/.env`, copy the two `topic dynamic-security/…` lines from `bridge.example.conf` into `bridge/center.conf`, then `docker compose up -d --force-recreate mosquitto`. The signs of success in `docker compose logs mosquitto`: `Loading plugin: /usr/lib/mosquitto_dynamic_security.so`, `Dynamic security plugin config not found, generating a default config.` (only once, when its account file is made), `Plugin dynamic-security has registered to receive 'control' events on topic $CONTROL/dynamic-security/v1.` At the center: the new `acl-broker` + `docker compose restart mosquitto`. When the backend makes an account, the gateway log writes the line `dynsec: local.pi-bridge/(null) | setDefaultACLAccess | acltype=publishClientReceive | allow=false` then `dynsec: local.pi-bridge/(null) | createClient | username=<device_id>`, and the backend log once `broker accounts: default read permission of device accounts at gateway broker pi1 = deny (the acl-broker %u pattern applies)`. To check it yourself (the admin password is read inside the container, not typed): `docker compose exec mosquitto sh -c 'mosquitto_ctrl -u admin -P "$MOSQUITTO_DYNSEC_PASSWORD" dynsec getDefaultACLAccess'` → `publishClientReceive : deny` (the warning `without encryption` is normal: the command runs inside the container).
++
++**Moving an old device account (Module 21) to an automatic account**, one at a time (a Node 1 that is already running):
++
++1. Through Bruno (log in as admin first), send `POST /devices/<device_id>/key` (the Module 21 request `rotate practice device key`, with the `device_id` in its address replaced by that device's): **rotate the key** of that device. The `/fleet` dashboard has **no** button to rotate a key. The backend makes a dynamic security account with the new key (shown once in the answer); the `steps` of the answer say `account … already created automatically at gateway broker pi1`.
++2. In Node 1's Serial Monitor: `key <new key>` (the Module 21 recipe). Node 1 connects again with the new key.
++3. On the Pi (the `edge` folder): delete its old line from the password file: `docker compose exec -u mosquitto mosquitto mosquitto_passwd -D /mosquitto/data/broker-passwd <device_id>`.
++4. `docker compose restart mosquitto` (**restart, not** `kill -HUP 1`: on the gateway, a HUP throws away the store-and-forward queue that hasn't been sent yet, a Module 27 finding; a restart keeps it through persistence).
++
++In the author's lab (Mosquitto 2.1.2, a simulated gateway): as soon as a dynamic security account with the same name exists (step 1), the broker **refuses** the old key from the password file (`Connection Refused: not authorised`), even though its line is still there; the new key is accepted. But if the old line is NOT deleted (steps 3–4), and that device is **deactivated** some day (its dynamic security account is deleted), that OLD key is **accepted again** by the password file. So steps 3–4 aren't just tidying up: they are required. An old device whose key was never rotated and that is deactivated gets the answer `broker_account: "none"` together with the `mosquitto_passwd -D` step.
++
++**Going back to Module 27** (`git switch main` then `docker compose up -d`): the Module 27 `gateway.conf`/`center.conf` don't load the plugin, so every device account that was made, had its key rotated, or was claimed in Module 28 **disappears from authentication** (the password file doesn't have it) and the broker refuses that device. Choose one: keep the two `plugin …` lines (plus `MOSQUITTO_DYNSEC_PASSWORD`) when you go back to backend 1.4.0, or first make those device accounts in the password file with `mosquitto_passwd` (the Module 21 recipe) before you go back.
++
++**Backup.** The device accounts now live in the `broker-data` cupboard (the file `dynamic-security.json`). `docker compose down -v` deletes it: every device would need a new key. Copy it first: `sh ../scripts/backup-broker-accounts.sh` (from the `edge` folder; how to restore it is in that script's header).
++
++**Honest limits (the author's lab, a simulated broker, a TLS bridge to a simulated VPS):** the backend waits 3 seconds for the broker's answer, tries once more, then answers `503`; the database doesn't change (the claim code isn't used up). Two different situations are behind it: (1) the bridge is reconnecting (backoff): a command published at that moment is lost (not held, like `cmd`), and the second attempt usually already succeeds; (2) the home internet drops briefly without the bridge connection breaking (for example less than ±90 seconds): the command is held in that connection and **is still carried out by the gateway broker as soon as the internet is back**, even though the dashboard already answered `503`. So after a `503`, repeat the same step as soon as the bridge is connected again: registering, rotating a key, claiming, and Deactivate are safe to repeat and bring the database and the broker back in line. A repeated Deactivate may be answered `broker_account: "none"` (the account was already deleted by the first command): that's normal. A broker that disconnects a device through dynamic security does **not** publish the `offline` will: the `offline` status is written by the backend itself.
++
+ ## Node-RED and the dashboard (Module 13)
+ 
+ Node-RED runs on this same gateway, as the systemd service `nodered` ([Module 13](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-13-node-red-dashboard/README.md)). All its flows, that is, dashboard v0 (with the Garden card since Module 14 and the RS-485 Sensor group since Module 15) and the fan automation (switched off since Module 16, because Mini Smart Home's brain has moved to the backend), are saved in [`node-red-flows.json`](node-red-flows.json). The editor password and the passphrase are never exported; never write them down here.
+diff --git a/edge/acl-broker b/edge/acl-broker
+index c6cdbc8..c78a3e9 100644
+--- a/edge/acl-broker
++++ b/edge/acl-broker
+@@ -1,4 +1,4 @@
+-# acl-broker - the Mini Smart Home broker's access list (Module 21).
++# acl-broker - the Mini Smart Home broker's access list (Module 21; additions in Modules 26-28).
+ # Mosquitto reads this file from top to bottom. A line starting with # is a note (# must be the first character of the line).
+ # An account not mentioned here may not write or read anything.
+ # Every time this file changes, RESTART the broker (not reload). Module 26, the broker in Docker Compose: docker compose restart
+@@ -7,6 +7,8 @@
+ # 1) Each device may only "talk" on its own topics. A pattern line applies to ALL accounts;
+ #    %u is replaced by the username proven with a password, that is, that device's device_id. Module 27: devices at another
+ #    location that go straight to the VPS broker (door 8883) use the same rules; their account only has to be made on the VPS broker.
++#    Module 28: the device accounts the backend makes (dynamic security) follow these lines too, for writing AND
++#    reading: the backend changes the plugin's default read permission to "deny" before it makes an account (edge/README.md).
+ pattern write msh/%u/telemetry
+ pattern write msh/%u/status
+ pattern write msh/%u/vitals
+@@ -26,10 +28,18 @@ topic write msh/246f28b1c7d4/status
+ # topic write msh/f00d000000b2/telemetry
+ # topic write msh/f00d000000b2/status
+ 
+-# 3) Backend: reads all device messages, sends commands (set and config) to cmd.
++# 3) Backend: reads all device messages, sends commands (set, config, and update) to cmd.
++#    Module 28: it also makes and deletes DEVICE accounts through the dynamic security plugin (AUTO_BROKER_ACCOUNTS). Whoever
++#    may write the control topic is the admin of every device account: NEVER give this permission (or "topic #") to another account.
++#    The first two lines are for AUTO_BROKER_ACCOUNTS=center (this broker's own plugin), the last two lines for
++#    gateway:<name> (its commands are carried by that gateway's bridge, see block 7).
+ user backend
+ topic read msh/#
+ topic write msh/+/cmd
++topic write $CONTROL/dynamic-security/v1
++topic read $CONTROL/dynamic-security/v1/response
++topic write msh-gateway/+/dynamic-security/v1
++topic read msh-gateway/+/dynamic-security/v1/response
+ 
+ # 4) Node-RED on the Pi gateway: the dashboard reads, the Fan switch sends cmd.
+ user nodered
+@@ -57,3 +67,7 @@ topic write msh/+/vitals
+ topic write msh/+/ack
+ topic read msh/+/cmd
+ topic write $SYS/broker/connection/pi-bridge/state
++#    Module 28: the device-account commands from the backend for the gateway pi1 (read by the bridge, carried to the gateway's $CONTROL)
++#    and their answers (written by the bridge). pi1 = the gateway's name in bridge/center.conf and AUTO_BROKER_ACCOUNTS=gateway:pi1.
++topic read msh-gateway/pi1/dynamic-security/v1
++topic write msh-gateway/pi1/dynamic-security/v1/response
+diff --git a/edge/bridge.example.conf b/edge/bridge.example.conf
+index 8ec0fd7..2369f92 100644
+--- a/edge/bridge.example.conf
++++ b/edge/bridge.example.conf
+@@ -1,4 +1,4 @@
+-# bridge.example.conf - an EXAMPLE bridge from the Pi gateway broker to the central broker (Modules 26-27).
++# bridge.example.conf - an EXAMPLE bridge from the Pi gateway broker to the central broker (Modules 26-28).
+ # Copy it to edge/bridge/center.conf (cp bridge.example.conf bridge/center.conf), then replace the domain name and the password.
+ # That copy holds a password, so it isn't in Git. After changing it: docker compose restart mosquitto (from the edge folder).
+ # A Mosquitto note: a # may only be at the START of a line (a note behind a setting is read as part of the setting).
+@@ -42,3 +42,12 @@ topic msh/+/status out 1
+ topic msh/+/vitals out 1
+ topic msh/+/ack out 1
+ topic msh/+/cmd in 1
++
++# --- Module 28: automatic device accounts (dynamic security) on THIS gateway broker, managed by the backend at the center ---
++# The backend publishes the account commands at the center on the topic msh-gateway/pi1/dynamic-security/v1; the bridge moves them to
++# $CONTROL/dynamic-security/v1 of this gateway broker (in), then carries their answers .../response back to the center (out).
++# The form: topic <topic> <direction> <QoS> <prefix at the gateway> <prefix at the center>. pi1 = this gateway's name; it must be the
++# SAME as AUTO_BROKER_ACCOUNTS=gateway:pi1 in the center's .env and the two pi-bridge lines in acl-broker. A second gateway? Another name,
++# for example pi2, in all three places. Delete these two lines if AUTO_BROKER_ACCOUNTS at the center isn't gateway:<name> (not used).
++topic dynamic-security/v1 in 1 $CONTROL/ msh-gateway/pi1/
++topic dynamic-security/v1/response out 1 $CONTROL/ msh-gateway/pi1/
+diff --git a/edge/center-internet.conf b/edge/center-internet.conf
+index f5af8d2..db4f79d 100644
+--- a/edge/center-internet.conf
++++ b/edge/center-internet.conf
+@@ -11,6 +11,17 @@ allow_anonymous false
+ # mosquitto user every time it starts, so there's no file-owner trouble on the laptop)
+ password_file /mosquitto/data/broker-passwd
+ acl_file /mosquitto/config/acl-broker
++# Module 28: DEVICE accounts are made and deleted by the backend itself through the "dynamic security" plugin (already in this image).
++# The plugin reads JSON commands on the topic $CONTROL/dynamic-security/v1 (only the backend account may write it, acl-broker block 3)
++# and keeps its accounts in the broker-data cupboard. This plugin is read BEFORE the password_file and acl_file above:
++# the accounts it doesn't know (backend, pi-bridge, monitor, the old Module 21 device accounts) are passed on to the password file, and
++# the topic permissions of its new device accounts, for writing AND reading, are still the %u pattern in acl-broker: those accounts get no
++# role at all, and the backend changes the plugin's default READ permission (originally "allow") to "deny" before it makes the first account
++# (setDefaultACLAccess, kept in the plugin's account file; an M28 code verification finding). When it first starts, the
++# plugin makes its own account file with the admin password from MOSQUITTO_DYNSEC_PASSWORD (.env). A new account works right
++# away and a deleted account is disconnected right away, without a restart; acl-broker and the .conf files still need a restart.
++plugin /usr/lib/mosquitto_dynamic_security.so
++plugin_opt_config_file /mosquitto/data/dynamic-security.json
+ # the client name is always = the username: no one can pretend to be or kick out another client. This option applies PER DOOR
+ # (only to the listener above it), so door 8883 below writes it again.
+ use_username_as_clientid true
+diff --git a/edge/center.conf b/edge/center.conf
+index b3159d0..a8cc638 100644
+--- a/edge/center.conf
++++ b/edge/center.conf
+@@ -1,4 +1,4 @@
+-# center.conf - the Mini Smart Home CENTRAL broker inside a container (Module 26, the mosquitto service in compose.cloud.yml).
++# center.conf - the Mini Smart Home CENTRAL broker inside a container (Modules 26-28, the mosquitto service in compose.cloud.yml).
+ # Used on the laptop (Module 26) and on the free-path Pi (Module 27): one plain door 1883 for the home network. On the VPS
+ # (Module 27), center-internet.conf is used: the same contents + the TLS door 8883 (CENTER_CONF in .env chooses one of them).
+ # The backend connects through the service name mosquitto:1883; the Pi gateway through the bridge with the pi-bridge account;
+@@ -11,6 +11,17 @@ allow_anonymous false
+ # mosquitto user every time it starts, so there's no file-owner trouble on the laptop)
+ password_file /mosquitto/data/broker-passwd
+ acl_file /mosquitto/config/acl-broker
++# Module 28: DEVICE accounts are made and deleted by the backend itself through the "dynamic security" plugin (already in this image).
++# The plugin reads JSON commands on the topic $CONTROL/dynamic-security/v1 (only the backend account may write it, acl-broker block 3)
++# and keeps its accounts in the broker-data cupboard. This plugin is read BEFORE the password_file and acl_file above:
++# the accounts it doesn't know (backend, pi-bridge, monitor, the old Module 21 device accounts) are passed on to the password file, and
++# the topic permissions of its new device accounts, for writing AND reading, are still the %u pattern in acl-broker: those accounts get no
++# role at all, and the backend changes the plugin's default READ permission (originally "allow") to "deny" before it makes the first account
++# (setDefaultACLAccess, kept in the plugin's account file; an M28 code verification finding). When it first starts, the
++# plugin makes its own account file with the admin password from MOSQUITTO_DYNSEC_PASSWORD (.env). A new account works right
++# away and a deleted account is disconnected right away, without a restart; acl-broker and the .conf files still need a restart.
++plugin /usr/lib/mosquitto_dynamic_security.so
++plugin_opt_config_file /mosquitto/data/dynamic-security.json
+ # the client name is always = the username: no one can pretend to be or kick out another client. This option applies PER DOOR
+ # (only to the listener above it): a new door, for example 8883 in center-internet.conf, must write it again.
+ use_username_as_clientid true
+diff --git a/edge/compose.edge.yml b/edge/compose.edge.yml
+index a7cc6a1..d19fea3 100644
+--- a/edge/compose.edge.yml
++++ b/edge/compose.edge.yml
+@@ -1,9 +1,10 @@
+-# compose.edge.yml - the Mini Smart Home GATEWAY services on the Raspberry Pi (Modules 26-27), the partner of compose.cloud.yml at the
++# compose.edge.yml - the Mini Smart Home GATEWAY services on the Raspberry Pi (Modules 26-28), the partner of compose.cloud.yml at the
+ # center (the laptop in Module 26; a VPS or the same Pi in Module 27).
+ # Run it on the Pi, from the edge folder:  docker compose up -d
+ #   The line COMPOSE_FILE=compose.edge.yml in edge/.env makes -f unnecessary (its example is edge/.env.example).
+ # The Mosquitto gateway broker (replacing the Module 12 apt package) + the bridge to the central broker (bridge/center.conf). Since Module 27
+ # that bridge holds the devices' messages while the center can't be reached (gateway.conf) and can connect over TLS to a VPS.
++# Module 28: the device accounts on this broker are made and deleted by the backend at the center (dynamic security plugin, via the bridge).
+ # Node-RED (optional) only starts when its profile is named: docker compose --profile nodered up -d
+ # Module 27: cloudflared (the Cloudflare tunnel, the free path) MOVED to compose.cloud.yml (profile "tunnel"), because it must
+ # share a hallway with the web service. DON'T "docker compose down -v": -v deletes the cupboard with the broker password file AND
+@@ -22,13 +23,19 @@ services:
+   # Mosquitto 2.1.2 reads the Pi's old password file (2.0 format) as it is.
+   mosquitto:
+     image: eclipse-mosquitto:2.1.2-alpine
++    environment:
++      # Module 28: the password of the "admin" account of the gateway broker's dynamic security plugin (gateway.conf), used ONCE when its
++      # account file is made in the Pi's broker-data cupboard. Never used to log in, but a secret: random, at least 12 characters. Without
++      # this password the plugin makes a random password by itself AND an example account "democlient", so it must be filled in edge/.env.
++      MOSQUITTO_DYNSEC_PASSWORD: ${MOSQUITTO_DYNSEC_PASSWORD:?fill in MOSQUITTO_DYNSEC_PASSWORD in edge/.env (random, at least 12 characters)}
+     volumes:
+       # The configuration and the access list from the repo (read-only). After changing either: docker compose restart mosquitto
+       - ./gateway.conf:/mosquitto/config/mosquitto.conf:ro
+       - ./acl-broker:/mosquitto/config/acl-broker:ro
+       # the bridge folder: holds center.conf (the bridge password, not in Git)
+       - ./bridge:/mosquitto/config/bridge:ro
+-      # the password file (moved from /etc/mosquitto/broker-passwd), retained messages, sessions, and (Module 27) the bridge queue
++      # the password file (moved from /etc/mosquitto/broker-passwd), retained messages, sessions, (Module 27) the bridge queue, and
++      # (Module 28) the dynamic security device accounts
+       - broker-data:/mosquitto/data
+     # The Mosquitto image declares its log folder as a cupboard, while our log shows on the screen (docker compose logs).
+     # tmpfs = a temporary folder in RAM: without it Docker makes a nameless cupboard every time this container is recreated.
+@@ -69,6 +76,7 @@ services:
+     logging: *log
+ 
+ volumes:
+-  # Compose's cupboards: the gateway broker's password file + retained messages, and the Node-RED data (if its profile is used).
++  # Compose's cupboards: the gateway broker's password file + retained messages + (Module 28) the dynamic security device accounts, and
++  # the Node-RED data (if its profile is used). Back up its device accounts: scripts/backup-broker-accounts.sh.
+   broker-data:
+   nodered-data:
+diff --git a/edge/gateway.conf b/edge/gateway.conf
+index 347c93d..520e250 100644
+--- a/edge/gateway.conf
++++ b/edge/gateway.conf
+@@ -1,4 +1,4 @@
+-# gateway.conf - the Mini Smart Home GATEWAY broker on the Raspberry Pi, inside a container (Modules 26-27, edge/compose.edge.yml).
++# gateway.conf - the Mini Smart Home GATEWAY broker on the Raspberry Pi, inside a container (Modules 26-28, edge/compose.edge.yml).
+ # Replaces the apt Mosquitto package + /etc/mosquitto/conf.d/gateway-pi.conf (Modules 12 and 21). Devices keep connecting to the
+ # Pi's IP on port 1883 with their old accounts, so the firmware doesn't change. Paths below = INSIDE the container.
+ # After changing this file, acl-broker, or bridge/center.conf: docker compose restart mosquitto (restart, not reload).
+@@ -8,6 +8,15 @@ allow_anonymous false
+ # the password file lives in the broker-data cupboard; the Pi's old file (/etc/mosquitto/broker-passwd, 2.0 format) is read by Mosquitto 2.1.2
+ password_file /mosquitto/data/broker-passwd
+ acl_file /mosquitto/config/acl-broker
++# Module 28: DEVICE accounts (Node 1 and new boards that were claimed) are made and deleted by the backend at the center, through the
++# bridge: the bridge moves the JSON commands from the center to the topic $CONTROL/dynamic-security/v1 of this broker (the two "topic ...
++# dynamic-security" lines in bridge/center.conf), and their answers go back to the center. This plugin is read BEFORE the password_file:
++# the accounts it doesn't know (nodered, monitor, checker, the old Module 21 device accounts) are passed on to the password file. The
++# topic permissions of the devices, for writing AND reading, are still the %u pattern in acl-broker: the backend (through the bridge)
++# changes the plugin's default READ permission (originally "allow") to "deny" before it makes the first device account here. The
++# plugin's admin password: MOSQUITTO_DYNSEC_PASSWORD in edge/.env, used once when its account file is made in the Pi's broker-data cupboard.
++plugin /usr/lib/mosquitto_dynamic_security.so
++plugin_opt_config_file /mosquitto/data/dynamic-security.json
+ # the client name is always = the username (device_id): no one can pretend to be or kick out another device
+ use_username_as_clientid true
+ # retained messages and sessions are kept in the cupboard (like the apt Mosquitto on the Pi, which saves them when it stops)

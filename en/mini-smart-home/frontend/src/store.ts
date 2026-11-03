@@ -5,12 +5,15 @@
 // can read it without it being handed down through props from App. The role still lives only in memory: never in localStorage.
 import { create } from "zustand";
 import { useToast } from "./toast";
-import type { Device, DeviceStatus, Point, Reading, State, Telemetry, TelemetryNode1, User } from "./types";
+import type { Device, DeviceStatus, OtaNotice, Point, Reading, State, Telemetry, TelemetryNode1, User } from "./types";
 
 // the Socket.IO connection state that the badge in the header shows
 export type Connection = "connecting" | "live" | "disconnected";
 
 const FIVE_MINUTES = 5 * 60 * 1000; // in milliseconds
+
+// Module 28: the update statuses that are FINISHED (they don't change anymore without a new command)
+const UPDATE_FINISHED = ["succeeded", "rollback", "failed", "rejected", "expired"];
 
 // An empty array that is ALWAYS the same one. Selectors use "?? EMPTY", not "?? []": a new array on every call makes
 // Zustand 5 think the data keeps changing, React re-renders without end, and the screen goes white.
@@ -86,6 +89,15 @@ type LiveStore = {
   // effect dependency, so its rule list is fetched again by itself.
   rulesVersion: number;
   rulesChanged: () => void;
+  // Module 28: the LAST firmware update notice of each device (the Socket.IO "ota" event), so the cards on the Fleet screen
+  // change by themselves: accepted -> downloading -> succeeded/rollback/failed, without reloading the page.
+  ota: Partial<Record<string, OtaNotice>>;
+  receiveOta: (notice: OtaNotice) => void;
+  // Module 28: goes up by 1 every time the fleet data changes on the server (an update finished, a new device through a claim
+  // code, a device deactivated, the live connection back). The Fleet screen uses it as an effect dependency (the rulesVersion
+  // pattern), so its data is fetched again only when there IS news, not every few seconds (no polling).
+  fleetVersion: number;
+  fleetChanged: () => void;
 };
 
 // create<LiveStore>()(…): the double parentheses really are how it's written in TypeScript (Zustand 5).
@@ -164,6 +176,17 @@ export const useLiveStore = create<LiveStore>()((set) => ({
 
   rulesVersion: 0,
   rulesChanged: () => set((s) => ({ rulesVersion: s.rulesVersion + 1 })),
+
+  ota: {},
+  // A finished update also raises fleetVersion: the firmware version, the health (the vitals that carry its report), and
+  // each release's canary summary change too, and all of them can only be read again from the server.
+  receiveOta: (notice) =>
+    set((s) => ({
+      ota: { ...s.ota, [notice.device_id]: notice },
+      fleetVersion: UPDATE_FINISHED.includes(notice.status) ? s.fleetVersion + 1 : s.fleetVersion,
+    })),
+  fleetVersion: 0,
+  fleetChanged: () => set((s) => ({ fleetVersion: s.fleetVersion + 1 })),
 }));
 
 // Module 24: true ONLY when the admin role is certain. While GET /auth/me isn't answered yet ("loading") the result is false,

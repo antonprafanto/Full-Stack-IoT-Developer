@@ -13,5 +13,7 @@ bruno
 test
 login*.json
 cookies*.txt
+# Module 28: firmware files uploaded in dev mode (they may hold ESP-NOW keys): never go into the image.
+firmware-data
 # Vitest test files aren't used by the running server.
 src/**/*.test.ts

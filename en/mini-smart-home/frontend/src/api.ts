@@ -6,7 +6,26 @@ import { FullRule } from "./rules";
 import type { Rule } from "./schemas/rule-basics";
 import { Ack } from "./schemas/contract";
 import type { SetCommand } from "./schemas/contract";
-import type { Device, HistoryData, HistoryRange, Reading, ReadingsAnswer, SummaryAnswer, SummaryPoint, User } from "./types";
+import type {
+  Reading,
+  ReleaseList,
+  FleetData,
+  HistoryData,
+  FleetResult,
+  IntervalResult,
+  DeactivateResult,
+  UpdateResult,
+  ReadingsAnswer,
+  SummaryAnswer,
+  ClaimCode,
+  NewClaimCode,
+  Update,
+  User,
+  Device,
+  HistoryRange,
+  Release,
+  SummaryPoint,
+} from "./types";
 
 // Backend address. Default: this page's host name + port 8080, so the page http://localhost:5173 -> API http://localhost:8080.
 // The same host name matters: a SameSite=Strict cookie only goes along when the page and the API are one site
@@ -207,4 +226,99 @@ export async function getHistory(deviceId: string, range: HistoryRange): Promise
   const bucket = range === "24hours" ? "15m" : "1h";
   const answer = await request<SummaryAnswer>(path + "?bucket=" + bucket);
   return { from: answer.from, to: answer.to, points: answer.summary };
+}
+
+// ---- Module 28: the Fleet page (backend 1.5) ----
+
+// GET /fleet: every registered device with its firmware version, health, and last update (admin and viewer)
+export function getFleet(): Promise<FleetData> {
+  return request<FleetData>("/fleet");
+}
+
+// GET /firmware: the firmware release list (a "manifest" from the database) with each version's canary summary
+export function getReleases(): Promise<ReleaseList> {
+  return request<ReleaseList>("/firmware");
+}
+
+// POST /firmware/node1/<version> (admin): the body = the .bin file's content AS IT IS (the File from the file field), not a form.
+// Content-Type application/octet-stream = "raw file content"; the backend computes its SHA-256 itself from the content it
+// receives. The notes and the test mark go in the address (?notes=…&test=true): URLSearchParams turns them into text that is
+// safe in an address (a space becomes +, a & inside the notes becomes %26). 201 = a new release, 200 = a file that had gone
+// missing from the server was restored (exactly the same content). Errors: 400 (not an ESP32 app file, too big),
+// 409 (the version already exists).
+export function uploadFirmware(version: string, file: File, notes: string, test: boolean): Promise<Release> {
+  const query = new URLSearchParams();
+  if (notes !== "") query.set("notes", notes);
+  if (test) query.set("test", "true");
+  const text = query.toString(); // for example "notes=new+greeting&test=true"; empty if neither is filled in
+  return request<Release>("/firmware/node1/" + encodeURIComponent(version) + (text === "" ? "" : "?" + text), {
+    method: "POST",
+    headers: { "Content-Type": "application/octet-stream" },
+    body: file,
+  });
+}
+
+// POST /devices/:id/update (admin): update ONE device to that version. A 202 answer means the device ACCEPTED the
+// command (ack), NOT finished: its result (succeeded, rollback, failed) follows through the Socket.IO "ota" event.
+// force = true only for a downgrade that is on purpose. Errors: 404, 409 (offline, already updating, the same version,
+// a downgrade without force), 422 (the device refuses), 503 (the broker is down, SERVER_URL is empty).
+export function updateDevice(deviceId: string, version: string, force: boolean): Promise<UpdateResult> {
+  return request<UpdateResult>("/devices/" + deviceId + "/update", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(force ? { version, force } : { version }),
+  });
+}
+
+// GET /devices/:id/updates: the firmware update history of one device (at most 20, newest first)
+export function getUpdateHistory(deviceId: string): Promise<Update[]> {
+  return request<Update[]>("/devices/" + deviceId + "/updates");
+}
+
+// POST /fleet/update (admin): update every canary device, or every Node 1. The server only opens "all" after at least
+// one canary SUCCEEDED with that version. Devices that don't qualify are skipped (not queued).
+export function updateMany(version: string, target: "canary" | "all"): Promise<FleetResult> {
+  return request<FleetResult>("/fleet/update", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ version, target }),
+  });
+}
+
+// PUT /devices/:id/canary (admin): mark (true) or unmark (false) a canary device
+export function setCanary(deviceId: string, canary: boolean): Promise<{ device_id: string; canary: boolean }> {
+  return request<{ device_id: string; canary: boolean }>("/devices/" + deviceId + "/canary", {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ canary }),
+  });
+}
+
+// PUT /devices/:id/intervals (admin): the vitals (health) sending interval, 60-3600 seconds. telemetry stays every 10 seconds.
+export function setVitalsInterval(deviceId: string, seconds: number): Promise<IntervalResult> {
+  return request<IntervalResult>("/devices/" + deviceId + "/intervals", {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ vitals_s: seconds }),
+  });
+}
+
+// POST /devices/:id/revoke (admin) = the "Deactivate" button: revoke the key (Module 21) + delete the broker account + status offline.
+// No body, so also NO JSON Content-Type (the same as logout).
+export function deactivate(deviceId: string): Promise<DeactivateResult> {
+  return request<DeactivateResult>("/devices/" + deviceId + "/revoke", { method: "POST" });
+}
+
+// POST /provision/code (admin): a single-use claim code for a new device. The code only exists in this answer.
+export function createClaimCode(content: { name?: string; location?: string; minutes: number }): Promise<NewClaimCode> {
+  return request<NewClaimCode>("/provision/code", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(content),
+  });
+}
+
+// GET /provision/code (admin): the recent claim codes WITHOUT the code: still valid, used by which device, or expired
+export function getClaimCodes(): Promise<ClaimCode[]> {
+  return request<ClaimCode[]>("/provision/code");
 }

@@ -1,4 +1,6 @@
-// server.ts - the entry point of the Mini Smart Home backend v1.4 (Module 27: the backend on the internet, behind Caddy HTTPS.
+// server.ts - the entry point of the Mini Smart Home backend v1.5 (Module 28: over-the-air firmware updates with locked downloads,
+// a canary, single-use claim codes, automatic device broker accounts through dynamic security, and the data of the /fleet page; on
+// top of v1.4, Module 27: the backend on the internet, behind Caddy HTTPS.
 // TRUST_PROXY makes the backend trust what Caddy says about the visitor: Secure login cookies over HTTPS and a login limit per
 // visitor; on top of v1.3, Module 26: it can run as a Docker container in compose.cloud.yml; v1.2, Module 25: the device's point
 // on the map and the daily CSV report through Telegram; v1.1, Module 24: "below-threshold" rules such as watering when the soil
@@ -18,9 +20,14 @@ import { healthRoutes } from "./routes/health.ts";
 import { deviceRoutes } from "./routes/devices.ts";
 import { ruleRoutes } from "./routes/rules.ts";
 import { reportRoutes } from "./routes/reports.ts";
-import { stopMqtt, startMqtt } from "./services/mqtt.ts";
+import { firmwareRoutes } from "./routes/firmware.ts";
+import { fleetRoutes } from "./routes/fleet.ts";
+import { claimRoutes } from "./routes/claims.ts";
+import { brokerConnected, stopMqtt, startMqtt } from "./services/mqtt.ts";
 import { startRealtime } from "./services/realtime.ts";
-import { loadRules } from "./services/automation.ts";
+import { loadVitalsIntervals, sendAllConfigs, loadRules } from "./services/automation.ts";
+import { stopUpdateWatcher, startUpdateWatcher } from "./services/ota.ts";
+import { accountPlace } from "./services/broker-accounts.ts";
 import { stopSchedules } from "./services/schedule.ts";
 import { stopTelegram, startTelegram } from "./services/telegram.ts";
 import { startReports } from "./services/reports.ts";
@@ -69,8 +76,12 @@ await app.register(swagger, {
         + "http://localhost:8080/docs (in the container, a login from http://127.0.0.1:8080/docs is refused with 403). Since v1.4 "
         + "(Module 27), the backend can be opened from the internet behind Caddy HTTPS: with TRUST_PROXY (in Compose: uniquelocal) "
         + "the backend uses the visitor's IP address and protocol from Caddy, so the login cookies are Secure and the limit of 10 "
-        + "login attempts applies per visitor.",
-      version: "1.4.0",
+        + "login attempts applies per visitor. Since v1.5 (Module 28): over-the-air firmware updates (upload POST /firmware/:kind/:version, "
+        + "the command POST /devices/:id/update, the canary, then POST /fleet/update), the firmware download for devices at "
+        + "GET /fw/node-1/<version>.bin locked with the device key, the data of the /fleet page (GET /fleet), single-use claim "
+        + "codes (POST /provision/code for the admin, POST /provision/claim for the device), the vitals interval set from afar, and "
+        + "device broker accounts that are created and deleted automatically (AUTO_BROKER_ACCOUNTS).",
+      version: "1.5.0",
     },
     components: {
       securitySchemes: { // Module 20: routes with a padlock need the access cookie from POST /auth/login
@@ -87,6 +98,9 @@ await app.register(healthRoutes);
 await app.register(deviceRoutes);
 await app.register(ruleRoutes); // Module 19
 await app.register(reportRoutes); // Module 25
+await app.register(firmwareRoutes); // Module 28: firmware releases and the locked download /fw
+await app.register(fleetRoutes); // Module 28: the /fleet page, update commands, the canary, the vitals interval
+await app.register(claimRoutes); // Module 28: claim codes
 
 if (await databaseAlive()) app.log.info("database ready");
 else app.log.warn("database not reachable yet: check the database container and DATABASE_URL in .env");
@@ -103,8 +117,12 @@ startRealtime(app); // Module 19: Socket.IO at the address /socket.io/ (Module 2
 let registryAttempts = 0;
 async function loadDeviceRegistry(): Promise<void> {
   try {
-    const count = loadRegistry(await allDevicesDb());
+    const rows = await allDevicesDb();
+    const count = loadRegistry(rows);
+    loadVitalsIntervals(rows.map((r) => ({ device_id: r.device_id, vitals_interval_s: r.vitals_interval_s ?? null }))); // Module 28
     app.log.info(`device registry loaded: ${count} registered devices`);
+    // Module 28: a config is only sent to registered devices; if the broker connected first, send it now
+    if (brokerConnected()) sendAllConfigs();
   } catch (error) {
     if (registryAttempts % 6 === 0) {
       app.log.error(`device registry couldn't be loaded yet (${(error as Error).message}); retrying every 10 seconds`);
@@ -120,6 +138,11 @@ if (env.MQTT_USERNAME === "") {
 startMqtt(env.MQTT_URL, env.MQTT_USERNAME === "" ? null : { username: env.MQTT_USERNAME, password: env.MQTT_PASSWORD }, app.log);
 startTelegram(env.TELEGRAM_BOT_TOKEN, env.TELEGRAM_CHAT_ID, env.TELEGRAM_API_ROOT); // Module 19: not awaited
 startReports(env.REPORT_SCHEDULE); // Module 25: the daily CSV report to Telegram (node-cron, WIB)
+startUpdateWatcher(); // Module 28: a firmware update without word for OTA_TIMEOUT_MINUTES minutes = expired
+// Module 28: two lines at startup, the proof that the firmware update and broker account settings were read
+app.log.info(env.SERVER_URL === "" ? "over-the-air firmware updates OFF: SERVER_URL not set"
+  : `firmware download address for devices: ${env.SERVER_URL}/fw/node-1/<version>.bin`);
+app.log.info(`device broker accounts: ${accountPlace()} (AUTO_BROKER_ACCOUNTS)`);
 await app.listen({ port: env.PORT, host: env.HOST });
 app.log.info(`API docs: http://${env.HOST}:${env.PORT}/docs`);
 
@@ -130,6 +153,7 @@ async function stopGracefully(signal: string): Promise<void> {
   try {
     await stopTelegram(); // confirm the last update to Telegram
     await stopSchedules(); // node-cron: wait for the tasks that are running (the rule schedules and, since Module 25, the daily report)
+    stopUpdateWatcher(); // Module 28
     await app.close(); // preClose disconnects the Socket.IO clients, then the HTTP server closes
     await stopMqtt(); // DISCONNECT to the broker
     await pool.end(); // close the database connection pool

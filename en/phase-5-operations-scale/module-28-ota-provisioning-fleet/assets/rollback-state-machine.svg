@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="896" viewBox="0 0 1200 896" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="896" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" xml:space="preserve">Rollback that really works</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" xml:space="preserve">Concept 4 · the program shelf states in <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5">otadata</tspan> (ESP-IDF v5.5.5) · new firmware must prove itself within 60 seconds</text>
+<rect x="30.0" y="100.0" width="1140.0" height="588.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="54.0" y="132.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >The journey of firmware installed over the air</text>
+<text x="1146.0" y="132.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="end" xml:space="preserve">the state is recorded in <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568" font-weight="800">otadata</tspan>, not inside the <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#4a5568" font-weight="800">.bin</tspan> file</text>
+<rect x="52.0" y="250.0" width="172.0" height="92.0" rx="10" fill="#ffffff" stroke="#1e2a4a" stroke-width="2" />
+<text x="68.0" y="276.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">NEW</text>
+<text x="68.0" y="298.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">newly written over the air,</text>
+<text x="68.0" y="316.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">never started yet</text>
+<line x1="226.0" y1="296.0" x2="286.0" y2="296.0" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" />
+<path d="M278.9 299.8 L286.0 296.0 L278.9 292.2" fill="none" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="256.0" y="284.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="middle" >starts</text>
+<rect x="290.0" y="250.0" width="200.0" height="92.0" rx="10" fill="#fdeedd" stroke="#b45f17" stroke-width="2" />
+<text x="306.0" y="276.0" font-size="14" font-weight="800" fill="#b45f17" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">PENDING_VERIFY</text>
+<text x="306.0" y="298.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the shelf opener marks it</text>
+<text x="306.0" y="316.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">at the first start</text>
+<line x1="492.0" y1="296.0" x2="552.0" y2="296.0" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" />
+<path d="M544.9 299.8 L552.0 296.0 L544.9 292.2" fill="none" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="556.0" y="242.0" width="252.0" height="108.0" rx="10" fill="#ffffff" stroke="#1e2a4a" stroke-width="2" />
+<text x="572.0" y="266.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Arduino core, before <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#1e2a4a" font-weight="800">setup()</tspan>:</text>
+<text x="572.0" y="288.0" font-size="12.5" font-weight="800" fill="#a13a6b" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12.5" fill="#a13a6b" font-weight="800">verifyRollbackLater()</tspan>?</text>
+<text x="572.0" y="312.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#a13a6b" font-weight="800">true</tspan> (Module 28): the firmware</text>
+<text x="572.0" y="330.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" >runs its own 60-second trial</text>
+<rect x="556.0" y="148.0" width="252.0" height="80.0" rx="10" fill="#fde6e8" stroke="#e63946" stroke-width="1.6" stroke-dasharray="6 4"/>
+<text x="570.0" y="170.0" font-size="12" font-weight="800" fill="#e63946" text-anchor="start" xml:space="preserve">default <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#e63946" font-weight="800">false</tspan>: VALID at once</text>
+<text x="570.0" y="190.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">before <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">setup()</tspan>: even a wrong key is</text>
+<text x="570.0" y="208.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">valid, no message, no rollback</text>
+<path d="M596 242 L596 230" fill="none" stroke="#e63946" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="5 4"/>
+<rect x="290.0" y="368.0" width="518.0" height="82.0" rx="10" fill="#fcf2f6" stroke="#a13a6b" stroke-width="1.8" />
+<text x="304.0" y="393.0" font-size="12" font-weight="800" fill="#a13a6b" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">extern "C" bool verifyRollbackLater() { return true; }</text>
+<text x="304.0" y="415.0" font-size="11" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">trial-period.cpp</tspan>: without <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">extern</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">"C"</tspan>, the compile still succeeds with no warning, but</text>
+<text x="304.0" y="433.0" font-size="11" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">our function doesn't get into the firmware: the default <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">false</tspan> is used (the author's compile)</text>
+<rect x="52.0" y="368.0" width="214.0" height="64.0" rx="10" fill="#ffffff" stroke="#4a5568" stroke-width="2" />
+<text x="68.0" y="394.0" font-size="14" font-weight="800" fill="#4a5568" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">UNDEFINED</text>
+<text x="68.0" y="416.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">by cable: no trial period</text>
+<rect x="868.0" y="148.0" width="282.0" height="116.0" rx="10" fill="#ffffff" stroke="#2a9d5c" stroke-width="2" />
+<text x="884.0" y="173.0" font-size="14" font-weight="800" fill="#2a9d5c" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">VALID</text>
+<text x="884.0" y="194.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">within 60 seconds of starting:</tspan></text>
+<text x="884.0" y="212.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">connected to the broker (key accepted)</text>
+<text x="884.0" y="230.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">+ <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">online</tspan> published + <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">cmd</tspan> subscription</text>
+<text x="884.0" y="248.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">→ the firmware marks itself valid</text>
+<rect x="868.0" y="282.0" width="282.0" height="116.0" rx="10" fill="#ffffff" stroke="#e63946" stroke-width="2" />
+<text x="884.0" y="307.0" font-size="14" font-weight="800" fill="#e63946" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">INVALID</text>
+<text x="884.0" y="328.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">60 seconds run out without that</tspan></text>
+<text x="884.0" y="346.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">(wrong key, broker unreachable)</text>
+<text x="884.0" y="364.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">→ the <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">rollback</tspan> report saved first,</text>
+<text x="884.0" y="382.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">then marked invalid + restart</text>
+<rect x="868.0" y="416.0" width="282.0" height="116.0" rx="10" fill="#ffffff" stroke="#e63946" stroke-width="2" />
+<text x="884.0" y="441.0" font-size="14" font-weight="800" fill="#e63946" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">ABORTED</text>
+<text x="884.0" y="462.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">restarted in the middle of the trial</tspan></text>
+<text x="884.0" y="480.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">(crash, watchdog, power loss,</text>
+<text x="884.0" y="498.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">restart</tspan>) → the shelf opener cancels it</text>
+<text x="884.0" y="516.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">at the next start</text>
+<line x1="809.0" y1="296.0" x2="838.0" y2="296.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<line x1="838.0" y1="206.0" x2="838.0" y2="474.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<line x1="838.0" y1="206.0" x2="865.0" y2="206.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<path d="M858.8 209.3 L865.0 206.0 L858.8 202.7" fill="none" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="838.0" y1="340.0" x2="865.0" y2="340.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<path d="M858.8 343.3 L865.0 340.0 L858.8 336.7" fill="none" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<line x1="838.0" y1="474.0" x2="865.0" y2="474.0" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" />
+<path d="M858.8 477.3 L865.0 474.0 L858.8 470.7" fill="none" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M808 178 L864 178" fill="none" stroke="#e63946" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="5 4"/>
+<path d="M858.8 181.3 L865.0 178.0 L858.8 174.7" fill="none" stroke="#e63946" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="868.0" y="552.0" width="282.0" height="116.0" rx="10" fill="#fcf2f6" stroke="#a13a6b" stroke-width="2" />
+<text x="884.0" y="577.0" font-size="14" font-weight="800" fill="#a13a6b" text-anchor="start" >Rollback: the old shelf starts</text>
+<text x="884.0" y="599.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the old firmware reads its note in NVS</text>
+<text x="884.0" y="617.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">(report or plan) → <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">vitals.ota</tspan></text>
+<text x="884.0" y="635.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">"result":"rollback"</tspan> → dashboard:</text>
+<text x="884.0" y="653.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#a13a6b">back to the old version</tspan></text>
+<line x1="1009.0" y1="533.0" x2="1009.0" y2="549.0" stroke="#e63946" stroke-width="2" stroke-linecap="round" />
+<path d="M1005.7 542.8 L1009.0 549.0 L1012.3 542.8" fill="none" stroke="#e63946" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M1150 340.0 L1162 340.0 L1162 582 L1153 582" fill="none" stroke="#e63946" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M1158.2 578.7 L1152.0 582.0 L1158.2 585.3" fill="none" stroke="#e63946" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="54.0" y="474.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >Two kinds of broken firmware, two catchers</text>
+<rect x="52.0" y="490.0" width="370.0" height="178.0" rx="10" fill="#eef1f5" />
+<text x="68.0" y="516.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" >Crashes or hangs</text>
+<text x="68.0" y="538.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">for example: the program panics, stuck in <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">setup()</tspan></text>
+<text x="68.0" y="557.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">(the trial-period watchdog: 75 seconds)</text>
+<text x="68.0" y="576.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">caught by: <tspan font-weight="800" fill="#a13a6b">the shelf opener</tspan> (ABORTED)</text>
+<text x="68.0" y="601.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="start" >the report on the dashboard:</text>
+<text x="68.0" y="621.0" font-size="10.5" font-weight="700" fill="#e63946" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">restarted during the trial period (PANIC)</text>
+<text x="68.0" y="639.0" font-size="10.5" font-weight="700" fill="#e63946" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">power lost during the trial period</text>
+<rect x="438.0" y="490.0" width="370.0" height="178.0" rx="10" fill="#eef1f5" />
+<text x="454.0" y="516.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" >Runs but blind</text>
+<text x="454.0" y="538.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">for example: test release 1.7.2, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">TEST_WRONG_KEY</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">=</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">1</tspan>:</text>
+<text x="454.0" y="557.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the key broken in RAM, the broker refuses</text>
+<text x="454.0" y="576.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">caught by: <tspan font-weight="800" fill="#a13a6b">the 60-second timer</tspan> (INVALID)</text>
+<text x="454.0" y="601.0" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="start" >the report on the dashboard:</text>
+<text x="454.0" y="621.0" font-size="10.5" font-weight="700" fill="#e63946" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">not connected to the broker within 60 seconds</text>
+<rect x="30.0" y="708.0" width="1140.0" height="146.0" rx="14" fill="#eef1f5" />
+<text x="54.0" y="738.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Worth remembering</text>
+<text x="54.0" y="764.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">Any restart during the trial period = cancelled.</tspan> A broker unreachable for 60 seconds (router or Pi off) cancels good firmware too: repeat <tspan font-weight="800" fill="#1e2a4a">Update</tspan></text>
+<text x="54.0" y="788.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">During the trial period</tspan> Wi-Fi is retried every 10 seconds, the Wi-Fi portal isn't opened, and another <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">update</tspan> is refused (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">still</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">in</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">the</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">60-second</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">trial</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">period</tspan>)</text>
+<text x="54.0" y="812.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">"Proven"</tspan> = key accepted by the broker, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">online</tspan> published, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">cmd</tspan> subscription sent; a fault after that (a sensor, for example) isn't covered by rollback</text>
+<text x="54.0" y="836.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">Simulated lab</tspan> (simulator): the rollback recorded 70 seconds after the command (5 + 60 + 5); <tspan font-weight="800" fill="#1e2a4a">rollback on a real board not tested by the author</tspan></text>
+<text x="1178.0" y="882.0" font-size="11" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer Curriculum · CC BY 4.0</text>
+</svg>

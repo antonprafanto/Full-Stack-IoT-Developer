@@ -1,4 +1,4 @@
-# compose.cloud.yml - every CENTRAL service of Mini Smart Home in one file (Modules 26-27).
+# compose.cloud.yml - every CENTRAL service of Mini Smart Home in one file (Modules 26-28).
 # ONE file for three places; only the contents of .env differ (the "values per place" table in .env.example):
 #   laptop (Module 26)            : WEB_DOMAIN and MQTT_DOMAIN empty = the dashboard over HTTP at http://localhost, a plain broker 1883
 #   VPS (Module 27, main path)    : WEB_DOMAIN and MQTT_DOMAIN filled in = Caddy sets up HTTPS by itself, the broker also TLS on 8883
@@ -10,7 +10,8 @@
 # Secrets and settings are read from .env in this folder (its example is .env.example). .env NEVER goes into Git, and the output
 # of "docker compose config" prints every secret: don't paste it into a forum, an issue, or an AI.
 # NEVER "docker compose down -v": -v deletes the cupboards (volumes) that belong to Compose. The history cupboards (db, grafana) are
-# "external" on purpose so they aren't deleted, but the broker passwords, the Uptime Kuma data, and (Module 27) Caddy's certificates are.
+# "external" on purpose so they aren't deleted, but the broker passwords, the Uptime Kuma data, (Module 27) Caddy's HTTPS certificates,
+# and (Module 28) the device broker accounts (dynamic security) and the uploaded firmware files are still lost.
 name: smarthome
 
 # The backend settings are used by two services (backend and migrate): written once here, then referred to with *backend-settings.
@@ -39,6 +40,15 @@ x-backend-settings: &backend-settings
   # only for a mock Bot API server in the lab; empty = the real Telegram server
   TELEGRAM_API_ROOT: ${TELEGRAM_API_ROOT:-}
   REPORT_SCHEDULE: "${REPORT_SCHEDULE:-0 7 * * *}"
+  # Module 28 (backend 1.5.0): the server address for DEVICES. The firmware download url in the update command = SERVER_URL +
+  # /fw/node-1/<version>.bin (Caddy passes /fw/* on to the backend), and the same address is typed in the portal when claiming.
+  # Empty = over-the-air updates off. VPS: https://iot.yourname.my.id. Home network only: http://<home IP>, see .env.example.
+  SERVER_URL: ${SERVER_URL:-}
+  # Module 28: are the device broker accounts made and deleted by the backend itself (Mosquitto's dynamic security plugin)? off = by
+  # hand as in Module 21; center = on the mosquitto broker below; gateway:pi1 = on the Pi gateway broker named pi1, through the bridge
+  AUTO_BROKER_ACCOUNTS: ${AUTO_BROKER_ACCOUNTS:-off}
+  # Module 28: an update without any word for this many minutes = expired. Leave it at 10 (the author's lab shortens it for testing).
+  OTA_TIMEOUT_MINUTES: ${OTA_TIMEOUT_MINUTES:-10}
   # the times in the backend log use WIB (without this, the container's clock = UTC; a VPS is usually UTC too)
   TZ: Asia/Jakarta
 
@@ -81,10 +91,11 @@ services:
     logging: *log
 
   # One-off: makes the broker account "backend" in the broker cupboard, ONLY when there's no password file yet (a new machine, an
-  # empty cupboard). Other accounts (simulator devices, pi-bridge, checker, monitor) are added with (-u mosquitto = the password
-  # file's owner):
+  # empty cupboard). Other SERVICE accounts (pi-bridge, checker, monitor) are added with (-u mosquitto = the password file's owner):
   #   docker compose exec -u mosquitto mosquitto mosquitto_passwd /mosquitto/data/broker-passwd <name>
   # then: docker compose restart mosquitto
+  # Module 28: DEVICE accounts are made by the backend itself through dynamic security if AUTO_BROKER_ACCOUNTS isn't off (without
+  # mosquitto_passwd and without a restart); with off, device accounts are still added with the command above (Module 21).
   broker-account:
     image: eclipse-mosquitto:2.1.2-alpine
     environment:
@@ -145,6 +156,13 @@ services:
   # the simulator come in through counter 1883 from the home network, or (Module 27, VPS) through the TLS door 8883 from the internet.
   mosquitto:
     image: eclipse-mosquitto:2.1.2-alpine
+    environment:
+      # Module 28: the password of the dynamic security plugin's "admin" account, used ONCE when the plugin makes its account file
+      # (/mosquitto/data/dynamic-security.json in the broker-data cupboard). We never log in as admin (the backend uses its own
+      # account through its permissions in acl-broker), but whoever knows this password can make any account and read every
+      # message: a random secret, at least 12 characters. Without this password the plugin makes a random password by itself AND an
+      # example account "democlient" (the author's lab), so it must be filled in.
+      MOSQUITTO_DYNSEC_PASSWORD: ${MOSQUITTO_DYNSEC_PASSWORD:?fill in MOSQUITTO_DYNSEC_PASSWORD in .env (random, at least 12 characters)}
     volumes:
       # The configuration and the access list from the repo (read-only). After changing either: docker compose restart mosquitto
       # Module 27: CENTER_CONF in .env chooses the file: center.conf (the default: the laptop and the free-path Pi, only 1883) or
@@ -157,7 +175,7 @@ services:
         bind:
           create_host_path: false
       - ./edge/acl-broker:/mosquitto/config/acl-broker:ro
-      # the password file, retained messages, and sessions are kept in this cupboard (it belongs to Compose)
+      # the password file, retained messages, sessions, and (Module 28) the dynamic security device accounts are kept in this cupboard (it belongs to Compose)
       - broker-data:/mosquitto/data
       # Module 27: the copy of the broker name's certificate from the mqtt-certificate service (empty on the laptop and the free-path Pi)
       - certificate-data:/mosquitto/certs:ro
@@ -187,7 +205,7 @@ services:
   # One-off: applies the new migrations/*.sql files (safe to repeat: "0 new migration(s) applied").
   migrate:
     # the same mold as the backend service (image + build written exactly the same in both services)
-    image: ${IMAGE_REGISTRY:?fill in IMAGE_REGISTRY in .env}/mini-smart-home-backend:1.4.0
+    image: ${IMAGE_REGISTRY:?fill in IMAGE_REGISTRY in .env}/mini-smart-home-backend:1.5.0
     build: ./backend
     command: ["node", "src/db/migrate.ts"]
     environment: *backend-settings
@@ -197,13 +215,18 @@ services:
     restart: "no"
     logging: *log
 
-  # Backend 1.4.0 (Modules 16-27). The image tag = version in backend/package.json.
+  # Backend 1.5.0 (Modules 16-28). The image tag = version in backend/package.json.
   backend:
     # image: the name in the image shop (GHCR, Module 26 Practice 10). build: if that image isn't on this machine yet and can't be
     # pulled from the shop, Compose builds it itself from backend/Dockerfile (on a VPS: docker compose build, Module 27).
-    image: ${IMAGE_REGISTRY:?fill in IMAGE_REGISTRY in .env}/mini-smart-home-backend:1.4.0
+    image: ${IMAGE_REGISTRY:?fill in IMAGE_REGISTRY in .env}/mini-smart-home-backend:1.5.0
     build: ./backend
     environment: *backend-settings
+    volumes:
+      # Module 28: the firmware files (.bin) the admin uploads. Only the backend mounts it: Caddy (web) does NOT, so the firmware
+      # files are never served openly; the devices download them through the locked route /fw (the device key). A Node 1 .bin
+      # file may contain the ESP-NOW key: don't copy it to a public place.
+      - firmware-data:/app/firmware-data
     ports:
       # Bruno, Swagger (http://localhost:8080/docs), and tools/live-terminal.js keep using the old counter. On a VPS also
       # 127.0.0.1: from the laptop through an SSH tunnel (ssh -L 8080:127.0.0.1:8080), internet visitors through Caddy /api.
@@ -227,10 +250,11 @@ services:
     restart: unless-stopped
     logging: *log
 
-  # The dashboard (Modules 22-27) served by Caddy: the page at /, the backend API at /api (one address, no cross-port CORS).
-  # Module 27: Caddy also sets up HTTPS by itself when WEB_DOMAIN is filled in (frontend/caddy/Caddyfile).
+  # The dashboard (Modules 22-28) served by Caddy: the page at /, the backend API at /api (one address, no cross-port CORS).
+  # Module 27: Caddy also sets up HTTPS by itself when WEB_DOMAIN is filled in (frontend/caddy/Caddyfile). Module 28: /fw/* (the
+  # devices' firmware downloads) is passed on to the backend as it is.
   web:
-    image: ${IMAGE_REGISTRY:?fill in IMAGE_REGISTRY in .env}/mini-smart-home-web:1.3.0
+    image: ${IMAGE_REGISTRY:?fill in IMAGE_REGISTRY in .env}/mini-smart-home-web:1.4.0
     build:
       context: ./frontend
       args:
@@ -257,7 +281,10 @@ services:
       # the default 127.0.0.1 = this machine only. Phone mode (laptop): WEB_ADDRESS=0.0.0.0 and the laptop's IP in CORS_ORIGIN.
       # VPS: WEB_ADDRESS=0.0.0.0, because Let's Encrypt and visitors must be able to knock on 80 and 443 from the internet. 0.0.0.0 =
       # IPv4 only: make a DNS A record, not AAAA (IPv6).
-      - "${WEB_ADDRESS:-127.0.0.1}:${PORT_WEB:-80}:80"
+      # Module 28: the last number = the door INSIDE the container. 80 (the default) = the full dashboard. The free-path Pi:
+      # WEB_INNER_PORT=8081 = the device door only (firmware downloads + claims, the bottom of frontend/caddy/Caddyfile) for the
+      # home Wi-Fi; cloudflared still knocks on http://web:80 in the Docker hallway.
+      - "${WEB_ADDRESS:-127.0.0.1}:${PORT_WEB:-80}:${WEB_INNER_PORT:-80}"
       # Module 27: HTTPS (TCP) and HTTP/3 (UDP, advertised by Caddy itself). Not used on a laptop without a domain.
       - "${WEB_ADDRESS:-127.0.0.1}:${PORT_HTTPS:-443}:443"
       - "${WEB_ADDRESS:-127.0.0.1}:${PORT_HTTPS:-443}:443/udp"
@@ -390,10 +417,12 @@ volumes:
   grafana-data:
     external: true
     name: ${GRAFANA_VOLUME:-smarthome-grafana-data}
-  # Compose's cupboards (made by itself, deleted by "down -v"): the broker password file + retained messages, the Uptime Kuma data,
-  # and (Module 27) Caddy's cupboard (the Let's Encrypt account + certificates) and the copy of the broker certificate.
+  # Compose's cupboards (made by itself, deleted by "down -v"): the broker password file + retained messages (Module 28: + the dynamic
+  # security device accounts), the Uptime Kuma data, (Module 27) Caddy's cupboard (the Let's Encrypt account + certificates) and the
+  # copy of the broker certificate, and (Module 28) the uploaded firmware files. Back up broker-data and firmware-data (scripts/).
   broker-data:
   kuma-data:
   caddy-data:
   caddy-config:
   certificate-data:
+  firmware-data:

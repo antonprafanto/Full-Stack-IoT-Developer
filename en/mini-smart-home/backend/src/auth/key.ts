@@ -1,5 +1,5 @@
 // key.ts - device keys (a per-device API key, Module 21). A key = 32 random bytes, shown ONCE when it is made, then used by
-// the device as its MQTT broker password (and later for HTTP too, for example downloading firmware in Module 28). The database
+// the device as its MQTT broker password and, since Module 28, for the firmware downloads /fw (routes/firmware.ts). The database
 // stores only its SHA-256: a random 256-bit key can't be guessed, so a fast hash is enough (bcrypt is only needed for
 // human-made passwords, Module 20). A key is NEVER written to a log or to Git.
 import { createHash, randomBytes, timingSafeEqual } from "node:crypto";
@@ -18,7 +18,8 @@ export function hashKey(key: string): string {
 
 // Does the key presented match the fingerprint in the database? The comparison is constant-time (timingSafeEqual): how long
 // the answer takes doesn't depend on how many leading characters are already right, so it can't be guessed character by character.
-// In Module 21 it is the broker (the password file) that checks the key; this function is for the backend later (Module 28).
+// In Module 21 it is the broker (the password file) that checks the key; the backend uses this function since Module 28: the
+// firmware download route /fw (routes/firmware.ts) checks Basic Auth device_id:key with it.
 export function matchKey(key: string, keyHash: string | null): boolean {
   if (keyHash === null) return false; // a device with no key (revoked, or Node 2 via Node 1)
   const given = Buffer.from(hashKey(key), "hex");

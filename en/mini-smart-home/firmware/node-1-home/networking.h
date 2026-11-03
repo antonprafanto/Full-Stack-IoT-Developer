@@ -22,3 +22,8 @@ void startOfflineTest();             // Module 19: Serial command "test offline"
 const char* brokerUsername();        // Module 21: the broker username (device_id; Wokwi locked: "rw")
 bool mqttRejected();                 // Module 21: true if the broker rejected the key on the last attempt
 void changeBrokerKey();              // Module 21: a new key or a cleared one: reconnect NOW with that key
+const char* myDeviceId();            // Module 28: device_id (12 lowercase hexadecimal digits from the Wi-Fi MAC)
+bool wifiConnected();                // Module 28: true if Wi-Fi is connected now (claims and firmware downloads)
+void changeBrokerAddress();          // Module 28: a new broker address (portal, Serial, claim): reconnect NOW
+void stopOnPurpose();                // Module 28: publish "offline-mode", disconnect CLEANLY, and don't reconnect
+void resumeConnection();             // Module 28: after a failed update: may (and soon will) connect again

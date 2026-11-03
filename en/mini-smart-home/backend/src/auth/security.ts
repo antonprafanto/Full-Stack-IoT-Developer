@@ -38,9 +38,14 @@ export const ACCESS_OPTIONS = { ...BASE, path: "/", maxAge: ACCESS_AGE_SECONDS }
 export const SESSION_OPTIONS = { ...BASE, path: "/auth", maxAge: SESSION_AGE_SECONDS }; // only sent to /auth/...
 
 // Routes you may knock on WITHOUT logging in. Every other route requires a login, including routes added later.
+// Module 28: two routes for DEVICES (which have no dashboard account). Both do their own, stricter checks:
+//   firmware download /fw/... = Basic Auth device_id:key (matchKey) + the device's MAC (routes/firmware.ts)
+//   claim                     = a single-use claim code made by the admin, 10 attempts per minute per IP address (routes/claims.ts)
 export const OPEN_ROUTES = new Set([
   "POST /auth/login", "POST /auth/refresh", "POST /auth/logout",
   "GET /health", "HEAD /health", // HEAD: the Docker Compose healthcheck (Module 26) knocks HEAD /health
+  "GET /fw/:folder/:file", "HEAD /fw/:folder/:file", // Module 28: firmware download (HEAD = only check the size)
+  "POST /provision/claim", // Module 28: a device exchanges a claim code for its key
 ]);
 const READ_METHODS = new Set(["GET", "HEAD"]); // the only methods a viewer account may use
 // Web pages (origins) that may CHANGE something through a browser: the CORS list + this server itself (Swagger UI at /docs).
@@ -63,7 +68,8 @@ export async function setupSecurity(app: FastifyInstance): Promise<void> {
     verify: { onlyCookie: true }, // the wristband is only read from the cookie, not from the Authorization header
   });
   await app.register(rateLimit, {
-    // only routes that ask for it (POST /auth/login); counts are kept in memory: restart = start from zero. Counts per
+    // only routes that ask for it (POST /auth/login; Module 28: also POST /provision/claim and the firmware download /fw); counts
+    // are kept in memory: restart = start from zero. Counts per
     // visitor IP address (req.ip): behind Caddy, that address is only the real visitor's address when TRUST_PROXY is filled in (Module 27)
     global: false,
     errorResponseBuilder: (_req, context) => Object.assign(

@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="982" viewBox="0 0 1200 982" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="982" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" xml:space="preserve">The fleet: one first, then all</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" xml:space="preserve">Concept 7 · canary = the device that gets updates first · <tspan font-weight="800">Update all</tspan> is locked until one canary succeeds</text>
+<rect x="30.0" y="100.0" width="336.0" height="188.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="50.0" y="132.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >1. Upload a release</text>
+<text x="50.0" y="160.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">Upload Node 1 firmware</tspan> on <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">/fleet</tspan></text>
+<text x="50.0" y="181.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">(admin), for example 1.7.1</text>
+<text x="50.0" y="223.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">a normal release: for many devices</text>
+<text x="50.0" y="244.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">a <tspan font-weight="800" fill="#1e2a4a">test</tspan> release (for example 1.7.2): only</text>
+<text x="50.0" y="265.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">through <tspan font-weight="800" fill="#1e2a4a">Update</tspan> on one device card</text>
+<rect x="432.0" y="100.0" width="336.0" height="188.0" rx="14" fill="#fcf2f6" stroke="#a13a6b" stroke-width="2" />
+<text x="452.0" y="132.0" font-size="15" font-weight="800" fill="#a13a6b" text-anchor="start" >2. Update canary</text>
+<text x="452.0" y="160.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">only the Node 1s with <tspan font-weight="800" fill="#1e2a4a">Canary</tspan> ticked that</text>
+<text x="452.0" y="181.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">are online; wait until the result is <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">succeeded</tspan></text>
+<text x="452.0" y="223.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">in the release list:</text>
+<text x="452.0" y="244.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">Canary: 1 succeeded, 0 failed or rolled back</tspan></text>
+<line x1="372.0" y1="194.0" x2="426.0" y2="194.0" stroke="#a13a6b" stroke-width="2.6" stroke-linecap="round" />
+<path d="M418.1 198.2 L426.0 194.0 L418.1 189.8" fill="none" stroke="#a13a6b" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="834.0" y="100.0" width="336.0" height="188.0" rx="14" fill="#ffffff" stroke="#2a9d5c" stroke-width="2" />
+<text x="854.0" y="132.0" font-size="15" font-weight="800" fill="#2a9d5c" text-anchor="start" >3. Update all</text>
+<text x="854.0" y="160.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">unlocked when canary succeeded ≥ 1 and</text>
+<text x="854.0" y="181.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">failed or rolled back = 0</text>
+<text x="854.0" y="223.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">every Node 1 that is online and meets the</text>
+<text x="854.0" y="244.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">conditions gets it <tspan font-weight="800" fill="#1e2a4a">at once</tspan>; the others</text>
+<text x="854.0" y="265.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">are skipped, <tspan font-weight="800" fill="#1e2a4a">not queued</tspan></text>
+<line x1="774.0" y1="194.0" x2="828.0" y2="194.0" stroke="#2a9d5c" stroke-width="2.6" stroke-linecap="round" />
+<path d="M820.1 198.2 L828.0 194.0 L820.1 189.8" fill="none" stroke="#2a9d5c" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="784.0" y="148.0" width="34.0" height="34.0" rx="6" fill="#fffdf7" />
+<rect x="790.0" y="163.0" width="22.0" height="17.0" rx="3" fill="none" stroke="#b45f17" stroke-width="2" />
+<path d="M794.5 163.0 L794.5 158.0 A6.5 6.5 0 0 1 807.5 158.0 L807.5 163.0" fill="none" stroke="#b45f17" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="801.0" cy="171.0" r="1.8" fill="#b45f17" />
+<rect x="30.0" y="308.0" width="1140.0" height="86.0" rx="12" fill="#fdeedd" />
+<text x="52.0" y="336.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Until the conditions are met, the <tspan font-weight="800" fill="#1e2a4a">Update all</tspan> button is disabled and writes its reason:</text>
+<text x="52.0" y="362.0" font-size="11.5" font-weight="800" fill="#b45f17" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">Locked: no canary has succeeded yet.</text>
+<text x="612.0" y="362.0" font-size="11.5" font-weight="800" fill="#b45f17" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">Locked: a canary failed or rolled back.</text>
+<text x="52.0" y="382.0" font-size="11.5" font-weight="800" fill="#b45f17" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">Locked: test release: per device only.</text>
+<text x="612.0" y="382.0" font-size="11.5" font-weight="800" fill="#b45f17" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">Locked: release withdrawn.</text>
+<rect x="30.0" y="414.0" width="1140.0" height="320.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="54.0" y="444.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Example: Update all to 1.7.1</text>
+<text x="1146.0" y="444.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="end" >device names = examples; reasons = the exact server wording</text>
+<text x="54.0" y="476.0" font-size="11.5" font-weight="800" fill="#4a5568" text-anchor="start" >device</text>
+<text x="252.0" y="476.0" font-size="11.5" font-weight="800" fill="#4a5568" text-anchor="start" >state</text>
+<text x="430.0" y="476.0" font-size="11.5" font-weight="800" fill="#4a5568" text-anchor="start" >result</text>
+<text x="532.0" y="476.0" font-size="11.5" font-weight="800" fill="#4a5568" text-anchor="start" >the reason the server writes</text>
+<line x1="54.0" y1="484.0" x2="1146.0" y2="484.0" stroke="#e0dcd2" stroke-width="1" stroke-linecap="round" />
+<text x="54.0" y="505.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" >Node 1 living room</text>
+<text x="252.0" y="505.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" >canary, already 1.7.1</text>
+<rect x="430.0" y="489.0" width="67.7" height="22.0" rx="11.0" fill="#eef1f5" stroke="#9aa3b0" stroke-width="1.4" />
+<text x="463.9" y="504.0" font-size="11" font-weight="800" fill="#4a5568" text-anchor="middle" xml:space="preserve">skipped</text>
+<text x="532.0" y="504.0" font-size="10.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">device is already running 1.7.1</text>
+<line x1="54.0" y1="516.0" x2="1146.0" y2="516.0" stroke="#e0dcd2" stroke-width="1" stroke-linecap="round" />
+<text x="54.0" y="537.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" >Node 1 garage</text>
+<text x="252.0" y="537.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" >online, 1.7.0</text>
+<rect x="430.0" y="521.0" width="47.3" height="22.0" rx="11.0" fill="#e3f4ea" stroke="#2a9d5c" stroke-width="1.4" />
+<text x="453.6" y="536.0" font-size="11" font-weight="800" fill="#2a9d5c" text-anchor="middle" xml:space="preserve">sent</text>
+<text x="532.0" y="537.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" >then succeeded (or rollback, if its firmware is wrong)</text>
+<line x1="54.0" y1="548.0" x2="1146.0" y2="548.0" stroke="#e0dcd2" stroke-width="1" stroke-linecap="round" />
+<text x="54.0" y="569.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" >third board</text>
+<text x="252.0" y="569.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" >online, 1.7.0</text>
+<rect x="430.0" y="553.0" width="47.3" height="22.0" rx="11.0" fill="#e3f4ea" stroke="#2a9d5c" stroke-width="1.4" />
+<text x="453.6" y="568.0" font-size="11" font-weight="800" fill="#2a9d5c" text-anchor="middle" xml:space="preserve">sent</text>
+<line x1="54.0" y1="580.0" x2="1146.0" y2="580.0" stroke="#e0dcd2" stroke-width="1" stroke-linecap="round" />
+<text x="54.0" y="601.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" >Node 1 kitchen</text>
+<text x="252.0" y="601.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" >offline</text>
+<rect x="430.0" y="585.0" width="67.7" height="22.0" rx="11.0" fill="#eef1f5" stroke="#9aa3b0" stroke-width="1.4" />
+<text x="463.9" y="600.0" font-size="11" font-weight="800" fill="#4a5568" text-anchor="middle" xml:space="preserve">skipped</text>
+<text x="532.0" y="600.0" font-size="10.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">device is offline: update commands are only sent to online devices (not queued)</text>
+<line x1="54.0" y1="612.0" x2="1146.0" y2="612.0" stroke="#e0dcd2" stroke-width="1" stroke-linecap="round" />
+<text x="54.0" y="633.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" >Node 1 porch</text>
+<text x="252.0" y="633.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" >online, not finished</text>
+<rect x="430.0" y="617.0" width="67.7" height="22.0" rx="11.0" fill="#eef1f5" stroke="#9aa3b0" stroke-width="1.4" />
+<text x="463.9" y="632.0" font-size="11" font-weight="800" fill="#4a5568" text-anchor="middle" xml:space="preserve">skipped</text>
+<text x="532.0" y="632.0" font-size="10.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">the device is still running another update</text>
+<line x1="54.0" y1="644.0" x2="1146.0" y2="644.0" stroke="#e0dcd2" stroke-width="1" stroke-linecap="round" />
+<text x="54.0" y="665.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" >the lost board</text>
+<text x="252.0" y="665.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" >deactivated</text>
+<rect x="430.0" y="649.0" width="67.7" height="22.0" rx="11.0" fill="#eef1f5" stroke="#9aa3b0" stroke-width="1.4" />
+<text x="463.9" y="664.0" font-size="11" font-weight="800" fill="#4a5568" text-anchor="middle" xml:space="preserve">skipped</text>
+<text x="532.0" y="664.0" font-size="10.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">device already deactivated (its key revoked)</text>
+<line x1="54.0" y1="676.0" x2="1146.0" y2="676.0" stroke="#e0dcd2" stroke-width="1" stroke-linecap="round" />
+<text x="54.0" y="697.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" >a newly claimed board</text>
+<text x="252.0" y="697.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" >no telemetry yet</text>
+<rect x="430.0" y="681.0" width="67.7" height="22.0" rx="11.0" fill="#eef1f5" stroke="#9aa3b0" stroke-width="1.4" />
+<text x="463.9" y="696.0" font-size="11" font-weight="800" fill="#4a5568" text-anchor="middle" xml:space="preserve">skipped</text>
+<text x="532.0" y="696.0" font-size="10.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">device kind not known yet: wait for its first telemetry</text>
+<rect x="30.0" y="754.0" width="640.0" height="186.0" rx="14" fill="#eef1f5" />
+<text x="54.0" y="784.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >Fleet rules</text>
+<text x="54.0" y="810.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">One update running per device</tspan>: a second command is refused <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">409</tspan></text>
+<text x="54.0" y="831.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">No word for 10 minutes</tspan> → <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">expired</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">(no</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">word)</tspan></text>
+<text x="54.0" y="852.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">Downgrade</tspan> only with the <tspan font-weight="800" fill="#1e2a4a">Allow downgrade</tspan> tick;</text>
+<text x="54.0" y="873.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">versions below 1.7.0 are refused by Node 1 itself (they have no rollback yet)</text>
+<text x="54.0" y="894.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">A test release</tspan> (1.7.2) never counts as the latest, never for all</text>
+<text x="54.0" y="915.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">Node 2</tspan> gets no OTA: shown on the Fleet screen, updated by cable</text>
+<rect x="686.0" y="754.0" width="484.0" height="110.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="706.0" y="784.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >The author's simulated lab</text>
+<text x="706.0" y="808.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">22 simulator devices: all <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">succeeded</tspan> within</text>
+<text x="706.0" y="827.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">6.3–8.1 seconds; the mock Telegram 44 messages</text>
+<text x="706.0" y="846.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">(2 per device); 100 devices not measured</text>
+<rect x="686.0" y="878.0" width="484.0" height="62.0" rx="14" fill="#ffffff" stroke="#a13a6b" stroke-width="1.6" stroke-dasharray="7 5"/>
+<text x="706.0" y="905.0" font-size="13" font-weight="800" fill="#a13a6b" text-anchor="start" >Coming next: automatic waves</text>
+<text x="706.0" y="925.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" >in stages with an emergency brake = Challenge Level 3</text>
+<text x="1178.0" y="968.0" font-size="11" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer Curriculum · CC BY 4.0</text>
+</svg>

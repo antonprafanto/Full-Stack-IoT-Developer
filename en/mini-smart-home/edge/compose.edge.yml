@@ -1,9 +1,10 @@
-# compose.edge.yml - the Mini Smart Home GATEWAY services on the Raspberry Pi (Modules 26-27), the partner of compose.cloud.yml at the
+# compose.edge.yml - the Mini Smart Home GATEWAY services on the Raspberry Pi (Modules 26-28), the partner of compose.cloud.yml at the
 # center (the laptop in Module 26; a VPS or the same Pi in Module 27).
 # Run it on the Pi, from the edge folder:  docker compose up -d
 #   The line COMPOSE_FILE=compose.edge.yml in edge/.env makes -f unnecessary (its example is edge/.env.example).
 # The Mosquitto gateway broker (replacing the Module 12 apt package) + the bridge to the central broker (bridge/center.conf). Since Module 27
 # that bridge holds the devices' messages while the center can't be reached (gateway.conf) and can connect over TLS to a VPS.
+# Module 28: the device accounts on this broker are made and deleted by the backend at the center (dynamic security plugin, via the bridge).
 # Node-RED (optional) only starts when its profile is named: docker compose --profile nodered up -d
 # Module 27: cloudflared (the Cloudflare tunnel, the free path) MOVED to compose.cloud.yml (profile "tunnel"), because it must
 # share a hallway with the web service. DON'T "docker compose down -v": -v deletes the cupboard with the broker password file AND
@@ -22,13 +23,19 @@ services:
   # Mosquitto 2.1.2 reads the Pi's old password file (2.0 format) as it is.
   mosquitto:
     image: eclipse-mosquitto:2.1.2-alpine
+    environment:
+      # Module 28: the password of the "admin" account of the gateway broker's dynamic security plugin (gateway.conf), used ONCE when its
+      # account file is made in the Pi's broker-data cupboard. Never used to log in, but a secret: random, at least 12 characters. Without
+      # this password the plugin makes a random password by itself AND an example account "democlient", so it must be filled in edge/.env.
+      MOSQUITTO_DYNSEC_PASSWORD: ${MOSQUITTO_DYNSEC_PASSWORD:?fill in MOSQUITTO_DYNSEC_PASSWORD in edge/.env (random, at least 12 characters)}
     volumes:
       # The configuration and the access list from the repo (read-only). After changing either: docker compose restart mosquitto
       - ./gateway.conf:/mosquitto/config/mosquitto.conf:ro
       - ./acl-broker:/mosquitto/config/acl-broker:ro
       # the bridge folder: holds center.conf (the bridge password, not in Git)
       - ./bridge:/mosquitto/config/bridge:ro
-      # the password file (moved from /etc/mosquitto/broker-passwd), retained messages, sessions, and (Module 27) the bridge queue
+      # the password file (moved from /etc/mosquitto/broker-passwd), retained messages, sessions, (Module 27) the bridge queue, and
+      # (Module 28) the dynamic security device accounts
       - broker-data:/mosquitto/data
     # The Mosquitto image declares its log folder as a cupboard, while our log shows on the screen (docker compose logs).
     # tmpfs = a temporary folder in RAM: without it Docker makes a nameless cupboard every time this container is recreated.
@@ -69,6 +76,7 @@ services:
     logging: *log
 
 volumes:
-  # Compose's cupboards: the gateway broker's password file + retained messages, and the Node-RED data (if its profile is used).
+  # Compose's cupboards: the gateway broker's password file + retained messages + (Module 28) the dynamic security device accounts, and
+  # the Node-RED data (if its profile is used). Back up its device accounts: scripts/backup-broker-accounts.sh.
   broker-data:
   nodered-data:

@@ -8,7 +8,7 @@ import { BASE, getDevices, refreshOnce } from "./api";
 import { toast } from "./toast";
 import type { ToastKind } from "./toast";
 import { useLiveStore } from "./store";
-import type { Device, DeviceStatus, FromClient, SavedEvent, Telemetry, ToClient } from "./types";
+import type { Device, DeviceStatus, FromClient, OtaNotice, SavedEvent, Telemetry, ToClient } from "./types";
 
 // The address is the SAME as in api.ts (BASE): the page http://<laptop-IP>:5173 on a phone connects to http://<laptop-IP>:8080 by itself.
 // withCredentials: true = bring the login cookies to another port (the twin of credentials: "include" in fetch). Without it,
@@ -50,19 +50,34 @@ function followAll() {
 // data has the type unknown, so Zod checks it first instead of trusting it as it is.
 const ActionData = z.object({ result: z.string().optional(), ok: z.boolean().nullable().optional() });
 
+// Module 28: the "data" part of an ota event (a firmware update): its update status decides the toast color
+const OtaData = z.object({ status: z.string() });
+const OTA_FAILED = ["rollback", "failed", "rejected", "expired"];
+
 // Module 24: the toast color for one event, from structured data (kind, status, ok), NOT from its sentence: a sentence
 // made by the backend can change its words without changing its meaning.
 function toastKind(ev: SavedEvent): ToastKind {
   // a device connected again or disconnected: the server sends the same device's "status" event to EVERY dashboard
   // FIRST (before the event is recorded), so its newest status is already in the store
-  if (ev.kind === "status") return useLiveStore.getState().status[ev.device_id ?? ""] === "online" ? "info" : "error";
+  // Module 28: offline-mode = stopped ON PURPOSE (for example to install new firmware), not a disruption: not red
+  if (ev.kind === "status") {
+    const status = useLiveStore.getState().status[ev.device_id ?? ""];
+    return status === "online" || status === "offline-mode" ? "info" : "error";
+  }
+  if (ev.kind === "ota") {
+    const data = OtaData.safeParse(ev.data);
+    if (data.success && data.data.status === "succeeded") return "success";
+    if (data.success && OTA_FAILED.includes(data.data.status)) return "error";
+    return "info"; // accepted: the device starts working
+  }
+  if (ev.kind === "provisioning") return "success"; // a new device registered through a claim code
   if (ev.kind === "rule" || ev.kind === "schedule") {
     const data = ActionData.safeParse(ev.data);
     if (data.success && (data.data.ok === false || data.data.result === "no-ack" || data.data.result === "not-sent")) {
       return "error";
     }
   }
-  return "info"; // a rule acted, a rule is ready again, back from offline mode, a command sent again
+  return "info"; // a rule acted, a rule is ready again, back from offline mode, a command sent again, deactivated
 }
 
 // useRealtime - called ONCE in App. While logged in: connects, restores the connection, and passes every event from the
@@ -101,7 +116,11 @@ export function useRealtime(loggedIn: boolean, onSessionExpired: () => void) {
       followAll();
       // A RESTORED connection, not the first one: sync the status. The first doesn't need it, because Layout has just
       // fetched the device list after logging in.
-      if (everConnected) void syncDevices();
+      // Module 28: the Fleet screen fetches its data again too (updates that finished while disconnected).
+      if (everConnected) {
+        void syncDevices();
+        useLiveStore.getState().fleetChanged();
+      }
       everConnected = true;
     }
     function onDisconnect(reason: string) {
@@ -136,12 +155,24 @@ export function useRealtime(loggedIn: boolean, onSessionExpired: () => void) {
     // Module 24: events from the backend's event log (a rule acting, a schedule, a device disconnecting, ...) become toasts.
     // rule-changed doesn't: whoever saved the rule already got a toast from their own HTTP answer. That event only
     // bumps rulesVersion, so an open Rules screen (on any dashboard) fetches its list again.
+    // Module 28: a new device (claim code) and a deactivated device change the device LIST: the list is fetched again
+    // (GET /devices), so a new device is followed right away and the cards on the Devices screen are right too, and the
+    // Fleet screen fetches its data again.
     function onEvent(ev: SavedEvent) {
       if (ev.kind === "rule-changed") {
         useLiveStore.getState().rulesChanged();
         return;
       }
+      if (ev.kind === "provisioning" || ev.kind === "revoked") {
+        void syncDevices();
+        useLiveStore.getState().fleetChanged();
+      }
       toast(ev.message, toastKind(ev));
+    }
+    // Module 28: the progress of a firmware update (the "ota" event, to every dashboard). No toast: every important step
+    // (accepted, succeeded, rollback, failed, expired) also comes as an "ota" event-log event, which already becomes a toast.
+    function onOta(notice: OtaNotice) {
+      useLiveStore.getState().receiveOta(notice);
     }
 
     socket.on("connect", onConnect);
@@ -150,6 +181,7 @@ export function useRealtime(loggedIn: boolean, onSessionExpired: () => void) {
     socket.on("telemetry", onTelemetry);
     socket.on("status", onStatus);
     socket.on("event", onEvent);
+    socket.on("ota", onOta);
     useLiveStore.getState().setConnection("connecting");
     socket.connect();
     // StrictMode in dev mode: connect, disconnect, connect again. Still only ONE connection stays alive.
@@ -161,6 +193,7 @@ export function useRealtime(loggedIn: boolean, onSessionExpired: () => void) {
       socket.off("telemetry", onTelemetry);
       socket.off("status", onStatus);
       socket.off("event", onEvent);
+      socket.off("ota", onOta);
       socket.disconnect();
     };
   }, [loggedIn, onSessionExpired]);

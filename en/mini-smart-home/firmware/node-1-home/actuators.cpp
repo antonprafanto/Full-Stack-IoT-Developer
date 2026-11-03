@@ -115,6 +115,20 @@ void soundBuzzer() {
   buzzerStartTime = millis();
 }
 
+// Module 28: while firmware is being downloaded, loop() doesn't run, so updateActuators() can't turn off the pump and
+// the buzzer on time. Both are turned off now. The lamp, the fan, and the curtain are left in their last state.
+void turnOffPumpAndBuzzer() {
+  if (pump) {
+    digitalWrite(PIN_PUMP, LOW);
+    pump = false;
+    logInfo("Pump turned off before updating the firmware.");
+  }
+  if (buzzer) {
+    ledcWriteTone(PIN_BUZZER, 0);
+    buzzer = false;
+  }
+}
+
 bool lampOn() {
   return lamp;
 }

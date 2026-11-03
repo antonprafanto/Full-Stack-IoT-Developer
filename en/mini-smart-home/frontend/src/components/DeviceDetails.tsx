@@ -85,7 +85,7 @@ function gauges(reading: Telemetry, node2: boolean) {
 const STATUS_TEXT: Record<DeviceStatus, string> = {
   online: "online",
   offline: "offline",
-  "offline-mode": "in offline mode",
+  "offline-mode": "stopped on purpose (for example restarting for a firmware update)", // Module 28
   unknown: "in an unknown state",
 };
 function whyDisabled(kind: Kind, status: DeviceStatus): string | null {

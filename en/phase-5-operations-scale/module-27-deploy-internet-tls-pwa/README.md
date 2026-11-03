@@ -4,7 +4,7 @@
 
 *Phase 5 · Week 27 · Hardware: **Kit A + B** + a **2 GB VPS** (highly recommended) + a **domain** (the free path: Kit A + B + a domain + a free Cloudflare account; without a Pi: the laptop becomes the gateway) · Prerequisites: **Module 26** (backend 1.3.0, frontend 1.2.0, `compose.cloud.yml` on `main`), Module 21 (the locked broker) · Time: the main path ±10 hours, the free path ±7.5 hours, spread over one week, plus waiting for the domain and DNS to become active · Cost: a domain (about IDR 15,000–30,000/year, an estimate) + the first VPS month (about IDR 80,000–200,000, October 2026 prices, check again); the free path: the domain only*
 
-[⬅️ Module 26](../module-26-docker-compose/README.md) · [Phase 5](../README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · [Module 28 ➡️ (coming soon — read the summary in the Syllabus)](../../SYLLABUS.md#module-28--ota-updates-provisioning-fleets--from-breadboard-to-enclosure)
+[⬅️ Module 26](../module-26-docker-compose/README.md) · [Phase 5](../README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · [Module 28 ➡️](../module-28-ota-provisioning-fleet/README.md)
 
 ---
 
@@ -4238,7 +4238,7 @@ The pass requirement from the [Syllabus](../../SYLLABUS.md#module-27--to-the-int
 
 **Mini Smart Home is now online on the internet, encrypted, and outage-proof.** The dashboard opens over HTTPS from anywhere, also as an app on the phone, the device keys no longer travel in the clear over the internet, and the readings from while the home internet was down arrive late with no gaps and no duplicates. Its limits: Node 1's firmware is still uploaded through a cable, and Node 1 is still on the breadboard.
 
-> ➡️ **Next module:** Module 28 — OTA Updates, Provisioning, Fleets, & From Breadboard to Enclosure (coming soon; [read the summary in the Syllabus](../../SYLLABUS.md#module-28--ota-updates-provisioning-fleets--from-breadboard-to-enclosure)). Node 1 is updated without a cable (OTA over HTTP from the server) and goes back to the old version by itself if that fails (rollback), its version shows on the `/fleet` page, and its circuit moves into a project box.
+> ➡️ **Next module:** [Module 28 — OTA Updates, Provisioning, Fleets, & From Breadboard to Enclosure](../module-28-ota-provisioning-fleet/README.md). Node 1 is updated without a cable (OTA over HTTP from the server) and goes back to the old version by itself if that fails (rollback), its version shows on the `/fleet` page, and its circuit moves into a project box.
 
 ## 📚 Sources & Image Credits
 
@@ -4281,4 +4281,4 @@ Telegram = a **mock** Bot API server (a fake token; a lab-only alias `api.telegr
 
 ---
 
-[⬅️ Module 26](../module-26-docker-compose/README.md) · [Phase 5](../README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · **Next: Module 28 — OTA Updates, Provisioning, Fleets, & From Breadboard to Enclosure** (coming soon; [read the summary in the Syllabus](../../SYLLABUS.md#module-28--ota-updates-provisioning-fleets--from-breadboard-to-enclosure))
+[⬅️ Module 26](../module-26-docker-compose/README.md) · [Phase 5](../README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · **Next: [Module 28 — OTA Updates, Provisioning, Fleets, & From Breadboard to Enclosure](../module-28-ota-provisioning-fleet/README.md) ➡️**

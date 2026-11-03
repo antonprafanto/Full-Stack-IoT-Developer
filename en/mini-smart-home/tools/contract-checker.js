@@ -8,6 +8,8 @@
 // Needs the mqtt library:  npm install mqtt@5.16.1
 // Version 1.4 (Module 21): a locked broker needs a "read only" account in tools/.env (CHECKER_USERNAME, CHECKER_KEY), so
 // run it with node --env-file=.env (a public broker without a key: just as usual); the address may carry a port.
+// Version 1.6 (Module 28): vitals may carry reset_reason + fw (always together) and the ota update report; the update command
+// is checked (version, url, sha256, size) and marked FAIL if it is stuck (retained); config may carry intervals.vitals_s.
 // Run:  node --env-file=.env contract-checker.js                (broker on this laptop)
 //       node --env-file=.env contract-checker.js 192.168.1.10   (broker on another computer)
 //       node --env-file=.env contract-checker.js 127.0.0.1:1884 (broker on another port, for example the practice broker)
@@ -33,9 +35,9 @@ const FIELDS = {
   "telemetry Node 2": { // contract 1.1: battery may be missing (the voltage divider is optional)
     all: ["ts", "fw", "temperature", "humidity", "pressure", "soil_temperature", "soil", "battery"],
     required: ["ts", "fw", "temperature", "humidity", "pressure", "soil_temperature", "soil"] },
-  vitals: { all: ["ts", "rssi", "uptime_s", "heap_free", "reset_reason", "offline_s", "local_fan"],
+  vitals: { all: ["ts", "rssi", "uptime_s", "heap_free", "reset_reason", "fw", "ota", "offline_s", "local_fan"],
     required: ["ts", "rssi", "uptime_s", "heap_free"] },
-  cmd: { all: ["id", "ts", "action", "target", "value", "thresholds", "url", "version"], required: ["id", "action"] },
+  cmd: { all: ["id", "ts", "action", "target", "value", "thresholds", "intervals", "url", "version", "sha256", "size"], required: ["id", "action"] },
   ack: { all: ["id", "ts", "ok", "message", "state"], required: ["id", "ts", "ok", "state"] },
 };
 const RESET_REASONS = ["POWERON", "BROWNOUT", "SW", "PANIC", "WDT", "DEEPSLEEP", "UNKNOWN"];
@@ -184,13 +186,39 @@ function checkVitals(content, problems) {
   if (has("reset_reason") && !RESET_REASONS.includes(content.reset_reason)) {
     problems.push(`"reset_reason" must be one of ${RESET_REASONS.join(", ")}`);
   }
+  // contract 1.6: reset_reason and fw always come together (required from Node 1 firmware 1.7.0); ota only together with fw
+  if (has("reset_reason") !== has("fw")) problems.push("reset_reason and fw must come together (contract 1.6)");
+  if (has("fw") && (typeof content.fw !== "string" || !/^\d+\.\d+\.\d+$/.test(content.fw))) {
+    problems.push(`"fw" must be a version like "1.7.0", got ${text(content.fw)}`);
+  }
+  let otaNote = "";
+  if (has("ota")) {
+    const o = content.ota;
+    if (!has("fw")) problems.push("the ota report may only come together with fw");
+    if (typeof o !== "object" || o === null || Array.isArray(o)) {
+      problems.push(`"ota" must be an object { id, result, version, message? }, got ${text(o)}`);
+    } else {
+      const extra = Object.keys(o).filter((k) => !["id", "result", "version", "message"].includes(k));
+      if (extra.length > 0) problems.push(`field "${extra.join(", ")}" inside ota isn't in the contract`);
+      if (!validId(o.id)) problems.push(`"ota.id" must be an update command id (1 to 39 characters), got ${text(o.id)}`);
+      if (!["succeeded", "rollback", "failed"].includes(o.result)) {
+        problems.push(`"ota.result" must be succeeded, rollback, or failed, got ${text(o.result)}`);
+      }
+      if (typeof o.version !== "string" || !/^\d+\.\d+\.\d+$/.test(o.version)) problems.push(`"ota.version" must be a version x.y.z`);
+      if (o.message !== undefined && (typeof o.message !== "string" || o.message.length > 80)) {
+        problems.push(`"ota.message" must be text of at most 80 characters`);
+      }
+      otaNote = `  (update report ${o.version}: ${o.result})`;
+    }
+  }
   const report = ["offline_s", "local_fan"].filter((k) => k in content); // contract 1.3: the two always come together
   if (report.length === 1) {
     problems.push(`the offline-mode report must be complete (offline_s, local_fan), got only ${report[0]}`);
   }
   if (has("offline_s")) checkInteger("offline_s", content.offline_s, 0, 4294967295, false, problems);
   if (has("local_fan")) checkInteger("local_fan", content.local_fan, 0, 65535, false, problems);
-  return report.length === 2 ? `  (offline-mode report: ${content.offline_s} seconds, fan on ${content.local_fan} time(s))` : "";
+  return (report.length === 2 ? `  (offline-mode report: ${content.offline_s} seconds, fan on ${content.local_fan} time(s))` : "")
+    + otaNote;
 }
 
 // A command id: text of 1 to 39 characters (the device ignores longer ids).
@@ -219,9 +247,31 @@ function checkCmd(content, problems, retained) {
       problems.push("set command retained on the broker: delete it with Clear Retained Message (contract section 7)");
     }
   }
-  if (content.action === "config") { // contract 1.3
-    const reason = checkThresholds(content.thresholds);
-    if (reason !== "") problems.push(reason);
+  if (content.action === "config") { // contract 1.3; 1.6: thresholds and/or intervals
+    if (!has("thresholds") && !has("intervals")) problems.push("config must contain thresholds, intervals, or both");
+    if (has("thresholds")) {
+      const reason = checkThresholds(content.thresholds);
+      if (reason !== "") problems.push(reason);
+    }
+    if (has("intervals")) {
+      const j = content.intervals;
+      const keys = typeof j === "object" && j !== null && !Array.isArray(j) ? Object.keys(j) : [];
+      if (keys.length !== 1 || keys[0] !== "vitals_s" || !Number.isInteger(j.vitals_s) || j.vitals_s < 60 || j.vitals_s > 3600) {
+        problems.push(`"intervals" may only contain vitals_s, a whole number 60-3600 (telemetry stays 10 seconds), got ${text(j)}`);
+      }
+    }
+  }
+  if (content.action === "update") { // contract 1.6
+    if (typeof content.version !== "string" || !/^\d+\.\d+\.\d+$/.test(content.version)) problems.push(`"version" must be a version x.y.z, got ${text(content.version)}`);
+    if (typeof content.url !== "string" || content.url.length > 200 || !/^https?:\/\/[^\s/]+\/fw\/node-1\/\d+\.\d+\.\d+\.bin$/.test(content.url)
+      || !content.url.endsWith(`/${content.version}.bin`)) {
+      problems.push(`"url" must be http(s)://<address>/fw/node-1/<version>.bin (at most 200 characters), got ${text(content.url)}`);
+    }
+    if (typeof content.sha256 !== "string" || !/^[0-9a-f]{64}$/.test(content.sha256)) problems.push(`"sha256" must be 64 lowercase hexadecimal digits`);
+    if (!Number.isInteger(content.size) || content.size < 1 || content.size > 1966080) {
+      problems.push(`"size" must be a whole number from 1 to 1966080 (one program shelf), got ${text(content.size)}`);
+    }
+    if (retained) problems.push("update command stuck (retained) on the broker: update is NEVER retained (contract section 7)");
   }
 }
 

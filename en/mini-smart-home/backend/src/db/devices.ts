@@ -1,7 +1,13 @@
 // devices.ts - the official device registry in the devices table (Module 21, migration 010): registration by an admin, key
 // rotation, revocation. The key fingerprint (key_hash) is ONLY WRITTEN from this file; the device list never reads it.
 // Module 25: the device list also carries the map point (lat, lng), and an admin can move that point (setDeviceLocation).
-import { pool } from "./pool.ts";
+// Module 28: registration, key rotation, and revocation run inside ONE transaction together with the broker step (`atBroker`, for
+// example creating or deleting a dynamic security account): the broker fails = the database doesn't change. Revoke also writes offline.
+import { withTransaction, pool } from "./pool.ts";
+
+// The broker step run inside the transaction, AFTER the database row changes and BEFORE COMMIT. An error = ROLLBACK.
+export type BrokerStep = (row: DeviceRow) => Promise<void>;
+const noSteps: BrokerStep = async () => {};
 
 // one row of the device registry as GET /devices shows it (without the key fingerprint)
 export interface DeviceRow {
@@ -17,9 +23,11 @@ export interface DeviceRow {
   key_created_at: Date | null;
   revoked_at: Date | null;
   linked_via: string | null;
+  vitals_interval_s?: number | null; // Module 28: the vitals interval set by the admin (seconds); NULL = not set yet
 }
 
-const COLUMNS = "device_id, kind, name, location, lat, lng, status, last_seen, registered_at, key_created_at, revoked_at, linked_via";
+const COLUMNS = "device_id, kind, name, location, lat, lng, status, last_seen, registered_at, key_created_at, revoked_at, linked_via, "
+  + "vitals_interval_s";
 
 export async function allDevicesDb(): Promise<DeviceRow[]> {
   const result = await pool.query<DeviceRow>(`SELECT ${COLUMNS} FROM devices ORDER BY device_id`);
@@ -29,43 +37,63 @@ export async function allDevicesDb(): Promise<DeviceRow[]> {
 // Register a device. A device_id that already has an old row (auto-created in Modules 17-20) is "claimed": its history stays.
 // The result is undefined if that device_id is ALREADY registered (use key rotation, not a second registration).
 export async function registerDevice(deviceId: string, name: string | null, location: string | null,
-  linkedVia: string | null, keyHash: string | null): Promise<DeviceRow | undefined> {
-  const result = await pool.query<DeviceRow>(
-    `INSERT INTO devices (device_id, kind, name, location, linked_via, registered_at, key_hash, key_created_at)
-     VALUES ($1, CASE WHEN $4::text IS NULL THEN 'unknown' ELSE 'node2' END, $2, $3, $4, now(), $5,
-             CASE WHEN $5::text IS NULL THEN NULL ELSE now() END)
-     ON CONFLICT (device_id) DO UPDATE SET
-       name = coalesce($2, devices.name),
-       location = coalesce($3, devices.location),
-       kind = CASE WHEN $4::text IS NULL THEN devices.kind ELSE 'node2' END,
-       linked_via = $4, registered_at = now(), key_hash = $5, key_created_at = EXCLUDED.key_created_at, revoked_at = NULL
-     WHERE devices.registered_at IS NULL
-     RETURNING ${COLUMNS}`,
-    [deviceId, name, location, linkedVia, keyHash],
-  );
-  return result.rows[0];
+  linkedVia: string | null, keyHash: string | null, atBroker = noSteps): Promise<DeviceRow | undefined> {
+  return withTransaction(async (client) => {
+    const result = await client.query<DeviceRow>(
+      `INSERT INTO devices (device_id, kind, name, location, linked_via, registered_at, key_hash, key_created_at)
+       VALUES ($1, CASE WHEN $4::text IS NULL THEN 'unknown' ELSE 'node2' END, $2, $3, $4, now(), $5,
+               CASE WHEN $5::text IS NULL THEN NULL ELSE now() END)
+       ON CONFLICT (device_id) DO UPDATE SET
+         name = coalesce($2, devices.name),
+         location = coalesce($3, devices.location),
+         kind = CASE WHEN $4::text IS NULL THEN devices.kind ELSE 'node2' END,
+         linked_via = $4, registered_at = now(), key_hash = $5, key_created_at = EXCLUDED.key_created_at, revoked_at = NULL
+       WHERE devices.registered_at IS NULL
+       RETURNING ${COLUMNS}`,
+      [deviceId, name, location, linkedVia, keyHash],
+    );
+    if (result.rows[0] !== undefined) await atBroker(result.rows[0]); // Module 28: the broker account is made too, or all is cancelled
+    return result.rows[0];
+  });
 }
 
 // A new key for a registered device that connects to the broker (also brings a revoked device back to life).
-export async function rotateDeviceKey(deviceId: string, keyHash: string): Promise<DeviceRow | undefined> {
-  const result = await pool.query<DeviceRow>(
-    `UPDATE devices SET key_hash = $2, key_created_at = now(), revoked_at = NULL
-     WHERE device_id = $1 AND registered_at IS NOT NULL AND linked_via IS NULL
-     RETURNING ${COLUMNS}`,
-    [deviceId, keyHash],
-  );
-  return result.rows[0];
+export async function rotateDeviceKey(deviceId: string, keyHash: string, atBroker = noSteps):
+  Promise<DeviceRow | undefined> {
+  return withTransaction(async (client) => {
+    const result = await client.query<DeviceRow>(
+      `UPDATE devices SET key_hash = $2, key_created_at = now(), revoked_at = NULL
+       WHERE device_id = $1 AND registered_at IS NOT NULL AND linked_via IS NULL
+       RETURNING ${COLUMNS}`,
+      [deviceId, keyHash],
+    );
+    if (result.rows[0] !== undefined) await atBroker(result.rows[0]); // Module 28: the new key at the broker too, or cancelled
+    return result.rows[0];
+  });
 }
 
 // Revoke: the key fingerprint is removed, the revocation time is recorded. The result is undefined if it isn't registered or already revoked.
-export async function revokeDevice(deviceId: string): Promise<DeviceRow | undefined> {
-  const result = await pool.query<DeviceRow>(
-    `UPDATE devices SET key_hash = NULL, key_created_at = NULL, revoked_at = now()
-     WHERE device_id = $1 AND registered_at IS NOT NULL AND revoked_at IS NULL
-     RETURNING ${COLUMNS}`,
-    [deviceId],
-  );
-  return result.rows[0];
+// Module 28 ("Deactivate" on /fleet): the status is written offline too. A broker that disconnects a device through dynamic security
+// does NOT publish the "offline" will, so without this line a revoked device would stay online on screen forever.
+export async function revokeDevice(deviceId: string, atBroker = noSteps): Promise<DeviceRow | undefined> {
+  return withTransaction(async (client) => {
+    const result = await client.query<DeviceRow>(
+      `UPDATE devices SET key_hash = NULL, key_created_at = NULL, revoked_at = now(), status = 'offline'
+       WHERE device_id = $1 AND registered_at IS NOT NULL AND revoked_at IS NULL
+       RETURNING ${COLUMNS}`,
+      [deviceId],
+    );
+    if (result.rows[0] !== undefined) await atBroker(result.rows[0]); // Module 28: the broker account is deleted too, or cancelled
+    return result.rows[0];
+  });
+}
+
+// Module 28: the key_hash of one registered device that isn't revoked, for the locked firmware download route (/fw). undefined =
+// not registered, revoked, or a device without a key (Node 2).
+export async function getKeyFingerprint(deviceId: string): Promise<string | undefined> {
+  const result = await pool.query<{ key_hash: string | null }>(
+    "SELECT key_hash FROM devices WHERE device_id = $1 AND registered_at IS NOT NULL AND revoked_at IS NULL", [deviceId]);
+  return result.rows[0]?.key_hash ?? undefined;
 }
 
 // Module 25: move a device's point on the map. lat and lng are always written as a pair; null and null = the point is removed.

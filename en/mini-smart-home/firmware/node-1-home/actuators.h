@@ -10,6 +10,7 @@ void setFanBySafety(bool isOn);                // Module 19: only for the local 
 bool turnOnPump(int seconds, int waterLevel);  // returns false if refused because the tank is too low
 void setCurtain(int angle);
 void soundBuzzer();                            // beeps for 150 ms, but the program doesn't wait for it
+void turnOffPumpAndBuzzer();                   // Module 28: before downloading firmware (loop() stops for over a minute)
 
 bool lampOn();
 bool lampByAutomation();  // true if the lamp that is on was turned on by the automation rule

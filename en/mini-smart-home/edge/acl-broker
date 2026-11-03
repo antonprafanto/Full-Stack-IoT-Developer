@@ -1,4 +1,4 @@
-# acl-broker - the Mini Smart Home broker's access list (Module 21).
+# acl-broker - the Mini Smart Home broker's access list (Module 21; additions in Modules 26-28).
 # Mosquitto reads this file from top to bottom. A line starting with # is a note (# must be the first character of the line).
 # An account not mentioned here may not write or read anything.
 # Every time this file changes, RESTART the broker (not reload). Module 26, the broker in Docker Compose: docker compose restart
@@ -7,6 +7,8 @@
 # 1) Each device may only "talk" on its own topics. A pattern line applies to ALL accounts;
 #    %u is replaced by the username proven with a password, that is, that device's device_id. Module 27: devices at another
 #    location that go straight to the VPS broker (door 8883) use the same rules; their account only has to be made on the VPS broker.
+#    Module 28: the device accounts the backend makes (dynamic security) follow these lines too, for writing AND
+#    reading: the backend changes the plugin's default read permission to "deny" before it makes an account (edge/README.md).
 pattern write msh/%u/telemetry
 pattern write msh/%u/status
 pattern write msh/%u/vitals
@@ -26,10 +28,18 @@ topic write msh/246f28b1c7d4/status
 # topic write msh/f00d000000b2/telemetry
 # topic write msh/f00d000000b2/status
 
-# 3) Backend: reads all device messages, sends commands (set and config) to cmd.
+# 3) Backend: reads all device messages, sends commands (set, config, and update) to cmd.
+#    Module 28: it also makes and deletes DEVICE accounts through the dynamic security plugin (AUTO_BROKER_ACCOUNTS). Whoever
+#    may write the control topic is the admin of every device account: NEVER give this permission (or "topic #") to another account.
+#    The first two lines are for AUTO_BROKER_ACCOUNTS=center (this broker's own plugin), the last two lines for
+#    gateway:<name> (its commands are carried by that gateway's bridge, see block 7).
 user backend
 topic read msh/#
 topic write msh/+/cmd
+topic write $CONTROL/dynamic-security/v1
+topic read $CONTROL/dynamic-security/v1/response
+topic write msh-gateway/+/dynamic-security/v1
+topic read msh-gateway/+/dynamic-security/v1/response
 
 # 4) Node-RED on the Pi gateway: the dashboard reads, the Fan switch sends cmd.
 user nodered
@@ -57,3 +67,7 @@ topic write msh/+/vitals
 topic write msh/+/ack
 topic read msh/+/cmd
 topic write $SYS/broker/connection/pi-bridge/state
+#    Module 28: the device-account commands from the backend for the gateway pi1 (read by the bridge, carried to the gateway's $CONTROL)
+#    and their answers (written by the bridge). pi1 = the gateway's name in bridge/center.conf and AUTO_BROKER_ACCOUNTS=gateway:pi1.
+topic read msh-gateway/pi1/dynamic-security/v1
+topic write msh-gateway/pi1/dynamic-security/v1/response

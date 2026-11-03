@@ -1,0 +1,29 @@
+info:
+  name: update canary
+  type: http
+  seq: 34
+
+http:
+  method: POST
+  url: "{{baseUrl}}/fleet/update"
+  body:
+    type: json
+    data: |-
+      {
+        "version": "1.7.1",
+        "target": "canary"
+      }
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "202"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: true

@@ -66,7 +66,7 @@ export interface ReportRow {
   worst_rssi: number | null; // the most negative = the weakest signal
   min_heap: number | null;
   restarts: number | null; // how many times the uptime dropped (the device restarted)
-  disconnects: number; // how many times the status changed to offline/offline-mode
+  disconnects: number; // how many times the status changed to offline (Module 28: stopping on purpose isn't counted)
 }
 
 // The order of the CSV columns. The table header = these column names, the same as the column names of the query below.
@@ -79,7 +79,9 @@ export const REPORT_COLUMNS: (keyof ReportRow)[] = ["device_id", "name", "kind",
 //   the sum of (average x number of values) of all hours divided by the total number of values, like the 1d summary in db/archive.ts.
 // - vitals + health: vitals from device_health (Module 19). lag() takes the PREVIOUS vitals uptime of the same device;
 //   an uptime that drops means the device restarted.
-// - drops: status events from the event log (events); their sentence is "<device_id> disconnected (offline)" (services/mqtt.ts).
+// - drops: status events from the event log (events); their sentence is "<device_id> disconnected (offline)" (statusSentence in
+//   services/mqtt.ts). Module 28: stopping on purpose (offline-mode, for example for a firmware update) is written "stopped on purpose",
+//   without the word "disconnected", so it isn't counted as a disruption.
 // Numbers are cast to float8 and int so that pg sends them as a number, not as text.
 const REPORT_QUERY = `
 WITH summary AS (

@@ -11,9 +11,14 @@
 #include "networking.h"
 #include "bridge.h"
 #include "rs485.h"
+#include "ota-check.h"   // Module 28: tidyAddress(), checkServerAddress(), checkBrokerAddress()
+#include "ota-update.h"  // Module 28: the "ota" and "restart" commands
+#include "claim.h"       // Module 28: the "claim" command
 #include "commands.h"
 
-const int MAX_LINE_LENGTH = 80;  // Module 21: up from 40, so "key " + a 43-character key fits
+// Module 21: up from 40, so "key " + a 43-character key fits. Module 28: up from 80, so
+// "claim <code> <64-character server address> <broker address>" fits.
+const int MAX_LINE_LENGTH = 128;
 static char line[MAX_LINE_LENGTH + 1];  // +1 for the end-of-text mark
 static int lineLength = 0;
 static bool lineTruncated = false;  // Module 21: a line longer than its container: don't use it (the key would be cut!)
@@ -87,6 +92,84 @@ static void printKey() {
   } else {
     Serial.printf("key: stored in NVS, %u chars\n", (unsigned)length);  // a short key: even its end is kept secret
   }
+}
+
+// ---------- Module 28: the server address, the broker address, and the claim code ----------
+// Splits a line into words separated by spaces. Returns the number of words (more than "maxWords" = maxWords + 1).
+static int splitWords(const String& text, String words[], int maxWords) {
+  int count = 0;
+  int i = 0;
+  int n = text.length();
+  while (i < n) {
+    while (i < n && text[i] == ' ') {
+      i++;
+    }
+    if (i >= n) {
+      break;
+    }
+    int start = i;
+    while (i < n && text[i] != ' ') {
+      i++;
+    }
+    if (count == maxWords) {
+      return maxWords + 1;  // too many words
+    }
+    words[count] = text.substring(start, i);
+    count++;
+  }
+  return count;
+}
+
+static bool setServerAddress(const String& text) {
+  char tidy[SERVER_ADDRESS_MAX_LENGTH + 2];  // +2: an address that is too long is still detected
+  tidyAddress(text.c_str(), tidy, sizeof(tidy));
+  const char* wrong = checkServerAddress(tidy);
+  if (wrong != nullptr) {
+    Serial.printf("server: not saved. %s\n", wrong);
+    return false;
+  }
+  saveServerAddress(tidy);
+  Serial.printf("server: %s (firmware is only downloaded from this address: <address>/fw/node-1/<version>.bin)\n",
+                storedServerAddress());
+  return true;
+}
+
+static bool setBrokerAddress(const String& text) {
+  char tidy[SERVER_ADDRESS_MAX_LENGTH + 2];
+  tidyAddress(text.c_str(), tidy, sizeof(tidy));
+  const char* wrong = checkBrokerAddress(tidy);
+  if (wrong != nullptr) {
+    Serial.printf("broker: not saved. %s\n", wrong);
+    return false;
+  }
+  saveBrokerAddress(tidy);
+  changeBrokerAddress();  // networking.cpp: reconnect now to that address
+  Serial.printf("broker: %s, door %u; Node 1 is connecting there now.\n", storedBrokerAddress(), BROKER_PORT);
+  return true;
+}
+
+// "claim <code> [server address] [broker address]": a way to register without the portal (for example in Wokwi, or a board that
+// already has Wi-Fi). The addresses written are saved first, then the code is sent.
+static void runClaimCommand(const String& command) {
+  String words[4];
+  int count = splitWords(command, words, 4);
+  if (count < 2 || count > 4) {
+    Serial.println("Example: claim 7K2M-QF9D http://192.168.1.10 192.168.1.37 (the server and broker addresses may be "
+                   "left out; write the code with its -, without spaces)");
+    return;
+  }
+  if (count >= 3 && !setServerAddress(words[2])) {
+    return;
+  }
+  if (count == 4 && !setBrokerAddress(words[3])) {
+    return;
+  }
+  const char* wrong = startClaim(words[1].c_str());
+  if (wrong != nullptr) {
+    Serial.printf("claim: %s\n", wrong);
+    return;
+  }
+  Serial.printf("claim: code accepted; sent to %s as soon as Wi-Fi is ready (the result shows in the log).\n", storedServerAddress());
 }
 
 // Returns true if the text is NOT a number: toInt() gives 0, but the text isn't "0" (as in Module 5, Practice 5).
@@ -217,14 +300,36 @@ void checkSerialCommand() {
     printKey();
     Serial.printf("key: Node 1 is trying to connect to the broker as %s with this key now.\n", brokerUsername());
     return;
+  } else if (command == "ota") {
+    printOtaInfo();  // Module 28: version, program shelves, trial period, update report
+    return;
+  } else if (command == "server") {
+    Serial.printf("server: %s\n", storedServerAddress()[0] != '\0' ? storedServerAddress()
+                                                                    : "NOT SET. Example: server http://192.168.1.10");
+    return;
+  } else if (command.startsWith("server ")) {
+    setServerAddress(command.substring(7));  // Module 28: saved in NVS
+    return;
+  } else if (command == "broker") {
+    Serial.printf("broker: %s (%s), door %u\n", storedBrokerAddress(),
+                  brokerAddressFromNvs() ? "from NVS" : "from config.h", BROKER_PORT);
+    return;
+  } else if (command.startsWith("broker ")) {
+    setBrokerAddress(command.substring(7));  // Module 28: saved in NVS, then reconnect
+    return;
+  } else if (command == "claim") {
+    printClaimInfo();  // Module 28
+    return;
+  } else if (command.startsWith("claim ")) {
+    runClaimCommand(command);  // Module 28: register with a claim code from the admin
+    return;
   } else if (command == "restart") {
-    Serial.println("Restarting now...");
-    Serial.flush();  // wait until the message above has really been sent
-    ESP.restart();
+    restartOnPurpose("Serial restart command");  // Module 28: offline-mode + a clean disconnect first, then restart
   } else if (command != "status") {
     Serial.println("Unknown command. Examples: lamp on, fan off, pump 3, curtain 90, beep, status,");
     Serial.println("info, threshold, threshold 35, threshold default, log debug, log info, log error, wifi, wifi forget,");
-    Serial.println("send, node2, node2 reset, rs485, rs485 on, rs485 off, test offline, key, key clear, restart");
+    Serial.println("send, node2, node2 reset, rs485, rs485 on, rs485 off, test offline, key, key clear,");
+    Serial.println("ota, server, server <address>, broker, broker <ip>, claim, claim <code> [server] [broker], restart");
     return;
   }
   printStatus();

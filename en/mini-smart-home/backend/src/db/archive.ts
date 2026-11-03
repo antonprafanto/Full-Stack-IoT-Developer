@@ -1,6 +1,7 @@
 // archive.ts - writes the messages that passed the contract checks to the database, and reads them back for the history API
 // (raw readings, or their summary per 15 minutes, per hour, and per day). Module 19: automation rules (the rules table) and
-// the event log (the events table). Module 24: rules can be deleted too.
+// the event log (the events table). Module 24: rules can be deleted too. Module 28: vitals store the restart reason and the
+// firmware version; status messages no longer move "last seen" forward.
 // The in-memory store (store.ts) remains the "notice board" for the latest state; the database is its archive book.
 import { pool } from "./pool.ts";
 import type { Ack, SetCommand, Status, TelemetryNode1, TelemetryNode2, Vitals } from "../schemas/contract.ts";
@@ -37,16 +38,21 @@ export async function archiveTelemetry(deviceId: string, content: TelemetryNode1
   return result.rowCount === 1;
 }
 
+// Module 28: a status message only changes the status column, it does NOT move last_seen forward. A status can come from the broker
+// (the offline will), from Node 1 on behalf of Node 2, or as an old retained message when the backend starts: none of them is
+// a sign that the device itself just sent data (Module 25 recorded this as a limit). Telemetry and vitals still
+// move it forward.
 export async function archiveStatus(deviceId: string, status: Status): Promise<void> {
-  await recordDevice(deviceId, null, status);
+  await pool.query("UPDATE devices SET status = $2 WHERE device_id = $1", [deviceId, status]);
 }
 
+// Module 28: + reset_reason and fw (contract 1.6; NULL for the vitals of older firmware)
 export async function archiveVitals(deviceId: string, content: Vitals): Promise<void> {
   await recordDevice(deviceId, null, null);
   await pool.query(
-    `INSERT INTO device_health (device_id, ts, rssi, uptime_s, heap_free) VALUES ($1, $2, $3, $4, $5)
+    `INSERT INTO device_health (device_id, ts, rssi, uptime_s, heap_free, reset_reason, fw) VALUES ($1, $2, $3, $4, $5, $6, $7)
      ON CONFLICT (device_id, ts) DO NOTHING`,
-    [deviceId, content.ts, content.rssi, content.uptime_s, content.heap_free],
+    [deviceId, content.ts, content.rssi, content.uptime_s, content.heap_free, content.reset_reason ?? null, content.fw ?? null],
   );
 }
 
@@ -106,8 +112,9 @@ export async function deleteRuleDb(id: number): Promise<{ id: number; name: stri
   return result.rows[0];
 }
 
-// Module 19: the event log (the events table, migration 007).
-export type EventKind = "rule" | "rule-changed" | "schedule" | "status" | "offline-report" | "command";
+// Module 19: the event log (the events table, migration 007). Module 28 (migration 011): ota, provisioning, revoked.
+export type EventKind = "rule" | "rule-changed" | "schedule" | "status" | "offline-report" | "command" | "ota" | "provisioning"
+  | "revoked";
 
 export interface NewEvent {
   device_id: string | null; // null for an event that doesn't belong to one device (for example a changed rule)

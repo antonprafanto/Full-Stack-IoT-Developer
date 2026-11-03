@@ -1,0 +1,12 @@
+# .dockerignore - files that are NOT sent to docker build (Module 26). A shared image (public GHCR) can be taken apart by
+# anyone: private settings files must not get in, not even into the build stage that is thrown away later.
+# Libraries from npm install on the laptop: the build stage installs its own (npm ci); COPY . . must not mix them
+# with the laptop's (the versions can differ; Windows/macOS machine code doesn't run on Linux).
+node_modules
+# An old build result on the laptop: the image builds its own.
+dist
+# Local dev-mode settings (.env.local holds your laptop's VITE_API_BASE). Only the example (.env.example) may go in.
+.env
+.env.*
+!.env.example
+*.local

@@ -3,9 +3,11 @@
 // installs the schedule rules (schedule.ts), and records every action in the event log.
 // Module 24: threshold rules now work both ways (threshold = rises above, below-threshold = falls below), their action may be
 // a switch or a command sent once (for example the pump for 5 seconds), and rules can be deleted (deleteRule).
+// Module 28: the config sent to a device is now a COMBINATION of the threshold (from the rules) + the vitals interval (set by the admin
+// per device, the devices.vitals_interval_s column), in one retained message (contract 1.6, rule 10: one retained message per topic).
 import { Rule } from "../schemas/rules.ts";
 import type { CommandAction, SwitchAction, StoredRule, ThresholdCondition, BelowThresholdCondition } from "../schemas/rules.ts";
-import type { SetCommand, TelemetryNode1, TelemetryNode2 } from "../schemas/contract.ts";
+import type { Thresholds, Intervals, SetCommand, TelemetryNode1, TelemetryNode2 } from "../schemas/contract.ts";
 import { INITIAL_MEMORY, evaluateThreshold, evaluateBelowThreshold } from "../rules/engine.ts";
 import type { Memory } from "../rules/engine.ts";
 import { getAllRules, deleteRuleDb, insertRule, updateRule, contractTime } from "../db/archive.ts";
@@ -17,6 +19,7 @@ import type { CommandResult } from "./commands.ts";
 import { installSchedules } from "./schedule.ts";
 import { recordEvent } from "./events.ts";
 import { notifyIfNeeded } from "./telegram.ts";
+import { devicePermission } from "./registry.ts";
 import { log } from "./log.ts";
 
 type ReadingCondition = ThresholdCondition | BelowThresholdCondition; // Module 24: conditions judged from sensor readings, both ways
@@ -137,26 +140,83 @@ function describeRule(a: StoredRule): string {
     + `is ${on} for ${c.for_seconds} seconds, ready again ${off}${inactive}`; // Module 24
 }
 
-// Send the safety threshold to every device that has a fan rule based on temperature: temp_fan_on = on_above
-// (contract 1.3, retained config). Called every time the backend connects to the broker and every time a rule changes.
-// Note: a fan rule that is deactivated or deleted does NOT withdraw the old config. The device keeps using the last
-// temp_fan_on as its local safety rule (which only works while the broker can't be reached).
-export function sendAllConfigs(): void {
-  const done = new Set<string>(); // one device, one threshold: the active fan rule with the lowest number
+// Module 28: the vitals interval per device (seconds), an in-memory copy of the devices.vitals_interval_s column. Filled by server.ts
+// at startup (loadVitalsIntervals) and by the route PUT /devices/:id/intervals (setVitalsInterval). A device without a row here: no
+// interval is sent, so the firmware uses the last number in its NVS (default 300 seconds).
+const vitalsIntervals = new Map<string, number>();
+
+export function loadVitalsIntervals(rows: { device_id: string; vitals_interval_s: number | null }[]): void {
+  vitalsIntervals.clear();
+  for (const r of rows) if (r.vitals_interval_s !== null) vitalsIntervals.set(r.device_id, r.vitals_interval_s);
+}
+
+export function setVitalsInterval(deviceId: string, seconds: number): void {
+  vitalsIntervals.set(deviceId, seconds);
+}
+
+// The config of one device, and where it came from, for the log.
+interface ConfigContent {
+  thresholds?: Thresholds;
+  intervals?: Intervals;
+  origin: string[];
+}
+
+// Build the config of EVERY device that has something to send:
+// - the threshold temp_fan_on = on_above of the fan rule based on temperature (contract 1.3), one device one threshold: the active
+//   fan rule with the lowest number;
+// - intervals.vitals_s = the interval set by the admin (Module 28).
+// Devices that aren't registered yet or are revoked (the Module 21 guest book) are sent nothing.
+function buildConfig(): Map<string, ConfigContent> {
+  const result = new Map<string, ConfigContent>();
+  const take = (deviceId: string) => {
+    let content = result.get(deviceId);
+    if (content === undefined) {
+      content = { origin: [] };
+      result.set(deviceId, content);
+    }
+    return content;
+  };
   for (const a of rules) {
     const { condition, action } = a;
     if (!a.active || condition.kind !== "threshold" || action.kind !== "switch") continue;
-    if (condition.quantity !== "temperature" || action.target !== "fan" || done.has(action.device_id)) continue;
-    done.add(action.device_id);
-    void sendThreshold(action.device_id, condition.on_above, a.id);
+    if (condition.quantity !== "temperature" || action.target !== "fan" || result.get(action.device_id)?.thresholds !== undefined) continue;
+    const content = take(action.device_id);
+    content.thresholds = { temp_fan_on: condition.on_above };
+    content.origin.push(`rule ${a.id}`);
   }
+  for (const [deviceId, seconds] of vitalsIntervals) {
+    const content = take(deviceId);
+    content.intervals = { vitals_s: seconds };
+    content.origin.push("device interval");
+  }
+  for (const deviceId of result.keys()) if (devicePermission(deviceId) !== "registered") result.delete(deviceId);
+  return result;
 }
 
-async function sendThreshold(deviceId: string, temperature: number, ruleId: number): Promise<void> {
+// Send the config to every device that has a fan rule based on temperature and/or a vitals interval (retained config).
+// Called every time the backend connects to the broker, every time a rule changes, and (Module 28) after the device registry
+// is loaded. Note: a fan rule that is deactivated or deleted does NOT withdraw the old config. The device keeps using the last
+// temp_fan_on as its local safety rule (which only works while the broker can't be reached).
+export function sendAllConfigs(): void {
+  for (const [deviceId, content] of buildConfig()) void sendDeviceConfig(deviceId, content);
+}
+
+// Module 28: send the config of ONE device (for example after its interval changed). The result is the config command's id, or
+// null if that device has nothing to send.
+export function sendConfigFor(deviceId: string): string | null {
+  const content = buildConfig().get(deviceId);
+  if (content === undefined) return null;
   const id = makeCommandId();
+  void sendDeviceConfig(deviceId, content, id);
+  return id;
+}
+
+async function sendDeviceConfig(deviceId: string, config: ConfigContent, id = makeCommandId()): Promise<void> {
   const waiting = waitForAck(id, 5000); // start waiting BEFORE sending, like a set command
-  sendConfig(deviceId, id, { temp_fan_on: temperature });
-  log.info(`config ${id} to ${deviceId}: temp_fan_on ${temperature} from rule ${ruleId} (retained)`);
+  sendConfig(deviceId, id, { ...(config.thresholds && { thresholds: config.thresholds }), ...(config.intervals && { intervals: config.intervals }) });
+  const description = [config.thresholds && `temp_fan_on ${config.thresholds.temp_fan_on}`, config.intervals && `vitals interval ${config.intervals.vitals_s} seconds`]
+    .filter(Boolean).join(", ");
+  log.info(`config ${id} to ${deviceId}: ${description} from ${config.origin.join(" + ")} (retained)`);
   const ack = await waiting;
   if (ack === null) {
     log.warn(`config ${id} to ${deviceId}: no answer in 5 seconds; the config stays retained on the broker until the device connects`);

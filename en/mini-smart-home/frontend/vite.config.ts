@@ -48,9 +48,10 @@ export default defineConfig({
         // screen addresses such as /map or /devices/f00d00000001 are answered with index.html from the store (React Router
         // picks the screen), also while the internet is down: the app stays open and says the server can't be reached
         navigateFallback: '/index.html',
-        // ...EXCEPT the addresses that aren't dashboard screens: the API (/api), Grafana (/grafana/, Module 27), and Socket.IO
-        // (/socket.io when VITE_API_BASE=/). Those addresses always go on to the server, never replaced by index.html.
-        navigateFallbackDenylist: [/^\/api(\/|$)/, /^\/grafana(\/|$)/, /^\/socket\.io(\/|$)/],
+        // ...EXCEPT the addresses that aren't dashboard screens: the API (/api), Grafana (/grafana/, Module 27), Socket.IO
+        // (/socket.io when VITE_API_BASE=/), and the devices' firmware downloads (/fw/, Module 28). Those addresses always go on to
+        // the server, never replaced by index.html. (Their answers are never stored either: only the globPatterns files are.)
+        navigateFallbackDenylist: [/^\/api(\/|$)/, /^\/grafana(\/|$)/, /^\/socket\.io(\/|$)/, /^\/fw(\/|$)/],
       },
     }),
   ],

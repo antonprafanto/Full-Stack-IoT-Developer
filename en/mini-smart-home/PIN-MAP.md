@@ -2,7 +2,7 @@
 
 🌐 **English** · [Bahasa Indonesia](../../proyek-rumah-pintar-mini/PETA-PIN.md)
 
-> Created in [Module 5](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-1-esp32-embedded/module-05-gpio-and-pin-map/README.md#3-the-pin-budget-and-the-canonical-pin-map-of-node-1-and-node-2), updated in [Module 6](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-1-esp32-embedded/module-06-reading-sensors/README.md), [Module 7](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-1-esp32-embedded/module-07-sensor-bus-oled-schematics/README.md), [Module 9](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-1-esp32-embedded/module-09-power-and-low-power/README.md), [Module 14](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-14-node-2-esp-now/README.md), and [Module 15](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-15-modbus-rs485-and-protocols/README.md); valid until Module 28.
+> Created in [Module 5](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-1-esp32-embedded/module-05-gpio-and-pin-map/README.md#3-the-pin-budget-and-the-canonical-pin-map-of-node-1-and-node-2), updated in [Module 6](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-1-esp32-embedded/module-06-reading-sensors/README.md), [Module 7](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-1-esp32-embedded/module-07-sensor-bus-oled-schematics/README.md), [Module 9](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-1-esp32-embedded/module-09-power-and-low-power/README.md), [Module 14](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-14-node-2-esp-now/README.md), [Module 15](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-15-modbus-rs485-and-protocols/README.md), and [Module 28](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-5-operations-scale/module-28-ota-provisioning-fleet/README.md). **Version 7 (Module 28): the pins don't change**; only their place changes: Node 1's connections move from the breadboard into the project box (see **Node 1 inside the box**).
 > **Before you add anything to Node 1 or Node 2, check this file first.**
 
 ## Rules
@@ -121,6 +121,27 @@ All the holes are on the **lower breadboard**, except the end of the module's VC
 
 The 120 Ω resistor on the module (R7, the terminator) is left in place: two modules at the two ends of the cable = exactly two terminators.
 
+## Node 1 inside the box (since Module 28)
+
+The pins, the power rails, and the firmware **don't change** when Node 1 moves from the workbench into the project box: the **Node 1 "Home"**
+table above still applies as it is. Only the way things are connected changes.
+
+| Part | On the workbench (Modules 5–27) | Inside the box (Module 28, the no-solder path) |
+| :--- | :--- | :--- |
+| ESP32 board | plugged into the breadboard | plugged into a **screw-terminal expansion board** for the 30-pin DevKit V1; first measure the distance between its two rows of pins against your board with a ruler (a board for 38 pins doesn't fit) |
+| Signal wires (Node 1 table) | jumper wires on the breadboard | short solid-core wires from the screw terminal labeled with the same GPIO (D32, D33, D25, ...); the labels on the expansion board may use the GPIO name or the D name: match them with the first column of the Node 1 table |
+| Small circuits: the ECHO voltage divider (D35), the LDR divider + capacitor (VP), the pump MOSFET + resistor (D25), the RS-485 RO divider (RX2) | on the breadboard | on a **mini self-adhesive breadboard** inside the box (or a soldered perfboard, the optional path); the expansion board has no room for resistors and MOSFETs |
+| ESP32 power | its own charger through the board's USB (Module 9) | **the same**: its own charger through the board's USB; the charger's plug stays in the wall socket (outside the box), only its USB cable goes into the box. The expansion board's DC jack and regulator are **not used** |
+| Load power (relays, pump, servo, 5 V sensors) | MB102 from a 5 V adapter | **the same**: the MB102 goes into the box too; its adapter's plug stays in the wall socket (outside the box), only its 5 V cable goes into the box. The 5 V and 3.3 V rails as in the **Power rails on the workbench** table; GND stays joined |
+| Sensors that must "see" or "feel" the outside air | on the desk | outside the box or through the box wall: DHT22 (away from the warm ESP32 and regulator), PIR and LDR (facing the room), HC-SR04 (above the water tank), soil sensor (in the pot) |
+
+Box rules (Module 28): no 220 V mains cable goes into the box: the plugs of the charger and the adapter stay in the wall socket outside
+the box, only their 5 V cables go in (the relays are only for this project's 5 V loads); the box gets ventilation holes, it isn't a tightly
+sealed waterproof box (condensation); the wires are tied so they can't be pulled out of the terminals; check polarity and connections with a
+multimeter **before** the power goes in; move things group by group (power → actuators → sensors) and test each group through the dashboard.
+Put a label on the box: `device_id`, name, the first firmware version + date, power polarity, the Wi-Fi portal password (`PORTAL_PASSWORD`,
+if used), and "hold D13 at power-up = Wi-Fi portal".
+
 ## Golden power rules
 
 1. **Loads** (relays, fan, pump, servo) **always get their power from the MB102**, never from the ESP32's VIN or 3V3 pin.
@@ -139,7 +160,8 @@ The 120 Ω resistor on the module (R7, the terminator) is left in place: two mod
 | 4 | 9 | Node 1 gets its power from its own charger (golden power rules 2, 4, and 5). Node 2 skeleton connected: DS18B20 on GPIO 27 and the "awake" LED on GPIO 2. New **Node 2 battery circuit** section. I2C address `0x40` reserved for the INA219, a temporary measuring tool. |
 | 5 | 14 | Node 2 complete: the BME280 on I2C (D21/D22), the second soil sensor on VN with VCC from **D32** (off during sleep), the DS18B20 moves to the mini breadboard's bottom rail; VP optional for the battery voltage. New **Node 2 sensors** section. Node 1 doesn't change. |
 | 6 | 15 | RS-485 connected on Node 1: RX2/TX2 (16/17) and **DE/RE on D4**; the status LED moves from D4 to **D2** (the MAX485 module pulls DE/RE up to 5 V, so D2 as DE/RE could make uploads fail). The second-board lab uses 16/17/4. New **RS-485 on the Node 1 workbench** section. |
+| 7 | 28 | **The pins don't change.** Node 1 moves from the breadboard into the project box: a screw-terminal expansion board + a mini breadboard (or perfboard) for the small circuits, the Module 9 power supply reused. New **Node 1 inside the box** section. Node 2 doesn't change. |
 
 ---
 
-[⬅️ Back to the project folder](README.md) · [Module 5](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-1-esp32-embedded/module-05-gpio-and-pin-map/README.md) · [Module 7](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-1-esp32-embedded/module-07-sensor-bus-oled-schematics/README.md) · [Module 9](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-1-esp32-embedded/module-09-power-and-low-power/README.md) · [Module 14](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-14-node-2-esp-now/README.md) · [Module 15](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-15-modbus-rs485-and-protocols/README.md) · [Syllabus](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/SYLLABUS.md)
+[⬅️ Back to the project folder](README.md) · [Module 5](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-1-esp32-embedded/module-05-gpio-and-pin-map/README.md) · [Module 7](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-1-esp32-embedded/module-07-sensor-bus-oled-schematics/README.md) · [Module 9](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-1-esp32-embedded/module-09-power-and-low-power/README.md) · [Module 14](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-14-node-2-esp-now/README.md) · [Module 15](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-2-connectivity/module-15-modbus-rs485-and-protocols/README.md) · [Module 28](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/phase-5-operations-scale/module-28-ota-provisioning-fleet/README.md) · [Syllabus](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/SYLLABUS.md)

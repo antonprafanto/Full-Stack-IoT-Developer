@@ -2,13 +2,14 @@
 // 1. asking the backend "who am I?" (GET /auth/me) when the page opens;
 // 2. keeping the live connection (Socket.IO) while logged in (Module 23);
 // 3. holding the route map (Module 24): which address shows which screen, and which screens are guarded.
-//    Module 25: plus the /map screen (the device map).
+//    Module 25: plus the /map screen (the device map). Module 28: plus the /fleet screen (firmware and device health).
 import { useEffect } from "react";
 import { Navigate, Route, Routes } from "react-router";
 import { ApiError, whoAmI } from "./api";
 import RequireLogin from "./components/RequireLogin";
 import AdminOnly from "./components/AdminOnly";
 import Layout from "./components/Layout";
+import FleetPage from "./pages/Fleet";
 import RulesPage from "./pages/Rules";
 import DevicesPage from "./pages/Devices";
 import DetailsPage from "./pages/Details";
@@ -71,6 +72,9 @@ export default function App() {
           {/* Module 25: the device map, for admins and viewers (outside the AdminOnly guard) */}
           <Route path="/map" element={<MapPage />} />
           <Route path="/rules" element={<RulesPage />} />
+          {/* Module 28: the fleet (firmware versions, health, over-the-air updates). Every role SEES the screen; its buttons
+              are drawn for the admin only inside the screen itself (the Rules screen pattern), so it is outside the AdminOnly guard */}
+          <Route path="/fleet" element={<FleetPage />} />
           {/* the second guard: screens that change something are for admins only */}
           <Route element={<AdminOnly />}>
             <Route path="/rules/new" element={<RuleFormPage />} />

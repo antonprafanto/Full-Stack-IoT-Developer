@@ -1,0 +1,4 @@
+name: internet
+variables:
+  - name: baseUrl
+    value: https://iot.yourname.my.id/api

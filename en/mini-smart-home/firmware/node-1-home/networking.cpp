@@ -14,13 +14,30 @@
 #include "actuators.h"
 #include "display.h"
 #include "rs485.h"
+#include "ota-check.h"     // Module 28: tidyAddress(), checkServerAddress(), checkBrokerAddress(), UpdateFields
+#include "ota-update.h"    // Module 28: the update command, the ota report in vitals, restarting on purpose
+#include "trial-period.h"  // Module 28: firmwareProven(), inTrialPeriod()
+#include "claim.h"         // Module 28: a claim code from the Wi-Fi portal
 #include "networking.h"
 
 #ifndef MQTT_QOS1  // only PubSubClient3 has this name
 #error "The old PubSubClient (2.8) is in use. Remove it in the Library Manager, then install PubSubClient3 version 3.3.2."
 #endif
 
+// Module 28: the Wi-Fi portal password (optional) in keys.h, the file that doesn't go to GitHub (Module 14, Practice 8). Write there:
+//   #define PORTAL_PASSWORD "a-password-of-8-to-63-characters"
+// then write the same password on the label of Node 1's box. Without that line, the portal is open without a password as in Module 10.
+#if __has_include("keys.h")
+#include "keys.h"
+#endif
+#ifndef PORTAL_PASSWORD
+#define PORTAL_PASSWORD ""
+#endif
+static_assert(sizeof(PORTAL_PASSWORD) == 1 || (sizeof(PORTAL_PASSWORD) >= 9 && sizeof(PORTAL_PASSWORD) <= 64),
+              "PORTAL_PASSWORD in keys.h must be 8-63 characters (the WPA2 Wi-Fi password rule), or delete the line");
+
 const unsigned long NO_ATTEMPT_TIMEOUT = 60000;  // guard: 60 seconds without a connection attempt = tell it to try again
+const unsigned long TRIAL_RETRY_INTERVAL = 10000;  // Module 28: during a new firmware's trial period, every 10 seconds
 const unsigned long MQTT_RETRY_INTERVAL = 5000;  // couldn't connect to the broker? try again 5 seconds later
 const unsigned long REJECTED_RETRY_INTERVAL = 60000;  // Module 21: the broker REJECTS the key? try again 60 seconds later
 const unsigned long MIN_IMMEDIATE_GAP = 2000;    // immediate sends at most every 2 seconds
@@ -31,7 +48,7 @@ const char WOKWI_BROKER_LOCKED[] = "test.mosquitto.org";  // Module 21: port 188
 static WiFiClient netClient;          // TCP connection to the broker
 static PubSubClient mqtt(netClient);  // MQTT runs on top of that connection
 static char deviceId[13] = "";  // device_id: 12 hexadecimal digits + the end-of-text mark (Appendix A)
-static const char* brokerAddress = BROKER_ADDRESS;  // Module 21: chosen once in setupNetwork()
+static const char* brokerAddress = BROKER_ADDRESS;  // Module 21: chosen in setupNetwork(); Module 28: from NVS
 static uint16_t brokerPort = BROKER_PORT;
 static const char* username = deviceId;  // Module 21: the broker username = device_id (data contract section 1)
 static bool brokerRejected = false;      // Module 21: the last attempt was answered by the broker with code 4 or 5
@@ -73,6 +90,7 @@ static unsigned long lastVitalsTime = 0;
 static unsigned long publishCount = 0;
 static char lastIds[8][40];  // the last 8 command ids received (including refused ones)
 static int idPosition = 0;
+static bool held = false;  // Module 28: stopped on purpose (offline-mode): don't reconnect until allowed
 
 // ---------- Module 19: offline mode and its report ----------
 static unsigned long lastReadyTime = 0;   // millis() the last time WiFi and MQTT were both connected
@@ -134,10 +152,46 @@ bool makeTs(char* ts, size_t size) {
 }
 
 // ---------- WiFi portal (Module 10, Practice 4) ----------
+// Module 28: the content of the three extra fields is saved here, when the portal's Save button is pressed. WiFiManager itself
+// does NOT save the content of extra fields; that's our job. A field left empty means "not changed".
+static void savePortalFields(const char* code, const char* server, const char* broker) {
+  char tidy[SERVER_ADDRESS_MAX_LENGTH + 2];  // +2: an address that is too long is still detected
+  if (server[0] != '\0') {
+    tidyAddress(server, tidy, sizeof(tidy));
+    const char* wrong = checkServerAddress(tidy);
+    if (wrong != nullptr) {
+      logError("Portal: the server address was NOT saved. %s", wrong);
+    } else {
+      saveServerAddress(tidy);
+    }
+  }
+  if (broker[0] != '\0') {
+    tidyAddress(broker, tidy, sizeof(tidy));
+    const char* wrong = checkBrokerAddress(tidy);
+    if (wrong != nullptr) {
+      logError("Portal: the broker address was NOT saved. %s", wrong);
+    } else {
+      saveBrokerAddress(tidy);
+    }
+  }
+  if (code[0] != '\0') {
+    const char* wrong = startClaim(code);  // claim.cpp: sent as soon as Wi-Fi connects (loop())
+    if (wrong != nullptr) {
+      logError("Portal: the claim code wasn't used: %s", wrong);
+    }
+  }
+}
+
 // Waiting here is allowed: it is called from setup(), before the watchdog watches loop().
 static void openPortal() {
   logInfo("WiFi portal open for %lu seconds: connect your phone to the WiFi \"%s\", then open http://192.168.4.1",
           PORTAL_TIMEOUT, PORTAL_NAME);
+  if (PORTAL_PASSWORD[0] != '\0') {
+    logInfo("Password-protected portal: its password is on the label of Node 1's box (PORTAL_PASSWORD in keys.h).");
+  } else {
+    logError("Portal WITHOUT a password: anyone near Node 1 can open 192.168.4.1, including the /update page. "
+             "Set PORTAL_PASSWORD in keys.h (Module 28).");
+  }
   showMessage("WIFI PORTAL", "Connect a phone to:", PORTAL_NAME, "Open 192.168.4.1");
   digitalWrite(PIN_STATUS_LED, HIGH);  // the status LED stays on while the portal is open
 
@@ -151,7 +205,23 @@ static void openPortal() {
   // The address 192.168.4.1/update itself still exists: open the portal only while you are filling it in yourself.
   wm.setConfigPortalTimeout(PORTAL_TIMEOUT);  // closes by itself when unused
   wm.setConnectTimeout(20);                   // tries the newly entered WiFi for at most 20 seconds
-  bool success = wm.startConfigPortal(PORTAL_NAME);
+
+  // Module 28: three extra fields on the WiFi page (its menu has no "param", so the fields go on the WiFi page):
+  // (id, the label above the field, its initial content, its maximum length). The fields must exist while the portal is open.
+  WiFiManagerParameter codeField("claim_code", "Claim code from /fleet (may be empty)", "", 12);
+  WiFiManagerParameter serverField("server_address", "Server address, for example http://192.168.1.10", storedServerAddress(),
+                                   SERVER_ADDRESS_MAX_LENGTH);
+  WiFiManagerParameter brokerField("broker_address", "Broker address (the Pi gateway's IP)", storedBrokerAddress(),
+                                   BROKER_ADDRESS_MAX_LENGTH);
+  wm.addParameter(&codeField);
+  wm.addParameter(&serverField);
+  wm.addParameter(&brokerField);
+  // [&] = a small nameless function that may use the three fields above; WiFiManager calls it when Save is pressed.
+  wm.setSaveParamsCallback([&]() {
+    savePortalFields(codeField.getValue(), serverField.getValue(), brokerField.getValue());
+  });
+  // Module 28: with a password, a phone must enter that password to join the portal's Wi-Fi (nullptr = no password).
+  bool success = wm.startConfigPortal(PORTAL_NAME, PORTAL_PASSWORD[0] != '\0' ? PORTAL_PASSWORD : nullptr);
 
   digitalWrite(PIN_STATUS_LED, LOW);
   if (success) {
@@ -251,35 +321,91 @@ static const char* doSet(JsonDocument& command) {
 
 // Module 19: one "config" command. All thresholds are checked first; only if all of them are valid are they saved
 // to NVS (only the ones whose number changed). Returns nullptr if it worked, or the reason it was refused.
+// Module 28 (contract 1.6): a config may carry "thresholds", "intervals", or both. Everything is checked first, then saved.
 static const char* doConfig(JsonDocument& command) {
   static char reason[48];  // static: sendAck() still reads its content after this function has ended
-  JsonObject thresholds = command["thresholds"].as<JsonObject>();
-  if (thresholds.isNull() || thresholds.size() == 0) {
-    return "thresholds must contain temp_fan_on or soil_watering";
+  // A key that IS there counts even if its content is null: {"intervals": null} = the wrong type (the whole command is refused,
+  // contract section 7), not "not sent". isNull() can't tell the two apart, so the key names are looked up one by one.
+  bool hasThresholds = false;
+  bool hasIntervals = false;  // Module 28
+  for (JsonPair p : command.as<JsonObject>()) {
+    hasThresholds = hasThresholds || strcmp(p.key().c_str(), "thresholds") == 0;
+    hasIntervals = hasIntervals || strcmp(p.key().c_str(), "intervals") == 0;
   }
-  for (JsonPair p : thresholds) {  // any other name = a typo: refuse everything so that nothing slips through quietly
-    const char* name = p.key().c_str();
-    if (strcmp(name, "temp_fan_on") != 0 && strcmp(name, "soil_watering") != 0) {
-      snprintf(reason, sizeof(reason), "unknown threshold: %s", name);
-      return reason;
+  if (!hasThresholds && !hasIntervals) {
+    return "config must contain thresholds or intervals";
+  }
+  JsonObject thresholds = command["thresholds"].as<JsonObject>();
+  if (hasThresholds) {
+    if (thresholds.isNull() || thresholds.size() == 0) {
+      return "thresholds must contain temp_fan_on or soil_watering";
+    }
+    for (JsonPair p : thresholds) {  // any other name = a typo: refuse everything so that nothing slips through quietly
+      const char* name = p.key().c_str();
+      if (strcmp(name, "temp_fan_on") != 0 && strcmp(name, "soil_watering") != 0) {
+        snprintf(reason, sizeof(reason), "unknown threshold: %s", name);
+        return reason;
+      }
+    }
+    JsonVariant temperature = thresholds["temp_fan_on"];
+    JsonVariant soil = thresholds["soil_watering"];
+    if (!temperature.isNull()
+        && (!temperature.is<float>() || temperature.as<float>() < TEMP_FAN_MIN || temperature.as<float>() > TEMP_FAN_MAX)) {
+      return "temp_fan_on must be a number 15-45";
+    }
+    if (!soil.isNull() && (!soil.is<int>() || soil.as<int>() < 0 || soil.as<int>() > 100)) {
+      return "soil_watering must be a whole number 0-100";
     }
   }
-  JsonVariant temperature = thresholds["temp_fan_on"];
-  JsonVariant soil = thresholds["soil_watering"];
-  if (!temperature.isNull()
-      && (!temperature.is<float>() || temperature.as<float>() < TEMP_FAN_MIN || temperature.as<float>() > TEMP_FAN_MAX)) {
-    return "temp_fan_on must be a number 15-45";
+  // Module 28: "intervals" may only contain vitals_s (60-3600 seconds). telemetry stays 10 seconds (contract rule 3).
+  JsonObject intervals = command["intervals"].as<JsonObject>();
+  if (hasIntervals) {
+    if (intervals.isNull()) {
+      return "intervals must contain vitals_s";
+    }
+    for (JsonPair p : intervals) {
+      const char* name = p.key().c_str();
+      if (strcmp(name, "vitals_s") != 0) {
+        snprintf(reason, sizeof(reason), "unknown interval: %s", name);
+        return reason;
+      }
+    }
+    JsonVariant vitals = intervals["vitals_s"];
+    if (!vitals.is<int>() || vitals.as<int>() < (int)VITALS_INTERVAL_MIN_S || vitals.as<int>() > (int)VITALS_INTERVAL_MAX_S) {
+      return "vitals_s must be a whole number 60-3600";
+    }
   }
-  if (!soil.isNull() && (!soil.is<int>() || soil.as<int>() < 0 || soil.as<int>() > 100)) {
-    return "soil_watering must be a whole number 0-100";
+  // All valid: only now are they saved (only the ones whose number changed).
+  if (hasThresholds) {
+    JsonVariant temperature = thresholds["temp_fan_on"];
+    JsonVariant soil = thresholds["soil_watering"];
+    if (!temperature.isNull()) {
+      saveTempFanThreshold(temperature.as<float>());
+    }
+    if (!soil.isNull()) {
+      saveSoilWateringThreshold(soil.as<int>());
+    }
   }
-  if (!temperature.isNull()) {
-    saveTempFanThreshold(temperature.as<float>());
-  }
-  if (!soil.isNull()) {
-    saveSoilWateringThreshold(soil.as<int>());
+  if (hasIntervals) {
+    int seconds = intervals["vitals_s"].as<int>();
+    if ((unsigned long)seconds != vitalsIntervalSeconds()) {
+      saveVitalsInterval(seconds);
+      lastVitalsTime = millis();  // the new schedule counts from now (the same as the simulator)
+    }
   }
   return nullptr;
+}
+
+// Module 28: one "update" command. Its content is taken from the JSON, then checked and accepted in ota-update.cpp.
+// A field that is missing or of the wrong type becomes nullptr / -1, and is refused with the same reason as the simulator.
+static const char* handleUpdate(const char* id, JsonDocument& command) {
+  UpdateFields content = {
+    command["version"].as<const char*>(),  // nullptr if it's missing or not text
+    command["url"].as<const char*>(),
+    command["sha256"].as<const char*>(),
+    command["size"].is<long>() ? (long long)command["size"].as<long>() : -1,  // a fraction, text, missing = -1
+  };
+  return acceptUpdate(id, content);
 }
 
 // Called by the library inside mqtt.loop() for every message on msh/<device_id>/cmd.
@@ -313,6 +439,17 @@ static void onMqttMessage(char* topic, byte* content, unsigned int length) {
     }
     return;
   }
+  if (held) {
+    // Module 28: Node 1 is stopping on purpose (it disconnects shortly). The command isn't carried out, but it is still answered
+    // (contract rule 4: every cmd is answered), and its id is NOT remembered: a retained config that arrives again after
+    // connecting, or a command sent again, is still carried out later.
+    const char* reason = strcmp(action, "update") == 0 && updateInProgress()
+                             ? "another update is running"
+                             : "Node 1 is stopping on purpose: send it again once it is online";
+    logInfo("Command %s arrived while Node 1 was stopping on purpose: refused (%s).", id, reason);
+    sendAck(id, false, reason);
+    return;
+  }
   rememberId(id);
   const char* message = "unknown action";
   if (strcmp(action, "set") == 0) {
@@ -320,10 +457,14 @@ static void onMqttMessage(char* topic, byte* content, unsigned int length) {
   } else if (strcmp(action, "config") == 0) {
     message = doConfig(command);  // Module 19
   } else if (strcmp(action, "update") == 0) {
-    message = "action update not supported yet (Module 28)";
+    message = handleUpdate(id, command);  // Module 28: ok = ACCEPTED; the download starts in the next pass of loop()
   }
-  if (message == nullptr) {
-    logInfo("Command %s: %s %s done.", id, action, command["target"] | "thresholds");
+  if (message == nullptr && strcmp(action, "update") == 0) {
+    logInfo("Command %s: update to %s accepted; the update begins.", id, command["version"] | "?");
+  } else if (message == nullptr && strcmp(action, "config") == 0) {
+    logInfo("Command %s: config done.", id);
+  } else if (message == nullptr) {
+    logInfo("Command %s: %s %s done.", id, action, command["target"] | "");
   } else {
     logError("Command %s refused: %s", id, message);
   }
@@ -349,14 +490,6 @@ void setupNetwork() {
   logInfo("device_id %s", deviceId);
 
   netClient.setConnectionTimeout(1000);  // TCP connect to the broker takes at most 1 second (default: 3 seconds)
-  if (USE_WOKWI && WOKWI_LOCKED) {  // Module 21: the "accepted vs rejected" practice on a locked public broker
-    brokerAddress = WOKWI_BROKER_LOCKED;
-    brokerPort = 1884;  // the MQTT port of test.mosquitto.org that asks for a username and key
-    username = "rw";    // the public test.mosquitto.org account; its key: readwrite
-  } else if (USE_WOKWI) {
-    brokerAddress = WOKWI_BROKER;
-  }
-  mqtt.setServer(brokerAddress, brokerPort);  // at home: an IP address, not a name, so no name lookup (DNS) needed
   mqtt.setSocketTimeout(1);  // wait at most 1 second for the broker's answer (default: 15 seconds)
   if (!mqtt.setBufferSize(512)) {  // a 512-byte message container (default: 256)
     logError("Not enough memory for a 512-byte MQTT message container.");
@@ -364,13 +497,19 @@ void setupNetwork() {
   mqtt.setCallback(onMqttMessage);
 
   if (USE_WOKWI) {
-    logInfo("Wokwi mode: connecting to Wokwi-GUEST without the portal, public broker %s:%u.", brokerAddress, brokerPort);
+    logInfo("Wokwi mode: connecting to Wokwi-GUEST without the portal, public broker %s:%u.",
+            WOKWI_LOCKED ? WOKWI_BROKER_LOCKED : WOKWI_BROKER, WOKWI_LOCKED ? 1884 : BROKER_PORT);
     WiFi.begin("Wokwi-GUEST", "", 6);  // 6 = the Wokwi-GUEST channel so that it connects faster
     hasWiFi = true;
   } else {
     WiFiManager wm;
     hasWiFi = wm.getWiFiIsSaved();
-    if (digitalRead(PIN_BUTTON) == LOW) {  // D13 button held at power-up = asking for the portal
+    bool portalRequested = digitalRead(PIN_BUTTON) == LOW || !hasWiFi;
+    if (portalRequested && inTrialPeriod()) {
+      // Module 28: new firmware must connect to the broker within 60 seconds. A portal waiting here (up to 3 minutes)
+      // would surely make it fail, so the portal is postponed: after the trial period (or a rollback), hold D13 while pressing EN.
+      logError("Trial period of new firmware: the Wi-Fi portal is POSTPONED. Open it after the trial (hold D13, press EN).");
+    } else if (digitalRead(PIN_BUTTON) == LOW) {  // D13 button held at power-up = asking for the portal
       logInfo("D13 button held at power-up: WiFi portal opened.");
       openPortal();
     } else if (!hasWiFi) {
@@ -382,6 +521,18 @@ void setupNetwork() {
       logInfo("Connecting to the saved WiFi \"%s\" (without waiting)...", wm.getWiFiSSID().c_str());
     }
   }
+
+  // The broker address is chosen AFTER the portal: the portal's "Broker address" field may have just changed it (Module 28).
+  if (USE_WOKWI && WOKWI_LOCKED) {  // Module 21: the "accepted vs rejected" practice on a locked public broker
+    brokerAddress = WOKWI_BROKER_LOCKED;
+    brokerPort = 1884;  // the MQTT port of test.mosquitto.org that asks for a username and key
+    username = "rw";    // the public test.mosquitto.org account; its key: readwrite
+  } else if (USE_WOKWI) {
+    brokerAddress = WOKWI_BROKER;
+  } else {
+    brokerAddress = storedBrokerAddress();  // Module 28: from NVS (portal, Serial, claim), or BROKER_ADDRESS
+  }
+  mqtt.setServer(brokerAddress, brokerPort);  // at home: an IP address, not a name, so no name lookup (DNS) needed
   lastReadyTime = millis();  // Module 19: the offline-mode count starts after the WiFi portal, not at power-up
 }
 
@@ -405,15 +556,20 @@ static void guardConnection() {
       && WiFi.channel() != routerChannel) {
     WiFi.setChannel(routerChannel);
   }
-  if (now - lastEvent >= NO_ATTEMPT_TIMEOUT
-      && now - lastGuardTime >= NO_ATTEMPT_TIMEOUT) {
+  // Module 28: the esp32 package only retries by ITSELF once after starting (setAutoReconnect(false)). During the trial period,
+  // new firmware must connect within 60 seconds, so the guard tries every 10 seconds, not every 60; otherwise a router
+  // that is just restarting would already make good firmware roll back.
+  unsigned long limit = inTrialPeriod() ? TRIAL_RETRY_INTERVAL : NO_ATTEMPT_TIMEOUT;
+  if (now - lastEvent >= limit && now - lastGuardTime >= limit) {
     lastGuardTime = now;
-    logInfo("WiFi guard: %lu seconds without a new attempt, trying to reconnect.", NO_ATTEMPT_TIMEOUT / 1000);
+    logInfo("WiFi guard: %lu seconds without a new attempt, trying to reconnect.", limit / 1000);
     WiFi.reconnect();
   }
 }
 
 // ---------- Health report: vitals (Appendix A) ----------
+// Module 28 (contract 1.6): vitals also carry reset_reason and fw, and a firmware update report (ota) that hasn't been
+// sent 3 times yet. Their interval can be set by the server through the config "intervals.vitals_s" (default 300 seconds).
 static void sendVitals() {
   char ts[21];
   if (!makeTs(ts, sizeof(ts))) {
@@ -429,8 +585,26 @@ static void sendVitals() {
     doc["offline_s"] = reportSeconds;
     doc["local_fan"] = reportLocalFan;
   }
-  char content[192];  // Module 19: enlarged from 128 for the offline-mode report
+  doc["reset_reason"] = resetReasonName();  // Module 28: required since 1.7.0, always together with fw
+  doc["fw"] = FIRMWARE_VERSION;
+  const OtaReport* otaReport = pendingOtaReport();  // ota-update.cpp; nullptr = no report
+  if (otaReport != nullptr) {
+    JsonObject ota = doc["ota"].to<JsonObject>();
+    ota["id"] = otaReport->id;
+    ota["result"] = otaReport->result;
+    ota["version"] = otaReport->version;
+    if (otaReport->message[0] != '\0') {
+      ota["message"] = otaReport->message;
+    }
+  }
+  // Module 28: enlarged from 192 (the longest vitals is about 380 characters). PubSubClient3 3.3.2 sends an OUTGOING message's
+  // content bit by bit, so the 512-byte MQTT buffer only limits INCOMING messages (cmd), not vitals.
+  char content[480];
   size_t length = serializeJson(doc, content, sizeof(content));
+  if (length >= sizeof(content) && otaReport != nullptr) {  // nearly impossible (an id full of special characters): the message goes
+    doc["ota"].as<JsonObject>().remove("message");
+    length = serializeJson(doc, content, sizeof(content));
+  }
   if (length >= sizeof(content)) {
     logError("Vitals too long for the content[] container: not sent.");
     vitalsSent = true;  // don't try again on every pass of loop()
@@ -448,11 +622,18 @@ static void sendVitals() {
       reportSeconds = 0;
       reportLocalFan = 0;
     }
+    if (otaReport != nullptr) {  // Module 28: count the sends of the update report (at most 3 times)
+      logInfo("The update report rides along with vitals: %s for %s", otaReport->result, otaReport->version);
+      otaReportSent();
+    }
   }
 }
 
 // One attempt to connect to the broker, at most every MQTT_RETRY_INTERVAL. Never loops while waiting.
 static void tryConnectBroker() {
+  if (held) {  // Module 28: stopped on purpose for a firmware update: don't reconnect yet
+    return;
+  }
   if (offlineTest) {  // Module 19: the "test offline" command is running: pretend the broker is unreachable
     if (millis() - offlineTestTime < OFFLINE_TEST_TIME) {
       return;
@@ -469,6 +650,12 @@ static void tryConnectBroker() {
   lastMqttTryTime = millis();
   unsigned long start = millis();
   const char* key = brokerKey();  // Module 21: from NVS; "" = none yet
+  if (TEST_WRONG_KEY == 1) {
+    // Module 28, the PRACTICE firmware 1.7.2-test: the key is broken on purpose IN RAM ONLY (NVS isn't touched). The broker refuses it,
+    // the 60-second trial period passes, and Node 1 goes back by itself to the previous firmware, which uses the real key from NVS.
+    key = "broken-key-TEST_WRONG_KEY";
+    logError("TEST_WRONG_KEY = 1: the broker key is wrong on purpose (the Module 28 rollback practice).");
+  }
   // Client name = device_id; username = device_id (Wokwi locked: rw); key from NVS (nullptr = no key);
   // then the last will: the status topic, QoS 1, retained, content "offline" (Module 11, Concept 7).
   if (mqtt.connect(deviceId, username, key[0] != '\0' ? key : nullptr, statusTopic, 1, true, "offline")) {
@@ -480,11 +667,14 @@ static void tryConnectBroker() {
       // 5 seconds, and the watchdog restarts Node 1. Keep its IP address: the next reconnect needs no DNS anymore.
       mqtt.setServer(netClient.remoteIP(), brokerPort);
     }
-    mqtt.publish(statusTopic, "online", true);  // retained: subscribers who come later still see it
-    mqtt.subscribe(cmdTopic, 1);                // subscribe again after every connect (clean session)
+    bool published = mqtt.publish(statusTopic, "online", true);  // retained: subscribers who come later still see it
+    bool subscribed = mqtt.subscribe(cmdTopic, 1);                // subscribe again after every connect (clean session)
     logInfo("MQTT connected to broker %s:%u in %lu ms, as %s", brokerAddress, brokerPort, millis() - start,
             username);
     vitalsSent = false;  // the first vitals are sent right away
+    if (published && subscribed) {
+      firmwareProven();  // Module 28 (trial-period.cpp): key accepted + "online" published + cmd subscribed = firmware VALID
+    }
     return;
   }
   int code = mqtt.state();
@@ -514,7 +704,7 @@ static void guardMqtt() {
     // usually lost the broker too and only reconnects a few seconds later. vitals is not retained, so a report
     // published before the server subscribes again would never arrive.
     bool reportWaitsForServer = reportPending && millis() - offlineEndTime < REPORT_DELAY;
-    if (!reportWaitsForServer && (!vitalsSent || millis() - lastVitalsTime >= VITALS_INTERVAL)) {
+    if (!reportWaitsForServer && (!vitalsSent || millis() - lastVitalsTime >= vitalsIntervalSeconds() * 1000UL)) {
       sendVitals();
     }
     return;
@@ -772,8 +962,10 @@ void printNetworkInfo() {
   }
   Serial.printf("mqtt: username %s, key %s\n", username,  // Module 21
                 brokerKey()[0] != '\0' ? "stored (details: type key)" : "NONE YET");
-  Serial.printf("mqtt: telemetry every %lu seconds and immediately when something important happens, vitals every %lu minutes, "
-                "published %lu times\n", SEND_INTERVAL / 1000, VITALS_INTERVAL / 60000, publishCount);
+  Serial.printf("mqtt: broker address %s (%s)\n", brokerAddress,  // Module 28
+                USE_WOKWI ? "Wokwi" : (brokerAddressFromNvs() ? "from NVS" : "from config.h"));
+  Serial.printf("mqtt: telemetry every %lu seconds and immediately when something important happens, vitals every %lu seconds, "
+                "published %lu times\n", SEND_INTERVAL / 1000, vitalsIntervalSeconds(), publishCount);
   unsigned long now = millis();  // Module 19: offline mode
   if (offline) {
     Serial.printf("offline mode: YES, for %lu s; local safety has turned the fan on %u time(s)\n",
@@ -792,6 +984,7 @@ void printNetworkInfo() {
 }
 
 void forgetWiFi() {
+  prepareRestart("wifi forget command");  // Module 28: offline-mode + a clean disconnect (and a report if in the middle of the trial)
   Serial.println("Saved WiFi erased. Restarting now; the WiFi portal will open.");
   Serial.flush();
   WiFi.disconnect(true, true);  // true, true = turn off the radio AND erase the saved WiFi from NVS
@@ -850,4 +1043,56 @@ void changeBrokerKey() {
   if (mqtt.connected()) {
     netClient.stop();
   }
+}
+
+// ---------- Module 28: firmware updates and registration ----------
+const char* myDeviceId() {
+  return deviceId;
+}
+
+bool wifiConnected() {
+  return connected;
+}
+
+// A new broker address (Serial "broker", "claim", or the portal): used for the next connection, which is tried now.
+void changeBrokerAddress() {
+  if (USE_WOKWI) {
+    logInfo("Wokwi mode: the broker address stays the public broker; the new address is used on the home network.");
+    return;
+  }
+  brokerAddress = storedBrokerAddress();
+  mqtt.setServer(brokerAddress, brokerPort);
+  changeBrokerKey();  // disconnect (if connected) and try now, without waiting for the interval
+}
+
+// Stopping on purpose (contract 1.6 section 3): before installing new firmware or restarting on command, Node 1 publishes
+// "offline-mode" (retained, QoS 1), then disconnects with a DISCONNECT message. The broker doesn't publish the "offline" will
+// for a connection closed cleanly, so the dashboard writes "stopped on purpose", not "gone".
+void stopOnPurpose() {
+  held = true;  // from now on: don't reconnect and don't carry out new commands
+  if (mqtt.connected()) {
+    mqtt.loop();  // take the messages that already arrived (the update command's own ack was already sent inside the callback)
+    mqtt.publish(statusTopic, "offline-mode", MQTT_QOS1, true);
+    unsigned long start = millis();
+    while (millis() - start < 300) {  // give the broker time to take it (and answer PUBACK), without waiting long
+      mqtt.loop();
+      delay(10);
+    }
+    // Incoming data not read yet (for example a command that arrived in the last second) is thrown away first. Without this, a
+    // connection that still holds incoming data is closed with RST (not FIN), the DISCONNECT can be thrown away too, and the
+    // broker publishes the "offline" will although Node 1 stopped on purpose.
+    netClient.clear();
+    mqtt.disconnect();  // a clean DISCONNECT
+    logInfo("Status offline-mode published, broker connection closed cleanly (no offline will).");
+  }
+  mqttConnected = false;  // so that guardMqtt() doesn't write "MQTT DISCONNECTED"
+}
+
+// After a FAILED update (the old firmware keeps running without a restart): reconnect right now. The time spent stopped
+// on purpose isn't counted as the offline mode of Module 19.
+void resumeConnection() {
+  held = false;
+  hasTriedMqtt = false;
+  brokerRejected = false;
+  lastReadyTime = millis();
 }

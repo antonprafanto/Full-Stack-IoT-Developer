@@ -2,6 +2,7 @@
 #include <Arduino.h>
 #include <esp_system.h>  // esp_reset_reason()
 #include <esp_timer.h>   // esp_timer_get_time()
+#include <esp_task_wdt.h>  // Module 28: watchdog
 #include "system.h"
 
 static unsigned long longestLoopUs = 0;  // microseconds
@@ -44,4 +45,19 @@ void recordLoopTime(unsigned long microseconds) {
 
 unsigned long longestLoopMs() {
   return longestLoopUs / 1000;
+}
+
+// Module 28: downloading firmware (or exchanging a claim code over HTTPS) blocks loop() for more than 5 seconds: just waiting for
+// the server's answer may take up to 8 seconds (HTTPClient). So the watchdog timeout is relaxed for a while, then put back.
+// The new firmware's trial period also uses it to guard setup() (trial-period.cpp).
+// Its content is the same as the watchdog setup in setup() (Module 8, Concept 8); only the timeout changes.
+void setWatchdogTimeout(unsigned long milliseconds) {
+  esp_task_wdt_config_t watchdogConfig = {
+    .timeout_ms = (uint32_t)milliseconds,
+    .idle_core_mask = 0b01,  // keep watching the "idle task" of core 0 (the esp32 package default)
+    .trigger_panic = true,   // fed too late = panic, then restart
+  };
+  esp_task_wdt_reset();  // feed it first so the count for the new timeout starts from zero
+  esp_task_wdt_reconfigure(&watchdogConfig);
+  esp_task_wdt_reset();
 }

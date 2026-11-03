@@ -1,6 +1,6 @@
 # 🔌 Firmware — Rumah Pintar Mini
 
-🌐 **Bahasa Indonesia**
+🌐 **Bahasa Indonesia** · [English](../../en/mini-smart-home/firmware/README.md)
 
 Folder ini berisi firmware kedua papan ESP32 proyek **Rumah Pintar Mini**:
 

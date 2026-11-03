@@ -91,17 +91,29 @@ export async function notifyIfNeeded(key: string, situation: Situation, text: st
 }
 
 // Device status: "offline" is only reported once it lasts 60 seconds (Wi-Fi that flickers doesn't make noise).
-const offlineTimers = new Map<string, ReturnType<typeof setTimeout>>(); // device_id -> the 60-second timer
-const offlineSince = new Map<string, number>(); // device_id -> since when it is offline (already reported)
+// Module 28: "offline-mode" = the device stops ON PURPOSE (for example to install new firmware, then restart). Not a
+// disruption, so the message is different: 🔄 at once, then 📴 only if the device doesn't come back within 3 minutes. An update that
+// fails and goes back to the old version by itself (rollback) takes about 70 seconds; without that 3-minute grace, every rollback sends 📴.
+const OFFLINE_GRACE_MS = 60_000;
+const STOPPED_ON_PURPOSE_GRACE_MS = 3 * 60_000;
+const offlineTimers = new Map<string, ReturnType<typeof setTimeout>>(); // device_id -> the timer that is waiting
+const sinceStopped = new Map<string, number>(); // device_id -> when it stopped on purpose (the 🔄 message already sent)
+const offlineSince = new Map<string, number>(); // device_id -> since when it is offline (already reported with 📴)
 
 export function notifyStatus(deviceId: string, status: string): void {
   if (status === "online") {
     const timer = offlineTimers.get(deviceId);
-    if (timer !== undefined) { // back before 60 seconds: canceled, no message
+    if (timer !== undefined) { // back before its grace ends: cancelled
       clearTimeout(timer);
       offlineTimers.delete(deviceId);
+    }
+    const stopped = sinceStopped.get(deviceId);
+    if (stopped !== undefined && !offlineSince.has(deviceId)) { // Module 28: the pair of the 🔄 message
+      sinceStopped.delete(deviceId);
+      void notify(`✅ ${deviceId} online again after stopping on purpose (${Math.round((Date.now() - stopped) / 1000)} seconds)`);
       return;
     }
+    sinceStopped.delete(deviceId);
     const since = offlineSince.get(deviceId);
     if (since !== undefined) {
       offlineSince.delete(deviceId);
@@ -109,13 +121,37 @@ export function notifyStatus(deviceId: string, status: string): void {
     }
     return;
   }
-  if (offlineTimers.has(deviceId) || offlineSince.has(deviceId)) return;
+  if (offlineSince.has(deviceId)) return; // already reported with 📴: wait until it is online again
+  if (status === "offline-mode") { // Module 28
+    if (sinceStopped.has(deviceId)) return;
+    clearTimeout(offlineTimers.get(deviceId)); // stopping on purpose replaces the ordinary "offline" wait
+    const start = Date.now();
+    sinceStopped.set(deviceId, start);
+    void notify(`🔄 ${deviceId} stopped on purpose (firmware update or restart), back online shortly`);
+    offlineTimers.set(deviceId, setTimeout(() => {
+      offlineTimers.delete(deviceId);
+      sinceStopped.delete(deviceId);
+      offlineSince.set(deviceId, start);
+      void notify(`📴 ${deviceId} hasn't come back after stopping on purpose at ${wibTime.format(start)} WIB`);
+    }, STOPPED_ON_PURPOSE_GRACE_MS));
+    return;
+  }
+  // "offline" (the will). After stopping on purpose, the 3-minute grace that is running stays in use.
+  if (offlineTimers.has(deviceId)) return;
   const start = Date.now();
   offlineTimers.set(deviceId, setTimeout(() => {
     offlineTimers.delete(deviceId);
     offlineSince.set(deviceId, start);
     void notify(`📴 ${deviceId} offline since ${wibTime.format(start)} WIB`);
-  }, 60_000));
+  }, OFFLINE_GRACE_MS));
+}
+
+// Module 28: a device deactivated by the admin: forget every status notice still waiting (no 📴 or ✅ for it).
+export function forgetStatusNotice(deviceId: string): void {
+  clearTimeout(offlineTimers.get(deviceId));
+  offlineTimers.delete(deviceId);
+  sinceStopped.delete(deviceId);
+  offlineSince.delete(deviceId);
 }
 
 // the answer to /status: the last state of every device in the in-memory store

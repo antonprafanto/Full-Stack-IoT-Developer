@@ -1,7 +1,9 @@
 // devices.test.ts - tests for the official device registry routes (Module 21) WITHOUT a database: the devices table is replaced
 // by an in-memory fake (vi.mock), the Fastify server runs without a network (app.inject). What is tested: the key is shown once,
 // only its fingerprint is stored, a double registration is refused, key rotation, revoke, an ESP-NOW device with no key. The
-// login guard (Module 20) isn't mounted here: 401 and 403 are already handled by security.ts for ALL routes. Run: npm test
+// login guard (Module 20) isn't mounted here: 401 and 403 are already handled by security.ts for ALL routes.
+// Module 28: automatic broker accounts (broker-accounts.ts replaced by a mock) inside the same transaction, and "Deactivate" (revoke):
+// the status written offline, the retained config deleted, a revoked event. Run: npm test
 import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 import { createHash } from "node:crypto";
 
@@ -13,32 +15,60 @@ vi.hoisted(() => { // env.ts checks .env when imported: give it valid fake setti
 
 // the fake devices table: device_id -> row (including key_hash, which the real database also has)
 const table = vi.hoisted(() => new Map<string, Record<string, unknown>>());
+// Module 28: a mock broker account. mode "manual" = AUTO_BROKER_ACCOUNTS=off (like Module 21)
+const broker = vi.hoisted(() => ({ mode: "manual" as "manual" | "auto" | "fail" | "old-account", log: [] as string[],
+  config: [] as string[], events: [] as { kind: string; message: string }[] }));
+vi.mock("../services/broker-accounts.ts", () => ({
+  accountQueue: (work: () => Promise<unknown>) => work(), // the real queue is tested in broker-accounts.test.ts
+  accountPlace: () => (broker.mode === "manual" ? "by hand (Module 21)" : "gateway broker pi1"),
+  addDeviceAccount: async (id: string) => {
+    if (broker.mode === "fail") throw new Error("gateway broker pi1 didn't answer createClient within 3 seconds");
+    if (broker.mode === "manual") return "manual";
+    broker.log.push(`create ${id}`);
+    return "created";
+  },
+  removeDeviceAccount: async (id: string) => {
+    if (broker.mode === "fail") throw new Error("gateway broker pi1 didn't answer deleteClient within 3 seconds");
+    if (broker.mode === "manual") return "manual";
+    broker.log.push(`delete ${id}`);
+    return broker.mode === "old-account" ? "none" : "deleted";
+  },
+}));
+vi.mock("../services/mqtt.ts", () => ({
+  brokerConnected: () => true, makeCommandId: () => "c-1", sendCommand: () => {},
+  clearConfig: (id: string) => { broker.config.push(id); },
+}));
+vi.mock("../services/events.ts", () => ({ recordEvent: (e: { kind: string; message: string }) => { broker.events.push(e); } }));
 vi.mock("../db/devices.ts", () => {
   const EMPTY = { kind: "unknown", name: null, location: null, lat: null, lng: null, status: "unknown",
     last_seen: null, registered_at: null, key_hash: null, key_created_at: null, revoked_at: null, linked_via: null };
   const withoutHash = (r: Record<string, unknown>) => { const { key_hash: _, ...rest } = r; return rest; };
   return {
     allDevicesDb: async () => [...table.values()].map(withoutHash),
+    // Module 28: the broker step (atBroker) runs BEFORE the table changes; an error = nothing changes (the transaction)
     registerDevice: async (id: string, name: string | null, location: string | null, linkedVia: string | null,
-      keyHash: string | null) => {
+      keyHash: string | null, atBroker = async (_r: unknown) => {}) => {
       const old = table.get(id);
       if (old?.registered_at) return undefined;
       const fresh = { ...EMPTY, ...old, device_id: id, name: name ?? old?.name ?? null, location, linked_via: linkedVia,
         kind: linkedVia ? "node2" : (old?.kind ?? "unknown"), registered_at: new Date(), key_hash: keyHash,
         key_created_at: keyHash ? new Date() : null, revoked_at: null };
+      await atBroker(withoutHash(fresh));
       table.set(id, fresh);
       return withoutHash(fresh);
     },
-    rotateDeviceKey: async (id: string, keyHash: string) => {
+    rotateDeviceKey: async (id: string, keyHash: string, atBroker = async (_r: unknown) => {}) => {
       const r = table.get(id);
       if (!r?.registered_at || r.linked_via) return undefined;
+      await atBroker(withoutHash(r));
       Object.assign(r, { key_hash: keyHash, key_created_at: new Date(), revoked_at: null });
       return withoutHash(r);
     },
-    revokeDevice: async (id: string) => {
+    revokeDevice: async (id: string, atBroker = async (_r: unknown) => {}) => {
       const r = table.get(id);
       if (!r?.registered_at || r.revoked_at) return undefined;
-      Object.assign(r, { key_hash: null, key_created_at: null, revoked_at: new Date() });
+      await atBroker(withoutHash(r));
+      Object.assign(r, { key_hash: null, key_created_at: null, revoked_at: new Date(), status: "offline" });
       return withoutHash(r);
     },
   };
@@ -49,6 +79,7 @@ import type { LightMyRequestResponse } from "fastify";
 import { serializerCompiler, validatorCompiler } from "fastify-type-provider-zod";
 import { deviceRoutes } from "./devices.ts";
 import { loadRegistry, devicePermission } from "../services/registry.ts";
+import { findDevice, saveStatus } from "../services/store.ts";
 
 const app = Fastify();
 app.setValidatorCompiler(validatorCompiler);
@@ -148,5 +179,57 @@ describe("official device registry", () => {
     const answer = await post("/devices/f00d00000001/key");
     expect(answer.statusCode).toBe(200);
     expect(devicePermission("f00d00000001")).toBe("registered");
+  });
+});
+
+describe("automatic broker accounts and Deactivate (Module 28)", () => {
+  it("registration with AUTO_BROKER_ACCOUNTS: the backend creates the broker account; the steps don't say mosquitto_passwd", async () => {
+    broker.mode = "auto";
+    const answer = await post("/devices", { device_id: "f00d00000021", name: "Module 28 practice" });
+    expect(answer.statusCode).toBe(201);
+    expect(broker.log).toContain("create f00d00000021");
+    expect(answer.json().steps[2]).toContain("automatically at gateway broker pi1");
+    expect(answer.json().steps.join(" ")).not.toContain("mosquitto_passwd");
+  });
+
+  it("the broker doesn't answer: 503, the database doesn't change (the device stays unregistered), the reader is told to repeat", async () => {
+    broker.mode = "fail";
+    const answer = await post("/devices", { device_id: "f00d00000022" });
+    expect(answer.statusCode).toBe(503);
+    expect(answer.json().message).toContain("not saved in the database yet");
+    expect(answer.json().message).toContain("repeat this step");
+    expect(table.has("f00d00000022")).toBe(false);
+    expect(devicePermission("f00d00000022")).toBe("unregistered");
+  });
+
+  it("Deactivate: the broker account deleted (disconnected at once), status offline, retained config deleted, a revoked event", async () => {
+    broker.mode = "auto";
+    saveStatus("f00d00000021", "online"); // the dashboard sees it online...
+    const answer = await post("/devices/f00d00000021/revoke");
+    expect(answer.statusCode).toBe(200);
+    expect(answer.json()).toMatchObject({ broker_account: "deleted" });
+    expect(broker.log).toContain("delete f00d00000021");
+    expect(findDevice("f00d00000021")?.status).toBe("offline"); // ...the broker publishes no will: the server writes it
+    expect(table.get("f00d00000021")?.status).toBe("offline");
+    expect(broker.config).toContain("f00d00000021");
+    expect(broker.events.at(-1)).toMatchObject({ kind: "revoked" });
+  });
+
+  it("an old Module 21 account (password_file, not in dynamic security): the steps say mosquitto_passwd -D then restart", async () => {
+    broker.mode = "old-account";
+    expect((await post("/devices", { device_id: "f00d00000023" })).statusCode).toBe(201);
+    const answer = await post("/devices/f00d00000023/revoke");
+    expect(answer.json().broker_account).toBe("none");
+    expect(answer.json().steps[0]).toContain("mosquitto_passwd -D");
+    broker.mode = "manual";
+  });
+
+  it("the broker fails during Deactivate: 503, the key is NOT revoked yet (try again)", async () => {
+    broker.mode = "auto";
+    expect((await post("/devices", { device_id: "f00d00000024" })).statusCode).toBe(201);
+    broker.mode = "fail";
+    expect((await post("/devices/f00d00000024/revoke")).statusCode).toBe(503);
+    expect(devicePermission("f00d00000024")).toBe("registered");
+    broker.mode = "manual";
   });
 });

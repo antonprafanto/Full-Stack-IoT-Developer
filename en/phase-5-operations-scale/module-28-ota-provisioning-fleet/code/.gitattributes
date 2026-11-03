@@ -1,0 +1,16 @@
+# .gitattributes - Module 26: files read by programs INSIDE a Linux container must end their lines with LF (not CRLF).
+# Git for Windows can turn LF into CRLF at checkout (core.autocrlf); the lines below prevent it for these files,
+# because that invisible CR character breaks sh scripts. (Mosquitto 2.1.2, Caddy 2.11.7, and Compose proved tolerant in the
+# Module 26 lab, but not every program is that tolerant: it's safer to keep all of these files LF.)
+*.sh text eol=lf
+*.conf text eol=lf
+Caddyfile text eol=lf
+acl-broker text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+.env.example text eol=lf
+Dockerfile text eol=lf
+.dockerignore text eol=lf
+# Module 27: SQL scripts sent to psql inside the database container. scripts/check-late-arrivals.sql uses psql commands (\if,
+# \set, \echo) that are read line by line: safer without hidden CR characters (not tested with CRLF).
+*.sql text eol=lf

@@ -7,3 +7,5 @@ backup/
 # Module 20 curl test files: they hold passwords and cookies
 login*.json
 cookies*.txt
+# Module 28: firmware files (.bin) uploaded in dev mode: they may hold ESP-NOW keys, never go into Git
+firmware-data/

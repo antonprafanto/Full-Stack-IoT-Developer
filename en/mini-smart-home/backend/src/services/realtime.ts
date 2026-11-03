@@ -1,6 +1,7 @@
 // realtime.ts - Socket.IO: data flows to the terminal and the browser without a refresh (Module 19), locked in Module 20.
 // Every device has one room named "device:<device_id>". A client that wants to watch one device sends
 // "follow", and then receives only that device's telemetry. Status changes and the event log go to every client.
+// Module 28: the "ota" event (the progress of a firmware update per device) also goes to every client, for the /fleet page.
 // Socket.IO answers /socket.io/ requests itself BEFORE Fastify sees them, so the Fastify guard (onRequest hook) does NOT
 // guard this door: Socket.IO has its own guard (allowRequest + io.use) with the same rules and the same cookie.
 import { Server } from "socket.io";
@@ -22,11 +23,23 @@ interface FollowAnswer {
   latest?: Telemetry | null;
 }
 
+// Module 28: one change of a firmware update's status (sent, accepted, downloading, succeeded, rollback, failed, ...)
+export interface OtaNotice {
+  device_id: string;
+  id: string; // the update command's id
+  status: string;
+  from: string | null;
+  to: string;
+  message: string | null;
+  time: string; // the server time, contract format (UTC)
+}
+
 // events from the server to the client, with their content
 interface ToClient {
   telemetry: (deviceId: string, content: Telemetry) => void;
   status: (deviceId: string, status: Status) => void;
   event: (event: SavedEvent) => void;
+  ota: (notice: OtaNotice) => void; // Module 28
 }
 
 // events from the client to the server; "respond" is the Socket.IO ack
@@ -109,4 +122,9 @@ export function broadcastStatus(deviceId: string, status: Status): void {
 // send one row of the event log to ALL clients
 export function broadcastEvent(event: SavedEvent): void {
   io?.emit("event", event);
+}
+
+// Module 28: send the progress of one firmware update to ALL clients (the /fleet page updates its row without polling)
+export function broadcastOta(notice: OtaNotice): void {
+  io?.emit("ota", notice);
 }

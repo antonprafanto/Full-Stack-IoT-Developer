@@ -1,14 +1,17 @@
 // Badge.tsx - small colored badges for a device's status and key.
-// Used on the device list cards and in the device details heading (both made in Module 22).
+// Used on the device list cards and in the device details heading (both made in Module 22), and on the Fleet screen (Module 28).
 import type { DeviceStatus, KeyStatus } from "../types";
 
 // The Tailwind classes are written WHOLE here, not joined ("bg-" + color): Tailwind only makes classes that are written in full.
 // Module 23: color ALWAYS comes with text (online green "Online", offline red "Offline"), so it can still be read by
 // people who find it hard to tell red and green apart.
+// Module 28: offline-mode is written "stopped on purpose" (it was "offline mode"): the device restarts on purpose, for example to
+// install new firmware. The words "offline mode" are already used for something else: the Module 19 local safety while the broker
+// can't be reached. Its color is sky blue (not red): this isn't a disruption, and it is usually back Online within ±1 minute.
 const STATUS_BADGES: Record<DeviceStatus, { text: string; color: string }> = {
   online: { text: "Online", color: "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100" },
   offline: { text: "Offline", color: "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-100" },
-  "offline-mode": { text: "offline mode", color: "bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-200" },
+  "offline-mode": { text: "stopped on purpose", color: "bg-sky-100 text-sky-800 dark:bg-sky-900 dark:text-sky-100" },
   unknown: { text: "unknown", color: "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400" },
 };
 
@@ -24,7 +27,13 @@ const SHAPE = "rounded-full px-2 py-0.5 text-xs font-medium whitespace-nowrap";
 
 export function StatusBadge({ status }: { status: DeviceStatus }) {
   const { text, color } = STATUS_BADGES[status];
-  return <span className={SHAPE + " " + color}>{text}</span>;
+  // title = the explanation that shows when the mouse hovers over the badge (Module 28: what "stopped on purpose" means)
+  const hint = status === "offline-mode" ? "Restarting on purpose, for example for a firmware update" : undefined;
+  return (
+    <span className={SHAPE + " " + color} title={hint}>
+      {text}
+    </span>
+  );
 }
 
 export function KeyBadge({ keyStatus }: { keyStatus: KeyStatus }) {

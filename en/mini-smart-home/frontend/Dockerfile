@@ -1,9 +1,10 @@
-# Dockerfile - the web image (mold) of Mini Smart Home 1.3.0 (Module 26, a PWA since Module 27). Two stages ("multi-stage"):
+# Dockerfile - the web image (mold) of Mini Smart Home 1.4.0 (Module 26; a PWA since Module 27, the Fleet screen since Module 28).
+# Two stages ("multi-stage"):
 #   stage "build": Node.js turns the React + TypeScript code into ready-to-serve files (npm run build -> the dist/ folder,
 #                  including manifest.webmanifest and the service worker sw.js since Module 27)
 #   final stage  : only Caddy + the files of dist/. Node.js, node_modules, and the source code stay behind in the build stage.
 # Built from the project folder with: docker compose build web   (or from this folder only, without the backend folder:
-# docker build -t mini-smart-home-web:1.3.0 .)
+# docker build -t mini-smart-home-web:1.4.0 .)
 
 # An exact tag (the same as the backend image), not "latest": the same mold today and next month.
 FROM node:24.22.1-alpine3.24 AS build
