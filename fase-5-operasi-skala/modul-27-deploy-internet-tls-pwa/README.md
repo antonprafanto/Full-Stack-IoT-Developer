@@ -4,7 +4,7 @@
 
 *Fase 5 · Minggu 27 · Perangkat keras: **Kit A + B** + **VPS 2 GB** (sangat disarankan) + **domain** (jalur gratis: Kit A + B + domain + akun Cloudflare gratis; tanpa Pi: laptop menjadi gerbang) · Prasyarat: **Modul 26** (backend 1.3.0, frontend 1.2.0, `compose.cloud.yml` di `main`), Modul 21 (broker berkunci) · Waktu: jalur utama ±10 jam, jalur gratis ±7,5 jam, dicicil dalam satu minggu, ditambah menunggu domain dan DNS aktif · Biaya: domain (±Rp 15–30 rb/tahun, perkiraan) + VPS bulan pertama (±Rp 80–200 rb, harga Okt 2026, cek ulang); jalur gratis: domain saja*
 
-[⬅️ Modul 26](../modul-26-docker-compose/README.md) · [Fase 5](../README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · [Modul 28 ➡️ (segera terbit — baca ringkasannya di Silabus)](../../SILABUS.md#modul-28--ota-update-provisioning-fleet--dari-breadboard-ke-kotak)
+[⬅️ Modul 26](../modul-26-docker-compose/README.md) · [Fase 5](../README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · [Modul 28 ➡️](../modul-28-ota-provisioning-fleet/README.md)
 
 ---
 
@@ -4240,7 +4240,7 @@ Syarat lulus dari [Silabus](../../SILABUS.md#modul-27--ke-internet-vps-domain-ht
 
 **Rumah Pintar Mini kini online di internet, terenkripsi, dan tahan putus internet.** Dashboard terbuka lewat HTTPS dari mana saja, juga sebagai aplikasi di HP, kunci perangkat tidak lagi lewat polos di internet, dan bacaan selama internet rumah putus menyusul tanpa celah dan tanpa dobel. Batasnya: firmware Node 1 masih diunggah lewat kabel, dan Node 1 masih di breadboard.
 
-> ➡️ **Modul berikutnya:** Modul 28 — OTA Update, Provisioning, Fleet, & Dari Breadboard ke Kotak (segera terbit; [ringkasannya di Silabus](../../SILABUS.md#modul-28--ota-update-provisioning-fleet--dari-breadboard-ke-kotak)). Node 1 diperbarui tanpa kabel (OTA lewat HTTP dari server) dan kembali sendiri ke versi lama bila gagal (*rollback*), versinya tampil di halaman `/armada`, dan rangkaiannya pindah ke kotak proyek.
+> ➡️ **Modul berikutnya:** [Modul 28 — OTA Update, Provisioning, Fleet, & Dari Breadboard ke Kotak](../modul-28-ota-provisioning-fleet/README.md). Node 1 diperbarui tanpa kabel (OTA lewat HTTP dari server) dan kembali sendiri ke versi lama bila gagal (*rollback*), versinya tampil di halaman `/armada`, dan rangkaiannya pindah ke kotak proyek.
 
 ## 📚 Sumber & atribusi gambar
 
@@ -4283,4 +4283,4 @@ Yang **belum terbukti** saat terbit: label sakelar TLS MQTTX dan menu pemasangan
 
 ---
 
-[⬅️ Modul 26](../modul-26-docker-compose/README.md) · [Fase 5](../README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · **Berikutnya: Modul 28 — OTA Update, Provisioning, Fleet, & Dari Breadboard ke Kotak** (segera terbit; [ringkasannya di Silabus](../../SILABUS.md#modul-28--ota-update-provisioning-fleet--dari-breadboard-ke-kotak))
+[⬅️ Modul 26](../modul-26-docker-compose/README.md) · [Fase 5](../README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · **Berikutnya: [Modul 28 — OTA Update, Provisioning, Fleet, & Dari Breadboard ke Kotak](../modul-28-ota-provisioning-fleet/README.md) ➡️**
