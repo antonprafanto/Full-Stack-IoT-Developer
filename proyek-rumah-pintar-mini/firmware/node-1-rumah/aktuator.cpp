@@ -115,6 +115,20 @@ void bunyikanBuzzer() {
   waktuBuzzerMulai = millis();
 }
 
+// Modul 28: selama firmware diunduh, loop() tidak berputar, jadi perbaruiAktuator() tidak bisa mematikan pompa dan
+// buzzer tepat waktu. Keduanya dipadamkan sekarang. Lampu, kipas, dan tirai dibiarkan pada keadaan terakhirnya.
+void padamkanPompaDanBuzzer() {
+  if (pompa) {
+    digitalWrite(PIN_POMPA, LOW);
+    pompa = false;
+    logInfo("Pompa dipadamkan sebelum memperbarui firmware.");
+  }
+  if (buzzer) {
+    ledcWriteTone(PIN_BUZZER, 0);
+    buzzer = false;
+  }
+}
+
 bool lampuMenyala() {
   return lampu;
 }

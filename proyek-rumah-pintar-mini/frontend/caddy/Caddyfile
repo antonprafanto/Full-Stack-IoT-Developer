@@ -1,4 +1,6 @@
-# Caddyfile - pintu depan dashboard Rumah Pintar Mini (Modul 26-27): menyajikan isi dist/ dan meneruskan /api/... ke backend.
+# Caddyfile - pintu depan dashboard Rumah Pintar Mini (Modul 26-28): menyajikan isi dist/ dan meneruskan /api/... ke backend.
+# Modul 28: juga meneruskan /fw/... (unduhan firmware oleh perangkat) ke backend, apa adanya, dan punya PINTU PERANGKAT
+# :8081 (paling bawah) untuk Pi jalur gratis.
 # Salinan berkas ini ikut di dalam image web. Docker Compose memasang FOLDER frontend/caddy/ di atasnya (bukan berkas
 # tunggal), jadi berkas di repo inilah yang dipakai. Sesudah mengubahnya: docker compose restart web
 # {$NAMA} = isi variabel NAMA dari bagian environment layanan web di compose.cloud.yml (asalnya .env), dibaca saat Caddy
@@ -13,7 +15,11 @@
 	# memalsukannya), kecuali bila datang dari penerus tepercaya: PROKSI_TEPERCAYA=private_ranges = alamat privat, termasuk
 	# lorong Docker tempat cloudflared berada. Kosong (laptop, VPS) = tidak memercayai siapa pun. _strict = alamat tamu
 	# dibaca dari kanan (yang ditambahkan penerus), bukan dari kiri (yang bisa ditulis tamu sendiri).
-	servers {
+	# Modul 28: HANYA untuk pintu :80, yang diketuk cloudflared (http://web:80). Pintu perangkat :8081 di bawah tidak
+	# memercayai siapa pun: di Pi jalur gratis pintu itulah yang dibuka ke WiFi rumah, dan semua perangkat di WiFi rumah juga
+	# beralamat privat. Kalau kepercayaan ini berlaku untuk semua pintu, X-Forwarded-For palsu dari HP mana pun di WiFi rumah
+	# melewati batas laju login dan klaim (temuan verifikasi kode M28).
+	servers :80 {
 		trusted_proxies static {$PROKSI_TEPERCAYA}
 		trusted_proxies_strict
 	}
@@ -34,8 +40,11 @@
 		respond "Alamat ini untuk broker MQTT (port 8883), bukan dashboard." 404
 	}
 
-	# jawaban dikompres sebelum dikirim: JavaScript dashboard ±1 MB tiba di browser sekitar 300 kB
-	encode zstd gzip
+	# jawaban dikompres sebelum dikirim: JavaScript dashboard ±1 MB tiba di browser sekitar 300 kB.
+	# Modul 28: KECUALI unduhan firmware /fw/... HTTPUpdate di ESP32 meminta HTTP/1.0 dan wajib menerima Content-Length
+	# (galat -101 tanpa itu) serta isi berkas apa adanya; berkas yang dikompres tidak bisa dipasang.
+	@bolehDikompres not path /fw/*
+	encode @bolehDikompres zstd gzip
 
 	# /api/devices -> backend:8080/devices (awalan /api dibuang dulu). Sambungan live ikut: /api/socket.io/ -> backend:8080/socket.io/
 	# "backend" = nama layanan di compose.cloud.yml (lorong Compose), bukan localhost. Caddy menambah kepala X-Forwarded-For
@@ -62,6 +71,16 @@
 		}
 	}
 
+	# Modul 28: /fw/node-1/1.7.1.bin -> backend:8080/fw/node-1/1.7.1.bin (awalan TIDAK dibuang: jalur ini milik kontrak data,
+	# Lampiran A). Backend sendiri yang memeriksa kunci perangkat (Basic Auth device_id:kunci) dan menjawab 200, 304, 403,
+	# atau 404 dengan jujur. Blok ini WAJIB ADA; letaknya bebas, karena Caddy sendiri memeriksa /fw/* sebelum "handle" tanpa
+	# pencocok (SPA fallback, paling bawah). Tanpanya, berkas yang tidak ada dijawab index.html 200 dan ESP32 gagal dengan galat
+	# -106 (bukan firmware) alih-alih -102 (tidak ada). Berkas firmware tidak pernah disajikan Caddy langsung (file_server):
+	# lemari data-firmware hanya dipasang di backend.
+	handle /fw/* {
+		reverse_proxy backend:8080
+	}
+
 	# /assets/...: JavaScript dan CSS hasil build. Namanya bersidik (misalnya index-DcefnpS2.js) dan berganti setiap
 	# build, jadi browser boleh menyimpannya lama. Berkas yang tidak ada dijawab 404 (bukan index.html): galatnya jujur.
 	handle /assets/* {
@@ -80,5 +99,26 @@
 		header Cache-Control "no-cache"
 		try_files {path} /index.html
 		file_server
+	}
+}
+
+# Modul 28, Pi jalur gratis: PINTU PERANGKAT. Node 1 di WiFi rumah mengunduh firmware dari IP Pi, dan papan baru mengklaim
+# kuncinya ke IP Pi, tanpa lewat Cloudflare. compose.cloud.yml menyambung ALAMAT_WEB:PORT_WEB (IP Pi:80) ke pintu ini bila
+# .env menulis PINTU_WEB_DALAM=8081. Isinya HANYA dua jalur itu: dashboard, login, dan Grafana tetap lewat terowongan (https),
+# tidak pernah lewat http polos di WiFi rumah. Pintu ini tidak memercayai X-Forwarded-For (blok "servers :80" di atas tidak
+# berlaku di sini), jadi batas laju klaim dan unduhan dihitung per alamat asli perangkat. Di laptop dan VPS pintu ini ada di
+# dalam kontainer tetapi tidak disambung ke luar (tidak dipakai).
+:8081 {
+	# sama dengan blok /fw/* di atas: diteruskan apa adanya (awalan tidak dibuang), tanpa kompresi
+	handle /fw/* {
+		reverse_proxy backend:8080
+	}
+	# perangkat memanggil <alamat server>/api/provision/klaim (kontrak data bagian 10); backend menerimanya di /provision/klaim
+	handle /api/provision/klaim {
+		uri strip_prefix /api
+		reverse_proxy backend:8080
+	}
+	handle {
+		respond "Pintu ini hanya untuk perangkat (unduhan firmware dan klaim). Dashboard: alamat https terowonganmu." 404
 	}
 }

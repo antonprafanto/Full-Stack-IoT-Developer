@@ -2,13 +2,14 @@
 // 1. bertanya ke backend "siapa saya?" (GET /auth/me) saat halaman dibuka;
 // 2. menjaga sambungan live (Socket.IO) selama sudah login (Modul 23);
 // 3. memegang peta rute (Modul 24): alamat mana menampilkan layar mana, dan layar mana yang dijaga.
-//    Modul 25: ditambah layar /peta (peta perangkat).
+//    Modul 25: ditambah layar /peta (peta perangkat). Modul 28: ditambah layar /armada (firmware dan kesehatan perangkat).
 import { useEffect } from "react";
 import { Navigate, Route, Routes } from "react-router";
 import { GalatApi, siapaSaya } from "./api";
 import JagaMasuk from "./components/JagaMasuk";
 import KhususAdmin from "./components/KhususAdmin";
 import TataLetak from "./components/TataLetak";
+import HalamanArmada from "./halaman/Armada";
 import HalamanAturan from "./halaman/Aturan";
 import HalamanDaftar from "./halaman/Daftar";
 import HalamanDetail from "./halaman/Detail";
@@ -71,6 +72,9 @@ export default function App() {
           {/* Modul 25: peta perangkat, untuk admin dan viewer (di luar penjaga KhususAdmin) */}
           <Route path="/peta" element={<HalamanPeta />} />
           <Route path="/aturan" element={<HalamanAturan />} />
+          {/* Modul 28: armada (versi firmware, kesehatan, pembaruan lewat udara). Semua peran MELIHAT layarnya; tombolnya
+              digambar khusus untuk admin di dalam layar itu sendiri (pola layar Aturan), jadi di luar penjaga KhususAdmin */}
+          <Route path="/armada" element={<HalamanArmada />} />
           {/* penjaga kedua: layar yang mengubah sesuatu hanya untuk admin */}
           <Route element={<KhususAdmin />}>
             <Route path="/aturan/baru" element={<HalamanFormAturan />} />

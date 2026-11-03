@@ -1,6 +1,7 @@
 // arsip.ts - menulis pesan yang sudah lolos pemeriksaan kontrak ke database, dan membacanya lagi untuk API riwayat
 // (bacaan mentah, atau ringkasannya per 15 menit, per jam, dan per hari). Modul 19: aturan otomatis (tabel rules) dan
-// buku kejadian (tabel events). Modul 24: aturan juga bisa dihapus.
+// buku kejadian (tabel events). Modul 24: aturan juga bisa dihapus. Modul 28: vitals menyimpan alasan restart dan versi
+// firmware; pesan status tidak lagi memajukan "terakhir dilihat".
 // Gudang di memori (gudang.ts) tetap menjadi "papan pengumuman" keadaan terbaru; database adalah buku arsipnya.
 import { pool } from "./pool.ts";
 import type { Ack, PerintahSet, Status, TelemetryNode1, TelemetryNode2, Vitals } from "../schemas/kontrak.ts";
@@ -37,16 +38,21 @@ export async function arsipkanTelemetry(deviceId: string, isi: TelemetryNode1 | 
   return hasil.rowCount === 1;
 }
 
+// Modul 28: pesan status hanya mengubah kolom status, TIDAK memajukan terakhir_dilihat. Status bisa datang dari broker
+// (wasiat offline), dari Node 1 atas nama Node 2, atau sebagai pesan retained lama saat backend menyala: semuanya bukan
+// tanda perangkat itu sendiri baru saja mengirim data (Modul 25 mencatatnya sebagai batasan). Telemetry dan vitals tetap
+// memajukannya.
 export async function arsipkanStatus(deviceId: string, status: Status): Promise<void> {
-  await catatPerangkat(deviceId, null, status);
+  await pool.query("UPDATE devices SET status = $2 WHERE device_id = $1", [deviceId, status]);
 }
 
+// Modul 28: + reset_reason dan fw (kontrak 1.6; NULL untuk vitals firmware lama)
 export async function arsipkanVitals(deviceId: string, isi: Vitals): Promise<void> {
   await catatPerangkat(deviceId, null, null);
   await pool.query(
-    `INSERT INTO device_health (device_id, ts, rssi, uptime_s, heap_free) VALUES ($1, $2, $3, $4, $5)
+    `INSERT INTO device_health (device_id, ts, rssi, uptime_s, heap_free, reset_reason, fw) VALUES ($1, $2, $3, $4, $5, $6, $7)
      ON CONFLICT (device_id, ts) DO NOTHING`,
-    [deviceId, isi.ts, isi.rssi, isi.uptime_s, isi.heap_free],
+    [deviceId, isi.ts, isi.rssi, isi.uptime_s, isi.heap_free, isi.reset_reason ?? null, isi.fw ?? null],
   );
 }
 
@@ -106,8 +112,9 @@ export async function hapusAturanDb(id: number): Promise<{ id: number; nama: str
   return hasil.rows[0];
 }
 
-// Modul 19: buku kejadian (tabel events, migrasi 007).
-export type JenisKejadian = "aturan" | "aturan-diubah" | "jadwal" | "status" | "mode-offline" | "perintah";
+// Modul 19: buku kejadian (tabel events, migrasi 007). Modul 28 (migrasi 011): ota, provisioning, dicabut.
+export type JenisKejadian = "aturan" | "aturan-diubah" | "jadwal" | "status" | "mode-offline" | "perintah" | "ota" | "provisioning"
+  | "dicabut";
 
 export interface KejadianBaru {
   device_id: string | null; // null untuk kejadian yang bukan milik satu perangkat (misalnya aturan diubah)

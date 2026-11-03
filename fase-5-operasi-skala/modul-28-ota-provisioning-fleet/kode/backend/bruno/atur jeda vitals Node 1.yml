@@ -1,0 +1,28 @@
+info:
+  name: atur jeda vitals Node 1
+  type: http
+  seq: 39
+
+http:
+  method: PUT
+  url: "{{baseUrl}}/devices/a4cf12e5b7c0/jeda"
+  body:
+    type: json
+    data: |-
+      {
+        "vitals_s": 60
+      }
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "200"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: true

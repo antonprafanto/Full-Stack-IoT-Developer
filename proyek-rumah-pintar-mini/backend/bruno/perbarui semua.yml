@@ -1,0 +1,29 @@
+info:
+  name: perbarui semua
+  type: http
+  seq: 35
+
+http:
+  method: POST
+  url: "{{baseUrl}}/armada/update"
+  body:
+    type: json
+    data: |-
+      {
+        "versi": "1.7.1",
+        "sasaran": "semua"
+      }
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "202"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: true

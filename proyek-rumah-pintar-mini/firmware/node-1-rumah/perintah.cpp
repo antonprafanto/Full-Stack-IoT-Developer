@@ -11,9 +11,14 @@
 #include "jaringan.h"
 #include "jembatan.h"
 #include "rs485.h"
+#include "periksa-ota.h"  // Modul 28: rapikanAlamat(), periksaAlamatServer(), periksaAlamatBroker()
+#include "pembaruan.h"    // Modul 28: perintah "ota" dan "restart"
+#include "klaim.h"        // Modul 28: perintah "klaim"
 #include "perintah.h"
 
-const int PANJANG_BARIS_MAKS = 80;  // Modul 21: dari 40, supaya "kunci " + kunci 43 huruf muat
+// Modul 21: dari 40, supaya "kunci " + kunci 43 huruf muat. Modul 28: dari 80, supaya
+// "klaim <kode> <alamat server 64 huruf> <alamat broker>" muat.
+const int PANJANG_BARIS_MAKS = 128;
 static char baris[PANJANG_BARIS_MAKS + 1];  // +1 untuk tanda akhir teks
 static int panjangBaris = 0;
 static bool barisTerpotong = false;  // Modul 21: baris lebih panjang dari wadahnya: jangan dipakai (kunci terpotong!)
@@ -87,6 +92,84 @@ static void cetakKunci() {
   } else {
     Serial.printf("kunci: tersimpan di NVS, %u huruf\n", (unsigned)panjang);  // kunci pendek: ujungnya pun dirahasiakan
   }
+}
+
+// ---------- Modul 28: alamat server, alamat broker, dan kode klaim ----------
+// Memecah baris menjadi kata-kata yang dipisah spasi. Menjawab banyaknya kata (lebih dari "maks" = maks + 1).
+static int pecahKata(const String& teks, String kata[], int maks) {
+  int banyak = 0;
+  int i = 0;
+  int n = teks.length();
+  while (i < n) {
+    while (i < n && teks[i] == ' ') {
+      i++;
+    }
+    if (i >= n) {
+      break;
+    }
+    int awal = i;
+    while (i < n && teks[i] != ' ') {
+      i++;
+    }
+    if (banyak == maks) {
+      return maks + 1;  // terlalu banyak kata
+    }
+    kata[banyak] = teks.substring(awal, i);
+    banyak++;
+  }
+  return banyak;
+}
+
+static bool aturAlamatServer(const String& teks) {
+  char rapi[PANJANG_ALAMAT_SERVER_MAKS + 2];  // +2: alamat yang terlalu panjang tetap terdeteksi
+  rapikanAlamat(teks.c_str(), rapi, sizeof(rapi));
+  const char* salah = periksaAlamatServer(rapi);
+  if (salah != nullptr) {
+    Serial.printf("server: tidak disimpan. %s\n", salah);
+    return false;
+  }
+  simpanAlamatServer(rapi);
+  Serial.printf("server: %s (firmware hanya diunduh dari alamat ini: <alamat>/fw/node-1/<versi>.bin)\n",
+                alamatServerTersimpan());
+  return true;
+}
+
+static bool aturAlamatBroker(const String& teks) {
+  char rapi[PANJANG_ALAMAT_SERVER_MAKS + 2];
+  rapikanAlamat(teks.c_str(), rapi, sizeof(rapi));
+  const char* salah = periksaAlamatBroker(rapi);
+  if (salah != nullptr) {
+    Serial.printf("broker: tidak disimpan. %s\n", salah);
+    return false;
+  }
+  simpanAlamatBroker(rapi);
+  gantiAlamatBroker();  // jaringan.cpp: sambung ulang sekarang ke alamat itu
+  Serial.printf("broker: %s, pintu %u; Node 1 menyambung ke sana sekarang.\n", alamatBrokerTersimpan(), PORT_BROKER);
+  return true;
+}
+
+// "klaim <kode> [alamat server] [alamat broker]": cara mendaftar tanpa portal (misalnya di Wokwi, atau papan yang
+// sudah punya WiFi). Alamat yang ditulis disimpan dulu, baru kodenya dikirim.
+static void kerjakanKlaim(const String& perintah) {
+  String kata[4];
+  int banyak = pecahKata(perintah, kata, 4);
+  if (banyak < 2 || banyak > 4) {
+    Serial.println("Contoh: klaim 7K2M-QF9D http://192.168.1.10 192.168.1.37 (alamat server dan broker boleh "
+                   "dilewati; tulis kode dengan tanda -, tanpa spasi)");
+    return;
+  }
+  if (banyak >= 3 && !aturAlamatServer(kata[2])) {
+    return;
+  }
+  if (banyak == 4 && !aturAlamatBroker(kata[3])) {
+    return;
+  }
+  const char* salah = mulaiKlaim(kata[1].c_str());
+  if (salah != nullptr) {
+    Serial.printf("klaim: %s\n", salah);
+    return;
+  }
+  Serial.printf("klaim: kode diterima; dikirim ke %s begitu WiFi siap (hasilnya tampil di log).\n", alamatServerTersimpan());
 }
 
 // Menjawab true kalau teks BUKAN angka: toInt() memberi 0, padahal teksnya bukan "0" (cara Praktik 5 Modul 5).
@@ -217,14 +300,36 @@ void periksaPerintahSerial() {
     cetakKunci();
     Serial.printf("kunci: Node 1 mencoba masuk ke broker sebagai %s dengan kunci ini sekarang.\n", penggunaBroker());
     return;
+  } else if (perintah == "ota") {
+    cetakInfoOta();  // Modul 28: versi, rak program, masa uji, laporan pembaruan
+    return;
+  } else if (perintah == "server") {
+    Serial.printf("server: %s\n", alamatServerTersimpan()[0] != '\0' ? alamatServerTersimpan()
+                                                                    : "BELUM DIISI. Contoh: server http://192.168.1.10");
+    return;
+  } else if (perintah.startsWith("server ")) {
+    aturAlamatServer(perintah.substring(7));  // Modul 28: disimpan di NVS
+    return;
+  } else if (perintah == "broker") {
+    Serial.printf("broker: %s (%s), pintu %u\n", alamatBrokerTersimpan(),
+                  alamatBrokerDariNvs() ? "dari NVS" : "dari konfigurasi.h", PORT_BROKER);
+    return;
+  } else if (perintah.startsWith("broker ")) {
+    aturAlamatBroker(perintah.substring(7));  // Modul 28: disimpan di NVS, lalu sambung ulang
+    return;
+  } else if (perintah == "klaim") {
+    cetakInfoKlaim();  // Modul 28
+    return;
+  } else if (perintah.startsWith("klaim ")) {
+    kerjakanKlaim(perintah);  // Modul 28: daftar dengan kode klaim dari admin
+    return;
   } else if (perintah == "restart") {
-    Serial.println("Restart sekarang...");
-    Serial.flush();  // tunggu sampai pesan di atas benar-benar terkirim
-    ESP.restart();
+    restartSengaja("perintah Serial restart");  // Modul 28: offline-mode + putus rapi dulu, baru restart
   } else if (perintah != "status") {
     Serial.println("Perintah tidak dikenal. Contoh: lampu on, kipas off, pompa 3, tirai 90, bunyi, status,");
     Serial.println("info, ambang, ambang 35, ambang bawaan, log debug, log info, log error, wifi, wifi lupa,");
-    Serial.println("kirim, node2, node2 nol, rs485, rs485 on, rs485 off, uji offline, kunci, kunci hapus, restart");
+    Serial.println("kirim, node2, node2 nol, rs485, rs485 on, rs485 off, uji offline, kunci, kunci hapus,");
+    Serial.println("ota, server, server <alamat>, broker, broker <ip>, klaim, klaim <kode> [server] [broker], restart");
     return;
   }
   cetakStatus();

@@ -8,7 +8,7 @@ import { ambilPerangkat, BASE, refreshSekali } from "./api";
 import { toast } from "./toast";
 import type { JenisToast } from "./toast";
 import { useToko } from "./toko";
-import type { DariKlien, Kejadian, KeKlien, Perangkat, StatusPerangkat, Telemetry } from "./types";
+import type { DariKlien, KabarOta, Kejadian, KeKlien, Perangkat, StatusPerangkat, Telemetry } from "./types";
 
 // Alamatnya SAMA dengan api.ts (BASE): halaman http://<IP-laptop>:5173 di HP otomatis menyambung ke http://<IP-laptop>:8080.
 // withCredentials: true = bawa cookie login ke port lain (padanan credentials: "include" pada fetch). Tanpa ini,
@@ -50,19 +50,34 @@ function ikutiSemua() {
 // data bertipe unknown, jadi diperiksa Zod dulu, bukan dipercaya begitu saja.
 const DataTindakan = z.object({ hasil: z.string().optional(), ok: z.boolean().nullable().optional() });
 
+// Modul 28: bagian "data" kejadian ota (pembaruan firmware): status pembaruannya menentukan warna toast
+const DataOta = z.object({ status: z.string() });
+const OTA_GAGAL = ["rollback", "gagal", "ditolak", "kedaluwarsa"];
+
 // Modul 24: warna toast untuk satu kejadian, dari data terstruktur (jenis, status, ok), BUKAN dari kalimatnya: kalimat
 // buatan backend bisa berubah kata-katanya tanpa mengubah artinya.
 function jenisToast(k: Kejadian): JenisToast {
   // perangkat tersambung lagi atau terputus: acara "status" perangkat yang sama dikirim server ke SEMUA dashboard LEBIH
   // DULU (sebelum kejadiannya dicatat), jadi status terbarunya sudah ada di toko
-  if (k.jenis === "status") return useToko.getState().status[k.device_id ?? ""] === "online" ? "info" : "galat";
+  // Modul 28: offline-mode = berhenti SENGAJA (misalnya untuk memasang firmware baru), bukan gangguan: tidak merah
+  if (k.jenis === "status") {
+    const status = useToko.getState().status[k.device_id ?? ""];
+    return status === "online" || status === "offline-mode" ? "info" : "galat";
+  }
+  if (k.jenis === "ota") {
+    const data = DataOta.safeParse(k.data);
+    if (data.success && data.data.status === "berhasil") return "sukses";
+    if (data.success && OTA_GAGAL.includes(data.data.status)) return "galat";
+    return "info"; // diterima: perangkat mulai bekerja
+  }
+  if (k.jenis === "provisioning") return "sukses"; // perangkat baru terdaftar lewat kode klaim
   if (k.jenis === "aturan" || k.jenis === "jadwal") {
     const data = DataTindakan.safeParse(k.data);
     if (data.success && (data.data.ok === false || data.data.hasil === "tanpa-ack" || data.data.hasil === "tidak-dikirim")) {
       return "galat";
     }
   }
-  return "info"; // aturan bertindak, aturan siap lagi, kembali dari mode offline, perintah dikirim lagi
+  return "info"; // aturan bertindak, aturan siap lagi, kembali dari mode offline, perintah dikirim lagi, dinonaktifkan
 }
 
 // useRealtime - dipanggil SEKALI di App. Selama sudah login: menyambung, memulihkan sambungan, dan meneruskan setiap
@@ -101,7 +116,11 @@ export function useRealtime(sudahLogin: boolean, onSesiHabis: () => void) {
       ikutiSemua();
       // Sambungan PULIH, bukan yang pertama: sinkronkan status. Yang pertama tidak perlu, karena TataLetak baru saja
       // mengambil daftar perangkat sesudah masuk.
-      if (pernahTersambung) void sinkronPerangkat();
+      // Modul 28: layar Armada juga mengambil ulang datanya (pembaruan yang selesai selama terputus).
+      if (pernahTersambung) {
+        void sinkronPerangkat();
+        useToko.getState().armadaBerubah();
+      }
       pernahTersambung = true;
     }
     function onDisconnect(alasan: string) {
@@ -136,12 +155,24 @@ export function useRealtime(sudahLogin: boolean, onSesiHabis: () => void) {
     // Modul 24: kejadian dari buku kejadian backend (aturan bertindak, jadwal, perangkat terputus, ...) menjadi toast.
     // aturan-diubah tidak: yang menyimpan aturan sudah mendapat toast dari jawaban HTTP-nya sendiri. Kejadian itu cukup
     // menaikkan versiAturan, supaya layar Aturan yang sedang terbuka (di dashboard mana pun) mengambil ulang daftarnya.
+    // Modul 28: perangkat baru (kode klaim) dan perangkat yang dinonaktifkan mengubah DAFTAR perangkat: daftar diambil ulang
+    // (GET /devices), supaya perangkat baru langsung diikuti dan kartu di layar Perangkat ikut benar, dan layar Armada
+    // mengambil ulang datanya.
     function onKejadian(k: Kejadian) {
       if (k.jenis === "aturan-diubah") {
         useToko.getState().aturanBerubah();
         return;
       }
+      if (k.jenis === "provisioning" || k.jenis === "dicabut") {
+        void sinkronPerangkat();
+        useToko.getState().armadaBerubah();
+      }
       toast(k.pesan, jenisToast(k));
+    }
+    // Modul 28: kemajuan pembaruan firmware (acara "ota", ke semua dashboard). Tanpa toast: setiap tahap yang penting
+    // (diterima, berhasil, rollback, gagal, kedaluwarsa) juga datang sebagai kejadian "ota", yang sudah menjadi toast.
+    function onOta(kabar: KabarOta) {
+      useToko.getState().terimaOta(kabar);
     }
 
     socket.on("connect", onConnect);
@@ -150,6 +181,7 @@ export function useRealtime(sudahLogin: boolean, onSesiHabis: () => void) {
     socket.on("telemetry", onTelemetry);
     socket.on("status", onStatus);
     socket.on("kejadian", onKejadian);
+    socket.on("ota", onOta);
     useToko.getState().setKoneksi("menyambung");
     socket.connect();
     // StrictMode di mode dev: sambung, putus, sambung lagi. Tetap hanya SATU sambungan yang hidup.
@@ -161,6 +193,7 @@ export function useRealtime(sudahLogin: boolean, onSesiHabis: () => void) {
       socket.off("telemetry", onTelemetry);
       socket.off("status", onStatus);
       socket.off("kejadian", onKejadian);
+      socket.off("ota", onOta);
       socket.disconnect();
     };
   }, [sudahLogin, onSesiHabis]);

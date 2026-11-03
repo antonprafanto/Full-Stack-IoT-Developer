@@ -2,7 +2,9 @@
 // Pin mengikuti PETA-PIN.md. Angka kalibrasi adalah hasil Modul 6 milikmu sendiri.
 #pragma once
 
-const char VERSI_FIRMWARE[] = "1.6.0";
+// Modul 28: SemVer x.y.z. NAIKKAN setiap kali firmware berubah: server menolak versi yang sama diunggah dua kali.
+const char VERSI_FIRMWARE[] = "1.7.0";
+const char CATATAN_VERSI[] = "dipasang lewat kabel";  // Modul 28: kalimat pendek di Serial saat menyala, boleh diganti
 
 // ---------- Peta pin kanonik Node 1 (salinan dari PETA-PIN.md) ----------
 const int PIN_LED_STATUS = 2;    // Modul 2; pindah dari D4 ke D2 di Modul 15 (D4 kini untuk DE/RE RS-485)
@@ -51,10 +53,10 @@ const unsigned long BATAS_PORTAL = 180;    // detik: portal menutup sendiri kala
 const char ZONA_WAKTU[] = "WIB-7";         // WITA: "WITA-8", WIT: "WIT-9" (Modul 10, Praktik 5)
 
 // ---------- Modul 11: MQTT ----------
-const char ALAMAT_BROKER[] = "192.168.1.37";  // GANTI dengan alamat tetap gateway Pi-mu (Modul 12, Praktik 2)
+const char ALAMAT_BROKER[] = "192.168.1.37";  // GANTI dengan alamat tetap gerbang Pi-mu (Modul 12, Praktik 2)
 const uint16_t PORT_BROKER = 1883;
 const unsigned long JEDA_KIRIM = 10000;       // telemetry setiap 10 detik, ditambah segera saat ada kejadian penting
-const unsigned long JEDA_VITALS = 300000;     // vitals (kesehatan Node 1) setiap 5 menit
+const unsigned long JEDA_VITALS = 300000;     // vitals (kesehatan Node 1) setiap 5 menit; mulai Modul 28 = angka bawaan
 
 // ---------- Modul 14: jembatan ESP-NOW untuk Node 2 "Kebun" ----------
 // Alamat MAC WiFi Node 2, dicetak Node 2 saat pertama menyala. Paket ESP-NOW dari alamat lain ditolak.
@@ -81,3 +83,20 @@ const unsigned long LAMA_UJI_OFFLINE = 180000;    // perintah "uji offline": bro
 // ---------- Modul 21: akun broker ----------
 // Nama pengguna broker = device_id. Kuncinya TIDAK ditulis di kode: ketik "kunci <isi>" di Serial Monitor (disimpan di NVS).
 const bool WOKWI_BERKUNCI = false;  // Wokwi saja: true = broker publik BERKUNCI test.mosquitto.org:1884, akun publik "rw"
+
+// ---------- Modul 28: pembaruan firmware lewat udara (OTA), masa uji, dan pendaftaran ----------
+// Alamat server rumah: tempat Node 1 mengunduh firmware (<alamat>/fw/node-1/<versi>.bin) dan menukar kode klaim.
+// Biasanya diisi lewat portal WiFi (kolom "Alamat server") atau Serial "server <alamat>", lalu tersimpan di NVS.
+// Angka di sini hanya dipakai selama NVS belum berisi alamat. Kosong = belum ada (pembaruan ditolak sampai diisi).
+// Contoh: "https://iot.namaanda.my.id" (VPS, Modul 27) atau "http://192.168.1.37" (Pi jalur gratis, hanya IP rumah; tanpa
+// port = port 80 Pi, yang diteruskan Docker ke pintu perangkat 8081 di DALAM kontainer web, jadi jangan menulis :8081).
+// Isinya harus SAMA PERSIS dengan ALAMAT_SERVER di .env server (paling panjang 64 huruf, huruf kecil, tanpa / di akhir).
+const char ALAMAT_SERVER_BAWAAN[] = "";
+const unsigned long MASA_UJI_OTA = 60000;         // firmware baru harus tersambung ke broker dan terbit dalam 60 detik
+const unsigned long BATAS_WATCHDOG_OTA = 60000;   // selama mengunduh firmware atau klaim: watchdog dilonggarkan ke 60 detik
+const unsigned long JEDA_VITALS_MIN_S = 60;       // config "jeda.vitals_s" dari server: 60-3600 detik (kontrak data 1.6)
+const unsigned long JEDA_VITALS_MAKS_S = 3600;
+// Saklar LATIHAN rollback (Modul 28, firmware 1.7.2-uji). 0 = normal. 1 = sebelum menyambung ke broker, kunci broker
+// sengaja dirusak DI RAM SAJA (NVS tidak disentuh), jadi broker menolak firmware ini, masa uji 60 detik lewat, dan
+// Node 1 kembali sendiri ke firmware sebelumnya. Sesudah latihan, KEMBALIKAN ke 0.
+const int UJI_KUNCI_SALAH = 0;

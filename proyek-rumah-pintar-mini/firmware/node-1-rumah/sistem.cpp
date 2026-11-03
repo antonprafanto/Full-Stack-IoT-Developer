@@ -2,6 +2,7 @@
 #include <Arduino.h>
 #include <esp_system.h>  // esp_reset_reason()
 #include <esp_timer.h>   // esp_timer_get_time()
+#include <esp_task_wdt.h>  // Modul 28: watchdog
 #include "sistem.h"
 
 static unsigned long putaranTerlamaUs = 0;  // mikrodetik
@@ -44,4 +45,19 @@ void catatLamaPutaran(unsigned long mikrodetik) {
 
 unsigned long putaranTerlamaMs() {
   return putaranTerlamaUs / 1000;
+}
+
+// Modul 28: mengunduh firmware (atau menukar kode klaim lewat HTTPS) memblok loop() lebih dari 5 detik: menunggu jawaban
+// server saja boleh sampai 8 detik (HTTPClient). Karena itu batas watchdog dilonggarkan sementara, lalu dikembalikan.
+// Masa uji firmware baru juga memakainya untuk menjaga setup() (masa-uji.cpp).
+// Isinya sama dengan pengaturan watchdog di setup() (Modul 8, Konsep 8); yang berubah hanya batas waktunya.
+void aturBatasWatchdog(unsigned long milidetik) {
+  esp_task_wdt_config_t konfigurasiWatchdog = {
+    .timeout_ms = (uint32_t)milidetik,
+    .idle_core_mask = 0b01,  // tetap awasi "tugas menganggur" inti 0 (bawaan paket esp32)
+    .trigger_panic = true,   // terlambat diberi makan = panik, lalu restart
+  };
+  esp_task_wdt_reset();  // beri makan dulu supaya hitungan batas yang baru mulai dari nol
+  esp_task_wdt_reconfigure(&konfigurasiWatchdog);
+  esp_task_wdt_reset();
 }

@@ -3,9 +3,11 @@
 // memasang aturan jadwal (jadwal.ts), dan mencatat setiap tindakan di buku kejadian.
 // Modul 24: aturan ambang kini dua arah (ambang = naik di atas, ambang-bawah = turun di bawah), aksinya boleh sakelar atau
 // perintah yang dikirim sekali (misalnya pompa 5 detik), dan aturan bisa dihapus (hapusAturan).
+// Modul 28: config yang dikirim ke perangkat kini GABUNGAN ambang (dari aturan) + jeda vitals (diatur admin per perangkat,
+// kolom devices.jeda_vitals_s), dalam satu pesan retained (kontrak 1.6, aturan 10: satu pesan retained per topik).
 import { Aturan } from "../schemas/aturan.ts";
 import type { AksiPerintah, AksiSakelar, AturanTersimpan, KondisiAmbang, KondisiAmbangBawah } from "../schemas/aturan.ts";
-import type { PerintahSet, TelemetryNode1, TelemetryNode2 } from "../schemas/kontrak.ts";
+import type { Ambang, Jeda, PerintahSet, TelemetryNode1, TelemetryNode2 } from "../schemas/kontrak.ts";
 import { INGATAN_AWAL, nilaiAmbang, nilaiAmbangBawah } from "../aturan/mesin.ts";
 import type { Ingatan } from "../aturan/mesin.ts";
 import { ambilSemuaAturan, hapusAturanDb, tambahAturan, ubahAturan, waktuKontrak } from "../db/arsip.ts";
@@ -17,6 +19,7 @@ import type { HasilPerintah } from "./perintah.ts";
 import { pasangJadwal } from "./jadwal.ts";
 import { catatKejadian } from "./kejadian.ts";
 import { kabariKalauPerlu } from "./telegram.ts";
+import { izinPerangkat } from "./daftar.ts";
 import { log } from "./log.ts";
 
 type KondisiBacaan = KondisiAmbang | KondisiAmbangBawah; // Modul 24: kondisi yang dinilai dari bacaan sensor, dua arah
@@ -137,26 +140,83 @@ function uraikan(a: AturanTersimpan): string {
     + `${nyala} selama ${k.selama_detik} detik, siap lagi ${padam}${mati}`; // Modul 24
 }
 
-// Kirim ambang pengaman ke setiap perangkat yang punya aturan kipas berdasarkan suhu: suhu_kipas_on = nyala_di_atas
-// (kontrak 1.3, config retained). Dipanggil setiap kali backend tersambung ke broker dan setiap kali aturan berubah.
-// Catatan: aturan kipas yang dinonaktifkan atau dihapus TIDAK mencabut config lama. Perangkat tetap memakai suhu_kipas_on
-// terakhir sebagai pengaman lokalnya (yang hanya bekerja saat broker tak terjangkau).
-export function kirimSemuaConfig(): void {
-  const sudah = new Set<string>(); // satu perangkat, satu ambang: aturan kipas aktif bernomor terkecil
+// Modul 28: jeda vitals per perangkat (detik), salinan kolom devices.jeda_vitals_s di memori. Diisi server.ts saat menyala
+// (isiJedaVitals) dan rute PUT /devices/:id/jeda (aturJedaVitals). Perangkat tanpa baris di sini: jeda tidak dikirim, jadi
+// firmware memakai angka terakhir di NVS-nya (bawaan 300 detik).
+const jedaVitals = new Map<string, number>();
+
+export function isiJedaVitals(baris: { device_id: string; jeda_vitals_s: number | null }[]): void {
+  jedaVitals.clear();
+  for (const b of baris) if (b.jeda_vitals_s !== null) jedaVitals.set(b.device_id, b.jeda_vitals_s);
+}
+
+export function aturJedaVitals(deviceId: string, detik: number): void {
+  jedaVitals.set(deviceId, detik);
+}
+
+// Isi config satu perangkat, dan asalnya untuk log.
+interface IsiConfig {
+  ambang?: Ambang;
+  jeda?: Jeda;
+  asal: string[];
+}
+
+// Susun config SEMUA perangkat yang punya sesuatu untuk dikirim:
+// - ambang suhu_kipas_on = nyala_di_atas aturan kipas berdasarkan suhu (kontrak 1.3), satu perangkat satu ambang: aturan kipas
+//   aktif bernomor terkecil;
+// - jeda.vitals_s = jeda yang diatur admin (Modul 28).
+// Perangkat yang belum terdaftar atau sudah dicabut (buku tamu Modul 21) tidak dikirimi apa pun.
+function susunConfig(): Map<string, IsiConfig> {
+  const hasil = new Map<string, IsiConfig>();
+  const ambil = (deviceId: string) => {
+    let isi = hasil.get(deviceId);
+    if (isi === undefined) {
+      isi = { asal: [] };
+      hasil.set(deviceId, isi);
+    }
+    return isi;
+  };
   for (const a of daftar) {
     const { kondisi, aksi } = a;
     if (!a.aktif || kondisi.jenis !== "ambang" || aksi.jenis !== "sakelar") continue;
-    if (kondisi.besaran !== "suhu" || aksi.target !== "kipas" || sudah.has(aksi.device_id)) continue;
-    sudah.add(aksi.device_id);
-    void kirimAmbang(aksi.device_id, kondisi.nyala_di_atas, a.id);
+    if (kondisi.besaran !== "suhu" || aksi.target !== "kipas" || hasil.get(aksi.device_id)?.ambang !== undefined) continue;
+    const isi = ambil(aksi.device_id);
+    isi.ambang = { suhu_kipas_on: kondisi.nyala_di_atas };
+    isi.asal.push(`aturan ${a.id}`);
   }
+  for (const [deviceId, detik] of jedaVitals) {
+    const isi = ambil(deviceId);
+    isi.jeda = { vitals_s: detik };
+    isi.asal.push("jeda perangkat");
+  }
+  for (const deviceId of hasil.keys()) if (izinPerangkat(deviceId) !== "terdaftar") hasil.delete(deviceId);
+  return hasil;
 }
 
-async function kirimAmbang(deviceId: string, suhu: number, aturanId: number): Promise<void> {
+// Kirim config ke setiap perangkat yang punya aturan kipas berdasarkan suhu dan/atau jeda vitals (config retained).
+// Dipanggil setiap kali backend tersambung ke broker, setiap kali aturan berubah, dan (Modul 28) sesudah daftar perangkat
+// dimuat. Catatan: aturan kipas yang dinonaktifkan atau dihapus TIDAK mencabut config lama. Perangkat tetap memakai
+// suhu_kipas_on terakhir sebagai pengaman lokalnya (yang hanya bekerja saat broker tak terjangkau).
+export function kirimSemuaConfig(): void {
+  for (const [deviceId, isi] of susunConfig()) void kirimConfigPerangkat(deviceId, isi);
+}
+
+// Modul 28: kirim config SATU perangkat (misalnya sesudah jedanya diubah). Hasilnya id perintah config, atau null kalau
+// perangkat itu tidak punya apa-apa untuk dikirim.
+export function kirimConfigUntuk(deviceId: string): string | null {
+  const isi = susunConfig().get(deviceId);
+  if (isi === undefined) return null;
   const id = buatIdPerintah();
+  void kirimConfigPerangkat(deviceId, isi, id);
+  return id;
+}
+
+async function kirimConfigPerangkat(deviceId: string, isi: IsiConfig, id = buatIdPerintah()): Promise<void> {
   const menunggu = tungguAck(id, 5000); // mulai menunggu SEBELUM mengirim, seperti perintah set
-  kirimConfig(deviceId, id, { suhu_kipas_on: suhu });
-  log.info(`config ${id} ke ${deviceId}: suhu_kipas_on ${suhu} dari aturan ${aturanId} (retained)`);
+  kirimConfig(deviceId, id, { ...(isi.ambang && { ambang: isi.ambang }), ...(isi.jeda && { jeda: isi.jeda }) });
+  const uraian = [isi.ambang && `suhu_kipas_on ${isi.ambang.suhu_kipas_on}`, isi.jeda && `jeda vitals ${isi.jeda.vitals_s} detik`]
+    .filter(Boolean).join(", ");
+  log.info(`config ${id} ke ${deviceId}: ${uraian} dari ${isi.asal.join(" + ")} (retained)`);
   const ack = await menunggu;
   if (ack === null) {
     log.warn(`config ${id} ke ${deviceId}: belum dijawab dalam 5 detik; config tetap tertempel di broker sampai perangkat tersambung`);

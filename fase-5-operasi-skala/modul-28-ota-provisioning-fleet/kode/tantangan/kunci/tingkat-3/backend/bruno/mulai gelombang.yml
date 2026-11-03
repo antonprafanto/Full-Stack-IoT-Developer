@@ -1,0 +1,28 @@
+info:
+  name: mulai gelombang
+  type: http
+  seq: 40
+
+http:
+  method: POST
+  url: "{{baseUrl}}/armada/gelombang"
+  body:
+    type: json
+    data: |-
+      {
+        "versi": "1.7.1"
+      }
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "202"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: true

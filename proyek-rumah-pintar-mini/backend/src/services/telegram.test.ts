@@ -1,6 +1,8 @@
 // telegram.test.ts - uji telegram.ts (Modul 25) TANPA server Telegram: kelas Bot dari grammY diganti bot tiruan yang hanya
 // mencatat panggilan sendMessage/sendDocument; InputFile tetap yang asli. Yang diuji: berkas laporan dikirim dengan NAMA
-// berkasnya (bukan nama acak), dan kabar status 📴/✅ dengan penundaan 60 detik. Jalankan: npm test
+// berkasnya (bukan nama acak), dan kabar status 📴/✅ dengan penundaan 60 detik. Modul 28: berhenti sengaja (offline-mode)
+// dikabarkan 🔄 dengan tenggang 3 menit, jadi pembaruan firmware dan rollback (±70 detik) tidak memicu 📴 palsu.
+// Jalankan: npm test
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { InputFile } from "grammy";
 
@@ -19,7 +21,7 @@ vi.mock("grammy", async (asli) => ({
   },
 }));
 
-import { kabariStatus, kirimBerkas, mulaiTelegram } from "./telegram.ts";
+import { kabariStatus, kirimBerkas, lupakanKabarStatus, mulaiTelegram } from "./telegram.ts";
 
 afterEach(() => vi.useRealTimers());
 
@@ -53,5 +55,49 @@ describe("telegram.ts dengan bot tiruan", () => {
     vi.advanceTimersByTime(4 * 60_000);
     kabariStatus("f00d00000001", "online");
     expect(bot.sendMessage).toHaveBeenLastCalledWith(777000111, "✅ f00d00000001 online lagi (offline 5 menit)");
+  });
+});
+
+describe("berhenti sengaja (offline-mode, Modul 28)", () => {
+  const pesan = () => bot.sendMessage.mock.calls.map((c) => c[1]);
+
+  it("🔄 seketika; online lagi (pembaruan berhasil, atau rollback ±70 detik) = ✅ berpasangan, TANPA 📴", () => {
+    mulaiTelegram("123456:token-tiruan", "777000111", "");
+    vi.useFakeTimers({ now: new Date("2026-10-31T01:00:00Z") });
+    bot.sendMessage.mockClear();
+    kabariStatus("f00d00000002", "offline-mode");
+    expect(pesan()).toEqual(["🔄 f00d00000002 berhenti sengaja (pembaruan firmware atau restart), sebentar lagi online kembali"]);
+    vi.advanceTimersByTime(70_000); // lebih lama dari tenggang offline biasa (60 detik)
+    kabariStatus("f00d00000002", "online");
+    vi.advanceTimersByTime(5 * 60_000);
+    expect(pesan()).toEqual([
+      "🔄 f00d00000002 berhenti sengaja (pembaruan firmware atau restart), sebentar lagi online kembali",
+      "✅ f00d00000002 online lagi sesudah berhenti sengaja (70 detik)"]);
+  });
+
+  it("tidak kembali dalam 3 menit (juga bila wasiat offline datang di tengahnya): 📴, lalu ✅ saat online lagi", () => {
+    mulaiTelegram("123456:token-tiruan", "777000111", "");
+    vi.useFakeTimers({ now: new Date("2026-10-31T01:00:00Z") }); // 08.00 WIB
+    bot.sendMessage.mockClear();
+    kabariStatus("f00d00000003", "offline-mode");
+    vi.advanceTimersByTime(30_000);
+    kabariStatus("f00d00000003", "offline"); // tenggang 3 menit yang sedang berjalan tetap dipakai
+    vi.advanceTimersByTime(60_000);
+    expect(pesan()).toHaveLength(1); // belum ada 📴 sesudah 90 detik
+    vi.advanceTimersByTime(90_000);
+    expect(pesan().at(-1)).toBe("📴 f00d00000003 tidak kembali sesudah berhenti sengaja sejak 08.00 WIB");
+    vi.advanceTimersByTime(7 * 60_000);
+    kabariStatus("f00d00000003", "online");
+    expect(pesan().at(-1)).toBe("✅ f00d00000003 online lagi (offline 10 menit)");
+  });
+
+  it("perangkat dinonaktifkan: kabar yang sedang menunggu dilupakan", () => {
+    mulaiTelegram("123456:token-tiruan", "777000111", "");
+    vi.useFakeTimers({ now: new Date("2026-10-31T01:00:00Z") });
+    bot.sendMessage.mockClear();
+    kabariStatus("f00d00000004", "offline");
+    lupakanKabarStatus("f00d00000004");
+    vi.advanceTimersByTime(10 * 60_000);
+    expect(bot.sendMessage).not.toHaveBeenCalled();
   });
 });

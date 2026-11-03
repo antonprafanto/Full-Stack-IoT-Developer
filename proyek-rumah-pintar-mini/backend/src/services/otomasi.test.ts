@@ -1,7 +1,8 @@
 // otomasi.test.ts - uji otomasi.ts (Modul 24) TANPA database, MQTT, atau Telegram: semua tetangganya diganti tiruan
 // (vi.mock). Yang dicatat hanya perintah apa yang "dikirim" ke perangkat dan kejadian apa yang ditulis. Yang diuji: aturan
 // siram (ambang-bawah + perintah) menyiram SEKALI, padam tanpa perintah lalu siap lagi, perintah yang ditolak perangkat
-// ditandai ok: false, dan aturan yang dihapus atau dinonaktifkan tidak bertindak lagi. Jalankan: npm test
+// ditandai ok: false, dan aturan yang dihapus atau dinonaktifkan tidak bertindak lagi. Modul 28: config GABUNGAN (ambang dari
+// aturan + jeda vitals per perangkat) dalam satu pesan, hanya untuk perangkat terdaftar. Jalankan: npm test
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 const tabel = vi.hoisted(() => ({ aturan: [] as Record<string, unknown>[] })); // tabel rules tiruan
@@ -38,11 +39,14 @@ vi.mock("./perintah.ts", () => ({
 }));
 vi.mock("./kejadian.ts", () => ({ catatKejadian: (k: { aturan_id: number | null; pesan: string }) => { kejadian.push(k); } }));
 vi.mock("./gudang.ts", () => ({ cariPerangkat: () => undefined, tungguAck: async () => null }));
-vi.mock("./mqtt.ts", () => ({ buatIdPerintah: () => "c-config", kirimConfig: () => {}, ringkas: () => "" }));
+const config = vi.hoisted(() => [] as { deviceId: string; isi: unknown }[]); // Modul 28: config yang "diterbitkan"
+vi.mock("./mqtt.ts", () => ({ buatIdPerintah: () => "c-config", ringkas: () => "",
+  kirimConfig: (deviceId: string, _id: string, isi: unknown) => { config.push({ deviceId, isi }); } }));
 vi.mock("./jadwal.ts", () => ({ pasangJadwal: () => {} }));
 vi.mock("./telegram.ts", () => ({ kabariKalauPerlu: async () => {} }));
 
-import { gantiAturan, hapusAturan, muatAturan, nilaiBacaan } from "./otomasi.ts";
+import { gantiAturan, hapusAturan, isiJedaVitals, kirimSemuaConfig, muatAturan, nilaiBacaan } from "./otomasi.ts";
+import { isiDaftar } from "./daftar.ts";
 import type { Aturan } from "../schemas/aturan.ts";
 import type { TelemetryNode1 } from "../schemas/kontrak.ts";
 
@@ -112,5 +116,24 @@ describe("otomasi: aturan siram (ambang-bawah + perintah)", () => {
     expect(lupakan).toEqual([nomor]);
     await bacaan(25);
     expect(kirim).toHaveLength(0);
+  });
+});
+
+describe("config gabungan ambang + jeda vitals (Modul 28)", () => {
+  it("satu pesan per perangkat: ambang dari aturan kipas + jeda dari admin; perangkat belum terdaftar tidak dikirimi", async () => {
+    const KIPAS: Aturan = { nama: "Kipas otomatis", aktif: true,
+      kondisi: { jenis: "ambang", device_id: ID, besaran: "suhu", nyala_di_atas: 31, padam_di_bawah: 29, selama_detik: 0 },
+      aksi: { jenis: "sakelar", device_id: ID, target: "kipas", kabari: false } };
+    tabel.aturan = [{ ...structuredClone(KIPAS), id: ++nomor, dibuat: new Date(), diubah: new Date() }];
+    await muatAturan();
+    isiDaftar([{ device_id: ID, terdaftar: new Date(), dicabut: null }, { device_id: "f00d00000002", terdaftar: new Date(), dicabut: null }]);
+    isiJedaVitals([{ device_id: ID, jeda_vitals_s: 60 }, { device_id: "f00d00000002", jeda_vitals_s: 120 },
+      { device_id: "0123456789ab", jeda_vitals_s: 90 }]); // yang terakhir belum terdaftar
+    config.length = 0;
+    kirimSemuaConfig();
+    expect(config).toEqual([
+      { deviceId: ID, isi: { ambang: { suhu_kipas_on: 31 }, jeda: { vitals_s: 60 } } },
+      { deviceId: "f00d00000002", isi: { jeda: { vitals_s: 120 } } }, // tanpa aturan kipas: jeda saja
+    ]);
   });
 });

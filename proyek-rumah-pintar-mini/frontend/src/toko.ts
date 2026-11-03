@@ -5,12 +5,15 @@
 // bisa membacanya tanpa dititipkan lewat props dari App. Peran tetap hanya di memori: tidak pernah di localStorage.
 import { create } from "zustand";
 import { useToast } from "./toast";
-import type { Bacaan, Keadaan, Pengguna, Perangkat, StatusPerangkat, Telemetry, TelemetryNode1, Titik } from "./types";
+import type { Bacaan, KabarOta, Keadaan, Pengguna, Perangkat, StatusPerangkat, Telemetry, TelemetryNode1, Titik } from "./types";
 
 // keadaan sambungan Socket.IO yang ditampilkan lencana di kepala
 export type Koneksi = "menyambung" | "live" | "terputus";
 
 const LIMA_MENIT = 5 * 60 * 1000; // dalam milidetik
+
+// Modul 28: status pembaruan yang sudah SELESAI (tidak berubah lagi tanpa perintah baru)
+const PEMBARUAN_SELESAI = ["berhasil", "rollback", "gagal", "ditolak", "kedaluwarsa"];
 
 // Larik kosong yang SELALU sama. Selektor memakai "?? KOSONG", bukan "?? []": larik baru di setiap panggilan membuat
 // Zustand 5 mengira datanya berubah terus, React menggambar ulang tanpa henti, dan layar menjadi putih.
@@ -86,6 +89,15 @@ type Toko = {
   // memakainya sebagai dependensi efek, jadi daftar aturannya diambil ulang sendiri.
   versiAturan: number;
   aturanBerubah: () => void;
+  // Modul 28: kabar pembaruan firmware TERAKHIR tiap perangkat (acara Socket.IO "ota"), supaya kartu di layar Armada
+  // berubah sendiri: diterima -> mengunduh -> berhasil/rollback/gagal, tanpa memuat ulang halaman.
+  ota: Partial<Record<string, KabarOta>>;
+  terimaOta: (kabar: KabarOta) => void;
+  // Modul 28: naik 1 setiap kali data armada berubah di server (pembaruan selesai, perangkat baru lewat kode klaim,
+  // perangkat dinonaktifkan, sambungan live pulih). Layar Armada memakainya sebagai dependensi efek (pola versiAturan),
+  // jadi datanya diambil ulang hanya saat ADA kabar, bukan setiap sekian detik (tanpa polling).
+  versiArmada: number;
+  armadaBerubah: () => void;
 };
 
 // create<Toko>()(…): tanda kurung ganda memang cara menulisnya di TypeScript (Zustand 5).
@@ -164,6 +176,17 @@ export const useToko = create<Toko>()((set) => ({
 
   versiAturan: 0,
   aturanBerubah: () => set((s) => ({ versiAturan: s.versiAturan + 1 })),
+
+  ota: {},
+  // Pembaruan yang selesai juga menaikkan versiArmada: versi firmware, kesehatan (vitals yang membawa laporannya), dan
+  // ringkasan canary setiap rilis ikut berubah, dan semuanya hanya bisa dibaca ulang dari server.
+  terimaOta: (kabar) =>
+    set((s) => ({
+      ota: { ...s.ota, [kabar.device_id]: kabar },
+      versiArmada: PEMBARUAN_SELESAI.includes(kabar.status) ? s.versiArmada + 1 : s.versiArmada,
+    })),
+  versiArmada: 0,
+  armadaBerubah: () => set((s) => ({ versiArmada: s.versiArmada + 1 })),
 }));
 
 // Modul 24: true HANYA kalau peran admin sudah pasti. Selama GET /auth/me belum dijawab ("memuat") hasilnya false, jadi

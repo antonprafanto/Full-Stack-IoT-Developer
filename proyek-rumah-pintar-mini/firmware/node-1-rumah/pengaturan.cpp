@@ -3,6 +3,7 @@
 #include <Preferences.h>  // ikut paket esp32, tidak perlu dipasang
 #include "konfigurasi.h"
 #include "pencatat.h"
+#include "periksa-ota.h"  // Modul 28: rapikanAlamat(), periksaAlamatServer()
 #include "pengaturan.h"
 
 static Preferences arsip;  // "lemari arsip" NVS; kita memakai map bernama "node1"
@@ -11,6 +12,9 @@ static unsigned long nyalaKe = 0;
 static bool pakaiRS485 = false;  // Modul 15: bawaannya tidak dipakai (sensor belum dipasang)
 static float suhuKipas = SUHU_KIPAS_ON_BAWAAN;  // Modul 19: ambang kipas pengaman, dalam °C
 static char kunci[65] = "";  // Modul 21: kunci broker, paling panjang 64 huruf + tanda akhir teks; "" = belum ada
+static char server[PANJANG_ALAMAT_SERVER_MAKS + 1] = "";  // Modul 28: alamat server; "" = belum diisi
+static char broker[PANJANG_ALAMAT_BROKER_MAKS + 1] = "";  // Modul 28: alamat broker dari NVS; "" = pakai ALAMAT_BROKER
+static unsigned long jedaVitals = JEDA_VITALS / 1000;      // Modul 28: detik di antara dua vitals
 
 void muatPengaturan() {
   arsip.begin("node1", false);  // false = map dibuka untuk dibaca DAN ditulis
@@ -35,6 +39,25 @@ void muatPengaturan() {
     arsip.getString("kunci_broker", kunci, sizeof(kunci));
   }
   logInfo("Kunci broker: %s", kunci[0] != '\0' ? "tersimpan di NVS" : "BELUM ADA (ketik: kunci <isi>)");
+
+  // Modul 28: alamat server (unduh firmware dan klaim), alamat broker, dan jeda vitals
+  if (arsip.isKey("alamat_server")) {
+    arsip.getString("alamat_server", server, sizeof(server));
+  } else if (ALAMAT_SERVER_BAWAAN[0] != '\0') {
+    rapikanAlamat(ALAMAT_SERVER_BAWAAN, server, sizeof(server));
+    const char* salah = periksaAlamatServer(server);
+    if (salah != nullptr) {
+      logError("ALAMAT_SERVER_BAWAAN di konfigurasi.h tidak dipakai: %s", salah);
+      server[0] = '\0';
+    }
+  }
+  logInfo("Alamat server: %s", server[0] != '\0' ? server : "BELUM DIISI (ketik: server <alamat>)");
+  if (arsip.isKey("alamat_broker")) {
+    arsip.getString("alamat_broker", broker, sizeof(broker));
+  }
+  logInfo("Alamat broker: %s (%s)", alamatBrokerTersimpan(), alamatBrokerDariNvs() ? "dari NVS" : "dari konfigurasi.h");
+  jedaVitals = arsip.getUInt("jeda_vitals", JEDA_VITALS / 1000);  // 11 huruf
+  logInfo("Jeda vitals: %lu detik (%s)", jedaVitals, jedaVitalsDariNvs() ? "dari NVS" : "angka bawaan");
 }
 
 int ambangTanahSiram() {
@@ -138,4 +161,89 @@ void hapusKunciBroker() {
     logInfo("Kunci broker dihapus dari NVS.");
   }
   kunci[0] = '\0';
+}
+
+// ---------- Modul 28: alamat server, alamat broker, dan jeda vitals ----------
+// Ketiganya hanya bisa diubah lewat portal WiFi, Serial Monitor, atau klaim, TIDAK lewat MQTT: alamat yang salah membuat
+// Node 1 tidak bisa dijangkau lagi (kontrak data 1.6 bagian 7). Hanya jeda vitals yang boleh dikirim server (config).
+const char* alamatServerTersimpan() {
+  return server;
+}
+
+bool simpanAlamatServer(const char* alamat) {
+  if (strlen(alamat) >= sizeof(server)) {
+    return false;
+  }
+  if (strcmp(alamat, server) != 0 || !arsip.isKey("alamat_server")) {  // sama: tidak perlu menulis ulang
+    arsip.putString("alamat_server", alamat);  // 13 huruf
+    snprintf(server, sizeof(server), "%s", alamat);
+    logInfo("Alamat server disimpan ke NVS: %s", server);
+  }
+  return true;
+}
+
+const char* alamatBrokerTersimpan() {
+  if (broker[0] != '\0') {
+    return broker;
+  }
+  return ALAMAT_BROKER;  // NVS belum berisi: alamat di konfigurasi.h (Modul 11)
+}
+
+bool alamatBrokerDariNvs() {
+  return broker[0] != '\0';
+}
+
+bool simpanAlamatBroker(const char* alamat) {
+  if (strlen(alamat) >= sizeof(broker)) {
+    return false;
+  }
+  if (strcmp(alamat, broker) != 0) {  // sama: tidak perlu menulis ulang
+    arsip.putString("alamat_broker", alamat);  // 13 huruf
+    snprintf(broker, sizeof(broker), "%s", alamat);
+    logInfo("Alamat broker disimpan ke NVS: %s", broker);
+  }
+  return true;
+}
+
+unsigned long jedaVitalsDetik() {
+  return jedaVitals;
+}
+
+bool jedaVitalsDariNvs() {
+  return arsip.isKey("jeda_vitals");
+}
+
+bool simpanJedaVitals(long detik) {
+  if (detik < (long)JEDA_VITALS_MIN_S || detik > (long)JEDA_VITALS_MAKS_S) {
+    return false;
+  }
+  if ((unsigned long)detik == jedaVitals && jedaVitalsDariNvs()) {
+    return true;  // angkanya sudah sama: tidak perlu menulis ulang (jumlah tulis flash terbatas)
+  }
+  arsip.putUInt("jeda_vitals", (uint32_t)detik);
+  jedaVitals = (unsigned long)detik;
+  logInfo("Jeda vitals disimpan ke NVS: %lu detik", jedaVitals);
+  return true;
+}
+
+// ---------- Modul 28: catatan pembaruan firmware ----------
+// Satu catatan = satu struct utuh (misalnya rencana pembaruan) di satu label NVS. Satu kali putBytes() menulis semuanya
+// sekaligus, jadi listrik yang padam tepat saat menulis tidak meninggalkan catatan yang setengah baru, setengah lama.
+bool bacaCatatan(const char* label, void* isi, size_t ukuran) {
+  if (!arsip.isKey(label) || arsip.getBytesLength(label) != ukuran) {
+    return false;  // belum ada, atau ditulis firmware lain dengan bentuk struct yang berbeda
+  }
+  return arsip.getBytes(label, isi, ukuran) == ukuran;
+}
+
+void simpanCatatan(const char* label, const void* isi, size_t ukuran) {
+  if (arsip.putBytes(label, isi, ukuran) != ukuran) {
+    logError("Catatan %s gagal ditulis ke NVS.", label);
+  }
+}
+
+void hapusCatatan(const char* label) {
+  if (arsip.isKey(label)) {
+    arsip.remove(label);
+  }
 }

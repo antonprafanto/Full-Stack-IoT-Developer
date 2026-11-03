@@ -10,6 +10,7 @@ void aturKipasPengaman(bool nyala);           // Modul 19: khusus untuk aturan p
 bool nyalakanPompa(int detik, int levelAir);  // menjawab false kalau ditolak karena air tandon kurang
 void aturTirai(int sudut);
 void bunyikanBuzzer();                        // berbunyi 150 ms, tetapi programnya tidak ikut menunggu
+void padamkanPompaDanBuzzer();                // Modul 28: sebelum mengunduh firmware (loop() berhenti sampai 1 menit lebih)
 
 bool lampuMenyala();
 bool lampuDariOtomatis();  // true kalau lampu yang menyala itu dinyalakan oleh aturan otomatis

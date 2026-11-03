@@ -13,5 +13,7 @@ bruno
 uji
 login*.json
 kue*.txt
+# Modul 28: berkas firmware yang diunggah saat mode kembang (bisa berisi kunci ESP-NOW): tidak pernah masuk image.
+data-firmware
 # Berkas uji Vitest tidak dipakai server yang berjalan.
 src/**/*.test.ts

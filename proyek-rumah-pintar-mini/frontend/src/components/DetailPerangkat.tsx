@@ -85,7 +85,7 @@ function gauge(bacaan: Telemetry, node2: boolean) {
 const TEKS_STATUS: Record<StatusPerangkat, string> = {
   online: "online",
   offline: "offline",
-  "offline-mode": "dalam mode offline",
+  "offline-mode": "berhenti sengaja (misalnya menyala ulang untuk pembaruan firmware)", // Modul 28
   "belum-diketahui": "belum diketahui statusnya",
 };
 function alasanTombolMati(jenis: Jenis, status: StatusPerangkat): string | null {

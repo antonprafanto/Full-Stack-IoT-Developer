@@ -1,5 +1,5 @@
 // TataLetak.tsx - bingkai semua layar sesudah masuk: kepala (judul, lencana Live, menu, nama, tombol Keluar) dan
-// <Outlet />, tempat React Router menaruh layar yang cocok dengan alamatnya (Daftar, Detail, Riwayat, Peta, Aturan).
+// <Outlet />, tempat React Router menaruh layar yang cocok dengan alamatnya (Daftar, Detail, Riwayat, Peta, Aturan, Armada).
 import { useEffect } from "react";
 import { NavLink, Outlet } from "react-router";
 import { ambilPerangkat, GalatApi, keluar } from "../api";
@@ -86,9 +86,15 @@ export default function TataLetak() {
             <NavLink to="/aturan" className={kelasMenu}>
               Aturan
             </NavLink>
+            {/* Modul 28: versi firmware, kesehatan, dan pembaruan lewat udara, untuk admin dan viewer */}
+            <NavLink to="/armada" className={kelasMenu}>
+              Armada
+            </NavLink>
           </nav>
-          {/* min-w-0 + truncate: nama yang panjang dipotong dengan "…", tidak mendorong tombol keluar dari layar */}
-          <div className="flex min-w-0 items-center gap-3 text-sm">
+          {/* min-w-0 + truncate: nama yang panjang dipotong dengan "…", tidak mendorong tombol keluar dari layar.
+              Modul 28: sm:ml-auto = kalau tidak muat di baris judul dan menu (sejak menu Armada), nama dan tombol Keluar turun
+              ke baris berikutnya di sisi KANAN, tidak menggantung di kiri */}
+          <div className="flex min-w-0 items-center gap-3 text-sm sm:ml-auto">
             <span className="truncate text-slate-600 dark:text-slate-300">
               {pengguna.nama} <span className="text-slate-500 dark:text-slate-400">({pengguna.peran})</span>
             </span>

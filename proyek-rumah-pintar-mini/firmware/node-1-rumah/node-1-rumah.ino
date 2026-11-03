@@ -1,6 +1,14 @@
-// Node 1 "Rumah" - firmware v1.6.0 (Modul 21: masuk ke broker dengan nama pengguna dan kunci)
+// Node 1 "Rumah" - firmware v1.7.0 (Modul 28: pembaruan lewat udara, rollback otomatis, kode klaim)
 // Proyek benang merah: Rumah Pintar Mini.
 //
+// Baru di v1.7.0: Node 1 bisa diperbarui tanpa kabel. Perintah MQTT "update" dari server (tombol Perbarui di /armada)
+// membuat Node 1 berhenti sengaja (status offline-mode), mengunduh firmware dari <alamat server>/fw/node-1/<versi>.bin
+// dengan kuncinya sendiri, memeriksa sidik SHA-256, lalu menyala ulang ke rak program sebelah. Firmware baru harus
+// tersambung ke broker dan terbit dalam 60 detik; kalau tidak, Node 1 kembali sendiri ke firmware lama (rollback,
+// masa-uji.cpp). Papan baru bisa didaftarkan dengan kode klaim dari admin (portal WiFi atau Serial "klaim <kode>").
+// vitals kini membawa reset_reason, fw, dan laporan pembaruan (kontrak data 1.6); jedanya bisa diatur server.
+// Firmware 1.7.0 adalah firmware terakhir yang WAJIB dipasang lewat kabel: versi sesudahnya bisa lewat udara. Versi di
+// bawah 1.7.0 ditolak lewat udara (tidak punya masa uji dan rollback): pasang lewat kabel.
 // Baru di v1.6.0: Node 1 masuk ke broker dengan nama pengguna = device_id dan kunci perangkatnya sendiri. Kuncinya tidak
 // pernah ditulis di kode: ketik "kunci <isi>" di Serial Monitor sekali, dan Node 1 menyimpannya di NVS. Kalau broker
 // menolak (kunci salah, belum diisi, atau dicabut), Serial Monitor dan layar menulis DITOLAK, dan Node 1 mencoba lagi
@@ -22,13 +30,16 @@
 // Dari v1.0.0 (Modul 8): tanpa delay() di loop(), kode modular, watchdog, NVS, log bertingkat, halaman status.
 // Perintah lewat Serial Monitor: lampu on, kipas off, pompa 3, tirai 90, bunyi, status, info,
 // ambang, ambang 35, ambang bawaan, log debug, log info, log error, wifi, wifi lupa, kirim, node2, node2 nol,
-// rs485, rs485 on, rs485 off, uji offline, kunci, kunci <isi>, kunci hapus, restart.
+// rs485, rs485 on, rs485 off, uji offline, kunci, kunci <isi>, kunci hapus, restart,
+// dan mulai v1.7.0: ota, server, server <alamat>, broker, broker <ip>, klaim, klaim <kode> [server] [broker].
 //
 // Library: ESP32Servo versi 3.2.1, DHT sensor library versi 1.4.7
 // (ikut terpasang: Adafruit Unified Sensor versi 1.1.15), Adafruit SSD1306 versi 2.5.17
 // (ikut terpasang: Adafruit GFX Library versi 1.12.6 dan Adafruit BusIO versi 1.17.4),
 // WiFiManager versi 2.0.17, ArduinoJson versi 7.4.3, PubSubClient3 versi 3.3.2, dan ModbusMaster versi 2.0.1.
-// Wire, SPI, SD, Preferences, dan WiFi sudah ikut paket esp32.
+// Wire, SPI, SD, Preferences, dan WiFi sudah ikut paket esp32. Modul 28: HTTPUpdate, HTTPClient, NetworkClientSecure, dan
+// Update juga ikut paket esp32, WAJIB versi 3.3.12 (setSHA256sum() dan useBuiltinCACertBundle() baru ada di versi itu).
+// Skema partisi: Minimal SPIFFS (dua rak program, Modul 10).
 
 #include <esp_task_wdt.h>  // watchdog
 #include "konfigurasi.h"
@@ -46,6 +57,8 @@
 #include "jaringan.h"  // Modul 10-11
 #include "jembatan.h"  // Modul 14: Node 2 lewat ESP-NOW
 #include "rs485.h"     // Modul 15: sensor tanah RS-485
+#include "pembaruan.h"  // Modul 28: pembaruan firmware lewat udara (OTA)
+#include "klaim.h"      // Modul 28: mendaftar dengan kode klaim
 
 // ---------- Siklus utama: MENUNGGU -> MEMBACA -> MENAMPILKAN -> BERTINDAK -> MENUNGGU ... ----------
 enum LangkahSiklus { MENUNGGU, MEMBACA, MENAMPILKAN, BERTINDAK };
@@ -162,17 +175,19 @@ void setup() {
   Serial.begin(115200);
   delay(500);  // boleh: setup() hanya berjalan sekali, dan watchdog belum mengawasi
   Serial.println();
-  logInfo("Node 1 Rumah - firmware %s", VERSI_FIRMWARE);
+  logInfo("Node 1 Rumah - firmware %s (%s)", VERSI_FIRMWARE, CATATAN_VERSI);
   logInfo("Alasan restart terakhir: %s", alasanReset());
 
   siapkanAktuator();  // pertama: relay segera dimatikan
   muatPengaturan();
+  siapkanPembaruan();  // Modul 28: firmware baru? masa uji 60 detik dimulai. Laporan pembaruan yang tertinggal di NVS
   siapkanSensor();
   mulaiDetak(PIN_LED_STATUS);
   mulaiTombol(PIN_TOMBOL);
   siapkanLayar();  // Modul 7
   siapkanKartu();  // Modul 7 (opsional)
   siapkanJaringan();  // Modul 10: portal WiFi boleh menunggu di sini karena watchdog belum mengawasi
+                      // (Modul 28: selama masa uji watchdog sudah mengawasi, tetapi portal memang ditunda)
   siapkanJembatan();  // Modul 14: sesudah WiFi menyala
   siapkanRS485();     // Modul 15
 
@@ -183,7 +198,10 @@ void setup() {
     .trigger_panic = true,         // terlambat diberi makan = panik, lalu restart
   };
   esp_task_wdt_reconfigure(&konfigurasiWatchdog);  // watchdog sudah dinyalakan paket esp32: cukup diatur ulang
-  esp_task_wdt_add(NULL);                          // NULL = awasi tugas yang sedang berjalan, yaitu loop()
+  if (esp_task_wdt_status(NULL) != ESP_OK) {       // Modul 28: selama masa uji, tugas ini sudah diawasi sejak awal setup()
+    esp_task_wdt_add(NULL);                        // NULL = awasi tugas yang sedang berjalan, yaitu loop()
+  }
+  esp_task_wdt_reset();                            // hitungan 5 detik pertama dimulai dari sini
   logInfo("Watchdog aktif: restart otomatis kalau loop() macet lebih dari %lu detik.", BATAS_WATCHDOG / 1000);
 }
 
@@ -197,6 +215,8 @@ void loop() {
   perbaruiDetak();       // LED status
   perbaruiLayar();       // halaman status: jam berdetak, lalu kembali sendiri
   perbaruiJaringan();    // Modul 10-11: WiFi, jam internet, dan MQTT; tidak pernah menunggu lama
+  perbaruiPembaruan();   // Modul 28: masa uji 60 detik; pembaruan yang diterima (MEMBLOK sampai 1 menit lebih)
+  perbaruiKlaim();       // Modul 28: kirim kode klaim begitu WiFi siap (memblok beberapa detik, sekali saja)
   perbaruiJembatan();    // Modul 14: paket Node 2 -> rak tunggu -> broker; tidak pernah menunggu
   tanganiTombol();
   periksaPerintahSerial();

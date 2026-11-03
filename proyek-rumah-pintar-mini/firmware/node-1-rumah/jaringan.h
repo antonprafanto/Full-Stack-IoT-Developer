@@ -22,3 +22,8 @@ void mulaiUjiOffline();                // Modul 19: perintah Serial "uji offline
 const char* penggunaBroker();          // Modul 21: nama pengguna broker (device_id; Wokwi berkunci: "rw")
 bool mqttDitolak();                    // Modul 21: true kalau broker menolak kunci pada percobaan terakhir
 void gantiKunciBroker();               // Modul 21: kunci baru atau dihapus: sambung ulang SEKARANG dengan kunci itu
+const char* deviceId();                // Modul 28: device_id (12 heksadesimal huruf kecil dari MAC WiFi)
+bool wifiTersambung();                 // Modul 28: true kalau WiFi sedang tersambung (klaim dan unduhan firmware)
+void gantiAlamatBroker();              // Modul 28: alamat broker baru (portal, Serial, klaim): sambung ulang SEKARANG
+void berhentiSengaja();                // Modul 28: terbitkan "offline-mode", putus RAPI, dan jangan menyambung lagi
+void lanjutkanSambungan();             // Modul 28: sesudah pembaruan gagal: boleh (dan segera) menyambung lagi

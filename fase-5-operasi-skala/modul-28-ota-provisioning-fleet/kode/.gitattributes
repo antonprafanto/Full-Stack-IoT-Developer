@@ -1,0 +1,16 @@
+# .gitattributes - Modul 26: berkas yang dibaca program di DALAM kontainer Linux harus berakhir-baris LF (bukan CRLF).
+# Git for Windows bisa mengubah LF menjadi CRLF saat checkout (core.autocrlf); baris di bawah mencegahnya untuk berkas ini,
+# karena tanda CR yang tidak terlihat itu merusak skrip sh. (Mosquitto 2.1.2, Caddy 2.11.7, dan Compose terbukti tahan di
+# lab Modul 26, tetapi tidak semua program setoleran itu: lebih aman semua berkas ini tetap LF.)
+*.sh text eol=lf
+*.conf text eol=lf
+Caddyfile text eol=lf
+acl-broker text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+.env.example text eol=lf
+Dockerfile text eol=lf
+.dockerignore text eol=lf
+# Modul 27: skrip SQL yang dikirim ke psql di dalam kontainer database. skrip/cek-susulan.sql memakai perintah psql (\if,
+# \set, \echo) yang dibaca per baris: lebih aman tanpa tanda CR tersembunyi (tidak diuji dengan CRLF).
+*.sql text eol=lf

@@ -1,6 +1,7 @@
 // realtime.ts - Socket.IO: data mengalir ke terminal dan browser tanpa refresh (Modul 19), dikunci di Modul 20.
 // Setiap perangkat punya satu room bernama "perangkat:<device_id>". Klien yang ingin melihat satu perangkat mengirim
 // "ikuti", lalu hanya menerima telemetry perangkat itu. Perubahan status dan buku kejadian dikirim ke semua klien.
+// Modul 28: acara "ota" (kemajuan pembaruan firmware per perangkat) juga dikirim ke semua klien, untuk halaman /armada.
 // Socket.IO menjawab sendiri permintaan /socket.io/ SEBELUM Fastify melihatnya, jadi satpam Fastify (hook onRequest) TIDAK
 // menjaga pintu ini: Socket.IO punya penjaga sendiri (allowRequest + io.use) dengan aturan dan cookie yang sama.
 import { Server } from "socket.io";
@@ -22,11 +23,23 @@ interface JawabanIkuti {
   terbaru?: Telemetry | null;
 }
 
+// Modul 28: satu perubahan status pembaruan firmware (dikirim, diterima, mengunduh, berhasil, rollback, gagal, ...)
+export interface KabarOta {
+  device_id: string;
+  id: string; // id perintah update
+  status: string;
+  dari: string | null;
+  ke: string;
+  pesan: string | null;
+  waktu: string; // waktu server, format kontrak (UTC)
+}
+
 // acara dari server ke klien, beserta isinya
 interface KeKlien {
   telemetry: (deviceId: string, isi: Telemetry) => void;
   status: (deviceId: string, status: Status) => void;
   kejadian: (kejadian: Kejadian) => void;
+  ota: (kabar: KabarOta) => void; // Modul 28
 }
 
 // acara dari klien ke server; "balas" adalah ack Socket.IO
@@ -109,4 +122,9 @@ export function siarkanStatus(deviceId: string, status: Status): void {
 // kirim satu baris buku kejadian ke SEMUA klien
 export function siarkanKejadian(kejadian: Kejadian): void {
   io?.emit("kejadian", kejadian);
+}
+
+// Modul 28: kirim kemajuan satu pembaruan firmware ke SEMUA klien (halaman /armada memperbarui barisnya tanpa polling)
+export function siarkanOta(kabar: KabarOta): void {
+  io?.emit("ota", kabar);
 }

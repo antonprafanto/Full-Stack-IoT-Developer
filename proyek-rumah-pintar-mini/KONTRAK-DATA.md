@@ -2,7 +2,7 @@
 
 🌐 **Bahasa Indonesia** · [English](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/en/mini-smart-home/DATA-CONTRACT.md)
 
-> **Versi kontrak 1.5** ([Modul 27](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-5-operasi-skala/modul-27-deploy-internet-tls-pwa/README.md), Oktober 2026; versi 1.4 dari [Modul 21](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-3-backend-data/modul-21-keamanan-perangkat-broker/README.md), versi 1.3 dari Modul 19, versi 1.2 dari Modul 15, versi 1.1 dari Modul 14, versi 1.0 dari Modul 11). Rujukan utamanya adalah [Lampiran A Silabus](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/SILABUS.md#14-lampiran-a--kontrak-data-rumah-pintar-mini); file ini salinan kerjanya yang ikut tersimpan di proyek. **Aturan mainnya:** setiap perubahan ditulis di sini dan di Lampiran A dulu, baru kodenya diubah, lalu versi firmware dinaikkan.
+> **Versi kontrak 1.6** ([Modul 28](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-5-operasi-skala/modul-28-ota-provisioning-fleet/README.md), Oktober 2026; versi 1.5 dari [Modul 27](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-5-operasi-skala/modul-27-deploy-internet-tls-pwa/README.md), versi 1.4 dari [Modul 21](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-3-backend-data/modul-21-keamanan-perangkat-broker/README.md), versi 1.3 dari Modul 19, versi 1.2 dari Modul 15, versi 1.1 dari Modul 14, versi 1.0 dari Modul 11). Rujukan utamanya adalah [Lampiran A Silabus](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/SILABUS.md#14-lampiran-a--kontrak-data-rumah-pintar-mini); file ini salinan kerjanya yang ikut tersimpan di proyek. **Aturan mainnya:** setiap perubahan ditulis di sini dan di Lampiran A dulu, baru kodenya diubah, lalu versi firmware dinaikkan.
 
 Kontrak data adalah "bahasa bersama" semua bagian proyek: firmware, broker, alat pemeriksa, *gateway* (Modul 12), Node-RED (Modul 13), *backend* (Modul 16), database (Modul 17), dan dashboard (Modul 22). Selama semuanya mengikuti kontrak ini, setiap bagian bisa dibuat pada minggu yang berbeda dan tetap cocok satu sama lain. Penjelasan lengkapnya ada di [Modul 11](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-2-konektivitas/modul-11-mqtt-dan-kontrak-data/README.md).
 
@@ -20,7 +20,7 @@ Awalan `rpm` = Rumah Pintar Mini. Topik selalu huruf kecil dan **tidak** diawali
 | :--- | :--- | :--- | :---: | :--- |
 | `rpm/<device_id>/telemetry` | perangkat → broker | semua bacaan sensor dalam satu JSON | tidak | Node 1: setiap 10 detik, dan segera saat ada kejadian penting. Node 2: sekali setiap kali bangun (5 menit), diterbitkan Node 1 |
 | `rpm/<device_id>/status` | perangkat → broker | teks `online`, `offline`, atau `offline-mode` | **ya** | `online` saat tersambung; `offline` diterbitkan broker (*Last Will*). Node 2: keduanya diterbitkan Node 1 (bagian 5) |
-| `rpm/<device_id>/vitals` | perangkat → broker | kesehatan perangkat | tidak | sekali setelah tersambung, lalu setiap 5 menit |
+| `rpm/<device_id>/vitals` | perangkat → broker | kesehatan perangkat | tidak | sekali setelah tersambung, lalu setiap 5 menit (mulai kontrak 1.6: jedanya bisa diatur dari jauh, `jeda.vitals_s` di `config`) |
 | `rpm/<device_id>/cmd` | broker → perangkat | satu perintah | hanya `config` (Modul 19) | kapan saja |
 | `rpm/<device_id>/ack` | perangkat → broker | jawaban atas satu perintah | tidak | segera setelah perintah diterima |
 
@@ -40,6 +40,7 @@ Node 2 (ESP-NOW) tidak tersambung ke broker. Mulai Modul 14, **Node 1 menerbitka
 | *Keep-alive* | 15 detik (broker menyatakan perangkat hilang setelah 22,5 detik) |
 | Wasiat (*Last Will*) | topik `status`, isi `offline`, QoS 1, *retained* |
 | Setelah tersambung | terbitkan `online` (*retained*), lalu berlangganan `cmd` dengan QoS 1 |
+| Berhenti sengaja (mulai kontrak 1.6, Modul 28) | sebelum menyala ulang dengan sengaja (memasang firmware baru, atau perintah `restart`): terbitkan `offline-mode` (*retained*, QoS 1), lalu putuskan sambungan dengan **rapi** (pesan DISCONNECT). Broker tidak menerbitkan wasiat `offline` untuk sambungan yang diputus rapi |
 | QoS terbitan | `telemetry`, `vitals`, `ack`: QoS 0 |
 | Wadah pesan | paling sedikit 512 byte (`setBufferSize(512)`) |
 | Menyambung ulang | paling sering setiap 5 detik, setiap percobaan paling lama sekitar 1 detik |
@@ -126,11 +127,13 @@ Teks biasa, bukan JSON:
 | :--- | :--- | :--- |
 | `online` | perangkat tersambung | perangkat, setiap kali berhasil menyambung |
 | `offline` | perangkat hilang tanpa pamit (listrik padam, WiFi putus, macet) | broker, dari wasiat perangkat |
-| `offline-mode` | perangkat sengaja berhenti, misalnya sebelum pembaruan firmware | perangkat (dipakai mulai Modul 28) |
+| `offline-mode` | perangkat **sengaja** berhenti: sebelum menyala ulang karena pembaruan firmware atau perintah `restart` (bagian 3, "Berhenti sengaja"). Biasanya disusul `online` dalam beberapa detik sampai sekitar 1,5 menit | perangkat (mulai firmware Node 1 1.7.0, Modul 28) |
 
 **Status Node 2** diterbitkan **Node 1** (*retained*): `online` saat paket sah pertama dari Node 2 tiba, `offline` kalau tidak ada paket selama **3 × jeda Node 2 + 1 menit** (jeda 5 menit = 16 menit). Node 2 tidak punya sambungan MQTT sendiri, jadi tidak punya wasiat. Karena itu, status Node 2 berarti "Node 1 masih mendengar Node 2", dan baru bisa dipercaya selama status Node 1 sendiri `online`.
 
-**Mode offline Modul 19 tidak memakai `status`.** Selama broker tak terjangkau, perangkat memang tidak bisa menerbitkan apa pun, jadi laporannya baru dikirim sesudah tersambung lagi, lewat `vitals` (bagian 6). Isi `status` tetap `online` dan `offline`; `offline-mode` tetap milik Modul 28.
+**Mode offline Modul 19 tidak memakai `status`.** Selama broker tak terjangkau, perangkat memang tidak bisa menerbitkan apa pun, jadi laporannya baru dikirim sesudah tersambung lagi, lewat `vitals` (bagian 6). Isi `status` saat mode offline tetap `online` dan `offline`. Jangan tertukar: **mode offline** (Modul 19) = broker tak terjangkau, pengaman lokal berjalan; **`offline-mode`** (Modul 28) = perangkat sengaja berhenti sebentar. Dashboard menyebut yang kedua "berhenti sengaja".
+
+**Perangkat yang dinonaktifkan** (mulai kontrak 1.6): server menghapus akun brokernya, broker langsung memutusnya **tanpa** menerbitkan wasiat, jadi `status` *retained* terakhirnya (biasanya `online`) bisa tertinggal di broker. Server menulis status `offline` di databasenya sendiri dan mengabaikan pesan apa pun dari perangkat itu (bagian 9, aturan 14).
 
 ## 6. `vitals`
 
@@ -146,7 +149,9 @@ Teks biasa, bukan JSON:
 | `heap_free` | sisa memori *heap* dalam byte |
 | `offline_s` | **mulai kontrak 1.3 (Modul 19):** berapa detik perangkat berjalan dalam mode offline sebelum tersambung lagi (bilangan bulat ≥ 0) |
 | `kipas_lokal` | **mulai kontrak 1.3 (Modul 19):** berapa kali aturan pengaman lokal menyalakan kipas selama mode offline itu (bilangan bulat ≥ 0) |
-| `reset_reason` | **mulai Modul 28:** `POWERON`, `BROWNOUT`, `SW`, `PANIC`, `WDT`, `DEEPSLEEP`, atau `UNKNOWN` |
+| `reset_reason` | **mulai kontrak 1.6 (Modul 28), wajib mulai firmware Node 1 1.7.0:** alasan perangkat terakhir kali menyala: `POWERON` (listrik baru masuk, juga tombol EN), `BROWNOUT` (tegangan sempat turun: periksa catu daya), `SW` (*restart* oleh program: pembaruan firmware, rollback yang diperintah program, perintah `restart`), `PANIC` (program mogok), `WDT` (*watchdog*: program macet), `DEEPSLEEP` (bangun dari tidur dalam), atau `UNKNOWN` (alasan lain) |
+| `fw` | **mulai kontrak 1.6, wajib bersama `reset_reason`:** versi firmware yang sedang berjalan, SemVer, sama dengan `fw` di `telemetry` |
+| `ota` | **mulai kontrak 1.6, pilihan, hanya bersama `fw`:** laporan hasil satu pembaruan firmware (tabel di bawah) |
 
 `offline_s` dan `kipas_lokal` adalah **laporan mode offline** (bagian 9, aturan 5). Keduanya selalu datang bersama, dan hanya di `vitals` pertama sesudah perangkat tersambung lagi dari mode offline; di `vitals` lain keduanya tidak ditulis:
 
@@ -158,6 +163,23 @@ Perangkat mengirim `vitals` berlaporan itu sekitar **10 detik** sesudah tersambu
 
 Laporan ini hanya disimpan di memori perangkat. Kalau perangkat *restart* sebelum sempat mengirimnya, laporan mode offline itu hilang.
 
+### Laporan pembaruan firmware `ota` di `vitals` (mulai kontrak 1.6, Modul 28)
+
+```json
+{"ts":"2026-10-31T01:04:54Z","rssi":-58,"uptime_s":7,"heap_free":181940,"reset_reason":"SW","fw":"1.7.1","ota":{"id":"c-20261031-010312-3","hasil":"rollback","versi":"1.7.2","pesan":"tidak tersambung ke broker dalam 60 detik"}}
+```
+
+| Kolom di dalam `ota` | Isi |
+| :--- | :--- |
+| `id` | `id` perintah `update` yang dilaporkan (bagian 7) |
+| `hasil` | `berhasil` (firmware baru sah, bagian 9 aturan 13), `rollback` (firmware baru tidak sah dan perangkat kembali ke versi sebelumnya), atau `gagal` (unduhan atau pemeriksaan berkas gagal; firmware lama tetap jalan, biasanya tanpa menyala ulang, kecuali listrik padam atau *watchdog* saat mengunduh, lihat `reset_reason`) |
+| `versi` | versi yang **dicoba** dipasang (`versi` di perintahnya), bukan versi yang sedang berjalan (`fw`) |
+| `pesan` | pilihan, paling panjang 80 huruf: alasan `rollback`/`gagal`, misalnya kode galat unduhan |
+
+- Perangkat menyimpan laporan di NVS **sebelum** menyala ulang, lalu mengirimnya di `vitals` pertama sesudah tersambung dan **mengulangnya** di paling banyak 3 `vitals` (`vitals` QoS 0 bisa hilang). Server mengabaikan laporan yang sama untuk `id` yang sudah selesai.
+- `reset_reason` saja tidak cukup: pembaruan yang berhasil dan rollback yang diperintah program sama-sama `SW`.
+- Firmware sampai 1.6.0 tidak menulis `reset_reason`, `fw`, dan `ota`. Pesannya tetap sah. **Server yang masih memakai kontrak 1.5 (backend 1.4.0) menolak `vitals` firmware 1.7.0** (kolom yang tidak dikenal), jadi server diperbarui lebih dulu.
+
 ## 7. `cmd`
 
 ```json
@@ -168,7 +190,7 @@ Laporan ini hanya disimpan di memori perangkat. Kalau perangkat *restart* sebelu
 | :--- | :--- |
 | `id` | teks unik untuk setiap perintah, paling panjang 39 huruf; perangkat menjawab dengan `id` yang sama |
 | `ts` | waktu perintah dibuat (UTC). Boleh dilewati saat perintah diketik manual di MQTTX |
-| `aksi` | `set`, `config` (Modul 19), atau `update` (Modul 28) |
+| `aksi` | `set`, `config` (Modul 19), atau `update` (mulai kontrak 1.6, Modul 28) |
 
 **`aksi: "set"`** menggerakkan satu aktuator:
 
@@ -190,12 +212,43 @@ Laporan ini hanya disimpan di memori perangkat. Kalau perangkat *restart* sebelu
 | `suhu_kipas_on` | angka, 15–45 | °C. Dalam mode offline, pengaman lokal menyalakan kipas kalau `suhu` **di atas** angka ini, lalu memadamkannya kalau `suhu` **di bawah** angka ini − 2 |
 | `tanah_siram` | bilangan bulat, 0–100 | %. Ambang siram otomatis (Modul 6 dan 8) |
 
-- `ambang` berisi **paling sedikit satu** dari kedua kunci itu. Kunci yang tidak dikirim tidak berubah. Kunci lain, tipe yang salah, atau angka di luar rentang membuat seluruh perintah ditolak (`ok:false`): perangkat memeriksa semua kunci dulu, dan hanya menyimpan kalau semuanya sah.
+- Mulai kontrak 1.6, `config` juga boleh membawa `jeda` (di bawah). Satu `config` berisi `ambang`, `jeda`, atau keduanya; `ambang` (kalau ada) berisi **paling sedikit satu** dari kedua kunci itu. Kunci yang tidak dikirim tidak berubah. Kunci lain, tipe yang salah, atau angka di luar rentang membuat seluruh perintah ditolak (`ok:false`): perangkat memeriksa semua kunci dulu, dan hanya menyimpan kalau semuanya sah.
 - Ambang yang sah disimpan di NVS, **hanya yang nilainya berubah**, lalu perangkat menjawab dengan `ack` biasa. Ambang itu tetap dipakai setelah perangkat *restart* atau listrik padam.
 - `config` dikirim dengan **QoS 1, *retained***: perangkat yang baru menyala atau baru tersambung langsung menerima ambang terakhir begitu berlangganan `cmd`. Karena `id`-nya sama, `config` yang datang lagi setelah sambung ulang hanya dikerjakan sekali selama perangkat menyala (aturan 8).
 - Pesan kosong di topik `cmd` berarti seseorang menghapus pesan *retained*-nya (misalnya **Clear Retained Message** di MQTTX). Perangkat mengabaikannya tanpa menjawab.
 
-**`aksi: "update"`** (Modul 28) membawa `url` dan `versi` firmware baru. Sampai modul itu, perangkat menjawabnya dengan `ok:false`.
+**`jeda` di dalam `config`** (mulai kontrak 1.6, Modul 28):
+
+```json
+{"id":"c-20261031-061500-4","ts":"2026-10-31T06:15:00Z","aksi":"config","ambang":{"suhu_kipas_on":30},"jeda":{"vitals_s":60}}
+```
+
+| Kunci di dalam `jeda` | Tipe | Isi |
+| :--- | :--- | :--- |
+| `vitals_s` | bilangan bulat, 60–3600 | detik di antara dua `vitals` (bawaan 300). Disimpan di NVS seperti ambang |
+
+- Hanya `vitals` yang bisa diatur dari jauh. `telemetry` **tetap** setiap 10 detik (aturan 3): label "data basi" dashboard dan *alert* "Node diam" Grafana bergantung padanya. Kunci lain di dalam `jeda` membuat seluruh perintah ditolak.
+- WiFi, alamat server, alamat broker, dan kunci perangkat **tidak** bisa diubah lewat `config` (salah alamat = perangkat tidak bisa dijangkau lagi; alamat server juga satu-satunya tempat perangkat mengunduh firmware); semuanya hanya lewat portal WiFi atau Serial.
+- Firmware sampai 1.6.0 tidak mengenal `jeda` dan mengabaikannya (ambang di pesan yang sama tetap dikerjakan); `config` yang hanya berisi `jeda` dijawabnya `ok:false`.
+
+**`aksi: "update"`** (mulai kontrak 1.6, Modul 28) memerintahkan perangkat memasang firmware baru dari server, seketika (perangkat tidak memeriksa sendiri "adakah versi baru" secara berkala):
+
+```json
+{"id":"c-20261031-010147-2","ts":"2026-10-31T01:01:47Z","aksi":"update","versi":"1.7.1","url":"https://iot.namaanda.my.id/fw/node-1/1.7.1.bin","sha256":"9f2c…(64 heksadesimal)…","ukuran":1196032}
+```
+
+| Kolom | Isi |
+| :--- | :--- |
+| `versi` | versi SemVer firmware baru; harus **berbeda** dari versi yang sedang berjalan |
+| `url` | alamat **final** berkas firmware, paling panjang 200 huruf, dan **harus sama persis** dengan `<alamat server>/fw/node-1/<versi>.bin` (huruf besar-kecil skema dan nama server tidak dibedakan; jalur `/fw/node-1/…` huruf kecil), tempat `<alamat server>` = alamat server yang **tersimpan di perangkat** (kolom **Alamat server** portal WiFi, perintah Serial `server`, atau alamat yang dipakai saat klaim, bagian 10; tanpa `/` di akhir; bentuknya: "Bentuk alamat server" di bagian 10). Unduhan membawa kunci perangkat, jadi perangkat tidak pernah mengunduh dari server lain, siapa pun pengirim perintahnya. Tanpa pengalihan: perangkat tidak mengikuti 3xx. `https://` di internet (sertifikat diperiksa seperti broker di bagian 3); `http://` **hanya** ke alamat IP jaringan rumah (`10.x`, `172.16–31.x`, `192.168.x`) |
+| `sha256` | sidik jari SHA-256 isi berkas, 64 heksadesimal **huruf kecil** (sama dengan `sha256sum` berkasnya). Perangkat menolak memasang berkas yang sidik jarinya lain. Ini pemeriksaan keutuhan, bukan tanda tangan |
+| `ukuran` | panjang berkas dalam byte, 1 sampai 1.966.080 (satu rak program skema Minimal SPIFFS) |
+
+- QoS 1, **tidak pernah** *retained* (sama alasannya dengan `set`: perangkat menyala ulang sesudah memasangnya, jadi ingatan `id`-nya hilang; `update` yang tertempel di broker akan dikerjakan lagi setiap menyala).
+- `ack` dalam 5 detik seperti perintah lain, tetapi `ok:true` berarti **perintahnya diterima dan pembaruan dimulai**, bukan selesai. Hasilnya datang belakangan di `vitals.ota` (bagian 6). `ok:false` + `pesan` bila isinya cacat, `versi` sama dengan yang berjalan, `ukuran` terlalu besar, `url` bukan `<alamat server>/fw/node-1/<versi>.bin` (`url bukan server rumah ini`; kunci tidak dikirim ke mana pun), alamat server belum diisi di perangkat, `url` `http://` ke alamat bukan rumah, `versi` di bawah 1.7.0 (firmware tanpa masa uji dan rollback: hanya lewat kabel), pembaruan lain sedang berjalan (aturan 12), atau perangkat masih dalam masa uji firmware baru (aturan 13).
+- Sesudah `ack ok:true` dan **sebelum** mengunduh, perangkat berhenti sengaja (bagian 3): `offline-mode`, lalu DISCONNECT rapi. Unduhan memakai `GET` dengan Basic Auth `device_id:kunci` (kunci perangkat bagian 3) dan kepala `x-ESP32-STA-MAC`, hanya ke alamat server perangkat itu. Gagal sebelum menyala ulang = tersambung lagi (`online`) dan melaporkan `gagal`. Jawaban `304` dari server (versi yang diminta sama dengan versi yang dikirim perangkat di kepala `x-ESP32-version`) juga = tidak dipasang, dilaporkan `gagal` dengan alasan `304`.
+- Siapa pun yang boleh menulis `rpm/+/cmd` (backend, dan Node-RED Modul 13) boleh memerintahkan pembaruan, tetapi hanya ke berkas di server rumah itu sendiri: berkasnya hanya bisa diunggah admin dashboard, dan `sha256` yang salah membuat perangkat menolak memasangnya.
+- Sampai firmware 1.6.0, perangkat menjawab `update` dengan `ok:false` (`aksi update belum didukung (Modul 28)`).
 
 **Jangan pernah** mengirim perintah `set` dengan tanda *retained*: broker menyerahkannya lagi setiap kali perangkat menyambung, dan perangkat mengerjakannya lagi begitu ingatan `id`-nya kosong, misalnya setelah *restart* (bagian 9, aturan 8).
 
@@ -221,21 +274,54 @@ Laporan ini hanya disimpan di memori perangkat. Kalau perangkat *restart* sebelu
 3. `telemetry` setiap 10 detik **dan** segera saat ada kejadian penting (bagian 4). Node 2: sekali setiap kali bangun, tanpa kiriman segera.
 4. Setiap `cmd` dijawab satu `ack` dengan `id` yang sama dalam 5 detik; target Node 1 di bawah 1 detik. Pesan yang bukan JSON, tanpa `id`, atau ber-`id` lebih dari 39 huruf tidak bisa dijawab dan hanya dicatat di log perangkat.
 5. `cmd` berjenis `config` dikirim *retained* dan disimpan perangkat di NVS sebagai dasar aturan pengaman lokal (Modul 19). **Mode offline** = broker (atau WiFi) tak terjangkau terus-menerus selama 2 menit atau lebih sejak sambungan terakhir. Dalam mode offline, pengaman lokal menyalakan kipas kalau `suhu` di atas `suhu_kipas_on`. Kipas yang ia nyalakan sendiri ia padamkan lagi kalau `suhu` di bawah `suhu_kipas_on` − 2, juga sesudah tersambung lagi, kecuali perintah lain (`set kipas` dari server, MQTTX, atau Serial) sudah mengambil alih kipas itu: **yang menyalakan, dia yang memadamkan**. Sesudah tersambung lagi, perangkat melaporkan mode offline-nya lewat `vitals` (bagian 6).
-6. Perangkat hanya boleh menulis ke topik `device_id`-nya sendiri; mulai Modul 21 aturan ini ditegakkan daftar izin (ACL) broker dengan pola `%u` (`pattern write rpm/%u/telemetry|status|vitals|ack`, `pattern read rpm/%u/cmd`), tempat `%u` adalah nama pengguna yang sudah dibuktikan dengan kunci, yaitu `device_id`-nya. Satu pengecualian: Node 1 juga menulis `telemetry` dan `status` Node 2 (baris `user <Node 1>` + `topic write rpm/<Node 2>/telemetry|status` di ACL). Backend dan Node-RED memakai akunnya sendiri (`read rpm/#`, `write rpm/+/cmd`).
+6. Perangkat hanya boleh menulis ke topik `device_id`-nya sendiri; mulai Modul 21 aturan ini ditegakkan daftar izin (ACL) broker dengan pola `%u` (`pattern write rpm/%u/telemetry|status|vitals|ack`, `pattern read rpm/%u/cmd`), tempat `%u` adalah nama pengguna yang sudah dibuktikan dengan kunci, yaitu `device_id`-nya. Satu pengecualian: Node 1 juga menulis `telemetry` dan `status` Node 2 (baris `user <Node 1>` + `topic write rpm/<Node 2>/telemetry|status` di ACL). Backend dan Node-RED memakai akunnya sendiri (`read rpm/#`, `write rpm/+/cmd`). Mulai Modul 28, akun perangkat yang dibuat backend lewat *dynamic security* tunduk pada pola yang sama, untuk menulis **dan** membaca (backend mengubah izin baca bawaan plugin menjadi "tolak" sebelum membuat akun).
 7. Bacaan gagal ditulis `null` di JSON, untuk semua kolom. Angka penanda seperti `-1` tidak pernah keluar dari perangkat.
 8. Perintah ber-`id` sama hanya dikerjakan sekali; perangkat mengingat paling sedikit delapan `id` terakhir dan mengabaikan pengulangannya. Ingatan ini hilang saat perangkat *restart*, jadi perintah `set` tidak boleh dikirim *retained* (bagian 7).
 9. Setiap perangkat hanya mengirim kolom sensor yang ia punya (bagian 4, "Kolom menurut perangkat").
 10. Satu topik hanya punya **satu** pesan *retained*. Menghapus pesan *retained* di `cmd` (misalnya perintah `set` yang telanjur tertempel) ikut menghapus `config`, dan broker tanpa penyimpanan (*persistence*) kehilangan semua pesan *retained* saat dimulai ulang. Karena itu server menerbitkan ulang `config` setiap kali ia tersambung ke broker dan setiap kali ambangnya berubah. Perangkat tetap aman di antaranya: ambang terakhirnya tersimpan di NVS.
 11. **Simpan-teruskan lewat gerbang** (mulai kontrak 1.5, Modul 27; aturan 13 di Lampiran A). Gerbang (broker di Raspberry Pi) meneruskan `telemetry`, `status`, `vitals`, dan `ack` perangkat ke broker pusat dengan QoS 1, **menahannya** selama jalur ke pusat putus (misalnya internet rumah mati), lalu mengirimnya belakangan dengan `ts` aslinya; pusat menyimpannya pada waktu kejadian dan menolak yang dobel (aturan 1 dan 2). Arah sebaliknya **tidak** ditahan: `cmd` yang diterbitkan pusat saat jalur putus tidak disimpan untuk dikirim belakangan (pusat sudah melaporkan perintah itu gagal karena tidak ada `ack`; backend 1.4 sendiri hanya mengirim ulang perintah tangan yang belum dikerjakan bila perangkat terdengar lagi dalam 2 menit sesudah percobaan terakhir), sedangkan `config` *retained* tiba lagi di gerbang begitu jalur tersambung. Perangkat tidak berubah: ia tetap tersambung ke gerbang di jaringan rumah dengan aturan bagian 3, dan mode offline-nya (aturan 5) hanya terjadi bila **gerbang** tak terjangkau, bukan bila hanya internet yang putus.
+12. **Pembaruan firmware** (mulai kontrak 1.6, Modul 28; aturan 14 di Lampiran A). `update` tidak pernah *retained*; `ack ok:true` = diterima, bukan selesai; hasilnya dilaporkan di `vitals.ota` dan diulang sampai 3 kali. Server hanya mengirim `update` ke perangkat yang sedang `online` (tidak diantre), satu pembaruan berjalan per perangkat. Perangkat hanya mengunduh dari `<alamat server yang tersimpan di perangkat>/fw/node-1/<versi>.bin`; `url` lain ditolak sebelum kunci dikirim.
+13. **Firmware baru harus membuktikan diri** (mulai kontrak 1.6; aturan 15 di Lampiran A). Firmware yang baru dipasang sah bila dalam **60 detik** sejak menyala ia tersambung ke broker (kuncinya diterima), berlangganan `cmd`, dan menerbitkan `online`; kalau tidak, perangkat kembali sendiri ke firmware sebelumnya (rollback) dan melaporkan `rollback`. Selama masa uji itu perangkat menolak `update` lain. Menyala ulang di tengah masa uji (listrik padam, *restart*, atau *watchdog* karena program macet, juga di `setup()`) juga membatalkan firmware baru.
+14. **Perangkat yang dinonaktifkan** (mulai kontrak 1.6; aturan 16 di Lampiran A) diputus broker (akunnya dihapus), diabaikan server, dan statusnya ditulis server (bagian 5). Ia hanya bisa hidup lagi dengan kunci baru dari admin atau kode klaim baru (bagian 10).
 
-## 10. Memeriksa kepatuhan
+Nomor aturan di berkas ini (1–14) berbeda dengan Lampiran A Silabus: aturan 11–14 di sini = aturan 13–16 di Lampiran A.
+
+## 10. Pendaftaran dengan kode klaim (mulai kontrak 1.6, Modul 28)
+
+Perangkat baru mendapat kunci perangkatnya (bagian 3) tanpa mengetik kunci: admin membuat **kode klaim** sekali pakai di dashboard (`XXXX-XXXX`, 8 huruf Crockford Base32 tanpa I, L, O, U; berlaku 5–60 menit, bawaan 30), kode itu diketik di portal WiFi perangkat (atau perintah Serial `klaim <kode>`), lalu perangkat menukarnya lewat HTTP, sekali:
+
+```text
+POST <alamat server>/api/provision/klaim
+{"kode":"7K2M-QF9D","device_id":"a4cf12e5b7c0"}
+```
+
+| Jawaban | Artinya |
+| :--- | :--- |
+| `201 {"device_id","kunci","mqtt_username"}` | terdaftar: simpan `kunci` (43 huruf) seperti kunci dari Serial Monitor; nama pengguna broker = `device_id`; akun brokernya sudah dibuat server |
+| `403` | kode salah, kedaluwarsa, atau sudah dipakai (satu jawaban untuk ketiganya) |
+| `409` | `device_id` itu masih terdaftar dan aktif (identitas tidak bisa direbut); nonaktifkan dulu |
+| `429` | terlalu banyak percobaan dari alamat IP itu (lebih dari 10 per menit) |
+| `503` | server atau broker sedang bermasalah; kode **tidak** hangus, coba lagi |
+
+`<alamat server>` dan skemanya mengikuti aturan `url` di bagian 7 (`https://` di internet, `http://` hanya ke alamat IP rumah). Perangkat menyimpan alamat ini di NVS (`alamat_server`): dari sinilah ia kelak mengunduh firmware (bagian 7), jadi alamatnya harus sama dengan `ALAMAT_SERVER` server rumah. Huruf kecil, spasi, dan tanda `-` di kode boleh.
+
+**Bentuk alamat server** (mulai kontrak 1.6; sama untuk kolom **Alamat server** portal WiFi, perintah Serial `server` dan `klaim`, dan setelan `ALAMAT_SERVER` di `.env` server):
+
+- `http://` atau `https://`, lalu nama server, lalu `:port` bila perlu. Paling panjang **64 huruf** seluruhnya (termasuk `https://`), **tanpa** `/` di akhir, dan tanpa jalur di belakang nama server (bukan `…/api`).
+- Nama server hanya huruf kecil `a`–`z`, angka, titik, dan tanda `-`: tanpa garis bawah `_`, tanpa `@`, tanpa spasi.
+- Port (angka sesudah titik dua) 1–5 angka, **1 sampai 65535**. Tanpa port berarti port bawaan skemanya (80 untuk `http`, 443 untuk `https`).
+- `http://` **hanya** ke alamat IP jaringan rumah (`10.x`, `172.16–31.x`, `192.168.x`; tepat empat angka 0–255), karena kunci perangkat ikut terkirim tanpa enkripsi. Di internet selalu `https://`.
+- Perangkat merapikan ketikan lebih dulu (spasi di kedua ujung dan `/` di akhir dibuang, huruf besar `A`–`Z` dijadikan kecil), lalu menolak alamat yang masih salah: alamat itu tidak disimpan. Server menolak menyala dengan `ALAMAT_SERVER` yang melanggar aturan ini, karena perangkat hanya mengunduh dari alamat yang **persis** sama. Satu-satunya kelonggaran server: `http://127.x`, untuk uji dengan perangkat tiruan di mesin yang sama; papan sungguhan menolaknya.
+
+## 11. Memeriksa kepatuhan
 
 Jalankan [`alat/pemeriksa-kontrak.js`](alat/pemeriksa-kontrak.js) (`node pemeriksa-kontrak.js` di folder `alat`, setelah `npm install`). Ia berlangganan `rpm/#` dan memberi cap **LULUS** atau **GAGAL** pada setiap pesan, lengkap dengan alasannya dan lama jawaban setiap `ack`. Di broker publik, tulis juga `device_id`-mu di belakang alamat broker (`node pemeriksa-kontrak.js broker.emqx.io <device_id>`) supaya hanya pesan perangkatmu yang diperiksa. Setiap perubahan firmware harus lolos pemeriksaan ini sebelum di-*commit*. Sejak kontrak 1.1, pemeriksa mengenali `telemetry` Node 2 dari kolom khasnya, memeriksanya dengan daftar kolom Node 2, dan menandainya `(telemetry Node 2)`. Sejak kontrak 1.2 (pemeriksa versi 1.2), kolom khas itu adalah `tekanan` karena `suhu_tanah` kini juga bisa datang dari Node 1; pemeriksa juga memastikan tiga kolom RS-485 Node 1 selalu lengkap. Sejak kontrak 1.3 (pemeriksa versi 1.3), pemeriksa juga memeriksa isi `state` di `telemetry` Node 1 dan di `ack`, memastikan laporan mode offline di `vitals` selalu lengkap (`offline_s` dan `kipas_lokal`), memeriksa isi `ambang` setiap `config`, menandai GAGAL perintah `set` yang tertempel (*retained*) di broker, dan menerima pesan kosong di `cmd` sebagai tanda pesan *retained* baru saja dihapus.
 
-## 11. Riwayat perubahan
+## 12. Riwayat perubahan
 
 | Versi kontrak | Modul | Perubahan |
 | :--- | :--- | :--- |
+| 1.6 | Modul 28 | `status` `offline-mode` dipakai (berhenti sengaja: sebelum menyala ulang karena pembaruan firmware atau `restart`, disusul DISCONNECT rapi; bagian 3 dan 5). `vitals` membawa `reset_reason` dan `fw` (wajib mulai firmware Node 1 1.7.0, selalu bersama) dan laporan pembaruan `ota` (bagian 6). `cmd` `update` dirinci: `versi`, `url` (hanya ke alamat server yang tersimpan di perangkat), `sha256`, `ukuran`, tidak pernah *retained*, `ack` = diterima (bagian 7). `config` boleh membawa `jeda.vitals_s` (60–3600 detik; `telemetry` tetap 10 detik). Aturan 12–14 baru (aturan 14–16 di Lampiran A): pembaruan, masa uji 60 detik + rollback, perangkat dinonaktifkan. Bagian 10 baru: pendaftaran dengan kode klaim dan bentuk alamat server (paling panjang 64 huruf, nama server tanpa garis bawah, port 1–65535, tanpa `/` di akhir, `http://` hanya ke IP rumah). Bentuk lama tetap sah, tetapi server dengan kontrak 1.5 menolak `vitals` baru: **server diperbarui lebih dulu, baru firmware**. |
 | 1.5 | Modul 27 | Aturan broker di internet (bagian 3, "Alamat broker"): nama domain + port `8883` + TLS 1.2 ke atas + sertifikat diperiksa sampai ISRG Root X1; pintu polos `1883` tidak dibuka ke internet. Aturan 11 baru (aturan 13 di Lampiran A): gerbang menahan pesan perangkat saat jalur ke pusat putus dan mengirimnya belakangan dengan `ts` asli; `cmd` tidak ditahan. Bentuk pesan `telemetry`, `status`, `vitals`, `cmd`, dan `ack` **tidak berubah**; firmware tidak perlu diubah. |
 | 1.4 | Modul 21 | Setiap perangkat masuk ke broker dengan akunnya sendiri (nama pengguna = `device_id`, sandi = kunci per perangkat), lihat baris "Akun broker" di bagian 3; aturan 6 (perangkat hanya menulis topiknya sendiri) kini ditegakkan ACL broker dengan pola `%u` beserta pengecualian Node 1 → Node 2. Bentuk pesan `telemetry`, `status`, `vitals`, `cmd`, dan `ack` **tidak berubah**. |
 | 1.3 | Modul 19 | `telemetry` Node 1 membawa `state` (keadaan keempat aktuator, sama dengan `ack.state`), dan kiriman segera juga terjadi saat keadaan aktuator berubah; `vitals` boleh membawa laporan mode offline `offline_s` dan `kipas_lokal`, selalu bersama dan hanya di `vitals` pertama sesudah tersambung lagi (dikirim sekitar 10 detik sesudah tersambung); `config` dirinci: `ambang` berisi `suhu_kipas_on` (15–45 °C) dan/atau `tanah_siram` (0–100 %), QoS 1 *retained*, disimpan di NVS; aturan pengaman lokal dan mode offline (aturan 5); satu pesan *retained* per topik, jadi server menerbitkan ulang `config` (aturan 10). `status` tidak berubah. Data Node 2 tidak berubah. |

@@ -1,4 +1,6 @@
-// server.ts - pintu masuk backend Rumah Pintar Mini v1.4 (Modul 27: backend di internet, di balik Caddy HTTPS. TRUST_PROXY
+// server.ts - pintu masuk backend Rumah Pintar Mini v1.5 (Modul 28: pembaruan firmware lewat udara dengan unduhan berkunci,
+// canary, kode klaim sekali pakai, akun broker perangkat otomatis lewat dynamic security, dan data halaman /armada; di atas
+// v1.4 Modul 27: backend di internet, di balik Caddy HTTPS. TRUST_PROXY
 // membuat backend memercayai keterangan Caddy tentang tamu: cookie login ber-Secure di HTTPS dan pembatas login per tamu; di
 // atas v1.3 Modul 26: bisa berjalan sebagai kontainer Docker di compose.cloud.yml; v1.2 Modul 25: titik perangkat di peta dan
 // laporan harian CSV lewat Telegram; v1.1 Modul 24: aturan "di bawah ambang" seperti siram kalau tanah kering, aturan ambang
@@ -18,9 +20,14 @@ import { ruteKesehatan } from "./routes/kesehatan.ts";
 import { rutePerangkat } from "./routes/perangkat.ts";
 import { ruteAturan } from "./routes/aturan.ts";
 import { ruteLaporan } from "./routes/laporan.ts";
-import { hentikanMqtt, mulaiMqtt } from "./services/mqtt.ts";
+import { ruteFirmware } from "./routes/firmware.ts";
+import { ruteArmada } from "./routes/armada.ts";
+import { ruteKlaim } from "./routes/klaim.ts";
+import { brokerTersambung, hentikanMqtt, mulaiMqtt } from "./services/mqtt.ts";
 import { mulaiRealtime } from "./services/realtime.ts";
-import { muatAturan } from "./services/otomasi.ts";
+import { isiJedaVitals, kirimSemuaConfig, muatAturan } from "./services/otomasi.ts";
+import { hentikanPengawasPembaruan, mulaiPengawasPembaruan } from "./services/ota.ts";
+import { tempatAkun } from "./services/akun-broker.ts";
 import { hentikanJadwal } from "./services/jadwal.ts";
 import { hentikanTelegram, mulaiTelegram } from "./services/telegram.ts";
 import { mulaiLaporan } from "./services/laporan.ts";
@@ -69,8 +76,12 @@ await app.register(swagger, {
         + "http://localhost:8080/docs (di kontainer, login dari http://127.0.0.1:8080/docs ditolak 403). Sejak v1.4 "
         + "(Modul 27), backend bisa dibuka dari internet di balik Caddy HTTPS: dengan TRUST_PROXY (di Compose: uniquelocal) "
         + "backend memakai alamat IP dan protokol tamu dari Caddy, jadi cookie login ber-Secure dan batas 10 percobaan "
-        + "login berlaku per tamu.",
-      version: "1.4.0",
+        + "login berlaku per tamu. Sejak v1.5 (Modul 28): pembaruan firmware lewat udara (unggah POST /firmware/:jenis/:versi, "
+        + "perintah POST /devices/:id/update, canary lalu POST /armada/update), unduhan firmware untuk perangkat di "
+        + "GET /fw/node-1/<versi>.bin yang dikunci kunci perangkat, data halaman /armada (GET /armada), kode klaim sekali "
+        + "pakai (POST /provision/kode untuk admin, POST /provision/klaim untuk perangkat), jeda vitals jarak jauh, dan "
+        + "akun broker perangkat yang dibuat serta dihapus otomatis (AKUN_BROKER_OTOMATIS).",
+      version: "1.5.0",
     },
     components: {
       securitySchemes: { // Modul 20: rute bergembok butuh cookie akses dari POST /auth/login
@@ -87,6 +98,9 @@ await app.register(ruteKesehatan);
 await app.register(rutePerangkat);
 await app.register(ruteAturan); // Modul 19
 await app.register(ruteLaporan); // Modul 25
+await app.register(ruteFirmware); // Modul 28: rilis firmware dan unduhan berkunci /fw
+await app.register(ruteArmada); // Modul 28: halaman /armada, perintah update, canary, jeda vitals
+await app.register(ruteKlaim); // Modul 28: kode klaim
 
 if (await databaseHidup()) app.log.info("database siap");
 else app.log.warn("database belum bisa dihubungi: periksa kontainer database dan DATABASE_URL di .env");
@@ -103,8 +117,12 @@ mulaiRealtime(app); // Modul 19: Socket.IO di alamat /socket.io/ (Modul 20: ikut
 let percobaanDaftar = 0;
 async function muatDaftarPerangkat(): Promise<void> {
   try {
-    const jumlah = isiDaftar(await semuaPerangkatDb());
+    const baris = await semuaPerangkatDb();
+    const jumlah = isiDaftar(baris);
+    isiJedaVitals(baris.map((b) => ({ device_id: b.device_id, jeda_vitals_s: b.jeda_vitals_s ?? null }))); // Modul 28
     app.log.info(`daftar perangkat dimuat: ${jumlah} perangkat terdaftar`);
+    // Modul 28: config hanya dikirim ke perangkat terdaftar; kalau broker sudah tersambung lebih dulu, kirim sekarang
+    if (brokerTersambung()) kirimSemuaConfig();
   } catch (galat) {
     if (percobaanDaftar % 6 === 0) {
       app.log.error(`daftar perangkat belum bisa dimuat (${(galat as Error).message}); dicoba lagi setiap 10 detik`);
@@ -120,6 +138,11 @@ if (env.MQTT_USERNAME === "") {
 mulaiMqtt(env.MQTT_URL, env.MQTT_USERNAME === "" ? null : { username: env.MQTT_USERNAME, password: env.MQTT_PASSWORD }, app.log);
 mulaiTelegram(env.TELEGRAM_BOT_TOKEN, env.TELEGRAM_CHAT_ID, env.TELEGRAM_API_ROOT); // Modul 19: tidak ditunggu
 mulaiLaporan(env.LAPORAN_JADWAL); // Modul 25: laporan harian CSV ke Telegram (node-cron, WIB)
+mulaiPengawasPembaruan(); // Modul 28: pembaruan firmware tanpa kabar OTA_BATAS_MENIT menit = kedaluwarsa
+// Modul 28: dua baris saat menyala, bukti setelan pembaruan firmware dan akun broker terbaca
+app.log.info(env.ALAMAT_SERVER === "" ? "pembaruan firmware lewat udara MATI: ALAMAT_SERVER belum diisi"
+  : `alamat unduh firmware untuk perangkat: ${env.ALAMAT_SERVER}/fw/node-1/<versi>.bin`);
+app.log.info(`akun broker perangkat: ${tempatAkun()} (AKUN_BROKER_OTOMATIS)`);
 await app.listen({ port: env.PORT, host: env.HOST });
 app.log.info(`dokumentasi API: http://${env.HOST}:${env.PORT}/docs`);
 
@@ -130,6 +153,7 @@ async function berhenti(sinyal: string): Promise<void> {
   try {
     await hentikanTelegram(); // konfirmasi update terakhir ke Telegram
     await hentikanJadwal(); // node-cron: tunggu tugas yang sedang berjalan (jadwal aturan dan, sejak Modul 25, laporan harian)
+    hentikanPengawasPembaruan(); // Modul 28
     await app.close(); // preClose memutus klien Socket.IO, lalu server HTTP ditutup
     await hentikanMqtt(); // DISCONNECT ke broker
     await pool.end(); // tutup kolam sambungan database

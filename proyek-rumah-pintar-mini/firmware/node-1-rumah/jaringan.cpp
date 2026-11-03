@@ -14,13 +14,30 @@
 #include "aktuator.h"
 #include "layar.h"
 #include "rs485.h"
+#include "periksa-ota.h"  // Modul 28: rapikanAlamat(), periksaAlamatServer(), periksaAlamatBroker(), IsiUpdate
+#include "pembaruan.h"    // Modul 28: perintah update, laporan ota di vitals, restart sengaja
+#include "masa-uji.h"     // Modul 28: firmwareTerbukti(), dalamMasaUji()
+#include "klaim.h"        // Modul 28: kode klaim dari portal WiFi
 #include "jaringan.h"
 
 #ifndef MQTT_QOS1  // hanya PubSubClient3 yang punya nama ini
 #error "Yang terpakai PubSubClient lama (2.8). Hapus lewat Library Manager, lalu pasang PubSubClient3 versi 3.3.2."
 #endif
 
+// Modul 28: sandi portal WiFi (pilihan) di kunci.h, file yang tidak ikut ke GitHub (Modul 14, Praktik 8). Tulis di sana:
+//   #define SANDI_PORTAL "sandi-8-sampai-63-huruf"
+// lalu tulis sandi yang sama di label kotak Node 1. Tanpa baris itu, portal terbuka tanpa sandi seperti di Modul 10.
+#if __has_include("kunci.h")
+#include "kunci.h"
+#endif
+#ifndef SANDI_PORTAL
+#define SANDI_PORTAL ""
+#endif
+static_assert(sizeof(SANDI_PORTAL) == 1 || (sizeof(SANDI_PORTAL) >= 9 && sizeof(SANDI_PORTAL) <= 64),
+              "SANDI_PORTAL di kunci.h harus 8-63 huruf (aturan sandi WiFi WPA2), atau hapus barisnya");
+
 const unsigned long BATAS_TANPA_PERCOBAAN = 60000;  // penjaga: 60 detik tanpa percobaan menyambung = suruh mencoba lagi
+const unsigned long BATAS_TANPA_PERCOBAAN_UJI = 10000;  // Modul 28: selama masa uji firmware baru, setiap 10 detik
 const unsigned long JEDA_COBA_MQTT = 5000;          // gagal menyambung ke broker? coba lagi 5 detik kemudian
 const unsigned long JEDA_COBA_DITOLAK = 60000;      // Modul 21: broker MENOLAK kunci? coba lagi 60 detik kemudian
 const unsigned long JEDA_SEGERA_MIN = 2000;         // kiriman segera paling sering setiap 2 detik
@@ -31,7 +48,7 @@ const char BROKER_WOKWI_BERKUNCI[] = "test.mosquitto.org";  // Modul 21: pintu 1
 static WiFiClient klienJaringan;          // sambungan TCP ke broker
 static PubSubClient mqtt(klienJaringan);  // MQTT berjalan di atas sambungan itu
 static char idPerangkat[13] = "";  // device_id: 12 digit heksadesimal + tanda akhir teks (Lampiran A)
-static const char* alamatBroker = ALAMAT_BROKER;  // Modul 21: dipilih sekali di siapkanJaringan()
+static const char* alamatBroker = ALAMAT_BROKER;  // Modul 21: dipilih di siapkanJaringan(); Modul 28: dari NVS
 static uint16_t portBroker = PORT_BROKER;
 static const char* pengguna = idPerangkat;  // Modul 21: nama pengguna broker = device_id (kontrak data bagian 1)
 static bool ditolakBroker = false;          // Modul 21: percobaan terakhir dijawab broker dengan kode 4 atau 5
@@ -73,6 +90,7 @@ static unsigned long waktuVitalsTerakhir = 0;
 static unsigned long jumlahTerbit = 0;
 static char idTerakhir[8][40];  // 8 id perintah terakhir yang sudah diterima (termasuk yang ditolak)
 static int posisiId = 0;
+static bool ditahan = false;  // Modul 28: berhenti sengaja (offline-mode): jangan menyambung lagi sampai diizinkan
 
 // ---------- Modul 19: mode offline dan laporannya ----------
 static unsigned long waktuTerakhirSiap = 0;  // millis() terakhir kali WiFi dan MQTT tersambung
@@ -134,10 +152,46 @@ bool buatTs(char* ts, size_t ukuran) {
 }
 
 // ---------- Portal WiFi (Modul 10, Praktik 4) ----------
+// Modul 28: isi tiga kolom tambahan disimpan di sini, saat tombol Save portal ditekan. WiFiManager sendiri TIDAK
+// menyimpan isi kolom tambahan; itu tugas kita. Kolom yang dikosongkan berarti "tidak diubah".
+static void simpanIsiPortal(const char* kode, const char* server, const char* broker) {
+  char rapi[PANJANG_ALAMAT_SERVER_MAKS + 2];  // +2: alamat yang terlalu panjang tetap terdeteksi
+  if (server[0] != '\0') {
+    rapikanAlamat(server, rapi, sizeof(rapi));
+    const char* salah = periksaAlamatServer(rapi);
+    if (salah != nullptr) {
+      logError("Portal: alamat server TIDAK disimpan. %s", salah);
+    } else {
+      simpanAlamatServer(rapi);
+    }
+  }
+  if (broker[0] != '\0') {
+    rapikanAlamat(broker, rapi, sizeof(rapi));
+    const char* salah = periksaAlamatBroker(rapi);
+    if (salah != nullptr) {
+      logError("Portal: alamat broker TIDAK disimpan. %s", salah);
+    } else {
+      simpanAlamatBroker(rapi);
+    }
+  }
+  if (kode[0] != '\0') {
+    const char* salah = mulaiKlaim(kode);  // klaim.cpp: dikirim begitu WiFi tersambung (loop())
+    if (salah != nullptr) {
+      logError("Portal: kode klaim tidak dipakai: %s", salah);
+    }
+  }
+}
+
 // Menunggu di sini boleh: dipanggil dari setup(), sebelum watchdog mengawasi loop().
 static void bukaPortal() {
   logInfo("Portal WiFi terbuka selama %lu detik: sambungkan HP ke WiFi \"%s\", lalu buka http://192.168.4.1",
           BATAS_PORTAL, NAMA_PORTAL);
+  if (SANDI_PORTAL[0] != '\0') {
+    logInfo("Portal bersandi: sandinya ada di label kotak Node 1 (SANDI_PORTAL di kunci.h).");
+  } else {
+    logError("Portal TANPA sandi: siapa pun di dekat Node 1 bisa membuka 192.168.4.1, termasuk halaman /update. "
+             "Isi SANDI_PORTAL di kunci.h (Modul 28).");
+  }
   tampilkanPesan("PORTAL WIFI", "Sambungkan HP ke:", NAMA_PORTAL, "Buka 192.168.4.1");
   digitalWrite(PIN_LED_STATUS, HIGH);  // LED status menyala tetap selama portal terbuka
 
@@ -151,7 +205,23 @@ static void bukaPortal() {
   // Alamat 192.168.4.1/update sendiri tetap ada: buka portal hanya saat kamu sendiri sedang mengisinya.
   wm.setConfigPortalTimeout(BATAS_PORTAL);  // menutup sendiri kalau tidak dipakai
   wm.setConnectTimeout(20);                 // mencoba WiFi yang baru diisi paling lama 20 detik
-  bool berhasil = wm.startConfigPortal(NAMA_PORTAL);
+
+  // Modul 28: tiga kolom tambahan di halaman WiFi (menunya tanpa "param", jadi kolomnya ikut halaman WiFi):
+  // (id, tulisan di atas kolom, isi awal, panjang paling banyak). Kolom harus tetap ada selama portal terbuka.
+  WiFiManagerParameter kolomKode("kode_klaim", "Kode klaim dari /armada (boleh kosong)", "", 12);
+  WiFiManagerParameter kolomServer("alamat_server", "Alamat server, misalnya http://192.168.1.10", alamatServerTersimpan(),
+                                   PANJANG_ALAMAT_SERVER_MAKS);
+  WiFiManagerParameter kolomBroker("alamat_broker", "Alamat broker (IP gerbang Pi)", alamatBrokerTersimpan(),
+                                   PANJANG_ALAMAT_BROKER_MAKS);
+  wm.addParameter(&kolomKode);
+  wm.addParameter(&kolomServer);
+  wm.addParameter(&kolomBroker);
+  // [&] = fungsi kecil tanpa nama yang boleh memakai ketiga kolom di atas; dipanggil WiFiManager saat Save ditekan.
+  wm.setSaveParamsCallback([&]() {
+    simpanIsiPortal(kolomKode.getValue(), kolomServer.getValue(), kolomBroker.getValue());
+  });
+  // Modul 28: dengan sandi, HP harus memasukkan sandi itu untuk bergabung ke WiFi portal (nullptr = tanpa sandi).
+  bool berhasil = wm.startConfigPortal(NAMA_PORTAL, SANDI_PORTAL[0] != '\0' ? SANDI_PORTAL : nullptr);
 
   digitalWrite(PIN_LED_STATUS, LOW);
   if (berhasil) {
@@ -251,35 +321,91 @@ static const char* kerjakanSet(JsonDocument& perintah) {
 
 // Modul 19: satu perintah "config". Semua ambang diperiksa dulu; baru kalau semuanya sah, ambang disimpan ke NVS
 // (yang angkanya berubah saja). Menjawab nullptr kalau berhasil, atau alasan penolakannya.
+// Modul 28 (kontrak 1.6): config boleh membawa "ambang", "jeda", atau keduanya. Semuanya diperiksa dulu, baru disimpan.
 static const char* kerjakanConfig(JsonDocument& perintah) {
   static char alasan[48];  // static: isinya masih dibaca kirimAck() setelah fungsi ini selesai
-  JsonObject ambang = perintah["ambang"].as<JsonObject>();
-  if (ambang.isNull() || ambang.size() == 0) {
-    return "ambang harus berisi suhu_kipas_on atau tanah_siram";
+  // Kunci yang ADA dihitung walaupun isinya null: {"jeda": null} = tipe salah (seluruh perintah ditolak, kontrak bagian 7),
+  // bukan "tidak dikirim". isNull() tidak bisa membedakan keduanya, jadi nama kuncinya dicari satu per satu.
+  bool adaAmbang = false;
+  bool adaJeda = false;  // Modul 28
+  for (JsonPair p : perintah.as<JsonObject>()) {
+    adaAmbang = adaAmbang || strcmp(p.key().c_str(), "ambang") == 0;
+    adaJeda = adaJeda || strcmp(p.key().c_str(), "jeda") == 0;
   }
-  for (JsonPair p : ambang) {  // nama lain = salah ketik: tolak semuanya supaya tidak ada yang diam-diam terlewat
-    const char* nama = p.key().c_str();
-    if (strcmp(nama, "suhu_kipas_on") != 0 && strcmp(nama, "tanah_siram") != 0) {
-      snprintf(alasan, sizeof(alasan), "ambang tidak dikenal: %s", nama);
-      return alasan;
+  if (!adaAmbang && !adaJeda) {
+    return "config harus berisi ambang atau jeda";
+  }
+  JsonObject ambang = perintah["ambang"].as<JsonObject>();
+  if (adaAmbang) {
+    if (ambang.isNull() || ambang.size() == 0) {
+      return "ambang harus berisi suhu_kipas_on atau tanah_siram";
+    }
+    for (JsonPair p : ambang) {  // nama lain = salah ketik: tolak semuanya supaya tidak ada yang diam-diam terlewat
+      const char* nama = p.key().c_str();
+      if (strcmp(nama, "suhu_kipas_on") != 0 && strcmp(nama, "tanah_siram") != 0) {
+        snprintf(alasan, sizeof(alasan), "ambang tidak dikenal: %s", nama);
+        return alasan;
+      }
+    }
+    JsonVariant suhu = ambang["suhu_kipas_on"];
+    JsonVariant tanah = ambang["tanah_siram"];
+    if (!suhu.isNull()
+        && (!suhu.is<float>() || suhu.as<float>() < SUHU_KIPAS_MIN || suhu.as<float>() > SUHU_KIPAS_MAKS)) {
+      return "suhu_kipas_on harus angka 15-45";
+    }
+    if (!tanah.isNull() && (!tanah.is<int>() || tanah.as<int>() < 0 || tanah.as<int>() > 100)) {
+      return "tanah_siram harus bilangan bulat 0-100";
     }
   }
-  JsonVariant suhu = ambang["suhu_kipas_on"];
-  JsonVariant tanah = ambang["tanah_siram"];
-  if (!suhu.isNull()
-      && (!suhu.is<float>() || suhu.as<float>() < SUHU_KIPAS_MIN || suhu.as<float>() > SUHU_KIPAS_MAKS)) {
-    return "suhu_kipas_on harus angka 15-45";
+  // Modul 28: "jeda" hanya boleh berisi vitals_s (60-3600 detik). telemetry tetap 10 detik (kontrak aturan 3).
+  JsonObject jeda = perintah["jeda"].as<JsonObject>();
+  if (adaJeda) {
+    if (jeda.isNull()) {
+      return "jeda harus berisi vitals_s";
+    }
+    for (JsonPair p : jeda) {
+      const char* nama = p.key().c_str();
+      if (strcmp(nama, "vitals_s") != 0) {
+        snprintf(alasan, sizeof(alasan), "jeda tidak dikenal: %s", nama);
+        return alasan;
+      }
+    }
+    JsonVariant vitals = jeda["vitals_s"];
+    if (!vitals.is<int>() || vitals.as<int>() < (int)JEDA_VITALS_MIN_S || vitals.as<int>() > (int)JEDA_VITALS_MAKS_S) {
+      return "vitals_s harus bilangan bulat 60-3600";
+    }
   }
-  if (!tanah.isNull() && (!tanah.is<int>() || tanah.as<int>() < 0 || tanah.as<int>() > 100)) {
-    return "tanah_siram harus bilangan bulat 0-100";
+  // Semua sah: baru sekarang disimpan (yang angkanya berubah saja).
+  if (adaAmbang) {
+    JsonVariant suhu = ambang["suhu_kipas_on"];
+    JsonVariant tanah = ambang["tanah_siram"];
+    if (!suhu.isNull()) {
+      simpanAmbangSuhuKipas(suhu.as<float>());
+    }
+    if (!tanah.isNull()) {
+      simpanAmbangTanahSiram(tanah.as<int>());
+    }
   }
-  if (!suhu.isNull()) {
-    simpanAmbangSuhuKipas(suhu.as<float>());
-  }
-  if (!tanah.isNull()) {
-    simpanAmbangTanahSiram(tanah.as<int>());
+  if (adaJeda) {
+    int detik = jeda["vitals_s"].as<int>();
+    if ((unsigned long)detik != jedaVitalsDetik()) {
+      simpanJedaVitals(detik);
+      waktuVitalsTerakhir = millis();  // jadwal baru dihitung dari sekarang (sama dengan simulator)
+    }
   }
   return nullptr;
+}
+
+// Modul 28: satu perintah "update". Isinya diambil dari JSON, lalu diperiksa dan diterima di pembaruan.cpp.
+// Kolom yang tidak ada atau salah tipe menjadi nullptr / -1, dan ditolak dengan alasan yang sama dengan simulator.
+static const char* kerjakanUpdate(const char* id, JsonDocument& perintah) {
+  IsiUpdate isi = {
+    perintah["versi"].as<const char*>(),  // nullptr kalau tidak ada atau bukan teks
+    perintah["url"].as<const char*>(),
+    perintah["sha256"].as<const char*>(),
+    perintah["ukuran"].is<long>() ? (long long)perintah["ukuran"].as<long>() : -1,  // pecahan, teks, tidak ada = -1
+  };
+  return terimaUpdate(id, isi);
 }
 
 // Dipanggil library di dalam mqtt.loop() setiap ada pesan di rpm/<device_id>/cmd.
@@ -313,6 +439,17 @@ static void saatPesanMqtt(char* topik, byte* isi, unsigned int panjang) {
     }
     return;
   }
+  if (ditahan) {
+    // Modul 28: Node 1 sedang berhenti sengaja (sebentar lagi putus). Perintahnya tidak dikerjakan, tetapi tetap dijawab
+    // (kontrak aturan 4: setiap cmd dijawab), dan id-nya TIDAK diingat: config retained yang datang lagi sesudah
+    // tersambung, atau perintah yang dikirim ulang, tetap dikerjakan nanti.
+    const char* alasan = strcmp(aksi, "update") == 0 && pembaruanSedangBerjalan()
+                             ? "pembaruan lain sedang berjalan"
+                             : "Node 1 sedang berhenti sengaja: kirim lagi sesudah online";
+    logInfo("Perintah %s datang saat Node 1 berhenti sengaja: ditolak (%s).", id, alasan);
+    kirimAck(id, false, alasan);
+    return;
+  }
   ingatId(id);
   const char* pesan = "aksi tidak dikenal";
   if (strcmp(aksi, "set") == 0) {
@@ -320,10 +457,14 @@ static void saatPesanMqtt(char* topik, byte* isi, unsigned int panjang) {
   } else if (strcmp(aksi, "config") == 0) {
     pesan = kerjakanConfig(perintah);  // Modul 19
   } else if (strcmp(aksi, "update") == 0) {
-    pesan = "aksi update belum didukung (Modul 28)";
+    pesan = kerjakanUpdate(id, perintah);  // Modul 28: ok = DITERIMA; unduhannya dimulai di putaran loop() berikutnya
   }
-  if (pesan == nullptr) {
-    logInfo("Perintah %s: %s %s dikerjakan.", id, aksi, perintah["target"] | "ambang");
+  if (pesan == nullptr && strcmp(aksi, "update") == 0) {
+    logInfo("Perintah %s: update ke %s diterima; pembaruan dimulai.", id, perintah["versi"] | "?");
+  } else if (pesan == nullptr && strcmp(aksi, "config") == 0) {
+    logInfo("Perintah %s: config dikerjakan.", id);
+  } else if (pesan == nullptr) {
+    logInfo("Perintah %s: %s %s dikerjakan.", id, aksi, perintah["target"] | "");
   } else {
     logError("Perintah %s ditolak: %s", id, pesan);
   }
@@ -349,14 +490,6 @@ void siapkanJaringan() {
   logInfo("device_id %s", idPerangkat);
 
   klienJaringan.setConnectionTimeout(1000);  // menyambung TCP ke broker paling lama 1 detik (bawaan: 3 detik)
-  if (PAKAI_WOKWI && WOKWI_BERKUNCI) {  // Modul 21: latihan "diterima lawan ditolak" di broker publik berkunci
-    alamatBroker = BROKER_WOKWI_BERKUNCI;
-    portBroker = 1884;  // pintu MQTT test.mosquitto.org yang meminta nama pengguna dan kunci
-    pengguna = "rw";    // akun publik test.mosquitto.org; kuncinya: readwrite
-  } else if (PAKAI_WOKWI) {
-    alamatBroker = BROKER_WOKWI;
-  }
-  mqtt.setServer(alamatBroker, portBroker);  // di rumah: alamat IP, bukan nama, jadi tidak perlu mencari nama (DNS)
   mqtt.setSocketTimeout(1);  // menunggu jawaban broker paling lama 1 detik (bawaan: 15 detik)
   if (!mqtt.setBufferSize(512)) {  // ruang pesan 512 byte (bawaan: 256)
     logError("Memori tidak cukup untuk ruang pesan MQTT 512 byte.");
@@ -364,13 +497,19 @@ void siapkanJaringan() {
   mqtt.setCallback(saatPesanMqtt);
 
   if (PAKAI_WOKWI) {
-    logInfo("Mode Wokwi: menyambung ke Wokwi-GUEST tanpa portal, broker publik %s:%u.", alamatBroker, portBroker);
+    logInfo("Mode Wokwi: menyambung ke Wokwi-GUEST tanpa portal, broker publik %s:%u.",
+            WOKWI_BERKUNCI ? BROKER_WOKWI_BERKUNCI : BROKER_WOKWI, WOKWI_BERKUNCI ? 1884 : PORT_BROKER);
     WiFi.begin("Wokwi-GUEST", "", 6);  // 6 = kanal Wokwi-GUEST supaya lebih cepat
     punyaWiFi = true;
   } else {
     WiFiManager wm;
     punyaWiFi = wm.getWiFiIsSaved();
-    if (digitalRead(PIN_TOMBOL) == LOW) {  // tombol D13 ditahan saat menyala = minta portal
+    bool mintaPortal = digitalRead(PIN_TOMBOL) == LOW || !punyaWiFi;
+    if (mintaPortal && dalamMasaUji()) {
+      // Modul 28: firmware baru harus tersambung ke broker dalam 60 detik. Portal yang menunggu di sini (sampai 3 menit)
+      // pasti menggagalkannya, jadi portal ditunda: sesudah masa uji (atau rollback), tahan D13 sambil menekan EN lagi.
+      logError("Masa uji firmware baru: portal WiFi DITUNDA. Buka lagi sesudah masa uji (tahan D13, tekan EN).");
+    } else if (digitalRead(PIN_TOMBOL) == LOW) {  // tombol D13 ditahan saat menyala = minta portal
       logInfo("Tombol D13 ditahan saat menyala: portal WiFi dibuka.");
       bukaPortal();
     } else if (!punyaWiFi) {
@@ -382,6 +521,18 @@ void siapkanJaringan() {
       logInfo("Menyambung ke WiFi tersimpan \"%s\" (tanpa menunggu)...", wm.getWiFiSSID().c_str());
     }
   }
+
+  // Alamat broker dipilih SESUDAH portal: kolom "Alamat broker" di portal bisa saja baru mengubahnya (Modul 28).
+  if (PAKAI_WOKWI && WOKWI_BERKUNCI) {  // Modul 21: latihan "diterima lawan ditolak" di broker publik berkunci
+    alamatBroker = BROKER_WOKWI_BERKUNCI;
+    portBroker = 1884;  // pintu MQTT test.mosquitto.org yang meminta nama pengguna dan kunci
+    pengguna = "rw";    // akun publik test.mosquitto.org; kuncinya: readwrite
+  } else if (PAKAI_WOKWI) {
+    alamatBroker = BROKER_WOKWI;
+  } else {
+    alamatBroker = alamatBrokerTersimpan();  // Modul 28: dari NVS (portal, Serial, klaim), atau ALAMAT_BROKER
+  }
+  mqtt.setServer(alamatBroker, portBroker);  // di rumah: alamat IP, bukan nama, jadi tidak perlu mencari nama (DNS)
   waktuTerakhirSiap = millis();  // Modul 19: hitungan mode offline dimulai sesudah portal WiFi, bukan saat menyala
 }
 
@@ -405,15 +556,20 @@ static void jagaSambungan() {
       && WiFi.channel() != kanalRouter) {
     WiFi.setChannel(kanalRouter);
   }
-  if (sekarang - peristiwaTerakhir >= BATAS_TANPA_PERCOBAAN
-      && sekarang - waktuPenjagaTerakhir >= BATAS_TANPA_PERCOBAAN) {
+  // Modul 28: paket esp32 hanya mencoba lagi SENDIRI satu kali sesudah menyala (setAutoReconnect(false)). Selama masa uji,
+  // firmware baru harus tersambung dalam 60 detik, jadi penjaga mencoba setiap 10 detik, bukan 60 detik; kalau tidak,
+  // router yang sedang menyala ulang saja sudah membuat firmware yang baik di-rollback.
+  unsigned long batas = dalamMasaUji() ? BATAS_TANPA_PERCOBAAN_UJI : BATAS_TANPA_PERCOBAAN;
+  if (sekarang - peristiwaTerakhir >= batas && sekarang - waktuPenjagaTerakhir >= batas) {
     waktuPenjagaTerakhir = sekarang;
-    logInfo("Penjaga WiFi: %lu detik tanpa percobaan baru, mencoba menyambung lagi.", BATAS_TANPA_PERCOBAAN / 1000);
+    logInfo("Penjaga WiFi: %lu detik tanpa percobaan baru, mencoba menyambung lagi.", batas / 1000);
     WiFi.reconnect();
   }
 }
 
 // ---------- Laporan kesehatan: vitals (Lampiran A) ----------
+// Modul 28 (kontrak 1.6): vitals juga membawa reset_reason dan fw, dan laporan pembaruan firmware (ota) yang belum
+// 3 kali terkirim. Jedanya bisa diatur server lewat config "jeda.vitals_s" (bawaan 300 detik).
 static void kirimVitals() {
   char ts[21];
   if (!buatTs(ts, sizeof(ts))) {
@@ -429,8 +585,26 @@ static void kirimVitals() {
     dokumen["offline_s"] = laporanDetik;
     dokumen["kipas_lokal"] = laporanKipas;
   }
-  char isi[192];  // Modul 19: diperbesar dari 128 untuk laporan mode offline
+  dokumen["reset_reason"] = alasanReset();  // Modul 28: wajib mulai 1.7.0, selalu bersama fw
+  dokumen["fw"] = VERSI_FIRMWARE;
+  const LaporanOta* laporanOta = laporanOtaMenunggu();  // pembaruan.cpp; nullptr = tidak ada laporan
+  if (laporanOta != nullptr) {
+    JsonObject ota = dokumen["ota"].to<JsonObject>();
+    ota["id"] = laporanOta->id;
+    ota["hasil"] = laporanOta->hasil;
+    ota["versi"] = laporanOta->versi;
+    if (laporanOta->pesan[0] != '\0') {
+      ota["pesan"] = laporanOta->pesan;
+    }
+  }
+  // Modul 28: diperbesar dari 192 (vitals terpanjang sekitar 375 huruf). PubSubClient3 3.3.2 mengirim isi pesan KELUAR
+  // sedikit demi sedikit, jadi wadah MQTT 512 byte hanya membatasi pesan MASUK (cmd), bukan vitals.
+  char isi[480];
   size_t panjang = serializeJson(dokumen, isi, sizeof(isi));
+  if (panjang >= sizeof(isi) && laporanOta != nullptr) {  // hampir mustahil (id penuh tanda khusus): pesan dibuang
+    dokumen["ota"].as<JsonObject>().remove("pesan");
+    panjang = serializeJson(dokumen, isi, sizeof(isi));
+  }
   if (panjang >= sizeof(isi)) {
     logError("Vitals terlalu panjang untuk wadah isi[]: tidak dikirim.");
     sudahKirimVitals = true;  // jangan dicoba lagi di setiap putaran loop()
@@ -448,11 +622,18 @@ static void kirimVitals() {
       laporanDetik = 0;
       laporanKipas = 0;
     }
+    if (laporanOta != nullptr) {  // Modul 28: hitung kiriman laporan pembaruan (paling banyak 3 kali)
+      logInfo("Laporan pembaruan ikut vitals: %s ke %s", laporanOta->hasil, laporanOta->versi);
+      laporanOtaTerkirim();
+    }
   }
 }
 
 // Satu kali percobaan menyambung ke broker, paling sering setiap JEDA_COBA_MQTT. Tidak pernah berputar menunggu.
 static void cobaSambungkanBroker() {
+  if (ditahan) {  // Modul 28: berhenti sengaja untuk pembaruan firmware: jangan menyambung lagi dulu
+    return;
+  }
   if (ujiOffline) {  // Modul 19: perintah "uji offline" sedang berjalan: pura-pura broker tak terjangkau
     if (millis() - waktuUjiOffline < LAMA_UJI_OFFLINE) {
       return;
@@ -469,6 +650,12 @@ static void cobaSambungkanBroker() {
   waktuCobaMqttTerakhir = millis();
   unsigned long mulai = millis();
   const char* kunci = kunciBroker();  // Modul 21: dari NVS; "" = belum ada
+  if (UJI_KUNCI_SALAH == 1) {
+    // Modul 28, firmware LATIHAN 1.7.2-uji: kunci sengaja dirusak DI RAM SAJA (NVS tidak disentuh). Broker menolaknya,
+    // masa uji 60 detik lewat, dan Node 1 kembali sendiri ke firmware sebelumnya, yang memakai kunci asli dari NVS.
+    kunci = "kunci-dirusak-UJI_KUNCI_SALAH";
+    logError("UJI_KUNCI_SALAH = 1: kunci broker sengaja salah (latihan rollback Modul 28).");
+  }
   // Nama klien = device_id; nama pengguna = device_id (Wokwi berkunci: rw); kunci dari NVS (nullptr = tanpa kunci);
   // lalu surat wasiat: topik status, QoS 1, retained, isi "offline" (Modul 11, Konsep 7).
   if (mqtt.connect(idPerangkat, pengguna, kunci[0] != '\0' ? kunci : nullptr, topikStatus, 1, true, "offline")) {
@@ -480,11 +667,14 @@ static void cobaSambungkanBroker() {
       // pun me-restart Node 1. Simpan alamat IP-nya: sambung ulang berikutnya tidak perlu DNS lagi.
       mqtt.setServer(klienJaringan.remoteIP(), portBroker);
     }
-    mqtt.publish(topikStatus, "online", true);  // retained: pelanggan yang datang belakangan tetap melihatnya
-    mqtt.subscribe(topikCmd, 1);                // langganan diulang setiap kali tersambung (clean session)
+    bool terbit = mqtt.publish(topikStatus, "online", true);  // retained: pelanggan yang datang belakangan tetap melihatnya
+    bool langganan = mqtt.subscribe(topikCmd, 1);            // langganan diulang setiap kali tersambung (clean session)
     logInfo("MQTT tersambung ke broker %s:%u dalam %lu ms, sebagai %s", alamatBroker, portBroker, millis() - mulai,
             pengguna);
     sudahKirimVitals = false;  // vitals pertama segera dikirim
+    if (terbit && langganan) {
+      firmwareTerbukti();  // Modul 28 (masa-uji.cpp): kunci diterima + "online" terbit + cmd dilanggan = firmware SAH
+    }
     return;
   }
   int kode = mqtt.state();
@@ -494,7 +684,7 @@ static void cobaSambungkanBroker() {
              kunci[0] != '\0' ? "salah, belum didaftarkan, atau sudah dicabut" : "belum diisi", JEDA_COBA_DITOLAK / 1000);
     logInfo("Kunci baru? Ketik di Serial Monitor: kunci <isi>, lalu Enter.");
   } else if (kode != kodeGagalTerakhir) {  // kegagalan yang sama tidak dicatat setiap 5 detik
-    logError("MQTT gagal tersambung ke broker setelah %lu ms: %s (kode %d). Broker di gateway menyala?",
+    logError("MQTT gagal tersambung ke broker setelah %lu ms: %s (kode %d). Broker di gerbang menyala?",
              millis() - mulai, namaKeadaanMqtt(kode), kode);
   }
   kodeGagalTerakhir = kode;
@@ -514,7 +704,7 @@ static void jagaMqtt() {
     // ikut kehilangan broker dan baru menyambung lagi beberapa detik kemudian. vitals tidak retained, jadi laporan yang
     // terbit sebelum server berlangganan lagi tidak akan pernah sampai.
     bool laporanMenungguServer = laporanMenunggu && millis() - waktuSelesaiOffline < TUNDA_LAPORAN;
-    if (!laporanMenungguServer && (!sudahKirimVitals || millis() - waktuVitalsTerakhir >= JEDA_VITALS)) {
+    if (!laporanMenungguServer && (!sudahKirimVitals || millis() - waktuVitalsTerakhir >= jedaVitalsDetik() * 1000UL)) {
       kirimVitals();
     }
     return;
@@ -772,8 +962,10 @@ void cetakInfoJaringan() {
   }
   Serial.printf("mqtt: nama pengguna %s, kunci %s\n", pengguna,  // Modul 21
                 kunciBroker()[0] != '\0' ? "tersimpan (rinciannya: ketik kunci)" : "BELUM ADA");
-  Serial.printf("mqtt: telemetry setiap %lu detik dan segera saat ada kejadian penting, vitals setiap %lu menit, "
-                "%lu kali terbit\n", JEDA_KIRIM / 1000, JEDA_VITALS / 60000, jumlahTerbit);
+  Serial.printf("mqtt: alamat broker %s (%s)\n", alamatBroker,  // Modul 28
+                PAKAI_WOKWI ? "Wokwi" : (alamatBrokerDariNvs() ? "dari NVS" : "dari konfigurasi.h"));
+  Serial.printf("mqtt: telemetry setiap %lu detik dan segera saat ada kejadian penting, vitals setiap %lu detik, "
+                "%lu kali terbit\n", JEDA_KIRIM / 1000, jedaVitalsDetik(), jumlahTerbit);
   unsigned long sekarang = millis();  // Modul 19: mode offline
   if (offline) {
     Serial.printf("mode offline: YA, sejak %lu detik lalu; pengaman sudah menyalakan kipas %u kali\n",
@@ -792,6 +984,7 @@ void cetakInfoJaringan() {
 }
 
 void lupakanWiFi() {
+  bersiapRestart("perintah wifi lupa");  // Modul 28: offline-mode + putus rapi (dan laporan bila di tengah masa uji)
   Serial.println("WiFi tersimpan dihapus. Restart sekarang; portal WiFi akan terbuka.");
   Serial.flush();
   WiFi.disconnect(true, true);  // true, true = matikan radio DAN hapus WiFi tersimpan dari NVS
@@ -850,4 +1043,56 @@ void gantiKunciBroker() {
   if (mqtt.connected()) {
     klienJaringan.stop();
   }
+}
+
+// ---------- Modul 28: pembaruan firmware dan pendaftaran ----------
+const char* deviceId() {
+  return idPerangkat;
+}
+
+bool wifiTersambung() {
+  return tersambung;
+}
+
+// Alamat broker baru (Serial "broker", "klaim", atau portal): dipakai untuk sambungan berikutnya, yang dicoba sekarang.
+void gantiAlamatBroker() {
+  if (PAKAI_WOKWI) {
+    logInfo("Mode Wokwi: alamat broker tetap broker publik; alamat baru dipakai di jaringan rumah.");
+    return;
+  }
+  alamatBroker = alamatBrokerTersimpan();
+  mqtt.setServer(alamatBroker, portBroker);
+  gantiKunciBroker();  // putus (kalau tersambung) dan coba sekarang, tanpa menunggu jeda
+}
+
+// Berhenti sengaja (kontrak 1.6 bagian 3): sebelum memasang firmware baru atau restart atas perintah, Node 1 menerbitkan
+// "offline-mode" (retained, QoS 1), lalu memutus sambungan dengan pesan DISCONNECT. Broker tidak menerbitkan wasiat
+// "offline" untuk sambungan yang diputus rapi, jadi dashboard menulis "berhenti sengaja", bukan "hilang".
+void berhentiSengaja() {
+  ditahan = true;  // mulai sekarang: tidak menyambung lagi dan tidak mengerjakan perintah baru
+  if (mqtt.connected()) {
+    mqtt.loop();  // terima pesan yang sudah datang (ack perintah update sendiri sudah terkirim di dalam callback)
+    mqtt.publish(topikStatus, "offline-mode", MQTT_QOS1, true);
+    unsigned long mulai = millis();
+    while (millis() - mulai < 300) {  // beri waktu broker menerimanya (dan menjawab PUBACK), tanpa menunggu lama
+      mqtt.loop();
+      delay(10);
+    }
+    // Data masuk yang belum terbaca (misalnya perintah yang tiba di detik terakhir) dibuang dulu. Tanpa ini, sambungan
+    // yang masih menyimpan data masuk ditutup dengan RST (bukan FIN), DISCONNECT bisa ikut terbuang, dan broker
+    // menerbitkan wasiat "offline" padahal Node 1 berhenti sengaja.
+    klienJaringan.clear();
+    mqtt.disconnect();  // DISCONNECT rapi
+    logInfo("Status offline-mode terbit, sambungan broker diputus rapi (tanpa wasiat offline).");
+  }
+  mqttTersambung = false;  // supaya jagaMqtt() tidak menulis "MQTT PUTUS"
+}
+
+// Sesudah pembaruan GAGAL (firmware lama tetap jalan tanpa restart): menyambung lagi sekarang juga. Lamanya berhenti
+// sengaja tidak dihitung sebagai mode offline Modul 19.
+void lanjutkanSambungan() {
+  ditahan = false;
+  sudahCobaMqtt = false;
+  ditolakBroker = false;
+  waktuTerakhirSiap = millis();
 }

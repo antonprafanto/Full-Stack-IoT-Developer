@@ -1,7 +1,9 @@
 // perangkat.test.ts - uji rute daftar resmi perangkat (Modul 21) TANPA database: tabel devices diganti tiruan di memori
 // (vi.mock), server Fastify dijalankan tanpa jaringan (app.inject). Yang diuji: kunci tampil sekali, yang tersimpan hanya
 // sidik jarinya, registrasi ganda ditolak, ganti kunci, cabut, perangkat ESP-NOW tanpa kunci. Satpam login (Modul 20) tidak
-// ikut dipasang di sini: 401 dan 403 sudah dijaga keamanan.ts untuk SEMUA rute. Jalankan: npm test
+// ikut dipasang di sini: 401 dan 403 sudah dijaga keamanan.ts untuk SEMUA rute.
+// Modul 28: akun broker otomatis (akun-broker.ts diganti tiruan) di dalam transaksi yang sama, dan "Nonaktifkan" (cabut):
+// status ditulis offline, config retained dihapus, kejadian dicabut. Jalankan: npm test
 import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 import { createHash } from "node:crypto";
 
@@ -13,32 +15,60 @@ vi.hoisted(() => { // env.ts memeriksa .env saat diimpor: beri setelan palsu yan
 
 // tabel devices tiruan: device_id -> baris (termasuk kunci_hash, yang di database sungguhan juga ada)
 const tabel = vi.hoisted(() => new Map<string, Record<string, unknown>>());
+// Modul 28: akun broker tiruan. mode "manual" = AKUN_BROKER_OTOMATIS=mati (seperti Modul 21)
+const broker = vi.hoisted(() => ({ mode: "manual" as "manual" | "otomatis" | "gagal" | "akun-lama", log: [] as string[],
+  config: [] as string[], kejadian: [] as { jenis: string; pesan: string }[] }));
+vi.mock("../services/akun-broker.ts", () => ({
+  antreAkun: (kerja: () => Promise<unknown>) => kerja(), // antrean asli diuji di akun-broker.test.ts
+  tempatAkun: () => (broker.mode === "manual" ? "tangan (Modul 21)" : "broker gerbang pi1"),
+  pasangAkunPerangkat: async (id: string) => {
+    if (broker.mode === "gagal") throw new Error("broker gerbang pi1 tidak menjawab createClient dalam 3 detik");
+    if (broker.mode === "manual") return "manual";
+    broker.log.push(`buat ${id}`);
+    return "dibuat";
+  },
+  hapusAkunPerangkat: async (id: string) => {
+    if (broker.mode === "gagal") throw new Error("broker gerbang pi1 tidak menjawab deleteClient dalam 3 detik");
+    if (broker.mode === "manual") return "manual";
+    broker.log.push(`hapus ${id}`);
+    return broker.mode === "akun-lama" ? "tidak-ada" : "dihapus";
+  },
+}));
+vi.mock("../services/mqtt.ts", () => ({
+  brokerTersambung: () => true, buatIdPerintah: () => "c-1", kirimPerintah: () => {},
+  hapusConfig: (id: string) => { broker.config.push(id); },
+}));
+vi.mock("../services/kejadian.ts", () => ({ catatKejadian: (k: { jenis: string; pesan: string }) => { broker.kejadian.push(k); } }));
 vi.mock("../db/perangkat.ts", () => {
   const KOSONG = { jenis: "belum-diketahui", nama: null, lokasi: null, lat: null, lng: null, status: "belum-diketahui",
     terakhir_dilihat: null, terdaftar: null, kunci_hash: null, kunci_dibuat: null, dicabut: null, penghubung: null };
   const tanpaHash = (b: Record<string, unknown>) => { const { kunci_hash: _, ...sisa } = b; return sisa; };
   return {
     semuaPerangkatDb: async () => [...tabel.values()].map(tanpaHash),
+    // Modul 28: langkah broker (diBroker) dijalankan SEBELUM tabel diubah; galat = tidak ada yang berubah (transaksi)
     daftarkanPerangkat: async (id: string, nama: string | null, lokasi: string | null, penghubung: string | null,
-      kunciHash: string | null) => {
+      kunciHash: string | null, diBroker = async (_b: unknown) => {}) => {
       const lama = tabel.get(id);
       if (lama?.terdaftar) return undefined;
       const baru = { ...KOSONG, ...lama, device_id: id, nama: nama ?? lama?.nama ?? null, lokasi, penghubung,
         jenis: penghubung ? "node2" : (lama?.jenis ?? "belum-diketahui"), terdaftar: new Date(), kunci_hash: kunciHash,
         kunci_dibuat: kunciHash ? new Date() : null, dicabut: null };
+      await diBroker(tanpaHash(baru));
       tabel.set(id, baru);
       return tanpaHash(baru);
     },
-    gantiKunciPerangkat: async (id: string, kunciHash: string) => {
+    gantiKunciPerangkat: async (id: string, kunciHash: string, diBroker = async (_b: unknown) => {}) => {
       const b = tabel.get(id);
       if (!b?.terdaftar || b.penghubung) return undefined;
+      await diBroker(tanpaHash(b));
       Object.assign(b, { kunci_hash: kunciHash, kunci_dibuat: new Date(), dicabut: null });
       return tanpaHash(b);
     },
-    cabutPerangkat: async (id: string) => {
+    cabutPerangkat: async (id: string, diBroker = async (_b: unknown) => {}) => {
       const b = tabel.get(id);
       if (!b?.terdaftar || b.dicabut) return undefined;
-      Object.assign(b, { kunci_hash: null, kunci_dibuat: null, dicabut: new Date() });
+      await diBroker(tanpaHash(b));
+      Object.assign(b, { kunci_hash: null, kunci_dibuat: null, dicabut: new Date(), status: "offline" });
       return tanpaHash(b);
     },
   };
@@ -49,6 +79,7 @@ import type { LightMyRequestResponse } from "fastify";
 import { serializerCompiler, validatorCompiler } from "fastify-type-provider-zod";
 import { rutePerangkat } from "./perangkat.ts";
 import { isiDaftar, izinPerangkat } from "../services/daftar.ts";
+import { cariPerangkat, simpanStatus } from "../services/gudang.ts";
 
 const app = Fastify();
 app.setValidatorCompiler(validatorCompiler);
@@ -148,5 +179,57 @@ describe("daftar resmi perangkat", () => {
     const jawab = await post("/devices/f00d00000001/kunci");
     expect(jawab.statusCode).toBe(200);
     expect(izinPerangkat("f00d00000001")).toBe("terdaftar");
+  });
+});
+
+describe("akun broker otomatis dan Nonaktifkan (Modul 28)", () => {
+  it("registrasi dengan AKUN_BROKER_OTOMATIS: akun broker dibuat backend; langkah tidak menyuruh mosquitto_passwd", async () => {
+    broker.mode = "otomatis";
+    const jawab = await post("/devices", { device_id: "f00d00000021", nama: "Latihan Modul 28" });
+    expect(jawab.statusCode).toBe(201);
+    expect(broker.log).toContain("buat f00d00000021");
+    expect(jawab.json().langkah[2]).toContain("otomatis di broker gerbang pi1");
+    expect(jawab.json().langkah.join(" ")).not.toContain("mosquitto_passwd");
+  });
+
+  it("broker tidak menjawab: 503, database tidak berubah (perangkat tetap belum terdaftar), pembaca disuruh mengulang", async () => {
+    broker.mode = "gagal";
+    const jawab = await post("/devices", { device_id: "f00d00000022" });
+    expect(jawab.statusCode).toBe(503);
+    expect(jawab.json().pesan).toContain("belum tersimpan di database");
+    expect(jawab.json().pesan).toContain("ulangi langkah ini");
+    expect(tabel.has("f00d00000022")).toBe(false);
+    expect(izinPerangkat("f00d00000022")).toBe("belum-terdaftar");
+  });
+
+  it("Nonaktifkan: akun broker dihapus (diputus seketika), status offline, config retained dihapus, kejadian dicabut", async () => {
+    broker.mode = "otomatis";
+    simpanStatus("f00d00000021", "online"); // dashboard melihatnya online...
+    const jawab = await post("/devices/f00d00000021/cabut");
+    expect(jawab.statusCode).toBe(200);
+    expect(jawab.json()).toMatchObject({ akun_broker: "dihapus" });
+    expect(broker.log).toContain("hapus f00d00000021");
+    expect(cariPerangkat("f00d00000021")?.status).toBe("offline"); // ...broker tidak menerbitkan wasiat: server yang menulis
+    expect(tabel.get("f00d00000021")?.status).toBe("offline");
+    expect(broker.config).toContain("f00d00000021");
+    expect(broker.kejadian.at(-1)).toMatchObject({ jenis: "dicabut" });
+  });
+
+  it("akun lama Modul 21 (password_file, tidak ada di dynamic security): langkah menyuruh mosquitto_passwd -D lalu restart", async () => {
+    broker.mode = "akun-lama";
+    expect((await post("/devices", { device_id: "f00d00000023" })).statusCode).toBe(201);
+    const jawab = await post("/devices/f00d00000023/cabut");
+    expect(jawab.json().akun_broker).toBe("tidak-ada");
+    expect(jawab.json().langkah[0]).toContain("mosquitto_passwd -D");
+    broker.mode = "manual";
+  });
+
+  it("broker gagal saat Nonaktifkan: 503, kunci BELUM dicabut (coba lagi)", async () => {
+    broker.mode = "otomatis";
+    expect((await post("/devices", { device_id: "f00d00000024" })).statusCode).toBe(201);
+    broker.mode = "gagal";
+    expect((await post("/devices/f00d00000024/cabut")).statusCode).toBe(503);
+    expect(izinPerangkat("f00d00000024")).toBe("terdaftar");
+    broker.mode = "manual";
   });
 });

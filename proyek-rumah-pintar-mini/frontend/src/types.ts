@@ -1,13 +1,16 @@
-// types.ts - bentuk data dari kontrak data (Lampiran A Silabus, KONTRAK-DATA.md 1.4) dan dari jawaban API backend v1.0.
+// types.ts - bentuk data dari kontrak data (Lampiran A Silabus, KONTRAK-DATA.md 1.6) dan dari jawaban API backend.
 // Nama kolomnya sama persis dengan yang dikirim backend, jadi data dari server langsung "pas".
 // Modul 25: backend 1.2 menambah titik peta (lat, lng) di jawaban GET /devices.
+// Modul 28: backend 1.5 menambah halaman armada (GET /armada), rilis firmware, pembaruan lewat udara (OTA), dan kode klaim.
 // Isinya hanya tipe (label untuk TypeScript): saat halaman berjalan di browser, semua baris ini sudah dihapus Vite.
 // Pilihan nilai ditulis sebagai gabungan teks ("a" | "b"), bukan enum: templat kita melarang enum (erasableSyntaxOnly).
 
 // jenis perangkat menurut backend
 export type Jenis = "node1" | "node2" | "belum-diketahui";
 
-// status dari topik rpm/<device_id>/status; "belum-diketahui" = terdaftar, tetapi belum pernah mengirim status
+// status dari topik rpm/<device_id>/status; "belum-diketahui" = terdaftar, tetapi belum pernah mengirim status.
+// Modul 28: "offline-mode" = perangkat SENGAJA berhenti (misalnya menyala ulang untuk memasang firmware baru), BUKAN mode
+// offline Modul 19 (pengaman lokal saat broker tidak terjangkau). Di layar ditulis "berhenti sengaja".
 export type StatusPerangkat = "online" | "offline" | "offline-mode" | "belum-diketahui";
 
 // kolom kunci di GET /devices (Modul 21)
@@ -93,7 +96,8 @@ export type Kejadian = {
   id: number;
   waktu: string; // jam server, UTC
   device_id: string | null;
-  jenis: "aturan" | "aturan-diubah" | "jadwal" | "status" | "mode-offline" | "perintah";
+  // Modul 28: ota (pembaruan firmware), provisioning (perangkat baru lewat kode klaim), dicabut (perangkat dinonaktifkan)
+  jenis: "aturan" | "aturan-diubah" | "jadwal" | "status" | "mode-offline" | "perintah" | "ota" | "provisioning" | "dicabut";
   sumber: string; // api, aturan, jadwal, telegram, perangkat
   aturan_id: number | null;
   pesan: string; // kalimat untuk manusia
@@ -105,6 +109,7 @@ export type KeKlien = {
   telemetry: (deviceId: string, isi: Telemetry) => void;
   status: (deviceId: string, status: "online" | "offline" | "offline-mode") => void;
   kejadian: (kejadian: Kejadian) => void;
+  ota: (kabar: KabarOta) => void; // Modul 28: kemajuan satu pembaruan firmware, ke SEMUA dashboard
 };
 
 // acara dari dashboard ke server; "balas" adalah ack Socket.IO (fungsi yang dipanggil server untuk menjawab)
@@ -182,4 +187,159 @@ export type DataRiwayat = {
   dari: string;
   sampai: string;
   titik: TitikRingkasan[]; // urut dari yang terlama
+};
+
+// ---- Modul 28: armada, rilis firmware, pembaruan lewat udara (OTA), dan kode klaim (backend 1.5) ----
+
+// perjalanan satu pembaruan: dikirim -> diterima (ack perangkat) -> mengunduh -> berhasil, rollback, atau gagal.
+// ditolak = perangkat menolak perintahnya; kedaluwarsa = tanpa kabar dari perangkat selama OTA_BATAS_MENIT (bawaan 10 menit).
+export type StatusPembaruan = "dikirim" | "diterima" | "mengunduh" | "ditolak" | "berhasil" | "rollback" | "gagal" | "kedaluwarsa";
+
+// alasan perangkat terakhir kali menyala (kontrak 1.6 bagian 6). null = firmware lama (sebelum 1.7.0) belum melaporkannya.
+export type ResetReason = "POWERON" | "BROWNOUT" | "SW" | "PANIC" | "WDT" | "DEEPSLEEP" | "UNKNOWN";
+
+// pembaruan terakhir satu perangkat (juga satu baris GET /devices/:id/pembaruan). Waktu = UTC.
+export type Pembaruan = {
+  id: string; // id perintah update
+  status: StatusPembaruan;
+  dari: string | null; // versi sebelum pembaruan (null = belum diketahui)
+  ke: string; // versi yang dicoba dipasang
+  pesan: string | null; // alasan dari perangkat atau server, misalnya "sha256 tidak cocok"
+  dibuat: string;
+  diperbarui: string;
+  selesai: string | null; // null = masih berjalan
+};
+
+// acara Socket.IO "ota": SATU perubahan status pembaruan, dikirim server ke semua dashboard
+export type KabarOta = {
+  device_id: string;
+  id: string;
+  status: StatusPembaruan;
+  dari: string | null;
+  ke: string;
+  pesan: string | null;
+  waktu: string; // waktu server (UTC), sama dengan kolom diperbarui di database
+};
+
+// vitals terakhir perangkat (kesehatan). Node 2 tidak mengirim vitals, jadi kolomnya null.
+export type Kesehatan = {
+  ts: string; // waktu vitals itu dibuat perangkat (UTC)
+  rssi: number; // kekuatan sinyal WiFi dalam dBm: makin mendekati 0 makin kuat
+  heap_free: number; // RAM bebas, byte
+  uptime_s: number; // detik sejak menyala terakhir kali
+  reset_reason: ResetReason | null;
+};
+
+// satu baris GET /armada
+export type BarisArmada = {
+  device_id: string;
+  nama: string | null;
+  lokasi: string | null;
+  jenis: Jenis;
+  status: StatusPerangkat; // perangkat yang dinonaktifkan selalu "offline"
+  kunci: "aktif" | "dicabut" | "tanpa-kunci"; // dicabut = dinonaktifkan; tanpa-kunci = Node 2 lewat Node 1
+  penghubung: string | null;
+  terakhir_dilihat: string | null; // waktu server saat telemetry atau vitals terakhir tiba
+  canary: boolean; // perangkat uji yang menerima rilis baru lebih dulu
+  jeda_vitals_s: number | null; // null = belum diatur (firmware memakai bawaan 300 detik)
+  fw: string | null; // versi firmware yang terakhir dilaporkan (Node 2: versi dari paketnya)
+  fw_dilihat: string | null;
+  perlu_update: boolean; // Node 1 dengan versi lebih lama daripada rilis terbaru
+  kesehatan: Kesehatan | null;
+  pembaruan: Pembaruan | null; // pembaruan terakhir; null = belum pernah
+  bisa_update: boolean; // boleh diperbarui ke rilis terbaru SEKARANG
+  alasan_tidak_bisa: string | null; // kalimat dari server kalau tidak bisa
+};
+
+// jawaban GET /armada
+export type DataArmada = {
+  rilis_terbaru: { node1: string | null }; // rilis tertinggi yang bukan uji dan belum ditarik
+  pengaturan: {
+    ota_siap: boolean; // false = ALAMAT_SERVER di .env belum diisi
+    akun_broker: string; // AKUN_BROKER_OTOMATIS: mati, pusat, atau gerbang:<nama>
+  };
+  perangkat: BarisArmada[];
+};
+
+// satu rilis firmware di GET /firmware (dan jawaban unggah)
+export type Rilis = {
+  jenis: "node1";
+  versi: string;
+  ukuran: number; // byte
+  sha256: string; // dihitung server dari isi berkas yang diterimanya
+  catatan: string | null;
+  uji: boolean; // rilis UJI: hanya untuk satu perangkat, tidak pernah "perbarui semua"
+  pengunggah: string | null; // nomor akun admin
+  dibuat: string;
+  ditarik: string | null;
+  url: string | null; // alamat unduh perangkat; null = ALAMAT_SERVER belum diisi
+};
+
+// Rilis di daftar GET /firmware membawa ringkasan canary-nya
+export type RilisLengkap = Rilis & {
+  canary_berhasil: number;
+  canary_gagal: number;
+  boleh_semua: boolean; // tombol "Perbarui semua" boleh dipakai untuk versi ini
+  alasan_semua: string | null;
+};
+
+export type DaftarRilis = {
+  terbaru: { node1: string | null };
+  rilis: RilisLengkap[]; // urut waktu unggah
+};
+
+// hasil SATU perintah update. "diterima" = perangkat menerima perintahnya (BELUM selesai: hasilnya menyusul lewat acara ota)
+export type HasilUpdate = {
+  device_id: string;
+  id: string | null;
+  status: "diterima" | "tanpa-ack" | "ditolak" | "tidak-dikirim";
+  dari?: string | null;
+  ke?: string;
+  lama_ms?: number;
+  pesan?: string;
+};
+
+// jawaban POST /armada/update (perbarui canary / perbarui semua)
+export type HasilArmada = {
+  versi: string;
+  sasaran: "canary" | "semua";
+  dikirim: HasilUpdate[];
+  dilewati: { device_id: string; alasan: string }[]; // tidak diantre: perangkat ini tidak dikirimi apa-apa
+};
+
+// jawaban POST /provision/kode: kodenya hanya tampil SEKALI (database hanya menyimpan sidik jarinya)
+export type KodeKlaimBaru = {
+  kode: string; // XXXX-XXXX
+  kedaluwarsa: string; // UTC
+  menit: number;
+  nama: string | null;
+  lokasi: string | null;
+};
+
+// satu baris GET /provision/kode (TANPA kodenya)
+export type KodeKlaim = {
+  nama: string | null;
+  lokasi: string | null;
+  oleh: string | null;
+  dibuat: string;
+  kedaluwarsa: string;
+  keadaan: "berlaku" | "dipakai" | "kedaluwarsa";
+  dipakai: string | null;
+  device_id: string | null; // perangkat yang memakainya
+};
+
+// jawaban POST /devices/:id/cabut ("Nonaktifkan")
+export type HasilNonaktif = {
+  device_id: string;
+  dicabut: string;
+  langkah: string[]; // yang masih harus dikerjakan tangan (bila ada)
+  akun_broker: "dihapus" | "tidak-ada" | "manual" | "tanpa-kunci";
+};
+
+// jawaban PUT /devices/:id/jeda
+export type HasilJeda = {
+  device_id: string;
+  jeda_vitals_s: number;
+  config_id: string | null;
+  catatan: string | null; // misalnya firmware lama yang belum mengenal jeda
 };

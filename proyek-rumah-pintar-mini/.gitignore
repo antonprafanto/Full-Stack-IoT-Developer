@@ -11,3 +11,9 @@ edge/sandi-broker
 edge/jembatan/*.conf
 # Modul 26: cadangan database dan lemari Grafana (pg_dump, tar): besar dan berisi data pribadi
 backup/
+# Modul 28: berkas firmware hasil build (Sketch -> Export Compiled Binary menaruh *.bin di folder build/ sketsa). Berkas .bin
+# Node 1 bisa berisi kunci ESP-NOW (kunci.h): tidak pernah ikut ke GitHub. Firmware diunggah ke server lewat /armada.
+firmware/**/build/
+*.bin
+# Modul 28: berkas firmware yang diunggah saat backend berjalan dalam mode kembang (backend/data-firmware/)
+data-firmware/

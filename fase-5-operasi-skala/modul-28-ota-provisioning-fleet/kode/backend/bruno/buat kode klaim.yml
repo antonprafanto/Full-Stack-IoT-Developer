@@ -1,0 +1,30 @@
+info:
+  name: buat kode klaim
+  type: http
+  seq: 37
+
+http:
+  method: POST
+  url: "{{baseUrl}}/provision/kode"
+  body:
+    type: json
+    data: |-
+      {
+        "nama": "Papan ketiga (pinjaman)",
+        "lokasi": "garasi",
+        "menit": 30
+      }
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "201"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: true

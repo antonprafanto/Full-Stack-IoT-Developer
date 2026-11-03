@@ -1,9 +1,10 @@
-# Dockerfile - cetakan (image) web Rumah Pintar Mini 1.3.0 (Modul 26, PWA sejak Modul 27). Dua tahap ("multi-stage"):
+# Dockerfile - cetakan (image) web Rumah Pintar Mini 1.4.0 (Modul 26; PWA sejak Modul 27, layar Armada sejak Modul 28).
+# Dua tahap ("multi-stage"):
 #   tahap "bangun": Node.js mengubah kode React + TypeScript menjadi berkas siap saji (npm run build -> folder dist/,
 #                   termasuk manifest.webmanifest dan service worker sw.js sejak Modul 27)
 #   tahap akhir   : hanya Caddy + isi dist/. Node.js, node_modules, dan kode sumber tertinggal di tahap bangun.
 # Dibangun dari folder proyek dengan: docker compose build web   (atau dari folder ini saja, tanpa folder backend:
-# docker build -t rumah-pintar-mini-web:1.3.0 .)
+# docker build -t rumah-pintar-mini-web:1.4.0 .)
 
 # Tag persis (sama dengan cetakan backend), bukan "latest": cetakan yang sama hari ini dan bulan depan.
 FROM node:24.22.1-alpine3.24 AS bangun

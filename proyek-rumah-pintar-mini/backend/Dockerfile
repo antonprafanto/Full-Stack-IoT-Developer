@@ -1,9 +1,9 @@
-# Dockerfile - cetakan (image) backend Rumah Pintar Mini (Modul 26; isinya tetap sama di 1.4.0, Modul 27).
+# Dockerfile - cetakan (image) backend Rumah Pintar Mini (Modul 26; sama di 1.4.0, Modul 27; 1.5.0 Modul 28: + folder firmware).
 # Dua tahap ("multi-stage"):
 #   tahap "paket": memasang library npm persis menurut package-lock.json, TANPA alat pengembang (TypeScript, Vitest, Vite)
 #   tahap akhir  : Node.js 24 + library dari tahap "paket" + kode src/ dan migrasi/, berjalan sebagai pengguna "node" (bukan root)
 # Tidak ada tahap kompilasi: Node 24 menjalankan berkas .ts langsung (type stripping, Modul 16).
-# Dibangun dari folder proyek dengan: docker compose build backend   (atau: docker build -t rumah-pintar-mini-backend:1.4.0 ./backend)
+# Dibangun dari folder proyek dengan: docker compose build backend   (atau: docker build -t rumah-pintar-mini-backend:1.5.0 ./backend)
 
 # Tag persis, bukan "latest" atau "24-alpine": cetakan yang sama hari ini dan bulan depan. Alpine = image Node terkecil;
 # bcrypt membawa versi siap pakai untuk Alpine (musl), jadi tidak perlu kompiler.
@@ -27,6 +27,9 @@ COPY --from=paket /app/node_modules ./node_modules
 COPY package.json ./
 COPY migrasi ./migrasi
 COPY src ./src
+# Modul 28: folder berkas firmware (.bin) yang diunggah admin, milik pengguna node. compose.cloud.yml memasang lemari
+# data-firmware di sini; lemari yang masih kosong mengambil pemilik folder ini, jadi backend (bukan root) bisa menulisnya.
+RUN mkdir -p /app/data-firmware && chown node:node /app/data-firmware
 # Pengguna "node" (uid 1000) sudah tersedia di image node. Server tidak butuh hak root: kalau ada celah, kerusakannya lebih kecil.
 USER node
 # Hanya catatan "server ini mendengar di 8080 di dalam kontainer". Loket di laptop diatur compose.cloud.yml (ports).

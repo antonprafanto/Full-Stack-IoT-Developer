@@ -14,7 +14,7 @@ import TerakhirDilihat from "./TerakhirDilihat";
 const TEPI: Record<StatusPerangkat, string> = {
   online: "border-l-green-500 dark:border-l-green-500", // diulang dengan dark: supaya tidak tertimpa dark:border-slate-700 kartu
   offline: "border-l-red-500 dark:border-l-red-500",
-  "offline-mode": "border-l-slate-400",
+  "offline-mode": "border-l-sky-400 dark:border-l-sky-400", // Modul 28: berhenti sengaja, warna lencananya
   "belum-diketahui": "border-l-slate-300 dark:border-l-slate-600",
 };
 

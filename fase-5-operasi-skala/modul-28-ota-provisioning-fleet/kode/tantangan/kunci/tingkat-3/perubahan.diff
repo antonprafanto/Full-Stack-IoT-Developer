@@ -1,0 +1,135 @@
+diff --git a/backend/src/server.ts b/backend/src/server.ts
+index 08de497..df1649c 100644
+--- a/backend/src/server.ts
++++ b/backend/src/server.ts
+@@ -23,6 +23,7 @@ import { ruteLaporan } from "./routes/laporan.ts";
+ import { ruteFirmware } from "./routes/firmware.ts";
+ import { ruteArmada } from "./routes/armada.ts";
+ import { ruteKlaim } from "./routes/klaim.ts";
++import { ruteGelombang } from "./routes/gelombang.ts";
+ import { brokerTersambung, hentikanMqtt, mulaiMqtt } from "./services/mqtt.ts";
+ import { mulaiRealtime } from "./services/realtime.ts";
+ import { isiJedaVitals, kirimSemuaConfig, muatAturan } from "./services/otomasi.ts";
+@@ -101,6 +102,7 @@ await app.register(ruteLaporan); // Modul 25
+ await app.register(ruteFirmware); // Modul 28: rilis firmware dan unduhan berkunci /fw
+ await app.register(ruteArmada); // Modul 28: halaman /armada, perintah update, canary, jeda vitals
+ await app.register(ruteKlaim); // Modul 28: kode klaim
++await app.register(ruteGelombang); // Tantangan 3 Modul 28: gelombang otomatis (canary, tunggu sehat, bertahap)
+ 
+ if (await databaseHidup()) app.log.info("database siap");
+ else app.log.warn("database belum bisa dihubungi: periksa kontainer database dan DATABASE_URL di .env");
+diff --git a/backend/src/services/ota.ts b/backend/src/services/ota.ts
+index ed5058b..cc3fc2e 100644
+--- a/backend/src/services/ota.ts
++++ b/backend/src/services/ota.ts
+@@ -16,6 +16,7 @@ import { cariPerangkat, tungguAck } from "./gudang.ts";
+ import { brokerTersambung, buatIdPerintah, kirimUpdate } from "./mqtt.ts";
+ import { catatKejadian } from "./kejadian.ts";
+ import { siarkanOta } from "./realtime.ts";
++import { kabarGelombang } from "./gelombang.ts";
+ import { bandingkanVersi } from "./versi.ts";
+ import { log } from "./log.ts";
+ 
+@@ -189,6 +190,7 @@ function kabarkan(b: BarisPembaruan, sumber: "api" | "perangkat"): void {
+   }
+   siarkanOta({ device_id: b.device_id, id: b.id, status: b.status, dari: b.dari_versi, ke: b.ke_versi, pesan: b.pesan,
+     waktu: b.diperbarui.toISOString().slice(0, 19) + "Z" });
++  kabarGelombang(b); // Tantangan 3 Modul 28: hasil pembaruan untuk gelombang otomatis (services/gelombang.ts)
+ }
+ 
+ function gagalDb(apa: string) {
+diff --git a/backend/src/services/telegram.test.ts b/backend/src/services/telegram.test.ts
+index 33651f7..4221a2b 100644
+--- a/backend/src/services/telegram.test.ts
++++ b/backend/src/services/telegram.test.ts
+@@ -21,7 +21,7 @@ vi.mock("grammy", async (asli) => ({
+   },
+ }));
+ 
+-import { kabariStatus, kirimBerkas, lupakanKabarStatus, mulaiTelegram } from "./telegram.ts";
++import { diamkanKabarBerhenti, kabariStatus, kirimBerkas, lupakanKabarStatus, mulaiTelegram } from "./telegram.ts";
+ 
+ afterEach(() => vi.useRealTimers());
+ 
+@@ -101,3 +101,26 @@ describe("berhenti sengaja (offline-mode, Modul 28)", () => {
+     expect(bot.sendMessage).not.toHaveBeenCalled();
+   });
+ });
++
++// Tantangan 3 Modul 28: perangkat yang sedang diperbarui gelombang otomatis diringkas services/gelombang.ts
++describe("gelombang otomatis (Tantangan 3 Modul 28)", () => {
++  it("perangkat dalam gelombang: 🔄 dan ✅ diam; 📴 'tidak kembali' tetap dikirim; perangkat lain tetap dikabari", () => {
++    mulaiTelegram("123456:token-tiruan", "777000111", "");
++    vi.useFakeTimers({ now: new Date("2026-11-02T03:00:00Z") }); // 10.00 WIB
++    bot.sendMessage.mockClear();
++    const pesan = () => bot.sendMessage.mock.calls.map((c) => c[1]);
++    diamkanKabarBerhenti("f00d00000005", true);
++    kabariStatus("f00d00000005", "offline-mode");
++    vi.advanceTimersByTime(6_000);
++    kabariStatus("f00d00000005", "online"); // berhasil: tanpa 🔄 dan ✅ (ringkasannya dikirim gelombang)
++    diamkanKabarBerhenti("f00d00000005", false);
++    vi.advanceTimersByTime(5 * 60_000);
++    expect(pesan()).toEqual([]);
++    diamkanKabarBerhenti("f00d00000006", true);
++    kabariStatus("f00d00000006", "offline-mode"); // tidak kembali
++    vi.advanceTimersByTime(3 * 60_000);
++    expect(pesan()).toEqual(["📴 f00d00000006 tidak kembali sesudah berhenti sengaja sejak 10.05 WIB"]);
++    kabariStatus("f00d00000007", "offline-mode"); // di luar gelombang: kabar biasa
++    expect(pesan().at(-1)).toBe("🔄 f00d00000007 berhenti sengaja (pembaruan firmware atau restart), sebentar lagi online kembali");
++  });
++});
+diff --git a/backend/src/services/telegram.ts b/backend/src/services/telegram.ts
+index 9a1a7fd..5fa1e33 100644
+--- a/backend/src/services/telegram.ts
++++ b/backend/src/services/telegram.ts
+@@ -99,6 +99,15 @@ const TENGGANG_BERHENTI_SENGAJA_MS = 3 * 60_000;
+ const tundaOffline = new Map<string, ReturnType<typeof setTimeout>>(); // device_id -> pengatur waktu yang sedang menunggu
+ const sejakBerhenti = new Map<string, number>(); // device_id -> kapan berhenti sengaja (kabar 🔄 sudah terkirim)
+ const sejakOffline = new Map<string, number>(); // device_id -> kapan offline (yang sudah dikabarkan 📴)
++// Tantangan 3 Modul 28: perangkat yang sedang diperbarui GELOMBANG otomatis (services/gelombang.ts) tidak dikabari satu per
++// satu: 🔄 dan pasangan ✅-nya diganti SATU ringkasan per gelombang. 📴 "tidak kembali" tetap dikirim (tanda bahaya).
++const diamGelombang = new Set<string>(); // device_id yang sedang diperbarui gelombang
++const berhentiDiam = new Set<string>(); // device_id yang 🔄-nya didiamkan: ✅ pasangannya ikut diam
++
++export function diamkanKabarBerhenti(deviceId: string, diam: boolean): void {
++  if (diam) diamGelombang.add(deviceId);
++  else diamGelombang.delete(deviceId);
++}
+ 
+ export function kabariStatus(deviceId: string, status: string): void {
+   if (status === "online") {
+@@ -110,10 +119,12 @@ export function kabariStatus(deviceId: string, status: string): void {
+     const berhenti = sejakBerhenti.get(deviceId);
+     if (berhenti !== undefined && !sejakOffline.has(deviceId)) { // Modul 28: pasangan kabar 🔄
+       sejakBerhenti.delete(deviceId);
++      if (berhentiDiam.delete(deviceId)) return; // Tantangan 3 Modul 28: 🔄-nya didiamkan, ✅ juga
+       void kabari(`✅ ${deviceId} online lagi sesudah berhenti sengaja (${Math.round((Date.now() - berhenti) / 1000)} detik)`);
+       return;
+     }
+     sejakBerhenti.delete(deviceId);
++    berhentiDiam.delete(deviceId); // Tantangan 3 Modul 28
+     const sejak = sejakOffline.get(deviceId);
+     if (sejak !== undefined) {
+       sejakOffline.delete(deviceId);
+@@ -127,10 +138,12 @@ export function kabariStatus(deviceId: string, status: string): void {
+     clearTimeout(tundaOffline.get(deviceId)); // berhenti sengaja menggantikan tunggu "offline" biasa
+     const mulai = Date.now();
+     sejakBerhenti.set(deviceId, mulai);
+-    void kabari(`🔄 ${deviceId} berhenti sengaja (pembaruan firmware atau restart), sebentar lagi online kembali`);
++    if (diamGelombang.has(deviceId)) berhentiDiam.add(deviceId); // Tantangan 3 Modul 28: diringkas gelombang
++    else void kabari(`🔄 ${deviceId} berhenti sengaja (pembaruan firmware atau restart), sebentar lagi online kembali`);
+     tundaOffline.set(deviceId, setTimeout(() => {
+       tundaOffline.delete(deviceId);
+       sejakBerhenti.delete(deviceId);
++      berhentiDiam.delete(deviceId); // Tantangan 3 Modul 28: 📴 di bawah tetap dikirim
+       sejakOffline.set(deviceId, mulai);
+       void kabari(`📴 ${deviceId} tidak kembali sesudah berhenti sengaja sejak ${jamWib.format(mulai)} WIB`);
+     }, TENGGANG_BERHENTI_SENGAJA_MS));
+@@ -152,6 +165,7 @@ export function lupakanKabarStatus(deviceId: string): void {
+   tundaOffline.delete(deviceId);
+   sejakBerhenti.delete(deviceId);
+   sejakOffline.delete(deviceId);
++  berhentiDiam.delete(deviceId); // Tantangan 3 Modul 28
+ }
+ 
+ // isi balasan /status: keadaan terakhir setiap perangkat di gudang memori

@@ -38,9 +38,14 @@ export const OPSI_AKSES = { ...DASAR, path: "/", maxAge: UMUR_AKSES_DETIK }; // 
 export const OPSI_SESI = { ...DASAR, path: "/auth", maxAge: UMUR_SESI_DETIK }; // hanya dikirim ke /auth/...
 
 // Rute yang boleh diketuk TANPA login. Semua rute lain wajib login, termasuk rute baru yang kelak ditambahkan.
+// Modul 28: dua rute untuk PERANGKAT (yang tidak punya akun dashboard). Keduanya memeriksa sendiri, lebih ketat:
+//   unduh firmware /fw/... = Basic Auth device_id:kunci (cocokkanKunci) + MAC perangkat (routes/firmware.ts)
+//   klaim             = kode klaim sekali pakai buatan admin, 10 percobaan per menit per alamat IP (routes/klaim.ts)
 export const RUTE_TERBUKA = new Set([
   "POST /auth/login", "POST /auth/refresh", "POST /auth/logout",
   "GET /health", "HEAD /health", // HEAD: healthcheck Docker Compose (Modul 26) mengetuk HEAD /health
+  "GET /fw/:folder/:berkas", "HEAD /fw/:folder/:berkas", // Modul 28: unduh firmware (HEAD = periksa ukuran saja)
+  "POST /provision/klaim", // Modul 28: perangkat menukar kode klaim dengan kuncinya
 ]);
 const MEMBACA = new Set(["GET", "HEAD"]); // satu-satunya metode yang boleh dipakai akun viewer
 // Halaman web (origin) yang boleh MENGUBAH sesuatu lewat browser: daftar CORS + server ini sendiri (Swagger UI di /docs).
@@ -63,7 +68,8 @@ export async function pasangKeamanan(app: FastifyInstance): Promise<void> {
     verify: { onlyCookie: true }, // gelang hanya dibaca dari cookie, bukan dari header Authorization
   });
   await app.register(rateLimit, {
-    // hanya rute yang memintanya (POST /auth/login); hitungan disimpan di memori: restart = mulai dari nol. Hitungan per
+    // hanya rute yang memintanya (POST /auth/login; Modul 28: juga POST /provision/klaim dan unduh firmware /fw); hitungan
+    // disimpan di memori: restart = mulai dari nol. Hitungan per
     // alamat IP tamu (req.ip): di balik Caddy, alamat itu baru alamat tamu yang sebenarnya bila TRUST_PROXY diisi (Modul 27)
     global: false,
     errorResponseBuilder: (_req, konteks) => Object.assign(

@@ -14,5 +14,5 @@ export const PETA = {
   // Warna isi lingkaran penanda. SVG peta tidak mengenal kelas Tailwind, jadi warnanya ditulis sebagai kode warna.
   // Warna tidak pernah sendirian: popup penanda dan keterangan di bawah peta menuliskan statusnya dengan kata.
   warnaOnline: "#15803d", // hijau (setara green-700 Tailwind): perangkat online
-  warnaLain: "#64748b", // abu-abu (setara slate-500 Tailwind): offline, mode offline, belum diketahui, atau kiriman diabaikan
+  warnaLain: "#64748b", // abu-abu (setara slate-500 Tailwind): offline, berhenti sengaja, belum diketahui, atau kiriman diabaikan
 };

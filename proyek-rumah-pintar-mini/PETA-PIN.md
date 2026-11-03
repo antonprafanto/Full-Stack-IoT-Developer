@@ -2,7 +2,7 @@
 
 🌐 **Bahasa Indonesia** · [English](../en/mini-smart-home/PIN-MAP.md)
 
-> Dibuat di [Modul 5](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-1-esp32-embedded/modul-05-gpio-dan-peta-pin/README.md#3-anggaran-pin-dan-peta-pin-kanonik-node-1-dan-node-2), diperbarui di [Modul 6](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-1-esp32-embedded/modul-06-membaca-sensor/README.md), [Modul 7](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-1-esp32-embedded/modul-07-bus-sensor-oled-skematik/README.md), [Modul 9](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-1-esp32-embedded/modul-09-catu-daya-dan-hemat-daya/README.md), [Modul 14](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-2-konektivitas/modul-14-node-2-esp-now/README.md), dan [Modul 15](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-2-konektivitas/modul-15-modbus-rs485-dan-protokol/README.md); berlaku sampai Modul 28.
+> Dibuat di [Modul 5](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-1-esp32-embedded/modul-05-gpio-dan-peta-pin/README.md#3-anggaran-pin-dan-peta-pin-kanonik-node-1-dan-node-2), diperbarui di [Modul 6](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-1-esp32-embedded/modul-06-membaca-sensor/README.md), [Modul 7](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-1-esp32-embedded/modul-07-bus-sensor-oled-skematik/README.md), [Modul 9](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-1-esp32-embedded/modul-09-catu-daya-dan-hemat-daya/README.md), [Modul 14](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-2-konektivitas/modul-14-node-2-esp-now/README.md), [Modul 15](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-2-konektivitas/modul-15-modbus-rs485-dan-protokol/README.md), dan [Modul 28](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-5-operasi-skala/modul-28-ota-provisioning-fleet/README.md). **Versi 7 (Modul 28): pin tidak berubah**; yang berubah hanya tempatnya: sambungan Node 1 pindah dari breadboard ke kotak proyek (lihat **Node 1 di dalam kotak**).
 > **Sebelum menambahkan apa pun ke Node 1 atau Node 2, periksa file ini dulu.**
 
 ## Aturan
@@ -121,6 +121,27 @@ Semua lubang ada di **breadboard bawah**, kecuali ujung kabel VCC modul yang mas
 
 Resistor 120 Ω di modul (R7, terminator) dibiarkan: dua modul di dua ujung kabel = tepat dua terminator.
 
+## Node 1 di dalam kotak (sejak Modul 28)
+
+Pin, rel daya, dan firmware **tidak berubah** saat Node 1 dipindah dari meja kerja ke kotak proyek: tabel **Node 1 "Rumah"** di atas tetap
+berlaku apa adanya. Yang berubah hanya cara menyambung.
+
+| Bagian | Di meja kerja (Modul 5–27) | Di dalam kotak (Modul 28, jalur tanpa solder) |
+| :--- | :--- | :--- |
+| Papan ESP32 | ditancapkan di breadboard | ditancapkan di **papan ekspansi terminal sekrup** untuk DevKit V1 30 pin; cocokkan dulu jarak dua baris kakinya dengan papanmu memakai penggaris (papan untuk 38 pin tidak cocok) |
+| Kabel sinyal (tabel Node 1) | kabel jumper di breadboard | kabel tunggal pendek dari terminal sekrup bertuliskan GPIO yang sama (D32, D33, D25, ...); tulisan di papan ekspansi bisa memakai nama GPIO atau D: cocokkan dengan kolom pertama tabel Node 1 |
+| Rangkaian kecil: pembagi tegangan ECHO (D35), pembagi LDR + kapasitor (VP), MOSFET pompa + resistor (D25), pembagi RO RS-485 (RX2) | di breadboard | di **breadboard mini berperekat** di dalam kotak (atau perfboard bersolder, jalur pilihan); papan ekspansi tidak punya tempat untuk resistor dan MOSFET |
+| Listrik ESP32 | *charger* sendiri lewat USB papan (Modul 9) | **sama**: *charger* sendiri lewat USB papan; kepala *charger*-nya tetap di stopkontak (di luar kotak), hanya kabel USB-nya yang masuk kotak. Colokan DC dan regulator papan ekspansi **tidak dipakai** |
+| Listrik beban (relay, pompa, servo, sensor 5 V) | MB102 dari adaptor 5 V | **sama**: MB102 ikut masuk kotak; kepala adaptornya tetap di stopkontak (di luar kotak), hanya kabel 5 V-nya yang masuk kotak. Rel 5 V dan 3,3 V seperti tabel **Rel daya di meja kerja**; GND tetap disatukan |
+| Sensor yang harus "melihat" atau "merasakan" udara luar | di meja | di luar kotak atau menembus dinding kotak: DHT22 (jauh dari ESP32 dan regulator yang hangat), PIR dan LDR (menghadap ruangan), HC-SR04 (di atas tandon), sensor tanah (di pot) |
+
+Aturan kotak (Modul 28): tidak ada kabel listrik PLN 220 V yang masuk kotak: kepala *charger* dan adaptor tetap tercolok di stopkontak di
+luar kotak, hanya kabel 5 V-nya yang masuk (relay hanya untuk beban 5 V proyek ini); kotak diberi lubang ventilasi, bukan kotak kedap air
+yang rapat (embun); kabel diikat supaya tidak tertarik lepas dari terminal; periksa polaritas dan sambungan dengan multimeter **sebelum**
+listrik masuk; pindahkan per kelompok (daya → aktuator → sensor) dan uji tiap kelompok lewat dashboard. Tempel label di kotak: `device_id`,
+nama, versi firmware awal + tanggal, polaritas daya, sandi portal WiFi (`SANDI_PORTAL`, bila dipakai), dan "tahan D13 saat menyala = portal
+WiFi".
+
 ## Aturan emas catu daya
 
 1. **Beban** (relay, kipas, pompa, servo) **selalu dari MB102**, tidak pernah dari pin VIN atau 3V3 ESP32.
@@ -139,7 +160,8 @@ Resistor 120 Ω di modul (R7, terminator) dibiarkan: dua modul di dua ujung kabe
 | 4 | 9 | Node 1 mendapat listrik dari *charger*-nya sendiri (aturan emas nomor 2, 4, dan 5). Kerangka Node 2 terpasang: DS18B20 di GPIO 27 dan LED "bangun" di GPIO 2. Bagian baru **Rangkaian baterai Node 2**. Alamat I2C `0x40` dipesan untuk INA219, alat ukur sementara. |
 | 5 | 14 | Node 2 lengkap: BME280 di I2C (D21/D22), sensor tanah ke-2 di VN dengan VCC dari **D32** (padam selama tidur), DS18B20 pindah ke rel bawah breadboard mini; VP opsional untuk tegangan baterai. Bagian baru **Sensor Node 2**. Node 1 tidak berubah. |
 | 6 | 15 | RS-485 terpasang di Node 1: RX2/TX2 (16/17) dan **DE/RE di D4**; LED status pindah dari D4 ke **D2** (modul MAX485 menarik DE/RE ke 5 V sehingga D2 sebagai DE/RE bisa menggagalkan unggahan). Lab papan kedua memakai 16/17/4. Bagian baru **RS-485 di meja kerja Node 1**. |
+| 7 | 28 | **Pin tidak berubah.** Node 1 pindah dari breadboard ke kotak proyek: papan ekspansi terminal sekrup + breadboard mini (atau perfboard) untuk rangkaian kecil, catu daya Modul 9 dipakai ulang. Bagian baru **Node 1 di dalam kotak**. Node 2 tidak berubah. |
 
 ---
 
-[⬅️ Kembali ke folder proyek](README.md) · [Modul 5](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-1-esp32-embedded/modul-05-gpio-dan-peta-pin/README.md) · [Modul 7](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-1-esp32-embedded/modul-07-bus-sensor-oled-skematik/README.md) · [Modul 9](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-1-esp32-embedded/modul-09-catu-daya-dan-hemat-daya/README.md) · [Modul 14](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-2-konektivitas/modul-14-node-2-esp-now/README.md) · [Modul 15](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-2-konektivitas/modul-15-modbus-rs485-dan-protokol/README.md) · [Silabus](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/SILABUS.md)
+[⬅️ Kembali ke folder proyek](README.md) · [Modul 5](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-1-esp32-embedded/modul-05-gpio-dan-peta-pin/README.md) · [Modul 7](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-1-esp32-embedded/modul-07-bus-sensor-oled-skematik/README.md) · [Modul 9](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-1-esp32-embedded/modul-09-catu-daya-dan-hemat-daya/README.md) · [Modul 14](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-2-konektivitas/modul-14-node-2-esp-now/README.md) · [Modul 15](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-2-konektivitas/modul-15-modbus-rs485-dan-protokol/README.md) · [Modul 28](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-5-operasi-skala/modul-28-ota-provisioning-fleet/README.md) · [Silabus](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/SILABUS.md)

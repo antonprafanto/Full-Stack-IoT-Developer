@@ -1,4 +1,5 @@
-// env.test.ts - uji setelan LAPORAN_JADWAL (Modul 25), TRUST_PROXY dan CORS_ORIGIN (Modul 27) di env.ts. env.ts memeriksa
+// env.test.ts - uji setelan LAPORAN_JADWAL (Modul 25), TRUST_PROXY dan CORS_ORIGIN (Modul 27), serta ALAMAT_SERVER (= batas
+// yang bisa disimpan firmware Node 1), AKUN_BROKER_OTOMATIS, dan OTA_BATAS_MENIT (Modul 28) di env.ts. env.ts memeriksa
 // process.env SEKALI saat diimpor, jadi setiap tes mengimpornya ulang (vi.resetModules) dengan isi .env tiruan yang berbeda.
 // Jalankan: npm test
 import { afterEach, describe, expect, it, vi } from "vitest";
@@ -90,5 +91,74 @@ describe("CORS_ORIGIN di .env (Modul 27: dashboard ber-HTTPS dengan nama domain)
       expect.stringContaining('"iot.namaanda.my.id" bukan alamat halaman'),
       expect.stringContaining('"http://localhost:5173/masuk" bukan alamat halaman'),
     ]));
+  });
+});
+
+describe("setelan Modul 28 di .env", () => {
+  it("bawaan: OTA mati (ALAMAT_SERVER kosong), akun broker diurus tangan (mati), kedaluwarsa 10 menit, folder data-firmware", async () => {
+    const env = await bacaDengan({});
+    expect(env.ALAMAT_SERVER).toBe("");
+    expect(env.AKUN_BROKER_OTOMATIS).toEqual({ jenis: "mati" });
+    expect(env.OTA_BATAS_MENIT).toBe(10);
+    expect(env.FIRMWARE_DIR).toBe("data-firmware");
+  });
+
+  it("AKUN_BROKER_OTOMATIS: pusat, gerbang:<nama>; selain itu ditolak dengan contohnya", async () => {
+    expect((await bacaDengan({ AKUN_BROKER_OTOMATIS: "pusat" })).AKUN_BROKER_OTOMATIS).toEqual({ jenis: "pusat" });
+    expect((await bacaDengan({ AKUN_BROKER_OTOMATIS: "gerbang:pi1" })).AKUN_BROKER_OTOMATIS).toEqual({ jenis: "gerbang", nama: "pi1" });
+    const layar = await ditolak({ AKUN_BROKER_OTOMATIS: "gerbang:pi/1" }); // "/" akan merusak nama topik kontrol
+    expect(layar.flat().join(" ")).toContain("gerbang:pi1");
+  });
+
+  // ALAMAT_SERVER = batas yang bisa disimpan Node 1 1.7.0 (periksa-ota.cpp): alamat lain membuat semua pembaruan gagal
+  it("ALAMAT_SERVER yang bisa disimpan Node 1 diterima apa adanya: https nama domain, http IP rumah, port 1-65535, 64 huruf",
+    async () => {
+      for (const sah of [
+        "https://iot.namaanda.my.id", // VPS (jalur utama)
+        "http://192.168.1.37", // Pi jalur gratis: port 80 Pi, tanpa :8081
+        "http://192.168.1.10", // laptop di WiFi rumah
+        "http://10.0.0.5:8080",
+        "http://172.20.0.2",
+        "https://iot.namaanda.my.id:8443",
+        "http://192.168.1.37:1",
+        "http://192.168.1.37:65535",
+        "https://a-b.c-d.example",
+        "https://xn--bcher-kva.example", // nama domain berhuruf non-Latin, ditulis dalam bentuk punycode
+        "http://127.0.0.1:6302", // lab saja: simulator di mesin yang sama (ESP32 sungguhan menolak 127.x)
+        `https://${"a".repeat(56)}`, // tepat 64 huruf
+      ]) {
+        expect((await bacaDengan({ ALAMAT_SERVER: sah })).ALAMAT_SERVER).toBe(sah);
+      }
+    });
+
+  it("ALAMAT_SERVER yang tidak bisa disimpan Node 1 ditolak saat server mulai, dengan alasannya", async () => {
+    const kasus: [string, string][] = [
+      [`https://${"a".repeat(57)}`, "terlalu panjang (65 huruf): Node 1 hanya bisa menyimpan alamat server paling panjang 64 huruf"],
+      ["https://my_host.example", "tanpa garis bawah _"],
+      ["https://user@iot.namaanda.my.id", "tanpa @"],
+      ["https://iot namaanda.my.id", "tanpa spasi"],
+      ["https://iot.namaanda.my.id:0", "port (angka sesudah titik dua) harus 1 sampai 65535"],
+      ["https://iot.namaanda.my.id:65536", "harus 1 sampai 65535"],
+      ["https://iot.namaanda.my.id:99999", "harus 1 sampai 65535"],
+      ["http://192.168.1.37:", "harus 1 sampai 65535"],
+      ["http://192.168.1.37:80:80", "harus 1 sampai 65535"],
+      ["https://iot.namaanda.my.id/", "tanpa / di akhir"],
+      ["https://iot.namaanda.my.id/api", "tanpa jalur"],
+      ["https://IoT.NamaAnda.my.id", "huruf kecil semua"],
+      ["HTTPS://iot.namaanda.my.id", "harus diawali http:// atau https:// (huruf kecil)"],
+      ["iot.namaanda.my.id", "harus diawali http:// atau https://"],
+      ["ftp://192.168.1.37", "harus diawali http:// atau https://"],
+      ["https://", "nama server sesudah :// belum ditulis"],
+      ["https://:8443", "belum ditulis"],
+      ["http://iot.namaanda.my.id", "http:// hanya untuk alamat IP jaringan rumah"],
+      ["http://8.8.8.8", "jaringan rumah"],
+      ["http://192.168.1.300", "jaringan rumah"],
+    ];
+    for (const [salah, alasan] of kasus) {
+      const layar = (await ditolak({ ALAMAT_SERVER: salah })).flat().join("\n");
+      expect(layar, salah).toContain(`Setelan ALAMAT_SERVER di .env: "${salah}"`);
+      expect(layar, salah).toContain(alasan);
+      vi.restoreAllMocks();
+    }
   });
 });

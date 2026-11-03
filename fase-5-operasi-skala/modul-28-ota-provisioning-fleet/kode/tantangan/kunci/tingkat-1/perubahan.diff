@@ -1,0 +1,56 @@
+diff --git a/firmware/node-1-rumah/layar.cpp b/firmware/node-1-rumah/layar.cpp
+index 18abf7d..0d98cbd 100644
+--- a/firmware/node-1-rumah/layar.cpp
++++ b/firmware/node-1-rumah/layar.cpp
+@@ -1,8 +1,10 @@
+ // layar.cpp - isi modul layar. Daftar fungsinya ada di layar.h.
++// Kunci Tantangan 1 Modul 28: halaman status menulis rak program yang sedang berjalan dan status masa ujinya.
+ #include <Arduino.h>
+ #include <Wire.h>
+ #include <Adafruit_GFX.h>
+ #include <Adafruit_SSD1306.h>
++#include <esp_ota_ops.h>  // Tantangan 1 Modul 28: rak program yang sedang berjalan dan catatan raknya (otadata)
+ #include "konfigurasi.h"
+ #include "pencatat.h"
+ #include "sistem.h"
+@@ -164,6 +166,29 @@ static void gambarHalamanBacaan(BacaanSensor b) {
+   layar.display();
+ }
+ 
++// ---------- Tantangan 1 Modul 28: versi, rak program, dan masa uji ----------
++// Menyusun baris terakhir halaman status: versi, rak yang sedang berjalan, dan keadaannya di catatan rak. Contoh:
++// "v1.7.1 app1 UJI 42s" (masa uji, sisa 42 detik), "v1.7.1 app1 sah" (sudah terbukti), "v1.7.0 app0 kabel" (dipasang
++// lewat kabel USB, tanpa masa uji). %.4s = paling banyak 4 huruf nama rak (app0/app1), supaya barisnya selalu muat.
++static void teksVersiRak(char* hasil, size_t ukuran) {
++  const esp_partition_t* rak = esp_ota_get_running_partition();
++  esp_ota_img_states_t keadaan = ESP_OTA_IMG_UNDEFINED;  // UNDEFINED = dipasang lewat kabel
++  if (rak == nullptr) {
++    snprintf(hasil, ukuran, "v%s rak ?", VERSI_FIRMWARE);
++    return;
++  }
++  esp_ota_get_state_partition(rak, &keadaan);
++  if (keadaan == ESP_OTA_IMG_PENDING_VERIFY) {  // masa uji: 60 detik dihitung sejak Node 1 menyala
++    unsigned long sekarang = millis();
++    unsigned long sisa = sekarang < MASA_UJI_OTA ? (MASA_UJI_OTA - sekarang) / 1000 : 0;
++    snprintf(hasil, ukuran, "v%s %.4s UJI %lus", VERSI_FIRMWARE, rak->label, sisa);
++  } else if (keadaan == ESP_OTA_IMG_VALID) {
++    snprintf(hasil, ukuran, "v%s %.4s sah", VERSI_FIRMWARE, rak->label);
++  } else {
++    snprintf(hasil, ukuran, "v%s %.4s kabel", VERSI_FIRMWARE, rak->label);
++  }
++}
++
+ // ---------- Modul 8: halaman status ----------
+ // Teksnya disusun dengan char[] dan snprintf() (Konsep 6), tanpa String.
+ static void gambarHalamanStatus() {
+@@ -196,7 +221,9 @@ static void gambarHalamanStatus() {
+   }
+   layar.setCursor(0, 47);
+   layar.print(teks);
+-  snprintf(teks, sizeof(teks), "v%s  bebas %luKB", VERSI_FIRMWARE, ESP.getFreeHeap() / 1024);
++  // Tantangan 1 Modul 28: baris terakhir kini versi + rak + masa uji. Angka memori bebas yang dulu di sini tetap
++  // terlihat di perintah Serial "info" dan di kartu Armada (RAM).
++  teksVersiRak(teks, sizeof(teks));
+   layar.setCursor(0, 56);
+   layar.print(teks);
+ 

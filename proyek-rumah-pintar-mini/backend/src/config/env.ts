@@ -1,6 +1,7 @@
 // env.ts - setelan server dari file .env (dibaca Node.js lewat --env-file), diperiksa skema Zod sekali saat server mulai.
 // Modul 20: .env kini juga berisi rahasia (JWT_SECRET), jadi isinya diperiksa seketat pesan dari perangkat.
 // Modul 27: + TRUST_PROXY (backend di balik Caddy HTTPS) dan pemeriksaan bentuk alamat di CORS_ORIGIN.
+// Modul 28: + FIRMWARE_DIR, ALAMAT_SERVER, AKUN_BROKER_OTOMATIS, OTA_BATAS_MENIT (pembaruan firmware dan kode klaim).
 import { isIP } from "node:net";
 import { z } from "zod";
 import cron from "node-cron";
@@ -20,6 +21,65 @@ function alamatAtauBlok(teks: string): boolean {
   if (versi === 0 || sisa.length > 0) return false;
   return awalan === undefined || (/^\d{1,3}$/.test(awalan) && Number(awalan) <= (versi === 4 ? 32 : 128));
 }
+
+// Modul 28: apakah alamat IPv4 ini alamat jaringan rumah (10.x, 172.16-31.x, 192.168.x) atau mesin ini sendiri (127.x)?
+// Dibaca persis seperti firmware Node 1 (periksa-ota.cpp, alamatIpRumah): tepat empat angka 0-255 dipisah titik.
+function ipRumah(alamat: string): boolean {
+  const angka = /^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/.exec(alamat)?.slice(1).map(Number);
+  if (angka === undefined || angka.some((n) => n > 255)) return false;
+  const [a, b] = angka;
+  return a === 10 || a === 127 || (a === 172 && b >= 16 && b <= 31) || (a === 192 && b === 168);
+}
+
+// Modul 28: ALAMAT_SERVER harus alamat yang BISA DISIMPAN Node 1 1.7.0 apa adanya. Perangkat hanya mau mengunduh firmware
+// dari <alamat server tersimpan>/fw/node-1/<versi>.bin (url lain dijawab "url bukan server rumah ini"), jadi alamat yang
+// tidak bisa diketik di portal membuat SEMUA pembaruan gagal. Aturannya sama persis dengan firmware (periksa-ota.cpp:
+// rapikanAlamat() lalu periksaAlamatServer()) dan simulator (alat/simulator-perangkat.js: salahAlamatServer()):
+//   - paling panjang 64 huruf (kolom "Alamat server" di portal WiFi Node 1)
+//   - diawali http:// atau https://, lalu nama server: huruf kecil a-z, angka, titik, dan tanda - saja (tanpa garis
+//     bawah _, tanpa @, tanpa spasi); port boleh ditulis, 1-65535 (misalnya :8443)
+//   - tanpa / di akhir dan tanpa jalur (/api): portal membuang / di akhir, jadi alamat ber-/ tidak akan pernah sama
+//   - huruf kecil semua: portal menyimpannya dengan huruf kecil
+//   - http:// hanya ke alamat IP jaringan rumah (10.x, 172.16-31.x, 192.168.x), karena kunci perangkat ikut terkirim
+// Satu beda yang disengaja: 127.x diterima di sini dan di simulator (lab: simulator berjalan di mesin yang sama dengan
+// server), sedangkan ESP32 menolaknya (bagi papan, 127.x adalah papan itu sendiri, bukan server).
+// Menjawab null kalau sah, atau kalimat alasannya.
+const PANJANG_ALAMAT_SERVER_MAKS = 64; // = PANJANG_ALAMAT_SERVER_MAKS di firmware periksa-ota.h
+function salahAlamatServer(teks: string): string | null {
+  const contoh = "misalnya https://iot.namaanda.my.id atau http://192.168.1.37";
+  if (teks.length > PANJANG_ALAMAT_SERVER_MAKS) {
+    return `"${teks}" terlalu panjang (${teks.length} huruf): Node 1 hanya bisa menyimpan alamat server paling panjang `
+      + `${PANJANG_ALAMAT_SERVER_MAKS} huruf. Pakai nama domain yang lebih pendek`;
+  }
+  const bagian = /^(https?):\/\/(.*)$/.exec(teks);
+  if (bagian === null) return `"${teks}" harus diawali http:// atau https:// (huruf kecil), ${contoh}`;
+  const [, skema, hostPort] = bagian;
+  if (hostPort.includes("/")) return `"${teks}": tulis tanpa / di akhir dan tanpa jalur di belakang nama server, ${contoh}`;
+  if (/[A-Z]/.test(hostPort)) {
+    return `"${teks}": tulis dengan huruf kecil semua (portal Node 1 menyimpannya dengan huruf kecil, jadi alamatnya tidak `
+      + "akan sama)";
+  }
+  const [host, port, ...lebih] = hostPort.split(":");
+  if (host === "") return `"${teks}": nama server sesudah :// belum ditulis, ${contoh}`;
+  if (!/^[a-z0-9.-]+$/.test(host)) {
+    return `"${teks}": nama server hanya boleh berisi huruf kecil a-z, angka, titik, dan tanda - (tanpa garis bawah _, `
+      + `tanpa @, tanpa spasi), ${contoh}`;
+  }
+  if (port !== undefined && (lebih.length > 0 || !/^\d{1,5}$/.test(port) || Number(port) < 1 || Number(port) > 65535)) {
+    return `"${teks}": port (angka sesudah titik dua) harus 1 sampai 65535, misalnya https://iot.namaanda.my.id:8443`;
+  }
+  if (skema === "http" && !ipRumah(host)) {
+    return `"${teks}": http:// hanya untuk alamat IP jaringan rumah (10.x, 172.16-31.x, 192.168.x), karena kunci perangkat `
+      + "ikut terkirim tanpa enkripsi. Di internet tulis https://nama-domainmu";
+  }
+  return null;
+}
+
+// Modul 28: siapa yang membuat dan menghapus akun broker perangkat (kunci per perangkat, Modul 21)?
+export type ModeAkunBroker =
+  | { jenis: "mati" } // seperti Modul 21: admin menjalankan mosquitto_passwd sendiri
+  | { jenis: "pusat" } // backend lewat plugin dynamic security broker PUSAT (perangkat masuk langsung ke pusat)
+  | { jenis: "gerbang"; nama: string }; // backend lewat jembatan ke broker GERBANG Pi bernama itu (misalnya pi1)
 
 const Setelan = z.object({
   // alamat broker, misalnya mqtt://192.168.1.37:1883. Modul 21: TANPA nama pengguna dan sandi di dalamnya (alamat ini ditulis
@@ -86,6 +146,32 @@ const Setelan = z.object({
     // hasil untuk Fastify({ trustProxy }): false = mati, true = percaya semua, daftar = hanya penerus di alamat itu
     .transform((daftar): boolean | string[] => (daftar.length === 0 || daftar.join() === "false" ? false
       : daftar.join() === "true" ? true : daftar)),
+  // Modul 28: folder tempat berkas firmware (.bin) yang diunggah admin disimpan. Relatif = dari folder backend (mode kembang:
+  // backend/data-firmware, tidak ikut Git). Di kontainer: /app/data-firmware = lemari data-firmware (compose.cloud.yml).
+  FIRMWARE_DIR: z.preprocess(kosong, z.string().default("data-firmware")),
+  // Modul 28: alamat server yang dipakai PERANGKAT untuk mengunduh firmware (url di cmd update = ALAMAT_SERVER +
+  // /fw/node-1/<versi>.bin) dan untuk klaim (alamat yang sama diketik di portal Node 1). Kosong = pembaruan lewat udara mati.
+  //   https://iot.namaanda.my.id  = VPS (jalur utama): unduhan terenkripsi, karena kunci perangkat ikut terkirim
+  //   http://192.168.1.37         = jaringan rumah saja (Pi jalur gratis, laptop): HANYA alamat IP rumah 10.x, 172.16-31.x,
+  //                                 192.168.x (perangkat menolak mengirim kuncinya polos ke alamat lain); 127.x hanya lab
+  // Bentuknya diperiksa salahAlamatServer() di atas: alamat yang tidak bisa disimpan Node 1 ditolak saat server mulai.
+  ALAMAT_SERVER: z.preprocess(kosong, z.string().default(""))
+    .superRefine((teks, ctx) => {
+      const salah = teks === "" ? null : salahAlamatServer(teks);
+      if (salah !== null) ctx.addIssue({ code: "custom", message: salah });
+    }),
+  // Modul 28: akun broker perangkat dibuat dan dihapus OTOMATIS lewat plugin dynamic security Mosquitto?
+  //   mati (bawaan)  = tidak: seperti Modul 21 (mosquitto_passwd oleh admin); kode klaim tetap jalan, akunnya dibuat tangan
+  //   pusat          = di broker pusat (perangkat masuk langsung ke broker compose.cloud.yml, misalnya tanpa Pi)
+  //   gerbang:<nama> = di broker gerbang Pi bernama itu, lewat jembatan (Node 1 masuk ke gerbang), misalnya gerbang:pi1
+  AKUN_BROKER_OTOMATIS: z.preprocess(kosong, z.string().default("mati"))
+    .refine((teks) => /^(mati|pusat|gerbang:[a-z0-9][a-z0-9-]{0,30})$/.test(teks),
+      "tulis mati, pusat, atau gerbang:<nama gerbang> (huruf kecil, angka, dan -), misalnya gerbang:pi1")
+    .transform((teks): ModeAkunBroker => teks.startsWith("gerbang:") ? { jenis: "gerbang", nama: teks.slice(8) }
+      : teks === "pusat" ? { jenis: "pusat" } : { jenis: "mati" }),
+  // Modul 28: pembaruan yang tidak ada kabarnya selama sekian menit ditandai kedaluwarsa (unduh + restart + 60 detik masa uji
+  // biasanya selesai dalam 1-3 menit). Bawaan 10; lab penulis memendekkannya untuk menguji.
+  OTA_BATAS_MENIT: z.preprocess(kosong, z.coerce.number().int().min(1).max(60).default(10)),
 }).refine((s) => s.MQTT_USERNAME !== "" || s.MQTT_PASSWORD === "", { // Modul 21: akun broker harus lengkap
   message: "MQTT_PASSWORD diisi tetapi MQTT_USERNAME kosong", path: ["MQTT_USERNAME"],
 }).refine((s) => s.MQTT_PASSWORD !== "" || s.MQTT_USERNAME === "", {

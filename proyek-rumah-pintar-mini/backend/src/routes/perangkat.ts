@@ -2,6 +2,9 @@
 // perintah, dan keadaan aktuator (desired/reported, Modul 19). Modul 21: daftar resmi perangkat (registrasi, ganti kunci,
 // cabut kunci); GET /devices kini dibaca dari database. Modul 25: GET /devices membawa titik peta (lat, lng), dan admin
 // memindahkan titik itu lewat PUT /devices/:id/lokasi.
+// Modul 28: registrasi, ganti kunci, dan cabut juga membuat/mengganti/menghapus akun broker perangkat secara otomatis
+// (AKUN_BROKER_OTOMATIS, services/akun-broker.ts), di dalam transaksi yang sama: broker gagal = database tidak berubah (503).
+// Cabut = "Nonaktifkan" di /armada: perangkat langsung diputus broker, statusnya ditulis offline, config retained-nya dihapus.
 import { z } from "zod";
 import type { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
 import { Ack, DeviceId, Keadaan, PerintahSet, Status, TelemetryNode1, TelemetryNode2, Vitals } from "../schemas/kontrak.ts";
@@ -12,6 +15,12 @@ import { buatKunci, hashKunci } from "../auth/kunci.ts";
 import { catatDicabut, catatTerdaftar, izinPerangkat } from "../services/daftar.ts";
 import { keadaanPerangkat, perintahkan } from "../services/perintah.ts";
 import { ambilRingkasan, ambilRiwayat, waktuKontrak } from "../db/arsip.ts";
+import { antreAkun, hapusAkunPerangkat, pasangAkunPerangkat, tempatAkun } from "../services/akun-broker.ts";
+import { simpanStatus } from "../services/gudang.ts";
+import { hapusConfig } from "../services/mqtt.ts";
+import { siarkanStatus } from "../services/realtime.ts";
+import { catatKejadian } from "../services/kejadian.ts";
+import { lupakanKabarStatus } from "../services/telegram.ts";
 
 const MENIT = 60 * 1000; // dalam milidetik, seperti Date.getTime()
 const JAM = 60 * MENIT;
@@ -116,6 +125,12 @@ const KunciBaru = z.object({
   langkah: z.array(z.string()).describe("yang harus dilakukan berikutnya"),
 });
 const SALAH_DATABASE = "database sedang tidak bisa dihubungi, coba lagi sebentar lagi";
+// Modul 28: galat di tengah transaksi bisa datang dari database ATAU dari broker (akun dynamic security). Database tidak
+// berubah (ROLLBACK), tetapi perintah akun yang sempat terkirim bisa tertahan di jembatan yang macet lalu tetap dikerjakan
+// broker begitu sambungannya pulih (lab perilaku M28): mengulang langkah yang sama menyamakan lagi database dan broker.
+const salahTransaksi = (galat: unknown) => `belum tersimpan di database (database atau ${tempatAkun()} bermasalah: `
+  + `${(galat as Error).message}). Perintah ke broker yang sempat terkirim bisa tetap dikerjakan begitu sambungannya pulih: `
+  + `ulangi langkah ini sebentar lagi supaya database dan broker sama lagi`;
 
 const iso = (waktu: Date | null) => (waktu === null ? null : waktuKontrak(waktu));
 
@@ -130,11 +145,14 @@ function tampilkan(b: BarisPerangkat) {
   };
 }
 
-// petunjuk langkah berikutnya, supaya kunci langsung dipasang di perangkat dan di broker
-function langkahKunci(id: string): string[] {
+// petunjuk langkah berikutnya, supaya kunci langsung dipasang di perangkat dan di broker. Modul 28: akun broker dibuat
+// backend sendiri kecuali AKUN_BROKER_OTOMATIS=mati (akun = "manual").
+function langkahKunci(id: string, akun: "dibuat" | "diganti" | "manual"): string[] {
   return ["Simpan kunci ini sekarang: kunci hanya tampil sekali ini (database hanya menyimpan sidik jarinya).",
     `Perangkat: ketik  kunci <kunci>  di Serial Monitor (simulator: KUNCI_${id.toUpperCase()}=<kunci> di alat/.env)`,
-    `Broker: mosquitto_passwd <berkas sandi broker> ${id} di mesin broker, tempel kunci dua kali, lalu muat ulang broker`];
+    akun === "manual"
+      ? `Broker: mosquitto_passwd <berkas sandi broker> ${id} di mesin broker, tempel kunci dua kali, lalu muat ulang broker`
+      : `Broker: akun ${id} sudah ${akun} otomatis di ${tempatAkun()} (dynamic security): tidak ada langkah tangan di broker`];
 }
 
 function langkahTanpaKunci(id: string, penghubung: string): string[] {
@@ -171,7 +189,7 @@ export const rutePerangkat: FastifyPluginAsyncZod = async (app) => {
       response: {
         201: KunciBaru.describe("perangkat terdaftar; simpan kuncinya sekarang"),
         409: Galat.describe("sudah terdaftar (pakai ganti kunci), atau penghubung tidak sah"),
-        503: Galat.describe("database sedang tidak bisa dihubungi"),
+        503: Galat.describe("database atau broker bermasalah: database tidak berubah, ulangi langkah ini sebentar lagi"),
       },
     },
   }, async (req, reply) => {
@@ -183,19 +201,22 @@ export const rutePerangkat: FastifyPluginAsyncZod = async (app) => {
       }
     }
     const kunci = penghubung === undefined ? buatKunci() : null;
+    let akun = "manual" as Awaited<ReturnType<typeof pasangAkunPerangkat>>;
     try {
-      const baris = await daftarkanPerangkat(id, nama ?? null, lokasi ?? null, penghubung ?? null,
-        kunci === null ? null : hashKunci(kunci)); // database hanya menerima sidik jarinya
+      // Modul 28: akun broker di dalam transaksi yang sama; antreAkun = satu langkah akun broker pada satu waktu
+      const baris = await antreAkun(() => daftarkanPerangkat(id, nama ?? null, lokasi ?? null, penghubung ?? null,
+        kunci === null ? null : hashKunci(kunci), // database hanya menerima sidik jarinya
+        async () => { if (kunci !== null) akun = await pasangAkunPerangkat(id, kunci); }));
       if (baris === undefined) {
         return reply.code(409).send({ pesan: `${id} sudah terdaftar; untuk kunci baru pakai POST /devices/${id}/kunci` });
       }
       catatTerdaftar(id);
       req.log.info(`perangkat ${id} didaftarkan oleh akun ${req.user.sub}${penghubung === undefined ? "" : ` (lewat ${penghubung})`}`);
-      const langkah = penghubung === undefined ? langkahKunci(id) : langkahTanpaKunci(id, penghubung);
+      const langkah = penghubung === undefined ? langkahKunci(id, akun) : langkahTanpaKunci(id, penghubung);
       return reply.code(201).send({ device_id: id, kunci, langkah });
     } catch (galat) {
       req.log.error(`registrasi ${id} gagal: ${(galat as Error).message}`);
-      return reply.code(503).send({ pesan: SALAH_DATABASE });
+      return reply.code(503).send({ pesan: salahTransaksi(galat) });
     }
   });
 
@@ -207,53 +228,80 @@ export const rutePerangkat: FastifyPluginAsyncZod = async (app) => {
       response: {
         200: KunciBaru.describe("kunci baru; simpan sekarang"),
         404: Galat.describe("perangkat belum terdaftar, atau perangkat ESP-NOW (tidak punya kunci)"),
-        503: Galat.describe("database sedang tidak bisa dihubungi"),
+        503: Galat.describe("database atau broker bermasalah: database tidak berubah, ulangi langkah ini sebentar lagi"),
       },
     },
   }, async (req, reply) => {
     const id = req.params.id;
     const kunci = buatKunci();
+    let akun = "manual" as Awaited<ReturnType<typeof pasangAkunPerangkat>>;
     try {
-      const baris = await gantiKunciPerangkat(id, hashKunci(kunci));
+      const baris = await antreAkun(() => gantiKunciPerangkat(id, hashKunci(kunci), async () => {
+        akun = await pasangAkunPerangkat(id, kunci);
+      }));
       if (baris === undefined) return reply.code(404).send({ pesan: `${id} belum terdaftar, atau perangkat tanpa kunci (ESP-NOW)` });
       catatTerdaftar(id);
-      req.log.info(`kunci baru untuk ${id} dibuat oleh akun ${req.user.sub}`);
-      return { device_id: id, kunci, langkah: langkahKunci(id) };
+      req.log.info(`kunci baru untuk ${id} dibuat oleh akun ${req.user.sub}${akun === "manual" ? "" : ` (akun broker ${akun})`}`);
+      return { device_id: id, kunci, langkah: langkahKunci(id, akun) };
     } catch (galat) {
       req.log.error(`ganti kunci ${id} gagal: ${(galat as Error).message}`);
-      return reply.code(503).send({ pesan: SALAH_DATABASE });
+      return reply.code(503).send({ pesan: salahTransaksi(galat) });
     }
   });
 
   app.post("/devices/:id/cabut", {
     schema: {
       tags: ["perangkat"],
-      summary: "Cabut kunci perangkat (hilang atau dicuri): backend tidak melayaninya lagi",
+      summary: "Nonaktifkan perangkat (hilang atau dicuri): cabut kuncinya, putus dari broker, dan tandai offline",
+      description: "Modul 28 (\"Nonaktifkan\" di /armada): selain mencabut kunci (Modul 21), backend menghapus akun broker "
+        + "perangkat itu (AKUN_BROKER_OTOMATIS) sehingga broker langsung memutusnya, menulis statusnya offline (broker tidak "
+        + "menerbitkan wasiat saat memutus dengan cara ini), dan menghapus config retained-nya. Hidup lagi hanya dengan ganti "
+        + "kunci (POST /devices/:id/kunci) atau kode klaim baru.",
       params: ParamId,
       response: {
-        200: z.object({ device_id: z.string(), dicabut: z.string(), langkah: z.array(z.string()) })
-          .describe("dicabut; hapus juga akunnya dari broker"),
+        200: z.object({
+          device_id: z.string(), dicabut: z.string(), langkah: z.array(z.string()),
+          akun_broker: z.enum(["dihapus", "tidak-ada", "manual", "tanpa-kunci"])
+            .describe("dihapus = diputus broker seketika; tidak-ada = akun lama Modul 21 (hapus tangan); manual = mati"),
+        }).describe("dinonaktifkan"),
         404: Galat.describe("perangkat belum terdaftar atau sudah dicabut"),
-        503: Galat.describe("database sedang tidak bisa dihubungi"),
+        503: Galat.describe("database atau broker bermasalah: database tidak berubah, ulangi langkah ini sebentar lagi"),
       },
     },
   }, async (req, reply) => {
     const id = req.params.id;
+    let akun = "tanpa-kunci" as Awaited<ReturnType<typeof hapusAkunPerangkat>> | "tanpa-kunci";
     try {
-      const baris = await cabutPerangkat(id);
+      const baris = await antreAkun(() => cabutPerangkat(id, async (b) => {
+        if (b.penghubung === null) akun = await hapusAkunPerangkat(id);
+      }));
       if (baris === undefined) return reply.code(404).send({ pesan: `${id} belum terdaftar atau sudah dicabut` });
       catatDicabut(id);
-      req.log.warn(`kunci ${id} DICABUT oleh akun ${req.user.sub}`);
+      // Modul 28: status offline ditulis server (database sudah diubah cabutPerangkat), config retained dihapus dari broker,
+      // dan kabar Telegram yang sedang menunggu untuk perangkat ini dilupakan
+      simpanStatus(id, "offline");
+      siarkanStatus(id, "offline");
+      if (baris.penghubung === null) hapusConfig(id);
+      lupakanKabarStatus(id);
+      const pesan = `${id} dinonaktifkan oleh akun ${req.user.sub}` + (akun === "dihapus" ? `: akun brokernya dihapus di ${tempatAkun()}`
+        : akun === "tidak-ada" ? `: akun dynamic security tidak ada di ${tempatAkun()} (akun lama Modul 21?)` : "");
+      req.log.warn(pesan);
+      catatKejadian({ device_id: id, jenis: "dicabut", sumber: "api", aturan_id: null, pesan, data: { akun_broker: akun } });
       return {
-        device_id: id, dicabut: waktuKontrak(baris.dicabut ?? new Date()),
-        langkah: baris.penghubung === null
-          ? [`Hapus akunnya dari broker: mosquitto_passwd -D <berkas sandi broker> ${id}`,
-            "Muat ulang broker (Pi: sudo systemctl reload mosquitto; laptop: Ctrl + C lalu jalankan lagi)"]
-          : [`Hapus dua baris rpm/${id}/... dari blok user ${baris.penghubung} di berkas ACL broker, lalu restart broker`],
+        device_id: id, dicabut: waktuKontrak(baris.dicabut ?? new Date()), akun_broker: akun,
+        langkah: baris.penghubung !== null
+          ? [`Hapus dua baris rpm/${id}/... dari blok user ${baris.penghubung} di berkas ACL broker, lalu restart broker`]
+          : akun === "dihapus" ? [`Akun broker ${id} sudah dihapus di ${tempatAkun()}: perangkat langsung diputus dan tidak bisa `
+            + "masuk lagi. Hidupkan lagi hanya dengan ganti kunci atau kode klaim baru.",
+            `Pernah didaftarkan cara Modul 21? Pastikan baris lamanya sudah tidak ada di berkas sandi broker (mosquitto_passwd -D `
+            + `<berkas sandi broker> ${id}, lalu restart broker): tanpa akun dynamic security, kunci LAMA itu diterima broker lagi.`]
+            : [`Hapus akunnya dari broker${akun === "tidak-ada" ? " (akun lama Modul 21 di berkas sandi)" : ""}: `
+              + `mosquitto_passwd -D <berkas sandi broker> ${id}`,
+              "Lalu restart broker itu (di kontainer: docker compose restart mosquitto); sebelum itu perangkat tetap diterima broker"],
       };
     } catch (galat) {
       req.log.error(`cabut ${id} gagal: ${(galat as Error).message}`);
-      return reply.code(503).send({ pesan: SALAH_DATABASE });
+      return reply.code(503).send({ pesan: salahTransaksi(galat) });
     }
   });
 

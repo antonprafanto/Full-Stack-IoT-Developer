@@ -1,4 +1,4 @@
-# acl-broker - daftar izin broker Rumah Pintar Mini (Modul 21).
+# acl-broker - daftar izin broker Rumah Pintar Mini (Modul 21; tambahan Modul 26-28).
 # Mosquitto membaca berkas ini dari atas ke bawah. Baris berawalan # adalah catatan (# harus huruf pertama baris).
 # Akun yang tidak disebut di sini tidak boleh menulis atau membaca apa pun.
 # Setiap kali berkas ini diubah, RESTART broker (bukan reload). Modul 26, broker di Docker Compose: docker compose restart
@@ -7,6 +7,8 @@
 # 1) Setiap perangkat hanya boleh "bicara" di topiknya sendiri. Baris pattern berlaku untuk SEMUA akun;
 #    %u diganti nama pengguna yang sudah terbukti dengan sandi, yaitu device_id perangkat itu. Modul 27: perangkat di lokasi
 #    lain yang langsung ke broker VPS (pintu 8883) memakai aturan yang sama; cukup akunnya dibuat di broker VPS.
+#    Modul 28: akun perangkat yang dibuat backend (dynamic security) juga tunduk pada baris ini, untuk menulis DAN
+#    membaca: backend mengubah izin baca bawaan plugin menjadi "tolak" sebelum membuat akun (edge/README.md).
 pattern write rpm/%u/telemetry
 pattern write rpm/%u/status
 pattern write rpm/%u/vitals
@@ -26,10 +28,18 @@ topic write rpm/246f28b1c7d4/status
 # topic write rpm/f00d000000b2/telemetry
 # topic write rpm/f00d000000b2/status
 
-# 3) Backend: membaca semua pesan perangkat, mengirim perintah (set dan config) ke cmd.
+# 3) Backend: membaca semua pesan perangkat, mengirim perintah (set, config, dan update) ke cmd.
+#    Modul 28: juga membuat dan menghapus akun PERANGKAT lewat plugin dynamic security (AKUN_BROKER_OTOMATIS). Siapa pun yang
+#    boleh menulis topik kontrol adalah admin semua akun perangkat: JANGAN beri izin ini (atau "topic #") ke akun lain.
+#    Dua baris pertama untuk AKUN_BROKER_OTOMATIS=pusat (plugin broker ini sendiri), dua baris terakhir untuk
+#    gerbang:<nama> (perintahnya dibawa jembatan gerbang itu, lihat blok 7).
 user backend
 topic read rpm/#
 topic write rpm/+/cmd
+topic write $CONTROL/dynamic-security/v1
+topic read $CONTROL/dynamic-security/v1/response
+topic write rpm-gerbang/+/dynamic-security/v1
+topic read rpm-gerbang/+/dynamic-security/v1/response
 
 # 4) Node-RED di gateway Pi: dashboard membaca, sakelar Kipas mengirim cmd.
 user nodered
@@ -57,3 +67,7 @@ topic write rpm/+/vitals
 topic write rpm/+/ack
 topic read rpm/+/cmd
 topic write $SYS/broker/connection/jembatan-pi/state
+#    Modul 28: perintah akun perangkat dari backend untuk gerbang pi1 (dibaca jembatan, dibawa ke $CONTROL gerbang) dan
+#    jawabannya (ditulis jembatan). pi1 = nama gerbang di jembatan/pusat.conf dan AKUN_BROKER_OTOMATIS=gerbang:pi1.
+topic read rpm-gerbang/pi1/dynamic-security/v1
+topic write rpm-gerbang/pi1/dynamic-security/v1/response

@@ -6,7 +6,26 @@ import { AturanLengkap } from "./aturan";
 import type { Aturan } from "./skema/aturan-dasar";
 import { Ack } from "./skema/kontrak";
 import type { PerintahSet } from "./skema/kontrak";
-import type { Bacaan, DataRiwayat, JawabanBacaan, JawabanRingkasan, Pengguna, Perangkat, Rentang, TitikRingkasan } from "./types";
+import type {
+  Bacaan,
+  DaftarRilis,
+  DataArmada,
+  DataRiwayat,
+  HasilArmada,
+  HasilJeda,
+  HasilNonaktif,
+  HasilUpdate,
+  JawabanBacaan,
+  JawabanRingkasan,
+  KodeKlaim,
+  KodeKlaimBaru,
+  Pembaruan,
+  Pengguna,
+  Perangkat,
+  Rentang,
+  Rilis,
+  TitikRingkasan,
+} from "./types";
 
 // Alamat backend. Bawaan: nama host halaman ini + port 8080, jadi halaman http://localhost:5173 -> API http://localhost:8080.
 // Nama host yang sama itu penting: cookie SameSite=Strict hanya ikut kalau halaman dan API satu situs
@@ -207,4 +226,99 @@ export async function ambilRiwayat(deviceId: string, rentang: Rentang): Promise<
   const bucket = rentang === "24jam" ? "15m" : "1h";
   const jawaban = await minta<JawabanRingkasan>(jalur + "?bucket=" + bucket);
   return { dari: jawaban.dari, sampai: jawaban.sampai, titik: jawaban.ringkasan };
+}
+
+// ---- Modul 28: halaman Armada (backend 1.5) ----
+
+// GET /armada: semua perangkat terdaftar dengan versi firmware, kesehatan, dan pembaruan terakhirnya (admin dan viewer)
+export function ambilArmada(): Promise<DataArmada> {
+  return minta<DataArmada>("/armada");
+}
+
+// GET /firmware: daftar rilis firmware ("manifest" dari database) beserta ringkasan canary setiap versi
+export function ambilRilis(): Promise<DaftarRilis> {
+  return minta<DaftarRilis>("/firmware");
+}
+
+// POST /firmware/node1/<versi> (admin): badan = isi berkas .bin APA ADANYA (File dari kolom berkas), bukan formulir.
+// Content-Type application/octet-stream = "isi berkas mentah"; backend menghitung SHA-256-nya sendiri dari isi yang
+// diterimanya. Catatan dan tanda uji ikut di alamat (?catatan=…&uji=true): URLSearchParams menyusunnya menjadi teks yang
+// aman ditaruh di alamat (spasi menjadi +, tanda & di dalam catatan menjadi %26). 201 = rilis baru, 200 = berkas yang
+// sempat hilang dari server dipulihkan (isinya sama persis). Galat: 400 (bukan berkas aplikasi ESP32, terlalu besar),
+// 409 (versi sudah ada).
+export function unggahFirmware(versi: string, berkas: File, catatan: string, uji: boolean): Promise<Rilis> {
+  const tanya = new URLSearchParams();
+  if (catatan !== "") tanya.set("catatan", catatan);
+  if (uji) tanya.set("uji", "true");
+  const teks = tanya.toString(); // misalnya "catatan=sapaan+baru&uji=true"; kosong kalau keduanya tidak diisi
+  return minta<Rilis>("/firmware/node1/" + encodeURIComponent(versi) + (teks === "" ? "" : "?" + teks), {
+    method: "POST",
+    headers: { "Content-Type": "application/octet-stream" },
+    body: berkas,
+  });
+}
+
+// POST /devices/:id/update (admin): perbarui SATU perangkat ke versi itu. Jawaban 202 berarti perangkat MENERIMA
+// perintahnya (ack), BELUM selesai: hasilnya (berhasil, rollback, gagal) menyusul lewat acara Socket.IO "ota".
+// paksa = true hanya untuk turun versi yang memang disengaja. Galat: 404, 409 (offline, sedang memperbarui, versi sama,
+// turun versi tanpa paksa), 422 (perangkat menolak), 503 (broker putus, ALAMAT_SERVER kosong).
+export function perbaruiPerangkat(deviceId: string, versi: string, paksa: boolean): Promise<HasilUpdate> {
+  return minta<HasilUpdate>("/devices/" + deviceId + "/update", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(paksa ? { versi, paksa } : { versi }),
+  });
+}
+
+// GET /devices/:id/pembaruan: riwayat pembaruan firmware satu perangkat (paling banyak 20, terbaru lebih dulu)
+export function ambilRiwayatPembaruan(deviceId: string): Promise<Pembaruan[]> {
+  return minta<Pembaruan[]>("/devices/" + deviceId + "/pembaruan");
+}
+
+// POST /armada/update (admin): perbarui semua perangkat canary, atau semua Node 1. "semua" baru dibuka server sesudah
+// paling sedikit satu canary BERHASIL memakai versi itu. Perangkat yang tidak memenuhi syarat dilewati (tidak diantre).
+export function perbaruiBanyak(versi: string, sasaran: "canary" | "semua"): Promise<HasilArmada> {
+  return minta<HasilArmada>("/armada/update", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ versi, sasaran }),
+  });
+}
+
+// PUT /devices/:id/canary (admin): tandai (true) atau lepas (false) perangkat canary
+export function aturCanary(deviceId: string, canary: boolean): Promise<{ device_id: string; canary: boolean }> {
+  return minta<{ device_id: string; canary: boolean }>("/devices/" + deviceId + "/canary", {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ canary }),
+  });
+}
+
+// PUT /devices/:id/jeda (admin): jeda kiriman vitals (kesehatan) 60-3600 detik. telemetry tetap setiap 10 detik.
+export function aturJedaVitals(deviceId: string, detik: number): Promise<HasilJeda> {
+  return minta<HasilJeda>("/devices/" + deviceId + "/jeda", {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ vitals_s: detik }),
+  });
+}
+
+// POST /devices/:id/cabut (admin) = tombol "Nonaktifkan": cabut kunci (Modul 21) + hapus akun broker + status offline.
+// Tanpa body, jadi juga TANPA Content-Type JSON (sama dengan logout).
+export function nonaktifkan(deviceId: string): Promise<HasilNonaktif> {
+  return minta<HasilNonaktif>("/devices/" + deviceId + "/cabut", { method: "POST" });
+}
+
+// POST /provision/kode (admin): kode klaim sekali pakai untuk perangkat baru. Kodenya hanya ada di jawaban ini.
+export function buatKodeKlaim(isi: { nama?: string; lokasi?: string; menit: number }): Promise<KodeKlaimBaru> {
+  return minta<KodeKlaimBaru>("/provision/kode", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(isi),
+  });
+}
+
+// GET /provision/kode (admin): kode klaim terakhir TANPA kodenya: masih berlaku, sudah dipakai perangkat mana, atau kedaluwarsa
+export function ambilKodeKlaim(): Promise<KodeKlaim[]> {
+  return minta<KodeKlaim[]>("/provision/kode");
 }

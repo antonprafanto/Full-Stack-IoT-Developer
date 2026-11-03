@@ -48,9 +48,10 @@ export default defineConfig({
         // alamat layar seperti /peta atau /perangkat/f00d00000001 dijawab index.html dari simpanan (React Router memilih
         // layarnya), juga saat internet putus: aplikasi tetap terbuka dan menulis pesan bahwa server tidak terjangkau
         navigateFallback: '/index.html',
-        // ...KECUALI alamat yang bukan layar dashboard: API (/api), Grafana (/grafana/, Modul 27), dan Socket.IO
-        // (/socket.io bila VITE_API_BASE=/). Alamat itu selalu diteruskan ke server, tidak pernah diganti index.html.
-        navigateFallbackDenylist: [/^\/api(\/|$)/, /^\/grafana(\/|$)/, /^\/socket\.io(\/|$)/],
+        // ...KECUALI alamat yang bukan layar dashboard: API (/api), Grafana (/grafana/, Modul 27), Socket.IO
+        // (/socket.io bila VITE_API_BASE=/), dan unduhan firmware perangkat (/fw/, Modul 28). Alamat itu selalu diteruskan
+        // ke server, tidak pernah diganti index.html. (Jawabannya juga tidak pernah disimpan: hanya berkas globPatterns.)
+        navigateFallbackDenylist: [/^\/api(\/|$)/, /^\/grafana(\/|$)/, /^\/socket\.io(\/|$)/, /^\/fw(\/|$)/],
       },
     }),
   ],

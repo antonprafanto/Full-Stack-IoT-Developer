@@ -1,0 +1,2630 @@
+diff --git a/frontend/Dockerfile b/frontend/Dockerfile
+index 4d2bb77..b4b37f2 100644
+--- a/frontend/Dockerfile
++++ b/frontend/Dockerfile
+@@ -1,9 +1,10 @@
+-# Dockerfile - cetakan (image) web Rumah Pintar Mini 1.3.0 (Modul 26, PWA sejak Modul 27). Dua tahap ("multi-stage"):
++# Dockerfile - cetakan (image) web Rumah Pintar Mini 1.4.0 (Modul 26; PWA sejak Modul 27, layar Armada sejak Modul 28).
++# Dua tahap ("multi-stage"):
+ #   tahap "bangun": Node.js mengubah kode React + TypeScript menjadi berkas siap saji (npm run build -> folder dist/,
+ #                   termasuk manifest.webmanifest dan service worker sw.js sejak Modul 27)
+ #   tahap akhir   : hanya Caddy + isi dist/. Node.js, node_modules, dan kode sumber tertinggal di tahap bangun.
+ # Dibangun dari folder proyek dengan: docker compose build web   (atau dari folder ini saja, tanpa folder backend:
+-# docker build -t rumah-pintar-mini-web:1.3.0 .)
++# docker build -t rumah-pintar-mini-web:1.4.0 .)
+ 
+ # Tag persis (sama dengan cetakan backend), bukan "latest": cetakan yang sama hari ini dan bulan depan.
+ FROM node:24.22.1-alpine3.24 AS bangun
+diff --git a/frontend/README.md b/frontend/README.md
+index 1f75ca7..400ff73 100644
+--- a/frontend/README.md
++++ b/frontend/README.md
+@@ -2,12 +2,14 @@
+ 
+ 🌐 **Bahasa Indonesia** · [English](../../en/mini-smart-home/frontend/README.md)
+ 
+-Dashboard v1.3 proyek Rumah Pintar Mini: halaman web React 19 + TypeScript dengan Tailwind CSS v4, dibuat dengan Vite 8 (templat `react-ts` dari create-vite 9.3.1). Setiap layar punya alamat sendiri (React Router v8, mode deklaratif), dan layar di balik *login* dijaga rute terproteksi. Dashboard menampilkan data *live* dari backend lewat Socket.IO (daftar perangkat, detail dengan grafik 5 menit dan gauge, riwayat 1 jam / 24 jam / 7 hari dengan tabel dan CSV), dan sejak Modul 24 juga **mengendalikan** perangkat: akun admin menyalakan lampu dan kipas dengan status "Menunggu konfirmasi perangkat…", menyiram dengan pompa, serta membuat, mengubah, menonaktifkan, dan menghapus aturan otomatis lewat formulir yang diperiksa skema Zod yang sama dengan backend. Akun viewer melihat semua data tanpa tombol kendali. Kejadian penting (aturan bertindak, perangkat terputus) muncul sebagai *toast*. Sejak Modul 25 (v1.1) ada layar **Peta**: setiap perangkat yang punya titik (`lat`, `lng` dari backend 1.2) tampil sebagai lingkaran hijau/abu-abu di atas peta OpenStreetMap, berwarna menurut status *live*-nya. Tampilannya dirancang rapi di HP dan laptop, mengikuti mode gelap sistem, dan bisa dibuka dari HP di WiFi rumah (lihat "Batasan v1.3"). Dengan v1.1, dashboard Fase 4 lengkap: data *live* (Modul 23), kendali dan peran (Modul 24), dan peta perangkat (Modul 25, 🎉 Checkpoint Fase 4). Dashboard teknis Grafana BUKAN bagian folder ini: ia tinggal di kontainernya sendiri, dengan berkasnya di folder `grafana/` proyek.
++Dashboard v1.4 proyek Rumah Pintar Mini: halaman web React 19 + TypeScript dengan Tailwind CSS v4, dibuat dengan Vite 8 (templat `react-ts` dari create-vite 9.3.1). Setiap layar punya alamat sendiri (React Router v8, mode deklaratif), dan layar di balik *login* dijaga rute terproteksi. Dashboard menampilkan data *live* dari backend lewat Socket.IO (daftar perangkat, detail dengan grafik 5 menit dan gauge, riwayat 1 jam / 24 jam / 7 hari dengan tabel dan CSV), dan sejak Modul 24 juga **mengendalikan** perangkat: akun admin menyalakan lampu dan kipas dengan status "Menunggu konfirmasi perangkat…", menyiram dengan pompa, serta membuat, mengubah, menonaktifkan, dan menghapus aturan otomatis lewat formulir yang diperiksa skema Zod yang sama dengan backend. Akun viewer melihat semua data tanpa tombol kendali. Kejadian penting (aturan bertindak, perangkat terputus) muncul sebagai *toast*. Sejak Modul 25 (v1.1) ada layar **Peta**: setiap perangkat yang punya titik (`lat`, `lng` dari backend 1.2) tampil sebagai lingkaran hijau/abu-abu di atas peta OpenStreetMap, berwarna menurut status *live*-nya. Tampilannya dirancang rapi di HP dan laptop, mengikuti mode gelap sistem, dan bisa dibuka dari HP di WiFi rumah (lihat "Batasan v1.4"). Dengan v1.1, dashboard Fase 4 lengkap: data *live* (Modul 23), kendali dan peran (Modul 24), dan peta perangkat (Modul 25, 🎉 Checkpoint Fase 4). Dashboard teknis Grafana BUKAN bagian folder ini: ia tinggal di kontainernya sendiri, dengan berkasnya di folder `grafana/` proyek.
+ 
+ **v1.2 (Modul 26)** mengemas dashboard sebagai **image Docker** (layanan `web` di `compose.cloud.yml`, akar proyek): Node.js hanya dipakai saat membangun, lalu **Caddy** menyajikan isi `dist/` di `http://localhost` dan meneruskan setiap alamat `/api/…` ke backend, jadi halaman dan API berada di satu alamat. Kode dashboard hanya berubah tiga baris di `src/soket.ts` (sambungan *live* lewat jalur `/api/socket.io/`), dan `npm run dev` tetap jalan seperti sebelumnya. Rinciannya di [Menjalankan dengan Docker Compose](#menjalankan-dengan-docker-compose-modul-26) dan [Catatan versi 1.2](#catatan-versi-12).
+ 
+ **v1.3 (Modul 27)** menjadikan dashboard **aplikasi yang bisa dipasang** (PWA, *Progressive Web App*) di HP dan laptop: satu paket pengembang baru, `vite-plugin-pwa` 2.0.0, menulis *manifest* (nama, ikon, warna aplikasi) dan *service worker* (petugas kecil di browser yang menyimpan cangkang dashboard) saat `npm run build`. Ikon tab kini gambar rumah (bukan lagi logo Vite), dan ada ikon aplikasi 192 dan 512 px. Data rumah tidak pernah disimpan: angka tetap diminta ke server, dan saat internet putus aplikasi terpasang tetap terbuka dengan pesan "Tidak bisa menghubungi server. Periksa sambungan internetmu, lalu coba lagi." Pemasangannya butuh alamat aman, `https://` (VPS atau jalur gratis Modul 27) atau `http://localhost`. Rinciannya di [Aplikasi di HP (PWA, Modul 27)](#aplikasi-di-hp-pwa-modul-27) dan [Catatan versi 1.3](#catatan-versi-13).
+ 
++**v1.4 (Modul 28)** menambah layar **Armada** (`/armada`, menu **Armada**): semua perangkat dengan versi firmware, kesehatan dari *vitals* terakhir (alasan menyala ulang, sinyal WiFi, RAM, lama menyala), dan pembaruan terakhirnya, plus daftar rilis firmware di server. Akun admin mengunggah berkas firmware `.bin` dari browser (ukuran dan SHA-256 dihitung server), memperbarui firmware lewat udara (OTA) satu perangkat, perangkat *canary*, lalu semua, membuat **kode klaim** sekali pakai untuk perangkat baru, mengatur jeda *vitals*, dan **menonaktifkan** perangkat yang hilang. Kemajuan pembaruan (diterima → mengunduh → berhasil, *rollback*, atau gagal) tampil sendiri lewat Socket.IO, tanpa *polling*. Status `offline-mode` kini ditulis **berhenti sengaja** di semua layar. Tanpa paket npm baru; pasangannya backend 1.5 dan kontrak data 1.6. Rinciannya di [Armada (Modul 28)](#armada-modul-28) dan [Catatan versi 1.4](#catatan-versi-14).
++
+ ## Menjalankan dengan Docker Compose (Modul 26)
+ 
+ Cara sehari-hari ("mode rumah"): dashboard menyala bersama seluruh rumah, tanpa Node.js dan tanpa `npm install` di laptop. Semua perintah diketik dari **akar proyek** (folder yang berisi `compose.cloud.yml`). Langkah lengkapnya ada di [Modul 26](../../fase-5-operasi-skala/modul-26-docker-compose/README.md).
+@@ -20,12 +22,12 @@ Cara sehari-hari ("mode rumah"): dashboard menyala bersama seluruh rumah, tanpa
+ | :--- | :--- |
+ | `docker compose ps` | `web` harus `Up`. Kolom PORTS juga menulis `443/tcp, 2019/tcp, 443/udp`: itu hanya catatan bawaan image Caddy; yang benar-benar dibuka ke laptop hanya `127.0.0.1:80->80/tcp` |
+ | `docker compose logs web` | log Caddy (format JSON). Empat baris `"level":"warn"` saat menyala itu wajar di Modul 26: `admin endpoint disabled`, `server is listening only on the HTTP port, so no automatic HTTPS will be applied to this server`, `HTTP/2 skipped because it requires TLS`, dan `HTTP/3 skipped because it requires TLS`. Itu juga wajar di laptop sejak Modul 27 (`DOMAIN_WEB` kosong = HTTP saja); di VPS, Caddy menulis log sertifikatnya sendiri (lihat Modul 27) |
+-| `docker compose build web` lalu `docker compose up -d web` | membangun ulang image sesudah kode dashboard berubah (tag = `version` di `package.json`). Di Raspberry Pi 5 penulis (v1.3, dengan paket PWA): ±127 detik dari awal (`npm ci` ±67 detik + `npm run build` ±55 detik), ±60 detik bila daftar library tidak berubah (hanya `npm run build` yang diulang). Sebelum v1.3: ±103 detik dari awal |
++| `docker compose build web` lalu `docker compose up -d web` | membangun ulang image sesudah kode dashboard berubah (tag = `version` di `package.json`). Di Raspberry Pi 5 penulis, v1.4: 35,9 detik (`npm ci` 16,8 detik + `npm run build` 17,4 detik) sesudah `package.json` berubah, ±20 detik bila daftar library tidak berubah (hanya `npm run build` yang diulang). v1.3 tercatat ±127 detik (`npm ci` ±67 detik): lama `npm ci` terutama bergantung pada kecepatan unduhan paket saat itu, bukan pada kode dashboard |
+ | `docker compose restart web` | membaca ulang `caddy/Caddyfile` sesudah kamu mengubahnya (±1 detik) |
+ 
+ **Cara kerjanya.**
+ 
+-- **Dua tahap** ([`Dockerfile`](Dockerfile)). Tahap `bangun` (`node:24.22.1-alpine3.24`) menjalankan `npm ci` lalu `npm run build`. Tahap akhir (`caddy:2.11.7-alpine`) hanya membawa isi `dist/` (di `/srv`) dan `Caddyfile`: tanpa Node.js, tanpa `node_modules`, tanpa kode sumber. Image buatan penulis (Raspberry Pi 5, arm64) berukuran **90,4 MB** di disk dan **24 MB** terkompres (yang diunduh dari toko image). [`.dockerignore`](.dockerignore) menahan `node_modules`, `dist`, dan `.env.local` milik laptopmu.
++- **Dua tahap** ([`Dockerfile`](Dockerfile)). Tahap `bangun` (`node:24.22.1-alpine3.24`) menjalankan `npm ci` lalu `npm run build`. Tahap akhir (`caddy:2.11.7-alpine`) hanya membawa isi `dist/` (di `/srv`) dan `Caddyfile`: tanpa Node.js, tanpa `node_modules`, tanpa kode sumber. Image buatan penulis (Raspberry Pi 5, arm64) berukuran **90,5 MB** di disk dan **24 MB** terkompres (yang diunduh dari toko image) untuk v1.4 (v1.3: 90,4 MB). [`.dockerignore`](.dockerignore) menahan `node_modules`, `dist`, dan `.env.local` milik laptopmu.
+ - **Alamat API dibakar saat build.** Baris `ARG VITE_API_BASE=/api` di `Dockerfile` (diisi `args` di `compose.cloud.yml`) membuat Vite menulis teks `/api` langsung ke JavaScript, menggantikan alamat bawaan "nama host halaman + `:8080`". Mengubahnya berarti membangun ulang image; `.env.local` tidak pernah dibaca image.
+ - **Satu alamat untuk halaman dan API.** Caddy ([`caddy/Caddyfile`](caddy/Caddyfile)) meneruskan setiap alamat berawalan `/api` ke backend dan membuang awalannya: `http://localhost/api/devices` → `backend:8080/devices`. `backend` adalah nama layanan di lorong Compose. Karena halaman dan API sama-sama `http://localhost`, browser tidak perlu izin CORS lintas port, dan *cookie* `SameSite=Strict` ikut terkirim.
+ - **Sambungan *live*.** Socket.IO membaca `io("/api")` sebagai *namespace* (nama ruang di dalam server), bukan jalur, sehingga lencana tidak pernah **Live** (`connect_error: server error`). Karena itu `src/soket.ts` sejak v1.2: kalau `BASE` diawali `/` (atau kosong), jalurnya diberikan lewat opsi `path` (`/api/socket.io`). Di mode kembang `BASE` berisi alamat lengkap (`http://localhost:8080`), jadi cara lama tetap dipakai.
+@@ -35,9 +37,11 @@ Cara sehari-hari ("mode rumah"): dashboard menyala bersama seluruh rumah, tanpa
+ - **Caddyfile dari repo.** Compose memasang folder `frontend/caddy/` ke `/etc/caddy` (hanya-baca); salinan di dalam image hanya dipakai kalau image dijalankan sendirian. Caddy membaca berkas itu saat menyala saja (`admin off`), jadi sesudah mengubahnya: `docker compose restart web`.
+ - **HTTP di laptop, HTTPS di internet (Modul 27).** Alamat situs di Caddyfile adalah `{$DOMAIN_WEB::80}`: bila `DOMAIN_WEB` di `.env` akar kosong (laptop, Pi jalur gratis), Caddy melayani HTTP biasa di port 80 untuk nama apa pun yang diketik, persis Modul 26. Di VPS, `DOMAIN_WEB=iot.namaanda.my.id`: Caddy meminta sertifikat Let's Encrypt sendiri, melayani HTTPS, dan mengalihkan `http://` ke `https://`. Alamat broker (`DOMAIN_MQTT`) dijawab `404` "Alamat ini untuk broker MQTT (port 8883), bukan dashboard.", dan `/grafana/` diteruskan ke Grafana bila `GRAFANA_ALAMAT` diisi (lihat `grafana/README.md`). Langkahnya ada di [Modul 27](../../fase-5-operasi-skala/modul-27-deploy-internet-tls-pwa/README.md).
+ - **Backend mati?** Halaman tetap terbuka (Caddy yang menyajikannya), tetapi setiap permintaan `/api` dijawab `502` tanpa isi: layar **Masuk** menulis `Terjadi gangguan (502).`, dan dashboard yang sudah terbuka menampilkan lencana **Menyambung ulang…** sampai backend kembali. `docker compose logs web` menulis sebabnya, misalnya `dial tcp: lookup backend on 127.0.0.11:53: server misbehaving` (layanan `backend` dihentikan) atau `connect: connection refused` (backend sedang menyala). Periksa `docker compose ps` dan `docker compose logs backend`.
++- **Unduhan firmware `/fw/…` (Modul 28)** diteruskan Caddy ke backend apa adanya: tanpa kompresi, tanpa awalan yang dibuang (blok `handle /fw/*` di Caddyfile, bagian infrastruktur). Alamat ini untuk perangkat, bukan browser: backend memeriksa kunci perangkat, jadi dibuka di browser dijawab `403` `{"pesan":"butuh Basic Auth device_id:kunci"}`, juga sesudah *service worker* aktif (dicoba penulis). Berkas firmware tidak pernah disajikan Caddy langsung: lemari `data-firmware` hanya dipasang di backend.
++- **Pintu perangkat `:8081` (Modul 28, Pi jalur gratis).** Caddyfile punya situs kedua di pintu 8081 yang hanya meneruskan `/fw/…` dan `/api/provision/klaim`; selain itu dijawab `404`. Di Pi jalur gratis, `.env` akar menulis `ALAMAT_WEB=<IP Pi>` + `PINTU_WEB_DALAM=8081`, sehingga WiFi rumah hanya melihat pintu itu, sedangkan dashboard tetap lewat terowongan (cloudflared mengetuk `http://web:80`). Kepercayaan pada `X-Forwarded-For` (`PROKSI_TEPERCAYA`) hanya berlaku di pintu 80 (`servers :80` di Caddyfile): kalau berlaku juga untuk WiFi rumah, HP mana pun di sana bisa memalsukan alamatnya dan lolos dari batas laju *login* dan klaim. Di laptop dan VPS pintu 8081 tidak disambung ke luar.
+ - **Dokumentasi API** tetap di loket backend, `http://localhost:8080/docs` (lihat `backend/README.md`). `http://localhost/api/docs` tidak bisa dipakai di balik Caddy: aset halamannya salah alamat, dan tombol **Try it out** memanggil API tanpa awalan `/api`.
+ 
+-**Mencoba image ini sendirian** (tanpa Compose, dari folder `frontend`, tanpa folder `backend`): `docker build -t rumah-pintar-mini-web:1.3.0 .`, lalu `docker run -d --rm --name coba-web -p 127.0.0.1:8088:80 rumah-pintar-mini-web:1.3.0`. `http://localhost:8088/` dan `http://localhost:8088/peta` menjawab halaman dashboard (200), sedangkan `http://localhost:8088/api/health` menjawab `502`, karena di luar Compose tidak ada layanan bernama `backend`. Hentikan dengan `docker stop coba-web`.
++**Mencoba image ini sendirian** (tanpa Compose, dari folder `frontend`, tanpa folder `backend`): `docker build -t rumah-pintar-mini-web:1.4.0 .`, lalu `docker run -d --rm --name coba-web -p 127.0.0.1:8088:80 rumah-pintar-mini-web:1.4.0`. `http://localhost:8088/` dan `http://localhost:8088/peta` menjawab halaman dashboard (200), sedangkan `http://localhost:8088/api/health` menjawab `502`, karena di luar Compose tidak ada layanan bernama `backend`. Hentikan dengan `docker stop coba-web`.
+ 
+ ## Mode kembang (Vite, `npm run dev`)
+ 
+@@ -66,13 +70,13 @@ docker compose exec db psql -U postgres -d rumahpintar -c "CALL refresh_continuo
+ 
+ Paket yang ditambahkan di Modul 24 dipasang dengan versi tertulis: `npm install react-router@8.5.0 react-hook-form@7.91.0 @hookform/resolvers@5.9.2 zod@4.6.7`. Perintah tanpa versi bisa gagal (`npm error code ERESOLVE`, karena `@hookform/resolvers` 6.0.0); jangan memakai `--legacy-peer-deps`.
+ 
+-Paket PWA (Modul 27) adalah paket **pengembang** (`-D`, hanya dipakai saat build) dengan versi persis: `npm install -D -E vite-plugin-pwa@2.0.0`. Ia menarik sekitar 300 paket pembantu (Workbox, Babel), jadi `node_modules` membesar dari ±245 MB menjadi ±321 MB; isi `dist/` hanya bertambah ±16 kB. Sesudah pemasangan, npm menulis `4 low severity vulnerabilities`: semuanya satu temuan di `deepmerge` (dipakai alat build Workbox, berjalan di laptopmu saat `npm run build`, tidak ikut ke browser), dan per Oktober 2026 belum ada versi perbaikannya. `npm audit --omit=dev` (paket yang ikut ke browser) menulis `found 0 vulnerabilities`. **Jangan** menjalankan `npm audit fix --force`: perintah itu "memperbaiki" dengan memasang `vite-plugin-pwa` 0.2.1 yang kuno dan merusak build.
++Paket PWA (Modul 27) adalah paket **pengembang** (`-D`, hanya dipakai saat build) dengan versi persis: `npm install -D -E vite-plugin-pwa@2.0.0`. Ia menarik sekitar 300 paket pembantu (Workbox, Babel), jadi `node_modules` membesar dari ±245 MB menjadi ±321 MB; isi `dist/` hanya bertambah ±16 kB. Ringkasan audit yang ditulis npm sesudah pemasangan (juga sesudah `npm ci`) bergantung pada tanggal. Per 2 November 2026, dengan `package-lock.json` 1.4.0, npm menulis `10 vulnerabilities (2 low, 8 moderate)` (di Modul 27: `4 low severity vulnerabilities`; sesudahnya terbit dua laporan celah baru, untuk `glob` dan `minimatch`). Semuanya di alat build yang dipasang sebagai paket pengembang: `deepmerge` lama yang dipakai Workbox, serta `glob` dan `minimatch` lewat `workbox-build` di bawah `vite-plugin-pwa`. Alat itu hanya berjalan di laptopmu saat `npm run build`, tidak ikut ke browser: `npm audit --omit=dev` (paket yang ikut ke browser) menulis `found 0 vulnerabilities`. **Jangan** menjalankan `npm audit fix --force`: per tanggal yang sama sarannya *turun* ke `vite-plugin-pwa` 1.1.0, versi lama, bukan perbaikan.
+ 
+ Paket peta (Modul 25) juga dipasang dengan versi tertulis: `npm install leaflet@1.9.4 react-leaflet@5.0.0`, lalu `npm install -D @types/leaflet@1.9.22`. Jangan menyalin perintah dari halaman pemasangan react-leaflet (`react@rc`, `react-leaflet@next`): per Oktober 2026 perintah itu memasang versi uji lama (React 19.0.0-rc.1, react-leaflet 5.0.0-rc.2).
+ 
+ ## Peta rute
+ 
+-Semua alamat ada di satu tempat: `<Routes>` di `src/App.tsx`. Alamat halaman sengaja berbahasa Indonesia supaya tidak tertukar dengan alamat API backend (`/auth`, `/devices`, `/rules`). `npm run dev` dan `npm run preview` menyajikan `index.html` untuk alamat mana pun, jadi **F5** dan tautan langsung ke `/perangkat/f00d00000001` tetap jalan. Sejak Modul 26, Caddy di image web memakai aturan yang sama (`try_files {path} /index.html` di `caddy/Caddyfile`).
++Semua alamat ada di satu tempat: `<Routes>` di `src/App.tsx`. Alamat halaman sengaja berbahasa Indonesia supaya tidak tertukar dengan alamat API backend (`/auth`, `/devices`, `/rules`). Satu pengecualian sejak Modul 28: `/armada` adalah alamat layar sekaligus alamat API backend (`GET /armada`); tidak bertabrakan, karena dari browser API selalu lewat `/api/armada` (mode rumah) atau loket 8080 (mode kembang). `npm run dev` dan `npm run preview` menyajikan `index.html` untuk alamat mana pun, jadi **F5** dan tautan langsung ke `/perangkat/f00d00000001` tetap jalan. Sejak Modul 26, Caddy di image web memakai aturan yang sama (`try_files {path} /index.html` di `caddy/Caddyfile`).
+ 
+ | Alamat | Layar | Siapa |
+ | :--- | :--- | :--- |
+@@ -84,6 +88,7 @@ Semua alamat ada di satu tempat: `<Routes>` di `src/App.tsx`. Alamat halaman sen
+ | `/peta` | peta perangkat (Modul 25): lingkaran hijau/abu-abu menurut status *live*, popup + tautan ke detail | admin & viewer |
+ | `/aturan` | daftar aturan otomatis dalam kalimat biasa; tombol **+ Aturan baru** dan **Ubah** hanya untuk admin | admin & viewer |
+ | `/aturan/baru`, `/aturan/:id` | formulir aturan (buat, ubah, nonaktifkan, hapus) | admin; viewer melihat layar "Khusus admin" |
++| `/armada` | armada (Modul 28): versi firmware, kesehatan, pembaruan; rilis firmware; tombol **Unggah firmware**, **Perbarui**, **Canary**, **Perbarui canary**/**Perbarui semua**, **Buat kode**, jeda *vitals*, dan **Nonaktifkan** hanya untuk admin | admin & viewer |
+ | alamat lain | "Halaman tidak ditemukan" + tautan ke daftar perangkat | semua |
+ 
+ Layar yang dibuka tanpa *login* (misalnya tautan `/perangkat/f00d00000001/riwayat` di jendela privat) dipindah ke `/masuk`; sesudah masuk, dashboard kembali ke layar tadi. Sesudah tombol **Keluar**, orang berikutnya selalu mulai dari `/perangkat`.
+@@ -102,10 +107,26 @@ Layar yang dibuka tanpa *login* (misalnya tautan `/perangkat/f00d00000001/riwaya
+ - **Privasi:** koordinat rumah adalah data pribadi (alamat rumahmu). Contoh di modul memakai titik fiktif di tempat umum (sekitar Monas, Jakarta). Sebelum membagikan tangkapan layar peta, pakai titik contoh atau samarkan lokasinya.
+ - **Lisensi pustaka peta:** Leaflet 1.9.4 berlisensi BSD-2-Clause. react-leaflet 5.0.0 (beserta `@react-leaflet/core`) berlisensi **Hippocratic License 2.1**: gratis dipakai dan diubah, dengan syarat pemakaiannya sejalan dengan prinsip hak asasi manusia (Deklarasi Universal Hak Asasi Manusia PBB, disebut di teks lisensinya). Syarat tambahan itu membuatnya **tidak** termasuk lisensi sumber terbuka yang diakui OSI (GitHub menampilkannya sebagai `NOASSERTION`). Untuk proyek belajar ini tidak menjadi masalah; untuk produk yang dijual, baca dulu teks lengkapnya (`node_modules/react-leaflet/LICENSE.md`), atau pakai Leaflet langsung tanpa react-leaflet (dibahas di Bedah Teknis Modul 25).
+ 
++## Armada (Modul 28)
++
++Layar `/armada` (menu **Armada**) adalah ruang kendali firmware semua perangkat. Datanya dari backend 1.5 (`GET /armada` dan `GET /firmware`); semua peran boleh melihat, tombolnya hanya digambar untuk admin. Langkah lengkapnya ada di [Modul 28](../../fase-5-operasi-skala/modul-28-ota-provisioning-fleet/README.md).
++
++- **Kartu perangkat** (`components/KartuArmada.tsx`): nama, jenis, lokasi, `device_id`, "terakhir dilihat", lencana status (**Online**, **Offline**, **berhenti sengaja**, atau **nonaktif**), **canary**, dan **perlu diperbarui** (Node 1 yang versinya lebih lama daripada rilis terbaru). Di bawahnya: versi firmware, kesehatan dari *vitals* terakhir (alasan menyala ulang `reset_reason` beserta artinya, sinyal WiFi dengan kategori tabel RSSI Modul 10, RAM bebas, lama menyala, jeda *vitals*), dan pembaruan terakhir (status, versi dari → ke, waktu, alasan). **Riwayat pembaruan** (paling banyak 20, terbaru di atas) baru diambil dari server saat dibuka. Satu bentuk kartu untuk HP dan laptop (dua kolom di HP, tiga kolom mulai 640 px), bukan tabel: kolom isi dashboard hanya 768 px.
++- **Alasan menyala ulang** berwarna menurut artinya: `BROWNOUT` kuning (tegangan sempat turun: periksa catu daya), `PANIC` dan `WDT` merah (program mogok atau macet), `SW` biru (dinyalakan ulang program: pembaruan, *rollback*, `restart`), `POWERON`, `DEEPSLEEP`, dan `UNKNOWN` abu-abu. Firmware sebelum 1.7.0 tidak melaporkannya: "— (firmware lama belum melaporkan)".
++- **berhenti sengaja** = status `offline-mode` (kontrak 1.6): perangkat sengaja memutus sambungan dengan rapi sebelum menyala ulang (memasang firmware baru, atau perintah Serial `restart`). Lencananya biru langit, bukan merah, dan biasanya kembali **Online** dalam ±1 menit. Sejak v1.4 lencana yang sama dipakai di layar Perangkat dan Detail (dulu "mode offline", yang tertukar dengan mode offline Modul 19).
++- **Node 2** tampil dengan versi dari paketnya dan kalimat "OTA tidak tersedia untuk Node 2: perbarui lewat kabel.", tanpa tombol Perbarui.
++- **Unggah firmware** (admin, `components/UnggahFirmware.tsx`): berkas `.bin`, versi `x.y.z` (sama dengan `VERSI_FIRMWARE` di berkas itu), catatan (paling panjang 200 huruf), dan centang **uji** (rilis yang sengaja salah untuk latihan *rollback*: hanya per perangkat, tidak pernah "semua", tidak dihitung rilis terbaru). Sebelum mengirim, browser menolak berkas yang tidak berakhiran `.bin`, berkas `*.merged.bin`, `*.bootloader.bin`, atau `*.partitions.bin`, berkas kosong, berkas lebih dari 1.966.080 byte (satu rak program), dan berkas yang bait pertamanya bukan `0xE9`, juga versi yang bukan `x.y.z` (aturan versi yang sama dengan kontrak: `LaporanOta.shape.versi` dari salinan skema). Isi berkas dikirim **apa adanya** (`fetch` dengan badan `File` dan `Content-Type: application/octet-stream`, bukan formulir *multipart*); backend memeriksa ulang semuanya dan menghitung SHA-256 sendiri. Hasilnya (ukuran dan `sha256`) tampil di bawah formulir: bandingkan dengan `sha256sum` (Linux, macOS) atau `Get-FileHash` (PowerShell). Galat dari backend, misalnya versi yang sudah ada (`409`), ditulis di formulir.
++- **Rilis firmware** (`components/DaftarRilis.tsx`): terbaru di atas, dengan lencana **terbaru**, **uji**, atau **ditarik**, ukuran (dan persennya dari satu rak), `sha256`, catatan, waktu unggah, dan ringkasan canary. Admin mendapat **Perbarui canary** (semua Node 1 bertanda canary) dan **Perbarui semua**, yang terkunci ("Terkunci: belum ada canary yang berhasil.") sampai paling sedikit satu canary **berhasil** memakai versi itu tanpa canary yang gagal; yang memutuskan server (`boleh_semua`). Hasilnya (perangkat yang dikirimi dan yang dilewati beserta alasannya) tampil di bawah rilis itu. Perangkat yang offline atau sedang memperbarui dilewati, **tidak diantre**: perbarui lagi nanti.
++- **Tombol di kartu** (admin, `components/TindakanArmada.tsx`): pilihan versi (bawaannya rilis terbaru, juga sesudah rilis baru diunggah; rilis uji bisa dipilih) + **Perbarui**; **Canary**; dan di **Pengaturan lain**: jeda *vitals* 60–3600 detik (`telemetry` tetap 10 detik; WiFi, alamat server, dan kunci tidak bisa diubah dari jauh) dan **Nonaktifkan**. Perbarui, Perbarui canary, Perbarui semua, dan Nonaktifkan selalu bertanya dulu lewat kotak "yakin?" di halaman (`components/TombolKonfirmasi.tsx`, pola **Hapus aturan** Modul 24: tombol **Batal** langsung difokus). Tombol Perbarui mati, dengan alasannya tertulis, kalau perangkat dinonaktifkan, Node 2, jenisnya belum diketahui, `ALAMAT_SERVER` di `.env` server belum diisi, belum ada rilis, pembaruan sebelumnya masih berjalan, perangkat tidak online, atau versi yang dipilih sedang dipakai. Backend tetap memeriksa ulang (409), misalnya turun versi: centang **Izinkan turun versi** di kotak "yakin?". Galat tombol (misalnya `503` Nonaktifkan: "belum tersimpan di database … ulangi langkah ini sebentar lagi") tetap tampil di kartu sampai **Tutup** diketuk (`components/KotakGalat.tsx`), tidak hilang seperti *toast*.
++- **Jawaban `202` = diterima, bukan selesai.** Kartu lalu berubah sendiri lewat acara Socket.IO `ota`: **diterima perangkat**, lalu **berhenti sengaja** + **mengunduh**, lalu **Online** dengan **berhasil** (versi baru), atau **kembali ke versi lama (rollback)**, **gagal** (dengan alasannya, misalnya `sha256 tidak cocok (-109)`), **ditolak perangkat**, atau **kedaluwarsa (tanpa kabar)**. Pembaruan yang selesai membuat layar mengambil ulang `GET /armada` dan `GET /firmware` (versi, kesehatan, ringkasan canary).
++- **Perangkat baru** (admin, `components/BuatKodeKlaim.tsx`): **Buat kode** dengan nama dan lokasi (tidak wajib) dan masa berlaku 5–60 menit (bawaan 30). Kode `XXXX-XXXX` tampil **sekali** di kotak baca-saja dengan tombol **Salin** (salin otomatis hanya di alamat aman, `https://` atau `localhost`; di `http://<IP>` kodenya disorot untuk disalin dengan Ctrl + C). Kode tidak disimpan di mana pun di browser: hilang saat **Tutup** diketuk atau layar ditinggalkan. Di bawahnya, "Kode terakhir (tanpa kodenya)": masih berlaku, sudah dipakai (oleh `device_id` mana), atau kedaluwarsa. Perangkat yang mendaftar dengan kode itu muncul sendiri di Armada (kejadian `provisioning`), lalu jenis dan versinya terisi begitu kiriman pertamanya tiba.
++- **Nonaktifkan** = `POST /devices/:id/cabut` (backend 1.5): kunci dicabut, akun broker dihapus (perangkat langsung terputus), dan status `offline` ditulis server. Kartu menjadi **nonaktif**; langkah tangan yang masih perlu (misalnya baris lama di berkas sandi broker Modul 21) tampil di kartu sampai ditutup. Perangkat hidup lagi hanya dengan kunci baru atau kode klaim baru.
++- **Live tanpa *polling*.** Status, versi (dari `telemetry`), dan kemajuan pembaruan datang lewat Socket.IO. Data lain diambil ulang hanya saat ada kabar: pembaruan selesai, kejadian `provisioning` atau `dicabut`, sambungan *live* pulih, atau tombolmu sendiri (`versiArmada` di `toko.ts`, pola `versiAturan` layar Aturan). Kesehatan (*vitals*, bawaannya tiap 5 menit) tidak dikirim lewat Socket.IO: angkanya dari pengambilan terakhir, dengan jam *vitals*-nya tertulis.
++
+ ## Peran: admin dan viewer
+ 
+ - Peran dibaca dari jawaban `GET /auth/me` dan `POST /auth/login`, lalu hanya disimpan di memori tab (toko Zustand), tidak pernah di `localStorage`.
+-- Tombol kendali, **+ Aturan baru**, dan **Ubah** baru digambar sesudah peran admin **pasti** (`useAdmin()` di `toko.ts`), jadi tidak sempat berkedip di layar viewer.
++- Tombol kendali, **+ Aturan baru**, **Ubah**, dan (sejak v1.4) tombol layar Armada baru digambar sesudah peran admin **pasti** (`useAdmin()` di `toko.ts`), jadi tidak sempat berkedip di layar viewer.
+ - Menyembunyikan tombol hanya kenyamanan layar, **bukan pengaman**. Yang menjaga tetap satpam backend: setiap perintah dan perubahan dari akun viewer dijawab `403 akun viewer hanya boleh melihat; perintah dan perubahan khusus admin`, dari dashboard, Bruno, atau jalan lain.
+ - Peran yang diubah lewat `npm run pengguna` di backend baru terlihat sesudah halaman dimuat ulang atau gelang akses (15 menit) diperbarui.
+ 
+@@ -128,6 +149,7 @@ Layar yang dibuka tanpa *login* (misalnya tautan `/perangkat/f00d00000001/riwaya
+ - Paling banyak 2 sekaligus (yang ketiga mendorong yang paling lama keluar), masing-masing hilang sendiri sesudah 4 detik (`setTimeout`, bukan `setInterval`) atau ditutup dengan tombol ✕ (44 × 44 px). Wadahnya (`components/WadahToast.tsx`) dipasang `TataLetak` di antara kepala dan isi layar, jadi selalu ada di semua layar sesudah masuk, dengan `role="status"` dan `aria-live="polite"`: pembaca layar mengumumkan isinya tanpa memindah fokus. Warna selalu ditemani ikon dan teks.
+ - Letaknya mengikuti lebar layar, supaya tidak menutupi tombol yang sedang dipakai. Di layar 1280 px ke atas: pojok kanan atas, di ruang kosong samping kolom isi, menempel di tepi atas saat halaman digulir. Di HP dan tablet (di bawah 1280 px tidak ada ruang kosong di samping isi): di BAWAH layar, ditambah jarak garis sistem HP bila ada (`env(safe-area-inset-bottom)`). Supaya tombol paling bawah (**Simpan aturan**, **Hapus aturan**) selalu bisa digulir ke atas toast, isi halaman diberi ruang kosong 16rem di bawah (`pb-64` di `<main>`), dan `scroll-pb-64` di `<html>` (`index.html`) membuat browser yang menggulir sendiri ke tombol atau kolom (tombol Tab, kolom yang salah isi) berhenti di atas toast. Diuji di 375 px dan 1280 px, terang dan gelap, juga saat tiga toast datang sekaligus: **Keluar**, **+ Aturan baru**, **Ubah**, Lampu, Kipas, tombol pompa, **Simpan aturan**, **Batal**, **Hapus aturan**, dan **Ya, hapus** tidak tertutup. Yang tetap bisa terjadi di HP: tombol yang kebetulan tepat di tepi bawah layar saat toast datang tertutup sampai halaman digulir sedikit lagi (atau toast ditutup ✕, paling lama 4 detik). Di layar yang pendek atau sangat sempit (HP yang dimiringkan, atau HP selebar 320 px) toast bisa menutupi baris Lampu/Kipas atau tombol pompa, termasuk toast dari tombol yang baru diketuk. Ketukan yang jatuh di kartu toast tidak sampai ke tombol di bawahnya: tutup dulu toast-nya dengan ✕ atau tunggu sampai hilang. Ruang kosong wadahnya (di luar kartu) tidak menghalangi ketukan.
+ - Warna *toast* kejadian diambil dari data, bukan dari kalimatnya: perangkat terputus (status perangkat di toko bukan `online`), dan aturan atau jadwal yang tindakannya tidak terlaksana (`data.ok` `false` dari backend 1.1, atau `data.hasil` `tanpa-ack`/`tidak-dikirim`) berwarna merah; lainnya abu-abu.
++- Sejak v1.4 (Modul 28): kejadian `ota` hijau kalau pembaruan **berhasil**, merah kalau *rollback*, gagal, ditolak, atau kedaluwarsa, dan abu-abu saat perintahnya diterima; `provisioning` (perangkat baru lewat kode klaim) hijau; `dicabut` abu-abu; perangkat yang **berhenti sengaja** (`offline-mode`) abu-abu, bukan merah. Acara `ota` sendiri tidak dijadikan *toast* (tahap yang penting sudah datang sebagai kejadian), dan perintah pembaruan yang diterima perangkat tidak diberi *toast* kedua dari jawaban HTTP-nya.
+ 
+ ## Keluar
+ 
+@@ -135,7 +157,7 @@ Tombol **Keluar** bekerja dalam empat langkah: (1) memutus sambungan *live* lebi
+ 
+ ## Salinan skema (`src/skema/`)
+ 
+-`src/skema/kontrak.ts` dan `src/skema/aturan-dasar.ts` adalah **salinan identik** dari `backend/src/schemas/` (penjelasan di `src/skema/README.md`). Jangan mengubahnya di frontend: ubah di backend, salin ulang, lalu jalankan `npm run cek-skema` dari folder ini. Skrip `cek-skema.js` membandingkan isi kedua berkas baris demi baris (akhir baris CRLF dan LF dianggap sama), mencetak `SAMA` atau `BEDA` beserta baris pertama yang berbeda, dan keluar dengan kode 1 bila ada yang berbeda. `src/skema/masuk.ts` bukan salinan: skema formulir Masuk ditulis sendiri meniru `backend/src/routes/auth.ts`.
++`src/skema/kontrak.ts` dan `src/skema/aturan-dasar.ts` adalah **salinan identik** dari `backend/src/schemas/` (penjelasan di `src/skema/README.md`). Sejak v1.4, `kontrak.ts` adalah kontrak data 1.6 (Modul 28: `reset_reason`, `fw`, dan laporan `ota` di `vitals`; perintah `update`; `jeda` di `config`). Jangan mengubahnya di frontend: ubah di backend, salin ulang, lalu jalankan `npm run cek-skema` dari folder ini. Skrip `cek-skema.js` membandingkan isi kedua berkas baris demi baris (akhir baris CRLF dan LF dianggap sama), mencetak `SAMA` atau `BEDA` beserta baris pertama yang berbeda, dan keluar dengan kode 1 bila ada yang berbeda. `src/skema/masuk.ts` bukan salinan: skema formulir Masuk ditulis sendiri meniru `backend/src/routes/auth.ts`.
+ 
+ ## Alamat backend (`.env.local`, tidak wajib)
+ 
+@@ -172,7 +194,7 @@ Sejak v1.3, `npm run build` (juga di dalam `docker compose build web`) menambah
+ | `sw.js` + `workbox-….js` | *service worker*: menyimpan **cangkang** dashboard (HTML, JavaScript, CSS, ikon; 10 berkas, ±1 MB) supaya aplikasi terbuka cepat dan tetap terbuka saat internet putus |
+ | `registerSW.js` | tiga baris kecil yang memasang `sw.js` sesudah halaman selesai dimuat |
+ 
+-**Yang disimpan dan yang tidak.** Hanya cangkang. Setiap alamat layar (`/perangkat`, `/peta`, `/perangkat/f00d00000001/riwayat`, …) dijawab `index.html` dari simpanan, lalu React Router memilih layarnya. Alamat yang **bukan** layar dashboard selalu diteruskan ke server dan tidak pernah diganti `index.html`: `/api/…` (data dan sambungan *live*), `/grafana/…` (Grafana di alamat yang sama, Modul 27), dan `/socket.io/…`. Tanpa pengecualian `/grafana`, membuka `https://iot…/grafana/` di browser yang pernah membuka dashboard menampilkan layar "Halaman tidak ditemukan" milik dashboard, bukan Grafana (dicoba penulis). Data rumah, bacaan, riwayat, dan ubin peta tidak pernah disimpan: angka di layar selalu dari server, jadi tidak ada angka basi yang tampak baru.
++**Yang disimpan dan yang tidak.** Hanya cangkang. Setiap alamat layar (`/perangkat`, `/peta`, `/perangkat/f00d00000001/riwayat`, …) dijawab `index.html` dari simpanan, lalu React Router memilih layarnya. Alamat yang **bukan** layar dashboard selalu diteruskan ke server dan tidak pernah diganti `index.html`: `/api/…` (data dan sambungan *live*), `/grafana/…` (Grafana di alamat yang sama, Modul 27), `/socket.io/…`, dan (sejak v1.4) `/fw/…` (unduhan firmware perangkat, Modul 28). Tanpa pengecualian `/grafana`, membuka `https://iot…/grafana/` di browser yang pernah membuka dashboard menampilkan layar "Halaman tidak ditemukan" milik dashboard, bukan Grafana (dicoba penulis). Data rumah, bacaan, riwayat, dan ubin peta tidak pernah disimpan: angka di layar selalu dari server, jadi tidak ada angka basi yang tampak baru.
+ 
+ **Alamat aman.** Browser hanya memasang *service worker* dan menawarkan pemasangan aplikasi di alamat aman: `https://…` atau `http://localhost`. Jadi:
+ 
+@@ -183,7 +205,7 @@ Sejak v1.3, `npm run build` (juga di dalam `docker compose build web`) menambah
+ | `http://<IP-laptop>` atau `http://<IP-laptop>:5173` (mode HP, WiFi rumah) | tidak: hanya pintasan (lihat di atas) |
+ | `http://localhost:5173` (`npm run dev`) | tidak: mode kembang tanpa *service worker* |
+ 
+-**Memasang.** Laptop (Chrome atau Edge): buka alamatnya, lalu pakai menu pemasangan aplikasi browser (tombol di bilah alamat atau menu ⋮); dashboard lalu terbuka di jendela sendiri dengan ikon rumah. HP Android (Chrome): buka `https://iot.namaanda.my.id`, lalu menu ⋮ → pilihan pemasangan aplikasi. iPhone (Safari, label Indonesia): ⋯ → **Bagikan** → **Tambah ke Layar Utama** (bila tidak ada: **Edit Tindakan**) → nyalakan **Buka sebagai App Web** → **Tambah**. Label menu Chrome di HP berbeda per versi dan bahasa; pemasangan di HP sungguhan belum dicoba penulis (lihat "Batasan v1.3").
++**Memasang.** Laptop (Chrome atau Edge): buka alamatnya, lalu pakai menu pemasangan aplikasi browser (tombol di bilah alamat atau menu ⋮); dashboard lalu terbuka di jendela sendiri dengan ikon rumah. HP Android (Chrome): buka `https://iot.namaanda.my.id`, lalu menu ⋮ → pilihan pemasangan aplikasi. iPhone (Safari, label Indonesia): ⋯ → **Bagikan** → **Tambah ke Layar Utama** (bila tidak ada: **Edit Tindakan**) → nyalakan **Buka sebagai App Web** → **Tambah**. Label menu Chrome di HP berbeda per versi dan bahasa; pemasangan di HP sungguhan belum dicoba penulis (lihat "Batasan v1.4").
+ 
+ **Memeriksa di laptop** (DevTools, F12): tab **Application** → **Manifest** (nama, ikon, tanpa galat) dan **Service workers** (`sw.js` dengan status *activated*). Di Chrome 156 penulis, `http://localhost` dinyatakan bisa dipasang (tanpa galat pemasangan), *service worker* aktif pada kunjungan pertama, dan mulai kunjungan kedua setiap layar dijawab dari simpanannya.
+ 
+@@ -202,27 +224,32 @@ Sejak v1.3, `npm run build` (juga di dalam `docker compose build web`) menambah
+ | :--- | :--- |
+ | `main.tsx` | titik masuk: memasang `App` di dalam `StrictMode` dan `<BrowserRouter>` |
+ | `App.tsx` | memeriksa *login* sekali (`GET /auth/me`), menjaga sambungan *live* sekali (di atas `<Routes>`, jadi pindah layar tidak memutusnya), dan peta rute di satu tempat |
+-| `api.ts` | satu pintu ke backend: `fetch` dengan `credentials: "include"`, `GalatApi` yang tahu kode HTTP, *refresh* sekali saat dijawab 401, bacaan dan riwayat, `kirimPerintah()` (+ `Ack.safeParse`), `ambilAturan()` (+ `safeParse`), `buatAturan()`, `ubahAturan()`, `hapusAturan()` |
+-| `soket.ts` | satu sambungan Socket.IO (`withCredentials: true`; sejak v1.2, `BASE` yang diawali `/` dipakai sebagai opsi `path`: `/api/socket.io`), pemulihan sambungan, `ikuti`/`berhenti`, hook `useRealtime()`; acara `kejadian` → *toast*; daftar perangkat diambil ulang setiap kali sambungan PULIH (status yang berubah selama putus) |
+-| `toko.ts` | toko Zustand: sesi dan peran (`useAdmin()`), sambungan, daftar perangkat, status, bacaan terbaru, "terakhir dilihat", titik grafik 5 menit, `terapkanKeadaan()` dari *ack*, `kosongkanSemua()`, `sesiHabis()` |
++| `api.ts` | satu pintu ke backend: `fetch` dengan `credentials: "include"`, `GalatApi` yang tahu kode HTTP, *refresh* sekali saat dijawab 401, bacaan dan riwayat, `kirimPerintah()` (+ `Ack.safeParse`), `ambilAturan()` (+ `safeParse`), `buatAturan()`, `ubahAturan()`, `hapusAturan()`; sejak v1.4 juga `ambilArmada()`, `ambilRilis()`, `unggahFirmware()` (badan berkas mentah), `perbaruiPerangkat()`, `perbaruiBanyak()`, `aturCanary()`, `aturJedaVitals()`, `nonaktifkan()`, `ambilRiwayatPembaruan()`, `buatKodeKlaim()`, `ambilKodeKlaim()` |
++| `soket.ts` | satu sambungan Socket.IO (`withCredentials: true`; sejak v1.2, `BASE` yang diawali `/` dipakai sebagai opsi `path`: `/api/socket.io`), pemulihan sambungan, `ikuti`/`berhenti`, hook `useRealtime()`; acara `kejadian` → *toast*; daftar perangkat diambil ulang setiap kali sambungan PULIH (status yang berubah selama putus); sejak v1.4 acara `ota` → toko, kejadian `provisioning`/`dicabut` → daftar perangkat dan armada diambil ulang |
++| `toko.ts` | toko Zustand: sesi dan peran (`useAdmin()`), sambungan, daftar perangkat, status, bacaan terbaru, "terakhir dilihat", titik grafik 5 menit, `terapkanKeadaan()` dari *ack*, `kosongkanSemua()`, `sesiHabis()`; sejak v1.4 kabar pembaruan terakhir tiap perangkat (`ota`, `terimaOta()`) dan `versiArmada` |
+ | `toast.ts` | toko *toast* kecil: `toast(pesan, jenis)`, paling banyak 2, hilang sesudah 4 detik |
+ | `aturan.ts` | bentuk jawaban `GET /rules`, `uraikanAturan()` (aturan → kalimat), isi bawaan formulir, pilihan perangkat, peta pesan ramah, dan pembaca galat 400 backend |
+ | `kolom.tsx` | pembantu kolom formulir aturan: gaya kotak dan label, id kolom, `useKolom()` (pesan galat + `aria-invalid`/`aria-describedby`) |
+ | `skema/` | `kontrak.ts` dan `aturan-dasar.ts` = salinan identik dari backend; `masuk.ts` = skema formulir Masuk; `README.md` |
+ | `waktu.ts` | jam WIB, "… detik yang lalu" (date-fns), batas data basi, label sumbu waktu, dan detak satu detik (`useSekarang`) |
+ | `csv.ts` | menyusun dan mengunduh CSV di browser (titik koma, desimal koma, BOM) |
+-| `types.ts` | tipe data dari kontrak data 1.5 (Lampiran A; bentuk pesan sama dengan 1.4), jawaban API, dan acara Socket.IO |
++| `types.ts` | tipe data dari kontrak data 1.6 (Lampiran A), jawaban API (sejak v1.4 juga armada, rilis, pembaruan, kode klaim), dan acara Socket.IO (sejak v1.4 juga `ota`) |
++| `armada.ts` | pembantu layar Armada (Modul 28): teks dan warna status pembaruan dan `reset_reason`, ukuran berkas dan persen rak, sinyal WiFi, RAM, lama menyala, alasan tombol Perbarui mati, `laporGalat()` |
+ | `peta.ts` | setelan peta dalam satu konstanta `PETA` (Modul 25): alamat ubin OSM, atribusi, zoom, warna penanda |
+-| `halaman/` | satu berkas pembungkus tipis per layar: `Masuk`, `Daftar`, `Detail`, `Riwayat`, `Peta`, `Aturan`, `FormAturan`, `TidakDitemukan`. Layar yang memakai `:id` mencari datanya sendiri dari alamat |
++| `halaman/` | satu berkas pembungkus tipis per layar: `Masuk`, `Daftar`, `Detail`, `Riwayat`, `Peta`, `Aturan`, `FormAturan`, `TidakDitemukan`, dan (v1.4) `Armada`, yang mengambil `GET /armada` + `GET /firmware` bersamaan dan mengulanginya setiap kali `versiArmada` naik. Layar yang memakai `:id` mencari datanya sendiri dari alamat |
+ | `components/JagaMasuk.tsx` | penjaga rute: "Memeriksa sesi…", pindah ke `/masuk` (membawa alamat tujuan), atau `<Outlet />` |
+ | `components/KhususAdmin.tsx` | penjaga kedua: layar "Khusus admin" untuk akun *viewer*, atau `<Outlet />` untuk admin |
+-| `components/TataLetak.tsx` | bingkai sesudah masuk: kepala (lencana sambungan, menu **Perangkat** / **Peta** / **Aturan**, nama + peran, **Keluar**), wadah *toast* (dan ruang kosong di bawah isi untuknya), mengambil daftar perangkat sekali, `<Outlet />` |
++| `components/TataLetak.tsx` | bingkai sesudah masuk: kepala (lencana sambungan, menu **Perangkat** / **Peta** / **Aturan** / **Armada**, nama + peran, **Keluar**; mulai 640 px nama dan **Keluar** yang tidak muat turun ke baris kedua di sisi kanan), wadah *toast* (dan ruang kosong di bawah isi untuknya), mengambil daftar perangkat sekali, `<Outlet />` |
+ | `components/TombolSakelar.tsx`, `components/TombolPompa.tsx` | tombol kendali (lihat "Tombol kendali") |
+ | `components/WadahToast.tsx` | tempat *toast* tampil: di bawah layar HP dan tablet, di pojok kanan atas layar 1280 px ke atas |
+ | `components/DaftarAturan.tsx`, `components/FormAturan.tsx` | daftar aturan dalam kalimat dan formulir aturan (isian, simpan, hapus, pratinjau) |
+ | `components/BagianKapan.tsx`, `components/BagianLalu.tsx`, `components/KonfirmasiHapus.tsx` | bagian formulir aturan: **Kapan?**, **Lalu?** (+ Telegram dan **Aktif**), dan tombol **Hapus aturan** dengan kotak "yakin?"-nya |
+ | `components/DaftarPerangkat.tsx` | kartu perangkat merah/hijau dengan suhu terbaru dan "terakhir dilihat"; setiap kartu tautan ke `/perangkat/<id>` |
+ | `components/DetailPerangkat.tsx` | semua sensor satu perangkat (Node 1 atau Node 2), bagian **Kendali** (admin), grafik 5 menit, dan gauge |
++| `components/KartuArmada.tsx`, `components/TindakanArmada.tsx`, `components/RiwayatPembaruan.tsx` | kartu satu perangkat di layar Armada, tombol admin-nya (Perbarui, Canary, jeda *vitals*, Nonaktifkan), dan riwayat pembaruannya |
++| `components/UnggahFirmware.tsx`, `components/DaftarRilis.tsx`, `components/BuatKodeKlaim.tsx` | formulir unggah firmware, daftar rilis (+ **Perbarui canary**/**Perbarui semua**), dan kode klaim perangkat baru |
++| `components/TombolKonfirmasi.tsx` | tombol dengan kotak "yakin?" di halaman (Perbarui, Perbarui canary/semua, Nonaktifkan) |
++| `components/KotakGalat.tsx` | galat tombol Armada yang tetap tampil di kartu sampai **Tutup** (`role="alert"`) |
+ | `components/PetaPerangkat.tsx` | peta perangkat (Modul 25): `MapContainer` bertinggi tetap, ubin OSM + atribusi, `CircleMarker` berwarna status *live*, popup + tautan detail, `fitBounds`, pesan kosong; mengambil ulang `GET /devices` setiap kali dibuka |
+ | `components/GrafikLive.tsx`, `Gauge.tsx`, `Riwayat.tsx`, `GrafikRiwayat.tsx`, `TabelRiwayat.tsx`, `KartuSensor.tsx`, `Lencana.tsx`, `LencanaKoneksi.tsx`, `TerakhirDilihat.tsx`, `Pemilih.tsx` | komponen Modul 22–23 (grafik, gauge, riwayat, kartu, lencana) |
+ | `index.css` | `@import "tailwindcss";` (Tailwind CSS v4, tanpa `tailwind.config.js`) + warna grafik yang ikut mode gelap + kotak popup peta yang ikut mode gelap (Modul 25) |
+@@ -233,10 +260,21 @@ Sejak v1.3, `npm run build` (juga di dalam `docker compose build web`) menambah
+ - Kalau sebuah permintaan dijawab 401 (*cookie* `akses` sudah habis), `api.ts` memanggil `POST /auth/refresh` **sekali**, lalu mengulang permintaannya sekali. Kalau *refresh* juga gagal, toko dikosongkan dan layar pindah ke `/masuk`.
+ - Permintaan tanpa isi (`POST /auth/logout`, `POST /auth/refresh`, `DELETE /rules/:id`) dikirim TANPA kepala `Content-Type: application/json`: backend menolak permintaan yang mengaku membawa JSON tetapi isinya kosong (400).
+ - Sambungan *live* diputus server setiap kali *cookie* `akses` habis (15 menit) dan saat *logout*. Dashboard lalu memanggil *refresh* dan menyambung lagi sendiri; kalau *refresh* ditolak (misalnya sudah *logout* di tab lain), layar pindah ke `/masuk`. Sesudah 3 kali gagal beruntun lencana menjadi **Terputus**, dan halaman perlu dimuat ulang sesudah backend pulih.
+-- Data baru hanya datang lewat Socket.IO: tidak ada *polling*. `setInterval` hanya dipakai di `waktu.ts` untuk jam di layar.
++- Data baru hanya datang lewat Socket.IO: tidak ada *polling*. `setInterval` hanya dipakai di `waktu.ts` untuk jam di layar. Layar Armada mengambil ulang datanya hanya saat ada kabar (dicoba penulis: 30 detik diam di layar Armada = 0 permintaan).
++- Kode klaim (Modul 28) hanya ada di memori satu komponen sampai kotaknya ditutup: tidak di toko, tidak di `localStorage`, tidak di alamat halaman. Database hanya menyimpan sidik jarinya.
++- Berkas firmware diunggah sebagai isi mentah lewat `/api` yang sama (berkunci *cookie* admin); dashboard tidak pernah mengunduh berkas firmware. Unduhan `/fw/…` khusus perangkat (kunci perangkat).
+ - Nama perangkat, nama aturan, dan kalimat kejadian ditampilkan sebagai teks JSX yang otomatis diloloskan React; dashboard tidak memakai `dangerouslySetInnerHTML`.
+ 
+-## Batasan v1.3
++## Batasan v1.4
++
++- **Armada diuji dengan perangkat tiruan, bukan papan.** Layar `/armada` diuji penulis di image web v1.4 + backend 1.5 dengan simulator (`alat/simulator-perangkat.js`, rancangan firmware 1.7.0) dan berkas `.bin` TIRUAN: unggah (juga penolakan di browser dan `409`), canary, satu perangkat, "Perbarui semua", rilis uji → *rollback* (±70 detik), jeda *vitals*, kode klaim → perangkat baru tampil sendiri ±1 detik, nonaktifkan, akun viewer, 375 px dan 1280 px, terang dan gelap. Waktu-waktu di layar dengan ESP32 sungguhan lewat WiFi, dan firmware 1.7.0 itu sendiri, belum diuji.
++- **Kesehatan tidak *live* per *vitals*.** Angka sinyal, RAM, dan lama menyala diambil saat layar dibuka dan saat ada kabar (pembaruan selesai, perangkat baru, sambungan pulih); jam *vitals*-nya tertulis di kartu. "Lama menyala" adalah angka saat *vitals* itu dikirim, tidak bertambah sendiri.
++- **Rak program (app0/app1) tidak ditampilkan**: kontrak 1.6 tidak melaporkannya (hanya Serial dan OLED, Tantangan Modul 28).
++- **Menarik rilis belum ada tombolnya.** Rilis buruk ditarik lewat Bruno (permintaan `tarik rilis uji`, `POST /firmware/node1/<versi>/tarik`); layar Armada lalu menampilkan lencana **ditarik** dan tidak lagi menawarkannya.
++- **Unggah tanpa bilah kemajuan dan tanpa batas waktu**: selama mengunggah tombolnya menulis "Mengunggah…" (jaringan yang macet = tetap "Mengunggah…"). Unggah lewat Caddy di `https://` dengan nama domain dan sertifikat tiruan sudah dicoba penulis (formulir Chrome dan `curl`, berkas tiruan 1,2 MB); Let's Encrypt sungguhan belum.
++- **Versi sesaat sesudah "berhasil".** Kolom versi diperbarui dari pengambilan ulang `GET /armada` yang dipicu kabar `berhasil`; di HTTPS lab penulis, kata **berhasil** sempat tampil lebih dulu daripada versi barunya (paling lama sampai pengambilan ulang selesai atau `telemetry` berikutnya, ≤ 10 detik).
++- **Pengambilan ulang tidak digabung.** Setiap pembaruan yang selesai memicu `GET /armada` + `GET /firmware` di setiap dashboard yang terbuka: "Perbarui semua" untuk N perangkat = 2N permintaan per dashboard dalam beberapa detik (N = 18 di lab penulis tanpa masalah; N = 100 belum diukur).
++- **Pemeriksaan berkas di browser hanya pembantu.** Berkas `<sketsa>.bootloader.bin` juga diawali `0xE9`; browser menolaknya dari namanya, bukan dari isinya. Yang menentukan tetap backend (dan HTTPUpdate di perangkat).
+ 
+ - **Di rumah masih `http://` polos.** Mode HP (WiFi rumah) membuka dashboard tanpa enkripsi; sandi (juga sandi admin) lewat polos. Dari internet, dashboard dibuka lewat `https://` (Modul 27: VPS, atau Pi + Cloudflare Tunnel). HTTPS butuh nama domain, jadi alamat IP di WiFi rumah tetap HTTP.
+ - **Aplikasi terpasang hanya cangkang.** Tanpa internet, aplikasi terbuka tetapi tidak menampilkan angka apa pun (tidak ada data luring), tidak bisa mengendalikan perangkat, dan tidak mengirim notifikasi *push*; kabar tetap lewat Telegram (Modul 19, 25). Perintah yang diketuk saat terputus tidak disimpan untuk dikirim nanti.
+@@ -248,7 +286,7 @@ Sejak v1.3, `npm run build` (juga di dalam `docker compose build web`) menambah
+ - **`VITE_API_BASE` hanya boleh berupa jalur (`/api`) atau alamat tanpa jalur** (`http://localhost:8080`). Alamat lengkap yang berjalur, misalnya `http://localhost/api`, belum didukung sambungan *live*: Socket.IO membaca `/api` di ujungnya sebagai *namespace*, jadi lencana tidak pernah **Live**.
+ - **Dashboard Compose tidak memperbarui diri sendiri.** Mengubah kode berarti `docker compose build web` + `docker compose up -d web` (±1 menit di Pi 5); untuk mengubah sambil melihat hasilnya, pakai mode kembang (Vite).
+ - **Menyembunyikan tombol bukan pengaman.** Peran di layar hanya kenyamanan; satpam backend (403) yang menjaga. Peran yang diubah baru terlihat sesudah muat ulang atau ≤ 15 menit.
+-- **Hanya sebagian jawaban API yang diperiksa Zod**: *ack* perintah dan daftar aturan. Jawaban lain (perangkat, bacaan, riwayat, acara Socket.IO) tetap dipercaya lewat tipe TypeScript.
++- **Hanya sebagian jawaban API yang diperiksa Zod**: *ack* perintah dan daftar aturan. Jawaban lain (perangkat, bacaan, riwayat, armada, rilis, acara Socket.IO) tetap dipercaya lewat tipe TypeScript.
+ - **Sesudah 504, tampilan kembali ke keadaan terlapor**, padahal backend masih akan mengirim ulang perintah lampu atau kipas bila perangkat terdengar dalam 2 menit (backend 1.4; sesudah itu tidak); dashboard tidak menampilkan perintah yang masih tertunda.
+ - **Tirai belum punya tombol**, dan jadwal aturan diisi sebagai teks cron 5 bidang (dengan tiga contoh siap klik), belum dengan pemilih jam dan hari.
+ - **Riwayat ringkasan hanya empat besaran**: suhu (rata-rata, terendah, tertinggi), kelembapan udara, kelembapan tanah, dan cahaya. Tekanan udara, baterai, dan air tandon hanya tampil di kartu *live*. Rentangnya mengikuti nilai bawaan API: 1 jam (bacaan mentah), 24 jam (per 15 menit), dan 7 hari (per jam).
+@@ -261,6 +299,21 @@ Sejak v1.3, `npm run build` (juga di dalam `docker compose build web`) menambah
+ - **Mode gelap mengikuti setelan sistem** HP atau laptop; belum ada tombol terang/gelap.
+ - "Rapi di HP" diperiksa dengan mode perangkat DevTools (lebar 375 px, HP tegak) dan Chrome tanpa layar selebar 412 px, dan mode HP dicoba dengan membuka alamat IP WiFi laptop dari laptop itu sendiri; pemakaian oleh orang lain dari HP sungguhan dan pintasan layar utama belum dicoba penulis. Image web dan Caddyfile diuji penulis di Raspberry Pi 5 (Ubuntu 26.04 arm64, Docker Engine 29.1.3, Compose 2.40.3) dengan Chrome 156; HTTPS diuji dengan nama domain dan penerbit sertifikat tiruan di mesin penulis, bukan Let's Encrypt sungguhan; Docker Desktop di Windows dan macOS belum dicoba. Tailwind CSS v4 butuh browser yang cukup baru (Chrome 111+, Safari 16.4+, Firefox 128+).
+ 
++## Catatan versi 1.4
++
++Dashboard v1.4 (Modul 28) = v1.3 + layar **Armada**. Tanpa paket npm baru; kontrak data 1.6. Pasangannya backend 1.5 (rute `/armada`, `/firmware`, `/provision/kode`, `/devices/:id/update`, acara Socket.IO `ota`); dengan backend 1.4 layar lain tetap jalan, tetapi layar Armada hanya menampilkan galat karena rutenya belum ada (belum dicoba penulis).
++
++- `package.json` dan `package-lock.json`: `version` 1.4.0; paket tidak berubah.
++- Berkas baru: `src/halaman/Armada.tsx`, `src/armada.ts`, `src/components/KartuArmada.tsx`, `TindakanArmada.tsx`, `RiwayatPembaruan.tsx`, `UnggahFirmware.tsx`, `DaftarRilis.tsx`, `BuatKodeKlaim.tsx`, `TombolKonfirmasi.tsx`, `KotakGalat.tsx`.
++- `src/skema/kontrak.ts`: salinan kontrak 1.6 dari backend 1.5 (`npm run cek-skema`: dua `SAMA`).
++- `src/api.ts`: sebelas fungsi armada (lihat "Isi folder `src/`"). `src/types.ts`: tipe armada, rilis, pembaruan, kode klaim, acara `ota`, kejadian `ota`/`provisioning`/`dicabut`.
++- `src/soket.ts`: acara `ota` ke toko; kejadian `provisioning`/`dicabut` mengambil ulang daftar perangkat dan armada; warna *toast* `ota`, `provisioning`, dan `offline-mode`; sambungan yang pulih juga mengambil ulang armada. `src/toko.ts`: `ota`, `terimaOta()`, `versiArmada`, `armadaBerubah()`.
++- `src/App.tsx`: rute `/armada` (admin dan viewer). `src/components/TataLetak.tsx`: menu **Armada**; nama dan **Keluar** yang turun baris rata kanan mulai 640 px (`sm:ml-auto`).
++- `src/components/Lencana.tsx`, `DetailPerangkat.tsx`, `DaftarPerangkat.tsx`, `src/peta.ts`: `offline-mode` = **berhenti sengaja** (biru langit), bukan lagi "mode offline".
++- `vite.config.ts`: `/fw` masuk `navigateFallbackDenylist` (*service worker* tidak pernah menjawab `/fw/…` dengan `index.html`).
++- `caddy/Caddyfile` (bagian infrastruktur Modul 28): blok `handle /fw/*` ke backend, `encode` yang tidak mengompres `/fw/*`, `servers :80` (kepercayaan `X-Forwarded-For` hanya di pintu 80), dan pintu perangkat `:8081`. `Dockerfile`: komentar saja (tag 1.4.0).
++- Perbaikan sesudah verifikasi kode (masih 1.4.0, belum terbit): galat tombol di kartu perangkat dan kartu rilis (Perbarui, Canary, jeda, Nonaktifkan, Perbarui canary/semua) tetap tampil di kartu sampai **Tutup** (`components/KotakGalat.tsx`), bukan *toast* 4 detik, karena `503` Nonaktifkan menyuruh mengulang langkah; fokus sesudah "yakin?" pindah ke kalimat alasan tombol yang kini mati, dan sesudah Nonaktifkan ke **Tutup** kotak langkah; formulir unggah menolak versi dengan nol di depan (`1.07.1`), sama dengan backend 1.5.
++
+ ## Catatan versi 1.3
+ 
+ Dashboard v1.3 (Modul 27) = v1.2 + aplikasi terpasang (PWA). Satu paket pengembang baru, tanpa perubahan layar; kontrak data tetap (bentuk pesan sama dengan 1.4, kontrak 1.5 hanya menambah aturan broker internet). Pasangannya di internet adalah backend 1.4 (`TRUST_PROXY`: *cookie* `Secure` dan pembatas *login* per tamu di balik Caddy); di `http://localhost` v1.3 juga jalan dengan backend 1.3, hanya saja *toast* perintah gagal ("… bila perangkat terdengar dalam 2 menit") baru benar dengan backend 1.4; backend 1.3 masih mengirim ulang perintah itu kapan pun perangkat terdengar lagi.
+diff --git a/frontend/caddy/Caddyfile b/frontend/caddy/Caddyfile
+index ff17070..1872bbc 100644
+--- a/frontend/caddy/Caddyfile
++++ b/frontend/caddy/Caddyfile
+@@ -1,4 +1,6 @@
+-# Caddyfile - pintu depan dashboard Rumah Pintar Mini (Modul 26-27): menyajikan isi dist/ dan meneruskan /api/... ke backend.
++# Caddyfile - pintu depan dashboard Rumah Pintar Mini (Modul 26-28): menyajikan isi dist/ dan meneruskan /api/... ke backend.
++# Modul 28: juga meneruskan /fw/... (unduhan firmware oleh perangkat) ke backend, apa adanya, dan punya PINTU PERANGKAT
++# :8081 (paling bawah) untuk Pi jalur gratis.
+ # Salinan berkas ini ikut di dalam image web. Docker Compose memasang FOLDER frontend/caddy/ di atasnya (bukan berkas
+ # tunggal), jadi berkas di repo inilah yang dipakai. Sesudah mengubahnya: docker compose restart web
+ # {$NAMA} = isi variabel NAMA dari bagian environment layanan web di compose.cloud.yml (asalnya .env), dibaca saat Caddy
+@@ -13,7 +15,11 @@
+ 	# memalsukannya), kecuali bila datang dari penerus tepercaya: PROKSI_TEPERCAYA=private_ranges = alamat privat, termasuk
+ 	# lorong Docker tempat cloudflared berada. Kosong (laptop, VPS) = tidak memercayai siapa pun. _strict = alamat tamu
+ 	# dibaca dari kanan (yang ditambahkan penerus), bukan dari kiri (yang bisa ditulis tamu sendiri).
+-	servers {
++	# Modul 28: HANYA untuk pintu :80, yang diketuk cloudflared (http://web:80). Pintu perangkat :8081 di bawah tidak
++	# memercayai siapa pun: di Pi jalur gratis pintu itulah yang dibuka ke WiFi rumah, dan semua perangkat di WiFi rumah juga
++	# beralamat privat. Kalau kepercayaan ini berlaku untuk semua pintu, X-Forwarded-For palsu dari HP mana pun di WiFi rumah
++	# melewati batas laju login dan klaim (temuan verifikasi kode M28).
++	servers :80 {
+ 		trusted_proxies static {$PROKSI_TEPERCAYA}
+ 		trusted_proxies_strict
+ 	}
+@@ -34,8 +40,11 @@
+ 		respond "Alamat ini untuk broker MQTT (port 8883), bukan dashboard." 404
+ 	}
+ 
+-	# jawaban dikompres sebelum dikirim: JavaScript dashboard ±1 MB tiba di browser sekitar 300 kB
+-	encode zstd gzip
++	# jawaban dikompres sebelum dikirim: JavaScript dashboard ±1 MB tiba di browser sekitar 300 kB.
++	# Modul 28: KECUALI unduhan firmware /fw/... HTTPUpdate di ESP32 meminta HTTP/1.0 dan wajib menerima Content-Length
++	# (galat -101 tanpa itu) serta isi berkas apa adanya; berkas yang dikompres tidak bisa dipasang.
++	@bolehDikompres not path /fw/*
++	encode @bolehDikompres zstd gzip
+ 
+ 	# /api/devices -> backend:8080/devices (awalan /api dibuang dulu). Sambungan live ikut: /api/socket.io/ -> backend:8080/socket.io/
+ 	# "backend" = nama layanan di compose.cloud.yml (lorong Compose), bukan localhost. Caddy menambah kepala X-Forwarded-For
+@@ -62,6 +71,16 @@
+ 		}
+ 	}
+ 
++	# Modul 28: /fw/node-1/1.7.1.bin -> backend:8080/fw/node-1/1.7.1.bin (awalan TIDAK dibuang: jalur ini milik kontrak data,
++	# Lampiran A). Backend sendiri yang memeriksa kunci perangkat (Basic Auth device_id:kunci) dan menjawab 200, 304, 403,
++	# atau 404 dengan jujur. Blok ini WAJIB ADA; letaknya bebas, karena Caddy sendiri memeriksa /fw/* sebelum "handle" tanpa
++	# pencocok (SPA fallback, paling bawah). Tanpanya, berkas yang tidak ada dijawab index.html 200 dan ESP32 gagal dengan galat
++	# -106 (bukan firmware) alih-alih -102 (tidak ada). Berkas firmware tidak pernah disajikan Caddy langsung (file_server):
++	# lemari data-firmware hanya dipasang di backend.
++	handle /fw/* {
++		reverse_proxy backend:8080
++	}
++
+ 	# /assets/...: JavaScript dan CSS hasil build. Namanya bersidik (misalnya index-DcefnpS2.js) dan berganti setiap
+ 	# build, jadi browser boleh menyimpannya lama. Berkas yang tidak ada dijawab 404 (bukan index.html): galatnya jujur.
+ 	handle /assets/* {
+@@ -82,3 +101,24 @@
+ 		file_server
+ 	}
+ }
++
++# Modul 28, Pi jalur gratis: PINTU PERANGKAT. Node 1 di WiFi rumah mengunduh firmware dari IP Pi, dan papan baru mengklaim
++# kuncinya ke IP Pi, tanpa lewat Cloudflare. compose.cloud.yml menyambung ALAMAT_WEB:PORT_WEB (IP Pi:80) ke pintu ini bila
++# .env menulis PINTU_WEB_DALAM=8081. Isinya HANYA dua jalur itu: dashboard, login, dan Grafana tetap lewat terowongan (https),
++# tidak pernah lewat http polos di WiFi rumah. Pintu ini tidak memercayai X-Forwarded-For (blok "servers :80" di atas tidak
++# berlaku di sini), jadi batas laju klaim dan unduhan dihitung per alamat asli perangkat. Di laptop dan VPS pintu ini ada di
++# dalam kontainer tetapi tidak disambung ke luar (tidak dipakai).
++:8081 {
++	# sama dengan blok /fw/* di atas: diteruskan apa adanya (awalan tidak dibuang), tanpa kompresi
++	handle /fw/* {
++		reverse_proxy backend:8080
++	}
++	# perangkat memanggil <alamat server>/api/provision/klaim (kontrak data bagian 10); backend menerimanya di /provision/klaim
++	handle /api/provision/klaim {
++		uri strip_prefix /api
++		reverse_proxy backend:8080
++	}
++	handle {
++		respond "Pintu ini hanya untuk perangkat (unduhan firmware dan klaim). Dashboard: alamat https terowonganmu." 404
++	}
++}
+diff --git a/frontend/package-lock.json b/frontend/package-lock.json
+index 0ff7104..59a773b 100644
+--- a/frontend/package-lock.json
++++ b/frontend/package-lock.json
+@@ -1,12 +1,12 @@
+ {
+   "name": "rumah-pintar-mini-frontend",
+-  "version": "1.3.0",
++  "version": "1.4.0",
+   "lockfileVersion": 3,
+   "requires": true,
+   "packages": {
+     "": {
+       "name": "rumah-pintar-mini-frontend",
+-      "version": "1.3.0",
++      "version": "1.4.0",
+       "dependencies": {
+         "@hookform/resolvers": "^5.9.2",
+         "@tailwindcss/vite": "^4.3.3",
+diff --git a/frontend/package.json b/frontend/package.json
+index 01f6fd3..ce6164c 100644
+--- a/frontend/package.json
++++ b/frontend/package.json
+@@ -1,7 +1,7 @@
+ {
+   "name": "rumah-pintar-mini-frontend",
+   "private": true,
+-  "version": "1.3.0",
++  "version": "1.4.0",
+   "type": "module",
+   "scripts": {
+     "dev": "vite",
+diff --git a/frontend/src/App.tsx b/frontend/src/App.tsx
+index 8d5c87e..0dbb710 100644
+--- a/frontend/src/App.tsx
++++ b/frontend/src/App.tsx
+@@ -2,13 +2,14 @@
+ // 1. bertanya ke backend "siapa saya?" (GET /auth/me) saat halaman dibuka;
+ // 2. menjaga sambungan live (Socket.IO) selama sudah login (Modul 23);
+ // 3. memegang peta rute (Modul 24): alamat mana menampilkan layar mana, dan layar mana yang dijaga.
+-//    Modul 25: ditambah layar /peta (peta perangkat).
++//    Modul 25: ditambah layar /peta (peta perangkat). Modul 28: ditambah layar /armada (firmware dan kesehatan perangkat).
+ import { useEffect } from "react";
+ import { Navigate, Route, Routes } from "react-router";
+ import { GalatApi, siapaSaya } from "./api";
+ import JagaMasuk from "./components/JagaMasuk";
+ import KhususAdmin from "./components/KhususAdmin";
+ import TataLetak from "./components/TataLetak";
++import HalamanArmada from "./halaman/Armada";
+ import HalamanAturan from "./halaman/Aturan";
+ import HalamanDaftar from "./halaman/Daftar";
+ import HalamanDetail from "./halaman/Detail";
+@@ -71,6 +72,9 @@ export default function App() {
+           {/* Modul 25: peta perangkat, untuk admin dan viewer (di luar penjaga KhususAdmin) */}
+           <Route path="/peta" element={<HalamanPeta />} />
+           <Route path="/aturan" element={<HalamanAturan />} />
++          {/* Modul 28: armada (versi firmware, kesehatan, pembaruan lewat udara). Semua peran MELIHAT layarnya; tombolnya
++              digambar khusus untuk admin di dalam layar itu sendiri (pola layar Aturan), jadi di luar penjaga KhususAdmin */}
++          <Route path="/armada" element={<HalamanArmada />} />
+           {/* penjaga kedua: layar yang mengubah sesuatu hanya untuk admin */}
+           <Route element={<KhususAdmin />}>
+             <Route path="/aturan/baru" element={<HalamanFormAturan />} />
+diff --git a/frontend/src/api.ts b/frontend/src/api.ts
+index d6d846f..db0621c 100644
+--- a/frontend/src/api.ts
++++ b/frontend/src/api.ts
+@@ -6,7 +6,26 @@ import { AturanLengkap } from "./aturan";
+ import type { Aturan } from "./skema/aturan-dasar";
+ import { Ack } from "./skema/kontrak";
+ import type { PerintahSet } from "./skema/kontrak";
+-import type { Bacaan, DataRiwayat, JawabanBacaan, JawabanRingkasan, Pengguna, Perangkat, Rentang, TitikRingkasan } from "./types";
++import type {
++  Bacaan,
++  DaftarRilis,
++  DataArmada,
++  DataRiwayat,
++  HasilArmada,
++  HasilJeda,
++  HasilNonaktif,
++  HasilUpdate,
++  JawabanBacaan,
++  JawabanRingkasan,
++  KodeKlaim,
++  KodeKlaimBaru,
++  Pembaruan,
++  Pengguna,
++  Perangkat,
++  Rentang,
++  Rilis,
++  TitikRingkasan,
++} from "./types";
+ 
+ // Alamat backend. Bawaan: nama host halaman ini + port 8080, jadi halaman http://localhost:5173 -> API http://localhost:8080.
+ // Nama host yang sama itu penting: cookie SameSite=Strict hanya ikut kalau halaman dan API satu situs
+@@ -208,3 +227,98 @@ export async function ambilRiwayat(deviceId: string, rentang: Rentang): Promise<
+   const jawaban = await minta<JawabanRingkasan>(jalur + "?bucket=" + bucket);
+   return { dari: jawaban.dari, sampai: jawaban.sampai, titik: jawaban.ringkasan };
+ }
++
++// ---- Modul 28: halaman Armada (backend 1.5) ----
++
++// GET /armada: semua perangkat terdaftar dengan versi firmware, kesehatan, dan pembaruan terakhirnya (admin dan viewer)
++export function ambilArmada(): Promise<DataArmada> {
++  return minta<DataArmada>("/armada");
++}
++
++// GET /firmware: daftar rilis firmware ("manifest" dari database) beserta ringkasan canary setiap versi
++export function ambilRilis(): Promise<DaftarRilis> {
++  return minta<DaftarRilis>("/firmware");
++}
++
++// POST /firmware/node1/<versi> (admin): badan = isi berkas .bin APA ADANYA (File dari kolom berkas), bukan formulir.
++// Content-Type application/octet-stream = "isi berkas mentah"; backend menghitung SHA-256-nya sendiri dari isi yang
++// diterimanya. Catatan dan tanda uji ikut di alamat (?catatan=…&uji=true): URLSearchParams menyusunnya menjadi teks yang
++// aman ditaruh di alamat (spasi menjadi +, tanda & di dalam catatan menjadi %26). 201 = rilis baru, 200 = berkas yang
++// sempat hilang dari server dipulihkan (isinya sama persis). Galat: 400 (bukan berkas aplikasi ESP32, terlalu besar),
++// 409 (versi sudah ada).
++export function unggahFirmware(versi: string, berkas: File, catatan: string, uji: boolean): Promise<Rilis> {
++  const tanya = new URLSearchParams();
++  if (catatan !== "") tanya.set("catatan", catatan);
++  if (uji) tanya.set("uji", "true");
++  const teks = tanya.toString(); // misalnya "catatan=sapaan+baru&uji=true"; kosong kalau keduanya tidak diisi
++  return minta<Rilis>("/firmware/node1/" + encodeURIComponent(versi) + (teks === "" ? "" : "?" + teks), {
++    method: "POST",
++    headers: { "Content-Type": "application/octet-stream" },
++    body: berkas,
++  });
++}
++
++// POST /devices/:id/update (admin): perbarui SATU perangkat ke versi itu. Jawaban 202 berarti perangkat MENERIMA
++// perintahnya (ack), BELUM selesai: hasilnya (berhasil, rollback, gagal) menyusul lewat acara Socket.IO "ota".
++// paksa = true hanya untuk turun versi yang memang disengaja. Galat: 404, 409 (offline, sedang memperbarui, versi sama,
++// turun versi tanpa paksa), 422 (perangkat menolak), 503 (broker putus, ALAMAT_SERVER kosong).
++export function perbaruiPerangkat(deviceId: string, versi: string, paksa: boolean): Promise<HasilUpdate> {
++  return minta<HasilUpdate>("/devices/" + deviceId + "/update", {
++    method: "POST",
++    headers: { "Content-Type": "application/json" },
++    body: JSON.stringify(paksa ? { versi, paksa } : { versi }),
++  });
++}
++
++// GET /devices/:id/pembaruan: riwayat pembaruan firmware satu perangkat (paling banyak 20, terbaru lebih dulu)
++export function ambilRiwayatPembaruan(deviceId: string): Promise<Pembaruan[]> {
++  return minta<Pembaruan[]>("/devices/" + deviceId + "/pembaruan");
++}
++
++// POST /armada/update (admin): perbarui semua perangkat canary, atau semua Node 1. "semua" baru dibuka server sesudah
++// paling sedikit satu canary BERHASIL memakai versi itu. Perangkat yang tidak memenuhi syarat dilewati (tidak diantre).
++export function perbaruiBanyak(versi: string, sasaran: "canary" | "semua"): Promise<HasilArmada> {
++  return minta<HasilArmada>("/armada/update", {
++    method: "POST",
++    headers: { "Content-Type": "application/json" },
++    body: JSON.stringify({ versi, sasaran }),
++  });
++}
++
++// PUT /devices/:id/canary (admin): tandai (true) atau lepas (false) perangkat canary
++export function aturCanary(deviceId: string, canary: boolean): Promise<{ device_id: string; canary: boolean }> {
++  return minta<{ device_id: string; canary: boolean }>("/devices/" + deviceId + "/canary", {
++    method: "PUT",
++    headers: { "Content-Type": "application/json" },
++    body: JSON.stringify({ canary }),
++  });
++}
++
++// PUT /devices/:id/jeda (admin): jeda kiriman vitals (kesehatan) 60-3600 detik. telemetry tetap setiap 10 detik.
++export function aturJedaVitals(deviceId: string, detik: number): Promise<HasilJeda> {
++  return minta<HasilJeda>("/devices/" + deviceId + "/jeda", {
++    method: "PUT",
++    headers: { "Content-Type": "application/json" },
++    body: JSON.stringify({ vitals_s: detik }),
++  });
++}
++
++// POST /devices/:id/cabut (admin) = tombol "Nonaktifkan": cabut kunci (Modul 21) + hapus akun broker + status offline.
++// Tanpa body, jadi juga TANPA Content-Type JSON (sama dengan logout).
++export function nonaktifkan(deviceId: string): Promise<HasilNonaktif> {
++  return minta<HasilNonaktif>("/devices/" + deviceId + "/cabut", { method: "POST" });
++}
++
++// POST /provision/kode (admin): kode klaim sekali pakai untuk perangkat baru. Kodenya hanya ada di jawaban ini.
++export function buatKodeKlaim(isi: { nama?: string; lokasi?: string; menit: number }): Promise<KodeKlaimBaru> {
++  return minta<KodeKlaimBaru>("/provision/kode", {
++    method: "POST",
++    headers: { "Content-Type": "application/json" },
++    body: JSON.stringify(isi),
++  });
++}
++
++// GET /provision/kode (admin): kode klaim terakhir TANPA kodenya: masih berlaku, sudah dipakai perangkat mana, atau kedaluwarsa
++export function ambilKodeKlaim(): Promise<KodeKlaim[]> {
++  return minta<KodeKlaim[]>("/provision/kode");
++}
+diff --git a/frontend/src/armada.ts b/frontend/src/armada.ts
+new file mode 100644
+index 0000000..966f132
+--- /dev/null
++++ b/frontend/src/armada.ts
+@@ -0,0 +1,117 @@
++// armada.ts - pembantu layar Armada (Modul 28): teks dan warna untuk status pembaruan dan alasan menyala ulang, cara
++// menulis ukuran berkas, sinyal WiFi, RAM, dan lama menyala, serta alasan tombol Perbarui belum bisa dipakai.
++// Isinya fungsi dan tabel biasa (bukan komponen), supaya kartu perangkat dan daftar rilis tetap pendek.
++import { GalatApi } from "./api";
++import { toast } from "./toast";
++import { sesiHabis } from "./toko";
++import type { BarisArmada, Pembaruan, ResetReason, StatusPembaruan, StatusPerangkat } from "./types";
++
++// Satu rak program (app0 atau app1) skema Minimal SPIFFS (Modul 10): 0x1E0000 = 1.966.080 byte. Berkas firmware yang
++// lebih besar tidak muat di rak cadangan, jadi ditolak backend (400); layar ini menolaknya lebih dulu, sebelum diunggah.
++export const RAK_PROGRAM = 1_966_080;
++
++// Kelas Tailwind ditulis UTUH (bukan disambung), seperti di Lencana.tsx: Tailwind hanya membuat kelas yang tertulis lengkap.
++const BIRU = "bg-sky-100 text-sky-800 dark:bg-sky-900 dark:text-sky-100";
++const HIJAU = "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100";
++const KUNING = "bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-100";
++const MERAH = "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-100";
++const ABU = "bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-200";
++
++// Status pembaruan: warna SELALU ditemani teks (tetap terbaca oleh orang yang sulit membedakan warna).
++export const TEKS_PEMBARUAN: Record<StatusPembaruan, { teks: string; warna: string }> = {
++  dikirim: { teks: "dikirim, menunggu perangkat", warna: BIRU },
++  diterima: { teks: "diterima perangkat", warna: BIRU }, // ack = perintah DITERIMA, belum selesai
++  mengunduh: { teks: "mengunduh", warna: BIRU },
++  berhasil: { teks: "berhasil", warna: HIJAU },
++  rollback: { teks: "kembali ke versi lama (rollback)", warna: KUNING }, // firmware baru gagal, perangkat selamat
++  gagal: { teks: "gagal", warna: MERAH },
++  ditolak: { teks: "ditolak perangkat", warna: KUNING },
++  kedaluwarsa: { teks: "kedaluwarsa (tanpa kabar)", warna: ABU },
++};
++
++// tiga status yang berarti "masih berjalan": selama itu perintah pembaruan kedua untuk perangkat yang sama ditolak (409)
++export function sedangBerjalan(p: Pembaruan | null): boolean {
++  return p !== null && (p.status === "dikirim" || p.status === "diterima" || p.status === "mengunduh");
++}
++
++// Alasan perangkat terakhir kali menyala (kontrak 1.6 bagian 6). Merah = ada yang salah di firmware; kuning = catu daya.
++export const ARTI_RESET: Record<ResetReason, { arti: string; warna: string }> = {
++  POWERON: { arti: "listrik baru masuk atau tombol EN", warna: ABU },
++  BROWNOUT: { arti: "tegangan sempat turun: periksa catu daya", warna: KUNING },
++  SW: { arti: "dinyalakan ulang program (pembaruan, rollback, restart)", warna: BIRU },
++  PANIC: { arti: "program mogok", warna: MERAH },
++  WDT: { arti: "program macet (watchdog)", warna: MERAH },
++  DEEPSLEEP: { arti: "bangun dari tidur dalam", warna: ABU },
++  UNKNOWN: { arti: "alasan lain", warna: ABU },
++};
++
++const ANGKA = new Intl.NumberFormat("id-ID"); // 1234567 -> "1.234.567"
++
++// "1.234.567 byte (63 % rak)": ukuran berkas firmware dibandingkan satu rak program
++export function teksUkuran(byte: number): string {
++  return ANGKA.format(byte) + " byte (" + Math.round((byte / RAK_PROGRAM) * 100) + " % rak)";
++}
++
++// kekuatan sinyal WiFi, dengan kategori tabel RSSI Modul 10 (Konsep 2)
++export function teksSinyal(rssi: number): string {
++  let kategori = "sangat lemah";
++  if (rssi >= -55) kategori = "sangat kuat";
++  else if (rssi >= -67) kategori = "kuat";
++  else if (rssi >= -75) kategori = "cukup";
++  else if (rssi >= -85) kategori = "lemah";
++  return rssi + " dBm (" + kategori + ")";
++}
++
++// RAM bebas: byte -> KB (1 KB = 1.024 byte, cara ESP-IDF menghitung)
++export function teksRam(byte: number): string {
++  return ANGKA.format(Math.round(byte / 1024)) + " KB bebas";
++}
++
++// lama menyala: 93784 detik -> "1 hari 2 jam"; dua satuan terbesar saja, supaya pendek
++export function teksLamaMenyala(detik: number): string {
++  const hari = Math.floor(detik / 86400);
++  const jam = Math.floor((detik % 86400) / 3600);
++  const menit = Math.floor((detik % 3600) / 60);
++  if (hari > 0) return hari + " hari " + jam + " jam";
++  if (jam > 0) return jam + " jam " + menit + " menit";
++  if (menit > 0) return menit + " menit";
++  return detik + " detik";
++}
++
++// Kenapa tombol Perbarui SATU perangkat belum bisa dipakai (null = bisa). Server memeriksa hal yang sama (409) dan
++// lebih lengkap (versi sama, turun versi, rilis ditarik); di sini cukup yang terlihat sebelum tombol diketuk, seperti
++// alasanTombolMati() di DetailPerangkat (Modul 24). status dan pembaruan = nilai LIVE dari toko, bukan dari GET /armada.
++export function alasanTidakBisaPerbarui(
++  p: BarisArmada,
++  status: StatusPerangkat,
++  pembaruan: Pembaruan | null,
++  otaSiap: boolean,
++  adaRilis: boolean,
++): string | null {
++  if (p.kunci === "dicabut") return "Perangkat ini sudah dinonaktifkan.";
++  if (p.jenis === "node2") return "Node 2 (ESP-NOW) tidak bisa diperbarui lewat udara: perbarui lewat kabel.";
++  if (p.jenis !== "node1") return "Jenis perangkat belum diketahui: tunggu kiriman pertamanya.";
++  if (!otaSiap) return "ALAMAT_SERVER di .env server belum diisi: perangkat tidak tahu dari mana mengunduh firmware.";
++  if (!adaRilis) return "Belum ada firmware yang diunggah.";
++  if (sedangBerjalan(pembaruan)) return "Pembaruan sebelumnya masih berjalan.";
++  if (status !== "online") return "Perangkat tidak online: perintah pembaruan hanya dikirim ke perangkat online (tidak diantre).";
++  return null;
++}
++
++// Kalimat galat sebuah tombol armada, atau null bila sesi habis (401, refresh pun gagal: kembali ke layar Masuk).
++// Pesannya dari backend (GalatApi), misalnya "perangkat sedang offline: perintah update hanya dikirim ke perangkat online",
++// atau 503 Nonaktifkan "belum tersimpan di database ... ulangi langkah ini sebentar lagi".
++export function pesanGalat(err: unknown, cadangan: string): string | null {
++  if (err instanceof GalatApi && err.kode === 401) {
++    sesiHabis();
++    return null;
++  }
++  return err instanceof GalatApi ? err.message : cadangan;
++}
++
++// Galat menjadi toast merah (4 detik). Dipakai Buat kode klaim. Tombol di kartu perangkat dan kartu rilis memakai
++// KotakGalat (tetap tampil sampai Tutup), karena pesannya bisa panjang dan penting.
++export function laporGalat(err: unknown, cadangan: string) {
++  const pesan = pesanGalat(err, cadangan);
++  if (pesan !== null) toast(pesan, "galat");
++}
+diff --git a/frontend/src/components/BuatKodeKlaim.tsx b/frontend/src/components/BuatKodeKlaim.tsx
+new file mode 100644
+index 0000000..977a017
+--- /dev/null
++++ b/frontend/src/components/BuatKodeKlaim.tsx
+@@ -0,0 +1,200 @@
++// BuatKodeKlaim.tsx - "Perangkat baru" di layar Armada (Modul 28, khusus admin): membuat kode klaim sekali pakai
++// (POST /provision/kode). Kode itu diketik di portal WiFi perangkat baru; perangkat menukarnya sendiri dengan kunci
++// perangkatnya, akun brokernya dibuat backend, lalu ia muncul di Armada. Kodenya hanya tampil SEKALI: database hanya
++// menyimpan sidik jarinya, dan layar ini menyimpannya di memori komponen saja (hilang saat ditutup atau pindah layar).
++import { useEffect, useRef, useState } from "react";
++import type { FormEvent } from "react";
++import { ambilKodeKlaim, buatKodeKlaim, GalatApi } from "../api";
++import { laporGalat } from "../armada";
++import { toast } from "../toast";
++import { sesiHabis, useToko } from "../toko";
++import type { KodeKlaim, KodeKlaimBaru } from "../types";
++import { jamWib, tanggalJamWib } from "../waktu";
++
++const KOTAK =
++  "mt-1 min-h-11 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100";
++const LABEL = "mt-3 block text-sm font-medium text-slate-700 dark:text-slate-200";
++const BENTUK = "rounded-full px-2 py-0.5 text-xs font-medium whitespace-nowrap";
++
++const LENCANA_KEADAAN: Record<KodeKlaim["keadaan"], string> = {
++  berlaku: "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100",
++  dipakai: "bg-sky-100 text-sky-800 dark:bg-sky-900 dark:text-sky-100",
++  kedaluwarsa: "bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-200",
++};
++
++export default function BuatKodeKlaim() {
++  const [nama, setNama] = useState("");
++  const [lokasi, setLokasi] = useState("");
++  const [menit, setMenit] = useState("30");
++  const [sibuk, setSibuk] = useState(false);
++  const [kode, setKode] = useState<KodeKlaimBaru | null>(null); // kode yang baru dibuat: tampil sekali
++  const [tersalin, setTersalin] = useState(false);
++  const [daftar, setDaftar] = useState<KodeKlaim[] | null>(null);
++  const [nomorDaftar, setNomorDaftar] = useState(0); // naik sesudah membuat kode: daftar diambil ulang
++  const kolomKode = useRef<HTMLInputElement>(null);
++  // kode yang dipakai perangkat menimbulkan kejadian "provisioning", yang menaikkan versiArmada: daftar ikut diambil ulang
++  const versiArmada = useToko((s) => s.versiArmada);
++
++  useEffect(() => {
++    let ignore = false;
++    ambilKodeKlaim()
++      .then((d) => {
++        if (!ignore) setDaftar(d);
++      })
++      .catch((err) => {
++        if (ignore) return;
++        if (err instanceof GalatApi && err.kode === 401) sesiHabis();
++        // gagal membaca daftar tidak menghalangi membuat kode: daftarnya saja yang tidak tampil
++      });
++    return () => {
++      ignore = true;
++    };
++  }, [nomorDaftar, versiArmada]);
++
++  async function buat(e: FormEvent) {
++    e.preventDefault();
++    const m = Number(menit);
++    if (!Number.isInteger(m) || m < 5 || m > 60) {
++      toast("Masa berlaku kode 5 sampai 60 menit.", "galat");
++      return;
++    }
++    setSibuk(true);
++    setKode(null);
++    setTersalin(false);
++    try {
++      // kolom yang dikosongkan tidak dikirim sama sekali (backend menolak teks kosong)
++      const baru = await buatKodeKlaim({
++        menit: m,
++        ...(nama.trim() === "" ? {} : { nama: nama.trim() }),
++        ...(lokasi.trim() === "" ? {} : { lokasi: lokasi.trim() }),
++      });
++      setKode(baru);
++      setNama("");
++      setLokasi("");
++      setNomorDaftar((n) => n + 1);
++    } catch (err) {
++      laporGalat(err, "Kode klaim gagal dibuat.");
++    } finally {
++      setSibuk(false);
++    }
++  }
++
++  async function salin() {
++    if (kode === null) return;
++    try {
++      // navigator.clipboard hanya ada di alamat aman (https:// atau localhost). Di http://<IP> ia tidak ada: kodenya
++      // dipilih (disorot) saja, lalu disalin sendiri dengan Ctrl + C (atau tahan lalu Salin di HP).
++      await navigator.clipboard.writeText(kode.kode);
++      setTersalin(true);
++    } catch {
++      kolomKode.current?.select();
++      toast("Tidak bisa menyalin otomatis di alamat ini: kodenya sudah disorot, salin dengan Ctrl + C.");
++    }
++  }
++
++  return (
++    <div className="rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-800">
++      <h4 className="font-semibold text-slate-800 dark:text-slate-100">Buat kode klaim</h4>
++      <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">
++        Kode sekali pakai untuk mendaftarkan perangkat baru: ketik di portal WiFi perangkat itu (kolom Kode klaim), bersama alamat
++        server dan alamat broker. Tanpa kunci yang disalin tangan, tanpa mosquitto_passwd.
++      </p>
++
++      <form onSubmit={buat} noValidate>
++        <div className="grid gap-x-3 sm:grid-cols-2">
++          <div>
++            <label htmlFor="klaim-nama" className={LABEL}>
++              Nama perangkat (tidak wajib)
++            </label>
++            <input id="klaim-nama" value={nama} onChange={(e) => setNama(e.target.value)} maxLength={60} placeholder="Node 1 garasi" className={KOTAK} />
++          </div>
++          <div>
++            <label htmlFor="klaim-lokasi" className={LABEL}>
++              Lokasi (tidak wajib)
++            </label>
++            <input id="klaim-lokasi" value={lokasi} onChange={(e) => setLokasi(e.target.value)} maxLength={60} placeholder="garasi" className={KOTAK} />
++          </div>
++        </div>
++        <label htmlFor="klaim-menit" className={LABEL}>
++          Berlaku (menit, 5-60)
++        </label>
++        <input
++          id="klaim-menit"
++          type="number"
++          inputMode="numeric"
++          min={5}
++          max={60}
++          step={1}
++          value={menit}
++          onChange={(e) => setMenit(e.target.value)}
++          className={KOTAK + " sm:w-32"}
++        />
++        <div>
++          <button
++            type="submit"
++            disabled={sibuk}
++            className="mt-3 min-h-11 rounded-lg bg-teal-700 px-4 font-medium text-white hover:bg-teal-800 disabled:opacity-60"
++          >
++            {sibuk ? "Membuat…" : "Buat kode"}
++          </button>
++        </div>
++      </form>
++
++      {kode !== null ? (
++        <div role="status" className="mt-3 rounded-lg border border-amber-300 bg-amber-50 p-3 text-sm text-amber-950 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-100">
++          <p className="font-medium">
++            Kode klaim{kode.nama === null ? "" : " untuk " + kode.nama}, berlaku sampai {jamWib(kode.kedaluwarsa)} ({kode.menit} menit):
++          </p>
++          {/* kotak baca-saja: tetap bisa disorot dan disalin tangan di browser yang tidak mengizinkan salin otomatis */}
++          <input
++            ref={kolomKode}
++            readOnly
++            value={kode.kode}
++            aria-label="Kode klaim"
++            onFocus={(e) => e.currentTarget.select()}
++            className="mt-2 w-full max-w-xs rounded-lg border border-amber-400 bg-white px-3 py-2 text-center font-mono text-2xl tracking-widest text-slate-900 dark:border-amber-700 dark:bg-slate-900 dark:text-slate-100"
++          />
++          <p className="mt-2">
++            Kode ini hanya tampil <b>sekali</b>: catat sekarang. Sesudah ditutup, kode tidak bisa dilihat lagi; buat kode baru bila hilang.
++          </p>
++          <div className="mt-2 flex flex-wrap gap-3">
++            <button
++              type="button"
++              onClick={salin}
++              className="min-h-11 rounded-lg bg-amber-700 px-4 font-medium text-white hover:bg-amber-800"
++            >
++              {tersalin ? "Tersalin ✓" : "Salin"}
++            </button>
++            <button
++              type="button"
++              onClick={() => setKode(null)}
++              className="min-h-11 rounded-lg border border-amber-400 px-4 hover:bg-amber-100 dark:border-amber-700 dark:hover:bg-amber-900"
++            >
++              Tutup
++            </button>
++          </div>
++        </div>
++      ) : null}
++
++      {daftar !== null && daftar.length > 0 ? (
++        <div className="mt-4">
++          <h5 className="text-sm font-medium text-slate-700 dark:text-slate-200">Kode terakhir (tanpa kodenya)</h5>
++          <ul className="mt-1 space-y-1 text-sm">
++            {daftar.slice(0, 5).map((k, i) => (
++              // key: waktu dibuat + urutan (dua kode bisa dibuat dalam detik yang sama)
++              <li key={k.dibuat + "-" + i} className="break-words text-slate-700 dark:text-slate-300">
++                <span className={BENTUK + " " + LENCANA_KEADAAN[k.keadaan]}>{k.keadaan}</span> {k.nama ?? "tanpa nama"}
++                {k.lokasi === null ? "" : " (" + k.lokasi + ")"}
++                <span className="text-slate-600 dark:text-slate-400">
++                  {k.keadaan === "dipakai" && k.dipakai !== null
++                    ? " · dipakai " + (k.device_id ?? "") + ", " + tanggalJamWib(Date.parse(k.dipakai))
++                    : (k.keadaan === "berlaku" ? " · berlaku sampai " : " · habis ") + tanggalJamWib(Date.parse(k.kedaluwarsa))}
++                </span>
++              </li>
++            ))}
++          </ul>
++        </div>
++      ) : null}
++    </div>
++  );
++}
+diff --git a/frontend/src/components/DaftarPerangkat.tsx b/frontend/src/components/DaftarPerangkat.tsx
+index a0144b1..2df846d 100644
+--- a/frontend/src/components/DaftarPerangkat.tsx
++++ b/frontend/src/components/DaftarPerangkat.tsx
+@@ -14,7 +14,7 @@ import TerakhirDilihat from "./TerakhirDilihat";
+ const TEPI: Record<StatusPerangkat, string> = {
+   online: "border-l-green-500 dark:border-l-green-500", // diulang dengan dark: supaya tidak tertimpa dark:border-slate-700 kartu
+   offline: "border-l-red-500 dark:border-l-red-500",
+-  "offline-mode": "border-l-slate-400",
++  "offline-mode": "border-l-sky-400 dark:border-l-sky-400", // Modul 28: berhenti sengaja, warna lencananya
+   "belum-diketahui": "border-l-slate-300 dark:border-l-slate-600",
+ };
+ 
+diff --git a/frontend/src/components/DaftarRilis.tsx b/frontend/src/components/DaftarRilis.tsx
+new file mode 100644
+index 0000000..f195f8b
+--- /dev/null
++++ b/frontend/src/components/DaftarRilis.tsx
+@@ -0,0 +1,148 @@
++// DaftarRilis.tsx - rilis firmware yang tersimpan di server (GET /firmware, Modul 28): versi, ukuran, SHA-256, catatan, dan
++// ringkasan canary-nya. Admin mendapat dua tombol per rilis: "Perbarui canary" (perangkat bertanda canary dulu), lalu
++// "Perbarui semua", yang baru terbuka sesudah paling sedikit satu canary BERHASIL memakai versi itu (server yang
++// memutuskan: boleh_semua). Rilis uji dan rilis yang ditarik tidak punya tombol: rilis uji hanya lewat Perbarui di kartu
++// satu perangkat.
++import { useState } from "react";
++import { perbaruiBanyak } from "../api";
++import { pesanGalat, teksUkuran } from "../armada";
++import { toast } from "../toast";
++import type { DaftarRilis as Daftar, HasilArmada, RilisLengkap } from "../types";
++import { tanggalJamWib } from "../waktu";
++import KotakGalat from "./KotakGalat";
++import TombolKonfirmasi from "./TombolKonfirmasi";
++
++const BENTUK = "rounded-full px-2 py-0.5 text-xs font-medium whitespace-nowrap";
++
++// kalimat untuk satu perangkat yang dikirimi perintah
++const TEKS_KIRIM: Record<string, string> = {
++  diterima: "menerima perintahnya",
++  "tanpa-ack": "belum menjawab dalam 5 detik",
++  ditolak: "menolak",
++  "tidak-dikirim": "tidak dikirimi",
++};
++
++function KartuRilis({ r, terbaru, admin, onBerubah }: { r: RilisLengkap; terbaru: boolean; admin: boolean; onBerubah: () => void }) {
++  const [hasil, setHasil] = useState<HasilArmada | null>(null); // hasil "Perbarui canary/semua" terakhir untuk rilis ini
++  const [galat, setGalat] = useState<string | null>(null); // galat terakhir, tetap tampil sampai Tutup (KotakGalat)
++
++  async function kirim(sasaran: "canary" | "semua") {
++    try {
++      const h = await perbaruiBanyak(r.versi, sasaran);
++      setHasil(h);
++      setGalat(null);
++      toast(
++        "Perintah " + r.versi + " dikirim ke " + h.dikirim.length + " perangkat" + (h.dilewati.length > 0 ? ", " + h.dilewati.length + " dilewati." : "."),
++        h.dikirim.length > 0 ? "sukses" : "info",
++      );
++      onBerubah();
++    } catch (err) {
++      setGalat(pesanGalat(err, "Perintah pembaruan gagal dikirim."));
++    }
++  }
++
++  return (
++    <li className="min-w-0 rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-800">
++      <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
++        <span className="font-mono font-semibold text-slate-800 dark:text-slate-100">Node 1 {r.versi}</span>
++        {terbaru ? <span className={BENTUK + " bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100"}>terbaru</span> : null}
++        {r.uji ? <span className={BENTUK + " bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-100"}>uji</span> : null}
++        {r.ditarik !== null ? <span className={BENTUK + " bg-red-600 text-white"}>ditarik</span> : null}
++      </div>
++      {r.catatan !== null ? <p className="mt-1 text-sm break-words text-slate-700 dark:text-slate-200">{r.catatan}</p> : null}
++      <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
++        {teksUkuran(r.ukuran)} · diunggah {tanggalJamWib(Date.parse(r.dibuat))}
++      </p>
++      {/* break-all: 64 huruf heksadesimal tanpa spasi tetap terlipat di layar HP */}
++      <p className="mt-1 font-mono text-xs break-all text-slate-600 dark:text-slate-400">sha256 {r.sha256}</p>
++      {!r.uji ? (
++        <p className="mt-1 text-sm text-slate-700 dark:text-slate-200">
++          Canary: {r.canary_berhasil} berhasil, {r.canary_gagal} gagal atau rollback
++        </p>
++      ) : null}
++
++      {admin && !r.uji && r.ditarik === null ? (
++        <div className="mt-3 flex flex-wrap items-start gap-3">
++          <TombolKonfirmasi
++            label="Perbarui canary"
++            judul={"Perbarui semua perangkat canary ke " + r.versi + "?"}
++            labelYa="Ya, perbarui canary"
++            onYa={() => kirim("canary")}
++          >
++            <p>
++              Hanya Node 1 bertanda canary yang sedang online. Perangkat yang offline, sedang memperbarui, atau sudah memakai {r.versi}{" "}
++              dilewati, tidak diantre.
++            </p>
++          </TombolKonfirmasi>
++          <TombolKonfirmasi
++            label="Perbarui semua"
++            judul={"Perbarui SEMUA Node 1 ke " + r.versi + "?"}
++            labelYa="Ya, perbarui semua"
++            onYa={() => kirim("semua")}
++            alasanMati={r.boleh_semua ? null : "Terkunci: " + (r.alasan_semua ?? "syarat belum terpenuhi") + "."}
++          >
++            <p>
++              Semua Node 1 yang online dan memenuhi syarat dikirimi perintah sekaligus. Yang offline atau sedang memperbarui dilewati,
++              tidak diantre: perbarui lagi nanti.
++            </p>
++          </TombolKonfirmasi>
++        </div>
++      ) : null}
++
++      <KotakGalat pesan={galat} onTutup={() => setGalat(null)} />
++
++      {hasil !== null ? (
++        <div role="status" className="mt-3 rounded-lg bg-slate-50 p-3 text-sm text-slate-800 dark:bg-slate-900 dark:text-slate-200">
++          <p className="font-medium">
++            Perbarui {hasil.sasaran} ke {hasil.versi}: {hasil.dikirim.length} dikirim, {hasil.dilewati.length} dilewati
++          </p>
++          <ul className="mt-1 space-y-0.5 break-words">
++            {hasil.dikirim.map((d) => (
++              <li key={d.device_id}>
++                <span className="font-mono">{d.device_id}</span> {TEKS_KIRIM[d.status] ?? d.status}
++                {d.pesan === undefined ? "" : ": " + d.pesan}
++              </li>
++            ))}
++            {hasil.dilewati.map((d) => (
++              <li key={d.device_id} className="text-slate-600 dark:text-slate-400">
++                <span className="font-mono">{d.device_id}</span> dilewati: {d.alasan}
++              </li>
++            ))}
++          </ul>
++          <button
++            type="button"
++            onClick={() => setHasil(null)}
++            className="mt-2 min-h-11 rounded-lg border border-slate-300 px-4 hover:bg-white dark:border-slate-600 dark:hover:bg-slate-800"
++          >
++            Tutup
++          </button>
++        </div>
++      ) : null}
++    </li>
++  );
++}
++
++type Props = {
++  daftar: Daftar;
++  admin: boolean;
++  onBerubah: () => void;
++};
++
++export default function DaftarRilis({ daftar, admin, onBerubah }: Props) {
++  if (daftar.rilis.length === 0) {
++    return (
++      <p className="rounded-lg bg-white p-3 text-slate-600 dark:bg-slate-800 dark:text-slate-300">
++        Belum ada firmware yang diunggah ke server.
++      </p>
++    );
++  }
++  // terbaru di atas: server mengirimnya urut waktu unggah (lama ke baru); [...] = salinan, larik aslinya tidak diubah
++  const urut = [...daftar.rilis].reverse();
++  return (
++    <ul className="grid gap-3">
++      {urut.map((r) => (
++        <KartuRilis key={r.versi} r={r} terbaru={r.versi === daftar.terbaru.node1} admin={admin} onBerubah={onBerubah} />
++      ))}
++    </ul>
++  );
++}
+diff --git a/frontend/src/components/DetailPerangkat.tsx b/frontend/src/components/DetailPerangkat.tsx
+index e037553..70d4ee0 100644
+--- a/frontend/src/components/DetailPerangkat.tsx
++++ b/frontend/src/components/DetailPerangkat.tsx
+@@ -85,7 +85,7 @@ function gauge(bacaan: Telemetry, node2: boolean) {
+ const TEKS_STATUS: Record<StatusPerangkat, string> = {
+   online: "online",
+   offline: "offline",
+-  "offline-mode": "dalam mode offline",
++  "offline-mode": "berhenti sengaja (misalnya menyala ulang untuk pembaruan firmware)", // Modul 28
+   "belum-diketahui": "belum diketahui statusnya",
+ };
+ function alasanTombolMati(jenis: Jenis, status: StatusPerangkat): string | null {
+diff --git a/frontend/src/components/KartuArmada.tsx b/frontend/src/components/KartuArmada.tsx
+new file mode 100644
+index 0000000..b33c221
+--- /dev/null
++++ b/frontend/src/components/KartuArmada.tsx
+@@ -0,0 +1,197 @@
++// KartuArmada.tsx - satu perangkat di layar Armada (Modul 28): versi firmware, kesehatan dari vitals terakhir (sinyal WiFi,
++// RAM, lama menyala, alasan menyala ulang), pembaruan terakhir, dan (khusus admin) tombol-tombolnya.
++// Seperti kartu di daftar perangkat (Modul 23), setiap kartu memilih datanya SENDIRI dari toko: status, versi dari
++// telemetry terbaru, dan kabar pembaruan (acara Socket.IO "ota") berubah sendiri tanpa memuat ulang halaman.
++import type { ReactNode } from "react";
++import { ARTI_RESET, teksLamaMenyala, teksRam, teksSinyal, TEKS_PEMBARUAN } from "../armada";
++import { useAdmin, useToko } from "../toko";
++import type { BarisArmada, Jenis, KabarOta, Pembaruan, RilisLengkap, StatusPerangkat } from "../types";
++import { tanggalJamWib } from "../waktu";
++import { LencanaStatus } from "./Lencana";
++import RiwayatPembaruan from "./RiwayatPembaruan";
++import TerakhirDilihat from "./TerakhirDilihat";
++import TindakanArmada from "./TindakanArmada";
++
++const BENTUK = "rounded-full px-2 py-0.5 text-xs font-medium whitespace-nowrap";
++
++// garis tebal di tepi kiri kartu mengikuti status (seperti kartu daftar perangkat)
++const TEPI: Record<StatusPerangkat, string> = {
++  online: "border-l-green-500 dark:border-l-green-500",
++  offline: "border-l-red-500 dark:border-l-red-500",
++  "offline-mode": "border-l-sky-400 dark:border-l-sky-400",
++  "belum-diketahui": "border-l-slate-300 dark:border-l-slate-600",
++};
++
++// Pembaruan terakhir = yang paling baru di antara dua sumber: baris dari GET /armada, atau kabar live dari acara "ota".
++// Waktunya sama-sama UTC berformat kontrak (2026-10-31T01:02:03Z), jadi bisa dibandingkan sebagai teks.
++function pembaruanTerkini(dariServer: Pembaruan | null, kabar: KabarOta | undefined): Pembaruan | null {
++  if (kabar === undefined) return dariServer;
++  // >= : pada detik yang sama, baris server (yang sudah lengkap) menang atas kabar live
++  if (dariServer !== null && dariServer.diperbarui >= kabar.waktu) return dariServer;
++  const selesai = ["dikirim", "diterima", "mengunduh"].includes(kabar.status) ? null : kabar.waktu;
++  return {
++    id: kabar.id,
++    status: kabar.status,
++    dari: kabar.dari,
++    ke: kabar.ke,
++    pesan: kabar.pesan,
++    dibuat: dariServer?.id === kabar.id ? dariServer.dibuat : kabar.waktu,
++    diperbarui: kabar.waktu,
++    selesai,
++  };
++}
++
++function teksJenis(jenis: Jenis, penghubung: string | null): string {
++  if (jenis === "node1") return "Node 1";
++  if (jenis === "node2") return "Node 2" + (penghubung === null ? "" : " lewat " + penghubung);
++  return "jenis belum diketahui";
++}
++
++// satu pasang "judul: isi" di dalam kartu
++function Isian({ judul, children }: { judul: string; children: ReactNode }) {
++  return (
++    <div className="min-w-0">
++      <dt className="text-xs text-slate-500 dark:text-slate-400">{judul}</dt>
++      <dd className="break-words text-slate-800 dark:text-slate-100">{children}</dd>
++    </div>
++  );
++}
++
++type Props = {
++  p: BarisArmada; // satu baris GET /armada
++  rilis: RilisLengkap[]; // daftar rilis (untuk pilihan versi tombol Perbarui)
++  terbaru: string | null; // rilis terbaru Node 1
++  otaSiap: boolean; // ALAMAT_SERVER sudah diisi di server
++  onBerubah: () => void; // minta layar mengambil ulang data armada
++};
++
++export default function KartuArmada({ p, rilis, terbaru, otaSiap, onBerubah }: Props) {
++  const id = p.device_id;
++  const admin = useAdmin();
++  const nonaktif = p.kunci === "dicabut";
++  // perangkat yang dinonaktifkan: status live-nya diabaikan (broker bisa masih menyimpan "online" lama, kontrak 1.6)
++  const statusLive = useToko((s) => s.status[id]);
++  const status: StatusPerangkat = nonaktif ? "offline" : (statusLive ?? p.status);
++  const bacaan = useToko((s) => s.terbaru[id]); // telemetry terakhir (live); undefined = belum ada
++  // Versi firmware: dari telemetry (live, tiap 10 detik) HANYA kalau telemetry itu lebih baru daripada catatan fw di
++  // database. Sesudah pembaruan berhasil, database lebih dulu tahu versi baru (dari vitals perangkat yang baru menyala)
++  // daripada telemetry berikutnya, dan telemetry lama di toko masih membawa versi LAMA.
++  const telemetryLebihBaru = bacaan !== undefined && (p.fw_dilihat === null || Date.parse(bacaan.ts) >= Date.parse(p.fw_dilihat));
++  const fw = !nonaktif && telemetryLebihBaru ? bacaan.fw : p.fw;
++  // Jenis: perangkat yang baru mendaftar lewat kode klaim masih "belum-diketahui" di GET /armada sampai kiriman pertamanya.
++  // Begitu telemetry-nya tiba, jenisnya dibaca dari kiriman itu (hanya Node 2 yang punya tekanan udara), seperti di
++  // DetailPerangkat (Modul 24); tanpa ini tombol Perbarui tetap mati sampai halaman dimuat ulang.
++  const jenis: Jenis = p.jenis !== "belum-diketahui" || bacaan === undefined ? p.jenis : "tekanan" in bacaan ? "node2" : "node1";
++  const baris = jenis === p.jenis ? p : { ...p, jenis }; // untuk TindakanArmada: baris yang sama dengan jenis terkini
++  const terakhirLive = useToko((s) => s.terakhirDilihat[id]);
++  const terakhir = terakhirLive ?? (p.terakhir_dilihat === null ? undefined : Date.parse(p.terakhir_dilihat));
++  const kabar = useToko((s) => s.ota[id]);
++  const pembaruan = pembaruanTerkini(p.pembaruan, kabar);
++  // "perlu diperbarui" dihitung server terhadap fw di database; versi live yang sudah sama dengan rilis terbaru menutupnya
++  const perluUpdate = p.perlu_update && fw !== terbaru;
++  const k = p.kesehatan;
++
++  return (
++    <article
++      aria-labelledby={"armada-" + id}
++      className={
++        "rounded-xl border border-l-4 border-slate-200 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-800 " +
++        (nonaktif ? "border-l-slate-300 dark:border-l-slate-600" : TEPI[status])
++      }
++    >
++      {/* judul + lencana; flex-wrap: lencana turun baris di HP, tidak mendorong nama keluar layar */}
++      <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
++        <h4 id={"armada-" + id} className="min-w-0 font-semibold break-words text-slate-800 dark:text-slate-100">
++          {p.nama ?? id}
++        </h4>
++        {nonaktif ? (
++          <span className={BENTUK + " bg-red-600 text-white"}>nonaktif</span>
++        ) : (
++          <LencanaStatus status={status} />
++        )}
++        {p.canary && !nonaktif ? (
++          <span className={BENTUK + " bg-violet-100 text-violet-800 dark:bg-violet-900 dark:text-violet-100"}>canary</span>
++        ) : null}
++        {perluUpdate && !nonaktif ? (
++          <span className={BENTUK + " bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-100"}>perlu diperbarui</span>
++        ) : null}
++      </div>
++      <p className="mt-0.5 text-sm text-slate-600 dark:text-slate-400">
++        {teksJenis(jenis, p.penghubung)} · {p.lokasi ?? "lokasi belum diisi"} · <span className="font-mono text-xs">{id}</span> ·{" "}
++        <TerakhirDilihat t={terakhir} jenis={jenis} periksaBasi={!nonaktif} />
++      </p>
++
++      {/* dl = daftar "judul: isi". Dua kolom di HP, tiga kolom mulai 640 px */}
++      <dl className="mt-3 grid grid-cols-2 gap-x-4 gap-y-2 text-sm sm:grid-cols-3">
++        <Isian judul="Versi firmware">
++          <span className="font-mono">{fw ?? "—"}</span>
++          {perluUpdate && !nonaktif ? <span className="text-slate-600 dark:text-slate-400"> → {terbaru}</span> : null}
++        </Isian>
++        {k === null ? (
++          <Isian judul="Kesehatan">
++            {jenis === "node2" ? "Node 2 tidak mengirim vitals" : "belum ada vitals"}
++          </Isian>
++        ) : (
++          <>
++            <Isian judul="Menyala ulang karena">
++              {k.reset_reason === null ? (
++                <span className="text-slate-600 dark:text-slate-400">— (firmware lama belum melaporkan)</span>
++              ) : (
++                <>
++                  <span className={BENTUK + " " + ARTI_RESET[k.reset_reason].warna}>{k.reset_reason}</span>{" "}
++                  <span className="text-xs text-slate-600 dark:text-slate-400">{ARTI_RESET[k.reset_reason].arti}</span>
++                </>
++              )}
++            </Isian>
++            <Isian judul="Sinyal WiFi">{teksSinyal(k.rssi)}</Isian>
++            <Isian judul="RAM">{teksRam(k.heap_free)}</Isian>
++            <Isian judul="Lama menyala">{teksLamaMenyala(k.uptime_s)}</Isian>
++          </>
++        )}
++      </dl>
++      {k !== null ? (
++        <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
++          Kesehatan dari vitals terakhir, {tanggalJamWib(Date.parse(k.ts))}; vitals dikirim setiap{" "}
++          {p.jeda_vitals_s === null ? "300 detik (bawaan firmware)" : p.jeda_vitals_s + " detik (diatur admin)"}.
++        </p>
++      ) : null}
++
++      {/* pembaruan terakhir: berubah sendiri lewat acara "ota" (diterima -> mengunduh -> berhasil / rollback / gagal).
++          Node 2 tidak pernah diperbarui lewat udara: cukup satu kalimat */}
++      {jenis === "node2" ? (
++        <p className="mt-3 text-sm text-slate-600 dark:text-slate-400">OTA tidak tersedia untuk Node 2: perbarui lewat kabel.</p>
++      ) : (
++        <div className="mt-3 text-sm">
++          <span className="text-xs text-slate-500 dark:text-slate-400">Pembaruan terakhir: </span>
++          {pembaruan === null ? (
++            <span className="text-slate-600 dark:text-slate-400">belum pernah lewat udara</span>
++          ) : (
++            <>
++              <span className={BENTUK + " " + TEKS_PEMBARUAN[pembaruan.status].warna}>{TEKS_PEMBARUAN[pembaruan.status].teks}</span>{" "}
++              <span className="font-mono text-slate-800 dark:text-slate-100">
++                {pembaruan.dari ?? "?"} → {pembaruan.ke}
++              </span>
++              <span className="text-slate-600 dark:text-slate-400"> · {tanggalJamWib(Date.parse(pembaruan.diperbarui))}</span>
++              {pembaruan.pesan !== null ? (
++                <span className="block break-words text-slate-600 dark:text-slate-400">{pembaruan.pesan}</span>
++              ) : null}
++            </>
++          )}
++        </div>
++      )}
++      {nonaktif ? (
++        <p className="mt-2 rounded-lg bg-red-50 p-2 text-sm text-red-700 dark:bg-red-950 dark:text-red-200">
++          Dinonaktifkan: kuncinya dicabut dan kirimannya diabaikan. Hidup lagi hanya dengan kunci baru atau kode klaim baru.
++        </p>
++      ) : null}
++
++      {jenis === "node1" ? <RiwayatPembaruan deviceId={id} versi={pembaruan === null ? "" : pembaruan.id + pembaruan.status} /> : null}
++
++      {/* tombol-tombol armada: digambar HANYA kalau peran admin sudah pasti (pola Modul 24). Untuk perangkat yang sudah
++          dinonaktifkan, TindakanArmada hanya menampilkan langkah tangan sesudah Nonaktifkan (bila ada) */}
++      {admin ? (
++        <TindakanArmada p={baris} status={status} fw={fw} pembaruan={pembaruan} rilis={rilis} terbaru={terbaru} otaSiap={otaSiap} onBerubah={onBerubah} />
++      ) : null}
++    </article>
++  );
++}
+diff --git a/frontend/src/components/KotakGalat.tsx b/frontend/src/components/KotakGalat.tsx
+new file mode 100644
+index 0000000..2461ee6
+--- /dev/null
++++ b/frontend/src/components/KotakGalat.tsx
+@@ -0,0 +1,27 @@
++// KotakGalat.tsx - galat tombol layar Armada yang TIDAK hilang sendiri (Modul 28). Toast hilang sesudah 4 detik, padahal
++// galat seperti 503 Nonaktifkan berisi perintah penting ("ulangi langkah ini sebentar lagi supaya database dan broker sama
++// lagi") yang panjang. Kotak ini tetap tampil di kartu sampai Tutup diketuk, atau sampai tombol yang sama berhasil.
++type Props = {
++  pesan: string | null; // null = tidak ada galat, kotak tidak digambar
++  onTutup: () => void;
++};
++
++export default function KotakGalat({ pesan, onTutup }: Props) {
++  if (pesan === null) return null;
++  return (
++    // role="alert": pembaca layar langsung membacakan galatnya begitu kotak muncul
++    <div
++      role="alert"
++      className="mt-3 rounded-lg border border-red-300 bg-red-50 p-3 text-sm text-red-800 dark:border-red-800 dark:bg-red-950 dark:text-red-100"
++    >
++      <p className="break-words">{pesan}</p>
++      <button
++        type="button"
++        onClick={onTutup}
++        className="mt-2 min-h-11 rounded-lg border border-red-400 px-4 hover:bg-red-100 dark:border-red-700 dark:hover:bg-red-900"
++      >
++        Tutup
++      </button>
++    </div>
++  );
++}
+diff --git a/frontend/src/components/Lencana.tsx b/frontend/src/components/Lencana.tsx
+index 9a568e4..144d269 100644
+--- a/frontend/src/components/Lencana.tsx
++++ b/frontend/src/components/Lencana.tsx
+@@ -1,14 +1,17 @@
+ // Lencana.tsx - lencana kecil berwarna untuk status dan kunci perangkat.
+-// Dipakai di kartu daftar perangkat dan di judul detail perangkat (keduanya dibuat di Modul 22).
++// Dipakai di kartu daftar perangkat dan di judul detail perangkat (keduanya dibuat di Modul 22), dan di layar Armada (Modul 28).
+ import type { StatusKunci, StatusPerangkat } from "../types";
+ 
+ // Kelas Tailwind ditulis UTUH di sini, bukan disambung ("bg-" + warna): Tailwind hanya membuat kelas yang tertulis lengkap.
+ // Modul 23: warna SELALU ditemani teks (online hijau "Online", offline merah "Offline"), supaya tetap terbaca oleh
+ // orang yang sulit membedakan merah dan hijau.
++// Modul 28: offline-mode ditulis "berhenti sengaja" (dulu "mode offline"): perangkat sengaja menyala ulang, misalnya untuk
++// memasang firmware baru. Kata "mode offline" sudah dipakai untuk hal lain: pengaman lokal Modul 19 saat broker tidak
++// terjangkau. Warnanya biru langit (bukan merah): ini bukan gangguan, dan biasanya kembali Online dalam ±1 menit.
+ const LENCANA_STATUS: Record<StatusPerangkat, { teks: string; warna: string }> = {
+   online: { teks: "Online", warna: "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100" },
+   offline: { teks: "Offline", warna: "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-100" },
+-  "offline-mode": { teks: "mode offline", warna: "bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-200" },
++  "offline-mode": { teks: "berhenti sengaja", warna: "bg-sky-100 text-sky-800 dark:bg-sky-900 dark:text-sky-100" },
+   "belum-diketahui": { teks: "belum diketahui", warna: "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400" },
+ };
+ 
+@@ -24,7 +27,13 @@ const BENTUK = "rounded-full px-2 py-0.5 text-xs font-medium whitespace-nowrap";
+ 
+ export function LencanaStatus({ status }: { status: StatusPerangkat }) {
+   const { teks, warna } = LENCANA_STATUS[status];
+-  return <span className={BENTUK + " " + warna}>{teks}</span>;
++  // title = keterangan yang muncul saat lencana disorot tetikus (Modul 28: arti "berhenti sengaja")
++  const keterangan = status === "offline-mode" ? "Sedang menyala ulang dengan sengaja, misalnya untuk pembaruan firmware" : undefined;
++  return (
++    <span className={BENTUK + " " + warna} title={keterangan}>
++      {teks}
++    </span>
++  );
+ }
+ 
+ export function LencanaKunci({ kunci }: { kunci: StatusKunci }) {
+diff --git a/frontend/src/components/RiwayatPembaruan.tsx b/frontend/src/components/RiwayatPembaruan.tsx
+new file mode 100644
+index 0000000..626b1ca
+--- /dev/null
++++ b/frontend/src/components/RiwayatPembaruan.tsx
+@@ -0,0 +1,74 @@
++// RiwayatPembaruan.tsx - riwayat pembaruan firmware satu perangkat (GET /devices/:id/pembaruan, Modul 28), di dalam kartu
++// Armada. Tertutup sebagai bawaan (<details>), dan baru diambil dari server saat dibuka: layar Armada dengan banyak
++// perangkat tidak perlu meminta riwayat semuanya sekaligus.
++import { useEffect, useState } from "react";
++import { ambilRiwayatPembaruan, GalatApi } from "../api";
++import { TEKS_PEMBARUAN } from "../armada";
++import { sesiHabis } from "../toko";
++import type { Pembaruan } from "../types";
++import { tanggalJamWib } from "../waktu";
++
++type Props = {
++  deviceId: string;
++  versi: string; // berubah setiap kali pembaruan terakhir berubah: riwayat yang sedang terbuka diambil ulang
++};
++
++export default function RiwayatPembaruan({ deviceId, versi }: Props) {
++  const [buka, setBuka] = useState(false);
++  const [riwayat, setRiwayat] = useState<Pembaruan[] | null>(null); // null = belum dimuat
++  const [galat, setGalat] = useState<string | null>(null);
++
++  useEffect(() => {
++    if (!buka) return; // tertutup: tidak meminta apa pun
++    let ignore = false;
++    ambilRiwayatPembaruan(deviceId)
++      .then((daftar) => {
++        if (ignore) return;
++        setRiwayat(daftar);
++        setGalat(null);
++      })
++      .catch((err) => {
++        if (ignore) return;
++        if (err instanceof GalatApi && err.kode === 401) return sesiHabis();
++        setGalat(err instanceof GalatApi ? err.message : "Gagal memuat riwayat pembaruan.");
++      });
++    return () => {
++      ignore = true;
++    };
++  }, [buka, deviceId, versi]);
++
++  let isi;
++  if (galat !== null) isi = <p className="text-red-700 dark:text-red-300">{galat}</p>;
++  else if (riwayat === null) isi = <p className="text-slate-600 dark:text-slate-400">Memuat riwayat…</p>;
++  else if (riwayat.length === 0) isi = <p className="text-slate-600 dark:text-slate-400">Belum pernah diperbarui lewat udara.</p>;
++  else {
++    isi = (
++      <ol className="space-y-1">
++        {riwayat.map((r) => (
++          <li key={r.id} className="break-words">
++            <span className="font-mono">
++              {r.dari ?? "?"} → {r.ke}
++            </span>{" "}
++            <span className="font-medium">{TEKS_PEMBARUAN[r.status].teks}</span>
++            <span className="text-slate-600 dark:text-slate-400">
++              {" "}
++              · {tanggalJamWib(Date.parse(r.dibuat))}
++              {r.pesan !== null ? " · " + r.pesan : ""}
++            </span>
++          </li>
++        ))}
++      </ol>
++    );
++  }
++
++  return (
++    // onToggle: dipanggil browser setiap kali <details> dibuka atau ditutup
++    <details className="mt-2 text-sm" onToggle={(e) => setBuka(e.currentTarget.open)}>
++      {/* py-3: tinggi ±44 px, mudah diketuk jempol (tanpa flex, supaya segitiga buka-tutup bawaan browser tetap tampil) */}
++      <summary className="cursor-pointer py-3 font-medium text-teal-700 dark:text-teal-300">
++        Riwayat pembaruan
++      </summary>
++      <div className="mt-1 rounded-lg bg-slate-50 p-2 text-slate-800 dark:bg-slate-900 dark:text-slate-200">{isi}</div>
++    </details>
++  );
++}
+diff --git a/frontend/src/components/TataLetak.tsx b/frontend/src/components/TataLetak.tsx
+index 7014e0f..3c619df 100644
+--- a/frontend/src/components/TataLetak.tsx
++++ b/frontend/src/components/TataLetak.tsx
+@@ -1,5 +1,5 @@
+ // TataLetak.tsx - bingkai semua layar sesudah masuk: kepala (judul, lencana Live, menu, nama, tombol Keluar) dan
+-// <Outlet />, tempat React Router menaruh layar yang cocok dengan alamatnya (Daftar, Detail, Riwayat, Peta, Aturan).
++// <Outlet />, tempat React Router menaruh layar yang cocok dengan alamatnya (Daftar, Detail, Riwayat, Peta, Aturan, Armada).
+ import { useEffect } from "react";
+ import { NavLink, Outlet } from "react-router";
+ import { ambilPerangkat, GalatApi, keluar } from "../api";
+@@ -86,9 +86,15 @@ export default function TataLetak() {
+             <NavLink to="/aturan" className={kelasMenu}>
+               Aturan
+             </NavLink>
++            {/* Modul 28: versi firmware, kesehatan, dan pembaruan lewat udara, untuk admin dan viewer */}
++            <NavLink to="/armada" className={kelasMenu}>
++              Armada
++            </NavLink>
+           </nav>
+-          {/* min-w-0 + truncate: nama yang panjang dipotong dengan "…", tidak mendorong tombol keluar dari layar */}
+-          <div className="flex min-w-0 items-center gap-3 text-sm">
++          {/* min-w-0 + truncate: nama yang panjang dipotong dengan "…", tidak mendorong tombol keluar dari layar.
++              Modul 28: sm:ml-auto = kalau tidak muat di baris judul dan menu (sejak menu Armada), nama dan tombol Keluar turun
++              ke baris berikutnya di sisi KANAN, tidak menggantung di kiri */}
++          <div className="flex min-w-0 items-center gap-3 text-sm sm:ml-auto">
+             <span className="truncate text-slate-600 dark:text-slate-300">
+               {pengguna.nama} <span className="text-slate-500 dark:text-slate-400">({pengguna.peran})</span>
+             </span>
+diff --git a/frontend/src/components/TindakanArmada.tsx b/frontend/src/components/TindakanArmada.tsx
+new file mode 100644
+index 0000000..2322c61
+--- /dev/null
++++ b/frontend/src/components/TindakanArmada.tsx
+@@ -0,0 +1,259 @@
++// TindakanArmada.tsx - tombol admin di kartu Armada (Modul 28): Perbarui firmware satu perangkat, tanda Canary, jeda
++// vitals, dan Nonaktifkan. Hanya digambar untuk admin (KartuArmada memakai useAdmin), tetapi itu kenyamanan layar saja:
++// satpam backend tetap menjawab 403 untuk akun viewer, dan backend memeriksa ulang semua syaratnya (409).
++import { useEffect, useId, useRef, useState } from "react";
++import type { FormEvent } from "react";
++import { aturCanary, aturJedaVitals, nonaktifkan, perbaruiPerangkat } from "../api";
++import { alasanTidakBisaPerbarui, pesanGalat, teksUkuran } from "../armada";
++import { toast } from "../toast";
++import type { BarisArmada, Pembaruan, RilisLengkap, StatusPerangkat } from "../types";
++import KotakGalat from "./KotakGalat";
++import TombolKonfirmasi from "./TombolKonfirmasi";
++
++const KOTAK =
++  "mt-1 min-h-11 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100";
++
++// label pilihan versi, misalnya "1.7.1 (terbaru, sedang dipakai)" atau "1.7.2 (uji)"
++function labelVersi(r: RilisLengkap, terbaru: string | null, fw: string | null): string {
++  const tanda = [r.uji ? "uji" : "", r.versi === terbaru ? "terbaru" : "", r.versi === fw ? "sedang dipakai" : ""].filter((t) => t !== "");
++  return r.versi + (tanda.length > 0 ? " (" + tanda.join(", ") + ")" : "");
++}
++
++type Props = {
++  p: BarisArmada;
++  status: StatusPerangkat; // status LIVE (toko)
++  fw: string | null; // versi yang sedang berjalan (live)
++  pembaruan: Pembaruan | null; // pembaruan terakhir (live)
++  rilis: RilisLengkap[];
++  terbaru: string | null;
++  otaSiap: boolean;
++  onBerubah: () => void;
++};
++
++export default function TindakanArmada({ p, status, fw, pembaruan, rilis, terbaru, otaSiap, onBerubah }: Props) {
++  const id = p.device_id;
++  const nama = p.nama ?? id;
++  const kolom = useId(); // id unik untuk label + kolom (satu layar berisi banyak kartu)
++  // Pilihan versi: rilis yang belum ditarik, terbaru di atas. Bawaannya rilis terbaru (bukan uji); rilis uji tetap bisa
++  // dipilih, karena memang hanya boleh dikirim lewat tombol per perangkat ini.
++  const opsi = rilis.filter((r) => r.ditarik === null).reverse();
++  const bawaan = terbaru ?? opsi[0]?.versi ?? "";
++  // null = admin belum memilih sendiri: ikut rilis terbaru, juga sesudah rilis baru diunggah. Pilihan yang sudah ditarik
++  // (tidak ada lagi di daftar) kembali ke bawaan.
++  const [pilihan, setPilihan] = useState<string | null>(null);
++  const versi = pilihan !== null && opsi.some((r) => r.versi === pilihan) ? pilihan : bawaan;
++  const rilisDipilih = opsi.find((r) => r.versi === versi);
++  const [paksa, setPaksa] = useState(false); // izinkan turun versi
++  const [simpanCanary, setSimpanCanary] = useState(false);
++  const [jeda, setJeda] = useState(String(p.jeda_vitals_s ?? 300));
++  const [simpanJeda, setSimpanJeda] = useState(false);
++  const [langkah, setLangkah] = useState<string[]>([]); // pekerjaan tangan sesudah Nonaktifkan (bila ada)
++  const [galat, setGalat] = useState<string | null>(null); // galat tombol terakhir, tetap tampil sampai Tutup (KotakGalat)
++  const tutupLangkah = useRef<HTMLButtonElement>(null);
++  // Sesudah Nonaktifkan, tombol-tombol kartu ini hilang: fokus pindah ke Tutup kotak langkah (juga sesudah kartu digambar
++  // ulang sebagai "nonaktif"), supaya pengguna keyboard dan pembaca layar tidak terlempar ke awal halaman.
++  useEffect(() => {
++    if (langkah.length > 0) tutupLangkah.current?.focus();
++  }, [langkah, p.kunci]);
++
++  const gagal = (err: unknown, cadangan: string) => setGalat(pesanGalat(err, cadangan));
++
++  const alasan =
++    alasanTidakBisaPerbarui(p, status, pembaruan, otaSiap, opsi.length > 0) ?? (versi === fw ? "Perangkat sudah memakai versi ini." : null);
++
++  // 202 = perangkat MENERIMA perintahnya (ack), BELUM selesai. Toast "menerima perintah pembaruan" datang dari kejadian
++  // "ota" (ke semua dashboard), jadi di sini tidak diulang; tahap berikutnya tampil sendiri di kartu (acara "ota").
++  async function perbarui() {
++    try {
++      const hasil = await perbaruiPerangkat(id, versi, paksa);
++      if (hasil.status === "tanpa-ack") {
++        toast(nama + ": perintah terkirim, tetapi perangkat belum menjawab dalam 5 detik. Hasilnya menyusul bila perangkat melapor.");
++      }
++      setPaksa(false);
++      setGalat(null);
++      onBerubah();
++    } catch (err) {
++      gagal(err, "Perintah pembaruan gagal dikirim.");
++    }
++  }
++
++  async function ubahCanary(nilai: boolean) {
++    setSimpanCanary(true);
++    try {
++      await aturCanary(id, nilai);
++      toast(nilai ? nama + " kini perangkat canary." : nama + " bukan perangkat canary lagi.", "sukses");
++      setGalat(null);
++      onBerubah();
++    } catch (err) {
++      gagal(err, "Tanda canary gagal disimpan.");
++    } finally {
++      setSimpanCanary(false);
++    }
++  }
++
++  async function simpanJedaVitals(e: FormEvent) {
++    e.preventDefault(); // jangan biarkan browser memuat ulang halaman (perilaku bawaan formulir)
++    const detik = Number(jeda);
++    if (!Number.isInteger(detik) || detik < 60 || detik > 3600) {
++      setGalat("Jeda vitals harus bilangan bulat 60 sampai 3600 detik.");
++      return;
++    }
++    setSimpanJeda(true);
++    try {
++      const hasil = await aturJedaVitals(id, detik);
++      // catatan terisi kalau firmware perangkat masih lama (belum mengenal jeda): tersimpan, berlaku sesudah diperbarui
++      toast("Jeda vitals " + nama + " = " + hasil.jeda_vitals_s + " detik." + (hasil.catatan === null ? "" : " " + hasil.catatan), "sukses");
++      setGalat(null);
++      onBerubah();
++    } catch (err) {
++      gagal(err, "Jeda vitals gagal disimpan.");
++    } finally {
++      setSimpanJeda(false);
++    }
++  }
++
++  async function matikan() {
++    try {
++      const hasil = await nonaktifkan(id);
++      toast(nama + " dinonaktifkan.", "sukses");
++      setGalat(null);
++      setLangkah(hasil.langkah); // tetap tampil sesudah kartu berganti menjadi "nonaktif"
++      onBerubah();
++    } catch (err) {
++      // 503 = database belum berubah, tetapi perintah yang tertahan di jembatan bisa tetap dikerjakan broker: kalimat
++      // backend menyuruh MENGULANG langkah ini, jadi galatnya tetap tampil di kartu (bukan toast 4 detik)
++      gagal(err, "Gagal menonaktifkan perangkat.");
++    }
++  }
++
++  // Sesudah dinonaktifkan: tombol hilang, tinggal langkah tangan yang masih perlu dikerjakan (bila ada).
++  const kotakLangkah =
++    langkah.length > 0 ? (
++      <div className="mt-3 rounded-lg border border-amber-300 bg-amber-50 p-3 text-sm text-amber-950 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-100">
++        <p className="font-medium">Sesudah menonaktifkan:</p>
++        <ul className="mt-1 list-disc space-y-1 pl-5 break-words">
++          {langkah.map((l) => (
++            <li key={l}>{l}</li>
++          ))}
++        </ul>
++        <button
++          ref={tutupLangkah}
++          type="button"
++          onClick={() => setLangkah([])}
++          className="mt-2 min-h-11 rounded-lg border border-amber-400 px-4 hover:bg-amber-100 dark:border-amber-700 dark:hover:bg-amber-900"
++        >
++          Tutup
++        </button>
++      </div>
++    ) : null;
++  if (p.kunci === "dicabut") return kotakLangkah;
++
++  return (
++    <section aria-label={"Tindakan admin untuk " + nama} className="mt-3 border-t border-slate-200 pt-3 dark:border-slate-700">
++      {p.jenis !== "node2" ? (
++        <>
++          {/* satu baris mulai 640 px: [pilihan versi] [Perbarui]; alasan tombol mati dan kotak "yakin?" turun ke bawahnya */}
++          <div className="flex flex-wrap items-end gap-x-3 gap-y-2">
++            <div className="w-full sm:w-72">
++              <label htmlFor={kolom + "-versi"} className="block text-sm font-medium text-slate-700 dark:text-slate-200">
++                Perbarui ke versi
++              </label>
++              <select
++                id={kolom + "-versi"}
++                value={versi}
++                onChange={(e) => setPilihan(e.target.value)}
++                disabled={opsi.length === 0}
++                className={KOTAK}
++              >
++                {opsi.length === 0 ? <option value="">belum ada rilis</option> : null}
++                {opsi.map((r) => (
++                  <option key={r.versi} value={r.versi}>
++                    {labelVersi(r, terbaru, fw)}
++                  </option>
++                ))}
++              </select>
++            </div>
++            <TombolKonfirmasi
++              bungkus="contents"
++              label="Perbarui"
++              judul={"Perbarui " + nama + " dari " + (fw ?? "?") + " ke " + versi + "?"}
++              labelYa="Ya, perbarui"
++              onYa={perbarui}
++              alasanMati={alasan}
++            >
++              <p>
++                Perangkat menerima perintahnya, berhenti sengaja, mengunduh{" "}
++                {rilisDipilih === undefined ? "berkasnya" : teksUkuran(rilisDipilih.ukuran)}, lalu menyala ulang (±1 menit). Kalau
++                firmware baru tidak tersambung ke broker dalam 60 detik, perangkat kembali sendiri ke {fw ?? "versi lamanya"}{" "}
++                (rollback). Jangan cabut listriknya selama itu.
++              </p>
++              {rilisDipilih?.uji ? (
++                <p className="mt-1 font-medium">Ini rilis UJI: sengaja dibuat untuk latihan rollback.</p>
++              ) : null}
++              <label className="mt-2 flex min-h-11 items-center gap-2">
++                <input type="checkbox" checked={paksa} onChange={(e) => setPaksa(e.target.checked)} className="size-5 accent-teal-700" />
++                Izinkan turun versi (bila versi tujuan lebih lama)
++              </label>
++            </TombolKonfirmasi>
++          </div>
++          <label className="mt-2 flex min-h-11 items-center gap-2 text-sm text-slate-700 dark:text-slate-200">
++            <input
++              type="checkbox"
++              checked={p.canary}
++              disabled={simpanCanary}
++              onChange={(e) => ubahCanary(e.target.checked)}
++              className="size-5 accent-violet-700"
++            />
++            Canary: perangkat uji yang diperbarui lebih dulu{simpanCanary ? " (menyimpan…)" : ""}
++          </label>
++        </>
++      ) : null}
++
++      <details className="mt-1 text-sm">
++        {/* py-3: tinggi ±44 px, mudah diketuk jempol */}
++        <summary className="cursor-pointer py-3 font-medium text-teal-700 dark:text-teal-300">Pengaturan lain</summary>
++        {p.jenis !== "node2" ? (
++          <form onSubmit={simpanJedaVitals} className="flex flex-wrap items-end gap-3">
++            <div>
++              <label htmlFor={kolom + "-jeda"} className="block font-medium text-slate-700 dark:text-slate-200">
++                Jeda vitals (detik, 60-3600)
++              </label>
++              <input
++                id={kolom + "-jeda"}
++                type="number"
++                inputMode="numeric"
++                min={60}
++                max={3600}
++                step={1}
++                value={jeda}
++                onChange={(e) => setJeda(e.target.value)}
++                className={KOTAK + " sm:w-32"}
++              />
++            </div>
++            <button
++              type="submit"
++              disabled={simpanJeda}
++              className="min-h-11 rounded-lg border border-slate-300 px-4 text-slate-800 hover:bg-slate-50 disabled:opacity-60 dark:border-slate-600 dark:text-slate-100 dark:hover:bg-slate-700"
++            >
++              {simpanJeda ? "Menyimpan…" : "Simpan jeda"}
++            </button>
++            <p className="basis-full text-xs text-slate-600 dark:text-slate-400">
++              Hanya vitals (kesehatan). telemetry tetap setiap 10 detik. WiFi, alamat server, dan kunci tidak bisa diubah dari jauh.
++            </p>
++          </form>
++        ) : null}
++        <div className="mt-3">
++          <TombolKonfirmasi label="Nonaktifkan" judul={"Nonaktifkan " + nama + "?"} labelYa="Ya, nonaktifkan" onYa={matikan} bahaya>
++            <p>
++              Untuk perangkat yang hilang, dicuri, atau tidak dipakai lagi. Kuncinya dicabut dan akun brokernya dihapus: perangkat
++              langsung terputus, kirimannya diabaikan, dan tidak bisa diperbarui atau dikendalikan. Menghidupkannya lagi hanya dengan
++              kunci baru atau kode klaim baru.
++            </p>
++          </TombolKonfirmasi>
++        </div>
++      </details>
++      <KotakGalat pesan={galat} onTutup={() => setGalat(null)} />
++      {kotakLangkah}
++    </section>
++  );
++}
+diff --git a/frontend/src/components/TombolKonfirmasi.tsx b/frontend/src/components/TombolKonfirmasi.tsx
+new file mode 100644
+index 0000000..e5b19fe
+--- /dev/null
++++ b/frontend/src/components/TombolKonfirmasi.tsx
+@@ -0,0 +1,127 @@
++// TombolKonfirmasi.tsx - tombol yang bertanya "yakin?" dulu sebelum mengerjakan sesuatu yang sulit dibatalkan (Modul 28:
++// Perbarui firmware, Perbarui canary/semua, Nonaktifkan). Polanya sama dengan KonfirmasiHapus (Modul 24): kotak
++// pertanyaannya bagian dari halaman, bukan jendela confirm() browser; tombol Batal langsung difokus, dan sesudah Batal
++// (atau sesudah selesai) fokus kembali ke tombol semula, jadi pengguna keyboard tidak terlempar ke awal halaman.
++import { useEffect, useId, useRef, useState } from "react";
++import type { ReactNode } from "react";
++
++type Props = {
++  label: string; // teks tombol, misalnya "Perbarui"
++  judul: string; // pertanyaannya, misalnya "Perbarui Node 1 garasi ke 1.7.1?"
++  children: ReactNode; // penjelasan (dan kolom tambahan, misalnya centang "paksa") di dalam kotak
++  labelYa: string; // misalnya "Ya, perbarui"
++  onYa: () => Promise<void>; // pekerjaannya; kotak tertutup sesudah selesai (berhasil atau gagal)
++  bahaya?: boolean; // true = tombol merah (Nonaktifkan)
++  alasanMati?: string | null; // terisi = tombol tidak bisa dipakai, kalimat ini tampil di bawahnya
++  // kelas pembungkus. "contents" = pembungkusnya seolah tidak ada: tombol ikut baris flex pemiliknya (misalnya di samping
++  // pilihan versi), sedangkan kalimat alasan dan kotak "yakin?" (basis-full) turun ke baris sendiri di bawahnya
++  bungkus?: string;
++};
++
++const TOMBOL_BIASA =
++  "min-h-11 rounded-lg bg-teal-700 px-4 font-medium text-white hover:bg-teal-800 disabled:cursor-not-allowed disabled:opacity-50";
++const TOMBOL_BAHAYA =
++  "min-h-11 rounded-lg border border-red-600 px-4 font-medium text-red-700 hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-50 dark:border-red-400 dark:text-red-300 dark:hover:bg-red-950";
++
++export default function TombolKonfirmasi(props: Props) {
++  const { label, judul, children, labelYa, onYa, bahaya = false, alasanMati = null, bungkus = "min-w-0" } = props;
++  const [yakin, setYakin] = useState(false); // kotak "yakin?" sedang tampil
++  const [sibuk, setSibuk] = useState(false); // true selama pekerjaannya berjalan (tombol "Ya" tidak bisa diketuk dua kali)
++  const tombol = useRef<HTMLButtonElement>(null);
++  const kalimatMati = useRef<HTMLParagraphElement>(null);
++  const fokusTertunda = useRef(false); // true sesudah kotak ditutup: fokus belum mendarat di tombol yang masih bisa dipakai
++  const id = useId(); // id unik untuk aria-labelledby: di satu layar bisa ada banyak tombol seperti ini
++  const mati = alasanMati !== null;
++
++  // Tombol yang MATI (disabled) tidak bisa difokus. Sesudah "Ya, perbarui", tombol Perbarui biasanya langsung mati
++  // ("Pembaruan sebelumnya masih berjalan"): fokus pindah ke kalimat alasannya, bukan jatuh ke awal halaman.
++  function tutup() {
++    setYakin(false);
++    if (tombol.current !== null && !tombol.current.disabled) tombol.current.focus();
++    else kalimatMati.current?.focus();
++    fokusTertunda.current = true;
++    setTimeout(() => {
++      fokusTertunda.current = false;
++    }, 3000);
++  }
++  // tombol baru mati SESUDAH kotak ditutup (kabar live tiba belakangan): pindahkan fokus sekali, hanya untuk tombol ini
++  useEffect(() => {
++    if (mati && fokusTertunda.current) {
++      fokusTertunda.current = false;
++      kalimatMati.current?.focus();
++    }
++  }, [mati]);
++
++  async function ya() {
++    setSibuk(true);
++    try {
++      await onYa(); // pesan berhasil atau galatnya ditampilkan oleh pemilik tombol (toast)
++    } finally {
++      setSibuk(false);
++      tutup();
++    }
++  }
++
++  return (
++    <div className={bungkus}>
++      <button
++        ref={tombol}
++        type="button"
++        disabled={mati}
++        aria-describedby={mati ? id + "-mati" : undefined}
++        onClick={() => setYakin(true)}
++        className={bahaya ? TOMBOL_BAHAYA : TOMBOL_BIASA}
++      >
++        {label}
++      </button>
++      {mati ? (
++        <p ref={kalimatMati} tabIndex={-1} id={id + "-mati"} className="mt-1 basis-full text-xs text-slate-600 dark:text-slate-400">
++          {alasanMati}
++        </p>
++      ) : null}
++      {yakin ? (
++        // role="alertdialog": pembaca layar membacakan judul dan isinya begitu fokus pindah ke tombol Batal
++        <div
++          role="alertdialog"
++          aria-labelledby={id + "-judul"}
++          aria-describedby={id + "-isi"}
++          className={
++            "mt-2 basis-full rounded-lg border p-3 text-sm " +
++            (bahaya
++              ? "border-red-300 bg-red-50 text-red-900 dark:border-red-800 dark:bg-red-950 dark:text-red-100"
++              : "border-teal-300 bg-teal-50 text-teal-950 dark:border-teal-800 dark:bg-teal-950 dark:text-teal-50")
++          }
++        >
++          <p id={id + "-judul"} className="font-medium break-words">
++            {judul}
++          </p>
++          <div id={id + "-isi"} className="mt-1">
++            {children}
++          </div>
++          <div className="mt-3 flex flex-wrap gap-3">
++            <button
++              type="button"
++              onClick={ya}
++              disabled={sibuk}
++              className={
++                "min-h-11 rounded-lg px-4 font-medium text-white disabled:opacity-60 " +
++                (bahaya ? "bg-red-700 hover:bg-red-800" : "bg-teal-700 hover:bg-teal-800")
++              }
++            >
++              {sibuk ? "Mengirim…" : labelYa}
++            </button>
++            <button
++              type="button"
++              autoFocus
++              onClick={tutup}
++              disabled={sibuk}
++              className="min-h-11 rounded-lg border border-slate-300 bg-white px-4 text-slate-800 hover:bg-slate-50 disabled:opacity-60 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100"
++            >
++              Batal
++            </button>
++          </div>
++        </div>
++      ) : null}
++    </div>
++  );
++}
+diff --git a/frontend/src/components/UnggahFirmware.tsx b/frontend/src/components/UnggahFirmware.tsx
+new file mode 100644
+index 0000000..cb201fd
+--- /dev/null
++++ b/frontend/src/components/UnggahFirmware.tsx
+@@ -0,0 +1,180 @@
++// UnggahFirmware.tsx - formulir "Unggah firmware" di layar Armada (Modul 28, khusus admin). Berkas .bin dari folder build
++// (Sketch → Export Compiled Binary) dikirim APA ADANYA ke backend (POST /firmware/node1/<versi>); backend menghitung
++// SHA-256-nya sendiri, dan layar ini menampilkan hasilnya supaya bisa dibandingkan dengan sidik berkas di laptopmu.
++// Pemeriksaan di browser (ukuran, bait pertama 0xE9, nama berkas) hanya supaya galatnya cepat dan jelas: backend tetap
++// memeriksa ulang semuanya.
++import { useRef, useState } from "react";
++import type { FormEvent } from "react";
++import { GalatApi, unggahFirmware } from "../api";
++import { RAK_PROGRAM, teksUkuran } from "../armada";
++import { LaporanOta } from "../skema/kontrak";
++import { toast } from "../toast";
++import { sesiHabis } from "../toko";
++import type { Rilis } from "../types";
++import { tanggalJamWib } from "../waktu";
++
++const KOTAK =
++  "mt-1 min-h-11 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100";
++const LABEL = "mt-3 block text-sm font-medium text-slate-700 dark:text-slate-200";
++
++// aturan versi yang SAMA dengan kontrak data (x.y.z, misalnya 1.7.1): skema Versi di skema/kontrak.ts, dipinjam lewat
++// kolom versi LaporanOta (Versi sendiri tidak diekspor berkas itu)
++const Versi = LaporanOta.shape.versi;
++
++// Berkas lain di folder build yang JUGA berakhiran .bin, tetapi bukan berkas aplikasi untuk OTA
++const BUKAN_APLIKASI = /\.(merged|bootloader|partitions)\.bin$/i;
++
++// Memeriksa berkas sebelum diunggah. Hasilnya kalimat galat, atau null kalau tampak benar.
++async function periksaBerkas(berkas: File): Promise<string | null> {
++  if (!berkas.name.toLowerCase().endsWith(".bin")) return "Berkas firmware berakhiran .bin.";
++  if (BUKAN_APLIKASI.test(berkas.name)) {
++    return "Itu bukan berkas aplikasi: pilih <sketsa>.ino.bin, bukan .merged.bin, .bootloader.bin, atau .partitions.bin.";
++  }
++  if (berkas.size === 0) return "Berkasnya kosong.";
++  if (berkas.size > RAK_PROGRAM) {
++    return "Terlalu besar: " + berkas.size.toLocaleString("id-ID") + " byte, satu rak program hanya 1.966.080 byte.";
++  }
++  // bait pertama semua berkas aplikasi ESP32 = 0xE9 (233). slice(0, 1) = potongan 1 byte saja, tanpa membaca seluruh berkas.
++  const awal = new Uint8Array(await berkas.slice(0, 1).arrayBuffer());
++  if (awal[0] !== 0xe9) return "Bukan berkas aplikasi ESP32: bait pertamanya harus 0xE9.";
++  return null;
++}
++
++type Props = {
++  onSelesai: () => void; // rilis baru tersimpan: layar mengambil ulang daftar rilis dan armada
++};
++
++export default function UnggahFirmware({ onSelesai }: Props) {
++  const [berkas, setBerkas] = useState<File | null>(null);
++  const [versi, setVersi] = useState("");
++  const [catatan, setCatatan] = useState("");
++  const [uji, setUji] = useState(false);
++  const [sibuk, setSibuk] = useState(false);
++  const [galat, setGalat] = useState<string | null>(null);
++  const [hasil, setHasil] = useState<Rilis | null>(null); // rilis yang baru tersimpan (ukuran + sha256 dari server)
++  const kolomBerkas = useRef<HTMLInputElement>(null);
++
++  async function kirim(e: FormEvent) {
++    e.preventDefault();
++    setGalat(null);
++    setHasil(null);
++    if (berkas === null) return setGalat("Pilih berkas .bin dulu.");
++    const salahBerkas = await periksaBerkas(berkas);
++    if (salahBerkas !== null) return setGalat(salahBerkas);
++    const cekVersi = Versi.safeParse(versi.trim());
++    if (!cekVersi.success) return setGalat("Versi harus berbentuk x.y.z, misalnya 1.7.1 (sama dengan VERSI_FIRMWARE).");
++    // backend 1.5 menolak versi RILIS dengan nol di depan (1.07.1 sama dengan 1.7.1 sebagai angka, beda sebagai teks)
++    if (/(^|\.)0\d/.test(cekVersi.data)) return setGalat("Versi tanpa nol di depan: 1.7.1, bukan 1.07.1.");
++    if (catatan.trim().length > 200) return setGalat("Catatan paling panjang 200 huruf.");
++    setSibuk(true);
++    try {
++      const rilis = await unggahFirmware(cekVersi.data, berkas, catatan.trim(), uji);
++      setHasil(rilis);
++      toast("Firmware " + rilis.versi + " tersimpan di server.", "sukses");
++      // kosongkan formulir; kolom berkas tidak bisa dikosongkan lewat state React, jadi lewat ref-nya
++      setBerkas(null);
++      setVersi("");
++      setCatatan("");
++      setUji(false);
++      if (kolomBerkas.current !== null) kolomBerkas.current.value = "";
++      onSelesai();
++    } catch (err) {
++      if (err instanceof GalatApi && err.kode === 401) return sesiHabis();
++      // galat dari backend ditaruh di formulir (bukan toast): biasanya perlu dibaca pelan, misalnya "1.7.1 sudah ada: …"
++      setGalat(err instanceof GalatApi ? err.message : "Unggah gagal.");
++    } finally {
++      setSibuk(false);
++    }
++  }
++
++  return (
++    <form onSubmit={kirim} noValidate className="rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-800">
++      <h4 className="font-semibold text-slate-800 dark:text-slate-100">Unggah firmware Node 1</h4>
++      <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">
++        Pilih <span className="font-mono">&lt;sketsa&gt;.ino.bin</span> dari folder <span className="font-mono">build</span> (hasil
++        Sketch → Export Compiled Binary). Versi yang sudah ada tidak bisa ditimpa: firmware yang berubah selalu mendapat versi baru.
++      </p>
++
++      <label htmlFor="unggah-berkas" className={LABEL}>
++        Berkas .bin
++      </label>
++      <input
++        ref={kolomBerkas}
++        id="unggah-berkas"
++        type="file"
++        accept=".bin"
++        onChange={(e) => setBerkas(e.target.files?.[0] ?? null)}
++        className="mt-1 block w-full text-sm text-slate-700 file:mr-3 file:min-h-11 file:rounded-lg file:border-0 file:bg-teal-50 file:px-4 file:font-medium file:text-teal-800 hover:file:bg-teal-100 dark:text-slate-200 dark:file:bg-teal-950 dark:file:text-teal-200"
++      />
++      {berkas !== null ? (
++        <p className="mt-1 text-xs text-slate-600 dark:text-slate-400">
++          {berkas.name}: {teksUkuran(berkas.size)}
++        </p>
++      ) : null}
++
++      <label htmlFor="unggah-versi" className={LABEL}>
++        Versi (sama dengan VERSI_FIRMWARE di berkas itu)
++      </label>
++      <input
++        id="unggah-versi"
++        value={versi}
++        onChange={(e) => setVersi(e.target.value)}
++        placeholder="1.7.1"
++        inputMode="decimal"
++        autoComplete="off"
++        className={KOTAK + " sm:w-40"}
++      />
++
++      <label htmlFor="unggah-catatan" className={LABEL}>
++        Catatan (tidak wajib)
++      </label>
++      <input
++        id="unggah-catatan"
++        value={catatan}
++        onChange={(e) => setCatatan(e.target.value)}
++        maxLength={200}
++        placeholder="misalnya: sapaan versi baru"
++        className={KOTAK}
++      />
++
++      <label className="mt-3 flex min-h-11 items-start gap-2 text-sm text-slate-700 dark:text-slate-200">
++        <input type="checkbox" checked={uji} onChange={(e) => setUji(e.target.checked)} className="mt-0.5 size-5 shrink-0 accent-teal-700" />
++        <span>
++          Rilis <b>uji</b> (misalnya firmware yang sengaja salah untuk latihan rollback): hanya bisa dikirim ke satu perangkat, tidak pernah
++          ke semua, dan tidak dihitung sebagai rilis terbaru.
++        </span>
++      </label>
++
++      {galat !== null ? (
++        // role="alert": pembaca layar langsung membacakan galatnya
++        <p role="alert" className="mt-3 rounded-lg bg-red-50 p-3 text-sm text-red-700 dark:bg-red-950 dark:text-red-200">
++          {galat}
++        </p>
++      ) : null}
++
++      <button
++        type="submit"
++        disabled={sibuk}
++        className="mt-3 min-h-11 rounded-lg bg-teal-700 px-4 font-medium text-white hover:bg-teal-800 disabled:opacity-60"
++      >
++        {sibuk ? "Mengunggah…" : "Unggah firmware"}
++      </button>
++
++      {hasil !== null ? (
++        <div role="status" className="mt-3 rounded-lg bg-green-50 p-3 text-sm text-green-950 dark:bg-green-950 dark:text-green-100">
++          <p className="font-medium">
++            Tersimpan: Node 1 {hasil.versi}
++            {hasil.uji ? " (uji)" : ""}, {tanggalJamWib(Date.parse(hasil.dibuat))}
++          </p>
++          <p className="mt-1">Ukuran: {teksUkuran(hasil.ukuran)}</p>
++          <p className="mt-1">SHA-256 (dihitung server dari berkas yang diterimanya):</p>
++          <p className="font-mono text-xs break-all">{hasil.sha256}</p>
++          <p className="mt-1">
++            Bandingkan dengan sidik berkas di laptopmu (<span className="font-mono">sha256sum</span> atau{" "}
++            <span className="font-mono">Get-FileHash</span>): harus sama persis.
++          </p>
++        </div>
++      ) : null}
++    </form>
++  );
++}
+diff --git a/frontend/src/halaman/Armada.tsx b/frontend/src/halaman/Armada.tsx
+new file mode 100644
+index 0000000..6138a0c
+--- /dev/null
++++ b/frontend/src/halaman/Armada.tsx
+@@ -0,0 +1,131 @@
++// halaman/Armada.tsx - layar /armada (Modul 28): semua perangkat terdaftar dengan versi firmware, kesehatan, dan pembaruan
++// terakhirnya; rilis firmware di server; dan (khusus admin) unggah firmware, pembaruan lewat udara (OTA), dan kode klaim
++// untuk perangkat baru. Admin dan viewer sama-sama boleh melihat; tombolnya hanya digambar untuk admin (pola layar Aturan).
++// Data LIVE tanpa polling: status, versi dari telemetry, dan kemajuan pembaruan datang lewat Socket.IO (toko); data lain
++// diambil ulang hanya saat ada kabar dari server (versiArmada naik).
++import { useEffect, useState } from "react";
++import { ambilArmada, ambilRilis, GalatApi } from "../api";
++import BuatKodeKlaim from "../components/BuatKodeKlaim";
++import DaftarRilis from "../components/DaftarRilis";
++import KartuArmada from "../components/KartuArmada";
++import UnggahFirmware from "../components/UnggahFirmware";
++import { sesiHabis, useAdmin, useToko } from "../toko";
++import type { DaftarRilis as Rilis, DataArmada } from "../types";
++
++const JUDUL_BAGIAN = "text-base font-semibold text-slate-800 dark:text-slate-100";
++
++// fungsi biasa (bukan di dalam komponen): fungsi yang SAMA selamanya, aman diberikan ke banyak kartu
++function muatUlang() {
++  useToko.getState().armadaBerubah();
++}
++
++export default function HalamanArmada() {
++  const admin = useAdmin();
++  const versiArmada = useToko((s) => s.versiArmada); // naik saat pembaruan selesai, perangkat baru, dinonaktifkan, ...
++  const [data, setData] = useState<DataArmada | null>(null); // null = masih memuat
++  const [rilis, setRilis] = useState<Rilis | null>(null);
++  const [galat, setGalat] = useState<string | null>(null);
++
++  // Ambil armada dan daftar rilis BERSAMAAN (Promise.all) saat layar dibuka dan setiap kali versiArmada naik. Data lama
++  // tetap tampil sampai yang baru tiba (tidak berkedip "Memuat…").
++  useEffect(() => {
++    let ignore = false;
++    Promise.all([ambilArmada(), ambilRilis()])
++      .then(([armada, daftarRilis]) => {
++        if (ignore) return;
++        setData(armada);
++        setRilis(daftarRilis);
++        setGalat(null);
++      })
++      .catch((err) => {
++        if (ignore) return;
++        if (err instanceof GalatApi && err.kode === 401) return sesiHabis();
++        setGalat(err instanceof GalatApi ? err.message : "Gagal memuat armada.");
++      });
++    return () => {
++      ignore = true;
++    };
++  }, [versiArmada]);
++
++  if (galat !== null && data === null) {
++    return <p className="rounded-lg bg-red-50 p-3 text-red-700 dark:bg-red-950 dark:text-red-200">{galat}</p>;
++  }
++  if (data === null || rilis === null) return <p className="text-slate-600 dark:text-slate-400">Memuat armada…</p>;
++
++  const terbaru = data.rilis_terbaru.node1;
++  const aktif = data.perangkat.filter((p) => p.kunci !== "dicabut");
++  const perlu = aktif.filter((p) => p.perlu_update).length;
++
++  return (
++    <>
++      <h2 className="text-lg font-semibold text-slate-800 dark:text-slate-100">Armada</h2>
++      <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">
++        {aktif.length} perangkat aktif
++        {data.perangkat.length > aktif.length ? " (+" + (data.perangkat.length - aktif.length) + " nonaktif)" : ""} · rilis terbaru Node 1:{" "}
++        <span className="font-mono">{terbaru ?? "belum ada"}</span>
++        {perlu > 0 ? " · " + perlu + " perlu diperbarui" : ""}
++      </p>
++      {galat !== null ? (
++        // gagal mengambil ULANG: data lama tetap tampil, dengan peringatan bahwa mungkin sudah basi
++        <p className="mt-2 rounded-lg bg-red-50 p-2 text-sm text-red-700 dark:bg-red-950 dark:text-red-200">
++          {galat} Data di bawah mungkin sudah basi.
++        </p>
++      ) : null}
++      {admin && !data.pengaturan.ota_siap ? (
++        <p className="mt-2 rounded-lg bg-amber-50 p-3 text-sm text-amber-900 dark:bg-amber-950 dark:text-amber-100">
++          ALAMAT_SERVER di <span className="font-mono">.env</span> server belum diisi: tombol Perbarui belum bisa dipakai, karena
++          perangkat tidak tahu dari mana mengunduh firmware.
++        </p>
++      ) : null}
++
++      <section aria-labelledby="judul-perangkat" className="mt-4">
++        <h3 id="judul-perangkat" className={JUDUL_BAGIAN}>
++          Perangkat
++        </h3>
++        {data.perangkat.length === 0 ? (
++          <p className="mt-2 rounded-lg bg-white p-3 text-slate-600 dark:bg-slate-800 dark:text-slate-300">
++            Belum ada perangkat terdaftar.{admin ? " Buat kode klaim di bawah untuk mendaftarkan perangkat baru." : ""}
++          </p>
++        ) : (
++          <ul className="mt-2 grid gap-3">
++            {data.perangkat.map((p) => (
++              <li key={p.device_id} className="min-w-0">
++                <KartuArmada p={p} rilis={rilis.rilis} terbaru={terbaru} otaSiap={data.pengaturan.ota_siap} onBerubah={muatUlang} />
++              </li>
++            ))}
++          </ul>
++        )}
++      </section>
++
++      <section aria-labelledby="judul-rilis" className="mt-6">
++        <h3 id="judul-rilis" className={JUDUL_BAGIAN}>
++          Rilis firmware
++        </h3>
++        <p className="mt-1 mb-2 text-sm text-slate-600 dark:text-slate-300">
++          Berkas firmware hanya bisa diunduh perangkat terdaftar dengan kuncinya sendiri. Server yang memutuskan kapan perangkat
++          diperbarui: canary dulu, baru semua.
++        </p>
++        <div className="grid gap-3">
++          {admin ? <UnggahFirmware onSelesai={muatUlang} /> : null}
++          <DaftarRilis daftar={rilis} admin={admin} onBerubah={muatUlang} />
++        </div>
++      </section>
++
++      {admin ? (
++        <section aria-labelledby="judul-baru" className="mt-6">
++          <h3 id="judul-baru" className={JUDUL_BAGIAN}>
++            Perangkat baru
++          </h3>
++          <div className="mt-2">
++            <BuatKodeKlaim />
++          </div>
++        </section>
++      ) : (
++        <p className="mt-6 text-sm text-slate-600 dark:text-slate-400">
++          Akunmu viewer: kamu bisa melihat armada, tetapi unggah firmware, pembaruan, kode klaim, dan menonaktifkan perangkat khusus
++          admin.
++        </p>
++      )}
++    </>
++  );
++}
+diff --git a/frontend/src/peta.ts b/frontend/src/peta.ts
+index 53abca5..766fd05 100644
+--- a/frontend/src/peta.ts
++++ b/frontend/src/peta.ts
+@@ -14,5 +14,5 @@ export const PETA = {
+   // Warna isi lingkaran penanda. SVG peta tidak mengenal kelas Tailwind, jadi warnanya ditulis sebagai kode warna.
+   // Warna tidak pernah sendirian: popup penanda dan keterangan di bawah peta menuliskan statusnya dengan kata.
+   warnaOnline: "#15803d", // hijau (setara green-700 Tailwind): perangkat online
+-  warnaLain: "#64748b", // abu-abu (setara slate-500 Tailwind): offline, mode offline, belum diketahui, atau kiriman diabaikan
++  warnaLain: "#64748b", // abu-abu (setara slate-500 Tailwind): offline, berhenti sengaja, belum diketahui, atau kiriman diabaikan
+ };
+diff --git a/frontend/src/skema/README.md b/frontend/src/skema/README.md
+index eb17029..026eb03 100644
+--- a/frontend/src/skema/README.md
++++ b/frontend/src/skema/README.md
+@@ -6,4 +6,5 @@
+ - **Kenapa disalin, bukan diimpor dari `../backend`?** `backend/src/schemas/aturan.ts` memakai node-cron, yang tidak bisa jalan di browser (halaman menjadi putih). Selain itu frontend harus bisa di-*build* sendirian, tanpa folder `backend` dan `node_modules`-nya. Backend tetap memeriksa ulang setiap isian, termasuk ekspresi cron yang tidak bisa diperiksa di browser.
+ - Kedua salinan mengimpor dengan akhiran `.ts` (`./kontrak.ts`), sama dengan gaya backend. Frontend mengizinkannya lewat `allowImportingTsExtensions` di `tsconfig.app.json`; berkas frontend lainnya tetap mengimpor tanpa akhiran.
+ - `kontrak.ts` memanggil `z.config(z.locales.id())`, jadi semua pesan galat bawaan Zod di dashboard berbahasa Indonesia.
++- Sejak Modul 28, `kontrak.ts` adalah kontrak data **1.6** (backend 1.5). Layar Armada memakai aturan versinya untuk kolom versi formulir **Unggah firmware**: `Versi` sendiri tidak diekspor berkas itu, jadi dipinjam lewat `LaporanOta.shape.versi` (aturan yang sama: `x.y.z`), ditambah satu pemeriksaan di formulir itu sendiri: tanpa nol di depan (`1.07.1` ditolak, aturan versi rilis backend 1.5). Salinan ini tetap tidak diubah di frontend.
+ - `masuk.ts` **bukan** salinan: skema formulir Masuk ditulis sendiri, meniru skema `Masuk` di `backend/src/routes/auth.ts`.
+diff --git a/frontend/src/skema/kontrak.ts b/frontend/src/skema/kontrak.ts
+index 1b0b2c8..0cc8a8a 100644
+--- a/frontend/src/skema/kontrak.ts
++++ b/frontend/src/skema/kontrak.ts
+@@ -1,5 +1,8 @@
+-// kontrak.ts - Lampiran A (kontrak data 1.3) dalam bentuk skema Zod: kontrak yang bisa dijalankan.
++// kontrak.ts - Lampiran A (kontrak data 1.6, Modul 28) dalam bentuk skema Zod: kontrak yang bisa dijalankan.
+ // Setiap pesan dari perangkat dicek dengan skema ini sebelum disimpan ("jangan percaya perangkat").
++// Modul 28 (kontrak 1.6): vitals boleh membawa reset_reason, fw, dan laporan pembaruan ota; cmd "update" dirinci (sha256,
++// ukuran); config boleh membawa jeda.vitals_s. Bentuk lama (firmware sampai 1.6.0) tetap sah.
++// Berkas ini disalin SAMA PERSIS ke frontend/src/skema/kontrak.ts (npm run cek-skema): hanya boleh mengimpor zod.
+ import { z } from "zod";
+ 
+ z.config(z.locales.id()); // pesan galat Zod dalam bahasa Indonesia
+@@ -48,9 +51,26 @@ export const TelemetryNode2 = z.strictObject({
+   baterai: desimal(2.5, 4.5).optional(),
+ });
+ 
++// offline-mode (dipakai mulai Modul 28): perangkat SENGAJA berhenti, misalnya sebelum memasang firmware baru. Diterbitkan
++// perangkat sendiri sebelum memutus sambungan dengan rapi, jadi broker tidak menerbitkan wasiat "offline".
+ export const Status = z.enum(["online", "offline", "offline-mode"]);
+ 
+-// vitals (kontrak 1.0) ditambah laporan mode offline (kontrak 1.3): offline_s dan kipas_lokal selalu datang bersama
++// Modul 28: alasan perangkat menyala ulang terakhir kali (kontrak bagian 6). Tujuh nilai ini saja; alasan lain dari ESP-IDF
++// ditulis UNKNOWN.
++export const ResetReason = z.enum(["POWERON", "BROWNOUT", "SW", "PANIC", "WDT", "DEEPSLEEP", "UNKNOWN"]);
++
++// Modul 28: laporan hasil satu pembaruan firmware di dalam vitals (kontrak 1.6). id = id perintah update-nya; perangkat
++// menyimpannya di NVS sebelum restart dan mengulangnya di paling banyak 3 vitals (vitals QoS 0 bisa hilang).
++export const LaporanOta = z.strictObject({
++  id: z.string().min(1).max(39),
++  hasil: z.enum(["berhasil", "rollback", "gagal"]),
++  versi: Versi, // versi yang DICOBA dipasang (ke_versi), bukan versi yang sedang berjalan
++  pesan: z.string().max(80).optional(),
++});
++
++// vitals (kontrak 1.0) ditambah laporan mode offline (kontrak 1.3): offline_s dan kipas_lokal selalu datang bersama.
++// Modul 28 (kontrak 1.6): reset_reason dan fw (selalu bersama, wajib mulai firmware 1.7.0), dan laporan pembaruan ota
++// (hanya bersama fw). Vitals firmware lama tanpa ketiganya tetap sah.
+ export const Vitals = z
+   .strictObject({
+     ts: Waktu,
+@@ -59,9 +79,15 @@ export const Vitals = z
+     heap_free: z.number().int().min(0),
+     offline_s: z.number().int().min(0).optional(),
+     kipas_lokal: z.number().int().min(0).optional(),
++    reset_reason: ResetReason.optional(),
++    fw: Versi.optional(),
++    ota: LaporanOta.optional(),
+   })
+   .refine((v) => (v.offline_s === undefined) === (v.kipas_lokal === undefined),
+-    "laporan mode offline harus lengkap: offline_s dan kipas_lokal selalu datang bersama");
++    "laporan mode offline harus lengkap: offline_s dan kipas_lokal selalu datang bersama")
++  .refine((v) => (v.reset_reason === undefined) === (v.fw === undefined),
++    "reset_reason dan fw selalu datang bersama (firmware 1.7.0 ke atas)")
++  .refine((v) => v.ota === undefined || v.fw !== undefined, "laporan ota hanya boleh bersama fw");
+ 
+ export const Ack = z
+   .strictObject({
+@@ -81,6 +107,26 @@ export const PerintahSet = z.discriminatedUnion("target", [
+   z.strictObject({ target: z.literal("tirai"), nilai: z.number().int().min(0).max(180) }),
+ ]);
+ 
++// Modul 28: isi cmd "update" yang diterbitkan server (kontrak 1.6 bagian 7). TIDAK PERNAH retained. url = alamat final
++// berkas firmware (tanpa pengalihan: HTTPUpdate tidak mengikuti 3xx), sha256 = sidik jari isi berkas (64 heksadesimal
++// huruf kecil), ukuran = panjang berkas dalam byte, paling besar satu rak program Minimal SPIFFS.
++export const CmdUpdate = z.strictObject({
++  id: z.string().min(1).max(39),
++  ts: Waktu,
++  aksi: z.literal("update"),
++  versi: Versi,
++  url: z.string().max(200).regex(/^https?:\/\/[^\s/]+\/fw\/node-1\/\d+\.\d+\.\d+\.bin$/,
++    "url harus http(s)://<alamat>/fw/node-1/<versi>.bin"),
++  sha256: z.string().regex(/^[0-9a-f]{64}$/, "sha256 harus 64 heksadesimal huruf kecil"),
++  ukuran: z.number().int().min(1).max(1966080),
++}).refine((c) => c.url.endsWith(`/${c.versi}.bin`), "url harus menunjuk berkas versi yang sama dengan versi");
++
++// Modul 28: jeda kirim yang bisa diatur dari jauh lewat cmd "config" (kontrak 1.6). Hanya vitals: telemetry tetap setiap
++// 10 detik (kontrak aturan 3).
++export const Jeda = z.strictObject({
++  vitals_s: z.number().int().min(60).max(3600),
++});
++
+ // ambang aturan pengaman lokal yang dikirim lewat cmd "config" (kontrak 1.3 bagian 7): paling sedikit satu kunci
+ export const Ambang = z
+   .strictObject({
+@@ -95,5 +141,9 @@ export type TelemetryNode1 = z.infer<typeof TelemetryNode1>;
+ export type TelemetryNode2 = z.infer<typeof TelemetryNode2>;
+ export type Status = z.infer<typeof Status>;
+ export type Vitals = z.infer<typeof Vitals>;
++export type ResetReason = z.infer<typeof ResetReason>;
++export type LaporanOta = z.infer<typeof LaporanOta>;
++export type CmdUpdate = z.infer<typeof CmdUpdate>;
++export type Jeda = z.infer<typeof Jeda>;
+ export type Ack = z.infer<typeof Ack>;
+ export type PerintahSet = z.infer<typeof PerintahSet>;
+diff --git a/frontend/src/soket.ts b/frontend/src/soket.ts
+index c218f43..534a966 100644
+--- a/frontend/src/soket.ts
++++ b/frontend/src/soket.ts
+@@ -8,7 +8,7 @@ import { ambilPerangkat, BASE, refreshSekali } from "./api";
+ import { toast } from "./toast";
+ import type { JenisToast } from "./toast";
+ import { useToko } from "./toko";
+-import type { DariKlien, Kejadian, KeKlien, Perangkat, StatusPerangkat, Telemetry } from "./types";
++import type { DariKlien, KabarOta, Kejadian, KeKlien, Perangkat, StatusPerangkat, Telemetry } from "./types";
+ 
+ // Alamatnya SAMA dengan api.ts (BASE): halaman http://<IP-laptop>:5173 di HP otomatis menyambung ke http://<IP-laptop>:8080.
+ // withCredentials: true = bawa cookie login ke port lain (padanan credentials: "include" pada fetch). Tanpa ini,
+@@ -50,19 +50,34 @@ function ikutiSemua() {
+ // data bertipe unknown, jadi diperiksa Zod dulu, bukan dipercaya begitu saja.
+ const DataTindakan = z.object({ hasil: z.string().optional(), ok: z.boolean().nullable().optional() });
+ 
++// Modul 28: bagian "data" kejadian ota (pembaruan firmware): status pembaruannya menentukan warna toast
++const DataOta = z.object({ status: z.string() });
++const OTA_GAGAL = ["rollback", "gagal", "ditolak", "kedaluwarsa"];
++
+ // Modul 24: warna toast untuk satu kejadian, dari data terstruktur (jenis, status, ok), BUKAN dari kalimatnya: kalimat
+ // buatan backend bisa berubah kata-katanya tanpa mengubah artinya.
+ function jenisToast(k: Kejadian): JenisToast {
+   // perangkat tersambung lagi atau terputus: acara "status" perangkat yang sama dikirim server ke SEMUA dashboard LEBIH
+   // DULU (sebelum kejadiannya dicatat), jadi status terbarunya sudah ada di toko
+-  if (k.jenis === "status") return useToko.getState().status[k.device_id ?? ""] === "online" ? "info" : "galat";
++  // Modul 28: offline-mode = berhenti SENGAJA (misalnya untuk memasang firmware baru), bukan gangguan: tidak merah
++  if (k.jenis === "status") {
++    const status = useToko.getState().status[k.device_id ?? ""];
++    return status === "online" || status === "offline-mode" ? "info" : "galat";
++  }
++  if (k.jenis === "ota") {
++    const data = DataOta.safeParse(k.data);
++    if (data.success && data.data.status === "berhasil") return "sukses";
++    if (data.success && OTA_GAGAL.includes(data.data.status)) return "galat";
++    return "info"; // diterima: perangkat mulai bekerja
++  }
++  if (k.jenis === "provisioning") return "sukses"; // perangkat baru terdaftar lewat kode klaim
+   if (k.jenis === "aturan" || k.jenis === "jadwal") {
+     const data = DataTindakan.safeParse(k.data);
+     if (data.success && (data.data.ok === false || data.data.hasil === "tanpa-ack" || data.data.hasil === "tidak-dikirim")) {
+       return "galat";
+     }
+   }
+-  return "info"; // aturan bertindak, aturan siap lagi, kembali dari mode offline, perintah dikirim lagi
++  return "info"; // aturan bertindak, aturan siap lagi, kembali dari mode offline, perintah dikirim lagi, dinonaktifkan
+ }
+ 
+ // useRealtime - dipanggil SEKALI di App. Selama sudah login: menyambung, memulihkan sambungan, dan meneruskan setiap
+@@ -101,7 +116,11 @@ export function useRealtime(sudahLogin: boolean, onSesiHabis: () => void) {
+       ikutiSemua();
+       // Sambungan PULIH, bukan yang pertama: sinkronkan status. Yang pertama tidak perlu, karena TataLetak baru saja
+       // mengambil daftar perangkat sesudah masuk.
+-      if (pernahTersambung) void sinkronPerangkat();
++      // Modul 28: layar Armada juga mengambil ulang datanya (pembaruan yang selesai selama terputus).
++      if (pernahTersambung) {
++        void sinkronPerangkat();
++        useToko.getState().armadaBerubah();
++      }
+       pernahTersambung = true;
+     }
+     function onDisconnect(alasan: string) {
+@@ -136,13 +155,25 @@ export function useRealtime(sudahLogin: boolean, onSesiHabis: () => void) {
+     // Modul 24: kejadian dari buku kejadian backend (aturan bertindak, jadwal, perangkat terputus, ...) menjadi toast.
+     // aturan-diubah tidak: yang menyimpan aturan sudah mendapat toast dari jawaban HTTP-nya sendiri. Kejadian itu cukup
+     // menaikkan versiAturan, supaya layar Aturan yang sedang terbuka (di dashboard mana pun) mengambil ulang daftarnya.
++    // Modul 28: perangkat baru (kode klaim) dan perangkat yang dinonaktifkan mengubah DAFTAR perangkat: daftar diambil ulang
++    // (GET /devices), supaya perangkat baru langsung diikuti dan kartu di layar Perangkat ikut benar, dan layar Armada
++    // mengambil ulang datanya.
+     function onKejadian(k: Kejadian) {
+       if (k.jenis === "aturan-diubah") {
+         useToko.getState().aturanBerubah();
+         return;
+       }
++      if (k.jenis === "provisioning" || k.jenis === "dicabut") {
++        void sinkronPerangkat();
++        useToko.getState().armadaBerubah();
++      }
+       toast(k.pesan, jenisToast(k));
+     }
++    // Modul 28: kemajuan pembaruan firmware (acara "ota", ke semua dashboard). Tanpa toast: setiap tahap yang penting
++    // (diterima, berhasil, rollback, gagal, kedaluwarsa) juga datang sebagai kejadian "ota", yang sudah menjadi toast.
++    function onOta(kabar: KabarOta) {
++      useToko.getState().terimaOta(kabar);
++    }
+ 
+     socket.on("connect", onConnect);
+     socket.on("disconnect", onDisconnect);
+@@ -150,6 +181,7 @@ export function useRealtime(sudahLogin: boolean, onSesiHabis: () => void) {
+     socket.on("telemetry", onTelemetry);
+     socket.on("status", onStatus);
+     socket.on("kejadian", onKejadian);
++    socket.on("ota", onOta);
+     useToko.getState().setKoneksi("menyambung");
+     socket.connect();
+     // StrictMode di mode dev: sambung, putus, sambung lagi. Tetap hanya SATU sambungan yang hidup.
+@@ -161,6 +193,7 @@ export function useRealtime(sudahLogin: boolean, onSesiHabis: () => void) {
+       socket.off("telemetry", onTelemetry);
+       socket.off("status", onStatus);
+       socket.off("kejadian", onKejadian);
++      socket.off("ota", onOta);
+       socket.disconnect();
+     };
+   }, [sudahLogin, onSesiHabis]);
+diff --git a/frontend/src/toko.ts b/frontend/src/toko.ts
+index df076cc..f96b6e5 100644
+--- a/frontend/src/toko.ts
++++ b/frontend/src/toko.ts
+@@ -5,13 +5,16 @@
+ // bisa membacanya tanpa dititipkan lewat props dari App. Peran tetap hanya di memori: tidak pernah di localStorage.
+ import { create } from "zustand";
+ import { useToast } from "./toast";
+-import type { Bacaan, Keadaan, Pengguna, Perangkat, StatusPerangkat, Telemetry, TelemetryNode1, Titik } from "./types";
++import type { Bacaan, KabarOta, Keadaan, Pengguna, Perangkat, StatusPerangkat, Telemetry, TelemetryNode1, Titik } from "./types";
+ 
+ // keadaan sambungan Socket.IO yang ditampilkan lencana di kepala
+ export type Koneksi = "menyambung" | "live" | "terputus";
+ 
+ const LIMA_MENIT = 5 * 60 * 1000; // dalam milidetik
+ 
++// Modul 28: status pembaruan yang sudah SELESAI (tidak berubah lagi tanpa perintah baru)
++const PEMBARUAN_SELESAI = ["berhasil", "rollback", "gagal", "ditolak", "kedaluwarsa"];
++
+ // Larik kosong yang SELALU sama. Selektor memakai "?? KOSONG", bukan "?? []": larik baru di setiap panggilan membuat
+ // Zustand 5 mengira datanya berubah terus, React menggambar ulang tanpa henti, dan layar menjadi putih.
+ export const KOSONG: Titik[] = [];
+@@ -86,6 +89,15 @@ type Toko = {
+   // memakainya sebagai dependensi efek, jadi daftar aturannya diambil ulang sendiri.
+   versiAturan: number;
+   aturanBerubah: () => void;
++  // Modul 28: kabar pembaruan firmware TERAKHIR tiap perangkat (acara Socket.IO "ota"), supaya kartu di layar Armada
++  // berubah sendiri: diterima -> mengunduh -> berhasil/rollback/gagal, tanpa memuat ulang halaman.
++  ota: Partial<Record<string, KabarOta>>;
++  terimaOta: (kabar: KabarOta) => void;
++  // Modul 28: naik 1 setiap kali data armada berubah di server (pembaruan selesai, perangkat baru lewat kode klaim,
++  // perangkat dinonaktifkan, sambungan live pulih). Layar Armada memakainya sebagai dependensi efek (pola versiAturan),
++  // jadi datanya diambil ulang hanya saat ADA kabar, bukan setiap sekian detik (tanpa polling).
++  versiArmada: number;
++  armadaBerubah: () => void;
+ };
+ 
+ // create<Toko>()(…): tanda kurung ganda memang cara menulisnya di TypeScript (Zustand 5).
+@@ -164,6 +176,17 @@ export const useToko = create<Toko>()((set) => ({
+ 
+   versiAturan: 0,
+   aturanBerubah: () => set((s) => ({ versiAturan: s.versiAturan + 1 })),
++
++  ota: {},
++  // Pembaruan yang selesai juga menaikkan versiArmada: versi firmware, kesehatan (vitals yang membawa laporannya), dan
++  // ringkasan canary setiap rilis ikut berubah, dan semuanya hanya bisa dibaca ulang dari server.
++  terimaOta: (kabar) =>
++    set((s) => ({
++      ota: { ...s.ota, [kabar.device_id]: kabar },
++      versiArmada: PEMBARUAN_SELESAI.includes(kabar.status) ? s.versiArmada + 1 : s.versiArmada,
++    })),
++  versiArmada: 0,
++  armadaBerubah: () => set((s) => ({ versiArmada: s.versiArmada + 1 })),
+ }));
+ 
+ // Modul 24: true HANYA kalau peran admin sudah pasti. Selama GET /auth/me belum dijawab ("memuat") hasilnya false, jadi
+diff --git a/frontend/src/types.ts b/frontend/src/types.ts
+index b39034d..a50a7e9 100644
+--- a/frontend/src/types.ts
++++ b/frontend/src/types.ts
+@@ -1,13 +1,16 @@
+-// types.ts - bentuk data dari kontrak data (Lampiran A Silabus, KONTRAK-DATA.md 1.4) dan dari jawaban API backend v1.0.
++// types.ts - bentuk data dari kontrak data (Lampiran A Silabus, KONTRAK-DATA.md 1.6) dan dari jawaban API backend.
+ // Nama kolomnya sama persis dengan yang dikirim backend, jadi data dari server langsung "pas".
+ // Modul 25: backend 1.2 menambah titik peta (lat, lng) di jawaban GET /devices.
++// Modul 28: backend 1.5 menambah halaman armada (GET /armada), rilis firmware, pembaruan lewat udara (OTA), dan kode klaim.
+ // Isinya hanya tipe (label untuk TypeScript): saat halaman berjalan di browser, semua baris ini sudah dihapus Vite.
+ // Pilihan nilai ditulis sebagai gabungan teks ("a" | "b"), bukan enum: templat kita melarang enum (erasableSyntaxOnly).
+ 
+ // jenis perangkat menurut backend
+ export type Jenis = "node1" | "node2" | "belum-diketahui";
+ 
+-// status dari topik rpm/<device_id>/status; "belum-diketahui" = terdaftar, tetapi belum pernah mengirim status
++// status dari topik rpm/<device_id>/status; "belum-diketahui" = terdaftar, tetapi belum pernah mengirim status.
++// Modul 28: "offline-mode" = perangkat SENGAJA berhenti (misalnya menyala ulang untuk memasang firmware baru), BUKAN mode
++// offline Modul 19 (pengaman lokal saat broker tidak terjangkau). Di layar ditulis "berhenti sengaja".
+ export type StatusPerangkat = "online" | "offline" | "offline-mode" | "belum-diketahui";
+ 
+ // kolom kunci di GET /devices (Modul 21)
+@@ -93,7 +96,8 @@ export type Kejadian = {
+   id: number;
+   waktu: string; // jam server, UTC
+   device_id: string | null;
+-  jenis: "aturan" | "aturan-diubah" | "jadwal" | "status" | "mode-offline" | "perintah";
++  // Modul 28: ota (pembaruan firmware), provisioning (perangkat baru lewat kode klaim), dicabut (perangkat dinonaktifkan)
++  jenis: "aturan" | "aturan-diubah" | "jadwal" | "status" | "mode-offline" | "perintah" | "ota" | "provisioning" | "dicabut";
+   sumber: string; // api, aturan, jadwal, telegram, perangkat
+   aturan_id: number | null;
+   pesan: string; // kalimat untuk manusia
+@@ -105,6 +109,7 @@ export type KeKlien = {
+   telemetry: (deviceId: string, isi: Telemetry) => void;
+   status: (deviceId: string, status: "online" | "offline" | "offline-mode") => void;
+   kejadian: (kejadian: Kejadian) => void;
++  ota: (kabar: KabarOta) => void; // Modul 28: kemajuan satu pembaruan firmware, ke SEMUA dashboard
+ };
+ 
+ // acara dari dashboard ke server; "balas" adalah ack Socket.IO (fungsi yang dipanggil server untuk menjawab)
+@@ -183,3 +188,158 @@ export type DataRiwayat = {
+   sampai: string;
+   titik: TitikRingkasan[]; // urut dari yang terlama
+ };
++
++// ---- Modul 28: armada, rilis firmware, pembaruan lewat udara (OTA), dan kode klaim (backend 1.5) ----
++
++// perjalanan satu pembaruan: dikirim -> diterima (ack perangkat) -> mengunduh -> berhasil, rollback, atau gagal.
++// ditolak = perangkat menolak perintahnya; kedaluwarsa = tanpa kabar dari perangkat selama OTA_BATAS_MENIT (bawaan 10 menit).
++export type StatusPembaruan = "dikirim" | "diterima" | "mengunduh" | "ditolak" | "berhasil" | "rollback" | "gagal" | "kedaluwarsa";
++
++// alasan perangkat terakhir kali menyala (kontrak 1.6 bagian 6). null = firmware lama (sebelum 1.7.0) belum melaporkannya.
++export type ResetReason = "POWERON" | "BROWNOUT" | "SW" | "PANIC" | "WDT" | "DEEPSLEEP" | "UNKNOWN";
++
++// pembaruan terakhir satu perangkat (juga satu baris GET /devices/:id/pembaruan). Waktu = UTC.
++export type Pembaruan = {
++  id: string; // id perintah update
++  status: StatusPembaruan;
++  dari: string | null; // versi sebelum pembaruan (null = belum diketahui)
++  ke: string; // versi yang dicoba dipasang
++  pesan: string | null; // alasan dari perangkat atau server, misalnya "sha256 tidak cocok"
++  dibuat: string;
++  diperbarui: string;
++  selesai: string | null; // null = masih berjalan
++};
++
++// acara Socket.IO "ota": SATU perubahan status pembaruan, dikirim server ke semua dashboard
++export type KabarOta = {
++  device_id: string;
++  id: string;
++  status: StatusPembaruan;
++  dari: string | null;
++  ke: string;
++  pesan: string | null;
++  waktu: string; // waktu server (UTC), sama dengan kolom diperbarui di database
++};
++
++// vitals terakhir perangkat (kesehatan). Node 2 tidak mengirim vitals, jadi kolomnya null.
++export type Kesehatan = {
++  ts: string; // waktu vitals itu dibuat perangkat (UTC)
++  rssi: number; // kekuatan sinyal WiFi dalam dBm: makin mendekati 0 makin kuat
++  heap_free: number; // RAM bebas, byte
++  uptime_s: number; // detik sejak menyala terakhir kali
++  reset_reason: ResetReason | null;
++};
++
++// satu baris GET /armada
++export type BarisArmada = {
++  device_id: string;
++  nama: string | null;
++  lokasi: string | null;
++  jenis: Jenis;
++  status: StatusPerangkat; // perangkat yang dinonaktifkan selalu "offline"
++  kunci: "aktif" | "dicabut" | "tanpa-kunci"; // dicabut = dinonaktifkan; tanpa-kunci = Node 2 lewat Node 1
++  penghubung: string | null;
++  terakhir_dilihat: string | null; // waktu server saat telemetry atau vitals terakhir tiba
++  canary: boolean; // perangkat uji yang menerima rilis baru lebih dulu
++  jeda_vitals_s: number | null; // null = belum diatur (firmware memakai bawaan 300 detik)
++  fw: string | null; // versi firmware yang terakhir dilaporkan (Node 2: versi dari paketnya)
++  fw_dilihat: string | null;
++  perlu_update: boolean; // Node 1 dengan versi lebih lama daripada rilis terbaru
++  kesehatan: Kesehatan | null;
++  pembaruan: Pembaruan | null; // pembaruan terakhir; null = belum pernah
++  bisa_update: boolean; // boleh diperbarui ke rilis terbaru SEKARANG
++  alasan_tidak_bisa: string | null; // kalimat dari server kalau tidak bisa
++};
++
++// jawaban GET /armada
++export type DataArmada = {
++  rilis_terbaru: { node1: string | null }; // rilis tertinggi yang bukan uji dan belum ditarik
++  pengaturan: {
++    ota_siap: boolean; // false = ALAMAT_SERVER di .env belum diisi
++    akun_broker: string; // AKUN_BROKER_OTOMATIS: mati, pusat, atau gerbang:<nama>
++  };
++  perangkat: BarisArmada[];
++};
++
++// satu rilis firmware di GET /firmware (dan jawaban unggah)
++export type Rilis = {
++  jenis: "node1";
++  versi: string;
++  ukuran: number; // byte
++  sha256: string; // dihitung server dari isi berkas yang diterimanya
++  catatan: string | null;
++  uji: boolean; // rilis UJI: hanya untuk satu perangkat, tidak pernah "perbarui semua"
++  pengunggah: string | null; // nomor akun admin
++  dibuat: string;
++  ditarik: string | null;
++  url: string | null; // alamat unduh perangkat; null = ALAMAT_SERVER belum diisi
++};
++
++// Rilis di daftar GET /firmware membawa ringkasan canary-nya
++export type RilisLengkap = Rilis & {
++  canary_berhasil: number;
++  canary_gagal: number;
++  boleh_semua: boolean; // tombol "Perbarui semua" boleh dipakai untuk versi ini
++  alasan_semua: string | null;
++};
++
++export type DaftarRilis = {
++  terbaru: { node1: string | null };
++  rilis: RilisLengkap[]; // urut waktu unggah
++};
++
++// hasil SATU perintah update. "diterima" = perangkat menerima perintahnya (BELUM selesai: hasilnya menyusul lewat acara ota)
++export type HasilUpdate = {
++  device_id: string;
++  id: string | null;
++  status: "diterima" | "tanpa-ack" | "ditolak" | "tidak-dikirim";
++  dari?: string | null;
++  ke?: string;
++  lama_ms?: number;
++  pesan?: string;
++};
++
++// jawaban POST /armada/update (perbarui canary / perbarui semua)
++export type HasilArmada = {
++  versi: string;
++  sasaran: "canary" | "semua";
++  dikirim: HasilUpdate[];
++  dilewati: { device_id: string; alasan: string }[]; // tidak diantre: perangkat ini tidak dikirimi apa-apa
++};
++
++// jawaban POST /provision/kode: kodenya hanya tampil SEKALI (database hanya menyimpan sidik jarinya)
++export type KodeKlaimBaru = {
++  kode: string; // XXXX-XXXX
++  kedaluwarsa: string; // UTC
++  menit: number;
++  nama: string | null;
++  lokasi: string | null;
++};
++
++// satu baris GET /provision/kode (TANPA kodenya)
++export type KodeKlaim = {
++  nama: string | null;
++  lokasi: string | null;
++  oleh: string | null;
++  dibuat: string;
++  kedaluwarsa: string;
++  keadaan: "berlaku" | "dipakai" | "kedaluwarsa";
++  dipakai: string | null;
++  device_id: string | null; // perangkat yang memakainya
++};
++
++// jawaban POST /devices/:id/cabut ("Nonaktifkan")
++export type HasilNonaktif = {
++  device_id: string;
++  dicabut: string;
++  langkah: string[]; // yang masih harus dikerjakan tangan (bila ada)
++  akun_broker: "dihapus" | "tidak-ada" | "manual" | "tanpa-kunci";
++};
++
++// jawaban PUT /devices/:id/jeda
++export type HasilJeda = {
++  device_id: string;
++  jeda_vitals_s: number;
++  config_id: string | null;
++  catatan: string | null; // misalnya firmware lama yang belum mengenal jeda
++};
+diff --git a/frontend/vite.config.ts b/frontend/vite.config.ts
+index 190cdc5..bca8a5c 100644
+--- a/frontend/vite.config.ts
++++ b/frontend/vite.config.ts
+@@ -48,9 +48,10 @@ export default defineConfig({
+         // alamat layar seperti /peta atau /perangkat/f00d00000001 dijawab index.html dari simpanan (React Router memilih
+         // layarnya), juga saat internet putus: aplikasi tetap terbuka dan menulis pesan bahwa server tidak terjangkau
+         navigateFallback: '/index.html',
+-        // ...KECUALI alamat yang bukan layar dashboard: API (/api), Grafana (/grafana/, Modul 27), dan Socket.IO
+-        // (/socket.io bila VITE_API_BASE=/). Alamat itu selalu diteruskan ke server, tidak pernah diganti index.html.
+-        navigateFallbackDenylist: [/^\/api(\/|$)/, /^\/grafana(\/|$)/, /^\/socket\.io(\/|$)/],
++        // ...KECUALI alamat yang bukan layar dashboard: API (/api), Grafana (/grafana/, Modul 27), Socket.IO
++        // (/socket.io bila VITE_API_BASE=/), dan unduhan firmware perangkat (/fw/, Modul 28). Alamat itu selalu diteruskan
++        // ke server, tidak pernah diganti index.html. (Jawabannya juga tidak pernah disimpan: hanya berkas globPatterns.)
++        navigateFallbackDenylist: [/^\/api(\/|$)/, /^\/grafana(\/|$)/, /^\/socket\.io(\/|$)/, /^\/fw(\/|$)/],
+       },
+     }),
+   ],

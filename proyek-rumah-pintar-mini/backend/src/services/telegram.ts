@@ -91,17 +91,29 @@ export async function kabariKalauPerlu(kunci: string, situasi: Situasi, teks: st
 }
 
 // Status perangkat: "offline" baru dikabarkan kalau bertahan 60 detik (WiFi yang berkedip tidak membuat ramai).
-const tundaOffline = new Map<string, ReturnType<typeof setTimeout>>(); // device_id -> pengatur waktu 60 detik
-const sejakOffline = new Map<string, number>(); // device_id -> kapan offline (yang sudah dikabarkan)
+// Modul 28: "offline-mode" = perangkat SENGAJA berhenti (misalnya memasang firmware baru, lalu menyala ulang). Bukan
+// gangguan, jadi kabarnya lain: 🔄 seketika, lalu 📴 hanya kalau perangkat tidak kembali dalam 3 menit. Pembaruan yang gagal
+// dan kembali sendiri ke versi lama (rollback) butuh sekitar 70 detik; tanpa tenggang 3 menit itu, setiap rollback memicu 📴.
+const TENGGANG_OFFLINE_MS = 60_000;
+const TENGGANG_BERHENTI_SENGAJA_MS = 3 * 60_000;
+const tundaOffline = new Map<string, ReturnType<typeof setTimeout>>(); // device_id -> pengatur waktu yang sedang menunggu
+const sejakBerhenti = new Map<string, number>(); // device_id -> kapan berhenti sengaja (kabar 🔄 sudah terkirim)
+const sejakOffline = new Map<string, number>(); // device_id -> kapan offline (yang sudah dikabarkan 📴)
 
 export function kabariStatus(deviceId: string, status: string): void {
   if (status === "online") {
     const pengatur = tundaOffline.get(deviceId);
-    if (pengatur !== undefined) { // kembali sebelum 60 detik: batal, tidak ada pesan
+    if (pengatur !== undefined) { // kembali sebelum tenggangnya habis: batal
       clearTimeout(pengatur);
       tundaOffline.delete(deviceId);
+    }
+    const berhenti = sejakBerhenti.get(deviceId);
+    if (berhenti !== undefined && !sejakOffline.has(deviceId)) { // Modul 28: pasangan kabar 🔄
+      sejakBerhenti.delete(deviceId);
+      void kabari(`✅ ${deviceId} online lagi sesudah berhenti sengaja (${Math.round((Date.now() - berhenti) / 1000)} detik)`);
       return;
     }
+    sejakBerhenti.delete(deviceId);
     const sejak = sejakOffline.get(deviceId);
     if (sejak !== undefined) {
       sejakOffline.delete(deviceId);
@@ -109,13 +121,37 @@ export function kabariStatus(deviceId: string, status: string): void {
     }
     return;
   }
-  if (tundaOffline.has(deviceId) || sejakOffline.has(deviceId)) return;
+  if (sejakOffline.has(deviceId)) return; // sudah dikabarkan 📴: tunggu sampai online lagi
+  if (status === "offline-mode") { // Modul 28
+    if (sejakBerhenti.has(deviceId)) return;
+    clearTimeout(tundaOffline.get(deviceId)); // berhenti sengaja menggantikan tunggu "offline" biasa
+    const mulai = Date.now();
+    sejakBerhenti.set(deviceId, mulai);
+    void kabari(`🔄 ${deviceId} berhenti sengaja (pembaruan firmware atau restart), sebentar lagi online kembali`);
+    tundaOffline.set(deviceId, setTimeout(() => {
+      tundaOffline.delete(deviceId);
+      sejakBerhenti.delete(deviceId);
+      sejakOffline.set(deviceId, mulai);
+      void kabari(`📴 ${deviceId} tidak kembali sesudah berhenti sengaja sejak ${jamWib.format(mulai)} WIB`);
+    }, TENGGANG_BERHENTI_SENGAJA_MS));
+    return;
+  }
+  // "offline" (wasiat). Sesudah berhenti sengaja, tenggang 3 menit yang sedang berjalan tetap dipakai.
+  if (tundaOffline.has(deviceId)) return;
   const mulai = Date.now();
   tundaOffline.set(deviceId, setTimeout(() => {
     tundaOffline.delete(deviceId);
     sejakOffline.set(deviceId, mulai);
     void kabari(`📴 ${deviceId} offline sejak ${jamWib.format(mulai)} WIB`);
-  }, 60_000));
+  }, TENGGANG_OFFLINE_MS));
+}
+
+// Modul 28: perangkat dinonaktifkan admin: lupakan semua kabar status yang sedang menunggu (tidak ada 📴 atau ✅ untuknya).
+export function lupakanKabarStatus(deviceId: string): void {
+  clearTimeout(tundaOffline.get(deviceId));
+  tundaOffline.delete(deviceId);
+  sejakBerhenti.delete(deviceId);
+  sejakOffline.delete(deviceId);
 }
 
 // isi balasan /status: keadaan terakhir setiap perangkat di gudang memori

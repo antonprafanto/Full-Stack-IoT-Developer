@@ -66,7 +66,7 @@ export interface BarisLaporan {
   rssi_terburuk: number | null; // paling negatif = sinyal paling lemah
   heap_terendah: number | null;
   menyala_ulang: number | null; // berapa kali uptime turun (perangkat menyala ulang)
-  kali_terputus: number; // berapa kali status berganti menjadi offline/offline-mode
+  kali_terputus: number; // berapa kali status berganti menjadi offline (Modul 28: berhenti sengaja tidak dihitung)
 }
 
 // Urutan kolom CSV. Kepala tabel = nama kolom ini, sama dengan nama kolom hasil kueri di bawah.
@@ -79,7 +79,9 @@ export const KOLOM_LAPORAN: (keyof BarisLaporan)[] = ["device_id", "nama", "jeni
 //   jumlah (rata x banyaknya nilai) semua jam dibagi jumlah banyaknya nilai, seperti ringkasan 1d di db/arsip.ts.
 // - vital + sehat: vitals dari device_health (Modul 19). lag() mengambil uptime vitals SEBELUMNYA milik perangkat yang sama;
 //   uptime yang turun berarti perangkat menyala ulang.
-// - putus: kejadian status dari buku kejadian (events); kalimatnya "<device_id> terputus (offline)" (services/mqtt.ts).
+// - putus: kejadian status dari buku kejadian (events); kalimatnya "<device_id> terputus (offline)" (kalimatStatus di
+//   services/mqtt.ts). Modul 28: berhenti sengaja (offline-mode, misalnya untuk pembaruan firmware) ditulis "berhenti sengaja",
+//   tanpa kata "terputus", jadi tidak ikut dihitung sebagai gangguan.
 // Angka di-cast ke float8 dan int supaya pg mengirimnya sebagai number, bukan teks.
 const KUERI_LAPORAN = `
 WITH ringkas AS (

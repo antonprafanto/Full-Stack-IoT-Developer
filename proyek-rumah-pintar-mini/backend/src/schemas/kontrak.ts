@@ -1,5 +1,8 @@
-// kontrak.ts - Lampiran A (kontrak data 1.3) dalam bentuk skema Zod: kontrak yang bisa dijalankan.
+// kontrak.ts - Lampiran A (kontrak data 1.6, Modul 28) dalam bentuk skema Zod: kontrak yang bisa dijalankan.
 // Setiap pesan dari perangkat dicek dengan skema ini sebelum disimpan ("jangan percaya perangkat").
+// Modul 28 (kontrak 1.6): vitals boleh membawa reset_reason, fw, dan laporan pembaruan ota; cmd "update" dirinci (sha256,
+// ukuran); config boleh membawa jeda.vitals_s. Bentuk lama (firmware sampai 1.6.0) tetap sah.
+// Berkas ini disalin SAMA PERSIS ke frontend/src/skema/kontrak.ts (npm run cek-skema): hanya boleh mengimpor zod.
 import { z } from "zod";
 
 z.config(z.locales.id()); // pesan galat Zod dalam bahasa Indonesia
@@ -48,9 +51,26 @@ export const TelemetryNode2 = z.strictObject({
   baterai: desimal(2.5, 4.5).optional(),
 });
 
+// offline-mode (dipakai mulai Modul 28): perangkat SENGAJA berhenti, misalnya sebelum memasang firmware baru. Diterbitkan
+// perangkat sendiri sebelum memutus sambungan dengan rapi, jadi broker tidak menerbitkan wasiat "offline".
 export const Status = z.enum(["online", "offline", "offline-mode"]);
 
-// vitals (kontrak 1.0) ditambah laporan mode offline (kontrak 1.3): offline_s dan kipas_lokal selalu datang bersama
+// Modul 28: alasan perangkat menyala ulang terakhir kali (kontrak bagian 6). Tujuh nilai ini saja; alasan lain dari ESP-IDF
+// ditulis UNKNOWN.
+export const ResetReason = z.enum(["POWERON", "BROWNOUT", "SW", "PANIC", "WDT", "DEEPSLEEP", "UNKNOWN"]);
+
+// Modul 28: laporan hasil satu pembaruan firmware di dalam vitals (kontrak 1.6). id = id perintah update-nya; perangkat
+// menyimpannya di NVS sebelum restart dan mengulangnya di paling banyak 3 vitals (vitals QoS 0 bisa hilang).
+export const LaporanOta = z.strictObject({
+  id: z.string().min(1).max(39),
+  hasil: z.enum(["berhasil", "rollback", "gagal"]),
+  versi: Versi, // versi yang DICOBA dipasang (ke_versi), bukan versi yang sedang berjalan
+  pesan: z.string().max(80).optional(),
+});
+
+// vitals (kontrak 1.0) ditambah laporan mode offline (kontrak 1.3): offline_s dan kipas_lokal selalu datang bersama.
+// Modul 28 (kontrak 1.6): reset_reason dan fw (selalu bersama, wajib mulai firmware 1.7.0), dan laporan pembaruan ota
+// (hanya bersama fw). Vitals firmware lama tanpa ketiganya tetap sah.
 export const Vitals = z
   .strictObject({
     ts: Waktu,
@@ -59,9 +79,15 @@ export const Vitals = z
     heap_free: z.number().int().min(0),
     offline_s: z.number().int().min(0).optional(),
     kipas_lokal: z.number().int().min(0).optional(),
+    reset_reason: ResetReason.optional(),
+    fw: Versi.optional(),
+    ota: LaporanOta.optional(),
   })
   .refine((v) => (v.offline_s === undefined) === (v.kipas_lokal === undefined),
-    "laporan mode offline harus lengkap: offline_s dan kipas_lokal selalu datang bersama");
+    "laporan mode offline harus lengkap: offline_s dan kipas_lokal selalu datang bersama")
+  .refine((v) => (v.reset_reason === undefined) === (v.fw === undefined),
+    "reset_reason dan fw selalu datang bersama (firmware 1.7.0 ke atas)")
+  .refine((v) => v.ota === undefined || v.fw !== undefined, "laporan ota hanya boleh bersama fw");
 
 export const Ack = z
   .strictObject({
@@ -81,6 +107,26 @@ export const PerintahSet = z.discriminatedUnion("target", [
   z.strictObject({ target: z.literal("tirai"), nilai: z.number().int().min(0).max(180) }),
 ]);
 
+// Modul 28: isi cmd "update" yang diterbitkan server (kontrak 1.6 bagian 7). TIDAK PERNAH retained. url = alamat final
+// berkas firmware (tanpa pengalihan: HTTPUpdate tidak mengikuti 3xx), sha256 = sidik jari isi berkas (64 heksadesimal
+// huruf kecil), ukuran = panjang berkas dalam byte, paling besar satu rak program Minimal SPIFFS.
+export const CmdUpdate = z.strictObject({
+  id: z.string().min(1).max(39),
+  ts: Waktu,
+  aksi: z.literal("update"),
+  versi: Versi,
+  url: z.string().max(200).regex(/^https?:\/\/[^\s/]+\/fw\/node-1\/\d+\.\d+\.\d+\.bin$/,
+    "url harus http(s)://<alamat>/fw/node-1/<versi>.bin"),
+  sha256: z.string().regex(/^[0-9a-f]{64}$/, "sha256 harus 64 heksadesimal huruf kecil"),
+  ukuran: z.number().int().min(1).max(1966080),
+}).refine((c) => c.url.endsWith(`/${c.versi}.bin`), "url harus menunjuk berkas versi yang sama dengan versi");
+
+// Modul 28: jeda kirim yang bisa diatur dari jauh lewat cmd "config" (kontrak 1.6). Hanya vitals: telemetry tetap setiap
+// 10 detik (kontrak aturan 3).
+export const Jeda = z.strictObject({
+  vitals_s: z.number().int().min(60).max(3600),
+});
+
 // ambang aturan pengaman lokal yang dikirim lewat cmd "config" (kontrak 1.3 bagian 7): paling sedikit satu kunci
 export const Ambang = z
   .strictObject({
@@ -95,5 +141,9 @@ export type TelemetryNode1 = z.infer<typeof TelemetryNode1>;
 export type TelemetryNode2 = z.infer<typeof TelemetryNode2>;
 export type Status = z.infer<typeof Status>;
 export type Vitals = z.infer<typeof Vitals>;
+export type ResetReason = z.infer<typeof ResetReason>;
+export type LaporanOta = z.infer<typeof LaporanOta>;
+export type CmdUpdate = z.infer<typeof CmdUpdate>;
+export type Jeda = z.infer<typeof Jeda>;
 export type Ack = z.infer<typeof Ack>;
 export type PerintahSet = z.infer<typeof PerintahSet>;

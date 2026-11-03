@@ -8,6 +8,8 @@
 // Butuh library mqtt:  npm install mqtt@5.16.1
 // Versi 1.4 (Modul 21): broker berkunci butuh akun "hanya membaca" di alat/.env (PENGGUNA_PEMERIKSA, KUNCI_PEMERIKSA), jadi
 // jalankan dengan node --env-file=.env (broker publik tanpa kunci: cukup seperti biasa); alamat boleh membawa port.
+// Versi 1.6 (Modul 28): vitals boleh membawa reset_reason + fw (selalu bersama) dan laporan pembaruan ota; perintah update
+// diperiksa (versi, url, sha256, ukuran) dan ditandai GAGAL bila tertempel (retained); config boleh membawa jeda.vitals_s.
 // Jalankan:  node --env-file=.env pemeriksa-kontrak.js                (broker di laptop ini)
 //            node --env-file=.env pemeriksa-kontrak.js 192.168.1.10   (broker di komputer lain)
 //            node --env-file=.env pemeriksa-kontrak.js 127.0.0.1:1884 (broker di port lain, misalnya broker latihan)
@@ -33,9 +35,9 @@ const KOLOM = {
   "telemetry Node 2": { // kontrak 1.1: baterai boleh tidak ada (pembagi tegangan pilihan)
     semua: ["ts", "fw", "suhu", "kelembapan", "tekanan", "suhu_tanah", "tanah", "baterai"],
     wajib: ["ts", "fw", "suhu", "kelembapan", "tekanan", "suhu_tanah", "tanah"] },
-  vitals: { semua: ["ts", "rssi", "uptime_s", "heap_free", "reset_reason", "offline_s", "kipas_lokal"],
+  vitals: { semua: ["ts", "rssi", "uptime_s", "heap_free", "reset_reason", "fw", "ota", "offline_s", "kipas_lokal"],
     wajib: ["ts", "rssi", "uptime_s", "heap_free"] },
-  cmd: { semua: ["id", "ts", "aksi", "target", "nilai", "ambang", "url", "versi"], wajib: ["id", "aksi"] },
+  cmd: { semua: ["id", "ts", "aksi", "target", "nilai", "ambang", "jeda", "url", "versi", "sha256", "ukuran"], wajib: ["id", "aksi"] },
   ack: { semua: ["id", "ts", "ok", "pesan", "state"], wajib: ["id", "ts", "ok", "state"] },
 };
 const ALASAN_RESET = ["POWERON", "BROWNOUT", "SW", "PANIC", "WDT", "DEEPSLEEP", "UNKNOWN"];
@@ -184,13 +186,39 @@ function periksaVitals(isi, masalah) {
   if (ada("reset_reason") && !ALASAN_RESET.includes(isi.reset_reason)) {
     masalah.push(`"reset_reason" harus salah satu dari ${ALASAN_RESET.join(", ")}`);
   }
+  // kontrak 1.6: reset_reason dan fw selalu bersama (wajib mulai firmware Node 1 1.7.0); ota hanya bersama fw
+  if (ada("reset_reason") !== ada("fw")) masalah.push("reset_reason dan fw harus datang bersama (kontrak 1.6)");
+  if (ada("fw") && (typeof isi.fw !== "string" || !/^\d+\.\d+\.\d+$/.test(isi.fw))) {
+    masalah.push(`"fw" harus versi seperti "1.7.0", isinya ${teks(isi.fw)}`);
+  }
+  let catatanOta = "";
+  if (ada("ota")) {
+    const o = isi.ota;
+    if (!ada("fw")) masalah.push("laporan ota hanya boleh bersama fw");
+    if (typeof o !== "object" || o === null || Array.isArray(o)) {
+      masalah.push(`"ota" harus objek { id, hasil, versi, pesan? }, isinya ${teks(o)}`);
+    } else {
+      const lebih = Object.keys(o).filter((k) => !["id", "hasil", "versi", "pesan"].includes(k));
+      if (lebih.length > 0) masalah.push(`kolom "${lebih.join(", ")}" di dalam ota tidak ada di kontrak`);
+      if (!idSah(o.id)) masalah.push(`"ota.id" harus id perintah update (1 sampai 39 huruf), isinya ${teks(o.id)}`);
+      if (!["berhasil", "rollback", "gagal"].includes(o.hasil)) {
+        masalah.push(`"ota.hasil" harus berhasil, rollback, atau gagal, isinya ${teks(o.hasil)}`);
+      }
+      if (typeof o.versi !== "string" || !/^\d+\.\d+\.\d+$/.test(o.versi)) masalah.push(`"ota.versi" harus versi x.y.z`);
+      if (o.pesan !== undefined && (typeof o.pesan !== "string" || o.pesan.length > 80)) {
+        masalah.push(`"ota.pesan" harus teks paling panjang 80 huruf`);
+      }
+      catatanOta = `  (laporan pembaruan ${o.versi}: ${o.hasil})`;
+    }
+  }
   const laporan = ["offline_s", "kipas_lokal"].filter((k) => k in isi); // kontrak 1.3: keduanya selalu bersama
   if (laporan.length === 1) {
     masalah.push(`laporan mode offline harus lengkap (offline_s, kipas_lokal), yang ada hanya ${laporan[0]}`);
   }
   if (ada("offline_s")) periksaBulat("offline_s", isi.offline_s, 0, 4294967295, false, masalah);
   if (ada("kipas_lokal")) periksaBulat("kipas_lokal", isi.kipas_lokal, 0, 65535, false, masalah);
-  return laporan.length === 2 ? `  (laporan mode offline: ${isi.offline_s} detik, kipas ${isi.kipas_lokal} kali)` : "";
+  return (laporan.length === 2 ? `  (laporan mode offline: ${isi.offline_s} detik, kipas ${isi.kipas_lokal} kali)` : "")
+    + catatanOta;
 }
 
 // id perintah: teks 1 sampai 39 huruf (id yang lebih panjang diabaikan perangkat).
@@ -219,9 +247,31 @@ function periksaCmd(isi, masalah, retained) {
       masalah.push("perintah set tertempel (retained) di broker: hapus dengan Clear Retained Message (kontrak bagian 7)");
     }
   }
-  if (isi.aksi === "config") { // kontrak 1.3
-    const alasan = periksaAmbang(isi.ambang);
-    if (alasan !== "") masalah.push(alasan);
+  if (isi.aksi === "config") { // kontrak 1.3; 1.6: ambang dan/atau jeda
+    if (!ada("ambang") && !ada("jeda")) masalah.push("config harus berisi ambang, jeda, atau keduanya");
+    if (ada("ambang")) {
+      const alasan = periksaAmbang(isi.ambang);
+      if (alasan !== "") masalah.push(alasan);
+    }
+    if (ada("jeda")) {
+      const j = isi.jeda;
+      const kunci = typeof j === "object" && j !== null && !Array.isArray(j) ? Object.keys(j) : [];
+      if (kunci.length !== 1 || kunci[0] !== "vitals_s" || !Number.isInteger(j.vitals_s) || j.vitals_s < 60 || j.vitals_s > 3600) {
+        masalah.push(`"jeda" hanya boleh berisi vitals_s, bilangan bulat 60-3600 (telemetry tetap 10 detik), isinya ${teks(j)}`);
+      }
+    }
+  }
+  if (isi.aksi === "update") { // kontrak 1.6
+    if (typeof isi.versi !== "string" || !/^\d+\.\d+\.\d+$/.test(isi.versi)) masalah.push(`"versi" harus versi x.y.z, isinya ${teks(isi.versi)}`);
+    if (typeof isi.url !== "string" || isi.url.length > 200 || !/^https?:\/\/[^\s/]+\/fw\/node-1\/\d+\.\d+\.\d+\.bin$/.test(isi.url)
+      || !isi.url.endsWith(`/${isi.versi}.bin`)) {
+      masalah.push(`"url" harus http(s)://<alamat>/fw/node-1/<versi>.bin (paling panjang 200 huruf), isinya ${teks(isi.url)}`);
+    }
+    if (typeof isi.sha256 !== "string" || !/^[0-9a-f]{64}$/.test(isi.sha256)) masalah.push(`"sha256" harus 64 heksadesimal huruf kecil`);
+    if (!Number.isInteger(isi.ukuran) || isi.ukuran < 1 || isi.ukuran > 1966080) {
+      masalah.push(`"ukuran" harus bilangan bulat 1 sampai 1966080 (satu rak program), isinya ${teks(isi.ukuran)}`);
+    }
+    if (retained) masalah.push("perintah update tertempel (retained) di broker: update TIDAK PERNAH retained (kontrak bagian 7)");
   }
 }
 

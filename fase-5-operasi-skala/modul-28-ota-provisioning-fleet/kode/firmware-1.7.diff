@@ -1,0 +1,2488 @@
+diff --git a/PETA-PIN.md b/PETA-PIN.md
+index e6cd66b..3f08e6e 100644
+--- a/PETA-PIN.md
++++ b/PETA-PIN.md
+@@ -2,7 +2,7 @@
+ 
+ 🌐 **Bahasa Indonesia** · [English](../en/mini-smart-home/PIN-MAP.md)
+ 
+-> Dibuat di [Modul 5](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-1-esp32-embedded/modul-05-gpio-dan-peta-pin/README.md#3-anggaran-pin-dan-peta-pin-kanonik-node-1-dan-node-2), diperbarui di [Modul 6](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-1-esp32-embedded/modul-06-membaca-sensor/README.md), [Modul 7](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-1-esp32-embedded/modul-07-bus-sensor-oled-skematik/README.md), [Modul 9](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-1-esp32-embedded/modul-09-catu-daya-dan-hemat-daya/README.md), [Modul 14](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-2-konektivitas/modul-14-node-2-esp-now/README.md), dan [Modul 15](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-2-konektivitas/modul-15-modbus-rs485-dan-protokol/README.md); berlaku sampai Modul 28.
++> Dibuat di [Modul 5](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-1-esp32-embedded/modul-05-gpio-dan-peta-pin/README.md#3-anggaran-pin-dan-peta-pin-kanonik-node-1-dan-node-2), diperbarui di [Modul 6](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-1-esp32-embedded/modul-06-membaca-sensor/README.md), [Modul 7](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-1-esp32-embedded/modul-07-bus-sensor-oled-skematik/README.md), [Modul 9](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-1-esp32-embedded/modul-09-catu-daya-dan-hemat-daya/README.md), [Modul 14](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-2-konektivitas/modul-14-node-2-esp-now/README.md), [Modul 15](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-2-konektivitas/modul-15-modbus-rs485-dan-protokol/README.md), dan [Modul 28](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-5-operasi-skala/modul-28-ota-provisioning-fleet/README.md). **Versi 7 (Modul 28): pin tidak berubah**; yang berubah hanya tempatnya: sambungan Node 1 pindah dari breadboard ke kotak proyek (lihat **Node 1 di dalam kotak**).
+ > **Sebelum menambahkan apa pun ke Node 1 atau Node 2, periksa file ini dulu.**
+ 
+ ## Aturan
+@@ -121,6 +121,27 @@ Semua lubang ada di **breadboard bawah**, kecuali ujung kabel VCC modul yang mas
+ 
+ Resistor 120 Ω di modul (R7, terminator) dibiarkan: dua modul di dua ujung kabel = tepat dua terminator.
+ 
++## Node 1 di dalam kotak (sejak Modul 28)
++
++Pin, rel daya, dan firmware **tidak berubah** saat Node 1 dipindah dari meja kerja ke kotak proyek: tabel **Node 1 "Rumah"** di atas tetap
++berlaku apa adanya. Yang berubah hanya cara menyambung.
++
++| Bagian | Di meja kerja (Modul 5–27) | Di dalam kotak (Modul 28, jalur tanpa solder) |
++| :--- | :--- | :--- |
++| Papan ESP32 | ditancapkan di breadboard | ditancapkan di **papan ekspansi terminal sekrup** untuk DevKit V1 30 pin; cocokkan dulu jarak dua baris kakinya dengan papanmu memakai penggaris (papan untuk 38 pin tidak cocok) |
++| Kabel sinyal (tabel Node 1) | kabel jumper di breadboard | kabel tunggal pendek dari terminal sekrup bertuliskan GPIO yang sama (D32, D33, D25, ...); tulisan di papan ekspansi bisa memakai nama GPIO atau D: cocokkan dengan kolom pertama tabel Node 1 |
++| Rangkaian kecil: pembagi tegangan ECHO (D35), pembagi LDR + kapasitor (VP), MOSFET pompa + resistor (D25), pembagi RO RS-485 (RX2) | di breadboard | di **breadboard mini berperekat** di dalam kotak (atau perfboard bersolder, jalur pilihan); papan ekspansi tidak punya tempat untuk resistor dan MOSFET |
++| Listrik ESP32 | *charger* sendiri lewat USB papan (Modul 9) | **sama**: *charger* sendiri lewat USB papan; kepala *charger*-nya tetap di stopkontak (di luar kotak), hanya kabel USB-nya yang masuk kotak. Colokan DC dan regulator papan ekspansi **tidak dipakai** |
++| Listrik beban (relay, pompa, servo, sensor 5 V) | MB102 dari adaptor 5 V | **sama**: MB102 ikut masuk kotak; kepala adaptornya tetap di stopkontak (di luar kotak), hanya kabel 5 V-nya yang masuk kotak. Rel 5 V dan 3,3 V seperti tabel **Rel daya di meja kerja**; GND tetap disatukan |
++| Sensor yang harus "melihat" atau "merasakan" udara luar | di meja | di luar kotak atau menembus dinding kotak: DHT22 (jauh dari ESP32 dan regulator yang hangat), PIR dan LDR (menghadap ruangan), HC-SR04 (di atas tandon), sensor tanah (di pot) |
++
++Aturan kotak (Modul 28): tidak ada kabel listrik PLN 220 V yang masuk kotak: kepala *charger* dan adaptor tetap tercolok di stopkontak di
++luar kotak, hanya kabel 5 V-nya yang masuk (relay hanya untuk beban 5 V proyek ini); kotak diberi lubang ventilasi, bukan kotak kedap air
++yang rapat (embun); kabel diikat supaya tidak tertarik lepas dari terminal; periksa polaritas dan sambungan dengan multimeter **sebelum**
++listrik masuk; pindahkan per kelompok (daya → aktuator → sensor) dan uji tiap kelompok lewat dashboard. Tempel label di kotak: `device_id`,
++nama, versi firmware awal + tanggal, polaritas daya, sandi portal WiFi (`SANDI_PORTAL`, bila dipakai), dan "tahan D13 saat menyala = portal
++WiFi".
++
+ ## Aturan emas catu daya
+ 
+ 1. **Beban** (relay, kipas, pompa, servo) **selalu dari MB102**, tidak pernah dari pin VIN atau 3V3 ESP32.
+@@ -139,7 +160,8 @@ Resistor 120 Ω di modul (R7, terminator) dibiarkan: dua modul di dua ujung kabe
+ | 4 | 9 | Node 1 mendapat listrik dari *charger*-nya sendiri (aturan emas nomor 2, 4, dan 5). Kerangka Node 2 terpasang: DS18B20 di GPIO 27 dan LED "bangun" di GPIO 2. Bagian baru **Rangkaian baterai Node 2**. Alamat I2C `0x40` dipesan untuk INA219, alat ukur sementara. |
+ | 5 | 14 | Node 2 lengkap: BME280 di I2C (D21/D22), sensor tanah ke-2 di VN dengan VCC dari **D32** (padam selama tidur), DS18B20 pindah ke rel bawah breadboard mini; VP opsional untuk tegangan baterai. Bagian baru **Sensor Node 2**. Node 1 tidak berubah. |
+ | 6 | 15 | RS-485 terpasang di Node 1: RX2/TX2 (16/17) dan **DE/RE di D4**; LED status pindah dari D4 ke **D2** (modul MAX485 menarik DE/RE ke 5 V sehingga D2 sebagai DE/RE bisa menggagalkan unggahan). Lab papan kedua memakai 16/17/4. Bagian baru **RS-485 di meja kerja Node 1**. |
++| 7 | 28 | **Pin tidak berubah.** Node 1 pindah dari breadboard ke kotak proyek: papan ekspansi terminal sekrup + breadboard mini (atau perfboard) untuk rangkaian kecil, catu daya Modul 9 dipakai ulang. Bagian baru **Node 1 di dalam kotak**. Node 2 tidak berubah. |
+ 
+ ---
+ 
+-[⬅️ Kembali ke folder proyek](README.md) · [Modul 5](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-1-esp32-embedded/modul-05-gpio-dan-peta-pin/README.md) · [Modul 7](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-1-esp32-embedded/modul-07-bus-sensor-oled-skematik/README.md) · [Modul 9](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-1-esp32-embedded/modul-09-catu-daya-dan-hemat-daya/README.md) · [Modul 14](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-2-konektivitas/modul-14-node-2-esp-now/README.md) · [Modul 15](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-2-konektivitas/modul-15-modbus-rs485-dan-protokol/README.md) · [Silabus](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/SILABUS.md)
++[⬅️ Kembali ke folder proyek](README.md) · [Modul 5](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-1-esp32-embedded/modul-05-gpio-dan-peta-pin/README.md) · [Modul 7](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-1-esp32-embedded/modul-07-bus-sensor-oled-skematik/README.md) · [Modul 9](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-1-esp32-embedded/modul-09-catu-daya-dan-hemat-daya/README.md) · [Modul 14](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-2-konektivitas/modul-14-node-2-esp-now/README.md) · [Modul 15](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-2-konektivitas/modul-15-modbus-rs485-dan-protokol/README.md) · [Modul 28](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/fase-5-operasi-skala/modul-28-ota-provisioning-fleet/README.md) · [Silabus](https://github.com/antonprafanto/Full-Stack-IoT-Developer/blob/main/SILABUS.md)
+diff --git a/firmware/README.md b/firmware/README.md
+new file mode 100644
+index 0000000..a88b848
+--- /dev/null
++++ b/firmware/README.md
+@@ -0,0 +1,133 @@
++# 🔌 Firmware — Rumah Pintar Mini
++
++🌐 **Bahasa Indonesia**
++
++Folder ini berisi firmware kedua papan ESP32 proyek **Rumah Pintar Mini**:
++
++| Folder | Papan | Versi | Terakhir berubah |
++| :--- | :--- | :---: | :--- |
++| [`node-1-rumah/`](node-1-rumah/) | Node 1 "Rumah" (ESP32 DevKit V1, listrik dari *charger*) | **1.7.0** | Modul 28: pembaruan lewat udara (OTA), rollback otomatis, kode klaim |
++| [`node-2-kebun/`](node-2-kebun/) | Node 2 "Kebun" (ESP32 DevKit V1, baterai, ESP-NOW) | 1.0.0 | Modul 14 (tidak berubah di Modul 28) |
++
++> [!WARNING]
++> **Status 1.7.0: sudah dikompilasi, BELUM dijalankan di papan sungguhan.** Pada 2 November 2026 penulis mengompilasi Node 1 1.7.0 dan
++> kedua versi latihannya (1.7.1 dan 1.7.2-uji) dengan `arduino-cli` 1.5.1, paket esp32 3.3.12, dan library di daftar bawah (versi persis),
++> untuk papan **ESP32 Dev Module** dengan **Minimal SPIFFS** dan **Flash Mode DIO** (setelan Modul 10): tanpa galat, dan tanpa satu pun
++> peringatan dari berkas `node-1-rumah` (peringatan yang muncul berasal dari library WiFiManager, ESP32Servo, dan ModbusMaster, sama seperti
++> 1.6.0). Hasilnya: `Sketch uses 1410887 bytes (71%)`, `Global variables use 58396 bytes (17%)`, dan berkas `node-1-rumah.ino.bin`
++> 1.411.040 byte (71,8 % rak program, sisa 555.040 byte). Daftar fungsi di berkas hasil kompilasi (`nm`) memastikan baris
++> `extern "C" bool verifyRollbackLater()` di `masa-uji.cpp` benar-benar menggantikan fungsi bawaan inti Arduino (simbol `T`, bukan `W`),
++> jadi rollback aktif. Logika pembaruan, masa uji, dan rollback juga diuji di laptop dengan tiruan. Yang **belum**: menjalankan firmware ini
++> di papan ESP32 sungguhan (unggah lewat kabel, pembaruan 1.7.1 lewat udara, rollback 1.7.2-uji, kode klaim), karena penulis tidak punya
++> papan di meja. Catatan ini diperbarui sesudah uji di papan.
++
++## Yang dibutuhkan Node 1 1.7.0
++
++- **Arduino IDE 2.3.10** dengan paket papan **esp32 versi 3.3.12** (bukan 3.3.11 ke bawah: `setSHA256sum()` dan `useBuiltinCACertBundle()`
++  baru ada di 3.3.12; bukan 4.0.0-RC1, yang masih pra-rilis).
++- Papan **ESP32 Dev Module**, **Tools → Partition Scheme → Minimal SPIFFS (1.9MB APP with OTA/128KB SPIFFS)**, dan
++  **Tools → Flash Mode → DIO** (sama dengan Modul 10): dua rak program, masing-masing 1.966.080 byte. Skema tanpa OTA (**No OTA**,
++  **Huge APP**) hanya punya satu rak: perintah pembaruan tetap diterima (`ack` `ok:true`), lalu pembaruan berakhir `gagal`
++  (`Update error: Partition Could Not be Found (Update 10)`; dari kode dan sumber paket esp32, belum dijalankan penulis).
++- Library (Library Manager): ESP32Servo 3.2.1, DHT sensor library 1.4.7, Adafruit SSD1306 2.5.17, WiFiManager 2.0.17, ArduinoJson 7.4.3,
++  **PubSubClient3** 3.3.2, ModbusMaster 2.0.1, ditambah tiga library pendukung yang ikut terpasang bersama DHT dan SSD1306 (versi yang
++  dipakai penulis: Adafruit Unified Sensor 1.1.15, Adafruit GFX Library 1.12.6, Adafruit BusIO 1.17.4). HTTPUpdate, HTTPClient,
++  NetworkClientSecure, Update, Preferences, dan WiFi sudah ikut paket esp32.
++- **Server lebih dulu.** Pasang backend 1.5.0 (kontrak data 1.6) sebelum Node 1 1.7.0: backend lama menolak `vitals` baru yang membawa
++  `reset_reason`, `fw`, dan `ota`.
++
++## Baru di Node 1 1.7.0
++
++| Hal | Ringkasnya | Berkas |
++| :--- | :--- | :--- |
++| Pembaruan lewat udara | Perintah MQTT `update` (tombol **Perbarui** di `/armada`) → `ack` `ok:true` = **diterima** → status `offline-mode` + putus rapi → unduh `<alamat server>/fw/node-1/<versi>.bin` dengan kunci perangkat → sidik SHA-256 diperiksa → menyala ulang ke rak sebelah. Gagal = firmware lama tetap jalan, laporan `gagal` | `pembaruan.cpp` |
++| Hanya dari server rumah | Node 1 hanya mau mengunduh dari alamat server yang **tersimpan di Node 1 sendiri** (portal WiFi, Serial `server`, atau klaim). Perintah dengan alamat lain ditolak (`url bukan server rumah ini`) sebelum kunci dikirim ke mana pun | `periksa-ota.cpp` |
++| Masa uji 60 detik dan rollback | Firmware baru sah bila dalam 60 detik sejak menyala ia tersambung ke broker, menerbitkan `online`, dan berlangganan `cmd`. Kalau tidak, Node 1 **kembali sendiri** ke firmware lama. Menyala ulang di tengah masa uji (listrik padam, `restart`, program mogok) juga membatalkan firmware baru | `masa-uji.cpp` |
++| Laporan hasil | `vitals` membawa `reset_reason`, `fw`, dan laporan `ota` (`berhasil`, `rollback`, atau `gagal`), diulang di paling banyak 3 `vitals` | `pembaruan.cpp`, `jaringan.cpp` |
++| Kode klaim | Papan baru mendaftar dengan kode `XXXX-XXXX` dari admin (kolom **Kode klaim** di portal WiFi, atau Serial `klaim <kode>`), tanpa mengetik kunci | `klaim.cpp` |
++| Portal WiFi | Tiga kolom baru: **Kode klaim** (tidak disimpan), **Alamat server**, **Alamat broker**. Portal bersandi bila `SANDI_PORTAL` ditulis di `kunci.h`. Portal tidak dibuka selama masa uji | `jaringan.cpp` |
++| Jeda `vitals` dari jauh | `config` boleh membawa `"jeda":{"vitals_s":60}` (60–3600 detik, bawaan 300). `telemetry` tetap setiap 10 detik | `jaringan.cpp`, `pengaturan.cpp` |
++| Berhenti sengaja | Sebelum pembaruan, perintah Serial `restart`, dan `wifi lupa`: status `offline-mode` lalu putus rapi (broker tidak menerbitkan wasiat `offline`) | `jaringan.cpp`, `pembaruan.cpp` |
++
++Perintah Serial Monitor baru: `ota` (versi, rak program, masa uji, laporan), `server`, `server <alamat>`, `broker`, `broker <ip>`, `klaim`,
++`klaim <kode> [alamat server] [alamat broker]`. Contoh: `klaim 7K2M-QF9D https://iot.namaanda.my.id 192.168.1.37`.
++
++> [!IMPORTANT]
++> **Baris yang menyalakan rollback** ada di `masa-uji.cpp`: `extern "C" bool verifyRollbackLater() { return true; }`. Tanpa baris itu, atau
++> tanpa tulisan `extern "C"`, firmware tetap terkompilasi tanpa peringatan apa pun, tetapi rollback **tidak pernah** terjadi: inti Arduino
++> langsung mengesahkan setiap firmware baru sebelum `setup()`. Jangan hapus atau ubah baris itu.
++
++## Membuat berkas firmware untuk server
++
++1. Naikkan `VERSI_FIRMWARE` di `konfigurasi.h`. Server menolak versi yang sudah pernah diunggah, dan perangkat menolak versi yang sama dengan
++   yang sedang berjalan. Turun versi (centang **paksa** di server) boleh, tetapi tidak di bawah 1.7.0: firmware lama tidak punya masa uji
++   dan rollback, jadi perangkat menjawab `versi di bawah 1.7.0 tidak punya rollback: pasang lewat kabel`.
++2. Di Arduino IDE: **Sketch → Export Compiled Binary**. Berkas muncul di folder `build/` sketsa (misalnya
++   `build/esp32.esp32.esp32/node-1-rumah.ino.bin`).
++3. Unggah **`node-1-rumah.ino.bin`** di `/armada` (**Unggah firmware**). Bukan `.merged.bin` (4 MB, diawali bait `0xFF`, pasti ditolak) dan
++   bukan `.bootloader.bin` atau `.partitions.bin`.
++
++Berkas `.bin` dan folder `build/` dijaga `.gitignore`: **jangan pernah** di-*commit* atau dibagikan. Kunci broker Node 1 tidak ada di berkas
++itu (kunci tersimpan di NVS papan), tetapi isi `kunci.h` ikut terkompilasi di dalamnya: kunci ESP-NOW (Modul 14, bila
++`PAKAI_ENKRIPSI = true`) dan sandi portal `SANDI_PORTAL` (bila ditulis).
++
++Ukuran rak program: 1.966.080 byte. Node 1 1.6.0 = 1.194.232 byte (60 %, Modul 21). Node 1 1.7.0 (dengan HTTPS dan daftar sertifikat akar
++bawaan) = **1.410.887 byte (71 %)** menurut `Sketch uses` di mesin penulis (setelan Modul 10: Minimal SPIFFS, Flash Mode DIO), dan berkas
++`.bin`-nya 1.411.040 byte: sisa rak masih sekitar 555 ribu byte. Angka di Arduino IDE-mu boleh berbeda beberapa ratus byte, karena nama
++papan lengkap, sistem operasi, dan jalur folder paket esp32 ikut tersimpan di dalam firmware (di mesin penulis, 1.6.0 dengan setelan yang
++sama tercatat 1.193.864 byte, 368 byte lebih kecil daripada catatan Modul 21).
++
++## Latihan Modul 28: 1.7.1 lewat udara, lalu 1.7.2-uji (rollback)
++
++Kedua versi latihan dibuat dari 1.7.0 **hanya dengan mengubah konstanta** di `konfigurasi.h`:
++
++| Versi | Ubah di `konfigurasi.h` | Dipasang | Yang diharapkan |
++| :---: | :--- | :--- | :--- |
++| 1.7.0 | (apa adanya) | **lewat kabel**, terakhir kalinya | Serial: `Node 1 Rumah - firmware 1.7.0 (dipasang lewat kabel)` |
++| 1.7.1 | `VERSI_FIRMWARE[] = "1.7.1"`, `CATATAN_VERSI[] = "dipasang lewat udara"` | tombol **Perbarui** di `/armada` | sah dalam 60 detik, `/armada` menampilkan `fw` 1.7.1 |
++| 1.7.2-uji | `VERSI_FIRMWARE[] = "1.7.2"`, `CATATAN_VERSI[] = "rilis UJI rollback"`, `UJI_KUNCI_SALAH = 1` | unggah dengan centang **uji**, lalu **Perbarui** satu perangkat | broker menolak kuncinya, 60 detik lewat, Node 1 kembali ke 1.7.1 dan melaporkan `rollback` |
++
++```diff
++-const char VERSI_FIRMWARE[] = "1.7.0";
++-const char CATATAN_VERSI[] = "dipasang lewat kabel";  // Modul 28: kalimat pendek di Serial saat menyala, boleh diganti
+++const char VERSI_FIRMWARE[] = "1.7.2";
+++const char CATATAN_VERSI[] = "rilis UJI rollback";  // Modul 28: kalimat pendek di Serial saat menyala, boleh diganti
++ ...
++-const int UJI_KUNCI_SALAH = 0;
+++const int UJI_KUNCI_SALAH = 1;
++```
++
++`UJI_KUNCI_SALAH = 1` merusak kunci broker **di RAM saja**: NVS tidak disentuh, jadi firmware lama yang kembali memakai kunci aslinya lagi.
++Sesudah latihan, **kembalikan ke 0** dan `VERSI_FIRMWARE` ke versi rilis berikutnya (misalnya 1.7.3). Versi `1.7.2` (tanpa akhiran `-uji`:
++kontrak data hanya menerima x.y.z) sudah terpakai oleh rilis uji di server, jadi rilis normal berikutnya memakai nomor baru.
++
++## Sandi portal WiFi (pilihan, disarankan untuk Node 1 di dalam kotak)
++
++Di `kunci.h` (berkas rahasia Modul 14, dijaga `.gitignore`), tambahkan satu baris, lalu tulis sandi yang sama di label kotak Node 1:
++
++```cpp
++#define SANDI_PORTAL "sandi-8-sampai-63-huruf"
++```
++
++Tanpa baris itu, portal terbuka tanpa sandi seperti di Modul 10, dan Serial Monitor memperingatkan bahwa halaman `192.168.4.1/update` bisa
++dibuka siapa pun di dekat Node 1 selama portal terbuka. Sandi kurang dari 8 atau lebih dari 63 huruf menghentikan kompilasi dengan pesan yang
++jelas (aturan sandi WiFi WPA2).
++
++## Batasan yang diketahui
++
++- Selama firmware diunduh (sekitar setengah sampai satu menit), `loop()` berhenti: pompa dan buzzer dipadamkan dulu, lampu, kipas, dan tirai
++  tetap pada keadaan terakhirnya, dan pengaman lokal (kipas mode offline, siram otomatis) tidak berjalan. Paket ESP-NOW Node 2 yang datang
++  saat itu bisa terlewat.
++- Watchdog dilonggarkan menjadi 60 detik selama mengunduh atau menukar kode klaim, lalu dikembalikan ke 5 detik. Server yang diam 8 detik
++  sebelum menjawab = `gagal` (`-11`) tanpa menyala ulang. Data yang berhenti **di tengah** berkas: lewat `https://` library menyerah sendiri
++  sesudah ±30 detik (`gagal`, `Update 6`, tanpa menyala ulang); lewat `http://` (jaringan rumah) watchdog 60 detik yang me-restart Node 1.
++  Di kedua jalur rak lama tetap utuh; jalur `http://` melapor `gagal: menyala ulang saat mengunduh (WDT)` dengan `reset_reason` `WDT`.
++- Firmware baru yang macet di `setup()` (misalnya menunggu sensor selamanya) tetap di-rollback: selama masa uji, watchdog 75 detik sudah
++  mengawasi `setup()`.
++- Router yang mati saat masa uji: penjaga WiFi mencoba lagi setiap 10 detik (biasanya 60 detik). Router yang belum menyala dalam 60 detik =
++  firmware baru di-rollback walaupun sebenarnya baik: ulangi **Perbarui** sesudah router menyala.
++- Perintah yang tiba tepat saat Node 1 berhenti sengaja (±0,3 detik) tidak dikerjakan dan dijawab `ok:false`
++  (`Node 1 sedang berhenti sengaja: kirim lagi sesudah online`).
++- Menyala ulang di tengah masa uji (listrik padam, perintah `restart`, *brownout*) selalu membatalkan firmware baru, walaupun firmware itu
++  sebenarnya baik. Pasang pembaruan saat listrik stabil.
++- Node 2 tidak diperbarui lewat udara: tetap lewat kabel.
+diff --git a/firmware/node-1-rumah/aktuator.cpp b/firmware/node-1-rumah/aktuator.cpp
+index a9c208a..38639c6 100644
+--- a/firmware/node-1-rumah/aktuator.cpp
++++ b/firmware/node-1-rumah/aktuator.cpp
+@@ -115,6 +115,20 @@ void bunyikanBuzzer() {
+   waktuBuzzerMulai = millis();
+ }
+ 
++// Modul 28: selama firmware diunduh, loop() tidak berputar, jadi perbaruiAktuator() tidak bisa mematikan pompa dan
++// buzzer tepat waktu. Keduanya dipadamkan sekarang. Lampu, kipas, dan tirai dibiarkan pada keadaan terakhirnya.
++void padamkanPompaDanBuzzer() {
++  if (pompa) {
++    digitalWrite(PIN_POMPA, LOW);
++    pompa = false;
++    logInfo("Pompa dipadamkan sebelum memperbarui firmware.");
++  }
++  if (buzzer) {
++    ledcWriteTone(PIN_BUZZER, 0);
++    buzzer = false;
++  }
++}
++
+ bool lampuMenyala() {
+   return lampu;
+ }
+diff --git a/firmware/node-1-rumah/aktuator.h b/firmware/node-1-rumah/aktuator.h
+index 9854f70..1171e49 100644
+--- a/firmware/node-1-rumah/aktuator.h
++++ b/firmware/node-1-rumah/aktuator.h
+@@ -10,6 +10,7 @@ void aturKipasPengaman(bool nyala);           // Modul 19: khusus untuk aturan p
+ bool nyalakanPompa(int detik, int levelAir);  // menjawab false kalau ditolak karena air tandon kurang
+ void aturTirai(int sudut);
+ void bunyikanBuzzer();                        // berbunyi 150 ms, tetapi programnya tidak ikut menunggu
++void padamkanPompaDanBuzzer();                // Modul 28: sebelum mengunduh firmware (loop() berhenti sampai 1 menit lebih)
+ 
+ bool lampuMenyala();
+ bool lampuDariOtomatis();  // true kalau lampu yang menyala itu dinyalakan oleh aturan otomatis
+diff --git a/firmware/node-1-rumah/jaringan.cpp b/firmware/node-1-rumah/jaringan.cpp
+index 93bdac7..b9cdfa8 100644
+--- a/firmware/node-1-rumah/jaringan.cpp
++++ b/firmware/node-1-rumah/jaringan.cpp
+@@ -14,13 +14,30 @@
+ #include "aktuator.h"
+ #include "layar.h"
+ #include "rs485.h"
++#include "periksa-ota.h"  // Modul 28: rapikanAlamat(), periksaAlamatServer(), periksaAlamatBroker(), IsiUpdate
++#include "pembaruan.h"    // Modul 28: perintah update, laporan ota di vitals, restart sengaja
++#include "masa-uji.h"     // Modul 28: firmwareTerbukti(), dalamMasaUji()
++#include "klaim.h"        // Modul 28: kode klaim dari portal WiFi
+ #include "jaringan.h"
+ 
+ #ifndef MQTT_QOS1  // hanya PubSubClient3 yang punya nama ini
+ #error "Yang terpakai PubSubClient lama (2.8). Hapus lewat Library Manager, lalu pasang PubSubClient3 versi 3.3.2."
+ #endif
+ 
++// Modul 28: sandi portal WiFi (pilihan) di kunci.h, file yang tidak ikut ke GitHub (Modul 14, Praktik 8). Tulis di sana:
++//   #define SANDI_PORTAL "sandi-8-sampai-63-huruf"
++// lalu tulis sandi yang sama di label kotak Node 1. Tanpa baris itu, portal terbuka tanpa sandi seperti di Modul 10.
++#if __has_include("kunci.h")
++#include "kunci.h"
++#endif
++#ifndef SANDI_PORTAL
++#define SANDI_PORTAL ""
++#endif
++static_assert(sizeof(SANDI_PORTAL) == 1 || (sizeof(SANDI_PORTAL) >= 9 && sizeof(SANDI_PORTAL) <= 64),
++              "SANDI_PORTAL di kunci.h harus 8-63 huruf (aturan sandi WiFi WPA2), atau hapus barisnya");
++
+ const unsigned long BATAS_TANPA_PERCOBAAN = 60000;  // penjaga: 60 detik tanpa percobaan menyambung = suruh mencoba lagi
++const unsigned long BATAS_TANPA_PERCOBAAN_UJI = 10000;  // Modul 28: selama masa uji firmware baru, setiap 10 detik
+ const unsigned long JEDA_COBA_MQTT = 5000;          // gagal menyambung ke broker? coba lagi 5 detik kemudian
+ const unsigned long JEDA_COBA_DITOLAK = 60000;      // Modul 21: broker MENOLAK kunci? coba lagi 60 detik kemudian
+ const unsigned long JEDA_SEGERA_MIN = 2000;         // kiriman segera paling sering setiap 2 detik
+@@ -31,7 +48,7 @@ const char BROKER_WOKWI_BERKUNCI[] = "test.mosquitto.org";  // Modul 21: pintu 1
+ static WiFiClient klienJaringan;          // sambungan TCP ke broker
+ static PubSubClient mqtt(klienJaringan);  // MQTT berjalan di atas sambungan itu
+ static char idPerangkat[13] = "";  // device_id: 12 digit heksadesimal + tanda akhir teks (Lampiran A)
+-static const char* alamatBroker = ALAMAT_BROKER;  // Modul 21: dipilih sekali di siapkanJaringan()
++static const char* alamatBroker = ALAMAT_BROKER;  // Modul 21: dipilih di siapkanJaringan(); Modul 28: dari NVS
+ static uint16_t portBroker = PORT_BROKER;
+ static const char* pengguna = idPerangkat;  // Modul 21: nama pengguna broker = device_id (kontrak data bagian 1)
+ static bool ditolakBroker = false;          // Modul 21: percobaan terakhir dijawab broker dengan kode 4 atau 5
+@@ -73,6 +90,7 @@ static unsigned long waktuVitalsTerakhir = 0;
+ static unsigned long jumlahTerbit = 0;
+ static char idTerakhir[8][40];  // 8 id perintah terakhir yang sudah diterima (termasuk yang ditolak)
+ static int posisiId = 0;
++static bool ditahan = false;  // Modul 28: berhenti sengaja (offline-mode): jangan menyambung lagi sampai diizinkan
+ 
+ // ---------- Modul 19: mode offline dan laporannya ----------
+ static unsigned long waktuTerakhirSiap = 0;  // millis() terakhir kali WiFi dan MQTT tersambung
+@@ -134,10 +152,46 @@ bool buatTs(char* ts, size_t ukuran) {
+ }
+ 
+ // ---------- Portal WiFi (Modul 10, Praktik 4) ----------
++// Modul 28: isi tiga kolom tambahan disimpan di sini, saat tombol Save portal ditekan. WiFiManager sendiri TIDAK
++// menyimpan isi kolom tambahan; itu tugas kita. Kolom yang dikosongkan berarti "tidak diubah".
++static void simpanIsiPortal(const char* kode, const char* server, const char* broker) {
++  char rapi[PANJANG_ALAMAT_SERVER_MAKS + 2];  // +2: alamat yang terlalu panjang tetap terdeteksi
++  if (server[0] != '\0') {
++    rapikanAlamat(server, rapi, sizeof(rapi));
++    const char* salah = periksaAlamatServer(rapi);
++    if (salah != nullptr) {
++      logError("Portal: alamat server TIDAK disimpan. %s", salah);
++    } else {
++      simpanAlamatServer(rapi);
++    }
++  }
++  if (broker[0] != '\0') {
++    rapikanAlamat(broker, rapi, sizeof(rapi));
++    const char* salah = periksaAlamatBroker(rapi);
++    if (salah != nullptr) {
++      logError("Portal: alamat broker TIDAK disimpan. %s", salah);
++    } else {
++      simpanAlamatBroker(rapi);
++    }
++  }
++  if (kode[0] != '\0') {
++    const char* salah = mulaiKlaim(kode);  // klaim.cpp: dikirim begitu WiFi tersambung (loop())
++    if (salah != nullptr) {
++      logError("Portal: kode klaim tidak dipakai: %s", salah);
++    }
++  }
++}
++
+ // Menunggu di sini boleh: dipanggil dari setup(), sebelum watchdog mengawasi loop().
+ static void bukaPortal() {
+   logInfo("Portal WiFi terbuka selama %lu detik: sambungkan HP ke WiFi \"%s\", lalu buka http://192.168.4.1",
+           BATAS_PORTAL, NAMA_PORTAL);
++  if (SANDI_PORTAL[0] != '\0') {
++    logInfo("Portal bersandi: sandinya ada di label kotak Node 1 (SANDI_PORTAL di kunci.h).");
++  } else {
++    logError("Portal TANPA sandi: siapa pun di dekat Node 1 bisa membuka 192.168.4.1, termasuk halaman /update. "
++             "Isi SANDI_PORTAL di kunci.h (Modul 28).");
++  }
+   tampilkanPesan("PORTAL WIFI", "Sambungkan HP ke:", NAMA_PORTAL, "Buka 192.168.4.1");
+   digitalWrite(PIN_LED_STATUS, HIGH);  // LED status menyala tetap selama portal terbuka
+ 
+@@ -151,7 +205,23 @@ static void bukaPortal() {
+   // Alamat 192.168.4.1/update sendiri tetap ada: buka portal hanya saat kamu sendiri sedang mengisinya.
+   wm.setConfigPortalTimeout(BATAS_PORTAL);  // menutup sendiri kalau tidak dipakai
+   wm.setConnectTimeout(20);                 // mencoba WiFi yang baru diisi paling lama 20 detik
+-  bool berhasil = wm.startConfigPortal(NAMA_PORTAL);
++
++  // Modul 28: tiga kolom tambahan di halaman WiFi (menunya tanpa "param", jadi kolomnya ikut halaman WiFi):
++  // (id, tulisan di atas kolom, isi awal, panjang paling banyak). Kolom harus tetap ada selama portal terbuka.
++  WiFiManagerParameter kolomKode("kode_klaim", "Kode klaim dari /armada (boleh kosong)", "", 12);
++  WiFiManagerParameter kolomServer("alamat_server", "Alamat server, misalnya http://192.168.1.10", alamatServerTersimpan(),
++                                   PANJANG_ALAMAT_SERVER_MAKS);
++  WiFiManagerParameter kolomBroker("alamat_broker", "Alamat broker (IP gerbang Pi)", alamatBrokerTersimpan(),
++                                   PANJANG_ALAMAT_BROKER_MAKS);
++  wm.addParameter(&kolomKode);
++  wm.addParameter(&kolomServer);
++  wm.addParameter(&kolomBroker);
++  // [&] = fungsi kecil tanpa nama yang boleh memakai ketiga kolom di atas; dipanggil WiFiManager saat Save ditekan.
++  wm.setSaveParamsCallback([&]() {
++    simpanIsiPortal(kolomKode.getValue(), kolomServer.getValue(), kolomBroker.getValue());
++  });
++  // Modul 28: dengan sandi, HP harus memasukkan sandi itu untuk bergabung ke WiFi portal (nullptr = tanpa sandi).
++  bool berhasil = wm.startConfigPortal(NAMA_PORTAL, SANDI_PORTAL[0] != '\0' ? SANDI_PORTAL : nullptr);
+ 
+   digitalWrite(PIN_LED_STATUS, LOW);
+   if (berhasil) {
+@@ -251,37 +321,93 @@ static const char* kerjakanSet(JsonDocument& perintah) {
+ 
+ // Modul 19: satu perintah "config". Semua ambang diperiksa dulu; baru kalau semuanya sah, ambang disimpan ke NVS
+ // (yang angkanya berubah saja). Menjawab nullptr kalau berhasil, atau alasan penolakannya.
++// Modul 28 (kontrak 1.6): config boleh membawa "ambang", "jeda", atau keduanya. Semuanya diperiksa dulu, baru disimpan.
+ static const char* kerjakanConfig(JsonDocument& perintah) {
+   static char alasan[48];  // static: isinya masih dibaca kirimAck() setelah fungsi ini selesai
+-  JsonObject ambang = perintah["ambang"].as<JsonObject>();
+-  if (ambang.isNull() || ambang.size() == 0) {
+-    return "ambang harus berisi suhu_kipas_on atau tanah_siram";
++  // Kunci yang ADA dihitung walaupun isinya null: {"jeda": null} = tipe salah (seluruh perintah ditolak, kontrak bagian 7),
++  // bukan "tidak dikirim". isNull() tidak bisa membedakan keduanya, jadi nama kuncinya dicari satu per satu.
++  bool adaAmbang = false;
++  bool adaJeda = false;  // Modul 28
++  for (JsonPair p : perintah.as<JsonObject>()) {
++    adaAmbang = adaAmbang || strcmp(p.key().c_str(), "ambang") == 0;
++    adaJeda = adaJeda || strcmp(p.key().c_str(), "jeda") == 0;
+   }
+-  for (JsonPair p : ambang) {  // nama lain = salah ketik: tolak semuanya supaya tidak ada yang diam-diam terlewat
+-    const char* nama = p.key().c_str();
+-    if (strcmp(nama, "suhu_kipas_on") != 0 && strcmp(nama, "tanah_siram") != 0) {
+-      snprintf(alasan, sizeof(alasan), "ambang tidak dikenal: %s", nama);
+-      return alasan;
+-    }
++  if (!adaAmbang && !adaJeda) {
++    return "config harus berisi ambang atau jeda";
+   }
+-  JsonVariant suhu = ambang["suhu_kipas_on"];
+-  JsonVariant tanah = ambang["tanah_siram"];
+-  if (!suhu.isNull()
+-      && (!suhu.is<float>() || suhu.as<float>() < SUHU_KIPAS_MIN || suhu.as<float>() > SUHU_KIPAS_MAKS)) {
+-    return "suhu_kipas_on harus angka 15-45";
++  JsonObject ambang = perintah["ambang"].as<JsonObject>();
++  if (adaAmbang) {
++    if (ambang.isNull() || ambang.size() == 0) {
++      return "ambang harus berisi suhu_kipas_on atau tanah_siram";
++    }
++    for (JsonPair p : ambang) {  // nama lain = salah ketik: tolak semuanya supaya tidak ada yang diam-diam terlewat
++      const char* nama = p.key().c_str();
++      if (strcmp(nama, "suhu_kipas_on") != 0 && strcmp(nama, "tanah_siram") != 0) {
++        snprintf(alasan, sizeof(alasan), "ambang tidak dikenal: %s", nama);
++        return alasan;
++      }
++    }
++    JsonVariant suhu = ambang["suhu_kipas_on"];
++    JsonVariant tanah = ambang["tanah_siram"];
++    if (!suhu.isNull()
++        && (!suhu.is<float>() || suhu.as<float>() < SUHU_KIPAS_MIN || suhu.as<float>() > SUHU_KIPAS_MAKS)) {
++      return "suhu_kipas_on harus angka 15-45";
++    }
++    if (!tanah.isNull() && (!tanah.is<int>() || tanah.as<int>() < 0 || tanah.as<int>() > 100)) {
++      return "tanah_siram harus bilangan bulat 0-100";
++    }
+   }
+-  if (!tanah.isNull() && (!tanah.is<int>() || tanah.as<int>() < 0 || tanah.as<int>() > 100)) {
+-    return "tanah_siram harus bilangan bulat 0-100";
++  // Modul 28: "jeda" hanya boleh berisi vitals_s (60-3600 detik). telemetry tetap 10 detik (kontrak aturan 3).
++  JsonObject jeda = perintah["jeda"].as<JsonObject>();
++  if (adaJeda) {
++    if (jeda.isNull()) {
++      return "jeda harus berisi vitals_s";
++    }
++    for (JsonPair p : jeda) {
++      const char* nama = p.key().c_str();
++      if (strcmp(nama, "vitals_s") != 0) {
++        snprintf(alasan, sizeof(alasan), "jeda tidak dikenal: %s", nama);
++        return alasan;
++      }
++    }
++    JsonVariant vitals = jeda["vitals_s"];
++    if (!vitals.is<int>() || vitals.as<int>() < (int)JEDA_VITALS_MIN_S || vitals.as<int>() > (int)JEDA_VITALS_MAKS_S) {
++      return "vitals_s harus bilangan bulat 60-3600";
++    }
+   }
+-  if (!suhu.isNull()) {
+-    simpanAmbangSuhuKipas(suhu.as<float>());
++  // Semua sah: baru sekarang disimpan (yang angkanya berubah saja).
++  if (adaAmbang) {
++    JsonVariant suhu = ambang["suhu_kipas_on"];
++    JsonVariant tanah = ambang["tanah_siram"];
++    if (!suhu.isNull()) {
++      simpanAmbangSuhuKipas(suhu.as<float>());
++    }
++    if (!tanah.isNull()) {
++      simpanAmbangTanahSiram(tanah.as<int>());
++    }
+   }
+-  if (!tanah.isNull()) {
+-    simpanAmbangTanahSiram(tanah.as<int>());
++  if (adaJeda) {
++    int detik = jeda["vitals_s"].as<int>();
++    if ((unsigned long)detik != jedaVitalsDetik()) {
++      simpanJedaVitals(detik);
++      waktuVitalsTerakhir = millis();  // jadwal baru dihitung dari sekarang (sama dengan simulator)
++    }
+   }
+   return nullptr;
+ }
+ 
++// Modul 28: satu perintah "update". Isinya diambil dari JSON, lalu diperiksa dan diterima di pembaruan.cpp.
++// Kolom yang tidak ada atau salah tipe menjadi nullptr / -1, dan ditolak dengan alasan yang sama dengan simulator.
++static const char* kerjakanUpdate(const char* id, JsonDocument& perintah) {
++  IsiUpdate isi = {
++    perintah["versi"].as<const char*>(),  // nullptr kalau tidak ada atau bukan teks
++    perintah["url"].as<const char*>(),
++    perintah["sha256"].as<const char*>(),
++    perintah["ukuran"].is<long>() ? (long long)perintah["ukuran"].as<long>() : -1,  // pecahan, teks, tidak ada = -1
++  };
++  return terimaUpdate(id, isi);
++}
++
+ // Dipanggil library di dalam mqtt.loop() setiap ada pesan di rpm/<device_id>/cmd.
+ // Urutannya: baca JSON, periksa, kerjakan, jawab. Perintah yang id-nya sudah pernah diterima diabaikan.
+ static void saatPesanMqtt(char* topik, byte* isi, unsigned int panjang) {
+@@ -313,6 +439,17 @@ static void saatPesanMqtt(char* topik, byte* isi, unsigned int panjang) {
+     }
+     return;
+   }
++  if (ditahan) {
++    // Modul 28: Node 1 sedang berhenti sengaja (sebentar lagi putus). Perintahnya tidak dikerjakan, tetapi tetap dijawab
++    // (kontrak aturan 4: setiap cmd dijawab), dan id-nya TIDAK diingat: config retained yang datang lagi sesudah
++    // tersambung, atau perintah yang dikirim ulang, tetap dikerjakan nanti.
++    const char* alasan = strcmp(aksi, "update") == 0 && pembaruanSedangBerjalan()
++                             ? "pembaruan lain sedang berjalan"
++                             : "Node 1 sedang berhenti sengaja: kirim lagi sesudah online";
++    logInfo("Perintah %s datang saat Node 1 berhenti sengaja: ditolak (%s).", id, alasan);
++    kirimAck(id, false, alasan);
++    return;
++  }
+   ingatId(id);
+   const char* pesan = "aksi tidak dikenal";
+   if (strcmp(aksi, "set") == 0) {
+@@ -320,10 +457,14 @@ static void saatPesanMqtt(char* topik, byte* isi, unsigned int panjang) {
+   } else if (strcmp(aksi, "config") == 0) {
+     pesan = kerjakanConfig(perintah);  // Modul 19
+   } else if (strcmp(aksi, "update") == 0) {
+-    pesan = "aksi update belum didukung (Modul 28)";
+-  }
+-  if (pesan == nullptr) {
+-    logInfo("Perintah %s: %s %s dikerjakan.", id, aksi, perintah["target"] | "ambang");
++    pesan = kerjakanUpdate(id, perintah);  // Modul 28: ok = DITERIMA; unduhannya dimulai di putaran loop() berikutnya
++  }
++  if (pesan == nullptr && strcmp(aksi, "update") == 0) {
++    logInfo("Perintah %s: update ke %s diterima; pembaruan dimulai.", id, perintah["versi"] | "?");
++  } else if (pesan == nullptr && strcmp(aksi, "config") == 0) {
++    logInfo("Perintah %s: config dikerjakan.", id);
++  } else if (pesan == nullptr) {
++    logInfo("Perintah %s: %s %s dikerjakan.", id, aksi, perintah["target"] | "");
+   } else {
+     logError("Perintah %s ditolak: %s", id, pesan);
+   }
+@@ -349,14 +490,6 @@ void siapkanJaringan() {
+   logInfo("device_id %s", idPerangkat);
+ 
+   klienJaringan.setConnectionTimeout(1000);  // menyambung TCP ke broker paling lama 1 detik (bawaan: 3 detik)
+-  if (PAKAI_WOKWI && WOKWI_BERKUNCI) {  // Modul 21: latihan "diterima lawan ditolak" di broker publik berkunci
+-    alamatBroker = BROKER_WOKWI_BERKUNCI;
+-    portBroker = 1884;  // pintu MQTT test.mosquitto.org yang meminta nama pengguna dan kunci
+-    pengguna = "rw";    // akun publik test.mosquitto.org; kuncinya: readwrite
+-  } else if (PAKAI_WOKWI) {
+-    alamatBroker = BROKER_WOKWI;
+-  }
+-  mqtt.setServer(alamatBroker, portBroker);  // di rumah: alamat IP, bukan nama, jadi tidak perlu mencari nama (DNS)
+   mqtt.setSocketTimeout(1);  // menunggu jawaban broker paling lama 1 detik (bawaan: 15 detik)
+   if (!mqtt.setBufferSize(512)) {  // ruang pesan 512 byte (bawaan: 256)
+     logError("Memori tidak cukup untuk ruang pesan MQTT 512 byte.");
+@@ -364,13 +497,19 @@ void siapkanJaringan() {
+   mqtt.setCallback(saatPesanMqtt);
+ 
+   if (PAKAI_WOKWI) {
+-    logInfo("Mode Wokwi: menyambung ke Wokwi-GUEST tanpa portal, broker publik %s:%u.", alamatBroker, portBroker);
++    logInfo("Mode Wokwi: menyambung ke Wokwi-GUEST tanpa portal, broker publik %s:%u.",
++            WOKWI_BERKUNCI ? BROKER_WOKWI_BERKUNCI : BROKER_WOKWI, WOKWI_BERKUNCI ? 1884 : PORT_BROKER);
+     WiFi.begin("Wokwi-GUEST", "", 6);  // 6 = kanal Wokwi-GUEST supaya lebih cepat
+     punyaWiFi = true;
+   } else {
+     WiFiManager wm;
+     punyaWiFi = wm.getWiFiIsSaved();
+-    if (digitalRead(PIN_TOMBOL) == LOW) {  // tombol D13 ditahan saat menyala = minta portal
++    bool mintaPortal = digitalRead(PIN_TOMBOL) == LOW || !punyaWiFi;
++    if (mintaPortal && dalamMasaUji()) {
++      // Modul 28: firmware baru harus tersambung ke broker dalam 60 detik. Portal yang menunggu di sini (sampai 3 menit)
++      // pasti menggagalkannya, jadi portal ditunda: sesudah masa uji (atau rollback), tahan D13 sambil menekan EN lagi.
++      logError("Masa uji firmware baru: portal WiFi DITUNDA. Buka lagi sesudah masa uji (tahan D13, tekan EN).");
++    } else if (digitalRead(PIN_TOMBOL) == LOW) {  // tombol D13 ditahan saat menyala = minta portal
+       logInfo("Tombol D13 ditahan saat menyala: portal WiFi dibuka.");
+       bukaPortal();
+     } else if (!punyaWiFi) {
+@@ -382,6 +521,18 @@ void siapkanJaringan() {
+       logInfo("Menyambung ke WiFi tersimpan \"%s\" (tanpa menunggu)...", wm.getWiFiSSID().c_str());
+     }
+   }
++
++  // Alamat broker dipilih SESUDAH portal: kolom "Alamat broker" di portal bisa saja baru mengubahnya (Modul 28).
++  if (PAKAI_WOKWI && WOKWI_BERKUNCI) {  // Modul 21: latihan "diterima lawan ditolak" di broker publik berkunci
++    alamatBroker = BROKER_WOKWI_BERKUNCI;
++    portBroker = 1884;  // pintu MQTT test.mosquitto.org yang meminta nama pengguna dan kunci
++    pengguna = "rw";    // akun publik test.mosquitto.org; kuncinya: readwrite
++  } else if (PAKAI_WOKWI) {
++    alamatBroker = BROKER_WOKWI;
++  } else {
++    alamatBroker = alamatBrokerTersimpan();  // Modul 28: dari NVS (portal, Serial, klaim), atau ALAMAT_BROKER
++  }
++  mqtt.setServer(alamatBroker, portBroker);  // di rumah: alamat IP, bukan nama, jadi tidak perlu mencari nama (DNS)
+   waktuTerakhirSiap = millis();  // Modul 19: hitungan mode offline dimulai sesudah portal WiFi, bukan saat menyala
+ }
+ 
+@@ -405,15 +556,20 @@ static void jagaSambungan() {
+       && WiFi.channel() != kanalRouter) {
+     WiFi.setChannel(kanalRouter);
+   }
+-  if (sekarang - peristiwaTerakhir >= BATAS_TANPA_PERCOBAAN
+-      && sekarang - waktuPenjagaTerakhir >= BATAS_TANPA_PERCOBAAN) {
++  // Modul 28: paket esp32 hanya mencoba lagi SENDIRI satu kali sesudah menyala (setAutoReconnect(false)). Selama masa uji,
++  // firmware baru harus tersambung dalam 60 detik, jadi penjaga mencoba setiap 10 detik, bukan 60 detik; kalau tidak,
++  // router yang sedang menyala ulang saja sudah membuat firmware yang baik di-rollback.
++  unsigned long batas = dalamMasaUji() ? BATAS_TANPA_PERCOBAAN_UJI : BATAS_TANPA_PERCOBAAN;
++  if (sekarang - peristiwaTerakhir >= batas && sekarang - waktuPenjagaTerakhir >= batas) {
+     waktuPenjagaTerakhir = sekarang;
+-    logInfo("Penjaga WiFi: %lu detik tanpa percobaan baru, mencoba menyambung lagi.", BATAS_TANPA_PERCOBAAN / 1000);
++    logInfo("Penjaga WiFi: %lu detik tanpa percobaan baru, mencoba menyambung lagi.", batas / 1000);
+     WiFi.reconnect();
+   }
+ }
+ 
+ // ---------- Laporan kesehatan: vitals (Lampiran A) ----------
++// Modul 28 (kontrak 1.6): vitals juga membawa reset_reason dan fw, dan laporan pembaruan firmware (ota) yang belum
++// 3 kali terkirim. Jedanya bisa diatur server lewat config "jeda.vitals_s" (bawaan 300 detik).
+ static void kirimVitals() {
+   char ts[21];
+   if (!buatTs(ts, sizeof(ts))) {
+@@ -429,8 +585,26 @@ static void kirimVitals() {
+     dokumen["offline_s"] = laporanDetik;
+     dokumen["kipas_lokal"] = laporanKipas;
+   }
+-  char isi[192];  // Modul 19: diperbesar dari 128 untuk laporan mode offline
++  dokumen["reset_reason"] = alasanReset();  // Modul 28: wajib mulai 1.7.0, selalu bersama fw
++  dokumen["fw"] = VERSI_FIRMWARE;
++  const LaporanOta* laporanOta = laporanOtaMenunggu();  // pembaruan.cpp; nullptr = tidak ada laporan
++  if (laporanOta != nullptr) {
++    JsonObject ota = dokumen["ota"].to<JsonObject>();
++    ota["id"] = laporanOta->id;
++    ota["hasil"] = laporanOta->hasil;
++    ota["versi"] = laporanOta->versi;
++    if (laporanOta->pesan[0] != '\0') {
++      ota["pesan"] = laporanOta->pesan;
++    }
++  }
++  // Modul 28: diperbesar dari 192 (vitals terpanjang sekitar 375 huruf). PubSubClient3 3.3.2 mengirim isi pesan KELUAR
++  // sedikit demi sedikit, jadi wadah MQTT 512 byte hanya membatasi pesan MASUK (cmd), bukan vitals.
++  char isi[480];
+   size_t panjang = serializeJson(dokumen, isi, sizeof(isi));
++  if (panjang >= sizeof(isi) && laporanOta != nullptr) {  // hampir mustahil (id penuh tanda khusus): pesan dibuang
++    dokumen["ota"].as<JsonObject>().remove("pesan");
++    panjang = serializeJson(dokumen, isi, sizeof(isi));
++  }
+   if (panjang >= sizeof(isi)) {
+     logError("Vitals terlalu panjang untuk wadah isi[]: tidak dikirim.");
+     sudahKirimVitals = true;  // jangan dicoba lagi di setiap putaran loop()
+@@ -448,11 +622,18 @@ static void kirimVitals() {
+       laporanDetik = 0;
+       laporanKipas = 0;
+     }
++    if (laporanOta != nullptr) {  // Modul 28: hitung kiriman laporan pembaruan (paling banyak 3 kali)
++      logInfo("Laporan pembaruan ikut vitals: %s ke %s", laporanOta->hasil, laporanOta->versi);
++      laporanOtaTerkirim();
++    }
+   }
+ }
+ 
+ // Satu kali percobaan menyambung ke broker, paling sering setiap JEDA_COBA_MQTT. Tidak pernah berputar menunggu.
+ static void cobaSambungkanBroker() {
++  if (ditahan) {  // Modul 28: berhenti sengaja untuk pembaruan firmware: jangan menyambung lagi dulu
++    return;
++  }
+   if (ujiOffline) {  // Modul 19: perintah "uji offline" sedang berjalan: pura-pura broker tak terjangkau
+     if (millis() - waktuUjiOffline < LAMA_UJI_OFFLINE) {
+       return;
+@@ -469,6 +650,12 @@ static void cobaSambungkanBroker() {
+   waktuCobaMqttTerakhir = millis();
+   unsigned long mulai = millis();
+   const char* kunci = kunciBroker();  // Modul 21: dari NVS; "" = belum ada
++  if (UJI_KUNCI_SALAH == 1) {
++    // Modul 28, firmware LATIHAN 1.7.2-uji: kunci sengaja dirusak DI RAM SAJA (NVS tidak disentuh). Broker menolaknya,
++    // masa uji 60 detik lewat, dan Node 1 kembali sendiri ke firmware sebelumnya, yang memakai kunci asli dari NVS.
++    kunci = "kunci-dirusak-UJI_KUNCI_SALAH";
++    logError("UJI_KUNCI_SALAH = 1: kunci broker sengaja salah (latihan rollback Modul 28).");
++  }
+   // Nama klien = device_id; nama pengguna = device_id (Wokwi berkunci: rw); kunci dari NVS (nullptr = tanpa kunci);
+   // lalu surat wasiat: topik status, QoS 1, retained, isi "offline" (Modul 11, Konsep 7).
+   if (mqtt.connect(idPerangkat, pengguna, kunci[0] != '\0' ? kunci : nullptr, topikStatus, 1, true, "offline")) {
+@@ -480,11 +667,14 @@ static void cobaSambungkanBroker() {
+       // pun me-restart Node 1. Simpan alamat IP-nya: sambung ulang berikutnya tidak perlu DNS lagi.
+       mqtt.setServer(klienJaringan.remoteIP(), portBroker);
+     }
+-    mqtt.publish(topikStatus, "online", true);  // retained: pelanggan yang datang belakangan tetap melihatnya
+-    mqtt.subscribe(topikCmd, 1);                // langganan diulang setiap kali tersambung (clean session)
++    bool terbit = mqtt.publish(topikStatus, "online", true);  // retained: pelanggan yang datang belakangan tetap melihatnya
++    bool langganan = mqtt.subscribe(topikCmd, 1);            // langganan diulang setiap kali tersambung (clean session)
+     logInfo("MQTT tersambung ke broker %s:%u dalam %lu ms, sebagai %s", alamatBroker, portBroker, millis() - mulai,
+             pengguna);
+     sudahKirimVitals = false;  // vitals pertama segera dikirim
++    if (terbit && langganan) {
++      firmwareTerbukti();  // Modul 28 (masa-uji.cpp): kunci diterima + "online" terbit + cmd dilanggan = firmware SAH
++    }
+     return;
+   }
+   int kode = mqtt.state();
+@@ -494,7 +684,7 @@ static void cobaSambungkanBroker() {
+              kunci[0] != '\0' ? "salah, belum didaftarkan, atau sudah dicabut" : "belum diisi", JEDA_COBA_DITOLAK / 1000);
+     logInfo("Kunci baru? Ketik di Serial Monitor: kunci <isi>, lalu Enter.");
+   } else if (kode != kodeGagalTerakhir) {  // kegagalan yang sama tidak dicatat setiap 5 detik
+-    logError("MQTT gagal tersambung ke broker setelah %lu ms: %s (kode %d). Broker di gateway menyala?",
++    logError("MQTT gagal tersambung ke broker setelah %lu ms: %s (kode %d). Broker di gerbang menyala?",
+              millis() - mulai, namaKeadaanMqtt(kode), kode);
+   }
+   kodeGagalTerakhir = kode;
+@@ -514,7 +704,7 @@ static void jagaMqtt() {
+     // ikut kehilangan broker dan baru menyambung lagi beberapa detik kemudian. vitals tidak retained, jadi laporan yang
+     // terbit sebelum server berlangganan lagi tidak akan pernah sampai.
+     bool laporanMenungguServer = laporanMenunggu && millis() - waktuSelesaiOffline < TUNDA_LAPORAN;
+-    if (!laporanMenungguServer && (!sudahKirimVitals || millis() - waktuVitalsTerakhir >= JEDA_VITALS)) {
++    if (!laporanMenungguServer && (!sudahKirimVitals || millis() - waktuVitalsTerakhir >= jedaVitalsDetik() * 1000UL)) {
+       kirimVitals();
+     }
+     return;
+@@ -772,8 +962,10 @@ void cetakInfoJaringan() {
+   }
+   Serial.printf("mqtt: nama pengguna %s, kunci %s\n", pengguna,  // Modul 21
+                 kunciBroker()[0] != '\0' ? "tersimpan (rinciannya: ketik kunci)" : "BELUM ADA");
+-  Serial.printf("mqtt: telemetry setiap %lu detik dan segera saat ada kejadian penting, vitals setiap %lu menit, "
+-                "%lu kali terbit\n", JEDA_KIRIM / 1000, JEDA_VITALS / 60000, jumlahTerbit);
++  Serial.printf("mqtt: alamat broker %s (%s)\n", alamatBroker,  // Modul 28
++                PAKAI_WOKWI ? "Wokwi" : (alamatBrokerDariNvs() ? "dari NVS" : "dari konfigurasi.h"));
++  Serial.printf("mqtt: telemetry setiap %lu detik dan segera saat ada kejadian penting, vitals setiap %lu detik, "
++                "%lu kali terbit\n", JEDA_KIRIM / 1000, jedaVitalsDetik(), jumlahTerbit);
+   unsigned long sekarang = millis();  // Modul 19: mode offline
+   if (offline) {
+     Serial.printf("mode offline: YA, sejak %lu detik lalu; pengaman sudah menyalakan kipas %u kali\n",
+@@ -792,6 +984,7 @@ void cetakInfoJaringan() {
+ }
+ 
+ void lupakanWiFi() {
++  bersiapRestart("perintah wifi lupa");  // Modul 28: offline-mode + putus rapi (dan laporan bila di tengah masa uji)
+   Serial.println("WiFi tersimpan dihapus. Restart sekarang; portal WiFi akan terbuka.");
+   Serial.flush();
+   WiFi.disconnect(true, true);  // true, true = matikan radio DAN hapus WiFi tersimpan dari NVS
+@@ -851,3 +1044,55 @@ void gantiKunciBroker() {
+     klienJaringan.stop();
+   }
+ }
++
++// ---------- Modul 28: pembaruan firmware dan pendaftaran ----------
++const char* deviceId() {
++  return idPerangkat;
++}
++
++bool wifiTersambung() {
++  return tersambung;
++}
++
++// Alamat broker baru (Serial "broker", "klaim", atau portal): dipakai untuk sambungan berikutnya, yang dicoba sekarang.
++void gantiAlamatBroker() {
++  if (PAKAI_WOKWI) {
++    logInfo("Mode Wokwi: alamat broker tetap broker publik; alamat baru dipakai di jaringan rumah.");
++    return;
++  }
++  alamatBroker = alamatBrokerTersimpan();
++  mqtt.setServer(alamatBroker, portBroker);
++  gantiKunciBroker();  // putus (kalau tersambung) dan coba sekarang, tanpa menunggu jeda
++}
++
++// Berhenti sengaja (kontrak 1.6 bagian 3): sebelum memasang firmware baru atau restart atas perintah, Node 1 menerbitkan
++// "offline-mode" (retained, QoS 1), lalu memutus sambungan dengan pesan DISCONNECT. Broker tidak menerbitkan wasiat
++// "offline" untuk sambungan yang diputus rapi, jadi dashboard menulis "berhenti sengaja", bukan "hilang".
++void berhentiSengaja() {
++  ditahan = true;  // mulai sekarang: tidak menyambung lagi dan tidak mengerjakan perintah baru
++  if (mqtt.connected()) {
++    mqtt.loop();  // terima pesan yang sudah datang (ack perintah update sendiri sudah terkirim di dalam callback)
++    mqtt.publish(topikStatus, "offline-mode", MQTT_QOS1, true);
++    unsigned long mulai = millis();
++    while (millis() - mulai < 300) {  // beri waktu broker menerimanya (dan menjawab PUBACK), tanpa menunggu lama
++      mqtt.loop();
++      delay(10);
++    }
++    // Data masuk yang belum terbaca (misalnya perintah yang tiba di detik terakhir) dibuang dulu. Tanpa ini, sambungan
++    // yang masih menyimpan data masuk ditutup dengan RST (bukan FIN), DISCONNECT bisa ikut terbuang, dan broker
++    // menerbitkan wasiat "offline" padahal Node 1 berhenti sengaja.
++    klienJaringan.clear();
++    mqtt.disconnect();  // DISCONNECT rapi
++    logInfo("Status offline-mode terbit, sambungan broker diputus rapi (tanpa wasiat offline).");
++  }
++  mqttTersambung = false;  // supaya jagaMqtt() tidak menulis "MQTT PUTUS"
++}
++
++// Sesudah pembaruan GAGAL (firmware lama tetap jalan tanpa restart): menyambung lagi sekarang juga. Lamanya berhenti
++// sengaja tidak dihitung sebagai mode offline Modul 19.
++void lanjutkanSambungan() {
++  ditahan = false;
++  sudahCobaMqtt = false;
++  ditolakBroker = false;
++  waktuTerakhirSiap = millis();
++}
+diff --git a/firmware/node-1-rumah/jaringan.h b/firmware/node-1-rumah/jaringan.h
+index 2b3c3b7..07a1342 100644
+--- a/firmware/node-1-rumah/jaringan.h
++++ b/firmware/node-1-rumah/jaringan.h
+@@ -22,3 +22,8 @@ void mulaiUjiOffline();                // Modul 19: perintah Serial "uji offline
+ const char* penggunaBroker();          // Modul 21: nama pengguna broker (device_id; Wokwi berkunci: "rw")
+ bool mqttDitolak();                    // Modul 21: true kalau broker menolak kunci pada percobaan terakhir
+ void gantiKunciBroker();               // Modul 21: kunci baru atau dihapus: sambung ulang SEKARANG dengan kunci itu
++const char* deviceId();                // Modul 28: device_id (12 heksadesimal huruf kecil dari MAC WiFi)
++bool wifiTersambung();                 // Modul 28: true kalau WiFi sedang tersambung (klaim dan unduhan firmware)
++void gantiAlamatBroker();              // Modul 28: alamat broker baru (portal, Serial, klaim): sambung ulang SEKARANG
++void berhentiSengaja();                // Modul 28: terbitkan "offline-mode", putus RAPI, dan jangan menyambung lagi
++void lanjutkanSambungan();             // Modul 28: sesudah pembaruan gagal: boleh (dan segera) menyambung lagi
+diff --git a/firmware/node-1-rumah/klaim.cpp b/firmware/node-1-rumah/klaim.cpp
+new file mode 100644
+index 0000000..da3c492
+--- /dev/null
++++ b/firmware/node-1-rumah/klaim.cpp
+@@ -0,0 +1,151 @@
++// klaim.cpp - isi modul klaim. Daftar fungsinya ada di klaim.h.
++// Dikompilasi penulis (arduino-cli 1.5.1, esp32 3.3.12), tetapi BELUM dijalankan di papan: README firmware, "Status 1.7.0".
++#include <Arduino.h>
++#include <HTTPClient.h>           // ikut paket esp32
++#include <NetworkClientSecure.h>  // ikut paket esp32: HTTPS dengan daftar sertifikat akar bawaan
++#include <ArduinoJson.h>
++#include "konfigurasi.h"
++#include "pencatat.h"
++#include "sistem.h"
++#include "pengaturan.h"
++#include "periksa-ota.h"
++#include "jaringan.h"
++#include "masa-uji.h"
++#include "klaim.h"
++
++const unsigned long JEDA_COBA_KLAIM = 30000;  // server tidak terjangkau atau 503: coba lagi 30 detik kemudian
++const int PERCOBAAN_KLAIM_MAKS = 3;           // paling banyak 3 kali; sesudah itu ketik "klaim <kode>" lagi
++
++static char kodeKlaim[13] = "";  // RAM saja: kode sekali pakai tidak pernah ditulis ke NVS
++static bool menunggu = false;
++static bool sudahCoba = false;
++static int percobaan = 0;
++static unsigned long waktuCobaTerakhir = 0;
++
++static void selesaiKlaim() {
++  memset(kodeKlaim, 0, sizeof(kodeKlaim));  // kodenya dihapus dari RAM juga
++  menunggu = false;
++}
++
++const char* mulaiKlaim(const char* kode) {
++  const char* salah = periksaKodeKlaim(kode);  // periksa-ota.cpp: hanya bentuknya
++  if (salah != nullptr) {
++    return salah;
++  }
++  if (dalamMasaUji()) {
++    return "tunggu masa uji firmware baru selesai (ketik: ota)";
++  }
++  if (alamatServerTersimpan()[0] == '\0') {
++    return "alamat server belum diisi: ketik klaim <kode> <alamat server>, atau server <alamat> dulu";
++  }
++  snprintf(kodeKlaim, sizeof(kodeKlaim), "%s", kode);
++  menunggu = true;
++  sudahCoba = false;
++  percobaan = 0;
++  logInfo("Kode klaim diterima (tidak disimpan di NVS); dikirim ke %s begitu WiFi siap.", alamatServerTersimpan());
++  return nullptr;
++}
++
++static void kirimKlaim(const char* server, bool https) {
++  sudahCoba = true;
++  waktuCobaTerakhir = millis();
++  percobaan++;
++  char url[PANJANG_ALAMAT_SERVER_MAKS + 24];
++  snprintf(url, sizeof(url), "%s/api/provision/klaim", server);
++  char isi[64];  // kode sudah diperiksa (huruf, angka, -, spasi), jadi aman ditulis langsung ke JSON
++  snprintf(isi, sizeof(isi), "{\"kode\":\"%s\",\"device_id\":\"%s\"}", kodeKlaim, deviceId());
++  logInfo("Klaim: mengirim kode ke %s (percobaan %d dari %d)...", url, percobaan, PERCOBAAN_KLAIM_MAKS);
++
++  aturBatasWatchdog(BATAS_WATCHDOG_OTA);  // jabat tangan HTTPS bisa lebih dari 5 detik
++  NetworkClient polos;
++  NetworkClientSecure aman;
++  NetworkClient* klien = &polos;
++  if (https) {
++    aman.useBuiltinCACertBundle();
++    aman.setHandshakeTimeout(20);
++    klien = &aman;
++  }
++  HTTPClient http;
++  int kode = HTTPC_ERROR_CONNECTION_REFUSED;
++  String jawaban;
++  unsigned long mulai = millis();
++  if (http.begin(*klien, url)) {
++    http.setConnectTimeout(5000);
++    http.setTimeout(10000);
++    http.addHeader("Content-Type", "application/json");
++    kode = http.POST(String(isi));
++    if (kode > 0) {
++      jawaban = http.getString();
++    }
++    http.end();
++  }
++  aturBatasWatchdog(BATAS_WATCHDOG);
++  unsigned long lama = millis() - mulai;
++
++  JsonDocument dokumen;
++  bool jsonSah = kode > 0 && !deserializeJson(dokumen, jawaban);
++  if (kode == HTTP_CODE_CREATED) {
++    const char* kunci = jsonSah ? (dokumen["kunci"] | "") : "";
++    if (!simpanKunciBroker(kunci)) {  // pengaturan.cpp: 1-64 huruf A-Z, a-z, 0-9, - atau _
++      logError("Klaim: jawaban 201 tanpa kunci yang sah. Laporkan ke admin.");
++      selesaiKlaim();
++      return;
++    }
++    logInfo("Klaim BERHASIL dalam %lu ms: kunci perangkat disimpan di NVS (nama pengguna broker %s). Menyambung ke broker...",
++            lama, deviceId());
++    gantiKunciBroker();  // jaringan.cpp: langsung dicoba dengan kunci baru
++    selesaiKlaim();
++    return;
++  }
++  const char* pesan = jsonSah ? (dokumen["pesan"] | (dokumen["message"] | "")) : "";
++  if (kode <= 0) {
++    char tls[48] = "";
++    if (https) {
++      aman.lastError(tls, sizeof(tls));
++    }
++    logError("Klaim GAGAL: server %s tidak terjangkau (%s)%s%s", server, HTTPClient::errorToString(kode).c_str(),
++             tls[0] != '\0' ? ": " : "", tls);
++  } else {
++    logError("Klaim DITOLAK %d: %s", kode, pesan[0] != '\0' ? pesan : "(tanpa pesan)");
++  }
++  if (kode == 403) {
++    logInfo("Kode salah, kedaluwarsa, atau sudah dipakai: minta kode baru ke admin (/armada, Buat kode klaim).");
++  } else if (kode == 409) {
++    logInfo("Perangkat ini masih terdaftar dan aktif: nonaktifkan dulu di /armada, lalu klaim lagi dengan kode baru.");
++  } else if (kode == 429) {
++    logInfo("Terlalu banyak percobaan: tunggu 1 menit, lalu ketik klaim <kode> lagi.");
++  }
++  if ((kode <= 0 || kode == 503) && percobaan < PERCOBAAN_KLAIM_MAKS) {  // 503: kodenya TIDAK hangus
++    logInfo("Klaim dicoba lagi %lu detik lagi.", JEDA_COBA_KLAIM / 1000);
++  } else {
++    selesaiKlaim();
++  }
++}
++
++void perbaruiKlaim() {
++  if (!menunggu || dalamMasaUji() || !wifiTersambung()) {
++    return;
++  }
++  if (sudahCoba && millis() - waktuCobaTerakhir < JEDA_COBA_KLAIM) {
++    return;
++  }
++  const char* server = alamatServerTersimpan();
++  if (server[0] == '\0') {
++    logError("Klaim dibatalkan: alamat server belum diisi.");
++    selesaiKlaim();
++    return;
++  }
++  // HTTPS tidak perlu menunggu jam internet: paket esp32 3.3.12 memeriksa rantai sertifikat dan nama server, tetapi TIDAK
++  // memeriksa tanggal berlakunya (CONFIG_MBEDTLS_HAVE_TIME_DATE mati di paket itu). Jadi klaim dikirim begitu WiFi siap.
++  bool https = strncmp(server, "https://", 8) == 0;
++  kirimKlaim(server, https);
++}
++
++void cetakInfoKlaim() {
++  if (menunggu) {
++    Serial.printf("klaim: kode menunggu dikirim ke %s (sudah %d dari %d percobaan)\n", alamatServerTersimpan(), percobaan,
++                  PERCOBAAN_KLAIM_MAKS);
++  } else {
++    Serial.println("klaim: tidak ada kode yang menunggu");
++  }
++}
+diff --git a/firmware/node-1-rumah/klaim.h b/firmware/node-1-rumah/klaim.h
+new file mode 100644
+index 0000000..8d9e4e0
+--- /dev/null
++++ b/firmware/node-1-rumah/klaim.h
+@@ -0,0 +1,11 @@
++// klaim.h - mendaftar dengan KODE KLAIM dari admin (Modul 28, KONTRAK-DATA.md 1.6 bagian 10).
++// Kode diketik di portal WiFi (kolom "Kode klaim") atau di Serial Monitor ("klaim <kode>"). Begitu WiFi tersambung,
++// Node 1 mengirim sekali:
++//   POST <alamat server>/api/provision/klaim {"kode":"7K2M-QF9D","device_id":"<device_id>"}
++// Jawaban 201 membawa kunci perangkat; kunci itu disimpan di NVS seperti "kunci <isi>" (Modul 21), lalu Node 1 langsung
++// menyambung ke broker. Kodenya sendiri TIDAK disimpan di NVS: hanya di RAM sampai dipakai.
++#pragma once
++
++const char* mulaiKlaim(const char* kode);  // nullptr = kode diterima dan akan dikirim; selain itu alasannya
++void perbaruiKlaim();                      // panggil di setiap putaran loop(): mengirim kode begitu WiFi siap
++void cetakInfoKlaim();                     // bagian dari jawaban perintah Serial "klaim"
+diff --git a/firmware/node-1-rumah/konfigurasi.h b/firmware/node-1-rumah/konfigurasi.h
+index 13dbcde..02d7a26 100644
+--- a/firmware/node-1-rumah/konfigurasi.h
++++ b/firmware/node-1-rumah/konfigurasi.h
+@@ -2,7 +2,9 @@
+ // Pin mengikuti PETA-PIN.md. Angka kalibrasi adalah hasil Modul 6 milikmu sendiri.
+ #pragma once
+ 
+-const char VERSI_FIRMWARE[] = "1.6.0";
++// Modul 28: SemVer x.y.z. NAIKKAN setiap kali firmware berubah: server menolak versi yang sama diunggah dua kali.
++const char VERSI_FIRMWARE[] = "1.7.0";
++const char CATATAN_VERSI[] = "dipasang lewat kabel";  // Modul 28: kalimat pendek di Serial saat menyala, boleh diganti
+ 
+ // ---------- Peta pin kanonik Node 1 (salinan dari PETA-PIN.md) ----------
+ const int PIN_LED_STATUS = 2;    // Modul 2; pindah dari D4 ke D2 di Modul 15 (D4 kini untuk DE/RE RS-485)
+@@ -51,10 +53,10 @@ const unsigned long BATAS_PORTAL = 180;    // detik: portal menutup sendiri kala
+ const char ZONA_WAKTU[] = "WIB-7";         // WITA: "WITA-8", WIT: "WIT-9" (Modul 10, Praktik 5)
+ 
+ // ---------- Modul 11: MQTT ----------
+-const char ALAMAT_BROKER[] = "192.168.1.37";  // GANTI dengan alamat tetap gateway Pi-mu (Modul 12, Praktik 2)
++const char ALAMAT_BROKER[] = "192.168.1.37";  // GANTI dengan alamat tetap gerbang Pi-mu (Modul 12, Praktik 2)
+ const uint16_t PORT_BROKER = 1883;
+ const unsigned long JEDA_KIRIM = 10000;       // telemetry setiap 10 detik, ditambah segera saat ada kejadian penting
+-const unsigned long JEDA_VITALS = 300000;     // vitals (kesehatan Node 1) setiap 5 menit
++const unsigned long JEDA_VITALS = 300000;     // vitals (kesehatan Node 1) setiap 5 menit; mulai Modul 28 = angka bawaan
+ 
+ // ---------- Modul 14: jembatan ESP-NOW untuk Node 2 "Kebun" ----------
+ // Alamat MAC WiFi Node 2, dicetak Node 2 saat pertama menyala. Paket ESP-NOW dari alamat lain ditolak.
+@@ -81,3 +83,20 @@ const unsigned long LAMA_UJI_OFFLINE = 180000;    // perintah "uji offline": bro
+ // ---------- Modul 21: akun broker ----------
+ // Nama pengguna broker = device_id. Kuncinya TIDAK ditulis di kode: ketik "kunci <isi>" di Serial Monitor (disimpan di NVS).
+ const bool WOKWI_BERKUNCI = false;  // Wokwi saja: true = broker publik BERKUNCI test.mosquitto.org:1884, akun publik "rw"
++
++// ---------- Modul 28: pembaruan firmware lewat udara (OTA), masa uji, dan pendaftaran ----------
++// Alamat server rumah: tempat Node 1 mengunduh firmware (<alamat>/fw/node-1/<versi>.bin) dan menukar kode klaim.
++// Biasanya diisi lewat portal WiFi (kolom "Alamat server") atau Serial "server <alamat>", lalu tersimpan di NVS.
++// Angka di sini hanya dipakai selama NVS belum berisi alamat. Kosong = belum ada (pembaruan ditolak sampai diisi).
++// Contoh: "https://iot.namaanda.my.id" (VPS, Modul 27) atau "http://192.168.1.37" (Pi jalur gratis, hanya IP rumah; tanpa
++// port = port 80 Pi, yang diteruskan Docker ke pintu perangkat 8081 di DALAM kontainer web, jadi jangan menulis :8081).
++// Isinya harus SAMA PERSIS dengan ALAMAT_SERVER di .env server (paling panjang 64 huruf, huruf kecil, tanpa / di akhir).
++const char ALAMAT_SERVER_BAWAAN[] = "";
++const unsigned long MASA_UJI_OTA = 60000;         // firmware baru harus tersambung ke broker dan terbit dalam 60 detik
++const unsigned long BATAS_WATCHDOG_OTA = 60000;   // selama mengunduh firmware atau klaim: watchdog dilonggarkan ke 60 detik
++const unsigned long JEDA_VITALS_MIN_S = 60;       // config "jeda.vitals_s" dari server: 60-3600 detik (kontrak data 1.6)
++const unsigned long JEDA_VITALS_MAKS_S = 3600;
++// Saklar LATIHAN rollback (Modul 28, firmware 1.7.2-uji). 0 = normal. 1 = sebelum menyambung ke broker, kunci broker
++// sengaja dirusak DI RAM SAJA (NVS tidak disentuh), jadi broker menolak firmware ini, masa uji 60 detik lewat, dan
++// Node 1 kembali sendiri ke firmware sebelumnya. Sesudah latihan, KEMBALIKAN ke 0.
++const int UJI_KUNCI_SALAH = 0;
+diff --git a/firmware/node-1-rumah/kunci.contoh.h b/firmware/node-1-rumah/kunci.contoh.h
+index 9568656..8cd3607 100644
+--- a/firmware/node-1-rumah/kunci.contoh.h
++++ b/firmware/node-1-rumah/kunci.contoh.h
+@@ -6,3 +6,7 @@
+ const bool PAKAI_ENKRIPSI = false;
+ const char KUNCI_PMK[] = "Contoh16HurufPMK";  // tepat 16 huruf/angka
+ const char KUNCI_LMK[] = "Contoh16HurufLMK";  // tepat 16 huruf/angka
++// Modul 28 (Node 1 saja; Node 2 mengabaikannya): sandi portal WiFi Node 1, 8-63 huruf. Hapus tanda // di depan baris di
++// bawah, ganti sandinya dengan milikmu, lalu tulis sandi yang sama di label kotak Node 1. Tanpa baris ini, portal WiFi
++// terbuka tanpa sandi seperti di Modul 10. JANGAN memakai sandi contoh ini.
++// #define SANDI_PORTAL "ganti-sandi-portal-ini"
+diff --git a/firmware/node-1-rumah/masa-uji.cpp b/firmware/node-1-rumah/masa-uji.cpp
+new file mode 100644
+index 0000000..17f7319
+--- /dev/null
++++ b/firmware/node-1-rumah/masa-uji.cpp
+@@ -0,0 +1,153 @@
++// masa-uji.cpp - isi modul masa uji. Daftar fungsinya ada di masa-uji.h.
++// Dikompilasi penulis (arduino-cli 1.5.1, esp32 3.3.12), tetapi BELUM dijalankan di papan: README firmware, "Status 1.7.0".
++#include <Arduino.h>
++#include <esp_ota_ops.h>  // ESP-IDF: keadaan rak program (otadata), sahkan atau batalkan firmware
++#include <esp_task_wdt.h> // watchdog: menjaga setup() selama masa uji
++#include "konfigurasi.h"
++#include "pencatat.h"
++#include "sistem.h"
++#include "layar.h"
++#include "pembaruan.h"
++#include "masa-uji.h"
++
++// ================================================================================================================
++// BARIS PALING PENTING DI MODUL 28: tanpa baris ini, rollback otomatis TIDAK PERNAH terjadi, dan tidak ada pesan apa pun.
++//
++// Bootloader paket esp32 3.3.12 sudah bisa me-rollback: firmware yang baru dipasang lewat udara menyala dengan keadaan
++// PENDING_VERIFY ("menunggu dibuktikan"). Tetapi sebelum setup() berjalan, inti Arduino (initArduino() di
++// esp32-hal-misc.c) bertanya pada fungsi verifyRollbackLater(): "mau membuktikan sendiri nanti?". Jawaban bawaannya
++// false, sehingga inti Arduino langsung menandai firmware baru SAH, sebelum ia sempat mencoba broker. Firmware dengan
++// kunci broker yang salah pun dianggap sah, dan tidak akan pernah kembali ke versi lama.
++//
++// Fungsi di bawah ini menggantikan jawaban bawaan itu dengan true: "ya, saya buktikan sendiri" (masa uji di bawah).
++//
++// Kenapa extern "C"? Fungsi bawaannya ditulis dalam bahasa C (berkas .c). C++ diam-diam mengubah nama setiap fungsi
++// saat dikompilasi (name mangling, misalnya menjadi _Z19verifyRollbackLaterv) supaya fungsi bernama sama boleh punya
++// parameter berbeda. Tanpa extern "C", fungsi kita bernama lain di mata linker, fungsi bawaan tetap dipakai, dan
++// kompilasi tetap BERHASIL tanpa peringatan apa pun. extern "C" = "pakai nama apa adanya, seperti bahasa C", sehingga
++// fungsi kita menggantikan fungsi bawaan (yang ditandai weak = "boleh diganti").
++// ================================================================================================================
++extern "C" bool verifyRollbackLater() {
++  return true;
++}
++
++static bool masaUji = false;
++
++// Batas watchdog selama setup() firmware yang sedang masa uji: 60 detik masa uji + 15 detik. Kalau setup() selesai lebih
++// cepat (biasanya beberapa detik), batasnya kembali 5 detik di akhir setup() seperti biasa.
++const unsigned long BATAS_WATCHDOG_SETUP_UJI = MASA_UJI_OTA + 15000;
++
++// Nama keadaan rak program di otadata (esp_ota_img_states_t), untuk perintah Serial "ota".
++static const char* namaKeadaan(esp_ota_img_states_t keadaan) {
++  switch (keadaan) {
++    case ESP_OTA_IMG_NEW: return "NEW, belum pernah menyala";
++    case ESP_OTA_IMG_PENDING_VERIFY: return "PENDING_VERIFY, masa uji";
++    case ESP_OTA_IMG_VALID: return "VALID, sudah terbukti";
++    case ESP_OTA_IMG_INVALID: return "INVALID, ditolak";
++    case ESP_OTA_IMG_ABORTED: return "ABORTED, batal";
++    case ESP_OTA_IMG_UNDEFINED: return "UNDEFINED, dipasang lewat kabel";
++    default: return "tidak dikenal";
++  }
++}
++
++void mulaiMasaUji() {
++  const esp_partition_t* berjalan = esp_ota_get_running_partition();
++  esp_ota_img_states_t keadaan;
++  if (berjalan == nullptr || esp_ota_get_state_partition(berjalan, &keadaan) != ESP_OK) {
++    return;  // keadaan tidak tercatat (misalnya baru dipasang lewat kabel): tidak ada masa uji
++  }
++  if (keadaan != ESP_OTA_IMG_PENDING_VERIFY) {
++    return;
++  }
++  masaUji = true;
++  logInfo("MASA UJI: firmware %s baru dipasang lewat udara di rak %s. Dalam %lu detik ia harus tersambung ke broker "
++          "dan terbit; kalau tidak, Node 1 kembali sendiri ke firmware sebelumnya.", VERSI_FIRMWARE, berjalan->label,
++          MASA_UJI_OTA / 1000);
++  logInfo("Selama masa uji, portal WiFi tidak dibuka dan perintah update ditolak.");
++
++  // Masa uji juga menjaga setup(). Biasanya watchdog baru mengawasi loop() di AKHIR setup(), dan masa uji diperiksa di
++  // loop(). Firmware baru yang macet di setup() (misalnya menunggu sensor selamanya) tidak akan pernah sampai ke loop(),
++  // jadi tidak pernah di-rollback. Karena itu, mulai sekarang watchdog mengawasi tugas ini dengan batas 75 detik: macet di
++  // setup() = watchdog me-restart Node 1, dan bootloader membatalkan firmware yang belum terbukti (PENDING_VERIFY menjadi
++  // ABORTED), sehingga Node 1 tetap kembali ke firmware lama dan melapor "rollback".
++  // Urutannya: daftarkan dulu, baru atur batasnya (memberi makan watchdog sebelum terdaftar = galat "task not found").
++  if (esp_task_wdt_status(NULL) != ESP_OK) {   // ESP_OK = tugas ini sudah diawasi
++    esp_task_wdt_add(NULL);                    // NULL = tugas yang sedang berjalan: setup() lalu loop()
++  }
++  aturBatasWatchdog(BATAS_WATCHDOG_SETUP_UJI);  // sistem.cpp
++}
++
++bool dalamMasaUji() {
++  return masaUji;
++}
++
++void firmwareTerbukti() {
++  if (!masaUji) {
++    return;
++  }
++  masaUji = false;
++  // Tandai sah DULU, baru catat di NVS: kalau listrik padam di antara keduanya, firmware ini tetap sah dan
++  // siapkanPembaruan() di nyala berikutnya menulis laporan "berhasil" dari rencana yang tertinggal.
++  esp_err_t galat = esp_ota_mark_app_valid_cancel_rollback();  // otadata: PENDING_VERIFY -> VALID
++  char pesan[PANJANG_PESAN_OTA_MAKS + 1] = "";
++  if (galat != ESP_OK) {
++    snprintf(pesan, sizeof(pesan), "gagal ditandai sah: %s", esp_err_to_name(galat));
++    logError("Firmware %s %s: restart berikutnya bisa kembali ke firmware lama.", VERSI_FIRMWARE, pesan);
++  }
++  RencanaOta r;
++  if (bacaRencanaOta(r)) {
++    if (pesan[0] == '\0' && strcmp(VERSI_FIRMWARE, r.ke) != 0) {
++      snprintf(pesan, sizeof(pesan), "fw %s, bukan %s: VERSI_FIRMWARE lupa dinaikkan?", VERSI_FIRMWARE, r.ke);
++    }
++    catatHasilOta(r.id, "berhasil", r.ke, pesan);
++    hapusRencanaOta();
++  }
++  logInfo("Firmware %s SAH: tersambung ke broker dan terbit %lu detik sesudah menyala.", VERSI_FIRMWARE, millis() / 1000);
++}
++
++void perbaruiMasaUji() {
++  if (!masaUji || millis() < MASA_UJI_OTA) {  // millis() dihitung sejak Node 1 menyala
++    return;
++  }
++  masaUji = false;
++  RencanaOta r;
++  bool adaRencana = bacaRencanaOta(r);
++  logError("Firmware %s TIDAK terbukti dalam %lu detik (tidak tersambung ke broker): ROLLBACK ke firmware sebelumnya.",
++           VERSI_FIRMWARE, MASA_UJI_OTA / 1000);
++  if (adaRencana) {  // laporan disimpan SEBELUM restart: sesudah restart, yang menyala adalah firmware lama
++    catatHasilOta(r.id, "rollback", r.ke, "tidak tersambung ke broker dalam 60 detik");
++    hapusRencanaOta();
++  }
++  tampilkanPesan("ROLLBACK", "firmware baru gagal", "kembali ke versi", adaRencana ? r.dari : "sebelumnya");
++  Serial.flush();
++  esp_err_t galat = esp_ota_mark_app_invalid_rollback_and_reboot();  // otadata: INVALID, lalu restart ke rak lama
++  // Kalau sampai di sini, fungsi di atas GAGAL dan tidak me-restart (misalnya rak lama tidak sah). Restart biasa tetap
++  // membatalkan firmware ini: bootloader mengubah PENDING_VERIFY menjadi ABORTED dan memilih rak lama.
++  logError("Rollback otomatis gagal (%s): restart biasa.", esp_err_to_name(galat));
++  Serial.flush();
++  delay(100);
++  ESP.restart();
++}
++
++void cetakInfoRak() {
++  const esp_partition_t* berjalan = esp_ota_get_running_partition();
++  const esp_partition_t* sebelah = esp_ota_get_next_update_partition(nullptr);
++  esp_ota_img_states_t keadaan;
++  const char* teks = "tidak tercatat (dipasang lewat kabel)";
++  if (berjalan != nullptr && esp_ota_get_state_partition(berjalan, &keadaan) == ESP_OK) {
++    teks = namaKeadaan(keadaan);
++  }
++  Serial.printf("ota: rak berjalan %s (%s); rak sebelah %s, %lu byte\n", berjalan != nullptr ? berjalan->label : "?", teks,
++                sebelah != nullptr ? sebelah->label : "TIDAK ADA (skema partisi tanpa OTA)",
++                sebelah != nullptr ? (unsigned long)sebelah->size : 0UL);
++  const esp_partition_t* batal = esp_ota_get_last_invalid_partition();
++  if (batal != nullptr) {
++    Serial.printf("ota: rak %s pernah dibatalkan (firmware yang gagal membuktikan diri)\n", batal->label);
++  }
++  if (masaUji) {
++    unsigned long sisa = millis() < MASA_UJI_OTA ? (MASA_UJI_OTA - millis()) / 1000 : 0;
++    Serial.printf("ota: MASA UJI, sisa %lu detik\n", sisa);
++  } else {
++    Serial.println("ota: masa uji: tidak");
++  }
++}
+diff --git a/firmware/node-1-rumah/masa-uji.h b/firmware/node-1-rumah/masa-uji.h
+new file mode 100644
+index 0000000..c868349
+--- /dev/null
++++ b/firmware/node-1-rumah/masa-uji.h
+@@ -0,0 +1,10 @@
++// masa-uji.h - masa uji 60 detik untuk firmware yang baru dipasang lewat udara, dan rollback otomatis (Modul 28).
++// Firmware baru SAH kalau dalam 60 detik sejak menyala ia tersambung ke broker (kuncinya diterima), menerbitkan "online",
++// dan berlangganan cmd. Kalau tidak, Node 1 kembali sendiri ke firmware sebelumnya (kontrak data 1.6, aturan 13).
++#pragma once
++
++void mulaiMasaUji();      // dipanggil siapkanPembaruan() di setup(): rak yang berjalan baru dipasang? masa uji dimulai
++bool dalamMasaUji();      // true selama firmware ini belum terbukti (portal WiFi dan perintah update ditunda)
++void firmwareTerbukti();  // dipanggil jaringan.cpp sesudah tersambung ke broker, "online" terbit, dan cmd dilanggan
++void perbaruiMasaUji();   // dipanggil perbaruiPembaruan() di setiap putaran loop(): 60 detik lewat = rollback
++void cetakInfoRak();      // bagian dari jawaban perintah Serial "ota": rak berjalan, rak sebelah, masa uji
+diff --git a/firmware/node-1-rumah/node-1-rumah.ino b/firmware/node-1-rumah/node-1-rumah.ino
+index 18410e6..c180671 100644
+--- a/firmware/node-1-rumah/node-1-rumah.ino
++++ b/firmware/node-1-rumah/node-1-rumah.ino
+@@ -1,6 +1,14 @@
+-// Node 1 "Rumah" - firmware v1.6.0 (Modul 21: masuk ke broker dengan nama pengguna dan kunci)
++// Node 1 "Rumah" - firmware v1.7.0 (Modul 28: pembaruan lewat udara, rollback otomatis, kode klaim)
+ // Proyek benang merah: Rumah Pintar Mini.
+ //
++// Baru di v1.7.0: Node 1 bisa diperbarui tanpa kabel. Perintah MQTT "update" dari server (tombol Perbarui di /armada)
++// membuat Node 1 berhenti sengaja (status offline-mode), mengunduh firmware dari <alamat server>/fw/node-1/<versi>.bin
++// dengan kuncinya sendiri, memeriksa sidik SHA-256, lalu menyala ulang ke rak program sebelah. Firmware baru harus
++// tersambung ke broker dan terbit dalam 60 detik; kalau tidak, Node 1 kembali sendiri ke firmware lama (rollback,
++// masa-uji.cpp). Papan baru bisa didaftarkan dengan kode klaim dari admin (portal WiFi atau Serial "klaim <kode>").
++// vitals kini membawa reset_reason, fw, dan laporan pembaruan (kontrak data 1.6); jedanya bisa diatur server.
++// Firmware 1.7.0 adalah firmware terakhir yang WAJIB dipasang lewat kabel: versi sesudahnya bisa lewat udara. Versi di
++// bawah 1.7.0 ditolak lewat udara (tidak punya masa uji dan rollback): pasang lewat kabel.
+ // Baru di v1.6.0: Node 1 masuk ke broker dengan nama pengguna = device_id dan kunci perangkatnya sendiri. Kuncinya tidak
+ // pernah ditulis di kode: ketik "kunci <isi>" di Serial Monitor sekali, dan Node 1 menyimpannya di NVS. Kalau broker
+ // menolak (kunci salah, belum diisi, atau dicabut), Serial Monitor dan layar menulis DITOLAK, dan Node 1 mencoba lagi
+@@ -22,13 +30,16 @@
+ // Dari v1.0.0 (Modul 8): tanpa delay() di loop(), kode modular, watchdog, NVS, log bertingkat, halaman status.
+ // Perintah lewat Serial Monitor: lampu on, kipas off, pompa 3, tirai 90, bunyi, status, info,
+ // ambang, ambang 35, ambang bawaan, log debug, log info, log error, wifi, wifi lupa, kirim, node2, node2 nol,
+-// rs485, rs485 on, rs485 off, uji offline, kunci, kunci <isi>, kunci hapus, restart.
++// rs485, rs485 on, rs485 off, uji offline, kunci, kunci <isi>, kunci hapus, restart,
++// dan mulai v1.7.0: ota, server, server <alamat>, broker, broker <ip>, klaim, klaim <kode> [server] [broker].
+ //
+ // Library: ESP32Servo versi 3.2.1, DHT sensor library versi 1.4.7
+ // (ikut terpasang: Adafruit Unified Sensor versi 1.1.15), Adafruit SSD1306 versi 2.5.17
+ // (ikut terpasang: Adafruit GFX Library versi 1.12.6 dan Adafruit BusIO versi 1.17.4),
+ // WiFiManager versi 2.0.17, ArduinoJson versi 7.4.3, PubSubClient3 versi 3.3.2, dan ModbusMaster versi 2.0.1.
+-// Wire, SPI, SD, Preferences, dan WiFi sudah ikut paket esp32.
++// Wire, SPI, SD, Preferences, dan WiFi sudah ikut paket esp32. Modul 28: HTTPUpdate, HTTPClient, NetworkClientSecure, dan
++// Update juga ikut paket esp32, WAJIB versi 3.3.12 (setSHA256sum() dan useBuiltinCACertBundle() baru ada di versi itu).
++// Skema partisi: Minimal SPIFFS (dua rak program, Modul 10).
+ 
+ #include <esp_task_wdt.h>  // watchdog
+ #include "konfigurasi.h"
+@@ -46,6 +57,8 @@
+ #include "jaringan.h"  // Modul 10-11
+ #include "jembatan.h"  // Modul 14: Node 2 lewat ESP-NOW
+ #include "rs485.h"     // Modul 15: sensor tanah RS-485
++#include "pembaruan.h"  // Modul 28: pembaruan firmware lewat udara (OTA)
++#include "klaim.h"      // Modul 28: mendaftar dengan kode klaim
+ 
+ // ---------- Siklus utama: MENUNGGU -> MEMBACA -> MENAMPILKAN -> BERTINDAK -> MENUNGGU ... ----------
+ enum LangkahSiklus { MENUNGGU, MEMBACA, MENAMPILKAN, BERTINDAK };
+@@ -162,17 +175,19 @@ void setup() {
+   Serial.begin(115200);
+   delay(500);  // boleh: setup() hanya berjalan sekali, dan watchdog belum mengawasi
+   Serial.println();
+-  logInfo("Node 1 Rumah - firmware %s", VERSI_FIRMWARE);
++  logInfo("Node 1 Rumah - firmware %s (%s)", VERSI_FIRMWARE, CATATAN_VERSI);
+   logInfo("Alasan restart terakhir: %s", alasanReset());
+ 
+   siapkanAktuator();  // pertama: relay segera dimatikan
+   muatPengaturan();
++  siapkanPembaruan();  // Modul 28: firmware baru? masa uji 60 detik dimulai. Laporan pembaruan yang tertinggal di NVS
+   siapkanSensor();
+   mulaiDetak(PIN_LED_STATUS);
+   mulaiTombol(PIN_TOMBOL);
+   siapkanLayar();  // Modul 7
+   siapkanKartu();  // Modul 7 (opsional)
+   siapkanJaringan();  // Modul 10: portal WiFi boleh menunggu di sini karena watchdog belum mengawasi
++                      // (Modul 28: selama masa uji watchdog sudah mengawasi, tetapi portal memang ditunda)
+   siapkanJembatan();  // Modul 14: sesudah WiFi menyala
+   siapkanRS485();     // Modul 15
+ 
+@@ -183,7 +198,10 @@ void setup() {
+     .trigger_panic = true,         // terlambat diberi makan = panik, lalu restart
+   };
+   esp_task_wdt_reconfigure(&konfigurasiWatchdog);  // watchdog sudah dinyalakan paket esp32: cukup diatur ulang
+-  esp_task_wdt_add(NULL);                          // NULL = awasi tugas yang sedang berjalan, yaitu loop()
++  if (esp_task_wdt_status(NULL) != ESP_OK) {       // Modul 28: selama masa uji, tugas ini sudah diawasi sejak awal setup()
++    esp_task_wdt_add(NULL);                        // NULL = awasi tugas yang sedang berjalan, yaitu loop()
++  }
++  esp_task_wdt_reset();                            // hitungan 5 detik pertama dimulai dari sini
+   logInfo("Watchdog aktif: restart otomatis kalau loop() macet lebih dari %lu detik.", BATAS_WATCHDOG / 1000);
+ }
+ 
+@@ -197,6 +215,8 @@ void loop() {
+   perbaruiDetak();       // LED status
+   perbaruiLayar();       // halaman status: jam berdetak, lalu kembali sendiri
+   perbaruiJaringan();    // Modul 10-11: WiFi, jam internet, dan MQTT; tidak pernah menunggu lama
++  perbaruiPembaruan();   // Modul 28: masa uji 60 detik; pembaruan yang diterima (MEMBLOK sampai 1 menit lebih)
++  perbaruiKlaim();       // Modul 28: kirim kode klaim begitu WiFi siap (memblok beberapa detik, sekali saja)
+   perbaruiJembatan();    // Modul 14: paket Node 2 -> rak tunggu -> broker; tidak pernah menunggu
+   tanganiTombol();
+   periksaPerintahSerial();
+diff --git a/firmware/node-1-rumah/pembaruan.cpp b/firmware/node-1-rumah/pembaruan.cpp
+new file mode 100644
+index 0000000..6c7805e
+--- /dev/null
++++ b/firmware/node-1-rumah/pembaruan.cpp
+@@ -0,0 +1,392 @@
++// pembaruan.cpp - isi modul pembaruan. Daftar fungsinya dan urutan kerjanya ada di pembaruan.h.
++// Dikompilasi penulis (arduino-cli 1.5.1, esp32 3.3.12), tetapi BELUM dijalankan di papan: README firmware, "Status 1.7.0".
++#include <Arduino.h>
++#include <HTTPUpdate.h>           // ikut paket esp32 3.3.12: httpUpdate (unduh + tulis ke rak sebelah)
++#include <NetworkClientSecure.h>  // ikut paket esp32: HTTPS dengan daftar sertifikat akar bawaan
++#include <esp_task_wdt.h>         // watchdog
++#include "konfigurasi.h"
++#include "pencatat.h"
++#include "sistem.h"
++#include "pengaturan.h"
++#include "aktuator.h"
++#include "layar.h"
++#include "jaringan.h"
++#include "masa-uji.h"
++#include "pembaruan.h"
++
++static const char LABEL_RENCANA[] = "ota_rencana";  // label NVS (11 huruf, batas 15)
++static const char LABEL_LAPORAN[] = "ota_laporan";
++const uint8_t LAPORAN_DIULANG = 3;  // laporan ikut paling banyak 3 vitals (vitals QoS 0 bisa hilang)
++
++static LaporanOta laporan;         // salinan laporan di RAM
++static bool adaLaporan = false;
++static bool dijadwalkan = false;   // perintah update sudah diterima (ack ok:true), unduhan belum dimulai
++static bool sedangBerjalan = false;
++static char idBaru[PANJANG_ID_MAKS + 1] = "";
++static char versiBaru[PANJANG_VERSI_MAKS + 1] = "";
++static char sha256Baru[65] = "";
++static int persenTerakhir = -10;  // -10: laporan 0 % ikut tercetak
++
++// ---------- Catatan di NVS ----------
++bool bacaRencanaOta(RencanaOta& rencana) {
++  return bacaCatatan(LABEL_RENCANA, &rencana, sizeof(rencana));
++}
++
++static void simpanRencanaOta(const RencanaOta& rencana) {
++  simpanCatatan(LABEL_RENCANA, &rencana, sizeof(rencana));
++}
++
++void hapusRencanaOta() {
++  hapusCatatan(LABEL_RENCANA);
++}
++
++// Teks dari luar (pesan galat library, id perintah) dipakai di laporan: hanya huruf ASCII yang tampak, supaya JSON-nya
++// pendek dan tetap terbaca. Tanda kutip dan garis miring terbalik diganti spasi.
++static void salinRapi(char* tujuan, size_t ukuran, const char* asal) {
++  size_t i = 0;
++  for (; asal != nullptr && asal[i] != '\0' && i + 1 < ukuran; i++) {
++    char h = asal[i];
++    tujuan[i] = (h < 32 || h > 126 || h == '"' || h == '\\') ? ' ' : h;
++  }
++  tujuan[i] = '\0';
++}
++
++void catatHasilOta(const char* id, const char* hasil, const char* versi, const char* pesan) {
++  memset(&laporan, 0, sizeof(laporan));
++  snprintf(laporan.id, sizeof(laporan.id), "%s", id);  // id dipakai server untuk mencocokkan: disalin apa adanya
++  snprintf(laporan.hasil, sizeof(laporan.hasil), "%s", hasil);
++  snprintf(laporan.versi, sizeof(laporan.versi), "%s", versi);
++  salinRapi(laporan.pesan, sizeof(laporan.pesan), pesan);
++  laporan.terkirim = 0;
++  simpanCatatan(LABEL_LAPORAN, &laporan, sizeof(laporan));
++  adaLaporan = true;
++  logInfo("Laporan pembaruan disimpan: %s ke %s%s%s (ikut %u vitals berikutnya)", laporan.hasil, laporan.versi,
++          laporan.pesan[0] != '\0' ? ": " : "", laporan.pesan, LAPORAN_DIULANG);
++}
++
++const LaporanOta* laporanOtaMenunggu() {
++  return adaLaporan ? &laporan : nullptr;
++}
++
++void laporanOtaTerkirim() {
++  if (!adaLaporan) {
++    return;
++  }
++  laporan.terkirim++;
++  if (laporan.terkirim >= LAPORAN_DIULANG) {
++    hapusCatatan(LABEL_LAPORAN);
++    adaLaporan = false;
++    logInfo("Laporan pembaruan sudah %u kali ikut vitals: selesai.", LAPORAN_DIULANG);
++  } else {
++    simpanCatatan(LABEL_LAPORAN, &laporan, sizeof(laporan));  // hitungannya ikut tersimpan, walau Node 1 restart
++  }
++}
++
++// ---------- Saat menyala ----------
++static bool menyalaKarenaListrik() {  // padam lalu menyala lagi, bukan restart oleh program atau watchdog
++  return strcmp(alasanReset(), "POWERON") == 0 || strcmp(alasanReset(), "BROWNOUT") == 0;
++}
++
++void siapkanPembaruan() {
++  if (bacaCatatan(LABEL_LAPORAN, &laporan, sizeof(laporan)) && laporan.terkirim < LAPORAN_DIULANG) {
++    adaLaporan = true;
++    logInfo("Laporan pembaruan menunggu dikirim: %s ke %s (sudah %u dari %u kali)", laporan.hasil, laporan.versi,
++            laporan.terkirim, LAPORAN_DIULANG);
++  }
++  mulaiMasaUji();  // masa-uji.cpp: rak berjalan baru dipasang lewat udara? masa uji 60 detik dimulai
++
++  RencanaOta r;
++  if (!bacaRencanaOta(r)) {
++    return;  // tidak ada pembaruan yang tertinggal
++  }
++  char pesan[PANJANG_PESAN_OTA_MAKS + 1];
++  // Rencana "mengunduh" yang ditemukan firmware yang sedang MASA UJI bukan unduhan gagal: listrik padam tepat sesudah
++  // library selesai memasang firmware ini (rak sudah dipilih) tetapi sebelum rencananya sempat ditulis "dipasang".
++  // Rencana itu diserahkan ke masa uji di bawah, yang nanti melapor berhasil atau rollback.
++  if (r.tahap == TAHAP_MENGUNDUH && !dalamMasaUji()) {
++    // Menyala lagi di tengah unduhan (listrik padam atau watchdog). Rak lama utuh: 16 byte pertama rak baru baru ditulis
++    // paling akhir oleh library, jadi rak setengah jadi tidak pernah dijalankan bootloader.
++    if (menyalaKarenaListrik()) {
++      snprintf(pesan, sizeof(pesan), "padam saat mengunduh");
++    } else {
++      snprintf(pesan, sizeof(pesan), "menyala ulang saat mengunduh (%s)", alasanReset());
++    }
++    logError("Pembaruan ke %s tidak selesai: %s. Firmware %s tetap dipakai.", r.ke, pesan, VERSI_FIRMWARE);
++    catatHasilOta(r.id, "gagal", r.ke, pesan);
++    hapusRencanaOta();
++    return;
++  }
++  if (dalamMasaUji()) {  // firmware ini yang baru dipasang: rencananya dipakai masa uji (masa-uji.cpp)
++    if (strcmp(VERSI_FIRMWARE, r.ke) != 0) {
++      logError("PERINGATAN: berkas versi %s ternyata berisi VERSI_FIRMWARE %s. Lupa menaikkan VERSI_FIRMWARE sebelum "
++               "Export Compiled Binary?", r.ke, VERSI_FIRMWARE);
++    }
++    return;
++  }
++  if (strcmp(VERSI_FIRMWARE, r.dari) == 0) {
++    // Firmware lama yang menyala: bootloader membatalkan firmware baru (ABORTED) karena Node 1 menyala ulang di tengah
++    // masa ujinya (listrik padam, program mogok, atau watchdog) sebelum firmware baru sempat membuktikan diri.
++    if (menyalaKarenaListrik()) {
++      snprintf(pesan, sizeof(pesan), "padam di tengah masa uji");
++    } else {
++      snprintf(pesan, sizeof(pesan), "menyala ulang di tengah masa uji (%s)", alasanReset());
++    }
++    logError("Firmware %s BATAL, kembali ke %s: %s.", r.ke, r.dari, pesan);
++    catatHasilOta(r.id, "rollback", r.ke, pesan);
++  } else if (strcmp(VERSI_FIRMWARE, r.ke) == 0) {
++    // Firmware baru sudah ditandai sah, tetapi listrik padam sebelum rencananya sempat dihapus.
++    logInfo("Firmware %s sudah sah sebelum Node 1 padam: laporan berhasil dikirim sekarang.", r.ke);
++    catatHasilOta(r.id, "berhasil", r.ke, "");
++  } else {
++    logInfo("Rencana pembaruan lama (%s ke %s) dibuang: firmware %s dipasang lewat kabel.", r.dari, r.ke, VERSI_FIRMWARE);
++  }
++  hapusRencanaOta();
++}
++
++// ---------- Menerima perintah ----------
++bool pembaruanSedangBerjalan() {
++  return dijadwalkan || sedangBerjalan;
++}
++
++const char* terimaUpdate(const char* id, const IsiUpdate& isi) {
++  static char alasan[64];  // static: isinya masih dibaca kirimAck() setelah fungsi ini selesai
++  KeadaanUpdate keadaan = {
++    VERSI_FIRMWARE, alamatServerTersimpan(), ESP.getFreeSketchSpace(), dalamMasaUji(), pembaruanSedangBerjalan(),
++  };
++  const char* tolak = periksaUpdate(isi, keadaan, alasan, sizeof(alasan));  // periksa-ota.cpp, sama dengan simulator
++  if (tolak != nullptr) {
++    return tolak;
++  }
++  // Disalin sekarang: JSON perintahnya hilang begitu fungsi pemanggil selesai. Unduhannya dikerjakan perbaruiPembaruan()
++  // di putaran loop() berikutnya, SESUDAH mqtt.loop() selesai dan ack sudah ditulis ke sambungan.
++  snprintf(idBaru, sizeof(idBaru), "%s", id);
++  snprintf(versiBaru, sizeof(versiBaru), "%s", isi.versi);
++  snprintf(sha256Baru, sizeof(sha256Baru), "%s", isi.sha256);
++  dijadwalkan = true;
++  if (bandingkanVersi(isi.versi, VERSI_FIRMWARE) < 0) {
++    logInfo("Pembaruan %s: TURUN versi %s ke %s (server mengirimnya dengan centang paksa).", id, VERSI_FIRMWARE, isi.versi);
++  }
++  return nullptr;
++}
++
++// ---------- Mengunduh ----------
++// Dipanggil HTTPUpdate setiap satu sektor (4 KB) tertulis. Inilah SATU-SATUNYA tempat watchdog diberi makan selama
++// mengunduh: kalau data berhenti datang di tengah berkas, watchdog tidak diberi makan lagi (lihat jalankanPembaruan()).
++static void saatUnduhMaju(int sudah, int total) {
++  esp_task_wdt_reset();
++  int persen = total > 0 ? (int)((long long)sudah * 100 / total) : 0;
++  if (persen / 10 != persenTerakhir / 10 || sudah == total) {
++    persenTerakhir = persen;
++    logInfo("Mengunduh firmware %s: %d %% (%d dari %d byte)", versiBaru, persen, sudah, total);
++    char baris[22];
++    snprintf(baris, sizeof(baris), "%d %%", persen);
++    tampilkanPesan("PEMBARUAN FIRMWARE", versiBaru, baris, "jangan cabut listrik");
++  }
++}
++
++// Kode galat HTTPUpdate/HTTPClient/Update menjadi kalimat pendek untuk ota.pesan (paling panjang 80 huruf).
++static void jelaskanGalat(int kode, NetworkClientSecure& aman, bool https, char* pesan, size_t ukuran) {
++  switch (kode) {
++    case HTTP_UE_TOO_LESS_SPACE:
++      snprintf(pesan, ukuran, "berkas lebih besar dari rak program (-100 HTTP_UE_TOO_LESS_SPACE)");
++      return;
++    case HTTP_UE_SERVER_NOT_REPORT_SIZE:
++      snprintf(pesan, ukuran, "server tidak memberi Content-Length (-101 HTTP_UE_SERVER_NOT_REPORT_SIZE)");
++      return;
++    case HTTP_UE_SERVER_FILE_NOT_FOUND:
++      snprintf(pesan, ukuran, "berkas tidak ada di server: 404 (-102 HTTP_UE_SERVER_FILE_NOT_FOUND)");
++      return;
++    case HTTP_UE_SERVER_FORBIDDEN:
++      snprintf(pesan, ukuran, "unduh ditolak server: 403 (-103 HTTP_UE_SERVER_FORBIDDEN)");
++      return;
++    case HTTP_UE_SERVER_WRONG_HTTP_CODE:  // termasuk 3xx: HTTPUpdate tidak mengikuti pengalihan
++      snprintf(pesan, ukuran, "jawaban server bukan 200/304/403/404 (-104 HTTP_UE_SERVER_WRONG_HTTP_CODE)");
++      return;
++    case HTTP_UE_BIN_VERIFY_HEADER_FAILED:  // http://: isi berkas yang terlambat > 0,1 detik juga berakhir di sini
++      snprintf(pesan, ukuran, "bait pertama bukan 0xE9 atau belum tiba (-106 HTTP_UE_BIN_VERIFY_HEADER_FAILED)");
++      return;
++    case HTTP_UE_NO_PARTITION:
++      snprintf(pesan, ukuran, "tidak ada rak program cadangan (-108 HTTP_UE_NO_PARTITION)");
++      return;
++    case HTTP_UE_SERVER_FAULTY_SHA256:
++      snprintf(pesan, ukuran, "sha256 perintah ditolak Update (-109 HTTP_UE_SERVER_FAULTY_SHA256)");
++      return;
++    case UPDATE_ERROR_SHA256:  // berkasnya lain dengan yang dimaksud perintah: rak lama tetap dipakai
++      snprintf(pesan, ukuran, "SHA-256 tidak cocok dengan perintah (Update 15 UPDATE_ERROR_SHA256)");
++      return;
++    case HTTPC_ERROR_READ_TIMEOUT:  // hanya saat MENUNGGU kepala jawaban server (HTTPClient), bukan di tengah berkas
++      snprintf(pesan, ukuran, "server diam 8 detik sebelum menjawab (-11 HTTPC_ERROR_READ_TIMEOUT)");
++      return;
++    case UPDATE_ERROR_STREAM:  // https://: data berhenti di TENGAH berkas, library menyerah sesudah 300 x 0,1 detik
++      snprintf(pesan, ukuran, "unduhan terhenti di tengah: 30 detik tanpa data (Update 6 UPDATE_ERROR_STREAM)");
++      return;
++    case HTTPC_ERROR_CONNECTION_REFUSED: {  // juga sertifikat HTTPS yang ditolak: rinciannya dari NetworkClientSecure
++      char tls[48] = "";
++      if (https) {
++        aman.lastError(tls, sizeof(tls));
++      }
++      snprintf(pesan, ukuran, "tidak tersambung ke server (-1)%s%s", tls[0] != '\0' ? ": " : "", tls);
++      return;
++    }
++    default:
++      break;
++  }
++  if (kode < 0) {  // galat HTTPClient lainnya (sambungan putus di tengah jalan, dan sebagainya)
++    snprintf(pesan, ukuran, "unduh gagal: %s (%d)", HTTPClient::errorToString(kode).c_str(), kode);
++  } else if (kode > 0) {  // galat Update (menulis flash, aliran data terputus, ...)
++    snprintf(pesan, ukuran, "%s (Update %d)", httpUpdate.getLastErrorString().c_str(), kode);
++  } else {
++    // http.begin() gagal: kode galat tidak diisi. Catatan: httpUpdate tidak menolkan kode galatnya di setiap percobaan,
++    // jadi sesudah kegagalan lain, kode lama yang terbaca. Praktis tidak terjadi: alamatnya sudah diperiksa sebelumnya.
++    snprintf(pesan, ukuran, "unduh gagal (alamat tidak bisa dipakai)");
++  }
++}
++
++// Mengunduh dan menulis firmware ke rak sebelah. true = berhasil (rak sebelah siap dijalankan sesudah restart).
++static bool unduhFirmware(char* pesan, size_t ukuran) {
++  if (!wifiTersambung()) {
++    snprintf(pesan, ukuran, "WiFi putus sebelum mengunduh");
++    return false;
++  }
++  if (kunciBroker()[0] == '\0') {
++    snprintf(pesan, ukuran, "kunci perangkat belum ada: unduhan butuh kunci (Modul 21)");
++    return false;
++  }
++  char url[PANJANG_ALAMAT_SERVER_MAKS + 48];
++  // Alamat unduh disusun SENDIRI dari alamat server tersimpan (sama persis dengan url perintah yang sudah diperiksa,
++  // hanya huruf kecil): kunci perangkat tidak pernah dikirim ke alamat yang ditulis orang lain.
++  if (!susunUrlFirmware(alamatServerTersimpan(), versiBaru, url, sizeof(url))) {
++    snprintf(pesan, ukuran, "alamat unduh terlalu panjang");
++    return false;
++  }
++  bool https = strncmp(url, "https://", 8) == 0;
++  // HTTPS tidak perlu menunggu jam internet: paket esp32 3.3.12 memeriksa rantai sertifikat dan nama server, tetapi TIDAK
++  // memeriksa tanggal berlakunya (CONFIG_MBEDTLS_HAVE_TIME_DATE mati di paket itu).
++  NetworkClient polos;          // http:// hanya ke alamat IP rumah (sudah diperiksa periksa-ota.cpp)
++  NetworkClientSecure aman;     // https://: sertifikat server diperiksa dengan daftar akar bawaan (ada ISRG Root X1 dan X2)
++  NetworkClient* klien = &polos;
++  if (https) {
++    aman.useBuiltinCACertBundle();  // baru ada di paket esp32 3.3.12
++    aman.setHandshakeTimeout(20);   // detik: jabat tangan TLS yang macet tidak menunggu sampai watchdog
++    klien = &aman;
++  }
++  httpUpdate.rebootOnUpdate(false);                 // restart kita lakukan sendiri, sesudah rencana di NVS diperbarui
++  httpUpdate.setLedPin(PIN_LED_STATUS, HIGH);       // LED status berkedip selama menulis
++  httpUpdate.setAuthorization(deviceId(), kunciBroker());  // Basic device_id:kunci, dicocokkan backend (Modul 21)
++  httpUpdate.setSHA256sum(sha256Baru);              // menang atas kepala x-SHA256 dari server
++  httpUpdate.onProgress(saatUnduhMaju);
++  persenTerakhir = -10;
++  logInfo("Mengunduh %s ...", url);
++  unsigned long mulai = millis();
++  HTTPUpdateResult hasil = httpUpdate.update(*klien, url, VERSI_FIRMWARE);  // x-ESP32-version = versi yang berjalan
++  if (hasil == HTTP_UPDATE_OK) {
++    logInfo("Firmware %s tertulis di rak sebelah dalam %lu detik, sidik SHA-256 cocok.", versiBaru, (millis() - mulai) / 1000);
++    return true;
++  }
++  if (hasil == HTTP_UPDATE_NO_UPDATES) {  // 304: server menganggap versi itu sudah terpasang
++    snprintf(pesan, ukuran, "server: tidak ada pembaruan (304, HTTP_UPDATE_NO_UPDATES)");
++    return false;
++  }
++  jelaskanGalat(httpUpdate.getLastError(), aman, https, pesan, ukuran);
++  return false;
++}
++
++static void jalankanPembaruan() {
++  dijadwalkan = false;
++  sedangBerjalan = true;
++  logInfo("Pembaruan %s DITERIMA: %s ke %s.", idBaru, VERSI_FIRMWARE, versiBaru);
++
++  // 1. Rencana ke NVS dulu: kalau listrik padam di tengah jalan, firmware yang menyala sesudahnya tahu harus melapor.
++  RencanaOta rencana;
++  memset(&rencana, 0, sizeof(rencana));
++  snprintf(rencana.id, sizeof(rencana.id), "%s", idBaru);
++  snprintf(rencana.dari, sizeof(rencana.dari), "%s", VERSI_FIRMWARE);
++  snprintf(rencana.ke, sizeof(rencana.ke), "%s", versiBaru);
++  rencana.tahap = TAHAP_MENGUNDUH;
++  simpanRencanaOta(rencana);
++
++  // 2. Pompa dan buzzer padam: selama mengunduh, loop() tidak berputar (pengaman lokal ikut berhenti ±1 menit).
++  padamkanPompaDanBuzzer();
++
++  // 3. Berhenti sengaja: "offline-mode" lalu DISCONNECT rapi, supaya broker tidak menerbitkan wasiat "offline".
++  berhentiSengaja();
++  tampilkanPesan("PEMBARUAN FIRMWARE", versiBaru, "menghubungi server", "jangan cabut listrik");
++
++  // 4. Watchdog dilonggarkan ke 60 detik: menyambung + menunggu jawaban server saja boleh 8 detik (lebih dari batas biasa
++  //    5 detik), dan selama berkas mengalir watchdog diberi makan setiap 4 KB (saatUnduhMaju). Kalau data BERHENTI di
++  //    tengah berkas: lewat https://, library menyerah sendiri sesudah ±30 detik (Update 6, lalu firmware lama tersambung
++  //    lagi); lewat http://, library menunggu jauh lebih lama, jadi watchdog 60 detik yang me-restart Node 1. Rak lama tetap
++  //    utuh, dan sesudah menyala firmware lama melapor "gagal: menyala ulang saat mengunduh (WDT)".
++  aturBatasWatchdog(BATAS_WATCHDOG_OTA);
++
++  // 5. Unduh + tulis + periksa sidik SHA-256.
++  char pesan[PANJANG_PESAN_OTA_MAKS + 1] = "";
++  if (unduhFirmware(pesan, sizeof(pesan))) {
++    rencana.tahap = TAHAP_DIPASANG;  // rak sebelah sudah dipilih bootloader untuk menyala berikutnya
++    simpanRencanaOta(rencana);
++    logInfo("Restart ke firmware %s. Masa uji 60 detik dimulai begitu menyala.", versiBaru);
++    tampilkanPesan("PEMBARUAN FIRMWARE", versiBaru, "berhasil diunduh", "menyala ulang...");
++    Serial.flush();
++    delay(200);
++    ESP.restart();  // reset_reason berikutnya: SW
++  }
++
++  // Gagal SEBELUM menyala ulang: rak lama utuh, firmware lama tetap berjalan tanpa restart.
++  aturBatasWatchdog(BATAS_WATCHDOG);
++  logError("Pembaruan ke %s GAGAL: %s. Firmware %s tetap dipakai.", versiBaru, pesan, VERSI_FIRMWARE);
++  catatHasilOta(idBaru, "gagal", versiBaru, pesan);
++  hapusRencanaOta();
++  sedangBerjalan = false;
++  tampilkanPesan("PEMBARUAN GAGAL", versiBaru, "firmware lama", "tetap dipakai");
++  lanjutkanSambungan();  // jaringan.cpp: tersambung lagi ke broker (online), lalu vitals membawa laporan "gagal"
++}
++
++void perbaruiPembaruan() {
++  perbaruiMasaUji();  // masa-uji.cpp: 60 detik lewat tanpa terbukti = rollback
++  if (dijadwalkan) {
++    jalankanPembaruan();
++  }
++}
++
++// ---------- Restart sengaja (perintah Serial "restart", "wifi lupa") ----------
++void bersiapRestart(const char* sebab) {
++  if (dalamMasaUji()) {
++    // Menyala ulang di tengah masa uji membatalkan firmware baru: bootloader kembali ke rak lama (kontrak aturan 13).
++    RencanaOta r;
++    if (bacaRencanaOta(r)) {
++      catatHasilOta(r.id, "rollback", r.ke, "menyala ulang di tengah masa uji");
++      hapusRencanaOta();
++    }
++    logError("Restart di tengah masa uji: firmware %s BATAL, Node 1 kembali ke firmware sebelumnya.", VERSI_FIRMWARE);
++  }
++  logInfo("Berhenti sengaja (%s): status offline-mode, lalu putus rapi dari broker.", sebab);
++  berhentiSengaja();
++}
++
++void restartSengaja(const char* sebab) {
++  bersiapRestart(sebab);
++  Serial.println("Restart sekarang...");
++  Serial.flush();  // tunggu sampai pesan di atas benar-benar terkirim
++  delay(200);
++  ESP.restart();
++}
++
++// ---------- Perintah Serial "ota" ----------
++void cetakInfoOta() {
++  Serial.printf("ota: firmware %s (%s), alamat server %s\n", VERSI_FIRMWARE, CATATAN_VERSI,
++                alamatServerTersimpan()[0] != '\0' ? alamatServerTersimpan() : "BELUM DIISI (ketik: server <alamat>)");
++  cetakInfoRak();  // masa-uji.cpp: rak berjalan, rak sebelah, masa uji
++  if (pembaruanSedangBerjalan()) {
++    Serial.printf("ota: pembaruan ke %s sedang berjalan\n", versiBaru);
++  }
++  RencanaOta r;
++  if (bacaRencanaOta(r)) {
++    Serial.printf("ota: rencana tersimpan: %s ke %s (id %s, tahap %u)\n", r.dari, r.ke, r.id, r.tahap);
++  }
++  if (adaLaporan) {
++    Serial.printf("ota: laporan menunggu: %s ke %s%s%s (id %s, sudah %u dari %u vitals)\n", laporan.hasil, laporan.versi,
++                  laporan.pesan[0] != '\0' ? ": " : "", laporan.pesan, laporan.id, laporan.terkirim, LAPORAN_DIULANG);
++  } else {
++    Serial.println("ota: tidak ada laporan pembaruan yang menunggu");
++  }
++}
+diff --git a/firmware/node-1-rumah/pembaruan.h b/firmware/node-1-rumah/pembaruan.h
+new file mode 100644
+index 0000000..ba35d4e
+--- /dev/null
++++ b/firmware/node-1-rumah/pembaruan.h
+@@ -0,0 +1,53 @@
++// pembaruan.h - pembaruan firmware lewat udara (OTA) dari server rumah, atas perintah MQTT "update" (Modul 28).
++// Urutannya (KONTRAK-DATA.md 1.6 bagian 7, sama dengan simulator alat/simulator-perangkat.js):
++//   periksa perintah -> ack ok:true ("diterima", BUKAN "selesai") -> rencana ke NVS -> pompa dan buzzer padam ->
++//   status "offline-mode" + putus RAPI dari broker -> watchdog 60 detik -> unduh <alamat server>/fw/node-1/<versi>.bin
++//   (Basic device_id:kunci, sidik SHA-256 dari perintah) -> berhasil: restart ke rak sebelah, masa uji 60 detik
++//   (masa-uji.cpp); gagal: watchdog kembali 5 detik, tersambung lagi, laporan "gagal" ikut vitals.
++// Hasil setiap pembaruan disimpan di NVS SEBELUM restart, lalu dikirim di vitals (paling banyak 3 kali).
++#pragma once
++#include <stdint.h>
++#include "versi.h"        // PANJANG_VERSI_MAKS
++#include "periksa-ota.h"  // IsiUpdate
++
++const int PANJANG_ID_MAKS = 39;         // kontrak aturan 4: id perintah paling panjang 39 huruf
++const int PANJANG_PESAN_OTA_MAKS = 80;  // kontrak 1.6: ota.pesan paling panjang 80 huruf
++
++const uint8_t TAHAP_MENGUNDUH = 1;  // rencana tersimpan, firmware sedang diunduh (rak lama masih utuh)
++const uint8_t TAHAP_DIPASANG = 2;   // firmware baru sudah tertulis di rak sebelah, Node 1 menyala ulang ke sana
++
++// Rencana pembaruan, disimpan di NVS SEBELUM mengunduh (label "ota_rencana"). Dengan rencana ini, firmware yang menyala
++// sesudahnya (baru atau lama) tahu apa yang sedang terjadi, walaupun listrik sempat padam.
++struct RencanaOta {
++  char id[PANJANG_ID_MAKS + 1];       // id perintah update
++  char dari[PANJANG_VERSI_MAKS + 1];  // versi yang berjalan saat perintah datang
++  char ke[PANJANG_VERSI_MAKS + 1];    // versi yang dipasang
++  uint8_t tahap;                      // TAHAP_MENGUNDUH atau TAHAP_DIPASANG
++};
++
++// Laporan hasil satu pembaruan (label "ota_laporan"), isinya sama dengan objek "ota" di vitals (kontrak 1.6 bagian 6).
++struct LaporanOta {
++  char id[PANJANG_ID_MAKS + 1];
++  char hasil[9];                         // "berhasil", "rollback", atau "gagal"
++  char versi[PANJANG_VERSI_MAKS + 1];    // versi yang DICOBA dipasang
++  char pesan[PANJANG_PESAN_OTA_MAKS + 1];  // alasan rollback/gagal; "" = tidak ditulis
++  uint8_t terkirim;                      // sudah ikut berapa vitals (paling banyak 3)
++};
++
++void siapkanPembaruan();   // setup(), sesudah muatPengaturan() dan SEBELUM siapkanJaringan(): masa uji + rencana tertinggal
++void perbaruiPembaruan();  // loop(): mengerjakan pembaruan yang sudah diterima, dan mengawasi masa uji 60 detik
++
++// Dipanggil jaringan.cpp untuk perintah MQTT "update". nullptr = diterima (ack ok:true, unduhan dimulai di loop()
++// berikutnya), selain itu alasan penolakan untuk ack ok:false.
++const char* terimaUpdate(const char* id, const IsiUpdate& isi);
++bool pembaruanSedangBerjalan();  // true sejak perintah diterima sampai unduhan selesai
++
++const LaporanOta* laporanOtaMenunggu();  // laporan yang belum 3 kali ikut vitals; nullptr kalau tidak ada
++void laporanOtaTerkirim();               // dipanggil sesudah vitals yang membawa laporan itu berhasil terbit
++void catatHasilOta(const char* id, const char* hasil, const char* versi, const char* pesan);  // simpan laporan baru ke NVS
++bool bacaRencanaOta(RencanaOta& rencana);  // false kalau tidak ada rencana tersimpan
++void hapusRencanaOta();
++
++void bersiapRestart(const char* sebab);  // berhenti sengaja: laporan masa uji (bila perlu), offline-mode, putus rapi
++void restartSengaja(const char* sebab);  // bersiapRestart(), lalu ESP.restart(): perintah Serial "restart"
++void cetakInfoOta();                     // jawaban perintah Serial "ota"
+diff --git a/firmware/node-1-rumah/pengaturan.cpp b/firmware/node-1-rumah/pengaturan.cpp
+index 1d1b4e4..c4e0da2 100644
+--- a/firmware/node-1-rumah/pengaturan.cpp
++++ b/firmware/node-1-rumah/pengaturan.cpp
+@@ -3,6 +3,7 @@
+ #include <Preferences.h>  // ikut paket esp32, tidak perlu dipasang
+ #include "konfigurasi.h"
+ #include "pencatat.h"
++#include "periksa-ota.h"  // Modul 28: rapikanAlamat(), periksaAlamatServer()
+ #include "pengaturan.h"
+ 
+ static Preferences arsip;  // "lemari arsip" NVS; kita memakai map bernama "node1"
+@@ -11,6 +12,9 @@ static unsigned long nyalaKe = 0;
+ static bool pakaiRS485 = false;  // Modul 15: bawaannya tidak dipakai (sensor belum dipasang)
+ static float suhuKipas = SUHU_KIPAS_ON_BAWAAN;  // Modul 19: ambang kipas pengaman, dalam °C
+ static char kunci[65] = "";  // Modul 21: kunci broker, paling panjang 64 huruf + tanda akhir teks; "" = belum ada
++static char server[PANJANG_ALAMAT_SERVER_MAKS + 1] = "";  // Modul 28: alamat server; "" = belum diisi
++static char broker[PANJANG_ALAMAT_BROKER_MAKS + 1] = "";  // Modul 28: alamat broker dari NVS; "" = pakai ALAMAT_BROKER
++static unsigned long jedaVitals = JEDA_VITALS / 1000;      // Modul 28: detik di antara dua vitals
+ 
+ void muatPengaturan() {
+   arsip.begin("node1", false);  // false = map dibuka untuk dibaca DAN ditulis
+@@ -35,6 +39,25 @@ void muatPengaturan() {
+     arsip.getString("kunci_broker", kunci, sizeof(kunci));
+   }
+   logInfo("Kunci broker: %s", kunci[0] != '\0' ? "tersimpan di NVS" : "BELUM ADA (ketik: kunci <isi>)");
++
++  // Modul 28: alamat server (unduh firmware dan klaim), alamat broker, dan jeda vitals
++  if (arsip.isKey("alamat_server")) {
++    arsip.getString("alamat_server", server, sizeof(server));
++  } else if (ALAMAT_SERVER_BAWAAN[0] != '\0') {
++    rapikanAlamat(ALAMAT_SERVER_BAWAAN, server, sizeof(server));
++    const char* salah = periksaAlamatServer(server);
++    if (salah != nullptr) {
++      logError("ALAMAT_SERVER_BAWAAN di konfigurasi.h tidak dipakai: %s", salah);
++      server[0] = '\0';
++    }
++  }
++  logInfo("Alamat server: %s", server[0] != '\0' ? server : "BELUM DIISI (ketik: server <alamat>)");
++  if (arsip.isKey("alamat_broker")) {
++    arsip.getString("alamat_broker", broker, sizeof(broker));
++  }
++  logInfo("Alamat broker: %s (%s)", alamatBrokerTersimpan(), alamatBrokerDariNvs() ? "dari NVS" : "dari konfigurasi.h");
++  jedaVitals = arsip.getUInt("jeda_vitals", JEDA_VITALS / 1000);  // 11 huruf
++  logInfo("Jeda vitals: %lu detik (%s)", jedaVitals, jedaVitalsDariNvs() ? "dari NVS" : "angka bawaan");
+ }
+ 
+ int ambangTanahSiram() {
+@@ -139,3 +162,88 @@ void hapusKunciBroker() {
+   }
+   kunci[0] = '\0';
+ }
++
++// ---------- Modul 28: alamat server, alamat broker, dan jeda vitals ----------
++// Ketiganya hanya bisa diubah lewat portal WiFi, Serial Monitor, atau klaim, TIDAK lewat MQTT: alamat yang salah membuat
++// Node 1 tidak bisa dijangkau lagi (kontrak data 1.6 bagian 7). Hanya jeda vitals yang boleh dikirim server (config).
++const char* alamatServerTersimpan() {
++  return server;
++}
++
++bool simpanAlamatServer(const char* alamat) {
++  if (strlen(alamat) >= sizeof(server)) {
++    return false;
++  }
++  if (strcmp(alamat, server) != 0 || !arsip.isKey("alamat_server")) {  // sama: tidak perlu menulis ulang
++    arsip.putString("alamat_server", alamat);  // 13 huruf
++    snprintf(server, sizeof(server), "%s", alamat);
++    logInfo("Alamat server disimpan ke NVS: %s", server);
++  }
++  return true;
++}
++
++const char* alamatBrokerTersimpan() {
++  if (broker[0] != '\0') {
++    return broker;
++  }
++  return ALAMAT_BROKER;  // NVS belum berisi: alamat di konfigurasi.h (Modul 11)
++}
++
++bool alamatBrokerDariNvs() {
++  return broker[0] != '\0';
++}
++
++bool simpanAlamatBroker(const char* alamat) {
++  if (strlen(alamat) >= sizeof(broker)) {
++    return false;
++  }
++  if (strcmp(alamat, broker) != 0) {  // sama: tidak perlu menulis ulang
++    arsip.putString("alamat_broker", alamat);  // 13 huruf
++    snprintf(broker, sizeof(broker), "%s", alamat);
++    logInfo("Alamat broker disimpan ke NVS: %s", broker);
++  }
++  return true;
++}
++
++unsigned long jedaVitalsDetik() {
++  return jedaVitals;
++}
++
++bool jedaVitalsDariNvs() {
++  return arsip.isKey("jeda_vitals");
++}
++
++bool simpanJedaVitals(long detik) {
++  if (detik < (long)JEDA_VITALS_MIN_S || detik > (long)JEDA_VITALS_MAKS_S) {
++    return false;
++  }
++  if ((unsigned long)detik == jedaVitals && jedaVitalsDariNvs()) {
++    return true;  // angkanya sudah sama: tidak perlu menulis ulang (jumlah tulis flash terbatas)
++  }
++  arsip.putUInt("jeda_vitals", (uint32_t)detik);
++  jedaVitals = (unsigned long)detik;
++  logInfo("Jeda vitals disimpan ke NVS: %lu detik", jedaVitals);
++  return true;
++}
++
++// ---------- Modul 28: catatan pembaruan firmware ----------
++// Satu catatan = satu struct utuh (misalnya rencana pembaruan) di satu label NVS. Satu kali putBytes() menulis semuanya
++// sekaligus, jadi listrik yang padam tepat saat menulis tidak meninggalkan catatan yang setengah baru, setengah lama.
++bool bacaCatatan(const char* label, void* isi, size_t ukuran) {
++  if (!arsip.isKey(label) || arsip.getBytesLength(label) != ukuran) {
++    return false;  // belum ada, atau ditulis firmware lain dengan bentuk struct yang berbeda
++  }
++  return arsip.getBytes(label, isi, ukuran) == ukuran;
++}
++
++void simpanCatatan(const char* label, const void* isi, size_t ukuran) {
++  if (arsip.putBytes(label, isi, ukuran) != ukuran) {
++    logError("Catatan %s gagal ditulis ke NVS.", label);
++  }
++}
++
++void hapusCatatan(const char* label) {
++  if (arsip.isKey(label)) {
++    arsip.remove(label);
++  }
++}
+diff --git a/firmware/node-1-rumah/pengaturan.h b/firmware/node-1-rumah/pengaturan.h
+index 633e233..1cdcb53 100644
+--- a/firmware/node-1-rumah/pengaturan.h
++++ b/firmware/node-1-rumah/pengaturan.h
+@@ -1,5 +1,6 @@
+ // pengaturan.h - setelan yang tetap ada walaupun listrik padam, disimpan di NVS (Modul 8)
+ #pragma once
++#include <stddef.h>  // size_t
+ 
+ void muatPengaturan();                    // panggil sekali di setup(): membaca setelan dari NVS
+ int ambangTanahSiram();                   // ambang "tanah kering" yang berlaku sekarang, dalam persen
+@@ -15,3 +16,15 @@ bool simpanAmbangSuhuKipas(float derajat);  // Modul 19: menjawab false kalau di
+ const char* kunciBroker();                  // Modul 21: kunci broker dari NVS; "" kalau belum ada. JANGAN dicetak utuh
+ bool simpanKunciBroker(const char* isi);    // Modul 21: false kalau bukan 1-64 huruf A-Z, a-z, 0-9, - atau _
+ void hapusKunciBroker();                    // Modul 21: perintah "kunci hapus"
++const char* alamatServerTersimpan();        // Modul 28: tempat Node 1 mengunduh firmware dan klaim; "" kalau belum diisi
++bool simpanAlamatServer(const char* alamat);  // Modul 28: alamat yang SUDAH dirapikan dan diperiksa (periksa-ota.h)
++const char* alamatBrokerTersimpan();        // Modul 28: alamat broker dari NVS, atau ALAMAT_BROKER di konfigurasi.h
++bool alamatBrokerDariNvs();                 // Modul 28: true kalau alamat broker itu dari NVS (portal, Serial, atau klaim)
++bool simpanAlamatBroker(const char* alamat);  // Modul 28: alamat IP yang SUDAH diperiksa (periksa-ota.h)
++unsigned long jedaVitalsDetik();            // Modul 28: jarak antar-vitals (detik), dikirim server lewat config "jeda"
++bool jedaVitalsDariNvs();                   // Modul 28: true kalau jeda itu dari NVS, bukan angka bawaan
++bool simpanJedaVitals(long detik);          // Modul 28: false kalau di luar JEDA_VITALS_MIN_S-JEDA_VITALS_MAKS_S
++// Modul 28: catatan pembaruan firmware (rencana dan laporan) disimpan utuh sebagai deretan byte (struct) di satu label.
++bool bacaCatatan(const char* label, void* isi, size_t ukuran);         // false kalau belum ada atau ukurannya lain
++void simpanCatatan(const char* label, const void* isi, size_t ukuran);
++void hapusCatatan(const char* label);
+diff --git a/firmware/node-1-rumah/periksa-ota.cpp b/firmware/node-1-rumah/periksa-ota.cpp
+new file mode 100644
+index 0000000..2e9f0c9
+--- /dev/null
++++ b/firmware/node-1-rumah/periksa-ota.cpp
+@@ -0,0 +1,269 @@
++// periksa-ota.cpp - isi modul periksa-ota. Daftar fungsinya ada di periksa-ota.h.
++#include <stdio.h>
++#include <string.h>
++#include "versi.h"
++#include "periksa-ota.h"
++
++static bool angka(char h) {
++  return h >= '0' && h <= '9';
++}
++
++static char hurufKecil(char h) {
++  return (h >= 'A' && h <= 'Z') ? (char)(h - 'A' + 'a') : h;
++}
++
++// Membaca alamat IPv4 "a.b.c.d" (tepat empat bagian 0-255, tanpa apa pun di belakangnya).
++static bool uraiIpv4(const char* teks, int bagian[4]) {
++  int posisi = 0;
++  for (int i = 0; i < 4; i++) {
++    int nilai = 0;
++    int banyak = 0;
++    while (angka(teks[posisi]) && banyak < 4) {
++      nilai = nilai * 10 + (teks[posisi] - '0');
++      banyak++;
++      posisi++;
++    }
++    if (banyak == 0 || banyak > 3 || nilai > 255) {
++      return false;
++    }
++    bagian[i] = nilai;
++    char pemisah = (i < 3) ? '.' : '\0';
++    if (teks[posisi] != pemisah) {
++      return false;
++    }
++    posisi++;
++  }
++  return true;
++}
++
++bool alamatIpRumah(const char* host) {
++  int b[4];
++  if (host == nullptr || !uraiIpv4(host, b)) {
++    return false;
++  }
++  return b[0] == 10 || (b[0] == 172 && b[1] >= 16 && b[1] <= 31) || (b[0] == 192 && b[1] == 168);
++}
++
++void rapikanAlamat(const char* masuk, char* keluar, size_t ukuran) {
++  if (ukuran == 0) {
++    return;
++  }
++  keluar[0] = '\0';
++  if (masuk == nullptr) {
++    return;
++  }
++  while (*masuk == ' ' || *masuk == '\t') {
++    masuk++;  // buang spasi di depan
++  }
++  size_t panjang = strlen(masuk);
++  while (panjang > 0 && (masuk[panjang - 1] == ' ' || masuk[panjang - 1] == '\t' || masuk[panjang - 1] == '/')) {
++    panjang--;  // buang spasi dan garis miring di belakang
++  }
++  if (panjang >= ukuran) {
++    panjang = ukuran - 1;  // terpotong: pemeriksaan panjang sesudahnya akan menolaknya
++  }
++  for (size_t i = 0; i < panjang; i++) {
++    keluar[i] = hurufKecil(masuk[i]);
++  }
++  keluar[panjang] = '\0';
++}
++
++// "http://" (7) atau "https://" (8) di awal teks; 0 kalau bukan keduanya. Huruf besar-kecil tidak dibedakan.
++static size_t panjangSkema(const char* teks, bool* aman) {
++  const char* awalan[2] = {"http://", "https://"};
++  for (int i = 0; i < 2; i++) {
++    size_t n = strlen(awalan[i]);
++    size_t j = 0;
++    while (j < n && teks[j] != '\0' && hurufKecil(teks[j]) == awalan[i][j]) {
++      j++;
++    }
++    if (j == n) {
++      *aman = (i == 1);
++      return n;
++    }
++  }
++  return 0;
++}
++
++// Menyalin bagian "host" dari "host:port" (tanpa port) ke "keluar" dan memeriksa port-nya. false = bentuk salah.
++static bool pisahkanHost(const char* hostPort, size_t panjang, char* keluar, size_t ukuran) {
++  size_t titikDua = panjang;
++  for (size_t i = 0; i < panjang; i++) {
++    if (hostPort[i] == ':') {
++      titikDua = i;
++      break;
++    }
++  }
++  if (titikDua == 0 || titikDua >= ukuran) {
++    return false;
++  }
++  memcpy(keluar, hostPort, titikDua);
++  keluar[titikDua] = '\0';
++  if (titikDua < panjang) {  // ada ":port": 1-5 angka, 1-65535
++    long port = 0;
++    size_t banyak = 0;
++    for (size_t i = titikDua + 1; i < panjang; i++) {
++      if (!angka(hostPort[i]) || banyak >= 5) {
++        return false;
++      }
++      port = port * 10 + (hostPort[i] - '0');
++      banyak++;
++    }
++    if (banyak == 0 || port < 1 || port > 65535) {
++      return false;
++    }
++  }
++  return true;
++}
++
++const char* periksaAlamatServer(const char* alamat) {
++  const char* contoh = "Tulis alamat server tanpa / di akhir, misalnya http://192.168.1.10 atau https://iot.namaanda.my.id";
++  if (alamat == nullptr || alamat[0] == '\0') {
++    return contoh;
++  }
++  if (strlen(alamat) > (size_t)PANJANG_ALAMAT_SERVER_MAKS) {
++    return "Alamat server paling panjang 64 huruf";
++  }
++  bool aman = false;
++  size_t skema = panjangSkema(alamat, &aman);
++  if (skema == 0) {
++    return contoh;
++  }
++  const char* hostPort = alamat + skema;
++  size_t panjang = strlen(hostPort);
++  for (size_t i = 0; i < panjang; i++) {  // hanya huruf kecil, angka, titik, tanda -, dan : untuk port
++    char h = hostPort[i];
++    if (!((h >= 'a' && h <= 'z') || angka(h) || h == '.' || h == '-' || h == ':')) {
++      return contoh;  // misalnya ada jalur (/), tanda @, spasi, atau huruf besar yang belum dirapikan
++    }
++  }
++  char host[PANJANG_ALAMAT_SERVER_MAKS + 1];
++  if (!pisahkanHost(hostPort, panjang, host, sizeof(host))) {
++    return contoh;
++  }
++  if (!aman && !alamatIpRumah(host)) {
++    return "http hanya untuk jaringan rumah (alamat IP 10.x, 172.16-31.x, 192.168.x): pakai https:// di internet";
++  }
++  return nullptr;
++}
++
++const char* periksaAlamatBroker(const char* alamat) {
++  if (alamat == nullptr || strlen(alamat) > (size_t)PANJANG_ALAMAT_BROKER_MAKS || !alamatIpRumah(alamat)) {
++    return "Alamat broker harus alamat IP jaringan rumah, misalnya 192.168.1.37 (tanpa http:// dan tanpa port)";
++  }
++  return nullptr;
++}
++
++const char* periksaKodeKlaim(const char* kode) {
++  size_t panjang = (kode == nullptr) ? 0 : strlen(kode);
++  if (panjang < 8 || panjang > 12) {
++    return "kode klaim harus 8 huruf, misalnya 7K2M-QF9D";
++  }
++  for (size_t i = 0; i < panjang; i++) {
++    char h = kode[i];
++    if (!((h >= 'a' && h <= 'z') || (h >= 'A' && h <= 'Z') || angka(h) || h == '-' || h == ' ')) {
++      return "kode klaim hanya berisi huruf, angka, dan tanda -, misalnya 7K2M-QF9D";
++    }
++  }
++  return nullptr;
++}
++
++bool susunUrlFirmware(const char* server, const char* versi, char* keluar, size_t ukuran) {
++  int n = snprintf(keluar, ukuran, "%s/fw/node-1/%s.bin", server, versi);
++  return n > 0 && (size_t)n < ukuran;
++}
++
++static bool sha256Sah(const char* teks) {
++  if (teks == nullptr || strlen(teks) != 64) {
++    return false;
++  }
++  for (int i = 0; i < 64; i++) {
++    if (!(angka(teks[i]) || (teks[i] >= 'a' && teks[i] <= 'f'))) {
++      return false;  // kontrak 1.6: huruf KECIL, sama dengan keluaran sha256sum
++    }
++  }
++  return true;
++}
++
++// Membandingkan dua teks tanpa membedakan huruf besar-kecil.
++static bool samaTanpaHurufBesar(const char* a, const char* b) {
++  while (*a != '\0' && *b != '\0') {
++    if (hurufKecil(*a) != hurufKecil(*b)) {
++      return false;
++    }
++    a++;
++    b++;
++  }
++  return *a == *b;
++}
++
++const char* periksaUpdate(const IsiUpdate& isi, const KeadaanUpdate& keadaan, char* alasan, size_t ukuran) {
++  if (keadaan.masaUji) {
++    return "masih dalam masa uji 60 detik";  // kontrak aturan 13: firmware baru belum terbukti
++  }
++  if (keadaan.pembaruanBerjalan) {
++    return "pembaruan lain sedang berjalan";
++  }
++  if (!versiSah(isi.versi)) {
++    return "versi harus berbentuk x.y.z";
++  }
++  if (bandingkanVersi(isi.versi, keadaan.versiBerjalan) == 0) {
++    snprintf(alasan, ukuran, "sudah memakai %s", keadaan.versiBerjalan);
++    return alasan;
++  }
++  if (bandingkanVersi(isi.versi, VERSI_OTA_PERTAMA) < 0) {  // turun versi tetap boleh, asal tidak di bawah 1.7.0
++    return "versi di bawah 1.7.0 tidak punya rollback: pasang lewat kabel";
++  }
++  if (!sha256Sah(isi.sha256)) {
++    return "sha256 harus 64 heksadesimal huruf kecil";
++  }
++  uint32_t batas = keadaan.ruangRak < RAK_PROGRAM_KONTRAK ? keadaan.ruangRak : RAK_PROGRAM_KONTRAK;
++  if (batas == 0) {
++    return "tidak ada rak program cadangan: pakai skema Minimal SPIFFS (Modul 10)";
++  }
++  if (isi.ukuran < 1 || isi.ukuran > (long long)batas) {
++    snprintf(alasan, ukuran, "ukuran harus 1-%lu byte", (unsigned long)batas);
++    return alasan;
++  }
++
++  // url: skema, host, dan jalur. Pesan yang sama dengan simulator untuk setiap kesalahan.
++  const char* url = isi.url;
++  if (url == nullptr || url[0] == '\0') {
++    return "url tidak sah";
++  }
++  bool aman = false;
++  size_t skema = panjangSkema(url, &aman);
++  const char* bentukUrl = "url harus http(s)://<alamat>/fw/node-1/<versi>.bin";
++  if (skema == 0) {
++    const char* titikDua = strchr(url, ':');
++    return titikDua == nullptr || titikDua == url ? "url tidak sah" : bentukUrl;  // "abc" vs "ftp://..."
++  }
++  const char* hostPort = url + skema;
++  size_t panjangHost = strcspn(hostPort, "/?#");
++  if (panjangHost == 0) {
++    return "url tidak sah";  // "http:///fw/...": tanpa nama server
++  }
++  const char* jalur = hostPort + panjangHost;
++  size_t panjangJalur = strcspn(jalur, "?#");
++  char jalurBenar[48];
++  snprintf(jalurBenar, sizeof(jalurBenar), "/fw/node-1/%s.bin", isi.versi);
++  if (strlen(url) > (size_t)PANJANG_URL_MAKS || panjangJalur != strlen(jalurBenar)
++      || strncmp(jalur, jalurBenar, panjangJalur) != 0) {
++    return bentukUrl;
++  }
++
++  // url WAJIB = <alamat server tersimpan>/fw/node-1/<versi>.bin. Unduhan membawa kunci perangkat (Basic device_id:kunci),
++  // jadi Node 1 tidak pernah mengunduh dari server lain, siapa pun pengirim perintahnya (kontrak 1.6 bagian 7).
++  if (keadaan.alamatServer == nullptr || keadaan.alamatServer[0] == '\0') {
++    return "alamat server belum diisi (Serial: server <alamat>)";
++  }
++  char urlRumah[PANJANG_ALAMAT_SERVER_MAKS + 48];
++  if (!susunUrlFirmware(keadaan.alamatServer, isi.versi, urlRumah, sizeof(urlRumah)) || !samaTanpaHurufBesar(url, urlRumah)) {
++    return "url bukan server rumah ini";
++  }
++  char host[PANJANG_URL_MAKS + 1];
++  if (!aman && (!pisahkanHost(hostPort, panjangHost, host, sizeof(host)) || !alamatIpRumah(host))) {
++    return "http hanya untuk jaringan rumah";  // kunci tidak boleh terkirim polos ke internet
++  }
++  return nullptr;
++}
+diff --git a/firmware/node-1-rumah/periksa-ota.h b/firmware/node-1-rumah/periksa-ota.h
+new file mode 100644
+index 0000000..81149d9
+--- /dev/null
++++ b/firmware/node-1-rumah/periksa-ota.h
+@@ -0,0 +1,55 @@
++// periksa-ota.h - pemeriksaan isi perintah "update", alamat server, alamat broker, dan kode klaim (Modul 28).
++// Semua fungsi di sini hanya MEMERIKSA teks dan angka: tidak menyentuh WiFi, MQTT, NVS, atau flash. Karena itu file ini
++// tidak memakai apa pun dari Arduino dan bisa diuji di laptop (uji host). Aturannya mengikuti KONTRAK-DATA.md 1.6
++// bagian 7 dan 10, dan urutan pemeriksaannya sama dengan simulator alat/simulator-perangkat.js (periksaUpdate).
++#pragma once
++#include <stddef.h>
++#include <stdint.h>
++
++const uint32_t RAK_PROGRAM_KONTRAK = 1966080;  // satu rak program skema Minimal SPIFFS (Modul 10): batas "ukuran" kontrak 1.6
++const int PANJANG_ALAMAT_SERVER_MAKS = 64;    // kolom "Alamat server" di portal WiFi
++const int PANJANG_ALAMAT_BROKER_MAKS = 40;    // kolom "Alamat broker" di portal WiFi
++const int PANJANG_URL_MAKS = 200;             // kontrak 1.6: url paling panjang 200 huruf
++// Versi pertama yang punya masa uji dan rollback. Versi di bawahnya ditolak lewat udara: firmware itu langsung disahkan inti
++// Arduino tanpa masa uji, dan tidak bisa menerima perintah update lagi (hanya bisa diperbaiki lewat kabel).
++const char VERSI_OTA_PERTAMA[] = "1.7.0";
++
++// "192.168.1.10" (tanpa port) adalah alamat IPv4 jaringan rumah: 10.x.x.x, 172.16.x.x-172.31.x.x, atau 192.168.x.x.
++bool alamatIpRumah(const char* host);
++
++// Merapikan ketikan alamat: spasi di tepi dibuang, huruf besar menjadi kecil, garis miring di akhir dibuang.
++void rapikanAlamat(const char* masuk, char* keluar, size_t ukuran);
++
++// Alamat server yang boleh disimpan (sudah dirapikan): http://<IP rumah>[:port] atau https://<nama>[:port], tanpa jalur.
++// Menjawab nullptr kalau sah, atau kalimat alasannya.
++const char* periksaAlamatServer(const char* alamat);
++
++// Alamat broker yang boleh disimpan: alamat IP jaringan rumah (kontrak data bagian 3: di rumah, broker = alamat IP, pintu 1883).
++const char* periksaAlamatBroker(const char* alamat);
++
++// Kode klaim dari admin (XXXX-XXXX). Hanya bentuknya yang diperiksa di sini; benar-salahnya diperiksa server.
++const char* periksaKodeKlaim(const char* kode);
++
++// <alamat server>/fw/node-1/<versi>.bin, satu-satunya alamat tempat Node 1 mau mengunduh firmware. false = tidak muat.
++bool susunUrlFirmware(const char* server, const char* versi, char* keluar, size_t ukuran);
++
++// Isi perintah "update" yang sudah dibaca dari JSON. nullptr = kolom itu tidak ada atau bukan teks.
++struct IsiUpdate {
++  const char* versi;
++  const char* url;
++  const char* sha256;
++  long long ukuran;  // -1 kalau tidak ada atau bukan bilangan bulat
++};
++
++// Keadaan Node 1 saat perintah itu datang.
++struct KeadaanUpdate {
++  const char* versiBerjalan;  // VERSI_FIRMWARE
++  const char* alamatServer;   // alamat server tersimpan (sudah dirapikan); "" kalau belum diisi
++  uint32_t ruangRak;          // ESP.getFreeSketchSpace(): ukuran rak program sebelah, 0 kalau tidak ada
++  bool masaUji;               // firmware yang berjalan masih harus membuktikan diri (60 detik)
++  bool pembaruanBerjalan;     // pembaruan lain sudah diterima dan belum selesai
++};
++
++// Menjawab nullptr kalau perintah boleh dikerjakan (ack ok:true), atau alasan penolakannya (ack ok:false + pesan).
++// Alasan yang memuat angka ditulis ke "alasan" (paling sedikit 48 huruf).
++const char* periksaUpdate(const IsiUpdate& isi, const KeadaanUpdate& keadaan, char* alasan, size_t ukuran);
+diff --git a/firmware/node-1-rumah/perintah.cpp b/firmware/node-1-rumah/perintah.cpp
+index c9bc2c9..01c4bf1 100644
+--- a/firmware/node-1-rumah/perintah.cpp
++++ b/firmware/node-1-rumah/perintah.cpp
+@@ -11,9 +11,14 @@
+ #include "jaringan.h"
+ #include "jembatan.h"
+ #include "rs485.h"
++#include "periksa-ota.h"  // Modul 28: rapikanAlamat(), periksaAlamatServer(), periksaAlamatBroker()
++#include "pembaruan.h"    // Modul 28: perintah "ota" dan "restart"
++#include "klaim.h"        // Modul 28: perintah "klaim"
+ #include "perintah.h"
+ 
+-const int PANJANG_BARIS_MAKS = 80;  // Modul 21: dari 40, supaya "kunci " + kunci 43 huruf muat
++// Modul 21: dari 40, supaya "kunci " + kunci 43 huruf muat. Modul 28: dari 80, supaya
++// "klaim <kode> <alamat server 64 huruf> <alamat broker>" muat.
++const int PANJANG_BARIS_MAKS = 128;
+ static char baris[PANJANG_BARIS_MAKS + 1];  // +1 untuk tanda akhir teks
+ static int panjangBaris = 0;
+ static bool barisTerpotong = false;  // Modul 21: baris lebih panjang dari wadahnya: jangan dipakai (kunci terpotong!)
+@@ -89,6 +94,84 @@ static void cetakKunci() {
+   }
+ }
+ 
++// ---------- Modul 28: alamat server, alamat broker, dan kode klaim ----------
++// Memecah baris menjadi kata-kata yang dipisah spasi. Menjawab banyaknya kata (lebih dari "maks" = maks + 1).
++static int pecahKata(const String& teks, String kata[], int maks) {
++  int banyak = 0;
++  int i = 0;
++  int n = teks.length();
++  while (i < n) {
++    while (i < n && teks[i] == ' ') {
++      i++;
++    }
++    if (i >= n) {
++      break;
++    }
++    int awal = i;
++    while (i < n && teks[i] != ' ') {
++      i++;
++    }
++    if (banyak == maks) {
++      return maks + 1;  // terlalu banyak kata
++    }
++    kata[banyak] = teks.substring(awal, i);
++    banyak++;
++  }
++  return banyak;
++}
++
++static bool aturAlamatServer(const String& teks) {
++  char rapi[PANJANG_ALAMAT_SERVER_MAKS + 2];  // +2: alamat yang terlalu panjang tetap terdeteksi
++  rapikanAlamat(teks.c_str(), rapi, sizeof(rapi));
++  const char* salah = periksaAlamatServer(rapi);
++  if (salah != nullptr) {
++    Serial.printf("server: tidak disimpan. %s\n", salah);
++    return false;
++  }
++  simpanAlamatServer(rapi);
++  Serial.printf("server: %s (firmware hanya diunduh dari alamat ini: <alamat>/fw/node-1/<versi>.bin)\n",
++                alamatServerTersimpan());
++  return true;
++}
++
++static bool aturAlamatBroker(const String& teks) {
++  char rapi[PANJANG_ALAMAT_SERVER_MAKS + 2];
++  rapikanAlamat(teks.c_str(), rapi, sizeof(rapi));
++  const char* salah = periksaAlamatBroker(rapi);
++  if (salah != nullptr) {
++    Serial.printf("broker: tidak disimpan. %s\n", salah);
++    return false;
++  }
++  simpanAlamatBroker(rapi);
++  gantiAlamatBroker();  // jaringan.cpp: sambung ulang sekarang ke alamat itu
++  Serial.printf("broker: %s, pintu %u; Node 1 menyambung ke sana sekarang.\n", alamatBrokerTersimpan(), PORT_BROKER);
++  return true;
++}
++
++// "klaim <kode> [alamat server] [alamat broker]": cara mendaftar tanpa portal (misalnya di Wokwi, atau papan yang
++// sudah punya WiFi). Alamat yang ditulis disimpan dulu, baru kodenya dikirim.
++static void kerjakanKlaim(const String& perintah) {
++  String kata[4];
++  int banyak = pecahKata(perintah, kata, 4);
++  if (banyak < 2 || banyak > 4) {
++    Serial.println("Contoh: klaim 7K2M-QF9D http://192.168.1.10 192.168.1.37 (alamat server dan broker boleh "
++                   "dilewati; tulis kode dengan tanda -, tanpa spasi)");
++    return;
++  }
++  if (banyak >= 3 && !aturAlamatServer(kata[2])) {
++    return;
++  }
++  if (banyak == 4 && !aturAlamatBroker(kata[3])) {
++    return;
++  }
++  const char* salah = mulaiKlaim(kata[1].c_str());
++  if (salah != nullptr) {
++    Serial.printf("klaim: %s\n", salah);
++    return;
++  }
++  Serial.printf("klaim: kode diterima; dikirim ke %s begitu WiFi siap (hasilnya tampil di log).\n", alamatServerTersimpan());
++}
++
+ // Menjawab true kalau teks BUKAN angka: toInt() memberi 0, padahal teksnya bukan "0" (cara Praktik 5 Modul 5).
+ static bool bukanAngka(String teks) {
+   return teks.toInt() == 0 && teks != "0";
+@@ -217,14 +300,36 @@ void periksaPerintahSerial() {
+     cetakKunci();
+     Serial.printf("kunci: Node 1 mencoba masuk ke broker sebagai %s dengan kunci ini sekarang.\n", penggunaBroker());
+     return;
++  } else if (perintah == "ota") {
++    cetakInfoOta();  // Modul 28: versi, rak program, masa uji, laporan pembaruan
++    return;
++  } else if (perintah == "server") {
++    Serial.printf("server: %s\n", alamatServerTersimpan()[0] != '\0' ? alamatServerTersimpan()
++                                                                    : "BELUM DIISI. Contoh: server http://192.168.1.10");
++    return;
++  } else if (perintah.startsWith("server ")) {
++    aturAlamatServer(perintah.substring(7));  // Modul 28: disimpan di NVS
++    return;
++  } else if (perintah == "broker") {
++    Serial.printf("broker: %s (%s), pintu %u\n", alamatBrokerTersimpan(),
++                  alamatBrokerDariNvs() ? "dari NVS" : "dari konfigurasi.h", PORT_BROKER);
++    return;
++  } else if (perintah.startsWith("broker ")) {
++    aturAlamatBroker(perintah.substring(7));  // Modul 28: disimpan di NVS, lalu sambung ulang
++    return;
++  } else if (perintah == "klaim") {
++    cetakInfoKlaim();  // Modul 28
++    return;
++  } else if (perintah.startsWith("klaim ")) {
++    kerjakanKlaim(perintah);  // Modul 28: daftar dengan kode klaim dari admin
++    return;
+   } else if (perintah == "restart") {
+-    Serial.println("Restart sekarang...");
+-    Serial.flush();  // tunggu sampai pesan di atas benar-benar terkirim
+-    ESP.restart();
++    restartSengaja("perintah Serial restart");  // Modul 28: offline-mode + putus rapi dulu, baru restart
+   } else if (perintah != "status") {
+     Serial.println("Perintah tidak dikenal. Contoh: lampu on, kipas off, pompa 3, tirai 90, bunyi, status,");
+     Serial.println("info, ambang, ambang 35, ambang bawaan, log debug, log info, log error, wifi, wifi lupa,");
+-    Serial.println("kirim, node2, node2 nol, rs485, rs485 on, rs485 off, uji offline, kunci, kunci hapus, restart");
++    Serial.println("kirim, node2, node2 nol, rs485, rs485 on, rs485 off, uji offline, kunci, kunci hapus,");
++    Serial.println("ota, server, server <alamat>, broker, broker <ip>, klaim, klaim <kode> [server] [broker], restart");
+     return;
+   }
+   cetakStatus();
+diff --git a/firmware/node-1-rumah/sistem.cpp b/firmware/node-1-rumah/sistem.cpp
+index d96833d..3262993 100644
+--- a/firmware/node-1-rumah/sistem.cpp
++++ b/firmware/node-1-rumah/sistem.cpp
+@@ -2,6 +2,7 @@
+ #include <Arduino.h>
+ #include <esp_system.h>  // esp_reset_reason()
+ #include <esp_timer.h>   // esp_timer_get_time()
++#include <esp_task_wdt.h>  // Modul 28: watchdog
+ #include "sistem.h"
+ 
+ static unsigned long putaranTerlamaUs = 0;  // mikrodetik
+@@ -45,3 +46,18 @@ void catatLamaPutaran(unsigned long mikrodetik) {
+ unsigned long putaranTerlamaMs() {
+   return putaranTerlamaUs / 1000;
+ }
++
++// Modul 28: mengunduh firmware (atau menukar kode klaim lewat HTTPS) memblok loop() lebih dari 5 detik: menunggu jawaban
++// server saja boleh sampai 8 detik (HTTPClient). Karena itu batas watchdog dilonggarkan sementara, lalu dikembalikan.
++// Masa uji firmware baru juga memakainya untuk menjaga setup() (masa-uji.cpp).
++// Isinya sama dengan pengaturan watchdog di setup() (Modul 8, Konsep 8); yang berubah hanya batas waktunya.
++void aturBatasWatchdog(unsigned long milidetik) {
++  esp_task_wdt_config_t konfigurasiWatchdog = {
++    .timeout_ms = (uint32_t)milidetik,
++    .idle_core_mask = 0b01,  // tetap awasi "tugas menganggur" inti 0 (bawaan paket esp32)
++    .trigger_panic = true,   // terlambat diberi makan = panik, lalu restart
++  };
++  esp_task_wdt_reset();  // beri makan dulu supaya hitungan batas yang baru mulai dari nol
++  esp_task_wdt_reconfigure(&konfigurasiWatchdog);
++  esp_task_wdt_reset();
++}
+diff --git a/firmware/node-1-rumah/sistem.h b/firmware/node-1-rumah/sistem.h
+index 1c53c88..12e3b05 100644
+--- a/firmware/node-1-rumah/sistem.h
++++ b/firmware/node-1-rumah/sistem.h
+@@ -5,3 +5,4 @@ unsigned long uptimeDetik();                      // detik sejak menyala; tidak
+ const char* alasanReset();                        // alasan restart terakhir, namanya sama dengan Lampiran A
+ void catatLamaPutaran(unsigned long mikrodetik);  // panggil di akhir setiap putaran loop()
+ unsigned long putaranTerlamaMs();                 // putaran loop() paling lama sejak menyala, dalam milidetik
++void aturBatasWatchdog(unsigned long milidetik);  // Modul 28: ubah batas watchdog (5 detik biasa, 60 detik saat mengunduh)
+diff --git a/firmware/node-1-rumah/versi.cpp b/firmware/node-1-rumah/versi.cpp
+new file mode 100644
+index 0000000..130f5fa
+--- /dev/null
++++ b/firmware/node-1-rumah/versi.cpp
+@@ -0,0 +1,51 @@
++// versi.cpp - isi modul versi. Daftar fungsinya ada di versi.h.
++#include "versi.h"
++
++// Memecah "1.7.12" menjadi tiga angka {1, 7, 12}. Menjawab false kalau bentuknya bukan x.y.z.
++static bool uraiVersi(const char* teks, long bagian[3]) {
++  if (teks == nullptr) {
++    return false;
++  }
++  int posisi = 0;
++  for (int i = 0; i < 3; i++) {
++    long angka = 0;
++    int banyakAngka = 0;
++    while (teks[posisi] >= '0' && teks[posisi] <= '9') {
++      angka = angka * 10 + (teks[posisi] - '0');
++      banyakAngka++;
++      posisi++;
++      if (banyakAngka > 5) {
++        return false;  // lebih dari 5 angka dalam satu bagian: pasti bukan versi rilis kita
++      }
++    }
++    if (banyakAngka == 0) {
++      return false;  // bagian kosong, misalnya "1..0" atau "v1.7.0"
++    }
++    bagian[i] = angka;
++    char pemisah = (i < 2) ? '.' : '\0';  // dua bagian pertama diakhiri titik, bagian ketiga diakhiri akhir teks
++    if (teks[posisi] != pemisah) {
++      return false;  // misalnya "1.7", "1.7.0-uji", atau "1.7.0.1"
++    }
++    posisi++;
++  }
++  return true;
++}
++
++bool versiSah(const char* teks) {
++  long bagian[3];
++  return uraiVersi(teks, bagian);
++}
++
++int bandingkanVersi(const char* a, const char* b) {
++  long x[3];
++  long y[3];
++  if (!uraiVersi(a, x) || !uraiVersi(b, y)) {
++    return 0;  // bentuk salah: dianggap sama (lihat versi.h)
++  }
++  for (int i = 0; i < 3; i++) {  // dari kiri: MAJOR, MINOR, PATCH
++    if (x[i] != y[i]) {
++      return x[i] < y[i] ? -1 : 1;
++    }
++  }
++  return 0;
++}
+diff --git a/firmware/node-1-rumah/versi.h b/firmware/node-1-rumah/versi.h
+new file mode 100644
+index 0000000..2c9e372
+--- /dev/null
++++ b/firmware/node-1-rumah/versi.h
+@@ -0,0 +1,15 @@
++// versi.h - membandingkan nomor versi firmware SemVer x.y.z (Modul 28), tanpa library tambahan.
++// Kenapa tidak dibandingkan sebagai teks saja? Karena "1.10.0" < "1.9.0" kalau dibaca huruf demi huruf ("1" < "9"),
++// padahal 1.10.0 lebih baru. Setiap bagian harus dibandingkan sebagai ANGKA, dari kiri: MAJOR, lalu MINOR, lalu PATCH.
++// Fungsi yang sama (dengan nama yang sama) ada di backend: services/versi.ts.
++// File ini sengaja tidak memakai apa pun dari Arduino supaya bisa diuji di laptop (uji host).
++#pragma once
++
++const int PANJANG_VERSI_MAKS = 17;  // "99999.99999.99999": tiga bagian, masing-masing paling banyak 5 angka
++
++bool versiSah(const char* teks);  // true kalau berbentuk x.y.z: tiga bagian angka (1-5 angka), dipisah titik
++
++// Hasilnya negatif kalau a lebih lama dari b, 0 kalau sama, positif kalau a lebih baru (seperti pembanding sort()).
++// Periksa dulu keduanya dengan versiSah(): versi yang bentuknya salah dianggap SAMA (hasil 0), jadi perintah
++// pembaruan dengan versi aneh selalu ditolak, tidak pernah diam-diam dipasang.
++int bandingkanVersi(const char* a, const char* b);

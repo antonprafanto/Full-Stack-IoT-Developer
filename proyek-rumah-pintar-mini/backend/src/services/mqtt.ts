@@ -1,9 +1,11 @@
 // mqtt.ts - backend sebagai klien MQTT: mendengar rpm/#, memeriksa setiap pesan, menyimpannya, dan mengirim perintah.
+// Modul 28: juga mengirim perintah update (pembaruan firmware) dan config gabungan (ambang + jeda), mencatat versi firmware
+// dan alasan restart setiap perangkat, dan membawa perintah akun broker (dynamic security) ke topik kontrol broker.
 import mqtt from "mqtt";
 import type { FastifyBaseLogger } from "fastify";
 import type { ZodError } from "zod";
 import { Ack, DeviceId, Status, TelemetryNode1, TelemetryNode2, Vitals } from "../schemas/kontrak.ts";
-import type { Ambang, PerintahSet } from "../schemas/kontrak.ts";
+import type { Ambang, Jeda, PerintahSet, Status as StatusPerangkat } from "../schemas/kontrak.ts";
 import { cariPerangkat, hitungan, serahkanAck, simpanStatus, simpanTelemetry, simpanVitals } from "./gudang.ts";
 import { arsipkanStatus, arsipkanTelemetry, arsipkanVitals } from "../db/arsip.ts";
 import { siarkanStatus, siarkanTelemetry } from "./realtime.ts";
@@ -12,6 +14,8 @@ import { kirimSemuaConfig, nilaiBacaan } from "./otomasi.ts";
 import { catatKejadian } from "./kejadian.ts";
 import { kabari, kabariStatus } from "./telegram.ts";
 import { catatAbaikan, izinPerangkat } from "./daftar.ts";
+import { serahkanJawabanKontrol, topikKontrol } from "./akun-broker.ts";
+import { catatFw, catatVitalsPembaruan } from "./ota.ts";
 
 let klien: mqtt.MqttClient | undefined;
 
@@ -45,6 +49,9 @@ export function mulaiMqtt(url: string, akun: AkunBroker | null, log: FastifyBase
     ditolak = false;
     log.info(`tersambung ke broker ${url}${akun === null ? " TANPA akun" : ` sebagai ${akun.username}`}`);
     klien?.subscribe("rpm/#", { qos: 1 });
+    // Modul 28: jawaban plugin dynamic security (akun broker otomatis). Topiknya di luar rpm/#, jadi dilanggan sendiri.
+    const kontrol = topikKontrol();
+    if (kontrol !== null) klien?.subscribe(kontrol.jawaban, { qos: 1 });
     kirimSemuaConfig(); // Modul 19: broker tanpa persistence lupa config retained saat dimulai ulang (kontrak aturan 10)
   });
   klien.on("reconnect", () => {
@@ -94,7 +101,17 @@ export function ringkas(galat: ZodError): string {
   return galat.issues.map((m) => `${m.path.join(".") || "isi"}: ${m.message}`).join("; ");
 }
 
+// Modul 28: kalimat buku kejadian untuk perubahan status. offline-mode SENGAJA tidak memakai kata "terputus": laporan
+// harian (services/laporan.ts) menghitung kali_terputus dari kata itu, dan berhenti sengaja untuk pembaruan firmware bukan
+// gangguan.
+export function kalimatStatus(deviceId: string, status: StatusPerangkat): string {
+  if (status === "online") return `${deviceId} tersambung lagi (online)`;
+  if (status === "offline-mode") return `${deviceId} berhenti sengaja (offline-mode), misalnya untuk memasang firmware baru`;
+  return `${deviceId} terputus (${status})`;
+}
+
 function terima(topik: string, teks: string, retained: boolean, log: FastifyBaseLogger): void {
+  if (topik === topikKontrol()?.jawaban) return serahkanJawabanKontrol(teks); // Modul 28: jawaban akun broker
   const bagian = topik.split("/"); // ["rpm", device_id, jenis]
   if (bagian.length !== 3) return tolak(topik, "topik harus berbentuk rpm/<device_id>/<jenis>", log);
   const [, deviceId, jenis] = bagian;
@@ -118,10 +135,10 @@ function terima(topik: string, teks: string, retained: boolean, log: FastifyBase
     if (hasil.data !== sebelumnya) { // Modul 19: hanya perubahan yang disiarkan dan dicatat
       siarkanStatus(deviceId, hasil.data);
       if (!retained) { // status retained saat backend menyala = keadaan lama, bukan kejadian baru
-        const pesan = hasil.data === "online" ? `${deviceId} tersambung lagi (online)` : `${deviceId} terputus (${hasil.data})`;
+        const pesan = kalimatStatus(deviceId, hasil.data);
         arsip.then(() => catatKejadian({ device_id: deviceId, jenis: "status", sumber: "perangkat", aturan_id: null, pesan }))
           .catch(() => {}); // gagal menyimpan status sudah dicatat gagalArsip
-        kabariStatus(deviceId, hasil.data); // Telegram: offline baru dikabarkan kalau bertahan 60 detik
+        kabariStatus(deviceId, hasil.data); // Telegram: offline 60 detik, offline-mode (Modul 28) 3 menit
       } else if (hasil.data === "online") {
         // Modul 25: "online" retained tetap membatalkan 📴 yang sedang menunggu. Sesudah broker dimulai ulang, perangkat bisa
         // tersambung LEBIH DULU dari backend, jadi kabar online-nya tiba sebagai pesan retained (tanpa ini: 📴 palsu)
@@ -147,6 +164,7 @@ function terima(topik: string, teks: string, retained: boolean, log: FastifyBase
     simpanTelemetry(deviceId, isi);
     siarkanTelemetry(deviceId, isi); // Modul 19: langsung diteruskan ke klien yang mengikuti perangkat ini
     if (!("tekanan" in isi)) catatLaporan(deviceId, isi.state ?? null, isi.ts); // Modul 19: keadaan aktuator (kontrak 1.3)
+    catatFw(deviceId, isi.fw); // Modul 28: versi firmware yang berjalan (Node 2: versi dari paketnya), untuk /armada
     nilaiBacaan(deviceId, isi); // Modul 19: aturan otomatis
     arsipkanTelemetry(deviceId, isi)
       .then((baru) => { if (!baru) log.info(`kiriman ganda dilewati: ${deviceId} ${isi.ts}`); })
@@ -156,6 +174,7 @@ function terima(topik: string, teks: string, retained: boolean, log: FastifyBase
     if (!hasil.success) return tolak(topik, ringkas(hasil.error), log);
     const isi = hasil.data;
     simpanVitals(deviceId, isi);
+    catatVitalsPembaruan(deviceId, isi); // Modul 28: fw, reset_reason, dan laporan pembaruan firmware (vitals.ota)
     // Modul 19: vitals pertama sesudah perangkat menyala membawa uptime kecil; semua relay-nya baru saja padam
     if (isi.uptime_s < 60) perangkatMenyalaUlang(deviceId, isi.uptime_s);
     const arsip = arsipkanVitals(deviceId, isi);
@@ -204,8 +223,31 @@ export function kirimPerintah(deviceId: string, idPerintah: string, perintah: Pe
 }
 
 // Modul 19: ambang aturan pengaman lokal (kontrak 1.3 bagian 7). QoS 1 dan retained: perangkat yang baru menyala atau
-// baru tersambung langsung menerimanya begitu berlangganan cmd.
-export function kirimConfig(deviceId: string, idPerintah: string, ambang: Ambang): void {
-  const cmd = { id: idPerintah, ts: new Date().toISOString().slice(0, 19) + "Z", aksi: "config", ambang };
+// baru tersambung langsung menerimanya begitu berlangganan cmd. Modul 28 (kontrak 1.6): SATU pesan gabungan berisi ambang
+// dan/atau jeda (topik cmd hanya punya satu pesan retained; kunci yang tidak dikirim tidak berubah di perangkat).
+export function kirimConfig(deviceId: string, idPerintah: string, isi: { ambang?: Ambang; jeda?: Jeda }): void {
+  const cmd = { id: idPerintah, ts: new Date().toISOString().slice(0, 19) + "Z", aksi: "config", ...isi };
   klien?.publish(`rpm/${deviceId}/cmd`, JSON.stringify(cmd), { qos: 1, retain: true });
+}
+
+// Modul 28: hapus config retained perangkat yang dinonaktifkan (pesan KOSONG ber-retain = broker melupakan pesan simpanan
+// topik itu; perangkat mengabaikan pesan kosong, kontrak bagian 7).
+export function hapusConfig(deviceId: string): void {
+  klien?.publish(`rpm/${deviceId}/cmd`, "", { qos: 1, retain: true });
+}
+
+// Modul 28: perintah pembaruan firmware (kontrak 1.6 bagian 7). QoS 1 dan TIDAK PERNAH retained: perangkat menyala ulang
+// sesudah memasangnya, jadi ingatan id-nya hilang; update yang tertempel di broker akan dikerjakan lagi setiap menyala.
+export function kirimUpdate(deviceId: string, idPerintah: string,
+  isi: { versi: string; url: string; sha256: string; ukuran: number }): void {
+  const cmd = { id: idPerintah, ts: new Date().toISOString().slice(0, 19) + "Z", aksi: "update", ...isi };
+  klien?.publish(`rpm/${deviceId}/cmd`, JSON.stringify(cmd), { qos: 1, retain: false });
+}
+
+// Modul 28: terbitkan satu perintah ke topik kontrol akun broker (services/akun-broker.ts). false = tidak tersambung, jadi
+// pemanggilnya tidak perlu menunggu jawaban yang pasti tidak datang.
+export function terbitkanKontrol(topik: string, isi: string): boolean {
+  if (klien === undefined || !klien.connected) return false;
+  klien.publish(topik, isi, { qos: 1, retain: false });
+  return true;
 }
