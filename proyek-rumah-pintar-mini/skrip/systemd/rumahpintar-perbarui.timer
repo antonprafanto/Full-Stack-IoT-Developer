@@ -1,0 +1,18 @@
+# rumahpintar-perbarui.timer - Modul 29: jam weker untuk rumahpintar-perbarui.service. Pi bertanya ke GitHub "ada rilis
+# baru?" 5 menit sesudah menyala, lalu setiap 15 menit. Rilis baru biasanya terpasang paling lambat ±17 menit sesudah robot
+# membuat tagnya (15 menit + acak sampai 1 menit + ketelitian jam weker systemd sampai 1 menit), ditambah lama menarik image.
+# Cara memasang: lihat kepala rumahpintar-perbarui.service.
+[Unit]
+Description=Jadwal pembaruan Rumah Pintar Mini (setiap 15 menit)
+
+[Timer]
+# 5 menit sesudah Pi menyala (Docker dan jaringan sudah siap)
+OnBootSec=5min
+# lalu 15 menit sesudah putaran sebelumnya DIMULAI, juga bila putaran itu gagal
+OnUnitActiveSec=15min
+# tambahan acak 0-60 detik: banyak Pi tidak bertanya ke GitHub dan GHCR pada detik yang sama
+RandomizedDelaySec=60
+Unit=rumahpintar-perbarui.service
+
+[Install]
+WantedBy=timers.target

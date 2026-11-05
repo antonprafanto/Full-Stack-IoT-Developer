@@ -1,0 +1,374 @@
+# ci.yml - robot pemeriksa dan pemasang Rumah Pintar Mini (Modul 29). GitHub Actions membaca berkas ini sendiri.
+#
+#   Setiap pull request ke main : periksa dan uji (bersamaan) -> bangun (image dicoba dibangun, TIDAK dikirim ke mana pun)
+#   Setiap push ke main (= PR di-merge): periksa dan uji -> bangun + kirim image ke GHCR -> staging (gladi resik di mesin
+#                                 robot) -> tandai-rilis (tag v<versi>) -> pasang-vps (lewat SSH)
+# Job yang merah menghentikan semua job sesudahnya. Pi tidak dihubungi dari sini (GitHub tidak bisa mengetuk Pi di balik
+# router): Pi memasang rilis bertanda itu sendiri setiap 15 menit (skrip/systemd/rumahpintar-perbarui.timer).
+#
+# Nama job periksa, uji, dan bangun = nama "status check" yang diwajibkan aturan cabang main (Settings -> Branches).
+# Mengganti nama job berarti aturan cabangnya juga harus diganti.
+# Setelan di GitHub (Settings -> Secrets and variables -> Actions), hanya untuk jalur dengan VPS:
+#   Variables: VPS_HOST         alamat VPS; kosong = job pasang-vps dilewati (jalur gratis, jalur tanpa VPS)
+#              VPS_USER         pengguna di VPS; kosong = rumah
+#              VPS_KNOWN_HOSTS  sidik kunci host VPS (hasil ssh-keyscan yang sudah kamu cocokkan); bukan rahasia
+#   Secrets  : VPS_KUNCI_SSH    kunci privat KHUSUS robot; di VPS kunci ini hanya bisa menjalankan skrip/pasang.sh
+# Repo publik = log robot bisa dibaca siapa pun: jangan pernah mencetak rahasia (echo, set -x).
+name: ci
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+# Izin bawaan token robot (GITHUB_TOKEN) untuk SEMUA job: hanya membaca isi repo. Job yang butuh lebih menulis izinnya
+# sendiri di bawah (bangun: kirim image; staging: tarik image; tandai-rilis: buat tag). Izin yang tidak disebut = tidak ada.
+permissions:
+  contents: read
+
+# Dua push beruntun ke cabang PR yang sama: run yang lama dibatalkan (yang penting hanya yang terbaru). Di main run yang
+# SEDANG berjalan tidak pernah dibatalkan, jadi dua pemasangan tidak pernah berjalan bersamaan. Yang boleh MENUNGGU hanya
+# satu: merge ketiga yang datang saat satu run berjalan dan satu menunggu membatalkan run yang menunggu (abu-abu,
+# "cancelled"). Aman: run terbaru membawa semua perubahan sebelumnya dan merilis versinya sendiri.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  # ---------------------------------------------------------------------------------------------------------------------
+  # periksa: yang murah dan cepat dulu. Satpam versi, firmware, lalu cek tipe, lint, tes frontend, build, audit library.
+  # ---------------------------------------------------------------------------------------------------------------------
+  periksa:
+    name: periksa
+    runs-on: ubuntu-24.04                        # ditulis persis (bukan ubuntu-latest): tidak berubah diam-diam
+    container: node:24.22.1-alpine3.24           # Node yang SAMA dengan Dockerfile backend dan dashboard
+    timeout-minutes: 15                          # bawaan GitHub 360 menit: job yang macet dihentikan jauh lebih cepat
+    steps:
+      # image Node Alpine tidak membawa git (checkout, cek-versi) dan tar lengkap (simpanan npm)
+      - run: apk add --no-cache git tar
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0                         # riwayat lengkap: cek-versi membandingkan dengan main
+      # di dalam wadah, folder repo milik pengguna lain: tanpa baris ini git menolak bekerja di sana
+      - run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+      - name: versi - satu nomor di semua tempat; yang dipasang berubah = versi naik
+        run: |
+          if [ "$GITHUB_EVENT_NAME" = pull_request ]; then
+            BASIS="origin/$GITHUB_BASE_REF" node skrip/cek-versi.mjs
+          else
+            node skrip/cek-versi.mjs
+          fi
+      # Berkas .bin, folder build/, dan kunci.h bisa berisi kunci ESP-NOW. Robot = alarm yang TERLAMBAT: di repo publik,
+      # kunci yang sudah ter-push wajib diganti, tidak cukup dihapus dari Git. :(glob) = ** berarti folder berapa pun
+      # (juga nol), icase = .BIN juga.
+      - name: firmware - sakelar uji Modul 28 mati, tanpa .bin, build/, atau kunci.h di Git
+        run: |
+          if ! grep -q '^const int UJI_KUNCI_SALAH = 0;' firmware/node-1-rumah/konfigurasi.h; then
+            echo "GAGAL  firmware/node-1-rumah/konfigurasi.h: UJI_KUNCI_SALAH harus 0 di kode yang di-commit (Modul 28)"
+            exit 1
+          fi
+          bin=$(git ls-files ':(glob,icase)**/*.bin' ':(glob)firmware/**/build/**' ':(glob)**/kunci.h')
+          if [ -n "$bin" ]; then
+            echo "GAGAL  berkas firmware atau kunci ikut Git (bisa berisi kunci ESP-NOW): $bin"
+            exit 1
+          fi
+          echo "LULUS  UJI_KUNCI_SALAH = 0, tidak ada berkas .bin, folder build/, atau kunci.h di Git"
+      - name: simpanan npm (unduhan library dipakai ulang selama package-lock.json sama)
+        uses: actions/cache@v6
+        with:
+          path: ~/.npm
+          key: npm-periksa-${{ hashFiles('backend/package-lock.json', 'frontend/package-lock.json') }}
+          restore-keys: npm-periksa-
+      - name: backend - cek tipe, lint, audit
+        working-directory: backend
+        run: |
+          npm ci
+          npm run cek
+          npm run lint
+          npm audit --omit=dev --audit-level=high
+      - name: frontend - lint, tes, cek skema, build, audit
+        working-directory: frontend
+        run: |
+          npm ci
+          npm run lint
+          npm test
+          npm run cek-skema
+          npm run build
+          npm audit --omit=dev --audit-level=high
+
+  # ---------------------------------------------------------------------------------------------------------------------
+  # uji: 203 unit test + 20 integration test dengan database uji sungguhan (berjalan bersamaan dengan periksa)
+  # ---------------------------------------------------------------------------------------------------------------------
+  uji:
+    name: uji
+    runs-on: ubuntu-24.04
+    container: node:24.22.1-alpine3.24
+    timeout-minutes: 15
+    services:
+      # Database UJI sekali pakai: image yang sama dengan produksi (migrasi 002-005 butuh TimescaleDB), kosong setiap kali
+      # job ini mulai, dibuang sesudahnya. Dari wadah job, alamatnya = nama layanan ini (db), seperti di Docker Compose.
+      db:
+        image: timescale/timescaledb:2.30.2-pg17
+        env:
+          POSTGRES_PASSWORD: uji-bukan-rahasia    # bukan rahasia: database ini hanya hidup beberapa menit di mesin robot
+          POSTGRES_DB: rumahpintar_uji            # berakhiran _uji: tes integrasi menolak nama database lain
+          TIMESCALEDB_TELEMETRY: "off"
+        options: >-
+          --health-cmd "pg_isready -h 127.0.0.1 -U postgres -d rumahpintar_uji"
+          --health-interval 5s --health-timeout 3s --health-retries 30
+    env:
+      DATABASE_URL_UJI: postgres://postgres:uji-bukan-rahasia@db:5432/rumahpintar_uji
+      # src/config/env.ts memeriksa SEMUA setelan, juga saat hanya menjalankan migrasi: isi nilai uji yang sah. Bukan rahasia
+      # sungguhan; tes integrasi sendiri menimpanya lagi dengan nilai acak.
+      MQTT_URL: mqtt://127.0.0.1:1
+      JWT_SECRET: uji-robot-bukan-rahasia-sungguhan-0123456789
+    steps:
+      - run: apk add --no-cache git tar
+      - uses: actions/checkout@v7
+      - name: simpanan npm
+        uses: actions/cache@v6
+        with:
+          path: ~/.npm
+          key: npm-uji-${{ hashFiles('backend/package-lock.json') }}
+          restore-keys: npm-uji-
+      - name: pasang library
+        working-directory: backend
+        run: npm ci
+      - name: migrasi database uji dua kali (kali kedua harus "0 migrasi baru diterapkan")
+        working-directory: backend
+        run: |
+          DATABASE_URL="$DATABASE_URL_UJI" node src/db/migrasi.ts
+          DATABASE_URL="$DATABASE_URL_UJI" node src/db/migrasi.ts > "$RUNNER_TEMP/migrasi-kedua.txt"
+          cat "$RUNNER_TEMP/migrasi-kedua.txt"
+          grep -q '^0 migrasi baru diterapkan' "$RUNNER_TEMP/migrasi-kedua.txt"
+      # npm test MELEWATI (skipped) tes integrasi bila DATABASE_URL_UJI kosong, juga tes yang ditandai .skip, dan kode
+      # keluarnya tetap 0. Di laptop itu boleh; di robot tidak: satu tes yang dilewati pun membuat job ini merah.
+      - name: unit test + integration test (database uji); tes yang dilewati = merah
+        working-directory: backend
+        run: |
+          set -o pipefail
+          npm test 2>&1 | tee "$RUNNER_TEMP/tes.txt"
+          if grep -q skipped "$RUNNER_TEMP/tes.txt"; then
+            echo "GAGAL  ada tes yang dilewati (skipped): di robot semua tes wajib jalan, juga 20 integration test"
+            echo "       (DATABASE_URL_UJI di env: job uji terisi? tes yang ditandai .skip?)"
+            exit 1
+          fi
+
+  # ---------------------------------------------------------------------------------------------------------------------
+  # bangun: satu image untuk dua jenis prosesor (amd64 = VPS, arm64 = Pi) tanpa emulasi: tahap Node di Dockerfile berjalan
+  # di prosesor robot ($BUILDPLATFORM), tahap akhir hanya menyalin. Pull request: dibangun saja. Push ke main: dikirim ke GHCR.
+  # ---------------------------------------------------------------------------------------------------------------------
+  bangun:
+    name: bangun
+    needs: [periksa, uji]                        # hanya kalau keduanya hijau
+    runs-on: ubuntu-24.04                        # mesin robot biasa (amd64) yang sudah membawa Docker dan buildx
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      packages: write                            # token robot boleh mengirim image ke paket GHCR milik repo ini
+    outputs:
+      toko: ${{ steps.nama.outputs.toko }}
+      versi: ${{ steps.nama.outputs.versi }}
+      rilis-baru: ${{ steps.nama.outputs.rilis-baru }}
+    steps:
+      - uses: actions/checkout@v7
+      - name: nama toko, versi, dan rilis baru atau bukan
+        id: nama
+        run: |
+          # GHCR hanya menerima huruf kecil: ${GITHUB_REPOSITORY_OWNER,,} = nama akun pemilik repo dalam huruf kecil
+          echo "toko=ghcr.io/${GITHUB_REPOSITORY_OWNER,,}" >> "$GITHUB_OUTPUT"
+          # satu nomor untuk backend dan web (cek-versi di job periksa sudah memastikan keduanya sama)
+          versi=$(node -p "require('./backend/package.json').version")
+          echo "versi=$versi" >> "$GITHUB_OUTPUT"
+          echo "pendek=${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT"
+          # tag v<versi> belum ada di GitHub = rilis baru (staging, tag, dan pasang hanya untuk rilis baru). Kode keluar 2 =
+          # tag itu memang tidak ada; kode lain = GitHub tidak bisa ditanya: merah, jangan menebak
+          if git ls-remote --exit-code --tags origin "refs/tags/v$versi" > /dev/null; then
+            echo "rilis-baru=tidak" >> "$GITHUB_OUTPUT"
+            echo "v$versi sudah dirilis: tidak ada rilis baru dari push ini"
+          else
+            kode=$?
+            [ "$kode" = 2 ] || { echo "GAGAL  tag rilis di GitHub tidak bisa diperiksa (ls-remote, kode $kode)"; exit 1; }
+            echo "rilis-baru=ya" >> "$GITHUB_OUTPUT"
+          fi
+      - uses: docker/setup-buildx-action@v4      # pembangun BuildKit: satu perintah untuk beberapa jenis prosesor
+      - name: masuk ke GHCR (hanya saat push ke main)
+        if: github.event_name == 'push'
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}  # token sementara buatan GitHub untuk job ini, bukan token pribadimu
+      # Hanya untuk rilis BARU: versi yang sudah bertanda pasti sudah ada di toko (tag dibuat sesudah staging menariknya),
+      # jadi push yang hanya mengubah dokumen tidak membangun dan tidak mengirim apa pun (langkah image di bawah ikut lewat).
+      - name: sudah ada di toko? (tag versi tidak pernah ditimpa)
+        id: ada
+        if: github.event_name == 'push' && steps.nama.outputs.rilis-baru == 'ya'
+        env:
+          TOKO: ${{ steps.nama.outputs.toko }}
+          VERSI: ${{ steps.nama.outputs.versi }}
+        run: |
+          for nama in backend web; do
+            if docker buildx imagetools inspect "$TOKO/rumah-pintar-mini-$nama:$VERSI" > /dev/null 2>&1; then
+              echo "$nama=ya" >> "$GITHUB_OUTPUT"
+              echo "rumah-pintar-mini-$nama:$VERSI sudah ada di toko: tidak dibangun dan tidak dikirim ulang"
+            else
+              echo "$nama=tidak" >> "$GITHUB_OUTPUT"
+            fi
+          done
+      # Indeks image juga memuat catatan asal-usul build (attestation, tertulis platform unknown/unknown): bukan image ketiga.
+      - name: image backend (amd64 + arm64)
+        if: github.event_name == 'pull_request' || steps.ada.outputs.backend == 'tidak'
+        uses: docker/build-push-action@v7
+        with:
+          context: ./backend
+          platforms: linux/amd64,linux/arm64
+          push: ${{ github.event_name == 'push' }}
+          tags: |
+            ${{ steps.nama.outputs.toko }}/rumah-pintar-mini-backend:${{ steps.nama.outputs.versi }}
+            ${{ steps.nama.outputs.toko }}/rumah-pintar-mini-backend:sha-${{ steps.nama.outputs.pendek }}
+          # menautkan paket GHCR ke repo ini (menimpa baris LABEL <akun> di Dockerfile)
+          labels: org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
+      - name: image web (amd64 + arm64)
+        if: github.event_name == 'pull_request' || steps.ada.outputs.web == 'tidak'
+        uses: docker/build-push-action@v7
+        with:
+          context: ./frontend
+          build-args: VITE_API_BASE=/api           # sama dengan args di compose.cloud.yml dan handle_path di Caddyfile
+          platforms: linux/amd64,linux/arm64
+          push: ${{ github.event_name == 'push' }}
+          tags: |
+            ${{ steps.nama.outputs.toko }}/rumah-pintar-mini-web:${{ steps.nama.outputs.versi }}
+            ${{ steps.nama.outputs.toko }}/rumah-pintar-mini-web:sha-${{ steps.nama.outputs.pendek }}
+          labels: org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
+
+  # ---------------------------------------------------------------------------------------------------------------------
+  # staging: gladi resik. compose.cloud.yml yang SAMA dengan VPS/Pi jalur gratis, image yang baru dikirim, database
+  # kosong, dan rahasia acak sekali pakai, di mesin robot yang dibuang sesudahnya. Rilis yang gagal di sini tidak pernah
+  # mendapat tag, jadi VPS dan Pi tidak pernah memasangnya. Yang dinyalakan di sini image amd64 (mesin robot = amd64):
+  # image arm64 pertama kali menyala di Pi jalur gratis dan diperiksa uji asap skrip/pasang.sh di sana. Ini BUKAN
+  # "staging" CA latihan Let's Encrypt di Modul 27.
+  # ---------------------------------------------------------------------------------------------------------------------
+  staging:
+    name: staging
+    needs: bangun
+    if: github.event_name == 'push' && needs.bangun.outputs.rilis-baru == 'ya'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      packages: read                             # menarik image yang baru dikirim, juga selama paketnya masih privat
+    steps:
+      - uses: actions/checkout@v7
+      - uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: .env staging (rahasia acak, ikut dibuang bersama mesin ini) dan lemari riwayat kosong
+        env:
+          TOKO: ${{ needs.bangun.outputs.toko }}
+        run: |
+          # resep acak yang sama dengan kepala .env.example; nilainya tidak pernah dicetak
+          acak() { node -e "console.log(require('node:crypto').randomBytes(32).toString('base64url'))"; }
+          umask 077
+          {
+            echo "COMPOSE_FILE=compose.cloud.yml"
+            echo "TOKO_IMAGE=$TOKO"
+            # enam rahasia wajib di compose.cloud.yml (TOKO_IMAGE yang ketujuh, di atas)
+            for nama in POSTGRES_PASSWORD JWT_SECRET MQTT_PASSWORD MOSQUITTO_DYNSEC_PASSWORD \
+              GRAFANA_BACA_SANDI GRAFANA_ADMIN_SANDI; do
+              echo "$nama=$(acak)"
+            done
+          } > .env
+          docker volume create rumahpintar-data
+          docker volume create rumahpintar-grafana-data
+      - name: tarik image dan nyalakan, persis seperti di VPS dan Pi
+        run: |
+          docker compose pull --quiet
+          docker compose up -d --no-build --wait --wait-timeout 300
+      - name: uji asap
+        env:
+          VERSI: ${{ needs.bangun.outputs.versi }}
+        run: sh skrip/uji-asap.sh "$VERSI"
+      - name: keadaan layanan dan log (hanya bila ada yang gagal)
+        if: failure()
+        run: |
+          docker compose ps -a
+          docker compose logs --no-color --tail 40
+
+  # ---------------------------------------------------------------------------------------------------------------------
+  # tandai-rilis: tag Git v<versi> pada commit ini = "rilis ini boleh dipasang". VPS dan Pi hanya mengikuti tag ini.
+  # ---------------------------------------------------------------------------------------------------------------------
+  tandai-rilis:
+    name: tandai-rilis
+    needs: [bangun, staging]
+    if: github.event_name == 'push'              # pengaman kedua: pull request tidak pernah membuat tag
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: write                            # SATU-SATUNYA job yang boleh menulis ke repo: membuat tag
+    steps:
+      - uses: actions/checkout@v7
+      - name: tag beranotasi v<versi>, isinya catatan versi itu dari CHANGELOG.md
+        env:
+          VERSI: ${{ needs.bangun.outputs.versi }}
+        run: |
+          tag="v$VERSI"
+          if git ls-remote --exit-code --tags origin "refs/tags/$tag" > /dev/null; then
+            echo "$tag sudah ada: dilewati (tag rilis tidak pernah dipindah)"
+            exit 0
+          fi
+          {
+            echo "Rumah Pintar Mini $VERSI"
+            echo
+            awk -v judul="## [$VERSI]" 'index($0, judul) == 1 { ambil = 1; next } /^## \[/ { ambil = 0 } ambil' CHANGELOG.md
+          } > "$RUNNER_TEMP/catatan-rilis.txt"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # --cleanup=whitespace: baris "### Ditambahkan" dari CHANGELOG tetap ada (bawaannya, baris berawal # dibuang)
+          git tag --annotate "$tag" --cleanup=whitespace --file "$RUNNER_TEMP/catatan-rilis.txt" "$GITHUB_SHA"
+          git push origin "refs/tags/$tag"
+          echo "$tag dibuat untuk commit $GITHUB_SHA"
+
+  # ---------------------------------------------------------------------------------------------------------------------
+  # pasang-vps: robot mengetuk VPS lewat SSH. Kunci robot di VPS hanya bisa menjalankan skrip/pasang.sh (command= di
+  # authorized_keys): VPS sendiri yang mengambil tag terbaru lalu memasangnya. Robot hanya mengirim sebuah PENANDA dan
+  # membaca laporan pasang.sh, jadi kunci yang lupa dibatasi membuat job ini merah, bukan hijau tanpa memasang apa pun.
+  # ---------------------------------------------------------------------------------------------------------------------
+  pasang-vps:
+    name: pasang-vps
+    needs: [bangun, tandai-rilis]                # bangun: nomor versi rilis ini (needs.bangun.outputs.versi)
+    if: github.event_name == 'push' && vars.VPS_HOST != ''   # VPS_HOST kosong (jalur gratis, tanpa VPS) = dilewati
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions: {}                              # tidak butuh token GitHub sama sekali
+    concurrency: pasang-vps                      # satu pemasangan VPS pada satu waktu, juga saat run diulang tangan
+    steps:
+      - name: kunci robot dan sidik VPS
+        env:
+          KUNCI: ${{ secrets.VPS_KUNCI_SSH }}
+          SIDIK_VPS: ${{ vars.VPS_KNOWN_HOSTS }}
+        run: |
+          umask 077
+          mkdir -p ~/.ssh
+          printf '%s\n' "$KUNCI" > ~/.ssh/kunci_robot
+          printf '%s\n' "$SIDIK_VPS" > ~/.ssh/known_hosts
+      - name: pasang rilis di VPS (lewat skrip/pasang.sh)
+        env:
+          TUJUAN: ${{ vars.VPS_USER || 'rumah' }}@${{ vars.VPS_HOST }}
+          VERSI: ${{ needs.bangun.outputs.versi }}
+        # -T: tanpa terminal; BatchMode: tidak pernah menanyakan sandi; StrictHostKeyChecking=yes: VPS yang sidiknya tidak
+        # cocok dengan VPS_KNOWN_HOSTS ditolak (bukan "no"!); IdentitiesOnly: hanya kunci robot ini yang dicoba.
+        # Kata terakhir = PENANDA, bukan perintah: dengan command= di authorized_keys, VPS mengabaikannya dan menjalankan
+        # pasang.sh. TANPA command= (kunci belum dibatasi), VPS mencoba menjalankannya -> "command not found" -> merah.
+        # Lalu laporan pasang.sh harus menyebut versi rilis ini terpasang. Run LAMA yang diulang sesudah ada rilis yang lebih
+        # baru juga merah (VPS sudah di rilis lain): yang diulang selalu run terbaru.
+        run: |
+          set -o pipefail
+          ssh -T -i ~/.ssh/kunci_robot -o BatchMode=yes -o StrictHostKeyChecking=yes -o IdentitiesOnly=yes \
+            -o ConnectTimeout=20 -o ServerAliveInterval=30 "$TUJUAN" kunci-robot-belum-dibatasi-command \
+            | tee "$RUNNER_TEMP/pasang.txt"
+          grep -Eq "v$VERSI (terpasang|sudah terpasang)" "$RUNNER_TEMP/pasang.txt" \
+            || { echo "GAGAL  VPS tidak melaporkan v$VERSI terpasang (baca laporan pasang.sh di atas)"; exit 1; }

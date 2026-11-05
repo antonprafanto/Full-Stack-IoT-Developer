@@ -1,0 +1,186 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1334" viewBox="0 0 1200 1334" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="1334" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" xml:space="preserve">Rumah Pintar Mini v2.0: diuji robot, dipasang sendiri</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" xml:space="preserve">Tambahan · keadaan Rumah Pintar Mini sesudah Modul 29 · panah = siapa yang memulai · putus-putus = tarik atau menyusul</text>
+<rect x="30.0" y="100.0" width="260.0" height="300.0" rx="14" fill="#ffffff" stroke="#1e2a4a" stroke-width="1.8" />
+<rect x="48.0" y="119.0" width="40.0" height="26.0" rx="3" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<path d="M42 149 L94 149" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="104.0" y="132.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >Laptop (kamu)</text>
+<text x="48.0" y="176.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">cabang → ubah → naikkan</text>
+<text x="48.0" y="196.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">versi → <tspan font-style="italic">pull request</tspan></text>
+<text x="48.0" y="236.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">npm</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">test</tspan> + database uji</text>
+<text x="48.0" y="256.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">rumahpintar-db-uji</tspan></text>
+<text x="48.0" y="276.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">(loket <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">5433</tspan>, sekali pakai)</text>
+<text x="48.0" y="296.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">npm run test:integrasi</tspan></text>
+<text x="48.0" y="316.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">node skrip/cek-versi.mjs</tspan></text>
+<text x="48.0" y="356.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">tunggu <tspan font-weight="800" fill="#1e2a4a">Checks</tspan> hijau, lalu</text>
+<text x="48.0" y="376.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">Merge pull request</tspan></text>
+<rect x="30.0" y="420.0" width="260.0" height="370.0" rx="14" fill="#ffffff" stroke="#6f42c1" stroke-width="1.6" />
+<rect x="51.0" y="437.0" width="22.0" height="38.0" rx="5" fill="none" stroke="#6f42c1" stroke-width="2" />
+<circle cx="62.0" cy="469.0" r="1.8" fill="#6f42c1" />
+<text x="88.0" y="452.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >Cek tanpa kamu SSH</text>
+<text x="88.0" y="470.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" >HP atau laptop, di mana pun</text>
+<text x="48.0" y="504.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#6f42c1" font-weight="800">https://iot.namaanda.my.id</tspan></text>
+<text x="48.0" y="524.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">layar Masuk: nomor versi</text>
+<text x="48.0" y="544.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">(<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#6f42c1" font-weight="800">v2.0.0</tspan>, lalu <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#6f42c1" font-weight="800">v2.0.1</tspan>, …)</text>
+<text x="48.0" y="564.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">di bawah judul; muat ulang</text>
+<text x="48.0" y="584.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">dua kali (PWA)</text>
+<text x="48.0" y="624.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#6f42c1" font-weight="800">/api/health</tspan> menulis</text>
+<text x="48.0" y="644.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#6f42c1" font-weight="800">"versi":"2.0.1"</tspan></text>
+<text x="48.0" y="684.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">jalur gratis: alamat sama,</text>
+<text x="48.0" y="704.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">lewat Cloudflare Tunnel</text>
+<rect x="330.0" y="100.0" width="420.0" height="690.0" rx="16" fill="#ffffff" stroke="#1e2a4a" stroke-width="2" />
+<path d="M350 144 Q340 144 342 134 Q344 124 356 126 Q362 114 376 119 Q388 116 390 128 Q400 130 398 139 Q396 144 388 144 Z" fill="none" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="406.0" y="132.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >GitHub: rumah-pintar-mini (publik)</text>
+<text x="406.0" y="151.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">palang di depan <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#4a5568" font-weight="800">main</tspan>: aturan cabang (Konsep 11)</text>
+<rect x="346.0" y="170.0" width="388.0" height="172.0" rx="10" fill="#fcf2f6" stroke="#a13a6b" stroke-width="1.8" />
+<text x="360.0" y="194.0" font-size="13" font-weight="800" fill="#a13a6b" text-anchor="start" xml:space="preserve">robot <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#a13a6b" font-weight="800">.github/workflows/ci.yml</tspan></text>
+<text x="360.0" y="218.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">PR: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">periksa</tspan> ∥ <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">uji</tspan> → <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">bangun</tspan> (<tspan font-style="italic">check</tspan> wajib)</text>
+<text x="360.0" y="239.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-style="italic">push</tspan> ke <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">main</tspan>: … → <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">bangun</tspan> + kirim →</text>
+<text x="360.0" y="260.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">staging</tspan> → <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">tandai-rilis</tspan> → <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">pasang-vps</tspan></text>
+<text x="360.0" y="281.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">merah = berhenti; pemasangan hanya dari</text>
+<text x="360.0" y="302.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">rilis bertanda; log robot bisa dibaca siapa</text>
+<text x="360.0" y="323.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">pun (repo publik): jangan cetak rahasia</text>
+<rect x="346.0" y="358.0" width="388.0" height="166.0" rx="10" fill="#eef1f5" />
+<text x="360.0" y="382.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" >GHCR (toko image)</text>
+<text x="360.0" y="404.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">rumah-pintar-mini-backend</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">-web</tspan></text>
+<text x="360.0" y="425.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">tag <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">2.0.0</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">2.0.1</tspan>, … dan <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">sha-&lt;7&gt;</tspan></text>
+<text x="360.0" y="446.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">satu indeks: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">amd64</tspan> + <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">arm64</tspan></text>
+<text x="360.0" y="467.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">paket publik: ditarik tanpa <tspan font-style="italic">login</tspan></text>
+<text x="360.0" y="488.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">versi yang <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">staging</tspan>-nya merah ada di</text>
+<text x="360.0" y="509.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">toko, tetapi tanpa tag Git: tidak dipasang</text>
+<rect x="346.0" y="700.0" width="388.0" height="74.0" rx="10" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.4" />
+<text x="360.0" y="724.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">Secrets</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">VPS_KUNCI_SSH</tspan>: kunci robot privat</text>
+<text x="360.0" y="743.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">Variables</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">VPS_HOST</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">VPS_USER</tspan>,</text>
+<text x="360.0" y="762.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">VPS_KNOWN_HOSTS</tspan> (bukan rahasia)</text>
+<rect x="820.0" y="100.0" width="350.0" height="300.0" rx="16" fill="#ffffff" stroke="#a13a6b" stroke-width="2.2" />
+<rect x="836.0" y="114.0" width="36.0" height="11.0" rx="2" fill="none" stroke="#a13a6b" stroke-width="1.8" />
+<circle cx="843.0" cy="119.5" r="1.6" fill="#a13a6b" />
+<rect x="836.0" y="128.0" width="36.0" height="11.0" rx="2" fill="none" stroke="#a13a6b" stroke-width="1.8" />
+<circle cx="843.0" cy="133.5" r="1.6" fill="#a13a6b" />
+<rect x="836.0" y="142.0" width="36.0" height="11.0" rx="2" fill="none" stroke="#a13a6b" stroke-width="1.8" />
+<circle cx="843.0" cy="147.5" r="1.6" fill="#a13a6b" />
+<text x="884.0" y="132.0" font-size="14" font-weight="800" fill="#a13a6b" text-anchor="start" >VPS (jalur utama)</text>
+<text x="884.0" y="151.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">pusat: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#4a5568" font-weight="800">compose.cloud.yml</tspan></text>
+<text x="838.0" y="180.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">backend + web dari GHCR, tidak</text>
+<text x="838.0" y="201.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">membangun lagi (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">up</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">--no-build</tspan>)</text>
+<text x="838.0" y="222.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">dipasang robot lewat SSH: kunci</text>
+<text x="838.0" y="243.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">restrict,command=</tspan> di pengguna</text>
+<text x="838.0" y="264.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">rumah</tspan> → <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">skrip/pasang.sh</tspan></text>
+<text x="838.0" y="285.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">(bagian <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">pusat</tspan>, bawaan) + uji asap</text>
+<text x="838.0" y="306.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">kamu tidak SSH lagi untuk memasang;</text>
+<text x="838.0" y="327.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">image lama menumpuk (Modul 30)</text>
+<rect x="820.0" y="420.0" width="350.0" height="370.0" rx="16" fill="#ffffff" stroke="#1e2a4a" stroke-width="2" />
+<path d="M837 451 L854 437 L871 451" fill="none" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="842.0" y="449.0" width="24.0" height="18.0" rx="2" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<rect x="850.5" y="457.0" width="7.0" height="10.0" rx="1" fill="none" stroke="#1e2a4a" stroke-width="1.6" />
+<text x="884.0" y="450.0" font-size="14" font-weight="800" fill="#1e2a4a" text-anchor="start" >Rumah (WiFi rumah)</text>
+<text x="884.0" y="469.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">router tanpa <tspan font-style="italic">port forwarding</tspan></text>
+<rect x="836.0" y="484.0" width="318.0" height="46.0" rx="10" fill="#e2f3f1" stroke="#0f8b8d" stroke-width="1.4" />
+<text x="850.0" y="504.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Node 1 <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#0f8b8d" font-weight="800">1.7.x</tspan> · Node 2 <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#0f8b8d" font-weight="800">1.0.0</tspan></text>
+<text x="850.0" y="521.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="start" >firmware tidak berubah di Modul 29</text>
+<rect x="836.0" y="544.0" width="318.0" height="142.0" rx="10" fill="#fcf2f6" stroke="#a13a6b" stroke-width="1.6" />
+<rect x="846.0" y="557.0" width="48.0" height="34.0" rx="4" fill="none" stroke="#a13a6b" stroke-width="2" />
+<circle cx="853.0" cy="563.0" r="1.3" fill="#a13a6b" />
+<circle cx="858.4" cy="563.0" r="1.3" fill="#a13a6b" />
+<circle cx="863.8" cy="563.0" r="1.3" fill="#a13a6b" />
+<circle cx="869.2" cy="563.0" r="1.3" fill="#a13a6b" />
+<circle cx="874.6" cy="563.0" r="1.3" fill="#a13a6b" />
+<circle cx="880.0" cy="563.0" r="1.3" fill="#a13a6b" />
+<rect x="878.0" y="570.0" width="12.0" height="9.0" rx="1" fill="none" stroke="#a13a6b" stroke-width="1.5" />
+<rect x="858.0" y="572.0" width="12.0" height="12.0" rx="1.5" fill="none" stroke="#a13a6b" stroke-width="1.5" />
+<text x="904.0" y="572.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" >Pi gerbang</text>
+<text x="904.0" y="590.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" >jam weker tiap 15 menit</text>
+<text x="850.0" y="618.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">edge/compose.edge.yml</tspan>: image resmi</text>
+<text x="850.0" y="636.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Mosquitto; <tspan font-style="italic">timer</tspan> (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">User=budi</tspan>) →</text>
+<text x="850.0" y="654.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">pasang.sh</tspan> (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">PASANG_BAGIAN=gerbang</tspan>)</text>
+<text x="850.0" y="672.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">hanya tag rilis, hanya maju</text>
+<rect x="836.0" y="698.0" width="318.0" height="78.0" rx="10" fill="#ffffff" stroke="#a13a6b" stroke-width="1.4" stroke-dasharray="7 5"/>
+<text x="850.0" y="720.0" font-size="12" font-weight="800" fill="#a13a6b" text-anchor="start" >Jalur gratis: pusat juga di Pi</text>
+<text x="850.0" y="738.0" font-size="11" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">PASANG_BAGIAN="pusat</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">gerbang"</tspan>;</text>
+<text x="850.0" y="755.0" font-size="11" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">image backend + web dari GHCR</text>
+<line x1="292.0" y1="176.0" x2="326.0" y2="176.0" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" />
+<path d="M320.9 179.8 L328.0 176.0 L320.9 172.2" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="298.4" y="153.1" width="23.1" height="15.5" rx="3" fill="#fffdf7" />
+<text x="310.0" y="164.0" font-size="11.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" xml:space="preserve">PR</text>
+<line x1="752.0" y1="256.0" x2="816.0" y2="256.0" stroke="#a13a6b" stroke-width="2.6" stroke-linecap="round" />
+<path d="M810.1 260.2 L818.0 256.0 L810.1 251.8" fill="none" stroke="#a13a6b" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<text x="785.0" y="246.0" font-size="11.5" font-weight="800" fill="#a13a6b" text-anchor="middle" >SSH</text>
+<line x1="818.0" y1="376.0" x2="754.0" y2="376.0" stroke="#4a5568" stroke-width="2" stroke-linecap="round" stroke-dasharray="6 4" />
+<path d="M759.1 372.2 L752.0 376.0 L759.1 379.8" fill="none" stroke="#4a5568" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="785.0" y="366.0" font-size="11" font-weight="800" fill="#4a5568" text-anchor="middle" >tarik image</text>
+<rect x="346.0" y="564.0" width="388.0" height="92.0" rx="10" fill="#eef1f5" />
+<text x="360.0" y="588.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" >tag rilis di main (hanya robot)</text>
+<text x="360.0" y="610.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">v2.0.0</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">v2.0.1</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">v2.0.2</tspan>: dibuat <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">tandai-rilis</tspan></text>
+<text x="360.0" y="630.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">sesudah <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">staging</tspan> hijau</text>
+<line x1="818.0" y1="610.0" x2="754.0" y2="610.0" stroke="#a13a6b" stroke-width="2.2" stroke-linecap="round" stroke-dasharray="7 5" />
+<path d="M759.1 606.2 L752.0 610.0 L759.1 613.8" fill="none" stroke="#a13a6b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="785.0" y="600.0" font-size="11" font-weight="800" fill="#a13a6b" text-anchor="middle" >tarik tag</text>
+<rect x="30.0" y="812.0" width="1140.0" height="40.0" rx="10" fill="#fcf2f6" />
+<text x="50.0" y="838.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#a13a6b">Sesudah Modul 29:</tspan> backend dan dashboard satu nomor <tspan font-weight="800" fill="#a13a6b">2.0.0</tspan> (latihanmu menaikkannya ke 2.0.1 dan 2.0.2) · <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">/health</tspan> menyebut <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">versi</tspan> · kontrak data <tspan font-weight="800" fill="#a13a6b">1.6</tspan> · firmware dan migrasi <tspan font-weight="800" fill="#a13a6b">tetap</tspan></text>
+<rect x="30.0" y="870.0" width="760.0" height="422.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<path d="M50 912 Q40 912 42 902 Q44 892 56 894 Q62 882 76 887 Q88 884 90 896 Q100 898 98 907 Q96 912 88 912 Z" fill="none" stroke="#1e2a4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="108.0" y="904.0" font-size="15" font-weight="800" fill="#1e2a4a" text-anchor="start" >GitHub: rumah-pintar-mini</text>
+<text x="770.0" y="904.0" font-size="12" font-weight="700" fill="#4a5568" text-anchor="end" xml:space="preserve">empat <tspan font-style="italic">pull request</tspan></text>
+<rect x="50.0" y="920.0" width="13.0" height="13.0" rx="3" fill="#a13a6b" stroke="#a13a6b" stroke-width="1.4" />
+<path d="M53 926.8 L55.6 929.4 L60.2 923.8" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<text x="72.0" y="932.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">uji + robot · <tspan font-style="italic">pipeline</tspan> + rilis <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">2.0.0</tspan> · PATCH <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">2.0.1</tspan> · <tspan font-style="italic">revert</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">2.0.2</tspan></text>
+<text x="50.0" y="962.0" font-size="11" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">.github/workflows/ci.yml</text>
+<text x="352.0" y="962.0" font-size="11.5" font-weight="700" fill="#a13a6b" text-anchor="start" xml:space="preserve">baru: robot, enam <tspan font-style="italic">job</tspan> dari <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" font-weight="800">periksa</tspan> sampai <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" font-weight="800">pasang-vps</tspan></text>
+<text x="50.0" y="981.0" font-size="11" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">backend/src/app.ts + src/integrasi/</text>
+<text x="352.0" y="981.0" font-size="11.5" font-weight="700" fill="#a13a6b" text-anchor="start" xml:space="preserve">baru: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" font-weight="800">buatApp()</tspan> + 20 <tspan font-style="italic">integration test</tspan> (database <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" font-weight="800">…_uji</tspan>)</text>
+<text x="50.0" y="1000.0" font-size="11" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">backend/ 2.0.0</text>
+<text x="352.0" y="1000.0" font-size="11.5" font-weight="700" fill="#a13a6b" text-anchor="start" xml:space="preserve">oxlint <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" font-weight="800">--deny-warnings</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" font-weight="800">/health</tspan> menyebut <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" font-weight="800">versi</tspan></text>
+<text x="50.0" y="1019.0" font-size="11" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">frontend/ 2.0.0</text>
+<text x="352.0" y="1019.0" font-size="11.5" font-weight="700" fill="#a13a6b" text-anchor="start" xml:space="preserve">Vitest: 5 tes; <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" font-weight="800">v2.0.0</tspan> di bawah judul layar</text>
+<text x="50.0" y="1038.0" font-size="11" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">backend/Dockerfile + frontend/Dockerfile</text>
+<text x="352.0" y="1038.0" font-size="11.5" font-weight="700" fill="#a13a6b" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" font-weight="800">$BUILDPLATFORM</tspan>, tahap akhir tanpa <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" font-weight="800">RUN</tspan></text>
+<text x="50.0" y="1057.0" font-size="11" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">compose.cloud.yml</text>
+<text x="352.0" y="1057.0" font-size="11.5" font-weight="700" fill="#a13a6b" text-anchor="start" xml:space="preserve">tag <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" font-weight="800">2.0.0</tspan> ×3; VPS (dan Pi jalur gratis) menarik (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" font-weight="800">--no-build</tspan>)</text>
+<text x="50.0" y="1076.0" font-size="11" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">skrip/cek-versi.mjs</text>
+<text x="352.0" y="1076.0" font-size="11.5" font-weight="700" fill="#a13a6b" text-anchor="start" xml:space="preserve">baru: satpam satu nomor di 10 tempat</text>
+<text x="50.0" y="1095.0" font-size="11" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">skrip/pasang.sh + uji-asap.sh</text>
+<text x="352.0" y="1095.0" font-size="11.5" font-weight="700" fill="#a13a6b" text-anchor="start" xml:space="preserve">baru: satu pemasang untuk VPS dan Pi</text>
+<text x="50.0" y="1114.0" font-size="11" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">skrip/systemd/rumahpintar-perbarui.*</text>
+<text x="352.0" y="1114.0" font-size="11.5" font-weight="700" fill="#a13a6b" text-anchor="start" xml:space="preserve">baru: jam weker Pi tiap 15 menit</text>
+<text x="50.0" y="1133.0" font-size="11" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">CHANGELOG.md</text>
+<text x="352.0" y="1133.0" font-size="11.5" font-weight="700" fill="#a13a6b" text-anchor="start" xml:space="preserve">baru: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" font-weight="800">[Belum</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" font-weight="800">Dirilis]</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" font-weight="800">[2.0.0]</tspan></text>
+<text x="50.0" y="1152.0" font-size="11" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">.gitattributes</text>
+<text x="352.0" y="1152.0" font-size="11.5" font-weight="700" fill="#a13a6b" text-anchor="start" xml:space="preserve">LF untuk <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" font-weight="800">.mjs</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" font-weight="800">.service</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" font-weight="800">.timer</tspan></text>
+<text x="50.0" y="1171.0" font-size="11" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">templat PR + README ×4</text>
+<text x="352.0" y="1171.0" font-size="11.5" font-weight="700" fill="#a13a6b" text-anchor="start" xml:space="preserve">butir baru di templat; bagian Modul 29 di README</text>
+<text x="50.0" y="1194.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">tetap:</tspan> kontrak data, firmware Node 1 dan Node 2, migrasi, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#4a5568" font-weight="800">grafana/</tspan>, konfigurasi broker <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#4a5568" font-weight="800">edge/*.conf</tspan></text>
+<rect x="46.0" y="1208.0" width="728.0" height="66.0" rx="8" fill="#eef1f5" />
+<rect x="57.0" y="1224.3" width="12.1" height="9.4" rx="1.6500000000000001" fill="none" stroke="#1e2a4a" stroke-width="1.5" />
+<path d="M59.42 1224.35 L59.42 1221.60 A3.58 3.58 0 0 1 66.58 1221.60 L66.58 1224.35" fill="none" stroke="#1e2a4a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="63.0" cy="1228.8" r="1.29" fill="#1e2a4a" />
+<text x="80.0" y="1230.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve">tidak pernah ikut Git: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" font-weight="800">.env</tspan> (laptop, VPS, Pi), <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" font-weight="800">edge/.env</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" font-weight="800">edge/jembatan/pusat.conf</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" font-weight="800">backup/</tspan>,</text>
+<text x="80.0" y="1249.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve">kunci robot privat (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" font-weight="800">~/.ssh/robot_rumah</tspan>; isinya hanya di <tspan font-weight="800" fill="#1e2a4a">Secrets</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" font-weight="800">VPS_KUNCI_SSH</tspan>),</text>
+<text x="80.0" y="1268.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve">catatan rilis terpasang <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" font-weight="800">.git/rumahpintar-terpasang</tspan> (di dalam folder <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" font-weight="800">.git</tspan>)</text>
+<text x="810.0" y="884.0" font-size="12.5" font-weight="800" fill="#4a5568" text-anchor="start" >menyusul</text>
+<rect x="810.0" y="896.0" width="360.0" height="142.0" rx="8" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.4" stroke-dasharray="7 5"/>
+<g transform="translate(832 918) scale(0.5) translate(-832 -918)">
+<rect x="813.0" y="904.0" width="38.0" height="28.0" rx="4" fill="none" stroke="#4a5568" stroke-width="2" />
+<path d="M819 925 L827 917 L834 922 L845 910" fill="none" stroke="#4a5568" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+</g>
+<text x="852.0" y="922.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Modul 30: tahu lebih dulu, data aman</text>
+<text x="852.0" y="942.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">pemantau Uptime Kuma + kabar Telegram &lt; 2 menit,</text>
+<text x="852.0" y="959.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#4a5568" font-weight="800">/health</tspan> 503 saat ada yang mati</text>
+<text x="852.0" y="976.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">cadangan database otomatis ke luar VPS</text>
+<text x="852.0" y="993.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">(rclone) + uji pulih; <tspan font-style="italic">runbook</tspan> "kalau X rusak,</text>
+<text x="852.0" y="1010.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">lakukan Y"; image lama yang menumpuk</text>
+<text x="852.0" y="1027.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">dan disk penuh; rilis MINOR <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#4a5568" font-weight="800">v2.1</tspan></text>
+<rect x="810.0" y="1048.0" width="360.0" height="244.0" rx="12" fill="#eef1f5" />
+<text x="828.0" y="1074.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" >Jujur, sesudah Modul 29 masih:</text>
+<circle cx="832.0" cy="1094.0" r="2.2" fill="#1e2a4a" />
+<text x="842.0" y="1098.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">robot, GitHub, GHCR, VPS, dan Pi gerbang</text>
+<text x="842.0" y="1115.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">sungguhan tidak diuji penulis: semuanya ditiru</text>
+<text x="842.0" y="1132.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">di Pi 5 penulis; layar GitHub = rekonstruksi</text>
+<circle cx="832.0" cy="1149.0" r="2.2" fill="#1e2a4a" />
+<text x="842.0" y="1153.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">image amd64 dibangun, belum pernah</text>
+<text x="842.0" y="1170.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">dijalankan penulis</text>
+<circle cx="832.0" cy="1187.0" r="2.2" fill="#1e2a4a" />
+<text x="842.0" y="1191.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">jadwal <tspan font-style="italic">timer</tspan> hanya dicek <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">systemd-analyze</tspan>; broker</text>
+<text x="842.0" y="1208.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">yang baru mogok sesudah ±10 detik bisa lolos</text>
+<text x="1178.0" y="1320.0" font-size="11" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

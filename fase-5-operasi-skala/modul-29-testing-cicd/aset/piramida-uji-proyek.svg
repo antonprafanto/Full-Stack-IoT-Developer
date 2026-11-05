@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="868" viewBox="0 0 1200 868" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="868" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" xml:space="preserve">Piramida uji Rumah Pintar Mini</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" xml:space="preserve">Konsep 1 · banyak tes kecil yang cepat di bawah, sedikit tes besar yang lambat di atas · angka = proyek sesudah Modul 29</text>
+<path d="M372 118 L448.3 262 L295.7 262 Z" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="7 5"/>
+<path d="M292.0 269 L452.0 269 L532.0 420 L212.0 420 Z" fill="#f5e0ea" stroke="#a13a6b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M208.3 427 L535.7 427 L622.0 590 L122.0 590 Z" fill="#eef1f5" stroke="#1e2a4a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<text x="372.0" y="212.0" font-size="12.5" font-weight="800" fill="#4a5568" text-anchor="middle" >end-to-end</text>
+<text x="372.0" y="234.0" font-size="16" font-weight="800" fill="#4a5568" text-anchor="middle" >0 tes</text>
+<text x="372.0" y="253.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="middle" >pelanggan</text>
+<text x="372.0" y="306.0" font-size="13.5" font-weight="800" fill="#a13a6b" text-anchor="middle" >integration test</text>
+<text x="372.0" y="340.0" font-size="24" font-weight="800" fill="#a13a6b" text-anchor="middle" >20 tes</text>
+<text x="372.0" y="364.0" font-size="11.5" font-weight="700" fill="#a13a6b" text-anchor="middle" >baru di Modul 29</text>
+<text x="372.0" y="392.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="middle" >dapur latihan</text>
+<text x="372.0" y="466.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" >unit test</text>
+<text x="372.0" y="502.0" font-size="24" font-weight="800" fill="#1e2a4a" text-anchor="middle" >203 + 5 tes</text>
+<text x="372.0" y="526.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="middle" >backend + frontend</text>
+<text x="372.0" y="558.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="middle" >bahan</text>
+<line x1="50.0" y1="586.0" x2="50.0" y2="148.0" stroke="#4a5568" stroke-width="2" stroke-linecap="round" />
+<path d="M53.8 151.1 L50.0 144.0 L46.2 151.1" fill="none" stroke="#4a5568" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M46.2 582.9 L50.0 590.0 L53.8 582.9" fill="none" stroke="#4a5568" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<text x="32.0" y="124.0" font-size="12" font-weight="800" fill="#4a5568" text-anchor="start" >lambat &amp; yakin</text>
+<text x="32.0" y="614.0" font-size="12" font-weight="800" fill="#4a5568" text-anchor="start" >cepat &amp; banyak</text>
+<rect x="660.0" y="118.0" width="510.0" height="144.0" rx="12" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.6" stroke-dasharray="7 5"/>
+<text x="678.0" y="146.0" font-size="13.5" font-weight="800" fill="#4a5568" text-anchor="start" >End-to-end: pelanggan memesan sampai makanan datang</text>
+<text x="678.0" y="172.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">peramban → Caddy → backend → database → broker, semuanya</text>
+<text x="678.0" y="193.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">sungguhan: paling yakin, tetapi paling lambat dan mudah goyah</text>
+<text x="678.0" y="214.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">di modul ini <tspan font-weight="800" fill="#1e2a4a">0 tes</tspan> · Playwright = Bedah Teknis (opsional)</text>
+<line x1="418.1" y1="190.0" x2="654.0" y2="190.0" stroke="#9aa3b0" stroke-width="1.4" stroke-linecap="round" stroke-dasharray="3 4" />
+<circle cx="416.1" cy="190.0" r="2.6" fill="#9aa3b0" />
+<rect x="660.0" y="269.0" width="510.0" height="151.0" rx="12" fill="#fcf2f6" stroke="#a13a6b" stroke-width="1.8" />
+<text x="678.0" y="297.0" font-size="13.5" font-weight="800" fill="#a13a6b" text-anchor="start" >Integration test: memasak resep di dapur latihan</text>
+<text x="678.0" y="323.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">rute + SQL + database TimescaleDB sungguhan (broker palsu):</text>
+<text x="678.0" y="344.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">CHECK</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">ON</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">CONFLICT</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">time_bucket</tspan>, migrasi 001–011 dari nol</text>
+<text x="678.0" y="365.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">20 tes</tspan> di 6 berkas <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">src/integrasi/</tspan>, lewat <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">buatApp()</tspan> = rakitan</text>
+<text x="678.0" y="386.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">yang sama dengan produksi · hanya database berakhiran <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">_uji</tspan></text>
+<line x1="500.0" y1="344.5" x2="654.0" y2="344.5" stroke="#9aa3b0" stroke-width="1.4" stroke-linecap="round" stroke-dasharray="3 4" />
+<circle cx="498.0" cy="344.5" r="2.6" fill="#9aa3b0" />
+<rect x="660.0" y="427.0" width="510.0" height="163.0" rx="12" fill="#ffffff" stroke="#1e2a4a" stroke-width="1.8" />
+<text x="678.0" y="455.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Unit test: mencicipi bahan satu per satu</text>
+<text x="678.0" y="481.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">fungsi murni (sejak Modul 19) dan rute tanpa jaringan</text>
+<text x="678.0" y="502.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">(<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">app.inject</tspan>, sejak Modul 21) dengan database dan broker tiruan</text>
+<text x="678.0" y="523.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">(<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">vi.mock</tspan>) · backend <tspan font-weight="800" fill="#1e2a4a">203 tes</tspan> (25 berkas) · frontend <tspan font-weight="800" fill="#1e2a4a">5 tes</tspan> Vitest</text>
+<text x="678.0" y="544.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">(waktu WIB, CSV, uraian aturan) · tanpa Docker, tanpa jaringan</text>
+<line x1="586.8" y1="508.5" x2="654.0" y2="508.5" stroke="#9aa3b0" stroke-width="1.4" stroke-linecap="round" stroke-dasharray="3 4" />
+<circle cx="584.8" cy="508.5" r="2.6" fill="#9aa3b0" />
+<rect x="30.0" y="636.0" width="560.0" height="190.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="50.0" y="664.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12.5" fill="#1e2a4a" font-weight="800">npm</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12.5" fill="#1e2a4a" font-weight="800">test</tspan> di folder <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12.5" fill="#1e2a4a" font-weight="800">backend</tspan> (laptop)</text>
+<rect x="50.0" y="680.0" width="520.0" height="87.8" rx="8" fill="#eef1f5" />
+<text x="62.0" y="701.8" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve"># tanpa database uji: 20 integration test dilewati</text>
+<text x="62.0" y="719.6" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">Tests  203 passed | 20 skipped (223)</text>
+<text x="62.0" y="737.4" font-size="11.5" font-weight="700" fill="#4a5568" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve"># dengan DATABASE_URL_UJI (database uji menyala):</text>
+<text x="62.0" y="755.2" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">Tests  223 passed (223)</text>
+<text x="50.0" y="791.8" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Pi 5 penulis: ±15 detik tanpa, ±29 detik dengan database uji</text>
+<text x="50.0" y="811.8" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">robot (<tspan font-style="italic">job</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#a13a6b" font-weight="800">uji</tspan>): database uji selalu ada; satu tes <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#a13a6b" font-weight="800">skipped</tspan> = merah</text>
+<rect x="610.0" y="636.0" width="560.0" height="190.0" rx="12" fill="#fcf2f6" stroke="#a13a6b" stroke-width="1.8" />
+<text x="630.0" y="664.0" font-size="13.5" font-weight="800" fill="#a13a6b" text-anchor="start" >Yang hanya tertangkap database (lab penulis)</text>
+<text x="630.0" y="694.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">SQL salah di <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">src/db/perangkat.ts</tspan>: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">$5</tspan> diganti <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">upper($5)</tspan></text>
+<text x="630.0" y="719.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" font-style="italic" fill="#1e2a4a">unit test</tspan> <tspan font-weight="800" fill="#1e2a4a">tetap hijau</tspan>: database tiruan tidak menjalankan SQL</text>
+<text x="630.0" y="744.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" font-style="italic" fill="#1e2a4a">integration test</tspan> <tspan font-weight="800" fill="#1e2a4a">merah</tspan> (6 dari 20): database menolak baris itu</text>
+<text x="630.0" y="769.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">(<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">CHECK</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">devices_kunci_hash_check</tspan>), backend menjawab <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">503</tspan></text>
+<text x="630.0" y="794.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">pelajaran: tiruan cepat, database sungguhan jujur</text>
+<text x="1178.0" y="854.0" font-size="11" font-weight="400" fill="#8a8f9c" text-anchor="end" >Kurikulum Fullstack IoT Developer · CC BY 4.0</text>
+</svg>

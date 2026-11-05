@@ -13,6 +13,7 @@ describe("bandingkanVersi", () => {
   });
 
   it("1.10.0 LEBIH BARU daripada 1.9.0 (perbandingan teks biasa salah di sini)", () => {
+    // oxlint-disable-next-line no-constant-binary-expression -- sengaja: dua teks tetap untuk menunjukkan perbandingan teks salah
     expect("1.10.0" < "1.9.0").toBe(true); // teks: "1" < "9", jadi salah
     expect(bandingkanVersi("1.10.0", "1.9.0")).toBe(1);
     expect(bandingkanVersi("1.7.10", "1.7.9")).toBe(1);

@@ -1,0 +1,27 @@
+# halo.yml - Kemenangan Cepat Modul 29: robot pertama. Taruh berkas ini di .github/workflows/halo.yml di cabang
+# coba/robot SAJA, buka pull request, lihat centang hijau, lalu buat merah. Pull request itu ditutup TANPA merge, jadi
+# berkas ini tidak pernah masuk main (robot sungguhannya .github/workflows/ci.yml, Praktik 4).
+name: halo
+
+# kapan robot bekerja: setiap pull request dibuka, atau cabangnya mendapat commit baru
+on: pull_request
+
+# token robot hanya boleh MEMBACA isi repo
+permissions:
+  contents: read
+
+jobs:
+  tes-backend:
+    runs-on: ubuntu-24.04                  # komputer sewaan GitHub (Ubuntu 24.04), dihapus lagi sesudah job selesai
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7          # ambil isi repo pada commit pull request ini
+      - uses: actions/setup-node@v7        # pasang Node.js, versi yang sama dengan Dockerfile backend dan dashboard
+        with:
+          node-version: 24.22.1
+      - name: pasang library (persis menurut package-lock.json)
+        working-directory: backend
+        run: npm ci
+      - name: unit test
+        working-directory: backend
+        run: npm test                      # kode keluar 0 = centang hijau; selain 0 = silang merah

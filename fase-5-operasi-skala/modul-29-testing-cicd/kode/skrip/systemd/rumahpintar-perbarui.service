@@ -1,0 +1,38 @@
+# rumahpintar-perbarui.service - Modul 29: satpam systemd (Modul 12) yang SEKALI jalan memasang rilis terbaru Rumah Pintar
+# Mini di Pi (skrip/pasang.sh), lalu selesai. Yang membangunkannya setiap 15 menit: rumahpintar-perbarui.timer di sebelahnya.
+#
+# Pasang (di Pi, dari akar proyek). Sesuaikan tiga hal di bawah dengan Pi-mu di SALINANNYA (/etc/systemd/system/...,
+# lewat sudo nano), BUKAN di berkas repo ini: berkas repo yang disunting membuat pasang.sh berhenti. Tiga hal itu: User=
+# (pengguna Pi, anggota grup docker), jalur /home/budi/rumah-pintar-mini (dua tempat), dan PASANG_BAGIAN (jalur utama:
+# gerbang; jalur gratis: pusat gerbang).
+#   sudo cp skrip/systemd/rumahpintar-perbarui.service skrip/systemd/rumahpintar-perbarui.timer /etc/systemd/system/
+#   sudo nano /etc/systemd/system/rumahpintar-perbarui.service
+#   systemd-analyze verify /etc/systemd/system/rumahpintar-perbarui.service /etc/systemd/system/rumahpintar-perbarui.timer
+#     (tanpa keluaran = tidak ada salah tulis; baca keluarannya, jangan hanya kode keluarnya)
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now rumahpintar-perbarui.timer
+# Coba sekali sekarang juga: sudo systemctl start rumahpintar-perbarui.service   (menunggu sampai selesai)
+# Jadwal berikutnya       : systemctl list-timers rumahpintar-perbarui.timer
+# Catatan (log)           : journalctl -u rumahpintar-perbarui.service -n 30
+# Berkas di /etc/systemd/system adalah SALINAN: sesudah mengubah berkas di repo, salin lagi dan daemon-reload.
+[Unit]
+Description=Rumah Pintar Mini: pasang rilis terbaru (tag v<versi>) dari GitHub dan GHCR
+# butuh jaringan (GitHub, GHCR) dan Docker yang sudah menyala
+Wants=network-online.target
+After=network-online.target docker.service
+Requires=docker.service
+
+[Service]
+# oneshot = sekali jalan sampai selesai, lalu berhenti (bukan layanan yang menyala terus)
+Type=oneshot
+# pengguna biasa anggota grup docker, BUKAN root (pemilik salinan repo di folder rumahnya)
+User=budi
+WorkingDirectory=/home/budi/rumah-pintar-mini
+# Pi jalur utama = gerbang saja. Pi jalur gratis (pusat + gerbang di Pi yang sama): ganti baris ini dengan
+#   Environment="PASANG_BAGIAN=pusat gerbang"
+# (tanda petik wajib karena ada spasi)
+Environment=PASANG_BAGIAN=gerbang
+# lewat sh: berkas di repo sengaja tidak bertanda boleh-dijalankan (chmod +x)
+ExecStart=/bin/sh /home/budi/rumah-pintar-mini/skrip/pasang.sh
+# satu putaran paling lama 15 menit (tarikan image pertama di Pi bisa lama); lewat dari itu dihentikan dan dicatat gagal
+TimeoutStartSec=15min

@@ -53,6 +53,9 @@ export default function HalamanMasuk() {
       {/* noValidate: pemeriksaan bawaan browser dimatikan, supaya semua pesan datang dari skema yang sama */}
       <form onSubmit={handleSubmit(kirim)} noValidate className="w-full max-w-sm rounded-2xl bg-white p-6 shadow-md dark:bg-slate-800">
         <h1 className="text-xl font-bold text-slate-800 dark:text-slate-100">Rumah Pintar Mini</h1>
+        {/* Modul 29: versi yang sedang terpasang, dari package.json saat build (vite.config.ts). Satu nomor untuk seluruh
+            rilis: sama dengan "versi" di /api/health dan tag v… di GitHub */}
+        <p className="text-xs text-slate-500 dark:text-slate-400">v{__VERSI_WEB__}</p>
         <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">Masuk dengan akun Modul 20 untuk melihat dashboard.</p>
         {/* kabar dari layar sebelumnya (sesi habis, backend tidak menjawab): role="status" = dibacakan pembaca layar */}
         {pesanMasuk ? (

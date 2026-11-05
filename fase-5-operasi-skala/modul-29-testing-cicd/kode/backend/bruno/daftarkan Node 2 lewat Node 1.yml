@@ -1,0 +1,31 @@
+info:
+  name: daftarkan Node 2 lewat Node 1
+  type: http
+  seq: 20
+
+http:
+  method: POST
+  url: "{{baseUrl}}/devices"
+  body:
+    type: json
+    data: |-
+      {
+        "device_id": "246f28b1c7d4",
+        "nama": "Node 2 kebun",
+        "lokasi": "kebun",
+        "penghubung": "a4cf12e5b7c0"
+      }
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "201"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: true

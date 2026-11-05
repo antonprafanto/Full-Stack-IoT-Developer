@@ -1,12 +1,13 @@
 {
   "name": "rumah-pintar-mini-frontend",
   "private": true,
-  "version": "1.4.0",
+  "version": "2.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "oxlint",
+    "lint": "oxlint --deny-warnings",
+    "test": "vitest run",
     "preview": "vite preview",
     "dev:hp": "vite --host",
     "cek-skema": "node cek-skema.js"
@@ -37,6 +38,7 @@
     "oxlint": "^1.88.0",
     "typescript": "~6.0.3",
     "vite": "^8.3.4",
-    "vite-plugin-pwa": "2.0.0"
+    "vite-plugin-pwa": "2.0.0",
+    "vitest": "5.0.5"
   }
 }

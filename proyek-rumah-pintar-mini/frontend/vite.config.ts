@@ -1,10 +1,22 @@
+import { readFileSync } from 'node:fs'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import { defineConfig } from 'vite'
 import { VitePWA } from 'vite-plugin-pwa'
 
+// Modul 29: SATU nomor versi untuk seluruh proyek (backend, dashboard, image, dan tag Git v2.0.0). Nomor itu dibaca dari
+// "version" di package.json di sebelah berkas ini setiap kali Vite berjalan, lalu ditulis ke JavaScript sebagai __VERSI_WEB__
+// (lihat src/versi.d.ts): layar Masuk dan kepala dashboard menampilkannya, jadi siapa pun bisa melihat versi yang sedang
+// terpasang tanpa SSH. Sengaja tidak memakai process.env.npm_package_version: variabel itu hanya ada bila Vite dijalankan
+// lewat "npm run ...".
+const paket: { version: string } = JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 'utf8'))
+
 // https://vite.dev/config/
+// Modul 29: npm test (Vitest) juga membaca berkas ini. Tes dashboard hanya menguji fungsi murni (src/*.test.ts) di Node.js,
+// tanpa browser; plugin di bawah ikut dimuat tetapi tidak mengubah apa pun untuk tes itu.
 export default defineConfig({
+  // Vite mengganti setiap __VERSI_WEB__ di kode dengan teksnya, misalnya "2.0.0" (JSON.stringify menambah tanda petiknya)
+  define: { __VERSI_WEB__: JSON.stringify(paket.version) },
   plugins: [
     react(),
     tailwindcss(),

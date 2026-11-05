@@ -1,0 +1,53 @@
+--- kerangka/skrip/cek-versi.mjs
++++ jawaban/skrip/cek-versi.mjs
+@@ -1,5 +1,3 @@
+-// cek-versi-rumpang.mjs - KERANGKA Tantangan 2 Modul 29: satpam versi dengan bagian 2 yang masih rumpang (TODO 1-3).
+-// Jawabannya = skrip/cek-versi.mjs. Taruh kerangka ini di skrip/cek-versi.mjs cabang latihanmu.
+ // cek-versi.mjs - satpam versi Rumah Pintar Mini (Modul 29). Robot menjalankannya di setiap pull request dan setiap push ke
+ // main (job periksa di .github/workflows/ci.yml); kamu juga bisa menjalankannya di laptop, dari folder mana pun di repo:
+ //   node skrip/cek-versi.mjs                     -> nomor versi SAMA di semua tempat?
+@@ -74,10 +72,18 @@
+ // Compose, dan berkas yang dibaca kontainer atau mesin langsung dari salinan repo (konfigurasi broker, Grafana, skrip sh).
+ // Dokumen (*.md), tes, Bruno, uji beban, dan setelan alat pengembang tidak ikut dipasang, jadi boleh berubah tanpa rilis.
+ function ikutDipasang(berkas) {
+-  // TODO 1: kembalikan true bila berkas ini ikut DIPASANG di VPS/Pi, false bila tidak. Petunjuk: baris COPY di
+-  // backend/Dockerfile dan frontend/Dockerfile, isi .dockerignore keduanya, berkas yang dipasang lewat "volumes:" di
+-  // compose.cloud.yml dan edge/compose.edge.yml, dan skrip yang dijalankan skrip/pasang.sh. Dokumen (*.md) dan tes tidak.
+-  return false;
++  if (berkas.endsWith(".md") || berkas.endsWith(".test.ts")) return false;
++  if (berkas.startsWith("backend/")) {
++    return /^backend\/(Dockerfile|\.dockerignore|package\.json|package-lock\.json)$/.test(berkas)
++      || (/^backend\/(src|migrasi)\//.test(berkas) && !berkas.startsWith("backend/src/integrasi/"));
++  }
++  if (berkas.startsWith("frontend/")) {
++    return !/^frontend\/(\.oxlintrc\.json|cek-skema\.js|\.env\.example|\.gitignore)$/.test(berkas);
++  }
++  return berkas === "compose.cloud.yml"
++    || /^edge\/(compose\.edge\.yml|gerbang\.conf|pusat\.conf|pusat-internet\.conf|acl-broker)$/.test(berkas)
++    || /^grafana\/(provisioning|dashboards)\//.test(berkas) || berkas === "grafana/pengguna-grafana.sql"
++    || /^skrip\/[^/]+\.sh$/.test(berkas);
+ }
+ 
+ const basis = process.env.BASIS;
+@@ -106,10 +112,17 @@
+   const patchBerikut = `${mayor}.${minor}.${patch + 1}`; // 2.0.1 -> 2.0.2
+   const contoh = dipasang.slice(0, 3).join(", ") + (dipasang.length > 3 ? `, … (${dipasang.length} berkas)` : "");
+ 
+-  // TODO 2: versi LEBIH KECIL dari versiBasis -> salah.push("…"): versi hanya boleh naik, juga untuk revert (isi lama dengan
+-  //         nomor baru, misalnya patchBerikut).
+-  // TODO 3: ada berkas di "dipasang" tetapi versi TIDAK naik -> salah.push("…"), sebutkan berkasnya (contoh) dan cara
+-  //         menaikkan versi menurut SemVer (contoh angkanya: patchBerikut, mayor, minor).
++  if (!naik && versi !== versiBasis) {
++    salah.push(`versi ${versi} lebih KECIL dari ${versiBasis} di ${basis}: versi hanya boleh naik. Mengembalikan isi lama `
++      + `(revert)? Isinya boleh lama, nomornya tetap NAIK (misalnya ${patchBerikut}), `
++      + "dengan entri \"Diperbaiki: mengembalikan …\" di CHANGELOG.md.");
++  } else if (dipasang.length > 0 && !naik) {
++    salah.push(`yang dipasang di VPS/Pi berubah (${contoh}) tetapi versinya masih ${versi} (= ${basis}). Tanpa versi baru, `
++      + "robot tidak membuat rilis dan perubahan ini tidak pernah sampai ke VPS/Pi. Naikkan nomornya menurut SemVer: PATCH "
++      + `untuk perbaikan (${versiBasis} -> ${patchBerikut}), MINOR untuk fitur baru `
++      + `(${versiBasis} -> ${mayor}.${minor + 1}.0), MAYOR bila pemakai lama terpaksa ikut berubah `
++      + `(${versiBasis} -> ${mayor + 1}.0.0).`);
++  }
+   ringkasBasis = naik
+     ? `; dibanding ${basis} (${versiBasis}): versi naik, ${dipasang.length} berkas yang dipasang berubah`
+     : `; dibanding ${basis}: tidak ada berkas yang dipasang berubah, versi tetap ${versi} (boleh)`;

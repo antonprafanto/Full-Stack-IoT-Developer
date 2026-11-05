@@ -1,0 +1,11 @@
+# library dari npm: besar, dan bisa dibuat ulang dengan npm install
+node_modules/
+# setelan rahasia laptop ini; contohnya ada di .env.example
+.env
+# fotokopi database (pg_dump): besar dan berisi data pribadi, simpan di luar Git
+backup/
+# berkas uji curl Modul 20: berisi sandi dan cookie
+login*.json
+kue*.txt
+# Modul 28: berkas firmware (.bin) yang diunggah saat mode kembang: bisa berisi kunci ESP-NOW, tidak pernah ikut Git
+data-firmware/

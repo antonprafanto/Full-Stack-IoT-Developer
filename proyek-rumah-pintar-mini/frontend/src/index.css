@@ -1,4 +1,10 @@
-@import "tailwindcss";
+/* Modul 29: Tailwind mencari nama kelas HANYA di kode dashboard: folder src/ (tanpa berkas tes) dan index.html. Bawaannya
+   Tailwind membaca semua berkas teks di folder frontend, termasuk README.md: kata biasa di dokumen (misalnya "transform")
+   bisa menjadi kelas CSS, sehingga isi image web ikut berubah walau yang diubah hanya dokumen. */
+@import "tailwindcss" source(none);
+@source "../src";
+@source not "../src/**/*.test.ts";
+@source "../index.html";
 
 /* Modul 23: warna grafik yang ikut mode gelap. Recharts menggambar SVG dengan warnanya sendiri dan tidak mengenal
    kelas dark: milik Tailwind. Jadi garis bantu, latar tooltip, dan lintasan gauge memakai variabel di bawah ini, yang

@@ -69,7 +69,13 @@ export default function TataLetak() {
         {/* flex-wrap: di layar sempit, menu dan tombol Keluar turun ke baris berikutnya, tidak berdesakan dengan judul */}
         <div className="mx-auto flex max-w-3xl flex-wrap items-center justify-between gap-x-4 gap-y-1 px-4 py-2">
           <div className="flex items-center gap-2">
-            <h1 className="text-lg font-bold text-slate-800 dark:text-slate-100">Rumah Pintar Mini</h1>
+            {/* Modul 29: versi dashboard yang sedang terpasang tampil di BAWAH judul (sama dengan layar Masuk), jadi juga
+                terlihat di HP sesudah masuk. Di bawah, bukan di samping: di layar 375 px, judul + versi + lencana
+                "Menyambung ulang…" tidak muat sebaris, dan judulnya terlipat dua baris */}
+            <div>
+              <h1 className="text-lg font-bold text-slate-800 dark:text-slate-100">Rumah Pintar Mini</h1>
+              <p className="text-xs text-slate-500 dark:text-slate-400">v{__VERSI_WEB__}</p>
+            </div>
             <LencanaKoneksi />
           </div>
           {/* NavLink = Link yang tahu apakah alamatnya sedang dibuka: isActive true di /perangkat DAN di /perangkat/<id>

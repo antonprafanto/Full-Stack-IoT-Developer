@@ -1,0 +1,1797 @@
+diff --git a/backend/.dockerignore b/backend/.dockerignore
+index eace617..f15b9e1 100644
+--- a/backend/.dockerignore
++++ b/backend/.dockerignore
+@@ -15,5 +15,8 @@ login*.json
+ kue*.txt
+ # Modul 28: berkas firmware yang diunggah saat mode kembang (bisa berisi kunci ESP-NOW): tidak pernah masuk image.
+ data-firmware
+-# Berkas uji Vitest tidak dipakai server yang berjalan.
++# Berkas uji Vitest tidak dipakai server yang berjalan. Modul 29: begitu juga folder tes integrasi (siapkan.ts bukan berkas
++# *.test.ts, tetapi hanya dipakai tes) dan setelan oxlint.
+ src/**/*.test.ts
++src/integrasi
++.oxlintrc.json
+diff --git a/backend/.oxlintrc.json b/backend/.oxlintrc.json
+new file mode 100644
+index 0000000..28e447f
+--- /dev/null
++++ b/backend/.oxlintrc.json
+@@ -0,0 +1,4 @@
++{
++  "$schema": "./node_modules/oxlint/configuration_schema.json",
++  "plugins": ["typescript", "oxc"]
++}
+diff --git a/backend/Dockerfile b/backend/Dockerfile
+index 745a186..5577c15 100644
+--- a/backend/Dockerfile
++++ b/backend/Dockerfile
+@@ -1,25 +1,39 @@
+-# Dockerfile - cetakan (image) backend Rumah Pintar Mini (Modul 26; sama di 1.4.0, Modul 27; 1.5.0 Modul 28: + folder firmware).
++# Dockerfile - cetakan (image) backend Rumah Pintar Mini (Modul 26; 1.4.0 Modul 27; 1.5.0 Modul 28: + folder firmware;
++# 2.0.0 Modul 29: satu cetakan untuk DUA jenis prosesor tanpa emulasi).
+ # Dua tahap ("multi-stage"):
+-#   tahap "paket": memasang library npm persis menurut package-lock.json, TANPA alat pengembang (TypeScript, Vitest, Vite)
++#   tahap "paket": memasang library npm persis menurut package-lock.json, TANPA alat pengembang (TypeScript, Vitest, oxlint)
+ #   tahap akhir  : Node.js 24 + library dari tahap "paket" + kode src/ dan migrasi/, berjalan sebagai pengguna "node" (bukan root)
+ # Tidak ada tahap kompilasi: Node 24 menjalankan berkas .ts langsung (type stripping, Modul 16).
+-# Dibangun dari folder proyek dengan: docker compose build backend   (atau: docker build -t rumah-pintar-mini-backend:1.5.0 ./backend)
++# Mulai Modul 29 cetakan ini dibangun ROBOT (GitHub Actions, .github/workflows/ci.yml) untuk linux/amd64 (VPS) dan linux/arm64
++# (Pi) sekaligus, lalu dikirim ke GHCR; VPS dan Pi hanya menarik. Membangun sendiri di laptop tetap bisa:
++#   docker compose build backend   (atau: docker build -t rumah-pintar-mini-backend:<versi> ./backend, versi = package.json)
+ 
+ # Tag persis, bukan "latest" atau "24-alpine": cetakan yang sama hari ini dan bulan depan. Alpine = image Node terkecil;
+ # bcrypt membawa versi siap pakai untuk Alpine (musl), jadi tidak perlu kompiler.
+-FROM node:24.22.1-alpine3.24 AS paket
++# Modul 29: --platform=$BUILDPLATFORM = tahap ini SELALU berjalan di prosesor mesin pembangun (runner amd64 robot, atau laptopmu),
++# juga saat membangun cetakan arm64 untuk Pi: tanpa emulasi QEMU, jadi secepat membangun untuk satu prosesor. Aman karena
++# library di sini JavaScript biasa, kecuali bcrypt, yang membawa versi siap pakai linux-x64 DAN linux-arm64 (musl) di dalam
++# paketnya dan memilih yang cocok saat server berjalan.
++FROM --platform=$BUILDPLATFORM node:24.22.1-alpine3.24 AS paket
+ WORKDIR /app
+ # package*.json disalin LEBIH DULU daripada kode: selama daftar library tidak berubah, lapisan "npm ci" diambil dari cache
+-# dan build ulang sesudah mengubah kode hanya beberapa detik.
++# dan build ulang sesudah mengubah kode hanya beberapa detik. (Nomor versi juga tertulis di package*.json, jadi build untuk
++# versi baru selalu menjalankan npm ci lagi.)
+ COPY package.json package-lock.json ./
+ # --omit=dev: alat pengembang tidak ikut. Sejak 1.3.0, pino-pretty ada di "dependencies" karena dipakai saat server berjalan
+ # (tanpa itu server di kontainer mogok: unable to determine transport target for "pino-pretty"). Cache npm tidak perlu
+ # dibersihkan: tahap ini dibuang, hanya folder node_modules yang dibawa ke tahap akhir.
+ RUN npm ci --omit=dev
++# Modul 29: folder firmware dibuat DI SINI (prosesor pembangun), lalu disalin ke tahap akhir: tahap akhir tanpa RUN sama sekali
++RUN mkdir -p /app/data-firmware
+ 
++# Tahap akhir = prosesor SASARAN (amd64 atau arm64). Hanya COPY, tanpa RUN: tidak ada program yang perlu DIJALANKAN untuk
++# prosesor lain, jadi tidak perlu emulator.
+ FROM node:24.22.1-alpine3.24
+ # Menautkan image di GHCR ke repositori GitHub-mu (Modul 26 Praktik 10). Ganti <akun> dengan nama akun GitHub-mu (huruf
+ # kecil) dan rumah-pintar-mini dengan nama repositorimu bila berbeda. Tanpa label ini, paket di GHCR tidak tertaut ke repo.
++# Modul 29: cetakan yang dibangun robot mendapat label ini otomatis (ci.yml, labels:) dan menimpa baris ini; baris ini tetap
++# berguna untuk cetakan yang kamu bangun dan kirim sendiri.
+ LABEL org.opencontainers.image.source="https://github.com/<akun>/rumah-pintar-mini"
+ ENV NODE_ENV=production
+ WORKDIR /app
+@@ -29,7 +43,8 @@ COPY migrasi ./migrasi
+ COPY src ./src
+ # Modul 28: folder berkas firmware (.bin) yang diunggah admin, milik pengguna node. compose.cloud.yml memasang lemari
+ # data-firmware di sini; lemari yang masih kosong mengambil pemilik folder ini, jadi backend (bukan root) bisa menulisnya.
+-RUN mkdir -p /app/data-firmware && chown node:node /app/data-firmware
++# Modul 29: disalin dari tahap "paket" dengan pemilik node (--chown), pengganti RUN mkdir && chown di tahap ini.
++COPY --from=paket --chown=node:node /app/data-firmware /app/data-firmware
+ # Pengguna "node" (uid 1000) sudah tersedia di image node. Server tidak butuh hak root: kalau ada celah, kerusakannya lebih kecil.
+ USER node
+ # Hanya catatan "server ini mendengar di 8080 di dalam kontainer". Loket di laptop diatur compose.cloud.yml (ports).
+diff --git a/backend/README.md b/backend/README.md
+index 3290565..9cc20a2 100644
+--- a/backend/README.md
++++ b/backend/README.md
+@@ -2,7 +2,7 @@
+ 
+ 🌐 **Bahasa Indonesia** · [English](../../en/mini-smart-home/backend/README.md)
+ 
+-Backend v1.5 proyek Rumah Pintar Mini: server Node.js 24 dengan TypeScript ringan yang mendengarkan semua pesan MQTT `rpm/#`, memeriksa setiap pesan dengan kontrak data 1.6 (skema Zod; pesan bentuk lama tetap sah), menyimpan keadaan terakhir setiap perangkat di memori, mengarsipkan semua pesan ke database PostgreSQL dengan tambahan TimescaleDB (lewat Docker), dan menyediakan API berdokumentasi. Riwayat bacaan bisa diminta mentah atau sudah diringkas per 15 menit, per jam, atau per hari. Sejak Modul 19, bacaan juga mengalir *live* lewat Socket.IO, semua perintah lewat satu pintu (dengan keadaan yang diinginkan dan yang dilaporkan), aturan otomatis dan jadwal disimpan di database dan bisa diubah lewat API tanpa memulai ulang server, setiap kejadian penting dicatat, dan peringatan dikirim lewat Telegram. Sejak Modul 20, API dan Socket.IO **berkunci untuk manusia**: tamu harus *login* dulu, akun `viewer` hanya boleh melihat, percobaan *login* dibatasi, dan halaman web lain tidak bisa menyuruh server atas nama pengguna. Sejak Modul 21, backend juga **berkunci untuk perangkat**: hanya perangkat yang didaftarkan admin (dengan kunci per perangkat) yang datanya diproses, pesan dari perangkat yang belum terdaftar atau kuncinya dicabut diabaikan, dan backend sendiri masuk ke broker dengan akunnya sendiri. 🎉 **Checkpoint Fase 3: rumah berkunci untuk manusia dan perangkat.**
++Backend 2.0 proyek Rumah Pintar Mini: server Node.js 24 dengan TypeScript ringan yang mendengarkan semua pesan MQTT `rpm/#`, memeriksa setiap pesan dengan kontrak data 1.6 (skema Zod; pesan bentuk lama tetap sah), menyimpan keadaan terakhir setiap perangkat di memori, mengarsipkan semua pesan ke database PostgreSQL dengan tambahan TimescaleDB (lewat Docker), dan menyediakan API berdokumentasi. Riwayat bacaan bisa diminta mentah atau sudah diringkas per 15 menit, per jam, atau per hari. Sejak Modul 19, bacaan juga mengalir *live* lewat Socket.IO, semua perintah lewat satu pintu (dengan keadaan yang diinginkan dan yang dilaporkan), aturan otomatis dan jadwal disimpan di database dan bisa diubah lewat API tanpa memulai ulang server, setiap kejadian penting dicatat, dan peringatan dikirim lewat Telegram. Sejak Modul 20, API dan Socket.IO **berkunci untuk manusia**: tamu harus *login* dulu, akun `viewer` hanya boleh melihat, percobaan *login* dibatasi, dan halaman web lain tidak bisa menyuruh server atas nama pengguna. Sejak Modul 21, backend juga **berkunci untuk perangkat**: hanya perangkat yang didaftarkan admin (dengan kunci per perangkat) yang datanya diproses, pesan dari perangkat yang belum terdaftar atau kuncinya dicabut diabaikan, dan backend sendiri masuk ke broker dengan akunnya sendiri. 🎉 **Checkpoint Fase 3: rumah berkunci untuk manusia dan perangkat.**
+ 
+ **v1.1 (Modul 24)** menambah tiga hal kecil yang dibutuhkan dashboard v1.0: aturan **di bawah ambang** (misalnya siram kalau tanah di bawah 30 %), aturan ambang yang **mengirim perintah sekali** (misalnya pompa 5 detik), dan **hapus aturan** (`DELETE /rules/:id`). Tanpa migrasi database dan tanpa perubahan kontrak data (tetap 1.4); rinciannya di [Catatan versi 1.1](#catatan-versi-11).
+ 
+@@ -14,6 +14,8 @@ Backend v1.5 proyek Rumah Pintar Mini: server Node.js 24 dengan TypeScript ringa
+ 
+ **v1.5 (Modul 28)** membuat backend mengurus **armada perangkat**: admin mengunggah berkas firmware `.bin`, lalu memerintahkan Node 1 memperbarui dirinya **lewat udara** (OTA) satu per satu, ke perangkat *canary* dulu, lalu ke semua; perangkat mengunduh berkasnya lewat rute **berkunci** `/fw/node-1/<versi>.bin` (kunci perangkat Modul 21, bukan berkas publik) dan melaporkan hasilnya (`berhasil`, `rollback`, `gagal`) di `vitals`. Halaman `/armada` dashboard membaca `GET /armada` (versi, kesehatan termasuk alasan *restart*, pembaruan terakhir setiap perangkat). Perangkat baru mendaftar sendiri dalam satu menit dengan **kode klaim** sekali pakai buatan admin, akun broker setiap perangkat dibuat dan dihapus **otomatis** lewat plugin *dynamic security* Mosquitto (setelan `AKUN_BROKER_OTOMATIS`), dan perangkat yang hilang bisa **dinonaktifkan**: langsung diputus broker. Migrasi baru `011_ota_dan_armada.sql`, tanpa paket npm baru; kontrak data naik ke **1.6**. Rinciannya di [Pembaruan firmware, armada, dan kode klaim](#pembaruan-firmware-armada-dan-kode-klaim-modul-28) dan [Catatan versi 1.5](#catatan-versi-15).
+ 
++**2.0.0 (Modul 29)** tidak menambah rute atau tabel. `2.0.0` adalah **satu nomor versi produk** untuk backend dan dashboard (sama dengan tag image dan tag Git `v2.0.0`), dan backend kini **diuji robot** sebelum dipasang otomatis ke VPS dan Pi. `GET /health` menyebut `versi` yang sedang berjalan dan dokumentasi `/docs` memakai nomor yang sama (keduanya dibaca dari `package.json`); rakitan server pindah ke `src/app.ts` (`buatApp()`), supaya **20 *integration test*** dengan database uji (`src/integrasi/`) menguji rakitan yang sama dengan produksi; `npm run lint` (oxlint) ikut memeriksa kode; `Dockerfile` membangun cetakan untuk dua jenis prosesor (amd64 dan arm64) tanpa emulasi. Tanpa migrasi database, tanpa paket produksi baru (oxlint hanya alat pengembang), kontrak data tetap 1.6. Rinciannya di [Diuji dengan database uji](#diuji-dengan-database-uji-modul-29) dan [Catatan versi 2.0](#catatan-versi-20).
++
+ Ada dua cara menjalankan backend, dan **hanya satu yang boleh menyala** pada satu waktu (dua backend dengan token Telegram yang sama saling berebut, `409 Conflict`; dua backend juga berebut loket 8080):
+ 
+ | Cara | Kapan | Setelannya dari |
+@@ -36,12 +38,12 @@ Semua perintah di bagian ini diketik dari **akar proyek** (folder yang berisi `c
+ | `docker compose logs -f backend` | log backend (jam WIB); **Ctrl + C** hanya berhenti membaca, backend tetap jalan. `--since 10m` = 10 menit terakhir |
+ | `docker compose exec backend node src/db/kelola-pengguna.ts <perintah>` | semua perintah `npm run pengguna -- …` di tabel Mode kembang (`npm run pengguna -- …` juga jalan di kontainer, dengan baris `.env not found. Continuing without it.`) |
+ | `docker compose exec backend node src/db/isi-riwayat.ts` | data latihan 7 hari (laptop tanpa riwayat), lalu ringkas sekali dengan perintah langkah 7 Mode kembang |
+-| `docker compose build backend` lalu `docker compose up -d backend` | membangun ulang cetakan sesudah kode berubah (tag = `version` di `package.json`) |
++| `docker compose build backend` lalu `docker compose up -d backend` | **di laptop**: membangun ulang cetakan sesudah kode berubah (tag = `version` di `package.json`). Sejak Modul 29, VPS dan Pi tidak membangun: mereka menarik cetakan buatan robot (`sh skrip/pasang.sh`) |
+ | `docker compose stop backend` / `docker compose start backend` | mematikan dan menyalakan lagi; yang dimatikan dengan `stop` TIDAK dinyalakan Docker sendiri |
+ 
+ Dokumentasi API tetap di loket lama, **`http://localhost:8080/docs`** (bukan `127.0.0.1`: di kontainer backend mendengar di `0.0.0.0`, jadi *login* lewat **Try it out** dari halaman `http://127.0.0.1:8080/docs` ditolak `403`). Kalau `PORT_BACKEND` di `.env` akar bukan 8080 (misalnya 8082), tambahkan `http://localhost:8082` ke `CORS_ORIGIN` di `.env` itu lalu `docker compose up -d`; tanpa itu *login* dari `http://localhost:8082/docs` juga ditolak `403`. Koleksi Bruno (`baseUrl` `http://127.0.0.1:8080`) dan `alat/terminal-live.js` tetap jalan tanpa perubahan. Dashboard memanggil backend lewat Caddy di `http://localhost/api/…`.
+ 
+-Cetakan backend dibangun dari [`Dockerfile`](Dockerfile) (dua tahap `node:24.22.1-alpine3.24`, `npm ci --omit=dev`, pengguna `node`, `CMD ["node", "src/server.ts"]`); [`.dockerignore`](.dockerignore) menahan `.env`, `node_modules`, `backup`, Bruno, uji beban, dan berkas uji. Di dalam kontainer, setelan datang dari `compose.cloud.yml` (`HOST=0.0.0.0`, `MQTT_URL=mqtt://mosquitto:1883`, `DATABASE_URL=…@db:5432/…`, `TZ=Asia/Jakarta`), bukan dari `backend/.env`.
++Cetakan backend dibangun dari [`Dockerfile`](Dockerfile) (dua tahap `node:24.22.1-alpine3.24`, `npm ci --omit=dev`, pengguna `node`, `CMD ["node", "src/server.ts"]`; sejak Modul 29 tahap `paket` berjalan di prosesor mesin pembangun lewat `FROM --platform=$BUILDPLATFORM` dan tahap akhir tanpa `RUN`, jadi satu mesin membangun cetakan amd64 dan arm64 tanpa emulasi); [`.dockerignore`](.dockerignore) menahan `.env`, `node_modules`, `backup`, Bruno, uji beban, berkas uji, dan (Modul 29) folder `src/integrasi/`. Di dalam kontainer, setelan datang dari `compose.cloud.yml` (`HOST=0.0.0.0`, `MQTT_URL=mqtt://mosquitto:1883`, `DATABASE_URL=…@db:5432/…`, `TZ=Asia/Jakarta`), bukan dari `backend/.env`.
+ 
+ ## Di internet, di balik Caddy HTTPS (Modul 27)
+ 
+@@ -101,7 +103,9 @@ Untuk mengubah kode backend, jalankan backend langsung dengan Node di laptop, me
+ | `npm run dev` | menjalankan server dan memulainya ulang setiap kali kode atau `.env` disimpan |
+ | `npm start` | menjalankan server tanpa mulai ulang otomatis (sejak 1.3 juga jalan tanpa berkas `.env`, misalnya di kontainer); **Ctrl + C** menghentikannya dengan rapi (di Windows, `npm run dev` + **Ctrl + C** mematikan server seketika) |
+ | `npm run cek` | memeriksa tipe TypeScript, termasuk file uji (jalankan sebelum setiap *commit*) |
+-| `npm test` | menjalankan *unit test* dengan Vitest: *rules engine* dan skema aturan (`src/aturan/*.test.ts`; sejak Modul 24 juga aturan di bawah ambang), *login* (`src/auth/auth.test.ts`), kunci perangkat (`src/auth/kunci.test.ts`, Modul 21), buku tamu dan lapis kedua (`src/services/daftar.test.ts`), rute registrasi (`src/routes/perangkat.test.ts`), rute hapus aturan beserta satpamnya: tamu 401, *viewer* 403, *preflight* `DELETE` (`src/routes/aturan.test.ts`, Modul 24), dan aturan siram yang berjalan: pompa dikirim sekali, padam tanpa perintah, perintah yang ditolak ditandai `ok: false`, aturan yang dihapus atau dinonaktifkan tidak bertindak lagi (`src/services/otomasi.test.ts`, Modul 24), lalu (Modul 25) titik peta: skema lokasi dan rute `PUT /devices/:id/lokasi` beserta satpamnya (`src/routes/lokasi.test.ts`), pembuat CSV (`src/services/csv.test.ts`), laporan harian: rentang kemarin WIB, isi CSV, Telegram mati atau menolak, jadwal WIB yang terlambat tetap melaporkan hari yang benar, jadwal terlewat hanya dikabarkan (`src/services/laporan.test.ts`), rute `POST /laporan/kirim` (`src/routes/laporan.test.ts`), berkas laporan terkirim dengan namanya dan kabar 📴/✅ setelah 60 detik (`src/services/telegram.test.ts`), status `online` *retained* sesudah broker dimulai ulang (`src/services/mqtt.test.ts`), setelan `LAPORAN_JADWAL` (`src/config/env.test.ts`), dan (Modul 26) saringan log: ketukan `/health` yang berhasil tidak dicatat (`src/services/log.test.ts`) |
++| `npm run lint` | Modul 29: memeriksa kode dengan oxlint ([`.oxlintrc.json`](.oxlintrc.json)), kesalahan umum yang lolos dari pemeriksa tipe; yang diharapkan `Found 0 warnings and 0 errors.`. Satu peringatan pun membuatnya gagal (`--deny-warnings`), jadi robot juga merah |
++| `npm test` | menjalankan *unit test* dengan Vitest: *rules engine* dan skema aturan (`src/aturan/*.test.ts`; sejak Modul 24 juga aturan di bawah ambang), *login* (`src/auth/auth.test.ts`), kunci perangkat (`src/auth/kunci.test.ts`, Modul 21), buku tamu dan lapis kedua (`src/services/daftar.test.ts`), rute registrasi (`src/routes/perangkat.test.ts`), rute hapus aturan beserta satpamnya: tamu 401, *viewer* 403, *preflight* `DELETE` (`src/routes/aturan.test.ts`, Modul 24), dan aturan siram yang berjalan: pompa dikirim sekali, padam tanpa perintah, perintah yang ditolak ditandai `ok: false`, aturan yang dihapus atau dinonaktifkan tidak bertindak lagi (`src/services/otomasi.test.ts`, Modul 24), lalu (Modul 25) titik peta: skema lokasi dan rute `PUT /devices/:id/lokasi` beserta satpamnya (`src/routes/lokasi.test.ts`), pembuat CSV (`src/services/csv.test.ts`), laporan harian: rentang kemarin WIB, isi CSV, Telegram mati atau menolak, jadwal WIB yang terlambat tetap melaporkan hari yang benar, jadwal terlewat hanya dikabarkan (`src/services/laporan.test.ts`), rute `POST /laporan/kirim` (`src/routes/laporan.test.ts`), berkas laporan terkirim dengan namanya dan kabar 📴/✅ setelah 60 detik (`src/services/telegram.test.ts`), status `online` *retained* sesudah broker dimulai ulang (`src/services/mqtt.test.ts`), setelan `LAPORAN_JADWAL` (`src/config/env.test.ts`), dan (Modul 26) saringan log: ketukan `/health` yang berhasil tidak dicatat (`src/services/log.test.ts`). Modul 29: bila `DATABASE_URL_UJI` diisi, 20 *integration test* (`src/integrasi/`) ikut jalan; tanpa itu dilewati (`Tests  203 passed \| 20 skipped (223)`) |
++| `npm run test:integrasi` | Modul 29: hanya 20 *integration test* dengan database uji; butuh `DATABASE_URL_UJI` (lihat [Diuji dengan database uji](#diuji-dengan-database-uji-modul-29)) |
+ | `npm run migrasi` | menjalankan file SQL baru di folder `migrasi/` (aman diulang) |
+ | `npm run isi-riwayat` | mengisi data latihan 7 hari untuk perangkat latihan `f00d00000001` dan `f00d00000002` |
+ | `npm run pengguna -- tambah <email> "<nama>" <admin\|viewer>` | membuat akun; sandi ditanyakan dan hanya tampil sebagai `*` (minimal 15 karakter, maksimal 72 *byte*) |
+@@ -136,7 +140,7 @@ docker compose exec db psql -U postgres -d rumahpintar -f /tmp/beban-1-juta.sql
+ | `POST /auth/refresh` | terbuka (*cookie* `sesi`) | gelang baru + kartu terusan baru |
+ | `POST /auth/logout` | terbuka | menghapus sesi dan kedua *cookie*; selalu `{"pesan":"sudah logout"}` |
+ | `GET /auth/me` | login | akun yang sedang *login* (dibaca dari database) |
+-| `GET /health` | terbuka | server hidup? tersambung ke broker dan database? berapa pesan `diterima`, `ditolak` (gagal kontrak), dan `diabaikan` (dari perangkat tak terdaftar/dicabut, Modul 21)? |
++| `GET /health` | terbuka | server hidup? versi berapa (`versi`, Modul 29, dari `package.json`)? tersambung ke broker dan database? berapa pesan `diterima`, `ditolak` (gagal kontrak), dan `diabaikan` (dari perangkat tak terdaftar/dicabut, Modul 21)? |
+ | `GET /devices` | login | daftar perangkat dari database: yang terdaftar, yang dicabut, dan baris lama yang belum terdaftar; kolom `kunci` menandai `aktif`/`dicabut`/`tanpa-kunci`/`belum-terdaftar` (sidik jari kunci tidak pernah ikut); sejak Modul 25 juga titik peta `lat`/`lng` (`null` = belum diisi) |
+ | `POST /devices` | admin | daftarkan perangkat (Modul 21): jawabannya memuat `kunci` 43 huruf **yang hanya tampil sekali ini** dan `langkah` berikutnya; `penghubung` untuk perangkat ESP-NOW (Node 2) yang datanya diterbitkan Node 1 (tanpa kunci) |
+ | `POST /devices/:id/kunci` | admin | buat kunci baru (kunci lama langsung tidak berlaku); juga menghidupkan lagi perangkat yang dicabut |
+@@ -281,6 +285,56 @@ Jawaban yang benar: `200`, `content-type: application/octet-stream`, `content-le
+ 
+ **Berhenti sengaja.** Perangkat menerbitkan `status` `offline-mode` sebelum memasang firmware baru (dan sebelum `restart` dari Serial), lalu memutus MQTT dengan rapi (wasiat `offline` tidak terbit). Telegram menulis `🔄 <device_id> berhenti sengaja (pembaruan firmware atau restart), sebentar lagi online kembali`, lalu `✅ … online lagi sesudah berhenti sengaja (N detik)`; `📴 … tidak kembali sesudah berhenti sengaja` baru dikirim kalau perangkat tidak `online` dalam **3 menit** (rollback butuh sekitar 70 detik). Laporan harian tidak menghitungnya di `kali_terputus`.
+ 
++## Diuji dengan database uji (Modul 29)
++
++203 *unit test* lama (`npm test`) memakai tabel tiruan (`vi.mock`) dan server tanpa jaringan (`app.inject`): cepat dan tanpa Docker, tetapi tidak pernah menjalankan satu pun kueri SQL, jadi kesalahan di lapis `src/db/` lolos dari mereka. Contoh yang dibuktikan penulis: kalau `src/db/perangkat.ts` menulis sidik kunci dengan `upper($5)` (huruf besar), 203 tes tetap hijau, tetapi `CHECK (kunci_hash ~ '^[0-9a-f]{64}$')` di migrasi `010` menolak barisnya dan `POST /devices` dijawab `503`. **20 *integration test*** di [`src/integrasi/`](src/integrasi) menangkapnya: rute yang sama, lewat rakitan server yang sama dengan produksi (`buatApp()` di [`src/app.ts`](src/app.ts)), dengan database TimescaleDB **sungguhan** yang kosong dan sekali pakai.
++
++1. Nyalakan database uji (satu baris, sama di PowerShell, Terminal macOS, dan Linux). Datanya di `--tmpfs` (memori), jadi hilang saat kontainernya berhenti; loket `5433` supaya tidak bertabrakan dengan database rumah di `5432`; sandinya bukan rahasia karena database ini hanya berisi data uji dan hanya bisa diketuk dari laptop ini:
++
++   ```text
++   docker run --rm -d --name rumahpintar-db-uji -p 127.0.0.1:5433:5432 --tmpfs /var/lib/postgresql/data -e POSTGRES_PASSWORD=uji-bukan-rahasia -e POSTGRES_DB=rumahpintar_uji -e TIMESCALEDB_TELEMETRY=off timescale/timescaledb:2.30.2-pg17
++   ```
++
++2. Tunggu sampai siap (sekitar 5 detik): ulangi perintah ini sampai menjawab `accepting connections`.
++
++   ```text
++   docker exec rumahpintar-db-uji pg_isready -h 127.0.0.1 -U postgres -d rumahpintar_uji
++   ```
++
++3. Jalankan tesnya dari folder `backend`:
++
++   ```bash
++   DATABASE_URL_UJI=postgres://postgres:uji-bukan-rahasia@127.0.0.1:5433/rumahpintar_uji npm run test:integrasi
++   ```
++
++   ```powershell
++   $env:DATABASE_URL_UJI = "postgres://postgres:uji-bukan-rahasia@127.0.0.1:5433/rumahpintar_uji"
++   npm run test:integrasi
++   ```
++
++   Setiap berkas tes menjalankan migrasi `001`–`011` lebih dulu (program yang sama dengan layanan `migrasi` di Compose; kalau sudah lengkap: `0 migrasi baru diterapkan`), lalu tesnya. Hasilnya `Test Files  6 passed (6)` dan `Tests  20 passed (20)`. Dengan `DATABASE_URL_UJI` terisi, `npm test` menjalankan 203 *unit test* dan 20 *integration test* sekaligus (`Tests  223 passed (223)`), seperti robot; tanpa itu `npm test` tetap tanpa Docker (`Tests  203 passed | 20 skipped (223)`).
++4. Selesai: `docker stop rumahpintar-db-uji` (kontainernya terhapus sendiri karena `--rm`, datanya hilang bersama `--tmpfs`). PowerShell: hapus juga setelannya dari jendela itu, `Remove-Item Env:DATABASE_URL_UJI`; tanpa itu `npm test` berikutnya di jendela yang sama mencari database uji yang sudah mati (`database uji tidak bisa dihubungi`). Di bash setelan itu hanya berlaku untuk satu perintah.
++
++| Berkas di `src/integrasi/` | Tes | Yang hanya bisa dibuktikan database sungguhan |
++| :--- | :---: | :--- |
++| `perangkat.test.ts` | 4 | daftar → hanya sidik SHA-256 yang tersimpan (`CHECK kunci_hash`); daftar ulang `409` tanpa menimpa baris; `GET /devices` tanpa kunci maupun sidiknya (tanpa *login*: `401`), dan `GET /health` menyebut versi `package.json` + `"database":true`; cabut → sidik dihapus, status `offline`, kejadian `dicabut` di `events` |
++| `bacaan.test.ts` | 3 | riwayat 1 jam terakhir urut waktu (`ORDER BY ts`); ringkasan 15 menit dengan `time_bucket()` TimescaleDB hanya untuk perangkat itu; kiriman ganda = satu baris (`PRIMARY KEY` + `ON CONFLICT`) |
++| `masuk.test.ts` | 4 | *login* (bcrypt; sesi tersimpan sebagai SHA-256 *refresh token*); sandi salah dan email asing sama-sama `401`; *refresh* memutar token dalam satu `UPDATE`; *logout* menghapus barisnya |
++| `aturan.test.ts` | 3 | aturan tersimpan sebagai JSONB, isi tidak sah `400` tanpa baris baru; ganti → kolom `diubah` maju, nomor asing `404`; hapus → kejadiannya tetap ada dengan `aturan_id` `NULL` (`ON DELETE SET NULL`) |
++| `klaim.test.ts` | 3 | kode ditukar sekali dalam satu transaksi, database hanya menyimpan sidik kodenya; kode terpakai `403`, perangkat aktif tidak bisa direbut kode baru (`409`, kode tidak hangus); kode kedaluwarsa `403` |
++| `firmware-armada.test.ts` | 3 | unggah: ukuran dan SHA-256 tersimpan, versi sama `409`, perangkat mengunduh dengan kuncinya (`403` untuk kunci lain); rilis uji tidak pernah menjadi rilis terbaru, rilis yang ditarik keluar dari hitungan; `GET /armada` membaca kesehatan TERAKHIR dan pembaruan terakhir (`LATERAL`) |
++
++Aturan main tes integrasi (semuanya di [`src/integrasi/siapkan.ts`](src/integrasi/siapkan.ts)):
++
++- **Hanya database `…_uji`.** Nama database di `DATABASE_URL_UJI` wajib berakhiran `_uji` (diperiksa sebelum tersambung, lalu sekali lagi dengan `current_database()`), karena tes menulis dan menghapus baris. Alamat database rumahmu ditolak dengan `DATABASE_URL_UJI menunjuk database "rumahpintar", bukan database uji …`.
++- **Tanpa broker, tanpa Telegram, tanpa rahasia sungguhan.** Setelan tes ditulis ulang sebelum kode server diimpor: `MQTT_URL` alamat mati, `JWT_SECRET` acak sekali pakai, `FIRMWARE_DIR` folder sementara, `AKUN_BROKER_OTOMATIS=mati`, Telegram kosong.
++- **Setiap tes mandiri.** Setiap berkas memakai `device_id`, email, nama aturan, dan versi firmware miliknya sendiri, membersihkannya sebelum setiap tes, dan meninggalkan database kosong lagi. Vitest menjalankan berkas-berkas tes bersamaan; migrasinya diantre dengan `pg_advisory_lock`. Satu pengecualian: "rilis terbaru" dihitung dari SEMUA baris tabel `firmware`, jadi hanya `firmware-armada.test.ts` yang boleh menulis tabel itu, dan tesnya berhenti dengan pesan jelas (`tabel firmware di database uji berisi rilis lain …`) bila database uji pernah dipakai mengunggah firmware lain.
++- **Di robot, tidak ada tes yang boleh dilewati.** Job `uji` merah bila keluaran `npm test` memuat `skipped` (misalnya `DATABASE_URL_UJI` salah ketik di `ci.yml`, sehingga 20 *integration test* diam-diam dilewati).
++
++**Versi.** [`src/config/versi-server.ts`](src/config/versi-server.ts) membaca `version` dari `package.json` saat server menyala; nomor itu tampil di `GET /health` (`"versi":"2.0.0"`), di judul `/docs`, dan di baris log `backend Rumah Pintar Mini 2.0.0 menyala`. Menaikkan versi (misalnya 2.0.0 → 2.0.1): di folder `backend` DAN `frontend`, `npm version 2.0.1 --no-git-tag-version` (mengubah `package.json` dan dua tempat di `package-lock.json`, tanpa *commit* atau tag), lalu tiga baris `image:` di `compose.cloud.yml` dan entri baru `CHANGELOG.md` di akar proyek; robot memeriksa semuanya sama (`skrip/cek-versi.mjs`).
++
++**Lint.** `npm run lint` menjalankan oxlint 1.89.0, versi yang sama dengan frontend (ESLint tidak dipakai: `typescript-eslint` belum menerima TypeScript 7), dengan [`.oxlintrc.json`](.oxlintrc.json): aturan bawaan oxlint (kelompok *correctness*: aturan inti ditambah *plugin* `typescript` dan `oxc`), sama dengan frontend tanpa `react`; *plugin* bawaan `unicorn` sengaja tidak dipakai (daftar `plugins` menggantikan bawaannya). Semua aturan itu bertingkat peringatan, jadi skripnya memakai `--deny-warnings`: satu peringatan pun membuat `npm run lint` berkode keluar 1 dan robot merah. Satu aturan sengaja dimatikan di satu baris, beserta alasannya, di `src/services/versi.test.ts` (perbandingan dua teks tetap yang memang sedang diuji).
++
+ ## Keamanan perangkat dan broker (Modul 21)
+ 
+ Sampai Modul 20, backend membuat baris `devices` otomatis untuk perangkat **apa pun** yang mengirim pesan, dan siapa pun yang bisa menghubungi broker boleh menerbitkan ke topik mana pun. Modul 21 menutup keduanya.
+@@ -357,6 +411,19 @@ SELECT (SELECT count(*) FROM readings) AS bacaan,
+ 
+ Setelah terbukti, hapus salinannya dengan `docker compose exec db dropdb -U postgres rumahpintar_pulih`. Uji pulih ke proyek Compose terpisah dengan lemari sendiri (tanpa menyentuh lemari `rumahpintar-data`) ada di Modul 26 Praktik 9. Jangan pernah memakai `docker compose down -v`, `docker volume rm rumahpintar-data`, atau `docker system prune --volumes` di laptop yang menyimpan riwayat asli.
+ 
++## Catatan versi 2.0
++
++Backend 2.0.0 dibuat di Modul 29 supaya setiap perubahan diuji robot, dibungkus menjadi cetakan untuk dua jenis prosesor, dan dipasang otomatis ke VPS dan Pi. Nomornya MAYOR karena cara memasang berubah, bukan API-nya.
++
++- **Satu nomor versi produk**: backend 1.5.0 dan dashboard 1.4.0 menjadi `2.0.0`, sama dengan tag image di `compose.cloud.yml`, tag Git `v2.0.0`, dan entri teratas `CHANGELOG.md` di akar proyek. `package-lock.json` ikut bernomor sama (dua tempat).
++- **`src/app.ts` (baru)**: `buatApp()` merakit server (log, satpam, `/docs`, semua rute) tanpa menyalakannya; isinya pindahan apa adanya dari `src/server.ts`, dengan pilihan `log: "galat-saja"` untuk tes. `src/server.ts` tinggal menyalakan database, aturan, Socket.IO, MQTT, Telegram, laporan, dan pengawas pembaruan, lalu mendengar di loketnya, plus satu baris log saat menyala: `backend Rumah Pintar Mini 2.0.0 menyala`.
++- **`src/config/versi-server.ts` (baru)**: versi dari `package.json` untuk `GET /health` (kolom `versi`; kodenya tetap selalu `200`) dan OpenAPI `info.version` (sebelumnya `1.5.0` ditulis tangan; deskripsi `/docs` juga tidak lagi menyebut "Backend v1.4").
++- **`src/integrasi/` (baru)**: `siapkan.ts` + 6 berkas, 20 *integration test* dengan database uji ([Diuji dengan database uji](#diuji-dengan-database-uji-modul-29)).
++- **`package.json`**: skrip `lint` (oxlint) dan `test:integrasi`; alat pengembang baru `oxlint` 1.89.0 (versi persis, sama dengan lock frontend). Tidak ada paket produksi baru. **`.oxlintrc.json` (baru)**.
++- **`Dockerfile`**: tahap `paket` = `FROM --platform=$BUILDPLATFORM`; folder `/app/data-firmware` dibuat di tahap itu lalu disalin dengan `COPY --chown=node:node` (tahap akhir tanpa `RUN`). Isi cetakan sama, folder firmware tetap milik `node`. **`.dockerignore`**: juga menahan `src/integrasi` dan `.oxlintrc.json`.
++- Tanpa migrasi database, kontrak data tetap 1.6, Bruno tidak berubah. **Turun versi**: cetakan 1.5.0 tetap jalan di atas database yang sama (skemanya tidak berubah); yang hilang hanya `versi` di `/health`.
++- **Tes**: 203 *unit test* lama di 25 berkas tetap hijau (satu-satunya ubahan: satu komentar oxlint di `src/services/versi.test.ts`), ditambah 20 *integration test* di 6 berkas.
++
+ ## Catatan versi 1.5
+ 
+ Backend 1.5.0 dibuat di Modul 28 supaya Node 1 bisa diperbarui lewat udara, perangkat baru bisa mendaftar sendiri, dan admin bisa melihat serta mengurus seluruh armada.
+@@ -429,7 +496,9 @@ Backend 1.1.0 dibuat di Modul 24 supaya dashboard v1.0 bisa membuat aturan "sira
+ - **Turun versi**: backend v1.0 yang membaca aturan berbentuk baru tidak mogok; aturan itu dilewati dengan peringatan `aturan N dilewati: …` (lihat `muatAturan()`), aturan lainnya tetap berjalan. Aturan yang dilewati juga TIDAK tampil di `GET /rules` v1.0 (dashboard seolah kehilangan aturan itu); datanya utuh di database dan tampil lagi begitu naik ke 1.1. Jangan menyimpan aturan bernomor itu lewat `PUT` v1.0: isinya akan ditimpa bentuk v1.0.
+ - Versi `1.1.0` di `package.json` dan di `/docs`.
+ 
+-## Batasan v1.5
++<a id="batasan-v15"></a>
++
++## Batasan v2.0
+ 
+ - `GET /devices/:id/latest`, `vitals`, dan `state` masih dibaca dari memori, jadi kosong lagi setiap server dimulai ulang. Keadaan yang diinginkan (`desired`) dan hitungan "selama" setiap aturan juga hilang saat server dimulai ulang; riwayat bacaan, perintah, aturan, kejadian, akun, dan sesi tersimpan permanen di database.
+ - Bacaan yang datang saat database tidak bisa dihubungi tidak tersimpan.
+@@ -462,7 +531,8 @@ Backend 1.1.0 dibuat di Modul 24 supaya dashboard v1.0 bisa membuat aturan "sira
+ - **Akun yang boleh menulis `rpm/+/cmd`** (backend, `nodered` Modul 13) kini juga bisa memerintahkan pembaruan firmware. Firmware 1.7.0 hanya mengunduh dari alamat server yang tersimpan padanya dan memeriksa SHA-256, jadi akun itu tidak bisa memasang berkas dari luar atau memanen kunci, tetapi masih bisa menyuruh perangkat memasang rilis lain yang ada di server (misalnya versi lama yang belum ditarik). Laporan pembaruan yang id-nya tidak pernah dikirim server ini dicatat sebagai peringatan + kejadian `ota`. Jaga sandi `nodered`; tarik rilis lama yang buruk.
+ - **Langkah akun broker satu per satu.** Saat broker atau jembatan diam, langkah kedua dan seterusnya (daftar, ganti kunci, klaim, Nonaktifkan) menunggu giliran paling lama 5 detik, lalu `503` tanpa dikerjakan: ulangi sesudah broker menjawab lagi.
+ - **Jalan mundur broker** (kembali ke `edge/*.conf` Modul 27 tanpa plugin *dynamic security*): semua akun perangkat yang dibuat, diganti, atau diklaim di Modul 28 hilang dari otentikasi. Pertahankan dua baris `plugin …`, atau buat dulu akun itu dengan `mosquitto_passwd` (lihat `edge/README.md`).
+-- **Tes Vitest tidak menjalankan SQL armada dan klaim** (`src/db/armada.ts`, `src/db/klaim.ts` diganti tiruan `vi.mock`): aturan yang hanya dijaga database (satu pembaruan berjalan per perangkat lewat indeks unik, kode klaim sekali pakai lewat `FOR UPDATE`, laporan yang menimpa `kedaluwarsa`, penyimpulan) dibuktikan di lab penulis dengan database sungguhan, bukan oleh `npm test`.
++- **Tes integrasi belum mencakup semua SQL armada dan klaim** (Modul 29). Yang diuji dengan database uji: kode klaim sekali pakai, kode kedaluwarsa, perangkat aktif tidak bisa direbut, rilis dan tanda uji, unduhan berkunci, kueri `/armada`. Yang masih hanya dibuktikan di lab penulis dengan database sungguhan: satu pembaruan berjalan per perangkat (indeks unik), dua perangkat yang menukar kode yang sama bersamaan (`FOR UPDATE`), laporan yang menimpa `kedaluwarsa`, dan penyimpulan hasil pembaruan.
++- **Tes integrasi butuh Docker dan image `timescale/timescaledb:2.30.2-pg17`** (unduhan sekitar 535–552 MB, terpasang sekitar 2 GB). Tanpa `DATABASE_URL_UJI` tes itu dilewati di laptop, tetapi robot menjalankannya di setiap *pull request*.
+ - **Versi rilis tanpa nol di depan.** Unggahan dan perintah pembaruan hanya menerima `x.y.z` tanpa nol di depan dan paling banyak 5 angka per bagian (`1.07.1` ditolak `400`); versi yang DILAPORKAN perangkat tetap mengikuti kontrak data (`x.y.z` biasa, supaya firmware lama tidak tiba-tiba ditolak).
+ - Daftar perangkat terdaftar dimuat ke memori saat server menyala; perubahan `devices` langsung di database (bukan lewat API) baru terbaca saat server dimulai ulang. `GET /devices` sendiri selalu dibaca segar dari database.
+-- **`npm audit` menulis `4 moderate severity vulnerabilities`** (per 2 Nov 2026; `package-lock.json` sama dengan backend Modul 27). Keempatnya satu rantai milik halaman `/docs`: `@fastify/swagger-ui` 6.1.2 → `@fastify/static` 10.1.6 → `glob` 13.0.6 → `minimatch` 10.2.6 ([GHSA-3g3m-2fjr-6pw4](https://github.com/advisories/GHSA-3g3m-2fjr-6pw4), [GHSA-g3hv-75wg-m249](https://github.com/advisories/GHSA-g3hv-75wg-m249)). Perbaikannya baru ada di `glob` 14.0.2 dan `minimatch` 11.0.1 (versi besar baru), sedangkan semua versi `@fastify/static`, juga yang terbaru (10.1.8), masih meminta `glob` 13: `npm update` di dalam rentang versi `package.json` tidak menghapus satu pun. **Jangan** menjalankan `npm audit fix --force`: menurut baris `Will install …`-nya, "perbaikan" itu memasang `@fastify/swagger-ui` 2.1.0 yang kuno. Di backend ini `glob` tidak pernah dipanggil: `@fastify/static` hanya memakainya untuk pilihan `wildcard: false`, sedangkan Swagger UI memakai bawaan `wildcard: true`. Tunggu rilis `@fastify/static` yang memakai `glob` 14.
++- **`npm audit` menulis `4 moderate severity vulnerabilities`** (per 4 Nov 2026; oxlint, alat pengembang baru Modul 29, tidak menambah satu pun). Robot hanya merah untuk celah `high` atau `critical` di paket produksi (`npm audit --omit=dev --audit-level=high`, kode keluar `0` per 4 Nov 2026); laporan lengkap tetap dibaca manusia lewat butir *pull request*. Keempatnya satu rantai milik halaman `/docs`: `@fastify/swagger-ui` 6.1.2 → `@fastify/static` 10.1.6 → `glob` 13.0.6 → `minimatch` 10.2.6 ([GHSA-3g3m-2fjr-6pw4](https://github.com/advisories/GHSA-3g3m-2fjr-6pw4), [GHSA-g3hv-75wg-m249](https://github.com/advisories/GHSA-g3hv-75wg-m249)). Perbaikannya baru ada di `glob` 14.0.2 dan `minimatch` 11.0.1 (versi besar baru), sedangkan semua versi `@fastify/static`, juga yang terbaru (10.1.8), masih meminta `glob` 13: `npm update` di dalam rentang versi `package.json` tidak menghapus satu pun. **Jangan** menjalankan `npm audit fix --force`: menurut baris `Will install …`-nya, "perbaikan" itu memasang `@fastify/swagger-ui` 2.1.0 yang kuno. Di backend ini `glob` tidak pernah dipanggil: `@fastify/static` hanya memakainya untuk pilihan `wildcard: false`, sedangkan Swagger UI memakai bawaan `wildcard: true`. Tunggu rilis `@fastify/static` yang memakai `glob` 14.
+diff --git a/backend/package-lock.json b/backend/package-lock.json
+index d984a84..4080f2a 100644
+--- a/backend/package-lock.json
++++ b/backend/package-lock.json
+@@ -1,12 +1,12 @@
+ {
+   "name": "rumah-pintar-mini-backend",
+-  "version": "1.5.0",
++  "version": "2.0.0",
+   "lockfileVersion": 3,
+   "requires": true,
+   "packages": {
+     "": {
+       "name": "rumah-pintar-mini-backend",
+-      "version": "1.5.0",
++      "version": "2.0.0",
+       "dependencies": {
+         "@fastify/cookie": "^11.1.3",
+         "@fastify/cors": "^11.3.1",
+@@ -29,6 +29,7 @@
+         "@types/bcrypt": "^6.0.0",
+         "@types/node": "^24.19.2",
+         "@types/pg": "^8.23.1",
++        "oxlint": "1.89.0",
+         "typescript": "^7.0.2",
+         "vite": "^8.3.4",
+         "vitest": "^5.0.5"
+@@ -418,6 +419,353 @@
+         "url": "https://github.com/sponsors/oxc-project"
+       }
+     },
++    "node_modules/@oxlint/binding-android-arm-eabi": {
++      "version": "1.89.0",
++      "resolved": "https://registry.npmjs.org/@oxlint/binding-android-arm-eabi/-/binding-android-arm-eabi-1.89.0.tgz",
++      "integrity": "sha512-Pflpba5F3gRAQ12sWglRxvWTHEdAusNDvmi4Y5N1T5SY1AGkM7AixOnET8qkrnLJ/F32qAlNokO6eCknT8tmnw==",
++      "cpu": [
++        "arm"
++      ],
++      "dev": true,
++      "license": "MIT",
++      "optional": true,
++      "os": [
++        "android"
++      ],
++      "engines": {
++        "node": "^20.19.0 || >=22.12.0"
++      }
++    },
++    "node_modules/@oxlint/binding-android-arm64": {
++      "version": "1.89.0",
++      "resolved": "https://registry.npmjs.org/@oxlint/binding-android-arm64/-/binding-android-arm64-1.89.0.tgz",
++      "integrity": "sha512-dYmyD1x7LaPlb79vZWUcpTShk8dI9z1I+IubtqrBxWNJaDhQdPHwcsvg7q5StTU4xWyd9AwPfLaTYFZY8NZgtQ==",
++      "cpu": [
++        "arm64"
++      ],
++      "dev": true,
++      "license": "MIT",
++      "optional": true,
++      "os": [
++        "android"
++      ],
++      "engines": {
++        "node": "^20.19.0 || >=22.12.0"
++      }
++    },
++    "node_modules/@oxlint/binding-darwin-arm64": {
++      "version": "1.89.0",
++      "resolved": "https://registry.npmjs.org/@oxlint/binding-darwin-arm64/-/binding-darwin-arm64-1.89.0.tgz",
++      "integrity": "sha512-Z/oxOPiIqiS7fItRdxaaOEC+6GD3OpGi0IxoR0dMefzQHolsKLzScw2DNcu/5gUPok3tv+G9mslvYB5bo3i0qg==",
++      "cpu": [
++        "arm64"
++      ],
++      "dev": true,
++      "license": "MIT",
++      "optional": true,
++      "os": [
++        "darwin"
++      ],
++      "engines": {
++        "node": "^20.19.0 || >=22.12.0"
++      }
++    },
++    "node_modules/@oxlint/binding-darwin-x64": {
++      "version": "1.89.0",
++      "resolved": "https://registry.npmjs.org/@oxlint/binding-darwin-x64/-/binding-darwin-x64-1.89.0.tgz",
++      "integrity": "sha512-eAjTkHSjAxrdCPJxO6y5sPQL5pYLKb2kvxZz9UU7tXnOZk9I/HLtkvx9S7GHY883k+AmL/eC7mqFt+w7WCwk0w==",
++      "cpu": [
++        "x64"
++      ],
++      "dev": true,
++      "license": "MIT",
++      "optional": true,
++      "os": [
++        "darwin"
++      ],
++      "engines": {
++        "node": "^20.19.0 || >=22.12.0"
++      }
++    },
++    "node_modules/@oxlint/binding-freebsd-x64": {
++      "version": "1.89.0",
++      "resolved": "https://registry.npmjs.org/@oxlint/binding-freebsd-x64/-/binding-freebsd-x64-1.89.0.tgz",
++      "integrity": "sha512-0lNCA9Tl1n1FKpqy2/9ckp0kIuSrtJ/l9bMRgaEhOtM7TsOHshFuwOcvW8oA9teXLMOJT61LjEKWiaHDFGxF/w==",
++      "cpu": [
++        "x64"
++      ],
++      "dev": true,
++      "license": "MIT",
++      "optional": true,
++      "os": [
++        "freebsd"
++      ],
++      "engines": {
++        "node": "^20.19.0 || >=22.12.0"
++      }
++    },
++    "node_modules/@oxlint/binding-linux-arm-gnueabihf": {
++      "version": "1.89.0",
++      "resolved": "https://registry.npmjs.org/@oxlint/binding-linux-arm-gnueabihf/-/binding-linux-arm-gnueabihf-1.89.0.tgz",
++      "integrity": "sha512-OTFEvi9W+JczaZD1Caj17SGCoW8H7TE+fvx0D7ATEWa1Lohn91UMxFQ6r145SiGy/yCxeIwptMys/RAM7gSVSQ==",
++      "cpu": [
++        "arm"
++      ],
++      "dev": true,
++      "license": "MIT",
++      "optional": true,
++      "os": [
++        "linux"
++      ],
++      "engines": {
++        "node": "^20.19.0 || >=22.12.0"
++      }
++    },
++    "node_modules/@oxlint/binding-linux-arm-musleabihf": {
++      "version": "1.89.0",
++      "resolved": "https://registry.npmjs.org/@oxlint/binding-linux-arm-musleabihf/-/binding-linux-arm-musleabihf-1.89.0.tgz",
++      "integrity": "sha512-fRxgNHvBLswj6MrhW2uBq5UDhPRQlCbHeq/Nf8yuG9zOxhDsXqX/mi2PX1axgsQxMm88el7HLiJAzglAnflYxw==",
++      "cpu": [
++        "arm"
++      ],
++      "dev": true,
++      "license": "MIT",
++      "optional": true,
++      "os": [
++        "linux"
++      ],
++      "engines": {
++        "node": "^20.19.0 || >=22.12.0"
++      }
++    },
++    "node_modules/@oxlint/binding-linux-arm64-gnu": {
++      "version": "1.89.0",
++      "resolved": "https://registry.npmjs.org/@oxlint/binding-linux-arm64-gnu/-/binding-linux-arm64-gnu-1.89.0.tgz",
++      "integrity": "sha512-v9ENzHvwrQoYSWTtviH1pOYc7R9UovDxVofnck50cNmPihRRTcrg5X0UlRbLOZ7IVtxPOlh2hb7kDO+FpE8SfQ==",
++      "cpu": [
++        "arm64"
++      ],
++      "dev": true,
++      "libc": [
++        "glibc"
++      ],
++      "license": "MIT",
++      "optional": true,
++      "os": [
++        "linux"
++      ],
++      "engines": {
++        "node": "^20.19.0 || >=22.12.0"
++      }
++    },
++    "node_modules/@oxlint/binding-linux-arm64-musl": {
++      "version": "1.89.0",
++      "resolved": "https://registry.npmjs.org/@oxlint/binding-linux-arm64-musl/-/binding-linux-arm64-musl-1.89.0.tgz",
++      "integrity": "sha512-vfffe8mQ484AzVadlUOFpgL+JDwhvs9hrzxTgQP1FVfi4ZEUUYeffXlzC9dFV7Dgnu5s/KrNKvfmG6HxBd/ISQ==",
++      "cpu": [
++        "arm64"
++      ],
++      "dev": true,
++      "libc": [
++        "musl"
++      ],
++      "license": "MIT",
++      "optional": true,
++      "os": [
++        "linux"
++      ],
++      "engines": {
++        "node": "^20.19.0 || >=22.12.0"
++      }
++    },
++    "node_modules/@oxlint/binding-linux-ppc64-gnu": {
++      "version": "1.89.0",
++      "resolved": "https://registry.npmjs.org/@oxlint/binding-linux-ppc64-gnu/-/binding-linux-ppc64-gnu-1.89.0.tgz",
++      "integrity": "sha512-Buonlp4hVS7RGNP5M7bPpGNQrenyzA2C64JcO/oz9C1c6dGOXJ7VEAnaiAMY7voou0JYyCJdvDVlFQc5DZX3DQ==",
++      "cpu": [
++        "ppc64"
++      ],
++      "dev": true,
++      "libc": [
++        "glibc"
++      ],
++      "license": "MIT",
++      "optional": true,
++      "os": [
++        "linux"
++      ],
++      "engines": {
++        "node": "^20.19.0 || >=22.12.0"
++      }
++    },
++    "node_modules/@oxlint/binding-linux-riscv64-gnu": {
++      "version": "1.89.0",
++      "resolved": "https://registry.npmjs.org/@oxlint/binding-linux-riscv64-gnu/-/binding-linux-riscv64-gnu-1.89.0.tgz",
++      "integrity": "sha512-1eVwJJrJ3lYIPT+cm7BcBBZZXY6IQZP/oyonaruTor/MrVyWOpvnwt1oD5CLdsHg5aVBIxXodQSvt+1gK6ck5w==",
++      "cpu": [
++        "riscv64"
++      ],
++      "dev": true,
++      "libc": [
++        "glibc"
++      ],
++      "license": "MIT",
++      "optional": true,
++      "os": [
++        "linux"
++      ],
++      "engines": {
++        "node": "^20.19.0 || >=22.12.0"
++      }
++    },
++    "node_modules/@oxlint/binding-linux-riscv64-musl": {
++      "version": "1.89.0",
++      "resolved": "https://registry.npmjs.org/@oxlint/binding-linux-riscv64-musl/-/binding-linux-riscv64-musl-1.89.0.tgz",
++      "integrity": "sha512-fRQQsKUGShdEL5Fl9o9uhj3grkZbeXKLv0icQ5tspUCNYSDy8wzzEcP1WC2bKdTQ0rSszbKlO3iiHORxV22DLg==",
++      "cpu": [
++        "riscv64"
++      ],
++      "dev": true,
++      "libc": [
++        "musl"
++      ],
++      "license": "MIT",
++      "optional": true,
++      "os": [
++        "linux"
++      ],
++      "engines": {
++        "node": "^20.19.0 || >=22.12.0"
++      }
++    },
++    "node_modules/@oxlint/binding-linux-s390x-gnu": {
++      "version": "1.89.0",
++      "resolved": "https://registry.npmjs.org/@oxlint/binding-linux-s390x-gnu/-/binding-linux-s390x-gnu-1.89.0.tgz",
++      "integrity": "sha512-dEtYjIy6+fHcjKklsmtmMkZRhwHr2UbzjmpvuPtQYSeN9awQ2hx5JLms5Wvri+8P/NZtD8v5hfgHALUql+/Ycg==",
++      "cpu": [
++        "s390x"
++      ],
++      "dev": true,
++      "libc": [
++        "glibc"
++      ],
++      "license": "MIT",
++      "optional": true,
++      "os": [
++        "linux"
++      ],
++      "engines": {
++        "node": "^20.19.0 || >=22.12.0"
++      }
++    },
++    "node_modules/@oxlint/binding-linux-x64-gnu": {
++      "version": "1.89.0",
++      "resolved": "https://registry.npmjs.org/@oxlint/binding-linux-x64-gnu/-/binding-linux-x64-gnu-1.89.0.tgz",
++      "integrity": "sha512-hqjwIj5KOYM8Wjef/p7IruNi1iByLhSzbMBk62y22P/E8q7Jj0Pp+DeUTKTRYyZYCDtU1wEGlnWOnttHbyNIww==",
++      "cpu": [
++        "x64"
++      ],
++      "dev": true,
++      "libc": [
++        "glibc"
++      ],
++      "license": "MIT",
++      "optional": true,
++      "os": [
++        "linux"
++      ],
++      "engines": {
++        "node": "^20.19.0 || >=22.12.0"
++      }
++    },
++    "node_modules/@oxlint/binding-linux-x64-musl": {
++      "version": "1.89.0",
++      "resolved": "https://registry.npmjs.org/@oxlint/binding-linux-x64-musl/-/binding-linux-x64-musl-1.89.0.tgz",
++      "integrity": "sha512-iAQN3e6o9UgUCcdGwqRx/jYcKbG3HK7ur3rH6lTqVcQeNGZ85AeWIg6cgn/edwFQ0ofEZZItMwkzyCVTahnvEA==",
++      "cpu": [
++        "x64"
++      ],
++      "dev": true,
++      "libc": [
++        "musl"
++      ],
++      "license": "MIT",
++      "optional": true,
++      "os": [
++        "linux"
++      ],
++      "engines": {
++        "node": "^20.19.0 || >=22.12.0"
++      }
++    },
++    "node_modules/@oxlint/binding-openharmony-arm64": {
++      "version": "1.89.0",
++      "resolved": "https://registry.npmjs.org/@oxlint/binding-openharmony-arm64/-/binding-openharmony-arm64-1.89.0.tgz",
++      "integrity": "sha512-MNxjEByz3N/7Q4qFQuPWvc14TpN9LoD3pECEDsJTZbP/wyB7U+hduUXEl7QAbbgVezFwsb9sWtNUO6XVBndOhg==",
++      "cpu": [
++        "arm64"
++      ],
++      "dev": true,
++      "license": "MIT",
++      "optional": true,
++      "os": [
++        "openharmony"
++      ],
++      "engines": {
++        "node": "^20.19.0 || >=22.12.0"
++      }
++    },
++    "node_modules/@oxlint/binding-win32-arm64-msvc": {
++      "version": "1.89.0",
++      "resolved": "https://registry.npmjs.org/@oxlint/binding-win32-arm64-msvc/-/binding-win32-arm64-msvc-1.89.0.tgz",
++      "integrity": "sha512-xxe+i9wfuFso/VnoL4mfj0UlzE+cfCFiUB06vkXCMyQdgVVmItF5FfAF4tATAktSU6uHruWR+FjqvAT9cHZZzg==",
++      "cpu": [
++        "arm64"
++      ],
++      "dev": true,
++      "license": "MIT",
++      "optional": true,
++      "os": [
++        "win32"
++      ],
++      "engines": {
++        "node": "^20.19.0 || >=22.12.0"
++      }
++    },
++    "node_modules/@oxlint/binding-win32-ia32-msvc": {
++      "version": "1.89.0",
++      "resolved": "https://registry.npmjs.org/@oxlint/binding-win32-ia32-msvc/-/binding-win32-ia32-msvc-1.89.0.tgz",
++      "integrity": "sha512-saFy07cO94E664glwgLmKLI40HgTL1PY86y4T6+ud4niX4H0Kdqjcmqmjps7mQNdBytV5guGbXDdyQtRfeLbLA==",
++      "cpu": [
++        "ia32"
++      ],
++      "dev": true,
++      "license": "MIT",
++      "optional": true,
++      "os": [
++        "win32"
++      ],
++      "engines": {
++        "node": "^20.19.0 || >=22.12.0"
++      }
++    },
++    "node_modules/@oxlint/binding-win32-x64-msvc": {
++      "version": "1.89.0",
++      "resolved": "https://registry.npmjs.org/@oxlint/binding-win32-x64-msvc/-/binding-win32-x64-msvc-1.89.0.tgz",
++      "integrity": "sha512-hLFJ/o0f/dTJh/EW0vmcbREYSQO9tYgfiAAlsOkiLFiJuRRWvYtFELUXN5o2ijpSo/tlO1n+YlWN58tZwPG18A==",
++      "cpu": [
++        "x64"
++      ],
++      "dev": true,
++      "license": "MIT",
++      "optional": true,
++      "os": [
++        "win32"
++      ],
++      "engines": {
++        "node": "^20.19.0 || >=22.12.0"
++      }
++    },
+     "node_modules/@pinojs/redact": {
+       "version": "0.4.0",
+       "resolved": "https://registry.npmjs.org/@pinojs/redact/-/redact-0.4.0.tgz",
+@@ -2686,6 +3034,55 @@
+       "integrity": "sha512-N4YtSYJqghVu4iek2ZUvcN/0aqH1kRDuNqzcycDxhOUpg7GdvLa2F3DgS6yBNhInhv2r/6I0Flkn7CqL8+nIcw==",
+       "license": "MIT"
+     },
++    "node_modules/oxlint": {
++      "version": "1.89.0",
++      "resolved": "https://registry.npmjs.org/oxlint/-/oxlint-1.89.0.tgz",
++      "integrity": "sha512-a25hkfo61okGPvJz432fRIPoxlKtNnOVy9w4rzrmGgNm4iVTPwpSQlmdqNWnp6p9QyyPVfAZRgnf5XvSBZFk/A==",
++      "dev": true,
++      "license": "MIT",
++      "bin": {
++        "oxlint": "bin/oxlint"
++      },
++      "engines": {
++        "node": "^20.19.0 || >=22.12.0"
++      },
++      "funding": {
++        "url": "https://github.com/sponsors/oxc-project"
++      },
++      "optionalDependencies": {
++        "@oxlint/binding-android-arm-eabi": "1.89.0",
++        "@oxlint/binding-android-arm64": "1.89.0",
++        "@oxlint/binding-darwin-arm64": "1.89.0",
++        "@oxlint/binding-darwin-x64": "1.89.0",
++        "@oxlint/binding-freebsd-x64": "1.89.0",
++        "@oxlint/binding-linux-arm-gnueabihf": "1.89.0",
++        "@oxlint/binding-linux-arm-musleabihf": "1.89.0",
++        "@oxlint/binding-linux-arm64-gnu": "1.89.0",
++        "@oxlint/binding-linux-arm64-musl": "1.89.0",
++        "@oxlint/binding-linux-ppc64-gnu": "1.89.0",
++        "@oxlint/binding-linux-riscv64-gnu": "1.89.0",
++        "@oxlint/binding-linux-riscv64-musl": "1.89.0",
++        "@oxlint/binding-linux-s390x-gnu": "1.89.0",
++        "@oxlint/binding-linux-x64-gnu": "1.89.0",
++        "@oxlint/binding-linux-x64-musl": "1.89.0",
++        "@oxlint/binding-openharmony-arm64": "1.89.0",
++        "@oxlint/binding-win32-arm64-msvc": "1.89.0",
++        "@oxlint/binding-win32-ia32-msvc": "1.89.0",
++        "@oxlint/binding-win32-x64-msvc": "1.89.0"
++      },
++      "peerDependencies": {
++        "oxlint-tsgolint": ">=7.0.2003",
++        "vite-plus": "*"
++      },
++      "peerDependenciesMeta": {
++        "oxlint-tsgolint": {
++          "optional": true
++        },
++        "vite-plus": {
++          "optional": true
++        }
++      }
++    },
+     "node_modules/path-scurry": {
+       "version": "2.0.2",
+       "resolved": "https://registry.npmjs.org/path-scurry/-/path-scurry-2.0.2.tgz",
+diff --git a/backend/package.json b/backend/package.json
+index 83127fb..659c7ad 100644
+--- a/backend/package.json
++++ b/backend/package.json
+@@ -1,6 +1,6 @@
+ {
+   "name": "rumah-pintar-mini-backend",
+-  "version": "1.5.0",
++  "version": "2.0.0",
+   "description": "Backend Rumah Pintar Mini (Modul 16-21): mendengar MQTT, memeriksa kontrak data, menyimpan semua pesan ke database deret waktu, menyediakan API riwayat, data realtime, perintah, aturan otomatis, jadwal, dan notifikasi Telegram, login dengan peran admin dan viewer, daftar resmi perangkat dengan kunci per perangkat dan akun broker tersendiri, serta (Modul 28) pembaruan firmware lewat udara, kode klaim, dan data armada",
+   "private": true,
+   "type": "module",
+@@ -8,10 +8,12 @@
+     "dev": "node --watch --env-file=.env src/server.ts",
+     "start": "node --env-file-if-exists=.env src/server.ts",
+     "cek": "tsc --noEmit",
++    "lint": "oxlint --deny-warnings",
+     "migrasi": "node --env-file-if-exists=.env src/db/migrasi.ts",
+     "isi-riwayat": "node --env-file-if-exists=.env src/db/isi-riwayat.ts",
+     "pengguna": "node --env-file-if-exists=.env src/db/kelola-pengguna.ts",
+-    "test": "vitest run"
++    "test": "vitest run",
++    "test:integrasi": "vitest run src/integrasi"
+   },
+   "dependencies": {
+     "@fastify/cookie": "^11.1.3",
+@@ -35,6 +37,7 @@
+     "@types/bcrypt": "^6.0.0",
+     "@types/node": "^24.19.2",
+     "@types/pg": "^8.23.1",
++    "oxlint": "1.89.0",
+     "typescript": "^7.0.2",
+     "vite": "^8.3.4",
+     "vitest": "^5.0.5"
+diff --git a/backend/src/app.ts b/backend/src/app.ts
+new file mode 100644
+index 0000000..20d86a0
+--- /dev/null
++++ b/backend/src/app.ts
+@@ -0,0 +1,104 @@
++// app.ts - merakit server Fastify Rumah Pintar Mini TANPA menyalakannya (Modul 29). Isinya pindahan apa adanya dari server.ts
++// (Modul 19-28): pencatat log, satu baris log per permintaan, pemeriksa skema Zod, pengaman API (Modul 20), dokumentasi
++// /docs, dan 8 kelompok rute.
++// Kenapa dipisah? Tes integrasi (src/integrasi/) memanggil buatApp() lalu mengetuk rutenya lewat app.inject() dengan database
++// uji SUNGGUHAN. Jadi yang diuji adalah rakitan YANG SAMA dengan produksi, bukan rakitan tiruan buatan tes: rute yang lupa
++// didaftarkan ikut ketahuan (contoh: tanpa ruteKlaim, tiga tes klaim merah dengan 404), begitu juga satpam login yang hilang
++// (GET /devices tanpa login harus 401). server.ts tinggal menyalakan sisanya (database, MQTT, Telegram, jadwal, Socket.IO)
++// dan mendengar di loketnya.
++import Fastify, { LogController } from "fastify";
++import type { FastifyInstance } from "fastify";
++import swagger from "@fastify/swagger";
++import swaggerUi from "@fastify/swagger-ui";
++import { jsonSchemaTransform, serializerCompiler, validatorCompiler } from "fastify-type-provider-zod";
++import { env } from "./config/env.ts";
++import { VERSI_SERVER } from "./config/versi-server.ts";
++import { pasangKeamanan } from "./auth/keamanan.ts";
++import { ruteAuth } from "./routes/auth.ts";
++import { ruteKesehatan } from "./routes/kesehatan.ts";
++import { rutePerangkat } from "./routes/perangkat.ts";
++import { ruteAturan } from "./routes/aturan.ts";
++import { ruteLaporan } from "./routes/laporan.ts";
++import { ruteFirmware } from "./routes/firmware.ts";
++import { ruteArmada } from "./routes/armada.ts";
++import { ruteKlaim } from "./routes/klaim.ts";
++import { pakaiLog, perluDicatat } from "./services/log.ts";
++
++export interface OpsiApp {
++  // "berwarna" (bawaan, server.ts) = log berwarna pino-pretty seperti sejak Modul 19.
++  // "galat-saja" (tes integrasi) = hanya galat yang ditulis, satu baris JSON tanpa warna: keluaran Vitest tetap bersih, tetapi
++  // alasan jawaban 503 (misalnya kueri SQL yang ditolak database) tetap terbaca saat tes merah.
++  log?: "berwarna" | "galat-saja";
++}
++
++export async function buatApp(opsi: OpsiApp = {}): Promise<FastifyInstance> {
++  const app = Fastify({
++    logger: opsi.log === "galat-saja"
++      ? { level: "error" }
++      : { transport: { target: "pino-pretty", options: { translateTime: "SYS:HH:MM:ss", ignore: "pid,hostname,reqId" } } },
++    logController: new LogController({ disableRequestLogging: true }), // log bawaan per permintaan terlalu panjang...
++    // Modul 27: header X-Forwarded-For/-Proto dari Caddy hanya dipercaya bila datang dari penerus di TRUST_PROXY (di
++    // compose.cloud.yml: uniquelocal = lorong Docker). Kosong (mode kembang) = header itu diabaikan, seperti v1.3.
++    trustProxy: env.TRUST_PROXY,
++  });
++  pakaiLog(app.log); // Modul 19: layanan lain (perintah, aturan, jadwal, Telegram) menulis ke log yang sama
++  app.addHook("onResponse", async (req, reply) => {
++    // ...jadi diganti satu baris per permintaan (hook = "middleware" Fastify). Hanya metode, alamat, dan kode jawaban:
++    // isi permintaan (sandi!) dan cookie (token!) tidak pernah ditulis ke log. Modul 26: ketukan /health yang berhasil
++    // (healthcheck Docker setiap 15 detik) tidak dicatat, supaya log tidak penuh baris yang sama.
++    if (!perluDicatat(req.method, req.url, reply.statusCode)) return;
++    req.log.info(`${req.method} ${req.url} -> ${reply.statusCode} (${Math.round(reply.elapsedTime)} ms)`);
++  });
++  if (env.TRUST_PROXY !== false) { // Modul 27: satu baris saat menyala, bukti setelan TRUST_PROXY terbaca
++    app.log.info(`penerus tepercaya (TRUST_PROXY): ${env.TRUST_PROXY === true ? "semua" : env.TRUST_PROXY.join(", ")}`);
++  }
++  app.setValidatorCompiler(validatorCompiler); // skema Zod memeriksa isi permintaan...
++  app.setSerializerCompiler(serializerCompiler); // ...dan bentuk jawaban
++
++  await pasangKeamanan(app); // Modul 20: CORS, cookie, JWT, rate limit, dan satpam di setiap permintaan (SEBELUM rute)
++  await app.register(swagger, {
++    openapi: {
++      info: {
++        title: "Rumah Pintar Mini API",
++        description: "Backend Rumah Pintar Mini. Semua rute butuh login, kecuali yang tidak bergembok. Login dulu lewat "
++          + "POST /auth/login (Try it out): browser menyimpan cookie akses dan mengirimnya sendiri ke rute lain. "
++          + "Akun viewer hanya boleh melihat (GET); perintah dan perubahan dijawab 403. Perangkat didaftarkan admin lewat "
++          + "POST /devices; kuncinya hanya tampil sekali, dan pesan dari perangkat tak terdaftar atau dicabut diabaikan. "
++          + "Sejak v1.1, aturan ambang bisa berarah turun (ambang-bawah, misalnya siram kalau tanah di bawah 30 %), boleh "
++          + "mengirim satu perintah saat menyala, dan aturan bisa dihapus (DELETE /rules/:id). Sejak v1.2, GET /devices "
++          + "membawa titik peta setiap perangkat (lat, lng), dan admin memindahkannya lewat PUT /devices/:id/lokasi. "
++          + "Laporan harian CSV dikirim ke Telegram sesuai LAPORAN_JADWAL (bawaan 07.00 WIB); POST /laporan/kirim "
++          + "mengirimnya sekarang juga. Sejak v1.3 (Modul 26), backend juga berjalan sebagai kontainer di Docker Compose: "
++          + "dashboard memanggilnya lewat penyaji web Caddy dengan awalan /api, sedangkan halaman ini dibuka di "
++          + "http://localhost:8080/docs (di kontainer, login dari http://127.0.0.1:8080/docs ditolak 403). Sejak v1.4 "
++          + "(Modul 27), backend bisa dibuka dari internet di balik Caddy HTTPS: dengan TRUST_PROXY (di Compose: uniquelocal) "
++          + "backend memakai alamat IP dan protokol tamu dari Caddy, jadi cookie login ber-Secure dan batas 10 percobaan "
++          + "login berlaku per tamu. Sejak v1.5 (Modul 28): pembaruan firmware lewat udara (unggah POST /firmware/:jenis/:versi, "
++          + "perintah POST /devices/:id/update, canary lalu POST /armada/update), unduhan firmware untuk perangkat di "
++          + "GET /fw/node-1/<versi>.bin yang dikunci kunci perangkat, data halaman /armada (GET /armada), kode klaim sekali "
++          + "pakai (POST /provision/kode untuk admin, POST /provision/klaim untuk perangkat), jeda vitals jarak jauh, dan "
++          + "akun broker perangkat yang dibuat serta dihapus otomatis (AKUN_BROKER_OTOMATIS). Sejak 2.0.0 (Modul 29): satu "
++          + "nomor versi untuk backend dan dashboard, dibaca dari package.json (angka di samping judul halaman ini), dan "
++          + "GET /health menyebut versi yang sedang berjalan.",
++        version: VERSI_SERVER, // Modul 29: dari package.json, bukan lagi ditulis tangan di sini
++      },
++      components: {
++        securitySchemes: { // Modul 20: rute bergembok butuh cookie akses dari POST /auth/login
++          cookieAkses: { type: "apiKey", in: "cookie", name: "akses", description: "JWT akses (httpOnly) dari POST /auth/login" },
++        },
++      },
++      security: [{ cookieAkses: [] }], // bawaan: semua rute bergembok; rute terbuka menulis security: []
++    },
++    transform: jsonSchemaTransform, // skema Zod yang sama menjadi dokumentasi OpenAPI
++  });
++  await app.register(swaggerUi, { routePrefix: "/docs" });
++  await app.register(ruteAuth); // Modul 20
++  await app.register(ruteKesehatan);
++  await app.register(rutePerangkat);
++  await app.register(ruteAturan); // Modul 19
++  await app.register(ruteLaporan); // Modul 25
++  await app.register(ruteFirmware); // Modul 28: rilis firmware dan unduhan berkunci /fw
++  await app.register(ruteArmada); // Modul 28: halaman /armada, perintah update, canary, jeda vitals
++  await app.register(ruteKlaim); // Modul 28: kode klaim
++  return app;
++}
+diff --git a/backend/src/config/versi-server.ts b/backend/src/config/versi-server.ts
+new file mode 100644
+index 0000000..948d995
+--- /dev/null
++++ b/backend/src/config/versi-server.ts
+@@ -0,0 +1,13 @@
++// versi-server.ts - versi server Rumah Pintar Mini yang SEDANG berjalan, dibaca dari package.json (Modul 29).
++// Sejak 2.0.0 proyek memakai SATU nomor versi untuk backend dan dashboard (sama dengan tag image dan tag Git v2.0.0). Nomor
++// itu ditulis sekali di package.json, dinaikkan lewat pull request (robot memeriksanya dengan skrip/cek-versi.mjs), lalu
++// dibaca di sini saat server menyala. Dipakai dua tempat: GET /health (kolom versi: siapa pun bisa memeriksa versi yang
++// terpasang di produksi tanpa SSH) dan dokumentasi API /docs (OpenAPI info.version). Tidak ada lagi versi yang ditulis
++// tangan di kode, jadi tidak ada yang bisa lupa diubah.
++// Di image Docker, package.json ikut disalin ke /app (Dockerfile), jadi jalur ../../package.json sama di laptop dan di
++// kontainer. Bukan services/versi.ts: berkas itu membandingkan versi FIRMWARE perangkat (Modul 28), urusan yang lain.
++import { readFileSync } from "node:fs";
++
++const paket = JSON.parse(readFileSync(new URL("../../package.json", import.meta.url), "utf8")) as { version: string };
++
++export const VERSI_SERVER: string = paket.version; // misalnya "2.0.0"
+diff --git a/backend/src/integrasi/aturan.test.ts b/backend/src/integrasi/aturan.test.ts
+new file mode 100644
+index 0000000..5615fe9
+--- /dev/null
++++ b/backend/src/integrasi/aturan.test.ts
+@@ -0,0 +1,91 @@
++// aturan.test.ts - tes INTEGRASI aturan otomatis (Modul 19 + 24) dengan tabel rules dan events SUNGGUHAN (Modul 29).
++// Yang tidak bisa diuji tiruan: kondisi dan aksi tersimpan sebagai JSONB, kolom diubah maju saat aturan diganti, dan kunci
++// asing events.aturan_id ON DELETE SET NULL (migrasi 007): aturan dihapus, buku kejadiannya tetap ada.
++// Jalankan (database uji menyala, DATABASE_URL_UJI terisi; lihat siapkan.ts): npm run test:integrasi
++import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
++import { adaDatabaseUji, siapkanUji, tungguKueriSelesai } from "./siapkan.ts";
++import type { Uji } from "./siapkan.ts";
++
++// nama aturan milik berkas ini saja (awalan yang sama dipakai bersih-bersih). device_id hanya disimpan di dalam JSON aturan;
++// perangkatnya tidak harus ada di tabel devices.
++const AWALAN = "uji-integrasi aturan";
++const PERANGKAT = "290400000001";
++
++// "kipas menyala kalau suhu di atas <nyala> °C selama 60 detik, padam lagi di bawah <nyala - 2> °C"
++function aturanKipas(nama: string, nyala = 30, aktif = true) {
++  return {
++    nama, aktif,
++    kondisi: { jenis: "ambang", device_id: PERANGKAT, besaran: "suhu", nyala_di_atas: nyala, padam_di_bawah: nyala - 2,
++      selama_detik: 60 },
++    aksi: { jenis: "sakelar", device_id: PERANGKAT, target: "kipas", kabari: false },
++  };
++}
++
++describe.skipIf(!adaDatabaseUji)("integrasi (database uji): aturan otomatis", () => {
++  let uji: Uji;
++  const buat = (isi: object) => uji.app.inject({ method: "POST", url: "/rules", cookies: uji.gelang("admin"), payload: isi });
++  const bersihkan = async () => {
++    await tungguKueriSelesai(uji.pool); // kejadian dari tes sebelumnya mungkin masih ditulis
++    await uji.pool.query("DELETE FROM events WHERE data->>'nama' LIKE $1", [`${AWALAN}%`]); // kejadian "aturan-diubah"
++    await uji.pool.query("DELETE FROM rules WHERE nama LIKE $1", [`${AWALAN}%`]);
++  };
++
++  beforeAll(async () => { uji = await siapkanUji(); }, 60_000); // migrasi bisa menunggu giliran berkas lain
++  beforeEach(() => bersihkan());
++  afterAll(async () => {
++    if (!uji) return; // siapkanUji() gagal: galatnya sudah dilaporkan
++    await bersihkan();
++    await uji.tutup();
++  });
++
++  it("POST /rules: aturan tersimpan di tabel rules (JSONB) dan langsung tampil; isi tidak sah ditolak 400 tanpa baris baru", async () => {
++    const jawab = await buat(aturanKipas(`${AWALAN} 1`));
++    expect(jawab.statusCode).toBe(201);
++    const { id } = jawab.json() as { id: number };
++
++    const baris = await uji.pool.query("SELECT nama, aktif, kondisi, aksi FROM rules WHERE id = $1", [id]);
++    expect(baris.rows).toEqual([aturanKipas(`${AWALAN} 1`)]); // JSONB dibaca kembali sebagai objek yang sama persis
++    const daftar = await uji.app.inject({ method: "GET", url: "/rules", cookies: uji.gelang("viewer") });
++    expect((daftar.json() as { id: number }[]).map((a) => a.id)).toContain(id);
++
++    // histeresis terbalik (padam di atas nyala): ditolak skema Zod sebelum menyentuh database
++    const salah = await buat({ ...aturanKipas(`${AWALAN} salah`), kondisi: { ...aturanKipas("").kondisi, padam_di_bawah: 35 } });
++    expect(salah.statusCode).toBe(400);
++    expect((await uji.pool.query("SELECT 1 FROM rules WHERE nama = $1", [`${AWALAN} salah`])).rowCount).toBe(0);
++  });
++
++  it("PUT /rules/:id: isi diganti di database dan kolom diubah maju; nomor yang tidak ada dijawab 404", async () => {
++    const { id } = (await buat(aturanKipas(`${AWALAN} 2`))).json() as { id: number };
++    const ganti = await uji.app.inject({ method: "PUT", url: `/rules/${id}`, cookies: uji.gelang("admin"),
++      payload: aturanKipas(`${AWALAN} 2 diganti`, 32, false) });
++    expect(ganti.statusCode).toBe(200);
++
++    // "diubah maju" dibandingkan di dalam database (mikrodetik): Date di JavaScript hanya sampai milidetik, jadi INSERT dan
++    // UPDATE di milidetik yang sama di komputer cepat akan tampak sama
++    const baris = await uji.pool.query<{ nama: string; aktif: boolean; nyala: number; maju: boolean }>(
++      "SELECT nama, aktif, (kondisi->>'nyala_di_atas')::int AS nyala, diubah > dibuat AS maju FROM rules WHERE id = $1", [id]);
++    expect(baris.rows[0]).toEqual({ nama: `${AWALAN} 2 diganti`, aktif: false, nyala: 32, maju: true });
++
++    const tidakAda = await uji.app.inject({ method: "PUT", url: "/rules/2147483647", cookies: uji.gelang("admin"),
++      payload: aturanKipas(`${AWALAN} hantu`) });
++    expect(tidakAda.statusCode).toBe(404);
++  });
++
++  it("DELETE /rules/:id: aturan hilang dari database, buku kejadiannya tetap (aturan_id menjadi NULL)", async () => {
++    const { id } = (await buat(aturanKipas(`${AWALAN} 3`))).json() as { id: number };
++    // membuat aturan menulis satu kejadian "aturan-diubah" yang menunjuk aturan itu (ditulis tanpa ditunggu rute)
++    let nomorKejadian = 0;
++    await vi.waitFor(async () => {
++      const kejadian = await uji.pool.query<{ id: string }>("SELECT id FROM events WHERE aturan_id = $1", [id]);
++      expect(kejadian.rowCount).toBe(1);
++      nomorKejadian = Number(kejadian.rows[0].id);
++    });
++
++    const hapus = await uji.app.inject({ method: "DELETE", url: `/rules/${id}`, cookies: uji.gelang("admin") });
++    expect(hapus.statusCode).toBe(200);
++    expect((await uji.pool.query("SELECT 1 FROM rules WHERE id = $1", [id])).rowCount).toBe(0);
++    // kunci asing ON DELETE SET NULL: kejadian lama tetap ada, hanya penunjuk aturannya yang dikosongkan
++    const lama = await uji.pool.query("SELECT jenis, aturan_id FROM events WHERE id = $1", [nomorKejadian]);
++    expect(lama.rows).toEqual([{ jenis: "aturan-diubah", aturan_id: null }]);
++  });
++});
+diff --git a/backend/src/integrasi/bacaan.test.ts b/backend/src/integrasi/bacaan.test.ts
+new file mode 100644
+index 0000000..304f838
+--- /dev/null
++++ b/backend/src/integrasi/bacaan.test.ts
+@@ -0,0 +1,89 @@
++// bacaan.test.ts - tes INTEGRASI riwayat bacaan (Modul 17-18) di hypertable readings TimescaleDB SUNGGUHAN (Modul 29).
++// Yang tidak bisa diuji tabel tiruan: urutan dan batas waktu dari SQL (ORDER BY ts, ts >= ... AND ts < ...), fungsi
++// time_bucket() milik TimescaleDB untuk ringkasan per 15 menit, dan PRIMARY KEY (device_id, ts) + ON CONFLICT DO NOTHING yang
++// membuang kiriman ganda.
++// Jalankan (database uji menyala, DATABASE_URL_UJI terisi; lihat siapkan.ts): npm run test:integrasi
++import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
++import { adaDatabaseUji, hapusPerangkatUji, siapkanUji } from "./siapkan.ts";
++import type { Uji } from "./siapkan.ts";
++
++// device_id milik berkas ini saja (awalan 2902)
++const SATU = "290200000001";
++const TETANGGA = "290200000002";
++const GANDA = "290200000003";
++const SEMUA = [SATU, TETANGGA, GANDA];
++const MENIT = 60_000;
++
++describe.skipIf(!adaDatabaseUji)("integrasi (database uji): riwayat bacaan", () => {
++  let uji: Uji;
++  // bacaan cukup punya perangkat di tabel devices (kunci asing readings -> devices); tidak perlu didaftarkan lewat API
++  const adakanPerangkat = (id: string) => uji.pool.query("INSERT INTO devices (device_id) VALUES ($1)", [id]);
++  const simpanBacaan = (id: string, ts: Date, suhu: number) =>
++    uji.pool.query("INSERT INTO readings (device_id, ts, fw, suhu, kelembapan) VALUES ($1, $2, '1.7.0', $3, 60)", [id, ts, suhu]);
++
++  beforeAll(async () => { uji = await siapkanUji(); }, 60_000); // migrasi bisa menunggu giliran berkas lain
++  beforeEach(() => hapusPerangkatUji(uji.pool, SEMUA));
++  afterAll(async () => {
++    if (!uji) return; // siapkanUji() gagal: galatnya sudah dilaporkan
++    await hapusPerangkatUji(uji.pool, SEMUA);
++    await uji.tutup();
++  });
++
++  it("GET /devices/:id/readings: hanya bacaan 1 jam terakhir, urut waktu (terlama lebih dulu)", async () => {
++    await adakanPerangkat(SATU);
++    const sekarang = Date.now();
++    // disimpan ACAK urutannya: urutan di jawaban harus datang dari ORDER BY ts, bukan dari urutan simpan
++    await simpanBacaan(SATU, new Date(sekarang - 10 * MENIT), 23.5);
++    await simpanBacaan(SATU, new Date(sekarang - 50 * MENIT), 21.5);
++    await simpanBacaan(SATU, new Date(sekarang - 30 * MENIT), 22.5);
++    await simpanBacaan(SATU, new Date(sekarang - 180 * MENIT), 99); // 3 jam lalu: di luar rentang bawaan (1 jam)
++
++    const jawab = await uji.app.inject({ method: "GET", url: `/devices/${SATU}/readings`, cookies: uji.gelang("viewer") });
++    expect(jawab.statusCode).toBe(200);
++    const isi = jawab.json() as { jumlah: number; terpotong: boolean; bacaan: { suhu: number | null }[] };
++    expect(isi.jumlah).toBe(3);
++    expect(isi.terpotong).toBe(false);
++    expect(isi.bacaan.map((b) => b.suhu)).toEqual([21.5, 22.5, 23.5]);
++  });
++
++  it("ringkasan per 15 menit (time_bucket TimescaleDB): hanya bacaan perangkat itu yang dihitung", async () => {
++    await adakanPerangkat(SATU);
++    await adakanPerangkat(TETANGGA);
++    // awal satu ember 15 menit, dua jam lalu (dibulatkan ke bawah ke kelipatan 15 menit)
++    const awal = Math.floor((Date.now() - 120 * MENIT) / (15 * MENIT)) * (15 * MENIT);
++    await simpanBacaan(SATU, new Date(awal + 1 * MENIT), 20);
++    await simpanBacaan(SATU, new Date(awal + 4 * MENIT), 22);
++    await simpanBacaan(SATU, new Date(awal + 7 * MENIT), 24);
++    await simpanBacaan(TETANGGA, new Date(awal + 2 * MENIT), 90); // perangkat lain di ember yang sama: tidak boleh ikut
++    await simpanBacaan(TETANGGA, new Date(awal + 5 * MENIT), 95);
++
++    const rentang = new URLSearchParams({ bucket: "15m", from: new Date(awal).toISOString(),
++      to: new Date(awal + 15 * MENIT).toISOString() });
++    const jawab = await uji.app.inject({ method: "GET", url: `/devices/${SATU}/readings?${rentang}`,
++      cookies: uji.gelang("viewer") });
++    expect(jawab.statusCode).toBe(200);
++    const isi = jawab.json() as { ringkasan: Record<string, unknown>[] };
++    expect(isi.ringkasan).toEqual([{
++      waktu: new Date(awal).toISOString().slice(0, 19) + "Z", // format kontrak: UTC tanpa milidetik
++      suhu_rata: 22, suhu_min: 20, suhu_maks: 24, kelembapan_rata: 60, tanah_rata: null, cahaya_rata: null, jumlah_bacaan: 3,
++    }]);
++  });
++
++  it("kiriman ganda: telemetry yang sama dua kali (ts sama) tersimpan satu baris (PRIMARY KEY + ON CONFLICT)", async () => {
++    await adakanPerangkat(GANDA);
++    // fungsi yang dipanggil mqtt.ts untuk setiap telemetry yang lolos kontrak (diimpor sesudah siapkanUji mengisi setelan)
++    const { arsipkanTelemetry } = await import("../db/arsip.ts");
++    const telemetry = { ts: new Date(Date.now() - 5 * MENIT).toISOString().slice(0, 19) + "Z", fw: "1.7.0", suhu: 27.5,
++      kelembapan: 61, cahaya: 900, tanah: 40, gerak: false, level_air: 80 };
++
++    expect(await arsipkanTelemetry(GANDA, telemetry)).toBe(true); // pertama: tersimpan
++    expect(await arsipkanTelemetry(GANDA, telemetry)).toBe(false); // kedua (QoS 1 boleh mengirim ulang): dilewati, tanpa galat
++    const baris = await uji.pool.query("SELECT suhu, kelembapan, cahaya FROM readings WHERE device_id = $1", [GANDA]);
++    expect(baris.rows).toEqual([{ suhu: 27.5, kelembapan: 61, cahaya: 900 }]);
++    // telemetry juga memperbarui baris perangkatnya: jenis dikenali dari isinya, waktu terakhir terdengar terisi
++    const perangkat = await uji.pool.query<{ jenis: string; terakhir_dilihat: Date | null }>(
++      "SELECT jenis, terakhir_dilihat FROM devices WHERE device_id = $1", [GANDA]);
++    expect(perangkat.rows[0].jenis).toBe("node1");
++    expect(perangkat.rows[0].terakhir_dilihat).toBeInstanceOf(Date);
++  });
++});
+diff --git a/backend/src/integrasi/firmware-armada.test.ts b/backend/src/integrasi/firmware-armada.test.ts
+new file mode 100644
+index 0000000..3c2c06a
+--- /dev/null
++++ b/backend/src/integrasi/firmware-armada.test.ts
+@@ -0,0 +1,115 @@
++// firmware-armada.test.ts - tes INTEGRASI rilis firmware dan halaman /armada (Modul 28) dengan database uji SUNGGUHAN dan folder
++// firmware sementara (Modul 29). Yang tidak bisa diuji tiruan: metadata rilis di tabel firmware (PRIMARY KEY jenis + versi:
++// versi tidak bisa ditimpa), unduhan berkunci yang mencocokkan kunci perangkat dengan sidik di tabel devices, tanda rilis uji
++// dan rilis ditarik, serta kueri LATERAL halaman /armada (kesehatan TERAKHIR dan pembaruan terakhir setiap perangkat).
++// Berkas .bin di sini tiruan: 4 KiB acak dengan bait pertama 0xE9 (server hanya memeriksa bait itu dan ukurannya).
++// Jalankan (database uji menyala, DATABASE_URL_UJI terisi; lihat siapkan.ts): npm run test:integrasi
++import { createHash, randomBytes } from "node:crypto";
++import { readFile } from "node:fs/promises";
++import { join } from "node:path";
++import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
++import { adaDatabaseUji, daftarkanPerangkat, hapusPerangkatUji, siapkanUji } from "./siapkan.ts";
++import type { Uji } from "./siapkan.ts";
++
++// device_id dan versi firmware milik berkas ini saja (awalan 2906 dan 29.6.x)
++const PENGUNDUH = "290600000001";
++const ANGGOTA = "290600000002";
++const SEMUA = [PENGUNDUH, ANGGOTA];
++const sha256 = (isi: Buffer) => createHash("sha256").update(isi).digest("hex");
++
++function binTiruan(): Buffer {
++  const isi = randomBytes(4096);
++  isi[0] = 0xe9; // tanda citra aplikasi ESP32
++  return isi;
++}
++
++describe.skipIf(!adaDatabaseUji)("integrasi (database uji): rilis firmware dan armada", () => {
++  let uji: Uji;
++  const unggah = (versi: string, isi: Buffer, rilisUji = false) => uji.app.inject({ method: "POST",
++    url: `/firmware/node1/${versi}${rilisUji ? "?uji=true" : ""}`, cookies: uji.gelang("admin"),
++    headers: { "content-type": "application/octet-stream" }, payload: isi });
++  const bersihkan = async () => {
++    await hapusPerangkatUji(uji.pool, SEMUA); // juga baris pembaruan yang menunjuk rilis di bawah
++    await uji.pool.query("DELETE FROM firmware WHERE versi LIKE '29.6.%'");
++  };
++
++  beforeAll(async () => { uji = await siapkanUji(); }, 60_000); // migrasi bisa menunggu giliran berkas lain
++  beforeEach(async () => {
++    await bersihkan();
++    // Dua tes di bawah menilai "rilis terbaru" dari SEMUA baris tabel firmware: rilis lain di database uji (misalnya sisa
++    // mencoba unggah firmware) membuat hasilnya salah. Berhenti dengan pesan jelas, bukan AssertionError yang membingungkan.
++    const lain = await uji.pool.query<{ versi: string }>("SELECT versi FROM firmware WHERE versi NOT LIKE '29.6.%'");
++    if (lain.rowCount) {
++      throw new Error(`tabel firmware di database uji berisi rilis lain (${lain.rows.map((r) => r.versi).join(", ")}): `
++        + "tes ini butuh tabel firmware tanpa rilis lain. Pakai database uji yang baru (nyalakan ulang kontainernya).");
++    }
++  });
++  afterAll(async () => {
++    if (!uji) return; // siapkanUji() gagal: galatnya sudah dilaporkan
++    await bersihkan();
++    await uji.tutup();
++  });
++
++  it("unggah: metadata (ukuran, SHA-256 hitungan server) tersimpan, versi tidak bisa ditimpa, perangkat mengunduh dengan kuncinya", async () => {
++    const isi = binTiruan();
++    expect((await unggah("29.6.1", isi)).statusCode).toBe(201);
++    const baris = await uji.pool.query("SELECT ukuran, sha256, uji, pengunggah, ditarik FROM firmware WHERE versi = '29.6.1'");
++    expect(baris.rows).toEqual([{ ukuran: 4096, sha256: sha256(isi), uji: false, pengunggah: "1", ditarik: null }]);
++    expect((await readFile(join(uji.folderFirmware, "node-1", "29.6.1.bin"))).equals(isi)).toBe(true); // berkas di lemari
++    expect((await unggah("29.6.1", binTiruan())).statusCode).toBe(409); // isi lain, versi sama: ditolak
++
++    // unduhan perangkat: Basic Auth device_id:kunci (dicocokkan dengan sidik di tabel devices) + MAC WiFi-nya
++    const kunci = await daftarkanPerangkat(uji, PENGUNDUH);
++    const unduh = (kunciDibawa: string) => uji.app.inject({ method: "GET", url: "/fw/node-1/29.6.1.bin", headers: {
++      authorization: `Basic ${Buffer.from(`${PENGUNDUH}:${kunciDibawa}`).toString("base64")}`,
++      "x-esp32-sta-mac": "29:06:00:00:00:01" } });
++    const berhasil = await unduh(kunci);
++    expect(berhasil.statusCode).toBe(200);
++    expect(berhasil.headers["x-sha256"]).toBe(sha256(isi));
++    expect(berhasil.rawPayload.equals(isi)).toBe(true);
++    const kunciPalsu = kunci.slice(0, -1) + (kunci.endsWith("A") ? "B" : "A"); // huruf terakhir diganti: satu huruf beda
++    expect((await unduh(kunciPalsu)).statusCode).toBe(403);
++  });
++
++  it("rilis uji tersimpan bertanda uji dan tidak pernah menjadi rilis terbaru; rilis yang ditarik keluar dari hitungan", async () => {
++    expect((await unggah("29.6.2", binTiruan())).statusCode).toBe(201);
++    expect((await unggah("29.6.3", binTiruan(), true)).statusCode).toBe(201); // lebih tinggi, tetapi rilis UJI
++    const tanda = await uji.pool.query("SELECT versi, uji FROM firmware WHERE versi LIKE '29.6.%' ORDER BY versi");
++    expect(tanda.rows).toEqual([{ versi: "29.6.2", uji: false }, { versi: "29.6.3", uji: true }]);
++
++    type Daftar = { terbaru: { node1: string | null }; rilis: { versi: string; boleh_semua: boolean; alasan_semua: string | null }[] };
++    const daftar = async () => (await uji.app.inject({ method: "GET", url: "/firmware", cookies: uji.gelang("viewer") })).json() as Daftar;
++    const sebelum = await daftar();
++    expect(sebelum.terbaru.node1).toBe("29.6.2");
++    expect(sebelum.rilis.find((r) => r.versi === "29.6.3"))
++      .toMatchObject({ boleh_semua: false, alasan_semua: "rilis uji: hanya per perangkat" });
++
++    const tarik = await uji.app.inject({ method: "POST", url: "/firmware/node1/29.6.2/tarik", cookies: uji.gelang("admin") });
++    expect(tarik.statusCode).toBe(200);
++    const ditarik = await uji.pool.query<{ ditarik: Date | null }>("SELECT ditarik FROM firmware WHERE versi = '29.6.2'");
++    expect(ditarik.rows[0].ditarik).toBeInstanceOf(Date);
++    expect((await daftar()).terbaru.node1).toBeNull(); // tinggal rilis uji: tidak ada rilis terbaru
++  });
++
++  it("GET /armada: perangkat tampil dengan kesehatan TERAKHIR dan pembaruan terakhirnya (LATERAL), perlu_update dari rilis terbaru", async () => {
++    await daftarkanPerangkat(uji, ANGGOTA, "Node armada uji");
++    // seolah perangkat sudah berjalan: melaporkan versi 29.5.0, dua kali mengirim vitals, dan pernah gagal memasang 29.6.4
++    await uji.pool.query("UPDATE devices SET jenis = 'node1', fw = '29.5.0', fw_dilihat = now() WHERE device_id = $1", [ANGGOTA]);
++    await uji.pool.query(`INSERT INTO device_health (device_id, ts, rssi, uptime_s, heap_free, reset_reason, fw) VALUES
++      ($1, now() - interval '20 minutes', -70, 600, 150000, 'POWERON', '29.5.0'),
++      ($1, now() - interval '2 minutes', -55, 1680, 148000, 'POWERON', '29.5.0')`, [ANGGOTA]);
++    expect((await unggah("29.6.4", binTiruan())).statusCode).toBe(201);
++    await uji.pool.query(`INSERT INTO pembaruan (id, device_id, dari_versi, ke_versi, status, pesan, selesai)
++      VALUES ('c-uji-290600000002', $1, '29.5.0', '29.6.4', 'rollback', 'masa uji gagal', now())`, [ANGGOTA]);
++
++    const jawab = await uji.app.inject({ method: "GET", url: "/armada", cookies: uji.gelang("viewer") });
++    expect(jawab.statusCode).toBe(200);
++    const isi = jawab.json() as { rilis_terbaru: { node1: string | null }; perangkat: { device_id: string }[] };
++    expect(isi.rilis_terbaru.node1).toBe("29.6.4");
++    expect(isi.perangkat.find((p) => p.device_id === ANGGOTA)).toMatchObject({
++      nama: "Node armada uji", kunci: "aktif", fw: "29.5.0", perlu_update: true,
++      kesehatan: { rssi: -55, uptime_s: 1680, reset_reason: "POWERON" }, // baris 2 menit lalu, bukan 20 menit lalu
++      pembaruan: { status: "rollback", dari: "29.5.0", ke: "29.6.4", pesan: "masa uji gagal" },
++    });
++  });
++});
+diff --git a/backend/src/integrasi/klaim.test.ts b/backend/src/integrasi/klaim.test.ts
+new file mode 100644
+index 0000000..232e915
+--- /dev/null
++++ b/backend/src/integrasi/klaim.test.ts
+@@ -0,0 +1,94 @@
++// klaim.test.ts - tes INTEGRASI kode klaim sekali pakai (Modul 28) dengan tabel kode_klaim dan devices SUNGGUHAN (Modul 29).
++// Yang tidak bisa diuji tiruan: penukaran kode dalam SATU transaksi (SELECT ... FOR UPDATE, daftarkan, tandai terpakai), batas
++// waktu kode menurut jam database (kedaluwarsa > now()), dan ON CONFLICT yang menolak merebut perangkat yang masih aktif.
++// Rute klaim dibatasi 10 percobaan per menit per alamat: berkas ini memakai 5.
++// Jalankan (database uji menyala, DATABASE_URL_UJI terisi; lihat siapkan.ts): npm run test:integrasi
++import { createHash } from "node:crypto";
++import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
++import { hashKodeKlaim, rapikanKodeKlaim } from "../auth/kode-klaim.ts"; // fungsi murni (tanpa setelan), aman diimpor di sini
++import { adaDatabaseUji, hapusPerangkatUji, siapkanUji } from "./siapkan.ts";
++import type { Uji } from "./siapkan.ts";
++
++// nama kode dan device_id milik berkas ini saja (awalan 2905)
++const AWALAN = "uji-integrasi klaim";
++const BARU = "290500000001";
++const PEMILIK = "290500000002";
++const PEREBUT = "290500000003";
++const TERLAMBAT = "290500000004";
++const SEMUA = [BARU, PEMILIK, PEREBUT, TERLAMBAT];
++const sidikKode = (kode: string) => hashKodeKlaim(rapikanKodeKlaim(kode) ?? "");
++
++describe.skipIf(!adaDatabaseUji)("integrasi (database uji): kode klaim", () => {
++  let uji: Uji;
++  // admin membuat kode (berlaku 5 menit); kodenya hanya tampil di jawaban ini
++  const buatKode = async (nama: string) => {
++    const jawab = await uji.app.inject({ method: "POST", url: "/provision/kode", cookies: uji.gelang("admin"),
++      payload: { nama, menit: 5 } });
++    expect(jawab.statusCode).toBe(201);
++    return (jawab.json() as { kode: string }).kode;
++  };
++  // perangkat menukar kode dengan kuncinya: tanpa login (perangkat tidak punya akun dashboard)
++  const klaim = (kode: string, deviceId: string) =>
++    uji.app.inject({ method: "POST", url: "/provision/klaim", payload: { kode, device_id: deviceId } });
++  const jumlahPerangkat = async (id: string) =>
++    (await uji.pool.query("SELECT 1 FROM devices WHERE device_id = $1", [id])).rowCount;
++  const bersihkan = async () => {
++    await hapusPerangkatUji(uji.pool, SEMUA); // juga kode yang sudah dipakai perangkat itu
++    await uji.pool.query("DELETE FROM kode_klaim WHERE nama LIKE $1", [`${AWALAN}%`]); // kode yang belum dipakai
++  };
++
++  beforeAll(async () => { uji = await siapkanUji(); }, 60_000); // migrasi bisa menunggu giliran berkas lain
++  beforeEach(() => bersihkan());
++  afterAll(async () => {
++    if (!uji) return; // siapkanUji() gagal: galatnya sudah dilaporkan
++    await bersihkan();
++    await uji.tutup();
++  });
++
++  it("kode ditukar perangkat: terdaftar dengan sidik kuncinya, kode tercatat dipakai, database tidak menyimpan kodenya", async () => {
++    const kode = await buatKode(`${AWALAN} 1`);
++    const simpan = await uji.pool.query("SELECT kode_hash, dipakai FROM kode_klaim WHERE nama = $1", [`${AWALAN} 1`]);
++    expect(simpan.rows).toEqual([{ kode_hash: sidikKode(kode), dipakai: null }]); // sidik jarinya saja
++
++    // diketik manusia di portal: huruf kecil dan spasi tetap sah (rapikanKodeKlaim)
++    const jawab = await klaim(kode.toLowerCase().replace("-", " "), BARU);
++    expect(jawab.statusCode).toBe(201);
++    const { kunci } = jawab.json() as { kunci: string };
++
++    const perangkat = await uji.pool.query("SELECT nama, kunci_hash FROM devices WHERE device_id = $1", [BARU]);
++    expect(perangkat.rows).toEqual([{ nama: `${AWALAN} 1`, kunci_hash: createHash("sha256").update(kunci).digest("hex") }]);
++    const dipakai = await uji.pool.query<{ dipakai: Date | null; device_id: string | null }>(
++      "SELECT dipakai, device_id FROM kode_klaim WHERE nama = $1", [`${AWALAN} 1`]);
++    expect(dipakai.rows[0].device_id).toBe(BARU);
++    expect(dipakai.rows[0].dipakai).toBeInstanceOf(Date);
++  });
++
++  it("kode yang sudah dipakai ditolak 403; perangkat yang masih aktif tidak bisa direbut kode baru (409), kode itu tidak hangus", async () => {
++    const kode = await buatKode(`${AWALAN} 2`);
++    expect((await klaim(kode, PEMILIK)).statusCode).toBe(201);
++
++    const ulang = await klaim(kode, PEREBUT); // kode yang sama, perangkat lain
++    expect(ulang.statusCode).toBe(403);
++    expect(await jumlahPerangkat(PEREBUT)).toBe(0);
++
++    const kodeBaru = await buatKode(`${AWALAN} 2b`);
++    const rebut = await klaim(kodeBaru, PEMILIK); // PEMILIK masih terdaftar dan aktif
++    expect(rebut.statusCode).toBe(409);
++    const sisa = await uji.pool.query("SELECT dipakai FROM kode_klaim WHERE nama = $1", [`${AWALAN} 2b`]);
++    expect(sisa.rows).toEqual([{ dipakai: null }]); // tidak ada yang berubah: kode masih bisa dipakai perangkat lain
++  });
++
++  it("kode kedaluwarsa (waktunya dimundurkan langsung di database uji) ditolak 403 dan perangkat tidak terdaftar", async () => {
++    const kode = await buatKode(`${AWALAN} 3`);
++    // seolah kode dibuat 40 menit lalu dan habis 10 menit lalu (CHECK di migrasi 011: masa berlaku paling lama 60 menit)
++    await uji.pool.query("UPDATE kode_klaim SET dibuat = now() - interval '40 minutes', kedaluwarsa = now() - interval '10 minutes' "
++      + "WHERE kode_hash = $1", [sidikKode(kode)]);
++
++    const jawab = await klaim(kode, TERLAMBAT);
++    expect(jawab.statusCode).toBe(403);
++    expect(await jumlahPerangkat(TERLAMBAT)).toBe(0);
++    const daftar = await uji.app.inject({ method: "GET", url: "/provision/kode", cookies: uji.gelang("admin") });
++    expect((daftar.json() as { nama: string | null; keadaan: string }[]).find((k) => k.nama === `${AWALAN} 3`))
++      .toMatchObject({ keadaan: "kedaluwarsa" });
++  });
++});
+diff --git a/backend/src/integrasi/masuk.test.ts b/backend/src/integrasi/masuk.test.ts
+new file mode 100644
+index 0000000..0c997b2
+--- /dev/null
++++ b/backend/src/integrasi/masuk.test.ts
+@@ -0,0 +1,92 @@
++// masuk.test.ts - tes INTEGRASI login (Modul 20) dengan tabel users dan sesi SUNGGUHAN (Modul 29).
++// Yang tidak bisa diuji tiruan: bcrypt mencocokkan sandi dengan sidik jari yang tersimpan, sesi (refresh token) tersimpan
++// hanya sebagai SHA-256-nya, rotasi refresh dalam SATU perintah UPDATE, dan logout yang benar-benar menghapus barisnya.
++// Jalankan (database uji menyala, DATABASE_URL_UJI terisi; lihat siapkan.ts): npm run test:integrasi
++import { createHash } from "node:crypto";
++import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
++import { adaDatabaseUji, siapkanUji } from "./siapkan.ts";
++import type { Uji } from "./siapkan.ts";
++
++// akun milik berkas ini saja; domain .test memang disediakan untuk uji (tidak pernah ada di internet)
++const EMAIL = "uji-integrasi-masuk@rumah.test";
++const SANDI = "kalimat sandi khusus tes integrasi";
++const sha256 = (teks: string) => createHash("sha256").update(teks).digest("hex");
++
++// satu cookie dari jawaban (light-my-request sudah membaca kepala Set-Cookie-nya)
++function cookie(jawab: { cookies: { name: string; value: string }[] }, nama: string): string {
++  const ketemu = jawab.cookies.find((c) => c.name === nama);
++  if (ketemu === undefined) throw new Error(`cookie ${nama} tidak ada di jawaban`);
++  return ketemu.value;
++}
++
++describe.skipIf(!adaDatabaseUji)("integrasi (database uji): login, refresh, logout", () => {
++  let uji: Uji;
++  let sidikSandi = ""; // sidik jari bcrypt SANDI, dibuat sekali (bcrypt sengaja lambat: ±0,3 detik)
++  const masuk = (email: string, sandi: string) => uji.app.inject({ method: "POST", url: "/auth/login", payload: { email, sandi } });
++  const sesiAkun = () => uji.pool.query<{ token_hash: string; token_lama: string | null }>(
++    "SELECT s.token_hash, s.token_lama FROM sesi s JOIN users u ON u.id = s.pengguna_id WHERE u.email = $1", [EMAIL]);
++
++  beforeAll(async () => {
++    uji = await siapkanUji();
++    const { buatSidikJari } = await import("../auth/sandi.ts"); // fungsi yang sama dengan npm run pengguna (cost 12)
++    sidikSandi = await buatSidikJari(SANDI);
++  }, 60_000);
++  beforeEach(async () => { // akun baru untuk setiap tes; sesi lamanya ikut terhapus (ON DELETE CASCADE)
++    await uji.pool.query("DELETE FROM users WHERE email = $1", [EMAIL]);
++    await uji.pool.query(
++      "INSERT INTO users (email, nama, peran, sandi_hash, sandi_diubah) VALUES ($1, 'Uji Masuk', 'viewer', $2, now())",
++      [EMAIL, sidikSandi]);
++  });
++  afterAll(async () => {
++    if (!uji) return; // siapkanUji() gagal: galatnya sudah dilaporkan
++    await uji.pool.query("DELETE FROM users WHERE email = $1", [EMAIL]);
++    await uji.tutup();
++  });
++
++  it("sandi benar: dua cookie httpOnly, sesi tersimpan di database hanya sebagai SHA-256 refresh token", async () => {
++    const jawab = await masuk(EMAIL, SANDI);
++    expect(jawab.statusCode).toBe(200);
++    expect(jawab.json()).toMatchObject({ email: EMAIL, peran: "viewer" });
++    expect(jawab.cookies.find((c) => c.name === "akses")).toMatchObject({ httpOnly: true, path: "/" });
++    expect(jawab.cookies.find((c) => c.name === "sesi")).toMatchObject({ httpOnly: true, path: "/auth" });
++
++    const sesi = await sesiAkun();
++    expect(sesi.rows).toEqual([{ token_hash: sha256(cookie(jawab, "sesi")), token_lama: null }]);
++    // gelang dari login ini membuka rute bergembok: /auth/me membaca akunnya dari database
++    const saya = await uji.app.inject({ method: "GET", url: "/auth/me", cookies: { akses: cookie(jawab, "akses") } });
++    expect(saya.json()).toMatchObject({ email: EMAIL, nama: "Uji Masuk" });
++  });
++
++  it("sandi salah dan email tak terdaftar: 401 yang sama, tanpa cookie dan tanpa sesi baru", async () => {
++    const salah = await masuk(EMAIL, "bukan sandi akun ini sama sekali");
++    const asing = await masuk("tidak-terdaftar@rumah.test", SANDI);
++    expect(salah.statusCode).toBe(401);
++    expect(asing.statusCode).toBe(401);
++    expect(asing.json()).toEqual(salah.json()); // jawabannya sama: penebak tidak tahu email mana yang terdaftar
++    expect(salah.cookies).toEqual([]);
++    expect((await sesiAkun()).rowCount).toBe(0);
++  });
++
++  it("refresh: cookie sesi ditukar yang baru (rotasi); database menyimpan sidik token baru dan token lama", async () => {
++    const login = await masuk(EMAIL, SANDI);
++    const sesiLama = cookie(login, "sesi");
++    const segar = await uji.app.inject({ method: "POST", url: "/auth/refresh", cookies: { sesi: sesiLama } });
++    expect(segar.statusCode).toBe(200);
++
++    const sesiBaru = cookie(segar, "sesi");
++    expect(sesiBaru).not.toBe(sesiLama);
++    expect((await sesiAkun()).rows).toEqual([{ token_hash: sha256(sesiBaru), token_lama: sha256(sesiLama) }]);
++  });
++
++  it("logout: baris sesi dihapus, kedua cookie dikosongkan, cookie sesi lama tidak bisa refresh lagi", async () => {
++    const sesi = cookie(await masuk(EMAIL, SANDI), "sesi");
++    const keluar = await uji.app.inject({ method: "POST", url: "/auth/logout", cookies: { sesi } });
++    expect(keluar.statusCode).toBe(200);
++    expect(cookie(keluar, "akses")).toBe("");
++    expect(cookie(keluar, "sesi")).toBe("");
++    expect((await sesiAkun()).rowCount).toBe(0);
++
++    const lagi = await uji.app.inject({ method: "POST", url: "/auth/refresh", cookies: { sesi } });
++    expect(lagi.statusCode).toBe(401);
++  });
++});
+diff --git a/backend/src/integrasi/perangkat.test.ts b/backend/src/integrasi/perangkat.test.ts
+new file mode 100644
+index 0000000..827299f
+--- /dev/null
++++ b/backend/src/integrasi/perangkat.test.ts
+@@ -0,0 +1,99 @@
++// perangkat.test.ts - tes INTEGRASI daftar resmi perangkat (Modul 21 + 28) dengan database uji SUNGGUHAN (Modul 29).
++// Bedanya dengan routes/perangkat.test.ts: di sana tabel devices diganti tiruan di memori (vi.mock), jadi kueri SQL di
++// src/db/perangkat.ts tidak pernah dijalankan. Di sini INSERT, UPDATE, transaksi, CHECK, dan kunci asing benar-benar diperiksa
++// PostgreSQL. Contoh nyata: kalau src/db/perangkat.ts suatu hari salah menulis sidik kunci (misalnya upper($5), huruf besar),
++// 203 tes tiruan tetap hijau, tetapi CHECK (kunci_hash ~ '^[0-9a-f]{64}$') di migrasi 010 menolak barisnya: POST /devices
++// dijawab 503 dan tes pertama di bawah merah.
++// Jalankan (database uji menyala, DATABASE_URL_UJI terisi; lihat siapkan.ts): npm run test:integrasi
++import { createHash } from "node:crypto";
++import { readFileSync } from "node:fs";
++import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
++import { adaDatabaseUji, daftarkanPerangkat, hapusPerangkatUji, siapkanUji } from "./siapkan.ts";
++import type { Uji } from "./siapkan.ts";
++
++// device_id milik berkas ini saja (awalan 2901): berkas tes integrasi lain berjalan bersamaan dengan ID-nya sendiri
++const BARU = "290100000001";
++const GANDA = "290100000002";
++const DAFTAR = "290100000003";
++const CABUT = "290100000004";
++const SEMUA = [BARU, GANDA, DAFTAR, CABUT];
++const sidik = (kunci: string) => createHash("sha256").update(kunci).digest("hex"); // dihitung sendiri, bukan oleh kode server
++// versi server dibaca sendiri dari package.json (bukan dari src/config/versi-server.ts yang sedang diuji)
++const VERSI = (JSON.parse(readFileSync(new URL("../../package.json", import.meta.url), "utf8")) as { version: string }).version;
++
++describe.skipIf(!adaDatabaseUji)("integrasi (database uji): perangkat", () => {
++  let uji: Uji;
++  beforeAll(async () => { uji = await siapkanUji(); }, 60_000); // migrasi bisa menunggu giliran berkas lain
++  beforeEach(() => hapusPerangkatUji(uji.pool, SEMUA)); // setiap tes mulai tanpa perangkat milik berkas ini
++  afterAll(async () => {
++    if (!uji) return; // siapkanUji() gagal (misalnya pengaman _uji menolak): galatnya sudah dilaporkan
++    await hapusPerangkatUji(uji.pool, SEMUA);
++    await uji.tutup();
++  });
++
++  it("POST /devices: kunci tampil sekali, database hanya menyimpan sidik SHA-256-nya (CHECK kunci_hash)", async () => {
++    const jawab = await uji.app.inject({ method: "POST", url: "/devices", cookies: uji.gelang("admin"),
++      payload: { device_id: BARU, nama: "Uji integrasi", lokasi: "lab robot" } });
++    expect(jawab.statusCode).toBe(201);
++    const { kunci } = jawab.json() as { kunci: string };
++    expect(kunci).toMatch(/^[A-Za-z0-9_-]{43}$/);
++
++    // baca langsung dari tabel: yang tersimpan sidik jarinya (64 heksadesimal huruf kecil), bukan kuncinya
++    const baris = await uji.pool.query<{ kunci_hash: string; nama: string; terdaftar: Date | null }>(
++      "SELECT kunci_hash, nama, terdaftar FROM devices WHERE device_id = $1", [BARU]);
++    expect(baris.rowCount).toBe(1);
++    expect(baris.rows[0].kunci_hash).toBe(sidik(kunci));
++    expect(baris.rows[0].kunci_hash).not.toContain(kunci);
++    expect(baris.rows[0].nama).toBe("Uji integrasi");
++    expect(baris.rows[0].terdaftar).toBeInstanceOf(Date);
++  });
++
++  it("daftar ulang device_id yang sama: 409, nama dan sidik kunci di database tidak berubah", async () => {
++    const kunci = await daftarkanPerangkat(uji, GANDA, "Node asli");
++    const lagi = await uji.app.inject({ method: "POST", url: "/devices", cookies: uji.gelang("admin"),
++      payload: { device_id: GANDA, nama: "Node penyusup" } });
++    expect(lagi.statusCode).toBe(409);
++
++    // ON CONFLICT ... WHERE terdaftar IS NULL: baris yang sudah terdaftar tidak boleh ditimpa
++    const baris = await uji.pool.query("SELECT nama, kunci_hash FROM devices WHERE device_id = $1", [GANDA]);
++    expect(baris.rows).toEqual([{ nama: "Node asli", kunci_hash: sidik(kunci) }]);
++  });
++
++  it("GET /devices dari database tanpa membocorkan kunci; tanpa login 401; /health menyebut versi dan database", async () => {
++    const kunci = await daftarkanPerangkat(uji, DAFTAR, "Node daftar");
++    const jawab = await uji.app.inject({ method: "GET", url: "/devices", cookies: uji.gelang("viewer") }); // viewer boleh melihat
++    expect(jawab.statusCode).toBe(200);
++
++    const daftar = jawab.json() as { device_id: string; nama: string | null; kunci: string }[];
++    expect(daftar.find((p) => p.device_id === DAFTAR)).toMatchObject({ nama: "Node daftar", kunci: "aktif" });
++    expect(jawab.body).not.toContain(kunci);
++    expect(jawab.body).not.toContain(sidik(kunci));
++    expect(jawab.body).not.toContain("kunci_hash");
++
++    // rakitan produksi (buatApp) ikut dijaga: satpam login terpasang, dan /health (bukti versi di VPS/Pi) menyebut versi
++    // package.json serta database yang tersambung
++    expect((await uji.app.inject({ method: "GET", url: "/devices" })).statusCode).toBe(401);
++    const sehat = await uji.app.inject({ method: "GET", url: "/health" });
++    expect(sehat.statusCode).toBe(200);
++    expect(sehat.json()).toMatchObject({ ok: true, versi: VERSI, database: true });
++  });
++
++  it("cabut (Nonaktifkan): sidik kunci dihapus, waktu cabut dan status offline tertulis, kejadian masuk tabel events", async () => {
++    await daftarkanPerangkat(uji, CABUT);
++    const jawab = await uji.app.inject({ method: "POST", url: `/devices/${CABUT}/cabut`, cookies: uji.gelang("admin") });
++    expect(jawab.statusCode).toBe(200);
++
++    const baris = await uji.pool.query<{ kunci_hash: string | null; dicabut: Date | null; status: string }>(
++      "SELECT kunci_hash, dicabut, status FROM devices WHERE device_id = $1", [CABUT]);
++    expect(baris.rows[0]).toMatchObject({ kunci_hash: null, status: "offline" });
++    expect(baris.rows[0].dicabut).toBeInstanceOf(Date);
++    // buku kejadian ditulis rute tanpa ditunggu (catatKejadian), jadi barisnya ditunggu sebentar (paling lama 1 detik)
++    await vi.waitFor(async () => {
++      const kejadian = await uji.pool.query("SELECT jenis, sumber FROM events WHERE device_id = $1", [CABUT]);
++      expect(kejadian.rows).toEqual([{ jenis: "dicabut", sumber: "api" }]);
++    });
++
++    const lagi = await uji.app.inject({ method: "POST", url: `/devices/${CABUT}/cabut`, cookies: uji.gelang("admin") });
++    expect(lagi.statusCode).toBe(404); // sudah dicabut: tidak ada yang berubah lagi
++  });
++});
+diff --git a/backend/src/integrasi/siapkan.ts b/backend/src/integrasi/siapkan.ts
+new file mode 100644
+index 0000000..df92343
+--- /dev/null
++++ b/backend/src/integrasi/siapkan.ts
+@@ -0,0 +1,159 @@
++// siapkan.ts - persiapan bersama tes INTEGRASI (Modul 29): rute API + database TimescaleDB SUNGGUHAN, bukan tabel tiruan vi.mock.
++// Setiap berkas *.test.ts di folder ini memanggil siapkanUji() sekali sebelum tesnya (beforeAll) dan uji.tutup() sesudahnya.
++//
++// Database uji = database KOSONG khusus uji, alamatnya di DATABASE_URL_UJI, misalnya
++//   postgres://postgres:<sandi uji>@127.0.0.1:5433/rumahpintar_uji
++// Tanpa DATABASE_URL_UJI, semua tes integrasi DILEWATI (skipped): npm test di laptop tetap jalan tanpa Docker.
++//
++// PENGAMAN: nama database WAJIB berakhiran _uji. Tes integrasi MENULIS dan MENGHAPUS baris, jadi alamat database rumahmu
++// (rumahpintar) ditolak sebelum satu sambungan pun dibuka, lalu diperiksa sekali lagi dengan current_database() sesudah
++// tersambung: yang menentukan adalah database yang benar-benar tersambung, bukan tulisan di alamat.
++//
++// Urutan siapkanUji():
++//   1. periksa nama database di alamat DATABASE_URL_UJI (_uji)
++//   2. isi setelan tes ke process.env SEBELUM kode server diimpor (config/env.ts memeriksa setelan saat diimpor): broker
++//      palsu (tidak pernah dihubungi), JWT_SECRET acak sekali pakai, folder firmware sementara, akun broker otomatis mati,
++//      Telegram mati
++//   3. periksa lagi nama database yang benar-benar tersambung (current_database())
++//   4. migrasi: node src/db/migrasi.ts, program YANG SAMA dengan layanan migrasi di Compose, ke database uji (dari nol kalau
++//      kosong; kalau sudah lengkap: "0 migrasi baru diterapkan"). Berkas tes berjalan BERSAMAAN, jadi migrasi diantre dengan
++//      kunci pg_advisory_lock: satu berkas menjalankannya, berkas lain menunggu giliran
++//   5. rakit server lewat buatApp() (app.ts): rakitan yang sama dengan server.ts, tanpa mendengar di loket mana pun
++// Setiap berkas tes memakai device_id, email, nama aturan, dan versi firmware MILIKNYA SENDIRI dan membersihkannya sebelum
++// setiap tes: berkas lain yang berjalan bersamaan tidak saling mengganggu, dan setiap tes tidak bergantung pada tes sebelumnya.
++// Satu pengecualian: "rilis terbaru" dihitung dari SEMUA baris tabel firmware, jadi hanya firmware-armada.test.ts yang boleh
++// menulis tabel firmware (tesnya berhenti dengan pesan jelas bila ada rilis lain di database uji).
++import { execFile } from "node:child_process";
++import { randomBytes } from "node:crypto";
++import { mkdtemp, rm } from "node:fs/promises";
++import { tmpdir } from "node:os";
++import { join } from "node:path";
++import { fileURLToPath } from "node:url";
++import { promisify } from "node:util";
++import type { FastifyInstance } from "fastify";
++import type { Pool } from "pg";
++
++const URL_UJI = process.env.DATABASE_URL_UJI ?? ""; // berisi sandi: tidak pernah ditulis ke layar
++export const adaDatabaseUji = URL_UJI !== ""; // dipakai describe.skipIf(!adaDatabaseUji) di setiap berkas tes
++
++const FOLDER_BACKEND = fileURLToPath(new URL("../../", import.meta.url)); // folder backend/ (tempat package.json)
++const GILIRAN_MIGRASI = 29_29; // nomor bebas untuk pg_advisory_lock: "giliran migrasi tes integrasi"
++const jalankan = promisify(execFile);
++
++// Nama database dari alamatnya: postgres://pengguna:sandi@host:5433/rumahpintar_uji -> rumahpintar_uji
++function namaDatabase(alamat: string): string {
++  try {
++    return decodeURIComponent(new URL(alamat).pathname.replace(/^\//, ""));
++  } catch {
++    return ""; // bukan alamat yang bisa dibaca: dianggap bukan database uji
++  }
++}
++
++// Pesan galat pengaman: alamatnya TIDAK ikut ditulis (bisa berisi sandi), cukup nama database-nya.
++function tolakBukanUji(nama: string): Error {
++  return new Error(`DATABASE_URL_UJI menunjuk database "${nama}", bukan database uji: nama database harus berakhiran _uji `
++    + "(misalnya rumahpintar_uji). Tes integrasi menulis dan menghapus baris, jadi tidak dijalankan. Jangan pernah "
++    + "mengarahkannya ke database rumahmu.");
++}
++
++export interface Uji {
++  app: FastifyInstance; // server yang sama dengan produksi (buatApp), diketuk lewat app.inject() tanpa jaringan
++  pool: Pool; // kolam sambungan ke database uji: untuk memeriksa isi tabel langsung dengan SQL
++  gelang: (peran: "admin" | "viewer") => { akses: string }; // cookie akses (JWT) yang sah untuk rute bergembok
++  folderFirmware: string; // FIRMWARE_DIR sementara milik berkas tes ini
++  tutup: () => Promise<void>;
++}
++
++export async function siapkanUji(): Promise<Uji> {
++  // 1. pengaman nama database, sebelum ada sambungan apa pun
++  const nama = namaDatabase(URL_UJI);
++  if (!nama.endsWith("_uji")) throw tolakBukanUji(nama);
++
++  // 2. setelan tes. Nilai kosong = bawaan config/env.ts. Ditimpa semua, supaya setelan di terminal pembaca (misalnya
++  //    MQTT_URL atau TELEGRAM_BOT_TOKEN sungguhan) tidak pernah terbawa ke tes.
++  const folderFirmware = await mkdtemp(join(tmpdir(), "rumahpintar-uji-firmware-"));
++  Object.assign(process.env, {
++    DATABASE_URL: URL_UJI,
++    MQTT_URL: "mqtt://127.0.0.1:1", // alamat mati: rute yang diuji tidak butuh broker (mqtt.connect hanya di server.ts)
++    MQTT_USERNAME: "", MQTT_PASSWORD: "",
++    JWT_SECRET: `uji-${randomBytes(32).toString("base64url")}`, // rahasia sekali pakai, dibuat ulang setiap kali tes jalan
++    FIRMWARE_DIR: folderFirmware,
++    AKUN_BROKER_OTOMATIS: "mati", ALAMAT_SERVER: "", TRUST_PROXY: "", CORS_ORIGIN: "", HOST: "", PORT: "",
++    TELEGRAM_BOT_TOKEN: "", TELEGRAM_CHAT_ID: "", TELEGRAM_API_ROOT: "", LAPORAN_JADWAL: "",
++  });
++
++  // 3. kode server diimpor SESUDAH process.env terisi (impor biasa di atas berkas akan memeriksa setelan lebih dulu)
++  const { pool } = await import("../db/pool.ts");
++  try {
++    const tersambung = await pool.query<{ nama: string }>("SELECT current_database() AS nama").catch((galat: Error) => {
++      throw new Error(`database uji tidak bisa dihubungi (${galat.message}): kontainer database uji sudah dinyalakan, `
++        + "dan loket serta sandinya sama dengan DATABASE_URL_UJI?");
++    });
++    if (!tersambung.rows[0].nama.endsWith("_uji")) throw tolakBukanUji(tersambung.rows[0].nama);
++
++    // 4. migrasi, satu berkas tes pada satu waktu
++    const klien = await pool.connect();
++    try {
++      await klien.query("SELECT pg_advisory_lock($1)", [GILIRAN_MIGRASI]); // menunggu kalau berkas lain sedang memigrasi
++      await jalankan(process.execPath, ["src/db/migrasi.ts"], { cwd: FOLDER_BACKEND, env: process.env, timeout: 60_000 })
++        .catch((galat: Error & { stdout?: string; stderr?: string }) => {
++          throw new Error(`migrasi database uji gagal:\n${galat.stdout ?? ""}${galat.stderr ?? galat.message}`);
++        });
++    } finally {
++      await klien.query("SELECT pg_advisory_unlock($1)", [GILIRAN_MIGRASI]).catch(() => {});
++      klien.release();
++    }
++
++    // 5. server yang sama dengan produksi, tanpa listen
++    const { buatApp } = await import("../app.ts");
++    const app = await buatApp({ log: "galat-saja" });
++    await app.ready();
++
++    return {
++      app, pool, folderFirmware,
++      // sub = nomor akun; rute yang diuji hanya mencatatnya (misalnya pengunggah firmware), tidak mencarinya di tabel users
++      gelang: (peran) => ({ akses: app.jwt.sign({ sub: peran === "admin" ? "1" : "2", peran, sid: 1 }) }),
++      tutup: async () => {
++        await tungguKueriSelesai(pool);
++        await app.close();
++        await pool.end();
++        await rm(folderFirmware, { recursive: true, force: true });
++      },
++    };
++  } catch (galat) {
++    // gagal di tengah jalan: jangan tinggalkan sambungan database terbuka (Vitest menunggu prosesnya selesai) atau folder
++    await pool.end().catch(() => {});
++    await rm(folderFirmware, { recursive: true, force: true });
++    throw galat;
++  }
++}
++
++// Beberapa rute menulis buku kejadian (catatKejadian) TANPA menunggu tulisannya selesai: jawaban HTTP sudah datang, tetapi
++// INSERT ke tabel events masih berjalan. Sebelum bersih-bersih, tunggu sampai kolam sambungan menganggur (tidak ada kueri
++// yang sedang berjalan atau mengantre), supaya baris yang terlambat tidak bertabrakan dengan DELETE (kunci asing) atau muncul
++// sesudah dibersihkan. Paling lama 2 detik.
++export async function tungguKueriSelesai(pool: Pool): Promise<void> {
++  for (let i = 0; i < 200 && (pool.totalCount > pool.idleCount || pool.waitingCount > 0); i++) {
++    await new Promise((lanjut) => setTimeout(lanjut, 10));
++  }
++}
++
++// Bersih-bersih: hapus semua baris milik perangkat uji, urut menurut kunci asing (anak dulu, induk terakhir): bacaan,
++// kesehatan, perintah, kejadian, pembaruan firmware, kode klaim, lalu perangkatnya (Node 2 yang menumpang lebih dulu daripada
++// penghubungnya). Nama tabel berasal dari daftar tetap di bawah, bukan dari luar; device_id selalu lewat parameter $1.
++const TABEL_ANAK = ["readings", "device_health", "commands", "events", "pembaruan", "kode_klaim"];
++
++export async function hapusPerangkatUji(pool: Pool, ids: string[]): Promise<void> {
++  await tungguKueriSelesai(pool);
++  for (const tabel of TABEL_ANAK) await pool.query(`DELETE FROM ${tabel} WHERE device_id = ANY($1)`, [ids]);
++  await pool.query("DELETE FROM devices WHERE penghubung = ANY($1)", [ids]);
++  await pool.query("DELETE FROM devices WHERE device_id = ANY($1)", [ids]);
++}
++
++// Data: daftarkan satu perangkat lewat rute API sungguhan (POST /devices sebagai admin) dan kembalikan kuncinya.
++export async function daftarkanPerangkat(uji: Uji, deviceId: string, nama = "Perangkat uji integrasi"): Promise<string> {
++  const jawab = await uji.app.inject({ method: "POST", url: "/devices", cookies: uji.gelang("admin"),
++    payload: { device_id: deviceId, nama } });
++  if (jawab.statusCode !== 201) throw new Error(`gagal mendaftarkan ${deviceId}: ${jawab.statusCode} ${jawab.body}`);
++  return (jawab.json() as { kunci: string }).kunci;
++}
+diff --git a/backend/src/routes/kesehatan.ts b/backend/src/routes/kesehatan.ts
+index 6a7588e..ea64db7 100644
+--- a/backend/src/routes/kesehatan.ts
++++ b/backend/src/routes/kesehatan.ts
+@@ -1,24 +1,30 @@
+ // kesehatan.ts - GET /health: apakah server hidup, tersambung ke broker, dan bisa menghubungi database?
++// Modul 29: juga versi server yang sedang berjalan (dari package.json), supaya robot pemasang, uji asap, dan siapa pun yang
++// membuka /api/health di peramban bisa memastikan versi baru sudah terpasang tanpa SSH. Kode jawabannya tetap selalu 200:
++// 503 untuk "tidak sehat" dan pemantau dari luar baru dibahas di Modul 30.
+ import { z } from "zod";
+ import type { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
+ import { hitungan } from "../services/gudang.ts";
+ import { brokerTersambung } from "../services/mqtt.ts";
+ import { databaseHidup } from "../db/arsip.ts";
++import { VERSI_SERVER } from "../config/versi-server.ts";
+ 
+ export const ruteKesehatan: FastifyPluginAsyncZod = async (app) => {
+   app.get("/health", {
+     schema: {
+       tags: ["server"],
+       security: [], // Modul 20: tetap terbuka tanpa login (pemantau dan Docker healthcheck tidak bisa login)
+-      summary: "Keadaan server: hidup, tersambung ke broker dan database, serta jumlah pesan",
++      summary: "Keadaan server: hidup, versinya, tersambung ke broker dan database, serta jumlah pesan",
+       response: {
+-        200: z.object({ ok: z.boolean(), broker: z.boolean(), database: z.boolean(), diterima: z.number(), ditolak: z.number(),
++        200: z.object({ ok: z.boolean(),
++          versi: z.string().describe("Modul 29: versi server yang sedang berjalan (package.json), misalnya 2.0.0"),
++          broker: z.boolean(), database: z.boolean(), diterima: z.number(), ditolak: z.number(),
+           diabaikan: z.number().describe("Modul 21: pesan dari perangkat yang belum terdaftar atau sudah dicabut") })
+           .describe("server hidup; broker dan database = bisa dihubungi atau tidak"),
+       },
+     },
+   }, async () => {
+-    return { ok: true, broker: brokerTersambung(), database: await databaseHidup(), diterima: hitungan.diterima, ditolak: hitungan.ditolak,
+-      diabaikan: hitungan.diabaikan };
++    return { ok: true, versi: VERSI_SERVER, broker: brokerTersambung(), database: await databaseHidup(),
++      diterima: hitungan.diterima, ditolak: hitungan.ditolak, diabaikan: hitungan.diabaikan };
+   });
+ };
+diff --git a/backend/src/server.ts b/backend/src/server.ts
+index 08de497..117a129 100644
+--- a/backend/src/server.ts
++++ b/backend/src/server.ts
+@@ -1,28 +1,20 @@
+-// server.ts - pintu masuk backend Rumah Pintar Mini v1.5 (Modul 28: pembaruan firmware lewat udara dengan unduhan berkunci,
+-// canary, kode klaim sekali pakai, akun broker perangkat otomatis lewat dynamic security, dan data halaman /armada; di atas
+-// v1.4 Modul 27: backend di internet, di balik Caddy HTTPS. TRUST_PROXY
+-// membuat backend memercayai keterangan Caddy tentang tamu: cookie login ber-Secure di HTTPS dan pembatas login per tamu; di
+-// atas v1.3 Modul 26: bisa berjalan sebagai kontainer Docker di compose.cloud.yml; v1.2 Modul 25: titik perangkat di peta dan
+-// laporan harian CSV lewat Telegram; v1.1 Modul 24: aturan "di bawah ambang" seperti siram kalau tanah kering, aturan ambang
+-// boleh mengirim perintah sekali, dan aturan bisa dihapus; v1.0 Modul 21: daftar resmi perangkat dan kuncinya, akun broker
+-// sendiri, pesan dari perangkat tak terdaftar/dicabut diabaikan; Modul 20: login, JWT di cookie, peran, dan pengaman API; dan
+-// Modul 19: data realtime, perintah satu pintu, aturan otomatis, jadwal, dan notifikasi Telegram).
++// server.ts - pintu masuk backend Rumah Pintar Mini 2.0 (Modul 29: rakitan server Fastify pindah ke app.ts, buatApp(), supaya
++// tes integrasi menguji rakitan yang sama dengan produksi; versi server dibaca dari package.json dan tampil di /health dan
++// /docs). Berkas ini tinggal menyalakan sisanya: database, aturan otomatis, Socket.IO, MQTT, Telegram, laporan harian, dan
++// pengawas pembaruan firmware, lalu mendengar di loketnya.
++// Riwayat: v1.5 Modul 28: pembaruan firmware lewat udara dengan unduhan berkunci, canary, kode klaim sekali pakai, akun broker
++// perangkat otomatis lewat dynamic security, dan data halaman /armada; v1.4 Modul 27: backend di internet, di balik Caddy
++// HTTPS (TRUST_PROXY membuat backend memercayai keterangan Caddy tentang tamu: cookie login ber-Secure di HTTPS dan pembatas
++// login per tamu); v1.3 Modul 26: bisa berjalan sebagai kontainer Docker di compose.cloud.yml; v1.2 Modul 25: titik
++// perangkat di peta dan laporan harian CSV lewat Telegram; v1.1 Modul 24: aturan "di bawah ambang" seperti siram kalau tanah
++// kering, aturan ambang boleh mengirim perintah sekali, dan aturan bisa dihapus; v1.0 Modul 21: daftar resmi perangkat dan
++// kuncinya, akun broker sendiri, pesan dari perangkat tak terdaftar/dicabut diabaikan; Modul 20: login, JWT di cookie, peran,
++// dan pengaman API; dan Modul 19: data realtime, perintah satu pintu, aturan otomatis, jadwal, dan notifikasi Telegram.
+ // Jalankan: npm run dev (otomatis mulai ulang saat file disimpan) atau npm start. Di kontainer (Modul 26): node src/server.ts,
+ // setelannya datang dari Docker Compose, bukan dari berkas .env (lihat Dockerfile).
+-import Fastify, { LogController } from "fastify";
+-import swagger from "@fastify/swagger";
+-import swaggerUi from "@fastify/swagger-ui";
+-import { jsonSchemaTransform, serializerCompiler, validatorCompiler } from "fastify-type-provider-zod";
+ import { env } from "./config/env.ts";
+-import { pasangKeamanan } from "./auth/keamanan.ts";
+-import { ruteAuth } from "./routes/auth.ts";
+-import { ruteKesehatan } from "./routes/kesehatan.ts";
+-import { rutePerangkat } from "./routes/perangkat.ts";
+-import { ruteAturan } from "./routes/aturan.ts";
+-import { ruteLaporan } from "./routes/laporan.ts";
+-import { ruteFirmware } from "./routes/firmware.ts";
+-import { ruteArmada } from "./routes/armada.ts";
+-import { ruteKlaim } from "./routes/klaim.ts";
++import { VERSI_SERVER } from "./config/versi-server.ts";
++import { buatApp } from "./app.ts";
+ import { brokerTersambung, hentikanMqtt, mulaiMqtt } from "./services/mqtt.ts";
+ import { mulaiRealtime } from "./services/realtime.ts";
+ import { isiJedaVitals, kirimSemuaConfig, muatAturan } from "./services/otomasi.ts";
+@@ -31,76 +23,13 @@ import { tempatAkun } from "./services/akun-broker.ts";
+ import { hentikanJadwal } from "./services/jadwal.ts";
+ import { hentikanTelegram, mulaiTelegram } from "./services/telegram.ts";
+ import { mulaiLaporan } from "./services/laporan.ts";
+-import { pakaiLog, perluDicatat } from "./services/log.ts";
+ import { databaseHidup } from "./db/arsip.ts";
+ import { semuaPerangkatDb } from "./db/perangkat.ts";
+ import { isiDaftar } from "./services/daftar.ts";
+ import { pool } from "./db/pool.ts";
+ 
+-const app = Fastify({
+-  logger: { transport: { target: "pino-pretty", options: { translateTime: "SYS:HH:MM:ss", ignore: "pid,hostname,reqId" } } },
+-  logController: new LogController({ disableRequestLogging: true }), // log bawaan per permintaan terlalu panjang...
+-  // Modul 27: header X-Forwarded-For/-Proto dari Caddy hanya dipercaya bila datang dari penerus di TRUST_PROXY (di
+-  // compose.cloud.yml: uniquelocal = lorong Docker). Kosong (mode kembang) = header itu diabaikan, seperti v1.3.
+-  trustProxy: env.TRUST_PROXY,
+-});
+-pakaiLog(app.log); // Modul 19: layanan lain (perintah, aturan, jadwal, Telegram) menulis ke log yang sama
+-app.addHook("onResponse", async (req, reply) => {
+-  // ...jadi diganti satu baris per permintaan (hook = "middleware" Fastify). Hanya metode, alamat, dan kode jawaban:
+-  // isi permintaan (sandi!) dan cookie (token!) tidak pernah ditulis ke log. Modul 26: ketukan /health yang berhasil
+-  // (healthcheck Docker setiap 15 detik) tidak dicatat, supaya log tidak penuh baris yang sama.
+-  if (!perluDicatat(req.method, req.url, reply.statusCode)) return;
+-  req.log.info(`${req.method} ${req.url} -> ${reply.statusCode} (${Math.round(reply.elapsedTime)} ms)`);
+-});
+-if (env.TRUST_PROXY !== false) { // Modul 27: satu baris saat menyala, bukti setelan TRUST_PROXY terbaca
+-  app.log.info(`penerus tepercaya (TRUST_PROXY): ${env.TRUST_PROXY === true ? "semua" : env.TRUST_PROXY.join(", ")}`);
+-}
+-app.setValidatorCompiler(validatorCompiler); // skema Zod memeriksa isi permintaan...
+-app.setSerializerCompiler(serializerCompiler); // ...dan bentuk jawaban
+-
+-await pasangKeamanan(app); // Modul 20: CORS, cookie, JWT, rate limit, dan satpam di setiap permintaan (SEBELUM rute)
+-await app.register(swagger, {
+-  openapi: {
+-    info: {
+-      title: "Rumah Pintar Mini API",
+-      description: "Backend v1.4 (Modul 27). Semua rute butuh login, kecuali yang tidak bergembok. Login dulu lewat "
+-        + "POST /auth/login (Try it out): browser menyimpan cookie akses dan mengirimnya sendiri ke rute lain. "
+-        + "Akun viewer hanya boleh melihat (GET); perintah dan perubahan dijawab 403. Perangkat didaftarkan admin lewat "
+-        + "POST /devices; kuncinya hanya tampil sekali, dan pesan dari perangkat tak terdaftar atau dicabut diabaikan. "
+-        + "Sejak v1.1, aturan ambang bisa berarah turun (ambang-bawah, misalnya siram kalau tanah di bawah 30 %), boleh "
+-        + "mengirim satu perintah saat menyala, dan aturan bisa dihapus (DELETE /rules/:id). Sejak v1.2, GET /devices "
+-        + "membawa titik peta setiap perangkat (lat, lng), dan admin memindahkannya lewat PUT /devices/:id/lokasi. "
+-        + "Laporan harian CSV dikirim ke Telegram sesuai LAPORAN_JADWAL (bawaan 07.00 WIB); POST /laporan/kirim "
+-        + "mengirimnya sekarang juga. Sejak v1.3 (Modul 26), backend juga berjalan sebagai kontainer di Docker Compose: "
+-        + "dashboard memanggilnya lewat penyaji web Caddy dengan awalan /api, sedangkan halaman ini dibuka di "
+-        + "http://localhost:8080/docs (di kontainer, login dari http://127.0.0.1:8080/docs ditolak 403). Sejak v1.4 "
+-        + "(Modul 27), backend bisa dibuka dari internet di balik Caddy HTTPS: dengan TRUST_PROXY (di Compose: uniquelocal) "
+-        + "backend memakai alamat IP dan protokol tamu dari Caddy, jadi cookie login ber-Secure dan batas 10 percobaan "
+-        + "login berlaku per tamu. Sejak v1.5 (Modul 28): pembaruan firmware lewat udara (unggah POST /firmware/:jenis/:versi, "
+-        + "perintah POST /devices/:id/update, canary lalu POST /armada/update), unduhan firmware untuk perangkat di "
+-        + "GET /fw/node-1/<versi>.bin yang dikunci kunci perangkat, data halaman /armada (GET /armada), kode klaim sekali "
+-        + "pakai (POST /provision/kode untuk admin, POST /provision/klaim untuk perangkat), jeda vitals jarak jauh, dan "
+-        + "akun broker perangkat yang dibuat serta dihapus otomatis (AKUN_BROKER_OTOMATIS).",
+-      version: "1.5.0",
+-    },
+-    components: {
+-      securitySchemes: { // Modul 20: rute bergembok butuh cookie akses dari POST /auth/login
+-        cookieAkses: { type: "apiKey", in: "cookie", name: "akses", description: "JWT akses (httpOnly) dari POST /auth/login" },
+-      },
+-    },
+-    security: [{ cookieAkses: [] }], // bawaan: semua rute bergembok; rute terbuka menulis security: []
+-  },
+-  transform: jsonSchemaTransform, // skema Zod yang sama menjadi dokumentasi OpenAPI
+-});
+-await app.register(swaggerUi, { routePrefix: "/docs" });
+-await app.register(ruteAuth); // Modul 20
+-await app.register(ruteKesehatan);
+-await app.register(rutePerangkat);
+-await app.register(ruteAturan); // Modul 19
+-await app.register(ruteLaporan); // Modul 25
+-await app.register(ruteFirmware); // Modul 28: rilis firmware dan unduhan berkunci /fw
+-await app.register(ruteArmada); // Modul 28: halaman /armada, perintah update, canary, jeda vitals
+-await app.register(ruteKlaim); // Modul 28: kode klaim
++const app = await buatApp(); // Modul 29: Fastify + pengaman + /docs + semua rute (app.ts), belum mendengar di loket mana pun
++app.log.info(`backend Rumah Pintar Mini ${VERSI_SERVER} menyala`); // Modul 29: versi yang sama dengan /health
+ 
+ if (await databaseHidup()) app.log.info("database siap");
+ else app.log.warn("database belum bisa dihubungi: periksa kontainer database dan DATABASE_URL di .env");
+diff --git a/backend/src/services/versi.test.ts b/backend/src/services/versi.test.ts
+index 6db170d..ca095fc 100644
+--- a/backend/src/services/versi.test.ts
++++ b/backend/src/services/versi.test.ts
+@@ -13,6 +13,7 @@ describe("bandingkanVersi", () => {
+   });
+ 
+   it("1.10.0 LEBIH BARU daripada 1.9.0 (perbandingan teks biasa salah di sini)", () => {
++    // oxlint-disable-next-line no-constant-binary-expression -- sengaja: dua teks tetap untuk menunjukkan perbandingan teks salah
+     expect("1.10.0" < "1.9.0").toBe(true); // teks: "1" < "9", jadi salah
+     expect(bandingkanVersi("1.10.0", "1.9.0")).toBe(1);
+     expect(bandingkanVersi("1.7.10", "1.7.9")).toBe(1);

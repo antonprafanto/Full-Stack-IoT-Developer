@@ -15,5 +15,8 @@ login*.json
 kue*.txt
 # Modul 28: berkas firmware yang diunggah saat mode kembang (bisa berisi kunci ESP-NOW): tidak pernah masuk image.
 data-firmware
-# Berkas uji Vitest tidak dipakai server yang berjalan.
+# Berkas uji Vitest tidak dipakai server yang berjalan. Modul 29: begitu juga folder tes integrasi (siapkan.ts bukan berkas
+# *.test.ts, tetapi hanya dipakai tes) dan setelan oxlint.
 src/**/*.test.ts
+src/integrasi
+.oxlintrc.json

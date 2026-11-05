@@ -1,0 +1,46 @@
+info:
+  name: buat aturan siram tanah
+  type: http
+  seq: 24
+
+http:
+  method: POST
+  url: "{{baseUrl}}/rules"
+  body:
+    type: json
+    data: |-
+      {
+        "nama": "Siram jika tanah < 30 %",
+        "aktif": true,
+        "kondisi": {
+          "jenis": "ambang-bawah",
+          "device_id": "a4cf12e5b7c0",
+          "besaran": "tanah",
+          "nyala_di_bawah": 30,
+          "padam_di_atas": 35,
+          "selama_detik": 10
+        },
+        "aksi": {
+          "jenis": "perintah",
+          "device_id": "a4cf12e5b7c0",
+          "perintah": {
+            "target": "pompa",
+            "nilai": 5
+          },
+          "kabari": true
+        }
+      }
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "201"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: true

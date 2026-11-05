@@ -1,9 +1,11 @@
-# compose.cloud.yml - semua layanan PUSAT Rumah Pintar Mini dalam satu berkas (Modul 26-28).
+# compose.cloud.yml - semua layanan PUSAT Rumah Pintar Mini dalam satu berkas (Modul 26-29).
 # SATU berkas untuk tiga tempat; yang berbeda hanya isi .env (tabel "nilai per tempat" di .env.example):
 #   laptop (Modul 26)            : DOMAIN_WEB dan DOMAIN_MQTT kosong = dashboard HTTP di http://localhost, broker polos 1883
 #   VPS (Modul 27, jalur utama)  : DOMAIN_WEB dan DOMAIN_MQTT terisi = Caddy memasang HTTPS sendiri, broker juga TLS di 8883
 #   Pi (Modul 27, jalur gratis)  : domain kosong (HTTPS dipasang Cloudflare), profil "terowongan" (cloudflared) dinyalakan
 # Jalankan dari folder ini (akar proyek):  docker compose up -d
+#   Modul 29: image backend dan web dibangun ROBOT (GitHub Actions) untuk dua jenis prosesor dan disimpan di GHCR. VPS dan Pi
+#   hanya MENARIKNYA (skrip/pasang.sh: docker compose pull, lalu up -d --no-build); membangun sendiri hanya di laptop.
 #   Belum ada .env? Salin .env.example menjadi .env dan isi rahasianya dulu. Tanpa .env, Compose tidak menemukan berkas ini
 #   (no configuration file provided); rahasia yang masih kosong membuatnya berhenti (required variable).
 #   Baris COMPOSE_FILE=compose.cloud.yml di .env membuat -f tidak perlu (tanpa baris itu: docker compose -f compose.cloud.yml ...).
@@ -205,7 +207,7 @@ services:
   # Sekali jalan: menerapkan berkas migrasi/*.sql yang baru (aman diulang: "0 migrasi baru diterapkan").
   migrasi:
     # cetakan yang sama dengan layanan backend (image + build ditulis sama persis di kedua layanan)
-    image: ${TOKO_IMAGE:?isi TOKO_IMAGE di .env}/rumah-pintar-mini-backend:1.5.0
+    image: ${TOKO_IMAGE:?isi TOKO_IMAGE di .env}/rumah-pintar-mini-backend:2.0.0
     build: ./backend
     command: ["node", "src/db/migrasi.ts"]
     environment: *setelan-backend
@@ -215,11 +217,14 @@ services:
     restart: "no"
     logging: *log
 
-  # Backend 1.5.0 (Modul 16-28). Tag image = version di backend/package.json.
+  # Backend (Modul 16-29). Tag image = version di backend/package.json; sejak Modul 29 (2.0.0) SATU nomor dengan web dan tag
+  # Git v<versi>: robot menolak pull request yang lupa menyamakannya (skrip/cek-versi.mjs).
   backend:
-    # image: nama di toko image (GHCR, Modul 26 Praktik 10). build: kalau image itu belum ada di mesin ini dan tidak bisa
-    # ditarik dari toko, Compose membangunnya sendiri dari backend/Dockerfile (di VPS: docker compose build, Modul 27).
-    image: ${TOKO_IMAGE:?isi TOKO_IMAGE di .env}/rumah-pintar-mini-backend:1.5.0
+    # image: nama di toko image (GHCR, Modul 26 Praktik 10). Modul 29: robot membangunnya untuk amd64 (VPS) dan arm64 (Pi)
+    # sesudah pull request di-merge, lalu VPS dan Pi menariknya. build: hanya untuk membangun sendiri di laptop
+    # (docker compose build backend). Di VPS dan Pi jangan "up" tanpa --no-build: kalau image versi itu belum ada di toko
+    # (atau paketnya masih privat), Compose diam-diam membangunnya sendiri dari Dockerfile alih-alih berhenti.
+    image: ${TOKO_IMAGE:?isi TOKO_IMAGE di .env}/rumah-pintar-mini-backend:2.0.0
     build: ./backend
     environment: *setelan-backend
     volumes:
@@ -250,11 +255,12 @@ services:
     restart: unless-stopped
     logging: *log
 
-  # Dashboard (Modul 22-28) disajikan Caddy: halaman di /, API backend di /api (satu alamat, tanpa CORS lintas port).
+  # Dashboard (Modul 22-29) disajikan Caddy: halaman di /, API backend di /api (satu alamat, tanpa CORS lintas port).
+  # Tag image = version di frontend/package.json, sama dengan backend sejak Modul 29 (tampil di layar, misalnya v2.0.0).
   # Modul 27: Caddy juga memasang HTTPS sendiri bila DOMAIN_WEB diisi (frontend/caddy/Caddyfile). Modul 28: /fw/* (unduhan
   # firmware perangkat) diteruskan ke backend apa adanya.
   web:
-    image: ${TOKO_IMAGE:?isi TOKO_IMAGE di .env}/rumah-pintar-mini-web:1.4.0
+    image: ${TOKO_IMAGE:?isi TOKO_IMAGE di .env}/rumah-pintar-mini-web:2.0.0
     build:
       context: ./frontend
       args:
