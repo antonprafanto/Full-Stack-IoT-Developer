@@ -4,7 +4,7 @@
 
 *Fase 5 · Minggu 28 · Perangkat keras: **Kit A** (2 ESP32, kotak proyek, papan ekspansi terminal sekrup; perfboard + solder opsional) + ESP32 ketiga pinjaman (opsional; atau perangkat tiruan) + **server dari Modul 27** (VPS dan Pi gerbang; jalur gratis: Pi saja; tanpa Pi: laptop) · Prasyarat: **Modul 27** (backend 1.4.0, frontend 1.3.0, `compose.cloud.yml` dan `edge/` di `main`), Modul 10 (partisi), Modul 21 (kunci perangkat), Modul 9 (catu daya) · Waktu: ±9 jam dicicil dalam satu minggu, ditambah 24 jam Node 1 menyala di kotak (jalur solder +60 menit; tanpa Kit ±6 jam) · Biaya: kotak proyek + papan ekspansi terminal sekrup (Silabus: ±Rp 25–40 rb, perkiraan; cek ulang harga Okt 2026); jalur solder: solder 60 W + timah (±Rp 60–120 rb, perkiraan); server dan domain tetap dari Modul 27*
 
-[⬅️ Modul 27](../modul-27-deploy-internet-tls-pwa/README.md) · [Fase 5](../README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · [Modul 29 ➡️ (segera terbit — baca ringkasannya di Silabus)](../../SILABUS.md#modul-29--testing--cicd-setiap-perubahan-diuji-dan-dipasang-otomatis)
+[⬅️ Modul 27](../modul-27-deploy-internet-tls-pwa/README.md) · [Fase 5](../README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · [Modul 29 ➡️](../modul-29-testing-cicd/README.md)
 
 ---
 
@@ -3581,7 +3581,7 @@ Syarat lulus dari [Silabus](../../SILABUS.md#modul-28--ota-update-provisioning-f
 
 **Rumah Pintar Mini kini bisa diperbarui tanpa kabel, mendaftarkan perangkat baru sendiri, dan siap dipasang di banyak lokasi.** Batasnya: Node 2 tetap lewat kabel, *image* server masih dipasang lewat SSH tanpa uji otomatis, dan pemantau layanan serta cadangan otomatis menyusul di Modul 30.
 
-> ➡️ **Modul berikutnya:** Modul 29 — Testing & CI/CD: Setiap Perubahan Diuji dan Dipasang Otomatis (segera terbit; [ringkasannya di Silabus](../../SILABUS.md#modul-29--testing--cicd-setiap-perubahan-diuji-dan-dipasang-otomatis)). Setiap perubahan kode diuji otomatis, dibungkus menjadi *image*, dan dipasang ke VPS dan Pi tanpa kamu SSH; Pi memperbarui *image*-nya sendiri.
+> ➡️ **Modul berikutnya:** [Modul 29 — Testing & CI/CD: Setiap Perubahan Diuji dan Dipasang Otomatis](../modul-29-testing-cicd/README.md). Setiap perubahan kode diuji otomatis, dibungkus menjadi *image*, dan dipasang ke VPS dan Pi tanpa kamu SSH; Pi memperbarui *image*-nya sendiri.
 
 ## 📚 Sumber & atribusi gambar
 
@@ -3627,4 +3627,4 @@ Yang **belum terbukti** saat terbit: *watchdog* 60 detik selama unduhan nyata; m
 
 ---
 
-[⬅️ Modul 27](../modul-27-deploy-internet-tls-pwa/README.md) · [Fase 5](../README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · **Berikutnya: Modul 29 — Testing & CI/CD: Setiap Perubahan Diuji dan Dipasang Otomatis** (segera terbit; [ringkasannya di Silabus](../../SILABUS.md#modul-29--testing--cicd-setiap-perubahan-diuji-dan-dipasang-otomatis))
+[⬅️ Modul 27](../modul-27-deploy-internet-tls-pwa/README.md) · [Fase 5](../README.md) · [Silabus](../../SILABUS.md) · [Pelacak progres](../../PROGRES.md) · **Berikutnya: [Modul 29 — Testing & CI/CD: Setiap Perubahan Diuji dan Dipasang Otomatis](../modul-29-testing-cicd/README.md) ➡️**
