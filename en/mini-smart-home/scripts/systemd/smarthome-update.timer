@@ -1,0 +1,18 @@
+# smarthome-update.timer - Module 29: the alarm clock for smarthome-update.service. The Pi asks GitHub "a new release?"
+# 5 minutes after it starts, then every 15 minutes. A new release is usually deployed at most ±17 minutes after the robot makes
+# its tag (15 minutes + a random delay up to 1 minute + the systemd alarm clock's accuracy up to 1 minute), plus the image pull.
+# How to install: see the header of smarthome-update.service.
+[Unit]
+Description=Mini Smart Home update schedule (every 15 minutes)
+
+[Timer]
+# 5 minutes after the Pi starts (Docker and the network are ready)
+OnBootSec=5min
+# then 15 minutes after the previous round STARTED, also when that round failed
+OnUnitActiveSec=15min
+# a random extra 0-60 seconds: many Pis don't ask GitHub and GHCR at the same second
+RandomizedDelaySec=60
+Unit=smarthome-update.service
+
+[Install]
+WantedBy=timers.target

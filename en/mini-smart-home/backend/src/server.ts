@@ -1,28 +1,20 @@
-// server.ts - the entry point of the Mini Smart Home backend v1.5 (Module 28: over-the-air firmware updates with locked downloads,
-// a canary, single-use claim codes, automatic device broker accounts through dynamic security, and the data of the /fleet page; on
-// top of v1.4, Module 27: the backend on the internet, behind Caddy HTTPS.
-// TRUST_PROXY makes the backend trust what Caddy says about the visitor: Secure login cookies over HTTPS and a login limit per
-// visitor; on top of v1.3, Module 26: it can run as a Docker container in compose.cloud.yml; v1.2, Module 25: the device's point
-// on the map and the daily CSV report through Telegram; v1.1, Module 24: "below-threshold" rules such as watering when the soil
-// is dry, threshold rules may send one command, and rules can be deleted; v1.0, Module 21: the device registry and its keys, the
-// backend's own broker account, unregistered/revoked devices ignored; Module 20: login, JWT in cookies, roles, and API
-// protection; and Module 19: realtime data, one door for commands, automation rules, schedules, and Telegram notifications).
+// server.ts - the entry point of the Mini Smart Home backend 2.0 (Module 29: the Fastify server assembly moved to app.ts,
+// buildApp(), so the integration tests test the same assembly as production; the server version is read from package.json and
+// shows in /health and /docs). This file only starts the rest: the database, the automation rules, Socket.IO, MQTT, Telegram,
+// the daily report, and the firmware update watcher, then listens at its counter.
+// History: v1.5 Module 28: over-the-air firmware updates with locked downloads, a canary, single-use claim codes, automatic
+// device broker accounts through dynamic security, and the data of the /fleet page; v1.4 Module 27: the backend on the internet,
+// behind Caddy HTTPS (TRUST_PROXY makes the backend trust what Caddy says about the visitor: Secure login cookies over HTTPS and
+// a login limit per visitor); v1.3 Module 26: it can run as a Docker container in compose.cloud.yml; v1.2 Module 25: the
+// device's point on the map and the daily CSV report through Telegram; v1.1 Module 24: "below-threshold" rules such as watering
+// when the soil is dry, threshold rules may send one command, and rules can be deleted; v1.0 Module 21: the device registry and
+// its keys, the backend's own broker account, unregistered/revoked devices ignored; Module 20: login, JWT in cookies, roles, and
+// API protection; and Module 19: realtime data, one door for commands, automation rules, schedules, and Telegram notifications.
 // Run: npm run dev (automatically restarts when a file is saved) or npm start. In a container (Module 26): node src/server.ts,
 // its settings come from Docker Compose, not from a .env file (see Dockerfile).
-import Fastify, { LogController } from "fastify";
-import swagger from "@fastify/swagger";
-import swaggerUi from "@fastify/swagger-ui";
-import { jsonSchemaTransform, serializerCompiler, validatorCompiler } from "fastify-type-provider-zod";
 import { env } from "./config/env.ts";
-import { setupSecurity } from "./auth/security.ts";
-import { authRoutes } from "./routes/auth.ts";
-import { healthRoutes } from "./routes/health.ts";
-import { deviceRoutes } from "./routes/devices.ts";
-import { ruleRoutes } from "./routes/rules.ts";
-import { reportRoutes } from "./routes/reports.ts";
-import { firmwareRoutes } from "./routes/firmware.ts";
-import { fleetRoutes } from "./routes/fleet.ts";
-import { claimRoutes } from "./routes/claims.ts";
+import { SERVER_VERSION } from "./config/server-version.ts";
+import { buildApp } from "./app.ts";
 import { brokerConnected, stopMqtt, startMqtt } from "./services/mqtt.ts";
 import { startRealtime } from "./services/realtime.ts";
 import { loadVitalsIntervals, sendAllConfigs, loadRules } from "./services/automation.ts";
@@ -31,76 +23,13 @@ import { accountPlace } from "./services/broker-accounts.ts";
 import { stopSchedules } from "./services/schedule.ts";
 import { stopTelegram, startTelegram } from "./services/telegram.ts";
 import { startReports } from "./services/reports.ts";
-import { useLog, shouldLog } from "./services/log.ts";
 import { databaseAlive } from "./db/archive.ts";
 import { allDevicesDb } from "./db/devices.ts";
 import { loadRegistry } from "./services/registry.ts";
 import { pool } from "./db/pool.ts";
 
-const app = Fastify({
-  logger: { transport: { target: "pino-pretty", options: { translateTime: "SYS:HH:MM:ss", ignore: "pid,hostname,reqId" } } },
-  logController: new LogController({ disableRequestLogging: true }), // the built-in log per request is too long...
-  // Module 27: the X-Forwarded-For/-Proto headers from Caddy are only trusted when they come from a proxy in TRUST_PROXY (in
-  // compose.cloud.yml: uniquelocal = the Docker hallway). Empty (dev mode) = those headers are ignored, as in v1.3.
-  trustProxy: env.TRUST_PROXY,
-});
-useLog(app.log); // Module 19: other services (commands, rules, schedules, Telegram) write to the same log
-app.addHook("onResponse", async (req, reply) => {
-  // ...so it's replaced by one line per request (hook = Fastify's "middleware"). Only the method, the address, and the status
-  // code: the request content (passwords!) and the cookies (tokens!) are never written to the log. Module 26: successful /health
-  // knocks (the Docker healthcheck every 15 seconds) aren't logged, so the log doesn't fill up with the same line.
-  if (!shouldLog(req.method, req.url, reply.statusCode)) return;
-  req.log.info(`${req.method} ${req.url} -> ${reply.statusCode} (${Math.round(reply.elapsedTime)} ms)`);
-});
-if (env.TRUST_PROXY !== false) { // Module 27: one line at startup, proof that the TRUST_PROXY setting was read
-  app.log.info(`trusted proxies (TRUST_PROXY): ${env.TRUST_PROXY === true ? "all" : env.TRUST_PROXY.join(", ")}`);
-}
-app.setValidatorCompiler(validatorCompiler); // Zod schemas check the content of requests...
-app.setSerializerCompiler(serializerCompiler); // ...and the shape of replies
-
-await setupSecurity(app); // Module 20: CORS, cookies, JWT, rate limit, and the guard on every request (BEFORE the routes)
-await app.register(swagger, {
-  openapi: {
-    info: {
-      title: "Mini Smart Home API",
-      description: "Backend v1.4 (Module 27). Every route needs a login, except the ones without a padlock. Log in first with "
-        + "POST /auth/login (Try it out): the browser keeps the access cookie and sends it by itself to the other routes. "
-        + "Viewer accounts can only look (GET); commands and changes are answered with 403. Devices are registered by an admin "
-        + "with POST /devices; a key is shown only once, and messages from unregistered or revoked devices are ignored. "
-        + "Since v1.1, a threshold rule can point downwards (below-threshold, for example water when the soil is below 30 %), can "
-        + "send one command when it turns on, and rules can be deleted (DELETE /rules/:id). Since v1.2, GET /devices carries "
-        + "each device's map point (lat, lng), and the admin moves it with PUT /devices/:id/location. "
-        + "The daily CSV report is sent to Telegram at REPORT_SCHEDULE (default 07:00 WIB); POST /reports/send "
-        + "sends it right now. Since v1.3 (Module 26), the backend also runs as a container in Docker Compose: "
-        + "the dashboard calls it through the Caddy web server with the prefix /api, while this page is opened at "
-        + "http://localhost:8080/docs (in the container, a login from http://127.0.0.1:8080/docs is refused with 403). Since v1.4 "
-        + "(Module 27), the backend can be opened from the internet behind Caddy HTTPS: with TRUST_PROXY (in Compose: uniquelocal) "
-        + "the backend uses the visitor's IP address and protocol from Caddy, so the login cookies are Secure and the limit of 10 "
-        + "login attempts applies per visitor. Since v1.5 (Module 28): over-the-air firmware updates (upload POST /firmware/:kind/:version, "
-        + "the command POST /devices/:id/update, the canary, then POST /fleet/update), the firmware download for devices at "
-        + "GET /fw/node-1/<version>.bin locked with the device key, the data of the /fleet page (GET /fleet), single-use claim "
-        + "codes (POST /provision/code for the admin, POST /provision/claim for the device), the vitals interval set from afar, and "
-        + "device broker accounts that are created and deleted automatically (AUTO_BROKER_ACCOUNTS).",
-      version: "1.5.0",
-    },
-    components: {
-      securitySchemes: { // Module 20: routes with a padlock need the access cookie from POST /auth/login
-        accessCookie: { type: "apiKey", in: "cookie", name: "access", description: "access JWT (httpOnly) from POST /auth/login" },
-      },
-    },
-    security: [{ accessCookie: [] }], // default: every route has a padlock; open routes write security: []
-  },
-  transform: jsonSchemaTransform, // the same Zod schemas become the OpenAPI documentation
-});
-await app.register(swaggerUi, { routePrefix: "/docs" });
-await app.register(authRoutes); // Module 20
-await app.register(healthRoutes);
-await app.register(deviceRoutes);
-await app.register(ruleRoutes); // Module 19
-await app.register(reportRoutes); // Module 25
-await app.register(firmwareRoutes); // Module 28: firmware releases and the locked download /fw
-await app.register(fleetRoutes); // Module 28: the /fleet page, update commands, the canary, the vitals interval
-await app.register(claimRoutes); // Module 28: claim codes
+const app = await buildApp(); // Module 29: Fastify + protection + /docs + every route (app.ts), not listening at any counter yet
+app.log.info(`Mini Smart Home backend ${SERVER_VERSION} started`); // Module 29: the same version as /health
 
 if (await databaseAlive()) app.log.info("database ready");
 else app.log.warn("database not reachable yet: check the database container and DATABASE_URL in .env");

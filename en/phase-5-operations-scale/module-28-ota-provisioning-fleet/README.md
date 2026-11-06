@@ -4,7 +4,7 @@
 
 *Phase 5 · Week 28 · Hardware: **Kit A** (2 ESP32s, project box, screw-terminal expansion board; perfboard + soldering optional) + a borrowed third ESP32 (optional; or a simulated device) + **the server from Module 27** (VPS and Pi gateway; the free path: the Pi only; without a Pi: the laptop) · Prerequisites: **Module 27** (backend 1.4.0, frontend 1.3.0, `compose.cloud.yml` and `edge/` on `main`), Module 10 (partitions), Module 21 (device keys), Module 9 (power supply) · Time: ±9 hours spread over one week, plus 24 hours of Node 1 running in the box (the soldering path +60 minutes; without a Kit ±6 hours) · Cost: project box + screw-terminal expansion board (Syllabus: about IDR 25,000–40,000, an estimate; check again, October 2026 prices); the soldering path: a 60 W soldering iron + solder (about IDR 60,000–120,000, an estimate); the server and the domain stay from Module 27*
 
-[⬅️ Module 27](../module-27-deploy-internet-tls-pwa/README.md) · [Phase 5](../README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · [Module 29 ➡️ (coming soon — read the summary in the Syllabus)](../../SYLLABUS.md#module-29--testing--cicd-every-change-tested-and-deployed-automatically)
+[⬅️ Module 27](../module-27-deploy-internet-tls-pwa/README.md) · [Phase 5](../README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · [Module 29 ➡️](../module-29-testing-cicd/README.md)
 
 ---
 
@@ -3581,7 +3581,7 @@ The pass requirement from the [Syllabus](../../SYLLABUS.md#module-28--ota-update
 
 **Mini Smart Home can now be updated without a cable, registers new devices by itself, and is ready to be installed at many locations.** Its limits: Node 2 still goes by cable, the server images are still installed over SSH without automatic tests, and service monitoring and automatic backups come in Module 30.
 
-> ➡️ **Next module:** Module 29 — Testing & CI/CD: Every Change Tested and Deployed Automatically (coming soon; [read the summary in the Syllabus](../../SYLLABUS.md#module-29--testing--cicd-every-change-tested-and-deployed-automatically)). Every code change is tested automatically, packed into an image, and installed on the VPS and the Pi without you using SSH; the Pi updates its images by itself.
+> ➡️ **Next module:** [Module 29 — Testing & CI/CD: Every Change Tested and Deployed Automatically](../module-29-testing-cicd/README.md). Every code change is tested automatically, packed into an image, and installed on the VPS and the Pi without you using SSH; the Pi updates its images by itself.
 
 ## 📚 Sources & Image Credits
 
@@ -3627,4 +3627,4 @@ Times are written in WIB: the clock of the author's machine (WITA, WIB + 1 hour)
 
 ---
 
-[⬅️ Module 27](../module-27-deploy-internet-tls-pwa/README.md) · [Phase 5](../README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · **Next: Module 29 — Testing & CI/CD: Every Change Tested and Deployed Automatically** (coming soon; [read the summary in the Syllabus](../../SYLLABUS.md#module-29--testing--cicd-every-change-tested-and-deployed-automatically))
+[⬅️ Module 27](../module-27-deploy-internet-tls-pwa/README.md) · [Phase 5](../README.md) · [Syllabus](../../SYLLABUS.md) · [Progress tracker](../../PROGRESS.md) · **Next: [Module 29 — Testing & CI/CD: Every Change Tested and Deployed Automatically](../module-29-testing-cicd/README.md) ➡️**

@@ -1,0 +1,38 @@
+# smarthome-update.service - Module 29: the systemd security guard (Module 12) that runs ONCE to deploy the latest Mini Smart
+# Home release on the Pi (scripts/deploy.sh), then finishes. What wakes it every 15 minutes: smarthome-update.timer next to it.
+#
+# Install (on the Pi, from the project root). Adjust the three things below to your Pi in its COPY (/etc/systemd/system/...,
+# with sudo nano), NOT in this repo file: an edited repo file makes deploy.sh stop. Those three things: User=
+# (the Pi user, a member of the docker group), the path /home/budi/mini-smart-home (two places), and DEPLOY_PARTS (main path:
+# gateway; free path: center gateway).
+#   sudo cp scripts/systemd/smarthome-update.service scripts/systemd/smarthome-update.timer /etc/systemd/system/
+#   sudo nano /etc/systemd/system/smarthome-update.service
+#   systemd-analyze verify /etc/systemd/system/smarthome-update.service /etc/systemd/system/smarthome-update.timer
+#     (no output = no typo; read its output, not only its exit code)
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now smarthome-update.timer
+# Try it once right now: sudo systemctl start smarthome-update.service   (waits until it's done)
+# The next schedule    : systemctl list-timers smarthome-update.timer
+# The log              : journalctl -u smarthome-update.service -n 30
+# The files in /etc/systemd/system are COPIES: after changing the file in the repo, copy it again and daemon-reload.
+[Unit]
+Description=Mini Smart Home: deploy the latest release (tag v<version>) from GitHub and GHCR
+# needs the network (GitHub, GHCR) and Docker already running
+Wants=network-online.target
+After=network-online.target docker.service
+Requires=docker.service
+
+[Service]
+# oneshot = runs once until it's done, then stops (not a service that keeps running)
+Type=oneshot
+# an ordinary user in the docker group, NOT root (the owner of the repo copy in their home folder)
+User=budi
+WorkingDirectory=/home/budi/mini-smart-home
+# The main-path Pi = the gateway only. The free-path Pi (the center + the gateway on the same Pi): replace this line with
+#   Environment="DEPLOY_PARTS=center gateway"
+# (the quotes are required because of the space)
+Environment=DEPLOY_PARTS=gateway
+# through sh: the file in the repo is on purpose not marked executable (chmod +x)
+ExecStart=/bin/sh /home/budi/mini-smart-home/scripts/deploy.sh
+# one round takes at most 15 minutes (the first image pull on the Pi can take long); beyond that it's stopped and logged as failed
+TimeoutStartSec=15min

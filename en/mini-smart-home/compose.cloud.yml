@@ -1,9 +1,11 @@
-# compose.cloud.yml - every CENTRAL service of Mini Smart Home in one file (Modules 26-28).
+# compose.cloud.yml - every CENTRAL service of Mini Smart Home in one file (Modules 26-29).
 # ONE file for three places; only the contents of .env differ (the "values per place" table in .env.example):
 #   laptop (Module 26)            : WEB_DOMAIN and MQTT_DOMAIN empty = the dashboard over HTTP at http://localhost, a plain broker 1883
 #   VPS (Module 27, main path)    : WEB_DOMAIN and MQTT_DOMAIN filled in = Caddy sets up HTTPS by itself, the broker also TLS on 8883
 #   Pi (Module 27, free path)     : the domains empty (HTTPS is set up by Cloudflare), profile "tunnel" (cloudflared) switched on
 # Run it from this folder (the project root):  docker compose up -d
+#   Module 29: the backend and web images are built by the ROBOT (GitHub Actions) for two kinds of processor and kept in GHCR.
+#   The VPS and the Pi only PULL them (scripts/deploy.sh: docker compose pull, then up -d --no-build); you build only on the laptop.
 #   No .env yet? Copy .env.example to .env and fill in its secrets first. Without .env, Compose doesn't find this file
 #   (no configuration file provided); a secret that is still empty makes it stop (required variable).
 #   The line COMPOSE_FILE=compose.cloud.yml in .env makes -f unnecessary (without that line: docker compose -f compose.cloud.yml ...).
@@ -205,7 +207,7 @@ services:
   # One-off: applies the new migrations/*.sql files (safe to repeat: "0 new migration(s) applied").
   migrate:
     # the same mold as the backend service (image + build written exactly the same in both services)
-    image: ${IMAGE_REGISTRY:?fill in IMAGE_REGISTRY in .env}/mini-smart-home-backend:1.5.0
+    image: ${IMAGE_REGISTRY:?fill in IMAGE_REGISTRY in .env}/mini-smart-home-backend:2.0.0
     build: ./backend
     command: ["node", "src/db/migrate.ts"]
     environment: *backend-settings
@@ -215,11 +217,14 @@ services:
     restart: "no"
     logging: *log
 
-  # Backend 1.5.0 (Modules 16-28). The image tag = version in backend/package.json.
+  # Backend (Modules 16-29). The image tag = version in backend/package.json; since Module 29 (2.0.0) ONE number with web and the
+  # Git tag v<version>: the robot refuses a pull request that forgets to make them the same (scripts/check-version.mjs).
   backend:
-    # image: the name in the image shop (GHCR, Module 26 Practice 10). build: if that image isn't on this machine yet and can't be
-    # pulled from the shop, Compose builds it itself from backend/Dockerfile (on a VPS: docker compose build, Module 27).
-    image: ${IMAGE_REGISTRY:?fill in IMAGE_REGISTRY in .env}/mini-smart-home-backend:1.5.0
+    # image: the name in the image shop (GHCR, Module 26 Practice 10). Module 29: the robot builds it for amd64 (VPS) and arm64 (Pi)
+    # after a pull request is merged, then the VPS and the Pi pull it. build: only for building it yourself on the laptop
+    # (docker compose build backend). On the VPS and the Pi never "up" without --no-build: if the image of that version isn't in
+    # the shop yet (or its package is still private), Compose quietly builds it itself from the Dockerfile instead of stopping.
+    image: ${IMAGE_REGISTRY:?fill in IMAGE_REGISTRY in .env}/mini-smart-home-backend:2.0.0
     build: ./backend
     environment: *backend-settings
     volumes:
@@ -250,11 +255,12 @@ services:
     restart: unless-stopped
     logging: *log
 
-  # The dashboard (Modules 22-28) served by Caddy: the page at /, the backend API at /api (one address, no cross-port CORS).
+  # The dashboard (Modules 22-29) served by Caddy: the page at /, the backend API at /api (one address, no cross-port CORS).
+  # The image tag = version in frontend/package.json, the same as the backend since Module 29 (shown on screen, for example v2.0.0).
   # Module 27: Caddy also sets up HTTPS by itself when WEB_DOMAIN is filled in (frontend/caddy/Caddyfile). Module 28: /fw/* (the
   # devices' firmware downloads) is passed on to the backend as it is.
   web:
-    image: ${IMAGE_REGISTRY:?fill in IMAGE_REGISTRY in .env}/mini-smart-home-web:1.4.0
+    image: ${IMAGE_REGISTRY:?fill in IMAGE_REGISTRY in .env}/mini-smart-home-web:2.0.0
     build:
       context: ./frontend
       args:

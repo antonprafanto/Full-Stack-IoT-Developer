@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="180" height="180" viewBox="0 0 180 180">
+  <!-- Mini Smart Home icon (Module 27): a line-drawn house + the same teal door as Module 24's apple-touch-icon.png,
+       on a light tile with round corners. Replaces Vite's lightning logo. The app icons pwa-*.png are made from this file. -->
+  <rect width="180" height="180" rx="40" fill="#f8fafc"/>
+  <path d="M38 86 L90 44 L142 86" fill="none" stroke="#1d293d" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M54 76 V136 H126 V76" fill="none" stroke="#1d293d" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="79" y="102" width="22" height="34" rx="3" fill="#00786f"/>
+</svg>

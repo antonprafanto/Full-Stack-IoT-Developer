@@ -10,3 +10,6 @@ dist
 .env.*
 !.env.example
 *.local
+# Module 29: the test files (src/*.test.ts) are only run by npm test on the laptop and by the GitHub Actions robot; the image
+# doesn't need them. Changing only a test doesn't change the image's content.
+src/**/*.test.ts

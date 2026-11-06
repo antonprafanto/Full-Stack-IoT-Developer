@@ -1,0 +1,22 @@
+info:
+  name: delete rule
+  type: http
+  seq: 25
+
+http:
+  method: DELETE
+  url: "{{baseUrl}}/rules/4"
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "200"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: true

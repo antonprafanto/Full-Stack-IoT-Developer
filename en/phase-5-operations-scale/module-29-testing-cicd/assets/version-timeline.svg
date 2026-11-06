@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1048" viewBox="0 0 1200 1048" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="1048" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" xml:space="preserve">The version timeline: one number for the server</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" xml:space="preserve">Concept 10 · SemVer <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5">MAJOR.MINOR.PATCH</tspan> · what gets deployed changes = the version goes up · forward to go back</text>
+<rect x="30.0" y="100.0" width="1140.0" height="104.0" rx="12" fill="#eef1f5" />
+<text x="70.0" y="160.0" font-size="40" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >2</text>
+<text x="70.0" y="186.0" font-size="11" font-weight="800" fill="#1e2a4a" text-anchor="middle" >MAJOR</text>
+<text x="103.0" y="160.0" font-size="40" font-weight="800" fill="#4a5568" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >.</text>
+<text x="136.0" y="160.0" font-size="40" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >0</text>
+<text x="136.0" y="186.0" font-size="11" font-weight="800" fill="#1e2a4a" text-anchor="middle" >MINOR</text>
+<text x="169.0" y="160.0" font-size="40" font-weight="800" fill="#4a5568" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >.</text>
+<text x="202.0" y="160.0" font-size="40" font-weight="800" fill="#a13a6b" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" >1</text>
+<text x="202.0" y="186.0" font-size="11" font-weight="800" fill="#a13a6b" text-anchor="middle" >PATCH</text>
+<text x="290.0" y="136.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" >MAJOR</text>
+<text x="290.0" y="158.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" >old users are forced to change too</text>
+<text x="290.0" y="180.0" font-size="11.5" font-weight="800" fill="#4a5568" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">1.5.0 → 2.0.0</text>
+<text x="586.0" y="136.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" >MINOR</text>
+<text x="586.0" y="158.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" >a new feature, the old way still works</text>
+<text x="586.0" y="180.0" font-size="11.5" font-weight="800" fill="#4a5568" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">2.0.2 → 2.1.0</text>
+<text x="882.0" y="136.0" font-size="13" font-weight="800" fill="#a13a6b" text-anchor="start" >PATCH</text>
+<text x="882.0" y="158.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" >a small fix, the rest stays the same</text>
+<text x="882.0" y="180.0" font-size="11.5" font-weight="800" fill="#4a5568" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">2.0.0 → 2.0.1</text>
+<line x1="60.0" y1="322.0" x2="1080.0" y2="322.0" stroke="#9aa3b0" stroke-width="3" stroke-linecap="round" />
+<line x1="1080.0" y1="322.0" x2="1150.0" y2="322.0" stroke="#9aa3b0" stroke-width="3" stroke-linecap="round" stroke-dasharray="6 5" />
+<circle cx="150.0" cy="322.0" r="9" fill="#ffffff" stroke="#4a5568" stroke-width="2.4" />
+<circle cx="430.0" cy="322.0" r="11" fill="#a13a6b" stroke="#ffffff" stroke-width="2.4" />
+<circle cx="720.0" cy="322.0" r="11" fill="#a13a6b" stroke="#ffffff" stroke-width="2.4" />
+<circle cx="1000.0" cy="322.0" r="11" fill="#a13a6b" stroke="#ffffff" stroke-width="2.4" />
+<circle cx="1120.0" cy="322.0" r="8" fill="#ffffff" stroke="#9aa3b0" stroke-width="2" />
+<text x="150.0" y="282.0" font-size="12.5" font-weight="700" fill="#4a5568" text-anchor="middle" xml:space="preserve">backend <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" fill="#4a5568" font-weight="800">1.5.0</tspan></text>
+<text x="150.0" y="302.0" font-size="12.5" font-weight="700" fill="#4a5568" text-anchor="middle" xml:space="preserve">web <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" fill="#4a5568" font-weight="800">1.4.0</tspan></text>
+<text x="430.0" y="280.0" font-size="20" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">2.0.0</text>
+<rect x="400.2" y="290.0" width="59.5" height="20.0" rx="10" fill="#f5e0ea" stroke="#a13a6b" stroke-width="1.2" />
+<text x="430.0" y="304.0" font-size="11.5" font-weight="800" fill="#a13a6b" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">v2.0.0</text>
+<text x="720.0" y="280.0" font-size="20" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">2.0.1</text>
+<rect x="690.2" y="290.0" width="59.5" height="20.0" rx="10" fill="#f5e0ea" stroke="#a13a6b" stroke-width="1.2" />
+<text x="720.0" y="304.0" font-size="11.5" font-weight="800" fill="#a13a6b" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">v2.0.1</text>
+<text x="1000.0" y="280.0" font-size="20" font-weight="800" fill="#1e2a4a" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">2.0.2</text>
+<rect x="970.2" y="290.0" width="59.5" height="20.0" rx="10" fill="#f5e0ea" stroke="#a13a6b" stroke-width="1.2" />
+<text x="1000.0" y="304.0" font-size="11.5" font-weight="800" fill="#a13a6b" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">v2.0.2</text>
+<text x="1120.0" y="282.0" font-size="12" font-weight="800" fill="#4a5568" text-anchor="middle" >Module 30</text>
+<text x="1120.0" y="300.0" font-size="13" font-weight="800" fill="#4a5568" text-anchor="middle" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">v2.1</text>
+<text x="150.0" y="356.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="middle" xml:space="preserve">two numbers, written</text>
+<text x="150.0" y="374.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="middle" xml:space="preserve">by hand, no guard</text>
+<text x="430.0" y="356.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="middle" xml:space="preserve"><tspan font-weight="800" fill="#a13a6b">MAJOR</tspan>: the way of DEPLOYING</text>
+<text x="430.0" y="374.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="middle" xml:space="preserve">changed, not the API: the</text>
+<text x="430.0" y="392.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="middle" xml:space="preserve">VPS pulls the robot's images,</text>
+<text x="430.0" y="410.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="middle" xml:space="preserve">the Pi deploys by itself, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">main</tspan></text>
+<text x="430.0" y="428.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="middle" xml:space="preserve">is guarded; the first tag</text>
+<text x="720.0" y="356.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="middle" xml:space="preserve"><tspan font-weight="800" fill="#a13a6b">PATCH</tspan>: one text on the</text>
+<text x="720.0" y="374.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="middle" xml:space="preserve">Login screen; reaches the VPS</text>
+<text x="720.0" y="392.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="middle" xml:space="preserve">and the Pi without you SSHing in</text>
+<text x="1000.0" y="356.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="middle" xml:space="preserve"><tspan font-weight="800" fill="#a13a6b">PATCH</tspan>: the <tspan font-weight="800" fill="#a13a6b">Revert</tspan> button:</text>
+<text x="1000.0" y="374.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="middle" xml:space="preserve">the content back as in</text>
+<text x="1000.0" y="392.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="middle" xml:space="preserve">2.0.0, the number still</text>
+<text x="1000.0" y="410.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="middle" xml:space="preserve"><tspan font-weight="800" fill="#a13a6b">GOES UP</tspan> (forward to go back)</text>
+<text x="1120.0" y="356.0" font-size="12" font-weight="800" fill="#4a5568" text-anchor="middle" >MINOR</text>
+<text x="1120.0" y="374.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="middle" >(plan)</text>
+<rect x="530.0" y="452.0" width="640.0" height="70.0" rx="10" fill="#fde6e8" stroke="#e63946" stroke-width="1.4" />
+<text x="546.0" y="476.0" font-size="12" font-weight="700" fill="#e63946" text-anchor="start" xml:space="preserve">a plain revert (the version back to <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#e63946" font-weight="800">2.0.0</tspan>) refused by the version guard in the job <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#e63946" font-weight="800">verify</tspan>:</text>
+<text x="546.0" y="502.0" font-size="10.5" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">FAIL  version 2.0.0 is LOWER than 2.0.1 on origin/main: the version may only go up.</text>
+<text x="50.0" y="476.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">a release tag = a page marker only the robot</text>
+<text x="50.0" y="495.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">sticks on: never make, move, or delete one</text>
+<text x="50.0" y="514.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">by hand (not even through <tspan font-weight="800">Releases</tspan>)</text>
+<rect x="30.0" y="550.0" width="560.0" height="365.9" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="50.0" y="578.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12.5" fill="#1e2a4a" font-weight="800">CHANGELOG.md</tspan>: a notebook of changes for humans</text>
+<rect x="50.0" y="592.0" width="520.0" height="265.9" rx="8" fill="#eef1f5" />
+<text x="62.0" y="612.9" font-size="10.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">## [Unreleased]</text>
+<text x="62.0" y="643.9" font-size="10.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">## [2.0.2] - …</text>
+<text x="62.0" y="659.4" font-size="10.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">### Fixed</text>
+<text x="62.0" y="674.9" font-size="10.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">- Restores the Login screen text.</text>
+<text x="62.0" y="705.9" font-size="10.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">## [2.0.1] - …</text>
+<text x="62.0" y="721.4" font-size="10.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">### Changed</text>
+<text x="62.0" y="736.9" font-size="10.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">- The Login screen text.</text>
+<text x="62.0" y="767.9" font-size="10.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">## [2.0.0] - 2026-11-04</text>
+<text x="62.0" y="783.4" font-size="10.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">…</text>
+<text x="62.0" y="798.9" font-size="10.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">### Added</text>
+<text x="62.0" y="814.4" font-size="10.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">- The checking and deploying robot (GitHub Actions …</text>
+<text x="62.0" y="829.9" font-size="10.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">### Changed</text>
+<text x="62.0" y="845.4" font-size="10.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">- One version number for the server: backend 1.5.0 …</text>
+<text x="558.0" y="643.9" font-size="10.5" font-weight="600" fill="#4a5568" text-anchor="end" xml:space="preserve"><tspan font-style="italic">(example, Practice 13)</tspan></text>
+<text x="558.0" y="705.9" font-size="10.5" font-weight="600" fill="#4a5568" text-anchor="end" xml:space="preserve"><tspan font-style="italic">(example, Practice 12)</tspan></text>
+<text x="50.0" y="880.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">an ISO date <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">YYYY-MM-DD</tspan> is required (read by the version guard);</text>
+<text x="50.0" y="898.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the tag <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">v&lt;version&gt;</tspan> holds its version's section (job <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">tag-release</tspan>)</text>
+<rect x="610.0" y="550.0" width="560.0" height="182.0" rx="12" fill="#fcf2f6" stroke="#a13a6b" stroke-width="1.8" />
+<text x="630.0" y="578.0" font-size="13.5" font-weight="800" fill="#a13a6b" text-anchor="start" xml:space="preserve">One number in 10 places, guarded by <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12.5" fill="#a13a6b" font-weight="800">scripts/check-version.mjs</tspan></text>
+<text x="630.0" y="604.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">backend/package.json</tspan> and <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">frontend/package.json</tspan></text>
+<text x="630.0" y="626.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">package-lock.json</tspan> (two folders × two places)</text>
+<text x="630.0" y="648.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">compose.cloud.yml</tspan>: three <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">image:</tspan> lines</text>
+<text x="630.0" y="670.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">CHANGELOG.md</tspan>: the top release entry</text>
+<text x="630.0" y="692.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">what gets deployed changed without going up → the robot is red</text>
+<text x="630.0" y="714.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">raise it in <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">backend</tspan> and <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">frontend</tspan>: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">npm</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">version</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">2.0.1</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">--no-git-tag-version</tspan></text>
+<rect x="610.0" y="748.0" width="560.0" height="167.9" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="630.0" y="776.0" font-size="13.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Visible from outside, without you SSHing in</text>
+<text x="630.0" y="802.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">/api/health</tspan> → <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">"version":"2.0.1"</tspan>, also <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">/api/docs</tspan> (OpenAPI)</text>
+<text x="630.0" y="823.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the dashboard: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">v2.0.1</tspan> under the title (reload twice)</text>
+<text x="630.0" y="844.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the Git tag <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">v2.0.1</tspan> · the images <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">…:2.0.1</tspan> and <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">sha-&lt;7&gt;</tspan></text>
+<text x="630.0" y="865.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the VPS and the Pi only deploy a version that has a tag</text>
+<rect x="30.0" y="936.0" width="1140.0" height="70.0" rx="12" fill="#eef1f5" />
+<text x="52.0" y="964.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">Own numbers that don't go up:</tspan> firmware Node 1 <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">1.7.x</tspan> (Module 28) · Node 2 <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">1.0.0</tspan> · <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">DATA-CONTRACT.md</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">1.6</tspan> · <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">PIN-MAP.md</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">7</tspan></text>
+<text x="52.0" y="988.0" font-size="12.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#a13a6b">Forward to go back:</tspan> a revert brings back the code and the images, not the database content. A migration in one release only ADDS, so an old image still fits.</text>
+<text x="1178.0" y="1034.0" font-size="11" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer Curriculum · CC BY 4.0</text>
+</svg>

@@ -1,0 +1,374 @@
+# ci.yml - the checking and deploying robot of Mini Smart Home (Module 29). GitHub Actions reads this file by itself.
+#
+#   Every pull request to main : verify and test (at the same time) -> build (the images are built as a try, NOT pushed anywhere)
+#   Every push to main (= a PR merged): verify and test -> build + push the images to GHCR -> staging (a dress rehearsal on the
+#                                 robot's machine) -> tag-release (tag v<version>) -> deploy-vps (over SSH)
+# A red job stops every job after it. The Pi isn't contacted from here (GitHub can't knock on a Pi behind a
+# router): the Pi deploys that tagged release by itself every 15 minutes (scripts/systemd/smarthome-update.timer).
+#
+# The job names verify, test, and build = the names of the "status checks" the main branch rule requires (Settings -> Branches).
+# Renaming a job means the branch rule has to be changed too.
+# Settings on GitHub (Settings -> Secrets and variables -> Actions), only for the path with a VPS:
+#   Variables: VPS_HOST         the VPS address; empty = the job deploy-vps is skipped (the free path, the path without a VPS)
+#              VPS_USER         the user on the VPS; empty = house
+#              VPS_KNOWN_HOSTS  the VPS host key fingerprint (the ssh-keyscan result you have compared); not a secret
+#   Secrets  : VPS_SSH_KEY      the robot's SPECIAL private key; on the VPS this key can only run scripts/deploy.sh
+# A public repo = anyone can read the robot's log: never print a secret (echo, set -x).
+name: ci
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+# The default permissions of the robot's token (GITHUB_TOKEN) for ALL jobs: only read the repo's content. A job that needs more
+# writes its own permissions below (build: push images; staging: pull images; tag-release: make a tag). Not named = none.
+permissions:
+  contents: read
+
+# Two pushes in a row to the same PR branch: the old run is cancelled (only the newest one matters). On main a run that is
+# ALREADY running is never cancelled, so two deployments never run at the same time. Only one may WAIT: a third merge that
+# comes while one run is running and one is waiting cancels the waiting run (gray,
+# "cancelled"). Safe: the newest run carries all the changes before it and releases its own version.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  # ---------------------------------------------------------------------------------------------------------------------
+  # verify: the cheap and fast things first. The version guard, the firmware, then type check, lint, frontend tests, build, audit.
+  # ---------------------------------------------------------------------------------------------------------------------
+  verify:
+    name: verify
+    runs-on: ubuntu-24.04                        # written exactly (not ubuntu-latest): doesn't change silently
+    container: node:24.22.1-alpine3.24           # the SAME Node as the backend and dashboard Dockerfiles
+    timeout-minutes: 15                          # GitHub's default is 360 minutes: a stuck job is stopped much sooner
+    steps:
+      # the Node Alpine image doesn't carry git (checkout, check-version) or a full tar (the npm cache)
+      - run: apk add --no-cache git tar
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0                         # the full history: check-version compares with main
+      # inside the container, the repo folder belongs to another user: without this line git refuses to work there
+      - run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+      - name: version - one number everywhere; what gets deployed changes = the version goes up
+        run: |
+          if [ "$GITHUB_EVENT_NAME" = pull_request ]; then
+            BASE="origin/$GITHUB_BASE_REF" node scripts/check-version.mjs
+          else
+            node scripts/check-version.mjs
+          fi
+      # .bin files, build/ folders, and keys.h can hold the ESP-NOW key. The robot = a LATE alarm: in a public repo, a key
+      # that has been pushed must be replaced, deleting it from Git isn't enough. :(glob) = ** means any number of folders
+      # (zero too), icase = .BIN too.
+      - name: firmware - the Module 28 test switch off, no .bin, build/, or keys.h in Git
+        run: |
+          if ! grep -q '^const int TEST_WRONG_KEY = 0;' firmware/node-1-home/config.h; then
+            echo "FAIL  firmware/node-1-home/config.h: TEST_WRONG_KEY must be 0 in committed code (Module 28)"
+            exit 1
+          fi
+          bin=$(git ls-files ':(glob,icase)**/*.bin' ':(glob)firmware/**/build/**' ':(glob)**/keys.h')
+          if [ -n "$bin" ]; then
+            echo "FAIL  firmware or key files are in Git (they can hold the ESP-NOW key): $bin"
+            exit 1
+          fi
+          echo "PASS  TEST_WRONG_KEY = 0, no .bin file, build/ folder, or keys.h in Git"
+      - name: npm cache (library downloads reused while package-lock.json stays the same)
+        uses: actions/cache@v6
+        with:
+          path: ~/.npm
+          key: npm-verify-${{ hashFiles('backend/package-lock.json', 'frontend/package-lock.json') }}
+          restore-keys: npm-verify-
+      - name: backend - type check, lint, audit
+        working-directory: backend
+        run: |
+          npm ci
+          npm run check
+          npm run lint
+          npm audit --omit=dev --audit-level=high
+      - name: frontend - lint, test, check schema, build, audit
+        working-directory: frontend
+        run: |
+          npm ci
+          npm run lint
+          npm test
+          npm run check-schema
+          npm run build
+          npm audit --omit=dev --audit-level=high
+
+  # ---------------------------------------------------------------------------------------------------------------------
+  # test: 203 unit tests + 20 integration tests with a real test database (runs at the same time as verify)
+  # ---------------------------------------------------------------------------------------------------------------------
+  test:
+    name: test
+    runs-on: ubuntu-24.04
+    container: node:24.22.1-alpine3.24
+    timeout-minutes: 15
+    services:
+      # A throw-away TEST database: the same image as production (migrations 002-005 need TimescaleDB), empty every time this
+      # job starts, thrown away afterwards. From the job container, its address = this service's name (db), as in Docker Compose.
+      db:
+        image: timescale/timescaledb:2.30.2-pg17
+        env:
+          POSTGRES_PASSWORD: test-not-a-secret    # not a secret: this database only lives a few minutes on the robot's machine
+          POSTGRES_DB: smarthome_test             # ends in _test: the integration tests refuse any other database name
+          TIMESCALEDB_TELEMETRY: "off"
+        options: >-
+          --health-cmd "pg_isready -h 127.0.0.1 -U postgres -d smarthome_test"
+          --health-interval 5s --health-timeout 3s --health-retries 30
+    env:
+      DATABASE_URL_TEST: postgres://postgres:test-not-a-secret@db:5432/smarthome_test
+      # src/config/env.ts checks ALL the settings, also when only the migration runs: fill in valid test values. Not real
+      # secrets; the integration tests themselves overwrite them again with random values.
+      MQTT_URL: mqtt://127.0.0.1:1
+      JWT_SECRET: robot-test-not-a-real-secret-0123456789
+    steps:
+      - run: apk add --no-cache git tar
+      - uses: actions/checkout@v7
+      - name: npm cache
+        uses: actions/cache@v6
+        with:
+          path: ~/.npm
+          key: npm-test-${{ hashFiles('backend/package-lock.json') }}
+          restore-keys: npm-test-
+      - name: install libraries
+        working-directory: backend
+        run: npm ci
+      - name: migrate the test database twice (the second time must say "0 new migration(s) applied")
+        working-directory: backend
+        run: |
+          DATABASE_URL="$DATABASE_URL_TEST" node src/db/migrate.ts
+          DATABASE_URL="$DATABASE_URL_TEST" node src/db/migrate.ts > "$RUNNER_TEMP/second-migration.txt"
+          cat "$RUNNER_TEMP/second-migration.txt"
+          grep -q '^0 new migration(s) applied' "$RUNNER_TEMP/second-migration.txt"
+      # npm test SKIPS the integration tests when DATABASE_URL_TEST is empty, also the tests marked .skip, and its exit code
+      # still stays 0. On the laptop that's fine; on the robot it isn't: even one skipped test makes this job red.
+      - name: unit tests + integration tests (test database); a skipped test = red
+        working-directory: backend
+        run: |
+          set -o pipefail
+          npm test 2>&1 | tee "$RUNNER_TEMP/tests.txt"
+          if grep -Eq '[0-9]+ skipped' "$RUNNER_TEMP/tests.txt"; then
+            echo "FAIL  a test was skipped: on the robot every test must run, the 20 integration tests too"
+            echo "      (DATABASE_URL_TEST filled in under env: of the job test? a test marked .skip?)"
+            exit 1
+          fi
+
+  # ---------------------------------------------------------------------------------------------------------------------
+  # build: one image for two kinds of processor (amd64 = VPS, arm64 = Pi) without emulation: the Node stage of the Dockerfile
+  # runs on the robot's processor ($BUILDPLATFORM), the final stage only copies. Pull request: only built. Push to main: pushed to GHCR.
+  # ---------------------------------------------------------------------------------------------------------------------
+  build:
+    name: build
+    needs: [verify, test]                        # only when both are green
+    runs-on: ubuntu-24.04                        # an ordinary robot machine (amd64) that already carries Docker and buildx
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      packages: write                            # the robot's token may push images to this repo's GHCR packages
+    outputs:
+      registry: ${{ steps.names.outputs.registry }}
+      version: ${{ steps.names.outputs.version }}
+      new-release: ${{ steps.names.outputs.new-release }}
+    steps:
+      - uses: actions/checkout@v7
+      - name: registry name, version, and new release or not
+        id: names
+        run: |
+          # GHCR only accepts lowercase: ${GITHUB_REPOSITORY_OWNER,,} = the repo owner's account name in lowercase
+          echo "registry=ghcr.io/${GITHUB_REPOSITORY_OWNER,,}" >> "$GITHUB_OUTPUT"
+          # one number for the backend and web (check-version in the job verify already made sure they are the same)
+          version=$(node -p "require('./backend/package.json').version")
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "short=${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT"
+          # the tag v<version> isn't on GitHub yet = a new release (staging, the tag, and deploying only for a new release). Exit
+          # code 2 = that tag really doesn't exist; any other code = GitHub can't be asked: red, don't guess
+          if git ls-remote --exit-code --tags origin "refs/tags/v$version" > /dev/null; then
+            echo "new-release=no" >> "$GITHUB_OUTPUT"
+            echo "v$version already released: no new release from this push"
+          else
+            code=$?
+            [ "$code" = 2 ] || { echo "FAIL  the release tags on GitHub can't be checked (ls-remote, code $code)"; exit 1; }
+            echo "new-release=yes" >> "$GITHUB_OUTPUT"
+          fi
+      - uses: docker/setup-buildx-action@v4      # the BuildKit builder: one command for several kinds of processor
+      - name: log in to GHCR (only on a push to main)
+        if: github.event_name == 'push'
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}  # a temporary token GitHub makes for this job, not your personal token
+      # Only for a NEW release: a version that already has a tag is surely in the registry (the tag is made after staging pulled
+      # it), so a push that only changes documents builds and pushes nothing (the image steps below are skipped too).
+      - name: already in the registry? (a version tag is never overwritten)
+        id: exists
+        if: github.event_name == 'push' && steps.names.outputs.new-release == 'yes'
+        env:
+          REGISTRY: ${{ steps.names.outputs.registry }}
+          VERSION: ${{ steps.names.outputs.version }}
+        run: |
+          for name in backend web; do
+            if docker buildx imagetools inspect "$REGISTRY/mini-smart-home-$name:$VERSION" > /dev/null 2>&1; then
+              echo "$name=yes" >> "$GITHUB_OUTPUT"
+              echo "mini-smart-home-$name:$VERSION is already in the registry: not built and not pushed again"
+            else
+              echo "$name=no" >> "$GITHUB_OUTPUT"
+            fi
+          done
+      # The image index also holds the build's provenance note (attestation, written as platform unknown/unknown): not a third image.
+      - name: backend image (amd64 + arm64)
+        if: github.event_name == 'pull_request' || steps.exists.outputs.backend == 'no'
+        uses: docker/build-push-action@v7
+        with:
+          context: ./backend
+          platforms: linux/amd64,linux/arm64
+          push: ${{ github.event_name == 'push' }}
+          tags: |
+            ${{ steps.names.outputs.registry }}/mini-smart-home-backend:${{ steps.names.outputs.version }}
+            ${{ steps.names.outputs.registry }}/mini-smart-home-backend:sha-${{ steps.names.outputs.short }}
+          # links the GHCR package to this repo (overrides the LABEL <account> line in the Dockerfile)
+          labels: org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
+      - name: web image (amd64 + arm64)
+        if: github.event_name == 'pull_request' || steps.exists.outputs.web == 'no'
+        uses: docker/build-push-action@v7
+        with:
+          context: ./frontend
+          build-args: VITE_API_BASE=/api           # the same as args in compose.cloud.yml and handle_path in the Caddyfile
+          platforms: linux/amd64,linux/arm64
+          push: ${{ github.event_name == 'push' }}
+          tags: |
+            ${{ steps.names.outputs.registry }}/mini-smart-home-web:${{ steps.names.outputs.version }}
+            ${{ steps.names.outputs.registry }}/mini-smart-home-web:sha-${{ steps.names.outputs.short }}
+          labels: org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
+
+  # ---------------------------------------------------------------------------------------------------------------------
+  # staging: the dress rehearsal. The SAME compose.cloud.yml as the VPS/free-path Pi, the images just pushed, an empty
+  # database, and random single-use secrets, on the robot's machine that is thrown away afterwards. A release that fails here
+  # never gets a tag, so the VPS and the Pi never deploy it. What starts here is the amd64 image (the robot's machine = amd64):
+  # the arm64 image first starts on the free-path Pi and is checked there by the smoke test of scripts/deploy.sh. This is NOT
+  # the Let's Encrypt practice CA "staging" of Module 27.
+  # ---------------------------------------------------------------------------------------------------------------------
+  staging:
+    name: staging
+    needs: build
+    if: github.event_name == 'push' && needs.build.outputs.new-release == 'yes'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      packages: read                             # pulls the images just pushed, also while the package is still private
+    steps:
+      - uses: actions/checkout@v7
+      - uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: staging .env (random secrets, thrown away with this machine) and empty history cupboards
+        env:
+          REGISTRY: ${{ needs.build.outputs.registry }}
+        run: |
+          # the same random recipe as the header of .env.example; the values are never printed
+          random() { node -e "console.log(require('node:crypto').randomBytes(32).toString('base64url'))"; }
+          umask 077
+          {
+            echo "COMPOSE_FILE=compose.cloud.yml"
+            echo "IMAGE_REGISTRY=$REGISTRY"
+            # the six required secrets of compose.cloud.yml (IMAGE_REGISTRY is the seventh, above)
+            for name in POSTGRES_PASSWORD JWT_SECRET MQTT_PASSWORD MOSQUITTO_DYNSEC_PASSWORD \
+              GRAFANA_READER_PASSWORD GRAFANA_ADMIN_PASSWORD; do
+              echo "$name=$(random)"
+            done
+          } > .env
+          docker volume create smarthome-data
+          docker volume create smarthome-grafana-data
+      - name: pull the images and start, exactly as on the VPS and the Pi
+        run: |
+          docker compose pull --quiet
+          docker compose up -d --no-build --wait --wait-timeout 300
+      - name: smoke test
+        env:
+          VERSION: ${{ needs.build.outputs.version }}
+        run: sh scripts/smoke-test.sh "$VERSION"
+      - name: service state and logs (only when something failed)
+        if: failure()
+        run: |
+          docker compose ps -a
+          docker compose logs --no-color --tail 40
+
+  # ---------------------------------------------------------------------------------------------------------------------
+  # tag-release: the Git tag v<version> on this commit = "this release may be deployed". The VPS and the Pi only follow this tag.
+  # ---------------------------------------------------------------------------------------------------------------------
+  tag-release:
+    name: tag-release
+    needs: [build, staging]
+    if: github.event_name == 'push'              # a second guard: a pull request never makes a tag
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: write                            # the ONLY job that may write to the repo: making a tag
+    steps:
+      - uses: actions/checkout@v7
+      - name: annotated tag v<version> holding that version's notes from CHANGELOG.md
+        env:
+          VERSION: ${{ needs.build.outputs.version }}
+        run: |
+          tag="v$VERSION"
+          if git ls-remote --exit-code --tags origin "refs/tags/$tag" > /dev/null; then
+            echo "$tag already exists: skipped (a release tag is never moved)"
+            exit 0
+          fi
+          {
+            echo "Mini Smart Home $VERSION"
+            echo
+            awk -v heading="## [$VERSION]" 'index($0, heading) == 1 { take = 1; next } /^## \[/ { take = 0 } take' CHANGELOG.md
+          } > "$RUNNER_TEMP/release-notes.txt"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # --cleanup=whitespace: the line "### Added" from the CHANGELOG stays (by default, lines starting with # are dropped)
+          git tag --annotate "$tag" --cleanup=whitespace --file "$RUNNER_TEMP/release-notes.txt" "$GITHUB_SHA"
+          git push origin "refs/tags/$tag"
+          echo "$tag created for commit $GITHUB_SHA"
+
+  # ---------------------------------------------------------------------------------------------------------------------
+  # deploy-vps: the robot knocks on the VPS over SSH. The robot key on the VPS can only run scripts/deploy.sh (command= in
+  # authorized_keys): the VPS itself fetches the latest tag and deploys it. The robot only sends a MARKER and reads
+  # deploy.sh's report, so a key someone forgot to restrict makes this job red, not green without deploying anything.
+  # ---------------------------------------------------------------------------------------------------------------------
+  deploy-vps:
+    name: deploy-vps
+    needs: [build, tag-release]                  # build: the version number of this release (needs.build.outputs.version)
+    if: github.event_name == 'push' && vars.VPS_HOST != ''   # VPS_HOST empty (the free path, without a VPS) = skipped
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions: {}                              # needs no GitHub token at all
+    concurrency: deploy-vps                      # one VPS deployment at a time, also when a run is repeated by hand
+    steps:
+      - name: robot key and VPS fingerprint
+        env:
+          KEY: ${{ secrets.VPS_SSH_KEY }}
+          VPS_FINGERPRINT: ${{ vars.VPS_KNOWN_HOSTS }}
+        run: |
+          umask 077
+          mkdir -p ~/.ssh
+          printf '%s\n' "$KEY" > ~/.ssh/robot_key
+          printf '%s\n' "$VPS_FINGERPRINT" > ~/.ssh/known_hosts
+      - name: deploy the release on the VPS (through scripts/deploy.sh)
+        env:
+          TARGET: ${{ vars.VPS_USER || 'house' }}@${{ vars.VPS_HOST }}
+          VERSION: ${{ needs.build.outputs.version }}
+        # -T: no terminal; BatchMode: never asks for a password; StrictHostKeyChecking=yes: a VPS whose fingerprint doesn't
+        # match VPS_KNOWN_HOSTS is refused (not "no"!); IdentitiesOnly: only this robot key is tried.
+        # The last word = a MARKER, not a command: with command= in authorized_keys, the VPS ignores it and runs
+        # deploy.sh. WITHOUT command= (the key isn't restricted yet), the VPS tries to run it -> "command not found" -> red.
+        # Then deploy.sh's report must say this release's version is deployed. An OLD run repeated after a newer release
+        # exists is red too (the VPS is already on another release): the run to repeat is always the newest one.
+        run: |
+          set -o pipefail
+          ssh -T -i ~/.ssh/robot_key -o BatchMode=yes -o StrictHostKeyChecking=yes -o IdentitiesOnly=yes \
+            -o ConnectTimeout=20 -o ServerAliveInterval=30 "$TARGET" robot-key-not-restricted-by-command \
+            | tee "$RUNNER_TEMP/deploy.txt"
+          grep -Eq "v$VERSION (deployed|already deployed)" "$RUNNER_TEMP/deploy.txt" \
+            || { echo "FAIL  the VPS didn't report v$VERSION deployed (read the deploy.sh report above)"; exit 1; }

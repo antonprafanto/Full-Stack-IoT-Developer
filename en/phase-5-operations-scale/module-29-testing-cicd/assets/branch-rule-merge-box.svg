@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1009" viewBox="0 0 1200 1009" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="1009" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" xml:space="preserve">Branch protection: a red PR can't be merged</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" xml:space="preserve">Concept 11 · a barrier in front of <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5">main</tspan> · a <tspan font-weight="800">reconstruction</tspan> from GitHub's documentation, NOT a screenshot · a simplified layout</text>
+<rect x="30.0" y="100.0" width="555.0" height="382.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<rect x="30.0" y="100.0" width="555.0" height="52.0" rx="12" fill="#eef1f5" />
+<rect x="30.0" y="130.0" width="555.0" height="22.0" rx="0" fill="#eef1f5" />
+<text x="48.0" y="122.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">pull request <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#1e2a4a" font-weight="800">try/red</tspan> → <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#1e2a4a" font-weight="800">main</tspan></text>
+<text x="48.0" y="142.0" font-size="11.5" font-weight="700" fill="#e63946" text-anchor="start" xml:space="preserve">a red PR (Practice 5): one <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#e63946" font-weight="800">expect</tspan> in an integration test changed</text>
+<text x="48.0" y="180.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">Checks</tspan> (the check name = the job name)</text>
+<rect x="48.0" y="196.0" width="519.0" height="30.0" rx="6" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.2" />
+<path d="M59 211 L64 217 L74 205" fill="none" stroke="#2a9d5c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="86.0" y="216.0" font-size="11" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">ci / verify (pull_request)</text>
+<text x="555.0" y="216.0" font-size="11" font-weight="700" fill="#2a9d5c" text-anchor="end" >successful</text>
+<rect x="48.0" y="234.0" width="519.0" height="30.0" rx="6" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.2" />
+<line x1="60.5" y1="243.5" x2="71.5" y2="254.5" stroke="#e63946" stroke-width="2.4" stroke-linecap="round" />
+<line x1="60.5" y1="254.5" x2="71.5" y2="243.5" stroke="#e63946" stroke-width="2.4" stroke-linecap="round" />
+<text x="86.0" y="254.0" font-size="11" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">ci / test (pull_request)</text>
+<text x="555.0" y="254.0" font-size="11" font-weight="700" fill="#e63946" text-anchor="end" >failing · required</text>
+<rect x="48.0" y="272.0" width="519.0" height="30.0" rx="6" fill="none" stroke="#9aa3b0" stroke-width="1.2" stroke-dasharray="5 4"/>
+<text x="66.0" y="292.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="start" xml:space="preserve">the check <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#4a5568" font-weight="800">build</tspan> comes in Practice 7 (its job doesn't exist yet in Practice 5)</text>
+<rect x="48.0" y="322.0" width="519.0" height="144.0" rx="10" fill="#fde6e8" stroke="#e63946" stroke-width="1.6" />
+<text x="66.0" y="348.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the merge box (the <tspan font-weight="800" fill="#1e2a4a">Conversation</tspan> tab)</text>
+<rect x="66.0" y="364.0" width="186.0" height="34.0" rx="6" fill="#e7e9ee" stroke="#9aa3b0" stroke-width="1.2" />
+<rect x="78.0" y="378.4" width="12.1" height="9.4" rx="1.6500000000000001" fill="none" stroke="#4a5568" stroke-width="1.5" />
+<path d="M80.42 378.35 L80.42 375.60 A3.58 3.58 0 0 1 87.58 375.60 L87.58 378.35" fill="none" stroke="#4a5568" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="84.0" cy="382.8" r="1.29" fill="#4a5568" />
+<text x="100.0" y="386.0" font-size="12" font-weight="800" fill="#4a5568" text-anchor="start" >Merge pull request</text>
+<text x="66.0" y="420.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the button is disabled: the required check <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">test</tspan> failed</text>
+<text x="66.0" y="438.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">no option to bypass the rule,</text>
+<text x="66.0" y="456.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">also for the repo owner</text>
+<rect x="615.0" y="100.0" width="555.0" height="382.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<rect x="615.0" y="100.0" width="555.0" height="52.0" rx="12" fill="#eef1f5" />
+<rect x="615.0" y="130.0" width="555.0" height="22.0" rx="0" fill="#eef1f5" />
+<text x="633.0" y="122.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">pull request <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#1e2a4a" font-weight="800">fix/login-text</tspan> → <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#1e2a4a" font-weight="800">main</tspan></text>
+<text x="633.0" y="142.0" font-size="11.5" font-weight="700" fill="#2a9d5c" text-anchor="start" xml:space="preserve">a green PR (Practice 12): all checks successful</text>
+<text x="633.0" y="180.0" font-size="12.5" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">Checks</tspan> (the check name = the job name)</text>
+<rect x="633.0" y="196.0" width="519.0" height="30.0" rx="6" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.2" />
+<path d="M644 211 L649 217 L659 205" fill="none" stroke="#2a9d5c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="671.0" y="216.0" font-size="11" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">ci / verify (pull_request)</text>
+<text x="1140.0" y="216.0" font-size="11" font-weight="700" fill="#2a9d5c" text-anchor="end" >successful</text>
+<rect x="633.0" y="234.0" width="519.0" height="30.0" rx="6" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.2" />
+<path d="M644 249 L649 255 L659 243" fill="none" stroke="#2a9d5c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="671.0" y="254.0" font-size="11" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">ci / test (pull_request)</text>
+<text x="1140.0" y="254.0" font-size="11" font-weight="700" fill="#2a9d5c" text-anchor="end" >successful</text>
+<rect x="633.0" y="272.0" width="519.0" height="30.0" rx="6" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.2" />
+<path d="M644 287 L649 293 L659 281" fill="none" stroke="#2a9d5c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<text x="671.0" y="292.0" font-size="11" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">ci / build (pull_request)</text>
+<text x="1140.0" y="292.0" font-size="11" font-weight="700" fill="#2a9d5c" text-anchor="end" >successful</text>
+<rect x="633.0" y="322.0" width="519.0" height="144.0" rx="10" fill="#e3f4ea" stroke="#2a9d5c" stroke-width="1.6" />
+<text x="651.0" y="348.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the merge box (the <tspan font-weight="800" fill="#1e2a4a">Conversation</tspan> tab)</text>
+<rect x="651.0" y="364.0" width="186.0" height="34.0" rx="6" fill="#2a9d5c" />
+<text x="744.0" y="386.0" font-size="12" font-weight="800" fill="#ffffff" text-anchor="middle" >Merge pull request</text>
+<text x="651.0" y="420.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">Create a merge commit</tspan> → <tspan font-weight="800" fill="#1e2a4a">Confirm merge</tspan></text>
+<text x="651.0" y="438.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">→ <tspan font-weight="800" fill="#1e2a4a">Delete branch</tspan> (the same as Module 16);</text>
+<text x="651.0" y="456.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the robot continues on <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">main</tspan> (Concept 3)</text>
+<rect x="30.0" y="496.0" width="1140.0" height="30.0" rx="8" fill="#fdeedd" />
+<text x="600.0" y="516.0" font-size="12" font-weight="800" fill="#b45f17" text-anchor="middle" >RECONSTRUCTION: not a GitHub screenshot · the layout and the texts on your screen may differ a little</text>
+<rect x="30.0" y="546.0" width="1140.0" height="335.0" rx="14" fill="#fcf2f6" stroke="#a13a6b" stroke-width="2" />
+<text x="52.0" y="576.0" font-size="14" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#a13a6b">Settings</tspan> → <tspan font-weight="800" fill="#a13a6b">Branches</tspan> → a classic rule for <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" fill="#a13a6b" font-weight="800">main</tspan>: four checkboxes</text>
+<rect x="52.0" y="604.0" width="536.0" height="151.0" rx="10" fill="#ffffff" />
+<rect x="68.0" y="620.0" width="13.0" height="13.0" rx="3" fill="#a13a6b" stroke="#a13a6b" stroke-width="1.4" />
+<path d="M71.0 626.8 L73.6 629.4 L78.2 623.8" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<text x="92.0" y="632.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Require a pull request before merging</text>
+<text x="92.0" y="654.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">required approvals <tspan font-weight="800" fill="#1e2a4a">0</tspan>: the author of a PR can't</text>
+<text x="92.0" y="673.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">approve their own PR; a direct push to</text>
+<text x="92.0" y="692.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">main</tspan> is refused</text>
+<rect x="612.0" y="604.0" width="536.0" height="151.0" rx="10" fill="#ffffff" />
+<rect x="628.0" y="620.0" width="13.0" height="13.0" rx="3" fill="#a13a6b" stroke="#a13a6b" stroke-width="1.4" />
+<path d="M631.0 626.8 L633.6 629.4 L638.2 623.8" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<text x="652.0" y="632.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Require status checks to pass before merging</text>
+<text x="652.0" y="654.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">require <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">verify</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">test</tspan> (Practice 5) and <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">build</tspan> (Practice 7);</text>
+<text x="652.0" y="673.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the exact job names, a job without a <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">paths</tspan> filter, a check</text>
+<text x="652.0" y="692.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">that passed in the last 7 days. <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">staging</tspan> is not</text>
+<text x="652.0" y="711.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">required: in a PR it is skipped (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">if:</tspan>), and a skipped</text>
+<text x="652.0" y="730.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">job counts as passed</text>
+<rect x="52.0" y="769.0" width="536.0" height="94.0" rx="10" fill="#ffffff" />
+<rect x="68.0" y="785.0" width="13.0" height="13.0" rx="3" fill="#a13a6b" stroke="#a13a6b" stroke-width="1.4" />
+<path d="M71.0 791.8 L73.6 794.4 L78.2 788.8" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<text x="92.0" y="797.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Require branches to be up to date before merging</text>
+<text x="92.0" y="819.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the PR branch must hold the latest <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">main</tspan>: the button</text>
+<text x="92.0" y="838.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">Update branch</tspan> when <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">main</tspan> has moved on</text>
+<rect x="612.0" y="769.0" width="536.0" height="94.0" rx="10" fill="#ffffff" />
+<rect x="628.0" y="785.0" width="13.0" height="13.0" rx="3" fill="#a13a6b" stroke="#a13a6b" stroke-width="1.4" />
+<path d="M631.0 791.8 L633.6 794.4 L638.2 788.8" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<text x="652.0" y="797.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >Do not allow bypassing the above settings</text>
+<text x="652.0" y="819.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">without this box, you as the repo owner (admin)</text>
+<text x="652.0" y="838.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">can still merge a red PR</text>
+<rect x="30.0" y="897.0" width="1140.0" height="70.0" rx="12" fill="#eef1f5" />
+<text x="52.0" y="925.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">Conditions:</tspan> a <tspan font-weight="800" fill="#1e2a4a">public</tspan> repo (a free account: branch protection only for public repos) · the first pull request that brings <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">ci.yml</tspan> is merged first</text>
+<text x="52.0" y="947.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">(a check can only be chosen after it has run once) · this rule doesn't replace the Module 16 review checklist</text>
+<text x="1178.0" y="995.0" font-size="11" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer Curriculum · CC BY 4.0</text>
+</svg>

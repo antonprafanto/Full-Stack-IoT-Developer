@@ -1,10 +1,22 @@
+import { readFileSync } from 'node:fs'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import { defineConfig } from 'vite'
 import { VitePWA } from 'vite-plugin-pwa'
 
+// Module 29: ONE version number for the whole project (backend, dashboard, images, and the Git tag v2.0.0). That number is read
+// from "version" in the package.json next to this file every time Vite runs, then written into the JavaScript as __WEB_VERSION__
+// (see src/version.d.ts): the Login screen and the dashboard header show it, so anyone can see the version that is deployed
+// without SSH. On purpose not process.env.npm_package_version: that variable only exists when Vite is started
+// through "npm run ...".
+const pkg: { version: string } = JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 'utf8'))
+
 // https://vite.dev/config/
+// Module 29: npm test (Vitest) reads this file too. The dashboard tests only test pure functions (src/*.test.ts) in Node.js,
+// without a browser; the plugins below are loaded too but change nothing for those tests.
 export default defineConfig({
+  // Vite replaces every __WEB_VERSION__ in the code with its text, for example "2.0.0" (JSON.stringify adds the quotes)
+  define: { __WEB_VERSION__: JSON.stringify(pkg.version) },
   plugins: [
     react(),
     tailwindcss(),

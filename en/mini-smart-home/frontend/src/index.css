@@ -1,4 +1,10 @@
-@import "tailwindcss";
+/* Module 29: Tailwind looks for class names ONLY in the dashboard code: the src/ folder (without the test files) and index.html. By
+   default Tailwind reads every text file in the frontend folder, README.md included: an ordinary word in a document (for example
+   "transform") can become a CSS class, so the content of the web image would change even when only a document changed. */
+@import "tailwindcss" source(none);
+@source "../src";
+@source not "../src/**/*.test.ts";
+@source "../index.html";
 
 /* Module 23: chart colors that follow dark mode. Recharts draws SVG with its own colors and doesn't know Tailwind's
    dark: classes. So the grid lines, the tooltip background, and the gauge track use the variables below, which

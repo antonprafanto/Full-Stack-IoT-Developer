@@ -69,7 +69,13 @@ export default function Layout() {
         {/* flex-wrap: on a narrow screen, the menu and the Log out button drop to the next row, not crowding the title */}
         <div className="mx-auto flex max-w-3xl flex-wrap items-center justify-between gap-x-4 gap-y-1 px-4 py-2">
           <div className="flex items-center gap-2">
-            <h1 className="text-lg font-bold text-slate-800 dark:text-slate-100">Mini Smart Home</h1>
+            {/* Module 29: the dashboard version that is deployed shows UNDER the title (the same as the Login screen), so it's
+                also visible on a phone after logging in. Under, not next to it: on a 375 px screen, the title + the version + the
+                badge "Reconnecting…" don't fit on one row, and the title folds into two rows */}
+            <div>
+              <h1 className="text-lg font-bold text-slate-800 dark:text-slate-100">Mini Smart Home</h1>
+              <p className="text-xs text-slate-500 dark:text-slate-400">v{__WEB_VERSION__}</p>
+            </div>
             <ConnectionBadge />
           </div>
           {/* NavLink = a Link that knows whether its address is open: isActive is true on /devices AND on /devices/<id>

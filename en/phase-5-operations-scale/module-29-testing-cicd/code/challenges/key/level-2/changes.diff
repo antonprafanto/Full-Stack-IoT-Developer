@@ -1,0 +1,53 @@
+--- skeleton/scripts/check-version.mjs
++++ answer/scripts/check-version.mjs
+@@ -1,5 +1,3 @@
+-// check-version-blanks.mjs - Module 29 Challenge 2 SKELETON: the version guard with part 2 still blank (TODO 1-3).
+-// The answer = scripts/check-version.mjs. Put this skeleton in scripts/check-version.mjs of your practice branch.
+ // check-version.mjs - the version guard of Mini Smart Home (Module 29). The robot runs it on every pull request and every push
+ // to main (the job verify in .github/workflows/ci.yml); you can run it on the laptop too, from any folder of the repo:
+ //   node scripts/check-version.mjs                    -> the version number the SAME in every place?
+@@ -74,10 +72,18 @@
+ // Compose file, and the files a container or the machine reads straight from the repo copy (broker configuration, Grafana, sh scripts).
+ // Documents (*.md), tests, Bruno, the load test, and the developer tools' settings aren't deployed, so they may change without a release.
+ function isDeployed(file) {
+-  // TODO 1: return true when this file gets DEPLOYED to the VPS/Pi, false when it doesn't. Hints: the COPY lines in
+-  // backend/Dockerfile and frontend/Dockerfile, the content of both .dockerignore files, the files mounted through "volumes:" in
+-  // compose.cloud.yml and edge/compose.edge.yml, and the scripts that scripts/deploy.sh runs. Documents (*.md) and tests: no.
+-  return false;
++  if (file.endsWith(".md") || file.endsWith(".test.ts")) return false;
++  if (file.startsWith("backend/")) {
++    return /^backend\/(Dockerfile|\.dockerignore|package\.json|package-lock\.json)$/.test(file)
++      || (/^backend\/(src|migrations)\//.test(file) && !file.startsWith("backend/src/integration/"));
++  }
++  if (file.startsWith("frontend/")) {
++    return !/^frontend\/(\.oxlintrc\.json|check-schema\.js|\.env\.example|\.gitignore)$/.test(file);
++  }
++  return file === "compose.cloud.yml"
++    || /^edge\/(compose\.edge\.yml|gateway\.conf|center\.conf|center-internet\.conf|acl-broker)$/.test(file)
++    || /^grafana\/(provisioning|dashboards)\//.test(file) || file === "grafana/grafana-user.sql"
++    || /^scripts\/[^/]+\.sh$/.test(file);
+ }
+ 
+ const base = process.env.BASE;
+@@ -106,10 +112,17 @@
+   const nextPatch = `${major}.${minor}.${patch + 1}`; // 2.0.1 -> 2.0.2
+   const examples = deployed.slice(0, 3).join(", ") + (deployed.length > 3 ? `, … (${deployed.length} files)` : "");
+ 
+-  // TODO 2: the version is LOWER than baseVersion -> problems.push("…"): the version may only go up, also for a revert (old
+-  //         content with a new number, for example nextPatch).
+-  // TODO 3: files in "deployed" but the version did NOT go up -> problems.push("…"), name the files (examples) and how to
+-  //         raise the version by SemVer (its example numbers: nextPatch, major, minor).
++  if (!goesUp && version !== baseVersion) {
++    problems.push(`version ${version} is LOWER than ${baseVersion} on ${base}: the version may only go up. Bringing back old content `
++      + `(revert)? The content may be old, the number still goes UP (for example ${nextPatch}), `
++      + "with the entry \"Fixed: restores …\" in CHANGELOG.md.");
++  } else if (deployed.length > 0 && !goesUp) {
++    problems.push(`what gets deployed to the VPS/Pi changed (${examples}) but the version is still ${version} (= ${base}). Without a new `
++      + "version, the robot makes no release and this change never reaches the VPS/Pi. Raise the number by SemVer: PATCH "
++      + `for a fix (${baseVersion} -> ${nextPatch}), MINOR for a new feature `
++      + `(${baseVersion} -> ${major}.${minor + 1}.0), MAJOR when old users are forced to change too `
++      + `(${baseVersion} -> ${major + 1}.0.0).`);
++  }
+   baseSummary = goesUp
+     ? `; compared with ${base} (${baseVersion}): the version went up, ${deployed.length} deployed files changed`
+     : `; compared with ${base}: no deployed file changed, the version stays ${version} (allowed)`;

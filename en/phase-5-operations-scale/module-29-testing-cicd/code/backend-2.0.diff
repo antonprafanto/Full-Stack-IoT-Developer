@@ -1,0 +1,1797 @@
+diff --git a/backend/.dockerignore b/backend/.dockerignore
+index c709b84..d00ebd3 100644
+--- a/backend/.dockerignore
++++ b/backend/.dockerignore
+@@ -15,5 +15,8 @@ login*.json
+ cookies*.txt
+ # Module 28: firmware files uploaded in dev mode (they may hold ESP-NOW keys): never go into the image.
+ firmware-data
+-# Vitest test files aren't used by the running server.
++# Vitest test files aren't used by the running server. Module 29: neither is the integration test folder (setup.ts isn't a
++# *.test.ts file, but only the tests use it) nor the oxlint settings.
+ src/**/*.test.ts
++src/integration
++.oxlintrc.json
+diff --git a/backend/.oxlintrc.json b/backend/.oxlintrc.json
+new file mode 100644
+index 0000000..28e447f
+--- /dev/null
++++ b/backend/.oxlintrc.json
+@@ -0,0 +1,4 @@
++{
++  "$schema": "./node_modules/oxlint/configuration_schema.json",
++  "plugins": ["typescript", "oxc"]
++}
+diff --git a/backend/Dockerfile b/backend/Dockerfile
+index c712121..5456753 100644
+--- a/backend/Dockerfile
++++ b/backend/Dockerfile
+@@ -1,25 +1,39 @@
+-# Dockerfile - the backend image (mold) of Mini Smart Home (Module 26; the same in 1.4.0, Module 27; 1.5.0, Module 28: + a firmware folder).
++# Dockerfile - the backend image (mold) of Mini Smart Home (Module 26; 1.4.0 Module 27; 1.5.0 Module 28: + a firmware folder;
++# 2.0.0 Module 29: one mold for TWO kinds of processor, without emulation).
+ # Two stages ("multi-stage"):
+-#   stage "packages": installs the npm libraries exactly as package-lock.json says, WITHOUT the developer tools (TypeScript, Vitest, Vite)
++#   stage "packages": installs the npm libraries exactly as package-lock.json says, WITHOUT the developer tools (TypeScript, Vitest, oxlint)
+ #   final stage     : Node.js 24 + the libraries from the "packages" stage + the src/ and migrations/ code, running as the user "node" (not root)
+ # No compile stage: Node 24 runs the .ts files directly (type stripping, Module 16).
+-# Built from the project folder with: docker compose build backend   (or: docker build -t mini-smart-home-backend:1.5.0 ./backend)
++# From Module 29 on, this mold is built by the ROBOT (GitHub Actions, .github/workflows/ci.yml) for linux/amd64 (VPS) and linux/arm64
++# (Pi) at once, then pushed to GHCR; the VPS and the Pi only pull. Building it yourself on the laptop still works:
++#   docker compose build backend   (or: docker build -t mini-smart-home-backend:<version> ./backend, version = package.json)
+ 
+ # An exact tag, not "latest" or "24-alpine": the same mold today and next month. Alpine = the smallest Node image;
+ # bcrypt ships a ready-made build for Alpine (musl), so no compiler is needed.
+-FROM node:24.22.1-alpine3.24 AS packages
++# Module 29: --platform=$BUILDPLATFORM = this stage ALWAYS runs on the builder's processor (the robot's amd64 runner, or your laptop),
++# also when building the arm64 mold for the Pi: no QEMU emulation, so as fast as building for one processor. Safe because the
++# libraries here are plain JavaScript, except bcrypt, which carries ready-made linux-x64 AND linux-arm64 (musl) builds in its
++# package and picks the right one when the server runs.
++FROM --platform=$BUILDPLATFORM node:24.22.1-alpine3.24 AS packages
+ WORKDIR /app
+ # package*.json is copied BEFORE the code: as long as the library list doesn't change, the "npm ci" layer comes from the cache
+-# and a rebuild after changing the code takes only a few seconds.
++# and a rebuild after changing the code takes only a few seconds. (The version number is written in package*.json too, so a build
++# for a new version always runs npm ci again.)
+ COPY package.json package-lock.json ./
+ # --omit=dev: the developer tools stay out. Since 1.3.0, pino-pretty is in "dependencies" because it's used while the server runs
+ # (without it the server in the container fails: unable to determine transport target for "pino-pretty"). The npm cache doesn't
+ # need cleaning: this stage is thrown away, only the node_modules folder is carried to the final stage.
+ RUN npm ci --omit=dev
++# Module 29: the firmware folder is made HERE (the builder's processor), then copied to the final stage: no RUN at all there
++RUN mkdir -p /app/firmware-data
+ 
++# The final stage = the TARGET processor (amd64 or arm64). Only COPY, no RUN: no program has to be RUN for another
++# processor, so no emulator is needed.
+ FROM node:24.22.1-alpine3.24
+ # Links the image on GHCR to your GitHub repository (Module 26 Practice 10). Replace <account> with your GitHub account name
+ # (lowercase) and mini-smart-home with your repository's name if it's different. Without this label, the GHCR package isn't linked.
++# Module 29: the molds the robot builds get this label automatically (ci.yml, labels:), which overrides this line; this line
++# stays useful for the molds you build and push yourself.
+ LABEL org.opencontainers.image.source="https://github.com/<account>/mini-smart-home"
+ ENV NODE_ENV=production
+ WORKDIR /app
+@@ -29,7 +43,8 @@ COPY migrations ./migrations
+ COPY src ./src
+ # Module 28: the folder of the firmware files (.bin) the admin uploads, owned by the user node. compose.cloud.yml mounts the cupboard
+ # firmware-data here; a cupboard that is still empty takes this folder's owner, so the backend (not root) can write to it.
+-RUN mkdir -p /app/firmware-data && chown node:node /app/firmware-data
++# Module 29: copied from the "packages" stage with the owner node (--chown), instead of RUN mkdir && chown in this stage.
++COPY --from=packages --chown=node:node /app/firmware-data /app/firmware-data
+ # The user "node" (uid 1000) already exists in the node image. The server needs no root rights: if there's a hole, the damage is smaller.
+ USER node
+ # Only a note: "this server listens on 8080 inside the container". The counter on the laptop is set by compose.cloud.yml (ports).
+diff --git a/backend/README.md b/backend/README.md
+index 420c014..c8ff138 100644
+--- a/backend/README.md
++++ b/backend/README.md
+@@ -2,7 +2,7 @@
+ 
+ 🌐 **English** · [Bahasa Indonesia](../../../proyek-rumah-pintar-mini/backend/README.md)
+ 
+-Backend v1.5 of the Mini Smart Home project: a Node.js 24 server in light TypeScript that listens to every `msh/#` MQTT message, checks every message against data contract 1.6 (Zod schemas; messages of the old shape stay valid), keeps the last state of every device in memory, archives every message in a PostgreSQL database with the TimescaleDB add-on (through Docker), and provides a documented API. The reading history can be requested raw or already summarized per 15 minutes, per hour, or per day. Since Module 19, readings also flow live through Socket.IO, every command goes through one door (with the desired and the reported state), automation rules and schedules are stored in the database and can be changed through the API without restarting the server, every important event is recorded, and alerts are sent through Telegram. Since Module 20, the API and Socket.IO are **locked for people**: guests must log in first, `viewer` accounts can only look, login attempts are limited, and other web pages can't make the server act on a user's behalf. Since Module 21, the backend is also **locked for devices**: only devices an admin has registered (with a per-device key) have their data processed, messages from unregistered or revoked devices are ignored, and the backend itself connects to the broker with its own account. 🎉 **Phase 3 checkpoint: the house is locked for people and for devices.**
++Backend 2.0 of the Mini Smart Home project: a Node.js 24 server in light TypeScript that listens to every `msh/#` MQTT message, checks every message against data contract 1.6 (Zod schemas; messages of the old shape stay valid), keeps the last state of every device in memory, archives every message in a PostgreSQL database with the TimescaleDB add-on (through Docker), and provides a documented API. The reading history can be requested raw or already summarized per 15 minutes, per hour, or per day. Since Module 19, readings also flow live through Socket.IO, every command goes through one door (with the desired and the reported state), automation rules and schedules are stored in the database and can be changed through the API without restarting the server, every important event is recorded, and alerts are sent through Telegram. Since Module 20, the API and Socket.IO are **locked for people**: guests must log in first, `viewer` accounts can only look, login attempts are limited, and other web pages can't make the server act on a user's behalf. Since Module 21, the backend is also **locked for devices**: only devices an admin has registered (with a per-device key) have their data processed, messages from unregistered or revoked devices are ignored, and the backend itself connects to the broker with its own account. 🎉 **Phase 3 checkpoint: the house is locked for people and for devices.**
+ 
+ **v1.1 (Module 24)** adds three small things dashboard v1.0 needs: **below-threshold** rules (for example water when the soil is below 30%), threshold rules that **send a command once** (for example the pump for 5 seconds), and **deleting rules** (`DELETE /rules/:id`). No database migration and no data-contract change (still 1.4); details in [Version 1.1 notes](#version-11-notes).
+ 
+@@ -14,6 +14,8 @@ Backend v1.5 of the Mini Smart Home project: a Node.js 24 server in light TypeSc
+ 
+ **v1.5 (Module 28)** makes the backend look after a **fleet of devices**: the admin uploads a `.bin` firmware file, then orders Node 1 to update itself **over the air** (OTA) one at a time, a canary device first, then all of them; the device downloads the file through the **locked** route `/fw/node-1/<version>.bin` (the Module 21 device key, not a public file) and reports the result (`succeeded`, `rollback`, `failed`) in `vitals`. The dashboard's `/fleet` page reads `GET /fleet` (the version, the health including the restart reason, and the last update of every device). A new device registers itself within one minute with a single-use **claim code** made by the admin, every device's broker account is created and deleted **automatically** through Mosquitto's dynamic security plugin (the setting `AUTO_BROKER_ACCOUNTS`), and a lost device can be **deactivated**: the broker disconnects it at once. A new migration `011_ota_and_fleet.sql`, no new npm package; the data contract moves up to **1.6**. Details in [Firmware updates, the fleet, and claim codes](#firmware-updates-the-fleet-and-claim-codes-module-28) and [Version 1.5 notes](#version-15-notes).
+ 
++**2.0.0 (Module 29)** adds no route or table. `2.0.0` is **one product version number** for the backend and the dashboard (the same as the image tag and the Git tag `v2.0.0`), and the backend is now **tested by the robot** before it is deployed automatically to the VPS and the Pi. `GET /health` names the running `version` and the `/docs` documentation uses the same number (both read from `package.json`); the server assembly moved to `src/app.ts` (`buildApp()`), so that **20 integration tests** with a test database (`src/integration/`) test the same assembly as production; `npm run lint` (oxlint) checks the code too; the `Dockerfile` builds molds for two kinds of processor (amd64 and arm64) without emulation. No database migration, no new production package (oxlint is only a developer tool), the data contract stays 1.6. Details in [Tested with a test database](#tested-with-a-test-database-module-29) and [Version 2.0 notes](#version-20-notes).
++
+ There are two ways to run the backend, and **only one may run** at a time (two backends with the same Telegram token fight each other, `409 Conflict`; two backends also fight over counter 8080):
+ 
+ | Way | When | Its settings come from |
+@@ -36,12 +38,12 @@ All the commands in this section are typed from the **project root** (the folder
+ | `docker compose logs -f backend` | the backend log (WIB times); **Ctrl + C** only stops reading, the backend keeps running. `--since 10m` = the last 10 minutes |
+ | `docker compose exec backend node src/db/manage-users.ts <command>` | every `npm run users -- …` command of the Dev mode table (`npm run users -- …` also works in the container, with the line `.env not found. Continuing without it.`) |
+ | `docker compose exec backend node src/db/seed-history.ts` | 7 days of practice data (a laptop without history), then summarize it once with the command of Dev mode step 7 |
+-| `docker compose build backend` then `docker compose up -d backend` | rebuilds the image after the code changed (tag = `version` in `package.json`) |
++| `docker compose build backend` then `docker compose up -d backend` | **on the laptop**: rebuilds the image after the code changed (tag = `version` in `package.json`). Since Module 29, the VPS and the Pi don't build: they pull the molds the robot builds (`sh scripts/deploy.sh`) |
+ | `docker compose stop backend` / `docker compose start backend` | stops it and starts it again; a container stopped with `stop` is NOT started again by Docker itself |
+ 
+ The API docs stay at the old counter, **`http://localhost:8080/docs`** (not `127.0.0.1`: in the container the backend listens on `0.0.0.0`, so a login through **Try it out** from the page `http://127.0.0.1:8080/docs` is refused with `403`). If `PORT_BACKEND` in the root `.env` isn't 8080 (for example 8082), add `http://localhost:8082` to `CORS_ORIGIN` in that `.env`, then `docker compose up -d`; without it, a login from `http://localhost:8082/docs` is refused with `403` too. The Bruno collection (`baseUrl` `http://127.0.0.1:8080`) and `tools/live-terminal.js` keep working unchanged. The dashboard calls the backend through Caddy at `http://localhost/api/…`.
+ 
+-The backend image is built from the [`Dockerfile`](Dockerfile) (two `node:24.22.1-alpine3.24` stages, `npm ci --omit=dev`, the user `node`, `CMD ["node", "src/server.ts"]`); the [`.dockerignore`](.dockerignore) keeps out `.env`, `node_modules`, `backup`, Bruno, the load test, and the test files. Inside the container, the settings come from `compose.cloud.yml` (`HOST=0.0.0.0`, `MQTT_URL=mqtt://mosquitto:1883`, `DATABASE_URL=…@db:5432/…`, `TZ=Asia/Jakarta`), not from `backend/.env`.
++The backend image is built from the [`Dockerfile`](Dockerfile) (two `node:24.22.1-alpine3.24` stages, `npm ci --omit=dev`, the user `node`, `CMD ["node", "src/server.ts"]`; since Module 29 the `packages` stage runs on the processor of the building machine through `FROM --platform=$BUILDPLATFORM` and the final stage has no `RUN`, so one machine builds the amd64 and arm64 molds without emulation); the [`.dockerignore`](.dockerignore) keeps out `.env`, `node_modules`, `backup`, Bruno, the load test, the test files, and (Module 29) the `src/integration/` folder. Inside the container, the settings come from `compose.cloud.yml` (`HOST=0.0.0.0`, `MQTT_URL=mqtt://mosquitto:1883`, `DATABASE_URL=…@db:5432/…`, `TZ=Asia/Jakarta`), not from `backend/.env`.
+ 
+ ## On the internet, behind Caddy HTTPS (Module 27)
+ 
+@@ -101,7 +103,9 @@ To change the backend code, run the backend directly with Node on the laptop, us
+ | `npm run dev` | runs the server and restarts it every time the code or `.env` is saved |
+ | `npm start` | runs the server without automatic restarts (since 1.3 also without a `.env` file, for example in a container); **Ctrl + C** stops it gracefully (on Windows, `npm run dev` + **Ctrl + C** kills the server at once) |
+ | `npm run check` | checks the TypeScript types, test files included (run it before every commit) |
+-| `npm test` | runs the unit tests with Vitest: the rules engine and the rule schema (`src/rules/*.test.ts`; since Module 24 also below-threshold rules), login (`src/auth/auth.test.ts`), device keys (`src/auth/key.test.ts`, Module 21), the guest book and second layer (`src/services/registry.test.ts`), the registration routes (`src/routes/devices.test.ts`), the delete-rule route with its guard: guest 401, viewer 403, the `DELETE` preflight (`src/routes/rules.test.ts`, Module 24), and a running watering rule: the pump sent once, turning off without a command, a refused command marked `ok: false`, a deleted or deactivated rule no longer acting (`src/services/automation.test.ts`, Module 24), then (Module 25) the map point: the location schema and the `PUT /devices/:id/location` route with its guard (`src/routes/location.test.ts`), the CSV maker (`src/services/csv.test.ts`), the daily report: yesterday's WIB range, the CSV content, Telegram off or refusing, a late WIB schedule still reporting the right day, a missed schedule only reported (`src/services/reports.test.ts`), the `POST /reports/send` route (`src/routes/reports.test.ts`), a report file sent with its name and the 📴/✅ messages after 60 seconds (`src/services/telegram.test.ts`), a retained `online` status after a broker restart (`src/services/mqtt.test.ts`), the `REPORT_SCHEDULE` setting (`src/config/env.test.ts`), and (Module 26) the log filter: successful `/health` knocks aren't logged (`src/services/log.test.ts`) |
++| `npm run lint` | Module 29: checks the code with oxlint ([`.oxlintrc.json`](.oxlintrc.json)) for common mistakes that slip past the type checker; the expected output is `Found 0 warnings and 0 errors.`. Even one warning makes it fail (`--deny-warnings`), so the robot is red too |
++| `npm test` | runs the unit tests with Vitest: the rules engine and the rule schema (`src/rules/*.test.ts`; since Module 24 also below-threshold rules), login (`src/auth/auth.test.ts`), device keys (`src/auth/key.test.ts`, Module 21), the guest book and second layer (`src/services/registry.test.ts`), the registration routes (`src/routes/devices.test.ts`), the delete-rule route with its guard: guest 401, viewer 403, the `DELETE` preflight (`src/routes/rules.test.ts`, Module 24), and a running watering rule: the pump sent once, turning off without a command, a refused command marked `ok: false`, a deleted or deactivated rule no longer acting (`src/services/automation.test.ts`, Module 24), then (Module 25) the map point: the location schema and the `PUT /devices/:id/location` route with its guard (`src/routes/location.test.ts`), the CSV maker (`src/services/csv.test.ts`), the daily report: yesterday's WIB range, the CSV content, Telegram off or refusing, a late WIB schedule still reporting the right day, a missed schedule only reported (`src/services/reports.test.ts`), the `POST /reports/send` route (`src/routes/reports.test.ts`), a report file sent with its name and the 📴/✅ messages after 60 seconds (`src/services/telegram.test.ts`), a retained `online` status after a broker restart (`src/services/mqtt.test.ts`), the `REPORT_SCHEDULE` setting (`src/config/env.test.ts`), and (Module 26) the log filter: successful `/health` knocks aren't logged (`src/services/log.test.ts`). Module 29: when `DATABASE_URL_TEST` is filled in, the 20 integration tests (`src/integration/`) run too; without it they're skipped (`Tests  203 passed \| 20 skipped (223)`) |
++| `npm run test:integration` | Module 29: only the 20 integration tests with a test database; needs `DATABASE_URL_TEST` (see [Tested with a test database](#tested-with-a-test-database-module-29)) |
+ | `npm run migrate` | runs the new SQL files in the `migrations/` folder (safe to repeat) |
+ | `npm run seed-history` | fills in 7 days of practice data for the practice devices `f00d00000001` and `f00d00000002` |
+ | `npm run users -- add <email> "<name>" <admin\|viewer>` | creates an account; the password is asked for and only shows up as `*` (at least 15 characters, at most 72 bytes) |
+@@ -136,7 +140,7 @@ docker compose exec db psql -U postgres -d smarthome -f /tmp/load-1-million.sql
+ | `POST /auth/refresh` | open (`session` cookie) | a new wristband + a new season pass |
+ | `POST /auth/logout` | open | deletes the session and both cookies; always `{"message":"logged out"}` |
+ | `GET /auth/me` | login | the account that is logged in (read from the database) |
+-| `GET /health` | open | is the server alive? connected to the broker and the database? how many messages were `received`, `rejected` (failed the contract), and `ignored` (from unregistered/revoked devices, Module 21)? |
++| `GET /health` | open | is the server alive? which version (`version`, Module 29, from `package.json`)? connected to the broker and the database? how many messages were `received`, `rejected` (failed the contract), and `ignored` (from unregistered/revoked devices, Module 21)? |
+ | `GET /devices` | login | the devices from the database: the registered ones, the revoked ones, and old rows that aren't registered; the `key` column marks `active`/`revoked`/`no-key`/`unregistered` (the key fingerprint is never included); since Module 25 also the map point `lat`/`lng` (`null` = not set yet) |
+ | `POST /devices` | admin | register a device (Module 21): the answer carries the 43-character `key` **shown only this once** and the next `steps`; `linked_via` for an ESP-NOW device (Node 2) whose data Node 1 publishes (no key) |
+ | `POST /devices/:id/key` | admin | make a new key (the old key stops working at once); also brings a revoked device back to life |
+@@ -281,6 +285,56 @@ The right answer: `200`, `content-type: application/octet-stream`, `content-leng
+ 
+ **Stopping on purpose.** The device publishes the `status` `offline-mode` before it installs new firmware (and before a `restart` from Serial), then disconnects from MQTT cleanly (the `offline` will isn't published). Telegram writes `🔄 <device_id> stopped on purpose (firmware update or restart), back online shortly`, then `✅ … online again after stopping on purpose (N seconds)`; `📴 … hasn't come back after stopping on purpose` is only sent if the device isn't `online` within **3 minutes** (a rollback takes about 70 seconds). The daily report doesn't count it in `disconnects`.
+ 
++## Tested with a test database (Module 29)
++
++The 203 old unit tests (`npm test`) use mock tables (`vi.mock`) and a server without a network (`app.inject`): fast and without Docker, but they never run a single SQL query, so a mistake in the `src/db/` layer slips past them. An example the author proved: if `src/db/devices.ts` writes the key fingerprint with `upper($5)` (capitals), the 203 tests stay green, but `CHECK (key_hash ~ '^[0-9a-f]{64}$')` in migration `010` refuses the row and `POST /devices` is answered with `503`. **20 integration tests** in [`src/integration/`](src/integration) catch it: the same routes, through the same server assembly as production (`buildApp()` in [`src/app.ts`](src/app.ts)), with a **real** TimescaleDB database that is empty and thrown away afterwards.
++
++1. Start the test database (one line, the same in PowerShell, the macOS Terminal, and Linux). Its data lives in `--tmpfs` (memory), so it's gone when the container stops; counter `5433` so it doesn't clash with the home database on `5432`; the password isn't a secret because this database only holds test data and can only be reached from this laptop:
++
++   ```text
++   docker run --rm -d --name smarthome-db-test -p 127.0.0.1:5433:5432 --tmpfs /var/lib/postgresql/data -e POSTGRES_PASSWORD=test-not-a-secret -e POSTGRES_DB=smarthome_test -e TIMESCALEDB_TELEMETRY=off timescale/timescaledb:2.30.2-pg17
++   ```
++
++2. Wait until it's ready (about 5 seconds): repeat this command until it answers `accepting connections`.
++
++   ```text
++   docker exec smarthome-db-test pg_isready -h 127.0.0.1 -U postgres -d smarthome_test
++   ```
++
++3. Run the tests from the `backend` folder:
++
++   ```bash
++   DATABASE_URL_TEST=postgres://postgres:test-not-a-secret@127.0.0.1:5433/smarthome_test npm run test:integration
++   ```
++
++   ```powershell
++   $env:DATABASE_URL_TEST = "postgres://postgres:test-not-a-secret@127.0.0.1:5433/smarthome_test"
++   npm run test:integration
++   ```
++
++   Every test file runs the migrations `001`–`011` first (the same program as the `migrate` service in Compose; when already complete: `0 new migration(s) applied`), then its tests. The result is `Test Files  6 passed (6)` and `Tests  20 passed (20)`. With `DATABASE_URL_TEST` filled in, `npm test` runs the 203 unit tests and the 20 integration tests together (`Tests  223 passed (223)`), like the robot; without it `npm test` still runs without Docker (`Tests  203 passed | 20 skipped (223)`).
++4. Done: `docker stop smarthome-db-test` (the container deletes itself because of `--rm`, its data is gone with `--tmpfs`). PowerShell: also remove the setting from that window, `Remove-Item Env:DATABASE_URL_TEST`; without that, the next `npm test` in the same window looks for the test database that has already stopped (`the test database can't be reached`). In bash that setting only applies to one command.
++
++| File in `src/integration/` | Tests | What only a real database can prove |
++| :--- | :---: | :--- |
++| `devices.test.ts` | 4 | register → only the SHA-256 fingerprint is stored (`CHECK key_hash`); registering again `409` without overwriting the row; `GET /devices` with neither the key nor its fingerprint (without a login: `401`), and `GET /health` names the `package.json` version + `"database":true`; revoke → the fingerprint deleted, the status `offline`, the event `revoked` in `events` |
++| `readings.test.ts` | 3 | the history of the last hour in time order (`ORDER BY ts`); the 15-minute summary with TimescaleDB's `time_bucket()` only for that device; a double delivery = one row (`PRIMARY KEY` + `ON CONFLICT`) |
++| `login.test.ts` | 4 | login (bcrypt; the session stored as the refresh token's SHA-256); a wrong password and an unknown email both `401`; refresh rotates the token in one `UPDATE`; logout deletes its row |
++| `rules.test.ts` | 3 | the rule stored as JSONB, an invalid body `400` without a new row; replace → the `updated_at` column moves forward, an unknown number `404`; delete → its event stays with `rule_id` `NULL` (`ON DELETE SET NULL`) |
++| `claims.test.ts` | 3 | a code exchanged once in one transaction, the database only stores the code's fingerprint; a used code `403`, an active device can't be taken over with a new code (`409`, the code isn't used up); an expired code `403` |
++| `firmware-fleet.test.ts` | 3 | upload: the size and SHA-256 stored, the same version `409`, a device downloads with its key (`403` for another key); a test release never becomes the latest release, a withdrawn release leaves the count; `GET /fleet` reads the LATEST health and the last update (`LATERAL`) |
++
++The rules of the integration tests (all in [`src/integration/setup.ts`](src/integration/setup.ts)):
++
++- **Only a `…_test` database.** The database name in `DATABASE_URL_TEST` must end in `_test` (checked before connecting, then once more with `current_database()`), because the tests write and delete rows. The address of your home database is refused with `DATABASE_URL_TEST points at the database "smarthome", not a test database …`.
++- **No broker, no Telegram, no real secrets.** The test settings are rewritten before the server code is imported: `MQTT_URL` a dead address, `JWT_SECRET` random and single-use, `FIRMWARE_DIR` a temporary folder, `AUTO_BROKER_ACCOUNTS=off`, Telegram empty.
++- **Every test stands alone.** Every file uses `device_id`s, emails, rule names, and firmware versions of its own, cleans them up before every test, and leaves the database empty again. Vitest runs the test files at the same time; their migrations are queued with `pg_advisory_lock`. One exception: "the latest release" is computed from ALL rows of the `firmware` table, so only `firmware-fleet.test.ts` may write to that table, and its tests stop with a clear message (`the firmware table in the test database holds other releases …`) when the test database was once used to upload other firmware.
++- **On the robot, no test may be skipped.** The job `test` is red when the `npm test` output reports skipped tests, a count such as `20 skipped` (for example `DATABASE_URL_TEST` mistyped in `ci.yml`, so the 20 integration tests are quietly skipped).
++
++**Version.** [`src/config/server-version.ts`](src/config/server-version.ts) reads `version` from `package.json` when the server starts; that number shows in `GET /health` (`"version":"2.0.0"`), in the `/docs` title, and in the log line `Mini Smart Home backend 2.0.0 started`. Raising the version (for example 2.0.0 → 2.0.1): in the `backend` AND `frontend` folders, `npm version 2.0.1 --no-git-tag-version` (it changes `package.json` and two places in `package-lock.json`, without a commit or a tag), then the three `image:` lines in `compose.cloud.yml` and a new `CHANGELOG.md` entry in the project root; the robot checks that they're all the same (`scripts/check-version.mjs`).
++
++**Lint.** `npm run lint` runs oxlint 1.89.0, the same version as the frontend (ESLint isn't used: `typescript-eslint` doesn't accept TypeScript 7 yet), with [`.oxlintrc.json`](.oxlintrc.json): oxlint's default rules (the `correctness` group: the core rules plus the `typescript` and `oxc` plugins), the same as the frontend without `react`; the default `unicorn` plugin is on purpose not used (the `plugins` list replaces the default). All those rules are warnings, so the script uses `--deny-warnings`: even one warning gives `npm run lint` exit code 1 and the robot turns red. One rule is switched off on purpose on one line, with its reason, in `src/services/version.test.ts` (a comparison of two fixed texts that is exactly what is being tested).
++
+ ## Device and broker security (Module 21)
+ 
+ Up to Module 20, the backend created a `devices` row automatically for **any** device that sent a message, and anyone who could reach the broker could publish to any topic. Module 21 closes both.
+@@ -357,6 +411,19 @@ SELECT (SELECT count(*) FROM readings) AS readings,
+ 
+ Once it is proven, delete the copy with `docker compose exec db dropdb -U postgres smarthome_restored`. A restore test into a separate Compose project with its own cupboard (without touching the `smarthome-data` cupboard) is in Module 26 Practice 9. Never use `docker compose down -v`, `docker volume rm smarthome-data`, or `docker system prune --volumes` on a laptop that holds the real history.
+ 
++## Version 2.0 notes
++
++Backend 2.0.0 was made in Module 29 so that every change is tested by the robot, packed into molds for two kinds of processor, and deployed automatically to the VPS and the Pi. Its number is MAJOR because the way of deploying changed, not the API.
++
++- **One product version number**: backend 1.5.0 and dashboard 1.4.0 become `2.0.0`, the same as the image tag in `compose.cloud.yml`, the Git tag `v2.0.0`, and the top entry of `CHANGELOG.md` in the project root. `package-lock.json` gets the same number (two places).
++- **`src/app.ts` (new)**: `buildApp()` assembles the server (the log, the guard, `/docs`, every route) without starting it; its content moved as it is from `src/server.ts`, with the option `log: "errors-only"` for the tests. `src/server.ts` only starts the database, the rules, Socket.IO, MQTT, Telegram, the reports, and the update watcher, then listens at its counter, plus one log line at startup: `Mini Smart Home backend 2.0.0 started`.
++- **`src/config/server-version.ts` (new)**: the version from `package.json` for `GET /health` (the `version` field; its status code still always stays `200`) and OpenAPI `info.version` (before, `1.5.0` was written by hand; the `/docs` description no longer says "Backend v1.4" either).
++- **`src/integration/` (new)**: `setup.ts` + 6 files, 20 integration tests with a test database ([Tested with a test database](#tested-with-a-test-database-module-29)).
++- **`package.json`**: the scripts `lint` (oxlint) and `test:integration`; the new developer tool `oxlint` 1.89.0 (an exact version, the same as the frontend lock). No new production package. **`.oxlintrc.json` (new)**.
++- **`Dockerfile`**: the `packages` stage = `FROM --platform=$BUILDPLATFORM`; the folder `/app/firmware-data` is made in that stage and then copied with `COPY --chown=node:node` (the final stage has no `RUN`). The mold's content is the same, the firmware folder still belongs to `node`. **`.dockerignore`**: also holds back `src/integration` and `.oxlintrc.json`.
++- No database migration, the data contract stays 1.6, Bruno doesn't change. **Going down a version**: the 1.5.0 mold still runs on the same database (its schema doesn't change); the only thing missing is `version` in `/health`.
++- **Tests**: the 203 old unit tests in 25 files stay green (the only change: one oxlint comment in `src/services/version.test.ts`), plus 20 integration tests in 6 files.
++
+ ## Version 1.5 notes
+ 
+ Backend 1.5.0 was made in Module 28 so that Node 1 can be updated over the air, new devices can register themselves, and the admin can see and look after the whole fleet.
+@@ -429,7 +496,9 @@ Backend 1.1.0 was made in Module 24 so that dashboard v1.0 can create the rule "
+ - **Downgrading**: a v1.0 backend that reads a rule of the new shape doesn't crash; that rule is skipped with the warning `rule N skipped: …` (see `loadRules()`), and the other rules keep running. A skipped rule is NOT shown by `GET /rules` in v1.0 either (the dashboard seems to lose it); its data stays whole in the database and shows again once you move up to 1.1. Don't save that rule number through a v1.0 `PUT`: its content would be overwritten with a v1.0 shape.
+ - Version `1.1.0` in `package.json` and in `/docs`.
+ 
+-## Limits of v1.5
++<a id="limits-of-v15"></a>
++
++## Limits of v2.0
+ 
+ - `GET /devices/:id/latest`, `vitals`, and `state` are still read from memory, so they are empty again after every server restart. The desired state (`desired`) and the "for" count of every rule are also lost when the server restarts; the reading history, the commands, the rules, the events, the accounts, and the sessions are stored permanently in the database.
+ - Readings that arrive while the database can't be reached aren't stored.
+@@ -462,7 +531,8 @@ Backend 1.1.0 was made in Module 24 so that dashboard v1.0 can create the rule "
+ - **Accounts that may write `msh/+/cmd`** (backend, `nodered` from Module 13) can now also order firmware updates. Firmware 1.7.0 only downloads from the server address stored on it and checks the SHA-256, so such an account can't install a file from outside or harvest keys, but it can still make a device install another release that is on the server (for example an old version that isn't withdrawn yet). An update report whose id this server never sent is recorded as a warning + an `ota` event. Guard the `nodered` password; withdraw bad old releases.
+ - **Broker account steps one at a time.** While the broker or the bridge is silent, the second and later steps (register, key rotation, claim, Deactivate) wait for their turn at most 5 seconds, then `503` without being carried out: repeat after the broker answers again.
+ - **Going back with the broker** (back to the Module 27 `edge/*.conf` without the dynamic security plugin): every device account created, changed, or claimed in Module 28 disappears from authentication. Keep the two `plugin …` lines, or first make those accounts with `mosquitto_passwd` (see `edge/README.md`).
+-- **The Vitest tests don't run the fleet and claim SQL** (`src/db/fleet.ts` and `src/db/claims.ts` are replaced by `vi.mock`): the rules only the database enforces (one running update per device through a unique index, a single-use claim code through `FOR UPDATE`, a report that overwrites `expired`, concluding) are proven in the author's lab with a real database, not by `npm test`.
++- **The integration tests don't cover all the fleet and claim SQL yet** (Module 29). Tested with a test database: single-use claim codes, expired codes, an active device that can't be taken over, releases and the test mark, the locked download, the `/fleet` query. Still only proven in the author's lab with a real database (the Module 28 labs; this edition's lab re-ran the 20 integration tests on 6 November 2026): one running update per device (a unique index), two devices exchanging the same code at the same time (`FOR UPDATE`), a report that overwrites `expired`, and concluding an update's result.
++- **The integration tests need Docker and the `timescale/timescaledb:2.30.2-pg17` image** (a download of about 535–552 MB, about 2 GB installed). Without `DATABASE_URL_TEST` those tests are skipped on the laptop, but the robot runs them on every pull request.
+ - **Release versions without leading zeros.** Uploads and update commands only accept `x.y.z` without leading zeros and at most 5 digits per part (`1.07.1` is refused with `400`); the version a device REPORTS still follows the data contract (an ordinary `x.y.z`, so older firmware isn't suddenly refused).
+ - The registry of registered devices is loaded into memory when the server starts; changes to `devices` made directly in the database (not through the API) are only read when the server restarts. `GET /devices` itself is always read fresh from the database.
+-- **`npm audit` writes `4 moderate severity vulnerabilities`** (as of 2 Nov 2026; `package-lock.json` is the same as the Module 27 backend). All four are one chain that belongs to the `/docs` page: `@fastify/swagger-ui` 6.1.2 → `@fastify/static` 10.1.6 → `glob` 13.0.6 → `minimatch` 10.2.6 ([GHSA-3g3m-2fjr-6pw4](https://github.com/advisories/GHSA-3g3m-2fjr-6pw4), [GHSA-g3hv-75wg-m249](https://github.com/advisories/GHSA-g3hv-75wg-m249)). The fix only exists in `glob` 14.0.2 and `minimatch` 11.0.1 (new major versions), while every `@fastify/static` version, the newest (10.1.8) too, still asks for `glob` 13: `npm update` within the version ranges of `package.json` removes none of them. **Don't** run `npm audit fix --force`: according to its `Will install …` line, that "fix" installs the ancient `@fastify/swagger-ui` 2.1.0. In this backend `glob` is never called: `@fastify/static` only uses it for the option `wildcard: false`, while Swagger UI uses the default `wildcard: true`. Wait for a `@fastify/static` release that uses `glob` 14.
++- **`npm audit` writes `4 moderate severity vulnerabilities`** (as of 4 Nov 2026; oxlint, the new developer tool of Module 29, adds none). The robot is only red for `high` or `critical` holes in production packages (`npm audit --omit=dev --audit-level=high`, exit code `0` as of 4 Nov 2026); the full report is still read by a human through the pull request item. All four are one chain that belongs to the `/docs` page: `@fastify/swagger-ui` 6.1.2 → `@fastify/static` 10.1.6 → `glob` 13.0.6 → `minimatch` 10.2.6 ([GHSA-3g3m-2fjr-6pw4](https://github.com/advisories/GHSA-3g3m-2fjr-6pw4), [GHSA-g3hv-75wg-m249](https://github.com/advisories/GHSA-g3hv-75wg-m249)). The fix only exists in `glob` 14.0.2 and `minimatch` 11.0.1 (new major versions), while every `@fastify/static` version, the newest (10.1.8) too, still asks for `glob` 13: `npm update` within the version ranges of `package.json` removes none of them. **Don't** run `npm audit fix --force`: according to its `Will install …` line, that "fix" installs the ancient `@fastify/swagger-ui` 2.1.0. In this backend `glob` is never called: `@fastify/static` only uses it for the option `wildcard: false`, while Swagger UI uses the default `wildcard: true`. Wait for a `@fastify/static` release that uses `glob` 14.
+diff --git a/backend/package-lock.json b/backend/package-lock.json
+index cc4deab..a877793 100644
+--- a/backend/package-lock.json
++++ b/backend/package-lock.json
+@@ -1,12 +1,12 @@
+ {
+   "name": "mini-smart-home-backend",
+-  "version": "1.5.0",
++  "version": "2.0.0",
+   "lockfileVersion": 3,
+   "requires": true,
+   "packages": {
+     "": {
+       "name": "mini-smart-home-backend",
+-      "version": "1.5.0",
++      "version": "2.0.0",
+       "dependencies": {
+         "@fastify/cookie": "^11.1.3",
+         "@fastify/cors": "^11.3.1",
+@@ -29,6 +29,7 @@
+         "@types/bcrypt": "^6.0.0",
+         "@types/node": "^24.19.2",
+         "@types/pg": "^8.23.1",
++        "oxlint": "1.89.0",
+         "typescript": "^7.0.2",
+         "vite": "^8.3.4",
+         "vitest": "^5.0.5"
+@@ -418,6 +419,353 @@
+         "url": "https://github.com/sponsors/oxc-project"
+       }
+     },
++    "node_modules/@oxlint/binding-android-arm-eabi": {
++      "version": "1.89.0",
++      "resolved": "https://registry.npmjs.org/@oxlint/binding-android-arm-eabi/-/binding-android-arm-eabi-1.89.0.tgz",
++      "integrity": "sha512-Pflpba5F3gRAQ12sWglRxvWTHEdAusNDvmi4Y5N1T5SY1AGkM7AixOnET8qkrnLJ/F32qAlNokO6eCknT8tmnw==",
++      "cpu": [
++        "arm"
++      ],
++      "dev": true,
++      "license": "MIT",
++      "optional": true,
++      "os": [
++        "android"
++      ],
++      "engines": {
++        "node": "^20.19.0 || >=22.12.0"
++      }
++    },
++    "node_modules/@oxlint/binding-android-arm64": {
++      "version": "1.89.0",
++      "resolved": "https://registry.npmjs.org/@oxlint/binding-android-arm64/-/binding-android-arm64-1.89.0.tgz",
++      "integrity": "sha512-dYmyD1x7LaPlb79vZWUcpTShk8dI9z1I+IubtqrBxWNJaDhQdPHwcsvg7q5StTU4xWyd9AwPfLaTYFZY8NZgtQ==",
++      "cpu": [
++        "arm64"
++      ],
++      "dev": true,
++      "license": "MIT",
++      "optional": true,
++      "os": [
++        "android"
++      ],
++      "engines": {
++        "node": "^20.19.0 || >=22.12.0"
++      }
++    },
++    "node_modules/@oxlint/binding-darwin-arm64": {
++      "version": "1.89.0",
++      "resolved": "https://registry.npmjs.org/@oxlint/binding-darwin-arm64/-/binding-darwin-arm64-1.89.0.tgz",
++      "integrity": "sha512-Z/oxOPiIqiS7fItRdxaaOEC+6GD3OpGi0IxoR0dMefzQHolsKLzScw2DNcu/5gUPok3tv+G9mslvYB5bo3i0qg==",
++      "cpu": [
++        "arm64"
++      ],
++      "dev": true,
++      "license": "MIT",
++      "optional": true,
++      "os": [
++        "darwin"
++      ],
++      "engines": {
++        "node": "^20.19.0 || >=22.12.0"
++      }
++    },
++    "node_modules/@oxlint/binding-darwin-x64": {
++      "version": "1.89.0",
++      "resolved": "https://registry.npmjs.org/@oxlint/binding-darwin-x64/-/binding-darwin-x64-1.89.0.tgz",
++      "integrity": "sha512-eAjTkHSjAxrdCPJxO6y5sPQL5pYLKb2kvxZz9UU7tXnOZk9I/HLtkvx9S7GHY883k+AmL/eC7mqFt+w7WCwk0w==",
++      "cpu": [
++        "x64"
++      ],
++      "dev": true,
++      "license": "MIT",
++      "optional": true,
++      "os": [
++        "darwin"
++      ],
++      "engines": {
++        "node": "^20.19.0 || >=22.12.0"
++      }
++    },
++    "node_modules/@oxlint/binding-freebsd-x64": {
++      "version": "1.89.0",
++      "resolved": "https://registry.npmjs.org/@oxlint/binding-freebsd-x64/-/binding-freebsd-x64-1.89.0.tgz",
++      "integrity": "sha512-0lNCA9Tl1n1FKpqy2/9ckp0kIuSrtJ/l9bMRgaEhOtM7TsOHshFuwOcvW8oA9teXLMOJT61LjEKWiaHDFGxF/w==",
++      "cpu": [
++        "x64"
++      ],
++      "dev": true,
++      "license": "MIT",
++      "optional": true,
++      "os": [
++        "freebsd"
++      ],
++      "engines": {
++        "node": "^20.19.0 || >=22.12.0"
++      }
++    },
++    "node_modules/@oxlint/binding-linux-arm-gnueabihf": {
++      "version": "1.89.0",
++      "resolved": "https://registry.npmjs.org/@oxlint/binding-linux-arm-gnueabihf/-/binding-linux-arm-gnueabihf-1.89.0.tgz",
++      "integrity": "sha512-OTFEvi9W+JczaZD1Caj17SGCoW8H7TE+fvx0D7ATEWa1Lohn91UMxFQ6r145SiGy/yCxeIwptMys/RAM7gSVSQ==",
++      "cpu": [
++        "arm"
++      ],
++      "dev": true,
++      "license": "MIT",
++      "optional": true,
++      "os": [
++        "linux"
++      ],
++      "engines": {
++        "node": "^20.19.0 || >=22.12.0"
++      }
++    },
++    "node_modules/@oxlint/binding-linux-arm-musleabihf": {
++      "version": "1.89.0",
++      "resolved": "https://registry.npmjs.org/@oxlint/binding-linux-arm-musleabihf/-/binding-linux-arm-musleabihf-1.89.0.tgz",
++      "integrity": "sha512-fRxgNHvBLswj6MrhW2uBq5UDhPRQlCbHeq/Nf8yuG9zOxhDsXqX/mi2PX1axgsQxMm88el7HLiJAzglAnflYxw==",
++      "cpu": [
++        "arm"
++      ],
++      "dev": true,
++      "license": "MIT",
++      "optional": true,
++      "os": [
++        "linux"
++      ],
++      "engines": {
++        "node": "^20.19.0 || >=22.12.0"
++      }
++    },
++    "node_modules/@oxlint/binding-linux-arm64-gnu": {
++      "version": "1.89.0",
++      "resolved": "https://registry.npmjs.org/@oxlint/binding-linux-arm64-gnu/-/binding-linux-arm64-gnu-1.89.0.tgz",
++      "integrity": "sha512-v9ENzHvwrQoYSWTtviH1pOYc7R9UovDxVofnck50cNmPihRRTcrg5X0UlRbLOZ7IVtxPOlh2hb7kDO+FpE8SfQ==",
++      "cpu": [
++        "arm64"
++      ],
++      "dev": true,
++      "libc": [
++        "glibc"
++      ],
++      "license": "MIT",
++      "optional": true,
++      "os": [
++        "linux"
++      ],
++      "engines": {
++        "node": "^20.19.0 || >=22.12.0"
++      }
++    },
++    "node_modules/@oxlint/binding-linux-arm64-musl": {
++      "version": "1.89.0",
++      "resolved": "https://registry.npmjs.org/@oxlint/binding-linux-arm64-musl/-/binding-linux-arm64-musl-1.89.0.tgz",
++      "integrity": "sha512-vfffe8mQ484AzVadlUOFpgL+JDwhvs9hrzxTgQP1FVfi4ZEUUYeffXlzC9dFV7Dgnu5s/KrNKvfmG6HxBd/ISQ==",
++      "cpu": [
++        "arm64"
++      ],
++      "dev": true,
++      "libc": [
++        "musl"
++      ],
++      "license": "MIT",
++      "optional": true,
++      "os": [
++        "linux"
++      ],
++      "engines": {
++        "node": "^20.19.0 || >=22.12.0"
++      }
++    },
++    "node_modules/@oxlint/binding-linux-ppc64-gnu": {
++      "version": "1.89.0",
++      "resolved": "https://registry.npmjs.org/@oxlint/binding-linux-ppc64-gnu/-/binding-linux-ppc64-gnu-1.89.0.tgz",
++      "integrity": "sha512-Buonlp4hVS7RGNP5M7bPpGNQrenyzA2C64JcO/oz9C1c6dGOXJ7VEAnaiAMY7voou0JYyCJdvDVlFQc5DZX3DQ==",
++      "cpu": [
++        "ppc64"
++      ],
++      "dev": true,
++      "libc": [
++        "glibc"
++      ],
++      "license": "MIT",
++      "optional": true,
++      "os": [
++        "linux"
++      ],
++      "engines": {
++        "node": "^20.19.0 || >=22.12.0"
++      }
++    },
++    "node_modules/@oxlint/binding-linux-riscv64-gnu": {
++      "version": "1.89.0",
++      "resolved": "https://registry.npmjs.org/@oxlint/binding-linux-riscv64-gnu/-/binding-linux-riscv64-gnu-1.89.0.tgz",
++      "integrity": "sha512-1eVwJJrJ3lYIPT+cm7BcBBZZXY6IQZP/oyonaruTor/MrVyWOpvnwt1oD5CLdsHg5aVBIxXodQSvt+1gK6ck5w==",
++      "cpu": [
++        "riscv64"
++      ],
++      "dev": true,
++      "libc": [
++        "glibc"
++      ],
++      "license": "MIT",
++      "optional": true,
++      "os": [
++        "linux"
++      ],
++      "engines": {
++        "node": "^20.19.0 || >=22.12.0"
++      }
++    },
++    "node_modules/@oxlint/binding-linux-riscv64-musl": {
++      "version": "1.89.0",
++      "resolved": "https://registry.npmjs.org/@oxlint/binding-linux-riscv64-musl/-/binding-linux-riscv64-musl-1.89.0.tgz",
++      "integrity": "sha512-fRQQsKUGShdEL5Fl9o9uhj3grkZbeXKLv0icQ5tspUCNYSDy8wzzEcP1WC2bKdTQ0rSszbKlO3iiHORxV22DLg==",
++      "cpu": [
++        "riscv64"
++      ],
++      "dev": true,
++      "libc": [
++        "musl"
++      ],
++      "license": "MIT",
++      "optional": true,
++      "os": [
++        "linux"
++      ],
++      "engines": {
++        "node": "^20.19.0 || >=22.12.0"
++      }
++    },
++    "node_modules/@oxlint/binding-linux-s390x-gnu": {
++      "version": "1.89.0",
++      "resolved": "https://registry.npmjs.org/@oxlint/binding-linux-s390x-gnu/-/binding-linux-s390x-gnu-1.89.0.tgz",
++      "integrity": "sha512-dEtYjIy6+fHcjKklsmtmMkZRhwHr2UbzjmpvuPtQYSeN9awQ2hx5JLms5Wvri+8P/NZtD8v5hfgHALUql+/Ycg==",
++      "cpu": [
++        "s390x"
++      ],
++      "dev": true,
++      "libc": [
++        "glibc"
++      ],
++      "license": "MIT",
++      "optional": true,
++      "os": [
++        "linux"
++      ],
++      "engines": {
++        "node": "^20.19.0 || >=22.12.0"
++      }
++    },
++    "node_modules/@oxlint/binding-linux-x64-gnu": {
++      "version": "1.89.0",
++      "resolved": "https://registry.npmjs.org/@oxlint/binding-linux-x64-gnu/-/binding-linux-x64-gnu-1.89.0.tgz",
++      "integrity": "sha512-hqjwIj5KOYM8Wjef/p7IruNi1iByLhSzbMBk62y22P/E8q7Jj0Pp+DeUTKTRYyZYCDtU1wEGlnWOnttHbyNIww==",
++      "cpu": [
++        "x64"
++      ],
++      "dev": true,
++      "libc": [
++        "glibc"
++      ],
++      "license": "MIT",
++      "optional": true,
++      "os": [
++        "linux"
++      ],
++      "engines": {
++        "node": "^20.19.0 || >=22.12.0"
++      }
++    },
++    "node_modules/@oxlint/binding-linux-x64-musl": {
++      "version": "1.89.0",
++      "resolved": "https://registry.npmjs.org/@oxlint/binding-linux-x64-musl/-/binding-linux-x64-musl-1.89.0.tgz",
++      "integrity": "sha512-iAQN3e6o9UgUCcdGwqRx/jYcKbG3HK7ur3rH6lTqVcQeNGZ85AeWIg6cgn/edwFQ0ofEZZItMwkzyCVTahnvEA==",
++      "cpu": [
++        "x64"
++      ],
++      "dev": true,
++      "libc": [
++        "musl"
++      ],
++      "license": "MIT",
++      "optional": true,
++      "os": [
++        "linux"
++      ],
++      "engines": {
++        "node": "^20.19.0 || >=22.12.0"
++      }
++    },
++    "node_modules/@oxlint/binding-openharmony-arm64": {
++      "version": "1.89.0",
++      "resolved": "https://registry.npmjs.org/@oxlint/binding-openharmony-arm64/-/binding-openharmony-arm64-1.89.0.tgz",
++      "integrity": "sha512-MNxjEByz3N/7Q4qFQuPWvc14TpN9LoD3pECEDsJTZbP/wyB7U+hduUXEl7QAbbgVezFwsb9sWtNUO6XVBndOhg==",
++      "cpu": [
++        "arm64"
++      ],
++      "dev": true,
++      "license": "MIT",
++      "optional": true,
++      "os": [
++        "openharmony"
++      ],
++      "engines": {
++        "node": "^20.19.0 || >=22.12.0"
++      }
++    },
++    "node_modules/@oxlint/binding-win32-arm64-msvc": {
++      "version": "1.89.0",
++      "resolved": "https://registry.npmjs.org/@oxlint/binding-win32-arm64-msvc/-/binding-win32-arm64-msvc-1.89.0.tgz",
++      "integrity": "sha512-xxe+i9wfuFso/VnoL4mfj0UlzE+cfCFiUB06vkXCMyQdgVVmItF5FfAF4tATAktSU6uHruWR+FjqvAT9cHZZzg==",
++      "cpu": [
++        "arm64"
++      ],
++      "dev": true,
++      "license": "MIT",
++      "optional": true,
++      "os": [
++        "win32"
++      ],
++      "engines": {
++        "node": "^20.19.0 || >=22.12.0"
++      }
++    },
++    "node_modules/@oxlint/binding-win32-ia32-msvc": {
++      "version": "1.89.0",
++      "resolved": "https://registry.npmjs.org/@oxlint/binding-win32-ia32-msvc/-/binding-win32-ia32-msvc-1.89.0.tgz",
++      "integrity": "sha512-saFy07cO94E664glwgLmKLI40HgTL1PY86y4T6+ud4niX4H0Kdqjcmqmjps7mQNdBytV5guGbXDdyQtRfeLbLA==",
++      "cpu": [
++        "ia32"
++      ],
++      "dev": true,
++      "license": "MIT",
++      "optional": true,
++      "os": [
++        "win32"
++      ],
++      "engines": {
++        "node": "^20.19.0 || >=22.12.0"
++      }
++    },
++    "node_modules/@oxlint/binding-win32-x64-msvc": {
++      "version": "1.89.0",
++      "resolved": "https://registry.npmjs.org/@oxlint/binding-win32-x64-msvc/-/binding-win32-x64-msvc-1.89.0.tgz",
++      "integrity": "sha512-hLFJ/o0f/dTJh/EW0vmcbREYSQO9tYgfiAAlsOkiLFiJuRRWvYtFELUXN5o2ijpSo/tlO1n+YlWN58tZwPG18A==",
++      "cpu": [
++        "x64"
++      ],
++      "dev": true,
++      "license": "MIT",
++      "optional": true,
++      "os": [
++        "win32"
++      ],
++      "engines": {
++        "node": "^20.19.0 || >=22.12.0"
++      }
++    },
+     "node_modules/@pinojs/redact": {
+       "version": "0.4.0",
+       "resolved": "https://registry.npmjs.org/@pinojs/redact/-/redact-0.4.0.tgz",
+@@ -2686,6 +3034,55 @@
+       "integrity": "sha512-N4YtSYJqghVu4iek2ZUvcN/0aqH1kRDuNqzcycDxhOUpg7GdvLa2F3DgS6yBNhInhv2r/6I0Flkn7CqL8+nIcw==",
+       "license": "MIT"
+     },
++    "node_modules/oxlint": {
++      "version": "1.89.0",
++      "resolved": "https://registry.npmjs.org/oxlint/-/oxlint-1.89.0.tgz",
++      "integrity": "sha512-a25hkfo61okGPvJz432fRIPoxlKtNnOVy9w4rzrmGgNm4iVTPwpSQlmdqNWnp6p9QyyPVfAZRgnf5XvSBZFk/A==",
++      "dev": true,
++      "license": "MIT",
++      "bin": {
++        "oxlint": "bin/oxlint"
++      },
++      "engines": {
++        "node": "^20.19.0 || >=22.12.0"
++      },
++      "funding": {
++        "url": "https://github.com/sponsors/oxc-project"
++      },
++      "optionalDependencies": {
++        "@oxlint/binding-android-arm-eabi": "1.89.0",
++        "@oxlint/binding-android-arm64": "1.89.0",
++        "@oxlint/binding-darwin-arm64": "1.89.0",
++        "@oxlint/binding-darwin-x64": "1.89.0",
++        "@oxlint/binding-freebsd-x64": "1.89.0",
++        "@oxlint/binding-linux-arm-gnueabihf": "1.89.0",
++        "@oxlint/binding-linux-arm-musleabihf": "1.89.0",
++        "@oxlint/binding-linux-arm64-gnu": "1.89.0",
++        "@oxlint/binding-linux-arm64-musl": "1.89.0",
++        "@oxlint/binding-linux-ppc64-gnu": "1.89.0",
++        "@oxlint/binding-linux-riscv64-gnu": "1.89.0",
++        "@oxlint/binding-linux-riscv64-musl": "1.89.0",
++        "@oxlint/binding-linux-s390x-gnu": "1.89.0",
++        "@oxlint/binding-linux-x64-gnu": "1.89.0",
++        "@oxlint/binding-linux-x64-musl": "1.89.0",
++        "@oxlint/binding-openharmony-arm64": "1.89.0",
++        "@oxlint/binding-win32-arm64-msvc": "1.89.0",
++        "@oxlint/binding-win32-ia32-msvc": "1.89.0",
++        "@oxlint/binding-win32-x64-msvc": "1.89.0"
++      },
++      "peerDependencies": {
++        "oxlint-tsgolint": ">=7.0.2003",
++        "vite-plus": "*"
++      },
++      "peerDependenciesMeta": {
++        "oxlint-tsgolint": {
++          "optional": true
++        },
++        "vite-plus": {
++          "optional": true
++        }
++      }
++    },
+     "node_modules/path-scurry": {
+       "version": "2.0.2",
+       "resolved": "https://registry.npmjs.org/path-scurry/-/path-scurry-2.0.2.tgz",
+diff --git a/backend/package.json b/backend/package.json
+index 61d6583..7fee295 100644
+--- a/backend/package.json
++++ b/backend/package.json
+@@ -1,6 +1,6 @@
+ {
+   "name": "mini-smart-home-backend",
+-  "version": "1.5.0",
++  "version": "2.0.0",
+   "description": "Mini Smart Home backend (Modules 16-21): listens to MQTT, checks the data contract, stores every message in a time-series database, and provides a history API, realtime data, commands, automation rules, schedules, and Telegram notifications, login with admin and viewer roles, plus an official device registry with a per-device key and the backend's own broker account, and (Module 28) over-the-air firmware updates, claim codes, and fleet data",
+   "private": true,
+   "type": "module",
+@@ -8,10 +8,12 @@
+     "dev": "node --watch --env-file=.env src/server.ts",
+     "start": "node --env-file-if-exists=.env src/server.ts",
+     "check": "tsc --noEmit",
++    "lint": "oxlint --deny-warnings",
+     "migrate": "node --env-file-if-exists=.env src/db/migrate.ts",
+     "seed-history": "node --env-file-if-exists=.env src/db/seed-history.ts",
+     "users": "node --env-file-if-exists=.env src/db/manage-users.ts",
+-    "test": "vitest run"
++    "test": "vitest run",
++    "test:integration": "vitest run src/integration"
+   },
+   "dependencies": {
+     "@fastify/cookie": "^11.1.3",
+@@ -35,6 +37,7 @@
+     "@types/bcrypt": "^6.0.0",
+     "@types/node": "^24.19.2",
+     "@types/pg": "^8.23.1",
++    "oxlint": "1.89.0",
+     "typescript": "^7.0.2",
+     "vite": "^8.3.4",
+     "vitest": "^5.0.5"
+diff --git a/backend/src/app.ts b/backend/src/app.ts
+new file mode 100644
+index 0000000..2a22169
+--- /dev/null
++++ b/backend/src/app.ts
+@@ -0,0 +1,104 @@
++// app.ts - assembles the Mini Smart Home Fastify server WITHOUT starting it (Module 29). Its content moved as is from server.ts
++// (Modules 19-28): the logger, one log line per request, the Zod schema checker, the API protection (Module 20), the /docs
++// documentation, and 8 groups of routes.
++// Why separate? The integration tests (src/integration/) call buildApp() and then knock on its routes with app.inject() and a
++// REAL test database. So what is tested is THE SAME assembly as in production, not a mock assembly made by the tests: a route
++// someone forgot to register shows up too (example: without claimRoutes, three claim tests turn red with 404), and so does a
++// missing login guard (GET /devices without a login must be 401). server.ts only starts the rest (database, MQTT, Telegram,
++// schedules, Socket.IO) and listens at its counter.
++import Fastify, { LogController } from "fastify";
++import type { FastifyInstance } from "fastify";
++import swagger from "@fastify/swagger";
++import swaggerUi from "@fastify/swagger-ui";
++import { jsonSchemaTransform, serializerCompiler, validatorCompiler } from "fastify-type-provider-zod";
++import { env } from "./config/env.ts";
++import { SERVER_VERSION } from "./config/server-version.ts";
++import { setupSecurity } from "./auth/security.ts";
++import { authRoutes } from "./routes/auth.ts";
++import { healthRoutes } from "./routes/health.ts";
++import { deviceRoutes } from "./routes/devices.ts";
++import { ruleRoutes } from "./routes/rules.ts";
++import { reportRoutes } from "./routes/reports.ts";
++import { firmwareRoutes } from "./routes/firmware.ts";
++import { fleetRoutes } from "./routes/fleet.ts";
++import { claimRoutes } from "./routes/claims.ts";
++import { useLog, shouldLog } from "./services/log.ts";
++
++export interface AppOptions {
++  // "pretty" (the default, server.ts) = the colored pino-pretty log, as since Module 19.
++  // "errors-only" (the integration tests) = only errors are written, one JSON line without colors: the Vitest output stays
++  // clean, but the reason for a 503 answer (for example an SQL query the database refused) can still be read when a test is red.
++  log?: "pretty" | "errors-only";
++}
++
++export async function buildApp(options: AppOptions = {}): Promise<FastifyInstance> {
++  const app = Fastify({
++    logger: options.log === "errors-only"
++      ? { level: "error" }
++      : { transport: { target: "pino-pretty", options: { translateTime: "SYS:HH:MM:ss", ignore: "pid,hostname,reqId" } } },
++    logController: new LogController({ disableRequestLogging: true }), // the built-in log per request is too long...
++    // Module 27: the X-Forwarded-For/-Proto headers from Caddy are only trusted when they come from a proxy in TRUST_PROXY (in
++    // compose.cloud.yml: uniquelocal = the Docker hallway). Empty (dev mode) = those headers are ignored, as in v1.3.
++    trustProxy: env.TRUST_PROXY,
++  });
++  useLog(app.log); // Module 19: other services (commands, rules, schedules, Telegram) write to the same log
++  app.addHook("onResponse", async (req, reply) => {
++    // ...so it's replaced by one line per request (hook = Fastify's "middleware"). Only the method, the address, and the status
++    // code: the request content (passwords!) and the cookies (tokens!) are never written to the log. Module 26: successful /health
++    // knocks (the Docker healthcheck every 15 seconds) aren't logged, so the log doesn't fill up with the same line.
++    if (!shouldLog(req.method, req.url, reply.statusCode)) return;
++    req.log.info(`${req.method} ${req.url} -> ${reply.statusCode} (${Math.round(reply.elapsedTime)} ms)`);
++  });
++  if (env.TRUST_PROXY !== false) { // Module 27: one line at startup, proof that the TRUST_PROXY setting was read
++    app.log.info(`trusted proxies (TRUST_PROXY): ${env.TRUST_PROXY === true ? "all" : env.TRUST_PROXY.join(", ")}`);
++  }
++  app.setValidatorCompiler(validatorCompiler); // Zod schemas check the content of requests...
++  app.setSerializerCompiler(serializerCompiler); // ...and the shape of replies
++
++  await setupSecurity(app); // Module 20: CORS, cookies, JWT, rate limit, and the guard on every request (BEFORE the routes)
++  await app.register(swagger, {
++    openapi: {
++      info: {
++        title: "Mini Smart Home API",
++        description: "The Mini Smart Home backend. Every route needs a login, except the ones without a padlock. Log in first with "
++          + "POST /auth/login (Try it out): the browser keeps the access cookie and sends it by itself to the other routes. "
++          + "Viewer accounts can only look (GET); commands and changes are answered with 403. Devices are registered by an admin "
++          + "with POST /devices; a key is shown only once, and messages from unregistered or revoked devices are ignored. "
++          + "Since v1.1, a threshold rule can point downwards (below-threshold, for example water when the soil is below 30 %), can "
++          + "send one command when it turns on, and rules can be deleted (DELETE /rules/:id). Since v1.2, GET /devices carries "
++          + "each device's map point (lat, lng), and the admin moves it with PUT /devices/:id/location. "
++          + "The daily CSV report is sent to Telegram at REPORT_SCHEDULE (default 07:00 WIB); POST /reports/send "
++          + "sends it right now. Since v1.3 (Module 26), the backend also runs as a container in Docker Compose: "
++          + "the dashboard calls it through the Caddy web server with the prefix /api, while this page is opened at "
++          + "http://localhost:8080/docs (in the container, a login from http://127.0.0.1:8080/docs is refused with 403). Since v1.4 "
++          + "(Module 27), the backend can be opened from the internet behind Caddy HTTPS: with TRUST_PROXY (in Compose: uniquelocal) "
++          + "the backend uses the visitor's IP address and protocol from Caddy, so the login cookies are Secure and the limit of 10 "
++          + "login attempts applies per visitor. Since v1.5 (Module 28): over-the-air firmware updates (upload POST /firmware/:kind/:version, "
++          + "the command POST /devices/:id/update, the canary, then POST /fleet/update), the firmware download for devices at "
++          + "GET /fw/node-1/<version>.bin locked with the device key, the data of the /fleet page (GET /fleet), single-use claim "
++          + "codes (POST /provision/code for the admin, POST /provision/claim for the device), the vitals interval set from afar, and "
++          + "device broker accounts that are created and deleted automatically (AUTO_BROKER_ACCOUNTS). Since 2.0.0 (Module 29): one "
++          + "version number for the backend and the dashboard, read from package.json (the number next to this page's title), and "
++          + "GET /health names the running version.",
++        version: SERVER_VERSION, // Module 29: from package.json, no longer written by hand here
++      },
++      components: {
++        securitySchemes: { // Module 20: routes with a padlock need the access cookie from POST /auth/login
++          accessCookie: { type: "apiKey", in: "cookie", name: "access", description: "access JWT (httpOnly) from POST /auth/login" },
++        },
++      },
++      security: [{ accessCookie: [] }], // default: every route has a padlock; open routes write security: []
++    },
++    transform: jsonSchemaTransform, // the same Zod schemas become the OpenAPI documentation
++  });
++  await app.register(swaggerUi, { routePrefix: "/docs" });
++  await app.register(authRoutes); // Module 20
++  await app.register(healthRoutes);
++  await app.register(deviceRoutes);
++  await app.register(ruleRoutes); // Module 19
++  await app.register(reportRoutes); // Module 25
++  await app.register(firmwareRoutes); // Module 28: firmware releases and the locked download /fw
++  await app.register(fleetRoutes); // Module 28: the /fleet page, update commands, the canary, the vitals interval
++  await app.register(claimRoutes); // Module 28: claim codes
++  return app;
++}
+diff --git a/backend/src/config/server-version.ts b/backend/src/config/server-version.ts
+new file mode 100644
+index 0000000..57b3b0f
+--- /dev/null
++++ b/backend/src/config/server-version.ts
+@@ -0,0 +1,13 @@
++// server-version.ts - the version of the Mini Smart Home server that is RUNNING, read from package.json (Module 29).
++// Since 2.0.0 the project uses ONE version number for the backend and the dashboard (the same as the image tag and the Git
++// tag v2.0.0). That number is written once in package.json, raised through a pull request (the robot checks it with
++// scripts/check-version.mjs), then read here when the server starts. Used in two places: GET /health (the version field:
++// anyone can check the version deployed in production without SSH) and the API documentation /docs (OpenAPI info.version).
++// No version is written by hand in the code any more, so nothing can be forgotten.
++// In the Docker image, package.json is copied to /app too (Dockerfile), so the path ../../package.json is the same on the
++// laptop and in the container. Not services/version.ts: that file compares the devices' FIRMWARE versions (Module 28).
++import { readFileSync } from "node:fs";
++
++const pkg = JSON.parse(readFileSync(new URL("../../package.json", import.meta.url), "utf8")) as { version: string };
++
++export const SERVER_VERSION: string = pkg.version; // for example "2.0.0"
+diff --git a/backend/src/integration/claims.test.ts b/backend/src/integration/claims.test.ts
+new file mode 100644
+index 0000000..a9c0ceb
+--- /dev/null
++++ b/backend/src/integration/claims.test.ts
+@@ -0,0 +1,94 @@
++// claims.test.ts - INTEGRATION tests of the single-use claim codes (Module 28) with REAL claim_codes and devices tables (Module 29).
++// What mocks can't test: exchanging a code in ONE transaction (SELECT ... FOR UPDATE, register, mark used), the code's time
++// limit by the database clock (expires_at > now()), and the ON CONFLICT that refuses taking over a device that's still active.
++// The claim route is limited to 10 attempts per minute per address: this file uses 5.
++// Run (the test database running, DATABASE_URL_TEST filled in; see setup.ts): npm run test:integration
++import { createHash } from "node:crypto";
++import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
++import { hashClaimCode, tidyClaimCode } from "../auth/claim-code.ts"; // pure functions (no settings), safe to import here
++import { hasTestDatabase, deleteTestDevices, setupTest } from "./setup.ts";
++import type { TestKit } from "./setup.ts";
++
++// code names and device_ids of this file only (prefix 2905)
++const PREFIX = "integration-test claim";
++const NEW_DEVICE = "290500000001";
++const OWNER = "290500000002";
++const GRABBER = "290500000003";
++const LATE = "290500000004";
++const ALL = [NEW_DEVICE, OWNER, GRABBER, LATE];
++const codeHash = (code: string) => hashClaimCode(tidyClaimCode(code) ?? "");
++
++describe.skipIf(!hasTestDatabase)("integration (test database): claim codes", () => {
++  let kit: TestKit;
++  // the admin creates a code (valid for 5 minutes); the code is only shown in this answer
++  const createCode = async (name: string) => {
++    const answer = await kit.app.inject({ method: "POST", url: "/provision/code", cookies: kit.wristband("admin"),
++      payload: { name, minutes: 5 } });
++    expect(answer.statusCode).toBe(201);
++    return (answer.json() as { code: string }).code;
++  };
++  // a device exchanges the code for its key: without a login (a device has no dashboard account)
++  const claim = (code: string, deviceId: string) =>
++    kit.app.inject({ method: "POST", url: "/provision/claim", payload: { code, device_id: deviceId } });
++  const deviceCount = async (id: string) =>
++    (await kit.pool.query("SELECT 1 FROM devices WHERE device_id = $1", [id])).rowCount;
++  const cleanUp = async () => {
++    await deleteTestDevices(kit.pool, ALL); // also the codes those devices have used
++    await kit.pool.query("DELETE FROM claim_codes WHERE name LIKE $1", [`${PREFIX}%`]); // the codes not used yet
++  };
++
++  beforeAll(async () => { kit = await setupTest(); }, 60_000); // the migration may wait for another file's turn
++  beforeEach(() => cleanUp());
++  afterAll(async () => {
++    if (!kit) return; // setupTest() failed: its error was already reported
++    await cleanUp();
++    await kit.close();
++  });
++
++  it("a code exchanged by a device: registered with its key fingerprint, the code recorded as used, the database doesn't store the code", async () => {
++    const code = await createCode(`${PREFIX} 1`);
++    const stored = await kit.pool.query("SELECT code_hash, used_at FROM claim_codes WHERE name = $1", [`${PREFIX} 1`]);
++    expect(stored.rows).toEqual([{ code_hash: codeHash(code), used_at: null }]); // only its fingerprint
++
++    // typed by a human in the portal: lowercase letters and a space are still valid (tidyClaimCode)
++    const answer = await claim(code.toLowerCase().replace("-", " "), NEW_DEVICE);
++    expect(answer.statusCode).toBe(201);
++    const { key } = answer.json() as { key: string };
++
++    const device = await kit.pool.query("SELECT name, key_hash FROM devices WHERE device_id = $1", [NEW_DEVICE]);
++    expect(device.rows).toEqual([{ name: `${PREFIX} 1`, key_hash: createHash("sha256").update(key).digest("hex") }]);
++    const used = await kit.pool.query<{ used_at: Date | null; device_id: string | null }>(
++      "SELECT used_at, device_id FROM claim_codes WHERE name = $1", [`${PREFIX} 1`]);
++    expect(used.rows[0].device_id).toBe(NEW_DEVICE);
++    expect(used.rows[0].used_at).toBeInstanceOf(Date);
++  });
++
++  it("a used code refused with 403; a device that's still active can't be taken over with a new code (409), and that code isn't used up", async () => {
++    const code = await createCode(`${PREFIX} 2`);
++    expect((await claim(code, OWNER)).statusCode).toBe(201);
++
++    const reused = await claim(code, GRABBER); // the same code, another device
++    expect(reused.statusCode).toBe(403);
++    expect(await deviceCount(GRABBER)).toBe(0);
++
++    const newCode = await createCode(`${PREFIX} 2b`);
++    const grab = await claim(newCode, OWNER); // OWNER is still registered and active
++    expect(grab.statusCode).toBe(409);
++    const left = await kit.pool.query("SELECT used_at FROM claim_codes WHERE name = $1", [`${PREFIX} 2b`]);
++    expect(left.rows).toEqual([{ used_at: null }]); // nothing changed: the code can still be used by another device
++  });
++
++  it("an expired code (its time moved back directly in the test database) refused with 403, the device not registered", async () => {
++    const code = await createCode(`${PREFIX} 3`);
++    // as if the code was made 40 minutes ago and ran out 10 minutes ago (CHECK of migration 011: valid for at most 60 minutes)
++    await kit.pool.query("UPDATE claim_codes SET created_at = now() - interval '40 minutes', expires_at = now() - interval '10 minutes' "
++      + "WHERE code_hash = $1", [codeHash(code)]);
++
++    const answer = await claim(code, LATE);
++    expect(answer.statusCode).toBe(403);
++    expect(await deviceCount(LATE)).toBe(0);
++    const list = await kit.app.inject({ method: "GET", url: "/provision/code", cookies: kit.wristband("admin") });
++    expect((list.json() as { name: string | null; state: string }[]).find((c) => c.name === `${PREFIX} 3`))
++      .toMatchObject({ state: "expired" });
++  });
++});
+diff --git a/backend/src/integration/devices.test.ts b/backend/src/integration/devices.test.ts
+new file mode 100644
+index 0000000..96f2e93
+--- /dev/null
++++ b/backend/src/integration/devices.test.ts
+@@ -0,0 +1,99 @@
++// devices.test.ts - INTEGRATION tests of the device registry (Modules 21 + 28) with a REAL test database (Module 29).
++// The difference with routes/devices.test.ts: there the devices table is replaced by a mock in memory (vi.mock), so the SQL
++// queries in src/db/devices.ts are never run. Here INSERT, UPDATE, transactions, CHECK, and foreign keys are really checked by
++// PostgreSQL. A real example: if src/db/devices.ts one day writes the key fingerprint wrongly (for example upper($5), capitals),
++// the 203 mock tests stay green, but CHECK (key_hash ~ '^[0-9a-f]{64}$') of migration 010 refuses the row: POST /devices
++// is answered with 503 and the first test below is red.
++// Run (the test database running, DATABASE_URL_TEST filled in; see setup.ts): npm run test:integration
++import { createHash } from "node:crypto";
++import { readFileSync } from "node:fs";
++import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
++import { hasTestDatabase, registerDevice, deleteTestDevices, setupTest } from "./setup.ts";
++import type { TestKit } from "./setup.ts";
++
++// device_ids of this file only (prefix 2901): the other integration test files run at the same time with IDs of their own
++const NEW_DEVICE = "290100000001";
++const DUPLICATE = "290100000002";
++const LISTED = "290100000003";
++const REVOKED = "290100000004";
++const ALL = [NEW_DEVICE, DUPLICATE, LISTED, REVOKED];
++const fingerprint = (key: string) => createHash("sha256").update(key).digest("hex"); // computed here, not by the server code
++// the server version read here from package.json (not from src/config/server-version.ts, which is under test)
++const VERSION = (JSON.parse(readFileSync(new URL("../../package.json", import.meta.url), "utf8")) as { version: string }).version;
++
++describe.skipIf(!hasTestDatabase)("integration (test database): devices", () => {
++  let kit: TestKit;
++  beforeAll(async () => { kit = await setupTest(); }, 60_000); // the migration may wait for another file's turn
++  beforeEach(() => deleteTestDevices(kit.pool, ALL)); // every test starts without this file's devices
++  afterAll(async () => {
++    if (!kit) return; // setupTest() failed (for example the _test guard refused): its error was already reported
++    await deleteTestDevices(kit.pool, ALL);
++    await kit.close();
++  });
++
++  it("POST /devices: the key is shown once, the database stores only its SHA-256 fingerprint (CHECK key_hash)", async () => {
++    const answer = await kit.app.inject({ method: "POST", url: "/devices", cookies: kit.wristband("admin"),
++      payload: { device_id: NEW_DEVICE, name: "Integration test", location: "robot lab" } });
++    expect(answer.statusCode).toBe(201);
++    const { key } = answer.json() as { key: string };
++    expect(key).toMatch(/^[A-Za-z0-9_-]{43}$/);
++
++    // read straight from the table: what is stored is its fingerprint (64 lowercase hexadecimal digits), not the key
++    const result = await kit.pool.query<{ key_hash: string; name: string; registered_at: Date | null }>(
++      "SELECT key_hash, name, registered_at FROM devices WHERE device_id = $1", [NEW_DEVICE]);
++    expect(result.rowCount).toBe(1);
++    expect(result.rows[0].key_hash).toBe(fingerprint(key));
++    expect(result.rows[0].key_hash).not.toContain(key);
++    expect(result.rows[0].name).toBe("Integration test");
++    expect(result.rows[0].registered_at).toBeInstanceOf(Date);
++  });
++
++  it("registering the same device_id again: 409, the name and the key fingerprint in the database don't change", async () => {
++    const key = await registerDevice(kit, DUPLICATE, "Original node");
++    const again = await kit.app.inject({ method: "POST", url: "/devices", cookies: kit.wristband("admin"),
++      payload: { device_id: DUPLICATE, name: "Intruder node" } });
++    expect(again.statusCode).toBe(409);
++
++    // ON CONFLICT ... WHERE registered_at IS NULL: a row that is already registered must not be overwritten
++    const result = await kit.pool.query("SELECT name, key_hash FROM devices WHERE device_id = $1", [DUPLICATE]);
++    expect(result.rows).toEqual([{ name: "Original node", key_hash: fingerprint(key) }]);
++  });
++
++  it("GET /devices from the database without leaking the key; without a login 401; /health names the version and the database", async () => {
++    const key = await registerDevice(kit, LISTED, "Listed node");
++    const answer = await kit.app.inject({ method: "GET", url: "/devices", cookies: kit.wristband("viewer") }); // a viewer may look
++    expect(answer.statusCode).toBe(200);
++
++    const list = answer.json() as { device_id: string; name: string | null; key: string }[];
++    expect(list.find((d) => d.device_id === LISTED)).toMatchObject({ name: "Listed node", key: "active" });
++    expect(answer.body).not.toContain(key);
++    expect(answer.body).not.toContain(fingerprint(key));
++    expect(answer.body).not.toContain("key_hash");
++
++    // the production assembly (buildApp) is guarded too: the login guard is in place, and /health (the version proof on the
++    // VPS/Pi) names the package.json version and the connected database
++    expect((await kit.app.inject({ method: "GET", url: "/devices" })).statusCode).toBe(401);
++    const health = await kit.app.inject({ method: "GET", url: "/health" });
++    expect(health.statusCode).toBe(200);
++    expect(health.json()).toMatchObject({ ok: true, version: VERSION, database: true });
++  });
++
++  it("revoke (Deactivate): the key fingerprint deleted, the revoke time and the status offline written, the event in the events table", async () => {
++    await registerDevice(kit, REVOKED);
++    const answer = await kit.app.inject({ method: "POST", url: `/devices/${REVOKED}/revoke`, cookies: kit.wristband("admin") });
++    expect(answer.statusCode).toBe(200);
++
++    const result = await kit.pool.query<{ key_hash: string | null; revoked_at: Date | null; status: string }>(
++      "SELECT key_hash, revoked_at, status FROM devices WHERE device_id = $1", [REVOKED]);
++    expect(result.rows[0]).toMatchObject({ key_hash: null, status: "offline" });
++    expect(result.rows[0].revoked_at).toBeInstanceOf(Date);
++    // the event log is written by the route without waiting (recordEvent), so its row is waited for briefly (at most 1 second)
++    await vi.waitFor(async () => {
++      const events = await kit.pool.query("SELECT kind, source FROM events WHERE device_id = $1", [REVOKED]);
++      expect(events.rows).toEqual([{ kind: "revoked", source: "api" }]);
++    });
++
++    const again = await kit.app.inject({ method: "POST", url: `/devices/${REVOKED}/revoke`, cookies: kit.wristband("admin") });
++    expect(again.statusCode).toBe(404); // already revoked: nothing changes any more
++  });
++});
+diff --git a/backend/src/integration/firmware-fleet.test.ts b/backend/src/integration/firmware-fleet.test.ts
+new file mode 100644
+index 0000000..4213e39
+--- /dev/null
++++ b/backend/src/integration/firmware-fleet.test.ts
+@@ -0,0 +1,115 @@
++// firmware-fleet.test.ts - INTEGRATION tests of the firmware releases and the /fleet page (Module 28) with a REAL test database
++// and a temporary firmware folder (Module 29). What mocks can't test: a release's metadata in the firmware table (PRIMARY KEY
++// kind + version: a version can't be overwritten), the locked download matching the device key with the fingerprint in devices,
++// the test-release and withdrawn marks, and the LATERAL query of the /fleet page (the LATEST health and last update per device).
++// The .bin files here are fake: 4 KiB of random bytes with a first byte 0xE9 (the server only checks that byte and the size).
++// Run (the test database running, DATABASE_URL_TEST filled in; see setup.ts): npm run test:integration
++import { createHash, randomBytes } from "node:crypto";
++import { readFile } from "node:fs/promises";
++import { join } from "node:path";
++import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
++import { hasTestDatabase, registerDevice, deleteTestDevices, setupTest } from "./setup.ts";
++import type { TestKit } from "./setup.ts";
++
++// device_ids and firmware versions of this file only (prefix 2906 and 29.6.x)
++const DOWNLOADER = "290600000001";
++const MEMBER = "290600000002";
++const ALL = [DOWNLOADER, MEMBER];
++const sha256 = (content: Buffer) => createHash("sha256").update(content).digest("hex");
++
++function fakeBin(): Buffer {
++  const content = randomBytes(4096);
++  content[0] = 0xe9; // the mark of an ESP32 application image
++  return content;
++}
++
++describe.skipIf(!hasTestDatabase)("integration (test database): firmware releases and the fleet", () => {
++  let kit: TestKit;
++  const upload = (version: string, content: Buffer, testRelease = false) => kit.app.inject({ method: "POST",
++    url: `/firmware/node1/${version}${testRelease ? "?test=true" : ""}`, cookies: kit.wristband("admin"),
++    headers: { "content-type": "application/octet-stream" }, payload: content });
++  const cleanUp = async () => {
++    await deleteTestDevices(kit.pool, ALL); // also the update rows that point at the releases below
++    await kit.pool.query("DELETE FROM firmware WHERE version LIKE '29.6.%'");
++  };
++
++  beforeAll(async () => { kit = await setupTest(); }, 60_000); // the migration may wait for another file's turn
++  beforeEach(async () => {
++    await cleanUp();
++    // Two tests below judge "the latest release" from ALL rows of the firmware table: another release in the test database (for
++    // example left over from trying a firmware upload) makes the result wrong. Stop with a clear message, not a confusing AssertionError.
++    const others = await kit.pool.query<{ version: string }>("SELECT version FROM firmware WHERE version NOT LIKE '29.6.%'");
++    if (others.rowCount) {
++      throw new Error(`the firmware table in the test database holds other releases (${others.rows.map((r) => r.version).join(", ")}): `
++        + "this test needs a firmware table without other releases. Use a fresh test database (restart its container).");
++    }
++  });
++  afterAll(async () => {
++    if (!kit) return; // setupTest() failed: its error was already reported
++    await cleanUp();
++    await kit.close();
++  });
++
++  it("upload: the metadata (size, the server's SHA-256) stored, a version can't be overwritten, a device downloads with its key", async () => {
++    const content = fakeBin();
++    expect((await upload("29.6.1", content)).statusCode).toBe(201);
++    const result = await kit.pool.query("SELECT size, sha256, test, uploaded_by, withdrawn_at FROM firmware WHERE version = '29.6.1'");
++    expect(result.rows).toEqual([{ size: 4096, sha256: sha256(content), test: false, uploaded_by: "1", withdrawn_at: null }]);
++    expect((await readFile(join(kit.firmwareFolder, "node-1", "29.6.1.bin"))).equals(content)).toBe(true); // the file in the cupboard
++    expect((await upload("29.6.1", fakeBin())).statusCode).toBe(409); // other content, the same version: refused
++
++    // the device download: Basic Auth device_id:key (matched with the fingerprint in the devices table) + its WiFi MAC
++    const key = await registerDevice(kit, DOWNLOADER);
++    const download = (keySent: string) => kit.app.inject({ method: "GET", url: "/fw/node-1/29.6.1.bin", headers: {
++      authorization: `Basic ${Buffer.from(`${DOWNLOADER}:${keySent}`).toString("base64")}`,
++      "x-esp32-sta-mac": "29:06:00:00:00:01" } });
++    const succeeded = await download(key);
++    expect(succeeded.statusCode).toBe(200);
++    expect(succeeded.headers["x-sha256"]).toBe(sha256(content));
++    expect(succeeded.rawPayload.equals(content)).toBe(true);
++    const wrongKey = key.slice(0, -1) + (key.endsWith("A") ? "B" : "A"); // the last character replaced: one character different
++    expect((await download(wrongKey)).statusCode).toBe(403);
++  });
++
++  it("a test release is stored marked test and never becomes the latest release; a withdrawn release leaves the count", async () => {
++    expect((await upload("29.6.2", fakeBin())).statusCode).toBe(201);
++    expect((await upload("29.6.3", fakeBin(), true)).statusCode).toBe(201); // higher, but a TEST release
++    const flags = await kit.pool.query("SELECT version, test FROM firmware WHERE version LIKE '29.6.%' ORDER BY version");
++    expect(flags.rows).toEqual([{ version: "29.6.2", test: false }, { version: "29.6.3", test: true }]);
++
++    type ReleaseList = { latest: { node1: string | null }; releases: { version: string; can_update_all: boolean; update_all_reason: string | null }[] };
++    const list = async () => (await kit.app.inject({ method: "GET", url: "/firmware", cookies: kit.wristband("viewer") })).json() as ReleaseList;
++    const before = await list();
++    expect(before.latest.node1).toBe("29.6.2");
++    expect(before.releases.find((r) => r.version === "29.6.3"))
++      .toMatchObject({ can_update_all: false, update_all_reason: "test release: per device only" });
++
++    const withdraw = await kit.app.inject({ method: "POST", url: "/firmware/node1/29.6.2/withdraw", cookies: kit.wristband("admin") });
++    expect(withdraw.statusCode).toBe(200);
++    const withdrawn = await kit.pool.query<{ withdrawn_at: Date | null }>("SELECT withdrawn_at FROM firmware WHERE version = '29.6.2'");
++    expect(withdrawn.rows[0].withdrawn_at).toBeInstanceOf(Date);
++    expect((await list()).latest.node1).toBeNull(); // only the test release is left: no latest release
++  });
++
++  it("GET /fleet: a device shows with its LATEST health and its last update (LATERAL), needs_update from the latest release", async () => {
++    await registerDevice(kit, MEMBER, "Test fleet node");
++    // as if the device has been running: it reported version 29.5.0, sent vitals twice, and once failed to install 29.6.4
++    await kit.pool.query("UPDATE devices SET kind = 'node1', fw = '29.5.0', fw_seen_at = now() WHERE device_id = $1", [MEMBER]);
++    await kit.pool.query(`INSERT INTO device_health (device_id, ts, rssi, uptime_s, heap_free, reset_reason, fw) VALUES
++      ($1, now() - interval '20 minutes', -70, 600, 150000, 'POWERON', '29.5.0'),
++      ($1, now() - interval '2 minutes', -55, 1680, 148000, 'POWERON', '29.5.0')`, [MEMBER]);
++    expect((await upload("29.6.4", fakeBin())).statusCode).toBe(201);
++    await kit.pool.query(`INSERT INTO updates (id, device_id, from_version, to_version, status, message, finished_at)
++      VALUES ('c-test-290600000002', $1, '29.5.0', '29.6.4', 'rollback', 'trial period failed', now())`, [MEMBER]);
++
++    const answer = await kit.app.inject({ method: "GET", url: "/fleet", cookies: kit.wristband("viewer") });
++    expect(answer.statusCode).toBe(200);
++    const body = answer.json() as { latest_release: { node1: string | null }; devices: { device_id: string }[] };
++    expect(body.latest_release.node1).toBe("29.6.4");
++    expect(body.devices.find((d) => d.device_id === MEMBER)).toMatchObject({
++      name: "Test fleet node", key: "active", fw: "29.5.0", needs_update: true,
++      health: { rssi: -55, uptime_s: 1680, reset_reason: "POWERON" }, // the row of 2 minutes ago, not of 20 minutes ago
++      update: { status: "rollback", from: "29.5.0", to: "29.6.4", message: "trial period failed" },
++    });
++  });
++});
+diff --git a/backend/src/integration/login.test.ts b/backend/src/integration/login.test.ts
+new file mode 100644
+index 0000000..c596b3e
+--- /dev/null
++++ b/backend/src/integration/login.test.ts
+@@ -0,0 +1,92 @@
++// login.test.ts - INTEGRATION tests of the login (Module 20) with REAL users and sessions tables (Module 29).
++// What mocks can't test: bcrypt matching a password with the stored fingerprint, a session (refresh token) stored only as its
++// SHA-256, the refresh rotation in ONE UPDATE statement, and a logout that really deletes its row.
++// Run (the test database running, DATABASE_URL_TEST filled in; see setup.ts): npm run test:integration
++import { createHash } from "node:crypto";
++import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
++import { hasTestDatabase, setupTest } from "./setup.ts";
++import type { TestKit } from "./setup.ts";
++
++// an account of this file only; the .test domain is reserved for testing (it never exists on the internet)
++const EMAIL = "integration-test-login@home.test";
++const PASSWORD = "a passphrase only for the integration tests";
++const sha256 = (text: string) => createHash("sha256").update(text).digest("hex");
++
++// one cookie from an answer (light-my-request has already read its Set-Cookie headers)
++function cookie(answer: { cookies: { name: string; value: string }[] }, name: string): string {
++  const found = answer.cookies.find((c) => c.name === name);
++  if (found === undefined) throw new Error(`cookie ${name} isn't in the answer`);
++  return found.value;
++}
++
++describe.skipIf(!hasTestDatabase)("integration (test database): login, refresh, logout", () => {
++  let kit: TestKit;
++  let passwordHash = ""; // the bcrypt fingerprint of PASSWORD, made once (bcrypt is slow on purpose: ±0.3 seconds)
++  const logIn = (email: string, password: string) => kit.app.inject({ method: "POST", url: "/auth/login", payload: { email, password } });
++  const accountSessions = () => kit.pool.query<{ token_hash: string; previous_token_hash: string | null }>(
++    "SELECT s.token_hash, s.previous_token_hash FROM sessions s JOIN users u ON u.id = s.user_id WHERE u.email = $1", [EMAIL]);
++
++  beforeAll(async () => {
++    kit = await setupTest();
++    const { makeFingerprint } = await import("../auth/password.ts"); // the same function as npm run users (cost 12)
++    passwordHash = await makeFingerprint(PASSWORD);
++  }, 60_000);
++  beforeEach(async () => { // a new account for every test; its old sessions are deleted with it (ON DELETE CASCADE)
++    await kit.pool.query("DELETE FROM users WHERE email = $1", [EMAIL]);
++    await kit.pool.query(
++      "INSERT INTO users (email, name, role, password_hash, password_changed_at) VALUES ($1, 'Login Test', 'viewer', $2, now())",
++      [EMAIL, passwordHash]);
++  });
++  afterAll(async () => {
++    if (!kit) return; // setupTest() failed: its error was already reported
++    await kit.pool.query("DELETE FROM users WHERE email = $1", [EMAIL]);
++    await kit.close();
++  });
++
++  it("the right password: two httpOnly cookies, the session stored in the database only as the refresh token's SHA-256", async () => {
++    const answer = await logIn(EMAIL, PASSWORD);
++    expect(answer.statusCode).toBe(200);
++    expect(answer.json()).toMatchObject({ email: EMAIL, role: "viewer" });
++    expect(answer.cookies.find((c) => c.name === "access")).toMatchObject({ httpOnly: true, path: "/" });
++    expect(answer.cookies.find((c) => c.name === "session")).toMatchObject({ httpOnly: true, path: "/auth" });
++
++    const session = await accountSessions();
++    expect(session.rows).toEqual([{ token_hash: sha256(cookie(answer, "session")), previous_token_hash: null }]);
++    // the wristband from this login opens the routes with a padlock: /auth/me reads its account from the database
++    const me = await kit.app.inject({ method: "GET", url: "/auth/me", cookies: { access: cookie(answer, "access") } });
++    expect(me.json()).toMatchObject({ email: EMAIL, name: "Login Test" });
++  });
++
++  it("a wrong password and an unregistered email: the same 401, no cookie and no new session", async () => {
++    const wrong = await logIn(EMAIL, "not this account's password at all");
++    const unknown = await logIn("not-registered@home.test", PASSWORD);
++    expect(wrong.statusCode).toBe(401);
++    expect(unknown.statusCode).toBe(401);
++    expect(unknown.json()).toEqual(wrong.json()); // the same answer: a guesser can't tell which email is registered
++    expect(wrong.cookies).toEqual([]);
++    expect((await accountSessions()).rowCount).toBe(0);
++  });
++
++  it("refresh: the session cookie swapped for a new one (rotation); the database stores the fingerprints of the new and the old token", async () => {
++    const login = await logIn(EMAIL, PASSWORD);
++    const oldSession = cookie(login, "session");
++    const refreshed = await kit.app.inject({ method: "POST", url: "/auth/refresh", cookies: { session: oldSession } });
++    expect(refreshed.statusCode).toBe(200);
++
++    const newSession = cookie(refreshed, "session");
++    expect(newSession).not.toBe(oldSession);
++    expect((await accountSessions()).rows).toEqual([{ token_hash: sha256(newSession), previous_token_hash: sha256(oldSession) }]);
++  });
++
++  it("logout: the session row deleted, both cookies emptied, the old session cookie can't refresh again", async () => {
++    const session = cookie(await logIn(EMAIL, PASSWORD), "session");
++    const loggedOut = await kit.app.inject({ method: "POST", url: "/auth/logout", cookies: { session } });
++    expect(loggedOut.statusCode).toBe(200);
++    expect(cookie(loggedOut, "access")).toBe("");
++    expect(cookie(loggedOut, "session")).toBe("");
++    expect((await accountSessions()).rowCount).toBe(0);
++
++    const again = await kit.app.inject({ method: "POST", url: "/auth/refresh", cookies: { session } });
++    expect(again.statusCode).toBe(401);
++  });
++});
+diff --git a/backend/src/integration/readings.test.ts b/backend/src/integration/readings.test.ts
+new file mode 100644
+index 0000000..30ab46c
+--- /dev/null
++++ b/backend/src/integration/readings.test.ts
+@@ -0,0 +1,89 @@
++// readings.test.ts - INTEGRATION tests of the reading history (Modules 17-18) in a REAL TimescaleDB readings hypertable (Module 29).
++// What mock tables can't test: the order and the time limits from SQL (ORDER BY ts, ts >= ... AND ts < ...), TimescaleDB's
++// time_bucket() function for the 15-minute summary, and PRIMARY KEY (device_id, ts) + ON CONFLICT DO NOTHING, which throws
++// away a double delivery.
++// Run (the test database running, DATABASE_URL_TEST filled in; see setup.ts): npm run test:integration
++import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
++import { hasTestDatabase, deleteTestDevices, setupTest } from "./setup.ts";
++import type { TestKit } from "./setup.ts";
++
++// device_ids of this file only (prefix 2902)
++const ONE = "290200000001";
++const NEIGHBOR = "290200000002";
++const DUPLICATE = "290200000003";
++const ALL = [ONE, NEIGHBOR, DUPLICATE];
++const MINUTE = 60_000;
++
++describe.skipIf(!hasTestDatabase)("integration (test database): reading history", () => {
++  let kit: TestKit;
++  // a reading only needs its device in the devices table (foreign key readings -> devices); no registration through the API
++  const ensureDevice = (id: string) => kit.pool.query("INSERT INTO devices (device_id) VALUES ($1)", [id]);
++  const saveReading = (id: string, ts: Date, temperature: number) =>
++    kit.pool.query("INSERT INTO readings (device_id, ts, fw, temperature, humidity) VALUES ($1, $2, '1.7.0', $3, 60)", [id, ts, temperature]);
++
++  beforeAll(async () => { kit = await setupTest(); }, 60_000); // the migration may wait for another file's turn
++  beforeEach(() => deleteTestDevices(kit.pool, ALL));
++  afterAll(async () => {
++    if (!kit) return; // setupTest() failed: its error was already reported
++    await deleteTestDevices(kit.pool, ALL);
++    await kit.close();
++  });
++
++  it("GET /devices/:id/readings: only the readings of the last hour, in time order (oldest first)", async () => {
++    await ensureDevice(ONE);
++    const now = Date.now();
++    // saved in a RANDOM order: the order in the answer must come from ORDER BY ts, not from the order of saving
++    await saveReading(ONE, new Date(now - 10 * MINUTE), 23.5);
++    await saveReading(ONE, new Date(now - 50 * MINUTE), 21.5);
++    await saveReading(ONE, new Date(now - 30 * MINUTE), 22.5);
++    await saveReading(ONE, new Date(now - 180 * MINUTE), 99); // 3 hours ago: outside the default range (1 hour)
++
++    const answer = await kit.app.inject({ method: "GET", url: `/devices/${ONE}/readings`, cookies: kit.wristband("viewer") });
++    expect(answer.statusCode).toBe(200);
++    const body = answer.json() as { count: number; truncated: boolean; readings: { temperature: number | null }[] };
++    expect(body.count).toBe(3);
++    expect(body.truncated).toBe(false);
++    expect(body.readings.map((r) => r.temperature)).toEqual([21.5, 22.5, 23.5]);
++  });
++
++  it("a 15-minute summary (TimescaleDB time_bucket): only that device's readings are counted", async () => {
++    await ensureDevice(ONE);
++    await ensureDevice(NEIGHBOR);
++    // the start of one 15-minute bucket, two hours ago (rounded down to a multiple of 15 minutes)
++    const start = Math.floor((Date.now() - 120 * MINUTE) / (15 * MINUTE)) * (15 * MINUTE);
++    await saveReading(ONE, new Date(start + 1 * MINUTE), 20);
++    await saveReading(ONE, new Date(start + 4 * MINUTE), 22);
++    await saveReading(ONE, new Date(start + 7 * MINUTE), 24);
++    await saveReading(NEIGHBOR, new Date(start + 2 * MINUTE), 90); // another device in the same bucket: must not count
++    await saveReading(NEIGHBOR, new Date(start + 5 * MINUTE), 95);
++
++    const range = new URLSearchParams({ bucket: "15m", from: new Date(start).toISOString(),
++      to: new Date(start + 15 * MINUTE).toISOString() });
++    const answer = await kit.app.inject({ method: "GET", url: `/devices/${ONE}/readings?${range}`,
++      cookies: kit.wristband("viewer") });
++    expect(answer.statusCode).toBe(200);
++    const body = answer.json() as { summary: Record<string, unknown>[] };
++    expect(body.summary).toEqual([{
++      time: new Date(start).toISOString().slice(0, 19) + "Z", // the contract format: UTC without milliseconds
++      avg_temp: 22, min_temp: 20, max_temp: 24, avg_humidity: 60, avg_soil: null, avg_light: null, reading_count: 3,
++    }]);
++  });
++
++  it("a double delivery: the same telemetry twice (same ts) is stored as one row (PRIMARY KEY + ON CONFLICT)", async () => {
++    await ensureDevice(DUPLICATE);
++    // the function mqtt.ts calls for every telemetry that passes the contract (imported after setupTest filled in the settings)
++    const { archiveTelemetry } = await import("../db/archive.ts");
++    const telemetry = { ts: new Date(Date.now() - 5 * MINUTE).toISOString().slice(0, 19) + "Z", fw: "1.7.0", temperature: 27.5,
++      humidity: 61, light: 900, soil: 40, motion: false, water_level: 80 };
++
++    expect(await archiveTelemetry(DUPLICATE, telemetry)).toBe(true); // first: stored
++    expect(await archiveTelemetry(DUPLICATE, telemetry)).toBe(false); // second (QoS 1 may send it again): skipped, no error
++    const result = await kit.pool.query("SELECT temperature, humidity, light FROM readings WHERE device_id = $1", [DUPLICATE]);
++    expect(result.rows).toEqual([{ temperature: 27.5, humidity: 61, light: 900 }]);
++    // the telemetry also updates its device row: the kind is recognized from its content, the last-seen time is filled in
++    const device = await kit.pool.query<{ kind: string; last_seen: Date | null }>(
++      "SELECT kind, last_seen FROM devices WHERE device_id = $1", [DUPLICATE]);
++    expect(device.rows[0].kind).toBe("node1");
++    expect(device.rows[0].last_seen).toBeInstanceOf(Date);
++  });
++});
+diff --git a/backend/src/integration/rules.test.ts b/backend/src/integration/rules.test.ts
+new file mode 100644
+index 0000000..d6b2171
+--- /dev/null
++++ b/backend/src/integration/rules.test.ts
+@@ -0,0 +1,91 @@
++// rules.test.ts - INTEGRATION tests of the automation rules (Modules 19 + 24) with REAL rules and events tables (Module 29).
++// What mocks can't test: the condition and the action stored as JSONB, updated_at moving forward when a rule is replaced, and the
++// foreign key events.rule_id ON DELETE SET NULL (migration 007): a rule is deleted, its event log stays.
++// Run (the test database running, DATABASE_URL_TEST filled in; see setup.ts): npm run test:integration
++import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
++import { hasTestDatabase, setupTest, waitForQueries } from "./setup.ts";
++import type { TestKit } from "./setup.ts";
++
++// rule names of this file only (the cleanup uses the same prefix). The device_id is only stored inside the rule's JSON;
++// the device doesn't have to be in the devices table.
++const PREFIX = "integration-test rule";
++const DEVICE = "290400000001";
++
++// "the fan turns on when the temperature is above <onAbove> °C for 60 seconds, and off again below <onAbove - 2> °C"
++function fanRule(name: string, onAbove = 30, active = true) {
++  return {
++    name, active,
++    condition: { kind: "threshold", device_id: DEVICE, quantity: "temperature", on_above: onAbove, off_below: onAbove - 2,
++      for_seconds: 60 },
++    action: { kind: "switch", device_id: DEVICE, target: "fan", notify: false },
++  };
++}
++
++describe.skipIf(!hasTestDatabase)("integration (test database): automation rules", () => {
++  let kit: TestKit;
++  const create = (body: object) => kit.app.inject({ method: "POST", url: "/rules", cookies: kit.wristband("admin"), payload: body });
++  const cleanUp = async () => {
++    await waitForQueries(kit.pool); // events of the test before may still be being written
++    await kit.pool.query("DELETE FROM events WHERE data->>'name' LIKE $1", [`${PREFIX}%`]); // the "rule-changed" events
++    await kit.pool.query("DELETE FROM rules WHERE name LIKE $1", [`${PREFIX}%`]);
++  };
++
++  beforeAll(async () => { kit = await setupTest(); }, 60_000); // the migration may wait for another file's turn
++  beforeEach(() => cleanUp());
++  afterAll(async () => {
++    if (!kit) return; // setupTest() failed: its error was already reported
++    await cleanUp();
++    await kit.close();
++  });
++
++  it("POST /rules: the rule is stored in the rules table (JSONB) and shows at once; an invalid body refused with 400, no new row", async () => {
++    const answer = await create(fanRule(`${PREFIX} 1`));
++    expect(answer.statusCode).toBe(201);
++    const { id } = answer.json() as { id: number };
++
++    const result = await kit.pool.query("SELECT name, active, condition, action FROM rules WHERE id = $1", [id]);
++    expect(result.rows).toEqual([fanRule(`${PREFIX} 1`)]); // JSONB is read back as exactly the same object
++    const list = await kit.app.inject({ method: "GET", url: "/rules", cookies: kit.wristband("viewer") });
++    expect((list.json() as { id: number }[]).map((r) => r.id)).toContain(id);
++
++    // reversed hysteresis (off above on): refused by the Zod schema before it touches the database
++    const wrong = await create({ ...fanRule(`${PREFIX} wrong`), condition: { ...fanRule("").condition, off_below: 35 } });
++    expect(wrong.statusCode).toBe(400);
++    expect((await kit.pool.query("SELECT 1 FROM rules WHERE name = $1", [`${PREFIX} wrong`])).rowCount).toBe(0);
++  });
++
++  it("PUT /rules/:id: the content replaced in the database and updated_at moves forward; a number that doesn't exist answered with 404", async () => {
++    const { id } = (await create(fanRule(`${PREFIX} 2`))).json() as { id: number };
++    const replaced = await kit.app.inject({ method: "PUT", url: `/rules/${id}`, cookies: kit.wristband("admin"),
++      payload: fanRule(`${PREFIX} 2 replaced`, 32, false) });
++    expect(replaced.statusCode).toBe(200);
++
++    // "updated_at moves forward" is compared inside the database (microseconds): a JavaScript Date only goes to milliseconds,
++    // so an INSERT and an UPDATE in the same millisecond on a fast computer would look the same
++    const result = await kit.pool.query<{ name: string; active: boolean; on_above: number; newer: boolean }>(
++      "SELECT name, active, (condition->>'on_above')::int AS on_above, updated_at > created_at AS newer FROM rules WHERE id = $1", [id]);
++    expect(result.rows[0]).toEqual({ name: `${PREFIX} 2 replaced`, active: false, on_above: 32, newer: true });
++
++    const missing = await kit.app.inject({ method: "PUT", url: "/rules/2147483647", cookies: kit.wristband("admin"),
++      payload: fanRule(`${PREFIX} ghost`) });
++    expect(missing.statusCode).toBe(404);
++  });
++
++  it("DELETE /rules/:id: the rule gone from the database, its event log stays (rule_id becomes NULL)", async () => {
++    const { id } = (await create(fanRule(`${PREFIX} 3`))).json() as { id: number };
++    // creating a rule writes one "rule-changed" event that points at that rule (written without the route waiting)
++    let eventId = 0;
++    await vi.waitFor(async () => {
++      const events = await kit.pool.query<{ id: string }>("SELECT id FROM events WHERE rule_id = $1", [id]);
++      expect(events.rowCount).toBe(1);
++      eventId = Number(events.rows[0].id);
++    });
++
++    const deleted = await kit.app.inject({ method: "DELETE", url: `/rules/${id}`, cookies: kit.wristband("admin") });
++    expect(deleted.statusCode).toBe(200);
++    expect((await kit.pool.query("SELECT 1 FROM rules WHERE id = $1", [id])).rowCount).toBe(0);
++    // the foreign key ON DELETE SET NULL: the old event stays, only its pointer to the rule is emptied
++    const old = await kit.pool.query("SELECT kind, rule_id FROM events WHERE id = $1", [eventId]);
++    expect(old.rows).toEqual([{ kind: "rule-changed", rule_id: null }]);
++  });
++});
+diff --git a/backend/src/integration/setup.ts b/backend/src/integration/setup.ts
+new file mode 100644
+index 0000000..40574bb
+--- /dev/null
++++ b/backend/src/integration/setup.ts
+@@ -0,0 +1,159 @@
++// setup.ts - the shared preparation of the INTEGRATION tests (Module 29): API routes + a REAL TimescaleDB database, not vi.mock tables.
++// Every *.test.ts file in this folder calls setupTest() once before its tests (beforeAll) and kit.close() after them.
++//
++// The test database = an EMPTY database only for tests, its address in DATABASE_URL_TEST, for example
++//   postgres://postgres:<test password>@127.0.0.1:5433/smarthome_test
++// Without DATABASE_URL_TEST, every integration test is SKIPPED: npm test on the laptop still runs without Docker.
++//
++// GUARD: the database name MUST end in _test. The integration tests WRITE and DELETE rows, so the address of your home database
++// (smarthome) is refused before a single connection is opened, then checked once more with current_database() after
++// connecting: what decides is the database that is really connected, not what the address says.
++//
++// The order of setupTest():
++//   1. check the database name in the DATABASE_URL_TEST address (_test)
++//   2. put the test settings into process.env BEFORE the server code is imported (config/env.ts checks its settings when it is
++//      imported): a fake broker (never contacted), a random single-use JWT_SECRET, a temporary firmware folder, automatic
++//      broker accounts off, Telegram off
++//   3. check again the name of the database that is really connected (current_database())
++//   4. migrate: node src/db/migrate.ts, THE SAME program as the migrate service in Compose, into the test database (from zero
++//      when empty; when already complete: "0 new migration(s) applied"). The test files run AT THE SAME TIME, so the migration
++//      queues with a pg_advisory_lock lock: one file runs it, the other files wait for their turn
++//   5. assemble the server with buildApp() (app.ts): the same assembly as server.ts, without listening at any counter
++// Every test file uses device_ids, emails, rule names, and firmware versions of ITS OWN and cleans them up before every test:
++// files running at the same time don't disturb each other, and no test depends on the test before it.
++// One exception: "the latest release" is computed from ALL rows of the firmware table, so only firmware-fleet.test.ts may
++// write to the firmware table (its tests stop with a clear message when another release is in the test database).
++import { execFile } from "node:child_process";
++import { randomBytes } from "node:crypto";
++import { mkdtemp, rm } from "node:fs/promises";
++import { tmpdir } from "node:os";
++import { join } from "node:path";
++import { fileURLToPath } from "node:url";
++import { promisify } from "node:util";
++import type { FastifyInstance } from "fastify";
++import type { Pool } from "pg";
++
++const TEST_URL = process.env.DATABASE_URL_TEST ?? ""; // holds a password: never written to the screen
++export const hasTestDatabase = TEST_URL !== ""; // used by describe.skipIf(!hasTestDatabase) in every test file
++
++const BACKEND_FOLDER = fileURLToPath(new URL("../../", import.meta.url)); // the backend/ folder (where package.json is)
++const MIGRATION_TURN = 29_29; // any number for pg_advisory_lock: "the integration tests' migration turn"
++const run = promisify(execFile);
++
++// The database name from its address: postgres://user:password@host:5433/smarthome_test -> smarthome_test
++function databaseName(url: string): string {
++  try {
++    return decodeURIComponent(new URL(url).pathname.replace(/^\//, ""));
++  } catch {
++    return ""; // not an address that can be read: treated as not a test database
++  }
++}
++
++// The guard's error message: the address is NOT written in it (it can hold a password), only its database name.
++function refuseNonTest(name: string): Error {
++  return new Error(`DATABASE_URL_TEST points at the database "${name}", not a test database: the database name must end in _test `
++    + "(for example smarthome_test). The integration tests write and delete rows, so they don't run. Never point it at "
++    + "your home database.");
++}
++
++export interface TestKit {
++  app: FastifyInstance; // the same server as production (buildApp), knocked on with app.inject() without a network
++  pool: Pool; // the connection pool to the test database: to check table contents directly with SQL
++  wristband: (role: "admin" | "viewer") => { access: string }; // a valid access cookie (JWT) for routes with a padlock
++  firmwareFolder: string; // this test file's own temporary FIRMWARE_DIR
++  close: () => Promise<void>;
++}
++
++export async function setupTest(): Promise<TestKit> {
++  // 1. the database name guard, before any connection at all
++  const name = databaseName(TEST_URL);
++  if (!name.endsWith("_test")) throw refuseNonTest(name);
++
++  // 2. the test settings. An empty value = the default of config/env.ts. All are overwritten, so settings in the reader's
++  //    terminal (for example a real MQTT_URL or TELEGRAM_BOT_TOKEN) never get carried into the tests.
++  const firmwareFolder = await mkdtemp(join(tmpdir(), "smarthome-test-firmware-"));
++  Object.assign(process.env, {
++    DATABASE_URL: TEST_URL,
++    MQTT_URL: "mqtt://127.0.0.1:1", // a dead address: the routes under test don't need a broker (mqtt.connect only in server.ts)
++    MQTT_USERNAME: "", MQTT_PASSWORD: "",
++    JWT_SECRET: `test-${randomBytes(32).toString("base64url")}`, // a single-use secret, made again every time the tests run
++    FIRMWARE_DIR: firmwareFolder,
++    AUTO_BROKER_ACCOUNTS: "off", SERVER_URL: "", TRUST_PROXY: "", CORS_ORIGIN: "", HOST: "", PORT: "",
++    TELEGRAM_BOT_TOKEN: "", TELEGRAM_CHAT_ID: "", TELEGRAM_API_ROOT: "", REPORT_SCHEDULE: "",
++  });
++
++  // 3. the server code is imported AFTER process.env is filled in (a normal import at the top would check the settings first)
++  const { pool } = await import("../db/pool.ts");
++  try {
++    const connected = await pool.query<{ name: string }>("SELECT current_database() AS name").catch((error: Error) => {
++      throw new Error(`the test database can't be reached (${error.message}): is the test database container running, `
++        + "and are its counter and password the same as in DATABASE_URL_TEST?");
++    });
++    if (!connected.rows[0].name.endsWith("_test")) throw refuseNonTest(connected.rows[0].name);
++
++    // 4. the migration, one test file at a time
++    const client = await pool.connect();
++    try {
++      await client.query("SELECT pg_advisory_lock($1)", [MIGRATION_TURN]); // waits when another file is migrating
++      await run(process.execPath, ["src/db/migrate.ts"], { cwd: BACKEND_FOLDER, env: process.env, timeout: 60_000 })
++        .catch((error: Error & { stdout?: string; stderr?: string }) => {
++          throw new Error(`migrating the test database failed:\n${error.stdout ?? ""}${error.stderr ?? error.message}`);
++        });
++    } finally {
++      await client.query("SELECT pg_advisory_unlock($1)", [MIGRATION_TURN]).catch(() => {});
++      client.release();
++    }
++
++    // 5. the same server as production, without listen
++    const { buildApp } = await import("../app.ts");
++    const app = await buildApp({ log: "errors-only" });
++    await app.ready();
++
++    return {
++      app, pool, firmwareFolder,
++      // sub = the account number; the routes under test only record it (for example the firmware uploader), not look it up in the users table
++      wristband: (role) => ({ access: app.jwt.sign({ sub: role === "admin" ? "1" : "2", role, sid: 1 }) }),
++      close: async () => {
++        await waitForQueries(pool);
++        await app.close();
++        await pool.end();
++        await rm(firmwareFolder, { recursive: true, force: true });
++      },
++    };
++  } catch (error) {
++    // failed halfway: don't leave a database connection open (Vitest waits for the process to finish) or the folder
++    await pool.end().catch(() => {});
++    await rm(firmwareFolder, { recursive: true, force: true });
++    throw error;
++  }
++}
++
++// Some routes write the event log (recordEvent) WITHOUT waiting for the write to finish: the HTTP answer has arrived, but the
++// INSERT into the events table is still running. Before cleaning up, wait until the connection pool is idle (no query running
++// or queued), so a late row doesn't collide with the DELETE (foreign key) or show up after the cleanup. At most
++// 2 seconds.
++export async function waitForQueries(pool: Pool): Promise<void> {
++  for (let i = 0; i < 200 && (pool.totalCount > pool.idleCount || pool.waitingCount > 0); i++) {
++    await new Promise((next) => setTimeout(next, 10));
++  }
++}
++
++// Cleanup: delete every row of the test devices, in foreign-key order (children first, the parent last): readings, health,
++// commands, events, firmware updates, claim codes, then the devices (a Node 2 linked through another device goes before the
++// device it is linked via). The table names come from the fixed list below, not from outside; device_id always goes in as $1.
++const CHILD_TABLES = ["readings", "device_health", "commands", "events", "updates", "claim_codes"];
++
++export async function deleteTestDevices(pool: Pool, ids: string[]): Promise<void> {
++  await waitForQueries(pool);
++  for (const table of CHILD_TABLES) await pool.query(`DELETE FROM ${table} WHERE device_id = ANY($1)`, [ids]);
++  await pool.query("DELETE FROM devices WHERE linked_via = ANY($1)", [ids]);
++  await pool.query("DELETE FROM devices WHERE device_id = ANY($1)", [ids]);
++}
++
++// Data: register one device through the real API route (POST /devices as admin) and return its key.
++export async function registerDevice(kit: TestKit, deviceId: string, name = "Integration test device"): Promise<string> {
++  const answer = await kit.app.inject({ method: "POST", url: "/devices", cookies: kit.wristband("admin"),
++    payload: { device_id: deviceId, name } });
++  if (answer.statusCode !== 201) throw new Error(`registering ${deviceId} failed: ${answer.statusCode} ${answer.body}`);
++  return (answer.json() as { key: string }).key;
++}
+diff --git a/backend/src/routes/health.ts b/backend/src/routes/health.ts
+index 5ee49c1..89e52c9 100644
+--- a/backend/src/routes/health.ts
++++ b/backend/src/routes/health.ts
+@@ -1,24 +1,30 @@
+ // health.ts - GET /health: is the server alive, connected to the broker, and able to reach the database?
++// Module 29: also the version of the server that is running (from package.json), so the deploying robot, the smoke test, and
++// anyone who opens /api/health in a browser can make sure the new version is deployed without SSH. The status code still always
++// stays 200: 503 for "unhealthy" and monitors from outside come in Module 30.
+ import { z } from "zod";
+ import type { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
+ import { counts } from "../services/store.ts";
+ import { brokerConnected } from "../services/mqtt.ts";
+ import { databaseAlive } from "../db/archive.ts";
++import { SERVER_VERSION } from "../config/server-version.ts";
+ 
+ export const healthRoutes: FastifyPluginAsyncZod = async (app) => {
+   app.get("/health", {
+     schema: {
+       tags: ["server"],
+       security: [], // Module 20: stays open without a login (monitors and the Docker healthcheck can't log in)
+-      summary: "Server state: alive, connected to the broker and the database, and message counts",
++      summary: "Server state: alive, its version, connected to the broker and the database, and message counts",
+       response: {
+-        200: z.object({ ok: z.boolean(), broker: z.boolean(), database: z.boolean(), received: z.number(), rejected: z.number(),
++        200: z.object({ ok: z.boolean(),
++          version: z.string().describe("Module 29: the running server version (package.json), for example 2.0.0"),
++          broker: z.boolean(), database: z.boolean(), received: z.number(), rejected: z.number(),
+           ignored: z.number().describe("Module 21: messages from a device that isn't registered or has been revoked") })
+           .describe("server alive; broker and database = reachable or not"),
+       },
+     },
+   }, async () => {
+-    return { ok: true, broker: brokerConnected(), database: await databaseAlive(), received: counts.received, rejected: counts.rejected,
+-      ignored: counts.ignored };
++    return { ok: true, version: SERVER_VERSION, broker: brokerConnected(), database: await databaseAlive(),
++      received: counts.received, rejected: counts.rejected, ignored: counts.ignored };
+   });
+ };
+diff --git a/backend/src/server.ts b/backend/src/server.ts
+index dacdc85..2eb5504 100644
+--- a/backend/src/server.ts
++++ b/backend/src/server.ts
+@@ -1,28 +1,20 @@
+-// server.ts - the entry point of the Mini Smart Home backend v1.5 (Module 28: over-the-air firmware updates with locked downloads,
+-// a canary, single-use claim codes, automatic device broker accounts through dynamic security, and the data of the /fleet page; on
+-// top of v1.4, Module 27: the backend on the internet, behind Caddy HTTPS.
+-// TRUST_PROXY makes the backend trust what Caddy says about the visitor: Secure login cookies over HTTPS and a login limit per
+-// visitor; on top of v1.3, Module 26: it can run as a Docker container in compose.cloud.yml; v1.2, Module 25: the device's point
+-// on the map and the daily CSV report through Telegram; v1.1, Module 24: "below-threshold" rules such as watering when the soil
+-// is dry, threshold rules may send one command, and rules can be deleted; v1.0, Module 21: the device registry and its keys, the
+-// backend's own broker account, unregistered/revoked devices ignored; Module 20: login, JWT in cookies, roles, and API
+-// protection; and Module 19: realtime data, one door for commands, automation rules, schedules, and Telegram notifications).
++// server.ts - the entry point of the Mini Smart Home backend 2.0 (Module 29: the Fastify server assembly moved to app.ts,
++// buildApp(), so the integration tests test the same assembly as production; the server version is read from package.json and
++// shows in /health and /docs). This file only starts the rest: the database, the automation rules, Socket.IO, MQTT, Telegram,
++// the daily report, and the firmware update watcher, then listens at its counter.
++// History: v1.5 Module 28: over-the-air firmware updates with locked downloads, a canary, single-use claim codes, automatic
++// device broker accounts through dynamic security, and the data of the /fleet page; v1.4 Module 27: the backend on the internet,
++// behind Caddy HTTPS (TRUST_PROXY makes the backend trust what Caddy says about the visitor: Secure login cookies over HTTPS and
++// a login limit per visitor); v1.3 Module 26: it can run as a Docker container in compose.cloud.yml; v1.2 Module 25: the
++// device's point on the map and the daily CSV report through Telegram; v1.1 Module 24: "below-threshold" rules such as watering
++// when the soil is dry, threshold rules may send one command, and rules can be deleted; v1.0 Module 21: the device registry and
++// its keys, the backend's own broker account, unregistered/revoked devices ignored; Module 20: login, JWT in cookies, roles, and
++// API protection; and Module 19: realtime data, one door for commands, automation rules, schedules, and Telegram notifications.
+ // Run: npm run dev (automatically restarts when a file is saved) or npm start. In a container (Module 26): node src/server.ts,
+ // its settings come from Docker Compose, not from a .env file (see Dockerfile).
+-import Fastify, { LogController } from "fastify";
+-import swagger from "@fastify/swagger";
+-import swaggerUi from "@fastify/swagger-ui";
+-import { jsonSchemaTransform, serializerCompiler, validatorCompiler } from "fastify-type-provider-zod";
+ import { env } from "./config/env.ts";
+-import { setupSecurity } from "./auth/security.ts";
+-import { authRoutes } from "./routes/auth.ts";
+-import { healthRoutes } from "./routes/health.ts";
+-import { deviceRoutes } from "./routes/devices.ts";
+-import { ruleRoutes } from "./routes/rules.ts";
+-import { reportRoutes } from "./routes/reports.ts";
+-import { firmwareRoutes } from "./routes/firmware.ts";
+-import { fleetRoutes } from "./routes/fleet.ts";
+-import { claimRoutes } from "./routes/claims.ts";
++import { SERVER_VERSION } from "./config/server-version.ts";
++import { buildApp } from "./app.ts";
+ import { brokerConnected, stopMqtt, startMqtt } from "./services/mqtt.ts";
+ import { startRealtime } from "./services/realtime.ts";
+ import { loadVitalsIntervals, sendAllConfigs, loadRules } from "./services/automation.ts";
+@@ -31,76 +23,13 @@ import { accountPlace } from "./services/broker-accounts.ts";
+ import { stopSchedules } from "./services/schedule.ts";
+ import { stopTelegram, startTelegram } from "./services/telegram.ts";
+ import { startReports } from "./services/reports.ts";
+-import { useLog, shouldLog } from "./services/log.ts";
+ import { databaseAlive } from "./db/archive.ts";
+ import { allDevicesDb } from "./db/devices.ts";
+ import { loadRegistry } from "./services/registry.ts";
+ import { pool } from "./db/pool.ts";
+ 
+-const app = Fastify({
+-  logger: { transport: { target: "pino-pretty", options: { translateTime: "SYS:HH:MM:ss", ignore: "pid,hostname,reqId" } } },
+-  logController: new LogController({ disableRequestLogging: true }), // the built-in log per request is too long...
+-  // Module 27: the X-Forwarded-For/-Proto headers from Caddy are only trusted when they come from a proxy in TRUST_PROXY (in
+-  // compose.cloud.yml: uniquelocal = the Docker hallway). Empty (dev mode) = those headers are ignored, as in v1.3.
+-  trustProxy: env.TRUST_PROXY,
+-});
+-useLog(app.log); // Module 19: other services (commands, rules, schedules, Telegram) write to the same log
+-app.addHook("onResponse", async (req, reply) => {
+-  // ...so it's replaced by one line per request (hook = Fastify's "middleware"). Only the method, the address, and the status
+-  // code: the request content (passwords!) and the cookies (tokens!) are never written to the log. Module 26: successful /health
+-  // knocks (the Docker healthcheck every 15 seconds) aren't logged, so the log doesn't fill up with the same line.
+-  if (!shouldLog(req.method, req.url, reply.statusCode)) return;
+-  req.log.info(`${req.method} ${req.url} -> ${reply.statusCode} (${Math.round(reply.elapsedTime)} ms)`);
+-});
+-if (env.TRUST_PROXY !== false) { // Module 27: one line at startup, proof that the TRUST_PROXY setting was read
+-  app.log.info(`trusted proxies (TRUST_PROXY): ${env.TRUST_PROXY === true ? "all" : env.TRUST_PROXY.join(", ")}`);
+-}
+-app.setValidatorCompiler(validatorCompiler); // Zod schemas check the content of requests...
+-app.setSerializerCompiler(serializerCompiler); // ...and the shape of replies
+-
+-await setupSecurity(app); // Module 20: CORS, cookies, JWT, rate limit, and the guard on every request (BEFORE the routes)
+-await app.register(swagger, {
+-  openapi: {
+-    info: {
+-      title: "Mini Smart Home API",
+-      description: "Backend v1.4 (Module 27). Every route needs a login, except the ones without a padlock. Log in first with "
+-        + "POST /auth/login (Try it out): the browser keeps the access cookie and sends it by itself to the other routes. "
+-        + "Viewer accounts can only look (GET); commands and changes are answered with 403. Devices are registered by an admin "
+-        + "with POST /devices; a key is shown only once, and messages from unregistered or revoked devices are ignored. "
+-        + "Since v1.1, a threshold rule can point downwards (below-threshold, for example water when the soil is below 30 %), can "
+-        + "send one command when it turns on, and rules can be deleted (DELETE /rules/:id). Since v1.2, GET /devices carries "
+-        + "each device's map point (lat, lng), and the admin moves it with PUT /devices/:id/location. "
+-        + "The daily CSV report is sent to Telegram at REPORT_SCHEDULE (default 07:00 WIB); POST /reports/send "
+-        + "sends it right now. Since v1.3 (Module 26), the backend also runs as a container in Docker Compose: "
+-        + "the dashboard calls it through the Caddy web server with the prefix /api, while this page is opened at "
+-        + "http://localhost:8080/docs (in the container, a login from http://127.0.0.1:8080/docs is refused with 403). Since v1.4 "
+-        + "(Module 27), the backend can be opened from the internet behind Caddy HTTPS: with TRUST_PROXY (in Compose: uniquelocal) "
+-        + "the backend uses the visitor's IP address and protocol from Caddy, so the login cookies are Secure and the limit of 10 "
+-        + "login attempts applies per visitor. Since v1.5 (Module 28): over-the-air firmware updates (upload POST /firmware/:kind/:version, "
+-        + "the command POST /devices/:id/update, the canary, then POST /fleet/update), the firmware download for devices at "
+-        + "GET /fw/node-1/<version>.bin locked with the device key, the data of the /fleet page (GET /fleet), single-use claim "
+-        + "codes (POST /provision/code for the admin, POST /provision/claim for the device), the vitals interval set from afar, and "
+-        + "device broker accounts that are created and deleted automatically (AUTO_BROKER_ACCOUNTS).",
+-      version: "1.5.0",
+-    },
+-    components: {
+-      securitySchemes: { // Module 20: routes with a padlock need the access cookie from POST /auth/login
+-        accessCookie: { type: "apiKey", in: "cookie", name: "access", description: "access JWT (httpOnly) from POST /auth/login" },
+-      },
+-    },
+-    security: [{ accessCookie: [] }], // default: every route has a padlock; open routes write security: []
+-  },
+-  transform: jsonSchemaTransform, // the same Zod schemas become the OpenAPI documentation
+-});
+-await app.register(swaggerUi, { routePrefix: "/docs" });
+-await app.register(authRoutes); // Module 20
+-await app.register(healthRoutes);
+-await app.register(deviceRoutes);
+-await app.register(ruleRoutes); // Module 19
+-await app.register(reportRoutes); // Module 25
+-await app.register(firmwareRoutes); // Module 28: firmware releases and the locked download /fw
+-await app.register(fleetRoutes); // Module 28: the /fleet page, update commands, the canary, the vitals interval
+-await app.register(claimRoutes); // Module 28: claim codes
++const app = await buildApp(); // Module 29: Fastify + protection + /docs + every route (app.ts), not listening at any counter yet
++app.log.info(`Mini Smart Home backend ${SERVER_VERSION} started`); // Module 29: the same version as /health
+ 
+ if (await databaseAlive()) app.log.info("database ready");
+ else app.log.warn("database not reachable yet: check the database container and DATABASE_URL in .env");
+diff --git a/backend/src/services/version.test.ts b/backend/src/services/version.test.ts
+index 19d8e67..1c676a8 100644
+--- a/backend/src/services/version.test.ts
++++ b/backend/src/services/version.test.ts
+@@ -13,6 +13,7 @@ describe("compareVersions", () => {
+   });
+ 
+   it("1.10.0 is NEWER than 1.9.0 (an ordinary text comparison is wrong here)", () => {
++    // oxlint-disable-next-line no-constant-binary-expression -- on purpose: two fixed texts to show that a text comparison is wrong
+     expect("1.10.0" < "1.9.0").toBe(true); // text: "1" < "9", so wrong
+     expect(compareVersions("1.10.0", "1.9.0")).toBe(1);
+     expect(compareVersions("1.7.10", "1.7.9")).toBe(1);

@@ -15,5 +15,8 @@ login*.json
 cookies*.txt
 # Module 28: firmware files uploaded in dev mode (they may hold ESP-NOW keys): never go into the image.
 firmware-data
-# Vitest test files aren't used by the running server.
+# Vitest test files aren't used by the running server. Module 29: neither is the integration test folder (setup.ts isn't a
+# *.test.ts file, but only the tests use it) nor the oxlint settings.
 src/**/*.test.ts
+src/integration
+.oxlintrc.json

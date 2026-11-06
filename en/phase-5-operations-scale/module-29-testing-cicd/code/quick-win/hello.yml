@@ -1,0 +1,27 @@
+# hello.yml - Module 29 Quick Win: the first robot. Put this file at .github/workflows/hello.yml on the branch
+# try/robot ONLY, open a pull request, see the green check, then make it red. That pull request is closed WITHOUT a merge, so
+# this file never gets into main (the real robot is .github/workflows/ci.yml, Practice 4).
+name: hello
+
+# when the robot works: every time a pull request is opened, or its branch gets a new commit
+on: pull_request
+
+# the robot's token may only READ the repo's content
+permissions:
+  contents: read
+
+jobs:
+  backend:
+    runs-on: ubuntu-24.04                  # a computer GitHub rents out (Ubuntu 24.04), deleted again after the job is done
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7          # get the repo's content at this pull request's commit
+      - uses: actions/setup-node@v7        # install Node.js, the same version as the backend and dashboard Dockerfiles
+        with:
+          node-version: 24.22.1
+      - name: install libraries (exactly as package-lock.json says)
+        working-directory: backend
+        run: npm ci
+      - name: unit tests
+        working-directory: backend
+        run: npm test                      # exit code 0 = a green check; anything else = a red cross

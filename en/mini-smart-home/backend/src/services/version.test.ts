@@ -13,6 +13,7 @@ describe("compareVersions", () => {
   });
 
   it("1.10.0 is NEWER than 1.9.0 (an ordinary text comparison is wrong here)", () => {
+    // oxlint-disable-next-line no-constant-binary-expression -- on purpose: two fixed texts to show that a text comparison is wrong
     expect("1.10.0" < "1.9.0").toBe(true); // text: "1" < "9", so wrong
     expect(compareVersions("1.10.0", "1.9.0")).toBe(1);
     expect(compareVersions("1.7.10", "1.7.9")).toBe(1);

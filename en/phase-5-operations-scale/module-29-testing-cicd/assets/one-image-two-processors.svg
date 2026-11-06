@@ -1,0 +1,143 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1084" viewBox="0 0 1200 1084" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="1084" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" xml:space="preserve">One image for two processors</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" xml:space="preserve">Concept 5 · the Node stages run on the builder's processor (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5">$BUILDPLATFORM</tspan>), the final stage only copies · without emulation</text>
+<rect x="30.0" y="100.0" width="520.0" height="382.0" rx="14" fill="#ffffff" stroke="#1e2a4a" stroke-width="2" />
+<text x="50.0" y="130.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >1 · The kitchen on the BUILDER's processor, only once</text>
+<text x="50.0" y="152.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">the robot's machine <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#4a5568" font-weight="800">ubuntu-24.04</tspan> (amd64): <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#4a5568" font-weight="800">$BUILDPLATFORM</tspan> = <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#4a5568" font-weight="800">linux/amd64</tspan></text>
+<text x="50.0" y="180.0" font-size="12" font-weight="800" fill="#1a7f37" text-anchor="start" >backend, the packages stage</text>
+<rect x="50.0" y="190.0" width="480.0" height="82.3" rx="8" fill="#eef1f5" />
+<text x="62.0" y="210.9" font-size="10.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">FROM --platform=$BUILDPLATFORM node:24.22.1-alpine3.24 AS packages</text>
+<text x="62.0" y="227.2" font-size="10.5" font-weight="700" fill="#4a5568" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve"># …</text>
+<text x="62.0" y="243.5" font-size="10.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">RUN npm ci --omit=dev</text>
+<text x="62.0" y="259.8" font-size="10.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">RUN mkdir -p /app/firmware-data</text>
+<text x="50.0" y="296.3" font-size="12" font-weight="800" fill="#6f42c1" text-anchor="start" >web (dashboard), the build stage</text>
+<rect x="50.0" y="306.3" width="480.0" height="114.8" rx="8" fill="#eef1f5" />
+<text x="62.0" y="327.2" font-size="10.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">FROM --platform=$BUILDPLATFORM node:24.22.1-alpine3.24 AS build</text>
+<text x="62.0" y="343.5" font-size="10.5" font-weight="700" fill="#4a5568" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve"># …</text>
+<text x="62.0" y="359.8" font-size="10.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">RUN npm ci</text>
+<text x="62.0" y="376.0" font-size="10.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">COPY . .</text>
+<text x="62.0" y="392.3" font-size="10.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">ARG VITE_API_BASE=/api</text>
+<text x="62.0" y="408.6" font-size="10.5" font-weight="700" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">RUN npm run build</text>
+<text x="50.0" y="445.1" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">every <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">RUN</tspan> (running a program) is here; its results,</text>
+<text x="50.0" y="464.1" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">node_modules</tspan> and the <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">dist/</tspan> folder, are the same for every processor</text>
+<rect x="610.0" y="100.0" width="560.0" height="382.0" rx="14" fill="#fcf2f6" stroke="#a13a6b" stroke-width="2" />
+<text x="630.0" y="130.0" font-size="14.5" font-weight="800" fill="#a13a6b" text-anchor="start" >2 · Serving plates per TARGET processor: only COPY</text>
+<text x="630.0" y="152.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" >no RUN: no program of another processor has to run</text>
+<rect x="630.0" y="170.0" width="250.0" height="262.0" rx="10" fill="#ffffff" stroke="#a13a6b" stroke-width="1.6" />
+<text x="644.0" y="196.0" font-size="13" font-weight="800" fill="#a13a6b" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">linux/amd64</text>
+<text x="644.0" y="214.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="start" >VPS, most laptops</text>
+<text x="644.0" y="240.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">backend</tspan></text>
+<text x="644.0" y="259.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">FROM node:24.22.1-alpine3.24</tspan></text>
+<text x="644.0" y="278.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">COPY</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">--from=packages</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">…</tspan> (2×)</text>
+<text x="644.0" y="297.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">3 × <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">COPY</tspan> + <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">USER</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">node</tspan></text>
+<text x="644.0" y="335.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">web</tspan></text>
+<text x="644.0" y="354.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">FROM caddy:2.11.7-alpine</tspan></text>
+<text x="644.0" y="373.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">COPY --from=build …</tspan></text>
+<text x="644.0" y="411.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">no RUN, no emulator</text>
+<rect x="900.0" y="170.0" width="250.0" height="262.0" rx="10" fill="#ffffff" stroke="#a13a6b" stroke-width="1.6" />
+<text x="914.0" y="196.0" font-size="13" font-weight="800" fill="#a13a6b" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">linux/arm64</text>
+<text x="914.0" y="214.0" font-size="11" font-weight="600" fill="#4a5568" text-anchor="start" >Pi, Apple silicon Macs</text>
+<text x="914.0" y="240.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">backend</tspan></text>
+<text x="914.0" y="259.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">FROM node:24.22.1-alpine3.24</tspan></text>
+<text x="914.0" y="278.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">COPY</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">--from=packages</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">…</tspan> (2×)</text>
+<text x="914.0" y="297.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">3 × <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">COPY</tspan> + <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">USER</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">node</tspan></text>
+<text x="914.0" y="335.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">web</tspan></text>
+<text x="914.0" y="354.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">FROM caddy:2.11.7-alpine</tspan></text>
+<text x="914.0" y="373.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">COPY --from=build …</tspan></text>
+<text x="914.0" y="411.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">no RUN, no emulator</text>
+<text x="630.0" y="462.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the base images (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">node</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">caddy</tspan>) come in the target processor's variant; the rest is copied</text>
+<line x1="554.0" y1="280.0" x2="604.0" y2="280.0" stroke="#1e2a4a" stroke-width="2.6" stroke-linecap="round" />
+<path d="M598.1 284.2 L606.0 280.0 L598.1 275.8" fill="none" stroke="#1e2a4a" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="556.6" y="257.1" width="46.8" height="15.5" rx="3" fill="#fffdf7" />
+<text x="580.0" y="268.0" font-size="11.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" xml:space="preserve">copied</text>
+<rect x="30.0" y="546.0" width="520.0" height="286.0" rx="14" fill="#ffffff" stroke="#1e2a4a" stroke-width="2" />
+<text x="50.0" y="576.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" >3 · GHCR: one name, one index</text>
+<text x="50.0" y="598.0" font-size="12" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">compressed sizes in the author's lab (local image registry):</text>
+<text x="50.0" y="626.0" font-size="11.5" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">ghcr.io/&lt;account&gt;/mini-smart-home-backend:2.0.0</text>
+<line x1="60.0" y1="634.0" x2="60.0" y2="648.0" stroke="#9aa3b0" stroke-width="1.4" stroke-linecap="round" />
+<line x1="60.0" y1="648.0" x2="72.0" y2="648.0" stroke="#9aa3b0" stroke-width="1.4" stroke-linecap="round" />
+<text x="80.0" y="652.0" font-size="11" font-weight="800" fill="#a13a6b" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">linux/amd64</text>
+<text x="190.0" y="652.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >72.2 MB</text>
+<line x1="60.0" y1="656.0" x2="60.0" y2="670.0" stroke="#9aa3b0" stroke-width="1.4" stroke-linecap="round" />
+<line x1="60.0" y1="670.0" x2="72.0" y2="670.0" stroke="#9aa3b0" stroke-width="1.4" stroke-linecap="round" />
+<text x="80.0" y="674.0" font-size="11" font-weight="800" fill="#a13a6b" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">linux/arm64</text>
+<text x="190.0" y="674.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >72.0 MB</text>
+<text x="50.0" y="700.0" font-size="11.5" font-weight="800" fill="#1e2a4a" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">ghcr.io/&lt;account&gt;/mini-smart-home-web:2.0.0</text>
+<line x1="60.0" y1="708.0" x2="60.0" y2="722.0" stroke="#9aa3b0" stroke-width="1.4" stroke-linecap="round" />
+<line x1="60.0" y1="722.0" x2="72.0" y2="722.0" stroke="#9aa3b0" stroke-width="1.4" stroke-linecap="round" />
+<text x="80.0" y="726.0" font-size="11" font-weight="800" fill="#a13a6b" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">linux/amd64</text>
+<text x="190.0" y="726.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >25.2 MB</text>
+<line x1="60.0" y1="730.0" x2="60.0" y2="744.0" stroke="#9aa3b0" stroke-width="1.4" stroke-linecap="round" />
+<line x1="60.0" y1="744.0" x2="72.0" y2="744.0" stroke="#9aa3b0" stroke-width="1.4" stroke-linecap="round" />
+<text x="80.0" y="748.0" font-size="11" font-weight="800" fill="#a13a6b" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">linux/arm64</text>
+<text x="190.0" y="748.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="start" >24.0 MB</text>
+<text x="50.0" y="778.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">tag <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">2.0.0</tspan> and <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">sha-&lt;7</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">characters&gt;</tspan> point to the same index;</text>
+<text x="50.0" y="797.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the index also holds 2 provenance notes (attestation,</text>
+<text x="50.0" y="816.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">unknown/unknown</tspan>): not a third image</text>
+<path d="M890.0 484.0 L890.0 514.0 L290.0 514.0 L290.0 542.0" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M286.2 536.9 L290.0 544.0 L293.8 536.9" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="315.9" y="501.1" width="548.3" height="15.5" rx="3" fill="#fffdf7" />
+<text x="590.0" y="512.0" font-size="11.5" font-weight="700" fill="#1e2a4a" text-anchor="middle" xml:space="preserve">pushed to the image shop: job <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">build</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">platforms:</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">linux/amd64,linux/arm64</tspan>, on a push to <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#1e2a4a" font-weight="800">main</tspan></text>
+<rect x="610.0" y="546.0" width="560.0" height="286.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="630.0" y="576.0" font-size="14.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">4 · <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13.5" fill="#1e2a4a" font-weight="800">docker</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13.5" fill="#1e2a4a" font-weight="800">compose</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13.5" fill="#1e2a4a" font-weight="800">pull</tspan> picks its own variant</text>
+<g transform="translate(650 614) scale(0.6) translate(-650 -614)">
+<rect x="632.0" y="594.0" width="36.0" height="11.0" rx="2" fill="none" stroke="#1e2a4a" stroke-width="1.8" />
+<circle cx="639.0" cy="599.5" r="1.6" fill="#1e2a4a" />
+<rect x="632.0" y="608.0" width="36.0" height="11.0" rx="2" fill="none" stroke="#1e2a4a" stroke-width="1.8" />
+<circle cx="639.0" cy="613.5" r="1.6" fill="#1e2a4a" />
+<rect x="632.0" y="622.0" width="36.0" height="11.0" rx="2" fill="none" stroke="#1e2a4a" stroke-width="1.8" />
+<circle cx="639.0" cy="627.5" r="1.6" fill="#1e2a4a" />
+</g>
+<text x="680.0" y="612.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">VPS (the center)</text>
+<text x="680.0" y="629.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#a13a6b" font-weight="800">amd64</tspan> · pulls the amd64 variant</text>
+<g transform="translate(650 658) scale(0.6) translate(-650 -658)">
+<rect x="626.0" y="641.0" width="48.0" height="34.0" rx="4" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<circle cx="633.0" cy="647.0" r="1.3" fill="#1e2a4a" />
+<circle cx="638.4" cy="647.0" r="1.3" fill="#1e2a4a" />
+<circle cx="643.8" cy="647.0" r="1.3" fill="#1e2a4a" />
+<circle cx="649.2" cy="647.0" r="1.3" fill="#1e2a4a" />
+<circle cx="654.6" cy="647.0" r="1.3" fill="#1e2a4a" />
+<circle cx="660.0" cy="647.0" r="1.3" fill="#1e2a4a" />
+<rect x="658.0" y="654.0" width="12.0" height="9.0" rx="1" fill="none" stroke="#1e2a4a" stroke-width="1.5" />
+<rect x="638.0" y="656.0" width="12.0" height="12.0" rx="1.5" fill="none" stroke="#1e2a4a" stroke-width="1.5" />
+</g>
+<text x="680.0" y="656.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">free-path Pi (the center on the Pi)</text>
+<text x="680.0" y="673.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#a13a6b" font-weight="800">arm64</tspan> · pulls the arm64 variant</text>
+<g transform="translate(650 702) scale(0.6) translate(-650 -702)">
+<rect x="630.0" y="687.0" width="40.0" height="26.0" rx="3" fill="none" stroke="#1e2a4a" stroke-width="2" />
+<path d="M624 717 L676 717" fill="none" stroke="#1e2a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+</g>
+<text x="680.0" y="700.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">a friend's laptop</text>
+<text x="680.0" y="717.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#a13a6b" font-weight="800">amd64</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#a13a6b" font-weight="800">/</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#a13a6b" font-weight="800">arm64</tspan> · the one that matches its processor</text>
+<g transform="translate(650 746) scale(0.6) translate(-650 -746)">
+<rect x="632.0" y="726.0" width="36.0" height="11.0" rx="2" fill="none" stroke="#1e2a4a" stroke-width="1.8" />
+<circle cx="639.0" cy="731.5" r="1.6" fill="#1e2a4a" />
+<rect x="632.0" y="740.0" width="36.0" height="11.0" rx="2" fill="none" stroke="#1e2a4a" stroke-width="1.8" />
+<circle cx="639.0" cy="745.5" r="1.6" fill="#1e2a4a" />
+<rect x="632.0" y="754.0" width="36.0" height="11.0" rx="2" fill="none" stroke="#1e2a4a" stroke-width="1.8" />
+<circle cx="639.0" cy="759.5" r="1.6" fill="#1e2a4a" />
+</g>
+<text x="680.0" y="744.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">staging on the robot's machine</text>
+<text x="680.0" y="761.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11" fill="#a13a6b" font-weight="800">amd64</tspan> · pulls the amd64 variant</text>
+<text x="630.0" y="814.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">main-path Pi = the gateway: the official Mosquitto image (both processors from its publisher)</text>
+<line x1="554.0" y1="689.0" x2="604.0" y2="689.0" stroke="#1e2a4a" stroke-width="2.6" stroke-linecap="round" />
+<path d="M598.1 693.2 L606.0 689.0 L598.1 684.8" fill="none" stroke="#1e2a4a" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="558.3" y="666.1" width="43.4" height="15.5" rx="3" fill="#fffdf7" />
+<text x="580.0" y="677.0" font-size="11.5" font-weight="800" fill="#1e2a4a" text-anchor="middle" xml:space="preserve">pulled</text>
+<rect x="30.0" y="852.0" width="1140.0" height="82.0" rx="12" fill="#fcf2f6" />
+<text x="52.0" y="878.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#a13a6b">bcrypt</tspan> (passwords, Module 20) is the only package that isn't plain JavaScript: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">bcrypt@6.0.0</tspan> carries ready-made builds for</text>
+<text x="52.0" y="899.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">linux-x64</tspan> AND <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">linux-arm64</tspan> (musl, for Alpine) and picks the right one when the server runs. The author's lab: on the arm64 Pi, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">npm</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">ci</tspan></text>
+<text x="52.0" y="920.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">with <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">--cpu=x64</tspan> (npm picks the packages as if on an x64 machine) gives the same files as a plain <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">npm</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">ci</tspan> (6,201 files, 0 different)</text>
+<rect x="30.0" y="950.0" width="560.0" height="92.0" rx="12" fill="#ffffff" stroke="#9aa3b0" stroke-width="1.4" stroke-dasharray="7 5"/>
+<text x="50.0" y="976.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" >Other ways (Technical Deep Dive)</text>
+<text x="50.0" y="998.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">a native ARM runner (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#4a5568" font-weight="800">ubuntu-24.04-arm</tspan>): each processor is built</text>
+<text x="50.0" y="1015.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">on its own machine, then the indexes are joined</text>
+<text x="50.0" y="1032.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" xml:space="preserve">QEMU emulation: the other processor's <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#4a5568" font-weight="800">RUN</tspan> is imitated, much slower</text>
+<rect x="610.0" y="950.0" width="560.0" height="92.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="630.0" y="976.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" >The author's simulated robot (example)</text>
+<text x="630.0" y="998.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the simulated robot on a Pi 5 (arm64) builds amd64 + arm64</text>
+<text x="630.0" y="1015.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">without emulation; the arm64 image ran in staging and on the</text>
+<text x="630.0" y="1032.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">simulated VPS; the amd64 image checked, not run</text>
+<text x="1178.0" y="1070.0" font-size="11" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer Curriculum · CC BY 4.0</text>
+</svg>

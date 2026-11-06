@@ -1,0 +1,171 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1095" viewBox="0 0 1200 1095" font-family="Inter, 'DejaVu Sans', Arial, sans-serif">
+<rect width="1200" height="1095" fill="#fffdf7"/>
+<text x="600.0" y="44.0" font-size="28" font-weight="800" fill="#1e2a4a" text-anchor="middle" xml:space="preserve">The pipeline map: from a pull request to the VPS and the Pi</text>
+<text x="600.0" y="76.0" font-size="16" font-weight="400" fill="#4a5568" text-anchor="middle" xml:space="preserve">Concept 3 (also Concepts 4, 6, and 9) · the assembly line <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="14.5">.github/workflows/ci.yml</tspan>: six stations (jobs) · red = the next stations are skipped</text>
+<rect x="30.0" y="100.0" width="1140.0" height="268.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="54.0" y="130.0" font-size="14.5" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">1 · Every pull request to</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13.5" fill="#1e2a4a" font-weight="800">main</tspan></text>
+<text x="1146.0" y="130.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="end" >the robot only checks: no secrets, no pushing, no deploying</text>
+<rect x="54.0" y="146.0" width="250.0" height="206.0" rx="12" fill="#eef1f5" />
+<text x="68.0" y="166.0" font-size="11" font-weight="700" fill="#4a5568" text-anchor="start" >running at the same time</text>
+<rect x="64.0" y="176.0" width="230.0" height="96.0" rx="10" fill="#ffffff" stroke="#1e2a4a" stroke-width="1.6" />
+<text x="78.0" y="201.0" font-size="13" font-weight="800" fill="#a13a6b" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">verify</text>
+<text x="282.0" y="200.0" font-size="10.5" font-weight="700" fill="#4a5568" text-anchor="end" xml:space="preserve">Node container</text>
+<text x="78.0" y="223.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the version guard, firmware,</text>
+<text x="78.0" y="241.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">type check, lint, frontend tests,</text>
+<text x="78.0" y="259.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">check-schema</tspan>, build, audit</text>
+<rect x="64.0" y="280.0" width="230.0" height="64.0" rx="10" fill="#ffffff" stroke="#1e2a4a" stroke-width="1.6" />
+<text x="78.0" y="305.0" font-size="13" font-weight="800" fill="#a13a6b" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">test</text>
+<text x="282.0" y="304.0" font-size="10.5" font-weight="700" fill="#4a5568" text-anchor="end" xml:space="preserve">test database</text>
+<text x="78.0" y="327.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">203 + 20 = <tspan font-weight="800" fill="#1e2a4a">223 tests</tspan></text>
+<rect x="328.0" y="191.0" width="186.5" height="116.0" rx="10" fill="#ffffff" stroke="#1e2a4a" stroke-width="1.6" />
+<text x="342.0" y="216.0" font-size="13" font-weight="800" fill="#a13a6b" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">build</text>
+<text x="502.5" y="215.0" font-size="10.5" font-weight="700" fill="#4a5568" text-anchor="end" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#4a5568" font-weight="800">needs</tspan> both</text>
+<text x="342.0" y="238.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">backend + web images,</text>
+<text x="342.0" y="256.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">amd64</tspan> + <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">arm64</tspan>;</text>
+<text x="342.0" y="274.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">only built,</text>
+<text x="342.0" y="292.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">not pushed</tspan></text>
+<line x1="306.0" y1="249.0" x2="324.0" y2="249.0" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" />
+<path d="M319.8 252.3 L326.0 249.0 L319.8 245.7" fill="none" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="538.5" y="150.0" width="607.5" height="198.0" rx="12" fill="#fcf2f6" stroke="#a13a6b" stroke-width="2" />
+<line x1="516.5" y1="249.0" x2="534.5" y2="249.0" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" />
+<path d="M530.3 252.3 L536.5 249.0 L530.3 245.7" fill="none" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="553.5" y="177.0" width="22.0" height="17.0" rx="3" fill="none" stroke="#a13a6b" stroke-width="2" />
+<path d="M558.0 177 L558.0 172 A6.5 6.5 0 0 1 571.0 172 L571.0 177" fill="none" stroke="#a13a6b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<circle cx="564.5" cy="185.0" r="1.8" fill="#a13a6b" />
+<text x="586.5" y="180.0" font-size="13.5" font-weight="700" fill="#a13a6b" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#a13a6b">The branch rule</tspan> = a barrier in front of <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12.5" fill="#a13a6b" font-weight="800">main</tspan> (Concept 11)</text>
+<text x="586.5" y="200.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">lifted only when three required checks are green: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#a13a6b" font-weight="800">verify</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#a13a6b" font-weight="800">test</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#a13a6b" font-weight="800">build</tspan></text>
+<line x1="842.2" y1="216.0" x2="842.2" y2="334.0" stroke="#f5e0ea" stroke-width="1.6" stroke-linecap="round" />
+<line x1="561.5" y1="229.0" x2="575.5" y2="243.0" stroke="#e63946" stroke-width="2.6" stroke-linecap="round" />
+<line x1="561.5" y1="243.0" x2="575.5" y2="229.0" stroke="#e63946" stroke-width="2.6" stroke-linecap="round" />
+<text x="586.5" y="241.0" font-size="13" font-weight="800" fill="#e63946" text-anchor="start" >something is red</text>
+<text x="586.5" y="264.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the <tspan font-weight="800" fill="#1e2a4a">Merge pull request</tspan> button is locked,</text>
+<text x="586.5" y="284.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">also for the repo owner</text>
+<text x="586.5" y="312.0" font-size="12.5" font-weight="800" fill="#e63946" text-anchor="start" >a red PR stops here</text>
+<path d="M865.25 236 L870.25 242 L880.25 230" fill="none" stroke="#2a9d5c" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" />
+<text x="890.2" y="241.0" font-size="13" font-weight="800" fill="#2a9d5c" text-anchor="start" >all green</text>
+<text x="890.2" y="264.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">Merge pull request</tspan> opens</text>
+<text x="890.2" y="284.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">(<tspan font-weight="800" fill="#1e2a4a">Create a merge commit</tspan>, Module 16)</text>
+<text x="890.2" y="312.0" font-size="12.5" font-weight="800" fill="#2a9d5c" text-anchor="start" xml:space="preserve">= a push to <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="12" fill="#2a9d5c" font-weight="800">main</tspan>, on to band 2</text>
+<line x1="1042.2" y1="348.0" x2="1042.2" y2="393.0" stroke="#2a9d5c" stroke-width="2.4" stroke-linecap="round" />
+<line x1="1042.2" y1="393.0" x2="40.0" y2="393.0" stroke="#2a9d5c" stroke-width="2.4" stroke-linecap="round" />
+<rect x="217.3" y="374.6" width="661.6" height="16.2" rx="3" fill="#fffdf7" />
+<text x="548.1" y="386.0" font-size="12" font-weight="700" fill="#1e2a4a" text-anchor="middle" xml:space="preserve"><tspan font-weight="800" fill="#2a9d5c">Merge</tspan> = a push to <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.0" fill="#1e2a4a" font-weight="800">main</tspan>: the robot runs again; a new release reaches the VPS (pushed) and the Pi (pulls by itself)</text>
+<rect x="30.0" y="418.0" width="1140.0" height="402.0" rx="14" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="54.0" y="448.0" font-size="14.5" font-weight="700" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">2 · Every push to</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13.5" fill="#1e2a4a" font-weight="800">main</tspan> (= a pull request that was merged)</text>
+<text x="1146.0" y="448.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="end" >secrets and write permissions exist only here</text>
+<rect x="54.0" y="470.0" width="250.0" height="150.0" rx="10" fill="#ffffff" stroke="#1e2a4a" stroke-width="1.6" />
+<text x="68.0" y="495.0" font-size="13" font-weight="800" fill="#a13a6b" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" fill="#a13a6b" font-weight="800">verify</tspan> ∥ <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="13" fill="#a13a6b" font-weight="800">test</tspan></text>
+<text x="68.0" y="517.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the same as in the pull request,</text>
+<text x="68.0" y="535.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">run again on <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">main</tspan>;</text>
+<text x="68.0" y="553.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">both green → <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">build</tspan></text>
+<rect x="328.0" y="470.0" width="186.5" height="150.0" rx="10" fill="#ffffff" stroke="#1e2a4a" stroke-width="1.6" />
+<text x="342.0" y="495.0" font-size="13" font-weight="800" fill="#a13a6b" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">build</text>
+<text x="502.5" y="494.0" font-size="10.5" font-weight="700" fill="#4a5568" text-anchor="end" xml:space="preserve">then push</text>
+<text x="342.0" y="517.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">backend + web images,</text>
+<text x="342.0" y="535.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">amd64</tspan> + <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">arm64</tspan>, pushed</text>
+<text x="342.0" y="553.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">to GHCR: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">&lt;version&gt;</tspan> and</text>
+<text x="342.0" y="571.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">sha-&lt;7&gt;</tspan>; a version that</text>
+<text x="342.0" y="589.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">exists already: not pushed</text>
+<line x1="306.0" y1="545.0" x2="324.0" y2="545.0" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" />
+<path d="M319.8 548.3 L326.0 545.0 L319.8 541.7" fill="none" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="538.5" y="470.0" width="186.5" height="150.0" rx="10" fill="#ffffff" stroke="#1e2a4a" stroke-width="1.6" />
+<text x="552.5" y="495.0" font-size="13" font-weight="800" fill="#a13a6b" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">staging</text>
+<text x="713.0" y="494.0" font-size="10.5" font-weight="700" fill="#4a5568" text-anchor="end" xml:space="preserve">new version</text>
+<text x="552.5" y="517.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">a dress rehearsal on the</text>
+<text x="552.5" y="535.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">robot's machine: the same</text>
+<text x="552.5" y="553.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Compose, new images,</text>
+<text x="552.5" y="571.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">random secrets, an empty</text>
+<text x="552.5" y="589.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">database; <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">pull</tspan> → <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">up</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">--wait</tspan></text>
+<text x="552.5" y="607.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">→ smoke test; thrown away</text>
+<line x1="516.5" y1="545.0" x2="534.5" y2="545.0" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" />
+<path d="M530.3 548.3 L536.5 545.0 L530.3 541.7" fill="none" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="749.0" y="470.0" width="186.5" height="150.0" rx="10" fill="#ffffff" stroke="#1e2a4a" stroke-width="1.6" />
+<text x="763.0" y="495.0" font-size="13" font-weight="800" fill="#a13a6b" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">tag-release</text>
+<text x="763.0" y="517.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">annotated tag <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">v&lt;version&gt;</tspan></text>
+<text x="763.0" y="535.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">(for example <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">v2.0.1</tspan>) =</text>
+<text x="763.0" y="553.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">"this release may be</text>
+<text x="763.0" y="571.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">deployed"; it holds that</text>
+<text x="763.0" y="589.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">version's notes from</text>
+<text x="763.0" y="607.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">CHANGELOG.md</tspan></text>
+<line x1="727.0" y1="545.0" x2="745.0" y2="545.0" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" />
+<path d="M740.8 548.3 L747.0 545.0 L740.8 541.7" fill="none" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="959.5" y="470.0" width="186.5" height="150.0" rx="10" fill="#ffffff" stroke="#1e2a4a" stroke-width="1.6" />
+<text x="973.5" y="495.0" font-size="13" font-weight="800" fill="#a13a6b" text-anchor="start" font-family="'DejaVu Sans Mono', Consolas, monospace" xml:space="preserve">deploy-vps</text>
+<text x="973.5" y="517.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">when <tspan font-weight="800" fill="#1e2a4a">Variables</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">VPS_HOST</tspan></text>
+<text x="973.5" y="535.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">is set: SSH with the robot</text>
+<text x="973.5" y="553.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">key → the VPS runs</text>
+<text x="973.5" y="571.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">scripts/deploy.sh</tspan>; its</text>
+<text x="973.5" y="589.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">report must say</text>
+<text x="973.5" y="607.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">v&lt;version&gt; deployed</tspan></text>
+<line x1="937.5" y1="545.0" x2="955.5" y2="545.0" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" />
+<path d="M951.3 548.3 L957.5 545.0 L951.3 541.7" fill="none" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M40.0 393.0 L40.0 545.0 L50.0 545.0" fill="none" stroke="#2a9d5c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M44.9 548.8 L52.0 545.0 L44.9 541.2" fill="none" stroke="#2a9d5c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="318.0" y="660.0" width="206.5" height="132.0" rx="12" fill="#eef1f5" stroke="#9aa3b0" stroke-width="1.6" />
+<text x="332.0" y="686.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" >GHCR (the image shop)</text>
+<text x="332.0" y="710.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">mini-smart-home-backend</tspan></text>
+<text x="332.0" y="728.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">mini-smart-home-web</tspan></text>
+<text x="332.0" y="746.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">public packages: pulled</text>
+<text x="332.0" y="764.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">without logging in</text>
+<line x1="421.2" y1="622.0" x2="421.2" y2="656.0" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" />
+<path d="M418.0 651.8 L421.2 658.0 L424.5 651.8" fill="none" stroke="#1e2a4a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="425.2" y="633.1" width="36.5" height="15.5" rx="3" fill="#ffffff" />
+<text x="429.2" y="644.0" font-size="11.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">push</text>
+<path d="M560.5 622.0 L560.5 690.0 L528.5 690.0" fill="none" stroke="#4a5568" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="6 4"/>
+<path d="M532.7 686.7 L526.5 690.0 L532.7 693.3" fill="none" stroke="#4a5568" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="564.5" y="667.1" width="29.1" height="15.5" rx="3" fill="#ffffff" />
+<text x="568.5" y="678.0" font-size="11.5" font-weight="800" fill="#4a5568" text-anchor="start" xml:space="preserve">pull</text>
+<rect x="608.5" y="660.0" width="327.0" height="132.0" rx="12" fill="#ffffff" stroke="#a13a6b" stroke-width="1.8" stroke-dasharray="7 5"/>
+<rect x="618.5" y="677.0" width="48.0" height="34.0" rx="4" fill="none" stroke="#a13a6b" stroke-width="2" />
+<circle cx="625.5" cy="683.0" r="1.3" fill="#a13a6b" />
+<circle cx="630.9" cy="683.0" r="1.3" fill="#a13a6b" />
+<circle cx="636.3" cy="683.0" r="1.3" fill="#a13a6b" />
+<circle cx="641.7" cy="683.0" r="1.3" fill="#a13a6b" />
+<circle cx="647.1" cy="683.0" r="1.3" fill="#a13a6b" />
+<circle cx="652.5" cy="683.0" r="1.3" fill="#a13a6b" />
+<rect x="650.5" y="690.0" width="12.0" height="9.0" rx="1" fill="none" stroke="#a13a6b" stroke-width="1.5" />
+<rect x="630.5" y="692.0" width="12.0" height="12.0" rx="1.5" fill="none" stroke="#a13a6b" stroke-width="1.5" />
+<text x="678.5" y="690.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" >Pi (the gateway)</text>
+<text x="678.5" y="708.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" >not contacted by the robot</text>
+<text x="622.5" y="734.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the alarm clock every 15 minutes (Concept 8):</text>
+<text x="622.5" y="751.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the Pi asks by itself "a new release tag?",</text>
+<text x="622.5" y="768.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">then runs <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">scripts/deploy.sh</tspan>; GitHub can't</text>
+<text x="622.5" y="785.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">knock on a Pi behind the home router</text>
+<line x1="842.2" y1="658.0" x2="842.2" y2="624.0" stroke="#a13a6b" stroke-width="2.2" stroke-linecap="round" stroke-dasharray="6 4" />
+<path d="M845.5 628.2 L842.2 622.0 L839.0 628.2" fill="none" stroke="#a13a6b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="846.2" y="633.1" width="50.0" height="15.5" rx="3" fill="#ffffff" />
+<text x="850.2" y="644.0" font-size="11.5" font-weight="800" fill="#a13a6b" text-anchor="start" xml:space="preserve">pull tag</text>
+<rect x="959.5" y="660.0" width="186.5" height="132.0" rx="12" fill="#ffffff" stroke="#a13a6b" stroke-width="1.8" />
+<rect x="971.5" y="674.0" width="36.0" height="11.0" rx="2" fill="none" stroke="#a13a6b" stroke-width="1.8" />
+<circle cx="978.5" cy="679.5" r="1.6" fill="#a13a6b" />
+<rect x="971.5" y="688.0" width="36.0" height="11.0" rx="2" fill="none" stroke="#a13a6b" stroke-width="1.8" />
+<circle cx="978.5" cy="693.5" r="1.6" fill="#a13a6b" />
+<rect x="971.5" y="702.0" width="36.0" height="11.0" rx="2" fill="none" stroke="#a13a6b" stroke-width="1.8" />
+<circle cx="978.5" cy="707.5" r="1.6" fill="#a13a6b" />
+<text x="1017.5" y="690.0" font-size="13" font-weight="800" fill="#1e2a4a" text-anchor="start" >VPS (the center)</text>
+<text x="1017.5" y="708.0" font-size="11.5" font-weight="600" fill="#4a5568" text-anchor="start" >pushed by the robot</text>
+<text x="973.5" y="734.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">deploy.sh</tspan> pulls the images</text>
+<text x="973.5" y="751.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">from GHCR, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">up</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">--no-build</tspan>,</text>
+<text x="973.5" y="768.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">then the smoke test</text>
+<line x1="1052.8" y1="622.0" x2="1052.8" y2="656.0" stroke="#a13a6b" stroke-width="2.4" stroke-linecap="round" />
+<path d="M1049.0 650.9 L1052.8 658.0 L1056.5 650.9" fill="none" stroke="#a13a6b" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+<rect x="1056.8" y="633.1" width="31.8" height="15.5" rx="3" fill="#ffffff" />
+<text x="1060.8" y="644.0" font-size="11.5" font-weight="800" fill="#a13a6b" text-anchor="start" xml:space="preserve">SSH</text>
+<rect x="54.0" y="660.0" width="250.0" height="132.0" rx="12" fill="#eef1f5" />
+<text x="68.0" y="686.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">a push without a new version (for</text>
+<text x="68.0" y="703.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">example, docs only): <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">verify</tspan>, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">test</tspan>,</text>
+<text x="68.0" y="720.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">build</tspan> run (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">new-release</tspan> = <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">no</tspan>:</text>
+<text x="68.0" y="737.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">no images); <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">staging</tspan>, the tag, and</text>
+<text x="68.0" y="754.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">the deploy skipped; a skipped job</text>
+<text x="68.0" y="771.0" font-size="11.5" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">(<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="10.5" fill="#1e2a4a" font-weight="800">if:</tspan>) is not a failure</text>
+<rect x="30.0" y="840.0" width="1140.0" height="64.0" rx="12" fill="#eef1f5" />
+<text x="52.0" y="866.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-weight="800" fill="#1e2a4a">The robot's token permissions per job</tspan> (Concept 6): the default for every job <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#a13a6b" font-weight="800">contents:</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#a13a6b" font-weight="800">read</tspan> (only reads the repo's content) · <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#a13a6b" font-weight="800">build</tspan> + <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#a13a6b" font-weight="800">packages:</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#a13a6b" font-weight="800">write</tspan></text>
+<text x="52.0" y="888.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#a13a6b" font-weight="800">staging</tspan> + <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#a13a6b" font-weight="800">packages:</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#a13a6b" font-weight="800">read</tspan> · <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#a13a6b" font-weight="800">tag-release</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#a13a6b" font-weight="800">contents:</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#a13a6b" font-weight="800">write</tspan> (the only one that writes to the repo) · <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#a13a6b" font-weight="800">deploy-vps</tspan> without a token: <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#a13a6b" font-weight="800">permissions:</tspan> <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#a13a6b" font-weight="800">{}</tspan></text>
+<rect x="30.0" y="920.0" width="1140.0" height="133.0" rx="12" fill="#ffffff" stroke="#e0dcd2" stroke-width="1.6" />
+<text x="52.0" y="948.0" font-size="12.5" font-weight="800" fill="#1e2a4a" text-anchor="start" xml:space="preserve">Example: the author's simulated robot (<tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">ci.yml</tspan> as is, Raspberry Pi 5 arm64, local images and registry; the Indonesian edition's lab, not GitHub)</text>
+<text x="52.0" y="974.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve"><tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">verify</tspan> ±110–135 seconds ∥ <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">test</tspan> ±75–105 seconds → <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">build</tspan> ±95–125 seconds → <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">staging</tspan> ±50–75 seconds → <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">tag-release</tspan> ±3–5 seconds → <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">deploy-vps</tspan> ±30 seconds</text>
+<text x="52.0" y="995.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">merge → the simulated VPS deployed in ±5–6½ minutes (a lab example, not GitHub)</text>
+<text x="52.0" y="1016.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">a release whose <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">staging</tspan> is red (a broker mistyped on purpose) never gets a tag: the simulated VPS and Pi stay on the old version</text>
+<text x="52.0" y="1037.0" font-size="12" font-weight="600" fill="#1e2a4a" text-anchor="start" xml:space="preserve">on GitHub, <tspan font-family="'DejaVu Sans Mono', Consolas, monospace" font-size="11.5" fill="#1e2a4a" font-weight="800">staging</tspan> also pulls ±1.1 GB of images (TimescaleDB, Grafana, Mosquitto + the new images): its time not measured by the author</text>
+<text x="1178.0" y="1081.0" font-size="11" font-weight="400" fill="#8a8f9c" text-anchor="end" >Fullstack IoT Developer Curriculum · CC BY 4.0</text>
+</svg>

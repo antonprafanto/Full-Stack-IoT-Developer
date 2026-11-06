@@ -53,6 +53,9 @@ export default function LoginPage() {
       {/* noValidate: the browser's built-in checks are turned off, so every message comes from the same schema */}
       <form onSubmit={handleSubmit(submit)} noValidate className="w-full max-w-sm rounded-2xl bg-white p-6 shadow-md dark:bg-slate-800">
         <h1 className="text-xl font-bold text-slate-800 dark:text-slate-100">Mini Smart Home</h1>
+        {/* Module 29: the version that is deployed, from package.json at build time (vite.config.ts). One number for the whole
+            release: the same as "version" in /api/health and the tag v… on GitHub */}
+        <p className="text-xs text-slate-500 dark:text-slate-400">v{__WEB_VERSION__}</p>
         <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">Log in with your Module 20 account to see the dashboard.</p>
         {/* a notice from the previous screen (session expired, backend not answering): role="status" = read by screen readers */}
         {loginMessage ? (
